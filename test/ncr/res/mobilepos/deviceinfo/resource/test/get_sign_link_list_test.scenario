@@ -1,0 +1,41 @@
+Scenario: Signature Link Item Query
+Given I have DeviceInfo resource
+!-- Known Signature Link Item
+When I get Signature Link Items with StoreID{00031}
+Then I should get POSLinkInfo model with properties: 
+|RetailStoreID	|LinkID					|LinkName				|
+|00031			|posSignedLinkID2200	|POS Terminal Signed220	|
+|00031			|posSignedLinkID225		|POS Terminal Signed225	|
+|00031			|posSignedLinkID226		|						|
+|00031			|posSignedLinkID227		|POS Terminal Signed227	|
+
+When I get Signature Link Items with StoreID{00032}
+Then I should get POSLinkInfo model with properties: 
+|RetailStoreID		|LinkID				|LinkName				|
+|00032				|posSignedLinkID227	|POS Terminal Signed227	|
+|00032				|posSignedLinkID228	|POS Terminal Signed228	|
+
+!-- Signature Empty return 
+When I get Signature Link Items with StoreID{25031}
+Then the result code should be 906
+
+!-- Empty RetailStoreID
+When I get Signature Link Items with StoreID{}
+Then the result code should be 0
+
+
+!-- Null RetailStoreID
+When I get Signature Link Items with StoreID{null}
+Then the result code should be 224
+
+!-- Null Link Type
+When I get null link items with StoreID{00031}
+Then the result code should be 224
+
+!-- Invalid Link Type
+When I get signature123 link items with StoreID{00031}
+Then the result code should be 905
+
+!-- Invalid Link Type, link type all in upper case
+When I get SIGNATURE link items with StoreID{00031}
+Then the result code should be 905

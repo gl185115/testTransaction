@@ -1,0 +1,6 @@
+Scenario : Test Connection Initialization Action
+When I create connection initialization locationCode{Store000031},protocolVersion{1.0},protocolBuild{20}}
+When I create the message with termid{1111},txid{0}
+Then message data should be {0044000011110000000091Store000031      1.0  20\r\n}
+When I create the message with termid{0},txid{0}
+Then message data should be {0044000000000000000091Store000031      1.0  20\r\n}

@@ -1,0 +1,83 @@
+Given entries for {PRM_SYSTEM_CONFIG} in database
+Given the ServletContext
+!-- JAN-13/EAN-13
+Given a plu {4912345678911}
+Then I should get converted-plu {4912345678911}
+!-- JAN-8/EAN-8
+Given a plu {49123456}
+Then I should get converted-plu {0000049123456}
+!-- UPC-A
+Given a plu {012345678912}
+Then I should get converted-plu {0012345678912}
+!-- UPC-E from scanner
+Given a plu {2843027}
+Then I should get converted-plu {0028200004307}
+!-- UPC-E from camera
+Given a plu {02843027}
+Then I should get converted-plu {0028200004307}
+!-- another pattern of UPC-E
+Given a plu {01234531}
+Then I should get converted-plu {0012300000451}
+Given a plu {01234543}
+Then I should get converted-plu {0012340000053}
+Given a plu {01234565}
+Then I should get converted-plu {0012345000065}
+!-- in-store (sku is 10 digits)
+Given a plu {0212345678909}
+Then I should get converted-plu {0212345678909}
+!-- in-store (sku is 0 digits)
+Given a plu {2012345678903}
+Then I should get converted-plu {2000000000008}
+!-- in-store (sku is 10 digits)
+Given a plu {2112345678900}
+Then I should get converted-plu {2112345678900}
+!-- in-store (sku is 10 digits)
+Given a plu {2212345678907}
+Then I should get converted-plu {2212345678907}
+!-- in-store (sku is 10 digits)
+Given a plu {2312345678904}
+Then I should get converted-plu {2312345678904}
+!-- in-store (sku is 5 digits)
+Given a plu {2412345678901}
+Then I should get converted-plu {2412345000009}
+Given an Item with plu {2412345000009}, mdName {mdName}, mdNameLocal {mdNameLocal}, salesPrice {300}, dpt {dpt}, line {line}, clas {clas}
+Then I should get converted-item with plu {2412345678901}
+Then I should get converted-item with mdName {mdName}
+Then I should get converted-item with mdNameLocal {mdNameLocal}
+Then I should get converted-item with salesPrice {67890}
+Then I should get converted-item with dpt {dpt}
+Then I should get converted-item with line {line}
+Then I should get converted-item with clas {clas}
+!-- in-store (sku is 10 digits)
+Given a plu {2512345678908}
+Then I should get converted-plu {2512345678908}
+!-- in-store (sku is 10 digits)
+Given a plu {2612345678905}
+Then I should get converted-plu {2612345678905}
+!-- in-store (sku is 10 digits)
+Given a plu {2712345678902}
+Then I should get converted-plu {2712345678902}
+!-- in-store (sku is 6 digits)
+Given a plu {2812345678909}
+Then I should get converted-plu {2812345600009}
+!-- in-store (sku is 5 digits)
+Given a plu {2912345678906}
+Then I should get converted-plu {2912345000004}
+!-- 1 digit velocity from scanner 
+Given a plu {0000000000017}
+Then I should get converted-plu {0000000000017}
+!-- 1 digit velocity from camera 
+Given a plu {00000017}
+Then I should get converted-plu {0000000000017}
+!-- 1 digit velocity from manual 
+Given a plu {1}
+Then I should get converted-plu {0000000000017}
+!-- 5 digit velocity from scanner 
+Given a plu {0000000123457}
+Then I should get converted-plu {0000000123457}
+!-- 5 digit velocity from camera 
+Given a plu {00123457}
+Then I should get converted-plu {0000000123457}
+!-- 5 digit velocity from manual 
+Given a plu {12345}
+Then I should get converted-plu {0000000123457}

@@ -1,0 +1,7 @@
+Scenario: Testing for SchemaCheck
+When I should check the testcheckFiled {{"corpid":"123","storeid":"123456","terminalid":"1234","txid":"1234","guid":"123467965461234565","service":"1;kljhkghkjh","txdatetime":"20120608122345","amount":"999","txtype":"05","paymentmethod":"100","taxothers":"63565"}}
+Then I should get the check result (true)
+When I should check the testcheckFiled {{"corpid":"","storeid":"123456","terminalid":"1234","txid":"1234","guid":"123467965461234565","service":"1;kljhkghkjh","txdatetime":"20120608122345","amount":"999","txtype":"05","paymentmethod":"100","taxothers":"63565"}}
+Then I should get the check result (false)
+When I should check the testcheckFiled {{"corpid":"123","storeid":"123456","terminalid":"123445","txid":"1234","guid":"123467965461234565","service":"1;kljhkghkjh","txdatetime":"20120608122345","amount":"999","txtype":"05","paymentmethod":"100","taxothers":"63565"}}
+Then I should get the check result (false)

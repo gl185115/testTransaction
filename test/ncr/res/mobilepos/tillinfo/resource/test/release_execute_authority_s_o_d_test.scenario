@@ -1,0 +1,127 @@
+Scenario: Test RES_OK response from releaseExecuteAuthority for SOD where SOD is all upper-case (SOD)
+Given I have a Till Info Resource and other resources
+Given a MST_TILLIDINFO with data
+Given a MST_BIZDAY with data
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000036|1111      |1111		 |SOD			|
+Then I should have the following sod till info data:
+|storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
+|000031 |000036|1111      |0	  |till.releaseexecuteauthority|1111	  |
+Then the result code should be 0
+
+Scenario: Test RES_OK response from releaseExecuteAuthority for SOD where SOD is all lower-case (sod)
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000037|1111      |1111		 |sod			|
+Then I should have the following sod till info data:
+|storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
+|000031 |000037|1111      |0	  |till.releaseexecuteauthority|1111	  |
+Then the result code should be 0
+
+Scenario: Test RES_OK response from releaseExecuteAuthority for SOD where MST_TILLIDINFO.BusinessDayDate is null
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
+|000031 |000040|1111      |1111		 |sod			|false		   |	
+Then I should have the following sod till info data:
+|storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
+|000031 |000040|1111      |0	  |till.releaseexecuteauthority|1111	  |
+Then the result code should be 0
+
+Scenario: Test RES_TILL_SOD_UNFINISHED response.
+		  Operator tries to release/cancel getting execution authority for 
+		  SOD of a Till which hasn't been processed yet.
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000032|1111      |2222		 |SOD			|
+Then the result code should be 1508
+
+Scenario: Test RES_TILL_SOD_FINISHED response.
+		  Operator tries to release/cancel getting execution authority for 
+		  SOD of a Till which has already performed SOD.
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000034|1111      |2222		 |SOD			|
+Then the result code should be 1505
+
+Scenario: Test RES_TILL_INVALID_SOD_FLAG_VAL response, incorrect sod flag value has been set in the db
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000035|1111      |2222		 |SOD			|
+Then the result code should be 1506
+
+Scenario: Test RES_TILL_INVALID_BIZDATE response from releaseExecuteAuthority for SOD 
+		  where MST_BIZDAY.TodayDate = MST_TILLIDINFO.BusinessDayDate
+Given a MST_TILLIDINFO with data	  
+Given a MST_BIZDAY.TodayDate equal to MST_TILLIDINFO.BusinessDayDate
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000036|1111      |2222		 |SOD			|
+Then the result code should be 1507
+
+Scenario: Test RES_TILL_INVALID_BIZDATE response from releaseExecuteAuthority for SOD 
+		  where MST_BIZDAY.TodayDate < MST_TILLIDINFO.BusinessDayDate
+Given a MST_BIZDAY.TodayDate less than MST_TILLIDINFO.BusinessDayDate
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000036|1111      |2222		 |SOD			|
+Then the result code should be 1507
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where MST_BIZDAY is empty
+Given an empty MST_BIZDAY
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000036|1111      |2222		 |SOD			|
+Then the result code should be 133
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where MST_TILLIDINFO is empty
+Given an empty MST_TILLIDINFO
+Given a MST_BIZDAY with data
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000036|1111      |2222		 |SOD			|
+Then the result code should be 1500
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where storeId and tillId does not exist
+Given a MST_TILLIDINFO with data
+Given a MST_BIZDAY with data
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000001 |000002|1111      |2222		 |SOD			|
+Then the result code should be 1500
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where storeId does not exist
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000001 |000032|1111      |2222		 |SOD			|
+Then the result code should be 1500
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where tillId does not exist
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |000002|1111      |2222		 |SOD			|
+Then the result code should be 1500
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where storeId is null
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|null   |000032|1111      |2222		 |SOD			|
+Then the result code should be 701
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where storeId is empty
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|		|000032|1111      |2222		 |SOD			|
+Then the result code should be 701
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where tillId is null
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |null  |1111      |2222		 |SOD			|
+Then the result code should be 1501
+
+Scenario: Test NG response from releaseExecuteAuthority for SOD where tillId is empty
+When I request to release execution authority with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|
+|000031 |      |1111      |2222		 |SOD			|
+Then the result code should be 1501

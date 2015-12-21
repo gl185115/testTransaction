@@ -1,0 +1,13 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	
+	<table name="PRM_CREDIT_COMPANY">
+		<column>Pan_Min</column>
+		<column>Pan_Max</column>
+		<column>CompanyCode</column>
+		<column>CompanyName</column>
+		<row><value>3000000000000000</value><value>3999999999999999</value><value>01</value><value>JCB</value></row>
+		<row><value>3600000000000000</value><value>3799999999999999</value><value>02</value><value>DINERS</value></row>
+	</table>
+    
+</dataset>

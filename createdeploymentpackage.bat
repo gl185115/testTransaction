@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk1.6.0_27\bin\jar" cvf %1.war .

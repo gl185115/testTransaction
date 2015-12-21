@@ -1,0 +1,13 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_BIZDAY">
+        <column>todaydate</column>
+         <column>switchtime</column>
+         <column>skip</column>
+        <row>
+            <value>2016-01-01</value>
+            <value>11:00</value>
+            <value>1</value>
+        </row>
+    </table>        
+</dataset>

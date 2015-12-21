@@ -1,0 +1,73 @@
+Scenario: Select a Transaction from an empty Queue
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+Given a QueueBuster Service
+When I resume transaction with Queue{1111}, StoreId{000031}, TermId{0001}, TxId{0002} and TxDate{2014-06-11} 
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|340       |0                 |000031       |1111 |0001         |0002          |      |
+
+Scenario: Select a Transaction from a Queue
+Given a table entry named {FORWARD_ITEM_TABLE_LIST.xml} in the {RESTransaction} database
+Given a QueueBuster Service
+!-- Resume Suspended Transaction
+When I resume transaction with Queue{2222}, StoreId{000031}, TermId{0002}, TxId{0006} and TxDate{2012-06-11} 
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|0         |0                 |000031       |2222 |0002         |0006          |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000031</RetailStoreID><WorkstationID>0002</WorkstationID><SequenceNumber>0006</SequenceNumber><BusinessDayDate>2012-06-11</BusinessDayDate><BeginDateTime>2012-06-11T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-11T18:30:46</ReceiptDateTime><TillID></TillID><RetailTransaction><Customer><CustomerDemographic></CustomerDemographic><CustomerID></CustomerID><Name></Name><TelephoneNumber></TelephoneNumber><eMail></eMail></Customer><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="True" Department="012" Line="0" Class="0"><ItemID Type="">100</ItemID><Description>Cucumber</Description><RegularSalesUnitPrice>51</RegularSalesUnitPrice><ActualSalesUnitPrice>51</ActualSalesUnitPrice><ExtendedAmount>51</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>4</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">47</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>4</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">51</Total><Total TotalType="TransactionGrandAmount">51</Total></RetailTransaction></Transaction></POSLog>|
+
+!-- Should Not Resume Already Resumed Transaction
+When I resume transaction with Queue{2222}, StoreId{000031}, TermId{0002}, TxId{0006} and TxDate{2012-06-11} 
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|345       |0                 |000031       |2222 |0002         |0006          |      |
+
+!-- Should Not Resume Invalid POSLog
+When I resume transaction with Queue{5555}, StoreId{000031}, TermId{0003}, TxId{0013} and TxDate{2012-06-14} 
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|142       |0                 |000031       |5555 |0003         |0013          |      |
+
+!-- Resume With Queue {3333}
+When I resume transaction with Queue{3333}, StoreId{000031}, TermId{0003}, TxId{0008} and TxDate{2012-06-13}
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|0         |0                 |000031       |3333 |0003         |0008          |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000031</RetailStoreID><WorkstationID>0003</WorkstationID><SequenceNumber>0008</SequenceNumber><BusinessDayDate>2012-06-13</BusinessDayDate><BeginDateTime>2012-06-13T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-13T18:30:46</ReceiptDateTime><TillID></TillID><RetailTransaction><Customer><CustomerDemographic></CustomerDemographic><CustomerID></CustomerID><Name></Name><TelephoneNumber></TelephoneNumber><eMail></eMail></Customer><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="">4901301762832</ItemID><Description>Biore u Hand Soap</Description><RegularSalesUnitPrice>335</RegularSalesUnitPrice><ActualSalesUnitPrice>335</ActualSalesUnitPrice><ExtendedAmount>335</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">335</Total><Total TotalType="TransactionGrandAmount">335</Total></RetailTransaction></Transaction></POSLog>|
+
+!-- Resume With Missing Queue
+When I resume transaction with Queue{}, StoreId{000031}, TermId{0003}, TxId{0010} and TxDate{2012-06-14}
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|341       |0                 |000031       |     |0003         |0010          |      |
+
+!-- Resume With Missing RetailStoreId
+When I resume transaction with Queue{5555}, StoreId{}, TermId{0003}, TxId{0010} and TxDate{2012-06-14}
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|341       |0                 |             |5555 |0003         |0010          |      |
+
+!-- Resume With Missing TermId
+When I resume transaction with Queue{5555}, StoreId{000031}, TermId{}, TxId{0010} and TxDate{2012-06-14}
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|341       |0                 |000031       |5555 |             |0010          |      |
+
+!-- Resume With Missing TxId
+When I resume transaction with Queue{5555}, StoreId{000031}, TermId{0003}, TxId{} and TxDate{2012-06-14}
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|341       |0                 |000031       |5555 |0003         |              |      |
+
+!-- Resume With Missing TxDate
+When I resume transaction with Queue{5555}, StoreId{000031}, TermId{0003}, TxId{0010} and TxDate{}
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|341       |0                 |000031       |5555 |0003         |0010          |      |
+
+Scenario: Select a Transaction with text note in line item elements from a Queue
+Given a table entry named {FORWARD_ITEM_TABLE_LIST.xml} in the {RESTransaction} database
+Given a QueueBuster Service
+!-- Resume Suspended Transaction
+When I resume transaction with Queue{1111}, StoreId{000031}, TermId{0001}, TxId{0002} and TxDate{2012-05-30} 
+Then I should have the resumed transaction:
+|ResultCode|ExtendedResultCode|RetailStoreID|Queue|WorkstationID|SequenceNumber|POSLog|
+|0         |0                 |000031       |1111 |0001         |0002          |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000031</RetailStoreID><WorkstationID>0001</WorkstationID><SequenceNumber>0002</SequenceNumber><BusinessDayDate>2012-05-30</BusinessDayDate><BeginDateTime>2012-05-30T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-30T18:30:46</ReceiptDateTime><TillID></TillID><RetailTransaction><Customer><CustomerDemographic></CustomerDemographic><CustomerID></CustomerID><Name></Name><TelephoneNumber></TelephoneNumber><eMail></eMail></Customer><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="">101</ItemID><Description>Lettuce</Description><RegularSalesUnitPrice>70</RegularSalesUnitPrice><ActualSalesUnitPrice>70</ActualSalesUnitPrice><ExtendedAmount>70</ExtendedAmount><ExtendedDiscountAmount>7</ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><RetailPriceModifier MethodCode="Markdown"><SequenceNumber>1</SequenceNumber><Percent Action="Subtract">10</Percent><Amount Action="Subtract">7</Amount><PriceDerivationRule ApplicationType="Item"><PriceDerivationRuleID></PriceDerivationRuleID></PriceDerivationRule></RetailPriceModifier><Note>Sale Note</Note></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount><Note>Tax Note</Note></Tax></LineItem><Total TotalType="TransactionSubtotal">63</Total><Total TotalType="TransactionGrandAmount">63</Total></RetailTransaction></Transaction></POSLog>|

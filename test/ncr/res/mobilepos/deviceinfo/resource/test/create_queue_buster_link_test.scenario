@@ -1,0 +1,78 @@
+Scenario: Successful adding of queuebuster link.
+Given the store information
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: 00031, linkid: 12345, linkinfo: ({"LinkName":"name"})
+Then the PRM_QUEUEBUSTER_LINK database table should have the following row(s):
+|storeid|id   |displayname|
+|00031  |12345|name       |
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+
+Scenario: Successful adding of queuebuster link.
+Given the store information
+Given a Device Information Web Service
+When I delete a link with storeid: 00031, linkid: 12345
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+ 
+When I create a link with storeid: 00031, linkid: 12345, linkinfo: ({"LinkName":"name"})
+Then the PRM_QUEUEBUSTER_LINK database table should have the following row(s):
+|storeid|id   |displayname|
+|00031  |12345|name       |
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+
+
+Scenario: Unsuccessful adding of queuebuster link. (Empty Store Id)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: , linkid: 12345, linkinfo: ({"LinkName":"name"})
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+Scenario: Unsuccessful adding of queuebuster link. (Empty Linkid)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: 00031, linkid: , linkinfo: ({"LinkName":"name"})
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+Scenario: Unsuccessful adding of queuebuster link. (Empty Link Info)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: 00031, linkid: 1abcdef12, linkinfo: ()
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+Scenario: Unsuccessful adding of queuebuster link. (null Store Id)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: null, linkid: 12345, linkinfo: ({"LinkName":"name"})
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+Scenario: Unsuccessful adding of queuebuster link. (null Linkid)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: 00031, linkid: null, linkinfo: ({"LinkName":"name"})
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+Scenario: Unsuccessful adding of queuebuster link. (null Link Info)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: 00031, linkid: 1abcdef12, linkinfo: (null)
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+Scenario: Unsuccessful adding of queuebuster link. (Duplicate)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with storeid: 00031, linkid: 12345, linkinfo: ({"LinkName":"name"})
+Then the PRM_QUEUEBUSTER_LINK database table should have the following row(s):
+|storeid|id   |displayname|
+|00031  |12345|name       |
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+When I create a link with storeid: 00031, linkid: 12345, linkinfo: ({"LinkName":"name"})
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"901"}
+
+Scenario: Unsuccessful adding of queuebuster link. (Invalid type)
+Given a Device Information Web Service
+Given an empty PRM_QUEUEBUSTER_LINK database table
+When I create a link with invalid type
+Then the actual ResultBase would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"905"}
+
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_SIGN_ACTIVATION_LIST">       
+        <column>Tid</column>
+        <column>ActivationKey</column>
+        <column>StoreId</column>
+        <column>TerminalId</column>        
+        <column>Status</column>
+        <column>UpdDate</column>
+        <row>        
+            <value>XXXXX00011245</value>
+            <value>ABC12356</value>
+            <value>000031</value>
+            <value>1111</value>
+            <value>1</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+        <row>
+            <value>XXXXX00011246</value>
+            <value>ABC12357</value>
+            <value>0001</value>
+            <value>1234</value>
+            <value>1</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>       	
+    </table>    
+</dataset>

@@ -1,0 +1,51 @@
+Scenario: Display PastelPortIf
+Given I have a pastelPortEnv
+<!--
+When I Play for PastelPortIf set tx {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00001","guid":"0123456789","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120912023300","rwkind":"MSR","amount":"000000440","txtype":"02","rwdatetime":"20120910023300","cashability":"0","approvedflag":"0","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","cardinputtype":"2","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","floorlimit":"0","cashablefloorlimit":"0","cafislimit":"0","cashablecafislimit":"0","securityinfo":"111234","pin":"0000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300","totalsubtractamount":"100","totalsubtractcount":"100","totalvoidamount":"100","totalvoidcount":"100","totalrefundamount":"100","totalrefundcount":"100","totalauthcancelamount":"100","totalauthcancelcount":"100","alliance":"0","locationdecision":" ","responsedata":"0","alliancecode":"  ","crcompanycode":"02","pan":"1234567890123456","expirationdate":"200804","settlementnum":"012345","recvcompanycode":"0123456","jis2data":"11123456","creditcompanyname":"IsTestCompany","Jis1CardData":"1234567890123456789012345678901234567","Jis2CardData":"123456789012345678901234567890123456789012345678901234567890123456789","accountno":"0123456789","goodsCode":"0000000"}}
+<?xml version="1.0" encoding="shift_jis"?>
+<PastelPortResp>
+<amount>000000440</amount>
+<cropid>0000000000001</cropid>
+<creditcompanycode>12</creditcompanycode>
+<creditcompanyname>JCB</creditcompanyname>
+<creditStatus>00</creditStatus>
+<errorcode>  </errorcode>
+<expdate>0912</expdate>
+<ncrwssextendedresultcode>0</ncrwssextendedresultcode>
+<ncrwssresultcode>0</ncrwssresultcode>
+<pan4>************1012</pan4>
+<pan6>354086******1012</pan6>
+<paymentmethod>10</paymentmethod>
+<paymentseq>1</paymentseq>
+<posreturn>false</posreturn>
+<status>0</status>
+<storeid>0001</storeid>
+<terminalid>0123</terminalid>
+<tillid>1</tillid>
+<txid>0001</txid>
+</PastelPortResp>
+Then I should check the pastelPortTxRecvImpl
+<?xml version="1.0" encoding="shift_jis"?>
+<PastelPortTxRecvImpl>
+<applicationerrorflag>0</applicationerrorflag>
+<approvalcode>1654321</approvalcode>
+<authorizationagencyid>ASP</authorizationagencyid>
+<cafisapprovalcode>1</cafisapprovalcode>
+<cafisdate>0704</cafisdate>
+<cafisseq>123456</cafisseq>
+<cancelnoticeflag>0</cancelnoticeflag>
+<cardinfojis2>123456789012345678901234567890123456789012345678901234567890123456789</cardinfojis2>
+<cardjudgemethod>1</cardjudgemethod>
+<cardsort>000</cardsort>
+<centerreceiptdate>050105120000</centerreceiptdate>
+<connectcompany>1234567890</connectcompany>
+<connectcompanycode>12345678901</connectcompanycode>
+<cooperationcode>00</cooperationcode>
+<countcheckflag>0</countcheckflag>
+<digit>2752</digit>
+<errorcode>    </errorcode>
+<finishflag> </finishflag>
+<resultflag>0</resultflag>
+<sourceflag>0</sourceflag>
+<storeid>0001</storeid>
+</PastelPortTxRecvImpl>--!>

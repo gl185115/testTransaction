@@ -1,0 +1,18 @@
+Scenario : Create Success
+When I create suspend transaction response with 38 and (00520000111100000001380001350546385Store00003100001111) expect (success)
+Then The return should contain (38, 0)
+When I create suspend transaction response with 38 and (00520000111100000001381001350546385Store00003100001111) expect (success)
+Then The return should contain (38, 10)
+When I create suspend transaction response with 38 and (00520000111100000001381101350546385Store00003100001111) expect (success)
+Then The return should contain (38, 11)
+When I create suspend transaction response with 38 and (00520000111100000001381201350546385Store00003100001111) expect (success)
+Then The return should contain (38, 12)
+
+!-- Scenario : Wrong Length
+When I create suspend transaction response with 38 and (00500000111100000001381201350546385Store00003100001111) expect (parse fail - exception: Length is wrong for class ncr.res.ue.message.response.SuspendTransactionResponse 50)
+
+!-- Scenario : Wrong Message Type
+When I create suspend transaction response with 38 and (00520000111100000001081201350546385Store00003100001111) expect (parse fail - exception: Incompatible message type for class ncr.res.ue.message.response.SuspendTransactionResponse 8)
+
+!-- Scenario : Wrong Message Type
+When I create suspend transaction response with 38 and (0052000011110000000138) expect (parse fail - index out of bounds: String index out of range: 24)

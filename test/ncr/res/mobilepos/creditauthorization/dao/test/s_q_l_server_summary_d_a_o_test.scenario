@@ -1,0 +1,63 @@
+Scenario: Testing for SQLServerSummaryDAO
+Given a SQLServerSummaryDAO
+Then I should have a SQLServerSummaryDAO
+
+!-- ************** TEST TO PASS SCRIPTS ****************
+!-- A record should be GET from table TXU_NPS_PastelPortCreditSummary
+	When I have a corpid {999999999999} , a storeid {666666} , and a termid {4444}(select)
+	Then I should get a CommonTx (true)
+	When I have a corpid {888888888888} , a storeid {666666} , and a termid {4444}(insert)
+	Then A record should be SAVED (true)
+	When I have a corpid {888888888888} , a storeid {666666} , and a termid {4444}(insert)
+	Then A record should be SAVED (false)
+	
+
+!-- A record from table TXU_NPS_PastelPortCreditSummary should be UPDATED by CommonTx_updateSales
+	When I have a CommonTx_updateSales Xml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortCreditSummary>
+				<corpid>999999999999</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>				
+				<salesamount>10000</salesamount>
+				<salescount>10</salescount>
+				<voidamount>2000</voidamount>
+				<voidcount>2</voidcount>
+				<refundamount>3000</refundamount>
+				<refundcount>3</refundcount>
+				<cancelamount>1000</cancelamount>
+				<cancelcount>1</cancelcount>
+			</TxuNpsPastelPortCreditSummary>
+	Then A record should be UPDATE by CommonTx_updateSales (true)
+	
+!-- A record from table TXU_NPS_PastelPortCreditSummary should be UPDATED by CommonTx_updateInit	
+	When I have a CommonTx_updateInit Xml
+			<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortCreditSummary>
+				<corpid>999999999999</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>				
+				<finishdate>20120425</finishdate>
+				<finishpaymentseq>55555</finishpaymentseq>
+			</TxuNpsPastelPortCreditSummary>	
+	Then A record should be UPDATE by CommonTx_updateInit (true)
+	
+!-- A record from table TXU_NPS_PastelPortCreditSummary should be UPDATED by CommonTx_updateFinish	
+	When I have a CommonTx_updateFinish Xml
+			<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortCreditSummary>
+				<corpid>888888888888</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>				
+				<finishdate>20120425</finishdate>
+				<finishpaymentseq>55555</finishpaymentseq>
+				<possalesamount>100000</possalesamount>
+				<possalescount>15</possalescount>
+				<posvoidamount>30000</posvoidamount>				
+				<posvoidcount>3</posvoidcount>
+				<posrefundamount>20000</posrefundamount>
+				<posrefundcount>2</posrefundcount>
+				<poscancelamount>40000</poscancelamount>
+				<poscancelcount>4</poscancelcount>
+			</TxuNpsPastelPortCreditSummary>	
+	Then A record should be UPDATE by CommonTx_updateFinish (true)

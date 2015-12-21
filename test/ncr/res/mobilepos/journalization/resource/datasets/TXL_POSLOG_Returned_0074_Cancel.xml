@@ -1,0 +1,28 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="TXL_SALES_JOURNAL">
+        <column>Guid</column>
+        <column>JournalLine</column>
+        <column>RetailStoreId</column>
+        <column>WorkstationId</column>
+        <column>SequenceNumber</column> 
+        <column>BusinessDayDate</column>
+        <column>SystemDateTime</column>
+		<column>TxType</column>
+		<column>Tx</column>
+		<column>Status</column>
+		<row>
+			<value>00000000-00000000-00000000-00000000</value>	
+            <value>7915</value>
+            <value>0031</value>
+            <value>4567</value>
+            <value><![CDATA[0074]]></value>
+            <value>2014-04-07</value>
+            <value>2014-04-07 16:05:42.0</value>
+            <value>Cancel</value>
+            <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction CancelFlag="True"><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>0074</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T16:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T16:05:42</ReceiptDateTime><TillID>0</TillID><RetailTransaction><PriceDerivationResult MethodCode="Promotion"><SequenceNumber>1</SequenceNumber><Amount Action="Subtract">101</Amount><PreviousPrice>1101</PreviousPrice><PriceDerivationRule><PriceDerivationRuleID>0002</PriceDerivationRuleID><Description>Type2</Description><ReasonCode>0002</ReasonCode></PriceDerivationRule></PriceDerivationResult><Customer><CustomerDemographic>02</CustomerDemographic></Customer><ItemCount>4</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="True" Department="9999" Line="0" Class="0"><ItemID Type="Code128">0000000000050</ItemID><Description>Item B5</Description><RegularSalesUnitPrice>556</RegularSalesUnitPrice><ActualSalesUnitPrice>556</ActualSalesUnitPrice><ExtendedAmount>556</ExtendedAmount><ExtendedDiscountAmount>51</ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><RetailPriceModifier MethodCode="Markdown"><SequenceNumber>1</SequenceNumber><Amount Action="Subtract">51</Amount><PriceDerivationRule ApplicationType="MixMatch"><PriceDerivationRuleID>0002</PriceDerivationRuleID><MMQuantity>1</MMQuantity></PriceDerivationRule></RetailPriceModifier><Tax TaxType="Sales"><Amount>37</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">468</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>-126</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="True" Department="9999" Line="0" Class="0"><ItemID Type="Code128">0000000000040</ItemID><Description>Item B4</Description><RegularSalesUnitPrice>545</RegularSalesUnitPrice><ActualSalesUnitPrice>545</ActualSalesUnitPrice><ExtendedAmount>545</ExtendedAmount><ExtendedDiscountAmount>50</ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><RetailPriceModifier MethodCode="Markdown"><SequenceNumber>1</SequenceNumber><Amount Action="Subtract">50</Amount><PriceDerivationRule ApplicationType="MixMatch"><PriceDerivationRuleID>0002</PriceDerivationRuleID><MMQuantity>1</MMQuantity></PriceDerivationRule></RetailPriceModifier><Tax TaxType="Sales"><Amount>36</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">459</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="True" Department="9999" Line="0" Class="0"><ItemID Type="Code128">0000000000400</ItemID><Description>Item C4</Description><RegularSalesUnitPrice>1440</RegularSalesUnitPrice><ActualSalesUnitPrice>1440</ActualSalesUnitPrice><ExtendedAmount>1440</ExtendedAmount><ExtendedDiscountAmount>720</ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><RetailPriceModifier MethodCode="Markdown"><SequenceNumber>1</SequenceNumber><Percent Action="Subtract">50</Percent><Amount Action="Subtract">720</Amount><PriceDerivationRule ApplicationType="Item"><PriceDerivationRuleID>01</PriceDerivationRuleID></PriceDerivationRule></RetailPriceModifier><Tax TaxType="Sales"><Amount>53</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">667</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>8</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal"></Total><Total TotalType="TransactionGrandAmount"></Total></RetailTransaction></Transaction></POSLog> ]]></value>
+            <value>0</value>
+        </row>
+    </table> 
+</dataset>
+

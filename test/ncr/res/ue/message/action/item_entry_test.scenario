@@ -1,0 +1,7 @@
+Scenario : Test Item Entry Action Message
+When I create item entry with parameters :
+|itemEntryID|entryFlag|returnFlag|itemCode|familyCode|department|clearanceLevel|pricePrecision|unitPrice|quantityType|quantitySubType|quantityPrecision|quantity|discountFlag|tlqFlag|alternatePrice|
+|1          |1        |1         |1       |1         |1         |1             |1             |1        |1           |1              |1                |1       |1           |1      |1             |
+When I create the message with termid{1111},txid{1}
+Then message data should be {008500001111000000010300000111               100100011100000000011011000001110000000001\r\n}
+

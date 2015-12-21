@@ -1,0 +1,106 @@
+Scenario: Setup Consolidation
+Given an instance of SQLServerConsolidationDAO
+Then its Database Manager must have been settled
+
+Scenario: TXU_TOTAL_ITEMDAY cash tender,with discount,single line item,single item
+Given a sample {TXL_POSLOG_ItemDay_Discounted} poslog xml entry in database 
+When I select a non-consolidated transaction information
+!-- Consolidate
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|1				|0				|374.0			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+
+!-- TXU_TOTAL_ITEMDAY duplication cash tender,with discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|2				|0				|748.0			|0				|0				|0				|0				|0				|0				|2			|0			|132		|
+
+!-- TXU_TOTAL_ITEMDAY duplication cash tender,with discount,single line item,multiple item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|52				|0				|19448			|0				|0				|0				|0				|0				|0				|52			|0			|3432		|
+
+!-- TXU_TOTAL_ITEMDAY add without discount cash tender,without discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|53				|0				|19888			|0				|0				|0				|0				|0				|0				|52			|0			|3432		|
+
+!-- TXU_TOTAL_ITEMDAY duplication cash tender,with discount,multiple line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|54				|0				|20262			|0				|0				|0				|0				|0				|0				|53			|0			|3498		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+
+!-- TXU_TOTAL_ITEMDAY duplication cash tender,with discount,multiple line item,multiple item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|74				|0				|27742			|0				|0				|0				|0				|0				|0				|73			|0			|4818		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|41				|0				|15334			|0				|0				|0				|0				|0				|0				|41			|0			|2706		|
+
+!-- TXU_TOTAL_ITEMDAY new class cash tender,without discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|74				|0				|27742			|0				|0				|0				|0				|0				|0				|73			|0			|4818		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|41				|0				|15334			|0				|0				|0				|0				|0				|0				|41			|0			|2706		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+
+!-- TXU_TOTAL_ITEMDAY new line cash tender,without discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|74				|0				|27742			|0				|0				|0				|0				|0				|0				|73			|0			|4818		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|41				|0				|15334			|0				|0				|0				|0				|0				|0				|41			|0			|2706		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+
+!-- TXU_TOTAL_ITEMDAY new dpt cash tender,without discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|440.0		|0111	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|74				|0				|27742			|0				|0				|0				|0				|0				|0				|73			|0			|4818		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|41				|0				|15334			|0				|0				|0				|0				|0				|0				|41			|0			|2706		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+
+!-- TXU_TOTAL_ITEMDAY new salesprice cash tender,without discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|220.0		|0111	|1191	|111111	|0000000123973	|1				|0				|187			|0				|0				|0				|0				|0				|0				|1			|0			|33			|
+|000000000000	|000031		|2012-02-07		|440.0		|0111	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|74				|0				|27742			|0				|0				|0				|0				|0				|0				|73			|0			|4818		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|41				|0				|15334			|0				|0				|0				|0				|0				|0				|41			|0			|2706		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+
+
+!-- TXU_TOTAL_ITEMDAY new salesprice cash tender,with item discount,single line item,single item, price override, different summarydateid
+When I consolidate top {1} items
+!-- TXU_TOTAL_ITEMDAY Results
+Then I should get the following TXU_TOTAL_ITEMDAY results: 
+|corpid			|storeid	|summarydateid	|salesprice	|dpt	|line	|class	|plu			|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt	|VoidCostAmt	|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000000000	|000031		|2012-02-07		|220.0		|0111	|1191	|111111	|0000000123973	|1				|0				|187			|0				|0				|0				|0				|0				|0				|1			|0			|33			|
+|000000000000	|000031		|2012-02-07		|440.0		|0111	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|0000000123973	|74				|0				|27742			|0				|0				|0				|0				|0				|0				|73			|0			|4818		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|000001	|4900000000160	|41				|0				|15334			|0				|0				|0				|0				|0				|0				|41			|0			|2706		|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1181	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-07		|440.0		|0181	|1191	|111111	|0000000123973	|1				|0				|374			|0				|0				|0				|0				|0				|0				|1			|0			|66			|
+|000000000000	|000031		|2012-02-09		|333.0		|0111	|1191	|111111	|0000000123973	|3				|0				|900			|0				|0				|0				|0				|0				|0				|3			|0			|100		|

@@ -1,0 +1,14 @@
+Scenario : Create Success
+When I create store value response with 43 and (002200001111000000014300) expect (success)
+Then The return should contain (43, 0)
+When I create store value response with 43 and (002200001111000000014301) expect (success)
+Then The return should contain (43, 1)
+
+!-- Scenario : Wrong Length
+When I create store value response with 43 and (004500001111000000014300) expect (parse fail - exception: Length is wrong for class ncr.res.ue.message.response.ItemSVResponse 45)
+
+!-- Scenario : Wrong Message Type
+When I create store value response with 43 and (002200001111000000013600) expect (parse fail - exception: Incompatible message type for class ncr.res.ue.message.response.ItemSVResponse 36)
+
+!-- Scenario : Wrong Message Type
+When I create store value response with 43 and (00220000111100000001430) expect (parse fail - index out of bounds: String index out of range: 24)

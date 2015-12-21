@@ -1,0 +1,45 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_SIGNATURE_LINK">
+		<column>storeid</column>
+		<column>id</column>
+        <column>displayname</column>
+        <column>status</column>
+        <column>upddate</column>
+        <row>
+        	<value>00031</value>
+        	<value>posSignedLinkID220</value>
+        	<value>POS Terminal Signed220</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+        <row>
+        	<value>00031</value>
+        	<value>posSignedLinkID225</value>
+        	<value>POS Terminal Signed225</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+        <row>
+        	<value>00031</value>
+        	<value>posSignedLinkID330</value>
+        	<value>POS Terminal Signed330</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+        <row>
+        	<value>00031</value>
+        	<value>posSignedLinkID440</value>
+        	<value>POS Terminal Signed440</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+        <row>
+        	<value>000035</value>
+        	<value>posSignedLinkID335</value>
+        	<value>POS Terminal Signed335</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+    </table>     
+</dataset>

@@ -1,0 +1,73 @@
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF does not exist)
+Given Web API Service SofwareInfo
+Given that the MANIFEST.MF file is not available in the META-INF
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer} and Version {NA}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has only Implementation-Title)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_NO_VERSION.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer2} and Version {NA}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has only Implementation-Build)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_NO_NAME.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer} and Version {s23wip}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has no Implementation-Title & Implementation-Build)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_NO_VERSION_NAME.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer} and Version {NA}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has invalid key Implementation-Build)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_INVALID_VERSION.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer} and Version {NA}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has invalid key Implementation-Title)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_INVALID_NAME.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer} and Version {NA}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has invalid keys Implementation-Title & Implementation-Build)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_INVALID_NAME_VERSION.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer} and Version {NA}
+
+Scenario: Gets WebStoreServer Version Information (MANIFEST.MF has valid keys Implementation-Title & Implementation-Build)
+Given Web API Service SofwareInfo
+Given the {MANIFEST_VALID_NAME_VERSION.MF} file 
+When I get {WebStoreServer} Information
+Then I should get Software Information with name {WebStoreServer3} and Version {s30wip}
+
+Scenario: Gets Software Version Information Success
+Given Web API Service SofwareInfo
+!-- Gets WebStoreServer Version Information (MANIFEST.MF is available with version and name)
+When I get {WebStoreServer} Information
+Then I should get the software version information
+
+!-- Gets Tomcat Version Information
+When I get {Tomcat} Information
+Then I should get Software Information with name {Tomcat} and Version {Actual}
+
+!-- Gets Java Version Information
+When I get {J2EE} Information
+Then I should get Software Information with name {J2EE} and Version {Actual}
+
+!-- Gets OperatingSystem Information
+When I get {OperatingSystem} Information
+Then I should get Software Information with name {OperatingSystem} and Version {Actual}
+
+!-- Gets All software Information
+Scenario:  Gets All software Information
+Given Web API Service SofwareInfo
+Given the {MANIFEST_VALID_NAME_VERSION.MF} file
+When I get all Software Information
+Then I should get all other Software Information
+

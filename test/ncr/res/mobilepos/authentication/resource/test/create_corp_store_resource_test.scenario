@@ -1,0 +1,65 @@
+Scenario: Add CorpStore successfully
+Given I have a CorpStore Resource
+Given an empty CorpStore Table
+When I add a corpstore with company number {000} storenumber {000031} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'1'} ]
+Then the result should be {0}
+Then the following corpstores should exist:
+|storeid|storename|permission|passcode|
+|000031|Ledoir Couture|1|1234|
+
+Scenario: Add existing corpstore
+When I add a corpstore with company number {000} storenumber {000031} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'1'} ]
+Then the result should be {1201}
+
+Scenario: Add corpstore with permission not 1 or 0
+When I add a corpstore with company number {000} storenumber {000032} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'5'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore with null company number
+When I add a corpstore with company number {null} storenumber {000032} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'5'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore with empty company number
+When I add a corpstore with company number {} storenumber {000032} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'5'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore with null store number
+When I add a corpstore with company number {000} storenumber {null} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'5'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore with empty store number
+When I add a corpstore with company number {000} storenumber {} and store [{'StoreName':'Ledoir Couture', 'Passcode':'1234', 'Permission':'5'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore with null store
+When I add a corpstore with company number {000} storenumber {111} and store [null]
+Then the result should be {1204}
+
+Scenario: Add corpstore with empty store
+When I add a corpstore with company number {000} storenumber {111} and store []
+Then the result should be {1204}
+
+Scenario: Add corpstore without storename
+When I add a corpstore with company number {000} storenumber {000033} and store [{'Passcode':'1234', 'Permission':'1'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore without passcode
+When I add a corpstore with company number {000} storenumber {000033} and store [{'StoreName':'new store', 'Permission':'1'} ]
+Then the result should be {1204}
+
+Scenario: Add corpstore without permission (default to zero)
+When I add a corpstore with company number {000} storenumber {000033} and store [{'StoreName':'new store', 'Passcode':'1'} ]
+Then the result should be {0}
+Then the following corpstores should exist:
+|storeid|storename|permission|passcode|
+|000031|Ledoir Couture|1|1234|
+|000033|new store|0|1|
+
+Scenario: Add another corpstore successfully
+When I add a corpstore with company number {000} storenumber {000032} and store [{'StoreName':'teststore', 'Passcode':'5678', 'Permission':'0'} ]
+Then the result should be {0}
+Then the following corpstores should exist:
+|storeid|storename|permission|passcode|
+|000031|Ledoir Couture|1|1234|
+|000032|teststore|0|5678|
+|000033|new store|0|1|

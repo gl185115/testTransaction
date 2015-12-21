@@ -1,0 +1,4 @@
+Scenario : Test Begin Transaction Action Message
+When I create begin transaction txmode{0}, fuelflag{0}, startdate{072512}, starttime{142955}, operator{111}
+When I create the message with termid{1111},txid{1}
+Then message data should be {0044000011110000000101007251214295500000011100\r\n}

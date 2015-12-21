@@ -1,0 +1,29 @@
+Scenario: Test authentication with no pending signature server activation
+!-- Call SignActivationList.getActivationKey to retrieve activation key and signTid when signStatus is 0
+Given an Authentication Resource
+When I authenticate the device: corpid{000000000000}, storeid{000031}, terminalid{1111}, uuid{69758ab0-3ae6-4397-b3c9-b3fc53d3d04e}, udid{cc4acfb8acfcd3cb8712d61ee2365b96ce32dabc}
+Then the result should be 0
+Then the signStatus should be 0
+Then the activationKey.signActivationKey should be {empty}
+Then the activationKey.signTid should be {empty}
+Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><deviceStatus><message>Device authentication result</message><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><activationKey/><corpID>000000000000</corpID><corpName>000031</corpName><deviceName>device1</deviceName><signStatus>0</signStatus><storeID>000031</storeID><storeName>000031</storeName><terminalID>1111</terminalID><terminalStatus>0</terminalStatus><webAppUrl>1111</webAppUrl></deviceStatus>}
+
+Scenario: Test authentication with pending signature server activation
+!-- Call SignActivationList.getActivationKey to retrieve activation key and signTid when signStatus is 0
+Given an Authentication Resource
+When I authenticate the device: corpid{9999}, storeid{000001}, terminalid{1234}, uuid{79758ab0-3ae6-4397-b3c9-b3fc53d3d04f}, udid{bc4acfb8acfcd3cb8712d61ee2365b96ce32daba}
+Then the result should be 0
+Then the signStatus should be 0
+Then the activationKey.signActivationKey should be {ABC12345}
+Then the activationKey.signTid should be {XXXXX00011234}
+Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><deviceStatus><message>Device authentication result</message><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><activationKey><signActivationKey>ABC12345</signActivationKey><signTid>XXXXX00011234</signTid></activationKey><corpID>9999</corpID><corpName>000001</corpName><deviceName>device3</deviceName><signStatus>0</signStatus><storeID>000001</storeID><storeName>000001</storeName><terminalID>1234</terminalID><terminalStatus>0</terminalStatus><webAppUrl>9999</webAppUrl></deviceStatus>}
+
+Scenario: Test authentication with already activated signStatus
+!-- Call SignActivationList.getActivationKey to retrieve activation key and signTid when signStatus is 0
+Given an Authentication Resource
+When I authenticate the device: corpid{000000000000}, storeid{000031}, terminalid{2222}, uuid{69758ab0-3ae6-4397-b3c9-b3fc53d3d04f}, udid{cc4acfb8acfcd3cb8712d61ee2365b96ce32daba}
+Then the result should be 0
+Then the signStatus should be 1
+Then the activationKey.signActivationKey should be {ABC12355}
+Then the activationKey.signTid should be {XXXXX00011244}
+Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><deviceStatus><message>Device authentication result</message><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><activationKey><signActivationKey>ABC12355</signActivationKey><signTid>XXXXX00011244</signTid></activationKey><corpID>000000000000</corpID><corpName>000031</corpName><deviceName>device2</deviceName><signStatus>1</signStatus><storeID>000031</storeID><storeName>000031</storeName><terminalID>2222</terminalID><terminalStatus>0</terminalStatus><webAppUrl>1111</webAppUrl></deviceStatus>}

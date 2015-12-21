@@ -1,0 +1,5 @@
+Scenario : Success
+Given a Test Thread using string array: success using socket 3006
+Given a Communicator with 127.0.0.1, 3006, 3000 expect (success)
+When I send a message (this is a test message) expect (success)
+Then I stop the socket

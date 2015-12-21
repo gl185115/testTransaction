@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Receipt type="Normal">
+  <ReceiptPaperWidth>40</ReceiptPaperWidth>
+  <ReceiptLanguage>jp</ReceiptLanguage>
+  <Form>
+    <Barcode align="center" width="2" high="65" pitch="0" posit="2"
+      type="5">
+      <Sign value="0" length="1" leftMargin="0"></Sign>
+      <Item property="ptTicketBarcodeIdentifier" leftMargin="0"></Item>
+      <Item property="ptTicketFixedValue" leftMargin="0"></Item>
+      <Sign value="3" length="1" leftMargin="0"></Sign>
+      <Sign value="2" length="1" leftMargin="0"></Sign>
+      <Item property="ptTicketValueBarcode" leftMargin="0"></Item>
+      <Date property="ptTicketExpDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyMMdd" isSysDate="false" leftMargin="0"></Date>
+    </Barcode>
+    <Line size="1" align="left" feedNum="1"></Line>
+  </Form>
+</Receipt>

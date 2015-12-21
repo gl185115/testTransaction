@@ -1,0 +1,72 @@
+Scenario: Success set authorizationlink
+Given a PeripheralDeviceControl service
+Given entries in PRM_AUTHORIZATION_LINK database table
+Given an initial deviceinfo entry in database
+When I set creditauthorization link of storeid{00031} and deviceid{9999} to {authLinkID220}
+Then the result base should be 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||null||1|2|1|
+|00031|9999||1234||authLinkID220||0|0|0|
+
+Scenario: Fail set authorizationlink. non existing device
+When I set creditauthorization link of storeid{00031} and deviceid{0000} to {authLinkID220}
+Then the result base should be 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|0000||1234||authLinkID220||0|0|0|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||null||1|2|1|
+|00031|9999||1234||authLinkID220||0|0|0|
+
+Scenario: Fail set authorizationlink. non existing Authorization Link
+Given a PeripheralDeviceControl service
+When I set creditauthorization link of storeid{00031} and deviceid{9999} to {abcdef}
+Then the result base should be 907
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|0000||1234||authLinkID220||0|0|0|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||null||1|2|1|
+|00031|9999||1234||authLinkID220||0|0|0|
+
+Scenario: Success empty authorizationlink
+When I set creditauthorization link of storeid{00031} and deviceid{9999} to {}
+Then the result base should be 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|0000||1234||authLinkID220||0|0|0|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||null||1|2|1|
+|00031|9999||1234||||0|0|0|
+
+Scenario: Success setting of authorizationlink to null
+When I set creditauthorization link of storeid{00031} and deviceid{9999} to {null}
+Then the result base should be 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|0000||1234||authLinkID220||0|0|0|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||null||1|2|1|
+|00031|9999||1234||||0|0|0|
+
+Scenario: Success setting of authorizationlink to null
+When I set creditauthorization link of storeid{00031} and deviceid{0000} to {}
+Then the result base should be 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|0000||1234||||0|0|0|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||null||1|2|1|
+|00031|9999||1234||||0|0|0|
+
+Scenario: Success setting of authorizationlink to null
+When I set creditauthorization link of storeid{00031} and deviceid{9998} to {null}
+Then the result base should be 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|printerid|linkposterminalid|linkqueuebuster|linkauthorization|linksignature|sendlogfile|savelogfile|autoupload|
+|00031|0000||1234||||0|0|0|
+|00031|9997||1234||null||0|0|0|
+|00031|9998||1234||||1|2|1|
+|00031|9999||1234||||0|0|0|

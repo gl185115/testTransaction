@@ -1,0 +1,5 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="TXL_EXTERNAL_CA_REQ">
+    </table>
+</dataset>

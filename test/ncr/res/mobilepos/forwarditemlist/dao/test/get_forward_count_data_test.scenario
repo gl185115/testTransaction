@@ -1,0 +1,29 @@
+Scenario: Get a Forwarded Data on an empty forwarded item list
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the database
+When a request to get the total number of Forwarded Item given that storeid{000031}, terminalid{00001} and businessdate{2012-05-30} 
+Then I should get Forwarded Count Results of status{0} and count{0}
+
+Scenario: Get the list of Forwarded Item
+Given a table entry named {FORWARD_ITEM_TABLE_COMPLETE.xml} in the database
+When a request to get the total number of Forwarded Item given that storeid{000031}, terminalid{1234} and businessdate{20120530} 
+Then I should get Forwarded Count Results of status{0} and count{5}
+
+!-- Get the second request
+When a request to get the total number of Forwarded Item given that storeid{000031}, terminalid{1234} and businessdate{20120529}
+Then I should get Forwarded Count Results of status{0} and count{3}
+
+!-- Get the list of items with unknown Storeid 
+When a request to get the total number of Forwarded Item given that storeid{000000}, terminalid{1234} and businessdate{20120529}
+Then I should get Forwarded Count Results of status{0} and count{0}
+
+!-- Get the list of items with unknown TerminalId
+When a request to get the total number of Forwarded Item given that storeid{000031}, terminalid{0000} and businessdate{20120529}
+Then I should get Forwarded Count Results of status{0} and count{0}
+
+!-- Get the list of items with unknown BusinessDate
+When a request to get the total number of Forwarded Item given that storeid{000031}, terminalid{1234} and businessdate{20121212}
+Then I should get Forwarded Count Results of status{0} and count{0}
+
+!-- Expect status of "1" when BusinessDate is unparsable
+When a request to get the total number of Forwarded Item given that storeid{000031}, terminalid{1234} and businessdate{aaaaaaaaaaaa}
+Then I should get Forwarded Count Results of status{1} and count{0}

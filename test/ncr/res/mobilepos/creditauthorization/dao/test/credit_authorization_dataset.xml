@@ -1,0 +1,41 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	
+	
+    <table name="TXL_EXTERNAL_CA_REQ">
+        <column>RetailStoreId</column>
+        <column>WorkstationId</column>
+        <column>BusinessDayDate</column>
+        <column>SequenceNumber</column> 
+		<column>Type</column> 
+        <column>Status</column>
+		<column>SlipNumber</column>
+		<column>Pan</column>
+		<column>ExpDate</column>
+		<column>Amount</column>
+		<column>paymentmethod</column>
+		<column>creditcompanycode</column>
+		<column>recvcompanycode</column>
+		<column>creditcompanyname</column>
+		<column>operatorcode</column>
+		<column>approvalcode</column>
+		<column>creditstatus</column>
+		<column>cafistracenum</column>
+        <row>
+            <value>000031</value>
+            <value>0001</value>
+            <value>2012-03-08</value>
+            <value>9998</value> 
+            <value>9</value>
+			<value>0</value>			
+        </row>   
+		<row>
+            <value>000031</value>
+            <value>0001</value>
+            <value>2012-03-08</value>
+            <value>9999</value> 
+            <value>0</value>
+			<value>0</value>			
+        </row>         
+    </table> 
+</dataset>

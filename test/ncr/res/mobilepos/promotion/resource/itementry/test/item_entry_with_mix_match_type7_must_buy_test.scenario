@@ -1,0 +1,66 @@
+Scenario: Test Item Entry with MixMatch Type 7
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mustbuy_mixmatch.xml}
+Given a loaded dataset {mixmatch_mustbuy_promotions.xml}
+
+Scenario: Item Entry (Single Entry With Quantity 1)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775640","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |8865545775640|EAN-13    |1       |0143      |sample product 7|サンプル製品7      |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |1         |
+Then there should be no promotion data.
+
+!-- Add Same Item with 1 Qty
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"8865545775640","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |8865545775640|EAN-13    |1       |0143      |sample product 7|サンプル製品7      |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |1         |
+Then there should be no promotion data.
+
+!-- Add Another Item with 1 Qty
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"8865545775638","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |8865545775638|EAN-13    |1       |0143      |sample product 8|サンプル製品8      |90.0                 |0.0     |0.0           |90.0                |90.0          |True        |0                |0         |
+Then there should be no promotion data.
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"8865545775638","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |8865545775638|EAN-13    |1       |0143      |sample product 8|サンプル製品8      |90.0                 |0.0     |0.0           |90.0                |90.0          |True        |0                |0         |
+Then there should be no promotion data.
+
+!-- Add a must buy item with price 70
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"8865545775639","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00005      |8865545775639|EAN-13    |1       |0143      |sample product 9|サンプル製品9      |70.0                 |0.0     |0.0           |70.0                |70.0          |True        |1                |0         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1007          |1007         |Mix Match 1007 Type 7|00001      |12                |
+|2       |1007          |1007         |Mix Match 1007 Type 7|00002      |12                |
+|3       |1007          |1007         |Mix Match 1007 Type 7|00003      |10                 |
+|4       |1007          |1007         |Mix Match 1007 Type 7|00004      |11                |
+|5       |1007          |1007         |Mix Match 1007 Type 7|00005      |9                |
+
+!-- Add a must buy item with price 150
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"8865545775644","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00006      |8865545775644|EAN-13    |1       |0143      |sample product 44|サンプル製品44      |150.0                |0.0     |0.0           |150.0               |150.0         |True        |0                |0         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1007          |1007         |Mix Match 1007 Type 7|00006      |18                |
+|2       |1007          |1007         |Mix Match 1007 Type 7|00001      |12                |
+|3       |1007          |1007         |Mix Match 1007 Type 7|00002      |12                |
+|4       |1007          |1007         |Mix Match 1007 Type 7|00003      |11                |
+|5       |1007          |1007         |Mix Match 1007 Type 7|00004      |11                |
+|6       |1007          |1007         |Mix Match 1007 Type 7|00005      |8                 |

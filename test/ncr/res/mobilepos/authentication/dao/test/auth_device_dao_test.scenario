@@ -1,0 +1,84 @@
+Scenario: Construct an AuthDeviceDao
+Given an AuthDeviceDao
+Then I should have an AuthDeviceDao
+
+Scenario: isValidUDID test
+Given an AuthDeviceDao
+When I test the udid : null
+Then result should be FAIL
+When I test the udid : a54182adb3584d944728ceb3f720d2fcf3
+Then result should be FAIL
+When I test the udid : a54182adb3584d944728ceb3f720d2fcf31lkb23h1b12nl59taja0aaka
+Then result should be FAIL
+When I test the udid : a54182adb3584d#44728ceb3f720d2fcf3&65f75
+Then result should be FAIL
+When I test the udid : a54182adb3584dx44728ceb3f720d2fcf3z65f75
+Then result should be FAIL
+When I test the udid : a54182adb3584d944728ceb3f720d2fcf3a65f75
+Then result should be OK
+
+Scenario: isValidUUID test
+Given an AuthDeviceDao
+When I test the uuid : null
+Then result should be FAIL
+When I test the uuid : 1e99932b-ad19-4cbe-a7b6-b38a77b
+Then result should be FAIL
+When I test the uuid : 1e99932b-ad19-4cbe-a7b6-b38a77b103c1-18283adc
+Then result should be FAIL
+When I test the uuid : 1e9&932b-ad19-4cbe-a^b6-b38a77b103c1
+Then result should be FAIL
+When I test the uuid : 1e99932b-ad19-4cbe-a7b6-b38a77bx03cz
+Then result should be FAIL
+When I test the uuid : 1e99932bad194cbea7b6b38a77bx03cz
+Then result should be FAIL
+When I test the uuid : 1e99932b-ad19-4cbe-a7b6-b38a77b103c1
+Then result should be OK
+
+Scenario: register/deregister device
+Given an AuthDeviceDao
+When I register a device: 00001, 1010, dev1, 1e99932b-ad19-4cbe-a7b6-b38a77b103c1, a54182adb3584d944728ceb3f720d2fcf3a65f75, 5
+When I register a device: 00001, 2020, dev2, aaa9932b-ad19-4cbe-a7b6-b38a77b103c1, aaa182adb3584d944728ceb3f720d2fcf3a65f75, 5
+Then Device: 00001, 1, a54182adb3584d944728ceb3f720d2fcf3a65f75, 1e99932b-ad19-4cbe-a7b6-b38a77b103c1 should not exist
+Then Device: 00001, 1010, a54182adb3584d944728ceb3f720d2fcf3a65f75, 1e99932b-ad19-4cbe-a7b6-b38a77bfffff should exist
+Then Device: 00001, 1010, a54182adb3584d944728ceb3f720d2fcf3a65f75, 1e99932b-ad19-4cbe-a7b6-b38a77b103c1 should exist
+When I deregister a device: 00001, 1010, 1e99932b-ad19-4cbe-a7b6-b38a77b103c1, a54182adb3584d944728ceb3f720d2fcf3a65f75
+Then Device: 00001, 1010, a54182adb3584d944728ceb3f720d2fcf3a65f75, 1e99932b-ad19-4cbe-a7b6-b38a77b103c1 should not exist
+Then Device: 00001, 2020, aaa182adb3584d944728ceb3f720d2fcf3a65f75, aaa9932b-ad19-4cbe-a7b6-b38a77b103c1 should exist
+When I deregister a device: 00001, 2020, aaa9932b-ad19-4cbe-a7b6-b38a77b103c1, aaa182adb3584d944728ceb3f720d2fcf3a65f75
+Then Device: 00001, 2020, aaa182adb3584d944728ceb3f720d2fcf3a65f75, aaa9932b-ad19-4cbe-a7b6-b38a77b103c1 should not exist
+
+Scenario: authenticate/deauthenticate device
+Given an AuthDeviceDao
+When I register a device: 00001, 555, dev3, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75, 5
+Then Device: 555 status should be 0
+When I authenticate device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 1
+When I deauthenticate device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 0
+When I authenticate device: 00001, 5553, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 0
+When I authenticate device: 00001, 555, 1f999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 0
+When I authenticate device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, c54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 0
+When I authenticate device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 1
+When I deauthenticate device: 00001, 5553, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 1
+When I deauthenticate device: 00001, 555, 1f999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 1
+When I deauthenticate device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, c54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 1
+When I deauthenticate device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 555 status should be 0
+When I deregister a device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75
+Then Device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75 should not exist
+
+Scenario: validate a device
+Given an AuthDeviceDao
+When I register a device: 00001, 555, dev5, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75, 5
+Then I validate device: 00001, 555, a54182adbfff4d944728ceb3f720d2fcf3a65f75, xxx result should be 8
+Then I validate device: 00001, 5551, a54182adbfff4d944728ceb3f720d2fcf3a65f75, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1 result should be 102
+Then I validate device: 00001, 555, xxx, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1 result should be 102
+Then I validate device: 00001, 555, a54182adbfff4d944728ceb3f720d2fcf3a65f75, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1 result should be 0
+When I deregister a device: 00001, 555, 1e999fff-ad19-4cbe-a7b6-b38a77b103c1, a54182adbfff4d944728ceb3f720d2fcf3a65f75

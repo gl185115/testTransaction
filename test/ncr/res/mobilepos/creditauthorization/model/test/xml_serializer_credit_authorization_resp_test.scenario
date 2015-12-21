@@ -1,0 +1,26 @@
+Scenario: Serialize CreditAuthorizationResp XML
+Given I have an XmlSerializer for CreditAuthorizationResp
+When I have a CreditAuthorizationResp xml:
+	<CreditAuthorizationResp>
+		<amount>1000</amount>
+		<approvalcode>9999</approvalcode>
+		<corpid>000000000000</corpid>
+		<creditcompanycode>01</creditcompanycode>
+		<creditcompanyname>JCB</creditcompanyname>
+		<creditstatus>00</creditstatus>
+		<errorcode>5000</errorcode>
+		<errormessage>Test</errormessage>
+		<expdate>1111</expdate>
+		<pan>3000000000000000</pan>
+		<paymentmethod>10</paymentmethod>
+		<status>0</status>
+		<storeid>000031</storeid>
+		<terminalid>0001</terminalid>
+		<tillid>12345</tillid>
+		<tracenum>9999</tracenum>
+		<txdatetime>2012-03-08</txdatetime>
+		<txid>9999</txid>
+	</CreditAuthorizationResp>
+Then I should get a CrediAuthorizationResp:
+|amount|approvalcode|corpid|creditcompanycode|creditcompanyname|creditstatus|errorcode|errormessage|expdate|pan|paymentmethod|status|storeid|terminalid|tillid|tracenum|txdatetime|txid
+|1000|9999|000000000000|01|JCB|00|5000|Test|1111|3000000000000000|10|0|000031|0001|12345|9999|2012-03-08|9999

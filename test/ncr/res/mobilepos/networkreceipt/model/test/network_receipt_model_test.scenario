@@ -1,0 +1,123 @@
+Scenario: Test Receipt Line
+Given I have an empty Receipt Line
+Then I should get an empty Receipt Line
+When I add LineData: {This is a line data}
+Then I should have a LineData: {This is a line data}
+When I add a Font : {Dialog.italic}, {2}, {15}
+Then I should have a Font : {Dialog.italic} , {2}, {15}
+
+Scenario: Test receipt product item
+Given I have a ReceiptProductItem
+Then I should have a ReceiptProductItem
+When I set the amount to {5000}
+Then I should get amount {5000}
+When I set the discountamount to {5000}
+Then I should get discountamount {5000}
+When I set the productname to {productname}
+Then I should get productname {productname}
+When I set the price to {1500}
+Then I should get price {1500}
+When I set the qty to {15}
+Then I should get qty {15}
+
+Scenario: Test Receipt Credit
+Given I have a ReceiptCredit
+Then I should have a ReceiptCredit
+When I set the expirationdate to {12/20/2012}
+Then I should get expirationdate {12/20/2012}
+When I set the pan to {123456}
+Then I should the get pan {123456}
+
+Scenario: Test Receipt Header
+Given I have a PaperReceiptHeader
+Then I should have a PaperReceiptHeader
+When I set the logoImg
+Then I should get the same logoImg
+When I set the address {California,USA}
+Then I should get the address {California,USA}
+When I set the siteUrl {www.Website.com}
+Then I should get the siteURL {www.Website.com}
+When I set the tel {987654321}
+Then I should get the tel {987654321}
+When I set the commercialList
+Then I should get the same commercialList
+
+Scenario: Test Paper Receipt Footer
+Given I have a PaperReceiptFooter
+Then I should have a PaperReceiptFooter
+When I set the shopname to {RESShop}
+Then I should get the shopname {RESShop}
+When I set the registernum to {111}
+Then I should get the registernum {111}
+When I set the departmentname to {RESDept}
+Then I should get the departmentname {RESDept}
+When I set the tradenumber to {321123}
+Then I should get the tradenumber {321123}
+When I set the saleman to {saleman1}
+Then I should get the saleman {saleman1}
+When I set the holdname to {thisisheld}
+Then I should get the holdname {thisisheld}
+
+Scenario: Test Paper Receipt Credit
+Given I have a PaperReceiptCredit
+Then I should have a PaperReceiptCredit
+When I set the creditcompany to {HSBC}
+Then I should get the creditcompany {HSBC}
+When I set the jcb to {idontknow}
+Then I should get the jcb {idontknow}
+When I set the creditnum to {654321}
+Then I should get the creditnum {654321}
+When I set the creditexpiration to {12/31/2030}
+Then I should get the creditexpiration {12/31/2030}
+When I set the creditslipnum to {987}
+Then I should get the creditslipnum {987}
+When I set the creditamount to {5000}
+Then I should get the credit amount {5000}
+When I set the approvalnum to {456}
+Then I should get the approvalnum {456}
+When I set the creditprocessnum to {789}
+Then I should get the creditprocessnum {789}
+When I set the terminalidnum to {555}
+Then I should get the terminalidnum {555}
+When I set the settlementmannum to {999}
+Then I should get the settlementmannum {999}
+
+Scenario: Test Paper Receipt Content
+Given I have a PaperReceiptContent
+Then I should have a PaperReceiptContent
+When I set the receiptdatetime to {12/20/2001 16:00:00}
+Then I should get the receiptdatetime {12/20/2001 16:00:00}
+When I set the contentdiscount to {5.00}
+Then I should get the contentdiscount {5.00}
+When I set the contenttax to {12.00}
+Then I should get the contenttax {12.00}
+When I set the contenttotal to {5000}
+Then I should get the contenttotal {5000}
+When I set the contentpaycred to {2000}
+Then I should get the contentpaycred {2000}
+When I set the contentpaycash to {3000}
+Then I should get the contentpaycash {3000}
+When I set the contentpaychange to {1000}
+Then I should get the contentpaychange {1000}
+When I set the subtotal to {6000}
+Then I should get the subtotal {6000}
+When I set the productItemList
+Then I should get the same productItemList
+
+Scenario: Test Paper Receipt
+Given I have an empty Paper Receipt
+Then I should have an empty Paper Receipt
+Given I have a full Paper Receipt
+Then I should have a full Paper Receipt
+When I set the paperreceiptfooter
+Then I should get the same paperreceiptfooter
+When I set the paperreceiptheader
+Then I should get the same paperreceiptheader
+When I set the paperreceiptcontent
+Then I should get the same paperreceiptcontent
+When I set the paperreceiptcredit
+Then I should get the same paperreceiptcredit
+
+
+
+

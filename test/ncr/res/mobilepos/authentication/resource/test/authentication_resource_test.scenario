@@ -1,0 +1,6 @@
+Scenario: test get device status
+Given an Authentication Resource
+When I authenticate the device: 000000000000, 000031, 1111, 69758ab0-3ae6-4397-b3c9-b3fc53d3d04e, cc4acfb8acfcd3cb8712d61ee2365b96ce32dabc
+Then the result should be 0
+When I authenticate the device: 000000000000, 000031, a, a, a
+Then the result should be 102

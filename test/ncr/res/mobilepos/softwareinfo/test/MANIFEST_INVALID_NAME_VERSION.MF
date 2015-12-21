@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: 
+Implementation-BuildA: s23wip
+Implementation-TitleA: WebStoreServer

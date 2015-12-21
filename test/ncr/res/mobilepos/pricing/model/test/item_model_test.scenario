@@ -1,0 +1,11 @@
+Given an empty Item
+Then I should have an Item that has errors
+Given an Item with plu {4900000000023}, mdName {mmm}, mdNameLocal {nnn}, salesPrice {300}, dpt {dpt}, line {line}, clas {clas}
+Then it has no error
+Then its PLU is {4900000000023}
+Then its md Name is {mmm}
+Then its md Name Local is {nnn}
+Then its Sales Price is {300}
+Then its DPT is {dpt}
+Then its Line is {line}
+Then its Class is {clas}

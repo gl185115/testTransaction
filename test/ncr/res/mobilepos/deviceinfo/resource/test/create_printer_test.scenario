@@ -1,0 +1,207 @@
+Scenario: Create Printer
+Given MST_PRINTERINFO_EMPTY table
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername|ipaddress|portnumtcp|portnumudp|description|
+
+
+Given a Device Information Web Service
+ 
+!-- Cannot create printer if storeid is null
+When I create printer with storeid:null, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1"}
+Then I should get error code {224}
+!-- Cannot create printer if storeid is empty
+When I create printer with storeid:, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1"}
+Then I should get error code {224}
+
+!-- Cannot create printer if printerid is null
+When I create printer with storeid:000031, printerid:null, printerinfojson:{"PrinterName":"TestPrinter1"}
+Then I should get error code {224}
+!-- Cannot create printer if storeid is empty
+When I create printer with storeid:000031, printerid:, printerinfojson:{"PrinterName":"TestPrinter1"}
+Then I should get error code {224}
+
+!-- Cannot create printer if jsonprinter is null
+When I create printer with storeid:000031, printerid:1, printerinfojson:null
+Then I should get error code {224}
+!-- Cannot create printer if jsonprinter is empty
+When I create printer with storeid:000031, printerid:1, printerinfojson:
+Then I should get error code {224}
+
+!-- Cannot create printer if storeid, printerid and printerjson is null
+When I create printer with storeid:null, printerid:null, printerinfojson:null
+Then I should get error code {224}
+!-- Cannot create printer if storeid, printerid and printerjson is empty
+When I create printer with storeid:, printerid:, printerinfojson:
+Then I should get error code {224}
+
+!-- Cannot create printer if storeid is not found
+When I create printer with storeid:000001, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1"}
+Then I should get error code {710}
+
+!-- Cannot create printer if printerinfojson's PrinterName key is wrong
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"Name":"TestPrinter1"}
+Then I should get error code {151}
+!-- Cannot create printer if printerinfojson's PrinterDescription key is wrong
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDesc":"TestPrinter1"}
+Then I should get error code {151}
+!-- Cannot create printer if printerinfojson's IpAddress key is wrong
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDescription":"TestPrinter1","IpAdd":"127.0.0.0"}
+Then I should get error code {151}
+!-- Cannot create printer if printerinfojson's PortNumTcp key is wrong
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDescription":"TestPrinter1","IpAddress":"127.0.0.0","PortNumTCP":"90"}
+Then I should get error code {151}
+!-- Cannot create printer if printerinfojson's PortNumUdp key is wrong
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDescription":"TestPrinter1","IpAddress":"127.0.0.0","PortNumTcp":"90","PortNumUDP":"80"}
+Then I should get error code {151}
+
+!-- Can successfully create printer
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDescription":"TestPrinter1","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get success code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Cannot create printer if printerid exists with the same storeid (Duplicate Entry)
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter2", "PrinterDescription":"TestPrinter2","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get error code {225}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create printer if printerid exists with different storeid
+When I create printer with storeid:000032, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDescription":"TestPrinter1","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create another printer with different printerid
+When I create printer with storeid:000031, printerid:2, printerinfojson:{"PrinterName":"TestPrinter2", "PrinterDescription":"TestPrinter2","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create another printer with no printername
+When I create printer with storeid:000031, printerid:3, printerinfojson:{"PrinterDescription":"TestPrinter3","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create another printer with no description
+When I create printer with storeid:000031, printerid:4, printerinfojson:{"PrinterName":"TestPrinter4","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000031 |4        |TestPrinter4|127.0.0.0|9100      |3000      |null        |
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create another printer with no ipaddress
+When I create printer with storeid:000031, printerid:5, printerinfojson:{"PrinterName":"TestPrinter5","PrinterDescription":"TestPrinter5","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000031 |4        |TestPrinter4|127.0.0.0|9100      |3000      |null        |
+|000031 |5        |TestPrinter5|null     |9100      |3000      |TestPrinter5|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+
+!-- Can create another printer with no portnumtcp
+When I create printer with storeid:000031, printerid:6, printerinfojson:{"PrinterName":"TestPrinter6","PrinterDescription":"TestPrinter6","IpAddress":"127.0.0.0","PortNumUdp":"3000"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000031 |4        |TestPrinter4|127.0.0.0|9100      |3000      |null        |
+|000031 |5        |TestPrinter5|null     |9100      |3000      |TestPrinter5|
+|000031 |6        |TestPrinter6|127.0.0.0|null      |3000      |TestPrinter6|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create another printer with no portnumudp
+When I create printer with storeid:000031, printerid:7, printerinfojson:{"PrinterName":"TestPrinter7","PrinterDescription":"TestPrinter7","IpAddress":"127.0.0.0","PortNumTcp":"9100"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000031 |4        |TestPrinter4|127.0.0.0|9100      |3000      |null        |
+|000031 |5        |TestPrinter5|null     |9100      |3000      |TestPrinter5|
+|000031 |6        |TestPrinter6|127.0.0.0|null      |3000      |TestPrinter6|
+|000031 |7        |TestPrinter7|127.0.0.0|9100      |null      |TestPrinter7|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+
+!-- Can create another printer with no portnumudp
+When I create printer with storeid:000032, printerid:9, printerinfojson:{"PrinterName":"TestPrinter9","PrinterDescription":"TestPrinter9 ni siya","IpAddress":"127.0.0.0","PortNumTcp":"9100"}
+Then I should get error code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000031 |4        |TestPrinter4|127.0.0.0|9100      |3000      |null        |
+|000031 |5        |TestPrinter5|null     |9100      |3000      |TestPrinter5|
+|000031 |6        |TestPrinter6|127.0.0.0|null      |3000      |TestPrinter6|
+|000031 |7        |TestPrinter7|127.0.0.0|9100      |null      |TestPrinter7|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000032 |9        |TestPrinter9|127.0.0.0|9100      |null      |TestPrinter9 ni siya|
+
+!-- Cannot create printer if printerid exists with the same storeid (Duplicate Entry with Active printer status)
+When I create printer with storeid:000032, printerid:9, printerinfojson:{"PrinterName":"TestPrinter9","PrinterDescription":"TestPrinter9 ni siya","IpAddress":"127.0.0.0","PortNumTcp":"9100"}
+Then I should get error code {225}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |2        |TestPrinter2|127.0.0.0|9100      |3000      |TestPrinter2|
+|000031 |3        |null        |127.0.0.0|9100      |3000      |TestPrinter3|
+|000031 |4        |TestPrinter4|127.0.0.0|9100      |3000      |null        |
+|000031 |5        |TestPrinter5|null     |9100      |3000      |TestPrinter5|
+|000031 |6        |TestPrinter6|127.0.0.0|null      |3000      |TestPrinter6|
+|000031 |7        |TestPrinter7|127.0.0.0|9100      |null      |TestPrinter7|
+|000032 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000032 |9        |TestPrinter9|127.0.0.0|9100      |null      |TestPrinter9 ni siya|
+
+Scenario: Create Printer
+Given MST_PRINTERINFO_DELETED table
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername|ipaddress|portnumtcp|portnumudp|description|
+|000031 |777      |seven	  |192.168.11.1|1234      |5678      |Seven desc|
+
+
+
+Given a Device Information Web Service
+
+!-- Can successfully create printer
+When I create printer with storeid:000031, printerid:1, printerinfojson:{"PrinterName":"TestPrinter1", "PrinterDescription":"TestPrinter1","IpAddress":"127.0.0.0","PortNumTcp":"9100","PortNumUdp":"3000"}
+Then I should get success code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |777      |seven	  |192.168.11.1|1234      |5678      |Seven desc|
+
+!-- Can successfully create printer using update  
+When I create printer with storeid:000031, printerid:777, printerinfojson:{"PrinterName":"TestPrinter17", "PrinterDescription":"TestPrinter17","IpAddress":"127.0.0.17","PortNumTcp":"1700","PortNumUdp":"3017"}
+Then I should get success code {0}
+Then MST_PRINTERINFO table should have the following row(s): 
+|storeid|printerid|printername |ipaddress|portnumtcp|portnumudp|description |
+|000031 |1        |TestPrinter1|127.0.0.0|9100      |3000      |TestPrinter1|
+|000031 |777      |TestPrinter17|127.0.0.17|1700    |3017      |TestPrinter17|
+
+
+
+

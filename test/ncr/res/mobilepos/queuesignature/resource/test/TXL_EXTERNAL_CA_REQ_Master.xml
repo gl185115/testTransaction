@@ -1,0 +1,37 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_BIZDAY">
+		<column>TodayDate</column>
+		<column>SwitchTime</column>
+		<column>Skip</column>
+		<row>
+            <value>2012-12-12</value>
+            <value>1:00am</value>
+            <value>0</value>
+        </row>
+    </table>
+    <table name="PRM_SYSTEM_CONFIG">
+        <column>Category</column>
+        <column>KeyId</column>
+        <column>Value</column>
+        <column>Description</column>
+        <row>
+            <value>Journalization</value>
+            <value>BusinessDateComputeFlag</value>
+            <value>false</value>
+            <value>Flag that tells how to get the End of Day Bussiness Date. If true by Switchtime else MST_BIZDAY</value>
+        </row>
+		<row>
+            <value>Journalization</value>
+            <value>SwitchTime</value>
+            <value>1:00am</value>
+            <value>The switch time needed for Bussiness Date computation</value>
+        </row>
+		<row>
+            <value>Report</value>
+            <value>StoreOpenTime</value>
+            <value>10</value>
+            <value>The border line of sales reports</value>
+        </row>
+    </table>
+</dataset>

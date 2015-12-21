@@ -1,0 +1,6 @@
+Scenario : Test TriggerCode Action Message
+When I create triggercode with parameters :
+|entryid|entryflag|triggercode|
+|1      |2        |3          |
+When I create the message with termid{4444},txid{5}
+Then message data should be {0043000044440000000511T0000120000000000000003\r\n}

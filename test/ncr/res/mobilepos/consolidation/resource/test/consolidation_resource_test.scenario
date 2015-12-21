@@ -1,0 +1,74 @@
+Scenario: Test the Consolidation Resource
+Given a batch of values for System Configuration named PRM_SYSTEM_CONFIG_SUCCESS.xml
+Given an instance of Consolidation Resource
+When the WebAPI Starts Up
+Then I should have a Consolidation Resource
+Then I should have {0} transaction list remaining
+
+Scenario: Test top 5 Items to be consolidated in TXL_POSLOG still Empty
+!-- Empty TXL_POSLOG
+When I call consolidation to {5} threads
+Then I should have {0} transaction list remaining
+
+!-- Test top 5 Items to be consolidated in TXL_POSLOG 
+!-- 107 rows in all
+Given a batch of values for POSLOGs named TXL_POSLOG.xml
+
+When I call consolidation to {5} threads
+Then I should have {93} transaction list remaining
+Then I should have {5} consolidated items
+Then I should get the following TXL_POSLOG status of {1}:
+|corpid|storeid|termid|txid|
+|000000000000|000031|9999|102|
+|000000000000|000031|9999|103|
+|000000000000|000031|9999|104|
+|000000000000|000031|9999|105|
+|000000000000|000031|9999|106|    
+
+!-- Test next top 5 Items to be consolidated in TXL_POSLOG 
+When I call consolidation to {5} threads
+Then I should have {88} transaction list remaining
+Then I should have {10} consolidated items
+
+!-- Test next top 10 Items to be consolidated in TXL_POSLOG 
+When I call consolidation to {10} threads
+Then I should have {78} transaction list remaining
+Then I should have {20} consolidated items
+
+!-- Test next top 5 Items to be consolidated
+When I call consolidation to {25} threads
+Then I should have {53} transaction list remaining
+Then I should have {45} consolidated items
+
+!-- Test next top 5 Items to be consolidated
+When I call consolidation to {25} threads
+Then I should have {28} transaction list remaining
+Then I should have {70} consolidated items
+
+!-- Test All Transaction remaining
+When I call consolidation to {20} threads
+Then I should have {8} transaction list remaining
+Then I should have {90} consolidated items
+
+!-- Test All Transaction remaining
+When I call consolidation to {10} threads
+Then I should have {0} transaction list remaining
+Then I should have {98} consolidated items
+
+!-- The TXL_POSLOG is empty
+When I call consolidation to {5} threads
+Then I should have {0} transaction list remaining
+Then I should have {98} consolidated items
+
+When I call consolidation to {15} threads
+Then I should have {0} transaction list remaining
+Then I should have {98} consolidated items
+
+!-- Test transaction with empty tx in TXL_POSLOG
+Given a batch of values for POSLOGs named TXL_POSLOG_TransactionWithEmptyTx.xml
+When I call consolidation to {1} threads
+Then I should have {0} transaction list remaining
+Then I should get {2} of DcRsp status
+Then I should get the following TXL_POSLOG status of {0}:
+|corpid|storeid|termid|txid|
+|000000000000|000031|9999|102|

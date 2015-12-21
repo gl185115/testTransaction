@@ -1,0 +1,75 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_TILLIDINFO">
+		<column>StoreId</column>
+		<column>TillId</column>
+        <column>TerminalId</column>
+		<column>BusinessDayDate</column>
+		<column>SodFlag</column>
+		<column>EodFlag</column>
+		<column>InsDate</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+        <row>
+            <value>9999</value>
+            <value>99995000</value>
+            <value>5000</value>
+            <value>2014-12-01</value>
+            <value>1</value>
+            <value>0</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>appid</value>
+            <value>9999</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>99995001</value>
+            <value>5001</value>
+            <value>2014-12-01</value>
+            <value>0</value>
+            <value>1</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>appid</value>
+            <value>9999</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>99995002</value>
+            <value>5002</value>
+            <null/>
+            <value>1</value>
+            <value>9</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>appid</value>
+            <value>9999</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>99995003</value>
+            <value>5003</value>
+            <value>2014-11-13</value>
+            <value>1</value>
+            <value>9</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>appid</value>
+            <value>9999</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>99995004</value>
+            <value>5004</value>
+            <value>2014-11-14</value>
+            <value>1</value>
+            <value>9</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>2014-11-14 00:00:00</value>
+            <value>appid</value>
+            <value>9999</value>
+        </row>
+	</table>
+</dataset>

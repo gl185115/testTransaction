@@ -1,0 +1,38 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_DISCOUNT_REASON_CODE">
+        <column>type</column>
+        <column>code</column>
+        <column>displayname</column>
+		<row>
+            <value>item</value>
+            <value>01</value>
+            <value>for item </value>
+        </row>
+		<row>
+            <value>item</value>
+            <value>02</value>
+            <value>for item </value>
+        </row>  
+		<row>
+            <value>tx</value>
+            <value>09</value>
+            <value>for transaction</value>
+        </row> 
+		<row>
+            <value>tx</value>
+            <value>01</value>
+            <value>for transaction</value>
+        </row>
+		<row>
+            <value>override</value>
+            <value>51</value>
+            <value>for price override 51</value>
+        </row>
+		<row>
+            <value>override</value>
+            <value>52</value>
+            <value>for price override 52</value>
+        </row> 
+    </table>     	       		
+</dataset>

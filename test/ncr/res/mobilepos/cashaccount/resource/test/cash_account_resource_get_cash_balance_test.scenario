@@ -1,0 +1,29 @@
+Scenario: Get cash on hand
+Given a CashAccount Resource
+Given a table data {txu_total_drawer_financial}
+When getting the cash balance for tillId{1} and storeId{0031} and businessDayDate{2014-08-22}
+Then resultCode should be {0}
+Then tillId should be {1}
+Then cashOnHand should be {80000}
+
+Scenario: Get cash on hand
+Given a CashAccount Resource
+When getting the cash balance for tillId{1} and storeId{0032} and businessDayDate{2014-08-22}
+Then resultCode should be {0}
+Then tillId should be {1}
+Then cashOnHand should be {85000}
+
+Scenario: wrong tillId
+Given a CashAccount Resource
+When getting the cash balance for tillId{2} and storeId{0031} and businessDayDate{2014-08-22}
+Then resultCode should be {1301}
+
+Scenario: wrong storeId
+Given a CashAccount Resource
+When getting the cash balance for tillId{1} and storeId{0033} and businessDayDate{2014-08-22}
+Then resultCode should be {1301}
+
+Scenario: wrong businessDayDate
+Given a CashAccount Resource
+When getting the cash balance for tillId{1} and storeId{0031} and businessDayDate{2014-08-23}
+Then resultCode should be {1301}

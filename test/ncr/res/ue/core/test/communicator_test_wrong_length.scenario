@@ -1,0 +1,5 @@
+Scenario : Wrong Length
+Given a Test Thread using string array: countfail using socket 3002
+Given a Communicator with 127.0.0.1, 3002, 3000 expect (success)
+When I send a message (this is a test message) expect (success)
+Then I stop the socket

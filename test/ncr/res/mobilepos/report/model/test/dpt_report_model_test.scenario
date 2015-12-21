@@ -1,0 +1,11 @@
+Given a Department report {Res1} {000}
+When I test adding data to DPT Num {Number data}
+Then data should be added sucessfully
+When I test adding data to DPT Name {Name data}
+Then data should be added sucessfully
+When I test adding data to Customers {Customer data}
+Then data should be added sucessfully
+When I test adding data to Items {Item data}
+Then data should be added sucessfully
+When I test adding data to Amount {Amount data}
+Then data should be added sucessfully

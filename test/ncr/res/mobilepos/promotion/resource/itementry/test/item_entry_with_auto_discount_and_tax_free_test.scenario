@@ -1,0 +1,113 @@
+Scenario: Test Item Entry with Automatic Discount Data
+When the Web API Starts Up with {prm_system_config_with_tax_rate_round_up.xml} System Configuration 
+Given a Promotion Service
+Given a loaded dataset {items_autodiscount_5taxrate.xml}
+
+Scenario: Item Entry an item with auto discount amount 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"2265545775621","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |2265545775621|EAN-13    |1       |0143      |sample product 1         |サンプル製品1               |1000.0               |0.0     |100.0         |900.0               |900.0         |True        |0                |1         |
+
+Scenario: Item Entry an item with auto discount amount (multiple quantity)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"2265545775621","ItemIDType":"EAN-13","Quantity":5}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |2265545775621|EAN-13    |5       |0143      |sample product 1         |サンプル製品1               |1000.0               |0.0     |100.0         |900.0               |4500.0        |True        |0                |1         |
+
+Scenario: Item Entry an item with auto discount amount (single quantity, but not discountable)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"2265545775622","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775622","Department":"0143","Description":{"en":"sample product 2","jp":"サンプル製品2"},"RegularSalesUnitPrice":1000.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":1000.0,"Discountable":false,"TaxRate":5,"TaxType":2,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":1000.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":1000.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with auto discount amount (multiple quantity, but not discountable)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"2265545775622","ItemIDType":"EAN-13","Quantity":5}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |2265545775622|EAN-13    |5       |0143      |sample product 2         |サンプル製品2               |1000.0               |0.0     |0.0           |1000.0              |5000.0        |false       |0                |1         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775622","Department":"0143","Description":{"en":"sample product 2","jp":"サンプル製品2"},"RegularSalesUnitPrice":1000.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":1000.0,"Discountable":false,"TaxRate":5,"TaxType":2,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":1000.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00004","ItemIDType":"EAN-13","Quantity":5,"ExtendedAmount":5000.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with auto discount amount greater than sales price
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"2265545775626","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00005      |2265545775626|EAN-13    |1       |0143      |sample product 6         |サンプル製品6               |150.0                |0.0     |150.0         |0.0                 |0.0           |True        |1                |null       |
+
+Scenario: Item Entry an item with auto discount amount greater than sales price multiple quantity
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"2265545775626","ItemIDType":"EAN-13","Quantity":5}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00006      |2265545775626|EAN-13    |5       |0143      |sample product 6         |サンプル製品6               |150.0                |0.0     |150.0         |0.0                 |0.0           |True        |1                |null      |
+
+Scenario: Item Entry an item with auto discount rate
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"2265545775623","ItemIDType":"EAN-13","Quantity":1}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |2265545775623|EAN-13    |1       |0143      |sample product 3         |サンプル製品3               |1000.0               |50.0    |500.0         |500.0               |500.0         |true        |1                |1         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775623","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":1000.0,"Discount":50.0,"DiscountFlag":1,"DiscountAmount":500.0,"ActualSalesUnitPrice":500.0,"Discountable":true,"TaxRate":5,"TaxType":2,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"1","EmpPrice1":1000.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":500.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with auto discount rate (multiple quantity)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"2265545775623","ItemIDType":"EAN-13","Quantity":8}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |2265545775623|EAN-13    |8       |0143      |sample product 3         |サンプル製品3               |1000.0               |50.0    |500.0         |500.0               |4000.0        |true        |1                |1         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775623","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":1000.0,"Discount":50.0,"DiscountFlag":1,"DiscountAmount":500.0,"ActualSalesUnitPrice":500.0,"Discountable":true,"TaxRate":5,"TaxType":2,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"1","EmpPrice1":1000.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":8,"ExtendedAmount":4000.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with odd discount rate
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"2265545775624","ItemIDType":"EAN-13","Quantity":1}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |2265545775624|EAN-13    |1       |0143      |sample product 4         |サンプル製品4               |687.0                |33.0    |226.0         |461.0               |461.0         |true        |1                |0         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775624","Department":"0143","Description":{"en":"sample product 4","jp":"サンプル製品4"},"RegularSalesUnitPrice":687.0,"Discount":33.0,"DiscountFlag":1,"DiscountAmount":226.0,"ActualSalesUnitPrice":461.0,"Discountable":true,"TaxRate":5,"TaxType":2,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":687.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":461.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with odd discount rate (multiple quantity)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"2265545775624","ItemIDType":"EAN-13","Quantity":17}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |2265545775624|EAN-13    |17      |0143      |sample product 4         |サンプル製品4               |687.0                |33.0    |226.0         |461.0               |7837.0        |true        |1                |0         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775624","Department":"0143","Description":{"en":"sample product 4","jp":"サンプル製品4"},"RegularSalesUnitPrice":687.0,"Discount":33.0,"DiscountFlag":1,"DiscountAmount":226.0,"ActualSalesUnitPrice":461.0,"Discountable":true,"TaxRate":5,"TaxType":2,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":687.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00004","ItemIDType":"EAN-13","Quantity":17,"ExtendedAmount":7837.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with discount rate (single quantity, not discountable)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"2265545775625","ItemIDType":"EAN-13","Quantity":1}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00005      |2265545775625|EAN-13    |1       |0143      |sample product 4         |サンプル製品4               |359.0                |0.0     |0.0           |359.0               |359.0         |false       |1                |0         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775625","Department":"0143","Description":{"en":"sample product 4","jp":"サンプル製品4"},"RegularSalesUnitPrice":359.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":359.0,"Discountable":false,"TaxRate":5,"TaxType":2,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":359.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00005","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":359.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with discount rate (multiple quantity, not discountable)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"2265545775625","ItemIDType":"EAN-13","Quantity":11}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00006      |2265545775625|EAN-13    |11      |0143      |sample product 4         |サンプル製品4               |359.0                |0.0     |0.0           |359.0               |3949.0        |false       |1                |0         |
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2265545775625","Department":"0143","Description":{"en":"sample product 4","jp":"サンプル製品4"},"RegularSalesUnitPrice":359.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":359.0,"Discountable":false,"TaxRate":5,"TaxType":2,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":359.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00006","ItemIDType":"EAN-13","Quantity":11,"ExtendedAmount":3949.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry an item with null discount flag
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00007","ItemID":"2299999999995","ItemIDType":"EAN-13","Quantity":1}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN            |DescriptionJP            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00007      |2299999999995|EAN-13    |1       |0143      |product null discountflag|製品ヌル割引フラグ                            |359.0                |17.0    |0.0           |359.0               |359.0         |true        |0                |1         |
+Then the Result Code is 0
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"2299999999995","Department":"0143","Description":{"en":"product null discountflag","jp":"製品ヌル割引フラグ"},"RegularSalesUnitPrice":359.0,"Discount":17.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":359.0,"Discountable":true,"TaxRate":5,"TaxType":2,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":359.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00007","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":359.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

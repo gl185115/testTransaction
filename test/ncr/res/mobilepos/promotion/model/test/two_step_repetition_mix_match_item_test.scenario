@@ -1,0 +1,191 @@
+Scenario: Test SecondStepRepetitionMixMatchItem
+Given a MixMatchData of the following:
+|MMCode|MMQ|MMQ2|MMP|MMP2|MMDescription|
+|0001  |3  |4   |100|120 |Discount100x3|
+
+!-- SINGLE ENTRIES (One Item_Entry)
+!-- 1ST Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemA |40   |1  |0001       |
+When I compute discount of 2ndStepRepetition
+Then I should get {0} discounts
+
+!-- 2ND Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |1  |0002       |
+When I compute discount of 2ndStepRepetition
+Then I should get {0} discounts
+
+!-- 3RD Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |1  |0003       |
+When I compute discount of 2ndStepRepetition
+Then I should get {3} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0003       |7              |
+|2       |0001          |0001         |Discount100x3  |0002       |7              |
+|3       |0001          |0001         |Discount100x3  |0001       |6              |
+
+!-- 4TH Entry [Add entry with 2 quantity] with remaining 1
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |2  |0004       |
+When I compute discount of 2ndStepRepetition
+Then I should get {4} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0004       |10              |
+|1       |0001          |0001         |Discount100x3  |0004       |10              |
+|2       |0001          |0001         |Discount100x3  |0003       |10              |
+|3		 |0001			|0001		  |Discount100x3  |0002       |10              |
+
+
+!-- 5TH Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |1  |0005       |
+When I compute discount of 2ndStepRepetition
+Then I should get {4} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0005       |10              |
+|2       |0001          |0001         |Discount100x3  |0004       |10              |
+|2       |0001          |0001         |Discount100x3  |0004       |10              |
+|3       |0001          |0001         |Discount100x3  |0003       |10              |
+
+!-- 6TH Entry with exact 4 items to discount
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |2  |0006       |
+When I compute discount of 2ndStepRepetition
+Then I should get {8} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0006       |10             |
+|1       |0001          |0001         |Discount100x3  |0006       |10             |
+|2       |0001          |0001         |Discount100x3  |0005       |10             |
+|3       |0001          |0001         |Discount100x3  |0004       |10             |
+|4       |0001          |0001         |Discount100x3  |0004       |10             |
+|5       |0001          |0001         |Discount100x3  |0003       |10             |
+|6       |0001          |0001         |Discount100x3  |0002       |10             |
+|7       |0001          |0001         |Discount100x3  |0001       |10             |
+
+!-- 7TH Entry with exact 1st step
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |3  |0007       |
+When I compute discount of 2ndStepRepetition
+Then I should get {11} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0007       |10             |
+|1       |0001          |0001         |Discount100x3  |0007       |10             |
+|1       |0001          |0001         |Discount100x3  |0007       |10             |
+|2       |0001          |0001         |Discount100x3  |0006       |10             |
+|3       |0001          |0001         |Discount100x3  |0006       |10             |
+|4       |0001          |0001         |Discount100x3  |0005       |10             |
+|5       |0001          |0001         |Discount100x3  |0004       |10             |
+|5       |0001          |0001         |Discount100x3  |0004       |10             |
+|6       |0001          |0001         |Discount100x3  |0003       |7              |
+|7       |0001          |0001         |Discount100x3  |0002       |7              |
+|8       |0001          |0001         |Discount100x3  |0001       |6              |
+
+Scenario: Test SecondStepRepetitionMixMatchItem Discount Rate
+Given a discount rate MixMatchData of the following:
+|MMCode|MMQ|MMQ2|MMP|MMP2|MMDescription|
+|0001  |3  |4   |10|20 |Discount100x3|
+
+!-- SINGLE ENTRIES (One Item_Entry)
+!-- 1ST Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemA |40   |1  |0001       |
+When I compute discount of 2ndStepRepetition
+Then I should get {0} discounts
+
+!-- 2ND Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |1  |0002       |
+When I compute discount of 2ndStepRepetition
+Then I should get {0} discounts
+
+!-- 3RD Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |1  |0003       |
+When I compute discount of 2ndStepRepetition
+Then I should get {3} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0003       |4              |
+|2       |0001          |0001         |Discount100x3  |0002       |4              |
+|3       |0001          |0001         |Discount100x3  |0001       |4              |
+
+!-- 4TH Entry [Add entry with 2 quantity] with remaining 1
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |2  |0004       |
+When I compute discount of 2ndStepRepetition
+Then I should get {4} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0004       |8              |
+|1       |0001          |0001         |Discount100x3  |0004       |8              |
+|2       |0001          |0001         |Discount100x3  |0003       |8              |
+|3       |0001          |0001		  |Discount100x3  |0002       |8              |
+
+
+!-- 5TH Entry [Add entry with 1 quantity]
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |1  |0005       |
+When I compute discount of 2ndStepRepetition
+Then I should get {4} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0005       |8              |
+|2       |0001          |0001         |Discount100x3  |0004       |8              |
+|2       |0001          |0001         |Discount100x3  |0004       |8              |
+|3       |0001          |0001         |Discount100x3  |0003       |8              |
+
+!-- 6TH Entry with exact 4 items to discount
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |2  |0006       |
+When I compute discount of 2ndStepRepetition
+Then I should get {8} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0006       |8              |
+|1       |0001          |0001         |Discount100x3  |0006       |8              |
+|2       |0001          |0001         |Discount100x3  |0005       |8              |
+|3       |0001          |0001         |Discount100x3  |0004       |8              |
+|4       |0001          |0001         |Discount100x3  |0004       |8              |
+|5       |0001          |0001         |Discount100x3  |0003       |8              |
+|6       |0001          |0001         |Discount100x3  |0002       |8              |
+|7       |0001          |0001         |Discount100x3  |0001       |8              |
+
+!-- 7TH Entry with exact 1st step
+When I add item to sale:
+|name  |price|qty|itementryid|
+|ItemB |40   |3  |0007       |
+When I compute discount of 2ndStepRepetition
+Then I should get {11} discounts
+Then I should get list of discounts of the following:
+|rewardid|earnedrewardid|promotioncode|discdescription|itementryid|unitdiscountamt|
+|1       |0001          |0001         |Discount100x3  |0007       |8             |
+|1       |0001          |0001         |Discount100x3  |0007       |8             |
+|1       |0001          |0001         |Discount100x3  |0007       |8             |
+|2       |0001          |0001         |Discount100x3  |0006       |8             |
+|3       |0001          |0001         |Discount100x3  |0006       |8             |
+|4       |0001          |0001         |Discount100x3  |0005       |8             |
+|5       |0001          |0001         |Discount100x3  |0004       |8             |
+|5       |0001          |0001         |Discount100x3  |0004       |8             |
+|6       |0001          |0001         |Discount100x3  |0003       |4             |
+|7       |0001          |0001         |Discount100x3  |0002       |4             |
+|8       |0001          |0001         |Discount100x3  |0001       |4             |

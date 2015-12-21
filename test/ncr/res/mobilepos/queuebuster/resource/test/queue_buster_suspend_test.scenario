@@ -1,0 +1,128 @@
+Scenario: Suspend Non-existing Transaction
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+Given a table entry named {MST_DEVICEINFO.xml} in the {RESMaster} database
+Given a QueueBuster Service
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1000}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1000</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid	|termid	|txid	|txdate		|queue	|status	|
+|0031		|1111	|1000	|2012-05-29	|1111	|0		|
+Then I should have the following deviceinfo:
+|storeid	|termid	|lasttxid	|lastsuspendtxid|
+|0031		|1111	|null       |1000           |
+Then resultcode should be 0
+
+!-- Suspend another Incomplete Transaction
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1001}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1001</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-291T18:31:11</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:31:11</ReceiptDateTime><CustomerID></CustomerID><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid	|termid	|txid	|txdate		|queue	|status	|
+|0031		|1111	|1000	|2012-05-29	|1111	|0		|
+|0031		|1111	|1001	|2012-05-29	|1111	|0		|
+Then I should have the following deviceinfo:
+|storeid	|termid	|lasttxid	|lastsuspendtxid|
+|0031		|1111	|null       |1001           |
+Then resultcode should be 0
+
+!-- Re-suspend Previous Incomplete Transaction, Return Success but Log To Snap File
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1001}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1001</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-291T18:31:11</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:31:11</ReceiptDateTime><CustomerID></CustomerID><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid	|termid	|txid	|txdate		|queue	|status	|
+|0031		|1111	|1000	|2012-05-29	|1111	|0		|
+|0031		|1111	|1001	|2012-05-29	|1111	|0		|
+Then I should have the following deviceinfo:
+|storeid	|termid	|lasttxid	|lastsuspendtxid|
+|0031		|1111	|null       |1001           |
+Then resultcode should be 0
+
+!-- Queue Id is Greater Than 30 Chars
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111111111111111111111111111111},Workstationid{1111}, Sequencenumber{1002}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1002</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then resultcode should be 134
+
+!-- Queue Id is Equal to 30 Chars
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{111111111111111111111111111111},Workstationid{1111}, Sequencenumber{1002}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1002</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid	|termid	|txid	|txdate		|queue	|status	|
+|0031		|1111	|1002	|2012-05-29	|111111111111111111111111111111|0|
+Then I should have the following deviceinfo:
+|storeid	|termid	|lasttxid	|lastsuspendtxid|
+|0031		|1111	|null       |1002           |
+Then resultcode should be 0
+
+!-- Use BusinessDayDate Not BeginDateTime (BusinessDayDate Different From BeginDateTime) 
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1003}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1003</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-30T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid	|termid	|txid	|txdate		|queue	|status	|
+|0031		|1111	|1003	|2012-05-29	|1111	|0		|
+Then I should have the following deviceinfo:
+|storeid	|termid	|lasttxid	|lastsuspendtxid|
+|0031		|1111	|null       |1003           |
+Then resultcode should be 0
+
+!-- Wrong BusinessDayDate Format
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1003}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1003</SequenceNumber><BusinessDayDate>05-29-2012</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then resultcode should be 344
+
+Scenario: Return Success If Update Device Last Txid Fails
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+Given a table entry named {MST_DEVICEINFO_Empty.xml} in the {RESMaster} database
+Given a QueueBuster Service
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{2222}, Sequencenumber{1000}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>1000</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then resultcode should be 0
+Then I should have the following deviceinfo:
+|storeid    |termid |lasttxid   |lastsuspendtxid|
+
+Scenario: Rollback Update Device If Suspend Fails
+Given a table entry named {FORWARD_ITEM_TABLE_LASTTXID.xml} in the {RESTransaction} database
+Given a table entry named {MST_DEVICEINFO_LASTTXID.xml} in the {RESMaster} database
+Given a QueueBuster Service
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{2222},Workstationid{2222}, Sequencenumber{1002}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>1002</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then I should have the following deviceinfo:
+|storeid	|termid	|lasttxid	|lastsuspendtxid|
+|0031		|2222	|null		|1001           |
+Then resultcode should be 0
+
+Scenario: Suspend a Transaction with text notes on line item elements
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+Given a table entry named {MST_DEVICEINFO.xml} in the {RESMaster} database
+Given a QueueBuster Service
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1000}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1000</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity><Note>Sale Note</Note></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity><Note>Sale Note</Note></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid    |termid |txid   |txdate     |queue  |status |
+|0031       |1111   |1000   |2012-05-29 |1111   |0      |
+Then I should have the following deviceinfo:
+|storeid    |termid |lasttxid   |lastsuspendtxid|
+|0031       |1111   |null       |1000           |
+Then resultcode should be 0
+
+Scenario: Suspend a Transaction with unknown device
+Given a table entry named {FORWARD_ITEM_TABLE_EMPTY.xml} in the {RESTransaction} database
+Given a table entry named {MST_DEVICEINFO_Empty.xml} in the {RESMaster} database
+Given a QueueBuster Service
+When a request to save an incomplete transaction for QueueBustering with RetailStoreId{0031}, Queue{1111},Workstationid{1111}, Sequencenumber{1000}, Poslogxml:
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1000</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><RetailTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity><Note>Sale Note</Note></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity><Note>Sale Note</Note></Sale></LineItem></RetailTransaction></Transaction></POSLog>
+Then returned Result Code should be {OK}
+Then I should have the following transaction:
+|storeid    |termid |txid   |txdate     |queue  |status |
+|0031       |1111   |1000   |2012-05-29 |1111   |0      |
+Then I should have the following deviceinfo:
+|storeid    |termid |lasttxid   |lastsuspendtxid|
+Then resultcode should be 0

@@ -1,0 +1,22 @@
+Scenario: ####BizDay calculation disabled
+Given a Journalization Resource
+Given a RESMaster DBInitiator
+Given compute business date flag is disabled
+Given manual business date is 2012-01-01
+When business date is retrieved
+Then business date should be 2012-01-01
+
+
+Scenario: ####BizDay calculation enabled
+Given a Journalization Resource
+Given a RESMaster DBInitiator
+Given compute business date flag is enabled
+When business date is retrieved
+Then business date should be 2012-01-01
+
+Scenario: ####BizDay calculation disabled
+Given a Journalization Resource
+Given a RESMaster DBInitiator
+Given manual business date is EMPTY
+When business date is retrieved
+Then business date should be 

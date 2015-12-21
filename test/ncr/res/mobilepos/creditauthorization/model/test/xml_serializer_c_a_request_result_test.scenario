@@ -1,0 +1,12 @@
+Scenario: Marshall CARequestResult into XML
+Given I have a CARequestResult: CreditAuthorizationResp{9, 5000, 5000}
+When I marshall the CARequestResult into xml
+Then I should get CARequestResult xml:
+	<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+		<CARequestResult>
+			<creditAuthorizationResp>
+				<NCRWSSExtendedResultCode>5000</NCRWSSExtendedResultCode>
+				<NCRWSSResultCode>5000</NCRWSSResultCode>
+				<status>9</status>
+			</creditAuthorizationResp>			
+		</CARequestResult>

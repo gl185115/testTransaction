@@ -1,0 +1,8 @@
+Scenario : Test Connection
+When I create a connection
+Then I should be able to do connection initialization
+Then response flag should be {0}
+Then location code should be {Store000031}
+Then protocol version should be {1.0}
+Then protocol build should be {20}
+Then close the connection

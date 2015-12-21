@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PastelPortEnv>
+	<!-- IP Address of Pastel Port Multi Service -->
+	<pastelPortMultiServerIP>localhost</pastelPortMultiServerIP>
+	<!-- port of Pastel Port Multi Service -->
+	<connectionPortNO>8012</connectionPortNO>
+	<!--  -->
+	<handledCompanyCode>1234567</handledCompanyCode>
+	<!-- company sub code -->
+	<handledCompanySubCode>8901</handledCompanySubCode>
+	<!-- MSCREDIT -->
+	<mscedit>JIS1</mscedit>
+	<!-- company code -->
+	<companyCode>12345</companyCode>
+	<!-- timeOut of connecting with Pstel Port-->
+	<timeOut>65</timeOut>
+	<!--  -->
+	<paymentClassification></paymentClassification>
+	<!-- Receipt word of signLess-->
+	<signLessReceiptWord>sign less</signLessReceiptWord>
+	<!-- ReceiptWord of trading when deal is failed -->
+	<tradingUnfinishedReceiptWord>deal is failed</tradingUnfinishedReceiptWord>
+	<!-- retry count of connecting with Pstel Port -->
+	<retryCount>1</retryCount>
+	<!-- flag of print log of communicate with pastel port -->
+	<printPPLog>0</printPPLog>
+</PastelPortEnv>

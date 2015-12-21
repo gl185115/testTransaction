@@ -1,0 +1,171 @@
+Scenario: Update a classinfo successfully.
+Given an empty table for classinfo
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+
+Given a classinfo table
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0031			|Class 1			|sample class 1		|サンプルクラス1		|Dpt-001	|Line-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Successful update
+Given a classinfo resource
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid|classjson|
+|0031			|Dpt-001	|Line-001	|Class 1|{"RetailStoreID": "000031", "Class":"111", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate": 0}|
+Then the result code should be {0}
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|111				|sample line 1		|サンプルライン1		|201		|Line-001	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+!-- Successful  Update the same class but in different store 
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid|classjson|
+|000031			|201		|Line-001	|111	|{"RetailStoreID": "000032", "Class":"111", "Line": "Line-002", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate": 0}|
+Then the result code should be {0}
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000032			|111				|sample line 1		|サンプルライン1		|201		|Line-002	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+!-- Successful update with empty name
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|0032			|Dpt-001	|Line-002	|Class 2	|{"RetailStoreID": "000031", "Class":"112", "Line": "Line-001", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate": 0}|
+Then the result code should be {0}
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|112				|					|サンプルライン1		|201		|Line-001	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|111				|sample line 1		|サンプルライン1		|201		|Line-002	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+
+
+!-- Successful update with discount flag to NULL and AgeRestrictedFlag to 1
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|201		|Line-001	|112		|{"RetailStoreID": "000031", "Class":"112", "Line": "Line-001", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1, "TaxRate": 0}|
+Then the result code should be {0}
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|112				|					|サンプルライン1		|201		|Line-001	|1		|0		|1				|null			|null			|0.0				|25.0			|1					|null			|null		|
+|000032			|111				|sample line 1		|サンプルライン1		|201		|Line-002	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+
+
+!-- Successful update class to different department
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|201		|Line-001	|112		|{"RetailStoreID": "000031", "Class":"112", "Line": "Line-31", "Description":{en:"", jp:"サンプルライン1"}, "Department":"202", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1, "TaxRate": 0}|
+Then the result code should be {0}
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|112				|					|サンプルライン1		|202		|Line-31	|1		|0		|1				|null			|null			|0.0				|25.0			|1					|null			|null		|
+|000032			|111				|sample line 1		|サンプルライン1		|201		|Line-002	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+
+
+!-- Successful update class TaxRate to default
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|112		|{"RetailStoreID": "000031", "Class":"112", "Line": "Line-31", "Description":{en:"", jp:"サンプルライン1"}, "Department":"202", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {0}
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|112				|					|サンプルライン1		|202		|Line-31	|1		|8		|1				|null			|null			|0.0				|25.0			|1					|null			|null		|
+|000032			|111				|sample line 1		|サンプルライン1		|201		|Line-002	|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+
+
+!-- Fail update to duplicate
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|112		|{"RetailStoreID": "000032", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {1451}
+
+!-- Fail update to when retailstoreid not passed
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|				|202		|Line-31	|112		|{"RetailStoreID": "000031", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Fail update when department not passed
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|			|Line-31	|112		|{"RetailStoreID": "000031", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Fail lineid not passed
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|			|112		|{"RetailStoreID": "000031", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Fail classid not passed
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|			|{"RetailStoreID": "000032", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Fail store not existing
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|112		|{"RetailStoreID": "999999", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {1453}
+
+!-- Fail department not existing
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|112		|{"RetailStoreID": "000032", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"310", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {1454}
+
+!-- Fail department not existing
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|112		|{"RetailStoreID": "000032", "Class":"111", "Line": "Line-004", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {1455}
+
+!-- Fail update non existing class
+When the following classinfo is updated:
+|retailstoreid	|department	|lineid		|classid	|classjson|
+|000031			|202		|Line-31	|113		|{"RetailStoreID": "000032", "Class":"111", "Line": "Line-002", "Description":{en:"", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1,"AgeRestrictedFlag":1, "TaxType":1}|
+Then the result code should be {1450}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

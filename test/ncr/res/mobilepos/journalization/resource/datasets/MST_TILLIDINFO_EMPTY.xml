@@ -1,0 +1,14 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_TILLIDINFO">
+		<column>StoreId</column>
+		<column>TillId</column>
+		<column>BusinessDayDate</column>
+		<column>SodFlag</column>
+		<column>EodFlag</column>
+		<column>InsDate</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+	</table>
+</dataset>

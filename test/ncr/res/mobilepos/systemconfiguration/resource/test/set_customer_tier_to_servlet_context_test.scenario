@@ -1,0 +1,23 @@
+Scenario: Setting the ServletContext with empty Customer Tier List
+Given an CustomerTier Table {PRM_CUSTOMER_TIER_EMPTY.xml}
+Then CustomerTier Table should have the following rows:
+|SeqNum|Id|DisplayName|
+When the Web API Starts Up
+Then the following CustomerTier are found in the ServletContext:
+|Id|DisplayName|
+
+Scenario: Setting the ServletContext having Customer Tier List in the database
+Given an CustomerTier Table {PRM_CUSTOMER_TIER_COMPLETE.xml}
+Then CustomerTier Table should have the following rows:
+|SeqNum|Id      |DisplayName |
+|1     |None    |Not Selected|
+|2     |Family  |Family      |
+|3     |Store   |Cashier     |
+|4     |Store   |Manager     |
+When the Web API Starts Up
+Then the following CustomerTier are found in the ServletContext:
+|Id      |DisplayName |
+|None    |Not Selected|
+|Family  |Family      |
+|Store   |Cashier     |
+|Store   |Manager     |

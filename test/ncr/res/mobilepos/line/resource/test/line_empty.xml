@@ -1,0 +1,24 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_LINEINFO">
+        <column>StoreId</column>
+        <column>Line</column>
+        <column>LineName</column>
+        <column>LineNameLocal</column>
+        <column>Dpt</column>       
+		<column>TaxType</column>
+		<column>TaxRate</column>
+        <column>DiscountType</column>
+		<column>ExceptionFlag</column>
+        <column>DiscountFlag</column>
+        <column>DiscountAmt</column>
+        <column>DiscountRate</column>       
+		<column>AgeRestrictedFlag</column>
+		<column>InheritFlag</column>
+		<column>SubSmallInt5</column>	
+		<column>InsDate</column>
+		<column>UpdDate</column>	
+	</table>
+</dataset>
+
+			

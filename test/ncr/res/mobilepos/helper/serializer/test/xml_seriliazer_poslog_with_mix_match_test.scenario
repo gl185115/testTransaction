@@ -1,0 +1,126 @@
+Scenario: Serialize POSLog XML With Mix and Match
+Given I have a XmlSerializer for PosLog 
+When I have an POSLog xml:
+<?xml version="1.0" encoding="utf-8"?>
+<POSLog>
+  <Transaction>
+    <RetailStoreID>00000000</RetailStoreID>
+    <WorkstationID>123</WorkstationID>
+    <SequenceNumber>1</SequenceNumber> 
+    <BusinessDayDate>2011-12-15</BusinessDayDate>
+    <BeginDateTime>2011-12-15T00:00:00</BeginDateTime>
+    <OperatorID>1111</OperatorID>
+    <ReceiptDateTime>2011-12-15T00:00:00</ReceiptDateTime>
+    <CustomerID>888</CustomerID>
+    <RetailTransaction> 
+      <PriceDerivationResult MethodCode="Promotion">
+        <SequenceNumber>1</SequenceNumber>
+        <Amount Action="Subtract">50</Amount>
+        <PreviousPrice>400</PreviousPrice>
+        <PriceDerivationRule>
+          <PriceDerivationRuleID>6661</PriceDerivationRuleID>
+          <Description>Bundle sale 2 pieces</Description>
+        </PriceDerivationRule>
+      </PriceDerivationResult>     
+      <ItemCount>4</ItemCount>
+        <LineItem>
+          <SequenceNumber>1</SequenceNumber>
+          <Sale TaxableFlag="true" Department="x" Line="y" Class="z">
+            <ItemID Type="JAN13">0000000012345</ItemID>
+            <Description>Milk</Description>
+            <ActualSalesUnitPrice>200</ActualSalesUnitPrice>
+            <ExtendedAmount>175</ExtendedAmount>
+            <Quantity>1</Quantity>
+            <RetailPriceModifier MethodCode="Promotion">
+              <SequenceNumber>1</SequenceNumber>
+              <Amount Action="Subtract">25</Amount>
+              <PriceDerivationRule>
+                <PriceDerivationRuleID>6661</PriceDerivationRuleID>
+              </PriceDerivationRule>
+            </RetailPriceModifier>
+          </Sale>
+        </LineItem>
+        <LineItem>
+        <SequenceNumber>2</SequenceNumber>
+        <Sale TaxableFlag="true" Department="x" Line="y" Class="z">
+          <ItemID Type="JAN13">0000000000123</ItemID>
+          <Description>Coffee</Description>
+          <ActualSalesUnitPrice>200</ActualSalesUnitPrice>
+          <ExtendedAmount>175</ExtendedAmount>
+          <Quantity>1</Quantity>
+          <RetailPriceModifier MethodCode="Promotion">
+            <SequenceNumber>1</SequenceNumber>
+            <Amount Action="Subtract">25</Amount>
+            <PriceDerivationRule>
+              <PriceDerivationRuleID>6661</PriceDerivationRuleID>
+            </PriceDerivationRule>
+          </RetailPriceModifier>
+        </Sale>
+      </LineItem>
+      <LineItem>
+Å@    	    <SequenceNumber>3</SequenceNumber>
+        <Tender TenderType="Cash" TypeCode="Sale">
+          <Amount>350</Amount>
+        </Tender>
+      </LineItem>
+      <LineItem> 
+        <SequenceNumber>4</SequenceNumber>
+        <Tax TaxType="Sales">
+          <TaxableAmount TaxIncludedInTaxableAmountFlag="true">332</TaxableAmount> 
+          <Amount>18</Amount>
+          <Percent>5.00</Percent>
+        </Tax>
+      </LineItem> 
+    </RetailTransaction>
+  </Transaction>
+</POSLog>
+Then I should get POSLog 
+	Then I should get Transaction:
+	|RetailStoreID|WorkstationID|SequenceNumber|BusinessDayDate|BeginDateTime      |OperatorID|ReceiptDateTime    |CustomerID|
+	|00000000     |123          |1              |2011-12-15    |2011-12-15T00:00:00|1111      |2011-12-15T00:00:00|888       |
+	Then I should get CustomerOrderTransaction:
+	|ItemCount|
+	|4|
+	Then I should get PriceDerivationResult:
+	|MethodCode|SequenceNumber|Amount_Action|Amount_Value|PreviousPrice|PriceDerivationRuleID|PriceDerivationDescription|
+	|Promotion |1             |Subtract     |50          |400          |6661                 |Bundle sale 2 pieces      |
+
+		Then I should get one of the following in  LineItems:
+			|SequenceNumber|AccountCode|
+			|1|0060|
+			Then I should get Sale:
+			|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+			|0000000012345|JAN13    |Milk      |175           |1       |true       |x         |y   |z    |
+				Then I should get RetailPriceModifier:
+					|MethodCode|SequenceNumber|Amount_Action|Amount_Value|PriceDerivationRuleID|PriceDerivationDescription|
+					|Promotion |1             |Subtract     |25          |6661                 |null                      |
+			Then Tender should be NULL
+			Then Discount should be NULL
+		Then I should get one of the following in  LineItems:
+			|SequenceNumber|AccountCode|
+			|1|0060|
+			Then I should get Sale:
+			|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+			|0000000012345|JAN13    |Milk      |175           |1       |true       |x         |y   |z    |
+				Then I should get RetailPriceModifier:
+					|MethodCode|SequenceNumber|Amount_Action|Amount_Value|PriceDerivationRuleID|PriceDerivationDescription|
+					|Promotion |1             |Subtract     |25          |6661                 |null                      |
+			Then Tender should be NULL
+			Then Discount should be NULL
+		Then I should get one of the following in  LineItems:
+			|SequenceNumber|AccountCode|
+			|3|0013|
+			Then Sale should be NULL
+			Then I should get Tender:
+			|amount|tendertype|typecode|
+			|350   |Cash	  |Sale|
+			Then Discount should be NULL
+		Then I should get one of the following in  LineItems:
+			|SequenceNumber|AccountCode|
+			|4|null|
+			Then Sale should be NULL
+			Then Tender should be NULL
+			Then Discount should be NULL
+			Then I should get Tax:
+			    |TaxType|Amount|Percent|TaxIncludedInTaxableAmountFlag|TaxableAmount|
+			    |Sales  |18    |5.00   |true                          |332          |

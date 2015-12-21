@@ -1,0 +1,21 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_CORP_STORE">
+       <column>StoreId</column>
+        <column>StoreName</column>
+        <column>PassCode</column>
+        <column>Permission</column>
+        <row>
+       		<value>000031</value>
+        	<value>teststore1</value>
+        	<value>111</value>
+        	<value><![CDATA[0]]></value>
+        </row>
+        <row>
+        	<value>000032</value>
+        	<value>teststore2</value>
+        	<value>222</value>
+        	<value><![CDATA[1]]></value>
+        </row>
+    </table>    
+</dataset>

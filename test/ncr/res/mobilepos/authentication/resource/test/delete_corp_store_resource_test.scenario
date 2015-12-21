@@ -1,0 +1,38 @@
+Scenario: Delete Success
+Given I have a CorpStore Resource
+Given a CorpStore Table
+Then the following corpstores should exist:
+|corpid|storeid|storename|passcode|permission|
+|000|000031|teststore1|111|0|
+|000|000032|teststore2|222|1|
+When I delete a corpstore (000) (000031)
+Then the result should be {0}
+Then the following corpstores should exist:
+|corpid|storeid|storename|passcode|permission|
+|000|000032|teststore2|222|1|
+
+Scenario: Delete Not Existing
+When I delete a corpstore (111) (000031)
+Then the result should be {1202}
+
+Scenario: Delete Empty companyid
+When I delete a corpstore () (000031)
+Then the result should be {1202}
+
+Scenario: Delete Null companyid
+When I delete a corpstore (null) (000031)
+Then the result should be {1202}
+
+Scenario: Delete Empty storeid
+When I delete a corpstore (000) ()
+Then the result should be {1202}
+
+Scenario: Delete Null storeid
+When I delete a corpstore (000) (null)
+Then the result should be {1202}
+
+Scenario: Delete Last Store
+When I delete a corpstore (000) (000032)
+Then the result should be {0}
+Then the following corpstores should exist:
+|corpid|storeid|storename|passcode|permission|

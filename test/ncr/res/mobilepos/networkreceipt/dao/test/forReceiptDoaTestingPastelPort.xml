@@ -1,0 +1,72 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+        
+    <table name="TXU_NPS_PastelPortLog">
+        <column>RetailStoreId</column>
+        <column>WorkstationId</column>
+        <column>PaymentSeq</column>
+        <column>TxDate</column>
+        <column>SequenceNumber</column>
+        <column>Brand</column>
+        <column>Service</column>
+        <column>TxType</column>
+        <column>TxStatus</column>
+        <column>CrCompanyCode</column>
+        <column>RecvCompanyCode</column>
+        <column>PaymentMethod</column>
+        <column>Pan</column>
+        <column>ExpDate</column>
+        <column>Amount</column>
+        <column>CaStatus</column>
+        <column>CaErrorCode</column>
+        <column>DcStatus</column>
+        <column>DcErrorCode</column>
+        <column>ApprovalCode</column>
+        <column>TraceNum</column>
+        <column>AlertFlag</column>
+        <column>VoidFlag</column>
+        <column>VoidCorpId</column>
+        <column>VoidStoreId</column>
+        <column>VoidTermId</column>
+        <column>VoidPaymentSeq</column>
+        <column>VoidTxId</column>
+        <column>VoidTxDate</column>
+        <column>SettlementNum</column>
+        <column>TxDate2</column>
+        <row>
+            <value>0001</value>
+            <value>1111</value>
+            <value>12345</value>
+            <value><![CDATA[2012-04-20 09:16:12.110]]></value>
+            <value>4190</value>
+            <value>03</value>
+            <value></value>
+            <value>01</value>
+            <value>1</value>
+            <value>12</value>
+            <value>12345</value>>
+            <value>23</value>
+            <value>************7755</value>
+            <value>**/**</value>>
+            <value>10000</value>>
+            <value>00</value>
+            <value>9999</value>
+            <value>01</value>
+            <value>1</value>
+            <value>1234567</value>
+            <value>123456</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value><![CDATA[2012-04-20 09:16:12.110]]></value>
+            <value>120420000111111234503111</value>
+            <value>2012-04-20</value>
+        </row>
+    </table>
+    
+   
+</dataset>

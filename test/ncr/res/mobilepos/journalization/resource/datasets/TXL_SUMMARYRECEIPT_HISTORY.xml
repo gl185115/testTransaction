@@ -1,0 +1,16 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="TXL_SUMMARYRECEIPT_HISTORY">
+		<column>SeqNo</column>
+        <column>RetailStoreId</column>
+        <column>WorkstationId</column>
+        <column>SequenceNumber</column>
+        <column>BusinessDayDate</column>
+		<column>RetailStoreId</column>
+        <column>WorkstationId</column>
+        <column>SequenceNumber</column>
+        <column>BusinessDayDate</column>
+		<column>InsDateTime</column>
+    </table> 
+</dataset>
+

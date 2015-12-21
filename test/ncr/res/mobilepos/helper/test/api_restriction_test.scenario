@@ -1,0 +1,38 @@
+Scenario: Perform ApriRestrictionTest
+Given a non-existing Device Number {notexisting}
+When the restriction for the Device Number is retrieved
+!-- then the Restriction should be {5005}
+Then the Restriction should be {5000}
+Given a non-existing Device Number {}
+When the restriction for the Device Number is retrieved
+!-- then the Restriction should be {5005}
+Then the Restriction should be {5000}
+Given an existing Device number {tes1} but not authenticated
+When the restriction for the Device Number is retrieved
+!-- then the Restriction should be {5001}
+Then the Restriction should be {5000}
+Given an existing Device number {tes2} and is authenticated
+When the restriction for the Device Number is retrieved
+Then the Restriction should be {5000}
+Given a non-existing Device Number {notexisting}
+Given a non-existing Operator number {notexisting}
+When the restriction for the Device Number and Operator Number is retrieved
+!-- then the Restriction should be {5005}
+Then the Restriction should be {5006}
+Given an existing Device number {tes1} but not authenticated
+Given a non-existing Operator number {notexisting}
+When the restriction for the Device Number and Operator Number is retrieved
+!-- then the Restriction should be {5001}
+Then the Restriction should be {5006}
+Given an existing Device number {tes2} and is authenticated
+Given a non-existing Operator number {notexisting}
+When the restriction for the Device Number and Operator Number is retrieved
+Then the Restriction should be {5006}
+Given an existing Device number {tes2} and is authenticated
+Given an existing Operator number {111} but not signed on
+When the restriction for the Device Number and Operator Number is retrieved
+Then the Restriction should be {5002}
+Given an existing Device number {tes2} and is authenticated
+Given an existing Operator number {222} and is signed on
+When the restriction for the Device Number and Operator Number is retrieved
+Then the Restriction should be {5000}

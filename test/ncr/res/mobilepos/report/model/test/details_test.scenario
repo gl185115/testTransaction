@@ -1,0 +1,19 @@
+Given an uninitialized Details Model
+Then its XML should be :<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Details/>
+When I set its Business Date to {12-31-20}
+Then its Business Date is : {12-31-20}
+When I set its Store Number to {000031}
+Then its Store Number is : {000031}
+When I set its Department {Sales Dept}
+Then its Department is : {Sales Dept}
+When I set its Time Zone {22}
+Then its Time Zone is : {22}
+When I set its Details Operator Number {000}
+Then its OperatorNumber is : {000}
+When I set its Details Device Number {Res1}
+Then its Details Device Number is : {Res1}
+Then its XML should be :<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Details><BusinessDate>12-31-20</BusinessDate><StoreNumber>000031</StoreNumber><Department>Sales Dept</Department><TimeZone>22</TimeZone><DetailsOperatorNumber>Res1</DetailsOperatorNumber></Details>
+When I set its Time Zone {17}
+When I set its Business Date to {05-28-12}
+When I set its Department {Sales Dept 2}
+Then its XML should be :<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Details><BusinessDate>05-28-12</BusinessDate><StoreNumber>000031</StoreNumber><Department>Sales Dept 2</Department><TimeZone>17</TimeZone><DetailsOperatorNumber>Res1</DetailsOperatorNumber></Details>

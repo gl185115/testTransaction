@@ -1,0 +1,6 @@
+Scenario : Test Total Action Message
+When I create total with parameters :
+|totalPrecision|total|userTotal|date|time|
+|1             |1    |1        |111111|111111|
+When I create the message with termid{1111},txid{1}
+Then message data should be {0053000011110000000105100000000010000000001111111111111\r\n}

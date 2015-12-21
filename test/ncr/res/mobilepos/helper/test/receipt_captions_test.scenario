@@ -1,0 +1,178 @@
+Scenario: Perform ReceiptCaptionsTest
+Given a ReceiptCaptions in language {}
+When asked to retrieve caption for Approval Number
+Then caption should be {}
+Given a ReceiptCaptions in language {en}
+When asked to retrieve caption for Approval Number
+Then caption should be {Approval No.}
+When asked to retrieve caption for Cash
+Then caption should be {Cash}
+When asked to retrieve caption for Change
+Then caption should be {Change}
+When asked to retrieve caption for Credit
+Then caption should be {Credit Card}
+When asked to retrieve caption for Customer ID
+Then caption should be {Customer ID}
+When asked to retrieve caption for Date
+Then caption should be {Date}
+When asked to retrieve caption for Device Number
+Then caption should be {Dev#}
+When asked to retrieve caption for Discount
+Then caption should be {Discount}
+When asked to retrieve caption for Email Subject
+Then caption should be {Receipt of Transaction %s}
+When asked to retrieve caption for Member Number
+Then caption should be {Member No.}
+When asked to retrieve caption for Sub Total
+Then caption should be {Sub Total}
+When asked to retrieve caption for Tax
+Then caption should be {Tax}
+When asked to retrieve caption for Total Amount
+Then caption should be {Total Amount}
+When asked to retrieve caption for Transaction Number
+Then caption should be {Tx#}
+Given a ReceiptCaptions in language {EN}
+When asked to retrieve caption for Approval Number
+Then caption should be {Approval No.}
+When asked to retrieve caption for Cash
+Then caption should be {Cash}
+When asked to retrieve caption for Change
+Then caption should be {Change}
+When asked to retrieve caption for Credit
+Then caption should be {Credit Card}
+When asked to retrieve caption for Customer ID
+Then caption should be {Customer ID}
+When asked to retrieve caption for Date
+Then caption should be {Date}
+When asked to retrieve caption for Device Number
+Then caption should be {Dev#}
+When asked to retrieve caption for Discount
+Then caption should be {Discount}
+When asked to retrieve caption for Email Subject
+Then caption should be {Receipt of Transaction %s}
+When asked to retrieve caption for Member Number
+Then caption should be {Member No.}
+When asked to retrieve caption for Sub Total
+Then caption should be {Sub Total}
+When asked to retrieve caption for Tax
+Then caption should be {Tax}
+When asked to retrieve caption for Total Amount
+Then caption should be {Total Amount}
+When asked to retrieve caption for Transaction Number
+Then caption should be {Tx#}
+Given a ReceiptCaptions in language {En}
+When asked to retrieve caption for Approval Number
+Then caption should be {Approval No.}
+When asked to retrieve caption for Cash
+Then caption should be {Cash}
+When asked to retrieve caption for Change
+Then caption should be {Change}
+When asked to retrieve caption for Credit
+Then caption should be {Credit Card}
+When asked to retrieve caption for Customer ID
+Then caption should be {Customer ID}
+When asked to retrieve caption for Date
+Then caption should be {Date}
+When asked to retrieve caption for Device Number
+Then caption should be {Dev#}
+When asked to retrieve caption for Discount
+Then caption should be {Discount}
+When asked to retrieve caption for Email Subject
+Then caption should be {Receipt of Transaction %s}
+When asked to retrieve caption for Member Number
+Then caption should be {Member No.}
+When asked to retrieve caption for Sub Total
+Then caption should be {Sub Total}
+When asked to retrieve caption for Tax
+Then caption should be {Tax}
+When asked to retrieve caption for Total Amount
+Then caption should be {Total Amount}
+When asked to retrieve caption for Transaction Number
+Then caption should be {Tx#}
+Given a ReceiptCaptions in language {ja}
+When asked to retrieve caption for Approval Number
+Then caption should be {承認番号}
+When asked to retrieve caption for Cash
+Then caption should be {お 預}
+When asked to retrieve caption for Change
+Then caption should be {お 釣}
+When asked to retrieve caption for Credit
+Then caption should be {クレジット}
+When asked to retrieve caption for Customer ID
+Then caption should be {会員番号}
+When asked to retrieve caption for Date
+Then caption should be {取引日時}
+When asked to retrieve caption for Device Number
+Then caption should be {デバイス番号}
+When asked to retrieve caption for Discount
+Then caption should be {割 引}
+When asked to retrieve caption for Email Subject
+Then caption should be {取引レシート %s}
+When asked to retrieve caption for Member Number
+Then caption should be {カード番号}
+When asked to retrieve caption for Sub Total
+Then caption should be {小 計}
+When asked to retrieve caption for Tax
+Then caption should be {内税}
+When asked to retrieve caption for Total Amount
+Then caption should be {合 計}
+When asked to retrieve caption for Transaction Number
+Then caption should be {取引番号}
+Given a ReceiptCaptions in language {JA}
+When asked to retrieve caption for Approval Number
+Then caption should be {承認番号}
+When asked to retrieve caption for Cash
+Then caption should be {お 預}
+When asked to retrieve caption for Change
+Then caption should be {お 釣}
+When asked to retrieve caption for Credit
+Then caption should be {クレジット}
+When asked to retrieve caption for Customer ID
+Then caption should be {会員番号}
+When asked to retrieve caption for Date
+Then caption should be {取引日時}
+When asked to retrieve caption for Device Number
+Then caption should be {デバイス番号}
+When asked to retrieve caption for Discount
+Then caption should be {割 引}
+When asked to retrieve caption for Email Subject
+Then caption should be {取引レシート %s}
+When asked to retrieve caption for Member Number
+Then caption should be {カード番号}
+When asked to retrieve caption for Sub Total
+Then caption should be {小 計}
+When asked to retrieve caption for Tax
+Then caption should be {内税}
+When asked to retrieve caption for Total Amount
+Then caption should be {合 計}
+When asked to retrieve caption for Transaction Number
+Then caption should be {取引番号}
+Given a ReceiptCaptions in language {2}
+When asked to retrieve caption for Approval Number
+Then caption should be {}
+When asked to retrieve caption for Cash
+Then caption should be {}
+When asked to retrieve caption for Change
+Then caption should be {}
+When asked to retrieve caption for Credit
+Then caption should be {}
+When asked to retrieve caption for Customer ID
+Then caption should be {}
+When asked to retrieve caption for Date
+Then caption should be {}
+When asked to retrieve caption for Device Number
+Then caption should be {}
+When asked to retrieve caption for Discount
+Then caption should be {}
+When asked to retrieve caption for Email Subject
+Then caption should be {}
+When asked to retrieve caption for Member Number
+Then caption should be {}
+When asked to retrieve caption for Sub Total
+Then caption should be {}
+When asked to retrieve caption for Tax
+Then caption should be {}
+When asked to retrieve caption for Total Amount
+Then caption should be {}
+When asked to retrieve caption for Transaction Number
+Then caption should be {}

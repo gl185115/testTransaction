@@ -1,0 +1,70 @@
+Scenario: Test Item Entry and Quantity with Mix Match Type 8
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mixmatch.xml}
+Given a loaded dataset {mixmatch_promotions.xml}
+
+!-- Add a single item (EntryID:00001, quantity: 1)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"5505545775617","ItemIDType":"EAN-13","Quantity":1}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|Description     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|
+|00001      |5505545775617|EAN-13    |1       |0143      |Item_8 sample product_6|50.0                |0%      |0.0           |50.0               |50.0         |True        |
+
+Scenario: Item ADD Update (EntryID:00001, quantity: 2) but was no Mix Match triggered
+When I request to update Item Quantity at promotion with parameters RetailStoreID{0031} WorkStationID{1111} SequenceNo{1} and TransactionJson{{"EntryFlag": 2,"Sale":{"ItemEntryID":"00001","Quantity":"1"}}}
+Then there should be no Discount promotion data for update quantity.
+Then the JSON should have the following format : {"Promotion":{"Discount":[],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item ADD Update (EntryID:00001, quantity: 3) and Mix Match triggered, Revoke is not expected.
+When I request to update Item Quantity at promotion with parameters RetailStoreID{0031} WorkStationID{1111} SequenceNo{1} and TransactionJson{{"EntryFlag": 2,"Sale":{"ItemEntryID":"00001","Quantity":"1"}}}
+Then promotion should have the following data for update quantity:
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1213          |1213         |Mix Match 1213 Type 8.2|00001      |15              |
+Then the JSON should have the following format : {"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00001","UnitDiscountAmt":15,"Quantity":3}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Additional Item ADD Update (EntryID:00001, quantity: 4) and Mix Match triggered, Revoke is now expected.
+When I request to update Item Quantity at promotion with parameters RetailStoreID{0031} WorkStationID{1111} SequenceNo{1} and TransactionJson{{"EntryFlag": 2,"Sale":{"ItemEntryID":"00001","Quantity":"1"}}}
+Then promotion should have the following data for update quantity:
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1213          |1213         |Mix Match 1213 Type 8.2|00001      |20                |
+Then the JSON should have the following format : {"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00001","UnitDiscountAmt":20,"Quantity":4}],"Revoke":{"EarnedRewardID":"1213"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Additional Item ADD Update (EntryID:00001, quantity: 6) and Mix Match triggered, Revoke is now expected.
+When I request to update Item Quantity at promotion with parameters RetailStoreID{0031} WorkStationID{1111} SequenceNo{1} and TransactionJson{{"EntryFlag": 2,"Sale":{"ItemEntryID":"00001","Quantity":"2"}}}
+Then promotion should have the following data for update quantity:
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1213          |1213         |Mix Match 1213 Type 8.2|00001      |45                |
+Then the JSON should have the following format : {"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00001","UnitDiscountAmt":45,"Quantity":6}],"Revoke":{"EarnedRewardID":"1213"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item ADD Update  for other item (EntryID:00001, quantity: 6 | EntryID:00002, quantity: 3) and Mix Match triggered, Revoke is expected.
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"5505545775621","ItemIDType":"EAN-13","Quantity":3}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|Description            |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|
+|00002      |5505545775621|EAN-13    |3       |0143      |Item_8 sample product_9|95.0                 |0%      |0.0           |95.0                |285.0          |True        |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1213          |1213         |Mix Match 1213 Type 8.2|00002      |42                |
+|2       |1213          |1213         |Mix Match 1213 Type 8.2|00001      |45                |
+Then the JSON should have the following format : {"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"5505545775621","ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":3,"Department":"0143","Description":"Item_8 sample product_9","RegularSalesUnitPrice":95.0,"Discount":"0%","DiscountAmount":0.0,"ActualSalesUnitPrice":95.0,"ExtendedAmount":285.0,"Discountable":true,"TaxRate":"0%","TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"InputType":0,"Line":"0143","Class":"000001"},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00002","UnitDiscountAmt":42,"Quantity":3},{"RewardID":2,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00001","UnitDiscountAmt":45,"Quantity":6}],"Revoke":{"EarnedRewardID":"1213"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Scenario: Item ADD Update  for other item and Mix Match triggered, Revoke is expected.
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"5505545775618","ItemIDType":"EAN-13","Quantity":1}}}
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|Description     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|
+|00003      |5505545775618|EAN-13    |1       |0143      |Item_8 sample product_7|60.0                |0%      |0.0           |60.0               |60.0         |True        |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount  |
+|1       |1213          |1213         |Mix Match 1213 Type 8.2|00002      |42                |
+|2       |1213          |1213         |Mix Match 1213 Type 8.2|00003      |9                 |
+|3       |1213          |1213         |Mix Match 1213 Type 8.2|00001      |45                |
+Then the JSON should have the following format : {"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"5505545775618","ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"Department":"0143","Description":"Item_8 sample product_7","RegularSalesUnitPrice":60.0,"Discount":"0%","DiscountAmount":0.0,"ActualSalesUnitPrice":60.0,"ExtendedAmount":60.0,"Discountable":true,"TaxRate":"0%","TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"InputType":0,"Line":"0143","Class":"000001"},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00002","UnitDiscountAmt":42,"Quantity":3},{"RewardID":2,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00003","UnitDiscountAmt":9,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00001","UnitDiscountAmt":45,"Quantity":6}],"Revoke":{"EarnedRewardID":"1213"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item REMOVE Update. Revoke is now expected.
+When I request to update Item Quantity at promotion with parameters RetailStoreID{0031} WorkStationID{1111} SequenceNo{1} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"00001","Quantity":"2"}}}
+Then promotion should have the following data for update quantity:
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1213          |1213         |Mix Match 1213 Type 8.2|00002      |42                |
+|2       |1213          |1213         |Mix Match 1213 Type 8.2|00003      |9                 |
+|3       |1213          |1213         |Mix Match 1213 Type 8.2|00001      |30                |
+Then the JSON should have the following format : {"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00002","UnitDiscountAmt":42,"Quantity":3},{"RewardID":2,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00003","UnitDiscountAmt":9,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1213","PromotionCode":"1213","DiscountDescription":"Mix Match 1213 Type 8.2","ItemEntryID":"00001","UnitDiscountAmt":30,"Quantity":4}],"Revoke":{"EarnedRewardID":"1213"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

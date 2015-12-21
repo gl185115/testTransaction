@@ -1,0 +1,14 @@
+Scenario : Test GS1_Coupon Action Message
+When I create GS1_Coupon with parameters :
+|entryid|applyflag|applicationid |primgs1compprefvli |primgs1comppref |offercode |savevaluevli |savevalue |primprchsereqvli |primprchsereq |primprchsereqcode |primprchsefmlycode |scndqualifyingprchse |additionalprchserulescode |scndprchsereqvli |scndprchsereq |scndprchsereqcode |scndprchsefmlycode |scndprchsegs1cmpnyprefvli |scndgs1cmpnypref |thrdqualifyingprchse |thrdprchsereqvli |thrdprchsereq |thrdprchsereqcode |thrdprchsefmlycode |thrdPrchseGs1CmpnyPrefVli |thrdGs1CmpnyPref |expDateIndicator |expDate |startDateIndicator |startDate |serialNumIndicator |serialNumVli |serialNum |retailerId |retailerGs1CmpnyPrefGlnVli |retailerGs1CmpnyPrefGln |miscElements |saveValueCode |saveValAppliesToWchItem |storeCouponFlag |doNotMultiplyFlag |priority |
+|123456|0|8110 |9 |123456789101 |654321 |5 |54321 |5 |55555 |1 |992 |1 |1 |5 |11111 |1 |222 |9 |101987654321 |2 |5 |33333 |1 |111 |9 |112233445566 |3 |161230 |4 |121020 |5 |9 |444555689754823 |6 |9 |3331111565784 |9 |0 |0 |9 |0 |1010 |
+When I create the message with termid{1111},txid{8}
+Then message data should be {0170000011110000000814123456081109123456789101654321554321555555199211511111122291019876543212533333111191122334455663161230412102059444555689754823693331111565784900901010
+}
+
+When I create GS1_Coupon with parameters :
+|entryid|applyflag|applicationid |primgs1compprefvli |primgs1comppref |offercode |savevaluevli |savevalue |primprchsereqvli |primprchsereq |primprchsereqcode |primprchsefmlycode |scndqualifyingprchse |additionalprchserulescode |scndprchsereqvli |scndprchsereq |scndprchsereqcode |scndprchsefmlycode |scndprchsegs1cmpnyprefvli |scndgs1cmpnypref |thrdqualifyingprchse |thrdprchsereqvli |thrdprchsereq |thrdprchsereqcode |thrdprchsefmlycode |thrdPrchseGs1CmpnyPrefVli |thrdGs1CmpnyPref |expDateIndicator |expDate |startDateIndicator |startDate |serialNumIndicator |serialNumVli |serialNum |retailerId |retailerGs1CmpnyPrefGlnVli |retailerGs1CmpnyPrefGln |miscElements |saveValueCode |saveValAppliesToWchItem |storeCouponFlag |doNotMultiplyFlag |priority |
+|889900|0|8110 |9 |123456789101 |654321 |5 |54321 |5 |55555 |1 |992 |1 |1 |5 |11111 |1 |222 |9 |101987654321 |2 |5 |33333 |1 |111 |9 |112233445566 |3 |161230 |4 |121020 |5 |9 |444555689754823 |6 |9 |3331111565784 |9 |0 |0 |9 |0 |1010 |
+When I create the message with termid{4554},txid{0007}
+Then message data should be {0170000045540000000714889900081109123456789101654321554321555555199211511111122291019876543212533333111191122334455663161230412102059444555689754823693331111565784900901010
+}

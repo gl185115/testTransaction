@@ -1,0 +1,52 @@
+Scenario : Test Transaction
+Given a connection object
+When I create Transaction object
+When I request begin transaction txMode{0}, fuelFlag{0}, operator{111}, termId{1111}, txId{1}
+Then Begin transaction should be a success
+
+!-- Send Item Entry (with unknown itemcode)
+When I send an item entry: itemEntryId{1}, purchaseType{0}, returnType{0}, itemCode{00000000000000}, familyCode{000}, dept{0001}, clearanceLevel{1}, Discountable{1}, qtyType{0}, qty{1}, qtySubType{00}, qtyPrec{0}, unitPrice{50000}, alternatePrice{0}, precisionPt{2}
+Then I should only get ItemEntryResponse
+Then I should get {ItemEntryResponse}:
+|responseFlag|messageType|parseResult|
+|0           |33         |0          |
+
+!-- Send Item Entry (without discounts)
+When I send an item entry: itemEntryId{2}, purchaseType{0}, returnType{0}, itemCode{22222222222223}, familyCode{000}, dept{0001}, clearanceLevel{1}, Discountable{1}, qtyType{0}, qty{1}, qtySubType{00}, qtyPrec{0}, unitPrice{50000}, alternatePrice{0}, precisionPt{2}
+Then I should only get ItemEntryResponse
+Then I should get {ItemEntryResponse}:
+|responseFlag|messageType|parseResult|
+|0           |33         |0          |
+
+!-- Send Item Entry (with single discount)
+Given that item has {1} discount reward messages
+When I send an item entry: itemEntryId{3}, purchaseType{0}, returnType{0}, itemCode{22222222222222}, familyCode{000}, dept{0001}, clearanceLevel{1}, Discountable{1}, qtyType{0}, qty{1}, qtySubType{00}, qtyPrec{0}, unitPrice{50000}, alternatePrice{0}, precisionPt{2}
+Then I should get {ItemEntryResponse}:
+|responseFlag|messageType|parseResult|
+|0           |33         |0          |
+Then I should get {DiscountResponse}:
+|rwid  |earnedrw|rwflag|disctype|disclevel|calctype|flexneg|itementryid|discdept|mnuprec|matchnetunitprice|unitdiscprec|unitdiscamt|retdiscprec|retdiscamt|calcprec|unitcalcamt|qtytype|qtysubtype|qtyprec|qty   |promocode |discdata|posrefid|vendorcouponcode    |discdesc0         |desclangid0|
+|000001|000001  |0     |1       |0        |01      |0      |000001     |0001    |0      |0000000500       |0           |0000000250 |0          |0000000250|0       |0000000500 |0      |00        |0      |000001|0000000030|0050    |000000  |                    |Half              |00         |
+
+!-- Send Item Entry (with two discounts)
+Given that item has {2} discount reward messages
+When I send an item entry: itemEntryId{4}, purchaseType{0}, returnType{0}, itemCode{22222222222222}, familyCode{000}, dept{0001}, clearanceLevel{1}, Discountable{1}, qtyType{0}, qty{1}, qtySubType{00}, qtyPrec{0}, unitPrice{50000}, alternatePrice{0}, precisionPt{2}
+Then I should get {ItemEntryResponse}:
+|responseFlag|messageType|parseResult|
+|0           |33         |0          |
+Then I should get {DiscountResponse}:
+|rwid  |earnedrw|rwflag|disctype|disclevel|calctype|flexneg|itementryid|discdept|mnuprec|matchnetunitprice|unitdiscprec|unitdiscamt|retdiscprec|retdiscamt|calcprec|unitcalcamt|qtytype|qtysubtype|qtyprec|qty   |promocode |discdata|posrefid|vendorcouponcode    |discdesc0         |desclangid0|
+|000001|000001  |0     |1       |0        |01      |0      |000001     |0001    |0      |0000000500       |0           |0000000250 |0          |0000000250|0       |0000000500 |0      |00        |0      |000001|0000000030|0050    |000000  |                    |Half              |00         |
+|000002|000002  |0     |1       |0        |01      |0      |000001     |0001    |0      |0000000250       |0           |0000000025 |0          |0000000025|0       |0000000250 |0      |00        |0      |000001|0000000092|0010    |000000  |                    |Congrats!         |00         |
+
+!-- Send Tender Entry
+When I send tender entry: entryid{000001}, entryflag{0}, tenderid{01}, tendersubid{00}, bin{}, tenderprecision{2}, tenderamount{50000}
+Then I should get {TenderEntryResponse}:
+|responseFlag|messageType|parseResult|
+|0           |36         |0          |
+
+When I request Total action totalPrecision{2}, total{2500}, userTotal{0}, termId{1111}, transactionId{1}
+Then Total action should be a success
+When I request end transaction status{00}, termId{1111}, transactionId{1}
+Then End Transaction should be a success
+ 

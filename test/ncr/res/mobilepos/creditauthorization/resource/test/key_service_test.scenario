@@ -1,0 +1,47 @@
+Scenario: Testing for get AES key
+When AESKey flag is set to {False}
+Given a CreditAuthorizationResource
+When date is set to {2012-05-21}
+!-- context parameters are found in context.xml for obtaining the keystore path, password and key aliases
+Given that keystore does not have gendate key
+When I get AES key for today{1337599095000}
+Then the key should be {b6bf3a6369801aaca356a380cf126d535b6bfdc2875d9a923daa892cb07cd72f}
+Then the key64 should be {tr86Y2mAGqyjVqOAzxJtU1tr/cKHXZqSPaqJLLB81y8=}
+Then the genDate should be {20120521191815}
+!-- the keystore gendate should be updated
+Then the keystore gendate key should be  {20120521191815}
+
+Scenario: Testing for AES key generation for the same day
+!-- service should not generate another key for the same day
+!-- only one key generation per day
+When AESKey flag is set to {False}
+Given a CreditAuthorizationResource
+When date is set to {2012-05-21}
+When I get AES key for today{1337609895000}
+Then the key should be {b6bf3a6369801aaca356a380cf126d535b6bfdc2875d9a923daa892cb07cd72f}
+Then the key64 should be {tr86Y2mAGqyjVqOAzxJtU1tr/cKHXZqSPaqJLLB81y8=}
+Then the genDate should be {20120521191815}
+!-- the keystore gendate should be not updated
+Then the keystore gendate key should be {20120521191815}
+
+Scenario: Testing for AES key generation for different day
+When AESKey flag is set to {False}
+Given a CreditAuthorizationResource
+When date is set to {2012-03-04}
+When I get AES key for today{1337599095000}
+Then the key should be {68e37f3b895cb299c3fe407b630ce11da419b8550a08ccab509e8e27cfdf99b3}
+Then the key64 should be {aON/O4lcspnD/kB7YwzhHaQZuFUKCMyrUJ6OJ8/fmbM=}
+Then the genDate should be {20120304191815}
+!-- the keystore gendate should be updated
+Then the keystore gendate key should be {20120304191815}
+
+Scenario: Testing for AES key generation for AESKey.Flag true
+When AESKey flag is set to {True}
+Given a CreditAuthorizationResource
+When date is set to {2012-03-04}
+When I get AES key for today{1337599095000}
+Then the key should be {}
+Then the key64 should be {MTExMTExMTExMTExMTExMTExMTExMTExMTExMTExMTE=}
+Then the genDate should be {fixed}
+!-- the keystore gendate should not be updated
+Then the keystore gendate key should be {20120304191815}

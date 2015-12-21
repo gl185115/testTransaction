@@ -1,0 +1,79 @@
+Scenario: Perform LineDAOController
+Given I have a LineDAO Controller
+Given entries for {line} in database
+
+
+!-- Test for storeID filter
+When I get the list of Lines  with storeid {0032} and dpt {} and key {null} and name {null} and limit {null}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for non existing storeID
+When I get the list of Lines  with storeid {9999} and dpt {} and key {null} and name {null} and limit {null}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+
+!-- Test for department filter
+When I get the list of Lines  with storeid {0032} and dpt {Dpt-001} and key {null} and name {null} and limit {null}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for non existing department filter
+When I get the list of Lines  with storeid {0032} and dpt {Dpt-999} and key {null} and name {null} and limit {null}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+
+!-- Test for searching with specific limit
+When I get the list of Lines  with storeid {0032} and dpt {} and key {null} and name {null} and limit {2}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for listing all Lines
+When I get the list of Lines  with storeid {0032} and dpt {} and key {null} and name {null} and limit {-1}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for searching with specified key
+When I get the list of Lines  with storeid {0032} and dpt {} and key {line} and name {null} and limit {-1}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for searching with specified key and name
+When I get the list of Lines  with storeid {0032} and dpt {} and key {line} and name {ple} and limit {-1}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for searching with specified key and name (local name with english character)
+When I get the list of Lines  with storeid {0032} and dpt {} and key {line} and name {al} and limit {-1}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for searching with specified key and name (local name with japanese character)
+When I get the list of Lines  with storeid {0032} and dpt {} and key {null} and name {ン} and limit {-1}
+Then the list of Lines are:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+
+

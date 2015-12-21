@@ -1,0 +1,64 @@
+Scenario: QueueBuster Link Item Query
+Given a PRM_QUEUEBUSTER_LINK database table
+
+Given I have DeviceInfo resource
+!-- Known QueueBuster Link Item
+When I get queuebuster Link Items with StoreID{00031}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"posLinkID110","LinkName":"POS Terminal 110","RetailStoreID":"00031"},{"LinkID":"posLinkID115","LinkName":"POS Terminal 115","RetailStoreID":"00031"}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+When I get queuebuster Link Items with StoreID{00032}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"116","LinkName":"POS Terminal 116","RetailStoreID":"00032"},{"LinkID":"117","LinkName":"POS Terminal 117","RetailStoreID":"00032"}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+!-- QueueBuster Empty return 
+When I get queuebuster Link Items with StoreID{25031}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"NCRWSSResultCode":906,"NCRWSSExtendedResultCode":0}
+
+!-- DisplayName in DB is NULL
+When I get queuebuster Link Items with StoreID{00033}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"118","LinkName":"","RetailStoreID":"00033"}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+!-- DisplayName in DB has spaces
+When I get queuebuster Link Items with StoreID{00034}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"119","LinkName":"POS Terminal 119","RetailStoreID":"00034"}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+!-- Invalid Link Type 
+When I get queuebuster123 Link Items with StoreID{25031}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"NCRWSSResultCode":905,"NCRWSSExtendedResultCode":0}
+
+!-- Invalid Link Type, link type all in upper case
+When I get QUEUEBUSTER Link Items with StoreID{25031}, Key{}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"NCRWSSResultCode":905,"NCRWSSExtendedResultCode":0}
+
+Scenario: QueueBuster Link Item Query ALL - StoreId is EMPTY
+Given a PRM_QUEUEBUSTER_LINK database table
+
+Given I have DeviceInfo resource
+!-- Known QueueBuster Link Item
+When I get queuebuster Link Items with StoreID{}, Key{}, Name{}, Limit{10}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"999","LinkName":"POS Terminal Test","RetailStoreID":"000031"},{"LinkID":"335","LinkName":"POS Terminal 335","RetailStoreID":"000035"},{"LinkID":"posLinkID110","LinkName":"POS Terminal 110","RetailStoreID":"00031"},{"LinkID":"posLinkID115","LinkName":"POS Terminal 115","RetailStoreID":"00031"},{"LinkID":"116","LinkName":"POS Terminal 116","RetailStoreID":"00032"},{"LinkID":"117","LinkName":"POS Terminal 117","RetailStoreID":"00032"},{"LinkID":"118","LinkName":"","RetailStoreID":"00033"},{"LinkID":"119","LinkName":"POS Terminal 119","RetailStoreID":"00034"}],","}
+
+
+Scenario: Searching with special characters
+Given a PRM_QUEUEBUSTER_LINK_WithSpChars database table
+
+Given I have DeviceInfo resource
+!-- Search key with (%) and (_) and ([)
+When I get queuebuster Link Items with StoreID{00031}, Key{p%o_[}, Name{}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"p%o_[s]LinkID110","LinkName":"POS T%e_[r]minal 110","RetailStoreID":"00031"},{"LinkID":"p%o_[s]LinkID115","LinkName":"POS Terminal 115","RetailStoreID":"00031"}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+!-- Search key with (%) and (_) and name (%) and (_)
+When I get queuebuster Link Items with StoreID{00031}, Key{p%o_[}, Name{%e_[r]}, Limit{0}
+Then I should get POSLinks in JSON format:
+{"POSLinks":[{"LinkID":"p%o_[s]LinkID110","LinkName":"POS T%e_[r]minal 110","RetailStoreID":"00031"}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+
+

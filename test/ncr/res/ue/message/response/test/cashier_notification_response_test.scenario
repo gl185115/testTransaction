@@ -1,0 +1,5 @@
+Scenario : Create Success
+When I create discount response with 65 and (123456654321039923This message 1 is test.0140Hello cashier notification test message.01) expect (success)
+Then xml should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><RewardResponse><ResponseFlag>0</ResponseFlag><MessageType>65</MessageType><CashierNotification><RewardID>123456</RewardID><EarnedRewardID>654321</EarnedRewardID><Command>0</Command><Beep>3</Beep><Duration>99</Duration><DisplayLine><LineLength>23</LineLength><DisplayMessage>This message 1 is test.</DisplayMessage><LanguageID>01</LanguageID></DisplayLine><DisplayLine><LineLength>40</LineLength><DisplayMessage>Hello cashier notification test message.</DisplayMessage><LanguageID>01</LanguageID></DisplayLine></CashierNotification><RewardType>CashierNotification</RewardType></RewardResponse>}
+
+When I create discount response with 65 and (123456654321039923This message 1 is test.0140Hello cashier notificati) expect (parse fail - index out of bounds: String index out of range: 42)

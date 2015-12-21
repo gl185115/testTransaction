@@ -1,0 +1,54 @@
+Scenario: Journalize & Re-journalize Loan Transaction (Duplicate)
+Given a Journalization Resource
+Given a RESMaster DBInitiator
+Given MST_DEVICEINFO table
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 4209
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |4209          |2014-04-07     |2014-04-07 13:05:42.0|Loan  |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>
+
+!-- Re-journalize Previous Normal Transaction
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 4209
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |4209          |2014-04-07     |2014-04-07 13:05:42.0|Loan  |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>
+
+Scenario: Journalize Loan Transaction
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 4209
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |4209          |2014-04-07     |2014-04-07 13:05:42.0|Loan  |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>
+
+Scenario: Journalize Loan Transaction (5-digit Transaction Number)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>12345</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 12345
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |12345         |2014-04-07     |2014-04-07 13:05:42.0|Loan  |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>12345</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>

@@ -1,0 +1,10 @@
+Scenario : Create Success
+When I create discount response with 71 and (000012200000345000000678901231234561234567890123456
+) expect (success)
+Then xml should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><RewardResponse><ResponseFlag>0</ResponseFlag><MessageType>71</MessageType><RewardType>StoredValue</RewardType><Reward xsi:type="storedValue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ItemEntryID>000012</ItemEntryID><PricePrecision>2</PricePrecision><MatchNetUnitPrice>0000034500</MatchNetUnitPrice><ItemQuantity>000067</ItemQuantity><ProgramID>890123</ProgramID><Quantity>123456</Quantity><Expiration>1234567890123456</Expiration></Reward></RewardResponse>}
+
+When I create discount response with 71 and (000012200000345000000678901231234561234567890123456000013200000345000000678901231234561234567890123456
+) expect (success)
+Then xml should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><RewardResponse><ResponseFlag>0</ResponseFlag><MessageType>71</MessageType><RewardType>StoredValue</RewardType><Reward xsi:type="storedValue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ItemEntryID>000012</ItemEntryID><PricePrecision>2</PricePrecision><MatchNetUnitPrice>0000034500</MatchNetUnitPrice><ItemQuantity>000067</ItemQuantity><ProgramID>890123</ProgramID><Quantity>123456</Quantity><Expiration>1234567890123456</Expiration></Reward><Reward xsi:type="storedValue" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><ItemEntryID>000013</ItemEntryID><PricePrecision>2</PricePrecision><MatchNetUnitPrice>0000034500</MatchNetUnitPrice><ItemQuantity>000067</ItemQuantity><ProgramID>890123</ProgramID><Quantity>123456</Quantity><Expiration>1234567890123456</Expiration></Reward></RewardResponse>}
+
+When I create discount response with 71 and (00001220000034500000067890) expect (parse fail - index out of bounds: String index out of range: 29)

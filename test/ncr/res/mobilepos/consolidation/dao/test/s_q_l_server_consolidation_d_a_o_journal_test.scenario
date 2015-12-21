@@ -1,0 +1,19 @@
+Scenario: SetUp Consolidation
+Given an instance of SQLServerConsolidationDAO
+Then its Database Manager must have been settled
+
+Scenario: Test the generated Transaction Line no are correct
+Given a sample {TXL_POSLOG_Journal} poslog xml entry in database 
+When I select a non-consolidated transaction information
+!-- Consolidate
+When I consolidate top {2} items
+Then I should get the following TXL_JOURNAL results:
+|corpid      |storeid|termid|tranno|tranlineno|summarydateid|printerid|operatorcode|          plu|     description|accountcode|returnflag|voidflag|cancelflag|itemcnt|actsalesamount|debtor|creditor|customerid|originaltranno|
+|000000000000| 000031|	9999|	  3|         1|	  2012-03-05|  	     0|      	111|8888884456992|sample product 1|	      0060| 	NULL|     NULL|	     NULL|	 2.00|       	 500|  NULL|	1000|	   NULL|	      NULL|
+|000000000000| 000031|	9999|	  3|	     1|	  2012-03-06|	     0|	        111|8888884456992|sample product 1|	      0060|  	NULL|	  NULL|	     NULL|	 1.00|	         500|  NULL|	 500|	   NULL|          NULL|
+|000000000000| 000031|	9999|	  3|         2|	  2012-03-05|	     0|	        111|8865545775621|sample product 2|	      0060| 	NULL|	  NULL|	     NULL|	 1.00|	        1000|  NULL|	1000| 	   NULL|	      NULL|
+|000000000000| 000031|	9999|	  3|	     2|	  2012-03-06|	     0|	        111|8865545775621|sample product 2|	      0060| 	NULL|	  NULL|	     NULL|	 1.00|	        1000|  NULL|    1000|	   NULL|          NULL|
+|000000000000| 000031|	9999|	  3|	     3|   2012-03-05|	     0|	        111|NULL	     |            NULL|	      0013|	    NULL|	  NULL|	     NULL| 	 NULL|	        NULL| 20000|	NULL|	   NULL|	      NULL|
+|000000000000| 000031|	9999|	  3|	     3|	  2012-03-06|	     0|	        111|NULL	     |            NULL|	      0013|  	NULL|	  NULL|	     NULL|	 NULL|	        NULL|123123|	NULL|	   NULL|          NULL|
+|000000000000| 000031|	9999|	  3|	     4|	  2012-03-05|	     0|	        111|NULL	     |            NULL|	      0013|  	NULL|	  NULL|	     NULL|	 NULL| 	        NULL|  NULL|   18000|	   NULL|	      NULL|
+|000000000000| 000031|	9999|	  3|	     4|	  2012-03-06|	     0|	        111|NULL	     |            NULL|	      0013| 	NULL|	  NULL|	     NULL|	 NULL|       	NULL|  NULL|  121623|	   NULL|          NULL|

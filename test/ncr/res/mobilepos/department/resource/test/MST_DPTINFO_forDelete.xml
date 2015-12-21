@@ -1,0 +1,81 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_DPTINFO">
+        <column>StoreId</column>
+        <column>Dpt</column>
+        <column>DptName</column>
+        <column>Jigyobu</column>
+        <column>Gyoshu</column>
+        <column>Bumon</column>
+        <column>Uriba</column>
+        <column>Category</column>
+        <column>InsDate</column>
+        <column>UpdDate</column>
+        <column>Status</column>
+		<row>
+			<value>0</value>
+			<value>003</value>
+			<value>dpttest0</value>
+			<value>003</value>		
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>001</value>
+			<value>dpttest1</value>
+			<value>001</value>		
+			<value>001</value>
+			<value>001</value>
+			<value>001</value>
+			<value>001</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>002</value>
+			<value>dpttest2</value>
+			<value>002</value>		
+			<value>002</value>
+			<value>002</value>
+			<value>002</value>
+			<value>002</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>003</value>
+			<value>dpttest3</value>
+			<value>003</value>		
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>01234567890123456789</value>
+			<value>Dpt 01234567890123456789</value>
+			<value>01</value>		
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value>2014-04-16 12:30:00.000</value>
+			<value>2014-04-16 12:30:00.000</value>
+			<value>Active</value>
+		</row>
+    </table>
+</dataset>

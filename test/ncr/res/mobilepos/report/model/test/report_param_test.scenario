@@ -1,0 +1,9 @@
+Given an uninitialized Report Param Model
+Then the XML of Sales Report Fields should be :<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ReportParam/>
+When I set its Report Type to {Financial Report}
+Then its Report type is : {Financial Report}
+Then the XML of Sales Report Fields should be :<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ReportParam><ReportType>Financial Report</ReportType></ReportParam>
+Given A Sales Report Fields
+When the sales report fields property of Report Param is set to fields
+Then the XML of Sales Report Fields should be :<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ReportParam><ReportType>Financial Report</ReportType><SalesReportFields/></ReportParam>
+Given A Sale Report Fields with sales report type {reporttype}

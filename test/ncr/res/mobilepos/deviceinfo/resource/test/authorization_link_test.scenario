@@ -1,0 +1,30 @@
+Scenario: Authorization Link Item Query
+Given I have DeviceInfo resource
+!-- Known Authorization Link Items
+When I get Authorization Link Item with Link Type{creditauthorization} and StoreID{00031} and POSLink ID{posLinkID110}
+Then I should get POSLinkInfo model with JSON format:
+{"POSLinkInfo":{"LinkID":"posLinkID110","LinkName":"POS Terminal 110","RetailStoreID":"00031"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+When I get Authorization Link Item with Link Type{creditauthorization} and StoreID{00031} and POSLink ID{posLinkID115}
+Then I should get POSLinkInfo model with JSON format:
+{"POSLinkInfo":{"LinkID":"posLinkID115","LinkName":"POS Terminal 115","RetailStoreID":"00031"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+!-- Authorization Link Not Found
+When I get Authorization Link Item with Link Type{creditauthorization} and StoreID{25031} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be null
+Then the result code should be 907
+
+!-- Empty RetailStoreID
+When I get Authorization Link Item with Link Type{creditauthorization} and StoreID{} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be not null
+Then the result code should be 224
+
+!-- Empty POS Link ID
+When I get Authorization Link Item with Link Type{creditauthorization} and StoreID{0031} and POSLink ID{}
+Then the POSLinkInfo model should be not null
+Then the result code should be 224
+
+!-- Invalid Link Type
+When I get Authorization Link Item with Link Type{sign} and StoreID{0031} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be not null
+Then the result code should be 905

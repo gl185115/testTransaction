@@ -1,0 +1,138 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_MIXMATCH">
+		<column>StoreId</column>			
+		<column>Code</column>				
+		<column>StartDate</column>			
+		<column>EndDate</column>			
+		<column>Name</column>				
+		<column>Type</column>				
+		<column>MustBuyFlag</column>		
+		<column>Quantity1</column>			
+		<column>DiscountPrice1</column>	
+		<column>EmpPrice11</column>		
+		<column>EmpPrice12</column>		
+		<column>EmpPrice13</column>		
+		<column>Quantity2</column>			
+		<column>DiscountPrice2</column>	
+		<column>EmpPrice21</column>		
+		<column>EmpPrice22</column>		
+		<column>EmpPrice23</column>				
+        <row>
+			<value>0031</value>			
+			<value>1003</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match Aliquant Type 3</value>				
+			<value>3</value>				
+			<value>0</value>		
+			<value>2</value>			
+			<value>525</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>			
+			<value>1013</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match Aliquant 2 Type 3</value>				
+			<value>3</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>253</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>			
+			<value>1014</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match Aliquant 3 Type 1</value>				
+			<value>3</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>250</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+            <value>0031</value>         
+            <value>4014</value>             
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>          
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>          
+            <value>Mix Match Aliquant Type 4</value>              
+            <value>4</value>                
+            <value>0</value>        
+            <value>2</value>            
+            <value>525</value>  
+            <null/> 
+            <null/>     
+            <null/>     
+            <value>6</value>            
+            <value>1600</value>  
+            <null/> 
+            <null/>     
+            <null/>     
+        </row>
+        <row>
+            <value>0031</value>
+            <value>1200</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>1StepUniByAmount MM</value>
+            <value>11</value>
+            <value>0</value>
+            <value>3</value>
+            <value>37</value>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+        <row>
+            <value>0031</value>
+            <value>1201</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>2StepUniByAmount MM</value>
+            <value>12</value>
+            <value>0</value>
+            <value>3</value>
+            <value>2830</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>7</value>
+            <value>3005</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+	</table>
+</dataset>
+
+			

@@ -1,0 +1,470 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_PLU">
+        <column>StoreId</column>
+        <column>Plu</column>
+        <column>DisplayPlu</column>
+        <column>MdInternal</column> 
+        <column>MdType</column>
+		<column>HostFlag</column>
+		<column>MdVender</column>
+		<column>Dpt</column>
+		<column>Line</column>
+		<column>Class</column>
+		<column>Sku</column>
+		<column>ItemSize</column>
+		<column>Package</column>
+		<column>KeyPlu</column>
+		<column>MdName</column>
+		<column>MdNameLocal</column>
+		<column>SalesPrice1</column>
+		<column>DiscountRate</column>
+		<column>DiscountAmt</column>
+		<column>MMCode</column>
+		<column>MustBuyFlag</column>
+		<column>DiscountType</column>
+		<column>TaxType</column>
+		<column>PosMdType</column>
+		<column>DiscountFlag</column>
+		<column>AgeRestrictedFlag</column>
+		<column>Md32</column>
+		<column>InsDate</column>       
+		<column>UpdDate</column>		
+        <row>
+			<value>0031</value>
+			<value>8865545775621</value>
+			<value>8865545775621</value>
+			<value>8865545775621</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 1</value>
+			<value>サンプル製品1</value>
+			<value><![CDATA[1000]]></value>
+			<value>0</value>
+			<value>100</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<null/>
+			<null/>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>8865545775622</value>
+			<value>8865545775622</value>
+			<value>8865545775622</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 2</value>
+			<value>サンプル製品2</value>
+			<value><![CDATA[1000]]></value>
+			<value>0</value>
+			<value>500</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>8865545775623</value>
+			<value>8865545775623</value>
+			<value>8865545775623</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 3</value>
+			<value>サンプル製品3</value>
+			<value><![CDATA[1000]]></value>
+			<value>50</value>
+			<value>0</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value>1</value>
+			<value>0</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>8865545775624</value>
+			<value>8865545775624</value>
+			<value>8865545775624</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 4</value>
+			<value>サンプル製品4</value>
+			<value><![CDATA[687]]></value>
+			<value>33</value>
+			<value>0</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value>1</value>
+			<value>1</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>8865545775625</value>
+			<value>8865545775625</value>
+			<value>8865545775625</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 4</value>
+			<value>サンプル製品4</value>
+			<value><![CDATA[359]]></value>
+			<value>17</value>
+			<value>0</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value>0</value>
+			<value>1</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>8865545775626</value>
+			<value>8865545775626</value>
+			<value>8865545775626</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 6</value>
+			<value>サンプル製品6</value>
+			<value><![CDATA[150]]></value>
+			<value>0</value>
+			<value>200</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>9999999999995</value>
+			<value>9999999999995</value>
+			<value>9999999999995</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>product null discountflag</value>
+			<value>製品ヌル割引フラグ</value>
+			<value><![CDATA[359]]></value>
+			<value>17</value>
+			<value>100</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<null/>
+			<null/>
+			<null/>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2265545775621</value>
+			<value>2265545775621</value>
+			<value>2265545775621</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 1</value>
+			<value>サンプル製品1</value>
+			<value><![CDATA[1000]]></value>
+			<value>0</value>
+			<value>100</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value>0</value>
+			<value>1</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2265545775622</value>
+			<value>2265545775622</value>
+			<value>2265545775622</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 2</value>
+			<value>サンプル製品2</value>
+			<value><![CDATA[1000]]></value>
+			<value>0</value>
+			<value>500</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<null/>
+			<value>1</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2265545775623</value>
+			<value>2265545775623</value>
+			<value>2265545775623</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 3</value>
+			<value>サンプル製品3</value>
+			<value><![CDATA[1000]]></value>
+			<value>50</value>
+			<value>0</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value>1</value>
+			<value>1</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2265545775624</value>
+			<value>2265545775624</value>
+			<value>2265545775624</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 4</value>
+			<value>サンプル製品4</value>
+			<value><![CDATA[687]]></value>
+			<value>33</value>
+			<value>0</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value>1</value>
+			<value>0</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2265545775625</value>
+			<value>2265545775625</value>
+			<value>2265545775625</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 4</value>
+			<value>サンプル製品4</value>
+			<value><![CDATA[359]]></value>
+			<value>17</value>
+			<value>0</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[1]]></value>
+			<value>1</value>
+			<value>0</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2265545775626</value>
+			<value>2265545775626</value>
+			<value>2265545775626</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 6</value>
+			<value>サンプル製品6</value>
+			<value><![CDATA[150]]></value>
+			<value>0</value>
+			<value>200</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value>1</value>
+			<null/>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>2299999999995</value>
+			<value>2299999999995</value>
+			<value>2299999999995</value>
+			<value>00</value>
+			<value>1</value>
+			<value>NULL</value>
+			<value>0143</value>
+			<value>0143</value>
+			<value>000001</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>product null discountflag</value>
+			<value>製品ヌル割引フラグ</value>
+			<value><![CDATA[359]]></value>
+			<value>17</value>
+			<value>100</value>
+			<null/>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[0]]></value>
+			<value><![CDATA[2]]></value>
+			<value><![CDATA[0]]></value>
+			<null/>
+			<value>0</value>
+			<value>1</value>
+			<value>2014-04-04 03:07:00.000</value>
+			<value>2014-04-04 03:07:00.000</value>
+		</row>
+	</table>
+</dataset>
+
+			

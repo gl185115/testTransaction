@@ -1,0 +1,136 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_SYSTEM_CONFIG">
+        <column>Category</column>
+        <column>KeyId</column>
+        <column>Value</column>
+        <column>Description</column>
+		<row>
+            <value>Credential</value>
+            <value>NumberOfPasscodeDigits</value>
+            <value>3</value>
+            <value>Exact Passcode digits</value>
+        </row>
+		<row>
+            <value>Credential</value>
+            <value>MaxLengthOfOperatorNo</value>
+            <value>8</value>
+            <value>Maximum number for Operator digit</value>
+        </row>
+		<!-- Below are the MISSING Parameters -->
+		<row>
+            <value>Credential</value>
+            <value>MaxLengthOfOperatorNo</value>
+            <value>8</value>
+            <value>Maximum number for Operator digit</value>
+        </row>
+		<row>
+            <value>Credential</value>
+            <value>CredentialCookiesExpiry</value>
+            <value>1440</value>
+            <value>Set expiration duration for device registration cookies in the web clients (units in hours).</value>
+        </row>
+		<row>
+            <value>Language</value>
+            <value>DefaultLanguage</value>
+            <value>ja</value>
+            <value>Set the language Japanese(ja)/Englis(en)</value>
+        </row>   
+		<row>
+            <value>Pricing</value>
+            <value>RoundingConsumptionTax</value>
+            <value>2</value>
+            <value>The Rounding flag for computing Tax</value>
+        </row>     
+		<row>
+            <value>Pricing</value>
+            <value>TaxRate</value>
+            <value>5</value>
+            <value>The Tax rate</value>
+        </row>
+		<row>
+            <value>Authentication</value>
+            <value>AuthExpiry</value>
+            <value>46</value>
+            <value>The expiry duration for authentication of the device (units in hours)</value>
+        </row> 
+		<row>
+            <value>Authentication</value>
+            <value>AdminKey</value>
+            <value>123456</value>
+            <value>The Administration key</value>
+        </row>    
+		<row>
+            <value>Authentication</value>
+            <value>RegistrationPasscode</value>
+            <value>321</value>
+            <value>The Registration Passcode</value>
+        </row> 
+		<row>
+            <value>Authentication</value>
+            <value>RegistrationPasscodeExpiry</value>
+            <value>2012-15-07 03:43:58.64</value>
+            <value>The Registration Passcode expiry</value>
+        </row>
+		<row>
+            <value>Authentication</value>
+            <value>CookiesExpiry</value>
+            <value>1440</value>
+            <value>Set expiration duration for device registration cookies in the web clients (units in hours).</value>
+        </row> 
+		<row>
+            <value>Credential</value>
+            <value>CredentialExpiry</value>
+            <value>720</value>
+            <value>The expiry duration for credential (units in hours).</value>
+        </row> 
+		<row>
+            <value>NetworkReceipt</value>
+            <value>EmailAddress</value>
+            <value>mobilePOSReceipt@ncr.com</value>
+            <value>Email Address of Sender</value>
+        </row> 
+		<row>
+            <value>NetworkReceipt</value>
+            <value>ServerAddress</value>
+            <value>xxx.xxx.xxx.xxx</value>
+            <value>IP address of SMPTP Mail Server</value>
+        </row> 
+		<row>
+            <value>NetworkReceipt</value>
+            <value>Port</value>
+            <value>25</value>
+            <value>Port used for communication with Mail Server</value>
+        </row> 
+		<row>
+            <value>NetworkReceipt</value>
+            <value>EmailSubject</value>
+            <value>Receipt of Transaction No. %s</value>
+            <value>The Subject of the Email (use to edit the Subject of the email)</value>
+        </row> 
+		<row>
+            <value>Journalization</value>
+            <value>BusinessDateComputeFlag</value>
+            <value>true</value>
+            <value>Flag that tells how to get the End of Day Bussiness Date. If true by Switchtime else MST_BIZDAY</value>
+        </row> 
+		<row>
+            <value>Journalization</value>
+            <value>SwitchTime</value>
+            <value>11:00am</value>
+            <value>The switch time needed for Bussiness Date computation</value>
+        </row> 
+		<row>
+            <value>Report</value>
+            <value>StoreOpenTime</value>
+            <value>10</value>
+            <value>The border line of sales reports</value>
+        </row> 
+		<row>
+            <value>Authentication</value>
+            <value>AllowManualRegistration</value>
+            <value>true</value>
+            <value>Flag to allow the manual registration of PCbrowser clients.</value>
+        </row>  
+    </table>     	       		
+</dataset>

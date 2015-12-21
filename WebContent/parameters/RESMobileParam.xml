@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WebSocketサーバー用 -->
+<!-- POS のDeviceIDの事前定義 -->
+<RESMobileParam>
+    <CheckFlag>false</CheckFlag>
+    <NewPosGroup>
+        <deviceid>0001</deviceid>
+        <deviceid>0002</deviceid>
+        <deviceid>0003</deviceid>
+        <deviceid>0004</deviceid>
+        <deviceid>0005</deviceid>
+        <deviceid>0006</deviceid>
+        <deviceid>0007</deviceid>
+        <deviceid>0008</deviceid>
+        <deviceid>0009</deviceid>
+        <deviceid>0010</deviceid>
+    </NewPosGroup>
+    <OldPosGroup>
+        <deviceid>1001</deviceid>
+        <deviceid>1002</deviceid>
+        <deviceid>1003</deviceid>
+        <deviceid>1004</deviceid>
+        <deviceid>1005</deviceid>
+        <deviceid>1006</deviceid>
+        <deviceid>1007</deviceid>
+        <deviceid>1008</deviceid>
+        <deviceid>1009</deviceid>
+        <deviceid>1010</deviceid>
+    </OldPosGroup>
+</RESMobileParam>

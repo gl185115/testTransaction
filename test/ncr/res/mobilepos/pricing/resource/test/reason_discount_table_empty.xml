@@ -1,0 +1,19 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+ 	<table name="PRM_DISCOUNT_REASON_CODE">
+        <column>type</column>
+        <column>code</column>
+        <column>displayname</column>	    
+	</table>
+		<row>
+            <value>item</value>
+            <value>01</value>
+            <value>for item </value>
+        </row>
+		<row>
+            <value>item</value>
+            <value>01</value>
+            <value>for item</value>
+        </row>
+</dataset>
+	

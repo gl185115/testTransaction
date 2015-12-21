@@ -1,0 +1,385 @@
+Scenario: Serialize POSLog XML (CREDIT ONLY)
+Given I have a XmlSerializer for PosLog 
+When I have an POSLog xml:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+  <Transaction>
+　　	  <RetailStoreID>00000000</RetailStoreID>
+      <WorkstationID>123</WorkstationID>
+      <SequenceNumber>1</SequenceNumber> 
+      <BusinessDayDate>20111215</BusinessDayDate>
+      <BeginDateTime>123456</BeginDateTime>
+      <OperatorID>1111</OperatorID>
+      <WorkstationSubID>1212</WorkstationSubID>
+      <CustomerID>rao-san</CustomerID>
+      <RetailTransaction>
+	　　　<ItemCount>2</ItemCount>
+	　　　<LineItem>
+	　　　　<SequenceNumber>1</SequenceNumber>
+	　　　　<Sale TaxableFlag="true" Department="x" Line="y" Class="z">
+	　　　　　　<ItemID Type="JAN13">0000000012345</ItemID>
+	　　　　　　<Description>Milk</Description>
+	　　　　　　<ExtendedAmount>200</ExtendedAmount>
+	　　　　　　<Quantity>1</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+	　　　<LineItem>
+	　　　　<SequenceNumber>2</SequenceNumber>
+	           <Tender TenderType="CreditDebit">
+	            <Amount>200</Amount>
+	             <Authorization>
+	              <AuthorizationCode>1234567</AuthorizationCode>
+	             </Authorization>
+	             <CreditDebit CardType="Credit">
+	               <ExpirationDate>2011-10</ExpirationDate>
+	               <CreditCardCompanyCode>1234</CreditCardCompanyCode>
+	             </CreditDebit>
+	           </Tender>
+	　　　</LineItem>
+        <Customer>
+           <CustomerDemographic>Family</CustomerDemographic> 
+        </Customer>
+　　 </RetailTransaction>
+  </Transaction >
+</POSLog>
+Then I should get POSLog 
+Then I should get Transaction:
+|RetailStoreID|WorkstationID|SequenceNumber|BusinessDayDate|BeginDateTime|OperatorID|WorkstationSubID|CustomerID|
+|00000000     |123          |1             |20111215       |123456       |1111      |1212            |rao-san   |
+Then I should get CustomerOrderTransaction:
+|ItemCount|
+|2|
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|1             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+|0000000012345|JAN13   |Milk       |200           |1       |true       |x         |y   |z    |
+Then Tender should be NULL
+Then Discount should be NULL
+		
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|2             |0014       |
+Then Sale should be NULL
+Then I should get Tender:
+|amount|authorizationcode|tendertype |cardtype|expirationdate|creditcardcompanycode|
+|200   |1234567          |CreditDebit|Credit  |2011-10       |1234                 |
+Then Discount should be NULL
+Then I should get Customer Demographics of Family
+
+Scenario: Serialize POSLog XML (Purchase Only)
+Given I have a XmlSerializer for PosLog
+When I have an POSLog xml:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+  <Transaction>
+　　         <RetailStoreID>00000</RetailStoreID>
+      <WorkstationID>123</WorkstationID>
+      <SequenceNumber>1238</SequenceNumber> 
+      <BusinessDayDate>20091230</BusinessDayDate>
+      <BeginDateTime>123456</BeginDateTime>
+      <RetailTransaction>
+	　　　<ItemCount>2</ItemCount>
+	　　　<LineItem>
+	　　　　<SequenceNumber>1</SequenceNumber>
+	　　　　<Sale TaxableFlag="true">
+	　　　　　　<ItemID Type="JAN13">0000000012345</ItemID>
+	　　　　　　<Description>Milk</Description>
+	　　　　　　<ExtendedAmount>200</ExtendedAmount>
+	　　　　　　<Quantity>1</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+	       <LineItem>
+	　　　　<SequenceNumber>2</SequenceNumber>
+	　　　　<Sale TaxableFlag="true" Department="DOH" Line="Line1" Class="SpecialClass">
+	　　　　　　<ItemID Type="JAN13">0000000000123</ItemID>
+	　　　　　　<Description>Coffee</Description>
+	　　　　　　<ExtendedAmount>100</ExtendedAmount>
+	　　　　　　<Quantity>3</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+	    <LineItem>
+	　　　　<SequenceNumber>3</SequenceNumber>
+	           <Tender TenderType="Cash" TypeCode="Sale">
+	            <Amount>500</Amount>
+	           </Tender>
+	　　　</LineItem>
+        <Customer>
+            <CustomerDemographic>School</CustomerDemographic> 
+        </Customer>
+　　 </RetailTransaction>
+  </Transaction >
+</POSLog>
+
+Then I should get POSLog 
+Then I should get Transaction:
+|RetailStoreID|WorkstationID|SequenceNumber|BusinessDayDate|BeginDateTime|
+|00000        |123          |1238          |20091230       |123456       |
+Then I should get CustomerOrderTransaction:
+|ItemCount|
+|2        |
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|1             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+|0000000012345|JAN13   |Milk       |200           |1       |true       |
+Then Tender should be NULL
+Then Discount should be NULL
+	
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|2             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line |Class       |Department|Line|Class
+|0000000000123|JAN13   |Coffee     |100           |3       |true       |DOH       |Line1|SpecialClass|
+Then Tender should be NULL
+Then Discount should be NULL
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|3             |0013       |
+Then Sale should be NULL
+Then I should get Tender:
+|amount|tendertype|typecode|
+|500   |Cash      |Sale    |
+Then Discount should be NULL
+Then I should get Customer Demographics of School
+			
+Scenario: Serialize POSLog XML (Purchase with Change Only)
+Given I have a XmlSerializer for PosLog
+When I have an POSLog xml:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+  <Transaction>
+　　         <RetailStoreID>00000</RetailStoreID>
+      <WorkstationID>123</WorkstationID>
+      <SequenceNumber>1238</SequenceNumber> 
+      <BusinessDayDate>20091230</BusinessDayDate>
+      <BeginDateTime>123456</BeginDateTime>
+      <RetailTransaction>
+	　　　<ItemCount>2</ItemCount>
+	　　　<LineItem>
+	　　　　<SequenceNumber>1</SequenceNumber>
+	　　　　<Sale TaxableFlag="true">
+	　　　　　　<ItemID Type="JAN13">0000000012345</ItemID>
+	　　　　　　<Description>Milk</Description>
+	　　　　　　<ExtendedAmount>200</ExtendedAmount>
+	　　　　　　<Quantity>1</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+	       <LineItem>
+	　　　　<SequenceNumber>2</SequenceNumber>
+	　　　　<Sale TaxableFlag="true">
+	　　　　　　<ItemID Type="JAN13">0000000000123</ItemID>
+	　　　　　　<Description>Coffee</Description>
+	　　　　　　<ExtendedAmount>100</ExtendedAmount>
+	　　　　　　<Quantity>3</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+	    <LineItem>
+	　　　　<SequenceNumber>3</SequenceNumber>
+	        <Tender TenderType="Cash" TypeCode="Sale">
+            	<Amount>5000</Amount>
+          		<TenderChange>
+             			 <Amount>4500</Amount>
+          		</TenderChange>
+           	</Tender>
+	　　　</LineItem>
+        <Customer>
+           <CustomerDemographic>Company</CustomerDemographic>
+        </Customer>
+　　 </RetailTransaction>
+  </Transaction >
+</POSLog>
+
+Then I should get POSLog 
+Then I should get Transaction:
+|RetailStoreID|WorkstationID|SequenceNumber|BusinessDayDate|BeginDateTime|
+|00000        |123          |1238          |20091230       |123456       |
+Then I should get CustomerOrderTransaction:
+|ItemCount|
+|2        |
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|1             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+|0000000012345|JAN13   |Milk       |200           |1       |true       |
+Then Tender should be NULL
+Then Discount should be NULL
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|2             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+|0000000000123|JAN13   |Coffee     |100           |3       |true       |
+Then Tender should be NULL
+Then Discount should be NULL
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|3             |0013       |
+Then Sale should be NULL
+Then I should get Tender:
+|amount|tendertype|typecode|tenderchange|
+|5000  |Cash      |Sale    |4500        |
+Then Discount should be NULL
+Then I should get Customer Demographics of Company
+			
+
+Scenario: Serialize POSLog XML (With Discount)
+Given I have a XmlSerializer for PosLog
+When I have an POSLog xml:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+  <Transaction>
+　　         <RetailStoreID>00000</RetailStoreID>
+      <WorkstationID>123</WorkstationID>
+      <SequenceNumber>1238</SequenceNumber> 
+      <BusinessDayDate>20091230</BusinessDayDate>
+      <BeginDateTime>123456</BeginDateTime>
+      <RetailTransaction>
+	　　　<ItemCount>4</ItemCount>
+	　　　<LineItem>
+	　　　　<SequenceNumber>1</SequenceNumber>
+	　　　　<Sale TaxableFlag="true">
+	　　　　　　<ItemID Type="JAN13">0000000012345</ItemID>
+	　　　　　　<Description>Milk</Description>
+	　　　　　　<ExtendedAmount>200</ExtendedAmount>
+	　　　　　　<Quantity>1</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+	       <LineItem>
+	　　　　<SequenceNumber>2</SequenceNumber>
+	　　　　<Sale TaxableFlag="true">
+	　　　　　　<ItemID Type="JAN13">0000000000123</ItemID>
+	　　　　　　<Description>Coffee</Description>
+	　　　　　　<ExtendedAmount>100</ExtendedAmount>
+	　　　　　　<Quantity>3</Quantity>
+	　　　　</Sale>
+	　　　</LineItem>
+		<LineItem>
+	　　　　<SequenceNumber>3</SequenceNumber>
+		　　　　<Discount>
+		     	<Amount>50</Amount>
+		　　　　</Discount>
+	　　</LineItem>
+	    <LineItem>
+	　　　　<SequenceNumber>4</SequenceNumber>
+	           <Tender TenderType="Cash" TypeCode="Sale">
+	            <Amount>500</Amount>
+	           </Tender>
+	　　　</LineItem>
+　　 </RetailTransaction>
+  </Transaction >
+</POSLog>
+
+Then I should get POSLog 
+Then I should get Transaction:
+|RetailStoreID|WorkstationID|SequenceNumber|BusinessDayDate|BeginDateTime|
+|00000        |123          |1238          |20091230       |123456       |
+Then I should get CustomerOrderTransaction:
+|ItemCount|
+|4        |
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|1             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+|0000000012345|JAN13   |Milk       |200           |1       |true       |
+Then Tender should be NULL
+Then Discount should be NULL
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|2             |0060       |
+Then I should get Sale:
+|ItemID       |ItemType|Description|ExtendedAmount|Quantity|TaxableFlag|Department|Line|Class|
+|0000000000123|JAN13   |Coffee     |100           |3       |true       |
+Then Tender should be NULL
+Then Discount should be NULL
+		
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|3             |0061       |
+Then Sale should be NULL
+Then Tender should be NULL
+Then I should get Discount:
+|amount|
+|50    |
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|AccountCode|
+|4             |0013       |
+Then Sale should be NULL
+Then I should get Tender:
+|amount|tendertype|typecode|
+|500   |Cash      |Sale    |
+Then Discount should be NULL
+
+Scenario: Serialize POSLog XML (With Return)
+Given I have a XmlSerializer for PosLog
+When I have an POSLog xml:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+	<Transaction>
+		<RetailStoreID>000031</RetailStoreID>
+		<WorkstationID>9999</WorkstationID>
+		<SequenceNumber>4299</SequenceNumber>
+		<BusinessDayDate>2012-02-20</BusinessDayDate>
+		<BeginDateTime>2012-02-22T22:58:02</BeginDateTime>
+		<ReceiptDateTime>2012-02-22T22:58:02</ReceiptDateTime>
+		<OperatorID>111</OperatorID>
+		<WorkstationSubID>testdev</WorkstationSubID>
+		<RetailTransaction>
+			<ItemCount>1</ItemCount>
+			<LineItem>
+				<SequenceNumber>1</SequenceNumber>
+				<Return ItemType="Stock" Department="0181" Line="0181" Class="000001">
+					<ItemID Type="JAN13">4900000000153</ItemID>
+					<Description>ｹﾝﾄｳﾙﾄﾗﾒﾝｿｰﾙKSﾎﾞｯｸｽ1</Description>
+					<ActualSalesUnitPrice>410</ActualSalesUnitPrice>
+					<ExtendedAmount>4100</ExtendedAmount>
+					<Quantity>10</Quantity>
+					<Disposal Method="ReturnToStock"/>
+				</Return>
+			</LineItem>
+			<TransactionLink ReasonCode="Return">
+				<RetailStoreID>000031</RetailStoreID>
+				<WorkstationID>9999</WorkstationID>
+				<SequenceNumber>4209</SequenceNumber>
+				<BusinessDayDate>2012-03-05</BusinessDayDate>
+				<BeginDateTime>2012-03-05T17:18:40</BeginDateTime>
+				<OperatorID>003</OperatorID>
+				<WorkstationSubID>testdev</WorkstationSubID> 
+			</TransactionLink>
+		</RetailTransaction>
+	</Transaction>
+</POSLog>
+
+Then I should get POSLog
+Then I should get Transaction:
+|RetailStoreID|WorkstationID|SequenceNumber|BusinessDayDate|BeginDateTime      |ReceiptDateTime    |OperatorID|WorkstationSubID|
+|000031       |9999         |4299          |2012-02-20     |2012-02-22T22:58:02|2012-02-22T22:58:02|111       |testdev         |
+Then I should get CustomerOrderTransaction:
+|ItemCount|
+|1        |
+
+Then I should get one of the following in  LineItems:
+|SequenceNumber|
+|1             |
+
+Then I should get Return:
+|ItemType|Department|Line|Class |ItemID       |Description         |ActualSalesUnitPrice|ExtendedAmount|Quantity|
+|Stock   |0181      |0181|000001|4900000000153|ｹﾝﾄｳﾙﾄﾗﾒﾝｿｰﾙKSﾎﾞｯｸｽ1|410                 |4100          |10      |
+
+Then I should get Disposal:
+|Method       |
+|ReturnToStock|

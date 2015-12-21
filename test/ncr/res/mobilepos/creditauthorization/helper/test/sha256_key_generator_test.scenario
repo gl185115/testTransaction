@@ -1,0 +1,19 @@
+Scenario: Testing for SHA256 key generation
+!-- Sha256KeyGenerator constructor should have string (key) parameter
+Given an instance of Sha256KeyGenerator with key{TestKey}
+!-- It will return datetime now in format "yyyyMMddHHmmss"
+Then Sha256KeyGenerator.now should be equal to now with proper format
+
+Scenario: Testing for SHA256 key generation
+!-- Sha256KeyGenerator constructor should have string (key) parameter
+Given an instance of Sha256KeyGenerator with key{TestKey}
+!-- It will generate SHA256 key in base64 from key in constructor and datetime string in parameter
+Then Sha256KeyGenerator.getKey(datetime) should be equal to {384679cc75a5f4b17be77a5a1b5a4332b8fbd0669067f683737c404b9a2b7340} when datetime string is {20121221121212}
+Then Sha256KeyGenerator.getKeyBase64(datetime) should be equal to base64{OEZ5zHWl9LF753paG1pDMrj70GaQZ/aDc3xAS5orc0A=} when datetime string is {20121221121212}
+
+Scenario: Testing for SHA256 key generation
+!-- Sha256KeyGenerator constructor should have string (key) parameter
+Given an instance of Sha256KeyGenerator with key{TestKey}
+!-- It will generate SHA256 key from key in constructor and datetime from Sha256KeyGenerator.now (note that this is already mocked)
+Then Sha256KeyGenerator.getKey() should be equal to {1d6529209cdc28ae87f49b2cdc0e62573abf26b138d8cb23eefdde99b3a72df4}
+Then Sha256KeyGenerator.getKeyBase64() should be equal to base64{HWUpIJzcKK6H9Jss3A5iVzq/JrE42Msj7v3embOnLfQ=}

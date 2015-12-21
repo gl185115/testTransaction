@@ -1,0 +1,150 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_SYSTEM_CONFIG">
+        <column>category</column>
+        <column>keyid</column>
+        <column>value</column>
+        <column>description</column>
+        <row>
+            <value>AESKey</value>
+            <value>Flag</value>
+            <value>true</value>
+            <value>Flag that tells how to enable/disable daily change of AES key.</value>
+        </row>
+        <row>
+            <value>AESKey</value>
+            <value>KeyValue</value>
+            <value>11111111111111111111111111111111</value>
+            <value>AES Key when AESKey.Flag is true</value>
+        </row>
+    </table>
+    <table name="TXL_EXTERNAL_CA_REQ">
+        <column>storeid</column>
+        <column>posterminalid</column>
+        <column>txdate</column>
+        <column>txid</column> 
+        <column>status</column>
+        <column>slipnumber</column>
+        <column>pan</column>
+        <column>expdate</column>
+        <column>amount</column>
+        <column>paymentmethod</column>
+        <column>creditcompanycode</column>
+        <column>recvcompanycode</column>
+        <column>creditcompanyname</column>
+        <column>operatorcode</column>
+        <column>approvalcode</column>
+        <column>creditstatus</column>
+        <column>cafistracenum</column>
+    </table> 
+    <table name="MST_USER_CREDENTIALS">
+        
+        <column>operatorno</column>
+        <column>passcode</column>
+        <column>role</column>
+        <column>operatorname</column>
+        <column>operatortype</column>
+        <column>terminalid</column>
+        <column>lastactivetime</column>
+        <column>upddate</column>
+        <row>            
+            <value>111</value>
+            <value>111</value>
+            <value>NCR</value>
+            <value>Operator</value>
+            <value>1</value>
+            <value>0001</value>
+            <value>2012-12-31 18:17:03.127</value>
+            <value>2011-12-31 21:35:08.497</value>
+        </row>
+    </table>
+    <table name="TXL_NPS_TXLOG">
+       	<column>STOREID</column>
+        <column>TERMID</column>
+        <column>TXID</column>
+        <column>PAYMENTSEQ</column>
+        <column>SETTLEMENTNUM</column>
+        <column>GUID</column>
+        <column>BRAND</column>
+        <column>SERVICE</column>
+        <column>AMOUNT</column>
+        <column>RWID</column>
+        <column>RWKIND</column>
+        <column>TXTYPE</column>
+        <column>XMLDOCUMENT</column>
+    </table>
+    <table name="TXU_NPS_PASTELPORTCREDITSUMMARY">
+        <column>STOREID</column>
+        <column>TERMID</column>
+        <column>FINISHDATE</column>
+        <column>FINISHPAYMENTSEQ</column>
+        <column>FINISHFLAG</column>
+        <column>SALESAMOUNT</column>
+        <column>SALESCOUNT</column>
+        <column>VOIDAMOUNT</column>
+        <column>VOIDCOUNT</column>
+        <column>REFUNDAMOUNT</column>
+        <column>REFUNDCOUNT</column>
+        <column>CANCELAMOUNT</column>
+        <column>CANCELCOUNT</column>
+        <column>POSSALESAMOUNT</column>
+        <column>POSSALESCOUNT</column>
+        <column>POSVOIDAMOUNT</column>
+        <column>POSVOIDCOUNT</column>
+        <column>POSREFUNDAMOUNT</column>
+        <column>POSREFUNDCOUNT</column>
+        <column>POSCANCELAMOUNT</column>
+        <column>POSCANCELCOUNT</column>
+    </table>
+    <table name="TXU_NPS_PASTELPORTLOG">
+        <column>STOREID</column>
+        <column>TERMID</column>
+        <column>PAYMENTSEQ</column>
+        <column>TXDATE</column>        
+        <column>TXID</column>
+        <column>BRAND</column>
+        <column>SERVICE</column>
+        <column>TXTYPE</column>
+        <column>TXSTATUS</column>    
+        <column>CRCOMPANYCODE</column>
+        <column>RECVCOMPANYCODE</column>
+        <column>PAYMENTMETHOD</column>
+        <column>PAN</column>
+        <column>EXPDATE</column>    
+        <column>AMOUNT</column>
+        <column>CASTATUS</column>
+        <column>CAERRORCODE</column>
+        <column>DCSTATUS</column>
+        <column>DCERRORCODE</column>    
+        <column>APPROVALCODE</column>
+        <column>TRACENUM</column>
+        <column>ALERTFLAG</column>
+        <column>VOIDFLAG</column>
+        <column>VOIDCORPID</column>        
+        <column>VOIDSTOREID</column>
+        <column>VOIDTERMID</column>
+        <column>VOIDPAYMENTSEQ</column>
+        <column>VOIDTXID</column>
+        <column>VOIDTXDATE</column>
+        <column>SETTLEMENTNUM</column>    
+<!--         <row>            
+            <value>000000000001</value>
+            <value>0001</value>
+            <value>0123</value>
+            <value>0001</value>
+            <value>2012-09-08 02:33:00.000</value>
+            <value>1</value>
+            <value>MSCREDIT</value>
+            <value>SUBTRACT</value>
+            <value>02</value>
+            <value>0808</value>
+                <value>02</value>
+                <value></value>
+                <value>10</value>
+                <value></value>
+                <value></value>
+                <value>99999</value>
+            
+        </row> -->
+    </table>
+</dataset>

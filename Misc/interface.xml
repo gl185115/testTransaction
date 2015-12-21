@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Interface>
+	<Ports>
+		<Printer>COM9</Printer>
+		<LineDisplay>COM8</LineDisplay>
+	</Ports>
+</Interface>

@@ -1,0 +1,21 @@
+Scenario: Testing retrieving private key from keystore file
+!-- pass keystore file and password to the constructor
+Given a PrivateKey object with keystorefile{test/ncr/res/mobilepos/creditauthorization/helper/test/AES_MasterKey.keystore} and password{changeit}
+!-- get the value of key identified by the alias
+Then should get key{ExampleRES30} with alias{AESKey}
+
+Scenario: Testing saving a private key from keystore file
+!-- pass keystore file and password to the constructor
+Given a PrivateKey object with keystorefile{test/ncr/res/mobilepos/creditauthorization/helper/test/AES_MasterKey.keystore} and password{changeit}
+!-- set the value of key identified by the alias
+Then should be able to set alias{AESKeyGenDate} with key{20121221121212}
+!-- get the value of key identified by the alias
+Then should get key{20121221121212} with alias{AESKeyGenDate}
+
+Scenario: Testing deleting a private key from keystore file
+!-- pass keystore file and password to the constructor
+Given a PrivateKey object with keystorefile{test/ncr/res/mobilepos/creditauthorization/helper/test/AES_MasterKey.keystore} and password{changeit}
+!-- delete the key identified by the alias
+Then should be able to delete alias{AESKeyGenDate}
+!-- the value of key identified by the alias should be empty
+Then should get key{empty} with alias{AESKeyGenDate}

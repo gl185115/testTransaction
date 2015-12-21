@@ -1,0 +1,6 @@
+Scenario : Test Adjustment Action Message
+When I create adjustment with parameters :
+|entryID|adjustmentFlag|adjustmentType|adjustmentLevel|calculationType|itemEntryID|mnupPrecision|matchNetUnitPrice|department|adjustmentPrecision|unitAdjustment|quantityType|quantitySubType|quantityPrecision|quantity|tlqFlag|discountableFlag|rewardCalculation|priority|
+|1      |1             |1             |1              |1              |1          |1            |1                |1         |1                  |1             |1           |1              |1                |1       |1      |1               |1                |1       |
+When I create the message with termid{1111},txid{1}
+Then message data should be {007900001111000000010400000111110000011000000000100011000000000110110000011110001\r\n}

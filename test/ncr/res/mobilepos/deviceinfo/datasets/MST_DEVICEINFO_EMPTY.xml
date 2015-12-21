@@ -1,0 +1,21 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_DEVICEINFO">
+		<column>storeid</column>
+		<column>terminalid</column>
+		<column>devicename</column>
+        <column>printerid</column>
+        <column>tillid</column>
+        <column>linkposterminalid</column>
+        <column>linkqueuebuster</column>
+        <column>linkauthorization</column>
+        <column>linksignature</column>
+        <column>sendlogfile</column>
+		<column>savelogfile</column>
+		<column>autoupload</column>
+		<column>lasttxid</column>
+		<column>ejsequence</column>
+		<column>status</column>
+		<column>upddate</column>
+    </table>     
+</dataset>

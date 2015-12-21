@@ -1,0 +1,77 @@
+Scenario: Testing for SQLServerCreditDAO
+Given a SQLServerCreditDAO
+Then I should have a SQLServerCreditDAO
+
+!-- ************** TEST TO PASS SCRIPTS ****************
+
+
+
+
+!-- External CreditAuthorization Transaction should be LOCKED
+	When I request to lock the external request transaction:
+			<?xml version="1.0" encoding="shift_jis"?>
+				<CreditAuthorization>
+					<storeid>000031</storeid>
+					<terminalid>0001</terminalid>
+					<txid>9999</txid>
+					<txdatetime>20120308165351</txdatetime>
+					<amount>440</amount>
+					<pan>3000000000000000</pan>
+					<expirationdate>1111</expirationdate>
+				</CreditAuthorization>
+	Then the transaction status should LOCKED
+
+!-- External CreditAuthorization Transaction should be RELEASED
+	When I request to release the external request transaction:
+			<?xml version="1.0" encoding="shift_jis"?>
+				<CreditAuthorization>
+					<storeid>000031</storeid>
+					<terminalid>0001</terminalid>
+					<txid>9999</txid>
+					<txdatetime>20120308165351</txdatetime>
+					<amount>440</amount>
+					<pan>3000000000000000</pan>
+					<expirationdate>1111</expirationdate>
+				</CreditAuthorization>
+	Then the transaction status should RELEASED
+	
+	When I request to lock the external request transaction:
+			<?xml version="1.0" encoding="shift_jis"?>
+				<CreditAuthorization>
+					<storeid>000031</storeid>
+					<terminalid>0001</terminalid>
+					<txid>9999</txid>
+					<txdatetime>2012-03-08</txdatetime>
+					<amount>440</amount>
+					<pan>3000000000000000</pan>
+					<expirationdate>1111</expirationdate>
+				</CreditAuthorization>
+	Then the transaction status should LOCKED
+	
+	When I request to release the external request transaction:
+			<?xml version="1.0" encoding="shift_jis"?>
+				<CreditAuthorization>
+					<storeid>000031</storeid>
+					<terminalid>0001</terminalid>
+					<txid>9999</txid>
+					<txdatetime>2012-03-08</txdatetime>
+					<amount>440</amount>
+					<pan>3000000000000000</pan>
+					<expirationdate>1111</expirationdate>
+				</CreditAuthorization>
+	Then the transaction status should RELEASED
+
+	When I request to lock the external request transaction:
+			<?xml version="1.0" encoding="shift_jis"?>
+				<CreditAuthorization>
+					<storeid>000031</storeid>
+					<terminalid>0001</terminalid>
+					<txid>9999</txid>
+					<txdatetime>2012-03-08</txdatetime>
+					<amount>440</amount>
+					<pan>3000000000000000</pan>
+					<expirationdate>1111</expirationdate>
+				</CreditAuthorization>
+	Then the transaction status should FAILED
+	
+	

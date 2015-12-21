@@ -1,0 +1,69 @@
+Scenario: Test Item Entry with MixMatch Type 10 for MustBuy
+
+Scenario: Must Buy MixMatch (Case 1: Must buy item has the highest price)
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mustbuy_mixmatch.xml}
+Given a loaded dataset {mixmatch_mustbuy_promotions.xml}
+
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"1001100000001","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN                      |DescriptionJP                      |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |1001100000001|EAN-13    |1       |0143      |Item A MixMatch Type 10 Not Mustbuy|項目A MixMatchタイプ10未Mustbuy       |80.0                 |0.0     |0.0           |80.0                |80.0          |True        |0                |0         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"1001100000002","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN                      |DescriptionJP                      |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |1001100000002|EAN-13    |1       |0143      |Item B MixMatch Type 10 Not Mustbuy|項目B MixMatchタイプ10未Mustbuy       |90.0                 |0.0     |0.0           |90.0                |90.0          |True        |0                |1         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"1001100000003","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN                      |DescriptionJP                      |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |1001100000003|EAN-13    |1       |0143      |Item C MixMatch Type 10 Mustbuy    |項目C MixMatchタイプ10 Mustbuy        |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |0         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription           |ItemEntryID|UnitDiscountAmount|
+|1       |1001          |1001         |Mix Match 1001 Type 10 Mustbuy|00003      |15                |
+|2       |1001          |1001         |Mix Match 1001 Type 10 Mustbuy|00002      |13                |
+|3       |1001          |1001         |Mix Match 1001 Type 10 Mustbuy|00001      |12                |
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"1001100000003","Department":"0143","Description":{"en":"Item C MixMatch Type 10 Mustbuy","jp":"項目C MixMatchタイプ10 Mustbuy"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1001","PromotionCode":"1001","DiscountDescription":"Mix Match 1001 Type 10 Mustbuy","ItemEntryID":"00003","UnitDiscountAmt":15,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1001","PromotionCode":"1001","DiscountDescription":"Mix Match 1001 Type 10 Mustbuy","ItemEntryID":"00002","UnitDiscountAmt":13,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1001","PromotionCode":"1001","DiscountDescription":"Mix Match 1001 Type 10 Mustbuy","ItemEntryID":"00001","UnitDiscountAmt":12,"Quantity":1}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: Must Buy MixMatch (Case 2: Must buy item has the lowest price)
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mustbuy_mixmatch.xml}
+Given a loaded dataset {mixmatch_mustbuy_promotions.xml}
+
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"1001100000001","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN                      |DescriptionJP                      |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |1001100000001|EAN-13    |1       |0143      |Item A MixMatch Type 10 Not Mustbuy|項目A MixMatchタイプ10未Mustbuy       |80.0                 |0.0     |0.0           |80.0                |80.0          |True        |0                |0         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"1001100000002","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN                      |DescriptionJP                      |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |1001100000002|EAN-13    |1       |0143      |Item B MixMatch Type 10 Not Mustbuy|項目B MixMatchタイプ10未Mustbuy       |90.0                 |0.0     |0.0           |90.0                |90.0          |True        |0                |1         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"1001100000004","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN                      |DescriptionJP                      |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |1001100000004|EAN-13    |1       |0143      |Item D MixMatch Type 10 Mustbuy    |項目D MixMatchタイプ10 Mustbuy        |75.0                 |0.0     |0.0           |75.0                |75.0          |True        |1                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription           |ItemEntryID|UnitDiscountAmount|
+|1       |1001          |1001         |Mix Match 1001 Type 10 Mustbuy|00002      |15                |
+|2       |1001          |1001         |Mix Match 1001 Type 10 Mustbuy|00001      |13                |
+|3       |1001          |1001         |Mix Match 1001 Type 10 Mustbuy|00003      |12                |
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"1001100000004","Department":"0143","Description":{"en":"Item D MixMatch Type 10 Mustbuy","jp":"項目D MixMatchタイプ10 Mustbuy"},"RegularSalesUnitPrice":75.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":75.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"1","EmpPrice1":75.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":75.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1001","PromotionCode":"1001","DiscountDescription":"Mix Match 1001 Type 10 Mustbuy","ItemEntryID":"00002","UnitDiscountAmt":15,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1001","PromotionCode":"1001","DiscountDescription":"Mix Match 1001 Type 10 Mustbuy","ItemEntryID":"00001","UnitDiscountAmt":13,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1001","PromotionCode":"1001","DiscountDescription":"Mix Match 1001 Type 10 Mustbuy","ItemEntryID":"00003","UnitDiscountAmt":12,"Quantity":1}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

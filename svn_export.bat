@@ -1,0 +1,1 @@
+tortoiseproc /command:dropexport /path:* /droptarget:"%CD%\exported"

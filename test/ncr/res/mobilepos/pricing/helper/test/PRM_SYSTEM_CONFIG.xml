@@ -1,0 +1,165 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_SYSTEM_CONFIG">
+        <column>category</column>
+        <column>keyid</column>
+        <column>value</column>
+        <column>description</column>
+        <row>
+            <value>Pricing</value>
+            <value>InStoreParam1</value>
+            <value>02,10</value>
+            <value>Prefix, SKU-Digits; The parameter of in-store label</value>
+        </row>
+        <row>
+            <value>Pricing</value>
+            <value>InStoreParam2</value>
+            <value>20,0</value>
+            <value>Prefix, SKU-Digits; The parameter of in-store label</value>
+        </row>
+        <row>
+            <value>Pricing</value>
+            <value>InStoreParam3</value>
+            <value>21,11</value>
+            <value>Prefix, SKU-Digits; The parameter of in-store label</value>
+        </row>
+        <row>
+            <value>Pricing</value>
+            <value>InStoreParam4</value>
+            <value>22,-1</value>
+            <value>Prefix, SKU-Digits; The parameter of in-store label</value>
+        </row>
+        <row>
+            <value>Pricing</value>
+            <value>InStoreParam5</value>
+            <value>23,999999999999</value>
+            <value>Prefix, SKU-Digits; The parameter of in-store label</value>
+        </row>
+        <row>
+            <value>Pricing</value>
+            <value>InStoreParam6</value>
+            <value>24,5</value>
+            <value>Prefix, SKU-Digits; The parameter of in-store label</value>
+        </row>
+		<row>
+            <value>Journalization</value>
+            <value>MaxTransactionCount</value>
+            <value>99999</value>
+            <value>The maximum transaction generated</value>
+        </row>   
+		<row>
+            <value>Pricing</value>
+            <value>RoundingConsumptionTax</value>
+            <value>1</value>
+            <value>The Rounding flag for computing Tax</value>
+        </row>   
+        <row>
+            <value>Credential</value>
+            <value>NumberOfPasscodeDigits</value>
+            <value>3</value>
+            <value>Exact Passcode digits</value>
+        </row>
+		<row>
+            <value>Credential</value>
+            <value>MaxLengthOfOperatorNo</value>
+            <value>8</value>
+            <value>Maximum number for Operator digit</value>
+        </row>
+		<row>
+            <value>Language</value>
+            <value>DefaultLanguage</value>
+            <value>ja</value>
+            <value>Set the language (ja/en)</value>
+        </row>     
+		<row>
+            <value>Pricing</value>
+            <value>TaxRate</value>
+            <value>5</value>
+            <value>The Tax rate</value>
+        </row>
+		<row>
+            <value>Authentication</value>
+            <value>AuthExpiry</value>
+            <value>240</value>
+            <value>The expiry duration for authentication of the device (units in hours)</value>
+        </row> 
+		<row>
+            <value>Authentication</value>
+            <value>AdminKey</value>
+            <value>admin</value>
+            <value>The Administration key</value>
+        </row>    
+		<row>
+            <value>Authentication</value>
+            <value>RegistrationPasscode</value>
+            <value>123</value>
+            <value>The Registration Passcode</value>
+        </row> 
+		<row>
+            <value>Authentication</value>
+            <value>RegistrationPasscodeExpiry</value>
+            <value>2012-12-31</value>
+            <value>The Registration Passcode expiry</value>
+        </row>
+		<row>
+            <value>NetworkReceipt</value>
+            <value>EmailAddress</value>
+            <value>postmaster@res.ncr.local</value>
+            <value>Email Address of Sender</value>
+        </row> 
+		<row>
+            <value>SignatureCapture</value>
+            <value>SecurityPhrase</value>
+            <value>test</value>
+            <value>One of parameters for signature capture</value>
+        </row> 
+		<row>
+            <value>SignatureCapture</value>
+            <value>MerchantPassword</value>
+            <value>test</value>
+            <value>One of parameters for signature capture</value>
+        </row>
+		<row>
+            <value>SignatureCapture</value>
+            <value>MerchatnId</value>
+            <value>test</value>
+            <value>One of parameters for signature capture</value>
+        </row>
+		<row>
+            <value>SignatureCapture</value>
+            <value>PassPhrase</value>
+            <value>test</value>
+            <value>One of parameters for signature capture</value>
+        </row>
+		<row>
+            <value>Journalization</value>
+            <value>BusinessDateComputeFlag</value>
+            <value>TRUE</value>
+            <value>Flag that tells how to get the End of Day Bussiness Date. If true by Switchtime else MST_BIZDAY</value>
+        </row> 
+		<row>
+            <value>Journalization</value>
+            <value>SwitchTime</value>
+            <value>1:00am</value>
+            <value>The switch time needed for Bussiness Date computation</value>
+        </row> 
+		<row>
+            <value>DocumentaryTax</value>
+            <value>Range1</value>
+            <value>30000,1000000,200</value>
+            <value>From, To, Tax-amount; The target is the net sales total without tax</value>
+        </row> 
+        <row>
+            <value>DocumentaryTax</value>
+            <value>Range2</value>
+            <value>1000001,2000000,400</value>
+            <value>From, To, Tax-amount; The target is the net sales total without tax</value>
+        </row> 
+		<row>
+            <value>Authentication</value>
+            <value>AllowManualRegistration</value>
+            <value>TRUE</value>
+            <value>Flag to allow the manual registration of PCbrowser clients.</value>
+        </row> 
+    </table>     	       		
+</dataset>

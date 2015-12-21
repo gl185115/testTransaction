@@ -1,0 +1,75 @@
+Scenario: Test updating Item Quantity
+When the Web API Starts Up
+Given a Promotion Service
+
+Scenario: Update when HashMap is still empty
+Given a list of TerminalItem in the Servletcontext:
+|retailstoreid|workstationid|sequencenumber|
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1150} SequenceNo{0021} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"1"}}}
+Then the Result Code is 1102
+Then the JSON should have the following format : {"NCRWSSResultCode":1102,"NCRWSSExtendedResultCode":0}
+
+Scenario: RetailStoreID is empty
+Given a list of TerminalItem in the Servletcontext:
+|retailstoreid|workstationid|sequencenumber|
+|000031|1111|0051|
+|000031|1112|0052|
+When I request to update Item Quantity at promotion with parameters RetailStoreID{} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"5"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: WorkStationID is empty
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"5"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: SequenceNumber is empty
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"5"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Sale is NULL
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":null}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Sale's Quantity is equal to zero
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"0"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Sale's Quantity is less than zero
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"-5"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Sales ItemEntryID is NULL
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":null,"Quantity":"3"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Sales ItemEntryID is empty
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"","Quantity":"3"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Sales ItemEntryID is not found
+When a Begin Transaction at promotion with parameters RetailStoreID{000031} WorkStationId{1111} SequenceNo{0051} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"99999999","Quantity":"3"}}}
+Then the Result Code is 1110
+Then the JSON should have the following format : {"NCRWSSResultCode":1110,"NCRWSSExtendedResultCode":0}
+
+Scenario: Transaction's Sale is empty
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{{"EntryFlag": 0,"Sale":{}}}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Transaction JSON is empty
+When I request to update Item Quantity at promotion with parameters RetailStoreID{000031} WorkStationID{1111} SequenceNo{0051} and TransactionJson{}
+Then the Result Code is 154
+Then the JSON should have the following format : {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Terminal Item not found. No Matching Transaction
+When I request to update Item Quantity at promotion with parameters RetailStoreID{00031} WorkStationID{110} SequenceNo{0041} and TransactionJson{{"EntryFlag": 0,"Sale":{"ItemEntryID":"0","Quantity":"3"}}}
+Then the Result Code is 1102
+Then the JSON should have the following format : {"NCRWSSResultCode":1102,"NCRWSSExtendedResultCode":0}

@@ -1,0 +1,1482 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXL_SALES_JOURNAL">
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>SequenceNumber</column>
+		<column>BusinessDayDate</column>
+		<column>SystemDateTime</column>
+		<column>TxType</column>
+		<column>Tx</column>
+		<column>Guid</column>
+		<column>ServerId</column>
+		<column>Status</column>
+		<column>SendStatus1</column>
+		<column>SendStatus2</column>
+		<column>EjStatus</column>
+		<column>InsDateTime</column>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9001</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-14 15:18:52.0</value>
+		  <value>SOD</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9001</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-14T15:18:52</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T15:18:52</ReceiptDateTime><TillID>7197</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588000A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:18:52</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9002</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-01 17:44:20.0</value>
+		  <value>PayIn</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9002</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-01T17:44:20</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2012-06-01T17:44:20</ReceiptDateTime><TillID>0</TillID><RetailTransaction><Customer><CustomerDemographic>02</CustomerDemographic></Customer><ItemCount>3</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><PaymentOnAccount AccountCode="Unspecified"><AccountNumber>1</AccountNumber><Amount>500</Amount></PaymentOnAccount></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash"><Amount>1000</Amount><TenderChange><Amount>500</Amount></TenderChange></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>0</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">500</Total><Total TotalType="TransactionGrandAmount">500</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588000A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:18:52</value>
+		</row>	
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9003</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-14 15:22:54.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9003</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-14T15:22:54</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T15:22:54</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><Customer><CustomerDemographic></CustomerDemographic><CustomerID>12345</CustomerID><Name></Name><TelephoneNumber></TelephoneNumber><eMail></eMail></Customer><ItemCount>7</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901301762832</ItemID><Description>Biore u Hand Soap</Description><RegularSalesUnitPrice>335</RegularSalesUnitPrice><ActualSalesUnitPrice>335</ActualSalesUnitPrice><ExtendedAmount>335</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>16</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">319</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>46</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901655440509</ItemID><Description>Scottie Cashmere Facial Tissues</Description><RegularSalesUnitPrice>198</RegularSalesUnitPrice><ActualSalesUnitPrice>198</ActualSalesUnitPrice><ExtendedAmount>198</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>9</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">189</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901750401900</ItemID><Description>Kleenex Crecia Facial Tissues</Description><RegularSalesUnitPrice>230</RegularSalesUnitPrice><ActualSalesUnitPrice>230</ActualSalesUnitPrice><ExtendedAmount>230</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>11</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">219</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4901777216846</ItemID><Description>Vitamin Water 500ml</Description><RegularSalesUnitPrice>105</RegularSalesUnitPrice><ActualSalesUnitPrice>105</ActualSalesUnitPrice><ExtendedAmount>105</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">100</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102067041</ItemID><Description>Aloe&amp;White Grape Juice Can</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>1000</Amount></Tender></LineItem><LineItem><SequenceNumber>7</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">978</Total><Total TotalType="TransactionGrandAmount">978</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588001A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:22:54</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9005</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-14 15:27:14.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9005</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-14T15:27:14</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T15:27:14</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>6</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102084178</ItemID><Description>Coca Cola Zero 500ml</Description><RegularSalesUnitPrice>140</RegularSalesUnitPrice><ActualSalesUnitPrice>140</ActualSalesUnitPrice><ExtendedAmount>140</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>7</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">133</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>23</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102090599</ItemID><Description>Regular Tee Kaden 250ml</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102090919</ItemID><Description>Green Tee Ayataka 500ml</Description><RegularSalesUnitPrice>105</RegularSalesUnitPrice><ActualSalesUnitPrice>105</ActualSalesUnitPrice><ExtendedAmount>105</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">100</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102101486</ItemID><Description>Georgia Emerald Mountain Can</Description><RegularSalesUnitPrice>120</RegularSalesUnitPrice><ActualSalesUnitPrice>120</ActualSalesUnitPrice><ExtendedAmount>120</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>6</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">114</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>10000</Amount></Tender></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">475</Total><Total TotalType="TransactionGrandAmount">475</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588002A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:27:14</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9007</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-15 15:29:33.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9007</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-15T15:29:33</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T15:29:33</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>5</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4987123701716</ItemID><Description>Tylenol A 20 Caplet</Description><RegularSalesUnitPrice>945</RegularSalesUnitPrice><ActualSalesUnitPrice>945</ActualSalesUnitPrice><ExtendedAmount>945</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>45</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">900</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>100</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4987316030180</ItemID><Description>Yunker Kotei Solution 30ml</Description><RegularSalesUnitPrice>365</RegularSalesUnitPrice><ActualSalesUnitPrice>365</ActualSalesUnitPrice><ExtendedAmount>365</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>17</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">348</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730080934</ItemID><Description>Listerine Original 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>38</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">760</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>2200</Amount></Tender></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">2108</Total><Total TotalType="TransactionGrandAmount">2108</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588003A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-15 15:29:33</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9009</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-15 15:31:42.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9009</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-15T15:31:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T15:31:42</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>4</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730080989</ItemID><Description>Listerine Fresh Mint 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>38</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">760</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>76</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730081030</ItemID><Description>Listerine Cool Mint 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>38</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">760</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>2000</Amount></Tender></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">1596</Total><Total TotalType="TransactionGrandAmount">1596</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588004A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-15 15:31:42</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9010</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-01 13:05:42.0</value>
+		  <value>Loan</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9010</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-01T13:05:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2012-06-01T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderLoan TenderType="Cash"><Amount>35000</Amount></TenderLoan></TenderControlTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588000A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:18:52</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9011</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-01 13:05:42.0</value>
+		  <value>Pickup</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9011</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-01T13:05:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T13:05:42</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TenderPickup TenderType="Cash"><Amount>28000</Amount></TenderPickup></TenderControlTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588000A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:18:52</value>
+		</row>	
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9012</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-01 21:00:45.0</value>
+		  <value>EOD</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9012</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-01T21:00:45</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-06-01T21:00:45</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Ending TenderType="Cash"><Amount>200000</Amount></Ending></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588000A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:18:52</value>
+		</row>	
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9013</value>
+		  <value>2012-06-01</value>
+		  <value>2014-06-01 13:05:42.0</value>
+		  <value>SummaryReceipt</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9013</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-01T13:05:42</BeginDateTime><OperatorID>111</OperatorID><ControlTransaction Version="2.2"><SummaryReceipt><TransactionLink><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9003</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate></TransactionLink></SummaryReceipt></ControlTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588000A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-14 15:18:52</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9011</value>
+		  <value>2012-06-11</value>
+		  <value>2014-06-16 15:33:10.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>9011</SequenceNumber><BusinessDayDate>2012-06-11</BusinessDayDate><BeginDateTime>2014-06-16T15:33:10</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-16T15:33:10</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>3</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730091084</ItemID><Description>Listerine Total Care 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>38</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">760</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>38</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>1000</Amount></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">798</Total><Total TotalType="TransactionGrandAmount">798</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588005A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-16 15:33:10</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9013</value>
+		  <value>2012-06-03</value>
+		  <value>2014-06-16 15:34:58.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>9013</SequenceNumber><BusinessDayDate>2012-06-03</BusinessDayDate><BeginDateTime>2014-06-16T15:34:58</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-16T15:34:58</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>3</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1001" Line="0" Class="0"><ItemID Type="EAN">4547597868386</ItemID><Description>iPhone5s 32GB Set (Gold)</Description><RegularSalesUnitPrice>91200</RegularSalesUnitPrice><ActualSalesUnitPrice>91200</ActualSalesUnitPrice><ExtendedAmount>91200</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>4343</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">86857</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>4343</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>100000</Amount></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">91200</Total><Total TotalType="TransactionGrandAmount">91200</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588006A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-16 15:34:59</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9015</value>
+		  <value>2012-06-15</value>
+		  <value>2014-06-17 15:37:01.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>9015</SequenceNumber><BusinessDayDate>2012-06-15</BusinessDayDate><BeginDateTime>2014-06-17T15:37:01</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-17T15:37:01</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>4</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1001" Line="0" Class="0"><ItemID Type="EAN">4548660711011</ItemID><Description>Lightning USB Cable</Description><RegularSalesUnitPrice>1886</RegularSalesUnitPrice><ActualSalesUnitPrice>1886</ActualSalesUnitPrice><ExtendedAmount>1886</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>90</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">1796</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>296</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Return TaxableFlag="False" Department="1001" Line="0" Class="0"><ItemID Type="EAN">4988075558090</ItemID><Description>New iPhone Color TPU Stand</Description><RegularSalesUnitPrice>1480</RegularSalesUnitPrice><ActualSalesUnitPrice>1480</ActualSalesUnitPrice><ExtendedAmount>1480</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>70</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">1410</TaxableAmount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Return TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001011</ItemID><Description>Levi's Men's 505 Straight Jean</Description><RegularSalesUnitPrice>2850</RegularSalesUnitPrice><ActualSalesUnitPrice>2850</ActualSalesUnitPrice><ExtendedAmount>2850</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>136</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">2714</TaxableAmount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>6216</Amount></Tender></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">6216</Total><Total TotalType="TransactionGrandAmount">6216</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588007A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-17 15:37:01</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9017</value>
+		  <value>2012-06-17</value>
+		  <value>2014-06-17 15:39:28.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>9017</SequenceNumber><BusinessDayDate>2012-06-17</BusinessDayDate><BeginDateTime>2014-06-17T15:39:28</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-17T15:39:28</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>3</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001028</ItemID><Description>Cargo Pants Straingt/Bronze Brown</Description><RegularSalesUnitPrice>25000</RegularSalesUnitPrice><ActualSalesUnitPrice>25000</ActualSalesUnitPrice><ExtendedAmount>25000</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>1190</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">23810</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>1714</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Return TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001035</ItemID><Description>Jeans Regular Straight/Light Color</Description><RegularSalesUnitPrice>11000</RegularSalesUnitPrice><ActualSalesUnitPrice>11000</ActualSalesUnitPrice><ExtendedAmount>11000</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>524</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">10476</TaxableAmount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>36000</Amount></Tender></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">36000</Total><Total TotalType="TransactionGrandAmount">36000</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588008A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-17 15:39:28</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9019</value>
+		  <value>2012-06-19</value>
+		  <value>2014-06-18 15:41:22.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>2222</WorkstationID><SequenceNumber>9019</SequenceNumber><BusinessDayDate>2012-06-19</BusinessDayDate><BeginDateTime>2014-06-18T15:41:22</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-18T15:41:22</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001042</ItemID><Description>Tracker Jacket/Off-Beige</Description><RegularSalesUnitPrice>6500</RegularSalesUnitPrice><ActualSalesUnitPrice>6500</ActualSalesUnitPrice><ExtendedAmount>6500</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>310</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">6190</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>310</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>6500</Amount></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">6500</Total><Total TotalType="TransactionGrandAmount">6500</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588009A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-18 15:41:22</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9021</value>
+		  <value>2012-06-21</value>
+		  <value>2014-06-18 15:42:34.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9021</SequenceNumber><BusinessDayDate>2012-06-21</BusinessDayDate><BeginDateTime>2014-06-18T15:42:34</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-18T15:42:34</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001059</ItemID><Description>Western Shirt/Blackwatch</Description><RegularSalesUnitPrice>6300</RegularSalesUnitPrice><ActualSalesUnitPrice>6300</ActualSalesUnitPrice><ExtendedAmount>6300</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>300</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">6000</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>300</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>6300</Amount></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">6300</Total><Total TotalType="TransactionGrandAmount">6300</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-3558800AA010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-18 15:42:34</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9022</value>
+		  <value>2012-06-22</value>
+		  <value>2014-06-19 15:49:06.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9022</SequenceNumber><BusinessDayDate>2012-06-22</BusinessDayDate><BeginDateTime>2014-06-19T15:49:06</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-19T15:49:06</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><TransactionLink ReasonCode="Return"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9003</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-25T15:22:54</BeginDateTime></TransactionLink><ItemCount>6</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="">4901301762832</ItemID><Description>Biore u Hand Soap</Description><RegularSalesUnitPrice>335</RegularSalesUnitPrice><ActualSalesUnitPrice>335</ActualSalesUnitPrice><ExtendedAmount>335</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>16</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">319</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>46</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Return TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="">4901655440509</ItemID><Description>Scottie Cashmere Facial Tissues</Description><RegularSalesUnitPrice>198</RegularSalesUnitPrice><ActualSalesUnitPrice>198</ActualSalesUnitPrice><ExtendedAmount>198</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>9</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">189</TaxableAmount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Return TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="">4901750401900</ItemID><Description>Kleenex Crecia Facial Tissues</Description><RegularSalesUnitPrice>230</RegularSalesUnitPrice><ActualSalesUnitPrice>230</ActualSalesUnitPrice><ExtendedAmount>230</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>11</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">219</TaxableAmount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>1000</Amount></Tender></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">215</Total><Total TotalType="TransactionGrandAmount">215</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-3558800BA010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-19 15:49:06</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9023</value>
+		  <value>2012-06-23</value>
+		  <value>2014-06-19 15:53:37.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9023</SequenceNumber><BusinessDayDate>2012-06-23</BusinessDayDate><BeginDateTime>2014-06-19T15:53:37</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-19T15:53:37</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><TransactionLink ReasonCode="Return"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9005</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-25T15:27:14</BeginDateTime></TransactionLink><ItemCount>5</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="">4902102084178</ItemID><Description>Coca Cola Zero 500ml</Description><RegularSalesUnitPrice>140</RegularSalesUnitPrice><ActualSalesUnitPrice>140</ActualSalesUnitPrice><ExtendedAmount>140</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>7</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">133</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>23</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Return TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="">4902102090599</ItemID><Description>Regular Tee Kaden 250ml</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>10000</Amount></Tender></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">225</Total><Total TotalType="TransactionGrandAmount">225</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-3558800CA010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-19 15:53:37</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9024</value>
+		  <value>2012-06-24</value>
+		  <value>2014-06-20 15:55:43.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9024</SequenceNumber><BusinessDayDate>2012-06-24</BusinessDayDate><BeginDateTime>2014-06-20T15:55:43</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-20T15:55:43</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><TransactionLink ReasonCode="Return"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9007</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-25T15:29:33</BeginDateTime></TransactionLink><ItemCount>4</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="">4987123701716</ItemID><Description>Tylenol A 20 Caplet</Description><RegularSalesUnitPrice>945</RegularSalesUnitPrice><ActualSalesUnitPrice>945</ActualSalesUnitPrice><ExtendedAmount>945</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>45</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">900</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>100</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>2200</Amount></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">1163</Total><Total TotalType="TransactionGrandAmount">1163</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-3558800DA010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-20 15:55:43</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9025</value>
+		  <value>2012-06-25</value>
+		  <value>2014-06-20 15:57:27.0</value>
+		  <value>Return</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9025</SequenceNumber><BusinessDayDate>2012-06-25</BusinessDayDate><BeginDateTime>2014-06-20T15:57:27</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-20T15:57:27</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><TransactionLink ReasonCode="Return"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9009</SequenceNumber><BusinessDayDate>2012-06-01</BusinessDayDate><BeginDateTime>2014-06-25T15:31:42</BeginDateTime></TransactionLink><ItemCount>3</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Return TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="">4901730080989</ItemID><Description>Listerine Fresh Mint 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ItemSellingRule></ItemSellingRule><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>38</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">760</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>76</Amount></Tax><Disposal Method="Undecided" /></Return></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Tender TenderType="Cash" TypeCode="Refund"><Amount>2000</Amount></Tender></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionGrandAmount">798</Total><Total TotalType="TransactionGrandAmount">798</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-3558800EA010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-20 15:57:28</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+		  <value>2014-06-21 16:01:26.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9027</SequenceNumber><BusinessDayDate>2012-06-27</BusinessDayDate><BeginDateTime>2014-06-21T16:01:26</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-21T16:01:26</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>7</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001066</ItemID><Description>1 Pocket Shirt Bottun-down</Description><RegularSalesUnitPrice>4100</RegularSalesUnitPrice><ActualSalesUnitPrice>4100</ActualSalesUnitPrice><ExtendedAmount>4100</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>195</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">3905</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>1559</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001073</ItemID><Description>Leather Gloves/Dark Brown</Description><RegularSalesUnitPrice>1800</RegularSalesUnitPrice><ActualSalesUnitPrice>1800</ActualSalesUnitPrice><ExtendedAmount>1800</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>86</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">1714</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001080</ItemID><Description>Mix V-neck Sweater/Narual</Description><RegularSalesUnitPrice>8500</RegularSalesUnitPrice><ActualSalesUnitPrice>8500</ActualSalesUnitPrice><ExtendedAmount>8500</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>405</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">8095</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001097</ItemID><Description>Toto Bag/Beige</Description><RegularSalesUnitPrice>18000</RegularSalesUnitPrice><ActualSalesUnitPrice>18000</ActualSalesUnitPrice><ExtendedAmount>18000</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>857</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">17143</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901301762832</ItemID><Description>Biore u Hand Soap</Description><RegularSalesUnitPrice>335</RegularSalesUnitPrice><ActualSalesUnitPrice>335</ActualSalesUnitPrice><ExtendedAmount>335</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>16</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">319</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>40000</Amount></Tender></LineItem><LineItem><SequenceNumber>7</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">32735</Total><Total TotalType="TransactionGrandAmount">32735</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-3558800FA010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-21 16:01:26</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9029</value>
+		  <value>2012-06-29</value>
+		  <value>2014-06-21 16:04:09.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>3333</WorkstationID><SequenceNumber>9029</SequenceNumber><BusinessDayDate>2012-06-29</BusinessDayDate><BeginDateTime>2014-06-21T16:04:09</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-21T16:04:09</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>6</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901655440509</ItemID><Description>Scottie Cashmere Facial Tissues</Description><RegularSalesUnitPrice>198</RegularSalesUnitPrice><ActualSalesUnitPrice>198</ActualSalesUnitPrice><ExtendedAmount>198</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>9</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">189</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>30</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901750401900</ItemID><Description>Kleenex Crecia Facial Tissues</Description><RegularSalesUnitPrice>230</RegularSalesUnitPrice><ActualSalesUnitPrice>230</ActualSalesUnitPrice><ExtendedAmount>230</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>11</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">219</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4901777216846</ItemID><Description>Vitamin Water 500ml</Description><RegularSalesUnitPrice>105</RegularSalesUnitPrice><ActualSalesUnitPrice>105</ActualSalesUnitPrice><ExtendedAmount>105</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">100</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102067041</ItemID><Description>Aloe&amp;White Grape Juice Can</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>1000</Amount></Tender></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">643</Total><Total TotalType="TransactionGrandAmount">643</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588010A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-21 16:04:09</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9031</value>
+		  <value>2012-07-01</value>
+		  <value>2014-06-22 16:06:28.0</value>
+		  <value>Sale</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4444</WorkstationID><SequenceNumber>9031</SequenceNumber><BusinessDayDate>2012-07-01</BusinessDayDate><BeginDateTime>2014-06-22T16:06:28</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-22T16:06:28</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>5</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102084178</ItemID><Description>Coca Cola Zero 500ml</Description><RegularSalesUnitPrice>140</RegularSalesUnitPrice><ActualSalesUnitPrice>140</ActualSalesUnitPrice><ExtendedAmount>140</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>7</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">133</TaxableAmount></Tax><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>17</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102090599</ItemID><Description>Regular Tee Kaden 250ml</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102090919</ItemID><Description>Green Tee Ayataka 500ml</Description><RegularSalesUnitPrice>105</RegularSalesUnitPrice><ActualSalesUnitPrice>105</ActualSalesUnitPrice><ExtendedAmount>105</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales"><Amount>5</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">100</TaxableAmount></Tax></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>400</Amount></Tender></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal">355</Total><Total TotalType="TransactionGrandAmount">355</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588011A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-22 16:06:28</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9032</value>
+		  <value>2012-07-02</value>
+		  <value>2014-06-22 16:09:18.0</value>
+		  <value>Void</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4444</WorkstationID><SequenceNumber>9032</SequenceNumber><BusinessDayDate>2012-07-02</BusinessDayDate><BeginDateTime>2014-06-22T16:09:18</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-22T16:09:18</ReceiptDateTime><TillID></TillID><RetailTransaction TransactionStatus="Voided"><TransactionLink ReasonCode="Void"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9027</SequenceNumber><BusinessDayDate>2012-06-14</BusinessDayDate><BeginDateTime>2014-06-25T16:01:26</BeginDateTime></TransactionLink><LineItem><SequenceNumber>1</SequenceNumber><Sale Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001066</ItemID><Description>1 Pocket Shirt Bottun-down</Description><RegularSalesUnitPrice>4100</RegularSalesUnitPrice><ActualSalesUnitPrice>4100</ActualSalesUnitPrice><ExtendedAmount>4100</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">3905</TaxableAmount><Amount>195</Amount><Percent>5</Percent></Tax><Tax><TaxType>Sales</TaxType><NormalTaxType>Exceptional</NormalTaxType><Amount>1559</Amount></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001073</ItemID><Description>Leather Gloves/Dark Brown</Description><RegularSalesUnitPrice>1800</RegularSalesUnitPrice><ActualSalesUnitPrice>1800</ActualSalesUnitPrice><ExtendedAmount>1800</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">1714</TaxableAmount><Amount>86</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001080</ItemID><Description>Mix V-neck Sweater/Narual</Description><RegularSalesUnitPrice>8500</RegularSalesUnitPrice><ActualSalesUnitPrice>8500</ActualSalesUnitPrice><ExtendedAmount>8500</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">8095</TaxableAmount><Amount>405</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001097</ItemID><Description>Toto Bag/Beige</Description><RegularSalesUnitPrice>18000</RegularSalesUnitPrice><ActualSalesUnitPrice>18000</ActualSalesUnitPrice><ExtendedAmount>18000</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">17143</TaxableAmount><Amount>857</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Sale Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901301762832</ItemID><Description>Biore u Hand Soap</Description><RegularSalesUnitPrice>335</RegularSalesUnitPrice><ActualSalesUnitPrice>335</ActualSalesUnitPrice><ExtendedAmount>335</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">319</TaxableAmount><Amount>16</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>40000</Amount><Voucher /><TenderChange /></Tender></LineItem><LineItem><SequenceNumber>7</SequenceNumber><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount><Amount>0</Amount><Percent>5</Percent></Tax></LineItem><Total TotalType="TransactionSubtotal">32735</Total><Total TotalType="TransactionGrandAmount">32735</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588012A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-22 16:09:19</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9033</value>
+		  <value>2012-07-03</value>
+		  <value>2014-06-23 16:11:54.0</value>
+		  <value>Void</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4444</WorkstationID><SequenceNumber>9033</SequenceNumber><BusinessDayDate>2012-07-03</BusinessDayDate><BeginDateTime>2014-06-23T16:11:54</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-23T16:11:54</ReceiptDateTime><TillID></TillID><RetailTransaction TransactionStatus="Voided"><TransactionLink ReasonCode="Void"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9029</SequenceNumber><BusinessDayDate>2012-06-14</BusinessDayDate><BeginDateTime>2014-06-25T16:04:09</BeginDateTime></TransactionLink><LineItem><SequenceNumber>1</SequenceNumber><Sale Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901655440509</ItemID><Description>Scottie Cashmere Facial Tissues</Description><RegularSalesUnitPrice>198</RegularSalesUnitPrice><ActualSalesUnitPrice>198</ActualSalesUnitPrice><ExtendedAmount>198</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">189</TaxableAmount><Amount>9</Amount><Percent>5</Percent></Tax><Tax><TaxType>Sales</TaxType><NormalTaxType>Exceptional</NormalTaxType><Amount>30</Amount></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901750401900</ItemID><Description>Kleenex Crecia Facial Tissues</Description><RegularSalesUnitPrice>230</RegularSalesUnitPrice><ActualSalesUnitPrice>230</ActualSalesUnitPrice><ExtendedAmount>230</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">219</TaxableAmount><Amount>11</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale Department="1201" Line="0" Class="0"><ItemID Type="EAN">4901777216846</ItemID><Description>Vitamin Water 500ml</Description><RegularSalesUnitPrice>105</RegularSalesUnitPrice><ActualSalesUnitPrice>105</ActualSalesUnitPrice><ExtendedAmount>105</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">100</TaxableAmount><Amount>5</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102067041</ItemID><Description>Aloe&amp;White Grape Juice Can</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount><Amount>5</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>1000</Amount><Voucher /><TenderChange /></Tender></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount><Amount>0</Amount><Percent>5</Percent></Tax></LineItem><Total TotalType="TransactionSubtotal">643</Total><Total TotalType="TransactionGrandAmount">643</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588013A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-23 16:11:54</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9034</value>
+		  <value>2012-07-04</value>
+		  <value>2014-06-23 16:13:11.0</value>
+		  <value>Void</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4444</WorkstationID><SequenceNumber>9034</SequenceNumber><BusinessDayDate>2012-07-04</BusinessDayDate><BeginDateTime>2014-06-23T16:13:11</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-23T16:13:11</ReceiptDateTime><TillID></TillID><RetailTransaction TransactionStatus="Voided"><TransactionLink ReasonCode="Void"><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>9031</SequenceNumber><BusinessDayDate>2012-06-14</BusinessDayDate><BeginDateTime>2014-06-25T16:06:28</BeginDateTime></TransactionLink><LineItem><SequenceNumber>1</SequenceNumber><Sale Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102084178</ItemID><Description>Coca Cola Zero 500ml</Description><RegularSalesUnitPrice>140</RegularSalesUnitPrice><ActualSalesUnitPrice>140</ActualSalesUnitPrice><ExtendedAmount>140</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">133</TaxableAmount><Amount>7</Amount><Percent>5</Percent></Tax><Tax><TaxType>Sales</TaxType><NormalTaxType>Exceptional</NormalTaxType><Amount>17</Amount></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102090599</ItemID><Description>Regular Tee Kaden 250ml</Description><RegularSalesUnitPrice>110</RegularSalesUnitPrice><ActualSalesUnitPrice>110</ActualSalesUnitPrice><ExtendedAmount>110</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">105</TaxableAmount><Amount>5</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102090919</ItemID><Description>Green Tee Ayataka 500ml</Description><RegularSalesUnitPrice>105</RegularSalesUnitPrice><ActualSalesUnitPrice>105</ActualSalesUnitPrice><ExtendedAmount>105</ExtendedAmount><Quantity>1</Quantity><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">100</TaxableAmount><Amount>5</Amount><Percent>5</Percent></Tax><ItemSellingRule /></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tender TenderType="Cash" TypeCode="Sales"><Amount>400</Amount><Voucher /><TenderChange /></Tender></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tax TaxType="Sales"><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount><Amount>0</Amount><Percent>5</Percent></Tax></LineItem><Total TotalType="TransactionSubtotal">355</Total><Total TotalType="TransactionGrandAmount">355</Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588014A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-23 16:13:11</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9036</value>
+		  <value>2012-07-06</value>
+		  <value>2014-06-24 16:14:57.0</value>
+		  <value>Cancel</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction CancelFlag="True"><RetailStoreID>0031</RetailStoreID><WorkstationID>4444</WorkstationID><SequenceNumber>9036</SequenceNumber><BusinessDayDate>2012-07-06</BusinessDayDate><BeginDateTime>2014-06-24T16:14:57</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-24T16:14:57</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>6</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1201" Line="0" Class="0"><ItemID Type="EAN">4902102101486</ItemID><Description>Georgia Emerald Mountain Can</Description><RegularSalesUnitPrice>120</RegularSalesUnitPrice><ActualSalesUnitPrice>120</ActualSalesUnitPrice><ExtendedAmount>120</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>144</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4987123701716</ItemID><Description>Tylenol A 20 Caplet</Description><RegularSalesUnitPrice>945</RegularSalesUnitPrice><ActualSalesUnitPrice>945</ActualSalesUnitPrice><ExtendedAmount>945</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4987316030180</ItemID><Description>Yunker Kotei Solution 30ml</Description><RegularSalesUnitPrice>365</RegularSalesUnitPrice><ActualSalesUnitPrice>365</ActualSalesUnitPrice><ExtendedAmount>365</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730080934</ItemID><Description>Listerine Original 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730080989</ItemID><Description>Listerine Fresh Mint 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>6</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal"></Total><Total TotalType="TransactionGrandAmount"></Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588015A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-24 16:14:57</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9038</value>
+		  <value>2012-07-08</value>
+		  <value>2014-06-24 16:17:55.0</value>
+		  <value>Cancel</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction CancelFlag="True"><RetailStoreID>0031</RetailStoreID><WorkstationID>4444</WorkstationID><SequenceNumber>9038</SequenceNumber><BusinessDayDate>2012-07-08</BusinessDayDate><BeginDateTime>2014-06-24T16:17:55</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-24T16:17:55</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>5</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730081030</ItemID><Description>Listerine Cool Mint 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>4509</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1204" Line="0" Class="0"><ItemID Type="EAN">4901730091084</ItemID><Description>Listerine Total Care 1000ml</Description><RegularSalesUnitPrice>798</RegularSalesUnitPrice><ActualSalesUnitPrice>798</ActualSalesUnitPrice><ExtendedAmount>798</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1001" Line="0" Class="0"><ItemID Type="EAN">4547597868386</ItemID><Description>iPhone5s 32GB Set (Gold)</Description><RegularSalesUnitPrice>91200</RegularSalesUnitPrice><ActualSalesUnitPrice>91200</ActualSalesUnitPrice><ExtendedAmount>91200</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="False" Department="1001" Line="0" Class="0"><ItemID Type="EAN">4548660711011</ItemID><Description>Lightning USB Cable</Description><RegularSalesUnitPrice>1886</RegularSalesUnitPrice><ActualSalesUnitPrice>1886</ActualSalesUnitPrice><ExtendedAmount>1886</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>5</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal"></Total><Total TotalType="TransactionGrandAmount"></Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588016A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-24 16:17:56</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>5555</value>
+		  <value>9040</value>
+		  <value>2012-07-10</value>
+		  <value>2014-06-25 16:20:08.0</value>
+		  <value>Cancel</value>
+		  <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction CancelFlag="True"><RetailStoreID>0031</RetailStoreID><WorkstationID>5555</WorkstationID><SequenceNumber>9040</SequenceNumber><BusinessDayDate>2012-07-10</BusinessDayDate><BeginDateTime>2014-06-25T16:20:08</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-06-25T16:20:08</ReceiptDateTime><TillID>7197</TillID><RetailTransaction><ItemCount>4</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="False" Department="1001" Line="0" Class="0"><ItemID Type="EAN">4988075558090</ItemID><Description>New iPhone Color TPU Stand</Description><RegularSalesUnitPrice>1480</RegularSalesUnitPrice><ActualSalesUnitPrice>1480</ActualSalesUnitPrice><ExtendedAmount>1480</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity><Tax TaxType="Sales" NormalTaxType="Exceptional"><Amount>1396</Amount></Tax></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001011</ItemID><Description>Levi's Men's 505 Straight Jean</Description><RegularSalesUnitPrice>2850</RegularSalesUnitPrice><ActualSalesUnitPrice>2850</ActualSalesUnitPrice><ExtendedAmount>2850</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="False" Department="1401" Line="0" Class="0"><ItemID Type="EAN">2010000001028</ItemID><Description>Cargo Pants Straingt/Bronze Brown</Description><RegularSalesUnitPrice>25000</RegularSalesUnitPrice><ActualSalesUnitPrice>25000</ActualSalesUnitPrice><ExtendedAmount>25000</ExtendedAmount><ExtendedDiscountAmount></ExtendedDiscountAmount><ItemSellingRule /><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Tax TaxType="Sales"><Amount>0</Amount><Percent>5</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">0</TaxableAmount></Tax></LineItem><Total TotalType="TransactionSubtotal"></Total><Total TotalType="TransactionGrandAmount"></Total></RetailTransaction></Transaction></POSLog>]]></value>
+		  <value>477488D9-0000-4601-D1E4-35588017A010</value>
+		  <value>A010</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25 16:20:09</value>
+		</row>
+	</table>
+	
+	
+	<table name="TXL_SALES_LEDGER">
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>SequenceNumber</column>
+		<column>BusinessDayDate</column>
+		<column>Line</column>
+		<column>Account</column>
+		<column>ItemId</column>
+		<column>MdName</column>
+		<column>ReturnFlag</column>
+		<column>VoidFlag</column>
+		<column>CancelFlag</column>
+		<column>UpdDateTime</column>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9003</value>
+		  <value>2012-06-01</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901301762832</value>
+		  <value>Biore u Hand Soap</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:22:54.9170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9003</value>
+		  <value>2012-06-01</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4901655440509</value>
+		  <value>Scottie Cashmere Facial Tissues</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:22:54.9270000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9003</value>
+		  <value>2012-06-01</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4901750401900</value>
+		  <value>Kleenex Crecia Facial Tissues</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:22:54.9270000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9003</value>
+		  <value>2012-06-01</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>4901777216846</value>
+		  <value>Vitamin Water 500ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:22:54.9270000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9003</value>
+		  <value>2012-06-01</value>
+		  <value>5</value>
+		  <value>1</value>
+		  <value>4902102067041</value>
+		  <value><![CDATA[Aloe&White Grape Juice Can]]></value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:22:54.9270000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9005</value>
+		  <value>2012-06-01</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4902102084178</value>
+		  <value>Coca Cola Zero 500ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:27:14.9230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9005</value>
+		  <value>2012-06-01</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4902102090599</value>
+		  <value>Regular Tee Kaden 250ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:27:14.9230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9005</value>
+		  <value>2012-06-01</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4902102090919</value>
+		  <value>Green Tee Ayataka 500ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:27:14.9230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9005</value>
+		  <value>2012-06-01</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>4902102101486</value>
+		  <value>Georgia Emerald Mountain Can</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:27:14.9230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9007</value>
+		  <value>2012-06-01</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4987123701716</value>
+		  <value>Tylenol A 20 Caplet</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:29:33.8230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9007</value>
+		  <value>2012-06-01</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4987316030180</value>
+		  <value>Yunker Kotei Solution 30ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:29:33.8230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9007</value>
+		  <value>2012-06-01</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4901730080934</value>
+		  <value>Listerine Original 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:29:33.8230000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9009</value>
+		  <value>2012-06-01</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901730080989</value>
+		  <value>Listerine Fresh Mint 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:31:42.6270000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>1111</value>
+		  <value>9009</value>
+		  <value>2012-06-01</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4901730081030</value>
+		  <value>Listerine Cool Mint 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:31:42.6270000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9011</value>
+		  <value>2012-06-11</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901730091084</value>
+		  <value>Listerine Total Care 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:33:10.5700000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9013</value>
+		  <value>2012-06-03</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4547597868386</value>
+		  <value>iPhone5s 32GB Set (Gold)</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:34:59</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9015</value>
+		  <value>2012-06-15</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4548660711011</value>
+		  <value>Lightning USB Cable</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:37:01.5900000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9015</value>
+		  <value>2012-06-15</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4988075558090</value>
+		  <value>New iPhone Color TPU Stand</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:37:01.5900000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9015</value>
+		  <value>2012-06-15</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>2010000001011</value>
+		  <value>Levi's Men's 505 Straight Jean</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:37:01.5900000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9017</value>
+		  <value>2012-06-17</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>2010000001028</value>
+		  <value>Cargo Pants Straingt/Bronze Brown</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:39:28.8030000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9017</value>
+		  <value>2012-06-17</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>2010000001035</value>
+		  <value>Jeans Regular Straight/Light Color</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:39:28.8030000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>2222</value>
+		  <value>9019</value>
+		  <value>2012-06-19</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>2010000001042</value>
+		  <value>Tracker Jacket/Off-Beige</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:41:22.3600000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9021</value>
+		  <value>2012-06-21</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>2010000001059</value>
+		  <value>Western Shirt/Blackwatch</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:42:34.6630000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9022</value>
+		  <value>2012-06-22</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901301762832</value>
+		  <value>Biore u Hand Soap</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:49:06.8170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9022</value>
+		  <value>2012-06-22</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4901655440509</value>
+		  <value>Scottie Cashmere Facial Tissues</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:49:06.8170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9022</value>
+		  <value>2012-06-22</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4901750401900</value>
+		  <value>Kleenex Crecia Facial Tissues</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:49:06.8170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9023</value>
+		  <value>2012-06-23</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4902102084178</value>
+		  <value>Coca Cola Zero 500ml</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:53:37.8970000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9023</value>
+		  <value>2012-06-23</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4902102090599</value>
+		  <value>Regular Tee Kaden 250ml</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:53:37.8970000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9024</value>
+		  <value>2012-06-24</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4987123701716</value>
+		  <value>Tylenol A 20 Caplet</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:55:43.6770000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9025</value>
+		  <value>2012-06-25</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901730080989</value>
+		  <value>Listerine Fresh Mint 1000ml</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T15:57:28.0630000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>2010000001066</value>
+		  <value>1 Pocket Shirt Bottun-down</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:01:26.7170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>2010000001073</value>
+		  <value>Leather Gloves/Dark Brown</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:01:26.7170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>2010000001080</value>
+		  <value>Mix V-neck Sweater/Narual</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:01:26.7170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>2010000001097</value>
+		  <value>Toto Bag/Beige</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:01:26.7170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+		  <value>5</value>
+		  <value>1</value>
+		  <value>4901301762832</value>
+		  <value>Biore u Hand Soap</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:01:26.7170000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9029</value>
+		  <value>2012-06-29</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901655440509</value>
+		  <value>Scottie Cashmere Facial Tissues</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:04:09.2600000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9029</value>
+		  <value>2012-06-29</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4901750401900</value>
+		  <value>Kleenex Crecia Facial Tissues</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:04:09.2600000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9029</value>
+		  <value>2012-06-29</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4901777216846</value>
+		  <value>Vitamin Water 500ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:04:09.2600000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9029</value>
+		  <value>2012-06-29</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>4902102067041</value>
+		  <value><![CDATA[Aloe&White Grape Juice Can]]></value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:04:09.2600000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9031</value>
+		  <value>2012-07-01</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4902102084178</value>
+		  <value>Coca Cola Zero 500ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:06:28.8570000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9031</value>
+		  <value>2012-07-01</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4902102090599</value>
+		  <value>Regular Tee Kaden 250ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:06:28.8570000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9031</value>
+		  <value>2012-07-01</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4902102090919</value>
+		  <value>Green Tee Ayataka 500ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:06:28.8570000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9032</value>
+		  <value>2012-07-02</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>2010000001066</value>
+		  <value>1 Pocket Shirt Bottun-down</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:09:19.0830000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9032</value>
+		  <value>2012-07-02</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>2010000001073</value>
+		  <value>Leather Gloves/Dark Brown</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:09:19.0830000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9032</value>
+		  <value>2012-07-02</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>2010000001080</value>
+		  <value>Mix V-neck Sweater/Narual</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:09:19.0830000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9032</value>
+		  <value>2012-07-02</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>2010000001097</value>
+		  <value>Toto Bag/Beige</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:09:19.0830000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9032</value>
+		  <value>2012-07-02</value>
+		  <value>5</value>
+		  <value>1</value>
+		  <value>4901301762832</value>
+		  <value>Biore u Hand Soap</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:09:19.0830000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9033</value>
+		  <value>2012-07-03</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901655440509</value>
+		  <value>Scottie Cashmere Facial Tissues</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:11:54.8130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9033</value>
+		  <value>2012-07-03</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4901750401900</value>
+		  <value>Kleenex Crecia Facial Tissues</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:11:54.8130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9033</value>
+		  <value>2012-07-03</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4901777216846</value>
+		  <value>Vitamin Water 500ml</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:11:54.8130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9033</value>
+		  <value>2012-07-03</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>4902102067041</value>
+		  <value><![CDATA[Aloe&White Grape Juice Can]]></value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:11:54.8130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9034</value>
+		  <value>2012-07-04</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4902102084178</value>
+		  <value>Coca Cola Zero 500ml</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:13:11.6030000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9034</value>
+		  <value>2012-07-04</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4902102090599</value>
+		  <value>Regular Tee Kaden 250ml</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:13:11.6030000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9034</value>
+		  <value>2012-07-04</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4902102090919</value>
+		  <value>Green Tee Ayataka 500ml</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>0</value>
+		  <value>2014-06-25T16:13:11.6030000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9036</value>
+		  <value>2012-07-06</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4902102101486</value>
+		  <value>Georgia Emerald Mountain Can</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:14:57.1870000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9036</value>
+		  <value>2012-07-06</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4987123701716</value>
+		  <value>Tylenol A 20 Caplet</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:14:57.1870000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9036</value>
+		  <value>2012-07-06</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4987316030180</value>
+		  <value>Yunker Kotei Solution 30ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:14:57.1870000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9036</value>
+		  <value>2012-07-06</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>4901730080934</value>
+		  <value>Listerine Original 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:14:57.1870000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9036</value>
+		  <value>2012-07-06</value>
+		  <value>5</value>
+		  <value>1</value>
+		  <value>4901730080989</value>
+		  <value>Listerine Fresh Mint 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:14:57.1870000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9038</value>
+		  <value>2012-07-08</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4901730081030</value>
+		  <value>Listerine Cool Mint 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:17:56.1030000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9038</value>
+		  <value>2012-07-08</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>4901730091084</value>
+		  <value>Listerine Total Care 1000ml</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:17:56.1130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9038</value>
+		  <value>2012-07-08</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>4547597868386</value>
+		  <value>iPhone5s 32GB Set (Gold)</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:17:56.1130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9038</value>
+		  <value>2012-07-08</value>
+		  <value>4</value>
+		  <value>1</value>
+		  <value>4548660711011</value>
+		  <value>Lightning USB Cable</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:17:56.1130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>5555</value>
+		  <value>9040</value>
+		  <value>2012-07-10</value>
+		  <value>1</value>
+		  <value>1</value>
+		  <value>4988075558090</value>
+		  <value>New iPhone Color TPU Stand</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:20:09.1130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>5555</value>
+		  <value>9040</value>
+		  <value>2012-07-10</value>
+		  <value>2</value>
+		  <value>1</value>
+		  <value>2010000001011</value>
+		  <value>Levi's Men's 505 Straight Jean</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:20:09.1130000</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>5555</value>
+		  <value>9040</value>
+		  <value>2012-07-10</value>
+		  <value>3</value>
+		  <value>1</value>
+		  <value>2010000001028</value>
+		  <value>Cargo Pants Straingt/Bronze Brown</value>
+		  <value>0</value>
+		  <value>0</value>
+		  <value>1</value>
+		  <value>2014-06-25T16:20:09.1130000</value>
+		</row>
+	</table>
+	
+	<table name="TXL_SALES_VOIDED">
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>SequenceNumber</column>
+		<column>BusinessDayDate</column>
+        <column>TxType</column>
+        <row>
+          <value>0031</value>
+          <value>1111</value>
+          <value>9003</value>
+          <value>2012-06-01</value>
+          <value>Return</value>
+        </row>
+        <row>
+          <value>0031</value>
+          <value>1111</value>
+          <value>9005</value>
+          <value>2012-06-01</value>
+          <value>Return</value>
+        </row>
+        <row>
+          <value>0031</value>
+          <value>1111</value>
+          <value>9007</value>
+          <value>2012-06-01</value>
+          <value>Return</value>
+        </row>
+        <row>
+          <value>0031</value>
+          <value>1111</value>
+          <value>9009</value>
+          <value>2012-06-01</value>
+          <value>Return</value>
+        </row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9027</value>
+		  <value>2012-06-27</value>
+          <value>Void</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>3333</value>
+		  <value>9029</value>
+		  <value>2012-06-29</value>
+          <value>Void</value>
+		</row>
+		<row>
+		  <value>0031</value>
+		  <value>4444</value>
+		  <value>9031</value>
+		  <value>2012-07-01</value>
+          <value>Void</value>
+		</row>
+	</table>
+	
+	
+</dataset>

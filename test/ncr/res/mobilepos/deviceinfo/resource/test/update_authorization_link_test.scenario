@@ -1,0 +1,304 @@
+Story: Update Authorization Link
+
+Scenario: Null/Empty Parameters (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+
+!-- Should not update if STOREID is NULL/EMPTY
+Given a Device Information Web Service
+When I update creditauthorization link data of retailstoreid:null, poslinkid:posLinkID110, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then I should get error code {224}
+When I update creditauthorization link data of retailstoreid:, poslinkid:posLinkID110, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then I should get error code {224}
+
+!-- Should not update if POSLINKID is NULL/EMPTY
+Given a Device Information Web Service
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:null, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then I should get error code {224}
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then I should get error code {224}
+
+!-- Should not update if POSLINKINFO is NULL/EMPTY
+Given a Device Information Web Service
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:null
+Then I should get error code {224}
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:
+Then I should get error code {224}
+
+Scenario: NEW RetailStoreID Not Existing (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Given a MST_STOREINFO database table
+Then the MST_STOREINFO database table should have the following row(s):
+|storeid|storename   |
+|000031 |STORE-000031|
+|000032 |STORE-000032|
+|000035 |STORE-000035|
+|00031  |STORE-00031 |
+|00032  |STORE-00032 |
+
+!-- Should not update if NEW RETAILSTOREID is NOT EXISTING in the MST_STOREINFO
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"RetailStoreID":"10001"}
+Then I should get error code {710}
+
+!-- Should not update if new RETAILSTOREID is EMPTY
+When I update creditauthorization link data of retailstoreid:0031, poslinkid:posLinkID110, poslinkinfo:{"RetailStoreID":""}
+Then I should get error code {228}
+
+Scenario: LinkType is Invalid (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Given a MST_STOREINFO database table
+Then the MST_STOREINFO database table should have the following row(s):
+|storeid|storename   |
+|000031 |STORE-000031|
+|000032 |STORE-000032|
+|000035 |STORE-000035|
+|00031  |STORE-00031 |
+|00032  |STORE-00032 |
+
+!-- Should not update if LINKTYPE('queue') is INVALID
+When I update queue link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then I should get error code {905}
+
+
+Scenario: New RetailStoreID, LinkID is EMPTY (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+
+!-- Should Not Update creditauthorizationLink If NEW RETAILSTOREID is EMPTY
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"RetailStoreID":""}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":228}
+
+
+!-- Should Not Update creditauthorizationLink If NEW LINKID is EMPTY
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"LinkID":""}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":227}
+
+!-- Should Allow Update creditauthorizationLink If NEW LINKNAME is EMPTY
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"LinkName":""}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110||
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID110","LinkName":"","RetailStoreID":"000031"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+
+Scenario: Json Key-Name is Invalid (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+
+!-- Fail Update creditauthorizationLink If RetailStoreID key name is wrong
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"InvalidRetailStoreID":"00022"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSExtendedResultCode":154,"NCRWSSResultCode":151}
+
+!-- Fail Update creditauthorizationLink If LinkID key name is wrong
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"InvalidLinkID":"1"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSExtendedResultCode":154,"NCRWSSResultCode":151}
+
+!-- Fail Update creditauthorizationLink If LinkName key name is wrong
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"InvalidLinkName":"test"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSExtendedResultCode":154,"NCRWSSResultCode":151}
+
+Scenario: PosLinkID is not found (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+When I update queuebuster link data of retailstoreid:00031, poslinkid:posLinkID100, poslinkinfo:{"RetailStoreID":"00032"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSResultCode":907,"NCRWSSExtendedResultCode":0}
+
+Scenario: Duplicate Entry (FAIL)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+
+
+!-- Should Not Update creditauthorizationLink If NEW STOREID and ID EXISTS
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"LinkID":"posLinkID115"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"NCRWSSExtendedResultCode":136,"NCRWSSResultCode":901}
+
+Scenario: Optional Parameters (SUCCESS)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Given a MST_STOREINFO database table
+Then the MST_STOREINFO database table should have the following row(s):
+|storeid|storename   |
+|000031 |STORE-000031|
+|000032 |STORE-000032|
+|000035 |STORE-000035|
+|00031  |STORE-00031 |
+|00032  |STORE-00032 |
+
+!-- Should Update To NEW LINKNAME
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 001|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID110","LinkName":"POS Terminal 001","RetailStoreID":"000031"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+!-- Should Update To NEW RETAILSTOREID if EXISTING in MST_STOREINFO
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"RetailStoreID":"000032"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000032  |posLinkID110|POS Terminal 001|
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID110","LinkName":"POS Terminal 001","RetailStoreID":"000032"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+!-- Should Update To NEW LINKID If NOT EXISTING
+When I update creditauthorization link data of retailstoreid:000032, poslinkid:posLinkID110, poslinkinfo:{"LinkID":"posLinkID001"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000032  |posLinkID001|POS Terminal 001|
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID001","LinkName":"POS Terminal 001","RetailStoreID":"000032"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+!-- Should Update To NEW RETAILSTOREID, LINKID and LINKNAME If NOT EXISTING
+When I update creditauthorization link data of retailstoreid:000032, poslinkid:posLinkID001, poslinkinfo:{"LinkID":"posLinkID110","LinkName":"POS Terminal 110","RetailStoreID":"000031"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID110","LinkName":"POS Terminal 110","RetailStoreID":"000031"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+Scenario: Update With SPACES (SUCCESS)
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Given a MST_STOREINFO database table
+Then the MST_STOREINFO database table should have the following row(s):
+|storeid|storename   |
+|000031 |STORE-000031|
+|000032 |STORE-000032|
+|000035 |STORE-000035|
+|00031  |STORE-00031 |
+|00032  |STORE-00032 |
+
+!-- Should Update To NEW LINKNAME and TRIM Spaces
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID110, poslinkinfo:{"LinkName":"    POS Terminal 001   "}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 001|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID110","LinkName":"POS Terminal 001","RetailStoreID":"000031"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+!-- Should Update AUTHORIZATION Link with NULL Name
+When I update creditauthorization link data of retailstoreid:000031, poslinkid:posLinkID116, poslinkinfo:{"RetailStoreID":"000032"}
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 001|
+|000031  |posLinkID115|POS Terminal 115|
+|000032  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID116","LinkName":"","RetailStoreID":"000032"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+Scenario: Allow update table belonging  to Not Existing (might be deleted) RetailStoreID  
+Given a PRM_AUTHORIZATION_LINK_Update database table
+Then the PRM_AUTHORIZATION_LINK database table should have the following row(s):
+|storeid|id          |displayname     |
+|000031  |posLinkID110|POS Terminal 110|
+|000031  |posLinkID115|POS Terminal 115|
+|000031  |posLinkID116|null            |
+|000035  |posLinkID335|POS Terminal 335|
+Given a MST_STOREINFO database table
+Then the MST_STOREINFO database table should have the following row(s):
+|storeid|storename   |
+|000031 |STORE-000031|
+|000032 |STORE-000032|
+|000035 |STORE-000035|
+|00031  |STORE-00031 |
+|00032  |STORE-00032 |
+
+!-- Should allow update if RETAILSTOREID is NOT EXISTING in the MST_STOREINFO
+When I update creditauthorization link data of retailstoreid:000035, poslinkid:posLinkID335, poslinkinfo:{"LinkName":"POS Terminal 001"}
+Then I should get a response: {"POSLinkInfo":{"LinkID":"posLinkID335","LinkName":"POS Terminal 001","RetailStoreID":"000035"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

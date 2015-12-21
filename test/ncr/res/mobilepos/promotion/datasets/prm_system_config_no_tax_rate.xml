@@ -1,0 +1,21 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_SYSTEM_CONFIG">
+        <column>Category</column>
+        <column>KeyId</column>
+        <column>Value</column>
+        <column>Description</column>
+		<row>
+            <value>Pricing</value>
+            <value>PriceIncludeTax</value>
+            <value>2</value>
+            <value>the rounding used for calculating sale tax</value>
+        </row>     
+		<row>
+            <value>Pricing</value>
+            <value>TaxRate</value>
+            <value>0</value>
+            <value>The Tax rate</value>
+        </row>
+    </table>     	       		
+</dataset>

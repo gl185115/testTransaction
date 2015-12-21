@@ -1,0 +1,73 @@
+Scenario: Testing for SQLServerLoginCheckDAO
+Given a SQLServerLoginCheckDAO
+Then I should have a SQLServerLoginCheckDAO
+
+!-- ************** TEST TO PASS SCRIPTS ****************
+!-- A TxlNpsTxlog should be GET from table TXL_NPS_TXLOG
+	When I have a TxlNpsTxlog_PKXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxlNpsTxlog>
+				<corpid>999999999999</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<txid>55555</txid>
+				<paymentseq>50005</paymentseq>
+				<guid>4088888888888888888888888888888888888840</guid>
+			</TxlNpsTxlog>
+	Then I should get a record (true)
+	
+!-- A record should be SAVED in table TXL_NPS_TXLOG
+	When I have a TxlNpsTxlogXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxlNpsTxlog>
+				<corpid>999999999998</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<txid>55555</txid>
+				<paymentseq>50005</paymentseq>
+				<guid>4088888888888888888888888888888888888840</guid>
+				<txdatetime>20110921123456</txdatetime>
+				<brand>5</brand>
+				<service>SUB</service>
+				<amount>3</amount>
+				<rwid>2</rwid>
+				<txtype>12</txtype>
+				<rwkind>123</rwkind>
+				<xmldocument>xml</xmldocument>
+			</TxlNpsTxlog>
+	Then It should be SAVED (true)
+	
+!-- ************** TEST TO FAIL SCRIPTS ****************
+!-- A TxlNpsTxlog should not be GET from table TXL_NPS_TXLOG
+	When I have a TxlNpsTxlog_PKXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxlNpsTxlog>
+				<corpid>999999999997</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<txid>55555</txid>
+				<paymentseq>50005</paymentseq>
+				<guid>4088888888888888888888888888888888888840</guid>
+			</TxlNpsTxlog>
+	Then I should get a record (false)
+	
+!-- A record should not be SAVED in table TXL_NPS_TXLOG
+	When I have a TxlNpsTxlogXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxlNpsTxlog>
+				<corpid>999999999998</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<txid>55555</txid>
+				<paymentseq>50005</paymentseq>
+				<guid>4088888888888888888888888888888888888840</guid>
+				<txdatetime>20110921123456</txdatetime>
+				<brand>5</brand>
+				<service>SUB</service>
+				<amount>3</amount>
+				<rwid>2</rwid>
+				<txtype>12</txtype>
+				<rwkind>123</rwkind>
+				<xmldocument>xml</xmldocument>				
+			</TxlNpsTxlog>
+	Then It should be SAVED (false)

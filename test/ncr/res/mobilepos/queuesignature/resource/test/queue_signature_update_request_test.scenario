@@ -1,0 +1,34 @@
+Scenario: Update the status of the specific signature request transaction data to Normal End
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I update signature data storeid{000031}, queue{4321}, workstationid{1234}, sequencenumber{9876}, businessdate{2012-12-12} with status{4}
+Then resultcode should be {0}
+
+Scenario: Update the status of the specific signature request transaction data to In progress
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I update signature data storeid{000031}, queue{4321}, workstationid{1234}, sequencenumber{9876}, businessdate{2012-12-12} with status{6}
+Then resultcode should be {0}
+
+Scenario: Update the status of the specific signature request transaction data to Pending
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I update signature data storeid{000031}, queue{4321}, workstationid{1234}, sequencenumber{9876}, businessdate{2012-12-12} with status{3}
+Then resultcode should be {0}
+
+Scenario: Update the status of the specific signature request transaction data success (different date)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I update signature data storeid{000031}, queue{4321}, workstationid{1235}, sequencenumber{9878}, businessdate{2012-12-12} with status{4}
+Then resultcode should be {200}
+
+Scenario: Update the status of the specific signature request transaction data success (invalid date)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I update signature data storeid{000031}, queue{4321}, workstationid{1235}, sequencenumber{9878}, businessdate{2012-13-13} with status{4}
+Then resultcode should be {206}

@@ -1,0 +1,220 @@
+Scenario: Setup Consolidation
+Given an instance of SQLServerConsolidationDAO
+Then its Database Manager must have been settled
+
+Scenario: TXU_TOTAL_ACNTDAY cash tender,without discount,single line item,single item
+Given a sample {TXL_POSLOG_AcntDay} poslog xml entry in database 
+When I select a non-consolidated transaction information
+!-- Consolidate txid=0102
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results
+Then I should get the following TXU_TOTAL_ACNTDAY results: 
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY duplication cash tender,without discount,single line item,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0103
+Then I should get the following TXU_TOTAL_ACNTDAY results: 
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY duplication cash tender,without discount,single line item,multiple item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0104
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|52				|0				|22880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (same dpt, line and class) ,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0105
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|54				|0				|23760			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different class) ,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0106
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|55				|0				|24200			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different class) ,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0107
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|56				|0				|24640			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different class) ,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0108
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different timezonecode) ,single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0109
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different summarydateid) , single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0110
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different terminalid) , single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0111
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different storeid) , single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0112
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (different operatorcode) , single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0113
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|222			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item (all different primary keys) , single item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0114
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|222			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0181	|1181	|000001	|333			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0182	|1182	|000002	|333			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item, multiple item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0115
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|222			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0181	|1181	|000001	|333			|41				|0				|18040			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0182	|1182	|000002	|333			|21				|0				|9240			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender,without discount,multiple line item, multiple item
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0115
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|222			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0181	|1181	|000001	|333			|41				|0				|18040			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0182	|1182	|000002	|333			|21				|0				|9240			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-10		|17				|0181	|1181	|000001	|333			|40				|0				|17600			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-10		|17				|0182	|1182	|000002	|333			|20				|0				|8800			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender, price override without item discount
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0116
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|222			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0181	|1181	|000001	|333			|41				|0				|18040			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0182	|1182	|000002	|333			|21				|0				|9240			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-10		|17				|0181	|1181	|000001	|333			|45				|0				|18600			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-10		|17				|0182	|1182	|000002	|333			|23				|0				|9800			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+
+!-- TXU_TOTAL_ACNTDAY cash tender, price override with item discount
+When I consolidate top {1} items
+!-- TXU_TOTAL_ACNTDAY Results txid=0117
+Then I should get the following TXU_TOTAL_ACNTDAY results:
+|corpid			|storeid	|terminalid	|summarydateid	|timezonecode	|dpt	|line	|class	|Operatorcode	|SalesItemCnt	|SalesCostAmt	|SalesSalesAmt	|ReturnItemCnt	|ReturnCostAmt	|ReturnSalesAmt	|VoidItemCnt|VoidCostAmt|VoidSalesAmt	|DcItemCnt	|DcCostAmt	|DcSalesAmt	|
+|000000001111	|000031		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|000001	|111			|57				|0				|25080			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1181	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0181	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|14				|0191	|1191	|111111	|111			|1				|0				|440			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-07		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000031		|9999		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|111			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000032		|1111		|2012-02-08		|16				|0181	|1181	|000001	|222			|2				|0				|880			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0181	|1181	|000001	|333			|41				|0				|18040			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-09		|17				|0182	|1182	|000002	|333			|21				|0				|9240			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-10		|17				|0181	|1181	|000001	|333			|50				|0				|19600			|0				|0				|0				|0			|0			|0				|0			|0			|0			|
+|000000001111	|000033		|2222		|2012-02-10		|17				|0182	|1182	|000002	|333			|26				|0				|10700			|0				|0				|0				|0			|0			|0				|3			|0			|100		|
+

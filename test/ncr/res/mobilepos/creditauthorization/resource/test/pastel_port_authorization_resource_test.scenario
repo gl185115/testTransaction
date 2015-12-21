@@ -1,0 +1,121 @@
+Scenario: Testing for CreditAuthorizationResource
+Given a CreditAuthorizationResource
+Then I should have a CreditAuthorizationResource
+
+
+!-- KeyStore is updated daily so it is difficult to test using fixed data. So comment out.
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00001","guid":"0123456789","brand":"MSCREDIT","service":"DECRYPTION","txdatetime":"20120408000233","rwkind":"MSR","amount":"000099999","txtype":"02","voidtxid":"001","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"123654","voidstoreid":"654","voidterminalid":"6549","voidtxdatetime":"20120408000233"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |OK|0|false|null|00|null|
+
+
+!-- When I have a strMsgjson {{"corpid":"000000000010","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00001","guid":"0123456793","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120408000233","rwkind":"MSR","amount":"000099999","txtype":"16","voidtxid":"001","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"123654","voidstoreid":"654","voidterminalid":"6549","voidtxdatetime":"20120408000233"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC99|9|true|null|07|null|
+
+!-- When I have a strMsgjson {{"corpid":"000000000015","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00001","guid":"0123456794","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120408000233","rwkind":"MSR","amount":"000099999","txtype":"98","voidtxid":"001","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"123654","voidstoreid":"654","voidterminalid":"6549","voidtxdatetime":"20120408000233"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC02|9|true|null|07|null|
+
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00001","guid":"0123456789","brand":"MSCREDIT","service":"DECRYPTION","txdatetime":"20120408000233","rwkind":"MSR","amount":"000099999","txtype":"02","voidtxid":"001","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6MM","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"123654","voidstoreid":"654","voidterminalid":"6549","voidtxdatetime":"20120408000233"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC10|9|false|null|07|null|
+
+
+!-- RES 3.1 テストデータの追加。注意①SUBTRACT時、txdatetimeの年月日はサーバの日付。②VOID時txdatetime、voidtxdatetimeの年月日はサーバの日付。
+
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00000","guid":"0123456789","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120914091012","rwkind":"MSR","amount":"000000440","txtype":"02","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0001","paymentseq":"00001","guid":"0123456790","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120914091012","rwkind":"MSR","amount":"000000440","txtype":"16","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |OK|0|true|null|00|null|
+!--
+!--
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0002","paymentseq":"00000","guid":"0123456791","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120914091512","rwkind":"MSR","amount":"000000440","txtype":"02","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0002","paymentseq":"00002","guid":"0123456792","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120914091512","rwkind":"MSR","amount":"000000440","txtype":"16","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |OK|0|true|null|00|null|
+!--
+!--
+!--When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0003","paymentseq":"00000","guid":"0123456793","brand":"MSCREDIT","service":"VOID","txdatetime":"20120914092012","rwkind":"MSR","amount":"000000440","txtype":"02","voidtxid":"0002","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120914091512"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0003","paymentseq":"00003","guid":"0123456794","brand":"MSCREDIT","service":"VOID","txdatetime":"20120914092012","rwkind":"MSR","amount":"000000440","txtype":"16","voidtxid":"0002","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120914091512"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC03|0|true|null|00|null|
+!--
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0004","paymentseq":"00000","guid":"0123456795","brand":"MSCREDIT","service":"VOID","txdatetime":"20120914092512","rwkind":"MSR","amount":"000000440","txtype":"02","voidtxid":"0001","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120914091012"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--  When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0004","paymentseq":"00004","guid":"0123456796","brand":"MSCREDIT","service":"VOID","txdatetime":"20120914092512","rwkind":"MSR","amount":"000000440","txtype":"98","voidtxid":"0001","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120914091012"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0005","paymentseq":"00000","guid":"0123456797","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120914093012","rwkind":"MSR","amount":"000000440","txtype":"02","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0005","paymentseq":"00005","guid":"0123456798","brand":"MSCREDIT","service":"SUBTRACT","txdatetime":"20120914093012","rwkind":"MSR","amount":"000000440","txtype":"16","voidtxid":"","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120912023300"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |OK|0|true|null|00|null|
+!--
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0006","paymentseq":"00000","guid":"0123456799","brand":"MSCREDIT","service":"REFUND","txdatetime":"20120914094012","rwkind":"MSR","amount":"000000440","txtype":"02","voidtxid":"0005","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120914093012"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!-- When I have a strMsgjson {{"corpid":"000000000001","storeid":"0001","terminalid":"0123","txid":"0006","paymentseq":"00006","guid":"0123456800","brand":"MSCREDIT","service":"REFUND","txdatetime":"20120914094012","rwkind":"MSR","amount":"000000440","txtype":"16","voidtxid":"0005","carddata":"Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn","paymentmethod":"10","paymentinfo":"","taxothers":"0000000","voidcorpid":"000000000001","voidstoreid":"0001","voidterminalid":"0123","voidtxdatetime":"20120914093012"}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC03|0|true|null|00|null|
+!--
+!--When I have a strMsgjson {{'corpid':'0001','storeid':'0001','terminalid':'0123','txid':'0001','paymentseq':'00001','guid':'6660006001','brand':'MSCREDIT','service':'SUBTRACT','txdatetime':'20120914094512','rwkind':'MSR','amount':'000099999','txtype':'02','voidtxid':'001','carddata':'Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn','paymentmethod':'10','paymentinfo':'','taxothers':'0000000','voidcorpid':'0001','voidstoreid':'0001','voidterminalid':'0123','voidtxdatetime':'20120914090233'}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--When I have a strMsgjson {{'corpid':'0001','storeid':'0001','terminalid':'0123','txid':'0001','paymentseq':'00001','guid':'6660006002','brand':'MSCREDIT','service':'SUBTRACT','txdatetime':'20120914094512','rwkind':'MSR','amount':'000099999','txtype':'16','voidtxid':'001','carddata':'Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn','paymentmethod':'10','paymentinfo':'','taxothers':'0000000','voidcorpid':'0001','voidstoreid':'0001','voidterminalid':'0123','voidtxdatetime':'20120914090233'}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |OK|0|true|null|00|null|
+!--
+!--When I have a strMsgjson {{'corpid':'0001','storeid':'0002','terminalid':'0123','txid':'0001','paymentseq':'00001','guid':'6660006003','brand':'MSCREDIT','service':'SUBTRACT','txdatetime':'20120914095012','rwkind':'MSR','amount':'000099999','txtype':'02','voidtxid':'001','carddata':'Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn','paymentmethod':'10','paymentinfo':'','taxothers':'0000000','voidcorpid':'0001','voidstoreid':'0001','voidterminalid':'0123','voidtxdatetime':'20120914090233'}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--When I have a strMsgjson {{'corpid':'0001','storeid':'0002','terminalid':'0123','txid':'0001','paymentseq':'00001','guid':'6660006004','brand':'MSCREDIT','service':'SUBTRACT','txdatetime':'20120914095012','rwkind':'MSR','amount':'000099999','txtype':'98','voidtxid':'001','carddata':'Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn','paymentmethod':'10','paymentinfo':'','taxothers':'0000000','voidcorpid':'0001','voidstoreid':'0001','voidterminalid':'0123','voidtxdatetime':'20120914090233'}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |0|0|false|0|00|0|
+!--
+!--When I have a strMsgjson {{'corpid':'0001','storeid':'0003','terminalid':'0123','txid':'0001','paymentseq':'00001','guid':'6660006005','brand':'MSCREDIT','service':'SUBTRACT','txdatetime':'20120914095512','rwkind':'MSR','amount':'000099999','txtype':'16','voidtxid':'001','carddata':'Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn','paymentmethod':'10','paymentinfo':'','taxothers':'0000000','voidcorpid':'0001','voidstoreid':'0001','voidterminalid':'0123','voidtxdatetime':'20120914090233'}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC99|9|true|null|07|null|
+!--
+!--When I have a strMsgjson {{'corpid':'0001','storeid':'0004','terminalid':'0123','txid':'0001','paymentseq':'00001','guid':'6660006006','brand':'MSCREDIT','service':'SUBTRACT','txdatetime':'20120914095812','rwkind':'MSR','amount':'000099999','txtype':'98','voidtxid':'001','carddata':'Al_ZIJpcBaf1eLucqI-DKqTZU8MH3e_IN6zgUxPx6yPmzvPLJ4hhBdVpf28mNvPG_hvWD7CPALqx7wopcggdphOSxAbUD4yWeCAdwvcB24Jn5P6Bx4kOX12P-NU-rdMdL8HVI6Y_WU4Tf0yHzCcS1zaQQ8QJBkwSEmB4e_W4mIDUCYj5foKOQEdgm9RcR6pn','paymentmethod':'10','paymentinfo':'','taxothers':'0000000','voidcorpid':'0001','voidstoreid':'0001','voidterminalid':'0123','voidtxdatetime':'20120914090233'}}
+!-- Then I should get a PastelPortResp:
+!-- |errorcode|status|posreturn|cancelnoticeflag|creditstatus|resultcode|
+!-- |MC02|9|true|null|07|null|

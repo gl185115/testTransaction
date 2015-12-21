@@ -1,0 +1,117 @@
+Scenario: Test Set Printer of existing device in MST_DEVICEINFO with existing printer
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9999} to {102}
+Then ResultCode should be 0
+
+Scenario: Test Set Printer of existing device in MST_DEVICEINFO with non-existing printer
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9999} to {999}
+Then ResultCode should be 222
+
+Scenario: Test Set Printer of existing device in MST_DEVICEINFO where printerid is null (to be updated, considered as local printer)
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9999} to {null}
+Then ResultCode should be 0
+Then value of printerid in PeripheralDeviceInfo should be a null value
+
+Scenario: Test Set Printer of existing device in MST_DEVICEINFO where printerid is empty
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9999} to {}
+Then ResultCode should be 0
+
+Scenario: Test set printer to local printer (printerid = 0)
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9999} to {0}
+Then ResultCode should be 0
+When I get PeripheralDeviceInfo for corpid{9999}, storeid{000031} and deviceid{9999}
+Then result should be 0
+Then printerid in PeripheralDeviceInfo should be 0
+
+Scenario: Test set no printer (printerid = -1)
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9999} to {-1}
+Then ResultCode should be 0
+When I get PeripheralDeviceInfo for corpid{9999}, storeid{000031} and deviceid{9999}
+Then result should be 0
+Then printerid in PeripheralDeviceInfo should be -1
+
+Scenario: Test Set Printer where deviceid is empty 
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{} to {102}
+Then ResultCode should be 0
+
+Scenario: Test Set Printer where deviceid is null 
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{null} to {102}
+Then ResultCode should be 139
+
+Scenario: Test Set Printer where storeid is empty 
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{}{9999} to {102}
+Then ResultCode should be 222
+
+Scenario: Test Set Printer where storeid is null 
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{null}{9999} to {102}
+Then ResultCode should be 139
+
+Scenario: Test Set Printer where storeid and deviceid are empty 
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{}{} to {102}
+Then ResultCode should be 222
+
+Scenario: Test Set Printer where storeid and deviceid are null
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{null}{null} to {102}
+Then ResultCode should be 139
+
+Scenario: Test Set Printer of non-existing device in MST_DEVICEINFO with existing printer
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9999}{000031}{9977} to {102}
+Then ResultCode should be 0
+When I get PeripheralDeviceInfo for corpid{9999}, storeid{000031} and deviceid{9977}
+Then result should be 0
+Then printer should be notnull
+Then printerid should be 102
+Then printername should be {Test Printer 2}
+Then description should be {Unit test printer 2}
+Then linkposterminalid should be {empty} 
+
+Scenario: Test Set Printer of non-existing device in MST_DEVICEINFO with non-existing printer
+Given an initial deviceinfo entry in database
+Given entries in MST_PRINTERINFO database table
+Given a PeripheralDeviceControl service
+When I set the printer of device{9977}{000031}{8888} to {888}
+Then ResultCode should be 222
+When I get PeripheralDeviceInfo for corpid{9977}, storeid{000031} and deviceid{8888}
+Then result should be 223
+Then printerid should be null
+Then printername should be {empty}
+Then description should be {empty}
+Then linkposterminalid should be {empty} 

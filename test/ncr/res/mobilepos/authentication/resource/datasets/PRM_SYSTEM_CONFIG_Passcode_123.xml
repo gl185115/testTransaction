@@ -1,0 +1,27 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_SYSTEM_CONFIG">
+        <column>Category</column>
+        <column>KeyId</column>
+        <column>Value</column>
+        <column>Description</column>
+        <row>
+            <value>Authentication</value>
+            <value>AdminKey</value>
+            <value>ADMINXYZ</value>
+            <value>The Administration key.</value>
+        </row>
+        <row>
+            <value>Authentication</value>
+            <value>RegistrationPasscode</value>
+            <value>FGH</value>
+            <value>The Registration Passcode.</value>
+        </row>
+                <row>
+            <value>Authentication</value>
+            <value>RegistrationPasscodeExpiry</value>
+            <value>8</value>
+            <value>The RegistrationPasscodeExpiry</value>
+        </row>
+    </table>
+</dataset>

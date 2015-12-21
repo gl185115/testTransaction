@@ -1,0 +1,126 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="TXL_POSLOG">
+		<column>seqnum</column>
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>termid</column>
+        <column>txid</column>
+		<column>summarydateid</column>
+		<column>txtype</column>
+		<column>tx</column>
+		<column>status</column>
+    </table>     
+ 	<table name="TXL_JOURNAL">
+      	<column>corpid</column>
+		<column>storeid</column>
+		<column>termid</column>
+		<column>tranno</column>
+		<column>tranlineno</column>
+		<column>summarydateid</column>
+		<column>operatorcode</column>
+		<column>plu</column>
+		<column>description</column>
+		<column>accountcode</column>
+		<column>itemcnt</column>
+		<column>actsalesamount</column>
+		<column>returnflag</column>
+		<column>voidflag</column>
+		<column>cancelflag</column>
+		<column>Debtor</column>
+		<column>creditor</column>
+		<column>customerid</column>
+		<column>originaltranno</column>
+		<column>upddate</column>
+    </table>     	       			  
+	<table name="TXU_TOTAL_ACNTDAY">		
+		<column>corpid</column>	
+		<column>storeid</column>	
+		<column>terminalid</column>		
+		<column>summarydateid</column>	
+		<column>timezonecode</column>	
+		<column>dpt</column>	
+		<column>line</column>	
+		<column>class</column>	
+		<column>Operatorcode</column>	
+		<column>SalesItemCnt</column>	
+		<column>SalesCostAmt</column>	
+		<column>SalesSalesAmt</column>	
+		<column>ReturnItemCnt</column>	
+		<column>ReturnCostAmt</column>	
+		<column>ReturnSalesAmt</column>	
+		<column>VoidItemCnt</column>	
+		<column>VoidCostAmt</column>	
+		<column>VoidSalesAmt</column>	
+		<column>DcItemCnt</column>	
+		<column>DcCostAmt</column>	
+		<column>DcSalesAmt</column>			
+    </table>
+	<table name="TXU_TOTAL_DPTSUMDAY">
+		<column>corpid</column>
+		<column>storeid</column>
+		<column>summarydateid</column>
+		<column>dpt</column>
+		<column>timezonecode</column>
+		<column>SalesItemCnt</column>
+		<column>SalesSalesAmt</column>
+		<column>ReturnItemCnt</column>
+		<column>ReturnSalesAmt</column>
+		<column>voidItemCnt</column>
+		<column>voidSalesAmt</column>
+		<column>DcItemCnt</column>
+		<column>DcSalesAmt</column>	
+    </table>        
+	<table name="TXU_TOTAL_FINANCIAL">
+		<column>corpid</column>
+		<column>storeid</column>
+		<column>terminalid</column>
+		<column>accountcode</column>
+		<column>accountsubcode</column>
+		<column>debtor</column>
+		<column>creditor</column>
+    </table>     	   
+	<table name="TXU_TOTAL_DRAWER_FINANCIAL">
+		<column>corpid</column>
+		<column>storeid</column>
+		<column>printerid</column>
+		<column>accountcode</column>
+		<column>accountsubcode</column>
+		<column>debtor</column>
+		<column>creditor</column>
+    </table>
+	<table name="TXU_TOTAL_GUESTDPTDAY">
+		<column>corpid</column>
+		<column>storeid</column>
+		<column>terminalid</column>
+		<column>Operatorcode</column>
+		<column>summarydateid</column>
+		<column>dpt</column>
+		<column>timezonecode</column>
+		<column>SalesGuestCnt</column>
+		<column>ReturnGuestCnt</column>
+		<column>VoidGuestCnt</column>
+    </table>    
+	<table name="TXU_TOTAL_ITEMDAY">
+		<column>corpid</column>
+		<column>storeid</column>
+		<column>summarydateid</column>
+		<column>salesprice</column>
+		<column>dpt</column>
+		<column>line</column>
+		<column>class</column>
+		<column>plu</column>
+		<column>SalesItemCnt</column>
+		<column>SalesCostAmt</column>
+		<column>SalesSalesAmt</column>
+		<column>ReturnItemCnt</column>
+		<column>ReturnCostAmt</column>
+		<column>ReturnSalesAmt</column>
+		<column>VoidItemCnt</column>
+		<column>VoidCostAmt</column>
+		<column>VoidSalesAmt</column>
+		<column>DcItemCnt</column>
+		<column>DcCostAmt</column>
+		<column>DcSalesAmt</column>
+	</table>     	       	 		      		
+</dataset>

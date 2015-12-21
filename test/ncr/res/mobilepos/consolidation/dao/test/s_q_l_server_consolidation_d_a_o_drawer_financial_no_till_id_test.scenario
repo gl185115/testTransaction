@@ -1,0 +1,14 @@
+Scenario: Setup Consolidation
+Given an instance of SQLServerConsolidationDAO
+Then its Database Manager must have been settled
+
+Scenario: TXU_TOTAL_DRAWER_FINANCIAL cash tender,without discount,single line item,single item
+Given a sample {TXL_POSLOG_DrawerFinancialNoTillId} poslog xml entry in database 
+When I select a non-consolidated transaction information
+!-- Consolidate
+When I consolidate top {2} items
+!-- TXU_TOTAL_DRAWER_FINANCIAL Results
+Then I should get the following TXU_TOTAL_DRAWER_FINANCIAL results: 
+|corpid			|storeid	|printerid	|accountcode	|accountsubcode	|summarydateid	|debtor	|creditor	|
+|999         	|000031		|1			|0013			|NA				|2012-03-04		|3000	|0			|
+|999         	|000031		|1			|0060			|NR				|2012-03-04		|0		|3000		|

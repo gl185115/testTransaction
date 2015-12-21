@@ -1,0 +1,132 @@
+Scenario: Testing for SQLServerLogDAO
+Given a SQLServerLogDAO
+Then I should have a SQLServerLogDAO
+
+!-- ************** TEST TO PASS SCRIPTS ****************
+!-- A TxuNpsPastelPortLog should be GET from table TxuNpsPastelPortLog
+	When I have a TxuNpsPastelPortLog_PKXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+			</TxuNpsPastelPortLog>
+	Then I should get a CommonTx (true)
+
+!-- A record should be SAVED in table TXU_NPS_PastelPortLog
+	When I have a CommonTx_InsertXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+				<txid>99999</txid>
+				<brand>aaaaaaaaa1aaaaaaaaa2aaaaaaaaa3aaaaaaaaa4</brand>
+				<service>bbbbbbbbb1bbbbbbbbb2bbbbbbbbb3bbbbbbbbb4</service>
+				<txtype>0</txtype>
+				<crcompanycode>4004</crcompanycode>
+				<recvcompanycode>aaaaaaa</recvcompanycode>
+				<paymentmethod>3</paymentmethod>
+				<pan>qqqqqq</pan>
+				<expdate>1234</expdate>
+				<amount>1000000</amount>
+				<settlementnum>000000000100000000020000000003</settlementnum>
+			</TxuNpsPastelPortLog>
+	Then It should be SAVED (true)
+	!-- A record should be SAVED in table TXU_NPS_PastelPortLog
+	When I have a CommonTx_InsertXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+				<txid>99999</txid>
+				<brand>aaaaaaaaa1aaaaaaaaa2aaaaaaaaa3aaaaaaaaa4</brand>
+				<service>bbbbbbbbb1bbbbbbbbb2bbbbbbbbb3bbbbbbbbb4</service>
+				<txtype>0</txtype>
+				<crcompanycode>4004</crcompanycode>
+				<recvcompanycode>aaaaaaa</recvcompanycode>
+				<paymentmethod>3</paymentmethod>
+				<pan>qqqqqq</pan>
+				<expdate>1234</expdate>
+				<amount>1000000</amount>
+				<settlementnum>000000000100000000020000000003</settlementnum>
+			</TxuNpsPastelPortLog>
+	Then It should be SAVED (false)
+
+!-- A record from table TXU_NPS_PastelPortLog should be UPDATE (updateRca)
+	When I have a CommonTx_UpdateRcaXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+				<txstatus>9999</txstatus>
+				<castatus>16</castatus>
+				<caerrorcode>08</caerrorcode>
+      			<approvalcode>1234657</approvalcode>
+				<tracenum>147258</tracenum>
+			</TxuNpsPastelPortLog>
+	Then It should be UPDATE by updateRca (true)
+
+!-- A record from table TXU_NPS_PastelPortLog should be UPDATE (updateSdc)
+	When I have a txtype {2}, a CommonTx_UpdateSdcXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<corpid>999999999998</corpid>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+			</TxuNpsPastelPortLog>
+	Then It should be UPDATE by updateSdc (true)
+
+!-- A record from table TXU_NPS_PastelPortLog should be UPDATE (updateRdc)
+	When I have a CommonTx_UpdateRdcXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+				<txstatus>9999</txstatus>
+				<dcstatus>16</dcstatus>
+				<dcerrorcode>08</dcerrorcode>
+      			<approvalcode>1234657</approvalcode>
+				<tracenum>147258</tracenum>
+				<alertflag>98</alertflag>
+			</TxuNpsPastelPortLog>
+	Then It should be UPDATE by updateRdc (true)
+
+!-- A record from table TXU_NPS_PastelPortLog should be UPDATE (updateVoid)
+	When I have a CommonTx_UpdateVoidXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+				<voidflag>11</voidflag>
+				<voidcorpid>9999999997</voidcorpid>
+				<voidstoreid>666668</voidstoreid>
+      			<voidtermid>4445</voidtermid>
+				<voidpaymentseq>55556</voidpaymentseq>
+				<voidtxid>55558</voidtxid>
+				<voidtxdate>20120425</voidtxdate>
+			</TxuNpsPastelPortLog>
+	Then It should be UPDATE by updateVoid (true)
+
+!-- A record from table TXU_NPS_PastelPortLog should be UPDATE (updateServerPaymentseq)
+	When I have a ServerPaymentseq {9}, and a CommonTx_UpdateServerPaymentseqXml
+		<?xml version="1.0" encoding="shift_jis"?>
+			<TxuNpsPastelPortLog>
+				<storeid>666666</storeid>
+				<termid>4444</termid>
+				<paymentseq>55555</paymentseq>
+				<txdate>20120425</txdate>
+			</TxuNpsPastelPortLog>
+	Then It should be UPDATE by updateServerPaymentseq (true)

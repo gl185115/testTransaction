@@ -1,0 +1,2 @@
+Given a transaction model with WorkstationId{9999}, SequenceNumber{12312}, Total{1234567}
+Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Transaction><SequenceNumber>12312</SequenceNumber><Total>1234567.0</Total><WorkstationID>9999</WorkstationID></Transaction>}

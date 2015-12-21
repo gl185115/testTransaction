@@ -1,0 +1,4 @@
+Scenario:Insert or Upddate SOD Entry
+Given I have a queue buster dao controller
+When inserting previous amount data {01} {0031} {300000} {0009999} {0001}
+Then It should retreive the new data {01} {0031}

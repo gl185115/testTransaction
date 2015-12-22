@@ -3,18 +3,24 @@
  */
 package ncr.res.mobilepos.devicelog.resource;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -64,13 +70,123 @@ public class DeviceLogResource {
      * instance of IOWriter.
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
+
+    /**
+     * DeviceLogPath, path to store device log files, being initialized once in constructor.
+     */
+    private final String deviceLogPath;
+
+    /**
+     * FastDateFormat, which is used by uploadLog() to add date to its filename.
+     */
+    public static final SimpleDateFormat MOBILE_DEVICE_LOG_DATEFORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+    
+    /**
+     * MobileShop Device Log filename template.
+     * "MobileShop_<storeId>_<termId>_<receivedTime>.log"
+     */
+    public static final String MOBILE_FILE_NAME_TEMPLATE = "MobileShop_%s_%s_%s.log";
+    
     /**
      * constructor.
+     * @throws NamingException 
      */
-    public DeviceLogResource() {
+    public DeviceLogResource() throws NamingException {
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
+       
+        // Loads parameters from InitialContext.
+        try {
+            InitialContext initialContext = new InitialContext();
+            javax.naming.Context contextEnv = (javax.naming.Context) initialContext.lookup("java:comp/env");
+            deviceLogPath = (String) contextEnv.lookup("deviceLogPath");
+        } catch(NamingException exception) {
+	    LOGGER.logError("DeviceLogResource", "DeviceLogResource", Logger.RES_EXCEP_GENERAL, exception.getMessage());
+	    exception.printStackTrace();
+	    throw exception;
+        }
     }
+
+    /**
+     * uploads logs from device to server
+     * 
+     * @param request - the servlet request
+     * @param storeid - store id
+     * @param termid - terminal id
+     * @param data - contents of log itseld
+     * @return ResultBase, which contains: NCRWSSResultCode,
+     *         NCRWSSExtendedResultCode and Message.
+     */
+    @Path("/upload")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public final ResultBase uploadLog(@Context final HttpServletRequest request,
+	    @FormParam("storeid") final String storeId,
+	    @FormParam("termid") final String termId,
+	    @FormParam("data") final String data) {
+	// Logs given parameters for Debug.
+	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+	tp.methodEnter("uploadLog");
+	tp.println("storeid", storeId).println("termid", termId).println("data", data);
+
+	// Instantiates return object having successful state as default.
+	ResultBase result = new ResultBase();
+
+	// Validates if given parameters are not empty.
+	if ((storeId == null || termId == null || data == null) ||
+		(storeId.length() == 0 || termId.length() == 0 || data.length() == 0)) {
+	    // Returns as invalid params.
+	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+	    result.setMessage("Invalid parameters. Parameters must not be empty. ");
+	    return result;
+	}
+
+	// Formats current server time.
+	String currentTimeString = MOBILE_DEVICE_LOG_DATEFORMAT.format(new Date());
+	// Combines params to make filename.
+	String deviceLogFilename = String.format(MOBILE_FILE_NAME_TEMPLATE, 
+		storeId, termId, currentTimeString);
+	String deviceLogFilePath = deviceLogPath + File.separator + deviceLogFilename;
+
+	// Outer try-catch, checks if it can open and close file.
+	try {
+	    // Opens file output stream with append mode in case the file
+	    // already exists.
+	    BufferedOutputStream logFile = new BufferedOutputStream(
+		    new FileOutputStream(new File(deviceLogFilePath), true));
+
+	    // Inner try-catch, checks if it can write to the file.
+	    try {
+		logFile.write(data.getBytes());
+	    } catch (IOException ioe) {
+		// Records error while writing.
+		result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+		result.setMessage("Failed to write file. file-io error.");
+		tp.println("Failed to write file. file-io error.");
+		ioe.printStackTrace();
+	    } finally {
+		logFile.close();
+	    }
+
+	} catch (FileNotFoundException fnfe) {
+	    // Records error while opening file.
+	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+	    result.setMessage("Failed to open file.");
+	    tp.println("Failed to open file.");
+	    fnfe.printStackTrace();
+	} catch (Exception e) {
+	    // Records error while closing file.
+	    // This catch is only for exception from OutputSream-close.
+	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+	    result.setMessage("Failed to close file.");
+	    tp.println("Failed to close file.");
+	    e.printStackTrace();
+	}
+
+	tp.methodExit(result.getNCRWSSResultCode());
+	return result;
+    }
+
     /**
      * uploads from device to server.
      * @param request - the servlet request

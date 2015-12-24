@@ -72,9 +72,9 @@ public class DeviceLogResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
 
     /**
-     * DeviceLogPath, path to store device log files, being initialized once in constructor.
+     * DeviceLogPath, path to store device log files, being initialized only once.
      */
-    private final String deviceLogPath;
+    private final String deviceLogPath = setDeviceLogPath();
 
     /**
      * FastDateFormat, which is used by uploadLog() to add date to its filename.
@@ -89,22 +89,26 @@ public class DeviceLogResource {
     
     /**
      * constructor.
-     * @throws NamingException 
      */
-    public DeviceLogResource() throws NamingException {
-        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
-                getClass());
-       
-        // Loads parameters from InitialContext.
-        try {
-            InitialContext initialContext = new InitialContext();
-            javax.naming.Context contextEnv = (javax.naming.Context) initialContext.lookup("java:comp/env");
-            deviceLogPath = (String) contextEnv.lookup("deviceLogPath");
-        } catch(NamingException exception) {
-	    LOGGER.logError("DeviceLogResource", "DeviceLogResource", Logger.RES_EXCEP_GENERAL, exception.getMessage());
+    public DeviceLogResource() {
+	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+    }
+
+    /**
+     * Loads deviceLogPath from web.xml via InitialContext and lookup. If it
+     * fails by throwing NamingException, it should be recorded in log.
+     */
+    private String setDeviceLogPath() {
+	try {
+	    InitialContext initialContext = new InitialContext();
+	    javax.naming.Context contextEnv = (javax.naming.Context) initialContext.lookup("java:comp/env");
+	    return (String) contextEnv.lookup("deviceLogPath");
+	} catch (NamingException exception) {
+	    LOGGER.logError("DeviceLogResource", "DeviceLogResource", Logger.RES_EXCEP_GENERAL,
+		    exception.getMessage());
 	    exception.printStackTrace();
-	    throw exception;
-        }
+	    return "";
+	}
     }
 
     /**

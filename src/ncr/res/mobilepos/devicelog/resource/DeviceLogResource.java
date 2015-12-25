@@ -12,7 +12,9 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,6 +34,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -43,11 +50,6 @@ import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * @author PB185094
@@ -74,31 +76,45 @@ public class DeviceLogResource {
     /**
      * DeviceLogPath, path to store device log files, being initialized only once.
      */
-    private final String deviceLogPath = setDeviceLogPath();
+    private final String deviceLogPath = loadDeviceLogPath();
 
     /**
      * FastDateFormat, which is used by uploadLog() to add date to its filename.
      */
-    public static final SimpleDateFormat MOBILE_DEVICE_LOG_DATEFORMAT = new SimpleDateFormat("yyyyMMddHHmmss");
+    public static final DateTimeFormatter MOBILE_DEVICE_LOG_DATEFORMAT
+    						= DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
     
     /**
-     * MobileShop Device Log filename template.
-     * "MobileShop_<storeId>_<termId>_<receivedTime>.log"
+     * MobileShop Device Log file-path template.
+     * "<deviceLogPath>/MobileShop_<storeId>_<termId>_<receivedTime>.log"
      */
-    public static final String MOBILE_FILE_NAME_TEMPLATE = "MobileShop_%s_%s_%s.log";
+    public static final String MOBILE_FILE_PATH_TEMPLATE = "%s" + File.separator + "MobileShop_%s_%s_%s.log";
+    
+    /**
+     * Clock to generate current time, which is used for filename. 
+     */
+    private final Clock currentTimeClock;
     
     /**
      * constructor.
      */
     public DeviceLogResource() {
+	this(Clock.systemDefaultZone());
+    }
+    
+    /**
+     * constructor with given Clock.
+     */
+    public DeviceLogResource(Clock clock) {
+	currentTimeClock = clock;
 	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
-
+    
     /**
      * Loads deviceLogPath from web.xml via InitialContext and lookup. If it
      * fails by throwing NamingException, it should be recorded in log.
      */
-    private String setDeviceLogPath() {
+    private String loadDeviceLogPath() {
 	try {
 	    InitialContext initialContext = new InitialContext();
 	    javax.naming.Context contextEnv = (javax.naming.Context) initialContext.lookup("java:comp/env");
@@ -139,18 +155,17 @@ public class DeviceLogResource {
 	// Validates if given parameters are not empty.
 	if ((storeId == null || termId == null || data == null) ||
 		(storeId.length() == 0 || termId.length() == 0 || data.length() == 0)) {
-	    // Returns as invalid params.
+	    // Returns as invalid parameters.
 	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-	    result.setMessage("Invalid parameters. Parameters must not be empty. ");
+	    result.setMessage("Invalid parameters. Parameters must not be empty.");
 	    return result;
 	}
 
 	// Formats current server time.
-	String currentTimeString = MOBILE_DEVICE_LOG_DATEFORMAT.format(new Date());
-	// Combines params to make filename.
-	String deviceLogFilename = String.format(MOBILE_FILE_NAME_TEMPLATE, 
-		storeId, termId, currentTimeString);
-	String deviceLogFilePath = deviceLogPath + File.separator + deviceLogFilename;
+	String currentTimeString = LocalDateTime.now(currentTimeClock).format(MOBILE_DEVICE_LOG_DATEFORMAT);
+	// Combines parameters to make device-log  file path.
+	String deviceLogFilePath = String.format(MOBILE_FILE_PATH_TEMPLATE,
+							deviceLogPath, storeId, termId, currentTimeString);
 
 	// Outer try-catch, checks if it can open and close file.
 	try {

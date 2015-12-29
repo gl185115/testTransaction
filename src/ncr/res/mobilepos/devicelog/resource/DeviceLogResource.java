@@ -133,7 +133,7 @@ public class DeviceLogResource {
      * @param request - the servlet request
      * @param storeid - store id
      * @param termid - terminal id
-     * @param data - contents of log itseld
+     * @param data - contents of log itself
      * @return ResultBase, which contains: NCRWSSResultCode,
      *         NCRWSSExtendedResultCode and Message.
      */
@@ -167,38 +167,15 @@ public class DeviceLogResource {
 	String deviceLogFilePath = String.format(MOBILE_FILE_PATH_TEMPLATE,
 							deviceLogPath, storeId, termId, currentTimeString);
 
-	// Outer try-catch, checks if it can open and close file.
-	try {
-	    // Opens file output stream with append mode in case the file
-	    // already exists.
-	    BufferedOutputStream logFile = new BufferedOutputStream(
-		    new FileOutputStream(new File(deviceLogFilePath), true));
-
-	    // Inner try-catch, checks if it can write to the file.
-	    try {
-		logFile.write(data.getBytes());
-	    } catch (IOException ioe) {
-		// Records error while writing.
-		result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-		result.setMessage("Failed to write file. file-io error.");
-		tp.println("Failed to write file. file-io error.");
-		ioe.printStackTrace();
-	    } finally {
-		logFile.close();
-	    }
-
-	} catch (FileNotFoundException fnfe) {
-	    // Records error while opening file.
+	// Opens file output stream with append mode in case the file already exists.
+	try (FileOutputStream fos = new FileOutputStream(new File(deviceLogFilePath), true);
+		BufferedOutputStream logFile = new BufferedOutputStream(fos)) {
+	    logFile.write(data.getBytes());
+	} catch (IOException e) {
+	    // Records error while writing file.
 	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-	    result.setMessage("Failed to open file.");
-	    tp.println("Failed to open file.");
-	    fnfe.printStackTrace();
-	} catch (Exception e) {
-	    // Records error while closing file.
-	    // This catch is only for exception from OutputSream-close.
-	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-	    result.setMessage("Failed to close file.");
-	    tp.println("Failed to close file.");
+	    result.setMessage("Failed to write file, File I/O eror.");
+	    tp.println("Failed to write file, File I/O eror.");
 	    e.printStackTrace();
 	}
 

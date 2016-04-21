@@ -567,6 +567,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 		result.findColumn("Description")));
                 printerInfo.setStatus(result.getString(
                 		result.findColumn("Status")));
+                printerInfo.setPortNumUdp(result.getString(
+                		result.findColumn("PortNumUdp")));
+                printerInfo.setIpAddress(result.getString(
+                		result.findColumn("IpAddress")));
+                printerInfo.setPortNumTcp(result.getString(
+                		result.findColumn("PortNumTcp")));
                 devInfo.setAttributeId(result.getString(
                 		result.findColumn("AttributeId")));
             } else {

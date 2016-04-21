@@ -4203,6 +4203,9 @@ ORDER BY
       printinfo.PrinterName,
       printinfo.Description,
       printinfo.Status,
+      printinfo.IpAddress,
+      printinfo.PortNumUdp,
+      printinfo.PortNumTcp,
       devinfo.AttributeId
     FROM 
       RESMaster.dbo.MST_DEVICEINFO devinfo

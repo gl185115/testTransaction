@@ -1,7 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.ncr.res.xebio</groupId>
   <artifactId>resTransaction</artifactId>
   <packaging>war</packaging>
   <name>RESTransactionService</name>
@@ -21,6 +20,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     <svn.revision>0</svn.revision>
     <timestamp>${maven.build.timestamp}</timestamp>
     <maven.build.timestamp.format>yyyy/MM/dd</maven.build.timestamp.format>
+    <myGroupId>temp</myGroupId>
+    <myVersion>temp</myVersion>
   </properties>
   <distributionManagement>
         <repository>
@@ -103,9 +104,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>sqljdbc4</groupId>
-      <artifactId>sqljdbc4</artifactId>
-      <version>3.0</version>
+      <groupId>sqljdbc42</groupId>
+      <artifactId>sqljdbc42</artifactId>
+      <version>4.2</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -367,13 +368,15 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <include>*.properties</include>
         </includes>
       </resource>
-      <resource>
+    </resources>
+    <testResources>
+      <testResource>
         <directory>test</directory>
         <includes>
           <include>**/*.scenario</include>
         </includes>
-      </resource>
-    </resources>
+      </testResource>
+    </testResources>
     <plugins>
        <plugin>
           <groupId>org.codehaus.mojo</groupId>
@@ -640,5 +643,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </plugin>
     </plugins>
   </reporting>
-  <version>2.0.0.${build.number}.${svn.revision}${version.snapshot}</version>
+  <groupId>base</groupId>
+  <version>${myVersion}</version>
 </project>

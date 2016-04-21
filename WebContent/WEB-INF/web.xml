@@ -55,7 +55,8 @@
         ncr.res.mobilepos.test.resource,
         ncr.res.mobilepos.tillinfo.resource,
         ncr.res.mobilepos.xebioapi.resource,
-        ncr.res.mobilepos.point.resource
+        ncr.res.mobilepos.point.resource,
+        ncr.res.mobilepos.uiconfig.resource
     </param-value>
     </init-param>
     <init-param>
@@ -109,6 +110,7 @@
       <url-pattern>/rest/deviceinfo/setqueuebusterlink</url-pattern>
       <url-pattern>/rest/deviceinfo/setsignaturelink</url-pattern>
       <url-pattern>/rest/devicelog/*</url-pattern>
+      <url-pattern>/rest/uiconfig/*</url-pattern>
       <url-pattern>/rest/discountplaninfo/*</url-pattern>
       <url-pattern>/rest/eventlog/*</url-pattern>
       <url-pattern>/rest/line/*</url-pattern>
@@ -158,6 +160,30 @@
   <listener>
     <listener-class>ncr.res.websocket.listener.WebSocketListener</listener-class>
   </listener>
+  <env-entry>
+    <description>Path to custom base directory. This needs '/' at the end.</description>
+    <env-entry-name>customResourceBasePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>c:/software/ncr/res/custom/</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <description>Relative path to schedule.xml from custom base.</description>
+    <env-entry-name>scheduleFilePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>schedule/schedule.xml</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <description>Relative path to stores.csv from custom base.</description>
+    <env-entry-name>storesCsvFilePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>schedule/stores.csv</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <description>Relative path to deployStatus.xml.</description>
+    <env-entry-name>deployStatusFilePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>schedule/deployStatus.xml</env-entry-value>
+  </env-entry>
   <env-entry>
     <description>Logger output file</description>
     <env-entry-name>iowPath</env-entry-name>

@@ -375,6 +375,26 @@ public final class Logger extends IoWriter {
     }
 
     /**
+     * Function to log an abnormal flow. or message (e.g SQL and other exceptions)
+     * @param progName - the current class body name
+     * @param code - error code to include in the log
+     * @param logMessage - message to include in the log entry
+     * @param throwable - exception object
+     */
+    public void logSnapException(	final char level,
+    								final String progName,
+    								final String code,
+    								final CharSequence logMessage,
+    								final Throwable throwable) {
+        try {
+            this.write(level, progName, code, logMessage,
+            		SnapLogger.getInstance().write(throwable.getClass().getSimpleName() , throwable));
+        } catch (Exception e) {
+            // ignore logger exception
+        }
+    }
+    
+    /**
      * Function to log a warning message.
      * @param progName - the current class body name
      * @param functionName - the current function body name
@@ -509,28 +529,33 @@ public final class Logger extends IoWriter {
 
     /**
      * Output stack trace error message.
-     *
-     * @param progName
-     *            - the current class body name
-     * @param code
-     *            - error code to include in the log
-     *
-     * @param logMessage
-     *            - message to include in the log entry
-     * @param throwable
-     *            - exception object
+     * @param progName - the current class body name
+     * @param code - error code to include in the log
+     * @param logMessage - message to include in the log entry
+     * @param throwable - exception object
      */
-    public void logAlert(final String progName, final String code,
-            final CharSequence logMessage, final Throwable t) {
-        logSnapException(progName, code, logMessage, t);
+    public void logAlert(	final String progName,
+    						final String code,
+    						final CharSequence logMessage,
+    						final Throwable t) {
+        logSnapException(IoWriter.ALERT, progName, code, logMessage, t);
     }
+
+	/**
+     * Output stack trace error message.
+     * @param progName - the current class body name
+     * @param code - error code to include in the log
+     * @param logMessage - message to include in the log entry
+     * @param throwable - exception object
+     */
     public void logAlert(final String progName, final String code,
                          String funcName,
             final CharSequence logMessage, final Throwable t) {
         // for convenience to replace existing wrong logAlert method.
         // ignore funcName. it can be looked up from exception trace.
-        logSnapException(progName, code, logMessage, t);
+        logSnapException(IoWriter.ALERT, progName, code, logMessage, t);
     }
+    
 
     /**
      * Log bytes with error flag.

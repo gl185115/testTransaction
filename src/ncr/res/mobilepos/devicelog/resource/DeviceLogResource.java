@@ -3,18 +3,26 @@
  */
 package ncr.res.mobilepos.devicelog.resource;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -25,6 +33,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -37,11 +50,6 @@ import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 /**
  * @author PB185094
@@ -64,13 +72,117 @@ public class DeviceLogResource {
      * instance of IOWriter.
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
+
+    /**
+     * DeviceLogPath, path to store device log files, being initialized only once.
+     */
+    private final String deviceLogPath = loadDeviceLogPath();
+
+    /**
+     * FastDateFormat, which is used by uploadLog() to add date to its filename.
+     */
+    public static final DateTimeFormatter MOBILE_DEVICE_LOG_DATEFORMAT
+    						= DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+    
+    /**
+     * MobileShop Device Log file-path template.
+     * "<deviceLogPath>/MobileShop_<storeId>_<termId>_<receivedTime>.log"
+     */
+    public static final String MOBILE_FILE_PATH_TEMPLATE = "%s" + File.separator + "MobileShop_%s_%s_%s.log";
+    
+    /**
+     * Clock to generate current time, which is used for filename. 
+     */
+    private final Clock currentTimeClock;
+    
     /**
      * constructor.
      */
     public DeviceLogResource() {
-        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
-                getClass());
+	this(Clock.systemDefaultZone());
     }
+    
+    /**
+     * constructor with given Clock.
+     */
+    public DeviceLogResource(Clock clock) {
+	currentTimeClock = clock;
+	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+    }
+    
+    /**
+     * Loads deviceLogPath from web.xml via InitialContext and lookup. If it
+     * fails by throwing NamingException, it should be recorded in log.
+     */
+    private String loadDeviceLogPath() {
+	try {
+	    InitialContext initialContext = new InitialContext();
+	    javax.naming.Context contextEnv = (javax.naming.Context) initialContext.lookup("java:comp/env");
+	    return (String) contextEnv.lookup("deviceLogPath");
+	} catch (NamingException exception) {
+	    LOGGER.logError("DeviceLogResource", "DeviceLogResource", Logger.RES_EXCEP_GENERAL,
+		    exception.getMessage());
+	    exception.printStackTrace();
+	    return "";
+	}
+    }
+
+    /**
+     * uploads logs from device to server
+     * 
+     * @param request - the servlet request
+     * @param storeid - store id
+     * @param termid - terminal id
+     * @param data - contents of log itself
+     * @return ResultBase, which contains: NCRWSSResultCode,
+     *         NCRWSSExtendedResultCode and Message.
+     */
+    @Path("/upload")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public final ResultBase uploadLog(@Context final HttpServletRequest request,
+	    @FormParam("storeid") final String storeId,
+	    @FormParam("termid") final String termId,
+	    @FormParam("data") final String data) {
+	// Logs given parameters for Debug.
+	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+	tp.methodEnter("uploadLog");
+	tp.println("storeid", storeId).println("termid", termId).println("data", data);
+
+	// Instantiates return object having successful state as default.
+	ResultBase result = new ResultBase();
+
+	// Validates if given parameters are not empty.
+	if ((storeId == null || termId == null || data == null) ||
+		(storeId.length() == 0 || termId.length() == 0 || data.length() == 0)) {
+	    // Returns as invalid parameters.
+	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+	    result.setMessage("Invalid parameters. Parameters must not be empty.");
+	    return result;
+	}
+
+	// Formats current server time.
+	String currentTimeString = LocalDateTime.now(currentTimeClock).format(MOBILE_DEVICE_LOG_DATEFORMAT);
+	// Combines parameters to make device-log  file path.
+	String deviceLogFilePath = String.format(MOBILE_FILE_PATH_TEMPLATE,
+							deviceLogPath, storeId, termId, currentTimeString);
+
+	// Opens file output stream with append mode in case the file already exists.
+	try (FileOutputStream fos = new FileOutputStream(new File(deviceLogFilePath), true);
+		BufferedOutputStream logFile = new BufferedOutputStream(fos)) {
+	    logFile.write(data.getBytes());
+	} catch (IOException e) {
+	    // Records error while writing file.
+	    result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+	    result.setMessage("Failed to write file, File I/O eror.");
+	    tp.println("Failed to write file, File I/O eror.");
+        LOGGER.logAlert("DeviceLogResource", Logger.RES_EXCEP_GENERAL, e.getMessage(), e);
+	}
+
+	tp.methodExit(result.getNCRWSSResultCode());
+	return result;
+    }
+
     /**
      * uploads from device to server.
      * @param request - the servlet request

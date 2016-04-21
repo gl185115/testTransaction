@@ -1,141 +1,49 @@
 package ncr.res.mobilepos.networkreceipt.resource;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
-import java.util.ResourceBundle;
-import java.text.FieldPosition;
-
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.URLDataSource;
-import javax.mail.BodyPart;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
-
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.consolidation.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.creditauthorization.dao.ICreditDAO;
+import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
 import ncr.res.mobilepos.customeraccount.model.Customer;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.DateFormatUtility;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.FormatReceiptByXML;
-import ncr.res.mobilepos.helper.FormatSummaryReceiptByXML;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.POSLogHandler;
-import ncr.res.mobilepos.helper.PrintReceiptToImg;
-import ncr.res.mobilepos.helper.ReceiptCaptions;
-import ncr.res.mobilepos.helper.ReceiptNormalFormatter;
-import ncr.res.mobilepos.helper.ReceiptReturnFormatter;
-import ncr.res.mobilepos.helper.ReceiptVoidFormatter;
-import ncr.res.mobilepos.helper.SnapLogger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.res.mobilepos.helper.JsonMarshaller;
+import ncr.res.mobilepos.helper.*;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
-import ncr.res.mobilepos.journalization.model.poslog.BarLoyaltyReward;
-import ncr.res.mobilepos.journalization.model.poslog.BarPoints;
-import ncr.res.mobilepos.journalization.model.poslog.Discount;
-import ncr.res.mobilepos.journalization.model.poslog.Layaway;
-import ncr.res.mobilepos.journalization.model.poslog.LineItem;
-import ncr.res.mobilepos.journalization.model.poslog.PaymentOnAccount;
-import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.journalization.model.poslog.PreviousLayaway;
-import ncr.res.mobilepos.journalization.model.poslog.PriceDerivationResult;
-import ncr.res.mobilepos.journalization.model.poslog.RainCheck;
-import ncr.res.mobilepos.journalization.model.poslog.RetailPriceModifier;
-import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.Return;
-import ncr.res.mobilepos.journalization.model.poslog.Sale;
-import ncr.res.mobilepos.journalization.model.poslog.StoredValueInstrument;
-import ncr.res.mobilepos.journalization.model.poslog.Tax;
-import ncr.res.mobilepos.journalization.model.poslog.Tender;
-import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
-import ncr.res.mobilepos.journalization.model.poslog.TenderLoan;
-import ncr.res.mobilepos.journalization.model.poslog.TenderPickup;
-import ncr.res.mobilepos.journalization.model.poslog.Total;
-import ncr.res.mobilepos.journalization.model.poslog.Transaction;
-import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
-import ncr.res.mobilepos.journalization.model.poslog.UnspentAmount;
-import ncr.res.mobilepos.journalization.model.poslog.PayOut;
-import ncr.res.mobilepos.journalization.model.poslog.PayIn;
-import ncr.res.mobilepos.journalization.model.poslog.MonetaryKind;
-import ncr.res.mobilepos.journalization.model.poslog.Guarantee;
-import ncr.res.mobilepos.journalization.model.poslog.TillSettle;
-import ncr.res.mobilepos.journalization.model.poslog.Beginning;
-import ncr.res.mobilepos.journalization.model.poslog.TenderSummary;
-import ncr.res.mobilepos.journalization.model.poslog.CreditDebit;
-import ncr.res.mobilepos.journalization.model.poslog.Voucher;
-import ncr.res.mobilepos.journalization.model.poslog.Devices;
-import ncr.res.mobilepos.journalization.model.poslog.CashChanger;
-import ncr.res.mobilepos.journalization.model.poslog.CashDrawer;
-import ncr.res.mobilepos.journalization.model.poslog.PayInPlan;
-import ncr.res.mobilepos.journalization.model.poslog.PostPoint;
-import ncr.res.mobilepos.journalization.model.poslog.ProcessedTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.PointTicketIssue;
+import ncr.res.mobilepos.journalization.model.poslog.*;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.networkreceipt.helper.CreditSlipFormatter;
 import ncr.res.mobilepos.networkreceipt.helper.CreditSlipPrint;
-import ncr.res.mobilepos.networkreceipt.helper.EMailReceipt;
-import ncr.res.mobilepos.networkreceipt.helper.EmailValidator;
 import ncr.res.mobilepos.networkreceipt.helper.PaperReceiptPrint;
 import ncr.res.mobilepos.networkreceipt.model.ItemMode;
-import ncr.res.mobilepos.networkreceipt.model.PaperReceipt;
 import ncr.res.mobilepos.networkreceipt.model.PaperReceiptFooter;
 import ncr.res.mobilepos.networkreceipt.model.PaperReceiptPayment;
 import ncr.res.mobilepos.networkreceipt.model.ReceiptMode;
-import ncr.res.mobilepos.networkreceipt.resource.CashNonCashConstants;
-import ncr.res.mobilepos.networkreceipt.resource.PointsConstantVars;
-import ncr.res.mobilepos.credential.dao.ICredentialDAO;
-import ncr.res.mobilepos.credential.model.NameMasterInfo;
-import ncr.res.mobilepos.store.dao.IStoreDAO;
-import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.store.model.CMPresetInfos;
-import ncr.res.mobilepos.store.model.CMPresetInfo;
-import ncr.res.mobilepos.store.resource.StoreResource;
 import ncr.res.mobilepos.simpleprinterdriver.NetPrinterInfo;
-
+import ncr.res.mobilepos.store.dao.IStoreDAO;
+import ncr.res.mobilepos.store.model.CMPresetInfo;
+import ncr.res.mobilepos.store.model.CMPresetInfos;
+import ncr.res.mobilepos.store.model.ViewStore;
+import ncr.res.mobilepos.store.resource.StoreResource;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-import org.jsoup.Jsoup;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletContext;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * NetworkReceipt Class is a Web Resource which support MobilePOS Email
@@ -208,212 +116,6 @@ public class NetworkReceipt {
      */
     @javax.ws.rs.core.Context
     private ServletContext servContext;
-
-    /**
-     * The Method called by the Web Service to implement an Email transmission
-     * of receipt in a particular transaction to the Customer.
-     *
-     * @param txid The transaction number
-     * @param terminalno The terminal number
-     * @param storeno The store number
-     * @param operatorNo The operator number
-     * @param emailAddress the email address
-     * @param language The language
-     * @return "OK" if process success and "NG" if process not good
-     */
-    @Path("/sendreceiptmail/{txid}")
-    @POST
-    @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
-    public final ResultBase sendReceiptMail2(
-            @PathParam("txid") final String txid,
-            @FormParam("companyid") final String companyid,
-            @FormParam("deviceid") final String terminalno,
-            @FormParam("storeid") final String storeno,
-            @FormParam("trainingflag") final int trainingflag,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("emailaddress") final String emailAddress,
-            @FormParam("language") final String language) {
-
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("txid", txid)
-                .println("deviceid", terminalno).println("storeid", storeno)
-                .println("operatorno", operatorNo)
-                .println("language", language)
-                .println("emailaddress", emailAddress);
-
-        ResultBase resultBase = new ResultBase();
-        String toAddress = "";
-        try {
-            // Get transaction
-            PosLog poslog = getPosLogFromTxid(companyid, txid, terminalno, storeno, trainingflag);
-
-            // If no emailaddress provided, use mailaddress in MST_CUSTINFO
-            if (null == emailAddress || emailAddress.isEmpty()) {
-                toAddress = getEmailFromCustID(poslog.getTransaction()
-                        .getCustomerid());
-            } else {
-                toAddress = emailAddress;
-            }
-            tp.println("Mail Recipient", toAddress);
-            if (null == toAddress || toAddress.isEmpty()) {
-                resultBase
-                        .setNCRWSSResultCode(ResultBase.RESNETRECPT_ERROR_CUST_EMAIL);
-                tp.println("No recepient address.");
-                return resultBase;
-            } else {
-                EmailValidator emailValidator = new EmailValidator();
-                if (!emailValidator.validate(toAddress)) {
-                    resultBase
-                            .setNCRWSSResultCode(ResultBase.RESNETRECPT_ERROR_CUST_EMAIL);
-                    tp.println("Invalid email address format.");
-                    return resultBase;
-                }
-            }
-
-            Session localSmtpSession = (Session) servContext
-                    .getAttribute(GlobalConstant.SMTP_MAIL_SESSION_LOCAL);
-            Session gmailSmtpSession = (Session) servContext
-                    .getAttribute(GlobalConstant.SMTP_MAIL_SESSION_GMAIL);
-
-            String mailAuth = gmailSmtpSession.getProperty("mailAuth");
-            tp.println("mailAuth", mailAuth);
-
-            ReceiptCaptions caption = new ReceiptCaptions(language);
-            // Get environment data
-            String fromAddress = (String) servContext
-                    .getAttribute(GlobalConstant.EMAIL_ADDRESS_KEY);
-            tp.println("Mail Sender", fromAddress);
-            String subject = caption.getEmailSubject();
-
-            // transform to receipt format
-            // get the data of paper receipt
-            IReceiptDAO iReceiptDAO = DAOFactory.getDAOFactory(
-                    DAOFactory.SQLSERVER).getReceiptDAO();
-            PaperReceipt receipt = iReceiptDAO.getPaperReceipt(poslog, txid,
-                    terminalno, operatorNo, null);
-            ResourceBundle rb = ResourceBundle
-                    .getBundle("defaultreceiptemailtemplate");
-            org.jsoup.nodes.Document doc = Jsoup.parse(rb.getString("default"));
-            EMailReceipt emailrcpt = new EMailReceipt(receipt, doc);
-            String receiptFormat = emailrcpt.formatToHtmlReceipt(language,
-                    poslog.getTransaction().getCustomerid());
-            tp.println("formatted receipt", receiptFormat);
-            // set transaction number to subject
-            subject = String.format(subject, txid);
-            tp.println("Subject", subject);
-            Multipart multipart = new MimeMultipart();
-            // Part one is a text
-            MimeBodyPart textMessageBodyPart = new MimeBodyPart();
-            textMessageBodyPart.setText(receiptFormat, "UTF-8", "html");
-
-            BodyPart imgPart = new MimeBodyPart();
-
-            String fileName = "/images/ncrlogo_foremail.bmp";
-            URL logoImageURL = servContext.getResource(fileName);
-            if (logoImageURL == null) {
-                tp.println("The logo image was not found");
-                throw new DaoException("The logo image does not exist");
-            }
-
-            DataSource ds = new URLDataSource(logoImageURL);
-
-            imgPart.setDataHandler(new DataHandler(ds));
-            imgPart.setHeader("Content-ID", "<logoimg>");
-            imgPart.setFileName("logo.bmp");
-            multipart.addBodyPart(imgPart);
-            multipart.addBodyPart(textMessageBodyPart);
-
-            if (!"true".equals(mailAuth)) {
-                tp.println("local smtp server.");
-                // create the message to be sent
-                MimeMessage message = new MimeMessage(localSmtpSession);
-                message.setFrom(new InternetAddress(fromAddress));
-                message.addRecipient(Message.RecipientType.TO,
-                        new InternetAddress(toAddress));
-                message.setSubject(subject);
-                message.setContent(multipart);
-
-                Transport transport = localSmtpSession.getTransport();
-                transport.connect();
-                transport.sendMessage(message,
-                        message.getRecipients(Message.RecipientType.TO));
-                transport.close();
-                resultBase.setNCRWSSResultCode(ResultBase.RESNETRECPT_OK);
-            } else {
-                tp.println("Gmail start");
-                Properties props = new Properties();
-                props.put("mail.smtp.host",
-                        gmailSmtpSession.getProperty("mail.smtp.host"));
-                props.put("mail.smtp.port",
-                        gmailSmtpSession.getProperty("mail.smtp.port"));
-                props.put("mail.smtp.auth",
-                        gmailSmtpSession.getProperty("mail.smtp.auth"));
-                props.put("mail.smtp.starttls.enable", gmailSmtpSession
-                        .getProperty("mail.smtp.starttls.enable"));
-
-                String psw = gmailSmtpSession.getProperty("mail.smtp.password");
-
-                tp.println("mail.smtp.host",
-                        gmailSmtpSession.getProperty("mail.smtp.host"));
-                tp.println("mail.smtp.port",
-                        gmailSmtpSession.getProperty("mail.smtp.port"));
-                tp.println("mail.smtp.auth",
-                        gmailSmtpSession.getProperty("mail.smtp.auth"));
-                tp.println("mail.smtp.starttls.enable", gmailSmtpSession
-                        .getProperty("mail.smtp.starttls.enable"));
-
-                Session gmailSession = Session.getInstance(props);
-                Transport transportGmail = null;
-                MimeMessage mm = new MimeMessage(gmailSession);
-
-                mm.setFrom(new InternetAddress(fromAddress));
-                tp.println("fromAddress", fromAddress);
-                tp.println("subject", subject);
-                tp.println("toAddress", toAddress);
-
-                mm.setSubject(subject);
-                mm.setRecipient(Message.RecipientType.TO, new InternetAddress(
-                        toAddress));
-                mm.setContent(multipart);
-
-                transportGmail = gmailSmtpSession.getTransport("smtp");
-                if (transportGmail != null) {
-                    transportGmail.connect(fromAddress, psw);
-                    transportGmail.sendMessage(mm, mm.getAllRecipients());
-                    transportGmail.close();
-                }
-                resultBase.setNCRWSSResultCode(ResultBase.RESNETRECPT_OK);
-            }
-        } catch (JAXBException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_JAXB,
-                    functionName + ": Failed to send email to " + toAddress, e);
-            resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
-                    ResultBase.RES_ERROR_GENERAL, e);
-        } catch (DaoException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-                    functionName + ": Failed to send email to " + toAddress, e);
-            resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
-                    ResultBase.RES_ERROR_GENERAL, e);
-        } catch (MessagingException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to send email to " + toAddress, e);
-            resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
-                    ResultBase.RES_ERROR_GENERAL, e);
-        } catch (MalformedURLException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to send email to " + toAddress, e);
-            resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
-                    ResultBase.RES_ERROR_GENERAL, e);
-        } catch (Exception e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to send email to " + toAddress, e);
-            resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
-                    ResultBase.RES_ERROR_GENERAL, e);
-        } finally {
-            tp.methodExit(resultBase);
-        }
-        return resultBase;
-    }
 
     /**
      * WebService for print Credit Card Slip.
@@ -580,24 +282,6 @@ public class NetworkReceipt {
 
         tp.methodExit(poslog);
         return poslog;
-    }
-
-    /**
-     * Get credit number from TXL_CREDITLOG.
-     *
-     * @param txid - transaction number
-     * @return credit number
-     * @throws DaoException - thrown when exception occurs
-     */
-    private String getCreditPan(final String txid) throws DaoException {
-
-        tp.methodEnter(DebugLogger.getCurrentMethodName());
-        ICreditDAO icreditDao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER)
-                .getCreditDAO();
-        String pan = icreditDao.getCreditPan(txid);
-        tp.methodExit();
-
-        return pan;
     }
 
     /**

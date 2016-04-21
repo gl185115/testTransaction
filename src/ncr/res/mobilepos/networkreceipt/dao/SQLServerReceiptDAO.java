@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.consolidation.constant.TransactionVariable;
+import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -857,7 +857,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
      * get receipt information
      *
      * @param poslog
-     * @param corpId
      * @param storeId
      */
     @Override

@@ -12,7 +12,6 @@ package ncr.res.mobilepos.constant;
 
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.WebServerGlobals;
-import ncr.res.ue.core.Connection;
 
 /**
  * GlobalConstant is a class that enumerates
@@ -164,14 +163,6 @@ public final class GlobalConstant {
     public static final String CREDENTIAL_DAY_LEFT_WARNING =
         "CredentialDayLeftWarning";
     /**
-     * The key of local smtp mail session
-     */
-    public static final String SMTP_MAIL_SESSION_LOCAL = "SmtpMailSessionLocal";
-    /**
-     * The key of gmail smpt mail session
-     */
-    public static final String SMTP_MAIL_SESSION_GMAIL = "SmtpMailSessionGmail";
-    /**
      * The key of receipt number 
      */
     public static final String NUMBER_OF_RECEIPT = "NumberOfReceipt";
@@ -197,8 +188,6 @@ public final class GlobalConstant {
     public static final String POINTSERVERPOINTRATE2 = "rate2";
     /** The MemberServer (Fantamiliar point rate3) **/
     public static final String POINTSERVERPOINTRATE3 = "rate3";
-    /** The UE Connection. */
-    private static Connection ueConnection;
     /** The Search Limit.
      *  The default is 5.
      */
@@ -209,23 +198,6 @@ public final class GlobalConstant {
      */
     /** Search API URL **/
     public static final String INVENTORYORDERSEARCHURL = "InventoryOrderSearchUrl";  
-
-    
-    /**
-     * UE Connection setter.
-     * @param connection the {@link Connection} instance to set.
-     */
-    public static void setUeConnection(final Connection connection) {
-        GlobalConstant.ueConnection = connection;
-    }
-
-    /**
-     * UE Connection getter.
-     * @return {@link Connection}
-     */
-    public static Connection getUeConnection() {
-        return GlobalConstant.ueConnection;
-    }
 
     /**
      * Set the CORP ID.

@@ -1,6 +1,0 @@
-Scenario : Test Total Action Message
-When I create end transaction with parameters :
-|status|date|time|
-|1     |111111|111111|
-When I create the message with termid{1111},txid{1}
-Then message data should be {003400001111000000010701111111111111\r\n}

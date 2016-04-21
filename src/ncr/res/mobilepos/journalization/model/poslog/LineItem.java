@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import ncr.res.mobilepos.consolidation.constant.TransactionVariable;
+import ncr.res.mobilepos.constant.TransactionVariable;
 
 /**
  * LineItem Model Object.
@@ -455,7 +455,7 @@ public class LineItem {
     }
     /**
      * 
-     * @param addPointsLater
+     * @param postPoint
      */
     public void setPostPoint(PostPoint postPoint) {
         this.postPoint = postPoint;

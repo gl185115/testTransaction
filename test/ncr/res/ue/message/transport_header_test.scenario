@@ -1,3 +1,0 @@
-Scenario : Test Header
-When I create transport header from messageData{91Store000031      1.0  20}, termId{1111}, transactionId{0}
-Then transport header should be {00440000111100000000}

@@ -10,12 +10,7 @@
 
 package ncr.res.mobilepos.daofactory;
 
-import ncr.res.mobilepos.authentication.dao.AuthAdminDao;
-import ncr.res.mobilepos.authentication.dao.AuthDeviceDao;
-import ncr.res.mobilepos.authentication.dao.IAuthAdminDao;
-import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
-import ncr.res.mobilepos.authentication.dao.ICorpStoreDAO;
-import ncr.res.mobilepos.authentication.dao.SQLServerCorpStoreDAO;
+import ncr.res.mobilepos.authentication.dao.*;
 import ncr.res.mobilepos.barcode.dao.IBarCodeDAO;
 import ncr.res.mobilepos.barcode.dao.SQLServerBarCodeDAO;
 import ncr.res.mobilepos.buyadditionalinfo.dao.IBuyadditionalInfoDAO;
@@ -28,18 +23,10 @@ import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
 import ncr.res.mobilepos.cashaccount.dao.SQLCashAccountDAO;
 import ncr.res.mobilepos.classinfo.dao.IClassInfoDAO;
 import ncr.res.mobilepos.classinfo.dao.SQLServerClassInfoDAO;
-import ncr.res.mobilepos.consolidation.dao.IConsolidate;
-import ncr.res.mobilepos.consolidation.dao.SQLServerConsolidationDAO;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.credential.dao.SQLServerGroupDAO;
-import ncr.res.mobilepos.creditauthagency.dao.IExtCARequestDAO;
-import ncr.res.mobilepos.creditauthagency.dao.SQLServerExtCARequestDAO;
-import ncr.res.mobilepos.creditauthorization.dao.ICreditDAO;
-import ncr.res.mobilepos.creditauthorization.dao.SQLServerCreditDAO;
-import ncr.res.mobilepos.creditpayment.dao.ICreditPaymentDAO;
-import ncr.res.mobilepos.creditpayment.dao.SQLServerCreditPaymentDAO;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customerSearch.dao.SQLServerCustomerSearchDAO;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
@@ -48,20 +35,10 @@ import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
 import ncr.res.mobilepos.customerclass.dao.SQLServerCustomerClassInfoDAO;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.dao.SQLServerDepartmentDAO;
-import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
-import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
-import ncr.res.mobilepos.deviceinfo.dao.SQLCreditAuthorizationLinkDAO;
-import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
-import ncr.res.mobilepos.deviceinfo.dao.SQLQueueBusterLinkDAO;
-import ncr.res.mobilepos.deviceinfo.dao.SQLSignatureLinkDAO;
+import ncr.res.mobilepos.deviceinfo.dao.*;
 import ncr.res.mobilepos.devicelog.dao.IDeviceLogDAO;
 import ncr.res.mobilepos.devicelog.dao.SQLServerDeviceLogDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.DiscountPlanInfoCommomDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.IPremiumFlagDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.SQLServerDiscountPlanInfoCommonDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.SQLServerPremiumFlagDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.SQLServerPromotionInfoDAO;
+import ncr.res.mobilepos.discountplaninfo.dao.*;
 import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.eventlog.dao.SQLServerEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
@@ -144,11 +121,6 @@ public class SQLServerDAOFactory extends DAOFactory {
     }
 
     @Override
-    public final ICreditDAO getCreditDAO() throws DaoException {
-        return new SQLServerCreditDAO();
-    }
-
-    @Override
     public final IPosLogDAO getPOSLogDAO() throws DaoException {
         return new SQLServerPosLogDAO();
     }
@@ -181,16 +153,6 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public final SQLServerSystemConfigDAO getSystemConfigDAO() throws DaoException {
         return new SQLServerSystemConfigDAO();
-    }
-
-    @Override
-    public final IConsolidate getConsolidationDAO() throws DaoException {
-        return new SQLServerConsolidationDAO();
-    }
-
-    @Override
-    public final IExtCARequestDAO getExtCAReqDAO() throws DaoException {
-        return new SQLServerExtCARequestDAO();
     }
 
     @Override
@@ -266,11 +228,6 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public IMasterMaintenanceDAO getMasterMaintenanceDAO() throws DaoException {
         return new SQLServerMasterMaintenanceDAO();
-    }
-
-    @Override
-    public final ICreditPaymentDAO getCreditPaymentDAO() throws DaoException {
-        return new SQLServerCreditPaymentDAO();
     }
 
     @Override

@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import ncr.res.mobilepos.consolidation.constant.TransactionVariable;
+import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.journalization.model.poslog.Authorization;
 import ncr.res.mobilepos.journalization.model.poslog.CreditDebit;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
@@ -84,11 +84,12 @@ public class ReceiptFormatter {
 
     /**
      * Helper method of toReceiptFormat that will format the credit printing
-     * 
+     *
      * @param isCredit
-     * @param creditDebit
+     * @param creditNum
      * @param authorization
-     * @return sb
+     * @param language
+     * @return
      */
     private String creditReceiptFormat(boolean isCredit, final String creditNum, 
     		 Authorization authorization, String language) {

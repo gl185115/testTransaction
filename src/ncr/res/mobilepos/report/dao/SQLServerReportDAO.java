@@ -27,7 +27,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.consolidation.constant.TransactionVariable.TransactionCode;
+import ncr.res.mobilepos.constant.TransactionVariable.TransactionCode;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.constant.TxTypes;
@@ -781,7 +781,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     /**
      * Get the Group Product List
      *
-     * @param businessDate
+     * @param businessdaydate
      *            the business date
      * @param storeNo
      *            the store number
@@ -854,7 +854,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     /**
      * Get the Store Report
      *
-     * @param businessDate
+     * @param businessdaydate
      *            the business date
      * @param storeNo
      *            the store number
@@ -928,7 +928,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     /**
      * Get the Item Report
      *
-     * @param businessDate
+     * @param businessdaydate
      *            the business date
      * @param storeNo
      *            the store number
@@ -1007,7 +1007,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     /**
      * Get the Div Hourly Report
      *
-     * @param businessDate
+     * @param businessdaydate
      *            the business date
      * @param storeNo
      *            the store number
@@ -1096,7 +1096,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     /**
      * Get the Target Market Report
      *
-     * @param businessDate
+     * @param businessDaydate
      *            the business date
      * @param storeNo
      *            the store number
@@ -2188,9 +2188,9 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
      * Get the Clerk Product List
      *
      *
-     * @param deviceNo
+     * @param operatorNo
      *            the device number
-     * @param businessDate
+     * @param businessDaydate
      *            the business date
      * @param storeNo
      *            the store number
@@ -2265,7 +2265,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
     /**
      * Get the Sales man report
      *
-     * @param businessDate
+     * @param businessDaydate
      *            the business date
      * @param storeNo
      *            the store number

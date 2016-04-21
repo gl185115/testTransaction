@@ -21,13 +21,8 @@ import ncr.res.mobilepos.cardinfo.dao.ICardInfoDAO;
 import ncr.res.mobilepos.cashAbstract.dao.ICashAbstractDAO;
 import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
 import ncr.res.mobilepos.classinfo.dao.IClassInfoDAO;
-import ncr.res.mobilepos.consolidation.dao.IConsolidate;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
-import ncr.res.mobilepos.creditauthagency.dao.IExtCARequestDAO;
-import ncr.res.mobilepos.creditauthagency.dao.SQLServerExtCARequestDAO;
-import ncr.res.mobilepos.creditauthorization.dao.ICreditDAO;
-import ncr.res.mobilepos.creditpayment.dao.ICreditPaymentDAO;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
 import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
@@ -112,7 +107,7 @@ public abstract class DAOFactory {
      * @return DAO Object for Line
      * @throws DaoException
      *             - Exception thrown when getting the DAO object fails
-     * @see ILineoDAO
+     * @see ILineDAO
      */
     public abstract ILineDAO getLineDAO() throws DaoException;
 
@@ -125,16 +120,6 @@ public abstract class DAOFactory {
      * @see IClassInfoDAO
      */
     public abstract IClassInfoDAO getClassInfoDAO() throws DaoException;
-
-    /**
-     * Gets the DAO object for manipulating Credit in the database.
-     *
-     * @return DAO Object for Credit
-     * @throws DaoException
-     *             Exception thrown when getting the DAO object fails.
-     * @see ICreditDAO
-     */
-    public abstract ICreditDAO getCreditDAO() throws DaoException;
 
     /**
      * Gets the DAO object for manipulating PosLog in the database.
@@ -188,15 +173,6 @@ public abstract class DAOFactory {
     public abstract ICredentialDAO getCredentialDAO() throws DaoException;
 
     /**
-     * Gets the DAO object for performing operations for Credential Service.
-     * 
-     * @return ConsolidationDao
-     * @throws DaoException
-     *             - Exception
-     */
-    public abstract IConsolidate getConsolidationDAO() throws DaoException;
-
-    /**
      * Gets the DAO object for Report Generation.
      * 
      * @return IReportDAO object
@@ -243,17 +219,6 @@ public abstract class DAOFactory {
      * @see SQLServerCorpStoreDAO
      */
     public abstract ICorpStoreDAO getCorpStoreDAO() throws DaoException;
-
-    /**
-     * Gets the DAO object for performing operations on External
-     * CreditAuthorization Request.
-     * 
-     * @return The DAO object for ExtCARequest
-     * @throws DaoException
-     *             Exception thrown when getting the DAO object fails.
-     * @see SQLServerExtCARequestDAO
-     */
-    public abstract IExtCARequestDAO getExtCAReqDAO() throws DaoException;
 
     /**
      * Gets the DAO object for performing operations on QueueBustering.
@@ -328,15 +293,6 @@ public abstract class DAOFactory {
      *             Exception
      */
     public abstract ILinkDAO getQueueBusterLinkDAO() throws DaoException;
-
-    /**
-     * Gets the DAO object for credit payment.
-     * 
-     * @return ICreditPaymentDAO The DAO object
-     * @throws DaoException
-     *             Exception
-     */
-    public abstract ICreditPaymentDAO getCreditPaymentDAO() throws DaoException;
 
     /**
      * Gets the DAO object for Credential User Group.

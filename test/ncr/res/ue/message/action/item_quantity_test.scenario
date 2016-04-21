@@ -1,6 +1,0 @@
-Scenario : Test Item Quantity Action Message
-When I create item quantity with parameters :
-|entryflag|itementryid|rewardchecksum|quantity|
-|        1|          2|             3|       4|
-When I create the message with termid{5555},txid{6}
-Then message data should be {0065000055550000000610100000200000000000000000000000000000003000004\r\n}

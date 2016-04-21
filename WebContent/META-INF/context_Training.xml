@@ -4,18 +4,6 @@
     driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
     url="jdbc:sqlserver://localhost:1433;databaseName=RESTraining;selectMethod=cursor;sendStringParametersAsUnicode=false" username="entsvr" password="ncrsa_ora"
     maxTotal="50" maxIdle="10" defaultAutoCommit="false" />    
-    <Resource name="mail/Session" auth="Container"
-            type="javax.mail.Session"
-			mail.smtp.host=""/>
-	<Resource name="gmail/Session"
-	           type="javax.mail.Session"
-	           mail.smtp.host="smtp.gmail.com"
-	           mail.smtp.port="587"
-	           mail.smtp.auth="true"
-	           mail.smtp.starttls.enable="true"
-	           mail.smtp.password=""
-	           mailAuth="false"
-	           />
 	<Realm className="org.apache.catalina.realm.JDBCRealm"
 		  connectionName="entsvr"
           connectionPassword="ncrsa_ora"

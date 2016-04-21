@@ -1,13 +1,12 @@
 package ncr.res.mobilepos.authentication.model.test;
 
-import static org.junit.Assert.assertEquals;
 import ncr.res.mobilepos.authentication.model.ActivationKey;
-import ncr.res.mobilepos.creditauthorization.model.Key;
 import ncr.res.mobilepos.helper.XmlSerializer;
-
 import org.jbehave.scenario.annotations.Given;
 import org.jbehave.scenario.annotations.Then;
 import org.jbehave.scenario.steps.Steps;
+
+import static org.junit.Assert.assertEquals;
 
 public class ActivationKeySteps extends Steps {
     private ActivationKey key = null;

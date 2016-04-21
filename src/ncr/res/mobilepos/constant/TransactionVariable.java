@@ -20,7 +20,7 @@ import java.util.Map;
  */
 public final class TransactionVariable {
     /** Default Constructor. */
-    private TransactionVariable() {    	
+    private TransactionVariable() {
     }
     /**
      * The Authentication code for Sale.
@@ -63,6 +63,10 @@ public final class TransactionVariable {
      */
     public static final String VOUCHER = "Voucher";
     /**
+     * BankTransfer (現金振込)
+     */
+    public static final String BANKTRANSFER = "BankTransfer";
+    /**
      * The Tender Type value for CreditDebit.
      */
     public static final String CREDITDEBIT = "CreditDebit";
@@ -75,9 +79,49 @@ public final class TransactionVariable {
      */
     public static final String VOUCHER_TYPE_GIFT_CERTIFICATE = "GiftCertificate";
     /**
+     *The CreditDebit Type value for Credit.
+     */
+    public static final String CREDIT = "Credit";
+    /**
+     * The CreditDebit Type value for ICCredit.
+     */
+    public static final String ICCREDIT = "IC";
+    /**
+     * The CreditDebit Type value for UnionPay.
+     */
+    public static final String UNIONPAY = "UnionPay";
+    /**
+     * 前受金登録
+     */
+    public static final String LAYAWAY = "Layaway";
+    /**
+     * 前受金精算
+     */
+    public static final String PREVIOUSLAYAWAY = "PreviousLayaway";
+    /**
+     * RainCheck
+     */
+    public static final String RAINCHECK = "RainCheck";
+    /**
+     * 前受金一括取消タイプ
+     */
+    public static final String ADVANCEVOIDTYPE = "AdvanceVoidType";
+    /**
+     * hold void
+     */
+    public static final String HOLDVOID = "HoldVoid";
+    /**
+     * customer void
+     */
+    public static final String CUSTOMERORDERVOID = "CustomerOrderVoid";
+    /**
      * The Transaction Status value for VOID.
      */
     public static final String TRANSACTION_STATUS_RETURNED = "Returned";
+    /**
+     * 呼出返品
+     */
+    public static final String TRANSACTION_STATUS_RETURNEDLINK = "ReturnedLink";
     /**
      * The Transaction Status value for VOID.
      */
@@ -86,7 +130,54 @@ public final class TransactionVariable {
      * The Transaction Status value for CANCEL.
      */
     public static final String TRANSACTION_STATUS_CANCELED = "Canceled";
+    /**
+     * The Transaction Status value for PickUp.
+     */
+    public static final String PICKUP = "PickUp";
+    /**
+     * The Transaction Status value for PickUp.
+     */
+    public static final String LOAN = "Loan";
+    /**
+     * The Transaction Status value for PickUp.
+     */
+    public static final String EXCHANGE = "Exchange";
+    /**
+     * The Transaction Status value of PayOut.
+     */
+    public static final String PAYOUT = "PayOut";
+    /**
+     * The Transaction Status value of PayIn.
+     */
+    public static final String PAYIN = "PayIn";
+    /**
+     * The Transaction Status value of Guarantee.
+     */
+    public static final String GUARANTEE = "Guarantee";
+    /**
+     * The Transaction Status value of StartOfDay.
+     */
+    public static final String SOD = "StartOfDay";
+    /***
+     * The Transaction Status value of EndOfDay.
+     */
+    public static final String EOD = "EndOfDay";
+    /**
+     * The Transaction Status value of Balancing.
+     */
+    public static final String BALANCING = "Balancing";
 
+    public static final String POSTPOINT = "PostPoint";
+
+    public static final String POINTTICKET = "PointTicket";
+    /**
+     * セール
+     */
+    public static final String SALEMARK = "S";
+    /**
+     * プロパー
+     */
+    public static final String PRICEOVERMARK = "P";
     /**
      * Contains type of codes.
      */

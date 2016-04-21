@@ -1,6 +1,0 @@
-Scenario : Test Item Quantity Action Message
-When I create item store value response with parameters :
-|itementryid|itemquantiy|programid|quantity|expiration|
-|          1|          2|        3|       4|         5|
-When I create the message with termid{6666},txid{7}
-Then message data should be {00600000666600000007130000010000020000030000040000000000000005\r\n}

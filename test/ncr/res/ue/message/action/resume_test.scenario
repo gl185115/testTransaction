@@ -1,7 +1,0 @@
-Scenario : Test Resume Action Message
-When I create resume transaction with parameters :
-|resumeflag|resumeid|
-|0     |01350549027Store00003100001111|
-When I create the message with termid{1111},txid{1}
-Then message data should be {0051000011110000000109001350549027Store00003100001111
-}

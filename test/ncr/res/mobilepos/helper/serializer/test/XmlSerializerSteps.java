@@ -1,10 +1,6 @@
 package ncr.res.mobilepos.helper.serializer.test;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.bind.JAXBException;
-
-import org.hamcrest.core.IsNull;
+import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.journalization.model.poslog.*;
 import org.jbehave.scenario.annotations.Given;
 import org.jbehave.scenario.annotations.Then;
 import org.jbehave.scenario.annotations.When;
@@ -12,26 +8,9 @@ import org.jbehave.scenario.definition.ExamplesTable;
 import org.jbehave.scenario.steps.Steps;
 import org.junit.Assert;
 
-import ncr.res.mobilepos.creditauthorization.model.CreditAuthorization;
-import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.res.mobilepos.journalization.model.poslog.Authorization;
-import ncr.res.mobilepos.journalization.model.poslog.CreditDebit;
-import ncr.res.mobilepos.journalization.model.poslog.OperatorID;
-import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.Discount;
-import ncr.res.mobilepos.journalization.model.poslog.Disposal;
-import ncr.res.mobilepos.journalization.model.poslog.ItemID;
-import ncr.res.mobilepos.journalization.model.poslog.LineItem;
-import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.journalization.model.poslog.PriceDerivationResult;
-import ncr.res.mobilepos.journalization.model.poslog.RetailPriceModifier;
-import ncr.res.mobilepos.journalization.model.poslog.Return;
-import ncr.res.mobilepos.journalization.model.poslog.Sale;
-import ncr.res.mobilepos.journalization.model.poslog.Tax;
-import ncr.res.mobilepos.journalization.model.poslog.Tender;
-import ncr.res.mobilepos.journalization.model.poslog.TenderChange;
-import ncr.res.mobilepos.journalization.model.poslog.Transaction;
-import ncr.res.mobilepos.journalization.model.poslog.WorkstationID;
+import javax.xml.bind.JAXBException;
+import java.util.List;
+import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -39,12 +18,10 @@ import static org.junit.Assert.assertThat;
 
 
 public class XmlSerializerSteps extends Steps {
-    private XmlSerializer<CreditAuthorization> xmlserializer;
     private XmlSerializer<PosLog> xmlserializerPoslog;
     private XmlSerializer<Sale> xmlserializerSale;
     private XmlSerializer<Tender> xmlserializerTender;
     
-    private CreditAuthorization creditauth;
     private PosLog poslog;
     private Transaction transaction;
     private Sale sale;
@@ -55,69 +32,7 @@ public class XmlSerializerSteps extends Steps {
     private Discount discount;
     private Return returnActual;
     private Disposal actualDisposal;
-    
-    
-    @Given("I have a XmlSerializer for Credit Authorization")
-    public final void IHaveAXmlSerializer()
-    {
-        xmlserializer = new XmlSerializer<CreditAuthorization>();
-    }
-    
-    @When("I have an Credit Authorization xml: $xml")
-    public final void IHaveAnXml(final String xml) throws JAXBException
-    {
-        creditauth = xmlserializer
-            .unMarshallXml(xml, CreditAuthorization.class);
-    }
-    
-    @When("I have an empty Credit Authorization xml")
-    public final void IHaveAnEmptyXml() throws JAXBException
-    {
-        String xml = "";
-        creditauth = xmlserializer
-            .unMarshallXml(xml, CreditAuthorization.class);
-    }
-    
-    @Then("I should get empty Credit Authorization")
-    public final void IShouldGetEmpty(){
-        Assert.assertNull(creditauth);
-        
-    }
-    
-    @Then("I should get Credit Authorization: $creditResult")
-    public final void IShouldGet(final ExamplesTable creditAuthResult)
-    {
-        CreditAuthorization creditAuthrExpectd =  new CreditAuthorization();
-        
-        Map<String, String> row = creditAuthResult.getRows().get(0);
-        
-        creditAuthrExpectd.setAmount(Double.parseDouble(row.get("amount")));
-        creditAuthrExpectd.setCorpid(row.get("corpid"));
-        creditAuthrExpectd.setExpirationdate(row.get("expirationdate"));
-        creditAuthrExpectd.setPan(row.get("pan"));
-        creditAuthrExpectd.setStoreid(row.get("storeid"));
-        creditAuthrExpectd.setTerminalid(row.get("terminalid"));
-        creditAuthrExpectd.setTxdatetime(row.get("txdatetime"));
-        creditAuthrExpectd.setTxid(row.get("txid"));
-                
-        assertThat(creditAuthrExpectd.getAmount(),
-                is(equalTo(creditauth.getAmount())));
-        assertThat(creditAuthrExpectd.getCorpid(),
-                is(equalTo(creditauth.getCorpid())));
-        assertThat(creditAuthrExpectd.getExpirationdate(),
-                is(equalTo(creditauth.getExpirationdate())));
-        assertThat(creditAuthrExpectd.getPan(),
-                is(equalTo(creditauth.getPan())));
-        assertThat(creditAuthrExpectd.getStoreid(),
-                is(equalTo(creditauth.getStoreid())));
-        assertThat(creditAuthrExpectd.getTerminalid(),
-                is(equalTo(creditauth.getTerminalid())));
-        assertThat(creditAuthrExpectd.getTxdatetime(),
-                is(equalTo(creditauth.getTxdatetime())));
-        assertThat(creditAuthrExpectd.getTxid(),
-                is(equalTo(creditauth.getTxid())));        
-    }
-    
+
     @Given("I have a XmlSerializer for PosLog")
     public final void IHaveAXmlSerializerForPosLog()
     {

@@ -1,7 +1,0 @@
-Scenario : Create Success
-When I create discount response with 66 and (12345665432103990223This message 1 is test.40Hello cashier notification test message.) expect (success)
-Then xml should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><RewardResponse><ResponseFlag>0</ResponseFlag><MessageType>66</MessageType><CashierNotificationImmediate><RewardID>123456</RewardID><EarnedRewardID>654321</EarnedRewardID><Command>0</Command><Beep>3</Beep><Duration>99</Duration><DisplayLine><LineLength>23</LineLength><DisplayMessage>This message 1 is test.</DisplayMessage></DisplayLine><DisplayLine><LineLength>40</LineLength><DisplayMessage>Hello cashier notification test message.</DisplayMessage></DisplayLine><Lines>2</Lines></CashierNotificationImmediate><RewardType>CashierNotificationImmediate</RewardType></RewardResponse>}
-
-When I create discount response with 66 and (12345665432103999923This message 1 is test.40Hello cashier notification test message.) expect (parse fail - exception: Parsed display lines size does not match to the expected number of lines.)
-
-When I create discount response with 65 and (123456654321039923This message 1 is test.0140Hello cashier notificati) expect (parse fail - index out of bounds: String index out of range: 42)

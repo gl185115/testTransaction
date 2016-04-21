@@ -16,11 +16,7 @@
         ncr.res.mobilepos.cashaccount.resource,
         ncr.res.mobilepos.classinfo.resource,
         ncr.res.mobilepos.console.resource,
-        ncr.res.mobilepos.consolidation.resource,
         ncr.res.mobilepos.credential.resource,
-        ncr.res.mobilepos.creditauthagency.resource,
-        ncr.res.mobilepos.creditauthorization.resource,
-        ncr.res.mobilepos.creditpayment.resource,
         ncr.res.mobilepos.customerSearch.resource,
         ncr.res.mobilepos.customeraccount.resource,
         ncr.res.mobilepos.customerclass.resource,
@@ -156,9 +152,6 @@
   </listener>
   <listener>
     <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
-  </listener>
-  <listener>
-    <listener-class>ncr.res.websocket.listener.WebSocketListener</listener-class>
   </listener>
   <env-entry>
     <description>Path to custom base directory. This needs '/' at the end.</description>

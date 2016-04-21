@@ -1,5 +1,0 @@
-Scenario : Multiple
-Given a Test Thread using string array: multiple using socket 3001
-Given a Communicator with 127.0.0.1, 3001, 3000 expect (success)
-When I send a message (this is a test message) expect (success)
-Then I stop the socket

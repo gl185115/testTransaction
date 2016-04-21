@@ -1,5 +1,0 @@
-Scenario : NoTerminating
-Given a Test Thread using string array: noterminating using socket 3003
-Given a Communicator with 127.0.0.1, 3003, 3000 expect (success)
-When I send a message (this is a test message) expect (Communicator.sendReceiveMessage :socket timeout exception)
-Then I stop the socket

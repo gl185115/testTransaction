@@ -1,14 +1,12 @@
 package ncr.res.mobilepos.pricing.model.test;
 
-import ncr.res.mobilepos.consolidation.resource.DcRsp;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.pricing.model.Department;
-import ncr.res.mobilepos.pricing.model.Item;
-import static org.junit.Assert.assertEquals;
-
 import org.jbehave.scenario.annotations.Given;
 import org.jbehave.scenario.annotations.Then;
 import org.jbehave.scenario.steps.Steps;
+
+import static org.junit.Assert.assertEquals;
 
 public class DepartmentModelSteps extends Steps{
     Department department;

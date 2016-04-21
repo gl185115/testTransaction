@@ -1,6 +1,0 @@
-Scenario: Credit Payment Resource getCreditPayment
-Given a CreditPayment resource
-Then Credit Payment should have the following values
-|buttonnum|code|displayname|
-|1    |Once  |Once name|
-|2    |Divided  |Divided name|

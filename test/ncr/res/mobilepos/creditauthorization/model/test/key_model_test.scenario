@@ -1,8 +1,0 @@
-Scenario: Create key
-Given a Key model
-When the key is set to {thisistestkey}
-When the key64 is set to {thisistestkey64}
-When the oldKey is set to {thisistestoldkey}
-When the oldKey64 is set to {thisistestoldkey64}
-When the genDate is set to {thisistestgendate}
-Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Key><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><genDate>thisistestgendate</genDate><key>thisistestkey</key><key64>thisistestkey64</key64><oldKey>thisistestoldkey</oldKey><oldKey64>thisistestoldkey64</oldKey64></Key>}

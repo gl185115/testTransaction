@@ -9,44 +9,32 @@
  */
 package ncr.res.mobilepos.report.resource.test;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.lang.reflect.Field;
-import java.math.BigDecimal;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-import javax.servlet.ServletContext;
-
 import junit.framework.Assert;
-import ncr.res.mobilepos.consolidation.resource.ConsolidationResource;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.report.model.DrawerFinancialReport;
 import ncr.res.mobilepos.report.model.FinancialReport;
 import ncr.res.mobilepos.report.model.ReportItems;
 import ncr.res.mobilepos.report.resource.ReportResource;
-
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.scenario.annotations.BeforeScenario;
 import org.jbehave.scenario.annotations.Given;
 import org.jbehave.scenario.annotations.Then;
 import org.jbehave.scenario.annotations.When;
 import org.jbehave.scenario.steps.Steps;
+
+import javax.servlet.ServletContext;
+import java.io.*;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+
+import static org.junit.Assert.assertEquals;
 
 public class ReportResourceSteps extends Steps {
     private ServletContext servletContext = null;
@@ -334,20 +322,7 @@ public class ReportResourceSteps extends Steps {
     
     @Then("a consolidation runs")
     public final void consolidate(){
-        ConsolidationResource consolidationService = new ConsolidationResource();
-        try 
-        {
-            servletContext = Requirements.getMockServletContext();
-            Field context = consolidationService
-                                .getClass().getDeclaredField("context");
-            context.setAccessible(true);
-            context.set(consolidationService, servletContext);
-        } catch (/*RuntimeError*/Exception ex) { 
-            //startUp = false;
-            Assert.fail("Cannot Start the WebAPI");
-        }
-        
-        consolidationService.consolidate();
+        // consolidate package was removed.
     }
     
     @Given("a corporate id{$corpid}")

@@ -1,6 +1,0 @@
-Scenario : Test Item Quantity Action Message
-When I create item points with parameters :
-|itemEntryId|itemQuantity|programId|quantity|
-|        1|          2|             3|       4|
-When I create the message with termid{5555},txid{6}
-Then message data should be {0044000055550000000612000001000002000003000004\r\n}

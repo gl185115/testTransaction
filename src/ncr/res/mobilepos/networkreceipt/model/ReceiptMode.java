@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import ncr.res.mobilepos.consolidation.constant.TransactionVariable;
+import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.journalization.model.poslog.MemberInfo;
 /**
@@ -935,7 +935,7 @@ public class ReceiptMode {
     }
 
     /**
-     * @param cashPament cashPayment
+     * @param cashPayment cashPayment
      */
     public void setCashPayment(double cashPayment) {
 
@@ -967,7 +967,7 @@ public class ReceiptMode {
     }
 
     /**
-     * @param miscPament miscPayment
+     * @param miscPayment miscPayment
      */
     public void setMiscPayment(double miscPayment) {
 
@@ -1159,7 +1159,7 @@ public class ReceiptMode {
     }
 
     /**
-     * @param creditPament creditPayment
+     * @param creditPayment creditPayment
      */
     public void setCreditPayment(double creditPayment) {
 

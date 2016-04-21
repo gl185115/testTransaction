@@ -9,27 +9,8 @@
 */
 package ncr.res.mobilepos.systemconfiguration.property;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.mail.Session;
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.consolidation.dao.CurDbInfo;
-import ncr.res.mobilepos.consolidation.dao.TransactionInfo;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.creditauthorization.model.Jis1Param;
-import ncr.res.mobilepos.creditauthorization.model.Jis2Param;
-import ncr.res.mobilepos.creditauthorization.model.PastelPortEnv;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -38,6 +19,14 @@ import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * WebContextListener is a Listener class that listens each
@@ -60,7 +49,7 @@ public class WebContextListener implements ServletContextListener {
 
     /**
      * Method to destroy servlet context.
-     * @param arg0  Servlet Context Event
+     * @param servletContext  Servlet Context Event
      */
     @Override
 	public void contextDestroyed(final ServletContextEvent servletContext) {
@@ -116,18 +105,6 @@ public class WebContextListener implements ServletContextListener {
     			GlobalConstant.setMultiSOD(false);	
     		}
 
-            if (null == ((List<TransactionInfo>) servletContext
-                    .getAttribute(GlobalConstant.TRANSACTIONINFO))) {
-                servletContext.setAttribute(GlobalConstant.TRANSACTIONINFO,
-                        new ArrayList<TransactionInfo>());
-            }
-
-            if (null == ((CurDbInfo) (servletContext
-                    .getAttribute(GlobalConstant.CURDBINFO)))) {
-                servletContext.setAttribute(
-                        GlobalConstant.CURDBINFO, new CurDbInfo());
-            }
-
             //global variable for credential day left warning
             GlobalConstant.setCredentialDaysLeft((String) servletContext
                     .getAttribute(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING));            
@@ -161,36 +138,6 @@ public class WebContextListener implements ServletContextListener {
                 new HashMap<String, TerminalItem>();
             servletContext.setAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS,
                     terminalItemsMap);
-            // get the jis data parameter file
-            ResourcesGetter getter = new ResourcesGetter(servletContext);
-            Jis1Param jis1Param = new Jis1Param();
-            jis1Param = getter.getXmlParam("/parameters/jis1.xml",
-                    Jis1Param.class);
-            servletContext.setAttribute(GlobalConstant.JIS1_PARAM_KEY,
-                    jis1Param);
-
-            Jis2Param jis2Param = new Jis2Param();
-            jis2Param = getter.getXmlParam("/parameters/jis2.xml",
-                    Jis2Param.class);
-            servletContext.setAttribute(GlobalConstant.JIS2_PARAM_KEY,
-                    jis2Param);
-
-            // get the pastelPortEnv data parameter file
-            PastelPortEnv pastelPortEnv = new PastelPortEnv();
-            pastelPortEnv = getter.getXmlParam(
-                    "/parameters/pastelportenv.xml", PastelPortEnv.class);
-            servletContext.setAttribute(GlobalConstant.PASTELPORTENV_PARAM_KEY,
-                    pastelPortEnv);
-            
-            // get smtp mail session from context.xml
-            InitialContext initCtx = new InitialContext();
-            Context env = (Context) initCtx.lookup("java:comp/env");
-            Session localSmtpSession = (Session) env.lookup("mail/Session");
-            Session gmailStmpSettion = (Session) env.lookup("gmail/Session");
-            servletContext.setAttribute(GlobalConstant.SMTP_MAIL_SESSION_LOCAL,
-            		localSmtpSession);
-            servletContext.setAttribute(GlobalConstant.SMTP_MAIL_SESSION_GMAIL,
-            		gmailStmpSettion);
 
             tp.println("WebContextListener.contextInitialized").println(
                     "System Parameter successfully retrieved.");

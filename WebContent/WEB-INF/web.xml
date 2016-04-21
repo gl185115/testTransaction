@@ -165,6 +165,12 @@
     <env-entry-value>c:\software\ncr\res\log</env-entry-value>
   </env-entry>
   <env-entry>
+    <description>UI Console Log File Path</description>
+    <env-entry-name>UiConsoleLogPath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>c:\software\ncr\res\log\UiConsoleLog.txt</env-entry-value>
+  </env-entry>
+  <env-entry>
     <description>Device Log</description>
     <env-entry-name>deviceLogPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>

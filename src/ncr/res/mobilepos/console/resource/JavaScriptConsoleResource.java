@@ -7,24 +7,26 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import ncr.realgate.util.Trace;
-import ncr.realgate.util.IoWriter;
+
 import ncr.realgate.util.Snap;
+import ncr.realgate.util.Trace;
+import ncr.realgate.util.UserLog;
+import ncr.res.mobilepos.helper.ConsoleLogger;
 import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
  * JavaScript's console object alternative implementation.
- * This class is delegated from JavaScript side module (NCRConsole) and write messages into IOWLog or Trace.
+ * This class is delegated from JavaScript side module (NCRConsole) and write messages into UserLog or Trace.
  */
 @Path("/console")
 public class JavaScriptConsoleResource {
     /**
      * A private member variable used for logging the class implementations.
      */
-    private Logger ioWriter;
+    private ConsoleLogger consoleLogger;
+
     /**
      * Instance of the trace debug printer.
      */
@@ -47,13 +49,13 @@ public class JavaScriptConsoleResource {
     }
 
     public JavaScriptConsoleResource() {
-        ioWriter = (Logger) Logger.getInstance();
+        consoleLogger = (ConsoleLogger) ConsoleLogger.getInstance();
         tp = DebugLogger.getDbgPrinter(
                    Thread.currentThread().getId(), getClass());
     }
 
     /**
-     * Write specified message to IOWLog with Error level.
+     * Write specified message to UserLog with Error level.
      * format: C:cccccccccc S:ssss T:tttt X:xxxx message
      * @param message log message
      * @param storeid storeid of the terminal
@@ -63,14 +65,14 @@ public class JavaScriptConsoleResource {
     @Path("/log")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public ResultBase log(@FormParam("message") String message, 
+    public ResultBase log(@FormParam("message") String message,
                     @FormParam("storeid") String storeid,
                     @FormParam("terminalid") String terminalid, @FormParam("txid") String txid) {
-        write(IoWriter.ERROR, message, storeid, terminalid, txid);
+        write(UserLog.ERROR, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
     /**
-     * Write specified message to IOWLog with Error level.
+     * Write specified message to UserLog with Error level.
      * format: C:cccccccccc S:ssss T:tttt X:xxxx message
      * @param message log message
      * @param storeid storeid of the terminal
@@ -80,14 +82,14 @@ public class JavaScriptConsoleResource {
     @Path("/error")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public ResultBase error(@FormParam("message") String message, 
+    public ResultBase error(@FormParam("message") String message,
                       @FormParam("storeid") String storeid,
                       @FormParam("terminalid") String terminalid, @FormParam("txid") String txid) {
-        write(IoWriter.ERROR, message, storeid, terminalid, txid);
+        write(UserLog.ERROR, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
     /**
-     * Write specified message to IOWLog with Warning level.
+     * Write specified message to UserLog with Warning level.
      * format: C:cccccccccc S:ssss T:tttt X:xxxx message
      * @param message log message
      * @param storeid storeid of the terminal
@@ -97,14 +99,14 @@ public class JavaScriptConsoleResource {
     @Path("/warn")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public ResultBase warn(@FormParam("message") String message, 
+    public ResultBase warn(@FormParam("message") String message,
                      @FormParam("storeid") String storeid,
                      @FormParam("terminalid") String terminalid, @FormParam("txid") String txid) {
-        write(IoWriter.WARNING, message, storeid, terminalid, txid);
+        write(UserLog.WARNING, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
     /**
-     * Write specified message to IOWLog with Informational level.
+     * Write specified message to UserLog with Informational level.
      * format: C:cccccccccc S:ssss T:tttt X:xxxx message
      * @param message log message
      * @param storeid storeid of the terminal
@@ -114,10 +116,10 @@ public class JavaScriptConsoleResource {
     @Path("/info")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public ResultBase info(@FormParam("message") String message, 
+    public ResultBase info(@FormParam("message") String message,
                      @FormParam("storeid") String storeid,
                      @FormParam("terminalid") String terminalid, @FormParam("txid") String txid) {
-        write(IoWriter.LOG, message, storeid, terminalid, txid);
+        write(UserLog.LOG, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
     /**
@@ -131,23 +133,23 @@ public class JavaScriptConsoleResource {
     @Path("/debug")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public ResultBase debug(@FormParam("message") String message, 
+    public ResultBase debug(@FormParam("message") String message,
                       @FormParam("storeid") String storeid,
                       @FormParam("terminalid") String terminalid, @FormParam("txid") String txid) {
-        tp.println(TRACE_TITLE, 
+        tp.println(TRACE_TITLE,
                    createLoggingMessage(message, storeid, terminalid, txid));
         tp.flush();
         return new ResultBase(ResultBase.RES_OK, "");
     }
 
     void write(char flag, String message, String storeid, String terminalid, String txid) {
-        if (message.length() >= IoWriter.WIDTH * IoWriter.MAX_LINES) {
+        if (message.length() >= UserLog.WIDTH * UserLog.MAX_LINES) {
             Snap.SnapInfo info = ((SnapLogger)SnapLogger.getInstance()).write("jsdata", message);
-            ioWriter.write(flag, PROG_NAME, JS_CODE, 
+            consoleLogger.write(flag, PROG_NAME, JS_CODE,
                        createLoggingMessage(message, storeid, terminalid, txid),
                        info);
         } else {
-            ioWriter.write(flag, PROG_NAME, JS_CODE, 
+            consoleLogger.write(flag, PROG_NAME, JS_CODE,
                        createLoggingMessage(message, storeid, terminalid, txid));
         }
     }

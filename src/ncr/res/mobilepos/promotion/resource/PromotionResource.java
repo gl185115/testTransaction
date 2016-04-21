@@ -140,15 +140,15 @@ public class PromotionResource {
                 return rsBase;
             }
 
-            synchronized ((Map<String, TerminalItem>) context.getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS)) {
-                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) context
-                        .getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS);
+            synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap();
                 TerminalItem termItem = new TerminalItem(retailStoreId, workStationId, sequenceNo);
                 termItem.setBeginDateTime(tx.getBeginDateTime());
                 termItem.setOperatorid(tx.getOperatorID());
                 termItem.setTransactionMode(tx.getTransactionMode());
                 TerminalItemsHandler.add(termItem, terminalItemsHashMap);
             }
+
         } catch (IOException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO,
                     functionName + ": Failed to begin transaction for promotion.", e);
@@ -205,10 +205,9 @@ public class PromotionResource {
                 tp.println("EndDateTime Format is invalid. It must be in " + "yyyy-MM-ddTHH:mm:ss.SS");
                 return result;
             }
-            synchronized ((Map<String, TerminalItem>) context.getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS)) {
-                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) context
-                        .getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS);
 
+            synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap();
                 TerminalItem terminalItem = TerminalItemsHandler.get(retailStoreId, workStationId, sequenceNumber,
                         terminalItemsHashMap);
                 if (terminalItem == null) {
@@ -282,10 +281,8 @@ public class PromotionResource {
                 return response;
             }
 
-            synchronized ((Map<String, TerminalItem>) context.getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS)) {
-                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) context
-                        .getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS);
-
+            synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap();
                 TerminalItem terminalItem = TerminalItemsHandler.get(retailStoreId, workStationId, sequenceNumber,
                         terminalItemsHashMap);
 
@@ -434,10 +431,8 @@ public class PromotionResource {
                 return response;
             }
 
-            synchronized ((Map<String, TerminalItem>) context.getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS)) {
-                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) context
-                        .getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS);
-
+            synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap();
                 TerminalItem terminalItem = TerminalItemsHandler.get(retailStoreId, workStationId, sequenceNumber,
                         terminalItemsHashMap);
 
@@ -789,10 +784,8 @@ public class PromotionResource {
                 return promotionResponse;
             }
 
-            synchronized ((Map<String, TerminalItem>) context.getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS)) {
-                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) context
-                        .getAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS);
-
+            synchronized ((Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap()) {
+                Map<String, TerminalItem> terminalItemsHashMap = (Map<String, TerminalItem>) GlobalConstant.getTerminalItemsMap();
                 TerminalItem terminalItem = TerminalItemsHandler.get(retailStoreId, workStationId, sequenceNumber,
                         terminalItemsHashMap);
 

@@ -26,7 +26,6 @@ import javax.servlet.ServletContextListener;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
  * WebContextListener is a Listener class that listens each
@@ -84,64 +83,18 @@ public class WebContextListener implements ServletContextListener {
         try {
             //Instantiate the DAO Factory for System Configuration
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
-            ServletContext servletContext = event.getServletContext();
 
             //Get the System parameters from PRM_SYSTEM_CONFIG
-            Map<String, String> sysParams = systemDao.getSystemParameters();
+            SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
+            Map<String, String> systemConfig = systemDao.getSystemParameters();
 
-            //Set the all the System parameters
-            //in the context of Servlet. This will be used throughout
-            //the lifetime of
-            //the system
-            for (Entry<String, String> param : sysParams.entrySet()) {
-                servletContext.setAttribute(param.getKey(), param.getValue());
-            }
+            // Set SystemConfiguration to GlobalConstant.
+            GlobalConstant.setSystemConfig(systemConfig);
 
-            String multiSOD = (String) servletContext.getAttribute(GlobalConstant.MULTIPLE_SOD);
-    		if(!StringUtility.isNullOrEmpty(multiSOD) && "1".equalsIgnoreCase(multiSOD)){
-    			GlobalConstant.setMultiSOD(true);					
-    		} else {
-    			GlobalConstant.setMultiSOD(false);	
-    		}
+            // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
+            copySystemConfigToGlobalConstant(systemConfig);
 
-            //global variable for credential day left warning
-            GlobalConstant.setCredentialDaysLeft((String) servletContext
-                    .getAttribute(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING));            
-            //global variable for credential expiry
-            GlobalConstant.setCredentialExpiry((String) servletContext
-                .getAttribute(GlobalConstant.CREDENTIAL_EXPIRY_KEY));
-            //global variable for store open time
-            GlobalConstant.setStoreOpenTime((String) servletContext
-                .getAttribute(GlobalConstant.STORE_OPEN_TIME_KEY));
-            GlobalConstant.setSwitchTime((String) servletContext
-                .getAttribute(GlobalConstant.SWITCHTIME_KEY));
-
-            String companyid = (String) servletContext
-                .getAttribute(GlobalConstant.COMPANY_ID);
-            // Are there Company ID set in PRM_SYSTEM_CONFIG?
-            // Set the CompanyID automatically at Start Up
-            if (!StringUtility.isNullOrEmpty(companyid)) {
-                GlobalConstant.setCorpid(companyid);
-            }
-
-            // Set the Search Limit.
-            String searchLimit = (String) servletContext
-                    .getAttribute(GlobalConstant.MAX_SEARCH_RESULTS);
-            if (!StringUtility.isNullOrEmpty(searchLimit)) {
-                GlobalConstant.setMaxSearchResults(
-                        Integer.parseInt(searchLimit));
-            }
-
-            //Set an Empty Prmotion TerminalItem HashMap
-            Map<String, TerminalItem> terminalItemsMap =
-                new HashMap<String, TerminalItem>();
-            servletContext.setAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS,
-                    terminalItemsMap);
-
-            tp.println("WebContextListener.contextInitialized").println(
-                    "System Parameter successfully retrieved.");
-
+            tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
 		} catch (DaoException e) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
 					functionName + ": Failed to context initialized.", e);
@@ -151,6 +104,57 @@ public class WebContextListener implements ServletContextListener {
 		} finally {
             tp.methodExit();
         }
+    }
+
+    private static void copySystemConfigToGlobalConstant(Map<String, String> sysParams) {
+        // Gets MultiSOD flag from SystemConfiguration.
+        String multiSOD = (String)sysParams.get(GlobalConstant.MULTIPLE_SOD);
+        if(!StringUtility.isNullOrEmpty(multiSOD) && "1".equalsIgnoreCase(multiSOD)){
+            GlobalConstant.setMultiSOD(true);
+        } else {
+            GlobalConstant.setMultiSOD(false);
+        }
+
+        //global variable for credential day left warning
+        GlobalConstant.setCredentialDaysLeft(sysParams.get(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING));
+        //global variable for credential expiry
+        GlobalConstant.setCredentialExpiry(sysParams.get(GlobalConstant.CREDENTIAL_EXPIRY_KEY));
+        //global variable for store open time
+        GlobalConstant.setStoreOpenTime(sysParams.get(GlobalConstant.STORE_OPEN_TIME_KEY));
+        // global variable for switch time
+        GlobalConstant.setSwitchTime(sysParams.get(GlobalConstant.SWITCHTIME_KEY));
+        // global variable for MaxSearchResults
+        String searchLimit = sysParams.get(GlobalConstant.MAX_SEARCH_RESULTS);
+        if (!StringUtility.isNullOrEmpty(searchLimit)) {
+            GlobalConstant.setMaxSearchResults(Integer.parseInt(searchLimit));
+        }
+
+        // global variable for switch time
+        GlobalConstant.setTodUri(sysParams.get(GlobalConstant.KEY_TOD_URI));
+        // global variable for MaxSearchResults
+        String todConnectionTimeout = sysParams.get(GlobalConstant.KEY_TOD_CONNECTION_TIMEOUT);
+        if (!StringUtility.isNullOrEmpty(todConnectionTimeout)) {
+            GlobalConstant.setTodConnectionTimeout(Integer.parseInt(todConnectionTimeout));
+        }
+        // global variable for MaxSearchResults
+        String todReadTimeout = sysParams.get(GlobalConstant.KEY_TOD_READ_TIMEOUT);
+        if (!StringUtility.isNullOrEmpty(todReadTimeout)) {
+            GlobalConstant.setTodReadTimeout(Integer.parseInt(todReadTimeout));
+        }
+
+        // global variable for switch time
+        GlobalConstant.setInStoreParam1(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_1));
+        GlobalConstant.setInStoreParam2(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_2));
+        GlobalConstant.setInStoreParam3(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_3));
+        GlobalConstant.setInStoreParam4(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_4));
+        GlobalConstant.setInStoreParam5(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_5));
+        GlobalConstant.setInStoreParam6(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_6));
+        GlobalConstant.setInStoreParam7(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_7));
+        GlobalConstant.setInStoreParam8(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_8));
+        GlobalConstant.setInStoreParam9(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_9));
+        GlobalConstant.setInStoreParam10(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_10));
+        GlobalConstant.setInStoreParam11(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_11));
+
     }
 
 }

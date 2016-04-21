@@ -10,8 +10,11 @@
 */
 package ncr.res.mobilepos.constant;
 
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.model.WebServerGlobals;
+import ncr.res.mobilepos.promotion.helper.TerminalItem;
+
+import javax.xml.bind.annotation.XmlElement;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * GlobalConstant is a class that enumerates
@@ -156,12 +159,8 @@ public final class GlobalConstant {
     public static final String CUSTOMER_TIER_LIST = "CustomerTierList";
     /** The Key for Search Limit. */
     public static final String MAX_SEARCH_RESULTS = "MaxSearchResults";
-    /** The Key Promotion TerminalItem(s). */
-    public static final String PROMOTION_TERMINAL_ITEMS =
-        "PromotionTerminalItems";
     /** The Key for credential day left warning. */
-    public static final String CREDENTIAL_DAY_LEFT_WARNING =
-        "CredentialDayLeftWarning";
+    public static final String CREDENTIAL_DAY_LEFT_WARNING = "CredentialDayLeftWarning";
     /**
      * The key of receipt number 
      */
@@ -193,7 +192,51 @@ public final class GlobalConstant {
      */
     private static int maxSearchResults = 5;
 
-    /** 
+    /** Key to retrieve TodUrl from SystemConfig **/
+    public static final String KEY_TOD_URI = "TodUri";
+    /** Key to retrieve TodConnectionTimeout from SystemConfig **/
+    public static final String KEY_TOD_CONNECTION_TIMEOUT = "TodConnectionTimeout";
+    /** Key to retrieve TodReadTimeout from SystemConfig **/
+    public static final String KEY_TOD_READ_TIMEOUT = "TodReadTimeout";
+
+    // Tod params
+    private static String todUri;
+    private static int todConnectionTimeout = 1000;
+    private static int todReadTimeout = 1000;
+
+    /** Keys to retrieve InStoreParams **/
+    public static final String KEY_INSTORE_PARAM_1 = "InStoreParam1";
+    public static final String KEY_INSTORE_PARAM_2 = "InStoreParam2";
+    public static final String KEY_INSTORE_PARAM_3 = "InStoreParam3";
+    public static final String KEY_INSTORE_PARAM_4 = "InStoreParam4";
+    public static final String KEY_INSTORE_PARAM_5 = "InStoreParam5";
+    public static final String KEY_INSTORE_PARAM_6 = "InStoreParam6";
+    public static final String KEY_INSTORE_PARAM_7 = "InStoreParam7";
+    public static final String KEY_INSTORE_PARAM_8 = "InStoreParam8";
+    public static final String KEY_INSTORE_PARAM_9 = "InStoreParam9";
+    public static final String KEY_INSTORE_PARAM_10 = "InStoreParam10";
+    public static final String KEY_INSTORE_PARAM_11 = "InStoreParam11";
+
+    /**  Instore params. **/
+    private static String inStoreParam1;
+    private static String inStoreParam2;
+    private static String inStoreParam3;
+    private static String inStoreParam4;
+    private static String inStoreParam5;
+    private static String inStoreParam6;
+    private static String inStoreParam7;
+    private static String inStoreParam8;
+    private static String inStoreParam9;
+    private static String inStoreParam10;
+    private static String inStoreParam11;
+
+    /** Terminal Item map. **/
+    private static Map<String, TerminalItem> terminalItemsMap = new HashMap<>();
+
+    /** SystemConfigMap **/
+    private static Map<String, String> systemConfig = new HashMap<>();
+
+    /**
      * System specific URL parameters.
      */
     /** Search API URL **/
@@ -306,19 +349,155 @@ public final class GlobalConstant {
     }
 
     /**
-     * Reset the Global values saved from the system.
-     * @param newGlobalValues   The new Global variables.
+     * Sets todUri
+     * @param todUri
      */
-    public static void reset(WebServerGlobals newGlobalValues) {
-		if (!StringUtility.isNullOrEmpty(newGlobalValues.getCredentialexpiry())) {
-			setCredentialExpiry(newGlobalValues.getCredentialcookiesexpiry());
-		}
+    public static void setTodUri(String todUri) {
+        GlobalConstant.todUri = todUri;
+    }
 
-		if (!StringUtility.isNullOrEmpty(newGlobalValues.getStoreOpenTime())) {
-			setStoreOpenTime(newGlobalValues.getStoreOpenTime());
-		}
+    /**
+     * Sets todConnectionTimeout
+     * @param todConnectionTimeout
+     */
+    public static void setTodConnectionTimeout(int todConnectionTimeout) {
+        GlobalConstant.todConnectionTimeout = todConnectionTimeout;
+    }
 
-        setMaxSearchResults(newGlobalValues.getMaxSearchResults());
+    /**
+     *
+     * @param todReadTimeout
+     */
+    public static void setTodReadTimeout(int todReadTimeout) {
+        GlobalConstant.todReadTimeout = todReadTimeout;
+    }
+
+    /**
+     * Gets todUri
+     * @return
+     */
+    public static String getTodUri() {
+        return GlobalConstant.todUri;
+    }
+
+    /**
+     * Gets todConnectionTimeout
+     * @return
+     */
+    public static int getTodConnectionTimeout() {
+        return GlobalConstant.todConnectionTimeout;
+    }
+
+    /**
+     * Gets todReadTimeout
+     * @return
+     */
+    public static int getTodReadTimeout() {
+        return GlobalConstant.todReadTimeout;
+    }
+
+    public static String getInStoreParam1() {
+        return inStoreParam1;
+    }
+
+    public static void setInStoreParam1(String inStoreParam1) {
+        GlobalConstant.inStoreParam1 = inStoreParam1;
+    }
+
+    public static String getInStoreParam2() {
+        return inStoreParam2;
+    }
+
+    public static void setInStoreParam2(String inStoreParam2) {
+        GlobalConstant.inStoreParam2 = inStoreParam2;
+    }
+
+    public static String getInStoreParam3() {
+        return inStoreParam3;
+    }
+
+    public static void setInStoreParam3(String inStoreParam3) {
+        GlobalConstant.inStoreParam3 = inStoreParam3;
+    }
+
+    public static String getInStoreParam4() {
+        return inStoreParam4;
+    }
+
+    public static void setInStoreParam4(String inStoreParam4) {
+        GlobalConstant.inStoreParam4 = inStoreParam4;
+    }
+
+    public static String getInStoreParam5() {
+        return inStoreParam5;
+    }
+
+    public static void setInStoreParam5(String inStoreParam5) {
+        GlobalConstant.inStoreParam5 = inStoreParam5;
+    }
+
+    public static String getInStoreParam6() {
+        return inStoreParam6;
+    }
+
+    public static void setInStoreParam6(String inStoreParam6) {
+        GlobalConstant.inStoreParam6 = inStoreParam6;
+    }
+
+    public static String getInStoreParam7() {
+        return inStoreParam7;
+    }
+
+    public static void setInStoreParam7(String inStoreParam7) {
+        GlobalConstant.inStoreParam7 = inStoreParam7;
+    }
+
+    public static String getInStoreParam8() {
+        return inStoreParam8;
+    }
+
+    public static void setInStoreParam8(String inStoreParam8) {
+        GlobalConstant.inStoreParam8 = inStoreParam8;
+    }
+
+    public static String getInStoreParam9() {
+        return inStoreParam9;
+    }
+
+    public static void setInStoreParam9(String inStoreParam9) {
+        GlobalConstant.inStoreParam9 = inStoreParam9;
+    }
+
+    public static String getInStoreParam10() {
+        return inStoreParam10;
+    }
+
+    public static void setInStoreParam10(String inStoreParam10) {
+        GlobalConstant.inStoreParam10 = inStoreParam10;
+    }
+
+    public static String getInStoreParam11() {
+        return inStoreParam11;
+    }
+
+    public static void setInStoreParam11(String inStoreParam11) {
+        GlobalConstant.inStoreParam11 = inStoreParam11;
+    }
+
+    public static Map<String, TerminalItem> getTerminalItemsMap() {
+        return terminalItemsMap;
+    }
+
+    public static void setTerminalItemsMap(Map<String, TerminalItem> terminalItemsMap) {
+        GlobalConstant.terminalItemsMap = terminalItemsMap;
+    }
+
+    public static Map<String, String> getSystemConfig() {
+        return systemConfig;
+    }
+
+    public static void setSystemConfig(Map<String, String> systemConfig) {
+        GlobalConstant.systemConfig = systemConfig;
     }
 }
 

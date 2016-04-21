@@ -5,15 +5,16 @@ import java.io.File;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.IOException;
-import java.net.MalformedURLException ;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ncr.res.mobilepos.model.WebServerGlobals;
+import jdk.nashorn.internal.runtime.GlobalConstants;
 import ncr.realgate.util.IoWriter;
+import ncr.res.mobilepos.constant.GlobalConstant;
 
 /**
  * Time of day service.
@@ -30,14 +31,17 @@ public class TodHelper {
     static final String PROGNAME = "TOD_HELP";
 
     static final Pattern TOD_PATTERN = Pattern.compile("Timestamp\"\\s*:\\s*\"(\\d{4}-\\d\\d-\\d\\d)T(\\d\\d:\\d\\d:\\d\\d)");
+
+    private File batchFile;
+    private File joblog;
+    private static final Logger logger = Logger.getInstance();
+
     /**
      * create instance.
-     * @param glob setting for picking up URI of TOD server.
      */
-    public TodHelper(WebServerGlobals glob) {
-        batchFile = new File(System.getenv(ENV_JCL), TOD_BATCH);
-        joblog = new File(System.getenv(ENV_LOG), JOBLOG);
-        globals = glob;
+    public TodHelper() {
+        this.batchFile = new File(System.getenv(ENV_JCL), TOD_BATCH);
+        this.joblog = new File(System.getenv(ENV_LOG), JOBLOG);
     }
 
     /**
@@ -50,10 +54,14 @@ public class TodHelper {
      */
     public boolean adjust() {
         try (ByteArrayOutputStream bao = new ByteArrayOutputStream()) {
-            URL url = new URL(globals.getTodUri());
+            String todUri = GlobalConstant.getTodUri();
+            int todConnectionTimeout = GlobalConstant.getTodConnectionTimeout();
+            int todReadTimeout = GlobalConstant.getTodReadTimeout();
+
+            URL url = new URL(todUri);
             URLConnection conn = url.openConnection();
-            conn.setConnectTimeout(globals.getTodConnectionTimeout());
-            conn.setReadTimeout(globals.getTodReadTimeout());
+            conn.setConnectTimeout(todConnectionTimeout);
+            conn.setReadTimeout(todReadTimeout);
             conn.setDoOutput(false);
             conn.connect();
             try (InputStream is = conn.getInputStream()) {
@@ -112,8 +120,4 @@ public class TodHelper {
         return batchFile;
     }
 
-    File batchFile;
-    File joblog;
-    WebServerGlobals globals;
-    Logger logger = Logger.getInstance();
 }

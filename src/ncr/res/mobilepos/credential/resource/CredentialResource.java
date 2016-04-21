@@ -8,51 +8,28 @@
  */
 package ncr.res.mobilepos.credential.resource;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
-
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
-import ncr.res.mobilepos.credential.model.Authorization;
-import ncr.res.mobilepos.credential.model.Employee;
-import ncr.res.mobilepos.credential.model.Employees;
-import ncr.res.mobilepos.credential.model.NameMasterInfo;
-import ncr.res.mobilepos.credential.model.Operator;
-import ncr.res.mobilepos.credential.model.SystemNameMasterList;
-import ncr.res.mobilepos.credential.model.UserGroup;
-import ncr.res.mobilepos.credential.model.UserGroupLabel;
-import ncr.res.mobilepos.credential.model.UserGroupList;
-import ncr.res.mobilepos.credential.model.ViewEmployee;
-import ncr.res.mobilepos.credential.model.ViewUserGroup;
+import ncr.res.mobilepos.credential.model.*;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.JsonMarshaller;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.TodHelper;
+import ncr.res.mobilepos.helper.*;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
-import ncr.res.mobilepos.systemconfiguration.resource.SystemConfigurationResource;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * CredentialResource Class is a Web Resource which support MobilePOS Credential
@@ -1207,9 +1184,7 @@ public class CredentialResource {
         if (ENTERPRISE.equals(System.getenv(SERVERTYPE)))
             return;
 
-        SystemConfigurationResource syscon = new SystemConfigurationResource();
-        syscon.setContext(context);
-        TodHelper helper = new TodHelper(syscon.getSystemConfiguration());
+        TodHelper helper = new TodHelper();
         helper.adjust();
     }
 }

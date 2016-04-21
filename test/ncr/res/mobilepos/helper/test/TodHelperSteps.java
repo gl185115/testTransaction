@@ -1,30 +1,29 @@
 package ncr.res.mobilepos.helper.test;
 
+import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.helper.TodHelper;
+import org.jbehave.scenario.annotations.*;
+import org.jbehave.scenario.steps.Steps;
+
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
-
-import java.io.*;
-import java.net.*;
-import java.nio.charset.*;
-import java.nio.file.*;
-import java.util.*;
-
-import ncr.res.mobilepos.helper.TodHelper;
-import ncr.res.mobilepos.model.WebServerGlobals;
 
 public class TodHelperSteps extends Steps {
     static Charset cp932 = Charset.forName("MS932");
     static final String BAT_NAME = "todhelpertest.bat";
     static final String JOBLOG = "joblog";
-    WebServerGlobals globals;
 
     @BeforeScenario
     public void setUp() throws Exception {
@@ -41,8 +40,7 @@ public class TodHelperSteps extends Steps {
 
     @Given("url {$uri}")
     public void setup(String uri) throws Exception {
-        globals = new WebServerGlobals();
-        globals.setTodUri(uri);
+        GlobalConstant.setTodUri(uri);
     }
 
     @When("asked tod to {$port} and got {$tod}")
@@ -50,7 +48,7 @@ public class TodHelperSteps extends Steps {
         String data = "{\"DataTimestamp\":\"" + tod + "\",\"BizDateData\": [ {\"BizDate\":\"2015-08-12T00:00:00\"}]}";
         Thread d = dummyServer(port, data);
         d.start();
-        TodHelper helper = new TodHelper(globals);
+        TodHelper helper = new TodHelper();
         helper.setBatchFile(new File(System.getProperty("java.io.tmpdir"), BAT_NAME));
         helper.adjust();
         d.join(30000);

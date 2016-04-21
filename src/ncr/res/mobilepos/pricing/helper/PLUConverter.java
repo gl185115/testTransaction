@@ -12,8 +12,8 @@ import java.util.Set;
 
 import javax.servlet.ServletContext;
 
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.model.WebServerGlobals;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.systemconfiguration
           .resource.SystemConfigurationResource;
@@ -336,20 +336,18 @@ public class PLUConverter {
         SystemConfigurationResource systemConfigurationResource =
             new SystemConfigurationResource();
         systemConfigurationResource.setContext(context);
-        WebServerGlobals webServerGlobals =
-            systemConfigurationResource.getSystemConfiguration();
         List<String> valueList = new ArrayList<String>();
-        valueList.add(webServerGlobals.getInStoreParam1());
-        valueList.add(webServerGlobals.getInStoreParam2());
-        valueList.add(webServerGlobals.getInStoreParam3());
-        valueList.add(webServerGlobals.getInStoreParam4());
-        valueList.add(webServerGlobals.getInStoreParam5());
-        valueList.add(webServerGlobals.getInStoreParam6());
-        valueList.add(webServerGlobals.getInStoreParam7());
-        valueList.add(webServerGlobals.getInStoreParam8());
-        valueList.add(webServerGlobals.getInStoreParam9());
-        valueList.add(webServerGlobals.getInStoreParam10());
-        valueList.add(webServerGlobals.getInStoreParam11());
+        valueList.add(GlobalConstant.getInStoreParam1());
+        valueList.add(GlobalConstant.getInStoreParam2());
+        valueList.add(GlobalConstant.getInStoreParam3());
+        valueList.add(GlobalConstant.getInStoreParam4());
+        valueList.add(GlobalConstant.getInStoreParam5());
+        valueList.add(GlobalConstant.getInStoreParam6());
+        valueList.add(GlobalConstant.getInStoreParam7());
+        valueList.add(GlobalConstant.getInStoreParam8());
+        valueList.add(GlobalConstant.getInStoreParam9());
+        valueList.add(GlobalConstant.getInStoreParam10());
+        valueList.add(GlobalConstant.getInStoreParam11());
         return (String[]) valueList.toArray(new String[valueList.size() + 1]);
     }
 

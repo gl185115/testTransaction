@@ -32,7 +32,6 @@
         ncr.res.mobilepos.eventlog.resource,
         ncr.res.mobilepos.exception.provider,
         ncr.res.mobilepos.forwarditemlist.resource,
-        ncr.res.mobilepos.giftcard.resource,
         ncr.res.mobilepos.journalization.resource,
         ncr.res.mobilepos.line.resource,
         ncr.res.mobilepos.mastermaintenance.resource,
@@ -55,7 +54,8 @@
         ncr.res.mobilepos.tenderinfo.resource,
         ncr.res.mobilepos.test.resource,
         ncr.res.mobilepos.tillinfo.resource,
-        ncr.res.mobilepos.xebioapi.resource
+        ncr.res.mobilepos.xebioapi.resource,
+        ncr.res.mobilepos.point.resource
     </param-value>
     </init-param>
     <init-param>

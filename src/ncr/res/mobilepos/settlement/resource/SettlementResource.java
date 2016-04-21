@@ -3,7 +3,9 @@ package ncr.res.mobilepos.settlement.resource;
 import java.sql.SQLException;
 
 import javax.servlet.ServletContext;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -92,6 +94,7 @@ public class SettlementResource {
     public final SettlementInfo getVoucherList(
     		@QueryParam("companyId") final String companyId,
     		@QueryParam("storeId") final String storeId,
+    		@QueryParam("terminalId") final String terminalId,
     		@QueryParam("businessDayDate") final String businessDayDate,
     		@QueryParam("trainingFlag") final int trainingFlag) {
     	String functionName = DebugLogger.getCurrentMethodName();
@@ -99,6 +102,7 @@ public class SettlementResource {
         	.println("companyId", companyId)
         	.println("storeId", storeId)
         	.println("businessDayDate", businessDayDate)
+        	.println("terminalId", terminalId)
         	.println("trainingFlag", trainingFlag);
         SettlementInfo settlement = new SettlementInfo();
     	
@@ -112,7 +116,7 @@ public class SettlementResource {
     	try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
             settlement = settlementDao.getVoucherList(companyId, storeId, 
-            		businessDayDate, trainingFlag);
+            		businessDayDate, terminalId, trainingFlag);
     	} catch (Exception e) {
             String loggerErrorCode = null;
             int resultBaseErrorCode = 0;
@@ -186,4 +190,63 @@ public class SettlementResource {
         }
         return settlement;
     }
+    @Path("/getcredit")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON })
+    public final SettlementInfo getCredit(
+            @FormParam("companyId") final String companyId,
+            @FormParam("storeId") final String storeId,
+            @FormParam("terminalId") final String terminalId,
+            @FormParam("businessDate") final String businessDate,
+            @FormParam("trainingFlag") final int trainingFlag,
+            @FormParam("dataType") final String dataType,
+            @FormParam("itemLevel1")final String itemLevel1,
+            @FormParam("itemLevel2") final String itemLevel2) {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("trainingFlag", trainingFlag)
+          .println("datatype", dataType)
+          .println("itemLevel1", itemLevel1)
+          .println("itemLevel2", itemLevel2);
+        
+        SettlementInfo settlement = new SettlementInfo();
+        
+        if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate, terminalId)) {
+            tp.println("A required parameter is null or empty.");
+            settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.methodExit(settlement.toString());
+            return settlement;
+        }
+        
+        try {
+            ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
+            settlement = settlementDao.getCredit(companyId, storeId, terminalId, 
+                    businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+        } catch (Exception e) {
+            String loggerErrorCode = null;
+            int resultBaseErrorCode = 0;
+            if (e.getCause() instanceof SQLException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DB;
+            } else if (e.getCause() instanceof SQLStatementException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DAO;
+            } else {
+                loggerErrorCode = Logger.RES_EXCEP_GENERAL;
+                resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
+            }
+            settlement.setNCRWSSResultCode(resultBaseErrorCode);
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
+                "Failed to get credit  for companyId=" + companyId + ", " 
+                + "storeId=" + storeId + ", businessDayDate=" + businessDate + " and "
+                + "trainingFlag=" + trainingFlag + " : " + e.getMessage());
+        } finally {
+            tp.methodExit(settlement.toString());
+        }
+        return settlement;
+    }
+    
 }

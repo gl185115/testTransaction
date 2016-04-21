@@ -19,10 +19,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Transaction Model Object.
  *
- * <P>A Transaction Node in POSLog XML.
+ * <P>
+ * A Transaction Node in POSLog XML.
  *
- * <P>The Transaction node is under POSLog Node.
- * And holds the transaction details whether the customer is a member or not.
+ * <P>
+ * The Transaction node is under POSLog Node. And holds the transaction details
+ * whether the customer is a member or not.
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -40,57 +42,57 @@ public class Transaction {
     @XmlAttribute(name = "CancelFlag")
     private String cancelFlag;
     /**
-     * The private member variable that will hold
-     * the transactionType of Transaction.
+     * The private member variable that will hold the transactionType of
+     * Transaction.
      */
     @XmlElement(name = "TransactionType")
     private String transactionType;
 
     /**
-     * The private member variable that will hold
-     * the retail store ID of Transaction.
+     * The private member variable that will hold the retail store ID of
+     * Transaction.
      */
     @XmlElement(name = "RetailStoreID")
     private String retailStoreID;
 
     /**
-     * The private member variable that will hold the
-     * workstation ID of Transaction.
+     * The private member variable that will hold the workstation ID of
+     * Transaction.
      */
     @XmlElement(name = "WorkstationID")
     private WorkstationID workStationID;
 
     /**
-     * The private member variable that will
-     * hold the organization hierarchy under Transaction.
+     * The private member variable that will hold the organization hierarchy
+     * under Transaction.
      */
     @XmlElement(name = "OrganizationHierarchy")
     private OrganizationHierarchy organizationHierarchy;
 
     /**
-     * The private member variable that will hold
-     * the sequence number of Transaction.
+     * The private member variable that will hold the sequence number of
+     * Transaction.
      */
     @XmlElement(name = "SequenceNumber")
     private String sequenceNo;
 
     /**
-     * The private member variable that will hold
-     * the business day date of Transaction.
+     * The private member variable that will hold the business day date of
+     * Transaction.
      */
     @XmlElement(name = "BusinessDayDate")
     private String businessDayDate;
 
     /**
-     * The private member variable that will
-     * hold the begin day date of Transaction.
+     * The private member variable that will hold the begin day date of
+     * Transaction.
      */
     @XmlElement(name = "BeginDateTime")
     private String beginDateTime;
 
     /**
-     * The private member variable that
-     * will hold the operator ID of Transaction.
+     * The private member variable that will hold the operator ID of
+     * Transaction.
      */
     @XmlElement(name = "OperatorID")
     private OperatorID operatorID;
@@ -102,15 +104,14 @@ public class Transaction {
     private String receiptDateTime;
 
     /**
-     * The private member variable that will
-     * hold the member ID of the customer.
+     * The private member variable that will hold the member ID of the customer.
      */
     @XmlElement(name = "CustomerID")
     private String customerid;
 
     /**
-     * The private member variable that will\
-     * hold the slip number of the Transaction.
+     * The private member variable that will\ hold the slip number of the
+     * Transaction.
      */
     @XmlElement(name = "TillID")
     private String tillID;
@@ -121,77 +122,86 @@ public class Transaction {
     @XmlElement(name = "BusinessUnit")
     private BusinessUnit businessUnit;
 
-
     /**
-     * The private member variable that will
-     * hold the retail under Transaction.
+     * The private member variable that will hold the retail under Transaction.
      */
     @XmlElement(name = "RetailTransaction")
     private RetailTransaction retailTransaction;
 
     /**
-     * The private member variable that will
-     * hold the cash drawer transactions
+     * The private member variable that will hold the cash drawer transactions
      */
     @XmlElement(name = "TenderControlTransaction")
     private TenderControlTransaction tenderControlTransaction;
     /**
-     * ControlTransaction of SummaryReceipt details for transaction
-     * that is being printed.
+     * ControlTransaction of SummaryReceipt details for transaction that is
+     * being printed.
      */
     @XmlElement(name = "ControlTransaction")
     private ControlTransaction controlTransaction;
     /**
-     * The private member variable that will hold
-     * the Transaction Link details.
+     * The private member variable that will hold the Transaction Link details.
      */
     @XmlElement(name = "TransactionLink")
     private TransactionLink transactionLink;
-    
+
     /**
-     * The private member variable that will hold
-     * the return cash flag of Transaction.
+     * The private member variable that will hold the return cash flag of
+     * Transaction.
      */
     @XmlElement(name = "ReturnCashFlag")
     private String returnCashFlag;
-    
+
     /**
-     * The private member variable that will hold
-     * the auto sequence number of Transaction.
+     * The private member variable that will hold the auto sequence number of
+     * Transaction.
      */
     @XmlElement(name = "AutoSequenceNumber")
     private String autoSequenceNumber;
-    
+
     /**
-     * The private member variable that will hold
-     * the before transaction of Transaction.
+     * The private member variable that will hold the before transaction of
+     * Transaction.
      */
     @XmlElement(name = "BeforeTransaction")
     private BeforeTransaction beforeTransaction;
+
+    /**
+     * The private member variable that will hold the before transaction number
+     * of Transaction.
+     */
+    @XmlElement(name = "BeforeTransactionNumber")
+    private String beforeTransactionNumber;
 
     /**
      * The API Error List of the transaction.
      */
     @XmlElement(name = "APIErrorList")
     private APIErrorList apiErrorList;
-    
+
     /**
      * Gets the ControlTransaction for SymmaryReceipt.
-     * @return	ControlTransaction of SummaryReceipt.
+     * 
+     * @return ControlTransaction of SummaryReceipt.
      */
     public ControlTransaction getControlTransaction() {
         return controlTransaction;
     }
+
     /**
      * Sets the ControlTransaction for SymmaryReceipt.
-     * @param controlTransaction ControlTransaction of SummaryReceipt.
+     * 
+     * @param controlTransaction
+     *            ControlTransaction of SummaryReceipt.
      */
     public void setControlTransaction(ControlTransaction controlTransaction) {
         this.controlTransaction = controlTransaction;
     }
+
     /**
      * Gets the training mode flag of transaction.
-     * @return          The training mode flag of transaction
+     * 
+     * @return The training mode flag of transaction
      */
     public final String getTrainingModeFlag() {
         return trainingModeFlag;
@@ -199,6 +209,7 @@ public class Transaction {
 
     /**
      * Sets training mode flag of transaction.
+     * 
      * @param trainingModeFlag
      */
     public final void setTrainingModeFlag(final String trainingModeFlag) {
@@ -207,7 +218,8 @@ public class Transaction {
 
     /**
      * Gets the cancel flag of transaction.
-     * @return          The cancel flag of transaction
+     * 
+     * @return The cancel flag of transaction
      */
     public final String getCancelFlag() {
         return cancelFlag;
@@ -215,6 +227,7 @@ public class Transaction {
 
     /**
      * Sets cancel flag of transaction.
+     * 
      * @param cancelFlagToSet
      */
     public final void setCancelFlag(final String cancelFlagToSet) {
@@ -227,16 +240,19 @@ public class Transaction {
     public final String getTransactionType() {
         return transactionType;
     }
+
     /**
-     * @param transactionType the transactionType to set
+     * @param transactionType
+     *            the transactionType to set
      */
     public final void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
     }
+
     /**
      * Gets the member ID of the customer.
      *
-     * @return        The member ID of the customer.
+     * @return The member ID of the customer.
      */
     public final String getCustomerid() {
         return customerid;
@@ -245,7 +261,8 @@ public class Transaction {
     /**
      * Sets the member ID of the customer.
      *
-     * @param customeridToSet  The new value for the member ID of the customer.
+     * @param customeridToSet
+     *            The new value for the member ID of the customer.
      */
     public final void setCustomerid(final String customeridToSet) {
         this.customerid = customeridToSet;
@@ -254,7 +271,7 @@ public class Transaction {
     /**
      * Gets the begin date time of the Transaction.
      *
-     * @return        The begin date time of the Transaction.
+     * @return The begin date time of the Transaction.
      */
     public final String getBeginDateTime() {
         return beginDateTime;
@@ -263,8 +280,8 @@ public class Transaction {
     /**
      * Sets the begin date time of the Transaction.
      *
-     * @param beginDateTimeToSet  The new value for the begin
-     *                             date time of the Transaction.
+     * @param beginDateTimeToSet
+     *            The new value for the begin date time of the Transaction.
      */
     public final void setBeginDateTime(final String beginDateTimeToSet) {
         this.beginDateTime = beginDateTimeToSet;
@@ -273,7 +290,7 @@ public class Transaction {
     /**
      * Gets the operator ID of the Transaction.
      *
-     * @return        The operator ID of the Transaction.
+     * @return The operator ID of the Transaction.
      */
     public final OperatorID getOperatorID() {
         return operatorID;
@@ -282,8 +299,8 @@ public class Transaction {
     /**
      * Sets the operator ID of the Transaction.
      *
-     * @param operatorIDToSet     The new value for the
-     *                              operator ID of the Transaction.
+     * @param operatorIDToSet
+     *            The new value for the operator ID of the Transaction.
      */
     public final void setOperatorID(final OperatorID operatorIDToSet) {
         this.operatorID = operatorIDToSet;
@@ -292,7 +309,7 @@ public class Transaction {
     /**
      * Gets the business day date of the Transaction.
      *
-     * @return        The  business day date of the Transaction.
+     * @return The business day date of the Transaction.
      */
     public final String getBusinessDayDate() {
         return businessDayDate;
@@ -301,8 +318,8 @@ public class Transaction {
     /**
      * Sets the business day date of the Transaction.
      *
-     * @param businessDayDateToSet   The new value for the
-     *                                  business day date of the Transaction.
+     * @param businessDayDateToSet
+     *            The new value for the business day date of the Transaction.
      */
     public final void setBusinessDayDate(final String businessDayDateToSet) {
         this.businessDayDate = businessDayDateToSet;
@@ -311,7 +328,7 @@ public class Transaction {
     /**
      * Gets the retail store id of the Transaction.
      *
-     * @return        The retail store id of the Transaction.
+     * @return The retail store id of the Transaction.
      */
     public final String getRetailStoreID() {
         return retailStoreID;
@@ -320,8 +337,8 @@ public class Transaction {
     /**
      * Sets the retail store id of the Transaction.
      *
-     * @param retailStoreIDToSet  The new value for the retail
-     *                              store id of the Transaction.
+     * @param retailStoreIDToSet
+     *            The new value for the retail store id of the Transaction.
      */
     public final void setRetailStoreID(final String retailStoreIDToSet) {
         this.retailStoreID = retailStoreIDToSet;
@@ -330,7 +347,7 @@ public class Transaction {
     /**
      * Gets the sequence number of the Transaction.
      *
-     * @return        The sequence number of the Transaction.
+     * @return The sequence number of the Transaction.
      */
     public final String getSequenceNo() {
         return sequenceNo;
@@ -339,8 +356,8 @@ public class Transaction {
     /**
      * Sets the sequence number of the Transaction.
      *
-     * @param sequenceNoToSet     The new value for the
-     *                              sequence number of the Transaction.
+     * @param sequenceNoToSet
+     *            The new value for the sequence number of the Transaction.
      */
     public final void setSequenceNo(final String sequenceNoToSet) {
         this.sequenceNo = sequenceNoToSet;
@@ -349,7 +366,7 @@ public class Transaction {
     /**
      * Gets the workstation id of the Transaction.
      *
-     * @return        The workstation id of the Transaction.
+     * @return The workstation id of the Transaction.
      */
     public final WorkstationID getWorkStationID() {
         return workStationID;
@@ -358,29 +375,28 @@ public class Transaction {
     /**
      * Sets the workstation id of the Transaction.
      *
-     * @param workStationIDToSet  The new value for the
-     *                              workstation id of the Transaction.
+     * @param workStationIDToSet
+     *            The new value for the workstation id of the Transaction.
      */
     public final void setWorkStationID(final WorkstationID workStationIDToSet) {
         this.workStationID = workStationIDToSet;
     }
-    
+
     /**
      * Sets the organization hieararchy under the Transaction.
      *
-     * @param organizationHierarchyToSet    The new value for the
-     *                                    retail transaction
-     *                                    under the Transaction.
+     * @param organizationHierarchyToSet
+     *            The new value for the retail transaction under the
+     *            Transaction.
      */
-    public final void setOrganizationHierarchy(
-            final OrganizationHierarchy organizationHierarchyToSet) {
+    public final void setOrganizationHierarchy(final OrganizationHierarchy organizationHierarchyToSet) {
         this.organizationHierarchy = organizationHierarchyToSet;
     }
 
     /**
      * Gets the organization hierarchy under the Transaction.
      *
-     * @return        The organization hierarchy under the Transaction.
+     * @return The organization hierarchy under the Transaction.
      */
     public final OrganizationHierarchy getOrganizationHierarchy() {
         return organizationHierarchy;
@@ -389,19 +405,18 @@ public class Transaction {
     /**
      * Sets the retail transaction under the Transaction.
      *
-     * @param retailTransactionToSet	The new value for the
-     * 									  retail transaction
-     *                                    under the Transaction.
+     * @param retailTransactionToSet
+     *            The new value for the retail transaction under the
+     *            Transaction.
      */
-    public final void setRetailTransaction(
-            final RetailTransaction retailTransactionToSet) {
+    public final void setRetailTransaction(final RetailTransaction retailTransactionToSet) {
         this.retailTransaction = retailTransactionToSet;
     }
 
     /**
      * Gets the retail transaction under the Transaction.
      *
-     * @return        The retail transaction under the Transaction.
+     * @return The retail transaction under the Transaction.
      */
     public final RetailTransaction getRetailTransaction() {
         return retailTransaction;
@@ -410,19 +425,17 @@ public class Transaction {
     /**
      * Sets the business Unit under the Transaction.
      *
-     * @param businessUnit    The new value for the
-     *                                    business Unit
-     *                                    under the Transaction.
+     * @param businessUnit
+     *            The new value for the business Unit under the Transaction.
      */
-    public final void setBusinessUnit(
-            final BusinessUnit businessUnit) {
+    public final void setBusinessUnit(final BusinessUnit businessUnit) {
         this.businessUnit = businessUnit;
     }
 
     /**
      * Gets the business Unit under the Transaction.
      *
-     * @return        The business Unit under the Transaction.
+     * @return The business Unit under the Transaction.
      */
     public final BusinessUnit getBusinessUnit() {
         return businessUnit;
@@ -431,17 +444,17 @@ public class Transaction {
     /**
      * Gets the Receipt Date Time of the Transaction.
      *
-     * @return        The receipt date time of the Transaction.
+     * @return The receipt date time of the Transaction.
      */
     public final String getReceiptDateTime() {
         return receiptDateTime;
     }
 
-
     /**
      * Sets the Receipt Date Time of the Transaction.
      *
-     *@param receiptDateTimeToSet The Receipt Date and Time.
+     * @param receiptDateTimeToSet
+     *            The Receipt Date and Time.
      */
     public final void setReceiptDateTime(final String receiptDateTimeToSet) {
         receiptDateTime = receiptDateTimeToSet;
@@ -449,7 +462,9 @@ public class Transaction {
 
     /**
      * Set the Till ID.
-     * @param tillIDToSet The Till ID.
+     * 
+     * @param tillIDToSet
+     *            The Till ID.
      */
     public final void setTillID(final String tillIDToSet) {
         this.tillID = tillIDToSet;
@@ -457,6 +472,7 @@ public class Transaction {
 
     /**
      * Get the Till ID.
+     * 
      * @return The Till ID.
      */
     public final String getTillID() {
@@ -466,7 +482,7 @@ public class Transaction {
     /**
      * Gets the Tender Control Transaction
      *
-     * @return        The tender control transaction
+     * @return The tender control transaction
      */
     public final TenderControlTransaction getTenderControlTransaction() {
         return tenderControlTransaction;
@@ -475,102 +491,127 @@ public class Transaction {
     /**
      * Sets the Tender Control Transaction
      *
-     *@param tenderControlTransaction		The tender control transaction
+     * @param tenderControlTransaction
+     *            The tender control transaction
      */
-    public final void setTenderControlTransaction(
-            TenderControlTransaction tenderControlTransaction) {
+    public final void setTenderControlTransaction(TenderControlTransaction tenderControlTransaction) {
         this.tenderControlTransaction = tenderControlTransaction;
     }
 
     /**
      * Tells if Transaction is empty.
-     * @return  True if transaction is empty else false.
+     * 
+     * @return True if transaction is empty else false.
      */
     public final boolean isEmpty() {
-        if (null == beginDateTime
-                || null == retailTransaction) {
+        if (null == beginDateTime || null == retailTransaction) {
             return true;
         }
         return false;
     }
+
     /**
      * Overrides to String implementation.
+     * 
      * @return The string implementation of the Transaction.
      */
     public final String toString() {
         StringBuilder str = new StringBuilder();
         String crlf = "\r\n";
-        str.append("BeginDateTime : ").append(this.beginDateTime).append(crlf)
-           .append("BusinessDayDate : ").append(this.businessDayDate)
-           .append(crlf)
-           .append("CustomerID : ").append(this.customerid).append(crlf)
-           .append("OperatorID : ").append(this.operatorID).append(crlf)
-           .append("ReceiptDateTime : ").append(this.receiptDateTime)
-           .append(crlf)
-           .append("RetailStoreID : ").append(this.retailStoreID).append(crlf)
-           .append("SequenceNumber : ").append(this.sequenceNo).append(crlf)
-           .append("TillID : ").append(this.tillID).append(crlf)
-           .append("WorkstationID : ").append(this.workStationID).append(crlf);
+        str.append("BeginDateTime : ").append(this.beginDateTime).append(crlf).append("BusinessDayDate : ")
+                .append(this.businessDayDate).append(crlf).append("CustomerID : ").append(this.customerid).append(crlf)
+                .append("OperatorID : ").append(this.operatorID).append(crlf).append("ReceiptDateTime : ")
+                .append(this.receiptDateTime).append(crlf).append("RetailStoreID : ").append(this.retailStoreID)
+                .append(crlf).append("SequenceNumber : ").append(this.sequenceNo).append(crlf).append("TillID : ")
+                .append(this.tillID).append(crlf).append("WorkstationID : ").append(this.workStationID).append(crlf);
 
-           if (null != retailTransaction) {
-               str.append("RetailTransaction : ")
-               .append(this.retailTransaction.toString());
-           }
+        if (null != retailTransaction) {
+            str.append("RetailTransaction : ").append(this.retailTransaction.toString());
+        }
 
         return str.toString();
     }
+
     public final TransactionLink getTransactionLink() {
-    	return transactionLink;
+        return transactionLink;
     }
+
     public final void setTransactionLink(TransactionLink tl) {
-    	this.transactionLink = tl;
+        this.transactionLink = tl;
     }
+
     /**
      * @return the returnCashFlag
      */
     public final String getReturnCashFlag() {
         return returnCashFlag;
     }
+
     /**
-     * @param returnCashFlag the returnCashFlag to set
+     * @param returnCashFlag
+     *            the returnCashFlag to set
      */
     public final void setReturnCashFlag(String returnCashFlag) {
         this.returnCashFlag = returnCashFlag;
     }
+
     /**
      * @return the autoSequenceNumber
      */
     public final String getAutoSequenceNumber() {
         return autoSequenceNumber;
     }
+
     /**
-     * @param autoSequenceNumber the autoSequenceNumber to set
+     * @param autoSequenceNumber
+     *            the autoSequenceNumber to set
      */
     public final void setAutoSequenceNumber(String autoSequenceNumber) {
         this.autoSequenceNumber = autoSequenceNumber;
     }
+
     /**
      * @return the apiErrorList
      */
     public final APIErrorList getApiErrorList() {
         return apiErrorList;
     }
+
     /**
-     * @param apiErrorList the apiErrorList to set
+     * @param apiErrorList
+     *            the apiErrorList to set
      */
     public final void setApiErrorList(APIErrorList apiErrorList) {
         this.apiErrorList = apiErrorList;
     }
+
     /**
      * @return the beforeTransaction
      */
     public final BeforeTransaction getBeforeTransaction() {
         return beforeTransaction;
     }
+
     /**
-     * @param beforeTransaction the beforeTransaction to set
+     * @param beforeTransaction
+     *            the beforeTransaction to set
      */
     public final void setBeforeTransaction(BeforeTransaction beforeTransaction) {
         this.beforeTransaction = beforeTransaction;
+    }
+
+    /**
+     * @return the beforeTransactionNumber
+     */
+    public String getBeforeTransactionNumber() {
+        return beforeTransactionNumber;
+    }
+
+    /**
+     * @param beforeTransactionNumber
+     *            the beforeTransactionNumber to set
+     */
+    public void setBeforeTransactionNumber(String beforeTransactionNumber) {
+        this.beforeTransactionNumber = beforeTransactionNumber;
     }
 }

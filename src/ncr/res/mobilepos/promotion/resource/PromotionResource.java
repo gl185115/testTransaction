@@ -325,7 +325,6 @@ public class PromotionResource {
                     } catch(Exception e){
                         LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send item entry.", e);
                         response.setNCRWSSResultCode(0);
-//                        return response;
                         throw new Exception("0");
                     }
                     if (item == null) {
@@ -529,8 +528,13 @@ public class PromotionResource {
             valueResult.put("pluCode", pluCode);
             valueResult.put("companyId", companyId);
             valueResult.put("businessDate", businessDate);
+            int timeOut = 5;
+            String enterpriseServerTimeout = (String) context.getAttribute("EnterpriseServerTimeout");
+            if (!StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
+                timeOut = Integer.valueOf(enterpriseServerTimeout.toString());
+            }
             String url = (String) context.getAttribute("EnterpriseServerUri") + REMOTE_UTL;
-            result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult));
+            result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
             if (!StringUtility.isNullOrEmpty(result)) {
                 sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
@@ -719,6 +723,7 @@ public class PromotionResource {
                 qr.setOutputTargetValue(itemJson.getString("outputTargetValue"));
                 qr.setPromotionId(itemJson.getString("promotionId"));
                 qr.setPromotionName(itemJson.getString("promotionName"));
+                qr.setOutputType(itemJson.getString("outputType"));
                 list.add(qr);
             }
         }

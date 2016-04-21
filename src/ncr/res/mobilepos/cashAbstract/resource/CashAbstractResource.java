@@ -50,16 +50,20 @@ public class CashAbstractResource {
     public final JSONData getcashAbstract(
             @QueryParam("CompanyId") final String companyId,
             @QueryParam("StoreId") final String storeId, 
-            @QueryParam("CashFlowDirection") final String cashFlowDirection) {
+            @QueryParam("CashFlowDirection") final String cashFlowDirection,
+            @QueryParam("TenderId") final String tenderId,
+            @QueryParam("TenderType") final String tenderType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
         .println("CompanyId", companyId)
         .println("StoreId", storeId)
-        .println("CashFlowDirection", cashFlowDirection);
+        .println("CashFlowDirection", cashFlowDirection)
+        .println("TenderId", tenderId)
+        .println("TenderType", tenderType);
 
         JSONData tender = new JSONData();
         try {
-            if (StringUtility.isNullOrEmpty(companyId, storeId, cashFlowDirection)) {
+            if (StringUtility.isNullOrEmpty(companyId, storeId, cashFlowDirection,tenderId,tenderType)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
                 tender.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 tender.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -70,7 +74,7 @@ public class CashAbstractResource {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICashAbstractDAO iCashAbstarctDAO = sqlServer.getCashAbstractDAO();
 
-            tender = iCashAbstarctDAO.getcashAbstract(companyId, storeId, cashFlowDirection);
+            tender = iCashAbstarctDAO.getcashAbstract(companyId, storeId, cashFlowDirection, tenderId,tenderType);
         } catch (DaoException e) {
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
                     functionName + ": Failed to get cashAbstract infomation.", e);

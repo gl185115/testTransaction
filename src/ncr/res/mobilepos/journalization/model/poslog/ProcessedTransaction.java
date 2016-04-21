@@ -15,6 +15,11 @@ public class ProcessedTransaction {
     @XmlElement(name = "BusinessDayDateFrom")
     private String businessDayDateFrom;
     /**
+     * 元会社コード                                                                                       
+     */
+    @XmlElement(name = "CompanyIdFrom")
+    private String companyIdFrom;
+    /**
      * 元会社コード(端末)                                                                                       
      */
     @XmlElement(name = "TerminalCompanyIdFrom")
@@ -88,6 +93,12 @@ public class ProcessedTransaction {
     @XmlElement(name = "OperatorIDFrom")
     private String operatorIdFrom;
     
+    @XmlElement(name = "SalesQuantityByRank")
+    private int salesQtyByRank;
+    
+    @XmlElement(name = "PointsLater")
+    private int pointsLater;
+    
     /**
      * @return the operatorIdFrom
      */
@@ -113,6 +124,20 @@ public class ProcessedTransaction {
      */
     public void setBusinessDayDateFrom(String businessDayDateFrom) {
         this.businessDayDateFrom = businessDayDateFrom;
+    }
+    /**
+     * 
+     * @return
+     */
+    public String getCompanyIdFrom() {
+        return companyIdFrom;
+    }
+    /**
+     * 
+     * @param companyIdFrom
+     */
+    public void setCompanyIdFrom(String companyIdFrom) {
+        this.companyIdFrom = companyIdFrom;
     }
     /**
      * 
@@ -307,7 +332,25 @@ public class ProcessedTransaction {
     public void setPointsGeneratedTotal(int pointsGeneratedTotal) {
         this.pointsGeneratedTotal = pointsGeneratedTotal;
     }
-    @Override
+    
+    
+    public int getSalesQtyByRank() {
+		return salesQtyByRank;
+	}
+    
+	public void setSalesQtyByRank(int salesQtyByRank) {
+		this.salesQtyByRank = salesQtyByRank;
+	}
+	
+	public int getPointsLater() {
+		return pointsLater;
+	}
+	
+	public void setPointsLater(int pointsLater) {
+		this.pointsLater = pointsLater;
+	}
+	
+	@Override
     public String toString() {
         return "ProcessedTransaction [businessDayDateFrom=" + businessDayDateFrom + ", terminalCompanyIdFrom="
                 + terminalCompanyIdFrom + ", divisionIdFrom=" + divisionIdFrom + ", storeIdFrom=" + storeIdFrom

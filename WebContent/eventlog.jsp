@@ -103,6 +103,8 @@ if (request.getParameter("s") != null) {
         s += 'keybd</td><td>' + currentLog[i].keypress;
       } else if (currentLog[i].unsoli) {
         s += 'unsoli</td><td><div>' + currentLog[i].unsoli + '</div><div>' + JSON.stringify(currentLog[i].data) + '</div>';
+      } else if (currentLog[i].popup) {
+        s += 'popup</td><td>' + currentLog[i].popup;
       } else if (currentLog[i].file) {
         s += 'click</td><td><div>' + currentLog[i].text + '</div><div>' + currentLog[i].file + '</div>';
       } else {

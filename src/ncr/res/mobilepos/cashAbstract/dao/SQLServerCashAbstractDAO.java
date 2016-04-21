@@ -68,10 +68,10 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
      * @throws DaoException
      */
     @Override
-    public JSONData getcashAbstract(String companyId, String storeId, String cashFlowDirection) throws DaoException {
+    public JSONData getcashAbstract(String companyId, String storeId, String cashFlowDirection, String tenderId, String tenderType) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
-                .println("CashFlowDirection", cashFlowDirection);
+                .println("CashFlowDirection", cashFlowDirection).println("TenderId", tenderId).println("TenderType", tenderType);
 
         PreparedStatement selectStmnt = null;
         ResultSet resultSet = null;
@@ -88,6 +88,8 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
             selectStmnt.setString(SQLStatement.PARAM1, storeId);
             selectStmnt.setString(SQLStatement.PARAM2, companyId);
             selectStmnt.setString(SQLStatement.PARAM3, cashFlowDirection);
+            selectStmnt.setString(SQLStatement.PARAM4, tenderId);
+            selectStmnt.setString(SQLStatement.PARAM5, tenderType);
             resultSet = selectStmnt.executeQuery();
             JSONObject tenderInfo = null;
             while (resultSet.next()) {

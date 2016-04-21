@@ -12,11 +12,8 @@ package ncr.res.mobilepos.report.resource;
 
 import java.awt.print.PrinterException;
 import java.io.File;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -55,6 +52,7 @@ import ncr.res.mobilepos.report.dao.IReportDAO;
 import ncr.res.mobilepos.report.helper.FinancialReportFormatter;
 import ncr.res.mobilepos.report.helper.FinancialReportPrint;
 import ncr.res.mobilepos.report.helper.FinancialReportPrinter;
+import ncr.res.mobilepos.report.model.DailyReport;
 import ncr.res.mobilepos.report.model.DailyReportItems;
 import ncr.res.mobilepos.report.model.DrawerFinancialReport;
 import ncr.res.mobilepos.report.model.FinancialReport;
@@ -3762,7 +3760,7 @@ public class ReportResource {
             @FormParam("storeId") final String storeId,
             @FormParam("terminalId") final String terminalId,
             @FormParam("businessDate") final String businessDate,
-            @FormParam("trainingFlag") final int trainingFlag){
+            @FormParam("trainingFlag") final int trainingFlag) {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -3772,8 +3770,8 @@ public class ReportResource {
         
         DailyReportItems result = new DailyReportItems();
         
-        try{
-            if(StringUtility.isNullOrEmpty(companyId, storeId,terminalId, businessDate)){
+        try {
+            if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
                 result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -3782,9 +3780,9 @@ public class ReportResource {
             
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IReportDAO reportDAO = daoFactory.getReportDAO();
-            result.setReportItems(reportDAO.getDailyReportItems(companyId, storeId, terminalId, businessDate, trainingFlag));
-            
-        }catch (DaoException daoEx) {
+            result.setReportItems(reportDAO.getDailyReportItems(companyId, storeId, 
+            		terminalId, businessDate, trainingFlag));
+        } catch (DaoException daoEx) {
             LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_DAO,
                     "Failed to get daily report items.\n" + daoEx.getMessage(), daoEx);
@@ -3803,4 +3801,5 @@ public class ReportResource {
         }
         return result;  
     }
+      
 }

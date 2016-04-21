@@ -232,6 +232,9 @@ public class WebServerGlobals extends ResultBase {
     /** The server URI */
     @XmlElement(name = "Url")
     private UrlConfig urlConfig;
+    /** The enterpriseServer timeout */
+    @XmlElement(name = "EnterpriseServerTimeout")
+    private String enterpriseServerTimeout;
     /** The Category points system **/
     @XmlElement(name = "Category")
     private String category;
@@ -309,8 +312,30 @@ public class WebServerGlobals extends ResultBase {
     private int xebioNumTaxFree;
     @XmlElement(name="XebioNumVoid")
     private int xebioNumVoid;
+    @XmlElement(name="XebioNumReturnPartly")
+    private int xebioNumReturnPartly;
+    @XmlElement(name="VictoriaNumReturnPartly")
+    private int victoriaNumReturnPartly;
+    @XmlElement(name="XebioNumInvoice")
+    private int xebioNumInvoice;
+    @XmlElement(name="VictoriaNumInvoice")
+    private int victoriaNumInvoice;
+    @XmlElement(name="PointMethod")
+    private int pointMethod;
     
     
+    public int getVictoriaNumReturnPartly() {
+        return victoriaNumReturnPartly;
+    }
+    public void setVictoriaNumReturnPartly(int victoriaNumReturnPartly) {
+        this.victoriaNumReturnPartly = victoriaNumReturnPartly;
+    }
+    public int getXebioNumReturnPartly() {
+        return xebioNumReturnPartly;
+    }
+    public void setXebioNumReturnPartly(int xebioNumReturnPartly) {
+        this.xebioNumReturnPartly = xebioNumReturnPartly;
+    }
     public int getVictoriaNumSales() {
         return victoriaNumSales;
     }
@@ -323,7 +348,6 @@ public class WebServerGlobals extends ResultBase {
     public void setVictoriaNumChargePayment(int victoriaNumChargePayment) {
 		this.victoriaNumChargePayment = victoriaNumChargePayment;
 	}
-    
     public int getVictoriaNumChargePaymentVoid() {
     	return victoriaNumChargePaymentVoid;
     }
@@ -460,6 +484,18 @@ public class WebServerGlobals extends ResultBase {
 	}
 	public void setXebioNumVoid(int xebioNumVoid) {
 		this.xebioNumVoid = xebioNumVoid;
+	}
+	public int getXebioNumInvoice() {
+		return xebioNumInvoice;
+	}
+	public void setXebioNumInvoice(int xebioNumInvoice) {
+		this.xebioNumInvoice = xebioNumInvoice;
+	}
+	public int getVictoriaNumInvoice() {
+		return victoriaNumInvoice;
+	}
+	public void setVictoriaNumInvoice(int victoriaNumInvoice) {
+		this.victoriaNumInvoice = victoriaNumInvoice;
 	}
 	public String getDocTaxRange2() {
 		return range2;
@@ -1200,13 +1236,25 @@ public class WebServerGlobals extends ResultBase {
      * @return Uri configuration.
      */
     public UrlConfig getUrlConfig() {
-    	return urlConfig;
+        return urlConfig;
     }
     /**
      * @param argUrlConfig the Uri configuration.
      */
     public final void setUrlConfig(final UrlConfig argUrlConfig) {
-    	urlConfig = argUrlConfig;
+        urlConfig = argUrlConfig;
+    }
+    /**
+     * @return EnterpriseServerTimeout configuration.
+     */
+    public String getEnterpriseServerTimeout() {
+        return enterpriseServerTimeout;
+    }
+    /**
+     * @param enterpriseServerTimeout.
+     */
+    public final void setEnterpriseServerTimeout(final String enterpriseServerTimeout) {
+        this.enterpriseServerTimeout = enterpriseServerTimeout;
     }
     /**
      * @return drawer
@@ -1248,6 +1296,13 @@ public class WebServerGlobals extends ResultBase {
 	public void setOpenDrawer(String openDrawer) {
 		this.openDrawer = openDrawer;
 	}
+
+    public int getPointMethod() {
+        return pointMethod;
+    }
+    public void setPointMethod(int pointMethod) {
+        this.pointMethod = pointMethod;
+    }
 
     /** get max queue able transactions per a store */
     public String getMaxSuspendable() {

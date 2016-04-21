@@ -319,11 +319,12 @@ public class JournalizationResource {
           .println("BusinessDate", businessdate)
           .println("Transaction Number", txid)
           .println("TrainingMode", trainingflag)
-          .println("TxType", txtype);
+          .println("txtype", txtype);
         SearchedPosLog poslog = new SearchedPosLog();
         String poslogXML = "";
         AdditionalInformation info = null;
         int lockStatus = 0;
+        int receiptCount = 0;
         try {
             DAOFactory sqlServer =
                 DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
@@ -343,6 +344,9 @@ public class JournalizationResource {
                 
                 info = posLogDAO.getVoidedAndReturned(companyid, storeid, workstationid, businessdate, txid, trainingflag, txtype);
                 lockStatus = posLogDAO.getOrUpdLockStatus(companyid, storeid, workstationid, businessdate, Integer.parseInt(txid), trainingflag, "", "", "", "getLockStatus");
+                receiptCount = posLogDAO.getSummaryReceiptCount(companyid,storeid, workstationid, txid, businessdate);
+                info.setSummaryReceipt(String.valueOf(receiptCount));
+                info.setPostPointed(posLogDAO.isPostPointed(companyid, storeid, workstationid, businessdate, txid, trainingflag));
                 info.setLocked(String.valueOf(lockStatus));
                 info.setPoslogXML(poslogXML);
             }

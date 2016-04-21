@@ -50,6 +50,24 @@ public class QRPromotion {
     private String qrBmpFileName;
 
     /**
+     * QRMinimumPrice
+     */
+    @XmlElement(name="QRMinimumPrice")
+    private String qrMinimumPrice;
+
+    /**
+     * QROutputType
+     */
+    @XmlElement(name="QROutputType")
+    private String qrOutputType;
+
+    /**
+     * QROutputTargetValue
+     */
+    @XmlElement(name="QROutputTargetValue")
+    private String qrOutputTargetValue;
+
+    /**
      * @return the qrPromotionId
      */
     public final String getQRPromotionId() {
@@ -103,5 +121,47 @@ public class QRPromotion {
      */
     public final void setQRBmpFileName(final String qrBmpFileName) {
         this.qrBmpFileName = qrBmpFileName;
+    }
+
+    /**
+     * @return the qrMinimumPrice
+     */
+    public final String getQRMinimumPrice() {
+        return qrMinimumPrice;
+    }
+
+    /**
+     * @param qrMinimumPrice the qrMinimumPrice to set
+     */
+    public final void setQRMinimumPrice(final String qrMinimumPrice) {
+        this.qrMinimumPrice = qrMinimumPrice;
+    }
+
+    /**
+     * @return the qrOutputType
+     */
+    public final String getQROutputType() {
+        return qrOutputType;
+    }
+
+    /**
+     * @param qrOutputType the qrOutputType to set
+     */
+    public final void setQROutputType(final String qrOutputType) {
+        this.qrOutputType = qrOutputType;
+    }
+
+    /**
+     * @return the qrOutputTargetValue
+     */
+    public final String getQROutputTargetValue() {
+        return qrOutputTargetValue;
+    }
+
+    /**
+     * @param qrOutputTargetValue the qrOutputTargetValue to set
+     */
+    public final void setQROutputTargetValue(final String qrOutputTargetValue) {
+        this.qrOutputTargetValue = qrOutputTargetValue;
     }
 }

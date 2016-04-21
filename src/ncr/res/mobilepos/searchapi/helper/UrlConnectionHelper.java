@@ -29,6 +29,7 @@ public class UrlConnectionHelper {
 
 		URL url = new URL(address);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setConnectTimeout(3000);
 		conn.setReadTimeout(3000);
 		conn.connect();
 
@@ -58,7 +59,7 @@ public class UrlConnectionHelper {
 	 * @throws JSONException The Exception Of JSON
 	 * @return JSONObject  The response Object to JSON
 	 */
-    public static JSONObject connectionHttpsForGet(String address)
+    public static JSONObject connectionHttpsForGet(String address , int timeOut)
             throws NoSuchAlgorithmException, KeyManagementException, IOException, JSONException {
         JSONObject result = null;
 
@@ -85,7 +86,8 @@ public class UrlConnectionHelper {
         sc.init(null, trustAllCerts, new SecureRandom());
         HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setReadTimeout(15 * 1000);
+        conn.setConnectTimeout(timeOut * 1000);
+        conn.setReadTimeout(timeOut * 1000);
         conn.setAllowUserInteraction(true);
         conn.setUseCaches(false);
         conn.setRequestMethod("GET");

@@ -19,5 +19,5 @@ public interface ICashAbstractDAO {
      * @return OtherTender
      * @throws DaoException
      */
-    public JSONData getcashAbstract(String companyId, String storeId, String cashFlowDirection) throws DaoException;
+    public JSONData getcashAbstract(String companyId, String storeId, String cashFlowDirection, String tenderId, String tenderType) throws DaoException;
 }

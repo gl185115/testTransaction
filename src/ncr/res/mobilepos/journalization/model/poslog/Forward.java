@@ -40,6 +40,12 @@ public class Forward {
     private String forwardSlipNo;
 
     /**
+     * The private member variable that will hold the Delivery Date Time.
+     */
+    @XmlElement(name = "DeliveryDateTime")
+    private String deliveryDateTime;
+
+    /**
      * The private member variable that will hold the Forward Line No.
      */
     @XmlElement(name = "ForwardLineNo")
@@ -211,6 +217,20 @@ public class Forward {
      */
     public final void setForwardSlipNo(final String forwardSlipNo) {
         this.forwardSlipNo = forwardSlipNo;
+    }
+
+    /**
+     * @return the deliveryDateTime
+     */
+    public final String getDeliveryDateTime() {
+        return deliveryDateTime;
+    }
+
+    /**
+     * @param deliveryDateTime the deliveryDateTime to set
+     */
+    public final void setDeliveryDateTime(final String deliveryDateTime) {
+        this.deliveryDateTime = deliveryDateTime;
     }
 
     /**

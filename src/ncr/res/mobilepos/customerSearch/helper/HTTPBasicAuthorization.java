@@ -39,6 +39,7 @@ public class HTTPBasicAuthorization {
         conn.setDoOutput(true);
         conn.setDoInput(true);
         if(!StringUtility.isNullOrEmpty(intTimeout)){
+            conn.setConnectTimeout(Integer.parseInt(intTimeout) * 1000);
             conn.setReadTimeout(Integer.parseInt(intTimeout) * 1000);
         }
         PrintWriter printWriter = new PrintWriter(conn.getOutputStream());

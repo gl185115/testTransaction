@@ -14,6 +14,15 @@ public class DetailInfo {
     /**¬—§”*/
     private int conditionCount = 0;
     
+    /**•½‹Ï‰¿Ši*/
+    private double averagePrice = 0;
+    
+    public double getAveragePrice() {
+        return averagePrice;
+    }
+    public void setAveragePrice(double averagePrice) {
+        this.averagePrice = averagePrice;
+    }
     public int getConditionCount() {
         return conditionCount;
     }

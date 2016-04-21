@@ -1,5 +1,8 @@
 package ncr.res.mobilepos.settlement.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -28,6 +31,9 @@ public class VoucherInfo {
     private String voucherName;
     @XmlElement(name = "VoucherKanaName")
     private String voucherKanaName;
+    @XmlElement(name="VoucherDetails")
+    private List<VoucherDetails> details;
+  
     
     public final void setCompanyId(String companyId) {
     	this.companyId = companyId;
@@ -108,4 +114,26 @@ public class VoucherInfo {
     public final String getVoucherKanaName() {
     	return voucherKanaName;
     }
+
+    /**
+     * @return the dailyReport
+     */
+    public List<VoucherDetails> getVoucherDetails() {
+        return details;
+    }
+
+    /**
+     * @param dailyReport the dailyReport to set
+     */
+    public void setVoucherDetails(List<VoucherDetails> details) {
+        this.details = details;
+    }
+    
+    public void addVoucherDetails(VoucherDetails details) {
+        if(this.details == null) {
+            this.details = new ArrayList<VoucherDetails>();
+        }
+        this.details.add(details);
+    }
+
 }

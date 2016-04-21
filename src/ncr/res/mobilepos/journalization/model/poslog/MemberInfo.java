@@ -2,7 +2,6 @@ package ncr.res.mobilepos.journalization.model.poslog;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -52,12 +51,7 @@ public class MemberInfo {
      * The private member variable that will hold the inputtedMembershipId Id.
      */
     @XmlElement(name = "InputtedMembershipId")
-    private String inputtedMembershipId;
-    /**
-     * The private member variable that will hold the input type.
-     */
-    @XmlAttribute(name = "InputType")
-    private String inputType;
+    private InputtedMembershipId inputtedMembershipId;
     /**
      * The private member variable that will hold the paymentTypeName Id.
      */
@@ -123,7 +117,11 @@ public class MemberInfo {
      */
     @XmlElement(name = "BasicPoints")
     private String basicPoints;
-    
+    /**
+     * The private member variable that will hold the value of basic points.
+     */
+    @XmlElement(name = "PointCalcExp")
+    private String pointCalcExp;
     /**
      * The private member variable that will hold the xeb member info.
      */
@@ -198,7 +196,7 @@ public class MemberInfo {
      *
      * @return        The InputtedMembershipId under LineItem.
      */
-    public final String getInputtedMembershipId() {
+    public final InputtedMembershipId getInputtedMembershipId() {
         return inputtedMembershipId;
     }
     /**
@@ -206,7 +204,7 @@ public class MemberInfo {
      *
      * @param expirationDateSet       The new value for the InputtedMembershipId under LineItem.
      */
-    public final void setInputtedMembershipId(final String inputtedMembershipId) {
+    public final void setInputtedMembershipId(final InputtedMembershipId inputtedMembershipId) {
         this.inputtedMembershipId = inputtedMembershipId;
     }
     /**
@@ -441,20 +439,6 @@ public class MemberInfo {
      * 
      * @return
      */
-    public final String getInputType() {
-        return inputType;
-    }
-    /**
-     * 
-     * @param inputType
-     */
-    public final void setInputType(String inputType) {
-        this.inputType = inputType;
-    }
-    /**
-     * 
-     * @return
-     */
     public final String getPaymentTypeName() {
         return paymentTypeName;
     }
@@ -465,7 +449,19 @@ public class MemberInfo {
     public final void setPaymentTypeName(String paymentTypeName) {
         this.paymentTypeName = paymentTypeName;
     }
-    @Override
+    /**
+	 * @return the pointCalcExp
+	 */
+	public String getPointCalcExp() {
+		return pointCalcExp;
+	}
+	/**
+	 * @param pointCalcExp the pointCalcExp to set
+	 */
+	public void setPointCalcExp(String pointCalcExp) {
+		this.pointCalcExp = pointCalcExp;
+	}
+	@Override
     public String toString() {
         return "MemberInfo [amountForPoints=" + amountForPoints + ", pointRate=" + pointRate + ", correctionPoints="
                 + correctionPoints + ", expirationDate=" + expirationDate + ", memberShipId=" + inputtedMembershipId
@@ -473,7 +469,7 @@ public class MemberInfo {
                 + piontsTransactionId + ", pointsMethod=" + pointsMethod + ", statusCode=" + statusCode
                 + ", serverStatusCode=" + serverStatusCode + ", pointsPrior=" + pointsPrior + ", totalPoints="
                 + totalPoints + ", lostPoints=" + lostPoints + ", bonusPoints=" + bonusPoints + ", termPoints="
-                + termPoints + ", basicPoints=" + basicPoints + ", xebMemeberInfo=" + xebMemeberInfo + "]";
+                + termPoints + ", basicPoints=" + basicPoints + ", pointCalcExp=" + pointCalcExp + ", xebMemeberInfo=" + xebMemeberInfo + "]";
     }
     
     

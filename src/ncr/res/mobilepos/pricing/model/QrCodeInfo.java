@@ -9,6 +9,15 @@ public class QrCodeInfo {
     private String bmpFileName;
     private String bmpFileFlag;
     private String bmpFileCount;
+    private String outputType;
+
+    public String getOutputType() {
+        return outputType;
+    }
+
+    public void setOutputType(String outputType) {
+        this.outputType = outputType;
+    }
 
     public String getPromotionId() {
         return promotionId;

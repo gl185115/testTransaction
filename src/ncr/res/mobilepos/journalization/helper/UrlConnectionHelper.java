@@ -24,6 +24,7 @@ public class UrlConnectionHelper {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true); 
 		conn.setUseCaches(false);
+		conn.setConnectTimeout(timeOut);
 		conn.setReadTimeout(timeOut);
 		conn.setRequestMethod("GET");
 		conn.connect();
@@ -53,6 +54,7 @@ public class UrlConnectionHelper {
 		conn.setDoOutput(true);
 		conn.setDoInput(true);
 		conn.setUseCaches(false);
+		conn.setConnectTimeout(timeOut);
 		conn.setReadTimeout(timeOut);
 		conn.setRequestProperty("content-type", "application/json;charset=utf-8");
 		conn.setRequestMethod("POST");

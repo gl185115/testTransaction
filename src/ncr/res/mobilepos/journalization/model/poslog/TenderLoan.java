@@ -30,7 +30,13 @@ public class TenderLoan {
 	 */
     @XmlElement(name = "Amount")
     private String amount;
-    
+
+    /**
+     *   Element for Devices
+     */
+    @XmlElement(name = "Devices")
+    private Devices devices;
+
     /**
      * Gets the tender type of the loan transaction
      * 
@@ -66,5 +72,19 @@ public class TenderLoan {
 	public final void setAmount(String amount) {
 		this.amount = amount;
 	}
-
+	/**
+	 *   Gets the Devices transaction details.
+	 * @return    The Devices transaction details.
+	 */
+	public final Devices getDevices() {
+		return devices;
+	}
+	
+	/**
+	 *   Sets the Devices transaction details.
+	 * @param devicesToSet   The Devices transaction details.
+	 */
+	public final void setDevices(Devices devicesToSet) {
+		this.devices = devicesToSet;
+	}
 }

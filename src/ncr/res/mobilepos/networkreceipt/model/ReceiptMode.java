@@ -1600,7 +1600,7 @@ public class ReceiptMode {
      * @return        The MemberShipId under LineItem.
      */
     public final String getMiMemberShipId() {
-        return this.memberinfo != null ? this.memberinfo.getInputtedMembershipId() : null;
+        return this.memberinfo != null ? this.memberinfo.getInputtedMembershipId().getElementValue() : null;
     }
     /**
      * Gets the tMediaId under LineItem.

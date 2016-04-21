@@ -911,13 +911,13 @@ public class Return {
     /**
      * @return the points
      */
-    public final Points getPoints() {
+    public Points getPoints() {
         return points;
     }
     /**
      * @param points the points to set
      */
-    public final void setPoints(final Points points) {
+    public void setPoints(final Points points) {
         this.points = points;
     }
     /**

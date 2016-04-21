@@ -82,12 +82,13 @@ public class GetVoucherListSteps extends Steps {
     	Map<String, String> data = examplesTable.getRow(0);
     	String companyId = data.get("companyId");
     	String storeId = data.get("storeId");
+    	String terminalId = data.get("terminalId");
     	String businessDayDate = data.get("businessDayDate");
     	int trainingFlag = Integer.parseInt(data.get("trainingFlag"));
     	companyId = StringUtility.convNullStringToNull(companyId);
     	storeId = StringUtility.convNullStringToNull(storeId);
     	businessDayDate = StringUtility.convNullStringToNull(businessDayDate);
-    	settlementInfo = settlementResource.getVoucherList(companyId, storeId, businessDayDate, trainingFlag);
+    	settlementInfo = settlementResource.getVoucherList(companyId, storeId, businessDayDate, terminalId, trainingFlag);
     }
     
     @Then("I should have the following data: $examplesTable")

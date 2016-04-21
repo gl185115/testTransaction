@@ -10,10 +10,12 @@
 
 package ncr.res.mobilepos.journalization.dao;
 
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
@@ -166,4 +168,22 @@ public interface IPosLogDAO {
      */
     public int getOrUpdLockStatus(String companyId, String retailStoreId, String workstationId, String businessDayDate,
             int sequenceNumber, int trainingFlag, String callType, String appId, String opeCode, String type) throws Exception;
+    
+    /**
+     * additional info for transaction to identify
+     * if the sales is already post pointed.
+     * @param companyid
+     * @param storeid
+     * @param workstationid
+     * @param businessdate
+     * @param txid
+     * @param trainingflag
+     * @return
+     * @throws DaoException
+     */
+    public boolean isPostPointed(String companyid, String storeid, String workstationid,
+            String businessdate, String txid, int trainingflag) throws DaoException;
+    
+    public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
+            throws SQLException, SQLStatementException, DaoException;
 }

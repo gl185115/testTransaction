@@ -437,7 +437,7 @@ public class ReceiptVoidFormatter extends Formatter {
             line.setLength(0);
             line.append(this.formatLine(0, 1,
             		this.rb.getString("recptpointmemberno"),
-            		member.getInputtedMembershipId()));
+            		member.getInputtedMembershipId().getElementValue()));
             this.addLineToReceipt(0, 0, 0, line.toString());
             String sDate = member.getExpirationDate();
             line.setLength(0);

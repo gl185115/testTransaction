@@ -705,6 +705,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                             Item item = itemDao.getItemByApiData(json.getString("MdInternal"), companyCode);
                             if (null != item) {
                                 newJsonArray.add(addJson(json, item));
+                            }else{
+                                newJsonArray.add(json);
                             }
                             Double priceDiscountAmt = json.get("PriceDiscountAmt") != null ? json.getDouble("PriceDiscountAmt") : 0;
                             // get the same setCode make a setBind
@@ -810,6 +812,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             json.put("Conn2", item.getConn2());
             json.put("Line", item.getLine());
             json.put("Class", item.getItemClass());
+            json.put("Colorkananame", item.getColorkananame());
+            json.put("SizeKanaName", item.getSizeKanaName());
             return json;
         }
         /**

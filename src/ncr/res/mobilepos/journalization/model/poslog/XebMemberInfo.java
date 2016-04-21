@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * Xeb Member Points Info Model Object.
  *
- * <P>A XebMemberInfo Node in POSLog XML.
+ * <P>
+ * A XebMemberInfo Node in POSLog XML.
  *
  *
  */
@@ -61,7 +62,7 @@ public class XebMemberInfo {
     @XmlElement(name = "Rank")
     private Integer rank;
     /**
-     * The private variable that will hold the value of commodity sales 
+     * The private variable that will hold the value of commodity sales
      */
     @XmlElement(name = "QuantityForRank")
     private String quantityForRank;
@@ -90,6 +91,11 @@ public class XebMemberInfo {
      */
     @XmlElement(name = "CardClass")
     private String cardClass;
+    /**
+     * The CardCompany.
+     */
+    @XmlElement(name = "CardCompany")
+    private String cardCompany;
     /**
      * The QuantityPerYear.
      */
@@ -123,8 +129,9 @@ public class XebMemberInfo {
     /**
      * the private variable that will hold the value of original transaction.
      */
-    @XmlElement(name =  "OriginalTransaction")
+    @XmlElement(name = "OriginalTransaction")
     private OriginalTransaction originalTransaction;
+
     /**
      * 
      * @return
@@ -132,6 +139,7 @@ public class XebMemberInfo {
     public String getUnifiedMembershipId() {
         return unifiedMembershipId;
     }
+
     /**
      * 
      * @param unifiedMembershipId
@@ -139,6 +147,7 @@ public class XebMemberInfo {
     public void setUnifiedMembershipId(String unifiedMembershipId) {
         this.unifiedMembershipId = unifiedMembershipId;
     }
+
     /**
      * 
      * @return
@@ -146,6 +155,7 @@ public class XebMemberInfo {
     public Integer getQuantityForPoints() {
         return quantityForPoints;
     }
+
     /**
      * 
      * @param quantityForPoints
@@ -153,6 +163,7 @@ public class XebMemberInfo {
     public void setQuantityForPoints(Integer quantityForPoints) {
         this.quantityForPoints = quantityForPoints;
     }
+
     /**
      * 
      * @return
@@ -160,6 +171,7 @@ public class XebMemberInfo {
     public Integer getRank() {
         return rank;
     }
+
     /**
      * 
      * @param rank
@@ -167,6 +179,7 @@ public class XebMemberInfo {
     public void setRank(Integer rank) {
         this.rank = rank;
     }
+
     /**
      * 
      * @return
@@ -174,6 +187,7 @@ public class XebMemberInfo {
     public String getCardType() {
         return cardType;
     }
+
     /**
      * 
      * @param cardType
@@ -181,6 +195,7 @@ public class XebMemberInfo {
     public void setCardType(String cardType) {
         this.cardType = cardType;
     }
+
     /**
      * 
      * @return
@@ -188,6 +203,7 @@ public class XebMemberInfo {
     public String getCardClass() {
         return cardClass;
     }
+
     /**
      * 
      * @param cardDiv
@@ -195,6 +211,7 @@ public class XebMemberInfo {
     public void setCardDiv(String cardClass) {
         this.cardClass = cardClass;
     }
+
     /**
      * 
      * @return
@@ -202,6 +219,7 @@ public class XebMemberInfo {
     public OriginalTransaction getOriginalTransaction() {
         return originalTransaction;
     }
+
     /**
      * 
      * @param originalTransaction
@@ -209,6 +227,7 @@ public class XebMemberInfo {
     public void setOriginalTransaction(OriginalTransaction originalTransaction) {
         this.originalTransaction = originalTransaction;
     }
+
     /**
      * 
      * @return
@@ -216,6 +235,7 @@ public class XebMemberInfo {
     public String getQuantityForRank() {
         return quantityForRank;
     }
+
     /**
      * 
      * @param quantityForRank
@@ -223,6 +243,7 @@ public class XebMemberInfo {
     public void setQuantityForRank(String quantityForRank) {
         this.quantityForRank = quantityForRank;
     }
+
     /**
      * 
      * @return
@@ -230,6 +251,7 @@ public class XebMemberInfo {
     public String getPointsRedeemed() {
         return pointsRedeemed;
     }
+
     /**
      * 
      * @param pointsRedeemed
@@ -237,6 +259,7 @@ public class XebMemberInfo {
     public void setPointsRedeemed(String pointsRedeemed) {
         this.pointsRedeemed = pointsRedeemed;
     }
+
     /**
      * 
      * @return
@@ -244,6 +267,7 @@ public class XebMemberInfo {
     public String getSalesQuantityByRank() {
         return salesQuantityByRank;
     }
+
     /**
      * 
      * @param salesQuantityByRank
@@ -251,6 +275,7 @@ public class XebMemberInfo {
     public void setSalesQuantityByRank(String salesQuantityByRank) {
         this.salesQuantityByRank = salesQuantityByRank;
     }
+
     /**
      * 
      * @return
@@ -258,6 +283,7 @@ public class XebMemberInfo {
     public String getSalesAmountByRank() {
         return salesAmountByRank;
     }
+
     /**
      * 
      * @param salesAmountByRank
@@ -265,6 +291,7 @@ public class XebMemberInfo {
     public void setSalesAmountByRank(String salesAmountByRank) {
         this.salesAmountByRank = salesAmountByRank;
     }
+
     /**
      * 
      * @return
@@ -272,6 +299,7 @@ public class XebMemberInfo {
     public String getQuantityPerYear() {
         return quantityPerYear;
     }
+
     /**
      * 
      * @param quantityPerYear
@@ -279,6 +307,7 @@ public class XebMemberInfo {
     public void setQuantityPerYear(String quantityPerYear) {
         this.quantityPerYear = quantityPerYear;
     }
+
     /**
      * 
      * @return
@@ -286,6 +315,7 @@ public class XebMemberInfo {
     public String getAmountPerYear() {
         return amountPerYear;
     }
+
     /**
      * 
      * @param amountPerYear
@@ -293,6 +323,7 @@ public class XebMemberInfo {
     public void setAmountPerYear(String amountPerYear) {
         this.amountPerYear = amountPerYear;
     }
+
     /**
      * 
      * @return
@@ -300,6 +331,7 @@ public class XebMemberInfo {
     public String getExtendExpirationMonth() {
         return extendExpirationMonth;
     }
+
     /**
      * 
      * @param extendExpirationMonth
@@ -307,6 +339,7 @@ public class XebMemberInfo {
     public void setExtendExpirationMonth(String extendExpirationMonth) {
         this.extendExpirationMonth = extendExpirationMonth;
     }
+
     /**
      * 
      * @return
@@ -314,6 +347,7 @@ public class XebMemberInfo {
     public String getExtendExpirationPrintFlag() {
         return extendExpirationPrintFlag;
     }
+
     /**
      * 
      * @param extendExpirationPrintFlag
@@ -321,6 +355,7 @@ public class XebMemberInfo {
     public void setExtendExpirationPrintFlag(String extendExpirationPrintFlag) {
         this.extendExpirationPrintFlag = extendExpirationPrintFlag;
     }
+
     /**
      * 
      * @return
@@ -328,6 +363,7 @@ public class XebMemberInfo {
     public String getOwnCreditFlag() {
         return ownCreditFlag;
     }
+
     /**
      * 
      * @param ownCreditFlag
@@ -335,6 +371,7 @@ public class XebMemberInfo {
     public void setOwnCreditFlag(String ownCreditFlag) {
         this.ownCreditFlag = ownCreditFlag;
     }
+
     /**
      * 
      * @return
@@ -342,6 +379,7 @@ public class XebMemberInfo {
     public String getAddingFlag() {
         return addingFlag;
     }
+
     /**
      * 
      * @param addingFlag
@@ -349,6 +387,7 @@ public class XebMemberInfo {
     public void setAddingFlag(String addingFlag) {
         this.addingFlag = addingFlag;
     }
+
     /**
      * 
      * @return
@@ -356,6 +395,7 @@ public class XebMemberInfo {
     public Integer getAmountForCash() {
         return amountForCash;
     }
+
     /**
      * 
      * @param amountForCash
@@ -363,6 +403,7 @@ public class XebMemberInfo {
     public void setAmountForCash(Integer amountForCash) {
         this.amountForCash = amountForCash;
     }
+
     /**
      * 
      * @return
@@ -370,6 +411,7 @@ public class XebMemberInfo {
     public Integer getAmountForAffiliate() {
         return amountForAffiliate;
     }
+
     /**
      * 
      * @param amountForAffiliate
@@ -377,6 +419,7 @@ public class XebMemberInfo {
     public void setAmountForAffiliate(Integer amountForAffiliate) {
         this.amountForAffiliate = amountForAffiliate;
     }
+
     /**
      * 
      * @return
@@ -384,6 +427,7 @@ public class XebMemberInfo {
     public Integer getAmountForNonAffiliate() {
         return amountForNonAffiliate;
     }
+
     /**
      * 
      * @param amountForNonAffiliate
@@ -391,6 +435,7 @@ public class XebMemberInfo {
     public void setAmountForNonAffiliate(Integer amountForNonAffiliate) {
         this.amountForNonAffiliate = amountForNonAffiliate;
     }
+
     /**
      * 
      * @return
@@ -398,6 +443,7 @@ public class XebMemberInfo {
     public Integer getAmountForAdditional() {
         return amountForAdditional;
     }
+
     /**
      * 
      * @param amountForAdditional
@@ -405,6 +451,7 @@ public class XebMemberInfo {
     public void setAmountForAdditional(Integer amountForAdditional) {
         this.amountForAdditional = amountForAdditional;
     }
+
     /**
      * 
      * @return
@@ -412,6 +459,7 @@ public class XebMemberInfo {
     public Integer getQuantityForAdditional() {
         return quantityForAdditional;
     }
+
     /**
      * 
      * @param quantityForAdditional
@@ -419,6 +467,7 @@ public class XebMemberInfo {
     public void setQuantityForAdditional(Integer quantityForAdditional) {
         this.quantityForAdditional = quantityForAdditional;
     }
+
     /**
      * 
      * @return
@@ -426,6 +475,7 @@ public class XebMemberInfo {
     public String getCardTypeName() {
         return cardTypeName;
     }
+
     /**
      * 
      * @param cardTypeName
@@ -433,6 +483,7 @@ public class XebMemberInfo {
     public void setCardTypeName(String cardTypeName) {
         this.cardTypeName = cardTypeName;
     }
+
     /**
      * 
      * 
@@ -441,6 +492,7 @@ public class XebMemberInfo {
     public void setCardClass(String cardClass) {
         this.cardClass = cardClass;
     }
+
     @Override
     public String toString() {
         return "XebMemberInfo [unifiedMembershipId=" + unifiedMembershipId + ", quantityForPoints=" + quantityForPoints
@@ -449,6 +501,5 @@ public class XebMemberInfo {
                 + ", cardType=" + cardType + ", cardClass=" + cardClass + ", originalTransaction=" + originalTransaction
                 + "]";
     }
-
 
 }

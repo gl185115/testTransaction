@@ -48,7 +48,9 @@ public final class TxTypes {
 
     public static final String OTHER = "Other";
     public static final String SALES = "Sales";
+    public static final String ECSALES = "ECSales";
     public static final String RETURN = "Return";
+    public static final String ECRETURN = "ECReturn";
     public static final String VOID = "Void";
     public static final String CANCEL = "Cancel";
     public static final String SOD = "SOD";

@@ -114,7 +114,14 @@ public class PostPoint {
     
     @XmlElement(name = "InputtedMembershipId")
     private InputtedMembershipId inputtedMembershipId;
-    /**
+    
+    @XmlElement(name = "UnifiedMembershipId")
+    private String unifiedMembershipId;
+    
+    @XmlElement(name = "Rank")
+    private String rank;
+    
+	/**
      * 
      * @return
      */
@@ -417,6 +424,23 @@ public class PostPoint {
     public void setMembershipId16(String membershipId16) {
         this.membershipId16 = membershipId16;
     }
+    
+    public String getUnifiedMembershipId() {
+		return unifiedMembershipId;
+	}
+    
+	public void setUnifiedMembershipId(String unifiedMembershipId) {
+		this.unifiedMembershipId = unifiedMembershipId;
+	}
+	
+	public String getRank() {
+		return rank;
+	}
+	
+	public void setRank(String rank) {
+		this.rank = rank;
+	}
+	
     @Override
     public String toString() {
         return "AddPointsLater [description=" + description + ", companyId=" + companyId + ", divisionId=" + divisionId

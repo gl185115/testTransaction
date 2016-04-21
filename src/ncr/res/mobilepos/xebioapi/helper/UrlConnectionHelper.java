@@ -11,6 +11,7 @@ import java.net.URL;
 
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
+import ncr.res.mobilepos.helper.StringUtility;
 
 public class UrlConnectionHelper {
 
@@ -22,17 +23,20 @@ public class UrlConnectionHelper {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true); 
 		conn.setUseCaches(false);
+		conn.setConnectTimeout(timeOut);
 		conn.setReadTimeout(timeOut);
 		conn.setRequestMethod("GET");
 		conn.connect();
 
 		String contentType = conn.getHeaderField("Content-Type");
 		String charSet = "utf-8";
-		for (String elm : contentType.replace(" ", "").split(";")) {
-			if (elm.startsWith("charset=")) {
-				charSet = elm.substring(8);
-				break;
-			}
+		if (!StringUtility.isNullOrEmpty(contentType)) {
+		    for (String elm : contentType.replace(" ", "").split(";")) {
+	            if (elm.startsWith("charset=")) {
+	                charSet = elm.substring(8);
+	                break;
+	            }
+	        }
 		}
 		
 		int intConnectionStatus = conn.getResponseCode();
@@ -59,6 +63,7 @@ public class UrlConnectionHelper {
         conn.setDoOutput(true);
         conn.setDoInput(true);
         conn.setUseCaches(false);
+        conn.setConnectTimeout(timeOut);
         conn.setReadTimeout(timeOut);
         conn.setRequestProperty("Accept-Charset", "utf-8");
         conn.setRequestProperty("content-type", "application/json;charset=utf-8");

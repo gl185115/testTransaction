@@ -1,15 +1,15 @@
-   /*
-    * Copyright (c) 2011 NCR/JAPAN Corporation SW-R&D
-    *
-    * SQLServerJournalDAO
-    *
-    * Implementation for IJournalDAO
-    *
-    * Rica Marie M. Del Rio
-    * Jessel G. Dela Cerna
-    * Carlos G. Campos
-    * Chris Niven D. Meneses
-    */
+/*
+ * Copyright (c) 2011 NCR/JAPAN Corporation SW-R&D
+ *
+ * SQLServerJournalDAO
+ *
+ * Implementation for IJournalDAO
+ *
+ * Rica Marie M. Del Rio
+ * Jessel G. Dela Cerna
+ * Carlos G. Campos
+ * Chris Niven D. Meneses
+ */
 
 package ncr.res.mobilepos.journalization.dao;
 
@@ -77,7 +77,7 @@ import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 /**
  * A Data Access Object implementation for POSLog Journal.
  *
- * @see    IPosLogDAO
+ * @see IPosLogDAO
  */
 public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /** The Database Manager. */
@@ -99,20 +99,21 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Default Constructor for SQLServerPoslogDAO.
-     * @throws DaoException If exception occurred in
-     *                       creating instance of SQLServerPoslogDAO
+     * 
+     * @throws DaoException
+     *             If exception occurred in creating instance of
+     *             SQLServerPoslogDAO
      */
     public SQLServerPosLogDAO() throws DaoException {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
-                getClass());
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         this.snap = (SnapLogger) SnapLogger.getInstance();
     }
 
     /**
      * Gets the Database Manager for the Class.
      *
-     * @return    The Database Manager Object
+     * @return The Database Manager Object
      */
     public final DBManager getDbManager() {
         return dbManager;
@@ -121,25 +122,28 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Private method that is used to return the type of the transaction
      *
-     * @param connection             The database connection
-     * @param storeid                The unique identifier of the store
-     * @param terminalid             The device number of the transaction.
-     * @param txNumber               The transaction number to check.
-     * @param summarydateid          the Summary Date ID.
+     * @param connection
+     *            The database connection
+     * @param storeid
+     *            The unique identifier of the store
+     * @param terminalid
+     *            The device number of the transaction.
+     * @param txNumber
+     *            The transaction number to check.
+     * @param summarydateid
+     *            the Summary Date ID.
      *
-     * @return                       Returns the type of the transaction
+     * @return Returns the type of the transaction
      *
-     * @throws Exception             Exception thrown when the method failed.
+     * @throws Exception
+     *             Exception thrown when the method failed.
      */
-    private String getTransactionType(final Connection connection,
-            final String storeid, final String terminalid, final String txNumber,
-            final String summarydateid) throws SQLException, SQLStatementException,
-            DaoException {
+    private String getTransactionType(final Connection connection, final String storeid, final String terminalid,
+            final String txNumber, final String summarydateid)
+                    throws SQLException, SQLStatementException, DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("StoreID", storeid)
-                .println("TerminalID", terminalid)
-                .println("Transaction Number", txNumber)
-                .println("Summary Date ID", summarydateid);
+        tp.methodEnter(functionName).println("StoreID", storeid).println("TerminalID", terminalid)
+                .println("Transaction Number", txNumber).println("Summary Date ID", summarydateid);
 
         PreparedStatement selectPosLogTxType = null;
         ResultSet resultTxType = null;
@@ -147,8 +151,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            selectPosLogTxType = connection.prepareStatement(
-                    sqlStatement.getProperty("get-poslog-xml-txtype"));
+            selectPosLogTxType = connection.prepareStatement(sqlStatement.getProperty("get-poslog-xml-txtype"));
 
             selectPosLogTxType.setString(SQLStatement.PARAM1, storeid);
             selectPosLogTxType.setString(SQLStatement.PARAM2, terminalid);
@@ -160,12 +163,10 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 result = resultTxType.getString("txtype");
             }
         } catch (SQLException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get poslog type.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get poslog type.", e);
             throw e;
         } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get poslog type.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get poslog type.", e);
             throw e;
         } finally {
             closeConnectionObjects(null, selectPosLogTxType, resultTxType);
@@ -174,74 +175,74 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
-     * Private Method that save the POSLog transaction and POSLog XML
-     * in the TXL_POSLOG Table.
+     * Private Method that save the POSLog transaction and POSLog XML in the
+     * TXL_POSLOG Table.
      *
-     * @param transaction       The transaction information
-     * @param posLogXml         The POSLog Xml
-     * @param txType            The transaction type
-     * @param savePOSLogStmt    The prepared Statement dedicated
-     *                              for saving the POSLOg xml
+     * @param transaction
+     *            The transaction information
+     * @param posLogXml
+     *            The POSLog Xml
+     * @param txType
+     *            The transaction type
+     * @param savePOSLogStmt
+     *            The prepared Statement dedicated for saving the POSLOg xml
      *
-     * @return                  Return the number of rows affected
-     *                              in the database.
+     * @return Return the number of rows affected in the database.
      *
-     * @throws SQLException     The exception when saving the POSLog xml fails.
-     * @throws NamingException  The exception when generating guid fails.
+     * @throws SQLException
+     *             The exception when saving the POSLog xml fails.
+     * @throws NamingException
+     *             The exception when generating guid fails.
      */
-    private int savePosLogXML(final Transaction transaction,
-            final String posLogXml, final String txType, 
-            final PreparedStatement savePOSLogStmt, 
-            final Connection connection,
-            final int trainingMode) throws SQLException, NamingException {
+    private int savePosLogXML(final Transaction transaction, final String posLogXml, final String txType,
+            final PreparedStatement savePOSLogStmt, final Connection connection, final int trainingMode)
+                    throws SQLException, NamingException {
         String status = "0";
         String guid = getGuid();
-        
-        savePOSLogStmt.setString(SQLStatement.PARAM1,
-                transaction.getRetailStoreID());
-        savePOSLogStmt.setString(SQLStatement.PARAM2,
-                transaction.getWorkStationID().getValue());
-        savePOSLogStmt.setString(SQLStatement.PARAM3,
-                transaction.getSequenceNo());
-        savePOSLogStmt.setString(SQLStatement.PARAM4,
-                transaction.getBusinessDayDate());
-        savePOSLogStmt.setString(SQLStatement.PARAM5,
-                transaction.getBeginDateTime());
+
+        savePOSLogStmt.setString(SQLStatement.PARAM1, transaction.getRetailStoreID());
+        savePOSLogStmt.setString(SQLStatement.PARAM2, transaction.getWorkStationID().getValue());
+        savePOSLogStmt.setString(SQLStatement.PARAM3, transaction.getSequenceNo());
+        savePOSLogStmt.setString(SQLStatement.PARAM4, transaction.getBusinessDayDate());
+        savePOSLogStmt.setString(SQLStatement.PARAM5, transaction.getBeginDateTime());
         savePOSLogStmt.setString(SQLStatement.PARAM6, posLogXml);
         savePOSLogStmt.setString(SQLStatement.PARAM7, txType);
         savePOSLogStmt.setString(SQLStatement.PARAM8, status);
         savePOSLogStmt.setString(SQLStatement.PARAM9, guid);
         savePOSLogStmt.setString(SQLStatement.PARAM10, serverID);
-        savePOSLogStmt.setString(SQLStatement.PARAM11,
-                transaction.getOrganizationHierarchy().getId());
+        savePOSLogStmt.setString(SQLStatement.PARAM11, transaction.getOrganizationHierarchy().getId());
         savePOSLogStmt.setInt(SQLStatement.PARAM12, trainingMode);
 
         int result = savePOSLogStmt.executeUpdate();
 
         // update last tx id in deviceinfo
         updateLastTxId(transaction, connection, trainingMode);
-        
+
         return result;
     }
-    
+
     /**
      * Private Method that save the TXU_TOTAL_GUESTTILLDAY Table.
      *
-     * @param transaction                     The transaction information
-     * @param txType                          The transaction type
-     * @param saveTxuTotalGuestTillDayStmt    The prepared Statement for saving
-     *                                            the TxuTotalGuestTillDay Table
+     * @param transaction
+     *            The transaction information
+     * @param txType
+     *            The transaction type
+     * @param saveTxuTotalGuestTillDayStmt
+     *            The prepared Statement for saving the TxuTotalGuestTillDay
+     *            Table
      *
-     * @return                                Return the number of rows affected
-     *                                            in the database.
+     * @return Return the number of rows affected in the database.
      *
-     * @throws SQLException     The exception when saving the TxuTotalGuestTillDay Table fails.
-     * @throws NamingException  The exception when generating guid fails.
+     * @throws SQLException
+     *             The exception when saving the TxuTotalGuestTillDay Table
+     *             fails.
+     * @throws NamingException
+     *             The exception when generating guid fails.
      */
-    private int saveTxuTotalGuestTillDay(final Transaction transaction,
-            final String txType, 
-            final PreparedStatement saveTxuTotalGuestTillDayStmt, 
-            final Connection connection) throws SQLException, NamingException {
+    private int saveTxuTotalGuestTillDay(final Transaction transaction, final String txType,
+            final PreparedStatement saveTxuTotalGuestTillDayStmt, final Connection connection)
+                    throws SQLException, NamingException {
 
         int result = 0;
         boolean returnFlag = false;
@@ -250,163 +251,154 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         long ReturnGuestCnt = 0;
         long VoidGuestCnt = 0;
 
-        //前受金、Hold、客注のいずれかが訂正の場合、客数は計上しない
-        if(null != transaction.getRetailTransaction()){
-            if(null != transaction.getRetailTransaction().getTransactionLink()){
+        // 前受金、Hold、客注のいずれかが訂正の場合、客数は計上しない
+        if (null != transaction.getRetailTransaction()) {
+            if (null != transaction.getRetailTransaction().getTransactionLink()) {
                 TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
-                if(TxTypes.LAYAWAY.equals(transactionLink.getReasonCode()) || 
-                        TxTypes.HOLD.equals(transactionLink.getReasonCode()) ||
-                        TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())){
+                if (TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())
+                        || TxTypes.HOLD.equals(transactionLink.getReasonCode())
+                        || TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())) {
                     returnFlag = true;
                 }
             }
         }
-        
-        if(!returnFlag){
-            //売上の場合
+
+        if (!returnFlag) {
+            // 売上の場合
             if (txType.equalsIgnoreCase(TxTypes.SALES)) {
                 SalesGuestCnt = 1;
-            //返品の場合
-            } else if(txType.equalsIgnoreCase(TxTypes.RETURN)){
+                // 返品の場合
+            } else if (txType.equalsIgnoreCase(TxTypes.RETURN)) {
                 ReturnGuestCnt = 1;
-            //取消の場合
+                // 取消の場合
             } else {
-                //通常売上が取消の場合
-                if(null != transaction.getRetailTransaction()){
-                    if(null != transaction.getRetailTransaction().getLineItems()){
+                // 通常売上が取消の場合
+                if (null != transaction.getRetailTransaction()) {
+                    if (null != transaction.getRetailTransaction().getLineItems()) {
                         List<LineItem> lineItems = transaction.getRetailTransaction().getLineItems();
-                        
+
                         for (LineItem lineItem : lineItems) {
                             if (lineItem.getRetrn() != null) {
-                                //通常売上が取消返品の場合
+                                // 通常売上が取消返品の場合
                                 isVoidReturnFlag = true;
                                 break;
                             }
                         }
                     }
                 }
-                
-                if(isVoidReturnFlag){
+
+                if (isVoidReturnFlag) {
                     ReturnGuestCnt = -1;
                 } else {
                     VoidGuestCnt = 1;
                 }
             }
-            
-            saveTxuTotalGuestTillDayStmt.setString(SQLStatement.PARAM1,
-                    transaction.getRetailStoreID());
-            saveTxuTotalGuestTillDayStmt.setString(SQLStatement.PARAM2,
-                    transaction.getTillID());
-            saveTxuTotalGuestTillDayStmt.setString(SQLStatement.PARAM3,
-                    transaction.getBusinessDayDate());
+
+            saveTxuTotalGuestTillDayStmt.setString(SQLStatement.PARAM1, transaction.getRetailStoreID());
+            saveTxuTotalGuestTillDayStmt.setString(SQLStatement.PARAM2, transaction.getTillID());
+            saveTxuTotalGuestTillDayStmt.setString(SQLStatement.PARAM3, transaction.getBusinessDayDate());
             saveTxuTotalGuestTillDayStmt.setLong(SQLStatement.PARAM4, SalesGuestCnt);
             saveTxuTotalGuestTillDayStmt.setLong(SQLStatement.PARAM5, ReturnGuestCnt);
             saveTxuTotalGuestTillDayStmt.setLong(SQLStatement.PARAM6, VoidGuestCnt);
-            
+
             result = saveTxuTotalGuestTillDayStmt.executeUpdate();
         }
-        
+
         return result;
     }
-    
-    private void updateLastTxId(final Transaction transaction, 
-            final Connection connection, int trainingMode) {
+
+    private void updateLastTxId(final Transaction transaction, final Connection connection, int trainingMode) {
         String functionName = DebugLogger.getCurrentMethodName();
         try {
-            IDeviceInfoDAO iDeviceInfoDao = DAOFactory
-                    .getDAOFactory(DAOFactory.SQLSERVER).getDeviceInfoDAO();
-            boolean updated = iDeviceInfoDao.updateLastTxidAtJournal(
-                    transaction, connection, trainingMode);
-            
+            IDeviceInfoDAO iDeviceInfoDao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER).getDeviceInfoDAO();
+            boolean updated = iDeviceInfoDao.updateLastTxidAtJournal(transaction, connection, trainingMode);
+
             if (!updated) {
-                tp.methodExit("Failed to update last txid - " + 
-                        transaction.getSequenceNo() + ".");
+                tp.methodExit("Failed to update last txid - " + transaction.getSequenceNo() + ".");
             }
         } catch (DaoException e) {
-            tp.methodExit("Failed to update last txid - " + 
-                    transaction.getSequenceNo() + ".");
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to update last txid - " + 
-                    transaction.getSequenceNo() + ".", e);
+            tp.methodExit("Failed to update last txid - " + transaction.getSequenceNo() + ".");
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
+                    functionName + ": Failed to update last txid - " + transaction.getSequenceNo() + ".", e);
         } catch (Exception e) {
-            tp.methodExit("Failed to update last txid - " + 
-                    transaction.getSequenceNo() + ".");
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
-                    + ": Failed to update last txid - " + 
-                    transaction.getSequenceNo() + ".", e);
-        }            
+            tp.methodExit("Failed to update last txid - " + transaction.getSequenceNo() + ".");
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+                    functionName + ": Failed to update last txid - " + transaction.getSequenceNo() + ".", e);
+        }
     }
 
     /**
      * Private Method that implement the Normal Transaction.
      *
-     * @param transaction                  The Transaction Information
-     * @param posLogXml                    The POSLog XML of the transaction
-     * @param savePOSLogStmt               The Prepared Statement for saving
-     *                                     The POSLog xml in the POSLOg Table
-     * @param saveTxuTotalGuestTillDayStmt The Prepared Statement for saving
-     *                                     The TXU_TOTAL_GUESTTILLDAY Table
+     * @param transaction
+     *            The Transaction Information
+     * @param posLogXml
+     *            The POSLog XML of the transaction
+     * @param savePOSLogStmt
+     *            The Prepared Statement for saving The POSLog xml in the POSLOg
+     *            Table
+     * @param saveTxuTotalGuestTillDayStmt
+     *            The Prepared Statement for saving The TXU_TOTAL_GUESTTILLDAY
+     *            Table
      *
-     * @return                             void
+     * @return void
      *
-     * @throws SQLException                The Exception thrown when Normal
-     *                                         Transaction process fails.
+     * @throws SQLException
+     *             The Exception thrown when Normal Transaction process fails.
      */
-    private void doNormalTransaction(final Transaction transaction,
-            final String posLogXml,
-            final PreparedStatement savePOSLogStmt,
-            final Connection connection,
-            final PreparedStatement saveTxuTotalGuestTillDayStmt,
-            final int trainingMode,
-            final String txType) throws SQLException, SQLStatementException,
-            NamingException, DaoException {
+    private void doNormalTransaction(final Transaction transaction, final String posLogXml,
+            final PreparedStatement savePOSLogStmt, final Connection connection,
+            final PreparedStatement saveTxuTotalGuestTillDayStmt, final int trainingMode, final String txType)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
         savePosLogXML(transaction, posLogXml, txType, savePOSLogStmt, connection, trainingMode);
-        
+
         // insert return details to TXU_TOTAL_GUESTTILLDAY
-        //saveTxuTotalGuestTillDay(transaction, TxTypes.SALE, saveTxuTotalGuestTillDayStmt, connection);
+        // saveTxuTotalGuestTillDay(transaction, TxTypes.SALE,
+        // saveTxuTotalGuestTillDayStmt, connection);
 
         tp.methodExit();
     }
-    
+
     /**
      * Private Method that implement the VOIDING of transaction.
      *
-     * @param transaction                  The Transaction Information
-     * @param posLogXml                    The POSLog XML of the transaction
-     * @param txType                       The transaction type
-     * @param connection                   The Database connection object
-     * @param savePOSLogStmt               The Prepared Statement for saving
-     *                                         the POSLog xml in the POSLOg Table
-     * @param saveVoidDetailsStmt          The Prepared Statement for saving
-     *                                     The TXL_SALES_VOIDED Table
-     * @param connection                   The Database connection object
-     * @param trainingMode                 The trainingMode
-     *                                     
-     * @return                             void
+     * @param transaction
+     *            The Transaction Information
+     * @param posLogXml
+     *            The POSLog XML of the transaction
+     * @param txType
+     *            The transaction type
+     * @param connection
+     *            The Database connection object
+     * @param savePOSLogStmt
+     *            The Prepared Statement for saving the POSLog xml in the POSLOg
+     *            Table
+     * @param saveVoidDetailsStmt
+     *            The Prepared Statement for saving The TXL_SALES_VOIDED Table
+     * @param connection
+     *            The Database connection object
+     * @param trainingMode
+     *            The trainingMode
+     * 
+     * @return void
      *
-     * @throws Exception                   The Exception thrown when Void Transaction
-     *                                         process fails.
+     * @throws Exception
+     *             The Exception thrown when Void Transaction process fails.
      */
-    private void doVoidTransactionByTxTypes(final Transaction transaction,
-            final String posLogXml, final String txType, 
-            final PreparedStatement savePOSLogStmt,
-            final PreparedStatement saveVoidDetailsStmt,
-            final Connection connection,
-            final int trainingMode) throws SQLException,
-            SQLStatementException, DaoException, JournalizationException,
-            NamingException {
+    private void doVoidTransactionByTxTypes(final Transaction transaction, final String posLogXml, final String txType,
+            final PreparedStatement savePOSLogStmt, final PreparedStatement saveVoidDetailsStmt,
+            final Connection connection, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction()
-                .getTransactionLink();
+        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
         String companyId = transaction.getOrganizationHierarchy().getId();
         String returnedType = "";
-        
-        if (TxTypes.VOID.equals(txType) 
-                || TxTypes.EXCHANGESALESVOID.equals(txType) 
-                || TxTypes.PURCHASEVOID.equals(txType) ) {
+
+        if (TxTypes.VOID.equals(txType) || TxTypes.EXCHANGESALESVOID.equals(txType)
+                || TxTypes.PURCHASEVOID.equals(txType) || TxTypes.CHARGESALESVOID.equals(txType)) {
             switch (txType) {
             case TxTypes.VOID:
                 returnedType = TxTypes.RETURN;
@@ -417,168 +409,159 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             case TxTypes.PURCHASEVOID:
                 returnedType = TxTypes.PURCHASERETURN;
                 break;
+            case TxTypes.CHARGESALESVOID:
+                returnedType = TxTypes.CHARGESALESVOID;
+                break;
             }
             if (isTransactionVoidedOrReturned(transactionLink, connection, returnedType, companyId, trainingMode)) {
                 tp.println("Original transaction is already returned.");
-                throw new JournalizationException(
-                        "Original transaction is already returned.",
-                        new Exception(), ResultBase.RES_ERROR_TXALREADYRETURNED);
+                throw new JournalizationException("Original transaction is already returned.", new Exception(),
+                        ResultBase.RES_ERROR_TXALREADYRETURNED);
             }
         }
         if (isTransactionVoidedOrReturned(transactionLink, connection, txType, companyId, trainingMode)) {
             tp.println("Original transaction is already voided.");
-            throw new JournalizationException(
-                    "Original transaction is already voided.",
-                    new Exception(), ResultBase.RES_ERROR_TXALREADYVOIDED);
+            throw new JournalizationException("Original transaction is already voided.", new Exception(),
+                    ResultBase.RES_ERROR_TXALREADYVOIDED);
         } else if (!StringUtility.isNullOrEmpty(transaction.getBusinessDayDate(), transactionLink.getBusinessDayDate())
                 && !transaction.getBusinessDayDate().equals(transactionLink.getBusinessDayDate())) {
             tp.println("Original transaction was not registered on today.");
-            throw new JournalizationException(
-                    "Original transaction was not registered on today.",
-                    new Exception(), ResultBase.RES_ERROR_TXINVALID);
+            throw new JournalizationException("Original transaction was not registered on today.", new Exception(),
+                    ResultBase.RES_ERROR_TXINVALID);
         }
-        
+
         savePosLogXML(transaction, posLogXml, txType, savePOSLogStmt, connection, trainingMode);
 
         // insert void details to TXL_SALES_VOIDED
         saveVoidReturnDetails(saveVoidDetailsStmt, transactionLink, txType, companyId, trainingMode);
-        
+
         tp.methodExit();
     }
-    
+
     /**
      * Private Method that implement the VOIDING of transaction.
      *
-     * @param transaction                  The Transaction Information
-     * @param posLogXml                    The POSLog XML of the transaction
-     * @param connection                   The Database connection object
-     * @param savePOSLogStmt               The Prepared Statement for saving
-     *                                         the POSLog xml in the POSLOg Table
-     * @param saveTxuTotalGuestTillDayStmt The Prepared Statement for saving
-     *                                     The TXU_TOTAL_GUESTTILLDAY Table
-     *                                     
-     * @return                             void
+     * @param transaction
+     *            The Transaction Information
+     * @param posLogXml
+     *            The POSLog XML of the transaction
+     * @param connection
+     *            The Database connection object
+     * @param savePOSLogStmt
+     *            The Prepared Statement for saving the POSLog xml in the POSLOg
+     *            Table
+     * @param saveTxuTotalGuestTillDayStmt
+     *            The Prepared Statement for saving The TXU_TOTAL_GUESTTILLDAY
+     *            Table
+     * 
+     * @return void
      *
-     * @throws Exception                   The Exception thrown when Void Transaction
-     *                                         process fails.
+     * @throws Exception
+     *             The Exception thrown when Void Transaction process fails.
      */
-    private void doVoidTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final PreparedStatement saveVoidDetailsStmt,
-            final PreparedStatement saveTxuTotalGuestTillDayStmt,
-            final int trainingMode) throws SQLException,
-            SQLStatementException, DaoException, JournalizationException,
-            NamingException {
+    private void doVoidTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final PreparedStatement saveVoidDetailsStmt,
+            final PreparedStatement saveTxuTotalGuestTillDayStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction()
-                .getTransactionLink();
+        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
         String companyId = transaction.getOrganizationHierarchy().getId();
-        String txtType = getTransactionType(connection,
-                transactionLink.getRetailStoreID(),
-                transactionLink.getWorkStationID().getValue(),
-                transactionLink.getSequenceNo(),
+        String txtType = getTransactionType(connection, transactionLink.getRetailStoreID(),
+                transactionLink.getWorkStationID().getValue(), transactionLink.getSequenceNo(),
                 transactionLink.getBusinessDayDate());
 
         if (txtType.isEmpty()) {
-            tp.println("Original transaction not found.")
-                .println("Retail Store Id", transactionLink.getRetailStoreID())
-                .println("Work Station Id", transactionLink.getWorkStationID())
-                .println("Sequence Number", transactionLink.getSequenceNo())
-                .println("Business Day Date",transactionLink.getBusinessDayDate());
-            throw new JournalizationException("Original transaction not found.",
-                    new Exception(), ResultBase.RES_ERROR_TXNOTFOUND);
-        } else if (!(txtType.equals(TxTypes.SALES) || 
-                txtType.equals(TxTypes.RETURN) ||
-                txtType.equals(TxTypes.HOLD) ||
-                txtType.equals(TxTypes.CUSTOMERORDER) ||
-                txtType.equals(TxTypes.LAYAWAY))) {
-            tp.println("Original transaction is not of type Sale or Return or Layaway.")
-                .println("Transaction Type", txtType);
-            throw new JournalizationException(
-                    "Original transaction is not of type Sale or Return or Layaway.",
+            tp.println("Original transaction not found.").println("Retail Store Id", transactionLink.getRetailStoreID())
+                    .println("Work Station Id", transactionLink.getWorkStationID())
+                    .println("Sequence Number", transactionLink.getSequenceNo())
+                    .println("Business Day Date", transactionLink.getBusinessDayDate());
+            throw new JournalizationException("Original transaction not found.", new Exception(),
+                    ResultBase.RES_ERROR_TXNOTFOUND);
+        } else if (!(txtType.equals(TxTypes.SALES) || txtType.equals(TxTypes.RETURN) || txtType.equals(TxTypes.HOLD)
+                || txtType.equals(TxTypes.CUSTOMERORDER) || txtType.equals(TxTypes.LAYAWAY))) {
+            tp.println("Original transaction is not of type Sale or Return or Layaway.").println("Transaction Type",
+                    txtType);
+            throw new JournalizationException("Original transaction is not of type Sale or Return or Layaway.",
                     new Exception(), ResultBase.RES_ERROR_TXINVALID);
         } else if (isTransactionReturned(transactionLink, connection, companyId, trainingMode)) {
             tp.println("Original transaction is already returned.");
-            throw new JournalizationException(
-                    "Original transaction is already returned.",
-                    new Exception(), ResultBase.RES_ERROR_TXALREADYRETURNED);
+            throw new JournalizationException("Original transaction is already returned.", new Exception(),
+                    ResultBase.RES_ERROR_TXALREADYRETURNED);
         } else if (isTransactionVoided(transactionLink, connection, companyId, trainingMode)) {
             tp.println("Original transaction is already voided.");
-            throw new JournalizationException(
-                    "Original transaction is already voided.",
-                    new Exception(), ResultBase.RES_ERROR_TXALREADYVOIDED);
+            throw new JournalizationException("Original transaction is already voided.", new Exception(),
+                    ResultBase.RES_ERROR_TXALREADYVOIDED);
         } else if (!(transaction.getBusinessDayDate() != transactionLink.getBusinessDayDate())) {
             tp.println("Original transaction was not registered on today.");
-            throw new JournalizationException(
-                    "Original transaction was not registered on today.",
-                    new Exception(), ResultBase.RES_ERROR_TXINVALID);
+            throw new JournalizationException("Original transaction was not registered on today.", new Exception(),
+                    ResultBase.RES_ERROR_TXINVALID);
         }
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.VOID, savePOSLogStmt, 
-                connection, trainingMode);
+
+        savePosLogXML(transaction, posLogXml, TxTypes.VOID, savePOSLogStmt, connection, trainingMode);
 
         // insert void details to TXL_SALES_VOIDED
         saveVoidDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
 
         // insert return details to TXU_TOTAL_GUESTTILLDAY
-        //saveTxuTotalGuestTillDay(transaction, TxTypes.VOID, saveTxuTotalGuestTillDayStmt, connection);
-        
+        // saveTxuTotalGuestTillDay(transaction, TxTypes.VOID,
+        // saveTxuTotalGuestTillDayStmt, connection);
+
         tp.methodExit();
     }
 
     /**
      * Private Method for cancelling a transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Return in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doCancelTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doCancelTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml,  TxTypes.CANCEL, savePOSLogStmt, 
-                connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.CANCEL, savePOSLogStmt, connection, trainingMode);
+
         tp.methodExit();
     }
 
     /**
      * Private Method that implement the chkPOSLogDuplicate of transaction.
      *
-     * @param transaction           The Transaction Information
-     * @param connection            The Database connection object
+     * @param transaction
+     *            The Transaction Information
+     * @param connection
+     *            The Database connection object
      *
-     * @return                      The existence of the poslog.
+     * @return The existence of the poslog.
      *
-     * @throws Exception            The Exception thrown when chkPOSLogDuplicate
-     *                                  Transaction process fails.
+     * @throws Exception
+     *             The Exception thrown when chkPOSLogDuplicate Transaction
+     *             process fails.
      */
-    private boolean chkPOSLogDuplicate(final Transaction transaction,
-            final Connection connection,final int trainingMode) throws SQLException, SQLStatementException,
-            DaoException {
+    private boolean chkPOSLogDuplicate(final Transaction transaction, final Connection connection,
+            final int trainingMode) throws SQLException, SQLStatementException, DaoException {
         boolean found = false;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
 
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-                    sqlStatement.getProperty("check-poslog-duplicate"),
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sqlStatement.getProperty("check-poslog-duplicate"),
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             statement.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
             statement.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
@@ -592,8 +575,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 found = true;
             }
         } catch (SQLException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
-                    "chkPOSLogDuplicate: Failed to check duplication.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "chkPOSLogDuplicate: Failed to check duplication.", e);
             throw e;
         } catch (SQLStatementException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
@@ -609,127 +591,131 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Private Method for RETURNING the transaction.
      *
-     * @param transaction                  The current transaction.
-     * @param posLogXml                    The POSLog XML.
-     * @param connection                   The database connection
-     * @param savePOSLogStmt               The Prepared Statement for inserting
-     *                                         the POSLog XML for Return in
-     *                                         the TXL_POSLOG
-     * @param saveTxuTotalGuestTillDayStmt The Prepared Statement for saving
-     *                                     The TXU_TOTAL_GUESTTILLDAY Table
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
+     * @param saveTxuTotalGuestTillDayStmt
+     *            The Prepared Statement for saving The TXU_TOTAL_GUESTTILLDAY
+     *            Table
      *
-     * @return                             void
+     * @return void
      *
-     * @throws Exception                   The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doReturnWithReceiptTransaction(final Transaction transaction,
-            final String posLogXml,
-            final Connection connection,
-            final PreparedStatement savePOSLogStmt, 
-            final PreparedStatement saveVoidDetailsStmt,
-            final PreparedStatement saveTxuTotalGuestTillDayStmt,
-            final int trainingMode,
-            final String txType) throws SQLException, 
-            SQLStatementException, DaoException, JournalizationException, 
-            NamingException {
+    private void doReturnWithReceiptTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt,
+            final PreparedStatement saveVoidDetailsStmt, final PreparedStatement saveTxuTotalGuestTillDayStmt,
+            final int trainingMode, final String txType)
+                    throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction()
-                .getTransactionLink();
-        String txtType = getTransactionType(connection,
-                transactionLink.getRetailStoreID(),
-                transactionLink.getWorkStationID().getValue(),
-                transactionLink.getSequenceNo(),
-                transactionLink.getBusinessDayDate());
+        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        // String txtType = getTransactionType(connection,
+        // transactionLink.getRetailStoreID(),
+        // transactionLink.getWorkStationID().getValue(),
+        // transactionLink.getSequenceNo(),
+        // transactionLink.getBusinessDayDate());
 
         String companyId = transaction.getOrganizationHierarchy().getId();
-        if (txtType.isEmpty()) {
-            tp.println("Original transaction not found.")
-                .println("Retail Store Id", transactionLink.getRetailStoreID())
-                .println("Work Station Id", transactionLink.getWorkStationID())
-                .println("Sequence Number", transactionLink.getSequenceNo())
-                .println("Business Day Date",transactionLink.getBusinessDayDate());
-            throw new JournalizationException("Original transaction not found.",
-                    new Exception(), ResultBase.RES_ERROR_TXNOTFOUND);
-        } else if (!(txtType.equals(TxTypes.SALES) || txtType.equals(TxTypes.EXCHANGESALES))) {
-            tp.println("Original transaction is not of type Sale.")
-                .println("Transaction Type", txtType);
-            throw new JournalizationException(
-                    "Original transaction is not of type Sale.",
-                    new Exception(), ResultBase.RES_ERROR_TXINVALID);
-        } else if (isTransactionVoided(transactionLink, connection, companyId, trainingMode)) {
-            tp.println("Original transaction is already voided.");
-            throw new JournalizationException(
-                    "Original transaction is already voided.",
-                    new Exception(), ResultBase.RES_ERROR_TXALREADYVOIDED);
-        }
-        
+        // if (txtType.isEmpty()) {
+        // tp.println("Original transaction not found.")
+        // .println("Retail Store Id", transactionLink.getRetailStoreID())
+        // .println("Work Station Id", transactionLink.getWorkStationID())
+        // .println("Sequence Number", transactionLink.getSequenceNo())
+        // .println("Business Day Date",transactionLink.getBusinessDayDate());
+        // throw new JournalizationException("Original transaction not found.",
+        // new Exception(), ResultBase.RES_ERROR_TXNOTFOUND);
+        // } else if (!(txtType.equals(TxTypes.SALES) ||
+        // txtType.equals(TxTypes.EXCHANGESALES))) {
+        // tp.println("Original transaction is not of type Sale.")
+        // .println("Transaction Type", txtType);
+        // throw new JournalizationException(
+        // "Original transaction is not of type Sale.",
+        // new Exception(), ResultBase.RES_ERROR_TXINVALID);
+        // } else if (isTransactionVoided(transactionLink, connection,
+        // companyId, trainingMode)) {
+        // tp.println("Original transaction is already voided.");
+        // throw new JournalizationException(
+        // "Original transaction is already voided.",
+        // new Exception(), ResultBase.RES_ERROR_TXALREADYVOIDED);
+        // }
+
         savePosLogXML(transaction, posLogXml, txType, savePOSLogStmt, connection, trainingMode);
-        
+
         // insert return details to TXL_SALES_VOIDED
         saveReturnDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
-        
+
         // insert return details to TXU_TOTAL_GUESTTILLDAY
-        //saveTxuTotalGuestTillDay(transaction, TxTypes.RETURN, saveTxuTotalGuestTillDayStmt, connection);
-        
+        // saveTxuTotalGuestTillDay(transaction, TxTypes.RETURN,
+        // saveTxuTotalGuestTillDayStmt, connection);
+
         tp.methodExit();
     }
 
     /**
      * Private Method for RETURNING a transaction without receipt.
      *
-     * @param transaction                  The current transaction.
-     * @param posLogXml                    The POSLog XML.
-     * @param connection                   The database connection
-     * @param savePOSLogStmt               The Prepared Statement for inserting
-     *                                         the POSLog XML for Return in
-     *                                         the TXL_POSLOG
-     * @param saveTxuTotalGuestTillDayStmt The Prepared Statement for saving
-     *                                     The TXU_TOTAL_GUESTTILLDAY Table
-     *                                     
-     * @return                             void
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
+     * @param saveTxuTotalGuestTillDayStmt
+     *            The Prepared Statement for saving The TXU_TOTAL_GUESTTILLDAY
+     *            Table
+     * 
+     * @return void
      *
-     * @throws Exception                   The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doReturnNoReceiptTransaction(final Transaction transaction,
-            final String posLogXml,
-            final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final PreparedStatement saveTxuTotalGuestTillDayStmt,
-            final int trainingMode,
-            final String txType) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doReturnNoReceiptTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt,
+            final PreparedStatement saveTxuTotalGuestTillDayStmt, final int trainingMode, final String txType)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
+
         savePosLogXML(transaction, posLogXml, txType, savePOSLogStmt, connection, trainingMode);
-        
+
         // insert return details to TXU_TOTAL_GUESTTILLDAY
-        //saveTxuTotalGuestTillDay(transaction, TxTypes.RETURN, saveTxuTotalGuestTillDayStmt, connection);
-        
+        // saveTxuTotalGuestTillDay(transaction, TxTypes.RETURN,
+        // saveTxuTotalGuestTillDayStmt, connection);
+
         tp.methodExit();
     }
 
     /**
      * Private Method for Getting the Server Type in the System Environment
      * 
-     * @return                      Server Type ("STORE", "ENTERPRISE")
+     * @return Server Type ("STORE", "ENTERPRISE")
      * 
-     * @throws DaoException         The Exception thrown when the process fails
+     * @throws DaoException
+     *             The Exception thrown when the process fails
      */
     private String getServerType() throws DaoException {
         String serverType = "";
         try {
-            //check value for environment variable SERVERTYPE
+            // check value for environment variable SERVERTYPE
             serverType = System.getenv("SERVERTYPE");
             if (StringUtility.isNullOrEmpty(serverType)) {
                 serverType = DEFAULT_SERVERTYPE;
             }
         } catch (SecurityException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, "getServerType"
-                    + ": Failed to get SERVERTYPE system property.", e);
-            throw new DaoException("DaoException: @SQLServerPosLogDAO." +
-                        "getServerType:" + " Failed to get SERVERTYPE system property.",
-                        e, ResultBase.RES_SYSTEM_PROP_ERROR);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,
+                    "getServerType" + ": Failed to get SERVERTYPE system property.", e);
+            throw new DaoException("DaoException: @SQLServerPosLogDAO." + "getServerType:"
+                    + " Failed to get SERVERTYPE system property.", e, ResultBase.RES_SYSTEM_PROP_ERROR);
         }
         return serverType;
     }
@@ -737,40 +723,42 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Private Method for Start of Day Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Return in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doSODTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt) throws SQLException, 
-            SQLStatementException, NamingException, DaoException, TillException {
+    private void doSODTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt)
+                    throws SQLException, SQLStatementException, NamingException, DaoException, TillException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-                
+
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();  
+        ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
         ViewTill viewTill = tillInfoDAO.viewTill(transaction.getRetailStoreID(), transaction.getTillID());
-        
-        if(viewTill.getNCRWSSResultCode() == ResultBase.RES_TILL_NOT_EXIST) {
-             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + 
-                     " Till does not exist.", ResultBase.RES_TILL_NOT_EXIST);
+
+        if (viewTill.getNCRWSSResultCode() == ResultBase.RES_TILL_NOT_EXIST) {
+            throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + " Till does not exist.",
+                    ResultBase.RES_TILL_NOT_EXIST);
         } else {
             boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
-            Till searchedTill = viewTill.getTill();         
-            if(!isEnterprise && TillInfoResource.SOD_FLAG_FINISHED.equals(searchedTill.getSodFlag())) {
-                 throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + 
-                         " SOD has already been performed for the Till.", 
-                         ResultBase.RES_TILL_SOD_FINISHED);
+            Till searchedTill = viewTill.getTill();
+            if (!isEnterprise && TillInfoResource.SOD_FLAG_FINISHED.equals(searchedTill.getSodFlag())) {
+                throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
+                        + " SOD has already been performed for the Till.", ResultBase.RES_TILL_SOD_FINISHED);
             }
-            
+
             Till till = new Till();
             till.setStoreId(transaction.getRetailStoreID());
             till.setTillId(transaction.getTillID());
@@ -778,14 +766,14 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             till.setEodFlag(TillInfoResource.EOD_FLAG_UNFINISHED);
             till.setBusinessDayDate(transaction.getBusinessDayDate());
             till.setUpdOpeCode(transaction.getOperatorID().getValue());
-            
-            tillInfoDAO.updateTillOnJourn(connection, till,
-                    TillInfoResource.SOD_FLAG_PROCESSING, searchedTill.getEodFlag(), isEnterprise); 
-                        
+
+            tillInfoDAO.updateTillOnJourn(connection, till, TillInfoResource.SOD_FLAG_PROCESSING,
+                    searchedTill.getEodFlag(), isEnterprise);
+
         }
         tp.methodExit();
     }
-    
+
     /**
      * Compares environment "SERVERTYPE" to serverType parameter.
      * 
@@ -798,8 +786,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             server = this.getServerType();
         } catch (DaoException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, "isServerType"
-                    + ": Failed to validate servertype.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, "isServerType" + ": Failed to validate servertype.", e);
         } finally {
             if (server.equalsIgnoreCase(serverType)) {
                 isServer = true;
@@ -807,47 +794,48 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
         return isServer;
     }
-    
+
     /**
      * Private Method for End of Day Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Return in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      * @throws TillException
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doEODTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt) throws SQLException, 
-            SQLStatementException, NamingException, DaoException, TillException, 
-            ParseException {
+    private void doEODTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt) throws SQLException, SQLStatementException, NamingException,
+                    DaoException, TillException, ParseException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        
-        //update MST_TILLIDINFO
+
+        // update MST_TILLIDINFO
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();  
+        ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
         ViewTill viewTill = tillInfoDAO.viewTill(transaction.getRetailStoreID(), transaction.getTillID());
 
         if (viewTill.getNCRWSSResultCode() == ResultBase.RES_TILL_NOT_EXIST) {
-             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + 
-                     " Till does not exist.", ResultBase.RES_TILL_NOT_EXIST);
+            throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + " Till does not exist.",
+                    ResultBase.RES_TILL_NOT_EXIST);
         } else {
             boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
-            Till searchedTill = viewTill.getTill();            
-            if(!isEnterprise && TillInfoResource.EOD_FLAG_FINISHED.equals(searchedTill.getEodFlag())) {
-                 throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + 
-                         " EOD has already been performed for the Till.", 
-                         ResultBase.RES_TILL_EOD_FINISHED);
+            Till searchedTill = viewTill.getTill();
+            if (!isEnterprise && TillInfoResource.EOD_FLAG_FINISHED.equals(searchedTill.getEodFlag())) {
+                throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
+                        + " EOD has already been performed for the Till.", ResultBase.RES_TILL_EOD_FINISHED);
             }
-            
+
             Till till = new Till();
             till.setStoreId(transaction.getRetailStoreID());
             till.setTillId(transaction.getTillID());
@@ -855,8 +843,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             till.setEodFlag(TillInfoResource.EOD_FLAG_FINISHED);
             till.setBusinessDayDate(transaction.getBusinessDayDate());
             till.setUpdOpeCode(transaction.getOperatorID().getValue());
-            tillInfoDAO.updateTillOnJourn(connection,till,
-                    TillInfoResource.SOD_FLAG_FINISHED,
+            tillInfoDAO.updateTillOnJourn(connection, till, TillInfoResource.SOD_FLAG_FINISHED,
                     TillInfoResource.EOD_FLAG_PROCESSING, isEnterprise);
         }
         tp.methodExit();
@@ -865,94 +852,82 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Private Method for Loan Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Return in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doLoanTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doLoanTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.LOAN, savePOSLogStmt, 
-                connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.LOAN, savePOSLogStmt, connection, trainingMode);
+
         tp.methodExit();
     }
 
     /**
      * Private Method for Pickup Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Return in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doPickupTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doPickupTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.PICKUP, savePOSLogStmt, 
-                connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.PICKUP, savePOSLogStmt, connection, trainingMode);
+
         tp.methodExit();
     }
 
-    private void doSummaryReceiptTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final PreparedStatement saveSummaryReceiptDetailsStmt,
-            final int trainingMode)
-            throws SQLException, SQLStatementException, DaoException,
-            JournalizationException, NamingException {
+    private void doSummaryReceiptTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt,
+            final PreparedStatement saveSummaryReceiptDetailsStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        savePosLogXML(transaction, posLogXml, TxTypes.SUMMARY_RECEIPT, 
-                savePOSLogStmt, connection, trainingMode);
-        
-        TransactionLink transactionLink = transaction.getControlTransaction()
-                .getSummaryReceipt().getTransactionLink();        
+        savePosLogXML(transaction, posLogXml, TxTypes.SUMMARY_RECEIPT, savePOSLogStmt, connection, trainingMode);
+
+        TransactionLink transactionLink = transaction.getControlTransaction().getSummaryReceipt().getTransactionLink();
         // insert summaryreceipt details to TXL_SUMMARYRECEIPT_HISTORY
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM1, 
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM1,
                 transactionLink.getOrganizationHierarchy().getId());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM2, 
-                transactionLink.getRetailStoreID());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM3, 
-                transactionLink.getWorkStationID().getValue());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM4, 
-                transactionLink.getSequenceNo());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM5, 
-                transactionLink.getBusinessDayDate());
-        saveSummaryReceiptDetailsStmt.setInt(SQLStatement.PARAM6, 
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM2, transactionLink.getRetailStoreID());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM3, transactionLink.getWorkStationID().getValue());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM4, transactionLink.getSequenceNo());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM5, transactionLink.getBusinessDayDate());
+        saveSummaryReceiptDetailsStmt.setInt(SQLStatement.PARAM6,
                 ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM7, 
-                transaction.getRetailStoreID());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM8, 
-                transaction.getWorkStationID().getValue());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM9, 
-                transaction.getSequenceNo());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM10, 
-                transaction.getBusinessDayDate());
-        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM11, 
-                transaction.getBeginDateTime());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM7, transaction.getRetailStoreID());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM8, transaction.getWorkStationID().getValue());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM9, transaction.getSequenceNo());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM10, transaction.getBusinessDayDate());
+        saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM11, transaction.getBeginDateTime());
         saveSummaryReceiptDetailsStmt.executeUpdate();
 
         tp.methodExit();
@@ -961,118 +936,111 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Private Method for ReceiptReprint Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Return in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doReceiptReprintTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode)
-            throws SQLException, SQLStatementException, DaoException,
-            JournalizationException, NamingException {
+    private void doReceiptReprintTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        //save poslog
-        savePosLogXML(transaction, posLogXml, TxTypes.RECEIPT_REPRINT, 
-                savePOSLogStmt, connection, trainingMode);
-        
-        TransactionLink transactionLink = transaction.getControlTransaction()
-                .getReceiptReprint().getTransactionLink();  
-        
+        // save poslog
+        savePosLogXML(transaction, posLogXml, TxTypes.RECEIPT_REPRINT, savePOSLogStmt, connection, trainingMode);
+
+        TransactionLink transactionLink = transaction.getControlTransaction().getReceiptReprint().getTransactionLink();
+
         PreparedStatement saveReceiptReprintDetailsStmt = null;
 
-        try{
+        try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            saveReceiptReprintDetailsStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("save-receipt-reprint-details"));
-            //insert receiptreprint details to TXL_RECEIPTREPRINT_HISTORY
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM1, 
-                    transaction.getRetailStoreID());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM2, 
-                    transaction.getWorkStationID().getValue());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM3, 
-                    transaction.getSequenceNo());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM4, 
-                    transaction.getBusinessDayDate());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM5, 
-                    transactionLink.getRetailStoreID());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM6, 
-                    transactionLink.getWorkStationID().getValue());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM7, 
-                    transactionLink.getSequenceNo());
-            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM8, 
-                    transactionLink.getBusinessDayDate());
+            saveReceiptReprintDetailsStmt = connection
+                    .prepareStatement(sqlStatement.getProperty("save-receipt-reprint-details"));
+            // insert receiptreprint details to TXL_RECEIPTREPRINT_HISTORY
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM1, transaction.getRetailStoreID());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM2, transaction.getWorkStationID().getValue());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM3, transaction.getSequenceNo());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM4, transaction.getBusinessDayDate());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM5, transactionLink.getRetailStoreID());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM6, transactionLink.getWorkStationID().getValue());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM7, transactionLink.getSequenceNo());
+            saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM8, transactionLink.getBusinessDayDate());
             saveReceiptReprintDetailsStmt.setString(SQLStatement.PARAM9,
                     transaction.getOrganizationHierarchy().getId());
             saveReceiptReprintDetailsStmt.setInt(SQLStatement.PARAM10, trainingMode);
-            
+
             saveReceiptReprintDetailsStmt.executeUpdate();
-        }finally {
+        } finally {
             closeConnectionObjects(null, saveReceiptReprintDetailsStmt, null);
             tp.methodExit();
         }
     }
-    
+
     /**
      * Private Method for Saving Donation Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Donation in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for
+     *            Donation in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doDonationTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doDonationTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.PAYIN, savePOSLogStmt, 
-                connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.PAYIN, savePOSLogStmt, connection, trainingMode);
+
         tp.methodExit();
     }
 
     /**
      * Private Method for Saving SignOn Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Donation in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for
+     *            Donation in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doSignOnTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doSignOnTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.SIGNON, savePOSLogStmt, 
-                connection, trainingMode);
+
+        savePosLogXML(transaction, posLogXml, TxTypes.SIGNON, savePOSLogStmt, connection, trainingMode);
 
         if (transaction.getControlTransaction() != null
-            && transaction.getControlTransaction().getOperatorSignOn() != null) {
+                && transaction.getControlTransaction().getOperatorSignOn() != null) {
             String json = transaction.getControlTransaction().getOperatorSignOn().getSoftwareVersion();
             if (!StringUtility.isNullOrEmpty(json)) {
                 updateSoftwareVersion(transaction, EasyJson.toMap(json), connection);
@@ -1080,111 +1048,116 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         updatePosCtrl(transaction, transaction.getOperatorID().getValue(), connection);
-        
+
         tp.methodExit();
     }
 
     /**
      * Private Method for Saving SignOff Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Donation in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for
+     *            Donation in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doSignOffTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doSignOffTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.SIGNOFF, savePOSLogStmt, 
-                connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.SIGNOFF, savePOSLogStmt, connection, trainingMode);
+
         updatePosCtrl(transaction, null, connection);
-        
+
         tp.methodExit();
     }
 
     /**
      * Private Method for Saving AutoSignOff Transaction
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Donation in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for
+     *            Donation in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doAutoSignOffTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doAutoSignOffTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.AUTOSIGNOFF, 
-                savePOSLogStmt, connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.AUTOSIGNOFF, savePOSLogStmt, connection, trainingMode);
+
         updatePosCtrl(transaction, null, connection);
-        
+
         tp.methodExit();
     }
 
     /**
      * Private Method for Saving Other Transaction Type
      *
-     * @param transaction           The current transaction.
-     * @param posLogXml             The POSLog XML.
-     * @param connection            The database connection
-     * @param savePOSLogStmt        The Prepared Statement for inserting
-     *                                  the POSLog XML for Donation in
-     *                                  the TXL_POSLOG
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for
+     *            Donation in the TXL_POSLOG
      *
-     * @return                      void
+     * @return void
      *
-     * @throws Exception            The Exception thrown when the process fails
+     * @throws Exception
+     *             The Exception thrown when the process fails
      */
-    private void doOtherTransaction(final Transaction transaction,
-            final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt,
-            final int trainingMode) throws SQLException, 
-            SQLStatementException, NamingException, DaoException {
+    private void doOtherTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
-        savePosLogXML(transaction, posLogXml, TxTypes.OTHER, savePOSLogStmt, 
-                connection, trainingMode);
-        
+
+        savePosLogXML(transaction, posLogXml, TxTypes.OTHER, savePOSLogStmt, connection, trainingMode);
+
         tp.methodExit();
     }
 
     /**
      * Do the POSLog Journalization of any type of transaction.
      *
-     * @param posLog            The POSLog which holds the
-     *                                 transaction to be processed.
-     * @param posLogXml         The same POSLog but in xml format.
+     * @param posLog
+     *            The POSLog which holds the transaction to be processed.
+     * @param posLogXml
+     *            The same POSLog but in xml format.
      *
-     * @return                  void
+     * @return void
      *
-     * @throws Exception        The exception thrown when the process fail.
+     * @throws Exception
+     *             The exception thrown when the process fail.
      */
-    public final void savePOSLog(final PosLog posLog, final String posLogXml, final int trainingMode) 
+    public final void savePOSLog(final PosLog posLog, final String posLogXml, final int trainingMode)
             throws DaoException, JournalizationException, TillException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("poslogxml", posLogXml);
-        
+
         Connection connection = null;
         PreparedStatement savePOSLogStmt = null;
         PreparedStatement saveVoidDetailsStmt = null;
@@ -1196,50 +1169,49 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            savePOSLogStmt = connection.prepareStatement(
-                        sqlStatement.getProperty("save-poslog"));
-            saveVoidDetailsStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("save-void-details"));
-            saveSummaryReceiptDetailsStmt = connection.prepareStatement(
-                        sqlStatement.getProperty("save-summary-receipt-details"));
-            saveTxuTotalGuestTillDayStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("save-TxuTotalGuestTillDay-details"));
-            
-            //String transactionType = POSLogHandler.getTransactionType(posLog);
+            savePOSLogStmt = connection.prepareStatement(sqlStatement.getProperty("save-poslog"));
+            saveVoidDetailsStmt = connection.prepareStatement(sqlStatement.getProperty("save-void-details"));
+            saveSummaryReceiptDetailsStmt = connection
+                    .prepareStatement(sqlStatement.getProperty("save-summary-receipt-details"));
+            saveTxuTotalGuestTillDayStmt = connection
+                    .prepareStatement(sqlStatement.getProperty("save-TxuTotalGuestTillDay-details"));
+
+            // String transactionType =
+            // POSLogHandler.getTransactionType(posLog);
             String transactionType = transaction.getTransactionType();
             boolean isTxEODorSOD = false;
-            
+
             if (transactionType.equalsIgnoreCase(TxTypes.SOD)) {
-                doSODTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt);
+                doSODTransaction(transaction, posLogXml, connection, savePOSLogStmt);
                 isTxEODorSOD = true;
-             } else if (transactionType.equalsIgnoreCase(TxTypes.EOD)) {
-               doEODTransaction(transaction, posLogXml, connection, 
-                       savePOSLogStmt);
-               isTxEODorSOD = true;             
-            }           
+            } else if (transactionType.equalsIgnoreCase(TxTypes.EOD)) {
+                doEODTransaction(transaction, posLogXml, connection, savePOSLogStmt);
+                isTxEODorSOD = true;
+            }
 
             if (!chkPOSLogDuplicate(transaction, connection, trainingMode)) {
                 switch (transactionType) {
                 case TxTypes.SALES:
+                case TxTypes.ECSALES:
                 case TxTypes.EXCHANGESALES:
-                    doNormalTransaction(transaction, posLogXml, savePOSLogStmt,
-                            connection, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                    doNormalTransaction(transaction, posLogXml, savePOSLogStmt, connection,
+                            saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
                     break;
                 case TxTypes.RETURN:
+                case TxTypes.ECRETURN:
                 case TxTypes.EXCHANGERETURN:
-                    if (transaction.getRetailTransaction().getTransactionLink() 
-                            != null) { // return with receipt
-                        doReturnWithReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt, 
+                    if (transaction.getRetailTransaction().getTransactionLink() != null) { // return
+                                                                                           // with
+                                                                                           // receipt
+                        doReturnWithReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
                                 saveVoidDetailsStmt, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
                     } else { // return without receipt
-                        doReturnNoReceiptTransaction(transaction, posLogXml, 
-                                connection, savePOSLogStmt, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                        doReturnNoReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
+                                saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
                     }
                     break;
                 case TxTypes.CANCEL:
-                    doCancelTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doCancelTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.VOID:
                 case TxTypes.RETURNVOID:
@@ -1248,40 +1220,34 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.REMAINEDVOID:
                 case TxTypes.PURCHASEVOID:
                 case TxTypes.PURCHASERETURNVOID:
-                    doVoidTransactionByTxTypes(transaction, posLogXml, transactionType,
-                            savePOSLogStmt, saveVoidDetailsStmt, connection, trainingMode);
+                case TxTypes.CHARGESALESVOID:
+                    doVoidTransactionByTxTypes(transaction, posLogXml, transactionType, savePOSLogStmt,
+                            saveVoidDetailsStmt, connection, trainingMode);
                     break;
                 case TxTypes.LOAN:
-                    doLoanTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doLoanTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.PICKUP:
-                    doPickupTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doPickupTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.SUMMARY_RECEIPT:
-                    doSummaryReceiptTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, saveSummaryReceiptDetailsStmt, trainingMode);
+                    doSummaryReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
+                            saveSummaryReceiptDetailsStmt, trainingMode);
                     break;
                 case TxTypes.PAYIN:
-                    doDonationTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doDonationTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.SIGNOFF:
-                    doSignOffTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doSignOffTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.SIGNON:
-                    doSignOnTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doSignOnTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.AUTOSIGNOFF:
-                    doAutoSignOffTransaction(transaction, posLogXml, 
-                            connection, savePOSLogStmt, trainingMode);
+                    doAutoSignOffTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.RECEIPT_REPRINT:
-                    doReceiptReprintTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
+                    doReceiptReprintTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.SOD:
                 case TxTypes.EOD:
@@ -1296,7 +1262,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.BALANCING:
                 case TxTypes.PAYOUT:
                 case TxTypes.GUARANTEE:
-                case TxTypes.NEWMEMBER:	
+                case TxTypes.NEWMEMBER:
                 case TxTypes.POSTPOINT:
                 case TxTypes.CARDSWITCH:
                 case TxTypes.CARDSTOP:
@@ -1313,87 +1279,59 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.CASHOUT:
                 case TxTypes.CASHOUTVOID:
                 case TxTypes.CHARGESALES:
-                case TxTypes.CHARGESALESVOID:
-                    savePosLogXML(transaction, posLogXml, transactionType, savePOSLogStmt, 
-                            connection, trainingMode);
+                    savePosLogXML(transaction, posLogXml, transactionType, savePOSLogStmt, connection, trainingMode);
                     break;
                 default:
-                    doOtherTransaction(transaction, posLogXml, connection, 
-                            savePOSLogStmt, trainingMode);
-                }            
+                    doOtherTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
+                }
                 connection.commit();
             } else {
-                if (isTxEODorSOD){
+                if (isTxEODorSOD) {
                     connection.commit();
                 }
-                tp.println("Duplicate POSLog transaction.")
-                    .println("Retail Store Id", transaction.getRetailStoreID())
-                    .println("Work Station Id", transaction.getWorkStationID())
-                    .println("Sequence Number", transaction.getSequenceNo())
-                    .println("Business Day Date",transaction.getBusinessDayDate());
-                LOGGER.logWarning(PROG_NAME, functionName,
-                        Logger.RES_ERROR_RESTRICTION,
+                tp.println("Duplicate POSLog transaction.").println("Retail Store Id", transaction.getRetailStoreID())
+                        .println("Work Station Id", transaction.getWorkStationID())
+                        .println("Sequence Number", transaction.getSequenceNo())
+                        .println("Business Day Date", transaction.getBusinessDayDate());
+                LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
                         "Duplicate POSLog Transaction");
-                Snap.SnapInfo duplicatePOSLog = snap.write(
-                        "Duplicate POSLog Transaction", posLogXml);
-                LOGGER.logSnap(PROG_NAME, functionName,
-                        "Duplicate POSLog Transaction to snap file",
-                        duplicatePOSLog);
+                Snap.SnapInfo duplicatePOSLog = snap.write("Duplicate POSLog Transaction", posLogXml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
             }
         } catch (SQLStatementException sqlStmtEx) {
-            rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", 
+            rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlStmtEx);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to save transaction.",
                     sqlStmtEx);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to save transaction.", sqlStmtEx);
-            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " 
-                    + sqlStmtEx.getMessage(), sqlStmtEx);
+            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " + sqlStmtEx.getMessage(),
+                    sqlStmtEx);
         } catch (SQLException sqlEx) {
-            rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", 
-                    sqlEx);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to save transaction.", sqlEx);
-            throw new DaoException("SQLException: @doPOSLogJournalization - " 
-                    + sqlEx.getMessage(), sqlEx);
+            rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlEx);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to save transaction.", sqlEx);
+            throw new DaoException("SQLException: @doPOSLogJournalization - " + sqlEx.getMessage(), sqlEx);
         } catch (NamingException e) {
-            rollBack(connection, "SQLServerPosLogDAO:"
-                    + " @doPOSLogJournalization()", e);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName
-                    + ": Failed to save transaction.", e);
-            throw new DaoException(
-                    "Unable to find serverID from context parameters.",
-                    e);
+            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to save transaction.", e);
+            throw new DaoException("Unable to find serverID from context parameters.", e);
         } catch (TillException tEx) {
-            rollBack(connection, "SQLServerPosLogDAO:"
-                    + " @doPOSLogJournalization()", tEx);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName
-                    + ": Failed to update Till.", tEx);
-            throw new TillException(
-                    "Failed to update Till. - " + tEx.getMessage(),
-                    tEx, tEx.getErrorCode());
+            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", tEx);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName + ": Failed to update Till.", tEx);
+            throw new TillException("Failed to update Till. - " + tEx.getMessage(), tEx, tEx.getErrorCode());
         } catch (ParseException pEx) {
-            rollBack(connection, "SQLServerPosLogDAO:"
-                    + " @doPOSLogJournalization()", pEx);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName
-                    + ": Failed to save transaction.", pEx);
-            throw new DaoException(
-                    "Failed to save transaction. - " + pEx.getMessage(),
-                    pEx);
+            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", pEx);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to save transaction.", pEx);
+            throw new DaoException("Failed to save transaction. - " + pEx.getMessage(), pEx);
         } catch (DaoException e) {
-            if(e.getErrorCode() == ResultBase.RES_SYSTEM_PROP_ERROR) {
-                rollBack(connection, "SQLServerPosLogDAO:"
-                        + " @doPOSLogJournalization()", e);
+            if (e.getErrorCode() == ResultBase.RES_SYSTEM_PROP_ERROR) {
+                rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
             }
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
-                    + ": Failed to save transaction.", e);
-            throw new DaoException(
-                    "Failed to save transaction. - " + e.getMessage(),
-                    e);     
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to save transaction.", e);
+            throw new DaoException("Failed to save transaction. - " + e.getMessage(), e);
         } finally {
             closeConnectionObjects(null, savePOSLogStmt, null);
             closeConnectionObjects(null, saveSummaryReceiptDetailsStmt, null);
             closeConnectionObjects(null, saveTxuTotalGuestTillDayStmt, null);
             closeConnectionObjects(connection, saveVoidDetailsStmt, null);
-            
+
             tp.methodExit();
         }
     }
@@ -1401,80 +1339,77 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Get the transaction POSLog XML by specifying the transaction number.
      *
-     * @param txDeviceNumber    The ID of the device used to
-     *                              perform the target transaction
-     * @param txNumber          The Transaction Number
-     * @param connection        The Database Connection
-     * @return                  The POSLog XML representation
-     *                              for the Transaction
-     * @throws DaoException     The Exception thrown when the getting
-     *                              of Transaction fails.
+     * @param txDeviceNumber
+     *            The ID of the device used to perform the target transaction
+     * @param txNumber
+     *            The Transaction Number
+     * @param connection
+     *            The Database Connection
+     * @return The POSLog XML representation for the Transaction
+     * @throws DaoException
+     *             The Exception thrown when the getting of Transaction fails.
      */
-    private String getTransaction(final String txDeviceNumber,
-            final String txNumber, final Connection connection)
+    private String getTransaction(final String txDeviceNumber, final String txNumber, final Connection connection)
             throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("Transaction Number", txNumber)
-                .println("Device Number", txDeviceNumber);
+        tp.methodEnter(functionName).println("Transaction Number", txNumber).println("Device Number", txDeviceNumber);
         PreparedStatement select = null;
         ResultSet result = null;
         String posLogXML = "";
 
         try {
-               /* Retrieves sql query statement from
-                *      /resource/ncr.res.webuitools.property/sql_statements.xml
-                */
-               SQLStatement sqlStatement = SQLStatement.getInstance();
-               select = connection.prepareStatement(
-                       sqlStatement.getProperty("get-poslog-xml-by-id"));
+            /*
+             * Retrieves sql query statement from
+             * /resource/ncr.res.webuitools.property/sql_statements.xml
+             */
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement.getProperty("get-poslog-xml-by-id"));
 
-               select.setString(SQLStatement.PARAM1, txDeviceNumber);
-               select.setString(SQLStatement.PARAM2, txNumber);
-               result = select.executeQuery();
+            select.setString(SQLStatement.PARAM1, txDeviceNumber);
+            select.setString(SQLStatement.PARAM2, txNumber);
+            result = select.executeQuery();
 
-               if (result.next()) {
-                posLogXML = result.getString(
-                        result.findColumn("tx"));
-               } else {
-                   tp.println("No Transaction found.");
-               }
+            if (result.next()) {
+                posLogXML = result.getString(result.findColumn("tx"));
+            } else {
+                tp.println("No Transaction found.");
+            }
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get transaction's poslogxml.", ex);
-            throw new DaoException("Exception: @getTransaction - "
-                    + ex.getMessage(), ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+                    functionName + ": Failed to get transaction's poslogxml.", ex);
+            throw new DaoException("Exception: @getTransaction - " + ex.getMessage(), ex);
         } finally {
             closeConnectionObjects(null, select, result);
         }
         return tp.methodExit(posLogXML);
     }
-    
+
     /**
      * Get the transaction POSLog XML by specifying the transaction number.
      *
-     * @param companyid			The Company ID
-     * @param trainingflag		The Training Flag
-     * @param terminalid        The Device Terminal ID
-     * @param storeid           The Store ID
-     * @param txid              The Transaction Number
-     * @param connection        The Database Connection
-     * @return                  The POSLog XML representation
-     *                              for the Transaction
-     * @throws DaoException     The Exception thrown when the getting
-     *                              of Transaction fails.
+     * @param companyid
+     *            The Company ID
+     * @param trainingflag
+     *            The Training Flag
+     * @param terminalid
+     *            The Device Terminal ID
+     * @param storeid
+     *            The Store ID
+     * @param txid
+     *            The Transaction Number
+     * @param connection
+     *            The Database Connection
+     * @return The POSLog XML representation for the Transaction
+     * @throws DaoException
+     *             The Exception thrown when the getting of Transaction fails.
      */
-    private String getTransaction(final String companyid, final String storeid ,final String workstationid,
-            final String businessdate, final String txid, final int trainingflag, final String txtype, final Connection connection)
-            throws DaoException {
+    private String getTransaction(final String companyid, final String storeid, final String workstationid,
+            final String businessdate, final String txid, final int trainingflag, final String txtype,
+            final Connection connection) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName)
-        .println("CompanyId", companyid)
-        .println("StoreID", storeid)
-        .println("WorkstationId", workstationid)
-        .println("BusinessDate", businessdate)
-        .println("Transaction Number", txid)
-        .println("TrainingMode", trainingflag)
-        .println("TxType", txtype);
+        tp.methodEnter(functionName).println("CompanyId", companyid).println("StoreID", storeid)
+                .println("WorkstationId", workstationid).println("BusinessDate", businessdate)
+                .println("Transaction Number", txid).println("TrainingMode", trainingflag).println("TxType", txtype);
         PreparedStatement select = null;
         ResultSet result = null;
         String posLogXML = "";
@@ -1486,15 +1421,15 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
              */
             SQLStatement sqlStatement = SQLStatement.getInstance();
             if (StringUtility.isNullOrEmpty(companyid)) {
-                select = connection.prepareStatement(sqlStatement
-                        .getProperty("get-poslog-xml-by-terminalid-storeid-txid"));
+                select = connection
+                        .prepareStatement(sqlStatement.getProperty("get-poslog-xml-by-terminalid-storeid-txid"));
                 select.setString(SQLStatement.PARAM1, storeid);
                 select.setString(SQLStatement.PARAM2, workstationid);
                 select.setString(SQLStatement.PARAM3, txid);
                 select.setInt(SQLStatement.PARAM4, trainingflag);
             } else {
-                select = connection.prepareStatement(sqlStatement
-                        .getProperty("get-poslog-xml-by-companyid-terminalid-storeid-txid"));
+                select = connection.prepareStatement(
+                        sqlStatement.getProperty("get-poslog-xml-by-companyid-terminalid-storeid-txid"));
                 select.setString(SQLStatement.PARAM1, companyid);
                 select.setString(SQLStatement.PARAM2, storeid);
                 select.setString(SQLStatement.PARAM3, workstationid);
@@ -1502,9 +1437,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 select.setString(SQLStatement.PARAM5, txid);
                 select.setInt(SQLStatement.PARAM6, trainingflag);
                 select.setString(SQLStatement.PARAM7, txtype);
-                
+
             }
-            
+
             result = select.executeQuery();
             if (result.next()) {
                 posLogXML = result.getString(result.findColumn("tx"));
@@ -1512,109 +1447,79 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 tp.println("No transaction found.");
             }
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get transaction's xml.", ex);
-            throw new DaoException(
-                    "Exception: @getTransaction - " + ex.getMessage(), ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get transaction's xml.",
+                    ex);
+            throw new DaoException("Exception: @getTransaction - " + ex.getMessage(), ex);
         } finally {
             closeConnectionObjects(null, select, result);
         }
         return tp.methodExit(posLogXML);
     }
 
- 
-    private boolean isTransactionVoided(TransactionLink transactionLink, 
-            Connection connection, final String companyId, final int trainingMode) throws SQLException, SQLStatementException, 
-            DaoException {
-        return isTransactionVoidedOrReturned(transactionLink, connection, 
-                TxTypes.VOID, companyId, trainingMode);
+    private boolean isTransactionVoided(TransactionLink transactionLink, Connection connection, final String companyId,
+            final int trainingMode) throws SQLException, SQLStatementException, DaoException {
+        return isTransactionVoidedOrReturned(transactionLink, connection, TxTypes.VOID, companyId, trainingMode);
     }
-    
-    private boolean isTransactionReturned(TransactionLink transactionLink, 
-            Connection connection, final String companyId, final int trainingMode) throws SQLException, SQLStatementException, 
-            DaoException {
-        return isTransactionVoidedOrReturned(transactionLink, connection, 
-                TxTypes.RETURN, companyId, trainingMode);
+
+    private boolean isTransactionReturned(TransactionLink transactionLink, Connection connection,
+            final String companyId, final int trainingMode) throws SQLException, SQLStatementException, DaoException {
+        return isTransactionVoidedOrReturned(transactionLink, connection, TxTypes.RETURN, companyId, trainingMode);
     }
-    
-    private boolean isTransactionVoidedOrReturned(
-            TransactionLink transactionLink, Connection connection, 
-            String type, String companyId, int trainingMode) throws SQLException, SQLStatementException, 
-            DaoException {
+
+    private boolean isTransactionVoidedOrReturned(TransactionLink transactionLink, Connection connection, String type,
+            String companyId, int trainingMode) throws SQLException, SQLStatementException, DaoException {
         boolean isAlreadyVoidedOrReturned = false;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        
+
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-                    sqlStatement.getProperty("get-void-details"),
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sqlStatement.getProperty("get-void-details"),
+                    ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
-            statement.setString(SQLStatement.PARAM1, 
-                    transactionLink.getRetailStoreID());
-            statement.setString(SQLStatement.PARAM2, 
-                    transactionLink.getWorkStationID().getValue());
-            statement.setString(SQLStatement.PARAM3, 
-                    transactionLink.getSequenceNo());
-            statement.setString(SQLStatement.PARAM4, 
-                    transactionLink.getBusinessDayDate());
+            statement.setString(SQLStatement.PARAM1, transactionLink.getRetailStoreID());
+            statement.setString(SQLStatement.PARAM2, transactionLink.getWorkStationID().getValue());
+            statement.setString(SQLStatement.PARAM3, transactionLink.getSequenceNo());
+            statement.setString(SQLStatement.PARAM4, transactionLink.getBusinessDayDate());
             statement.setString(SQLStatement.PARAM5, type);
             statement.setString(SQLStatement.PARAM6, companyId);
             statement.setInt(SQLStatement.PARAM7, trainingMode);
-            
+
             resultSet = statement.executeQuery();
             if (resultSet.last() && (resultSet.getInt("rowcount") > 0)) {
                 isAlreadyVoidedOrReturned = true;
             }
         } catch (SQLException e) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQL,
-                    "isTransactionVoidedOrReturned: Error in checking if "
-                    + "transaction was already voided or returned.",
-                    e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "isTransactionVoidedOrReturned: Error in checking if "
+                    + "transaction was already voided or returned.", e);
             throw e;
         } catch (SQLStatementException e) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     "isTransactionVoidedOrReturned: Error in checking if "
-                    + "transaction was already voided or returned.",
+                            + "transaction was already voided or returned.",
                     e);
             throw e;
         } finally {
             closeConnectionObjects(null, statement, resultSet);
         }
-        
+
         return isAlreadyVoidedOrReturned;
     }
-    
-    static final String[] VERSION_ENTITIES = {
-        "Container",
-        "MobileShop",
-        "RESTransaction",
-        "RESTabletUI",
-        "RESUiConfig"
-    };
-    void updateSoftwareVersion(Transaction transaction, Map<String, String> version,
-                               Connection connection) throws SQLException, 
-                                     SQLStatementException, DaoException {
+
+    static final String[] VERSION_ENTITIES = { "Container", "MobileShop", "RESTransaction", "RESTabletUI",
+            "RESUiConfig" };
+
+    void updateSoftwareVersion(Transaction transaction, Map<String, String> version, Connection connection)
+            throws SQLException, SQLStatementException, DaoException {
         PreparedStatement createUpdate = null;
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            createUpdate = connection.prepareStatement(
-                    sqlStatement.getProperty("update-software-version"));
-            createUpdate.setString(SQLStatement.PARAM1, 
-                    transaction.getOrganizationHierarchy().getId());
-            createUpdate.setString(SQLStatement.PARAM2, 
-                    transaction.getRetailStoreID());
-            createUpdate.setString(SQLStatement.PARAM3, 
-                    transaction.getWorkStationID().getValue());
+            createUpdate = connection.prepareStatement(sqlStatement.getProperty("update-software-version"));
+            createUpdate.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
+            createUpdate.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
+            createUpdate.setString(SQLStatement.PARAM3, transaction.getWorkStationID().getValue());
             for (int i = 0; i < VERSION_ENTITIES.length; i++) {
-                createUpdate.setString(SQLStatement.PARAM4 + i, 
-                                       version.get(VERSION_ENTITIES[i]));
+                createUpdate.setString(SQLStatement.PARAM4 + i, version.get(VERSION_ENTITIES[i]));
             }
             createUpdate.executeUpdate();
         } finally {
@@ -1622,22 +1527,17 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
     }
 
-    private void updatePosCtrl(Transaction transaction, String operatorId, 
-            Connection connection) throws SQLException, SQLStatementException, 
-            DaoException {
+    private void updatePosCtrl(Transaction transaction, String operatorId, Connection connection)
+            throws SQLException, SQLStatementException, DaoException {
         PreparedStatement createUpdate = null;
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            createUpdate = connection.prepareStatement(
-                    sqlStatement.getProperty("create-update-pos-state"));
-            createUpdate.setString(SQLStatement.PARAM1, 
-                    transaction.getOrganizationHierarchy().getId());
-            createUpdate.setString(SQLStatement.PARAM2, 
-                    transaction.getRetailStoreID());
-            createUpdate.setString(SQLStatement.PARAM3, 
-                    transaction.getWorkStationID().getValue());
+            createUpdate = connection.prepareStatement(sqlStatement.getProperty("create-update-pos-state"));
+            createUpdate.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
+            createUpdate.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
+            createUpdate.setString(SQLStatement.PARAM3, transaction.getWorkStationID().getValue());
             createUpdate.setString(SQLStatement.PARAM4, operatorId);
-            
+
             createUpdate.executeUpdate();
         } finally {
             closeConnectionObjects(null, createUpdate, null);
@@ -1647,98 +1547,97 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Gets a POSLog XML by specifying the transaction number.
      *
-     * @param     txDeviceNumber    The ID of the device used to perform
-     *                              the target transaction
-     * @param    txNumber         The transaction Number
-     * @return                    The corresponding POSLog Xml
-     *                              of the given Transaction
-     * @throws    DaoException     The Exception when  getting of
-     *                              the POSLog XML failed.
+     * @param txDeviceNumber
+     *            The ID of the device used to perform the target transaction
+     * @param txNumber
+     *            The transaction Number
+     * @return The corresponding POSLog Xml of the given Transaction
+     * @throws DaoException
+     *             The Exception when getting of the POSLog XML failed.
      */
     @Override
-    public final String getTransaction(final String txDeviceNumber,
-            final String txNumber) throws DaoException {
+    public final String getTransaction(final String txDeviceNumber, final String txNumber) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName)
-          .println("Transaction Deviec Number", txDeviceNumber)
-          .println("Transaction Number", txNumber);
+        tp.methodEnter(functionName).println("Transaction Deviec Number", txDeviceNumber).println("Transaction Number",
+                txNumber);
 
         Connection connection = null;
         String posLogXML = "";
-       try {
-           connection = dbManager.getConnection();
-           posLogXML = getTransaction(txDeviceNumber, txNumber, connection);
+        try {
+            connection = dbManager.getConnection();
+            posLogXML = getTransaction(txDeviceNumber, txNumber, connection);
         } catch (SQLException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get transaction's xml.", ex);
-            throw new DaoException("SQLException:"
-                    + " @SQLServerPosLogDao.gettransaction", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get transaction's xml.", ex);
+            throw new DaoException("SQLException:" + " @SQLServerPosLogDao.gettransaction", ex);
         } finally {
             closeConnectionObjects(connection, null, null);
-       }
-       return tp.methodExit(posLogXML);
+        }
+        return tp.methodExit(posLogXML);
     }
 
     /**
-     * Get the transaction POSLog XML in the TXL_POSLOG table.
-     * by specifying the transaction number.
+     * Get the transaction POSLog XML in the TXL_POSLOG table. by specifying the
+     * transaction number.
      * 
-     * @param companyid		   The Company ID
-     * @param terminalid       The Terminal ID
-     * @param storeid          The Store ID
-     * @param trainingflag     The Training Flag
-     * @param txid             The Transaction Number
-     * @return                 The POSLog XML, else, empty string with
-     *                             transaction not found.
-     * @throws DaoException    Exception thrown when setting up the
-     *                             prepared Statement fails.
+     * @param companyid
+     *            The Company ID
+     * @param terminalid
+     *            The Terminal ID
+     * @param storeid
+     *            The Store ID
+     * @param trainingflag
+     *            The Training Flag
+     * @param txid
+     *            The Transaction Number
+     * @return The POSLog XML, else, empty string with transaction not found.
+     * @throws DaoException
+     *             Exception thrown when setting up the prepared Statement
+     *             fails.
      */
-   @Override
-   public final String getPOSLogTransaction(final String companyid, final String storeid ,final String workstationid,
-          final String businessdate, final String txid, final int trainingflag, final String txtype) throws DaoException {
-       String functionName = DebugLogger.getCurrentMethodName();
-       tp.methodEnter(functionName)
-       .println("CompanyId", companyid)
-       .println("StoreID", storeid)
-       .println("WorkstationId", workstationid)
-       .println("BusinessDate", businessdate)
-       .println("Transaction Number", txid)
-       .println("TrainingMode", trainingflag)
-       .println("TxType", txtype);
+    @Override
+    public final String getPOSLogTransaction(final String companyid, final String storeid, final String workstationid,
+            final String businessdate, final String txid, final int trainingflag, final String txtype)
+                    throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyid).println("StoreID", storeid)
+                .println("WorkstationId", workstationid).println("BusinessDate", businessdate)
+                .println("Transaction Number", txid).println("TrainingMode", trainingflag).println("TxType", txtype);
 
-       Connection connection = null;
-       String posLogXML = "";
+        Connection connection = null;
+        String posLogXML = "";
 
-       try {
-           connection = dbManager.getConnection();
-           posLogXML = getTransaction(companyid, storeid, workstationid, businessdate, txid, trainingflag, txtype, connection);
-       } catch (SQLException ex) {
-           LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                   + ": Failed to get transaction's xml.", ex);
-           throw new DaoException("SQLException: @"
-                   + "SQLServerPosLogDao.gettransaction", ex);
-       } finally {
-           closeConnectionObjects(connection, null, null);
-       }
-       return tp.methodExit(posLogXML);
-   }
+        try {
+            connection = dbManager.getConnection();
+            posLogXML = getTransaction(companyid, storeid, workstationid, businessdate, txid, trainingflag, txtype,
+                    connection);
+        } catch (SQLException ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get transaction's xml.", ex);
+            throw new DaoException("SQLException: @" + "SQLServerPosLogDao.gettransaction", ex);
+        } finally {
+            closeConnectionObjects(connection, null, null);
+        }
+        return tp.methodExit(posLogXML);
+    }
 
     /**
      * Get the BussinessDate of the Web API.
-     * @param companyId the company ID
-     * @param storeId the store ID
-     * @param switchTime can be an empty string
+     * 
+     * @param companyId
+     *            the company ID
+     * @param storeId
+     *            the store ID
+     * @param switchTime
+     *            can be an empty string
      * @return The Business Date
-     * @throws DaoException The Exception thrown when error occur.
+     * @throws DaoException
+     *             The Exception thrown when error occur.
      */
     @Override
     public final String getBussinessDate(final String companyId, final String storeId, final String switchTime)
             throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName)
-            .println("CompanyId", companyId)
-            .println("StoreId", storeId)
-            .println("SwitchTime", switchTime);
+        tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("SwitchTime",
+                switchTime);
 
         PreparedStatement selectStmnt = null;
         ResultSet resultSet = null;
@@ -1746,15 +1645,12 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         String strResult = null;
         try {
             if (null != switchTime && !switchTime.isEmpty()) {
-                String switchTimeOnly =
-                    switchTime.replace("am", "").replace("pm", "");
+                String switchTimeOnly = switchTime.replace("am", "").replace("pm", "");
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
                 int colonIndex = switchTimeOnly.indexOf(":");
-                int switchTimeHour =
-                    Integer.parseInt(switchTimeOnly.substring(0, colonIndex));
-                int switchTimeMin =
-                    Integer.parseInt(switchTimeOnly.substring(colonIndex + 1));
+                int switchTimeHour = Integer.parseInt(switchTimeOnly.substring(0, colonIndex));
+                int switchTimeMin = Integer.parseInt(switchTimeOnly.substring(colonIndex + 1));
 
                 Calendar swCal1 = Calendar.getInstance(Locale.ENGLISH);
                 Calendar sysCal1 = Calendar.getInstance(Locale.ENGLISH);
@@ -1774,21 +1670,17 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             } else {
                 connection = dbManager.getConnection();
                 SQLStatement sqlStatement = SQLStatement.getInstance();
-                selectStmnt =
-                    connection.prepareStatement(
-                            sqlStatement.getProperty("get-bussiness-date"));
-                    selectStmnt.setString(SQLStatement.PARAM1, companyId);
-                    selectStmnt.setString(SQLStatement.PARAM2, storeId);
+                selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-bussiness-date"));
+                selectStmnt.setString(SQLStatement.PARAM1, companyId);
+                selectStmnt.setString(SQLStatement.PARAM2, storeId);
                 resultSet = selectStmnt.executeQuery();
                 if (resultSet.next()) {
                     strResult = resultSet.getDate("TodayDate").toString();
                 }
             }
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get businessdaydate.", ex);
-            throw new DaoException("Exception: @getBussinessDate - "
-                    + ex.getMessage(), ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get businessdaydate.", ex);
+            throw new DaoException("Exception: @getBussinessDate - " + ex.getMessage(), ex);
         } finally {
             closeConnectionObjects(connection, selectStmnt, resultSet);
         }
@@ -1797,19 +1689,20 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Get the latest available Normal POSlog Transaction.
-     * @param terminalid        The terminal ID for the transaction
-     * @param storeid           The store ID for the transaction
-     * @return                  Returns a POSLog Xml of the
-     *                              latest available POSLog
-     * @throws DaoException    The exception thrown when getting
-     *                              the last Transaction Information fails
+     * 
+     * @param terminalid
+     *            The terminal ID for the transaction
+     * @param storeid
+     *            The store ID for the transaction
+     * @return Returns a POSLog Xml of the latest available POSLog
+     * @throws DaoException
+     *             The exception thrown when getting the last Transaction
+     *             Information fails
      */
     @Override
-    public final String getLastNormalTransaction(final String terminalid,
-            final String storeid) throws DaoException {
+    public final String getLastNormalTransaction(final String terminalid, final String storeid) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("Terminal ID", terminalid)
-                .println("Store ID", storeid);
+        tp.methodEnter(functionName).println("Terminal ID", terminalid).println("Store ID", storeid);
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
@@ -1818,9 +1711,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-last-transaction-poslog"));
-            
+            select = connection.prepareStatement(sqlStatement.getProperty("get-last-transaction-poslog"));
+
             select.setString(SQLStatement.PARAM1, storeid);
             select.setString(SQLStatement.PARAM2, terminalid);
             result = select.executeQuery();
@@ -1830,10 +1722,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 tp.println("No last normal transaction found.");
             }
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get last normal transaction.", ex);
-            throw new DaoException("Exception: @getLastNormalTransaction - "
-                    + ex.getMessage(), ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+                    functionName + ": Failed to get last normal transaction.", ex);
+            throw new DaoException("Exception: @getLastNormalTransaction - " + ex.getMessage(), ex);
         } finally {
             closeConnectionObjects(connection, select, result);
         }
@@ -1841,34 +1732,20 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     @Override
-    public final List<TransactionSearch> searchTransactions(final String limit,
-            final String from, final String line,
-            final String storeId, final String deviceId, final String itemName,
-            final String subCode4, final String itemId, final String sequenceNumberFrom,
-            final String sequenceNumberTo, final String businessDate,
-            final String fromDate, final String fromTime, final String toDate,
-            final String toTime, final String type, final String companyId,
-            final int trainingMode) throws DaoException, ParseException {
+    public final List<TransactionSearch> searchTransactions(final String limit, final String from, final String line,
+            final String storeId, final String deviceId, final String itemName, final String subCode4,
+            final String itemId, final String sequenceNumberFrom, final String sequenceNumberTo,
+            final String businessDate, final String fromDate, final String fromTime, final String toDate,
+            final String toTime, final String type, final String companyId, final int trainingMode)
+                    throws DaoException, ParseException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName)
-            .println("limit", limit)
-            .println("from",from)
-            .println("line",line)
-            .println("storeId", storeId)
-            .println("deviceId", deviceId)
-            .println("itemName", itemName)
-            .println("subCode4", subCode4)
-            .println("itemId", itemId)
-            .println("sequenceNumberFrom", sequenceNumberFrom)
-            .println("sequenceNumberTo", sequenceNumberTo)
-            .println("businessDate", businessDate)
-            .println("fromDate", fromDate)
-            .println("fromTime", fromTime)
-            .println("toDate", toDate)
-            .println("toTime", toTime)
-            .println("type", type)
-            .println("companyId", companyId)
-            .println("trainingMode", trainingMode);
+        tp.methodEnter(functionName).println("limit", limit).println("from", from).println("line", line)
+                .println("storeId", storeId).println("deviceId", deviceId).println("itemName", itemName)
+                .println("subCode4", subCode4).println("itemId", itemId)
+                .println("sequenceNumberFrom", sequenceNumberFrom).println("sequenceNumberTo", sequenceNumberTo)
+                .println("businessDate", businessDate).println("fromDate", fromDate).println("fromTime", fromTime)
+                .println("toDate", toDate).println("toTime", toTime).println("type", type)
+                .println("companyId", companyId).println("trainingMode", trainingMode);
 
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         ISystemSettingDAO systemSettingDAO = daoFactory.getSystemSettingDAO();
@@ -1883,34 +1760,34 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             connection = dbManager.getConnection();
 
-            int limitIntValue,limitFrom;
-            if(StringUtility.isNullOrEmpty(limit)) {
+            int limitIntValue, limitFrom;
+            if (StringUtility.isNullOrEmpty(limit)) {
                 limitIntValue = 50;
             } else {
                 limitIntValue = Integer.parseInt(limit);
             }
-            if(!StringUtility.isNullOrEmpty(from)){
+            if (!StringUtility.isNullOrEmpty(from)) {
                 limitFrom = Integer.parseInt(from);
-            }else{
+            } else {
                 limitFrom = 0;
             }
             int sequenceNumber = 0;
             String tempSequenceNumberFrom = null;
-            if(!StringUtility.isNullOrEmpty(sequenceNumberFrom)) {
+            if (!StringUtility.isNullOrEmpty(sequenceNumberFrom)) {
                 sequenceNumber = Integer.parseInt(sequenceNumberFrom);
                 tempSequenceNumberFrom = String.valueOf(sequenceNumber);
             }
 
             String tempSequenceNumberTo = null;
-            if(!StringUtility.isNullOrEmpty(sequenceNumberTo)) {
+            if (!StringUtility.isNullOrEmpty(sequenceNumberTo)) {
                 sequenceNumber = Integer.parseInt(sequenceNumberTo);
                 tempSequenceNumberTo = String.valueOf(sequenceNumber);
             }
 
-            if (!StringUtility.isNullOrEmpty(businessDate) &&
-                !DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
-                    tp.println("Date should have yyyy-MM-dd format.");
-                    throw new ParseException("Invalid date format.", 0);
+            if (!StringUtility.isNullOrEmpty(businessDate)
+                    && !DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+                tp.println("Date should have yyyy-MM-dd format.");
+                throw new ParseException("Invalid date format.", 0);
             }
 
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1933,10 +1810,10 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throw new ParseException("Invalid time format.", 0);
                 } else {
                     if (fromDateTime != null) {
-                        fromDateTime += " " +  fromTime;
+                        fromDateTime += " " + fromTime;
                     } else {
                         // use current date
-                        fromDateTime = currentDate + " " +  fromTime;
+                        fromDateTime = currentDate + " " + fromTime;
                     }
                 }
             }
@@ -1965,14 +1842,14 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 }
             } else {
                 if (toDateTime != null) {
-                    toDateTime += " " + "23:59:59"; // to include transactions created during this date
+                    toDateTime += " " + "23:59:59"; // to include transactions
+                                                    // created during this date
                 }
             }
 
             // Prepare the SqlStatement for Transaction Search
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("select-transactions"));
+            select = connection.prepareStatement(sqlStatement.getProperty("select-transactions"));
 
             select.setInt(SQLStatement.PARAM1, limitIntValue);
             select.setString(SQLStatement.PARAM2, storeId);
@@ -1997,7 +1874,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
             result = select.executeQuery();
             XmlSerializer<PosLog> serializer = new XmlSerializer<PosLog>();
-            
+
             while (result.next()) {
                 String company = result.getString("CompanyId");
                 String posLogXml = result.getString("Tx");
@@ -2021,11 +1898,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 link.setBusinessDayDate(transaction.getBusinessDayDate());
                 String voided = ResultBase.toString(isTransactionVoided(link, connection, companyId, trainingMode));
                 info.setVoided(voided);
-                
+
                 String returned = ResultBase.toString(isTransactionReturned(link, connection, companyId, trainingMode));
                 info.setReturned(returned);
-                
-                int summaryReceiptCount = getSummaryReceiptCount(transaction, connection);
+
+				int summaryReceiptCount = getSummaryReceiptCount(company, transaction.getRetailStoreID(),
+						transaction.getWorkStationID().getValue(), transaction.getSequenceNo(),
+						transaction.getBusinessDayDate());
                 info.setSummaryReceipt(String.valueOf(summaryReceiptCount));
 
                 // TODO: get number of times a receipt was printed
@@ -2035,30 +1914,24 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 TransactionSearch transactionSearch = new TransactionSearch();
                 transactionSearch.setPosLog(posLog);
                 transactionSearch.setAdditionalInformation(info);
-                
-                txPosLogs.add(transactionSearch);                
+
+                txPosLogs.add(transactionSearch);
             }
         } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to search transactions.", ex);
-            throw new DaoException(
-                    "SQLStatementException: @searchTransactions", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to search transactions.",
+                    ex);
+            throw new DaoException("SQLStatementException: @searchTransactions", ex);
         } catch (SQLException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to search transactions.", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to search transactions.", ex);
             throw new DaoException("SQLException: @searchTransactions", ex);
         } catch (ParseException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName
-                    + ": Failed to search transactions.", ex);
-            throw new ParseException("ParseException: @searchTransactions:"
-                    + ex, 0);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to search transactions.", ex);
+            throw new ParseException("ParseException: @searchTransactions:" + ex, 0);
         } catch (NumberFormatException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName
-                    + ": Failed to search transactions.", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to search transactions.", ex);
             throw new DaoException("NumberFormatException: @searchTransactions:", ex);
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to search transactions.", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to search transactions.", ex);
             throw new DaoException("Exception: @searchTransactions", ex);
         } finally {
             closeConnectionObjects(connection, select, result);
@@ -2068,23 +1941,23 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     @SuppressWarnings("unchecked")
     static <T> List<T> cast(Object o) {
-        return (List<T>)o;
+        return (List<T>) o;
     }
-    
+
     boolean isVoidable(DateSetting dateSetting, Transaction tx) {
         RetailTransaction rtx = tx.getRetailTransaction();
-        if (rtx == null) return false;
+        if (rtx == null)
+            return false;
         boolean voidable = dateSetting.getToday().equals(tx.getBusinessDayDate());
         if (voidable) {
-          checkTenderType:
-            for (LineItem line : rtx.getLineItems()) {
+            checkTenderType: for (LineItem line : rtx.getLineItems()) {
                 Tender tender = line.getTender();
                 if (tender != null && !tender.getAmount().equals("0")) {
                     if (tender.getTenderType().equals(TransactionVariable.CREDITDEBIT)) {
                         voidable = false;
                         break checkTenderType;
-                    } else if (tender.getTenderType().equals(TransactionVariable.VOUCHER)
-                               && tender.getVoucher().get(0).getTypeCode().equals(TransactionVariable.VOUCHER_TYPE_GIFT_CARD)) {
+                    } else if (tender.getTenderType().equals(TransactionVariable.VOUCHER) && tender.getVoucher().get(0)
+                            .getTypeCode().equals(TransactionVariable.VOUCHER_TYPE_GIFT_CARD)) {
                         voidable = false;
                         break checkTenderType;
                     }
@@ -2094,86 +1967,72 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         return voidable;
     }
 
-    private int getSummaryReceiptCount(Transaction transaction, Connection connection) 
-            throws SQLException, SQLStatementException, DaoException {
+    public int getSummaryReceiptCount(String companyid, String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
+    throws SQLException, SQLStatementException, DaoException {
         int result = 0;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        
+        Connection connection = null;
         try {
+            connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-                    sqlStatement.getProperty("get-summary-receipt-count"),
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
+            statement = connection.prepareStatement(sqlStatement.getProperty("get-summary-receipt-count"),
+                ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            statement.setString(SQLStatement.PARAM1, companyid);
+            statement.setString(SQLStatement.PARAM2, retailStoreID);
+            statement.setString(SQLStatement.PARAM3, workStationID);
+            statement.setString(SQLStatement.PARAM4, sequenceNo);
+            statement.setString(SQLStatement.PARAM5, businessDayDate);
 
-            statement.setString(SQLStatement.PARAM1, transaction.getRetailStoreID());
-            statement.setString(SQLStatement.PARAM2, transaction.getWorkStationID().getValue());
-            statement.setString(SQLStatement.PARAM3, transaction.getSequenceNo());
-            statement.setString(SQLStatement.PARAM4, transaction.getBusinessDayDate());
-            
             resultSet = statement.executeQuery();
             if (resultSet.last()) {
                 result = resultSet.getInt("count");
             }
         } catch (SQLException e) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQL,
-                    "getSummaryReceiptCount: Error in getting summary receipt counts.",
-                    e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
+                "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
             throw e;
         } catch (SQLStatementException e) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "getSummaryReceiptCount: Error in getting summary receipt counts.",
-                    e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
+                "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
             throw e;
         } finally {
             closeConnectionObjects(null, statement, resultSet);
         }
-        
+
         return result;
     }
-    
-    private void saveVoidDetails(final PreparedStatement saveVoidDetailsStmt, 
-            TransactionLink transactionLink, String companyId, int trainingMode) throws SQLException {
-        saveVoidReturnDetails(saveVoidDetailsStmt, transactionLink, 
-                TxTypes.VOID, companyId, trainingMode);
+
+
+    private void saveVoidDetails(final PreparedStatement saveVoidDetailsStmt, TransactionLink transactionLink,
+            String companyId, int trainingMode) throws SQLException {
+        saveVoidReturnDetails(saveVoidDetailsStmt, transactionLink, TxTypes.VOID, companyId, trainingMode);
     }
-    
-    private void saveReturnDetails(final PreparedStatement saveVoidDetailsStmt, 
-            TransactionLink transactionLink, String companyId, int trainingMode) throws SQLException {
+
+    private void saveReturnDetails(final PreparedStatement saveVoidDetailsStmt, TransactionLink transactionLink,
+            String companyId, int trainingMode) throws SQLException {
         try {
-            saveVoidReturnDetails(saveVoidDetailsStmt, transactionLink, 
-                    TxTypes.RETURN, companyId, trainingMode);
+            saveVoidReturnDetails(saveVoidDetailsStmt, transactionLink, TxTypes.RETURN, companyId, trainingMode);
         } catch (SQLException e) {
-            if (e.getErrorCode() == 
-                    Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, 
-                        "Duplicate Insert Error: Original Transaction "
-                        + "already returned.", e);
+            if (e.getErrorCode() == Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
+                        "Duplicate Insert Error: Original Transaction " + "already returned.", e);
             } else {
                 throw e;
             }
         }
     }
-    
-    private void saveVoidReturnDetails(final PreparedStatement saveVoidDetailsStmt, 
-            TransactionLink transactionLink, String type, String companyId, int trainingMode) throws SQLException {
-        saveVoidDetailsStmt.setString(SQLStatement.PARAM1, 
-                transactionLink.getRetailStoreID());
-        saveVoidDetailsStmt.setString(SQLStatement.PARAM2, 
-                transactionLink.getWorkStationID().getValue());
-        saveVoidDetailsStmt.setString(SQLStatement.PARAM3, 
-                transactionLink.getSequenceNo());
-        saveVoidDetailsStmt.setString(SQLStatement.PARAM4, 
-                transactionLink.getBusinessDayDate());
+
+    private void saveVoidReturnDetails(final PreparedStatement saveVoidDetailsStmt, TransactionLink transactionLink,
+            String type, String companyId, int trainingMode) throws SQLException {
+        saveVoidDetailsStmt.setString(SQLStatement.PARAM1, transactionLink.getRetailStoreID());
+        saveVoidDetailsStmt.setString(SQLStatement.PARAM2, transactionLink.getWorkStationID().getValue());
+        saveVoidDetailsStmt.setString(SQLStatement.PARAM3, transactionLink.getSequenceNo());
+        saveVoidDetailsStmt.setString(SQLStatement.PARAM4, transactionLink.getBusinessDayDate());
         saveVoidDetailsStmt.setString(SQLStatement.PARAM5, type);
         saveVoidDetailsStmt.setString(SQLStatement.PARAM6, companyId);
         saveVoidDetailsStmt.setInt(SQLStatement.PARAM7, trainingMode);
-        
+
         saveVoidDetailsStmt.executeUpdate();
     }
 
@@ -2219,14 +2078,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             }
             connection.commit();
         } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functioName + ": Failed to save forward poslog", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functioName + ": Failed to save forward poslog",
+                    e);
             rollBack(connection, functioName, e);
             throw new DaoException("SQLStatementException: @" + functioName, e);
         } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName + ": Failed to save forward poslog.",
-                        e);
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName + ": Failed to save forward poslog.", e);
                 rollBack(connection, functioName, e);
                 throw new DaoException("SQLException: @" + functioName, e);
             }
@@ -2236,8 +2094,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             tp.println("Duplicate Entry of Transaction.");
         } catch (Exception e) {
             rollBack(connection, functioName, e);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functioName + ": Failed to save forward poslog.",
-                    e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functioName + ": Failed to save forward poslog.", e);
             throw new DaoException("Exception: @" + functioName, e);
         } finally {
             closeConnectionObjects(connection, saveForwardPosLogPrepStmnt);
@@ -2251,17 +2108,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * 前捌PosLog の取得
      */
     @Override
-    public SearchForwardPosLog getForwardItemsPosLog(String CompanyId, String RetailStoreId,
-            String WorkstationId, String SequenceNumber, String Queue,
-            String BusinessDayDate, String TrainingFlag) throws DaoException {
+    public SearchForwardPosLog getForwardItemsPosLog(String CompanyId, String RetailStoreId, String WorkstationId,
+            String SequenceNumber, String Queue, String BusinessDayDate, String TrainingFlag) throws DaoException {
 
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("CompanyId", CompanyId)
-                .println("RetailStoreId", RetailStoreId)
-                .println("WorkstationId", WorkstationId)
-                .println("SequenceNumber", SequenceNumber)
-                .println("Queue", Queue)
-                .println("BusinessDayDate", BusinessDayDate)
+        tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId)
+                .println("WorkstationId", WorkstationId).println("SequenceNumber", SequenceNumber)
+                .println("Queue", Queue).println("BusinessDayDate", BusinessDayDate)
                 .println("TrainingFlag", TrainingFlag);
 
         SearchForwardPosLog searchForwardPosLog = new SearchForwardPosLog();
@@ -2271,9 +2124,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-forward-items-posLog"));
-            
+            select = connection.prepareStatement(sqlStatement.getProperty("get-forward-items-posLog"));
+
             select.setString(SQLStatement.PARAM1, CompanyId);
             select.setString(SQLStatement.PARAM2, RetailStoreId);
             select.setString(SQLStatement.PARAM3, SequenceNumber.replaceFirst("^0*", ""));
@@ -2289,92 +2141,78 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 tp.println("No forward items poslog found.");
             }
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get forward items poslog.", ex);
-            throw new DaoException("Exception: @getForwardItemsPosLog - "
-                    + ex.getMessage(), ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward items poslog.",
+                    ex);
+            throw new DaoException("Exception: @getForwardItemsPosLog - " + ex.getMessage(), ex);
         } finally {
             closeConnectionObjects(connection, select, result);
             tp.methodExit(searchForwardPosLog.getPosLogXml());
         }
         return searchForwardPosLog;
     }
-    
+
     private String getGuid() throws NamingException {
         Context env = (Context) new InitialContext().lookup("java:comp/env");
         serverID = (String) env.lookup("serverID");
         String guid = Guid.toString(Guid.create(serverID));
-        
+
         return guid.replaceAll("\\{", "").replaceAll("}", "");
     }
-    
-    public String getLastPayTxPoslog(String companyId, String storeId,
-		String terminalId, String businessDate, int trainingFlag) 
-			throws Exception {
-    	String functionName = DebugLogger.getCurrentMethodName();
-    	tp.methodEnter(functionName)
-			.println("companyid", companyId)
-        	.println("storeId", storeId)
-        	.println("terminalId", terminalId)
-        	.println("businessDate", businessDate)
-        	.println("trainingFlag", trainingFlag);
-		 
-    	Connection connection = null;
+
+    public String getLastPayTxPoslog(String companyId, String storeId, String terminalId, String businessDate,
+            int trainingFlag) throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("companyid", companyId).println("storeId", storeId)
+                .println("terminalId", terminalId).println("businessDate", businessDate)
+                .println("trainingFlag", trainingFlag);
+
+        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
-    	String poslog = null;
-    	
-    	try {
-    		connection = dbManager.getConnection();
+        String poslog = null;
+
+        try {
+            connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-                    sqlStatement.getProperty("get-last-pay-tx-poslog"));
+            statement = connection.prepareStatement(sqlStatement.getProperty("get-last-pay-tx-poslog"));
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
             statement.setString(SQLStatement.PARAM3, terminalId);
             statement.setString(SQLStatement.PARAM4, businessDate);
             statement.setInt(SQLStatement.PARAM5, trainingFlag);
             result = statement.executeQuery();
-            
+
             if (result.next()) {
-            	poslog = result.getString("Tx");
+                poslog = result.getString("Tx");
             }
-    	} catch (SQLException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get last pay tx poslog.", e);
-            throw new Exception("SQLException: @SQLServerPosLogDAO."
-            		+ functionName, e);
+        } catch (SQLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get last pay tx poslog.", e);
+            throw new Exception("SQLException: @SQLServerPosLogDAO." + functionName, e);
         } catch (SQLStatementException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     functionName + ": Failed to get last pay tx poslog.", e);
-            throw new Exception("SQLStatementException: @SQLServerPosLogDAO."
-            		+ functionName, e);
+            throw new Exception("SQLStatementException: @SQLServerPosLogDAO." + functionName, e);
         } finally {
-        	closeConnectionObjects(connection, statement, result);
-        	tp.methodExit(poslog);
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(poslog);
         }
-    	return poslog;
+        return poslog;
     }
 
     @Override
     public AdditionalInformation getVoidedAndReturned(String companyid, String storeid, String workstationid,
             String businessdate, String txid, int trainingflag, String txtype) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName)
-        .println("CompanyId", companyid)
-        .println("StoreID", storeid)
-        .println("WorkstationId", workstationid)
-        .println("BusinessDate", businessdate)
-        .println("Transaction Number", txid)
-        .println("TrainingMode", trainingflag)
-        .println("TxType", txtype);
-        
+        tp.methodEnter(functionName).println("CompanyId", companyid).println("StoreID", storeid)
+                .println("WorkstationId", workstationid).println("BusinessDate", businessdate)
+                .println("Transaction Number", txid).println("TrainingMode", trainingflag).println("TxType", txtype);
+
         Connection connection = null;
         AdditionalInformation info = new AdditionalInformation();
 
         try {
             connection = dbManager.getConnection();
-            
+
             TransactionLink link = new TransactionLink();
             link.setRetailStoreID(storeid);
             WorkstationID workstation = new WorkstationID();
@@ -2382,34 +2220,32 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             link.setWorkStationID(workstation);
             link.setSequenceNo(txid);
             link.setBusinessDayDate(businessdate);
-            
+
             String voided = ResultBase.toString(isTransactionVoided(link, connection, companyid, trainingflag));
             info.setVoided(voided);
 
             String returned = ResultBase.toString(isTransactionReturned(link, connection, companyid, trainingflag));
             info.setReturned(returned);
-            
-        }  catch (SQLException ex) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQL,
-                    "isTransactionVoidedOrReturned: Error in checking if "
-                    + "transaction was already voided or returned.",ex);
+
+        } catch (SQLException ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "isTransactionVoidedOrReturned: Error in checking if "
+                    + "transaction was already voided or returned.", ex);
         } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     "isTransactionVoidedOrReturned: Error in checking if "
-                    + "transaction was already voided or returned.",ex);
+                            + "transaction was already voided or returned.",
+                    ex);
         } finally {
             closeConnectionObjects(connection, null, null);
         }
         return info;
     }
+
     /**
      * Public method that is used to validate or update lock status
      *
-     * @param connection             The database connection
+     * @param connection
+     *            The database connection
      * @param CompanyId
      * @param RetailStoreId
      * @param WorkstationId
@@ -2417,24 +2253,21 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @param BusinessDayDate
      * @param TrainingFlag
      *
-     * @return                       Returns the status of the lock
-     * @throws SQLException 
-     * @throws SQLStatementException 
-     * @throws DaoException 
-     * @throws Exception             Exception thrown when the method failed.
+     * @return Returns the status of the lock
+     * @throws SQLException
+     * @throws SQLStatementException
+     * @throws DaoException
+     * @throws Exception
+     *             Exception thrown when the method failed.
      */
-    public int getOrUpdLockStatus(String companyid, String storeid, String workstationid, String businessdate, int sequencenumber,
-                                  int trainingflag, String callType, String appId, String opeCode, String type) throws DaoException {
+    public int getOrUpdLockStatus(String companyid, String storeid, String workstationid, String businessdate,
+            int sequencenumber, int trainingflag, String callType, String appId, String opeCode, String type)
+                    throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("CompanyId", companyid)
-                .println("StoreID", storeid)
-                .println("WorkstationId", workstationid)
-                .println("BusinessDate", businessdate)
-                .println("SequenceNumber", sequencenumber)
-                .println("TrainingFlag", trainingflag)
-                .println("CallType", callType)
-                .println("AppId", appId)
-                .println("OpeCode", opeCode)
+        tp.methodEnter(functionName).println("CompanyId", companyid).println("StoreID", storeid)
+                .println("WorkstationId", workstationid).println("BusinessDate", businessdate)
+                .println("SequenceNumber", sequencenumber).println("TrainingFlag", trainingflag)
+                .println("CallType", callType).println("AppId", appId).println("OpeCode", opeCode)
                 .println("Type", type);
 
         PreparedStatement getLockStatus = null;
@@ -2446,7 +2279,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            switch(type){
+            switch (type) {
             case "getLockStatus":
                 getLockStatus = connection.prepareStatement(sqlStatement.getProperty("get-lock-status"));
                 getLockStatus.setString(SQLStatement.PARAM1, companyid);
@@ -2496,28 +2329,84 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 connection.commit();
                 break;
             }
-            
+
         } catch (SQLException sqlE) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlE);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get or update lock status.", sqlE);
-            throw new DaoException("SQLException: @doPOSLogJournalization - " 
-                    + sqlE.getMessage(), sqlE);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get or update lock status.",
+                    sqlE);
+            throw new DaoException("SQLException: @doPOSLogJournalization - " + sqlE.getMessage(), sqlE);
         } catch (SQLStatementException sqlsE) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlsE);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     functionName + ": Failed to get or update lock status.", sqlsE);
-            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " 
-                    + sqlsE.getMessage(), sqlsE);
+            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " + sqlsE.getMessage(), sqlsE);
         } catch (Exception e) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", e);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
                     functionName + ": Failed to get or update lock status.", e);
-            throw new DaoException("Exception: @doPOSLogJournalization - " 
-                    + e.getMessage(), e);
+            throw new DaoException("Exception: @doPOSLogJournalization - " + e.getMessage(), e);
         } finally {
             closeConnectionObjects(connection, null, null);
         }
         return tp.methodExit(result);
     }
+
+    /**
+     * Public method that is used to validate a sale transaction that is
+     * already point granted
+     *
+    
+     * @param companyId
+     * @param storeId
+     * @param workstationId
+     * @param businessdate
+     * @param txid
+     * @param TrainingFlag
+     *
+     * @return Returns the status of the sale that is point granted
+     * @throws SQLException
+     * @throws SQLStatementException
+     * @throws DaoException
+     * @throws Exception
+     *             Exception thrown when the method failed.
+     */
+	public boolean isPostPointed(String companyid, String storeid, String workstationid, String businessdate,
+			String txid, int trainingflag) throws DaoException {
+	  String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyid).println("StoreID", storeid)
+                .println("WorkstationId", workstationid).println("BusinessDate", businessdate)
+                .println("Transaction Number", txid).println("TrainingMode", trainingflag);
+
+        Connection connection = null;
+        ResultSet resultSet = null;
+        boolean isPostPointed = false;
+        ResultSet result = null;
+        PreparedStatement statement = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(sqlStatement.getProperty("get-postpoint-status"));
+            statement.setString(SQLStatement.PARAM1, companyid);
+            statement.setString(SQLStatement.PARAM2, storeid);
+            statement.setString(SQLStatement.PARAM3, workstationid);
+            statement.setString(SQLStatement.PARAM4, businessdate);
+            statement.setString(SQLStatement.PARAM5, txid);
+            statement.setInt(SQLStatement.PARAM6, trainingflag);
+            resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+            	String originalSequence = resultSet.getString("OriginalSequenceNumber");
+            	if(!StringUtility.isNullOrEmpty(originalSequence)) {
+            		isPostPointed = true;
+            	}
+            }
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "isPostPointed: Error in checking if "
+                    + "transaction was already post pointed", ex);
+            isPostPointed = false;
+        } finally {
+            closeConnectionObjects(connection, null, null);
+        }
+		return isPostPointed;
+	}
+    
 }

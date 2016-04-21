@@ -57,6 +57,18 @@ public class CashIn {
     @XmlElement(name = "RemarksNote")
     private String remarksNote;
     
+    /**
+     * OriginalCashInType
+     */
+    @XmlElement(name = "OriginalCashInType")
+    private String originalCashInType;
+    
+    /**
+     * OriginalCashInName
+     */
+    @XmlElement(name = "OriginalCashInName")
+    private String originalCashInName;
+    
     @XmlElement(name = "Count")
     private String count;
     
@@ -175,4 +187,32 @@ public class CashIn {
 	public final void setRemarksNote(String remarksNote) {
 		this.remarksNote = remarksNote;
 	}
+    
+    /**
+     * @return the originalCashInType
+     */
+    public final String getOriginalCashInType() {
+        return originalCashInType;
+    }
+
+    /**
+     * @param originalCashInType the originalCashInType to set
+     */
+    public final void setOriginalCashInType(String originalCashInType) {
+        this.originalCashInType = originalCashInType;
+    }
+    
+    /**
+     * @return the originalCashInName
+     */
+    public final String getOriginalCashInName() {
+        return originalCashInName;
+    }
+
+    /**
+     * @param originalCashInName the originalCashInName to set
+     */
+    public final void setOriginalCashInName(String originalCashInName) {
+        this.originalCashInName = originalCashInName;
+    }
 }

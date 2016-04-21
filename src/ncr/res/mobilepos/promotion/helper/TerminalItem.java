@@ -378,9 +378,9 @@ public class TerminalItem {
         .println("mmNo", mmNo)
         .println("Item", item);
         MixMatchRule rule = new MixMatchRule();
-        if(!itemEntryMap.containsKey(entryId)){
-            itemEntryMap.put(entryId, mmNo);
-        }
+//        if(!itemEntryMap.containsKey(entryId)){
+//            itemEntryMap.put(entryId, mmNo);
+//        }
         if(!itemIdToMixMatchMap.containsKey(item.getItemId())){
             itemIdToMixMatchMap.put(item.getItemId(), mmNo);
         }
@@ -471,10 +471,6 @@ public class TerminalItem {
         List<MixMatchDetailInfo> ruleList2 = new ArrayList<MixMatchDetailInfo>();
         List<MixMatchDetailInfo> ruleList1 = new ArrayList<MixMatchDetailInfo>();
         List<MixMatchDetailInfo> ruleList = new ArrayList<MixMatchDetailInfo>();
-        // When sumCount > ConditionCount3 && DecisionPrice3 > 0 rule3Flag = false 
-        boolean rule3Flag = true;
-        boolean rule2Flag = true;
-        boolean rule1Flag = true;
         MixMatchRule rule = bmRuleMap.get(mmNo);
         List<MixMatchDetailInfo> ruleList3 = new ArrayList<MixMatchDetailInfo>();
         ruleList3 = bmDetailMap.get(mmNo);
@@ -497,7 +493,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo3.getQuantity();
             }
-            if (rule.getConditionCount3() > 0 && (sumCount / rule.getConditionCount3()) >= 1 && rule3Flag) {
+            if (rule.getConditionCount3() > 0 && (sumCount / rule.getConditionCount3()) >= 1) {
                 if (map.containsKey("rule1")) {
                     map.remove("rule1");
                 }
@@ -510,38 +506,28 @@ public class TerminalItem {
                 DetailInfo detailinfo = new DetailInfo();
                 detailinfo.setCurrentDecisionPrice(rule.getDecisionPrice3() != null ? rule.getDecisionPrice3() : 0);
                 detailinfo.setConditionPrice(rule.getConditionPrice3());
+                
                 detailinfo.setConditionCount(rule.getConditionCount3());
                 // DecisionPrice > 0
-                if (rule.getDecisionPrice3() != null) {
-                    detailinfo.setTimes(1);
-                    ruleentryinfo1.setQuantity(rule.getConditionCount3() - sumCount1);
-                    ruleList2.add(ruleentryinfo1);
+                int times = 0;
+                times = sumCount / rule.getConditionCount3();
+                sumCount = sumCount % rule.getConditionCount3();
+                remainder = mixMatchDetailInfo3.getQuantity() - sumCount;
+                ruleentryinfo1.setQuantity(remainder);
+                ruleList2.add(ruleentryinfo1);
+                detailinfo.addEntryList(ruleList2);
+                if(null != rule.getDecisionPrice3()){
                     map.put("lastDecisionPrice", rule.getDecisionPrice3());
-                    detailinfo.addEntryList(ruleList2);
-                    map.put("rule3", detailinfo);
-                    rule3Flag = false;
-                    ruleList2.clear();
-                    // The remainder quantity>0
-                    if ((mixMatchDetailInfo3.getQuantity() - (rule.getConditionCount3() - sumCount1)) > 0) {
-                        info.setQuantity(mixMatchDetailInfo3.getQuantity() - (rule.getConditionCount3() - sumCount1));
-                        ruleList2.add(info);
-                    }
-                    continue;
+                    detailinfo.setAveragePrice(rule.getAveragePrice3() > rule.getDecisionPrice3() ? rule.getDecisionPrice3() : rule.getAveragePrice3());
+                }else{
+                    detailinfo.setAveragePrice(rule.getAveragePrice3());
+                }
+                if (map.containsKey("rule3")) {
+                    ((DetailInfo) map.get("rule3")).addEntryList(ruleList2);
+                    ((DetailInfo) map.get("rule3")).setTimes(((DetailInfo) map.get("rule3")).getTimes() + times);
                 } else {
-                    int times = 0;
-                    times = sumCount / rule.getConditionCount3();
-                    sumCount = sumCount % rule.getConditionCount3();
-                    remainder = mixMatchDetailInfo3.getQuantity() - sumCount;
-                    ruleentryinfo1.setQuantity(remainder);
-                    ruleList2.add(ruleentryinfo1);
-                    detailinfo.addEntryList(ruleList2);
-                    if (map.containsKey("rule3")) {
-                        ((DetailInfo) map.get("rule3")).addEntryList(ruleList2);
-                        ((DetailInfo) map.get("rule3")).setTimes(((DetailInfo) map.get("rule3")).getTimes() + times);
-                    } else {
-                        detailinfo.setTimes(times);
-                        map.put("rule3", detailinfo);
-                    }
+                    detailinfo.setTimes(times);
+                    map.put("rule3", detailinfo);
                 }
 
                 ruleList2.clear();
@@ -556,24 +542,6 @@ public class TerminalItem {
                 info.setQuantity(sumCount);
             }
             ruleList2.add(info);
-        }
-
-        if (!rule3Flag) {
-            DetailInfo detailinfo = new DetailInfo();
-            detailinfo.setEntryList(ruleList2);
-            map.put("remainder", detailinfo);
-            detailMap.put(mmNo, map);
-            return detailMap;
-        }
-
-        if (rule.getDecisionPrice2() != null  && map.containsKey("rule3")) {
-
-            DetailInfo detailinfo = new DetailInfo();
-            detailinfo.setEntryList(ruleList2);
-            map.put("remainder", detailinfo);
-            map.put("lastDecisionPrice", rule.getDecisionPrice2());
-            detailMap.put(mmNo, map);
-            return detailMap;
         }
 
         for (MixMatchDetailInfo mixMatchDetailInfo2 : ruleList2) {
@@ -591,7 +559,7 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo2.getQuantity();
             }
-            if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1 && rule2Flag) {
+            if (rule.getConditionCount2() > 0 && (sumCount / rule.getConditionCount2()) >= 1) {
                 if (map.containsKey("rule1")) {
                     map.remove("rule1");
                 }
@@ -601,37 +569,30 @@ public class TerminalItem {
                 DetailInfo detailinfo = new DetailInfo();
                 detailinfo.setCurrentDecisionPrice(rule.getDecisionPrice2() != null ? rule.getDecisionPrice2() : 0);
                 detailinfo.setConditionPrice(rule.getConditionPrice2());
+//                detailinfo.setAveragePrice(rule.getAveragePrice2());
                 detailinfo.setConditionCount(rule.getConditionCount2());
-                if (rule.getDecisionPrice2() != null) {
-                    detailinfo.setTimes(1);
-                    ruleentryinfo1.setQuantity(rule.getConditionCount2() - sumCount1);
-                    ruleList1.add(ruleentryinfo1);
-                    detailinfo.addEntryList(ruleList1);
-                    rule2Flag = false;
-                    ruleList1.clear();
-                    if ((mixMatchDetailInfo2.getQuantity() - (rule.getConditionCount2() - sumCount1)) > 0) {
-                        info.setQuantity(mixMatchDetailInfo2.getQuantity() - (rule.getConditionCount2() - sumCount1));
-                        ruleList1.add(info);
-                    }
+                if (rule.getDecisionPrice2() != null && !map.containsKey("lastDecisionPrice")) {
                     map.put("lastDecisionPrice", rule.getDecisionPrice2());
-                    map.put("rule2", detailinfo);
-                    continue;
-                } else {
-                    int times = sumCount / rule.getConditionCount2();
-                    sumCount = sumCount % rule.getConditionCount2();
-                    remainder = mixMatchDetailInfo2.getQuantity() - sumCount;
-                    ruleentryinfo1.setQuantity(remainder);
-                    ruleList1.add(ruleentryinfo1);
-                    detailinfo.addEntryList(ruleList1);
-                    if (map.containsKey("rule2")) {
-                        ((DetailInfo) map.get("rule2")).addEntryList(ruleList1);
-                        ((DetailInfo) map.get("rule2")).setTimes(((DetailInfo) map.get("rule2")).getTimes() + times);
-                    } else {
-                        detailinfo.setTimes(times);
-                        map.put("rule2", detailinfo);
-                    }
-
                 }
+                if(map.containsKey("lastDecisionPrice")){
+                    detailinfo.setAveragePrice(rule.getAveragePrice2() > (double)map.get("lastDecisionPrice") ? (double)map.get("lastDecisionPrice") : rule.getAveragePrice2());
+                } else{
+                    detailinfo.setAveragePrice(rule.getAveragePrice2());
+                }
+                int times = sumCount / rule.getConditionCount2();
+                sumCount = sumCount % rule.getConditionCount2();
+                remainder = mixMatchDetailInfo2.getQuantity() - sumCount;
+                ruleentryinfo1.setQuantity(remainder);
+                ruleList1.add(ruleentryinfo1);
+                detailinfo.addEntryList(ruleList1);
+                if (map.containsKey("rule2")) {
+                    ((DetailInfo) map.get("rule2")).addEntryList(ruleList1);
+                    ((DetailInfo) map.get("rule2")).setTimes(((DetailInfo) map.get("rule2")).getTimes() + times);
+                } else {
+                    detailinfo.setTimes(times);
+                    map.put("rule2", detailinfo);
+                }
+
                 ruleList1.clear();
             }
             if (sumCount == mixMatchDetailInfo2.getQuantity() + sumCount1) {
@@ -644,22 +605,6 @@ public class TerminalItem {
                 info.setQuantity(sumCount);
             }
             ruleList1.add(info);
-        }
-        if (!rule2Flag) {
-            DetailInfo detailinfo = new DetailInfo();
-            detailinfo.setEntryList(ruleList1);
-            map.put("remainder", detailinfo);
-            detailMap.put(mmNo, map);
-            return detailMap;
-        }
-
-        if (rule.getDecisionPrice1() != null && (map.containsKey("rule2") || map.containsKey("rule3"))) {
-            DetailInfo detailinfo = new DetailInfo();
-            detailinfo.setEntryList(ruleList1);
-            map.put("remainder", detailinfo);
-            map.put("lastDecisionPrice", rule.getDecisionPrice1());
-            detailMap.put(mmNo, map);
-            return detailMap;
         }
         for (MixMatchDetailInfo mixMatchDetailInfo1 : ruleList1) {
             sumCount = 0;
@@ -676,42 +621,35 @@ public class TerminalItem {
             } else {
                 sumCount = sumCount + mixMatchDetailInfo1.getQuantity();
             }
-            if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1 && rule1Flag) {
+            if (rule.getConditionCount1() > 0 &&(sumCount / rule.getConditionCount1()) >= 1) {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();
                 ruleentryinfo1.setEntryId(mixMatchDetailInfo1.getEntryId());
                 ruleentryinfo1.setTruePrice(mixMatchDetailInfo1.getTruePrice());
                 DetailInfo detailinfo = new DetailInfo();
                 detailinfo.setCurrentDecisionPrice(rule.getDecisionPrice1() != null ? rule.getDecisionPrice1() : 0);
                 detailinfo.setConditionCount(rule.getConditionCount1());
+//                detailinfo.setAveragePrice(rule.getAveragePrice1());
                 detailinfo.setConditionPrice(rule.getConditionPrice1());
-                if (rule.getDecisionPrice1() != null) {
-                    detailinfo.setTimes(1);
-                    ruleentryinfo1.setQuantity(rule.getConditionCount1() - sumCount1);
-                    ruleList.add(ruleentryinfo1);
-                    detailinfo.addEntryList(ruleList);
+                if (rule.getDecisionPrice1() != null && !map.containsKey("lastDecisionPrice")) {
                     map.put("lastDecisionPrice", rule.getDecisionPrice1());
-                    rule1Flag = false;
-                    map.put("rule1", detailinfo);
-                    ruleList.clear();
-                    if ((mixMatchDetailInfo1.getQuantity() - (rule.getConditionCount1() - sumCount1)) > 0) {
-                        info.setQuantity(mixMatchDetailInfo1.getQuantity() - (rule.getConditionCount1() - sumCount1));
-                        ruleList.add(info);
-                    }
-                    continue;
+                }
+                if(map.containsKey("lastDecisionPrice")){
+                    detailinfo.setAveragePrice(rule.getAveragePrice1() > (double)map.get("lastDecisionPrice") ? (double)map.get("lastDecisionPrice") : rule.getAveragePrice1());
+                } else{
+                    detailinfo.setAveragePrice(rule.getAveragePrice1());
+                }
+                int times = sumCount / rule.getConditionCount1();
+                sumCount = sumCount % rule.getConditionCount1();
+                remainder = mixMatchDetailInfo1.getQuantity() - sumCount;
+                ruleentryinfo1.setQuantity(remainder);
+                ruleList.add(ruleentryinfo1);
+                detailinfo.addEntryList(ruleList);
+                if (map.containsKey("rule1")) {
+                    ((DetailInfo) map.get("rule1")).addEntryList(ruleList);
+                    ((DetailInfo) map.get("rule1")).setTimes(((DetailInfo) map.get("rule1")).getTimes() + times);
                 } else {
-                    int times = sumCount / rule.getConditionCount1();
-                    sumCount = sumCount % rule.getConditionCount1();
-                    remainder = mixMatchDetailInfo1.getQuantity() - sumCount;
-                    ruleentryinfo1.setQuantity(remainder);
-                    ruleList.add(ruleentryinfo1);
-                    detailinfo.addEntryList(ruleList);
-                    if (map.containsKey("rule1")) {
-                        ((DetailInfo) map.get("rule1")).addEntryList(ruleList);
-                        ((DetailInfo) map.get("rule1")).setTimes(((DetailInfo) map.get("rule1")).getTimes() + times);
-                    } else {
-                        detailinfo.setTimes(times);
-                        map.put("rule1", detailinfo);
-                    }
+                    detailinfo.setTimes(times);
+                    map.put("rule1", detailinfo);
                 }
                 ruleList.clear();
             }

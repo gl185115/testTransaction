@@ -7,9 +7,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import ncr.res.mobilepos.model.ResultBase;
 
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DailyReport")
-public class DailyReport {
+public class DailyReport extends ResultBase {
 
     /**
      * private variable that will store the value of company id
@@ -88,7 +89,7 @@ public class DailyReport {
      * private variable that will store the value of item amount
      */
     @XmlElement(name = "ItemAmt")
-    private String itemAmt;
+    private int itemAmt;
 
     /**
      * @return the companyId
@@ -261,14 +262,14 @@ public class DailyReport {
     /**
      * @return the itemAmt
      */
-    public String getItemAmt() {
+    public int getItemAmt() {
         return itemAmt;
     }
 
     /**
      * @param itemAmt the itemAmt to set
      */
-    public void setItemAmt(String itemAmt) {
+    public void setItemAmt(int itemAmt) {
         this.itemAmt = itemAmt;
     }
 
@@ -280,7 +281,4 @@ public class DailyReport {
                 + ", workStationId=" + workStationId + ", businessDayDate=" + businessDayDate + ", itemCount="
                 + itemCount + ", itemAmt=" + itemAmt + "]";
     }
-    
-    
-    
 }

@@ -8,7 +8,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 /**
  * PluChange Model Object.
  *
- * <P>An PluChange Node in POSLog XML.
+ * <P>
+ * An PluChange Node in POSLog XML.
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
@@ -22,91 +23,95 @@ public class PluChange {
     /** The BeforeDeptCode. */
     @XmlElement(name = "BeforeDeptCode")
     private String beforeDeptCode;
-    
+
     /** The BeforeMdInternal. */
     @XmlElement(name = "BeforeMdInternal")
     private String beforeMdInternal;
-    
+
     /** The BeforeMdName. */
     @XmlElement(name = "BeforeMdName")
     private String beforeMdName;
-    
+
     /** The BeforeSku. */
     @XmlElement(name = "BeforeSku")
     private String beforeSku;
-    
+
     /** The BeforeSalesPrice. */
     @XmlElement(name = "BeforeSalesPrice")
     private int beforeSalesPrice;
-    
+
     /** The BeforeSalesAmt. */
     @XmlElement(name = "BeforeSalesAmt")
     private int beforeSalesAmt;
-    
+
     /** The BeforeItemCnt. */
     @XmlElement(name = "BeforeItemCnt")
     private int beforeItemCnt;
-    
+
     /** The BeforeTaxType. */
     @XmlElement(name = "BeforeTaxType")
     private String beforeTaxType;
-    
+
     /** The BeforeColorId. */
     @XmlElement(name = "BeforeColorId")
     private String beforeColorId;
-    
+
     /** The BeforeSizeId. */
     @XmlElement(name = "BeforeSizeId")
     private String beforeSizeId;
-    
+
     /** The AfterMdInternal. */
     @XmlElement(name = "AfterMdInternal")
     private String afterMdInternal;
-    
+
     /** The AfterMdName. */
     @XmlElement(name = "AfterMdName")
     private String afterMdName;
-    
+
     /** The AfterSku. */
     @XmlElement(name = "AfterSku")
     private String afterSku;
-    
+
     /** The AfterSalesPrice. */
     @XmlElement(name = "AfterSalesPrice")
     private int afterSalesPrice;
-    
+
     /** The AfterSalesAmt. */
     @XmlElement(name = "AfterSalesAmt")
     private int afterSalesAmt;
-    
+
     /** The AfterTaxType. */
     @XmlElement(name = "AfterTaxType")
     private String afterTaxType;
-    
+
     /** The AfterColorId. */
     @XmlElement(name = "AfterColorId")
     private String afterColorId;
-    
+
     /** The AfterColorName. */
     @XmlElement(name = "AfterColorName")
     private String afterColorName;
-    
+
     /** The AfterSizeId. */
     @XmlElement(name = "AfterSizeId")
     private String afterSizeId;
-    
+
     /** The AfterSizeName. */
     @XmlElement(name = "AfterSizeName")
     private String afterSizeName;
-    
+
+    /** The AfterScanBarCode. */
+    @XmlElement(name = "AfterScanBarCode")
+    private String afterScanBarCode;
+
     /** The PendingItemCnt. */
     @XmlElement(name = "PendingItemCnt")
     private int pendingItemCnt;
-    
+
     /** The ItemCnt. */
     @XmlElement(name = "ItemCnt")
     private int itemCnt;
-    
+
     public final String getBeforeSlipLineNo() {
         return beforeSlipLineNo;
     }
@@ -290,4 +295,13 @@ public class PluChange {
     public final void setAfterSizeName(String afterSizeName) {
         this.afterSizeName = afterSizeName;
     }
+
+    public String getAfterScanBarCode() {
+        return afterScanBarCode;
+    }
+
+    public void setAfterScanBarCode(String afterScanBarCode) {
+        this.afterScanBarCode = afterScanBarCode;
+    }
+
 }

@@ -46,7 +46,6 @@ import ncr.res.mobilepos.report.model.AccountancyReport;
 import ncr.res.mobilepos.report.model.ClerkProductReport;
 import ncr.res.mobilepos.report.model.Column;
 import ncr.res.mobilepos.report.model.DailyReport;
-import ncr.res.mobilepos.report.model.DailyReportItems;
 import ncr.res.mobilepos.report.model.DepartmentReport;
 import ncr.res.mobilepos.report.model.DetailReport;
 import ncr.res.mobilepos.report.model.Details;
@@ -63,16 +62,6 @@ import ncr.res.mobilepos.report.model.SalesTargetMarketReport;
 import ncr.res.mobilepos.report.model.StoreReport;
 import ncr.res.mobilepos.report.model.TotalAmount;
 import ncr.res.mobilepos.simpleprinterdriver.NetPrinterInfo;
-
-/**
- * 改定履歴
- * バージョン      改定日付      担当者名        改定内容
- * 1.01            2014.10.21    MAJINHUI        レポート出力を対応
- * 1.02            2014.11.27    FENGSHA         売上表を対応
- * 1.03            2014.12.08    FENGSHA         レポート出力を対応
- * 1.04            2014.12.29    MAJINHUI        会計レポート出力を対応
- * 1.05            2015.1.21     MAJINHUI        精算会計レポート出力を対応
- */
 
 /**
  * A Data Access Object implementation for Report Generation.
@@ -2542,23 +2531,22 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
             selectStmnt.setString(SQLStatement.PARAM4, businessDate);
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             resultSet = selectStmnt.executeQuery();
-            
-            while(resultSet.next()){
+
+            while (resultSet.next()) {
                 dailyReport = new DailyReport();
                 dailyReport.setCompanyId(resultSet.getString("CompanyId"));
                 dailyReport.setStoreId(resultSet.getString("StoreId"));
+                dailyReport.setWorkStationId(resultSet.getString("WorkstationId"));
                 dailyReport.setDataType(resultSet.getString("DataType"));
                 dailyReport.setItemLevel1(resultSet.getString("ItemLevel1"));
                 dailyReport.setItemLevel2(resultSet.getString("ItemLevel2"));
                 dailyReport.setItemLevel3(resultSet.getString("ItemLevel3"));
                 dailyReport.setItemLevel4(resultSet.getString("ItemLevel4"));
-                dailyReport.setWorkStationId(resultSet.getString("WorkstationId"));
                 dailyReport.setItemName(resultSet.getString("ItemName"));
-                dailyReport.setItemAmt(resultSet.getString("ItemAmt"));
                 dailyReport.setItemCount(resultSet.getInt("ItemCnt"));
+                dailyReport.setItemAmt(resultSet.getInt("ItemAmt"));
                 dailyReportItems.add(dailyReport);
             }
-     
          } catch (Exception e) {
              LOGGER.logAlert(PROG_NAME,
                      functionName,
@@ -2572,7 +2560,6 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
              closeConnectionObjects(connection, prepdStatement, resultSet);
              tp.methodExit(dailyReportItems);
          }
-
         return dailyReportItems;
     }
     

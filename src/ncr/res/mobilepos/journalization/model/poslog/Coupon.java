@@ -11,14 +11,10 @@
 
 package ncr.res.mobilepos.journalization.model.poslog;
 
-import java.util.Collections;
-import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlValue;
 
 /**
  * Coupon Model Object.
@@ -47,6 +43,21 @@ public class Coupon {
     @XmlElement(name="CouponIssueCount")
     private int couponIssueCount;
     /**
+     * CouponUnitPrice
+     */
+    @XmlElement(name="CouponUnitPrice")
+    private int couponUnitPrice;
+    /**
+     * CouponIssueType
+     */
+    @XmlElement(name="CouponIssueType")
+    private int couponIssueType;
+    /**
+     * CouponReceiptName
+     */
+    @XmlElement(name="CouponReceiptName")
+    private String couponReceiptName;
+	/**
      * @return the couponFlag
      */
     public Coupon(){
@@ -83,6 +94,42 @@ public class Coupon {
      */
     public final void setCouponIssueCount(final int couponIssueCount) {
         this.couponIssueCount = couponIssueCount;
+    }
+    /**
+     * @return the couponUnitPrice
+     */
+    public final int getCouponUnitPrice() {
+        return couponUnitPrice;
+    }
+    /**
+     * @param couponUnitPrice the couponUnitPrice to set
+     */
+    public final void setCouponUnitPrice(final int couponUnitPrice) {
+        this.couponUnitPrice = couponUnitPrice;
+    }
+    /**
+     * @return the couponIssueType
+     */
+    public final int getCouponIssueType() {
+        return couponIssueType;
+    }
+    /**
+     * @param couponIssueType the couponIssueType to set
+     */
+    public final void setCouponIssueType(final int couponIssueType) {
+        this.couponIssueType = couponIssueType;
+    }
+    /**
+     * @return the couponReceiptName
+     */
+    public final String getCouponReceiptName() {
+        return couponReceiptName;
+    }
+    /**
+     * @param couponReceiptName the couponReceiptName to set
+     */
+    public final void setCouponReceiptName(final String couponReceiptName) {
+        this.couponReceiptName = couponReceiptName;
     }
     public final String toString() {
         StringBuilder str = new StringBuilder();

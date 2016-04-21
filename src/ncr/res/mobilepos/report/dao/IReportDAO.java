@@ -442,6 +442,5 @@ public interface IReportDAO {
 	 */
 	List<DailyReport> getDailyReportItems(final String companyId, final String storeId,
 	        final String terminalId, final String businessDate, final int trainingFlag) throws DaoException;
-
-
+	
 }

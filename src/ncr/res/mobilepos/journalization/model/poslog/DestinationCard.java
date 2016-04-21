@@ -16,6 +16,9 @@ public class DestinationCard {
     @XmlElement(name = "CreditCardCompanyCodeTo")
     private String creditCardCompanyCodeTo;
 
+    @XmlElement(name = "UnifiedMembershipIdTo")
+    private String unifiedMembershipIdTo;
+
     @XmlElement(name = "InputtedMembershipId")
     private InputtedMembershipId inputtedMembershipId;
     /**
@@ -57,7 +60,21 @@ public class DestinationCard {
     public void setCreditCardCompanyCodeTo(String creditCardCompanyCodeTo) {
         this.creditCardCompanyCodeTo = creditCardCompanyCodeTo;
     }
-    
+
+	    /**
+     * @return the unifiedMembershipIdTo
+     */
+    public String getUnifiedMembershipIdTo() {
+        return unifiedMembershipIdTo;
+    }
+
+    /**
+     * @param unifiedMembershipIdTo the unifiedMembershipIdTo to set
+     */
+    public void setUnifiedMembershipIdTo(String unifiedMembershipIdTo) {
+        this.unifiedMembershipIdTo = unifiedMembershipIdTo;
+    }
+
     /**
      * @param inputtedMembershipId the inputtedMembershipId to set
      */
@@ -97,6 +114,35 @@ public class DestinationCard {
      */
     public void setMembershipId13To(String membershipId13To) {
         this.membershipId13To = membershipId13To;
+    }
+
+    /**
+     * @return the rank
+     */
+    public int getRank() {
+        return rank;
+    }
+
+    /**
+     * @param rank the rank to set
+     */
+    public void setRand(int rank) {
+        this.rank = rank;
+    }
+
+	
+    /**
+     * @return the points
+     */
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * @param rank the rank to set
+     */
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     /* (non-Javadoc)

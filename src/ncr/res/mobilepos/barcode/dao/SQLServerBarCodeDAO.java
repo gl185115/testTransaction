@@ -149,14 +149,16 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
     }
 
     @Override
-    public boolean isMemberCard(String cardCode) throws DaoException {
+    public JSONObject isMemberCard(String cardCode) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("cardCode", cardCode);
 
         PreparedStatement selectStmnt = null;
         ResultSet resultSet = null;
         Connection connection = null;
+        JSONObject flagArray = new JSONObject();
         boolean flag = false;
+        boolean newRegistFlag = false;
         try {
             connection = dbManager.getConnection();
            
@@ -170,20 +172,29 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
                 if(!StringUtility.isNullOrEmpty(cardCode)) {
                     if(cardCode.length() == MEMBERCARD13) {
                         if(cardCode.startsWith(resultSet.getString("PrefixCode13"))){
+                        	newRegistFlag = "1".equals(resultSet.getString("NewRegistFlag"));
                             flag = true;
+                            flagArray.put("cardTypeId",resultSet.getString("CardTypeId"));
+                            flagArray.put("subCode2",resultSet.getString("SubCode2"));
+                            flagArray.put("subCode3",resultSet.getString("SubCode3"));
                             break;
                         }
                     } else {
                         if(cardCode.startsWith(resultSet.getString("PrefixCode16From")) 
                                 || cardCode.startsWith(resultSet.getString("PrefixCode16To"))){
+                        	newRegistFlag = "1".equals(resultSet.getString("NewRegistFlag"));
                             flag = true;
+                            flagArray.put("cardTypeId",resultSet.getString("CardTypeId"));
+                            flagArray.put("subCode2",resultSet.getString("SubCode2"));
+                            flagArray.put("subCode3",resultSet.getString("SubCode3"));
                             break;
                         } 
                     }
               }
                                 
             }
-           
+            flagArray.put("flag",flag);
+            flagArray.put("newRegistFlag",newRegistFlag);
         } catch (SQLStatementException sqlStmtEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     functionName + ": Failed to get Discount infomation.", sqlStmtEx);
@@ -198,8 +209,8 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
             throw new DaoException("Exception:" + " @SQLServerBarCodeDAO.getDiscountInfo", ex);
         } finally {
             closeConnectionObjects(connection, selectStmnt, resultSet);
-            tp.methodExit(flag);
+            tp.methodExit(flagArray);
         }
-        return flag;
+        return flagArray;
     }
 }

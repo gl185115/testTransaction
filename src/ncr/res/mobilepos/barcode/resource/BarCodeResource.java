@@ -103,7 +103,7 @@ public class BarCodeResource {
             }
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IBarCodeDAO iBarCodeDAO = sqlServer.getDiscountInfo();
-            jsondata.setJsonObject(String.valueOf(iBarCodeDAO.isMemberCard(cardCode)));
+            jsondata.setJsonObject(iBarCodeDAO.isMemberCard(cardCode).toString());
         } catch (DaoException e) {
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
                     functionName + ": Failed to get discount infomation.", e);

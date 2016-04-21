@@ -55,6 +55,13 @@ public class LineItem {
      */
     @XmlElement(name = "Sale")
     private Sale sale;
+    
+    /**
+     * The private member variable that will hold the LayawaySale.
+     */
+    @XmlElement(name = "LayawaySale")
+    private LayawaySale layawaySale;
+
     /**
      * The private member variable that will hold the Discount.
      */
@@ -72,6 +79,12 @@ public class LineItem {
      */
     @XmlElement(name = "Return")
     private Return retrn;
+
+    /**
+     * The private member variable that will hold the LayawayReturn.
+     */
+    @XmlElement(name = "LayawayReturn")
+    private LayawayReturn layawayReturn;
 
     /**
      * The private member variable that will hold the member points info.
@@ -204,6 +217,22 @@ public class LineItem {
         this.retrn = retrnToSet;
     }
     /**
+     * Gets the LayawayReturn under LineItem.
+     *
+     * @return        The LayawayReturn under LineItem.
+     */
+    public LayawayReturn getLayawayReturn() {
+        return layawayReturn;
+    }
+    /**
+     * Sets the LayawayReturn under LineItem.
+     *
+     * @param layawayReturn       The new value for the LayawayReturn under LineItem.
+     */
+    public void setLayawayReturn(final LayawayReturn layawayReturn) {
+        this.layawayReturn = layawayReturn;
+    }
+    /**
      * Gets the Discount under LineItem.
      *
      * @return        The Discount under LineItem.
@@ -242,6 +271,22 @@ public class LineItem {
      */
     public final Sale getSale() {
         return sale;
+    }
+    /**
+     * Sets the LayawaySale under LineItem.
+     *
+     * @param layawaySale        The new value for the LayawaySale under LineItem.
+     */
+    public final void setLayawaySale(final LayawaySale layawaySale) {
+        this.layawaySale = layawaySale;
+    }
+    /**
+     * Gets the LayawaySale under LineItem.
+     *
+     * @return        The LayawaySale under LineItem.
+     */
+    public final LayawaySale getLayawaySale() {
+        return layawaySale;
     }
     /**
      * Sets the Sale under LineItem.
@@ -460,8 +505,16 @@ public class LineItem {
             str.append(crlf).append("Sale : ").append(this.sale.toString());
         }
 
+        if (null != this.layawaySale) {
+            str.append(crlf).append("LayawaySale : ").append(this.layawaySale.toString());
+        }
+
         if (null != this.retrn) {
             str.append(crlf).append("Return : ").append(this.retrn.toString());
+        }
+
+        if (null != this.layawayReturn) {
+            str.append(crlf).append("LayawayReturn : ").append(this.layawayReturn.toString());
         }
 
         if (null != this.tender) {

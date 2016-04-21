@@ -34,6 +34,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Tender {
 
     /**
+    * The private member variable that will hold the VoucherId of Tender.
+    */
+    @XmlElement(name = "VoucherId")
+    private String voucherId;
+
+    /**
+    * The private member variable that will hold the VoucherName of Tender.
+    */
+    @XmlElement(name = "VoucherName")
+    private String voucherName;
+
+    /**
      * The private member variable that will hold the amount of Tender.
      */
     @XmlElement(name = "Amount")
@@ -398,6 +410,34 @@ public class Tender {
      */
     public final void setOther(final Other other) {
         this.other = other;
+    }
+
+    /**
+     * @return the voucherId
+     */
+    public final String getVoucherId() {
+        return voucherId;
+    }
+
+    /**
+     * @param voucherId the voucherId to set
+     */
+    public final void setVoucherId(String voucherId) {
+        this.voucherId = voucherId;
+    }
+
+    /**
+     * @return the voucherName
+     */
+    public final String getVoucherName() {
+        return voucherName;
+    }
+
+    /**
+     * @param voucherName the voucherName to set
+     */
+    public final void setVoucherName(String voucherName) {
+        this.voucherName = voucherName;
     }
 
 }

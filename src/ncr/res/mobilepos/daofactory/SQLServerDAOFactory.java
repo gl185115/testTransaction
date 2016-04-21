@@ -81,6 +81,8 @@ import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.networkreceipt.dao.SQLServerReceiptDAO;
 import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
 import ncr.res.mobilepos.offlinecredit.dao.SQLServerOfflineCreditDAO;
+import ncr.res.mobilepos.point.dao.IPointDAO;
+import ncr.res.mobilepos.point.dao.SQLServerPointDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
@@ -105,82 +107,79 @@ import ncr.res.mobilepos.tillinfo.dao.SQLServerTillInfoDAO;
 
 /**
  * SQLServerDAOFactory is DAO Factory dedicated for SQLServer only.
- * @see        DAOFactory
+ * 
+ * @see DAOFactory
  */
 public class SQLServerDAOFactory extends DAOFactory {
 
     /**
-      * The constructor of the class.
-      */
+     * The constructor of the class.
+     */
     public SQLServerDAOFactory() {
     }
 
     @Override
-    public final ICorpStoreDAO getCorpStoreDAO()
-            throws DaoException {
+    public final ICorpStoreDAO getCorpStoreDAO() throws DaoException {
         return new SQLServerCorpStoreDAO();
     }
 
-   @Override
-   public final IDepartmentDAO getDepartmentDAO()
-           throws DaoException {
-       return new SQLServerDepartmentDAO();
-   }
+    @Override
+    public final IDepartmentDAO getDepartmentDAO() throws DaoException {
+        return new SQLServerDepartmentDAO();
+    }
 
-   @Override
+    @Override
     public final IItemDAO getItemDAO() throws DaoException {
         return new SQLServerItemDAO();
     }
 
-   @Override
-   public final IClassInfoDAO getClassInfoDAO() throws DaoException {
-       return new SQLServerClassInfoDAO();
-   }
+    @Override
+    public final IClassInfoDAO getClassInfoDAO() throws DaoException {
+        return new SQLServerClassInfoDAO();
+    }
 
-   @Override
-   public final ILineDAO getLineDAO() throws DaoException {
-       return new SQLServerLineDAO();
-   }
+    @Override
+    public final ILineDAO getLineDAO() throws DaoException {
+        return new SQLServerLineDAO();
+    }
 
-   @Override
-    public final ICreditDAO getCreditDAO()
-         throws DaoException {
+    @Override
+    public final ICreditDAO getCreditDAO() throws DaoException {
         return new SQLServerCreditDAO();
     }
 
-   @Override
+    @Override
     public final IPosLogDAO getPOSLogDAO() throws DaoException {
         return new SQLServerPosLogDAO();
     }
 
-   @Override
+    @Override
     public final IAuthAdminDao getAuthAdminDAO() throws DaoException {
         return new AuthAdminDao();
     }
 
-   @Override
+    @Override
     public final IAuthDeviceDao getAuthDeviceDAO() throws DaoException {
         return new AuthDeviceDao();
     }
 
-   @Override
+    @Override
     public final ICustomerDAO getCustomerDAO() throws DaoException {
         return new SQLServerCustomerInfoDAO();
     }
 
-   @Override
+    @Override
     public final ICredentialDAO getCredentialDAO() throws DaoException {
         return new SQLServerCredentialDAO();
     }
 
-   @Override
+    @Override
     public final IReportDAO getReportDAO() throws DaoException {
         return new SQLServerReportDAO();
     }
 
-   @Override
-    public final SQLServerSystemConfigDAO getSystemConfigDAO()
-    throws DaoException {
+    @Override
+    public final SQLServerSystemConfigDAO getSystemConfigDAO() throws DaoException {
         return new SQLServerSystemConfigDAO();
     }
 
@@ -200,14 +199,12 @@ public class SQLServerDAOFactory extends DAOFactory {
     }
 
     @Override
-    public final IForwardItemListDAO getForwardItemListDAO()
-    throws DaoException {
+    public final IForwardItemListDAO getForwardItemListDAO() throws DaoException {
         return new SQLServerForwardItemListDAO();
     }
 
     @Override
-    public final IDeviceInfoDAO getDeviceInfoDAO()
-    throws DaoException {
+    public final IDeviceInfoDAO getDeviceInfoDAO() throws DaoException {
         return new SQLDeviceInfoDAO();
     }
 
@@ -242,14 +239,12 @@ public class SQLServerDAOFactory extends DAOFactory {
     }
 
     @Override
-    public final ILinkDAO getQueueBusterLinkDAO()
-        throws DaoException {
+    public final ILinkDAO getQueueBusterLinkDAO() throws DaoException {
         return new SQLQueueBusterLinkDAO();
     }
 
     @Override
-    public final ILinkDAO getCreditAuthorizationLinkDAO()
-        throws DaoException {
+    public final ILinkDAO getCreditAuthorizationLinkDAO() throws DaoException {
         return new SQLCreditAuthorizationLinkDAO();
     }
 
@@ -290,12 +285,12 @@ public class SQLServerDAOFactory extends DAOFactory {
 
     @Override
     public DiscountPlanInfoCommomDAO getDiscountPlanInfoCommomDAO() throws DaoException {
-    	return new SQLServerDiscountPlanInfoCommonDAO();
+        return new SQLServerDiscountPlanInfoCommonDAO();
     }
-    
+
     @Override
     public IBarneysCommonDAO getBarneysCommonDAO() throws DaoException {
-    	return new SQLServerBarneysCommonDAO();
+        return new SQLServerBarneysCommonDAO();
     }
 
     @Override
@@ -305,49 +300,49 @@ public class SQLServerDAOFactory extends DAOFactory {
 
     @Override
     public ICardInfoDAO getCardInfoDAO() throws Exception {
-    	return new SQLServerCardInfoDAO();
+        return new SQLServerCardInfoDAO();
     }
-    
+
     @Override
     public ITenderInfoDAO getTenderInfoDAO() throws Exception {
-    	return new SQLServerTenderInfoDAO();
+        return new SQLServerTenderInfoDAO();
     }
-    
+
     @Override
     public ICustomerClassInfoDAO getCustomerClassInfoDAO() throws Exception {
-    	return new SQLServerCustomerClassInfoDAO();
+        return new SQLServerCustomerClassInfoDAO();
     }
-    
+
     @Override
     public INationalityInfoDAO getNationalityInfoDAO() throws Exception {
-    	return new SQLServerNationalityInfoDAO();
+        return new SQLServerNationalityInfoDAO();
     }
-    
+
     @Override
     public IBuyadditionalInfoDAO getBuyadditionalInfoDAO() throws Exception {
-    	return new SQLServerBuyadditionalInfoDAO();
+        return new SQLServerBuyadditionalInfoDAO();
     }
-    
+
     @Override
     public IBarCodeDAO getDiscountInfo() throws Exception {
         return new SQLServerBarCodeDAO();
     }
-    
+
     @Override
     public ISettlementInfoDAO getSettlementInfoDAO() throws Exception {
-    	return new SQLServerSettlementInfoDAO();
+        return new SQLServerSettlementInfoDAO();
     }
 
     @Override
     public IPromotionInfoDAO getPromotionInfoDAO() throws DaoException {
         return new SQLServerPromotionInfoDAO();
     }
-    
+
     @Override
     public IEventLogDAO getEventLogDAO() throws DaoException {
         return new SQLServerEventLogDAO();
     }
-    
+
     @Override
     public ICashAbstractDAO getCashAbstractDAO() throws DaoException {
         return new SQLServerCashAbstractDAO();
@@ -357,14 +352,30 @@ public class SQLServerDAOFactory extends DAOFactory {
     public IPremiumFlagDAO getPremiumFlagDAO() throws DaoException {
         return new SQLServerPremiumFlagDAO();
     }
-    
+
     @Override
     public IStoreDAO getCMPresetInfoDAO() throws DaoException {
         return new SQLServerStoreDAO();
     }
-    
+
     @Override
     public IOfflineCreditDAO getOfflineCreditDAO() throws DaoException {
         return new SQLServerOfflineCreditDAO();
     }
+
+    @Override
+    public IPointDAO getPointDAO() throws Exception {
+        return new SQLServerPointDAO();
+    }
+
+    @Override
+    public ICardInfoDAO getMemberInfo() throws Exception {
+        return new SQLServerCardInfoDAO();
+    }
+
+	@Override
+	public ICardInfoDAO getStatusInfo() throws Exception {
+		return new SQLServerCardInfoDAO();
+	}
+
 }

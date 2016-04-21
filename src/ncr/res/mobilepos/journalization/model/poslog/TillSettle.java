@@ -156,6 +156,12 @@ public class TillSettle {
     private LayawayPayments layawayPayments;
 
     /**
+     * GroupTicket (group tickets)
+     */
+    @XmlElement(name = "GroupTicket")
+    private GroupTicket groupTicket;
+
+    /**
      * CreditDebit (クレジット)
      */
     @XmlElement(name = "CreditDebit")
@@ -580,6 +586,20 @@ public class TillSettle {
      */
     public void setLayawayPayments(LayawayPayments layawayPayments) {
         this.layawayPayments = layawayPayments;
+    }
+
+    /**
+     * @return groupTicket
+     */
+    public GroupTicket getGroupTicket() {
+        return groupTicket;
+    }
+
+    /**
+     * @param groupTicket set groupTicket
+     */
+    public void setGroupTicet(GroupTicket groupTicket) {
+        this.groupTicket = groupTicket;
     }
 
     /**

@@ -38,6 +38,9 @@ public class AdditionalInformation {
 
     @XmlElement(name = "PoslogXML")
     private String poslogXML;
+    
+    @XmlElement(name="PostPointed")
+    private boolean isPostPointed;
 
 	public final String getVoided() {
 		return voided;
@@ -120,4 +123,13 @@ public class AdditionalInformation {
     public void setPoslogXML(String poslogXML) {
         this.poslogXML = poslogXML;
     }
+
+	public boolean isPostPointed() {
+		return isPostPointed;
+	}
+
+	public void setPostPointed(boolean isPostPointed) {
+		this.isPostPointed = isPostPointed;
+	}
+    
 }

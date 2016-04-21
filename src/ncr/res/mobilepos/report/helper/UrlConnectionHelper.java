@@ -21,6 +21,7 @@ public class UrlConnectionHelper {
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setDoOutput(true); 
 		conn.setUseCaches(false);
+		conn.setConnectTimeout(timeOut);
 		conn.setReadTimeout(timeOut);
 		conn.setRequestMethod("GET");
 		conn.connect();

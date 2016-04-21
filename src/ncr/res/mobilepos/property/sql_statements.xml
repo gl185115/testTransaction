@@ -658,6 +658,7 @@ SELECT
     info.BMPFileName,
     info.BMPFileFlag,
     info.BMPFileCount,
+    info.OutputType,
     info.DisplayOrder
 FROM 
     RESMaster.dbo.MST_QRCODE_INFO info
@@ -688,6 +689,7 @@ SELECT
     info.BMPFileName,
     info.BMPFileFlag,
     info.BMPFileCount,
+    info.OutputType,
     info.DisplayOrder
 FROM 
     RESMaster.dbo.MST_QRCODE_INFO info
@@ -1221,30 +1223,90 @@ ORDER BY
     DisplayOrder,
     TenderType
 </entry>
+
+<entry key="get-tender-info">
+DECLARE
+    @companyId VARCHAR (12),
+    @storeId VARCHAR (10),
+    @tenderType VARCHAR (50),
+    @tenderId VARCHAR(20)
+SET @storeId = LTRIM(RTRIM(?))
+SET @companyId = LTRIM(RTRIM(?))
+SET @tenderType = LTRIM(RTRIM(?)) 
+SET @tenderId = LTRIM(RTRIM(?)) 
+    
+IF NOT EXISTS (
+  SELECT
+    *
+  FROM 
+    RESMaster.dbo.MST_TENDERINFO
+  WHERE 
+    TenderType = @tenderType
+    AND DeleteFlag = 0.0
+    AND StoreId = @storeId
+    AND CompanyId = @companyId
+    AND TenderId = @tenderId
+)
+  SET @storeId = '0000'
+  
+SELECT
+    CompanyId,
+    StoreId,
+    TenderType,
+    TenderId,
+    TenderName,
+    TenderKanaName,
+    StampType,
+    PointType,
+    ChangeType,
+    UnitPrice,
+    DisplayOrder
+FROM
+    RESMaster.dbo.MST_TENDERINFO
+WHERE
+ TenderType = @tenderType
+AND DeleteFlag = 0.0
+AND StoreId = @storeId
+AND CompanyId = @companyId
+AND TenderId = @tenderId
+ORDER BY
+    DisplayOrder,
+    TenderType
+</entry>
+
+
 <entry key="get-cashAbstract-type">
 DECLARE
     @companyId VARCHAR (12),
     @storeId VARCHAR (10),
-    @cashFlowDirection VARCHAR (50)
+    @cashFlowDirection VARCHAR (50),
+    @tenderId VARCHAR (50),
+    @tenderType VARCHAR (50)
 SET @storeId = LTRIM(RTRIM(?))
 SET @companyId = LTRIM(RTRIM(?))
-SET @cashFlowDirection = LTRIM(RTRIM(?)) 
+SET @cashFlowDirection = LTRIM(RTRIM(?))
+SET @tenderId = LTRIM(RTRIM(?))
+SET @tenderType = LTRIM(RTRIM(?))
 SELECT
-    CompanyId,
-    StoreId,
-    CashFlowDirection,
-    CashFlowType,
-    RemarksId,
-    RemarksCol,
-    RemarksKanaCol
+    a.CompanyId,
+    a.StoreId,
+    a.CashFlowDirection,
+    a.CashFlowType,
+    a.RemarksId,
+    a.RemarksCol,
+    a.RemarksKanaCol
 FROM
-    RESMaster.dbo.MST_CASHFLOW_REMARKS
+    RESMaster.dbo.MST_CASHFLOW_REMARKS a,
+    RESMaster.dbo.MST_TENDERINFO b
 WHERE
-    StoreId = @storeId
-AND CompanyId = @companyId
-AND CashFlowDirection = @cashFlowDirection
+    a.StoreId = @storeId
+AND a.CompanyId = @companyId
+AND a.CashFlowDirection = @cashFlowDirection
+AND b.TenderId = @tenderId
+AND b.TenderType = @tenderType
+AND b.TenderId = a.CashFlowType
 ORDER BY
-    CashFlowDirection
+    a.CashFlowDirection
 </entry>
    <entry key="get-event-list">
    DECLARE @eventId VARCHAR(20), @eventKbn int, @businessDateId int,
@@ -2271,6 +2333,7 @@ ORDER BY
     FROM
       TXL_SUMMARYRECEIPT_HISTORY
     WHERE
+      CompanyId = ? AND
       RetailStoreId = ? AND
       WorkstationId = ? AND
       SequenceNumber = ? AND
@@ -10726,32 +10789,21 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     )
       SET @storeId = '0000'
     
-    SELECT
+     SELECT
       tender.CompanyId,
       tender.StoreId,
       tender.TenderId,
       tender.TenderType,
       tender.TenderName,
-      tender.TenderKanaName,
-      voucher.BusinessDayDate,
-      voucher.TrainingFlag,
-      voucher.SalesItemCnt,
-      voucher.SalesItemAmt
+      tender.TenderKanaName
     FROM
       RESMaster.dbo.MST_TENDERINFO tender
-    LEFT JOIN
-      RESTransaction.dbo.TXU_TOTAL_VOUCHER_SUMDAY voucher
-    ON
-      tender.CompanyId = voucher.CompanyId AND
-      tender.TenderId = voucher.VoucherCompanyId AND
-      voucher.BusinessDayDate = @businessDayDate AND
-      voucher.TrainingFlag = @trainingFlag AND
-      voucher.RetailStoreId =  @origStoreId
     WHERE
       tender.CompanyId = @companyId AND
       tender.StoreId = @storeId AND
       tender.TenderType = 1 AND
       tender.DeleteFlag = 0.0
+    
   </entry>
 <entry key = "get-promotioninfo-type">
 DECLARE
@@ -10918,7 +10970,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TxType = @txtype AND
       TrainingFlag = @trainingFlag
   </entry>
-<entry key="get-card-type-info">    
+<entry key="get-card-type-info">
         DECLARE
           @companyId varchar(max),
           @storeId varchar(max),
@@ -10931,7 +10983,6 @@ SET @partialFlag = LTRIM(RTRIM(?))
         SELECT
           CompanyId,
           StoreId,
-          CardClassId,
           CardTypeId,
           CardTypeName,
           CardTypeKanaName,
@@ -10949,6 +11000,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
           CardCategory,
           PointAllowanceFlag,
           PointExpDateAddMonth,
+          SubCode1,
           UCUseArea,
           PrefixCode16From,
           PrefixCode16To,
@@ -10960,7 +11012,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
         WHERE
           CompanyId = @companyId AND
           StoreId = @storeId AND
-          CardClassId = @cardTypeNo AND
+          CardTypeId = @cardTypeNo AND
           DeleteFlag = 0.0
   </entry>
   <entry key="get-last-pay-tx-poslog">
@@ -10993,7 +11045,72 @@ SET @partialFlag = LTRIM(RTRIM(?))
     ORDER BY
       InsDateTime DESC
   </entry>
-<entry key="get-all-card-type-info">    
+<entry key = "get-member-info">
+  DECLARE @companyId varchar(max), @storeId varchar(max), @memberId2 varchar(max)
+  SET @companyId = ?
+   SET @storeId = ?
+   SET @memberId2 = ?
+  SELECT TOP 1
+  CompanyId,
+  StoreId,
+  MemberId,
+  CardCompanyId,
+  MemberId1,
+  MemberId2,
+  CardType,
+  MemberRank,
+  MemberStatus,
+  MemberType,
+  MemberTypeNext,
+  MemberTypeUpdDate,
+  SubCode1,
+  SubCode2,
+  SubCode3,
+  SubCode4,
+  SubCode5,
+  SubNum1,
+  SubNum2,
+  SubNum3,
+  SubNum4,
+  SubNum5
+  FROM RESMaster.dbo.MST_MEMBERINFO
+  WHERE
+  CompanyId = @companyId
+  AND StoreId = @storeId
+  AND MemberId2 = @memberId2
+  AND DeleteFlag = 0.0
+</entry>
+<entry key = "get-status-info">
+  DECLARE @companyId varchar(max), @storeId varchar(max), @memberStatus varchar(max)
+  SET @companyId = ?
+   SET @storeId = ?
+   SET @memberStatus = ?
+  SELECT TOP 1
+  CompanyId,
+  StoreId,
+  MemberStatus,
+  MemberStatusName,
+  RegisterFlag,
+  PointAddFlag,
+  PointUseFlag,
+  SubCode1,
+  SubCode2,
+  SubCode3,
+  SubCode4,
+  SubCode5,
+  SubNum1,
+  SubNum2,
+  SubNum3,
+  SubNum4,
+  SubNum5
+  FROM RESMaster.dbo.MST_MEMBERSTATUS
+  WHERE
+  CompanyId = @companyId
+  AND StoreId = @storeId
+  AND MemberStatus = @memberStatus
+  AND DeleteFlag = 0.0
+</entry>
+<entry key="get-all-card-type-info">
         DECLARE
           @companyId varchar(max),
           @storeId varchar(max)
@@ -11022,6 +11139,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
           CardCategory,
           PointAllowanceFlag,
           PointExpDateAddMonth,
+          SubCode1,
           UCUseArea,
           PrefixCode16From,
           PrefixCode16To,
@@ -11398,9 +11516,22 @@ SELECT
        plu.UpdDate,
        plu.UpdAppId,
        plu.UpdOpeCode,
-       plu.DiscountType
+       plu.DiscountType,
+       colorInfo.Colorkananame,
+       sizeInfo.SizeKanaName
 FROM 
   RESMaster.dbo.MST_PLU plu
+  
+LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo 
+ON plu.CompanyId = colorInfo.CompanyId
+AND plu.StoreId = colorInfo.StoreId
+AND plu.Md01 = colorInfo.ColorId
+AND colorInfo.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_SIZEINFO sizeInfo
+ON plu.CompanyId = sizeInfo.CompanyId
+AND plu.StoreId = sizeInfo.StoreId
+AND plu.Md05 = sizeInfo.SizeId
+  
 WHERE plu.companyId = @companyId
 AND plu.MdInternal = @MdInternal
 AND plu.StoreId = '0'
@@ -11412,9 +11543,13 @@ SET        @MdInternal = LTRIM(RTRIM(?))
     SELECT 
         CompanyId,
         StoreId,
+        CardTypeId,
         PrefixCode13,
         PrefixCode16From,
-        PrefixCode16To
+        PrefixCode16To,
+        NewRegistFlag,
+        SubCode2,
+        SubCode3
     FROM RESMaster.dbo.MST_CARD_TYPEINFO
     WHERE
     DeleteFlag = 0.0
@@ -11516,52 +11651,42 @@ insert into txl_offline_credit
   values
     (?, ?, ?, ?, ?, ?, ?, ?, sysdatetime())
 </entry>
-  <entry key="get-report-items">
+<entry key="get-report-items">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
+      @retailstoreid varchar(max),
       @terminalId varchar(max),
       @businessDate varchar(max),
       @trainingFlag tinyint
       
     SET @companyId = ?
     SET @storeId = ?
-    SET @terminalId = ?
+    SET @terminalId = NULLIF(?, '')
     SET @businessDate = ?
     SET @trainingFlag = ?
+    SET @retailstoreid = @storeId
     
+    IF NOT EXISTS(SELECT DataType FROM RESMaster.dbo.MST_NAME_DAILYREPORT WHERE StoreId = @storeId)
+      SET @storeId = '0'
+      
     SELECT
       a.CompanyId,
       a.StoreId,
       a.DataType,
-      a.ItemName,
-      a.DisplayOrder,
       a.ItemLevel1,
       a.ItemLevel2,
       a.ItemLevel3,
       a.ItemLevel4,
+      a.ItemName,
+      a.DisplayOrder,
       b.WorkstationId,
-      (CASE
-        WHEN @terminalId IS NULL
-        THEN (
-          SELECT TOP 1
-            BusinessDayDate
-          FROM
-            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
-          WHERE
-            CompanyId = @companyId AND
-            RetailStoreId = @storeId AND
-            ItemType = a.DataType AND
-            BusinessDayDate = @businessDate AND
-            TrainingFlag = @trainingFlag) 
-        ELSE
-          b.BusinessDayDate
-      END) as BusinessDayDate,
+      b.RetailStoreId,
       (CASE 
         WHEN @terminalId IS NULL
         THEN (
           SELECT 
-            SUM(ItemCnt) 
+            SUM(ItemCnt)
           FROM 
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
@@ -11569,7 +11694,7 @@ insert into txl_offline_credit
             RetailStoreId = @storeId AND
             ItemType = a.DataType AND
             BusinessDayDate = @businessDate AND
-            TrainingFlag = @trainingFlag) 
+            TrainingFlag = @trainingFlag)
         ELSE
           b.ItemCnt
       END) AS ItemCnt,
@@ -11577,7 +11702,7 @@ insert into txl_offline_credit
         WHEN @terminalId IS NULL
         THEN (
           SELECT 
-            SUM(ItemAmt) 
+            SUM(ItemAmt)
           FROM 
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
@@ -11595,14 +11720,735 @@ insert into txl_offline_credit
       RESTransaction.dbo.TXU_TOTAL_DAILYREPORT b
     ON
       a.CompanyId = b.CompanyId AND
-      a.StoreId = b.RetailStoreId AND
       a.DataType = b.ItemType AND
-      b.WorkstationId = @terminalId AND
+      a.ItemLevel1 = b.ItemLevel1 AND
+      a.ItemLevel2 = b.ItemLevel2 AND
+      a.ItemLevel3 = b.ItemLevel3 AND
+      a.ItemLevel4 = b.ItemLevel4 AND
       b.BusinessDayDate = @businessDate AND
       b.TrainingFlag = @trainingFlag
     WHERE
       a.CompanyId = @companyId AND
-      a.StoreId = @storeId  AND
-      a.DeleteFlag = 0.0
+      a.StoreId = @storeId AND
+      b.RetailStoreId = @retailstoreId AND
+      a.DeleteFlag = 0.0 AND
+      b.WorkstationId = COALESCE(@terminalId, b.WorkstationId)
+    ORDER BY
+      a.DataType, 
+      cast(a.ItemLevel1 as int), 
+      cast(a.ItemLevel2 as int), 
+      cast(a.ItemLevel3 as int), 
+      a.ItemLevel4, 
+      a.DisplayOrder ASC
+</entry>
+<entry key="get-point-item-rate">
+  DECLARE
+  @companyId varchar(12),
+  @bizCategoryId varchar(20),
+  @storeId varchar(10),
+  @targetType varchar(10),
+  @deptCode varchar(10),
+  @businessDate date
+
+  SET @companyId = ?
+  SET @storeId = ?
+  SET @businessDate = ?
+  SET @deptCode = ?
+  SET @bizCategoryId = '00'
+
+  IF NOT EXISTS(
+    SELECT 
+      base.RecordId
+    FROM
+      RESMaster.dbo.MST_POINT_INFO base
+    LEFT JOIN
+      RESMaster.dbo.MST_POINT_DPT dpt
+    ON
+      base.RecordId = dpt.RecordId
+    WHERE
+      base.TargetType = '3' AND base.StoreId = @storeId
+      AND base.DptSettingFlag = '1'
+      AND CONVERT(DATE,@businessDate) >= base.StartDate
+      AND @deptCode BETWEEN dpt.DptFrom AND dpt.DptTo)
+      BEGIN
+      IF NOT EXISTS(
+        SELECT
+          base.RecordId
+        FROM
+          RESMaster.dbo.MST_POINT_INFO base
+        LEFT JOIN
+          RESMaster.dbo.MST_POINT_DPT dpt
+        ON
+          base.RecordId = dpt.RecordId
+        WHERE
+          base.TargetType = '2' AND base.BizCatId = @bizCategoryId
+          AND base.DptSettingFlag = '1'
+          AND CONVERT(DATE,@businessDate) >= base.StartDate
+          AND @deptCode BETWEEN dpt.DptFrom AND dpt.DptTo)
+        BEGIN
+          SET @targetType = '1'
+          SET @bizCategoryId = '00'
+          SET @storeId = '0000'
+        END
+      ELSE
+        BEGIN
+        SET @targetType = '2'
+        SET @storeId = '0000'
+        END
+      END
+    ELSE
+      BEGIN
+      SET @targetType = '3'
+      END
+    SELECT 
+      base.PointFlag,
+      base.BasePrice,
+      base.RecordId,
+      dept.BasePoint,
+      dept.CardSettingFlag,
+      dept.StoreSettingFlag,
+      class.CardClassId
+    FROM
+      RESMaster.dbo.MST_POINT_INFO base 
+    LEFT JOIN
+      RESMaster.dbo.MST_POINT_DPT dept
+    ON
+      base.RecordId = dept.RecordId
+    LEFT JOIN
+      RESMaster.dbo.MST_POINT_DPT_CARD class
+    ON
+      base.RecordId = class.RecordId
+      AND
+      dept.CardSettingFlag = '1'
+    LEFT JOIN
+      RESMaster.dbo.MST_POINT_DPT_STORE store
+    ON
+      base.RecordId = store.RecordId
+    WHERE
+      base.CompanyId = @companyId
+      AND
+      base.TargetType = @targetType
+      AND
+      base.BizCatId = @bizCategoryId
+      AND
+      base.StoreId = @storeId
+      AND
+      CONVERT(DATE,@businessDate) >= base.StartDate
+      AND
+      base.DeleteFlag = 0.0
+      AND
+      base.DptSettingFlag = '1'
+      AND
+      dept.StoreSettingFlag = '0'
+      OR 
+      (dept.StoreSettingFlag = '1' AND store.StoreId = @storeId)
+      AND
+      base.RecordId = dept.RecordId
+</entry>
+<entry key="get-point-item-campaign-rate">
+  DECLARE
+  @companyId varchar(12),
+  @storeId varchar(10),
+  @targetType varchar(10),
+  @deptCode varchar(10),
+  @businessDate date,
+  @groupCode varchar(20),
+  @brandId varchar(20),
+  @sku varchar(20)
+
+  SET @companyId = ?
+  SET @storeId = ?
+  SET @businessDate = ?
+  SET @deptCode = ?
+  SET @groupCode = ?
+  SET @brandId = ?
+  SET @sku = ?
+
+  SELECT
+    base.PointType,
+    base.BasePrice,
+    base.RecordId,
+    base.BasePointCash,
+    base.BasePointAffiliate,
+    base.BasePointNonAffiliate,
+    base.TargetDaySettingFlag,
+    base.TargetDay1,
+    base.TargetDay2,
+    base.TargetDay3,
+    base.TargetDay4,
+    base.TargetDay5,
+    base.TargetDay6,
+    base.TargetDay7,
+    base.TargetDay8,
+    base.TargetDay9,
+    base.DayOfWeekSettingFlag,
+    base.DayOfWeekMonFlag,
+    base.DayOfWeekTueFlag,
+    base.DayOfWeekWedFlag,
+    base.DayOfWeekThuFlag,
+    base.DayOfWeekFriFlag,
+    base.DayOfWeekSatFlag,
+    base.DayOfWeekSunFlag,
+    base.CardSettingFlag,
+    base.TargetStoreType,
+    base.ItemSettingFlag,
+    base.DptSettingFlag,
+    base.TargetStoreType,
+    pointcard.CardClassId,
+    iteminfo.GroupTargetType,
+    iteminfo.GroupIdStart,
+    iteminfo.GroupIdEnd,
+    iteminfo.DptTargetType,
+    iteminfo.DptStart,
+    iteminfo.DptEnd,
+    iteminfo.BrandTargetType,
+    iteminfo.BrandIdStart,
+    iteminfo.BrandIdEnd,
+    iteminfo.SkuTargetType,
+    iteminfo.SkuStart,
+    iteminfo.SkuEnd,
+    itemdetail.TargetType,
+    itemdetail.TargetId
+  FROM
+    RESMaster.dbo.MST_CAMPAIGN_INFO base
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_ITEM_INFO iteminfo
+  ON
+    base.RecordId = iteminfo.RecordId
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_ITEM_DETAIL itemdetail
+  ON
+    base.RecordId = itemdetail.RecordId
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
+  ON
+    base.RecordId = pointcard.RecordId
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_STORE store
+  ON
+    base.RecordId = store.RecordId
+  WHERE
+    base.CompanyId = @companyId
+    AND
+    CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
+    AND
+    base.DeleteFlag = 0.0
+    AND
+    ((base.RecordId = iteminfo.RecordId)
+    OR base.ItemSettingFlag = '0')
+    AND
+    ((base.TargetStoreType = '1' AND store.StoreId = @storeId)
+    OR base.TargetStoreType = '0' OR base.TargetStoreType = '2')
+</entry>
+<entry key="get-point-dpt-campaign-rate">
+  DECLARE
+  @companyId varchar(12),
+  @storeId varchar(10),
+  @targetType varchar(10),
+  @deptCode varchar(10),
+  @businessDate date
+
+  SET @companyId = ?
+  SET @storeId = ?
+  SET @businessDate = ?
+  SET @deptCode = ?
+
+  SELECT
+    base.PointType,
+    base.BasePrice,
+    base.RecordId,
+    base.TargetDaySettingFlag,
+    base.TargetDay1,
+    base.TargetDay2,
+    base.TargetDay3,
+    base.TargetDay4,
+    base.TargetDay5,
+    base.TargetDay6,
+    base.TargetDay7,
+    base.TargetDay8,
+    base.TargetDay9,
+    base.DayOfWeekSettingFlag,
+    base.DayOfWeekMonFlag,
+    base.DayOfWeekTueFlag,
+    base.DayOfWeekWedFlag,
+    base.DayOfWeekThuFlag,
+    base.DayOfWeekFriFlag,
+    base.DayOfWeekSatFlag,
+    base.DayOfWeekSunFlag,
+    dept.BasePoint,
+    dept.CardSettingFlag,
+    dept.StoreSettingFlag,
+    base.DptSettingFlag,
+    base.ItemSettingFlag,
+    base.TargetStoreType,
+    class.CardClassId
+  FROM
+    RESMaster.dbo.MST_CAMPAIGN_INFO base 
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_DPT dept
+  ON
+    base.RecordId = dept.RecordId
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_DPT_CARD class
+  ON
+    base.RecordId = class.RecordId
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_DPT_STORE store
+  ON
+    base.RecordId = store.RecordId
+    AND
+    ((dept.StoreSettingFlag = '1' AND store.StoreId = @storeId)
+    OR dept.StoreSettingFlag = '0')
+  WHERE
+    base.CompanyId = @companyId
+    AND
+    CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
+    AND
+    @deptCode BETWEEN dept.DptFrom AND dept.DptTo
+    AND
+    base.DeleteFlag = 0.0
+    AND
+    base.DptSettingFlag = '1'
+    AND
+    ((dept.StoreSettingFlag = '0') OR 
+      (dept.StoreSettingFlag = '1' AND store.StoreId = @storeId))
+    AND
+    base.RecordId = dept.RecordId
+</entry>
+<entry key="get-point-tran-rate">
+  DECLARE
+  @companyId varchar(12),
+  @bizCategoryId varchar(20),
+  @storeId varchar(10),
+  @targetType varchar(10),
+  @cardClassId varchar(10),
+  @businessDate date
+  
+  SET @companyId = ?
+  SET @storeId = ?
+  SET @businessDate = ?
+  SET @cardClassId = ?
+  SET @bizCategoryId = '00'
+
+  IF NOT EXISTS(
+    SELECT 
+      RecordId
+    FROM
+      RESMaster.dbo.MST_POINT_INFO
+    WHERE
+      CompanyId = @companyId AND
+      TargetType = '3' AND StoreId = @storeId
+      AND CONVERT(DATE,@businessDate) >= StartDate)
+      BEGIN
+        IF NOT EXISTS(
+          SELECT
+            RecordId
+          FROM
+            RESMaster.dbo.MST_POINT_INFO
+          WHERE
+          CompanyId = @companyId AND
+          TargetType = '2' AND BizCatId = @bizCategoryId
+          AND CONVERT(DATE,@businessDate) >= StartDate)
+          BEGIN
+            SET @targetType = '1'
+            SET @bizCategoryId = '00'
+            SET @storeId = '0000'
+          END
+        ELSE
+          BEGIN
+            SET @targetType = '2'
+            SET @storeId = '0000'
+          END
+      END
+      ELSE
+        BEGIN
+          SET @targetType = '3'
+        END
+  IF EXISTS(
+    SELECT 
+      base.RecordId
+    FROM
+      RESMaster.dbo.MST_POINT_INFO base 
+    LEFT JOIN
+      RESMaster.dbo.MST_POINT_CARD pointcard
+    ON
+      base.RecordId = pointcard.RecordId
+    WHERE
+      base.CompanyId = @companyId
+      AND
+      base.TargetType = @targetType
+      AND
+      base.BizCatId = @bizCategoryId
+      AND
+      base.StoreId = @storeId
+      AND
+      pointcard.CardClassId = @cardClassId
+      AND
+      CONVERT(DATE,@businessDate) >= base.StartDate
+      AND
+      base.DeleteFlag = 0.0
+      AND 
+      base.CardSettingFlag = '1'
+      AND 
+      base.DptSettingFlag = '0'
+      AND
+      base.RecordId = pointcard.RecordId)
+   SELECT 
+      base.PointFlag,
+      base.BasePrice,
+      base.RecordId,
+      pointcard.BasePointCash,
+      pointcard.BasePointAffiliate,
+      pointcard.BasePointNonAffiliate,
+      base.PointCalcType,
+      base.TaxCalcType,
+      base.RoundType,
+      base.CardSettingFlag,
+      base.DptSettingFlag
+    FROM
+      RESMaster.dbo.MST_POINT_INFO base 
+    LEFT JOIN
+      RESMaster.dbo.MST_POINT_CARD pointcard
+    ON
+      base.RecordId = pointcard.RecordId
+    WHERE
+      base.CompanyId = @companyId
+      AND
+      base.TargetType = @targetType
+      AND
+      base.BizCatId = @bizCategoryId
+      AND
+      base.StoreId = @storeId
+      AND
+      pointcard.CardClassId = @cardClassId
+      AND
+      CONVERT(DATE,@businessDate) >= base.StartDate
+      AND
+      base.DeleteFlag = 0.0
+      AND
+      base.CardSettingFlag = '1'
+      AND
+      base.DptSettingFlag = '0'
+      AND
+      base.RecordId = pointcard.RecordId
+  ELSE
+    SELECT
+      base.PointFlag,
+      base.BasePrice,
+      base.RecordId,
+      base.BasePointCash,
+      base.BasePointAffiliate,
+      base.BasePointNonAffiliate,
+      base.PointCalcType,
+      base.TaxCalcType,
+      base.RoundType,
+      base.CardSettingFlag,
+      base.DptSettingFlag
+    FROM
+      RESMaster.dbo.MST_POINT_INFO base 
+    WHERE
+      base.CompanyId = @companyId
+      AND
+      base.TargetType = @targetType
+      AND
+      base.BizCatId = @bizCategoryId
+      AND
+      base.StoreId = @storeId
+      AND
+      CONVERT(DATE,@businessDate) >= base.StartDate
+      AND
+      base.DeleteFlag = 0.0
+</entry>
+<entry key="get-point-tran-rate-campaign">
+  DECLARE
+  @companyId varchar(12),
+  @bizCategoryId varchar(20),
+  @storeId varchar(10),
+  @targetType varchar(10),
+  @businessDate date,
+  @cardClassId varchar(10)
+
+  SET @companyId = ?
+  SET @storeId = ?
+  SET @businessDate = ?
+  SET @cardClassId = ?
+  SET @bizCategoryId = '00'
+  IF EXISTS(
+    SELECT 
+      base.RecordId
+    FROM
+      RESMaster.dbo.MST_CAMPAIGN_INFO base 
+    LEFT JOIN
+      RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
+    ON
+      base.RecordId = pointcard.RecordId
+    LEFT JOIN
+      RESMaster.dbo.MST_CAMPAIGN_STORE store
+    ON
+      base.RecordId = store.RecordId
+    WHERE
+    base.CompanyId = @companyId AND
+    ((base.TargetStoreType = '1' AND store.StoreId = @storeId) OR
+    base.TargetStoreType = '0' OR base.TargetStoreType = '2') 
+    AND
+    (base.CardSettingFlag= '1' AND pointcard.CardClassId = @cardClassId)
+    AND
+    CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate)
+    BEGIN
+      SELECT 
+        base.PointType,
+        base.BasePrice,
+        base.RecordId,
+        base.CampaignName,
+        base.TargetDaySettingFlag,
+        base.TargetDay1,
+        base.TargetDay2,
+        base.TargetDay3,
+        base.TargetDay4,
+        base.TargetDay5,
+        base.TargetDay6,
+        base.TargetDay7,
+        base.TargetDay8,
+        base.TargetDay9,
+        base.DayOfWeekSettingFlag,
+        base.DayOfWeekMonFlag,
+        base.DayOfWeekTueFlag,
+        base.DayOfWeekWedFlag,
+        base.DayOfWeekThuFlag,
+        base.DayOfWeekFriFlag,
+        base.DayOfWeekSatFlag,
+        base.DayOfWeekSunFlag,
+        pointcard.BasePointCash,
+        pointcard.BasePointAffiliate,
+        pointcard.BasePointNonAffiliate,
+        base.TargetStoreType,
+        base.CardSettingFlag,
+        base.DptSettingFlag,
+        base.ItemSettingFlag
+      FROM
+        RESMaster.dbo.MST_CAMPAIGN_INFO base 
+      LEFT JOIN
+        RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
+      ON
+        base.RecordId = pointcard.RecordId
+      LEFT JOIN
+        RESMaster.dbo.MST_CAMPAIGN_STORE store
+      ON
+        base.RecordId = store.RecordId
+      WHERE
+        base.CompanyId = @companyId
+        AND
+        ((base.TargetStoreType  = '1' AND store.StoreId = @storeId) OR
+        base.TargetStoreType  = '0' OR base.TargetStoreType  = '2')
+        AND
+        base.CardSettingFlag = '1'
+        AND
+        pointcard.CardClassId = @cardClassId
+        AND
+        CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
+        AND
+        base.DeleteFlag = 0.0
+    END
+  ELSE
+    SELECT 
+      base.PointType,
+      base.BasePrice,
+      base.RecordId,
+      base.CampaignName,
+      base.TargetDaySettingFlag,
+      base.TargetDay1,
+      base.TargetDay2,
+      base.TargetDay3,
+      base.TargetDay4,
+      base.TargetDay5,
+      base.TargetDay6,
+      base.TargetDay7,
+      base.TargetDay8,
+      base.TargetDay9,
+      base.DayOfWeekSettingFlag,
+      base.DayOfWeekMonFlag,
+      base.DayOfWeekTueFlag,
+      base.DayOfWeekWedFlag,
+      base.DayOfWeekThuFlag,
+      base.DayOfWeekFriFlag,
+      base.DayOfWeekSatFlag,
+      base.DayOfWeekSunFlag,
+      base.BasePointCash,
+      base.BasePointAffiliate,
+      base.BasePointNonAffiliate,
+      base.TargetStoreType,
+      base.CardSettingFlag,
+      base.DptSettingFlag,
+      base.ItemSettingFlag
+    FROM
+      RESMaster.dbo.MST_CAMPAIGN_INFO base 
+    LEFT JOIN
+      RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
+    ON
+      base.RecordId = pointcard.RecordId
+    LEFT JOIN
+      RESMaster.dbo.MST_CAMPAIGN_STORE store
+    ON
+      base.RecordId = store.RecordId
+    WHERE
+      base.CompanyId = @companyId
+      AND
+      ((base.TargetStoreType  = '1' AND store.StoreId = @storeId) OR
+      base.TargetStoreType  = '0' OR base.TargetStoreType  = '2')
+      AND
+      base.CardSettingFlag = '0'
+      AND
+      CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
+      AND
+      base.DeleteFlag = 0.0
+</entry>
+<entry key="get-report-item">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @terminalId varchar(max),
+      @businessDate varchar(max),
+      @trainingFlag tinyint,
+      @dataType varchar(max),
+      @itemLevel1 varchar(max),
+      @itemLevel2 varchar(max)
+      
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @terminalId = ?
+    SET @businessDate = ?
+    SET @trainingFlag = ?
+    SET @dataType = ?
+    SET @itemLevel1 = ?
+    SET @itemLevel2 = ?
+    
+   SELECT
+      a.CompanyId,
+      a.RetailStoreId,
+      a.BusinessDayDate,
+      a.TrainingFlag,
+      a.ItemType,
+      a.ItemLevel1,
+      a.ItemLevel2,
+      a.ItemLevel3,
+      a.ItemLevel4,
+      a.WorkstationId,
+	  a.ItemCnt,
+	  a.ItemAmt,
+	   (SELECT 
+            SUM(ItemCnt)
+          FROM 
+            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
+          WHERE
+            CompanyId = @companyId AND
+            RetailStoreId = @storeId AND
+            ItemType = @dataType AND
+            BusinessDayDate = @businessDate AND
+            TrainingFlag = @trainingFlag AND
+            ItemLevel1 = @itemLevel1 AND
+		    ItemLevel2 = @itemLevel2
+			Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
+			) as CntSum,
+	  (SELECT 
+            SUM(ItemAmt)
+          FROM 
+            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
+          WHERE
+            CompanyId = @companyId AND
+            RetailStoreId = @storeId AND
+            ItemType = @dataType AND
+            BusinessDayDate = @businessDate AND
+            TrainingFlag = @trainingFlag AND
+            ItemLevel1 = @itemLevel1 AND
+		    ItemLevel2 = @itemLevel2
+			Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
+			) as AmtSum
+      
+	  FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
+	  WHERE
+	   a.CompanyId = @companyId AND
+       a.RetailStoreId = @storeId AND
+	   a.WorkstationId = @terminalId AND
+	   a.BusinessDayDate = @businessDate  AND
+	   a.ItemType = @dataType AND
+	   a.itemLevel1 = @itemLevel1 AND
+	   a.itemLevel2 = @itemLevel2 AND
+	   a.TrainingFlag = @trainingFlag
+
+</entry>
+
+<entry key="get-voucher-details">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @terminalId varchar(max),
+      @businessDate varchar(max),
+      @trainingFlag tinyint,
+      @tenderId varchar(max)
+           
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @terminalId = ?
+    SET @businessDate = ?
+    SET @trainingFlag = ?
+    SET @tenderId = ?
+       
+   SELECT
+      a.CompanyId,
+      a.RetailStoreId,
+      a.BusinessDayDate,
+      a.TrainingFlag,
+      a.ItemType,
+      a.ItemLevel1,
+      a.ItemLevel2,
+      a.ItemLevel3,
+      a.ItemLevel4,
+      a.WorkstationId,
+	  a.ItemCnt,
+	  a.ItemAmt
+	  FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
+	  WHERE
+	   a.CompanyId = @companyId AND
+       a.RetailStoreId = @storeId AND
+	   a.WorkstationId = @terminalId AND
+	   a.BusinessDayDate = @businessDate  AND
+	   a.ItemType = '2' AND
+	   (a.itemLevel1 = '01' OR a.itemLevel1 = '02') AND
+	   a.itemLevel3 = @tenderId AND
+	   a.TrainingFlag = @trainingFlag AND
+	   a.itemLevel2 in ('01', '12', '13', '14', '15')
+	   ORDER BY a.ItemLevel2 ASC
+</entry>
+<entry key="get-postpoint-status">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @workstationId varchar(max),
+      @businessDate varchar(max),
+      @txId varchar(max),
+      @trainingFlag tinyint
+          
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @workstationId = ?
+    SET @businessDate = ?
+    SET @txId = ?
+    SET @trainingFlag = ?
+      
+    SELECT
+      SalesAmt, 
+      BusinessDayDate,
+      SequenceNumber,
+      OriginalSequenceNumber
+    FROM
+      RESTransaction.dbo.TXL_POINT_AFTERADD
+    WHERE
+      CompanyId = @companyId AND
+      RetailStoreId = @storeId AND
+      WorkStationId = @workstationId AND
+      BusinessDayDate = @businessDate AND
+      TrainingFlag = @trainingFlag AND
+      OriginalSequenceNumber = @txId
   </entry>
+
 </properties>

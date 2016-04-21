@@ -15,7 +15,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <properties>
     <project.build.sourceEncoding>MS932</project.build.sourceEncoding>
     <project.reporting.outputEncoding>MS932</project.reporting.outputEncoding>
-    <maven.test.skip>false</maven.test.skip>
+    <maven.test.skip>true</maven.test.skip>
     <version.snapshot>-SNAPSHOT</version.snapshot>
     <build.number>0</build.number>
     <svn.revision>0</svn.revision>
@@ -309,12 +309,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <groupId>net.java.dev.jna</groupId>
         <artifactId>jna</artifactId>
         <version>3.3.0</version>
-    </dependency>
-    <dependency>
-        <groupId>ncr.res.giftcard.toppan</groupId>
-        <artifactId>toppan-giftcard-mobile</artifactId>
-        <version>1.0.0</version>
-        <scope>provided</scope>
     </dependency>
     <dependency>
         <groupId>ncr.res.pointserver</groupId>

@@ -1739,6 +1739,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 qr.setOutputTargetValue(result.getString(result.findColumn("OutputTargetValue")));
                 qr.setPromotionId(result.getString(result.findColumn("QRPromotionId")));
                 qr.setPromotionName(result.getString(result.findColumn("QRPromotionName")));
+                qr.setOutputType(result.getString(result.findColumn("OutputType")));
                 list.add(qr);
             }
             searchedItem.setQrCodeList(list);
@@ -2043,6 +2044,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setItemClass(result.getString(result.findColumn("Class")));
                 // Compute the Actual Sales Price
                 searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
+                searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
+                searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
 
                 // // ì¡îÑä«óù
                 // if (!isHasPromDetailInfo(actualStoreid, searchedItem,

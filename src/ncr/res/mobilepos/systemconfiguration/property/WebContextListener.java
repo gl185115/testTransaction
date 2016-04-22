@@ -17,14 +17,12 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.promotion.helper.TerminalItem;
+import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -142,7 +140,6 @@ public class WebContextListener implements ServletContextListener {
             GlobalConstant.setTodReadTimeout(Integer.parseInt(todReadTimeout));
         }
 
-        // global variable for switch time
         GlobalConstant.setInStoreParam1(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_1));
         GlobalConstant.setInStoreParam2(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_2));
         GlobalConstant.setInStoreParam3(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_3));
@@ -154,6 +151,33 @@ public class WebContextListener implements ServletContextListener {
         GlobalConstant.setInStoreParam9(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_9));
         GlobalConstant.setInStoreParam10(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_10));
         GlobalConstant.setInStoreParam11(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_11));
+
+
+        String taxRate = sysParams.get(GlobalConstant.TAX_RATE_KEY);
+        if (!StringUtility.isNullOrEmpty(taxRate)) {
+            taxRate = "0";
+        }
+        GlobalConstant.setTaxRate(taxRate);
+
+        GlobalConstant.setRange1(sysParams.get(GlobalConstant.DOC_TAX_RANGE1_KEY));
+
+        GlobalConstant.setDefaultLanguage(sysParams.get(GlobalConstant.DEFAULT_LANGUAGE));
+
+        String apiServerTimeout = sysParams.get(GlobalConstant.API_SERVER_TIMEOUT);
+        if(!StringUtility.isNullOrEmpty()) {
+            GlobalConstant.setApiServerTimeout(Integer.parseInt(apiServerTimeout));
+        }
+
+        String priceIncludeTax = sysParams.get(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
+        if(StringUtility.isNullOrEmpty()) {
+            priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
+        }
+        GlobalConstant.setPriceIncludeTaxKey(priceIncludeTax);
+
+        GlobalConstant.setPricingType(sysParams.get(GlobalConstant.PRICING_TYPE));
+
+        GlobalConstant.setEnterpriseServerTimeout(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT);
+        GlobalConstant.setEnterpriseServerUri(GlobalConstant.ENTERPRISE_SERVER_URI);
 
     }
 

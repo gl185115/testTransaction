@@ -10,14 +10,6 @@
 
 package ncr.res.mobilepos.mastermaintenance.resource;
 
-import javax.servlet.ServletContext;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -29,6 +21,14 @@ import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastermaintenance.model.MaintenanceTbl;
 import ncr.res.mobilepos.mastermaintenance.model.MdMMMastTbl;
 import ncr.res.mobilepos.model.ResultBase;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 /**
  * MasterMaintenanceResource Web Resource.
@@ -95,8 +95,8 @@ public class MasterMaintenanceResource {
      * @return string
      */
     private String computetax(final String pricenotax, final String mmtype) {
-        String rate =
-                     (String) context.getAttribute(GlobalConstant.TAX_RATE_KEY);
+        String rate = GlobalConstant.getTaxRate();
+
         double taxrate = 1 + (Double.parseDouble(rate) / ONEHUNDRED);
 
         if (mmtype.trim().equalsIgnoreCase(MMTYPE5)

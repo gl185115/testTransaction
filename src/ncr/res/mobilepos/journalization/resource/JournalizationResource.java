@@ -567,8 +567,8 @@ public class JournalizationResource {
         JSONObject result = null;
         String address = "";
         try {
-            int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-            String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+            int timeOut = GlobalConstant.getApiServerTimeout();
+            String apiUrl = GlobalConstant.getApiServerUrl();
             if ("JournalReceipt".equals(APIType)) {
                 address = apiUrl + JournalizationConstants.JOURNALDETAILS_URL;
                 result = UrlConnectionHelper.connectionForPost(address, JournalData, timeOut);

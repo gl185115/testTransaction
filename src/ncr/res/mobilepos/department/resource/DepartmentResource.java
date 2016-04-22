@@ -306,12 +306,7 @@ public class DepartmentResource {
             department.setUpdOpeCode(getOpeCode());   
             
             if(StringUtility.isNullOrEmpty(department.getTaxRate())){
-	            String taxRate = (String) context
-	                    .getAttribute(GlobalConstant.TAX_RATE_KEY);           
-	            if (null == taxRate || taxRate.isEmpty()) {
-	                taxRate = "0";
-	            }
-	            department.setTaxRate(taxRate);            
+	            department.setTaxRate(GlobalConstant.getTaxRate());
             }
             IDepartmentDAO dept = daoFactory.getDepartmentDAO();
             result = dept.createDepartment(storeid, dptid, department);
@@ -368,12 +363,7 @@ public class DepartmentResource {
                 department.setUpdOpeCode(getOpeCode());
 
                 if(StringUtility.isNullOrEmpty(department.getTaxRate())){
-    	            String taxRate = (String) context
-    	                    .getAttribute(GlobalConstant.TAX_RATE_KEY);           
-    	            if (null == taxRate || taxRate.isEmpty()) {
-    	                taxRate = "0";
-    	            }
-    	            department.setTaxRate(taxRate);            
+                    department.setTaxRate(GlobalConstant.getTaxRate());
                 }
                 
                 IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();

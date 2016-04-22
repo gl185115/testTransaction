@@ -76,8 +76,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 return salesCharge;
             }
             String value = Data;
-            int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-            String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+            int timeOut = GlobalConstant.getApiServerTimeout();
+            String apiUrl = GlobalConstant.getApiServerUrl();
             address = apiUrl + XebioApiConstants.SALESCHARGEAPI_UPDATE_URL;
             result = UrlConnectionHelper.connectionForPost(address,value, timeOut);
             if (StringUtility.isNullOrEmpty(result)) {
@@ -142,8 +142,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 return salesCharge;
             }
             String value = Data;
-            int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-            String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+            int timeOut = GlobalConstant.getApiServerTimeout();
+            String apiUrl = GlobalConstant.getApiServerUrl();
             address = apiUrl + XebioApiConstants.SALESCHARGEAPI_SEACHER_URL + value;
             result = UrlConnectionHelper.connectionForGet(address, timeOut);
             if (StringUtility.isNullOrEmpty(result)) {
@@ -207,7 +207,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             String address = "";
             String apiUrl = "";
             try {
-                apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                apiUrl = GlobalConstant.getApiServerUrl();
                 if (XebioApiConstants.TRASACTIONREPORTNAME.equals(reportType)) {
                     address = apiUrl + XebioApiConstants.TRASACTION_REPORT_URL + apiData;
                 } else if (XebioApiConstants.CREDITREPORTNAME.equals(reportType)) {
@@ -225,7 +225,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 } else if (XebioApiConstants.SINGLEITEMREPORTNAME.equals(reportType)) {
                     address = apiUrl + XebioApiConstants.SINGLEITEM_REPORT_URL + apiData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
+                int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
                 if (StringUtility.isNullOrEmpty(result)) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -286,9 +286,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             JSONObject result = null;
             String address = "";
             try {
-                address = context.getAttribute(GlobalConstant.API_SERVER_URL).toString()
-                        + XebioApiConstants.CASHINOUT_REPORT_URL + apiData;
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
+                address = GlobalConstant.getApiServerUrl() + XebioApiConstants.CASHINOUT_REPORT_URL + apiData;
+                int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
                 if (StringUtility.isNullOrEmpty(result)) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -355,7 +354,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             String address = "";
             String apiUrl = "";
             try {
-                apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                apiUrl = GlobalConstant.getApiServerUrl();
                 if (XebioApiConstants.GROUPREPORTNAME.equals(reportType)) {
                     address = apiUrl + XebioApiConstants.GROUP_REPORT_URL + apiData;
                 } else if (XebioApiConstants.DEPTREPORTNAME.equals(reportType)) {
@@ -363,7 +362,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 } else if (XebioApiConstants.CLASSREPORTNAME.equals(reportType)) {
                     address = apiUrl + XebioApiConstants.CLASS_REPORT_URL + apiData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
+                int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
                 if (StringUtility.isNullOrEmpty(result)) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -424,9 +423,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             JSONObject result = null;
             String address = "";
             try {
-                address = context.getAttribute(GlobalConstant.API_SERVER_URL).toString()
-                        + XebioApiConstants.OPERATION_REPORT_URL + apiData;
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
+                address = GlobalConstant.getApiServerUrl() + XebioApiConstants.OPERATION_REPORT_URL + apiData;
+                int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
                 if (StringUtility.isNullOrEmpty(result)) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -499,8 +497,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     jsonData.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 if (XebioApiConstants.APITYPE.equals(APIType)) {
                     address = apiUrl + XebioApiConstants.JOURNALDETAILS_URL;
                     result = UrlConnectionHelper.connectionForPost(address, JournalData, timeOut);
@@ -558,10 +556,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         }
         /**
          * forwardItems Update.
-         *
-         * @param APIType
-         *            the APIType
-         * @param JournalData
+         * @param Data
          *            the JournalData
          * @return the journal info.
          */
@@ -583,8 +578,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     jsonData.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 String address = apiUrl + XebioApiConstants.PROCESSINGTRAN_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
                 
@@ -639,17 +634,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
 
         /**
          * get HTT Transaction List and Detile data
-         * 
-         * @param ReferenceFlag
-         * @param CompanyId
-         * @param SlipNo
-         * @param StoreCode
-         * @param NotDicideFlag
-         * @param TerminalNo
-         * @param BusinessDateFrom
-         * @param BusinessDateTo
-         * @param Training
-         * @param Count
+         * @param param
          * @return
          */
         @Path("/gethhtinfo")
@@ -665,9 +650,9 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             JSONObject result = null;
             String companyCode = "";
             try {
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
+                int timeOut = GlobalConstant.getApiServerTimeout();
 
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 String address = apiUrl + XebioApiConstants.PROCESSINGTRAN_URL + param;
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
                 if (StringUtility.isNullOrEmpty(result)) {
@@ -818,17 +803,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         }
         /**
          * get PendingTran data
-         *  
-         * @param ReferenceFlag
-         * @param CompanyId
-         * @param SlipNo
-         * @param StoreCode
-         * @param GlanceSlipFlag
-         * @param Training
-         * @param OperatorId
-         * @param Application
-         * @param Count
-         * @return PendingTran data
+         * @param Data
+         * @return
          */
         @Path("/PendingTran")
         @POST
@@ -851,8 +827,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                 int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                 String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                 int timeOut = GlobalConstant.getApiServerTimeout();
+                 String apiUrl = GlobalConstant.getApiServerUrl();
                  address = apiUrl + XebioApiConstants.PENDINGTRANAPI_SEACHER_URL;
                  result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
           
@@ -893,16 +869,11 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             }
             return jsonData;
         }
+
         /**
          * get ItemPrice data
-         *  
-         * @param CompanyId
-         * @param StoreCode
-         * @param MdInternal
-         * @param Training
-         * @param OperatorId
-         * @param Application
-         * @return ItemPrice data
+         * @param Data
+         * @return
          */
         @Path("/getpricingsearch")
         @POST
@@ -925,8 +896,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                 int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                 String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                 int timeOut = GlobalConstant.getApiServerTimeout();
+                 String apiUrl = GlobalConstant.getApiServerUrl();
                  address = apiUrl + XebioApiConstants.ITEMPRICEAPI_SEACHER_URL;
                  result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
           
@@ -994,8 +965,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 address = apiUrl + XebioApiConstants.PENDINGTRANAPI_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
                 if (StringUtility.isNullOrEmpty(result)) {
@@ -1061,8 +1032,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 address = apiUrl + XebioApiConstants.PREMIUMITEMSTOREAPI_SEACHER_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
@@ -1127,8 +1098,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 address = apiUrl + XebioApiConstants.PREMIUMITEMSTOREAPI_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
@@ -1198,8 +1169,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 address = apiUrl + XebioApiConstants.SLIPNOAPI_SEACHER_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
@@ -1265,8 +1236,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     tp.methodExit(jsonData.toString());
                     return jsonData;
                 }
-                int timeOut = Integer.valueOf(context.getAttribute(GlobalConstant.API_SERVER_TIMEOUT).toString());
-                String apiUrl = context.getAttribute(GlobalConstant.API_SERVER_URL).toString();
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                String apiUrl = GlobalConstant.getApiServerUrl();
                 address = apiUrl + XebioApiConstants.SLIPNOAPI_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 

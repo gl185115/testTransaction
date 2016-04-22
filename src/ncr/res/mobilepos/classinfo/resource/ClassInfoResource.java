@@ -319,12 +319,7 @@ public class ClassInfoResource {
 		        return resultbase;            
             }         
             if(StringUtility.isNullOrEmpty(classInfo.getTaxRate())){
-	            String taxRate = (String) context
-	                    .getAttribute(GlobalConstant.TAX_RATE_KEY);   
-	            if (null == taxRate || taxRate.isEmpty()) {
-	                taxRate = "0";
-	            }      
-	            classInfo.setTaxRate(taxRate); 
+	            classInfo.setTaxRate(GlobalConstant.getTaxRate());
             }    
             IClassInfoDAO classInfoDAO = sqlServerDAO.getClassInfoDAO();
             resultbase = classInfoDAO.createClassInfo(classInfo);
@@ -469,12 +464,7 @@ public class ClassInfoResource {
             }             
             
             if(StringUtility.isNullOrEmpty(classInfo.getTaxRate())){
-	            String taxRate = (String) context
-	                    .getAttribute(GlobalConstant.TAX_RATE_KEY);   
-	            if (null == taxRate || taxRate.isEmpty()) {
-	                taxRate = "0";
-	            }      	           
-	            classInfo.setTaxRate(taxRate); 
+	            classInfo.setTaxRate(GlobalConstant.getTaxRate());
             } 
             
             ClassInfo updatedClassInfo;

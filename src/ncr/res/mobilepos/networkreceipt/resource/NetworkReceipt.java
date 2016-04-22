@@ -1136,8 +1136,7 @@ public class NetworkReceipt {
                 printResult =  PrintReceiptToImg.printImage(receiptsList,receiptMode,deviceNo,1);
             }else{
                 // get documentary tax stamp path
-                String docTaxRange1 = (String) servContext
-                    .getAttribute(GlobalConstant.DOC_TAX_RANGE1_KEY);
+                String docTaxRange1 = GlobalConstant.getRange1();
                 int docTaxRange1Begin = Integer.valueOf(docTaxRange1.split(",")[0]);
                 double cashTotal = receiptMode.getCashPament();
                 double cashChange = receiptMode.getTenderChange();
@@ -1625,8 +1624,7 @@ public class NetworkReceipt {
                 printResult =  PrintReceiptToImg.printImage(receiptsList,receiptMode,deviceNo,1);
             }else{
                 // get documentary tax stamp path
-                String docTaxRange1 = (String) servContext
-                    .getAttribute(GlobalConstant.DOC_TAX_RANGE1_KEY);
+                String docTaxRange1 = GlobalConstant.getRange1();
                 int docTaxRange1Begin = Integer.valueOf(docTaxRange1.split(",")[0]);
                 double cashTotal = receiptMode.getCashPament();
                 double cashChange = receiptMode.getTenderChange();
@@ -3949,8 +3947,7 @@ public class NetworkReceipt {
     public void setLanguage(String language, ReceiptMode receiptMode) {
         receiptMode.setLanguage(
                                 (StringUtility.isNullOrEmpty(language))
-                                ? (String)servContext
-                                    .getAttribute(GlobalConstant.DEFAULT_LANGUAGE)
+                                ? GlobalConstant.getDefaultLanguage()
                                 : language);
     }
 

@@ -503,13 +503,11 @@ public class PromotionResource {
     /**
      * get remote serverInfo
      * @param retailStoreId
-     * @param workStationId
-     * @param sequenceNumber
-     * @param transaction
+     * @param pluCode
      * @param companyId
      * @param businessDate
-     * @return the Item Info
-     * @throws Exception 
+     * @return
+     * @throws Exception
      */
     private final Item getdetailInfoData(String retailStoreId, String pluCode, String companyId, String businessDate) throws Exception {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -524,11 +522,11 @@ public class PromotionResource {
             valueResult.put("companyId", companyId);
             valueResult.put("businessDate", businessDate);
             int timeOut = 5;
-            String enterpriseServerTimeout = (String) context.getAttribute("EnterpriseServerTimeout");
+            String enterpriseServerTimeout = GlobalConstant.getEnterpriseServerTimeout();
             if (!StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
                 timeOut = Integer.valueOf(enterpriseServerTimeout.toString());
             }
-            String url = (String) context.getAttribute("EnterpriseServerUri") + REMOTE_UTL;
+            String url = GlobalConstant.getEnterpriseServerUri() + REMOTE_UTL;
             result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
             if (!StringUtility.isNullOrEmpty(result)) {
@@ -739,16 +737,14 @@ public class PromotionResource {
     /**
      * Item update to an existing item in the transaction a.) requesting of
      * removing or adding quantity b.) Change of Item's Price.
-     *
      * @param retailStoreId
      *            Store number where the transaction is coming from.
      * @param workStationId
      *            Device number where the transaction is coming from.
      * @param sequenceNumber
      *            Transaction number.
-     * @param transaction
+     * @param transactionJson
      *            Transaction in JSON.
-     * @param isDelete the  flag of the delete
      * @return {@link PromotionResponse}
      */
     @SuppressWarnings("unchecked")

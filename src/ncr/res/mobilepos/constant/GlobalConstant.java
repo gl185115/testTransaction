@@ -47,10 +47,6 @@ public final class GlobalConstant {
      */
     public static final String CREDENTIAL_EXPIRY_KEY = "CredentialExpiry";
     /**
-     * The Network Email Address for sending the Receipt.
-     */
-    public static final String EMAIL_ADDRESS_KEY = "EmailAddress";
-    /**
      * The SwitchTime of the BussinessDate.
      */
     public static final String SWITCHTIME_KEY = "SwitchTime";
@@ -70,7 +66,7 @@ public final class GlobalConstant {
      * The Default Language Setting.
      */
     public static final String DEFAULT_LANGUAGE = "DefaultLanguage";
-    /**
+   /**
      * The key of pastelPort Parameter.
      */
     public static final String PASTELPORTENV_PARAM_KEY =
@@ -99,30 +95,6 @@ public final class GlobalConstant {
      * Key for Multiple SOD on the businessdaydate.
      */
     public static final String MULTIPLE_SOD = "MultiSOD";
-    /**
-     * The Company ID.
-     */
-    private static String corpID = "";
-
-    /**
-     * The Credential Expiry.
-     */
-    private static String credentialExpiry = "";
-
-    private static String credentialDaysLeft = "";
-    
-    /**
-     * The Store Open time.
-     */
-    private static String storeOpenTime = "";
-    /**
-     * The Switch Time.
-     */
-    private static String switchTime = "";
-    /**
-     * Allow or disallow multiple SOD on businessdaydate.
-     */
-    private static boolean multiSOD = false;
     /**
      * The Key of Documentary Tax Range1.
      */
@@ -159,6 +131,9 @@ public final class GlobalConstant {
     public static final String CUSTOMER_TIER_LIST = "CustomerTierList";
     /** The Key for Search Limit. */
     public static final String MAX_SEARCH_RESULTS = "MaxSearchResults";
+    /** The Key Promotion TerminalItem(s). */
+    public static final String PROMOTION_TERMINAL_ITEMS =
+        "PromotionTerminalItems";
     /** The Key for credential day left warning. */
     public static final String CREDENTIAL_DAY_LEFT_WARNING = "CredentialDayLeftWarning";
     /**
@@ -174,7 +149,12 @@ public final class GlobalConstant {
     /** The FULL Percent. */
     public static final int PERCENT = 100;
     /** The Pricing Type **/
-    public static final String PRICINGTYPE = "PricingType";
+    public static final String PRICING_TYPE = "PricingType";
+    /** Enterprise Server Timeout */
+    public static final String ENTERPRISE_SERVER_TIMEOUT = "EnterpriseServerTimeout";
+    /** Enterprise Server Uri */
+    public static final String ENTERPRISE_SERVER_URI = "EnterpriseServerUri";
+
     /** The Mix Match Target **/
     public static final String MIXMATCHTARGET = "MixMatchTarget";
     /** The Member serverUri **/
@@ -187,10 +167,6 @@ public final class GlobalConstant {
     public static final String POINTSERVERPOINTRATE2 = "rate2";
     /** The MemberServer (Fantamiliar point rate3) **/
     public static final String POINTSERVERPOINTRATE3 = "rate3";
-    /** The Search Limit.
-     *  The default is 5.
-     */
-    private static int maxSearchResults = 5;
 
     /** Key to retrieve TodUrl from SystemConfig **/
     public static final String KEY_TOD_URI = "TodUri";
@@ -198,12 +174,6 @@ public final class GlobalConstant {
     public static final String KEY_TOD_CONNECTION_TIMEOUT = "TodConnectionTimeout";
     /** Key to retrieve TodReadTimeout from SystemConfig **/
     public static final String KEY_TOD_READ_TIMEOUT = "TodReadTimeout";
-
-    // Tod params
-    private static String todUri;
-    private static int todConnectionTimeout = 1000;
-    private static int todReadTimeout = 1000;
-
     /** Keys to retrieve InStoreParams **/
     public static final String KEY_INSTORE_PARAM_1 = "InStoreParam1";
     public static final String KEY_INSTORE_PARAM_2 = "InStoreParam2";
@@ -216,6 +186,16 @@ public final class GlobalConstant {
     public static final String KEY_INSTORE_PARAM_9 = "InStoreParam9";
     public static final String KEY_INSTORE_PARAM_10 = "InStoreParam10";
     public static final String KEY_INSTORE_PARAM_11 = "InStoreParam11";
+
+    /** The Search Limit.
+     *  The default is 5.
+     */
+    private static int maxSearchResults = 5;
+
+    // Tod params
+    private static String todUri;
+    private static int todConnectionTimeout = 1000;
+    private static int todReadTimeout = 1000;
 
     /**  Instore params. **/
     private static String inStoreParam1;
@@ -241,6 +221,58 @@ public final class GlobalConstant {
      */
     /** Search API URL **/
     public static final String INVENTORYORDERSEARCHURL = "InventoryOrderSearchUrl";  
+
+    private static String taxRate;
+    private static String pricingType;
+    private static String enterpriseServerTimeout;
+    private static String enterpriseServerUri;
+    private static String apiServerUrl;
+    private static int apiServerTimeout = 3000;
+    private static String priceIncludeTaxKey;
+    private static String range1;
+    private static String defaultLanguage;
+
+    /**
+     * The Company ID.
+     */
+    private static String corpID = "";
+
+    /**
+     * The Credential Expiry.
+     */
+    private static String credentialExpiry = "";
+
+    private static String credentialDaysLeft = "";
+
+    /**
+     * The Store Open time.
+     */
+    private static String storeOpenTime = "";
+    /**
+     * The Switch Time.
+     */
+    private static String switchTime = "";
+    /**
+     * Allow or disallow multiple SOD on businessdaydate.
+     */
+    private static boolean multiSOD = false;
+
+
+    /**
+     * Gets Tax Rate.
+     * @return
+     */
+    public static String getTaxRate() {
+        return taxRate;
+    }
+
+    /**
+     * Sets Tax Rate.
+     * @param taxRate
+     */
+    public static void setTaxRate(String taxRate) {
+        GlobalConstant.taxRate = taxRate;
+    }
 
     /**
      * Set the CORP ID.
@@ -498,6 +530,69 @@ public final class GlobalConstant {
 
     public static void setSystemConfig(Map<String, String> systemConfig) {
         GlobalConstant.systemConfig = systemConfig;
+    }
+
+    public static String getPricingType() {
+        return pricingType;
+    }
+
+    public static void setPricingType(String pricingType) {
+        GlobalConstant.pricingType = pricingType;
+    }
+
+    public static String getEnterpriseServerTimeout() {
+        return enterpriseServerTimeout;
+    }
+
+    public static void setEnterpriseServerTimeout(String enterpriseServerTimeout) {
+        GlobalConstant.enterpriseServerTimeout = enterpriseServerTimeout;
+    }
+    public static String getEnterpriseServerUri() {
+        return enterpriseServerUri;
+    }
+
+    public static void setEnterpriseServerUri(String enterpriseServerUri) {
+        GlobalConstant.enterpriseServerUri = enterpriseServerUri;
+    }
+
+    public static String getApiServerUrl() {
+        return apiServerUrl;
+    }
+
+    public static void setApiServerUrl(String apiServerUrl) {
+        GlobalConstant.apiServerUrl = apiServerUrl;
+    }
+
+    public static int getApiServerTimeout() {
+        return apiServerTimeout;
+    }
+
+    public static void setApiServerTimeout(int apiServerTimeout) {
+        GlobalConstant.apiServerTimeout = apiServerTimeout;
+    }
+
+    public static String getPriceIncludeTaxKey() {
+        return priceIncludeTaxKey;
+    }
+
+    public static void setPriceIncludeTaxKey(String priceIncludeTaxKey) {
+        GlobalConstant.priceIncludeTaxKey = priceIncludeTaxKey;
+    }
+
+    public static String getRange1() {
+        return range1;
+    }
+
+    public static void setRange1(String range1) {
+        GlobalConstant.range1 = range1;
+    }
+
+    public static String getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    public static void setDefaultLanguage(String defaultLanguage) {
+        GlobalConstant.defaultLanguage = defaultLanguage;
     }
 }
 

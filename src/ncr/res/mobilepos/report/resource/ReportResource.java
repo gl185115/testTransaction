@@ -658,8 +658,7 @@ public class ReportResource {
         // If parameter language is null, use default language
         String sysLanguage = "";
         if (language == null || "".equals(language)) {
-            sysLanguage = (String) context
-                    .getAttribute(GlobalConstant.DEFAULT_LANGUAGE);
+            sysLanguage = GlobalConstant.getDefaultLanguage();
         } else {
             sysLanguage = language;
         }
@@ -2668,8 +2667,7 @@ public class ReportResource {
         // If parameter language is null, use default language
         String sysLanguage = "";
         if (language == null || "".equals(language)) {
-            sysLanguage = (String) context
-                    .getAttribute(GlobalConstant.DEFAULT_LANGUAGE);
+            sysLanguage = GlobalConstant.getDefaultLanguage();
         } else {
             sysLanguage = language;
         }
@@ -2784,8 +2782,7 @@ public class ReportResource {
         // If parameter language is null, use default language
         String sysLanguage = "";
         if (language == null || "".equals(language)) {
-            sysLanguage = (String) context
-                    .getAttribute(GlobalConstant.DEFAULT_LANGUAGE);
+            sysLanguage = GlobalConstant.getDefaultLanguage();
         } else {
             sysLanguage = language;
         }

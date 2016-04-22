@@ -296,13 +296,8 @@ public class LineResource {
                 return resultbase;
             }          
             if(StringUtility.isNullOrEmpty(line.getTaxRate())){
-	            String taxRate = (String) context
-	                    .getAttribute(GlobalConstant.TAX_RATE_KEY);   
-	            if (null == taxRate || taxRate.isEmpty()) {
-	                taxRate = "0";
-	            }      
-	            line.setTaxRate(taxRate); 
-            }               
+                line.setTaxRate(GlobalConstant.getTaxRate());
+            }
             ILineDAO lineDAO = sqlServerDAO.getLineDAO();
             resultbase = lineDAO.createLine(line);
             
@@ -483,13 +478,8 @@ public class LineResource {
             }            
             
             if(StringUtility.isNullOrEmpty(line.getTaxRate())){
-	            String taxRate = (String) context
-	                    .getAttribute(GlobalConstant.TAX_RATE_KEY);   
-	            if (null == taxRate || taxRate.isEmpty()) {
-	                taxRate = "0";
-	            }      
-	            line.setTaxRate(taxRate); 
-            }               
+                line.setTaxRate(GlobalConstant.getTaxRate());
+            }
             
             Line updatedLine;
             ViewLine updatedViewLine = lineDAO.updateLine(retailStoreId, departmentid, lineid, line);

@@ -144,15 +144,13 @@ public class ItemResource {
      * Request Type: POST<br>
      * URL: {Base URI}/pricing/{storeid}/{plucode}<br>
      * Produces: {@link SearchedProduct} JSON Object<br>
-     * 
+     *
      * @param storeID
      *            The Store ID of the store which the item is located
      * @param pluCode
      *            The Item's Price Look Up
-     * @param deviceID
-     *            the device id
-     * @param oldSku  the old sku
-     * @param colorId  the colorId
+     * @param companyId
+     * @param bussinessDate
      * @return The details of an Item
      */
     @Path("/{storeid}/{plucode}")
@@ -187,10 +185,7 @@ public class ItemResource {
         Item returnItem = null;
         try {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
-            String priceIncludeTax = (String) context.getAttribute(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-            if (null == priceIncludeTax || priceIncludeTax.isEmpty()) {
-                priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
-            }
+            String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate);
             
         } catch (DaoException daoEx) {
@@ -271,11 +266,7 @@ public class ItemResource {
         try {
             int searchLimit = (limit == 0) ? GlobalConstant
                     .getMaxSearchResults() : limit;
-            String priceIncludeTax = (String) context
-                    .getAttribute(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-            if (null == priceIncludeTax || priceIncludeTax.isEmpty()) {
-                priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
-            }            
+            String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             itemData = itemDAO.listItems(storeId, key,name,
                     Integer.valueOf(priceIncludeTax), searchLimit);
@@ -349,12 +340,7 @@ public class ItemResource {
             int searchLimit = (limit == 0) ? 
             		GlobalConstant.getMaxSearchResults() : limit;
             
-            String priceIncludeTax = (String) context.getAttribute(
-            		GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-            if (StringUtility.isNullOrEmpty(priceIncludeTax)) {
-            	priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
-            }
-            
+            String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             itemData = itemDAO.searchItems(storeId, key, name, searchLimit, 
             		Integer.valueOf(priceIncludeTax));
@@ -403,19 +389,7 @@ public class ItemResource {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
                 .println("RetailStoreID", storeId).println("ItemID", itemId)
                 .println("Item", jsonItem);      
-        
-        String priceIncludeTax = (String) context
-                .getAttribute(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-        String taxRate = (String) context
-                .getAttribute(GlobalConstant.TAX_RATE_KEY);
 
-        if (StringUtility.isNullOrEmpty(taxRate)) {
-            taxRate = "0";
-        }
-        if (StringUtility.isNullOrEmpty(priceIncludeTax)) {
-            priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
-        }
-        
         ItemMaintenance itemMaintenance = new ItemMaintenance();
         itemMaintenance.setStoreid(storeId);
 
@@ -836,13 +810,8 @@ public class ItemResource {
                     return resultbase;
                 }
             }
-            String priceIncludeTax = (String) context
-                    .getAttribute(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-            String taxRate = (String) context
-                    .getAttribute(GlobalConstant.TAX_RATE_KEY);
-            if (null == taxRate || taxRate.isEmpty()) {
-                taxRate = "0";
-            }
+            String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
+            String taxRate = GlobalConstant.getTaxRate();
             if (null == priceIncludeTax || priceIncludeTax.isEmpty()) {
                 priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
             }
@@ -889,7 +858,7 @@ public class ItemResource {
      *            商品コード.
      * @param mdName
      *            商品名.
-     * @param productNu,
+     * @param productNum
      * 			  品番.
      * @param color
      *           カラー. 
@@ -937,12 +906,8 @@ public class ItemResource {
 			IItemDAO iItemDAO = daoFactory.getItemDAO();
 			
 			//四捨五入の判断フラグ　１、大きな値（ceil）　２、小さい値（floor） 　３、四捨五入（round）
-            String priceIncludeTax = (String) context
-                    .getAttribute(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-            if (null == priceIncludeTax || priceIncludeTax.isEmpty()) {
-                priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
-            }
-            
+            String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
+
 			items = iItemDAO.getItemInfo(plu, mdName, productNum, color, itemSize,
 					dpt, venderCode, annual, priceIncludeTax);
 			
@@ -1010,11 +975,7 @@ public class ItemResource {
 			IItemDAO iItemDAO = daoFactory.getItemDAO();
 
 			// 四捨五入の判断フラグ　１、大きな値（ceil）　２、小さい値（floor） 　３、四捨五入（round）
-			String priceIncludeTax = (String) context
-					.getAttribute(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-			if (null == priceIncludeTax || priceIncludeTax.isEmpty()) {
-				priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
-			}
+			String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
 
 			brandProducts = iItemDAO.getBrandProductInfo(dpt, venderCode,
 					annual, reservation, groupId, line, priceIncludeTax);
@@ -1233,8 +1194,8 @@ public class ItemResource {
      * @return true, if is normal pricing
      */
     private boolean isNormalPricing() {
-        Object pt = this.context.getAttribute(GlobalConstant.PRICINGTYPE);
-        return pt == null || pt.toString().equals(NORMAL_PRICING);
+        String pricingType = GlobalConstant.getPricingType();
+        return pricingType == null || pricingType.equals(NORMAL_PRICING);
     }
 
     private String getOpeCode() {

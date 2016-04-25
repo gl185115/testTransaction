@@ -70,17 +70,14 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         tp = DebugLogger.getDbgPrinter(
                 Thread.currentThread().getId(), getClass());
     }
-    /**
-     * Set the Pos Terminal Link association for a device.
-     * @param corpid - corp identifier
-     * @param storeid - store identifier
-     * @param terminalid - terminal identifier
-     * @param linkposterminalid - pos terminal identifier to associate to device
-     * @return ResultBase
-     * @throws SQLException - sql
-     * @throws DaoException - dao
-     *
-     * @see IDeviceInfoDAO.setLinkPosTerminalId
+
+	/**
+	 * Set the Pos Terminal Link association for a device.
+	 * @param storeid - store identifier
+	 * @param terminalid - terminal identifier
+	 * @param linkposterminalid - pos terminal identifier to associate to device
+	 * @return ResultBase
+	 * @throws DaoException
      */
 	public final ResultBase setLinkPosTerminalId(final String storeid,
 			final String terminalid, final String linkposterminalid)
@@ -415,7 +412,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     
     /**
      * Get Printers registered in the store configuration.
-     * @param corpid - corp identifier
      * @param storeId - store identifier
      * @param key - the search key identifier
      * @param name - the search identifier for printer description
@@ -1963,16 +1959,16 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	attributeInfo.setAttribute6(resultSet.getString("Attribute6"));
             	attributeInfo.setAttribute7(resultSet.getString("Attribute7"));
             	attributeInfo.setAttribute8(resultSet.getString("Attribute8"));
-            	attributeInfo.setAttribute9(resultSet.getString("Attribute9"));
-            	attributeInfo.setAttribute10(resultSet.getString("Attribute10"));
+				// Currently Attribute9 and Attribute10 are reserved for future use.
+				// Sets 'null' String.
+            	attributeInfo.setAttribute9(StringUtility.convNullToString(resultSet.getString("Attribute9")));
+				attributeInfo.setAttribute10(StringUtility.convNullToString(resultSet.getString("Attribute10")));
+
             	attributeInfo.setTrainingMode(resultSet.getInt("Training"));
-            	
             	attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             	attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             	attributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
-            	
             }else{
-            	
             	attributeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	attributeInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);

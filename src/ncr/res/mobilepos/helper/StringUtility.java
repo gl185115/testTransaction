@@ -343,6 +343,20 @@ public final class StringUtility {
         }
     }
 
+    /**
+     * Convert null to "null"
+     *
+     * @param param
+     * @return parameter or "null" String.
+     */
+    public static String convNullToString(Object param) {
+        if (isNullOrEmpty(param)) {
+            return "null";
+        } else {
+            return param.toString().trim();
+        }
+    }
+
     public static boolean isIPformat(String val) {
         String patternStr = "(([0-1]?[0-9]{1,2}\\.)|(2[0-4][0-9]\\.)|(25[0-5]\\.)){3}(([0-1]?[0-9]{1,2})|(2[0-4][0-9])|(25[0-5]))";
         Pattern pattern = Pattern.compile(patternStr);

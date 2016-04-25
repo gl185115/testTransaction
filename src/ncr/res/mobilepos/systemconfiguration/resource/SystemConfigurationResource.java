@@ -135,17 +135,6 @@ public class SystemConfigurationResource {
     public static boolean isInUrlConfig(String key) {
         switch(key) {
             case "EnterpriseServerUri":
-            case "Report":
-            case "TransactionQueue":
-            case "Layaway":
-            case "GiftInterface":
-            case "TransactionSearch_Training":
-            case "Report_Training":
-            case "TransactionQueue_Training":
-            case "Layaway_Training":
-            case "GiftInterface_Training":
-            case "CatalogImage":
-            case "CatalogImage_Training":
                 return true;
             default:
                 return false;

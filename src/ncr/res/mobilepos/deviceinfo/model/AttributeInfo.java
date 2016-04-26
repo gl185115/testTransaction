@@ -63,7 +63,7 @@ public class AttributeInfo extends ResultBase {
 	private String attribute10;
 	
 	@XmlElement(name = "Training")
-    private int training;
+    private Integer training;
 
 	/**
 	 * @return the attributeId

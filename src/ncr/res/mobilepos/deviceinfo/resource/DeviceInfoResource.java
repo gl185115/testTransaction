@@ -1,23 +1,5 @@
 package ncr.res.mobilepos.deviceinfo.resource;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
-
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
@@ -50,6 +32,23 @@ import ncr.res.mobilepos.store.resource.StoreResource;
 import ncr.res.mobilepos.tillinfo.model.Till;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * DeviceInfoResource Web Resource Class.
@@ -1925,59 +1924,83 @@ public class DeviceInfoResource {
     }
 
     /**
-     * í[ññëÆê´èÓïÒéÊìæ
+     * GetAttribute.
      * @param storeId		- The store identifier.
      * @param terminalId	- The terminal/device identifier.
+     * @param companyId - Company ID.
+     * @param training - training flag.
+     * @return AttributeInfo
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getattribute")
     public final AttributeInfo getAttribute(
             @QueryParam("storeId") final String storeId,
-            @QueryParam("terminalId") final String terminalId) {
-    	
-		String functionName = DebugLogger.getCurrentMethodName();
-		
+            @QueryParam("terminalId") final String terminalId,
+            @QueryParam("companyId") final String companyId,
+            @QueryParam("training") final String training) {
+		final String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
-		  .println("terminalId", terminalId);
+                .println("terminalId", terminalId)
+                .println("companyId", companyId)
+                .println("Training", training);
 		
 		AttributeInfo result = new AttributeInfo();
-		
-		try{
-			if(StringUtility.isNullOrEmpty(storeId, terminalId)){
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-				result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-				
-				return result;
-			}
-			IDeviceInfoDAO iPerCtrlDao =
-		               daoFactory.getDeviceInfoDAO();
-			 
-			result = iPerCtrlDao.getAttributeInfo(storeId, terminalId);
+
+        // Validates if all arguments are not empty.
+        if(StringUtility.isNullOrEmpty(storeId, terminalId, companyId, training)){
+            tp.methodExit("Validation failed: Empty params");
+            LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
+                    "Validation failed: Empty params");
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+            return result;
+        }
+
+        // Validates if training is a parsable integer.
+        int parsedTraining = -1;
+        try {
+            parsedTraining = Integer.parseInt(training);
+        } catch (NumberFormatException nfe) {
+            tp.methodExit("Validation failed: training is not a number");
+            LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
+                    "Validation failed: training is not a number", nfe);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+            return result;
+        }
+
+        // DB lookup.
+        try{
+            IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
+			result = iPerCtrlDao.getAttributeInfo(storeId, terminalId, companyId, parsedTraining);
 		}catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to get the AttributeInfo.", ex);
+            int resultCode;
+            String loggerExcepionCode;
 			if (ex.getCause() instanceof SQLException) {
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
-				result.setMessage(ex.getMessage());
+                resultCode = ResultBase.RES_ERROR_DB;
+                loggerExcepionCode = LOGGER.RES_EXCEP_SQL;
 			} else {
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DAO);
-				result.setMessage(ex.getMessage());
+                resultCode = ResultBase.RES_ERROR_DAO;
+                loggerExcepionCode = LOGGER.RES_EXCEP_DAO;
 			}
-		} catch (Exception ex) {		
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to get the AttributeInfo.", ex);
-			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-			result.setMessage(ex.getMessage());
+            LOGGER.logAlert(PROG_NAME, functionName, loggerExcepionCode,
+                    "DaoException thrown: failed to get AttributeInfo", ex);
+            result.setNCRWSSResultCode(resultCode);
+            result.setNCRWSSExtendedResultCode(resultCode);
+            result.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
+                    "Exception thrown: failed to get AttributeInfo", ex);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(ex.getMessage());
 		} finally {
 			tp.methodExit(result);
 		}
-		
 		return result;
     }
 

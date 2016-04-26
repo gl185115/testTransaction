@@ -284,8 +284,7 @@ public interface IDeviceInfoDAO {
      * @return Attribute	- The Info of the Device Attribute.
      * @throws DaoException	- Thrown when DAO error is encountered.
      */
-	AttributeInfo getAttributeInfo(final String storeId,final String terminalId)
-					throws DaoException;
+	AttributeInfo getAttributeInfo(final String storeId,final String terminalId, String companyId, int training)	throws DaoException;
 	
 	/**
      * Gets the Attribute Info of Device.

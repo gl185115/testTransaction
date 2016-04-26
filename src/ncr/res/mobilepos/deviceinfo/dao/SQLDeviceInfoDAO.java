@@ -1914,19 +1914,23 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     	return resultBase;   	
     }   
 
-    /**
-     * Gets the Device Attribute.
-     * @param storeId		- The store identifier.
-     * @param terminalId	- The terminal/device identifier.
-     * @return Attribute	- The Info of the Device Attribute.
-     * @throws DaoException	- Thrown when DAO error is encountered.
+	/**
+	 * Gets the Device Attribute.
+	 * @param storeId		- The store identifier.
+	 * @param terminalId	- The terminal/device identifier.
+	 * @param companyId
+	 * @param training
+	 * @return AttributeInfo - The Info of the Device Attribute.
+	 * @throws DaoException	- Thrown when DAO error is encountered.
      */
-    public final AttributeInfo getAttributeInfo(final String storeId, final String terminalId)
+    public final AttributeInfo getAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
     		throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("storeid", storeId)
-          .println("terminalId", terminalId);
+        tp.println("storeId", storeId)
+				.println("terminalId", terminalId)
+				.println("companyId", companyId)
+				.println("training", training);
         
         AttributeInfo attributeInfo = new AttributeInfo();
         ResultSet resultSet = null;
@@ -1941,7 +1945,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     sqlStatement.getProperty("get-attribute-info"));
             select.setString(SQLStatement.PARAM1, storeId);
             select.setString(SQLStatement.PARAM2, terminalId);
-                               
+			select.setString(SQLStatement.PARAM3, companyId);
+			select.setInt(SQLStatement.PARAM4, training);
+
             resultSet = select.executeQuery();
             
             if (resultSet.next()) {            	
@@ -1960,8 +1966,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	attributeInfo.setAttribute7(resultSet.getString("Attribute7"));
             	attributeInfo.setAttribute8(resultSet.getString("Attribute8"));
 				// Currently Attribute9 and Attribute10 are reserved for future use.
-				// Sets 'null' String.
-            	attributeInfo.setAttribute9(StringUtility.convNullToString(resultSet.getString("Attribute9")));
+				attributeInfo.setAttribute9(StringUtility.convNullToString(resultSet.getString("Attribute9")));
 				attributeInfo.setAttribute10(StringUtility.convNullToString(resultSet.getString("Attribute10")));
 
             	attributeInfo.setTrainingMode(resultSet.getInt("Training"));
@@ -1974,18 +1979,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	attributeInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
             }
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to Get the Attribute Info.", sqlStmtEx);
             throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to  Get the Attribute Info.", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to Get the Attribute Info.", sqlEx);
             throw new DaoException("SQLException: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to Get the Attribute Info.", sqlEx);
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to Get the Attribute Info.", ex);
             throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to Get the Attribute Info.", ex);
         } finally {

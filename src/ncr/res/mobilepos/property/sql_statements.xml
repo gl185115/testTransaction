@@ -4110,7 +4110,7 @@ ORDER BY
   </entry>
 
   <entry key="get-attribute-info">
-    SELECT  
+  SELECT
     attribute.AttributeId,
     attribute.Printer,
         attribute.Till,
@@ -4133,6 +4133,8 @@ ORDER BY
   ON      attribute.AttributeId = deviceinfo.AttributeId
   WHERE   deviceinfo.StoreId = LTRIM(RTRIM(?))
           AND deviceinfo.TerminalId = LTRIM(RTRIM(?))
+          AND deviceinfo.CompanyId = LTRIM(RTRIM(?))
+          AND deviceinfo.Training = ?
   </entry>
 
   <entry key="get-device-attribute-info">

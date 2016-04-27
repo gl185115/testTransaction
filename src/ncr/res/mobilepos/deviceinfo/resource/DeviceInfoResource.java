@@ -130,16 +130,11 @@ public class DeviceInfoResource {
         daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
     }
     /**
-     * Service resource to set the Pos Terminal
-     * association for the device identified
-     * by the terminal id.
+     * Service resource to set the Pos Terminal association for the device identified by the terminal id.
      *
-     *  @param corpid the current corpid
      *  @param storeid the current storeid
-     *  @param terminalid the target terminal to set
-     *                  the pos terminal link
+     *  @param terminalid the target terminal to set the pos terminal link
      *  @param linkposterminalid the pos terminal id to link
-     *
      * @return ResultBase indicates result of operation
      */
     @POST
@@ -509,7 +504,7 @@ public class DeviceInfoResource {
     /**
      * Search devices from MST_DEVICEINFO.
      *
-     * @param retailstoreid
+     * @param storeId
      *      the storeid to search
      * @param key
      *      the key to search. Either a device id or name.
@@ -780,9 +775,9 @@ public class DeviceInfoResource {
     /**
      * Creates the printer.
      *
-     * @param storeID
+     * @param storeId
      *            the store id where the printer belongs.
-     * @param printerID
+     * @param printerId
      *            the printer identifier.
      * @param jsonPrinterInfo
      *            the printer information in json format.
@@ -1934,7 +1929,7 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getattribute")
-    public final AttributeInfo getAttribute(
+    public final ResultBase getAttribute(
             @QueryParam("storeId") final String storeId,
             @QueryParam("terminalId") final String terminalId,
             @QueryParam("companyId") final String companyId,
@@ -1945,18 +1940,19 @@ public class DeviceInfoResource {
                 .println("terminalId", terminalId)
                 .println("companyId", companyId)
                 .println("Training", training);
-		
-		AttributeInfo result = new AttributeInfo();
+
+        // Prepare Invalid param return.
+        ResultBase invalidParamResult = new ResultBase();
+        invalidParamResult.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+        invalidParamResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+        invalidParamResult.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
 
         // Validates if all arguments are not empty.
         if(StringUtility.isNullOrEmpty(storeId, terminalId, companyId, training)){
             tp.methodExit("Validation failed: Empty params");
             LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
                     "Validation failed: Empty params");
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-            result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-            return result;
+            return invalidParamResult;
         }
 
         // Validates if training is a parsable integer.
@@ -1967,17 +1963,17 @@ public class DeviceInfoResource {
             tp.methodExit("Validation failed: training is not a number");
             LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
                     "Validation failed: training is not a number", nfe);
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-            result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-            return result;
+            return invalidParamResult;
         }
 
+        ResultBase result;
         // DB lookup.
         try{
+            // Normal case.
             IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
 			result = iPerCtrlDao.getAttributeInfo(storeId, terminalId, companyId, parsedTraining);
 		}catch (DaoException ex) {
+            // When DB related exception is thrown.
             int resultCode;
             String loggerExcepionCode;
 			if (ex.getCause() instanceof SQLException) {
@@ -1989,18 +1985,20 @@ public class DeviceInfoResource {
 			}
             LOGGER.logAlert(PROG_NAME, functionName, loggerExcepionCode,
                     "DaoException thrown: failed to get AttributeInfo", ex);
+            result = new ResultBase();
             result.setNCRWSSResultCode(resultCode);
             result.setNCRWSSExtendedResultCode(resultCode);
             result.setMessage(ex.getMessage());
 		} catch (Exception ex) {
+            // When Exception is thrown.
             LOGGER.logAlert(PROG_NAME, functionName, LOGGER.RES_EXCEP_GENERAL,
                     "Exception thrown: failed to get AttributeInfo", ex);
+            result = new ResultBase();
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             result.setMessage(ex.getMessage());
-		} finally {
-			tp.methodExit(result);
 		}
+    	tp.methodExit(result);
 		return result;
     }
 

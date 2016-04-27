@@ -1923,7 +1923,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	 * @return AttributeInfo - The Info of the Device Attribute.
 	 * @throws DaoException	- Thrown when DAO error is encountered.
      */
-    public final AttributeInfo getAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
+    public final ResultBase getAttributeInfo(final String storeId, final String terminalId, String companyId, int training)
     		throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -1931,16 +1931,16 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 				.println("terminalId", terminalId)
 				.println("companyId", companyId)
 				.println("training", training);
-        
-        AttributeInfo attributeInfo = new AttributeInfo();
+
+		ResultBase returnData = null;
         ResultSet resultSet = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
-        try {  
+
+        try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            
+
             select = connection.prepareStatement(
                     sqlStatement.getProperty("get-attribute-info"));
             select.setString(SQLStatement.PARAM1, storeId);
@@ -1950,8 +1950,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 
             resultSet = select.executeQuery();
             
-            if (resultSet.next()) {            	
-            	attributeInfo.setAttributeId(resultSet.getString("AttributeId"));
+            if (resultSet.next()) {
+				AttributeInfo attributeInfo = new AttributeInfo();
+				attributeInfo.setAttributeId(resultSet.getString("AttributeId"));
             	attributeInfo.setPrinter(resultSet.getString("Printer"));
             	attributeInfo.setTill(resultSet.getString("Till"));
             	attributeInfo.setCreditTerminal(resultSet.getString("CreditTerminal"));
@@ -1964,19 +1965,25 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	attributeInfo.setAttribute5(resultSet.getString("Attribute5"));
             	attributeInfo.setAttribute6(resultSet.getString("Attribute6"));
             	attributeInfo.setAttribute7(resultSet.getString("Attribute7"));
+				// Currently Attribute8, Attribute9 and Attribute10 are reserved for future use, it can be null.
             	attributeInfo.setAttribute8(resultSet.getString("Attribute8"));
-				// Currently Attribute9 and Attribute10 are reserved for future use.
-				attributeInfo.setAttribute9(StringUtility.convNullToString(resultSet.getString("Attribute9")));
-				attributeInfo.setAttribute10(StringUtility.convNullToString(resultSet.getString("Attribute10")));
+				attributeInfo.setAttribute9(resultSet.getString("Attribute9"));
+				attributeInfo.setAttribute10(resultSet.getString("Attribute10"));
 
             	attributeInfo.setTrainingMode(resultSet.getInt("Training"));
             	attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             	attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             	attributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
+
+				returnData = attributeInfo;
             }else{
-            	attributeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-            	attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-            	attributeInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+				// No data found.
+				ResultBase errorReturn = new ResultBase();
+				errorReturn.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				errorReturn.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				errorReturn.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+
+				returnData = errorReturn;
             }
         } catch (SQLStatementException sqlStmtEx) {
             throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
@@ -1988,10 +1995,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to Get the Attribute Info.", ex);
         } finally {
-            closeConnectionObjects(connection, select, resultSet);     
-            tp.methodExit(attributeInfo);
+            closeConnectionObjects(connection, select, resultSet);
+			tp.methodExit(returnData);
         }
-        return attributeInfo;
+        return returnData;
     }
 
 	/**

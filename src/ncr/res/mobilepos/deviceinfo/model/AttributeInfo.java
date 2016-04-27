@@ -1,14 +1,14 @@
 package ncr.res.mobilepos.deviceinfo.model;
 
+import ncr.res.mobilepos.model.ResultBase;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import ncr.res.mobilepos.model.ResultBase;
-
 /**
- * í[ññëÆê´èÓïÒ
+ * Device Attribute Info.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "AttributeInfo")
@@ -53,13 +53,13 @@ public class AttributeInfo extends ResultBase {
 	@XmlElement(name = "Attribute7")
 	private String attribute7;
 	
-	@XmlElement(name = "Attribute8")
+	@XmlElement(name = "Attribute8", nillable = true)
 	private String attribute8;
 	
-	@XmlElement(name = "Attribute9")
+	@XmlElement(name = "Attribute9", nillable = true)
 	private String attribute9;
 	
-	@XmlElement(name = "Attribute10")
+	@XmlElement(name = "Attribute10", nillable = true)
 	private String attribute10;
 	
 	@XmlElement(name = "Training")

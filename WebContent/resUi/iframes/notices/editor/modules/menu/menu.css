@@ -1,0 +1,148 @@
+@CHARSET "UTF-8";
+
+#Menu {
+	position: absolute; left: 10px; top: 10px;
+	font-size: 18px;
+}
+
+#Menu .resButton {
+	float: left;
+	border-radius: 4px;
+	margin: 0px 2px;
+}
+
+#Menu .Exit {
+	position: absolute; left: 0px; height: 82px;
+}
+
+#Menu .File {
+	position: absolute; left: 120px; height: 40px; width: 410px;
+}
+#Menu .File .Buttons {
+	position: absolute; left: 0px; top: 0px; width: 750px; height: 40px;
+}
+#Menu .File .FileName {
+	position: absolute; left: 0px; top: 42px; width: 410px; height: 40px;
+}
+#Menu .File .FileName .Label {
+	position: absolute; left: 0px; top: 0px; width: 100px; height: 40px;
+	color: hsl(0, 0%, 100%);
+	line-height: 40px;
+}
+#Menu .File .FileName .Value {
+	position: absolute; left: 102px; top: 0px; width: 304px; height: 40px;
+	background: hsl(0, 0%, 100%);
+	color: hsl(0, 0%, 0%);
+	line-height: 40px;
+	font-size: 20px;
+	padding-left: 10px;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#Menu .File .FileName2 {
+	position: absolute; left: 0px; top: 90px; width: 410px; height: 40px;
+}
+#Menu .File .FileName2 .Label {
+	position: absolute; left: 0px; top: 0px; width: 100px; height: 40px;
+	color: hsl(0, 0%, 100%);
+	line-height: 40px;
+}
+#Menu .File .FileName2 .Value {
+	position: absolute; left: 102px; top: 0px; width: 304px; height: 40px;
+	background: hsl(0, 0%, 100%);
+	color: hsl(0, 0%, 0%);
+	line-height: 40px;
+	font-size: 20px;
+	padding-left: 10px;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+
+#Menu .File .Expiry {
+	position: absolute; left: 410px; top: 42px; width: 410px; height: 40px;
+}
+
+#Menu .File .Expiry .Label {
+	position: absolute; left: 10px; top: 0px; width: 100px; height: 40px;
+	color: hsl(0, 0%, 100%);
+	line-height: 40px;
+}
+
+#Menu .File .Expiry .InputTime {
+	position: absolute;
+	left: 102px;
+}
+
+#Menu .File .Expiry .Value {
+	position: relative; top: 0px; width: 304px; height: 40px;
+	background: hsl(0, 0%, 100%);
+	color: hsl(0, 0%, 0%);
+	line-height: 40px;
+	font-size: 20px;
+	padding-left: 10px;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+
+#Menu .Edit {
+	position: absolute; left: 560px; height: 82px; width: 320px;
+}
+#Menu .Edit .resButton.selected {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,50%)),to(hsl(41,100%,90%)));
+	box-shadow: hsl(0,0%,40%) 0px 0px 0px; -webkit-box-shadow: hsl(0,0%,40%) 0px 0px 0px;
+	color: hsl(0, 0%, 0%);
+}
+
+#Menu input:focus {
+	border: 2px solid #6FA1D9 !important;
+    -webkit-box-shadow:0px 0px 5px #6FA1D9 !important;
+}
+
+/*
+#Menu .Exit {
+	position: absolute; left: 0px; height: 82px;
+	display: -webkit-inline-box;
+}
+
+#Menu .File {
+	position: absolute; left: 120px; height: 40px;
+	display: -webkit-inline-box;
+}
+
+#Menu .File .FileName {
+	position: absolute; left: 0px; top: 42px; width: 400px; height: 40px;
+}
+#Menu .File .FileName .Label {
+	position: absolute; left: 0px; top: 0px; width: 100px; height: 40px;
+	color: hsl(0, 0%, 100%);
+	line-height: 40px;
+}
+#Menu .File .FileName .Value {
+	position: absolute; left: 100px; top: 0px; width: 300px; height: 40px;
+	background: hsl(0, 0%, 100%);
+	color: hsl(0, 0%, 0%);
+	line-height: 40px;
+}
+#Menu .File .FileName p { margin-left: 10px; }
+
+#Menu .Edit {
+	position: absolute; left: 540px; height: 82px;
+	display: -webkit-inline-box;
+}
+
+#Menu .Cell {
+	position: relative; width: 100px; height: 100%;
+	marign: 5px;
+	border-color: hsl(0, 0%, 90%);
+	border-style: groove; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	display: table;
+	color: hsl(0, 0%, 100%);
+}
+#Menu .Cell p {
+	text-align: center; vertical-align: middle;  display: table-cell;
+}
+#Menu .Cell.selected {
+	background: hsl(0, 0%, 100%);
+	color: hsl(0, 0%, 0%);
+	border: none;
+}
+ */
+
+/**** end of CSS ****/

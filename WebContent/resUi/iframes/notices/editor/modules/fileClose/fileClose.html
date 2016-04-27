@@ -1,0 +1,23 @@
+
+<div class="Popup" data-ng-show="dialog == 'fileClose'">
+	<div class="Panel">
+		<div class="InnerBox">
+
+			<div class="Guide" data-ng-show="!model.notice.alreadyChanged">
+				<p data-ng-bind-html="'FileClose.Guide'|resPhrase:context"></p>
+			</div>
+			<div class="Guide" data-ng-show="model.notice.alreadyChanged">
+				<p data-ng-bind-html="'FileClose.AlreadyChanged'|resPhrase:context"></p>
+			</div>
+			<div class="Buttons">
+				<div class="Button W120xH70 yellow" data-ng-click="cancel()">
+					<p data-ng-bind-html="'Button.No'|resPhrase:context"></p>
+				</div>
+				<div class="Button W120xH70 green" data-ng-click="close()">
+					<p data-ng-bind-html="'Button.Yes'|resPhrase:context"></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

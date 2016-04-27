@@ -1,0 +1,35 @@
+<!-- Personal Settings -->
+
+	<div class="SwitchSet">
+		<p class="Label" data-ng-bind-html="'Training'|resPhrase:'Settings.Personal'"></p>
+		<div class="Switch" data-res-click="trainingToggle()">
+			<div class="On" data-ng-show="model.training"></div>
+			<div class="Off" data-ng-show="!model.training"></div>
+		</div>
+	</div>
+
+	<div class="PWUpdate">
+		<div class="Title"><p data-ng-bind-html="'Title'|resPhrase:'Settings.Personal'"></p></div>
+		<p class="OldPW">
+			<label data-ng-bind-html="'OldPassword'|resPhrase:'Settings.Personal'"></label>
+			<input type="password" maxlength="16">
+		</p>
+		<p class="NewPW">
+			<label data-ng-bind-html="'NewPassword'|resPhrase:'Settings.Personal'"></label>
+			<input type="password" maxlength="16">
+		</p>
+		<p class="RePW">
+			<label data-ng-bind-html="'ReEnter'|resPhrase:'Settings.Personal'"></label>
+			<input type="password" maxlength="16">
+		</p>
+	</div>
+	<div class="ButtonChange">
+		<div class="resButton raise green W120xH70">
+			<p data-ng-bind-html="'Button.Change'|resPhrase:'Settings'"></p>
+		</div>
+<!-- 	<div class="Button green"><p data-ng-bind-html="'Button.Change'|resPhrase:'Settings'"></p></div> -->
+	</div>
+
+
+
+	

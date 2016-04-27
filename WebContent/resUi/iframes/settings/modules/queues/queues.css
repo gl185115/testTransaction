@@ -1,0 +1,10 @@
+/*
+ * Printer Settings
+ */
+
+#Queues .Options { position: relative; left: 40px; top: 40px; }
+#wrapperQueueList { position: relative; top: 0px; height: 505px; z-index: 1; }
+#wrapperQueueList .scroller { z-index: 1; }
+
+
+/**** end of CSS ****/

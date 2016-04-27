@@ -1,0 +1,168 @@
+@CHARSET "UTF-8";
+/*
+ *	HiddenTool for system failure recovery and test
+ */
+#HiddenTool { position: absolute; left: 20px; top: 660px; width: 984px; height: 80px; z-index: 5; }
+
+#HiddenTool .Level1 { 
+	position: absolute; left: 0px; top: 40px; width: 984px; height: 40px;
+	background: -webkit-gradient(linear, 0% 0%, 95% 0%, from(hsla(0, 0%, 100%, 0.7)), to(hsla(0, 0%, 90%, 0.7)));
+	border-color: hsla(0, 0%, 100%, 0.7);
+	border-radius: 10px;
+	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	box-shadow: hsl(0, 0%, 0%) 0px 0px 8px; -webkit-box-shadow: hsl(0, 0%, 0%) 0px 0px 8px;
+	display: -webkit-inline-box;
+}
+#HiddenTool .Level1 .Button {
+	position: relative; width: 110px; height: 30px;
+	margin: 3px 5px;
+	background: -webkit-gradient(linear,0% 0%, 0% 100%, from(hsla(0,0%,50%,0.7)), to(hsla(0,0%,0%,0.7)));
+	border-radius: 5px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+	display: table;	
+}
+#HiddenTool .Level1 .Button > p { 
+	color: hsl(0, 0%, 100%);
+	text-align: center; vertical-align: middle; display: table-cell; 
+	font-size: 12px; 
+}
+#HiddenTool .Level1 .Button.Selected { background: -webkit-gradient(linear,0% 0%, 0% 100%, from(hsla(0,0%,80%,0.8)), to(hsla(0,0%,50%,0.8))); }
+#HiddenTool .Level1 .Button.Selected p { color: hsl(0, 0%, 100%);}
+#HiddenTool .Level1 .Close { background: -webkit-gradient(linear,0% 0%, 0% 100%, from(hsla(0,0%,10%,0.8)), to(hsla(0,0%,0%,0.8))); }
+
+#HiddenTool .Level2 {
+	position: absolute; left: 0px; top: 0px; height: 40px;
+	background: -webkit-gradient(linear, 0% 0%, 95% 0%, from(hsla(0, 0%, 100%, 0.7)), to(hsla(0, 0%, 90%, 0.7)));
+	border-color: hsla(0, 0%, 100%, 0.7);
+	border-radius: 10px;
+	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	box-shadow: hsl(0, 0%, 0%) 0px 0px 8px; -webkit-box-shadow: hsl(0, 0%, 0%) 0px 0px 8px;
+	display: -webkit-inline-box;
+}
+#HiddenTool .Level2.BarCode { left: 0px; }
+#HiddenTool .Level2.EMoney { left: 240px; }
+#HiddenTool .Level2.MagneticCard { left: 240px; }
+#HiddenTool .Level2.Dispenser { left: 600px; }
+#HiddenTool .Level2.Test { left: 720px; }
+
+#HiddenTool .Level2 .Button {
+	position: relative; width: 110px; height: 30px;
+	margin: 3px 5px;
+	background: -webkit-gradient(linear,0% 0%, 0% 100%, from(hsla(0,0%,80%,0.7)), to(hsla(0,0%,50%,0.7)));
+	border-radius: 5px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+	display: table;	
+	}
+#HiddenTool .Level2 .Button > p { 
+	color: hsl(0, 0%, 20%);
+	text-align: center; vertical-align: middle; display: table-cell; 
+	font-size: 12px; 
+	}
+#HiddenTool .Level2 .Button:active { background: hsl(0,0%,90%); }
+#HiddenTool .Level2 .Button:active p {color: hsl(0, 0%, 50%);}
+
+#HiddenTool .ToolDispenser {
+/*	position: absolute; left: 525px; top: 330px; width: 440px; height: 345px;*/
+	position: absolute; left: 350px; top: -310px; width: 600px; height: 345px;
+	background-color: hsla(0, 0%, 30%, 0.7);
+	border-color: hsl(0,0%,95%);
+	border-style: solid; border-width: 5px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	border-radius: 20px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 10px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	z-index: 4;
+	}
+
+#HiddenTool .ToolDispenser .Power { position: absolute; left: 20px; top: 10px; }
+#HiddenTool .ToolDispenser .DepositUnits { position: absolute; left: 450px; top: 10px; }
+#HiddenTool .ToolDispenser .ButtonSet {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,70%)),to(hsl(0,0%,40%)));
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;	
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+	display: table;	
+	}
+#HiddenTool .ToolDispenser .ButtonSet p { font-size: 20px; text-align: center; vertical-align: middle;  display: table-cell; }
+#HiddenTool .ToolDispenser .ButtonSet.Left {
+	position: absolute; left: 0px; top: 0px; width: 60px; height: 40px;
+	border-radius: 10px 0px 0px 10px;
+	}
+#HiddenTool .ToolDispenser .ButtonSet.Right {
+	position: absolute; left: 60px; top: 0px; width: 60px; height: 40px;
+	border-radius: 0px 10px 10px 0px;
+	}
+#HiddenTool .ToolDispenser .ButtonSet.red { 
+	background: hsl(7,73%,70%);
+	border-color: hsl(0,0%,15%); border-style: solid; border-width: 1px;
+	box-shadow: hsl(0,0%,0%) 1px 1px 5px inset; -webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	}
+#HiddenTool .ToolDispenser .ButtonSet.gray { 
+	background: hsl(0,0%,60%);
+	border-color: hsl(0,0%,15%); border-style: solid; border-width: 1px;
+	box-shadow: hsl(0,0%,0%) 1px 1px 5px inset; -webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	}
+#HiddenTool .ToolDispenser .ButtonSet.blue {
+	background: hsl(212,85%,60%);
+	border-color: hsl(0,0%,15%); border-style: solid; border-width: 1px;
+	box-shadow: hsl(0,0%,0%) 1px 1px 5px inset; -webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	}
+#HiddenTool .ToolDispenser .ButtonSet.orange { 
+	background: hsl(35,95%,60%);
+	border-color: hsl(0,0%,15%); border-style: solid; border-width: 1px;
+	box-shadow: hsl(0,0%,0%) 1px 1px 5px inset; -webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	}
+
+#HiddenTool .ToolDispenser .CashInside {
+	position: absolute; left: 20px; top: 70px;
+}
+#HiddenTool .ToolDispenser .CashInside .Title {
+	height: 25px;
+	color: hsl(0, 0%, 100%);
+	font-size: 20px; font-weight: bold;
+}
+#HiddenTool .ToolDispenser .CashInside table { 
+	position: absolute; left: 0px; top: 30px; width: 200px; 
+	border-collapse: collapse;
+	color: hsl(0, 0%, 100%);
+}
+#HiddenTool .ToolDispenser .CashInside .CashTable td {
+	border-color: hsl(0,0%,100%); border-style: solid; border-width: 1px;
+	padding: 2px 5px;
+	text-align: right;
+}
+#HiddenTool .ToolDispenser .CashInside .CashTable td:nth-child(1) { width: 50%; }
+#HiddenTool .ToolDispenser .CashInside .CashTable td:nth-child(2) { width: 50%; }
+
+#HiddenTool .ToolDispenser .Deposit { 
+	position: absolute; left: 250px; top: 70px; width: 330px; 
+}
+#HiddenTool .ToolDispenser .Deposit .Title {
+	height: 25px;
+	color: hsl(0, 0%, 100%);
+	font-size: 20px; font-weight: bold;
+}
+#HiddenTool .ToolDispenser .Deposit .Buttons {
+	position: absolute; left: -5px; top: 25px; width: 330px;
+}
+#HiddenTool .ToolDispenser .Deposit .Buttons .Button {
+	width: 100px; height: 50px;
+	background: -webkit-gradient(linear,left top,left bottom,
+		        from(hsl(0,0%,90%)),color-stop(0.1,hsl(0,0%,100%)),color-stop(0.6,hsl(0,0%,90%)),to(hsl(0,0%,70%)));	 
+	border-radius: 5px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;	
+	margin: 5px;
+	float: left;
+	display: table;
+	}
+#HiddenTool .ToolDispenser .Deposit .Buttons .Button:active { background: hsl(0,0%,50%); }
+#HiddenTool .ToolDispenser .Deposit .Buttons .Button p { font-size: 20px; text-align: center; vertical-align: middle;  display: table-cell; }
+/* 
+#HiddenTool .ToolDispenser .ButtonM:nth-child(1){ position: absolute; left: 10px; top: 75px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(2){ position: absolute; left: 150px; top: 75px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(3){ position: absolute; left: 290px; top: 75px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(4){ position: absolute; left: 10px; top: 160px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(5){ position: absolute; left: 150px; top: 160px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(6){ position: absolute; left: 290px; top: 160px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(7){ position: absolute; left: 10px; top: 245px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(8){ position: absolute; left: 150px; top: 245px; }
+#HiddenTool .ToolDispenser .ButtonM:nth-child(9){ position: absolute; left: 290px; top: 245px; }
+ */	
+/**** end of css ****/

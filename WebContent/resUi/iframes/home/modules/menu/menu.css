@@ -1,0 +1,82 @@
+@CHARSET "UTF-8";
+
+#Menu .Buttons {
+	posotion: absolute;
+	width: 75%;
+	top: 0;
+	left: 0;
+	right: 0;
+	margin: 70px auto 0;
+	text-align: center;
+}
+#Menu .Buttons .column {
+	display: inline-block;
+	width: 280px;
+	margin: 0 15px;
+	padding-bottom: 10px;
+	font-size: 25px;
+	text-align: center;
+}
+#Menu .Buttons .column.left {	
+	background: hsl(106, 50%, 90%);
+}
+#Menu .Buttons .column.right {	
+	background: hsl(34, 51%, 90%);
+}
+#Menu .Buttons .column .title {
+	margin: 20px 5px;
+}
+#Menu .Buttons .column .resButton {
+	position: relative;
+	display: inline-block;
+	width: 210px;
+	height: 146px;
+	margin-bottom: 6px;
+}
+#Menu .Buttons .column .resButton:last-child {
+	height: 70px;
+}
+#Menu .Buttons .resButton.btnPickListReTransfer,
+#Menu .Buttons .resButton.btnNoticesReTransfer,
+#Menu .Buttons .resButton.btnImageCopy {
+	height: 70px;
+}
+
+#Menu .Buttons .resButton .Icon {
+	position: absolute; left: 0px; top: 20px; width: 100%;
+}
+#Menu .Buttons .resButton .Icon img {
+	display:block; margin-left: auto; margin-right: auto;
+}
+#Menu .Buttons .resButton .Label {
+	position: absolute; left: 0px; bottom: 10px; width: 100%;
+	display: table;
+}
+#Menu .Buttons .resButton .Label p {
+	color: hsl(0,0%,100%); text-shadow: 1px 1px 2px hsl(112,45%,10%);
+	text-align: center;
+	display: table-cell;
+}
+/* 
+#Menu .Buttons .btnPickListEdit {
+	position: absolute; left: 180px; top: 80px;
+}
+#Menu .Buttons .btnPickListDeploy {
+	position: absolute; left: 180px; top: 250px;
+}
+#Menu .Buttons .btnPickListReTransfer {
+	position: absolute; left: 180px; top: 420px;
+}
+
+#Menu .Buttons .btnNoticesEdit {
+	position: absolute; left: 580px; top: 80px;
+}
+#Menu .Buttons .btnNoticesDeploy {
+	position: absolute; left: 580px; top: 250px;
+}
+#Menu .Buttons .btnNoticesReTransfer {
+	position: absolute; left: 580px; top: 420px;
+}
+ */
+
+/**** end of CSS ****/

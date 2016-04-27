@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+* { margin: 0px; padding: 0px; }
+body { 
+/* 	font-family: 'Helvetica','Arial','Meiryo UI','メイリオ','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','sans-serif'; 
+	font-size: 16px; line-height: 1.1;without em for auto resize 
+	color: hsl(0,0%,0%); 
+	overflow: hidden; 
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none; */
+	}
+
+/**** end of CSS ****

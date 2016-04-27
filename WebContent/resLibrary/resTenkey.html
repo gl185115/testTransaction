@@ -1,0 +1,30 @@
+
+<!-- Angular directive template : data-res-tenkey -->
+
+<div class="resTenkey">
+	<input type="hidden" data-ng-model="digits">
+	<input type="hidden" data-ng-model="preset">
+	<div class="ButtonNums">
+		<div class="ButtonNum" data-res-touch="numeric('7')"><p>7</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('8')"><p>8</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('9')"><p>9</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('4')"><p>4</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('5')"><p>5</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('6')"><p>6</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('1')"><p>1</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('2')"><p>2</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('3')"><p>3</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('0')"><p>0</p></div>
+		<div class="ButtonNum" data-res-touch="numeric('00')"><p>00</p></div>
+		<div class="ButtonNum" data-res-touch="decimalPointEnabled && numeric('.')" data-ng-class="{'disabled': !decimalPointEnabled}">
+			<p>.</p>
+		</div>
+	</div>
+	<div class="ButtonFns">
+	 	<div class="ButtonFn" data-res-click="clear()"><p data-ng-bind-html="'Clear'|resPhrase:'KeyPad'"></p></div>
+		<div class="ButtonFn" data-res-click="backspace()"><p data-ng-bind-html="'BS'|resPhrase:'KeyPad'"></p></div>
+		<div class="ButtonFn2h" data-res-click="enter()"><p data-ng-bind-html="'Enter'|resPhrase:'KeyPad'"></p></div>
+	</div>
+</div>
+
+	

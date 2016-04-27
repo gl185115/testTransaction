@@ -1,0 +1,40 @@
+<div class="resPopup Images" data-ng-show="dialog == 'images'">
+	<div class="resCasing silver"><div class="resPanel silver">
+			<div class="Guide">
+				<p data-ng-bind-html="'Guide.Images'|resPhrase:context"></p>
+			</div>
+
+			<div class="PickButtons">
+				<div id="wrapperImages">
+					<div class="scroller">
+						<div class="PickButton"
+							data-ng-repeat="picture in model.notice.pictures track by $index"
+							data-res-click="setImage(picture)">
+							<div class="InnerBox" data-ng-show="!picture">
+								<div class="ImageBox">
+									<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
+								</div>
+							</div>
+							<div class="InnerBox" data-ng-show="picture">
+								<div class="ImageBox">
+									<img class="ImageList" data-ng-src="{{picture?model.notice.imageURL + picture:''}}" />
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="Buttons Top">
+				<div class="resButton raise yellow W110xH50"
+					data-ng-click="cancel()">
+					<p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise blue W110xH50">
+					<p data-ng-bind-html="'Button.Import'|resPhrase:context"></p>
+					<input  type="file" accept="image/*" id="fileInput" class="upload" >
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

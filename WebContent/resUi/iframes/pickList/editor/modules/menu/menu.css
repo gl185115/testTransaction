@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+
+#Menu {
+	position: absolute; left: 10px; top: 10px;
+	font-size: 18px;
+}
+
+#Menu .resButton {
+	float: left;
+	border-radius: 4px;
+	margin: 0px 2px;
+}
+
+#Menu .Exit {
+	position: absolute; left: 0px; height: 82px;
+}
+
+#Menu .File {
+	position: absolute; left: 120px; height: 40px; width: 410px;
+}
+#Menu .File .Buttons {
+	position: absolute; left: 0px; top: 0px; width: 410px; height: 40px;
+}
+#Menu .File .FileName {
+	position: absolute; left: 0px; top: 42px; width: 410px; height: 40px;
+}
+#Menu .File .FileName .Label {
+	position: absolute; left: 0px; top: 0px; width: 100px; height: 40px;
+	color: hsl(0, 0%, 100%);
+	line-height: 40px;
+	overflow: hidden;
+}
+#Menu .File .FileName .Value {
+	position: absolute; left: 102px; top: 0px; width: 304px; height: 40px;
+	background: hsl(0, 0%, 100%);
+	color: hsl(0, 0%, 0%);
+	line-height: 40px;
+}
+#Menu .File .FileName .Value p {
+	margin-left: 10px;
+	overflow: hidden; white-space: nowrap; text-overflow: ellipsis; -o-text-overflow: ellipsis;
+}
+
+#Menu .Edit {
+	position: absolute; left: 560px; height: 82px; width: 320px;
+}
+#Menu .Edit .resButton.selected {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,50%)),to(hsl(41,100%,90%)));
+	box-shadow: hsl(0,0%,40%) 0px 0px 0px; -webkit-box-shadow: hsl(0,0%,40%) 0px 0px 0px;
+	color: hsl(0, 0%, 0%);
+}
+
+/* #Menu .FilePrint{ */
+/* 	position: absolute; left: 900px; height: 82px; width: 450px; */
+/* } */
+
+#Menu .FilePrint{
+	position: absolute; left: 900px;
+}
+/**** end of CSS ****/

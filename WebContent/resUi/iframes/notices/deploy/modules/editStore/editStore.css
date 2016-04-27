@@ -1,0 +1,639 @@
+@CHARSET "UTF-8";
+
+#EditStore .Panel {
+	position: absolute;
+	left: 52px;
+	top: 30px;
+	width: 920px;
+	height: 620px;
+}
+
+#EditStore .InnerBox {
+	position: absolute;
+	left: 10px;
+	top: 10px;
+	width: 900px;
+	height: 600px;
+}
+
+#EditStore .Panel .InnerBox .SelectToDo .Buttons {
+	position: absolute;
+	left: 0px;
+	top: 60px;
+	height: 450px;
+	width: 100%;
+}
+
+#EditStore .Panel .InnerBox .storeDetail .Buttons {
+	position: absolute;
+	left: 10px;
+	top: 550px;
+}
+
+#EditStore .Guide {
+	position: absolute;
+	left: 180px;
+	top: 20px;
+	width: 560px;
+	height: 40px;
+	display: table;
+}
+
+#EditStore .Guide p {
+	text-align: center;
+	vertical-align: top;
+	display: table-cell;
+	font-size: 25px;
+}
+
+#EditStore .Panel .InnerBox .SelectToDo .Buttons .resButton:nth-child(1)
+	{
+	position: absolute;
+	left: 100px;
+	top: 50px;
+}
+
+#EditStore .Panel .InnerBox .SelectToDo .Buttons .resButton:nth-child(2)
+	{
+	position: absolute;
+	left: 490px;
+	top: 50px;
+}
+
+#EditStore .Panel .InnerBox .SelectToDo .Buttons .resButton:nth-child(3)
+	{
+	position: absolute;
+	left: 100px;
+	top: 250px;
+/* 	visibility: hidden; */
+}
+
+#EditStore .Panel .InnerBox .SelectToDo .Buttons .resButton:nth-child(4)
+	{
+	position: absolute;
+	left: 490px;
+	top: 250px;
+/* 	visibility: hidden; */
+}
+
+#EditStore .Panel .InnerBox .SelectToDo .Buttons .resButton:nth-child(5)
+	{
+	position: absolute;
+	left: 390px;
+	top: 452px;
+}
+
+#EditStore .Panel .InnerBox .storeAdd {
+	position: absolute;
+	/* left: 150px; */
+	/* top: 20px; */
+	width: 100%;
+	/* font-size: 26px; */
+}
+
+#EditStore .Panel .InnerBox .storeAdd .addTitle {
+	position: absolute;
+	/* left: 200px; */
+	width: 100%;
+	height: 50px;
+	text-align: -webkit-center;
+	font-size: 26px;
+	/* display: table; */
+	margin-top: 20px;
+	/* margin: auto; */
+}
+
+#EditStore .Panel .InnerBox .storeAdd .addTitle p {
+	text-align: -webkit-auto;
+	vertical-align: top;
+	display: table-cell;
+	/* font-size: 25px; */
+}
+
+#EditStore .Panel .InnerBox .storeAdd .guideCheck {
+	position: absolute;
+	left: 0px;
+	width: 100%;
+	height: 20px;
+	top: 55px;
+	/* display: table; */
+	text-align: -webkit-center;
+}
+
+#EditStore .Panel .InnerBox .storeAdd .guideCheck p{
+	text-align: left;
+	vertical-align: middle;
+	display: table-cell;
+	font-size: 18px;
+	color:red;
+}
+
+#EditStore .Panel .InnerBox .storeAdd .Label {
+	margin: 15px 0px 5px;
+	color: hsl(0, 0%, 30%);
+	font-size: 18px;
+}
+
+#EditStore .Panel .InnerBox .storeAdd .Value {
+	position: relative;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 45px;
+	-webkit-box-shadow: hsl(0, 0%, 0%) 1px 1px 5px inset;
+	border-radius: 5px;
+	box-sizing: border-box;
+	border-style: none;
+	padding-left: 10px;
+	font-size: 20px;
+}
+
+#EditStore .Panel .InnerBox .storeAdd .EditFootButton {
+	position: absolute;
+	left: 0px;
+	top: 510px;
+	/*top: 480px;*/
+	width: 100%;
+	height: 90px;
+}
+
+#EditStore .Panel .InnerBox .storeAdd .EditFootButton .ButtonL {
+	position: absolute;
+	left: 260px;
+}
+
+#EditStore .Panel .InnerBox .storeAdd .EditFootButton .ButtonR {
+	position: absolute;
+	left: 510px;
+}
+#EditStore .Panel .InnerBox .storeAdd .EditBodySpace {
+	position: relative;
+/* 	left: 0px; */
+	left: 150px;
+	top: 65px;
+/* 	top: 85px;*/
+	height: 420px;
+/* 	width: 100%; */
+	width: 600px;
+}
+#EditStore .Panel .InnerBox .storeAdd .Buttons .resButton:nth-child(1) {
+	position: absolute;
+	left: 250px;
+	/* bottom: -110px; */
+}
+#EditStore .Panel .InnerBox .storeAdd .Buttons .resButton:nth-child(2) {
+	position: absolute;
+	left: 500px;
+	/* bottom: -110px; */
+}
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ---TableStoreEdit--Edit-STR--------------------------------------------------------------------------------------- */
+#EditStore .TableStoreEdit {
+	position: absolute;
+	left: 10px;
+	top: 20px;
+	width: 700px;
+}
+#EditStore .TableStoreEdit .viewStores {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 420px;
+	height: 300px;
+	z-index: 1;
+	overflow: hidden;
+}
+#EditStore .TableStoreEdit .Guide {
+	position: relative;
+	left: 100px;
+	top: 20px;
+	width: 360px;
+	height: 40px;
+	display: table;
+}
+#EditStore .TableStoreEdit .Guide p {
+	text-align: center;
+	vertical-align: top;
+	display: table-cell;
+	font-size: 25px;
+}
+#EditStore .TableStoreEdit .Label {
+	margin: 15px 0px 5px;
+	color: hsl(0, 0%, 30%);
+	font-size: 20px;
+}
+#EditStore .TableStoreEdit .Value {
+	position: relative;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 50px;
+	-webkit-box-shadow: hsl(0, 0%, 0%) 1px 1px 5px inset;
+	border-radius: 5px;
+	box-sizing: border-box;
+	border-style: none;
+	padding-left: 10px;
+	font-size: 20px;
+}
+#EditStore .TableStoreEdit .List .TableHeader {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 40px;
+	display: -webkit-inline-box;
+	background: -webkit-gradient(linear, left top, left bottom, from(hsl(112, 45%, 40%)), to(hsl(112, 45%, 30%)));
+	font-size: 19px;
+	color: hsl(112, 45%, 100%);
+}
+#EditStore .TableStoreEdit .List .TableHeader div:nth-child(1)
+{
+	width: 125px;
+	margin-left: 5px;
+}
+#EditStore .TableStoreEdit .List .TableHeader div:nth-child(2) {
+	width: 270px;
+}
+#EditStore .TableStoreEdit .List .TableHeader div:nth-child(3) {
+	margin-left: 0px;
+	width: 150px;
+}
+#EditStore .TableStoreEdit .List .TableHeader div:nth-child(4) {
+	margin-left: 0px;
+	width: 150px;
+}
+#EditStore .TableStoreEdit .List .TableHeader div:nth-child(5) {
+	width: 150px;
+}
+#EditStore .TableStoreEdit .List .TableHeader .Inline p {
+	line-height: 40px;
+	margin-left: 0px;
+	display: inline;
+}
+#EditStore .TableStoreEdit .List .TableHeader .Inline div {
+	display: inline;
+}
+#EditStore .TableStoreEdit .List {
+	position: absolute;
+	left: 10px;
+	top: 50px;
+	width: 860px;
+	height: 420px;
+	border-color: hsl(0, 0%, 50%) hsl(0, 0%, 70%) hsl(0, 0%, 95%);
+	border-style: solid;
+	border-width: 5px;
+	box-sizing: content-box;
+	-webkit-box-sizing: border-box;
+	overflow: hidden;
+	background: -webkit-gradient(linear, left top, right bottom, from(hsl(0, 0%, 100%)), to(hsl(0, 0%, 80%)));
+}
+#EditStore .TableStoreEdit .Search {
+	position: absolute;
+	left: 10px;
+	top: 0px;
+	height: 35px;
+	width: 300px;
+}
+#EditStore .TableStoreEdit .Search input{
+	font-size: 17px;
+	padding-left: 10px;
+	position: absolute;
+	height: 100%;
+	width: 80%;
+}
+#wrapperStoresList {
+	position: relative;
+	left: 0px;
+	top: 40px;
+	height: 375px;
+	z-index: 1;
+	overflow: hidden;
+}
+#EditStore .TableStoreEdit .List table {
+	border-collapse: collapse;
+}
+#EditStore .TableStoreEdit .List .Line {
+	position: relative;
+	left: 0px;
+	width: 100%;
+	height: 40px;
+}
+#EditStore .TableStoreEdit .List .Line.selected {
+	background: hsl(112, 0%, 70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#EditStore .TableStoreEdit .List .Line p {
+	margin-left: 0px;
+	font-size: 18px;
+	line-height: 40px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+#EditStore .TableStoreEdit .List .Line td {
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 100%) hsl(0, 0%, 70%);
+	border-style: solid;
+	border-width: 1px 0px 1px;
+}
+#EditStore .TableStoreEdit .List .Line .td1 {
+	margin-left: 5px;
+	width: 125px;
+}
+#EditStore .TableStoreEdit .List .Line .td2 {
+	margin-right: 10px;
+	width: 260px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#EditStore .TableStoreEdit .List .Line .td3 {
+	width: 150px;
+}
+#EditStore .TableStoreEdit .List .Line .td4 {
+	width: 150px;
+}
+
+#EditStore .TableStoreEdit .List .Line .td5 {
+	width: 150px;
+}
+#EditStore .TableStoreEdit .Footer {
+	position: absolute;
+	margin-top: 490px;
+	height: 70px;
+	width: 100%;
+	font-size: 24px;
+}
+#EditStore .TableStoreEdit .Footer .resButton:nth-child(1) {
+	position: absolute;
+	left: 120px;
+}
+#EditStore .TableStoreEdit .Footer .resButton:nth-child(2) {
+	position: absolute;
+	left: 380px;
+}
+#EditStore .TableStoreEdit .Footer .resButton:nth-child(3) {
+	position: absolute;
+	left: 630px;
+}
+/* ---TableStore--Edit---END----------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ---TableGroup--Create-STR----------------------------------------------------------------------------------------- */
+#EditStore .TableGroupCreate {
+	position: absolute;
+	left: 50px;
+	top: 20px;
+	width: 800px;
+	height: 550px;
+}
+#EditStore .TableGroupCreate .Header {
+	position: absolute;
+	width: 100%;
+	height: 40px;
+	text-align: center;
+	font-size: 25px;
+}
+#EditStore .TableGroupCreate .Title {
+	position: absolute;
+	top: 60px;
+	width: 100%;
+	height: 44px;
+	font-size: 20px;
+}
+#EditStore .TableGroupCreate .Title .NameJaLabel {
+	position: absolute;
+	width: 170px;
+	height: 44px;
+	line-height: 44px;
+	font-size: 22px;
+}
+#EditStore .TableGroupCreate .Title .NameJaValue {
+	position: absolute;
+	left: 170px;
+	width: 340px;
+	height: 44px;
+	-webkit-box-shadow: hsl(0, 0%, 0%) 1px 1px 5px inset;
+	border-radius: 5px;
+	box-sizing: border-box;
+	border-style: none;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 20px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#EditStore .TableGroupCreate .Title .ErrorMessage {
+	position: absolute;
+	left: 520px;
+	text-align: left;
+	font-size: 18px;
+	color: red;
+	height: 44px;
+	line-height: 44px
+}
+#EditStore .TableGroupCreate .Body {
+	position: absolute;
+	margin-top: 130px;
+	width: 100%;
+	height: 322px;
+	display: table;
+	border: 1px;
+}
+#EditStore .TableGroupCreate .Body .GroupSelecterLR {
+	position: absolute;
+	left: 322px;
+	width: 156px;
+	height: 307px;
+	font-size: 20px;
+}
+#wrapperGroupStoreEntry {
+	position: absolute;
+	border: 1px solid;
+	left: 0px;
+	height: 305px;
+	width: 320px;
+	z-index: 2;
+	overflow: hidden;
+}
+#wrapperGroupStoreList {
+	position: absolute;
+	border: 1px solid;
+	left: 478px;
+	height: 305px;
+	width: 320px;
+	z-index: 2;
+	overflow: hidden;
+}
+#EditStore .TableGroupCreate .Body .SelectLabel {
+	display: inline-block;
+	width: 100%;
+	height: 20px;
+	font-size: 18px;
+}
+#EditStore .TableGroupCreate .Body .LabelLeft {
+	position: absolute;
+}
+#EditStore .TableGroupCreate .Body .LabelRight {
+	position: absolute;
+	margin-left: 480px;
+}
+#EditStore .TableGroupCreate .Body .Line {
+	position: relative;
+	left: 0px;
+	width: 100%;
+	height: 36px;
+	background: hsl(0, 0%, 95%);
+}
+#EditStore .TableGroupCreate .Body table {
+	border-collapse: collapse;
+}
+#EditStore .TableGroupCreate .Body .Line p {
+	margin-left: 5px;
+	font-size: 18px;
+	line-height: 36px;
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 100%) hsl(0, 0%, 70%);
+	border-style: solid;
+	border-width: 1px 0px 1px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 310px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#EditStore .TableGroupCreate .Body .Line td {
+	width: 320px;
+}
+#EditStore .TableGroupCreate .Body .Line.selected {
+	background: hsl(112, 0%, 70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#EditStore .TableGroupCreate .Body .resButton:nth-child(1) {
+	position: absolute;
+	left: 20px;
+	top: 50px;
+}
+#EditStore .TableGroupCreate .Body .resButton:nth-child(2) {
+	position: absolute;
+	left: 20px;
+	top: 190px;
+}
+#EditStore .TableGroupCreate .Footer {
+	position: absolute;
+	margin-top: 490px;
+	height: 70px;
+	width: 100%;
+	font-size: 24px;
+}
+#EditStore .TableGroupCreate .Footer .resButton:nth-child(1) {
+	position: absolute;
+	left: 180px;
+}
+#EditStore .TableGroupCreate .Footer .resButton:nth-child(2) {
+	position: absolute;
+	left: 500px;
+}
+/* ---TableGroup--Create-END----------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
+
+
+/* ------------------------------------------------------------------------------------------------------------------ */
+/* ---TableGroup--Edit-STR------------------------------------------------------------------------------------------- */
+#EditStore .TableGroupEdit {
+	position: absolute;
+	left: 100px;
+	top: 30px;
+	width: 700px;
+	height: 560px;
+}
+#EditStore .TableGroupEdit .DetailList {
+	position: absolute;
+	width: 100%;
+	height: 450px;
+	border-color: hsl(0, 0%, 50%) hsl(0, 0%, 70%) hsl(0, 0%, 95%);
+	border-style: solid;
+	border-width: 5px;
+	box-sizing: content-box;
+	-webkit-box-sizing: border-box;
+	overflow: hidden;
+	background: -webkit-gradient(linear, left top, right bottom, from(hsl(0, 0%, 100%)), to(hsl(0, 0%, 80%)));
+}
+#EditStore .TableGroupEdit .DetailList .Header {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	height: 40px;
+	display: -webkit-inline-box;
+	background: -webkit-gradient(linear, left top, left bottom, from(hsl(112, 45%, 40%)), to(hsl(112, 45%, 30%)));
+	font-size: 22px;
+	color: hsl(112, 45%, 100%);
+}
+#EditStore .TableGroupEdit .DetailList .Header .TitleNameJa {
+	width: 690px;
+	line-height: 40px;
+	margin-left: 5px;
+}
+#EditStore .TableGroupEdit .DetailList table {
+	border-collapse: collapse;
+}
+#EditStore .TableGroupEdit .DetailList .Line {
+	position: relative;
+	left: 0px;
+	width: 100%;
+	background: hsl(0, 0%, 95%);
+}
+#EditStore .TableGroupEdit .DetailList .Line p {
+	margin-left: 5px;
+	font-size: 19px;
+	line-height: 38px;
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 100%) hsl(0, 0%, 70%);
+	border-style: solid;
+	border-width: 1px 0px 1px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	width: 680px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#EditStore .TableGroupEdit .DetailList .Line td {
+	width: 690px;
+}
+#EditStore .TableGroupEdit .DetailList .Line.selected {
+	background: hsl(112, 0%, 70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#wrapperStoresGroupList {
+	position: absolute;
+	left: 0px;
+	top: 40px;
+	height: 400px;
+	width: 100%;
+	z-index: 2;
+	overflow: hidden;
+}
+#EditStore .TableGroupEdit .Footer {
+	position: absolute;
+	margin-top: 480px;
+	height: 70px;
+	width: 100%;
+	font-size: 24px;
+}
+#EditStore .TableGroupEdit .Footer .resButton:nth-child(1) {
+	position: absolute;
+	left: 30px;
+}
+#EditStore .TableGroupEdit .Footer .resButton:nth-child(2) {
+	position: absolute;
+	left: 290px;
+}
+#EditStore .TableGroupEdit .Footer .resButton:nth-child(3) {
+	position: absolute;
+	left: 550px;
+}
+/* ---TableGroup--Edit-END------------------------------------------------------------------------------------------- */
+/* ------------------------------------------------------------------------------------------------------------------ */
+

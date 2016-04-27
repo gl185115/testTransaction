@@ -1,0 +1,39 @@
+@CHARSET "UTF-8";
+
+#FileOpen .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+
+#FileOpen .Guide {
+	position: relative; left: 40px; width: 520px; height: 40px;
+	margin-top: 10px;
+	text-align: center;
+	font-size: 25px; line-height: 40px;
+}
+
+#FileOpen .List { 
+	position: relative; left: 20px; width: 560px; height: 410px;
+	margin-top: 10px;
+	border-color: hsl(0, 0%, 50%) hsl(0, 0%, 70%) hsl(0, 0%, 95%);
+	border-style: solid; border-width: 5px; box-sizing: content-box; -webkit-box-sizing: border-box; 	
+	overflow: hidden;
+}
+#wrapperFiles { position: absolute; left: 0px; top: 0px; width: 550px; height: 400px; z-index: 1; overflow: hidden; }
+
+#FileOpen .List .Line {
+	position: relative; left: 0px; width: 100%; height: 50px; 
+ 	background: hsl(0, 0%, 95%);
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 85%) hsl(0, 0%, 70%);
+	border-style: solid; border-width: 2px 2px 2px 0px; box-sizing: border-box; -webkit-box-sizing: border-box; 	
+}
+#FileOpen .List .Line.selected { 
+	background: hsl(112,0%,70%); 
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+
+#FileOpen .List .Line p {
+	margin-left: 5px; 
+	font-size: 20px; line-height: 50px;
+}
+
+#FileOpen .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#FileOpen .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+#FileOpen .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }

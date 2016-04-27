@@ -1,0 +1,44 @@
+/*
+ *	directive: data-res-tenkey
+ */
+.resTenkey { width: 360px; height: 310px; }
+.resTenkey .ButtonNums { position: absolute; left: 0px; top: 0px; width: 240px; height: 310px;}
+.resTenkey .ButtonNums .ButtonNum { 
+	position: relative; width: 70px; height: 70px; display: inline-block;
+	margin: 0px 6px 10px 0px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,75%))); 
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 2px 4px;
+	border-radius: 5px; border-style: none; border-width: 0px; box-sizing: border-box; -webkit-box-sizing: border-box; 
+}
+.resTenkey .ButtonNums .ButtonNum p { 
+	margin-top: 24px; text-align: center;
+	font-size: 24px; 
+}
+.resTenkey .ButtonNums .ButtonNum.disabled {
+	position: relative; width: 70px; height: 70px; display: inline-block;
+	margin: 0px 6px 10px 0px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,75%)),to(hsl(0,0%,75%))); 
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 0px 0px;
+	border-radius: 5px;
+	color: hsl(0,0%,80%);
+}
+
+.resTenkey .ButtonFns { position: absolute; left: 250px; top: 0px; width: 110px; height: 310px;}
+.resTenkey .ButtonFns .ButtonFn,
+.resTenkey .ButtonFns .ButtonFn2h { 
+	position: relative; width: 110px; height: 70px; display: inline-block;
+	margin: 0px 0px 10px 0px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,75%))); 
+	box-shadow: hsl(0,0%,0%) 0px 2px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 2px 4px;
+	border-radius: 5px; border-style: none; box-sizing: border-box; -webkit-box-sizing: border-box; 
+}
+.resTenkey .ButtonFns .ButtonFn2h { height: 150px;}
+.resTenkey .ButtonFn p { margin-top: 24px; text-align: center; font-size: 24px; }
+.resTenkey .ButtonFn2h p { margin-top: 60px; text-align: center; font-size: 24px; }
+
+.resTenkey .ButtonNums .ButtonNum:active,
+.resTenkey .ButtonFns .ButtonFn:active,
+.resTenkey .ButtonFns .ButtonFn2h:active { 
+	background: hsl(0,0%,50%); }
+
+/**** end of CSS ****/

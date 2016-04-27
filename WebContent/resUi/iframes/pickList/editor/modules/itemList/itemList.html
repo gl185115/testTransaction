@@ -1,0 +1,14 @@
+
+<p class="Caption" data-ng-bind-html="'ItemList.FileList'|resPhrase:context"></p>
+<div class="List">
+	<div id="itemListwrapperItems">
+		<ul>
+			<li class="Line" data-ng-repeat="file in model.editor.files"
+				data-ng-class="{selected: $index==model.editor.selectedIndex}"
+				data-res-click="select($index)">
+
+				<p data-ng-bind-html="file"></p>
+			</li>
+		</ul>
+	</div>
+</div>

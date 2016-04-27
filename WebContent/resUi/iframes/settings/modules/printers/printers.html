@@ -1,0 +1,16 @@
+<!-- Printer Settings -->
+
+	<div class="Options">
+		<div class="Title"><p data-ng-bind-html="'Printers.Title'|resPhrase:context"></p></div>
+		<div id="wrapperPrinterList"><div class="scroller">
+			<div class="Option"  data-ng-repeat="printer in model.printers" data-res-click="select($index)">
+				<div class="Selector" data-ng-class="{selected: $index==selectedIndex}"></div>
+				<div class="Label"><p data-ng-bind-html="printer"></p></div>
+			</div>
+		</div></div>
+	</div>
+	
+
+
+
+	

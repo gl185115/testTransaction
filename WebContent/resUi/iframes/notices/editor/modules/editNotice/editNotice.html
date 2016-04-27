@@ -1,0 +1,8 @@
+<div class="Sheet">
+    <textarea id="editNotice" wrap="soft" data-ng-model="model.notice.items">
+    </textarea>	
+</div>
+<div class="Attachments">
+	<img  id="attachimg" class="attach" data-ng-if="model.notice.selectedImage" data-ng-src="{{model.notice.selectedImage?model.notice.imageURL + model.notice.selectedImage:''}}" >
+</div>
+

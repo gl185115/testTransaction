@@ -1,0 +1,10 @@
+/*
+ * Printer Settings
+ */
+
+#Printers .Options { position: relative; left: 40px; top: 40px; }
+#wrapperPrinterList { position: relative; top: 0px; height: 505px; z-index: 1; }
+#wrapperPrinterList .scroller { z-index: 1; }
+
+
+/**** end of CSS ****/

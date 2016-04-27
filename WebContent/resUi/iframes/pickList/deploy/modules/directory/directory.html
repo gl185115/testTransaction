@@ -1,0 +1,28 @@
+<!-- 
+<div class="Title">
+	<p data-ng-bind-html="'Directory.Title'|resPhrase:context"></p>
+</div>
+ -->
+<div class="List">
+
+	<div data-ng-repeat="resource in model.directory">
+		<div class="Line Level1">
+			<p data-ng-bind-html="'Directory.'+ resource |resPhrase:context"></p>
+		</div>
+		<div class="Folers" data-ng-show="resource==model.active.resource">
+			<div class="Line Level2" data-ng-repeat="folder in model.folders"
+				data-ng-class="{selected: folder==model.active.folder}"
+				data-res-touch="selectFolder(folder)">
+
+				<div class="Indent">
+					<div class="IconFolder"></div>
+				</div>
+				<div class="FolerName">
+					<p data-ng-bind-html="'Directory.'+ folder |resPhrase:context"></p>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>

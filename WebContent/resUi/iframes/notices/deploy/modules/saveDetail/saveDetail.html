@@ -1,0 +1,107 @@
+<!-- Template: pop up to enter customer id -->
+
+<div class="resCasing silver">
+	<div class="resPanel silver">
+		<div class="SaveSuccess" data-ng-show="model.saveDetail.returnValue == 'success'">
+			<div class="MarkEntry">
+				<div class="FileName">
+					<p data-ng-bind-html="'SaveDetail.FileEntry' |resPhrase:context"></p>
+				</div>
+				<div class="FilePath">
+					<p data-ng-bind-html="model.fileExplorer.csvSavePath"></p>
+				</div>
+			</div>
+			<div class="MarkBody">
+				<p data-ng-bind-html="'SaveDetail.Success.Notice'|resPhrase:context"></p>
+			</div>
+			<div class="MarkFoot">
+				<div class="resButton raise green W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'SaveDetail.Button.Confirm'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="SaveExist" data-ng-show="model.saveDetail.returnValue == 'exist'">
+			<div class="MarkEntry">
+				<div class="FileName">
+					<p data-ng-bind-html="'SaveDetail.FileEntry' |resPhrase:context"></p>
+				</div>
+				<div class="FilePath">
+					<p data-ng-bind-html="model.fileExplorer.csvSavePath"></p>
+				</div>
+			</div>
+			<div class="MarkBody">
+				<div class="Overwrite">
+					<div class="Switch" data-res-touch="model.saveDetail.isOverwrite = !model.saveDetail.isOverwrite">
+						<div class="Off" data-ng-show="!model.saveDetail.isOverwrite"></div>
+						<div class="On" data-ng-show="model.saveDetail.isOverwrite"></div>
+					</div>
+					<p class="LabelInfo" data-ng-bind-html="'SaveDetail.Exist.Overwrite'|resPhrase:context"></p>
+				</div>
+				<div class="Warning" data-ng-show="model.saveDetail.returnValue == 'exist'">
+					<p data-ng-bind-html="'SaveDetail.Exist.Notice'|resPhrase:context"></p>
+				</div>
+			</div>
+			<div class="MarkFoot">
+				<div class="resButton raise gray W120xH70" data-ng-click="back()">
+					<p data-ng-bind-html="'SaveDetail.Button.Back'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-ng-click="overwrite()">
+					<p data-ng-bind-html="'SaveDetail.Button.CsvSave'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="SaveWarning" data-ng-show="model.saveDetail.returnValue == 'warning'">
+			<div class="MarkEntry">
+				<div class="FileName">
+					<p data-ng-bind-html="'SaveDetail.FileEntry' |resPhrase:context"></p>
+				</div>
+				<div class="FilePath">
+					<p data-ng-bind-html="model.fileExplorer.csvSavePath"></p>
+				</div>
+			</div>
+			<div class="MarkBody">
+				<div data-ng-show="model.saveDetail.isEmptyName">
+					<p data-ng-bind-html="'SaveDetail.Warning.IsEmptyName'|resPhrase:context"></p>
+				</div>
+				<div data-ng-show="model.saveDetail.inValidName">
+					<p data-ng-bind-html="'SaveDetail.Warning.InValidName'|resPhrase:context"></p>
+				</div>
+				<div data-ng-show="model.saveDetail.isLengthOver">
+					<p data-ng-bind-html="'SaveDetail.Warning.IsLengthOver'|resPhrase:context"></p>
+				</div>
+			</div>
+			<div class="MarkFoot">
+				<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+					<p data-ng-bind-html="'SaveDetail.Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-ng-click="back()">
+					<p data-ng-bind-html="'SaveDetail.Button.Confirm'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="SaveError" data-ng-show="model.saveDetail.returnValue == 'error'">
+			<div class="MarkEntry">
+				<div class="FileName">
+					<p data-ng-bind-html="'SaveDetail.FileEntry' |resPhrase:context"></p>
+				</div>
+				<div class="FilePath">
+					<p data-ng-bind-html="model.fileExplorer.csvSavePath"></p>
+				</div>
+			</div>
+			<div class="MarkBody">
+				<p data-ng-bind-html="'SaveDetail.Error.Notice'|resPhrase:context"></p>
+			</div>
+			<div class="MarkFoot">
+				<div class="resButton raise gray W120xH70" data-ng-click="back()">
+					<p data-ng-bind-html="'SaveDetail.Button.Back'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'SaveDetail.Button.Confirm'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

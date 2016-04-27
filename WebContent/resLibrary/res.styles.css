@@ -1,0 +1,332 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: 'Helvetica','Arial','メイリオ','Meiryo UI','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','sans-serif';
+	font-size: 15px; line-height: 1.1;/* without em for auto resize*/
+	color: hsl(0,0%,0%);
+	width: 100%; height: 100%;
+	overflow: hidden;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+}
+* { margin: 0px; padding: 0px; }
+input { -webkit-appearance: none; }
+
+/* test color */
+.currency.minus { color: hsl(7, 100%, 56%)!important; }
+.text.red { color: hsl(7, 100%, 56%)!important; }
+.text.gray { color: hsl(0, 0%, 50%)!important; }
+
+/*
+ *	RES standard buttons
+ */
+.resButton {
+	box-shadow: hsl(0,0%,0%) 0px 2px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 2px 4px;
+	border-style: none;
+	border-radius: 5px;
+	display: table;
+}
+.resButton.disabled { opacity: 0.3; }
+.resButton p { text-align: center; vertical-align: middle; display: table-cell; }
+.resButton.lower { /* gradation to lighter color from top to bottom */ }
+.resButton.lower3D { /* 3d border with gradation to lighter color from top to bottom */ }
+
+.resButton.raise { /* gradation to darker color from top to bottom */ }
+.resButton.raise3D { /* 3d border with gradation to darker color from top to bottom */ }
+.resButton.raiseToolBar { /* Transaction ToolBar */}
+
+/**** lower ****/
+.resButton.lower {
+	border-radius: 10px;
+}
+.resButton.lower.gray {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,20%)),to(hsl(0,0%,40%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.lower.silver {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,80%)),to(hsl(0,0%,95%)));
+	color: hsl(0,0%,0%);
+}
+.resButton.lower.red {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,41%)),to(hsl(7,73%,61%)));
+	box-shadow: hsl(7,73%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(7,73%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower.beige {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,41%)),to(hsl(34,30%,61%)));
+	box-shadow: hsl(34,30%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(34,30%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower.orange {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,90%,41%)),to(hsl(35,90%,61%)));
+	box-shadow: hsl(35,90%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(35,90%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower.yellow {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,41%)),to(hsl(41,100%,61%)));
+	box-shadow: hsl(41,100%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(41,100%,40%) 0px 5px 10px;
+	color: hsl(0,0%,0%);
+}
+.resButton.lower.green {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,41%)),to(hsl(112,45%,61%)));
+	box-shadow: hsl(112,45%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(112,45%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower.blue {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,41%)),to(hsl(212,85%,61%)));
+	box-shadow: hsl(212,85%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(212,85%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower.gray {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,41%)),to(hsl(0,0%,61%)));
+	box-shadow: hsl(0,0%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(0,0%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+
+/**** lower3D ****/
+.resButton.lower3D {
+	border-style: solid; border-width: 2px;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+	border-radius: 10px;
+}
+.resButton.lower3D.gray {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,20%)),to(hsl(0,0%,40%)));
+	border-color: hsl(0,0%,50%) hsl(0,0%,30%) hsl(0,0%,20%);
+	box-shadow: hsl(0,0%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(0,0%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.red {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,20%)),to(hsl(7,73%,40%)));
+	border-color: hsl(7,73%,50%) hsl(7,73%,30%) hsl(7,73%,20%);
+	box-shadow: hsl(7,73%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(7,73%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.beige {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,20%)),to(hsl(34,30%,40%)));
+	border-color: hsl(34,30%,50%) hsl(34,30%,30%) hsl(34,30%,20%);
+	box-shadow: hsl(34,30%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(34,30%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.orange {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,90%,20%)),to(hsl(35,90%,40%)));
+	border-color: hsl(35,90%,50%) hsl(35,90%,30%) hsl(35,90%,20%);
+	box-shadow: hsl(35,90%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(35,90%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.yellow {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,20%)),to(hsl(41,100%,40%)));
+	border-color: hsl(41,100%,50%) hsl(41,100%,30%) hsl(41,100%,20%);
+	box-shadow: hsl(41,100%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(41,100%,40%) 0px 5px 10px;
+	color: hsl(0,0%,0%);
+}
+.resButton.lower3D.green {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,20%)),to(hsl(112,45%,40%)));
+	border-color: hsl(112,45%,50%) hsl(112,45%,30%) hsl(112,45%,20%);
+	box-shadow: hsl(112,45%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(112,45%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.indigo {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(199,68%,20%)),to(hsl(199,68%,40%)));
+	border-color: hsl(199,68%,50%) hsl(199,68%,30%) hsl(199,68%,20%);
+	box-shadow: hsl(194,50%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(194,50%,20%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.blue {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,20%)),to(hsl(212,85%,40%)));
+	border-color: hsl(212,85%,50%) hsl(212,85%,30%) hsl(212,85%,20%);
+	box-shadow: hsl(212,85%,40%) 0px 5px 10px; -webkit-box-shadow: hsl(212,85%,40%) 0px 5px 10px;
+	color: hsl(0,0%,100%);
+}
+.resButton.lower3D.blue:active {
+	border-color: hsl(212,85%,90%) hsl(212,85%,80%) hsl(212,85%,70%);
+	background: -webkit-gradient(linear,left top,left bottom, from(hsl(212,85%,70%)),to(hsl(212,85%,90%)));
+	box-shadow: hsl(212,85%,51%) 0px 5px 10px; -webkit-box-shadow: hsl(212,85%,51%) 0px 5px 10px;
+}
+.resButton.lower3D.green:active {
+	background: -webkit-gradient(linear,left top,left bottom, from(hsl(112,45%,70%)), to(hsl(112,45%,90%)));
+	border-color: hsl(112,45%,90%) hsl(112,45%,80%) hsl(112,45%,70%);
+	box-shadow: hsl(112,45%,51%) 0px 5px 10px; -webkit-box-shadow: hsl(112,45%,51%) 0px 5px 10px;
+}
+.resButton.lower3D.indigo:active {
+	background: -webkit-gradient(linear,left top,left bottom, from(hsl(199,68%,70%)), to(hsl(199,68%,90%)));
+ 	border-color: hsl(199,68%,70%) hsl(199,68%,60%) hsl(199,68%,40%);
+	box-shadow: hsl(199,68%,20%) 0px 5px 10px; -webkit-box-shadow: hsl(199,68%,20%) 0px 5px 10px;
+}
+
+/**** raise ****/
+.resButton.raise.silver {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%)));
+	color: hsl(0,0%,0%);
+}
+.resButton.raise.gray {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,60%)),to(hsl(0,0%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.red {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,60%)),to(hsl(7,73%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.beige {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,60%)),to(hsl(34,30%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.orange {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,90%,60%)),to(hsl(35,90%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.yellow {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,60%)),to(hsl(41,100%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.green {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,60%)),to(hsl(112,45%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.blue {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,60%)),to(hsl(212,85%,30%)));
+	color: hsl(0,0%,100%);
+}
+.resButton.raise.beige:active { background: hsl(34,30%,50%); }
+.resButton.raise.blue:active { background: hsl(212,85%,50%); }
+.resButton.raise.gray:active { background: hsl(0,0%,50%); }
+.resButton.raise.green:active { background: hsl(112,45%,50%); }
+.resButton.raise.orange:active { background: hsl(35,95%,50%); }
+.resButton.raise.red:active { background: hsl(7,73%,50%); }
+.resButton.raise.silver:active { background: hsl(0,0%,50%); }
+.resButton.raise.yellow:active { background: hsl(41,100%,50%); }
+
+/**** raise3D ****/
+.resButton.raise3D {
+	border-style: solid; border-width: 2px;	box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+.resButton.raise3D.red {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%, 40%)),to(hsl(7,73%, 20%)));
+	border-color: hsl(7,73%, 50%) hsl(7,73%, 30%) hsl(7,73%, 25%);
+	color: hsl(0,0%,100%);
+}
+.resButton.raise3D.beige {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,40%)),to(hsl(34,30%,20%)));
+	border-color: hsl(34,30%,50%) hsl(34,30%,30%) hsl(34,30%,25%);
+	color: hsl(0,0%,100%);
+}
+.resButton.raise3D.orange {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,95%,40%)),to(hsl(35,95%,20%)));
+	border-color: hsl(35,95%, 50%) hsl(35,95%, 30%) hsl(35,95%, 25%);
+	color: hsl(0,0%,100%);
+}
+.resButton.raise3D.yellow {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,40%)),to(hsl(41,100%,20%)));
+	border-color: hsl(41,100%, 50%) hsl(41,100%, 30%) hsl(41,100%, 25%);
+}
+.resButton.raise3D.green {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,40%)),to(hsl(112,45%,20%)));
+	border-color: hsl(112,45%, 50%) hsl(112,45%, 30%) hsl(112,45%, 25%);
+	color: hsl(0,0%,100%);
+}
+.resButton.raise3D.blue {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,40%)),to(hsl(212,85%,20%)));
+	border-color: hsl(212,85%, 50%) hsl(212,85%, 30%) hsl(212,85%, 25%);
+	color: hsl(0,0%,100%);
+}
+.resButton.raise3D.gray {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,40%)),to(hsl(0,0%,20%)));
+	border-color: hsl(0,0%, 50%) hsl(0,0%, 30%) hsl(0,0%, 25%);
+	color: hsl(0,0%,100%);
+}
+.resButton.raise3D.silver {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,100%)),to(hsl(0,0%,70%)));
+	border-color: hsl(0,0%,90%) hsl(0,0%,60%) hsl(0,0%,40%);
+	color: hsl(0,0%,0%);
+}
+.resButton.raise3D.beige:active { background: hsl(0,0%,90%); }
+.resButton.raise3D.blue:active { background: hsl(0,0%,90%); }
+.resButton.raise3D.gray:active { background: hsl(0,0%,90%); }
+.resButton.raise3D.green:active { background: hsl(0,0%,90%); }
+.resButton.raise3D.orange:active { background: hsl(0,0%,90%); }
+.resButton.raise3D.red:active { background: hsl(0,0%,90%); }
+.resButton.raise3D.silver:active { background: hsl(0,0%,50%); }
+.resButton.raise3D.yellow:active { background: hsl(0,0%,90%); }
+
+/**** button size ****/
+.WP50xH80 {width: 50%; height: 80px; font-size: 20px; }
+
+.W80xH40 { width: 80px; height: 40px; font-size: 16px; }
+.W98xH38 { width: 98px; height: 38px; font-size: 18px; }
+.W98xH82 { width: 98px; height: 82px; font-size: 18px; }
+.W110xH50 { width: 110px; height: 50px; font-size: 18px; }
+.W120xH70 { width: 120px; height: 70px; font-size: 20px; }
+.W150xH50 { width: 150px; height: 50px; font-size: 18px; }
+.W150xH70 { width: 150px; height: 70px; font-size: 20px; }
+.W150xH100 { width: 150px; height: 100px; font-size: 24px; }
+.W160xH100 { width: 160px; height: 100px; font-size: 24px; }
+.W170xH150 { width: 170px; height: 150px; font-size: 24px; }
+.W200xH70 { width: 200px; height: 70px; font-size: 24px; }
+.W250xH150 { width: 250px; height: 150px; font-size: 24px; }
+.W310xH100 { width: 300px; height: 100px; font-size: 25px; }
+.W310xH130 { width: 300px; height: 130px; font-size: 25px; }
+.W310xH200 { width: 300px; height: 200px; font-size: 30px; }
+.W310xH70  { width: 310px; height: 70px; font-size: 25px; }
+.W310xH150 { width: 310px; height: 150px; font-size: 25px; }
+.W500xH120 { width: 500px; height: 120px; font-size: 40px; }
+
+
+/*
+ *	RES Standard Panels
+ */
+.resPopup {
+	position: absolute; left: 0px; top: 0px; width: 100%; height: 100%;
+	background: hsla(0, 0%, 0%, 0.7);
+	z-index: 10;
+}
+.resCasing {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%, 80%)),to(hsl(34,0%, 40%)));
+	border-radius: 10px;
+}
+.resCasing > div {
+	position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px;
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(34,30%,70%)),to(hsl(34,30%,60%)));
+	border-style: solid; border-width: 1px;	box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+.resCasing.gray { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%, 60%)),to(hsl(0,0%, 30%))); }
+.resCasing.gray > div { border-color: hsl(0,0%, 10%) hsl(0,0%, 50%) hsl(0,0%, 70%); }
+.resPanel.gray { background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(0,0%, 70%)),to(hsl(0,0%, 60%))); }
+
+.resCasing.silver { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%, 90%)),to(hsl(0,0%, 50%))); }
+.resCasing.silver > div { border-color: hsl(0,0%, 30%) hsl(0,0%, 50%) hsl(0,0%, 90%); }
+.resPanel.silver { background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(0,0%, 100%)),to(hsl(0,00%, 80%))); }
+
+.resCasing.beige { background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%, 80%)),to(hsl(34,30%, 40%))); }
+.resCasing.beige > div { border-color: hsl(34,30%,30%) hsl(34,30%,50%) hsl(34,30%,90%); }
+.resPanel.beige { background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(34,30%,80%)),to(hsl(34,30%,65%))); }
+
+.resCasing.cyan { background: -webkit-gradient(linear,left top,left bottom,from(hsl(180,100%, 70%)),to(hsl(180,100%, 30%))); }
+.resCasing.cyan > div { border-color: hsl(180,100%, 30%) hsl(180,100%, 50%) hsl(180,100%, 90%); }
+.resPanel.cyan { background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(180,100%, 90%)),to(hsl(180,100%, 80%))); }
+
+.resCasing.blue { background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%, 80%)),to(hsl(212,85%, 50%))); }
+.resCasing.blue > div { border-color: hsl(212,85%, 30%) hsl(212,85%, 50%) hsl(212,85%, 90%); }
+.resPanel.blue { background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(212,85%, 80%)),to(hsl(212,85%, 70%))); }
+
+.resCasing.yelow { background: -webkit-gradient(linear,left top,left bottom,from(hsl(58,100%, 90%)),to(hsl(58,100%, 40%))); }
+.resCasing.yellow > div { border-color: hsl(212,85%, 30%) hsl(58,100%, 50%) hsl(58,100%, 90%); }
+.resPanel.yellow { background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(58,100%, 80%)),to(hsl(58,100%, 85%))); }
+
+.resEchoback {
+	width: 230px; height: 46px;
+    background: hsl(0,0%,100%);
+    -webkit-box-shadow: hsl(0,0%,0%) 2px 2px 4px inset;
+    border-radius: 5px; box-sizing: border-box; border-style: none;
+    overflow: hidden;
+}
+.resEchoback p {
+	position: absolute; right: 10px;
+    font-size: 25px; line-height: 46px;
+    white-space: nowrap;
+}
+
+/**** end of css ****/

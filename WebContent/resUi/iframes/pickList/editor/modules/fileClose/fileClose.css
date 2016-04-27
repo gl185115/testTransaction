@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+
+#FileClose .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+
+#FileClose .Guide {
+	position: relative; left: 40px; width: 520px; height: 40px;
+	margin-top: 100px;
+	text-align: center;
+	font-size: 25px;
+}
+
+#FileClose .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#FileClose .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+#FileClose .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }
+
+#FileClose .Buttons .resButton:nth-child(3) { position: absolute; bottom: 0px; left: 400px; }

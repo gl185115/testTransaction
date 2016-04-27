@@ -1,0 +1,11 @@
+CACHE MANIFEST
+CACHE:
+# cache the following files
+/resTransaction/external/jquery/1.11.0/jquery-1.11.0.min.js
+/resTransaction/external/angularjs/1.2.16/angular.min.js
+/resTransaction/external/angularjs/1.2.16/angular-sanitize.min.js
+/resTransaction/external/angularjs/1.2.16/angular-animate.min.js
+
+NETWORK:
+# do not cache the following files
+*

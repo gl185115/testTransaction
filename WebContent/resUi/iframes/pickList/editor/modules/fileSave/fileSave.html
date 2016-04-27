@@ -1,0 +1,66 @@
+
+<div class="resCasing silver">
+	<div class="resPanel silver">
+
+		<div id="StatusInput" data-ng-show="model.pickList.status == 'input'">
+			<div class="Guide">
+				<p data-ng-bind-html="'FileSave.Guide'|resPhrase:context"></p>
+			</div>
+			<div class="Entry FileName">
+				<input class="Value" value="" type="text" size="10"
+					data-ng-model="filename" data-res-maxlength="50" data-ng-trim="false"
+					placeholder="{{'FileSave.NameLength'|resPhrase:context}}">
+			</div>
+			<div class="Entry Overwrite">
+				<div class="Switch" data-res-touch="overwrite = !overwrite">
+					<div class="Off" data-ng-show="!overwrite"></div>
+					<div class="On" data-ng-show="overwrite"></div>
+				</div>
+				<p class="Label" data-ng-bind-html="'FileSave.Overwrite'|resPhrase:context"></p>
+			</div>
+			<div class="Warning" data-ng-show="model.pickList.alreadyExists">
+				<p data-ng-bind-html="'FileSave.AlreadyExists'|resPhrase:context"></p>
+			</div>
+			<div class="Warning" data-ng-show="model.pickList.inputEmptyName">
+				<p data-ng-bind-html="'FileSave.InputEmptyName'|resPhrase:context"></p>
+			</div>
+			<div class="Warning" data-ng-show="model.pickList.inValidName">
+				<p data-ng-bind-html="'FileSave.InValidName'|resPhrase:context"></p>
+			</div>
+			<div class="Warning" data-ng-show="model.pickList.fileNameLengthOver">
+				<p data-ng-bind-html="'FileSave.FileNameLengthOver'|resPhrase:context"></p>
+			</div>
+			<div class="Buttons">
+				<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'Button.Save'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div id="StatusSuccessful" data-ng-show="model.pickList.status == 'successful'">
+			<div class="Guide">
+				<p data-ng-bind-html="'FileSave.Guide.StatusSuccessful'|resPhrase:context"></p>
+			</div>
+			<div class="Success">
+				<div class="resButton raise green W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'Button.Okay'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div id="StatusFailed" data-ng-show="model.pickList.status == 'failed'">
+			<div class="Guide">
+				<p data-ng-bind-html="'FileSave.Guide.StatusFailed'|resPhrase:context"></p>
+			</div>
+			<div class="Success">
+				<div class="resButton raise green W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'Button.Okay'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

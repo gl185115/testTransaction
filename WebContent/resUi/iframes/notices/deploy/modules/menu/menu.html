@@ -1,0 +1,101 @@
+
+<div class="TopBar">
+
+	<div class=" Buttons Exit">
+		<div class="resButton lower W98xH82 silver" data-res-tap="file.save()">
+			<p data-ng-bind-html="'Menu.Exit' |resPhrase:context"></p>
+		</div>
+	</div>
+
+	<div class="Buttons File">
+		<div class="resButton lower W98xH82 silver" data-res-tap="file.exit()">
+			<p data-ng-bind-html="'Menu.Button.FileSave' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH82 silver" data-res-tap="file.undo()"
+			data-ng-class="{disabled: (!model.active.resource)||(!model.active.item)}">
+			<p data-ng-bind-html="'Menu.Button.FileUndo' |resPhrase:context"></p>
+		</div>
+	</div>
+
+	<div class="Buttons Edit">
+		<div class="resButton lower W98xH82 silver"
+			data-ng-class="{disabled: !model.active.resource}"
+			data-res-tap="task.create()">
+			<p data-ng-bind-html="'Menu.Button.TaskCreate' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH82 silver"
+			data-ng-class="{ disabled: !model.active.resource || model.active.folder=='effective' || model.active.folder=='obsolete'|| model.active.taskIndex==undefined }"
+			data-res-tap="task.update()">
+			<p data-ng-bind-html="'Menu.Button.TaskUpdate' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH82 silver"
+			data-ng-class="{ disabled: !model.active.resource || model.active.taskIndex==undefined}"
+			data-res-tap="task.remove()">
+			<p data-ng-bind-html="'Menu.Button.TaskDelete' |resPhrase:context" data-ng-show="model.active.folder!='effective'"></p>
+			<p data-ng-bind-html="'Menu.Button.TaskObsolete' |resPhrase:context" data-ng-show="model.active.folder=='effective'"></p>
+		</div>
+	</div>
+
+	<div class="Buttons Address">
+		<div class="resButton lower W98xH82 silver" data-res-tap="address()">
+			<p data-ng-bind-html="'Menu.Button.Address' |resPhrase:context"></p>
+		</div>
+	</div>
+
+	<div class="Buttons CollectLogs">
+		<div class="resButton lower W98xH82 orange" data-res-tap="collectLogs()" data-ng-class="{ disabled: model.deployLogsBtn }">
+			<p data-ng-bind-html="'Menu.Button.CollectLogs' |resPhrase:context"></p>
+		</div>
+	</div>
+
+</div>
+
+<div class="Feedback Popup" data-ng-show="dialog == 'feedback'">
+	<div class="resCasing beige"><div class="resPanel beige">
+		<div class="Message">
+			<p data-ng-bind-html="'Menu.Feedback.' + model.message |resPhrase: context"></p>
+		</div>
+		<div class="BottomLine">
+			<div class="resButton raise green W120xH70" data-res-tap="okay()">
+				<p data-ng-bind-html="'Menu.Okay'|resPhrase: context"></p>
+			</div>
+		</div>
+	</div></div>
+</div>
+
+<div class="Question Popup" data-ng-show="dialog == 'doRemove'">
+	<div class="resCasing beige"><div class="resPanel beige">
+		<div class="Message">
+			<p data-ng-bind-html="'Menu.Question.' + model.message |resPhrase: context" data-ng-show="model.active.folder!='effective'"></p>
+			<p data-ng-bind-html="'Menu.Question.RemoveToObsolete'|resPhrase: context" data-ng-show="model.active.folder=='effective'"></p>
+		</div>
+		<div class="BottomLine">
+			<div class="Buttons">
+				<div class="resButton raise gray W120xH70" data-res-tap="answer.no()">
+					<p data-ng-bind-html="'Menu.No'|resPhrase: context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-res-tap="answer.yes()">
+					<p data-ng-bind-html="'Menu.Yes'|resPhrase: context"></p>
+				</div>
+			</div>
+		</div>
+	</div></div>
+</div>
+
+<div class="Question Popup" data-ng-show="dialog == 'exitUndo'">
+	<div class="resCasing beige"><div class="resPanel beige">
+		<div class="Message">
+			<p data-ng-bind-html="'Menu.Question.' + model.message |resPhrase: context"></p>
+		</div>
+		<div class="BottomLine">
+			<div class="Buttons">
+				<div class="resButton raise gray W120xH70" data-res-tap="answer.no()">
+					<p data-ng-bind-html="'Menu.No'|resPhrase: context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-res-tap="answer.yes()">
+					<p data-ng-bind-html="'Menu.Yes'|resPhrase: context"></p>
+				</div>
+			</div>
+		</div>
+	</div></div>
+</div>

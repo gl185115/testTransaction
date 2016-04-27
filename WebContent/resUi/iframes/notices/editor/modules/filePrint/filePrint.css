@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+.NoticePrintFile {
+  position: absolute;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
+}
+
+td.NoticePrintFileLine {
+	border-color: hsl(0, 0%, 60%) hsl(0, 0%, 60%) hsl(0, 0%, 60%);
+	border-style: solid; border-width: 2px 2px 2px 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	width:100px;
+	font-size: 12px;
+	font-weight: bolder;
+}
+
+td.NoticePrintFileItem {
+	border-color: hsl(0, 0%, 60%) hsl(0, 0%, 60%) hsl(0, 0%, 60%);
+	border-style: solid; border-width: 2px 2px 2px 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	width: 660px;
+}

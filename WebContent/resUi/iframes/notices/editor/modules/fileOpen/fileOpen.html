@@ -1,0 +1,27 @@
+
+<div class="Popup" data-ng-show="dialog == 'fileOpen'">
+	<div class="Panel"><div class="InnerBox">
+	
+		<div class="Guide">
+			<p data-ng-bind-html="'FileOpen.Guide'|resPhrase:context"></p>
+		</div>
+		<div class="List">
+			<div id="wrapperFiles"><div class="scroller">
+				<ul>
+					<li class="Line" data-ng-repeat="file in model.editor.files" 
+						data-ng-class="{selected: $index==indexFile}" 
+						data-ng-click="select($index)">
+						
+						<p data-ng-bind-html="file"></p>
+					</li>
+				</ul>
+			</div></div>
+		</div>
+	
+		<div class="Buttons">
+			<div class="Button W120xH70 yellow" data-ng-click="cancel()"><p data-ng-bind-html="'Cancel'|resPhrase:context"></p></div>
+			<div class="Button W120xH70 green" data-ng-click="submit()"><p data-ng-bind-html="'Open'|resPhrase:context"></p></div>
+		</div>
+		
+	</div></div>
+</div>

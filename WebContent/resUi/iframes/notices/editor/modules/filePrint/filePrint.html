@@ -1,0 +1,52 @@
+<div class="NoticePrintFile">
+	<table>
+		<tr>
+			<td class="NoticePrintFileLine">
+				<p data-ng-bind-html="'MenuFilePrint.FileName' |resPhrase:context"></p>
+			</td>
+			<td class="NoticePrintFileItem">
+				<p data-ng-bind-html="model.editor.fileName"></p>
+			</td>
+		</tr>
+		<tr>
+			<td class="NoticePrintFileLine">
+				<p data-ng-bind-html="'MenuFilePrint.FileName1' |resPhrase:context"></p>
+			</td>
+			<td class="NoticePrintFileItem">
+				<p id= "MenuFilePrintFileName1" data-ng-bind-html="model.editor.titlePrint"></p>
+			</td>
+		</tr>
+		<tr>
+			<td class="NoticePrintFileLine">
+				<p data-ng-bind-html="'MenuFilePrint.FileName2' |resPhrase:context"></p>
+			</td>
+			<td class="NoticePrintFileItem">
+				<p id = "MenuFilePrintFileName2" data-ng-bind-html="model.editor.title2Print"></p>
+			</td>
+		</tr>
+		<tr>
+	    	<td class="NoticePrintFileLine">
+	    		<p data-ng-bind-html="'MenuFilePrint.Expiry' |resPhrase:context"></p>
+	    	</td>
+	    	<td class="NoticePrintFileItem">
+				<p id = "MenuFilePrintExpiry" data-ng-bind-html="model.editor.expire"></p>
+			</td>
+    	</tr>
+    	<tr>
+		    <td class="NoticePrintFileLine">
+		    	<p data-ng-bind-html="'MenuFilePrint.Content' |resPhrase:context"></p>
+			</td>
+			<td class="NoticePrintFileItem">
+		    	<p id="MenuFilePrintContent"></p>
+		    </td>
+	   </tr>
+	   <tr>
+			<td class="NoticePrintFileLine">
+		    	<p data-ng-bind-html="'MenuFilePrint.Picture' |resPhrase:context"></p>
+		    </td>
+		    <td class="NoticePrintFileItem">
+				<img data-ng-if="model.notice.selectedImage" data-ng-src="{{model.notice.selectedImage?model.notice.imageURL + model.notice.selectedImage:''}}" >
+			</td>
+	   </tr>
+	</table>
+</div>

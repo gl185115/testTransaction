@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+#FileClose .Guide {
+	position: absolute; left: 20px; top: 120px; width: 560px; height: 40px;
+	display: table;
+}
+#FileClose .Guide p { 
+	text-align: center; vertical-align: top; display: table-cell;
+	font-size: 25px;
+}

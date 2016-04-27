@@ -1,0 +1,50 @@
+<!-- Main Menu on Home Page -->
+
+<div class="Buttons">
+
+	<div class="column left">
+		<p class="title">
+			<span data-ng-bind-html="'PickList'|resPhrase:'Home'"></span>
+		</p>
+		<div class="btnPickListEdit resButton lower3D blue" data-res-click="page('pickListEditor')">
+			<div class="Icon"><img src="../../../images/home/unnumberred.png" alt=""></div>
+			<div class="Label"><p data-ng-bind-html="'PickListEdit'|resPhrase:'Home'"></p></div>
+		</div>
+		<div class="btnPickListDeploy resButton lower3D green" data-res-click="page('pickListDeploy')">
+			<div class="Icon"><img src="../../../images/home/schedule.png" alt=""></div>
+			<div class="Label"><p data-ng-bind-html="'PickListDeploy'|resPhrase:'Home'"></p></div>
+		</div>
+		<div class="btnPickListReTransfer resButton lower3D orange" data-ng-class="{disabled:model.transfering}" data-res-click="transfer('pickList')">
+			<div class="Label">
+				<p data-ng-bind-html="'PickListReTransfer'|resPhrase:'Home'"></p>
+			</div>
+		</div>
+		<div class="btnImageCopy resButton lower3D gray" data-res-click="page('pickListAlbum')">
+			<div class="Label"><p data-ng-bind-html="'ImageCopy'|resPhrase:'Home'"></p></div>
+		</div>
+	</div>
+
+	<div class="column right">
+		<p class="title">
+			<span data-ng-bind-html="'Notices'|resPhrase:'Home'"></span>
+		</p>
+		<div class="btnNoticesEdit resButton lower3D blue" data-res-click="page('noticesEditor')">
+			<div class="Icon"><img src="../../../images/home/notice(2).png" alt=""></div>
+			<div class="Label"><p data-ng-bind-html="'NoticesEdit'|resPhrase:'Home'"></p></div>
+		</div>
+		<div class="btnNoticesDeploy resButton lower3D green" data-res-click="page('noticesDeploy')">
+			<div class="Icon"><img src="../../../images/home/schedule.png" alt=""></div>
+			<div class="Label"><p data-ng-bind-html="'NoticesDeploy'|resPhrase:'Home'"></p></div>
+		</div>
+		<div class="btnNoticesReTransfer resButton lower3D orange" data-ng-class="{disabled:model.transfering}" data-res-click="transfer('notices')">
+			<div class="Label">
+				<p data-ng-bind-html="'NoticesReTransfer'|resPhrase:'Home'"></p>
+			</div>
+		</div>
+		<div class="btnImageCopy resButton lower3D gray" data-res-click="page('noticesAlbum')">
+			<div class="Label"><p data-ng-bind-html="'ImageCopy'|resPhrase:'Home'"></p></div>
+		</div>
+	</div>
+
+
+</div>

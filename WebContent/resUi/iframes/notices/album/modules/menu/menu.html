@@ -1,0 +1,20 @@
+
+<div class="Exit">
+	<div class="TopBar">
+		<div class=Buttons>
+			<div class="resButton lower W98xH82 silver" data-res-touch="exit()">
+				<p data-ng-bind-html="'Menu.Exit' |resPhrase:context"></p>
+			</div>
+			<!-- <div class="resButton lower W98xH82 silver" data-res-touch="imageImport()"> -->
+			<div class="resButton lower W98xH82 silver">
+				<p data-ng-bind-html="'Menu.ImageImport' |resPhrase:context"></p>
+				<input type="file" multiple accept="image/*" id="noticesImgfileInput" class="imgupload">
+			</div>
+			<div class="resButton lower W98xH82 red"
+				data-res-touch="imageDelete()"
+				data-ng-class="{disabled: !model.imageCopy.pictures || model.imageCopy.pictures.length==0 || model.imageCopy.indexImage==undefined}">
+				<p data-ng-bind-html="'Menu.ImageDelete' |resPhrase:context"></p>
+			</div>
+		</div>
+	</div>
+</div>

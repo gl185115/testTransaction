@@ -349,6 +349,8 @@ public final class POSLogHandler {
                 result = TxTypes.SUMMARY_RECEIPT;
             } else if(controlTransaction.getOperatorSignOff() != null) {
                 result = TxTypes.SIGNOFF;
+            } else if(controlTransaction.getPosEod() != null) {
+                result = TxTypes.POSEOD;
             } else if(controlTransaction.getOperatorSignOn() != null) {
                 result = TxTypes.SIGNON;
             } else if(controlTransaction.getAutoSignOff() != null) {

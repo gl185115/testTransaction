@@ -55,7 +55,10 @@ public class ControlTransaction {
      * The private member variable which holds the Operator auto sign off
      */
     @XmlElement(name = "AutoSignoff")
-    private OperatorAutoSignOff autoSignOff;    
+    private OperatorAutoSignOff autoSignOff;
+
+    @XmlElement(name = "PodEod")
+    private PosEod posEod;
    
 	/**
 	 * Gets the version number attribute value.
@@ -158,5 +161,21 @@ public class ControlTransaction {
      */
     public void setAutoSignOff(OperatorAutoSignOff operatorAutoSignOff) {
     	this.autoSignOff = operatorAutoSignOff;
-    }    
+    }
+
+    /**
+     * @return PosEod
+     */
+    public PosEod getPosEod() {
+        return posEod;
+    }
+
+    /**
+     * @param posEod
+     */
+    public void setPosEod(PosEod posEod) {
+        this.posEod = posEod;
+    }
+
+
 }

@@ -10864,6 +10864,10 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND StoreId = @storeId
     AND DeleteFlag = 0.0
     </entry>
+    <entry key="get-company-info">
+      SELECT *
+      FROM RESMaster.dbo.MST_COMPANYINFO
+    </entry>
     <entry key="get-terminal-info">
       DECLARE
         @companyId varchar(max),

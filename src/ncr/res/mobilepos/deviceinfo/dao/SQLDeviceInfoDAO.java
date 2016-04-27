@@ -1928,75 +1928,68 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("storeId", storeId)
-				.println("terminalId", terminalId)
-				.println("companyId", companyId)
-				.println("training", training);
+                .println("terminalId", terminalId)
+                .println("companyId", companyId)
+                .println("training", training);
 
-		ResultBase returnData = null;
-        ResultSet resultSet = null;
-        Connection connection = null;
-        PreparedStatement select = null;
-
+        ResultBase returnData = null;
+        SQLStatement sqlStatement;
         try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-
-            select = connection.prepareStatement(
-                    sqlStatement.getProperty("get-attribute-info"));
-            select.setString(SQLStatement.PARAM1, storeId);
-            select.setString(SQLStatement.PARAM2, terminalId);
-			select.setString(SQLStatement.PARAM3, companyId);
-			select.setInt(SQLStatement.PARAM4, training);
-
-            resultSet = select.executeQuery();
-            
-            if (resultSet.next()) {
-				AttributeInfo attributeInfo = new AttributeInfo();
-				attributeInfo.setAttributeId(resultSet.getString("AttributeId"));
-            	attributeInfo.setPrinter(resultSet.getString("Printer"));
-            	attributeInfo.setTill(resultSet.getString("Till"));
-            	attributeInfo.setCreditTerminal(resultSet.getString("CreditTerminal"));
-            	attributeInfo.setMSR(resultSet.getString("MSR"));
-            	attributeInfo.setCashChanger(resultSet.getString("CashChanger"));
-            	attributeInfo.setAttribute1(resultSet.getString("Attribute1"));
-            	attributeInfo.setAttribute2(resultSet.getString("Attribute2"));
-            	attributeInfo.setAttribute3(resultSet.getString("Attribute3"));
-            	attributeInfo.setAttribute4(resultSet.getString("Attribute4"));
-            	attributeInfo.setAttribute5(resultSet.getString("Attribute5"));
-            	attributeInfo.setAttribute6(resultSet.getString("Attribute6"));
-            	attributeInfo.setAttribute7(resultSet.getString("Attribute7"));
-				// Currently Attribute8, Attribute9 and Attribute10 are reserved for future use, it can be null.
-            	attributeInfo.setAttribute8(resultSet.getString("Attribute8"));
-				attributeInfo.setAttribute9(resultSet.getString("Attribute9"));
-				attributeInfo.setAttribute10(resultSet.getString("Attribute10"));
-
-            	attributeInfo.setTrainingMode(resultSet.getInt("Training"));
-            	attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-            	attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-            	attributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
-
-				returnData = attributeInfo;
-            }else{
-				// No data found.
-				ResultBase errorReturn = new ResultBase();
-				errorReturn.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-				errorReturn.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-				errorReturn.setMessage(ResultBase.RES_NODATAFOUND_MSG);
-
-				returnData = errorReturn;
-            }
+            sqlStatement = SQLStatement.getInstance();
         } catch (SQLStatementException sqlStmtEx) {
+            tp.methodExit(returnData);
             throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to  Get the Attribute Info.", sqlStmtEx);
+        }
+
+        try (Connection con = dbManager.getConnection();
+             PreparedStatement ps = con.prepareStatement(sqlStatement.getProperty("get-attribute-info"))) {
+            ps.setString(SQLStatement.PARAM1, storeId);
+            ps.setString(SQLStatement.PARAM2, terminalId);
+            ps.setString(SQLStatement.PARAM3, companyId);
+            ps.setInt(SQLStatement.PARAM4, training);
+            try (ResultSet resultSet = ps.executeQuery()) {
+                if (resultSet.next()) {
+                    AttributeInfo attributeInfo = new AttributeInfo();
+                    attributeInfo.setAttributeId(resultSet.getString("AttributeId"));
+                    attributeInfo.setPrinter(resultSet.getString("Printer"));
+                    attributeInfo.setTill(resultSet.getString("Till"));
+                    attributeInfo.setCreditTerminal(resultSet.getString("CreditTerminal"));
+                    attributeInfo.setMSR(resultSet.getString("MSR"));
+                    attributeInfo.setCashChanger(resultSet.getString("CashChanger"));
+                    attributeInfo.setAttribute1(resultSet.getString("Attribute1"));
+                    attributeInfo.setAttribute2(resultSet.getString("Attribute2"));
+                    attributeInfo.setAttribute3(resultSet.getString("Attribute3"));
+                    attributeInfo.setAttribute4(resultSet.getString("Attribute4"));
+                    attributeInfo.setAttribute5(resultSet.getString("Attribute5"));
+                    attributeInfo.setAttribute6(resultSet.getString("Attribute6"));
+                    attributeInfo.setAttribute7(resultSet.getString("Attribute7"));
+                    // Currently Attribute8, Attribute9 and Attribute10 are reserved for future use, it can be null.
+                    attributeInfo.setAttribute8(resultSet.getString("Attribute8"));
+                    attributeInfo.setAttribute9(resultSet.getString("Attribute9"));
+                    attributeInfo.setAttribute10(resultSet.getString("Attribute10"));
+
+                    attributeInfo.setTrainingMode(resultSet.getInt("Training"));
+                    attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                    attributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                    attributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
+
+                    returnData = attributeInfo;
+                } else {
+                    // No data found.
+                    ResultBase errorReturn = new ResultBase();
+                    errorReturn.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                    errorReturn.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                    errorReturn.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+
+                    returnData = errorReturn;
+                }
+            }
         } catch (SQLException sqlEx) {
             throw new DaoException("SQLException: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to Get the Attribute Info.", sqlEx);
-        } catch (Exception ex) {
-            throw new DaoException("Exception: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to Get the Attribute Info.", ex);
         } finally {
-            closeConnectionObjects(connection, select, resultSet);
-			tp.methodExit(returnData);
+            tp.methodExit(returnData);
         }
         return returnData;
     }

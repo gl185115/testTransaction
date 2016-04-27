@@ -34,8 +34,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 	     <name>RES MeX Snapshots</name>
 	     <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
 	     <uniqueVersion>false</uniqueVersion>
-  	   </snapshotRepository>	
-    </distributionManagement>	
+  	   </snapshotRepository>
+    </distributionManagement>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -175,7 +175,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <groupId>javax.websocket</groupId>
         <artifactId>javax.websocket-api</artifactId>
         <version>1.1</version>
-    </dependency>    
+    </dependency>
     <!-- For Test -->
     <dependency>
       <groupId>commons-collections</groupId>
@@ -246,7 +246,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       <artifactId>javax.servlet-api</artifactId>
       <version>3.0.1</version>
       <scope>provided</scope>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
@@ -316,7 +316,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <groupId>net.java.dev.jna</groupId>
         <artifactId>platform</artifactId>
         <version>3.4.0</version>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>
@@ -443,6 +443,10 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                   <include>*.jsp</include>
                   <include>images/*</include>
                   <include>parameters/*</include>
+                  <include>settingAds/*</include>
+                  <include>settingAds/css/*</include>
+                  <include>settingAds/fonts/*</include>
+                  <include>settingAds/js/*</include>
                   <include>WEB-INF/lib/*.jar</include>
                 </includes>
                 <excludes>
@@ -469,7 +473,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           <version>2.5.1</version>
           <configuration>
             <encoding>UTF-8</encoding>
-            <skip>${maven.test.skip}</skip>                
+            <skip>${maven.test.skip}</skip>
             <formats>
               <format>xml</format>
               <format>html</format>
@@ -501,8 +505,8 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <check>
               <haltOnFailure>false</haltOnFailure>
             </check>
-          </configuration>            
-        </plugin>       
+          </configuration>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>

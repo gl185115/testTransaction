@@ -19,6 +19,18 @@ $(document).ready(function(){
 	res.core.device.onmessage =  function(message) {
 		context = message.context;
 		switch (message.event){
+		case "device.registration":
+		    res.service.device.registration(message.data, {
+		        success: function(result) {
+		            if(result.length > 0) {
+		                res.core.device.send({ context: context, event: "company.registration.successful", data: result});
+		            }
+		        },
+		        error: function(result) {
+		            res.core.device.send({ context: context, event: "company.registration.failed", data: {}});
+		        }
+		    });
+		    break;
 		case "device.profile":
 			res.service.device.profile(message.data, {
 				success:function(result){

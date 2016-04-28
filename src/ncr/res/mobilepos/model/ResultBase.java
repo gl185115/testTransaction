@@ -356,6 +356,21 @@ public class ResultBase {
     public static final String RES_NODATAFOUND_MSG = "No Rows Available";
     /**
      * Value : {@value}<br>
+     * Database data was not found.
+     */
+    public static final String RES_EXISTS_MSG = "exist";
+    /**
+     * Value : {@value}<br>
+     * Database data was not found.
+     */
+    public static final String RES_SUCCESSFULL_MSG = "success";
+    /**
+     * Value : {@value}<br>
+     * Database data was not found.
+     */
+    public static final String RES_FAILED_MSG = "failed";
+    /**
+     * Value : {@value}<br>
      * Invalid parameter.
      */
     public static final String RES_INVALIDPARAMETER_MSG = "Invalid parameter Error";
@@ -1110,6 +1125,11 @@ public class ResultBase {
      * Getting the value for SERVERTYPE system property failed.
      */
     public static final int RES_SYSTEM_PROP_ERROR = 1600;
+    /**
+     * Value : {@value}<br>
+     * Getting the value for SERVERTYPE system property failed.
+     */
+    public static final int RES_FILE_ALREADY_EXIST = 1515;
     /**
      * Value : {@value}<br>
      * Credit summary for a specific business day date is not found.

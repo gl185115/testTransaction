@@ -86,17 +86,17 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements
 			}
 		} catch (SQLStatementException sqlStmtEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get companyInfo list.", sqlStmtEx);
+                    functionName + ": Failed to get CompanyInfo list.", sqlStmtEx);
             throw new DaoException("SQLStatementException:"
                     + " @SQLServerCompanyInfoDAO.getCompanyInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get guestzone list.", sqlEx);
+                    + ": Failed to get CompanyInfo list.", sqlEx);
             throw new DaoException("SQLException:"
                     + " @SQLServerCompanyInfoDAO.getCompanyInfo", sqlEx);
         } catch (Exception ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get getCompanyInfo list.", ex);
+                    + ": Failed to get CompanyInfo list.", ex);
             throw new DaoException("Exception:"
                     + " @SQLServerCompanyInfoDAO.getCompanyInfo", ex);
         } finally {

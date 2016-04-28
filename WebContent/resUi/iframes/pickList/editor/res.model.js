@@ -86,15 +86,15 @@ res.model = res.model || {};
 			}
 			break;
 		case "file.upload":
-			if (data == "success") {
+			if (data.message == "success") {
 				model.pickList.status = "successful";
 				model.pickList.OriginalItems = angular.copy(model.pickList.items);
 				model.pickList.OriginalCategories = angular.copy(model.pickList.categories);
 				model.pickList.OriginalLayout= angular.copy(model.pickList.layout);
 				break;
-			} else if (data == "exist") {
+			} else if (data.message == "exist") {
 				model.pickList.alreadyExists = true;
-			} else if (data == "failed") {
+			} else if (data.message == "failed") {
 				model.pickList.status = "failed";
 			}
 			break;

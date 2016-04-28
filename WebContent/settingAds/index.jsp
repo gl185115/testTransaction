@@ -399,6 +399,7 @@ $(document).ready(function() {
 
     <% if (resCommit != null) { %>
     var resCommit = "<%= resCommit %>";
+    var  err = "<%= err %>";
     if (resCommit === "1") {
         $(".modal-footer>#btnOk").show();
         $(".modal-dialog").find(".modal-title").html('正常');
@@ -407,17 +408,20 @@ $(document).ready(function() {
     } else if (resCommit === "2") {
         $(".modal-footer>#btnOk").show();
         $(".modal-dialog").find(".modal-title").html('警告');
-        $(".modal-dialog").find(".modal-body").html('<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span><span><%= err %></span>');
+        $(".modal-dialog").find(".modal-body").html('<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span><span>' + err + '</span>');
         $(".modal").modal("show");
     }
     <% } %>
 
     $('select').select2();
+
     $('.date').datepicker( {
         format: 'yyyy/mm/dd',
         language: 'ja',
         todayHighlight : true
     });
+    $(".datepicker").css("z-index","100");
+
     if ($("#companyId").val() === "") {
         $("#bizCatId").attr("disabled", "disabled");
         $("#btnSet").attr("disabled", "disabled");
@@ -560,8 +564,8 @@ $(document).ready(function() {
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="/resTransaction/settingAds/">レシート広告 メンテナンス</a>
-    </div><!-- /.navbar-header -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </nav>
 <div class="container">
   <div class="row">

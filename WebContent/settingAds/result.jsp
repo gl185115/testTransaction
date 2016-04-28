@@ -42,9 +42,9 @@ String resCommit = "0"; //1:成功, 2:失敗
 String err = ""; //エラー詳細
 String user = ""; //ログインユーザー名
 //ログインユーザー名取得
-try{
-    user = request.getRemoteUser();
-} catch(Exception e) {
+try {
+    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
+} catch (Exception e) {
 }
 
 String companyId = request.getParameter("companyId");

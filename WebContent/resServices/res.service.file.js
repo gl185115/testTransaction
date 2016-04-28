@@ -99,7 +99,7 @@ $(document).ready(function () {
             });
         },
         upload: function (data, callback) {
-            requestURL = res.config.baseURL + "fileUpload";
+            requestURL = res.config.baseURL + "rest/uiconfigMaintenance/fileUpload";
             $.ajax({
                 type: 'POST',
                 url: requestURL,

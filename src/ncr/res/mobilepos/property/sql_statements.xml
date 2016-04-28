@@ -12477,5 +12477,82 @@ insert into txl_offline_credit
       TrainingFlag = @trainingFlag AND
       OriginalSequenceNumber = @txId
   </entry>
+  
+  <entry key="get-store-info">
+    DECLARE
+    @companyid varchar(12)
+    
+    SET @companyid = ?
+	 
+	 SELECT
+       CompanyId
+      ,StoreId
+      ,StoreName
+      ,StoreShortName
+      ,StoreType
+      ,StoreKubun
+      ,StoreZip
+      ,StoreAddr
+      ,StoreAddr1
+      ,StoreAddr2
+      ,StoreTel
+      ,StoreFax
+      ,StoreUrl
+      ,SalesSpaceName
+      ,EventName
+      ,Ads
+      ,CdMsg
+      ,ElectroFilePath
+      ,StampTaxFilePath
+      ,StoreCompCode
+      ,SubCode1
+      ,SubCode2
+      ,SubCode3
+      ,SubCode4
+      ,SubCode5
+      ,SubCode6
+      ,SubCode7
+      ,SubCode8
+      ,SubCode9
+      ,SubCode10
+      ,SubCode11
+      ,SubCode12
+      ,SubCode13
+      ,SubCode14
+      ,SubCode15
+      ,SubCode16
+      ,SubCode17
+      ,SubCode18
+      ,SubCode19
+      ,SubCode20
+      ,SubCode21
+      ,SubCode22
+      ,SubCode23
+      ,SubCode24
+      ,SubCode25
+      ,SubNum1
+      ,SubNum2
+      ,SubNum3
+      ,SubNum4
+      ,SubNum5
+      ,SubNum6
+      ,SubNum7
+      ,SubNum8
+      ,SubNum9
+      ,SubNum10
+      ,SubNum11
+      ,SubNum12
+      ,SubNum13
+      ,SubNum14
+      ,SubNum15
+      ,HostUpdDate
+      ,Status
+    FROM
+      RESMaster.dbo.MST_STOREINFO
+    WHERE
+      CompanyId = @companyid
+	ORDER BY
+	  CompanyId
+    </entry>
 
 </properties>

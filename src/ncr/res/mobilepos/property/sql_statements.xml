@@ -10865,8 +10865,26 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND DeleteFlag = 0.0
     </entry>
     <entry key="get-company-info">
-      SELECT *
-      FROM RESMaster.dbo.MST_COMPANYINFO
+      SELECT company.CompanyId,
+      		 company.CompanyName,
+      		 company.CompanyKanaName,
+      		 company.CompanyShortName,
+      		 company.CompanyShortKanaName,
+      		 company.DisplayOrder,
+      		 company.SubCode1,
+      		 company.SubCode2,
+      		 company.SubCode3,
+      		 company.SubCode4,
+      		 company.SubCode5,
+      		 company.SubNum1,
+      		 company.SubNum2,
+      		 company.SubNum3,
+      		 company.SubNum4,
+      		 company.SubNum5
+      FROM 
+      	RESMaster.dbo.MST_COMPANYINFO company
+      WHERE
+      	company.DeleteFlag = 0.
     </entry>
     <entry key="get-terminal-info">
       DECLARE

@@ -237,26 +237,26 @@ public class CompanyInfo extends ResultBase {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
+		String crlf = "\r\n";
 		
 		if(null != this.CompanyId){
-			sb.append("{CompanyId: ").append(this.CompanyId.toString());
+			sb.append("CompanyId: ").append(this.CompanyId.toString());
 		}
 		if(null != this.CompanyName){
-			sb.append(",CompanyName: ").append(this.CompanyName.toString());
+			sb.append(crlf).append(",CompanyName: ").append(this.CompanyName.toString());
 		}
 		if(null != this.CompanyKanaName){
-			sb.append(",CompanyKanaName: ").append(this.CompanyKanaName.toString());
+			sb.append(crlf).append(",CompanyKanaName: ").append(this.CompanyKanaName.toString());
 		}
 		if(null != this.CompanyShortName){
-			sb.append(",CompanyShortName: ").append(this.CompanyShortName.toString());
+			sb.append(crlf).append(",CompanyShortName: ").append(this.CompanyShortName.toString());
 		}
 		if(null != this.CompanyShortKanaName){
-			sb.append(",CompanyShortKanaName: ").append(this.CompanyShortKanaName.toString());
+			sb.append(crlf).append(",CompanyShortKanaName: ").append(this.CompanyShortKanaName.toString());
 		}
 		/*if("".equals(String.valueOf(this.SubCode5))){
-			sb.append(",SubCode5: ").append(String.valueOf(this.SubCode5));
+			sb.append(crlf).append(",SubCode5: ").append(String.valueOf(this.SubCode5));
 		}*/
-		sb.append("}");
 		
 		return sb.toString();
 	}

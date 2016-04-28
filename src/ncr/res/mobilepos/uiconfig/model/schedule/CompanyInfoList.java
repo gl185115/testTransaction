@@ -1,9 +1,5 @@
 package ncr.res.mobilepos.uiconfig.model.schedule;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.ObjectWriter;
-
-import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.model.ResultBase;
 
 import java.util.List;
@@ -16,6 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CompanyInfoList")
 public class CompanyInfoList extends ResultBase{
+	
     @XmlElement(name = "CompanyInfoList")
     private List<CompanyInfo> companyInfoList;
     
@@ -23,14 +20,11 @@ public class CompanyInfoList extends ResultBase{
 	 * @return the companyInfo
 	 */
 	public List<CompanyInfo> getCompanyInfo() {
-//        if (companyInfoList == null) {
-//            return Collections.emptyList();
-//        }
         return companyInfoList;
 	}
 
 	/**
-	 * @param companyInfo the companyInfo to set
+	 * @param companyInfoList the companyInfo to set
 	 */
 	public final void setCompanyInfo(final List<CompanyInfo> companyInfoList) {
 		this.companyInfoList = companyInfoList;

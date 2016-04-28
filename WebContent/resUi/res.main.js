@@ -47,7 +47,8 @@ angular.element(document).ready(function(){
 	res.model.init();
 	res.ui.canvas();
 	
-	res.ui.send({ event: "device.profile" });
+//	res.ui.send({ event: "device.profile" });
+	res.ui.send({ event: "device.registration" });
 	
 	window.addEventListener('beforeunload', function(event){
 		if (res.ui.root.subject !== 'home'){

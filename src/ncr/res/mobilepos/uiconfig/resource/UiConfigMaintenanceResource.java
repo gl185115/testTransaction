@@ -38,6 +38,11 @@ import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
 @Path("/uiconfigMaintenance")
 public class UiConfigMaintenanceResource {
 
+	/**
+     * ClassSimpleName
+     */
+	private final String PROG_NAME = "UCMT";
+	
     /**
      * UiConfigProperties
      */
@@ -79,7 +84,11 @@ public class UiConfigMaintenanceResource {
 			IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
 			cmpList = icmyInfoDao.getCompanyInfo();
 			if(StringUtility.isNullOrEmpty(cmpList)) {
-				tp.println(ResultBase.RES_NODATAFOUND_MSG);
+				tp.println("Failed to No Data Found.");
+				LOGGER.logAlert(PROG_NAME,
+						functionName,
+						Logger.RES_EXCEP_NODATAFOUND,
+						functionName + ":Failed to get company information.");
 				companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				companyInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
@@ -89,13 +98,13 @@ public class UiConfigMaintenanceResource {
 			}
 		} catch (DaoException ex) {
 			tp.println("Failed to get company information.");
-			LOGGER.logAlert(functionName,
+			LOGGER.logAlert(PROG_NAME,
 					Logger.RES_EXCEP_DAO,
 					functionName + ":Failed to get company information.",
 					ex);
 		} catch(Exception ex) {
 			tp.println("Failed to get company information.");
-			LOGGER.logAlert(functionName,
+			LOGGER.logAlert(PROG_NAME,
 					Logger.RES_EXCEP_GENERAL,
 					functionName + ":Failed to get company information.",
 					ex);

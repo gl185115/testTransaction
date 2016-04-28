@@ -50,6 +50,12 @@ res.model = res.model || {};
 //				}});
 //			res.main.page("credential");
 			break;
+		case "company.registration.successful":
+		    if(data) {
+		        model.companies = data;
+		        res.main.page("settings");
+		    }
+		    break;
 //		case "device.deregister.successful":
 //			window.parent.location.href = "../../../resAuthenticate/";
 //			break;
@@ -77,6 +83,7 @@ res.model = res.model || {};
 
 	MainWindow = function(){
 		this.date = undefined;
+		this.companies = undefined;
 		this.companyId = undefined;
 		this.storeId = undefined;
 		this.workstationId = undefined;

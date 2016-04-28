@@ -10,5 +10,11 @@ import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
  */
 public interface IUiConfigCommonDAO {
 	
+	/**
+     * @return return the Company information
+     *
+     * @throws DaoException
+     *            Thrown when process fails.
+     */
 	List<CompanyInfo> getCompanyInfo() throws DaoException;
 }

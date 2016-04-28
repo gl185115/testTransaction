@@ -31,25 +31,34 @@ public class CompanyInfo extends ResultBase {
 	private int DisplayOrder;
 	
 	@XmlElement(name = "SubCode1")
-	private int SubCode1;
+	private String SubCode1;
 	
 	@XmlElement(name = "SubCode2")
-	private int SubCode2;
+	private String SubCode2;
 	
 	@XmlElement(name = "SubCode3")
-	private int SubCode3;
+	private String SubCode3;
 	
 	@XmlElement(name = "SubCode4")
-	private int SubCode4;
+	private String SubCode4;
 	
 	@XmlElement(name = "SubCode5")
-	private int SubCode5;
+	private String SubCode5;
 	
-	@XmlElement(name = "DeleteFlag")
-	private int DeleteFlag;
+	@XmlElement(name = "SubNum1")
+	private int SubNum1;
 	
-	@XmlElement(name = "DelAppId")
-	private String DelAppId;
+	@XmlElement(name = "SubNum2")
+	private int SubNum2;
+	
+	@XmlElement(name = "SubNum3")
+	private int SubNum3;
+	
+	@XmlElement(name = "SubNum4")
+	private int SubNum4;
+	
+	@XmlElement(name = "SubNum5")
+	private int SubNum5;
 
 	/**
 	 * @return the companyId
@@ -138,102 +147,146 @@ public class CompanyInfo extends ResultBase {
 	/**
 	 * @return the subCode1
 	 */
-	public int getSubCode1() {
+	public String getSubCode1() {
 		return SubCode1;
 	}
 
 	/**
 	 * @param subCode1 the subCode1 to set
 	 */
-	public void setSubCode1(int subCode1) {
+	public void setSubCode1(String subCode1) {
 		SubCode1 = subCode1;
 	}
 
 	/**
 	 * @return the subCode2
 	 */
-	public int getSubCode2() {
+	public String getSubCode2() {
 		return SubCode2;
 	}
 
 	/**
 	 * @param subCode2 the subCode2 to set
 	 */
-	public void setSubCode2(int subCode2) {
+	public void setSubCode2(String subCode2) {
 		SubCode2 = subCode2;
 	}
 
 	/**
 	 * @return the subCode3
 	 */
-	public int getSubCode3() {
+	public String getSubCode3() {
 		return SubCode3;
 	}
 
 	/**
 	 * @param subCode3 the subCode3 to set
 	 */
-	public void setSubCode3(int subCode3) {
+	public void setSubCode3(String subCode3) {
 		SubCode3 = subCode3;
 	}
 
 	/**
 	 * @return the subCode4
 	 */
-	public int getSubCode4() {
+	public String getSubCode4() {
 		return SubCode4;
 	}
 
 	/**
 	 * @param subCode4 the subCode4 to set
 	 */
-	public void setSubCode4(int subCode4) {
+	public void setSubCode4(String subCode4) {
 		SubCode4 = subCode4;
 	}
 
 	/**
 	 * @return the subCode5
 	 */
-	public int getSubCode5() {
+	public String getSubCode5() {
 		return SubCode5;
 	}
 
 	/**
 	 * @param subCode5 the subCode5 to set
 	 */
-	public void setSubCode5(int subCode5) {
+	public void setSubCode5(String subCode5) {
 		SubCode5 = subCode5;
 	}
-
-	/**
-	 * @return the deleteFlag
-	 */
-	public int getDeleteFlag() {
-		return DeleteFlag;
-	}
-
-	/**
-	 * @param deleteFlag the deleteFlag to set
-	 */
-	public void setDeleteFlag(int deleteFlag) {
-		DeleteFlag = deleteFlag;
-	}
-
-	/**
-	 * @return the delAppId
-	 */
-	public String getDelAppId() {
-		return DelAppId;
-	}
-
-	/**
-	 * @param delAppId the delAppId to set
-	 */
-	public void setDelAppId(String delAppId) {
-		DelAppId = delAppId;
-	}
 	
 	
+	
+
+	/**
+	 * @return the subNum1
+	 */
+	public int getSubNum1() {
+		return SubNum1;
+	}
+
+	/**
+	 * @param subNum1 the subNum1 to set
+	 */
+	public void setSubNum1(int subNum1) {
+		SubNum1 = subNum1;
+	}
+
+	/**
+	 * @return the subNum2
+	 */
+	public int getSubNum2() {
+		return SubNum2;
+	}
+
+	/**
+	 * @param subNum2 the subNum2 to set
+	 */
+	public void setSubNum2(int subNum2) {
+		SubNum2 = subNum2;
+	}
+
+	/**
+	 * @return the subNum3
+	 */
+	public int getSubNum3() {
+		return SubNum3;
+	}
+
+	/**
+	 * @param subNum3 the subNum3 to set
+	 */
+	public void setSubNum3(int subNum3) {
+		SubNum3 = subNum3;
+	}
+
+	/**
+	 * @return the subNum4
+	 */
+	public int getSubNum4() {
+		return SubNum4;
+	}
+
+	/**
+	 * @param subNum4 the subNum4 to set
+	 */
+	public void setSubNum4(int subNum4) {
+		SubNum4 = subNum4;
+	}
+
+	/**
+	 * @return the subNum5
+	 */
+	public int getSubNum5() {
+		return SubNum5;
+	}
+
+	/**
+	 * @param subNum5 the subNum5 to set
+	 */
+	public void setSubNum5(int subNum5) {
+		SubNum5 = subNum5;
+	}
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -254,10 +307,39 @@ public class CompanyInfo extends ResultBase {
 		if(null != this.CompanyShortKanaName){
 			sb.append(crlf).append(",CompanyShortKanaName: ").append(this.CompanyShortKanaName.toString());
 		}
-		/*if("".equals(String.valueOf(this.SubCode5))){
-			sb.append(crlf).append(",SubCode5: ").append(String.valueOf(this.SubCode5));
-		}*/
-		
+		if("".equals(String.valueOf(this.DisplayOrder))){
+			sb.append(crlf).append(",DisplayOrder: ").append(String.valueOf(this.DisplayOrder));
+		}
+		if(null != this.SubCode1){
+			sb.append(crlf).append(",SubCode1: ").append(this.SubCode1.toString());
+		}
+		if(null != this.SubCode2){
+			sb.append(crlf).append(",SubCode2: ").append(this.SubCode2.toString());
+		}
+		if(null != this.SubCode3){
+			sb.append(crlf).append(",SubCode3: ").append(this.SubCode3.toString());
+		}
+		if(null != this.SubCode4){
+			sb.append(crlf).append(",SubCode4: ").append(this.SubCode4.toString());
+		}
+		if(null != this.SubCode5){
+			sb.append(crlf).append(",SubCode5: ").append(this.SubCode5.toString());
+		}
+		if("".equals(String.valueOf(this.SubNum1))){
+			sb.append(crlf).append(",SubNum1: ").append(String.valueOf(this.SubNum1));
+		}
+		if("".equals(String.valueOf(this.SubNum2))){
+			sb.append(crlf).append(",SubNum2: ").append(String.valueOf(this.SubNum2));
+		}
+		if("".equals(String.valueOf(this.SubNum3))){
+			sb.append(crlf).append(",SubNum3: ").append(String.valueOf(this.SubNum3));
+		}
+		if("".equals(String.valueOf(this.SubNum4))){
+			sb.append(crlf).append(",SubNum4: ").append(String.valueOf(this.SubNum4));
+		}
+		if("".equals(String.valueOf(this.SubNum5))){
+			sb.append(crlf).append(",SubNum5: ").append(String.valueOf(this.SubNum5));
+		}
 		return sb.toString();
 	}
 }

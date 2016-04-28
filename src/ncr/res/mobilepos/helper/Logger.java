@@ -112,7 +112,30 @@ public final class Logger extends IoWriter {
      * The message id of SQL statement Exception.
      */
     public static final String RES_EXCEP_JOURNAL = "102";
-
+    /**
+     * Create a file
+     */
+    public static final String RES_EXCEP_CREAT = "103";
+    /**
+     * file already exists
+     */
+    public static final String RES_EXCEP_EXISTS = "104";
+    /**
+     * Set file to writable failed 
+     */
+    public static final String RES_EXCEP_FILEWRITABLE = "105";
+    /**
+     * SUCCESS 
+     */
+    public static final String RES_SUCCESS = "0";
+    /**
+     * File save failed
+     */
+    public static final String RES_EXCEP_FILESAVEFAILED = "106";
+    /**
+     * Removed the schedule task
+     */
+    public static final String RES_EXCEP_REMOVEDTASK = "107";
     /**
      * Constructor of the Logger.
      */

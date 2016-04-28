@@ -27,7 +27,22 @@ $(document).ready(function(){
 				}
 			});
 		},
-
+		registration: function(data,callback){
+            $.ajax({
+                type: 'POST',
+                url: res.config.baseURL + "rest/uiconfigMaintenance/getcompanyinfo",
+                data: { },
+                dataType: 'json',
+                success: function(data){
+                    if(data) {
+                        callback.success(data.CompanyInfoList);
+                    }
+                },
+                error: function(data){
+                    callback.error(data);
+                }
+            });
+        },
 		balanceSchedule : function(data, callback) {
 			$.ajax({
 				type: 'POST',

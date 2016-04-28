@@ -74,10 +74,10 @@ public class UiConfigMaintenanceResource {
 			companyInfo = new CompanyInfoList();
 			IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
 			if(StringUtility.isNullOrEmpty(icmyInfoDao.getCompanyInfo())) {
-				tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
-				companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-				companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-				companyInfo.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+				tp.println(ResultBase.RES_NODATAFOUND_MSG);
+				companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				companyInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
                 return companyInfo;
 			} else {
 				companyInfo.setCompanyInfo(icmyInfoDao.getCompanyInfo());

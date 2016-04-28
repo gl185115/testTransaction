@@ -73,7 +73,7 @@ public class UiConfigMaintenanceResource {
     @Produces({"application/json;charset=UTF-8"})
     
 	public final CompanyInfoList getCompanyInfo() {
-		// Logs given parameters.
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/getcompanyinfo/");
 		

@@ -65,7 +65,7 @@ $(document).ready(function(){
 
 //		res.config.serverURL = "../../../../C9999/rest/AeonDemoPrint";
 
-		res.storage.setItem("CompanyID", "00000001");
+		res.storage.setItem("CompanyID", "01");
 		res.config.companyID = res.storage.getItem("CompanyID");
 //		res.config.companyID = "00000000";
 		res.config.storeID = "";

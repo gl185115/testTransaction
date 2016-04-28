@@ -47,6 +47,11 @@ public final class Logger extends IoWriter {
     public static final String LOG_MSGID = "00";
 
     /**
+     * The message id of No Data found Exception.
+     */
+    public static final String RES_EXCEP_NODATAFOUND = "80";
+    
+    /**
      * The message id of Exception.
      */
     public static final String RES_EXCEP_GENERAL = "90";
@@ -107,10 +112,7 @@ public final class Logger extends IoWriter {
      * The message id of SQL statement Exception.
      */
     public static final String RES_EXCEP_JOURNAL = "102";
-    /**
-     * The message id of No Data found Exception.
-     */
-    public static final String RES_EXCEP_NODATAFOUND = "103";
+
     /**
      * Constructor of the Logger.
      */

@@ -88,7 +88,7 @@ public class UiConfigMaintenanceResource {
 				LOGGER.logAlert(PROG_NAME,
 						functionName,
 						Logger.RES_EXCEP_NODATAFOUND,
-						":Failed to get company information.");
+						"Failed to get company information.");
 				companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				companyInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);

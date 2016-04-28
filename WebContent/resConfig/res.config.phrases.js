@@ -708,6 +708,7 @@ res.config.phrases = {
 //	"Settings.Device.Restart": ["Restart", "再起動"],
 //	"Settings.Device.Restart": ["Set", "設定"],
 	"Settings.Device.Restart": ["Restart", "設定終了"],
+	"Settings.Device.RestartOpen": ["ReOpen", "開始"],
 	"Settings.Device.Cursor": ["Show mouse pointer", "マウスポインターを表示"],
 	"Settings.Device.Volume": ["Volume", "音量"],
 	"Settings.Device.Deregister": ["Deregister", "登録解除"],

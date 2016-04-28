@@ -108,6 +108,10 @@ public final class Logger extends IoWriter {
      */
     public static final String RES_EXCEP_JOURNAL = "102";
     /**
+     * The message id of No Data found Exception.
+     */
+    public static final String RES_EXCEP_NODATAFOUND = "103";
+    /**
      * Constructor of the Logger.
      */
     private Logger()  {

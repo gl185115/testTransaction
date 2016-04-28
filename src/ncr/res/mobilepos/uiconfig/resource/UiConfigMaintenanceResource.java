@@ -10,6 +10,8 @@
 
 package ncr.res.mobilepos.uiconfig.resource;
 
+import java.util.List;
+
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,6 +25,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
+import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
 
 
@@ -70,17 +73,19 @@ public class UiConfigMaintenanceResource {
 		tp.methodEnter("/getcompanyinfo/");
 		
 		CompanyInfoList companyInfo = null;
+		List<CompanyInfo> cmpList = null;
 		try {
 			companyInfo = new CompanyInfoList();
 			IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
-			if(StringUtility.isNullOrEmpty(icmyInfoDao.getCompanyInfo())) {
+			cmpList = icmyInfoDao.getCompanyInfo();
+			if(StringUtility.isNullOrEmpty(cmpList)) {
 				tp.println(ResultBase.RES_NODATAFOUND_MSG);
 				companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				companyInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
                 return companyInfo;
 			} else {
-				companyInfo.setCompanyInfo(icmyInfoDao.getCompanyInfo());
+				companyInfo.setCompanyInfo(cmpList);
 			}
 		} catch (DaoException ex) {
 			tp.println("Failed to get company information.");

@@ -22,16 +22,16 @@ $(document).ready(function () {
         list: function (data, callback) {
             $.ajax({
                 type: 'POST',
-                url: res.config.baseURL + "fileList",
+                url: res.config.baseURL + "rest/uiconfigMaintenance/fileList",
                 data: {
                     'folder': data.folder
                 },
                 datatype: 'json',
                 success: function (data) {
-                    callback.success(data);
+                    callback.success(data.FileInfoList);
                 },
                 error: function (data) {
-                    callback.error(data);
+                    callback.error(data.FileInfoList);
                 }
             });
         },
@@ -114,12 +114,12 @@ $(document).ready(function () {
                     'contents': data.contents,
                     'picturename': data.despicturename
                 },
-                datatype: 'text',
+                datatype: 'json',
                 success: function (data) {
-                    callback.success(data);
+                    callback.success(data.message);
                 },
                 error: function (data) {
-                    callback.error(data);
+                    callback.error(data.message);
                 }
             });
         },

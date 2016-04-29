@@ -18,7 +18,7 @@ res.model = res.model || {};
 		case "deploy.pickList.getDeployStoreAndGroup.successful":
 		case "deploy.pickList.getDeployStoreAndGroup.failed":
 			if (data != undefined || data != null) {
-				model.editTask.deployCategories = data.tableStore;
+				model.editTask.deployCategories = data;
 			}
 
 			if (model.doRefreshSchedule) {

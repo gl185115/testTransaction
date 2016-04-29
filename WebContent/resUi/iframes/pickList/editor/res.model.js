@@ -21,7 +21,7 @@ res.model = res.model || {};
 			model.editor.files = [];
 			var result;
 			for (var i = 0; i < files.length; i++){
-				if (result = files[i].match(/(.+)\.js$/i)){
+				if (result = files[i].FileName.match(/(.+)\.js$/i)){
 					model.editor.files.push(result[1]);
 				}
 			}
@@ -86,15 +86,15 @@ res.model = res.model || {};
 			}
 			break;
 		case "file.upload":
-			if (data.message == "success") {
+			if (data == "success") {
 				model.pickList.status = "successful";
 				model.pickList.OriginalItems = angular.copy(model.pickList.items);
 				model.pickList.OriginalCategories = angular.copy(model.pickList.categories);
 				model.pickList.OriginalLayout= angular.copy(model.pickList.layout);
 				break;
-			} else if (data.message == "exist") {
+			} else if (data == "exist") {
 				model.pickList.alreadyExists = true;
-			} else if (data.message == "failed") {
+			} else if (data == "failed") {
 				model.pickList.status = "failed";
 			}
 			break;

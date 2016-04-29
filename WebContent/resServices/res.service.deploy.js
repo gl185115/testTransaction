@@ -24,10 +24,10 @@ $(document).ready(function() {
 				},
 				dataType : 'json',
 				success : function(data) {
-					callback.success(data);
+					callback.success(data.tableStore);
 				},
 				error : function(data) {
-					callback.error(data);
+					callback.error(data.tableStore);
 				}
 			});
 		},

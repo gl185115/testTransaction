@@ -12551,6 +12551,7 @@ insert into txl_offline_credit
       RESMaster.dbo.MST_STOREINFO
     WHERE
       CompanyId = @companyid
+      DeleteFlag = 0.
 	ORDER BY
 	  CompanyId
     </entry>

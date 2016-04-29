@@ -52,6 +52,11 @@ public final class Logger extends IoWriter {
     public static final String RES_EXCEP_NODATAFOUND = "80";
     
     /**
+     * The message id of file is empty Exception.
+     */
+    public static final String RES_EXCEP_FILEEMPTY = "81";
+    
+    /**
      * The message id of Exception.
      */
     public static final String RES_EXCEP_GENERAL = "90";

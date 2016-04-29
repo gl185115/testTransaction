@@ -31,6 +31,8 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
@@ -125,7 +127,6 @@ public class UiConfigMaintenanceResource {
 		return companyInfo;
     }
 
-
     @Path("/fileUpload")
     @POST
     @Produces({"application/json;charset=UTF-8"})
@@ -154,9 +155,8 @@ public class UiConfigMaintenanceResource {
 		ref.put("desfilename", desfilename);
 		ref.put("overwrite", overwrite);
 
-		ResultBase result = null;
+		ResultBase result = new ResultBase();
 		try {
-			result = new ResultBase();
 			File uploadDir = new File(configProperties.getCustomResourceBasePath(), folder);
 			if (!uploadDir.exists()) {
 				tp.println(uploadDir.getPath() + ":" + "directory does not exist");
@@ -231,6 +231,76 @@ public class UiConfigMaintenanceResource {
 		return result;
 	}
 
+	@Path("/fileList")
+	@POST
+	@Produces({"application/json;charset=UTF-8"})
+	public final FileInfoList requestConfigFileList(
+			@FormParam("folder") final String folder){
+
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/fileList");
+		tp.println("folder", folder);
+
+		FileInfoList result = new FileInfoList();
+		try {
+			File resourceDir = new File(configProperties.getCustomResourceBasePath(), folder);
+			File[] fileList = null;
+
+			if (resourceDir.exists()) {
+				fileList = resourceDir.listFiles();
+
+				if (fileList.length == 0) {
+					tp.methodExit("The message id of file Not found Exception.");
+		            LOGGER.logAlert(PROG_NAME,
+		            		functionName,
+		                    Logger.RES_EXCEP_FILEEMPTY,
+		                    "The message id of file is empty.");
+		            result.setNCRWSSResultCode(ResultBase.RESRPT_EMPTY);
+					result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_EMPTY);
+					result.setMessage(ResultBase.RES_FAILED_MSG);
+					return result;
+				}
+				
+				List<FileInfo> fileInfoList = new ArrayList<FileInfo>();
+				FileInfo fileInfo = null;
+				for (File file : fileList) {
+					if (file.isFile()) {
+						String filename = file.getName();
+						if (filename.toLowerCase().endsWith(StaticParameter.file_js)) {
+							fileInfo = new FileInfo();
+							fileInfo.setFileName(filename);
+							fileInfoList.add(fileInfo);
+						}
+					}
+				}
+				
+				result.setFileInfoList(fileInfoList);
+			} else {
+				tp.methodExit("The message id of Not found file Exception.");
+	            LOGGER.logAlert(PROG_NAME,
+	                    functionName,
+	                    Logger.RES_EXCEP_FILENOTFOUND,
+	                    "The message id of Not found file Exception.");
+	            result.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+				result.setMessage(ResultBase.RES_FAILED_MSG);
+				return result;
+				
+			}
+
+		} catch (Exception e) {
+			tp.methodExit("Failed to requestFileList.");
+            LOGGER.logAlert(PROG_NAME,
+            		functionName,
+                    Logger.RES_EXCEP_GENERAL,
+                    "Failed to requestFileList.");
+		} finally {
+			tp.methodExit(result.toString());
+		}
+		
+		return result;
+	}
+    
     @Path("/getDeployStoreAndGroup")
     @POST
     @Produces({"application/json;charset=UTF-8"})

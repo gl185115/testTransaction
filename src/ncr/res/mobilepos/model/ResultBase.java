@@ -356,7 +356,7 @@ public class ResultBase {
     public static final String RES_NODATAFOUND_MSG = "No Rows Available";
     /**
      * Value : {@value}<br>
-     * Database data was not found.
+     * save file is already exist failed.
      */
     public static final String RES_EXISTS_MSG = "exist";
     /**
@@ -1127,7 +1127,7 @@ public class ResultBase {
     public static final int RES_SYSTEM_PROP_ERROR = 1600;
     /**
      * Value : {@value}<br>
-     * Getting the value for SERVERTYPE system property failed.
+     * save file is already exist failed.
      */
     public static final int RES_FILE_ALREADY_EXIST = 1515;
     /**

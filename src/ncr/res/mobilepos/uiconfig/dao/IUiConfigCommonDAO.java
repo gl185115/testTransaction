@@ -20,7 +20,7 @@ public interface IUiConfigCommonDAO {
 	List<CompanyInfo> getCompanyInfo() throws DaoException;
 	
 	/**
-     * @return return the Company information
+     * @return return the TableStore information
      *
      * @throws DaoException
      *            Thrown when process fails.

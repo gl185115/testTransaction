@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-#EditLayout .TabButton {
+/* #EditLayout .TabButton {
 	position: absolute;
 	left: 891px;
 	top: 103px;
@@ -26,7 +26,7 @@
 	margin-top: 6px;
 	margin-left: 6px;
 	border-radius: 4px;
-}
+} */
 
 #EditLayout .Layout {
 	position: absolute; left: 5px; top: 160px; width: 1014px; height: 525px;
@@ -207,8 +207,8 @@
 	margin: 5px 3px 2px;
 }
 
-#EditLayout .MountItem .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
-#EditLayout .MountItem .Guide {
+#EditLayout .Details .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+/* #EditLayout .MountItem .Guide {
 	position: absolute; left: 20px; top: 20px; width: 560px; height: 40px;
 	display: table;
 }
@@ -247,9 +247,9 @@
 #EditLayout .MountItem .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
 #EditLayout .MountItem .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 50px; }
 #EditLayout .MountItem .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 240px; }
-#EditLayout .MountItem .Buttons .resButton:nth-child(3) { position: absolute; bottom: 0px; right: 50px; }
+#EditLayout .MountItem .Buttons .resButton:nth-child(3) { position: absolute; bottom: 0px; right: 50px; } */
 
-#EditLayout .Confirm .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+/* #EditLayout .Confirm .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
 #EditLayout .Confirm .Guide {
 	position: absolute; left: 10px; top: 100px; right:10px;
 	text-align: center;
@@ -291,5 +291,138 @@
 	position: absolute; left: 1px; top: 1px; width: 28px; height: 28px;
 	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0, 0%, 95%)),color-stop(0.4,hsl(0, 0%, 60%)),color-stop(0.7,hsl(0, 0%, 50%)),to(hsl(0, 0%, 40%)));
 	border-radius: 14px;
+} */
+
+#EditLayout .Details .Pad {
+	/* position: absolute; left: 10px; bottom: 10px; width: 420px; height: 480px;
+	background: hsl(0, 0%, 95%);
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 5px; */
+	border-radius: 10px;
 }
+#EditLayout .Details .Pad .PickButton {
+	/* position: absolute; left: 10px; top: 20px; */
+	position: absolute;
+    left: 50px;
+    top: 30px;
+}
+#EditLayout .Details .Pad .ImageFile { /* position: absolute; left: 160px; top: 20px; width: 260px; height: 140px;  */
+    position: absolute;
+    left: 240px;
+    top: 30px;
+    width: 260px;
+    height: 140px;}
+#EditLayout .Details .Pad .ImageFile .Buttons.Top {
+	position: relative; width: 260px; height: 60px;
+	display: -webkit-inline-box;
+}
+#EditLayout .Details .Pad .ImageFile .Buttons.Top .resButton {
+	width: 120px; height: 50px;
+}
+#EditLayout .Details .Pad .ImageFile .Buttons.Top .resButton:nth-child(1) {	margin-right: 10px; }
+#EditLayout .Details .Pad .ImageFile .Buttons.Top .resButton p {
+	text-align: center; vertical-align: middle;  display: table-cell;
+	font-size: 20px;
+}
+#EditLayout .Details .Pad .ImageFile .Label {
+	color: hsl(0, 0%, 30%);
+}
+#EditLayout .Details .Pad .ImageFile .Value {
+	margin-top: 0px;
+}
+#EditLayout .Details .Pad .Entries { /* position: absolute; left: 10px; top: 160px;  */
+    position: absolute;
+    left: 50px;
+    top: 210px;}
+#EditLayout .Details .Pad .Entry { position: relative; width: 420px; height: 60px; }
+#EditLayout .Details .Pad .Entry .Label {
+	position: absolute; left: 0px; top: 0px; height: 50px; width: 150px;
+	color: hsl(0,0%,30%);
+	font-size: 20px; line-height: 60px;
+}
+#EditLayout .Details .Pad .Entry .Value {
+	position: absolute; left: 150px; top: 10px; width: 250px; height: 40px;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	font-size: 20px; padding-left: 10px;
+}
+#EditLayout .Details .Pad .Buttons.Bottom { position: absolute; width: 100%; bottom: 20px; }
+#EditLayout .Details .Pad .Buttons.Bottom .resButton:nth-child(1) { /* position: absolute; left: 40px; bottom: 0px; */
+    position: absolute;
+    left: 50px;
+    bottom: 0px; }
+#EditLayout .Details .Pad .Buttons.Bottom .resButton:nth-child(2) { /* position: absolute; right: 40px; bottom: 0px; */
+    position: absolute;
+    bottom: 0px;
+    right: 240px; }
+#EditLayout .Details .Pad .Buttons.Bottom .resButton:nth-child(3) { /* position: absolute; right: 40px; bottom: 0px; */
+    position: absolute;
+    bottom: 0px;
+    right: 50px; }
+    
+#EditLayout .Remove .Message { position:absolute; left: 40px; top: 80px; width: 520px; }
+#EditLayout .Remove .Message p {
+	font-size: 24px; line-height: 1.5;
+	text-align: center;
+}
+#EditLayout .Images .resCasing { position: absolute; left: 60px; top: 30px;  width: 905px; height: 620px; }
+#EditLayout .Images .Guide,
+#EditLayout .Background .Guide {
+	position:absolute; left: 20px;  right: 20px; top: 20px;
+	font-size: 25px;
+	text-align: center;
+}
+#EditLayout .Images .PickButtons {
+	position: absolute; left: 5px; right: 5px; top: 60px; height: 535px;
+	background: hsl(0, 0%, 30%);
+	border-color: hsl(0, 0%, 10%) hsl(0, 0%, 60%) hsl(0, 0%, 80%);
+	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#wrapperImages {
+	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px;
+	overflow: hidden;
+	z-index: 0;
+}
+#wrapperImages .scroller {
+	display: -webkit-inline-box;
+}
+
+#EditLayout .Background .PickButtons {
+	position: absolute; left: 15px; right: 15px; top: 70px; height: 550px;
+	overflow: hidden;
+}
+#EditLayout .Images .PickButton,
+#EditLayout .Background .PickButton {
+	position: relative;
+	display: inline-block;
+	margin: 5px;
+}
+#EditLayout .Images .Buttons .resButton:nth-child(2) input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 110px;
+    height: 50px;
+}
+
+#EditLayout .Images .resButton:nth-child(1) { position: absolute; left: 20px; top: 5px; }
+#EditLayout .Images .resButton:nth-child(2) { position: absolute; right: 20px; top: 5px; }
+#EditLayout .resPanel .Buttons.Bottom { position: absolute; width: 100%; bottom: 20px; }
+#EditLayout .Background .Buttons.Bottom .resButton { position: relative; margin-left: auto; margin-right: auto; bottom: 0px; }
+#EditLayout .Remove .Buttons.Bottom .resButton:nth-child(1) { position: absolute; left: 120px; bottom: 0px; }
+#EditLayout .Remove .Buttons.Bottom .resButton:nth-child(2) { position: absolute; right: 120px; bottom: 0px; }
+#EditLayout .Remove .Buttons.Bottom .resButton:nth-child(1).CancelCenter {position: absolute; left: 240px; bottom: 0px; }
+
+
+.ImageBox img {
+	display: block;
+    margin: auto auto;
+}
+
+#EditLayout .Background .resCasing,
+#EditLayout .Remove .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
 /**** end of CSS ****/

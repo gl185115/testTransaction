@@ -44,7 +44,8 @@ res.ui.controller("fileCreate", ["$scope", "$rootScope", function($scope, $rootS
 		}
 		$rootScope.model.editor.selectedFile = undefined;
 		$rootScope.model.editor.title = $scope.title;
-		$rootScope.model.editor.indexEdit = "editItems";
+//		$rootScope.model.editor.indexEdit = "editItems";
+		$rootScope.model.editor.indexEdit = "editLayout";
 		$rootScope.model.pickList = new PickList();
 		$rootScope.dialog = "";
 		$rootScope.model.pickList.OriginalItems = new PickList().items;

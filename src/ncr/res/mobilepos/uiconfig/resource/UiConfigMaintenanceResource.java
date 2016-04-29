@@ -79,7 +79,6 @@ public class UiConfigMaintenanceResource {
     @Path("/getcompanyinfo")
     @POST
     @Produces({"application/json;charset=UTF-8"})
-    
 	public final CompanyInfoList getCompanyInfo() {
 
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -124,150 +123,129 @@ public class UiConfigMaintenanceResource {
 
 
     @Path("/fileUpload")
-     @POST
- 	@Produces({"application/json;charset=UTF-8"})
-     public final ResultBase requestConfigFileUpload(
-     		@FormParam("folder") final String folder,
-     		@FormParam("contents") final String contents,
-             @FormParam("desfilename") final String desfilename,
-             @FormParam("overwrite") final String overwrite,
-             @FormParam("picturename") final String picturename,
-             @FormParam("expire") final String expire,
-             @FormParam("title") final String title,
-             @FormParam("title2") final String title2){
+    @POST
+    @Produces({"application/json;charset=UTF-8"})
+	public final ResultBase requestFileUpload(@FormParam("folder") final String folder,
+			@FormParam("contents") final String contents, 
+			@FormParam("desfilename") final String desfilename,
+			@FormParam("overwrite") final String overwrite, 
+			@FormParam("picturename") final String picturename,
+			@FormParam("expire") final String expire, 
+			@FormParam("title") final String title,
+			@FormParam("title2") final String title2) {
 
- 		String functionName = DebugLogger.getCurrentMethodName();
- 		tp.methodEnter("/fileUpload");
-         tp.println("folder", folder)
-           .println("contents", contents)
-           .println("desfilename", desfilename)
-           .println("overwrite", overwrite)
-           .println("picturename", picturename)
-           .println("expire", expire)
-           .println("title", title)
-           .println("title2", title2);
-         
- 		HashMap<String,String> ref = new HashMap<String,String> ();
- 		ref.put("title", title);
- 		ref.put("title2", title2);
- 		ref.put("expire", expire);
- 		ref.put("contents", contents);
- 		ref.put("picturename", picturename);
- 		ref.put("folder", folder);
- 		ref.put("desfilename", desfilename);
- 		ref.put("overwrite", overwrite);
- 		
-         ResultBase result = null;
- 		try {
- 	        result = new ResultBase();
- 			File uploadDir = new File(configProperties.getCustomResourceBasePath(), folder);
- 			if (!uploadDir.exists()) {
- 				tp.println(folder+":"+"directory does not exist");
- 				if (uploadDir.mkdirs()) {
- 					tp.println("Create a"+folder+"directory");
- 				}
- 			}
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/fileUpload");
+		tp.println("folder", folder).println("contents", contents).println("desfilename", desfilename)
+				.println("overwrite", overwrite).println("picturename", picturename).println("expire", expire)
+				.println("title", title).println("title2", title2);
 
- 			String fname = "";
- 			if (StaticParameter.res_false.equalsIgnoreCase(overwrite)) {
- 				for (File file: uploadDir.listFiles()) {
- 					if (file.isFile()) {
- 						fname = file.getName();
- 						if ((fname.equalsIgnoreCase(desfilename))) {
- 							tp.println(desfilename+":"+"file already exists");
- 				            LOGGER.logAlert(
- 				            		PROG_NAME,
- 				            		functionName,
- 				                    Logger.RES_EXCEP_EXISTS,
- 				                    "file already exists");
- 							result.setNCRWSSResultCode(ResultBase.RES_FILE_ALREADY_EXIST);
- 							result.setNCRWSSExtendedResultCode(ResultBase.RES_FILE_ALREADY_EXIST);
- 							result.setMessage(ResultBase.RES_EXISTS_MSG);
- 				            return result;
- 						}
- 					}
- 				}
- 			}
+		HashMap<String, String> ref = new HashMap<String, String>();
+		ref.put("title", title);
+		ref.put("title2", title2);
+		ref.put("expire", expire);
+		ref.put("contents", contents);
+		ref.put("picturename", picturename);
+		ref.put("folder", folder);
+		ref.put("desfilename", desfilename);
+		ref.put("overwrite", overwrite);
 
- 			File saveFile = new File(uploadDir, desfilename);
- 			if (saveFile.exists()) {
- 				if (saveFile.isFile()) {
- 					if (!saveFile.canWrite()) {
- 						if (!saveFile.setWritable(true)) {
- 							tp.println("Set file to writable failed ");
- 						}
- 					}
- 				}
- 			}
+		ResultBase result = null;
+		try {
+			result = new ResultBase();
+			File uploadDir = new File(configProperties.getCustomResourceBasePath(), folder);
+			if (!uploadDir.exists()) {
+				tp.println(uploadDir.getPath() + ":" + "directory does not exist");
+				if (uploadDir.mkdirs()) {
+					tp.println("Create a" + uploadDir.getPath() + "directory");
+				}
+			}
 
- 			String fileContent = ref.get("contents");
- 			if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(folder)) {
- 				fileContent = getNoticeJson(ref);
- 			} else if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(folder)) {
- 				if (fileContent.contains("\\\\\\\\")) {
- 					fileContent = fileContent.replace("\\\\\\\\", StaticParameter.str_separator);
- 				}
+			String fname = "";
+			if (StaticParameter.res_false.equalsIgnoreCase(overwrite)) {
+				for (File file : uploadDir.listFiles()) {
+					if (file.isFile()) {
+						fname = file.getName();
+						if ((fname.equalsIgnoreCase(desfilename))) {
+							tp.println(desfilename + ":" + "file already exists");
+							LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_EXISTS, "file already exists");
+							result.setNCRWSSResultCode(ResultBase.RES_FILE_ALREADY_EXIST);
+							result.setNCRWSSExtendedResultCode(ResultBase.RES_FILE_ALREADY_EXIST);
+							result.setMessage(ResultBase.RES_EXISTS_MSG);
+							return result;
+						}
+					}
+				}
+			}
 
- 				if (fileContent.contains("\\\\")) {
- 					fileContent = fileContent.replace("\\\\", StaticParameter.str_separator);
- 				}
- 			}
+			File saveFile = new File(uploadDir, desfilename);
+			if (saveFile.exists()) {
+				if (saveFile.isFile()) {
+					if (!saveFile.canWrite()) {
+						if (!saveFile.setWritable(true)) {
+							tp.println("Set file to writable failed ");
+						}
+					}
+				}
+			}
 
- 			if (FileUtil.fileSave(saveFile, fileContent, false, UiConfigHelper.ENCODING_CONFIG_FILE)) {
- 				tp.println("File saved successfully");
- 				LOGGER.logAlert(
- 	            		PROG_NAME,
- 	            		functionName,
- 	                    Logger.RES_SUCCESS,
- 	                    "File saved successfully");
- 				result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
- 				result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
- 				result.setMessage(ResultBase.RES_SUCCESSFULL_MSG);
- 				return result;
- 			} else {
- 				tp.println("File save failed ");
- 				LOGGER.logAlert(
- 	            		PROG_NAME,
- 	            		functionName,
- 	                    Logger.RES_EXCEP_FILESAVEFAILED,
- 	                    "File saved failed ");
- 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
- 				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
- 				result.setMessage(ResultBase.RES_FAILED_MSG);
- 				return result;
- 			}
+			String fileContent = ref.get("contents");
+			if (StaticParameter.key_notices.equalsIgnoreCase(folder)) {
+				fileContent = getNoticeJson(ref);
+			} else if (StaticParameter.key_pickList.equalsIgnoreCase(folder)) {
+				if (fileContent.contains("\\\\\\\\")) {
+					fileContent = fileContent.replace("\\\\\\\\", StaticParameter.str_separator);
+				}
 
- 		} catch (Exception e) {
- 			tp.println("The message id of SQL Exception.");
- 			LOGGER.logAlert(functionName,
- 					Logger.RES_EXCEP_SQL,
- 					functionName + ":The message id of SQL Exception.",
- 					e);
- 		} finally {
-         	tp.methodExit(result.toString());
-         }
-         return result;
- 	}
+				if (fileContent.contains("\\\\")) {
+					fileContent = fileContent.replace("\\\\", StaticParameter.str_separator);
+				}
+			}
 
- 	private String getNoticeJson(HashMap<String, String> ref) {
+			if (FileUtil.fileSave(saveFile, fileContent, false, UiConfigHelper.ENCODING_CONFIG_FILE)) {
+				tp.println("File saved successfully");
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_SUCCESS, "File saved successfully");
+				result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+				result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+				result.setMessage(ResultBase.RES_SUCCESSFULL_MSG);
+				return result;
+			} else {
+				tp.println("File save failed ");
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILESAVEFAILED, "File saved failed ");
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+				result.setMessage(ResultBase.RES_FAILED_MSG);
+				return result;
+			}
 
- 		StringBuilder builder = new StringBuilder();
- 		builder.append("/**").append(StaticParameter.str_enter);
- 		builder.append(" * template for operational notices").append(StaticParameter.str_enter);
- 		builder.append(" */").append(StaticParameter.str_enter);
- 		builder.append("res.config.notices[0] = ").append(StaticParameter.str_enter);
- 		builder.append("\t{").append(StaticParameter.str_enter);
- 		builder.append("\t\tdate : \"" + new SimpleDateFormat(
- 				StaticParameter.format_yyyyMMddHHmmss).format(new Date()) + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t\tfilename : \"" + ref.get("filename") + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t\ttitle : \"" + ref.get("title") + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t\ttitle2 : \"" + ref.get("title2") + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t\texpire : \"" + ref.get("expire") + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t\tbody : \"" + ref.get("contents") + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t\tattachment : \"" + ref.get("picturename") + "\",").append(StaticParameter.str_enter);
- 		builder.append("\t};").append(StaticParameter.str_enter);
+		} catch (Exception e) {
+			tp.println("Failed to requestFileUpload.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileUpload.", e);
+		} finally {
+			tp.methodExit(result.toString());
+		}
+		return result;
+	}
 
- 		return builder.toString();
- 	}
+	private String getNoticeJson(HashMap<String, String> ref) {
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("/**").append(StaticParameter.str_enter);
+		builder.append(" * template for operational notices").append(StaticParameter.str_enter);
+		builder.append(" */").append(StaticParameter.str_enter);
+		builder.append("res.config.notices[0] = ").append(StaticParameter.str_enter);
+		builder.append("\t{").append(StaticParameter.str_enter);
+		builder.append("\t\tdate : \"" + new SimpleDateFormat(StaticParameter.format_yyyyMMddHHmmss).format(new Date())
+				+ "\",").append(StaticParameter.str_enter);
+		builder.append("\t\tfilename : \"" + ref.get("filename") + "\",").append(StaticParameter.str_enter);
+		builder.append("\t\ttitle : \"" + ref.get("title") + "\",").append(StaticParameter.str_enter);
+		builder.append("\t\ttitle2 : \"" + ref.get("title2") + "\",").append(StaticParameter.str_enter);
+		builder.append("\t\texpire : \"" + ref.get("expire") + "\",").append(StaticParameter.str_enter);
+		builder.append("\t\tbody : \"" + ref.get("contents") + "\",").append(StaticParameter.str_enter);
+		builder.append("\t\tattachment : \"" + ref.get("picturename") + "\",").append(StaticParameter.str_enter);
+		builder.append("\t};").append(StaticParameter.str_enter);
+
+		return builder.toString();
+	}
 }
 

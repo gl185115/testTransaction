@@ -19,64 +19,60 @@ import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
 
-public class SQLServerUiConfigCommonDAO extends AbstractDao implements
-		IUiConfigCommonDAO{
+public class SQLServerUiConfigCommonDAO extends AbstractDao implements IUiConfigCommonDAO {
 	private final String PROG_NAME = "UcfCmnDAO";
-	
+
 	/** The database manager. */
 	private DBManager dbManager;
 	/** A private member variable used for logging the class implementations. */
-    private static final Logger LOGGER = (Logger) Logger.getInstance();
-
-    /** The instance of the trace debug printer. */
-    private Trace.Printer tp = null;
-    
-    /**
-     * The Constructor of the Class.
-     *
-     * @throws DaoException
-     *             thrown when process fails.
-     */
-    public SQLServerUiConfigCommonDAO() throws DaoException {
-    	dbManager = JndiDBManagerMSSqlServer.getInstance();
-    	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
-    			getClass());
-    }
+	private static final Logger LOGGER = (Logger) Logger.getInstance();
+	/** The instance of the trace debug printer. */
+	private Trace.Printer tp = null;
 
 	/**
-     * Gets the Database Manager for the Class.
-     *
-     * @return The Database Manager Object
-     */
-    public final DBManager getDbManager() {
-        return dbManager;
-    }
-    
-    /**
-     * @return return the guest zone information
-     *
-     * @throws DaoException
-     *             Thrown when process fails.
-     */
-    @Override
+	 * The Constructor of the Class.
+	 *
+	 * @throws DaoException
+	 *             thrown when process fails.
+	 */
+	public SQLServerUiConfigCommonDAO() throws DaoException {
+		dbManager = JndiDBManagerMSSqlServer.getInstance();
+		tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+	}
+
+	/**
+	 * Gets the Database Manager for the Class.
+	 *
+	 * @return The Database Manager Object
+	 */
+	public final DBManager getDbManager() {
+		return dbManager;
+	}
+
+	/**
+	 * @return return the guest zone information
+	 *
+	 * @throws DaoException
+	 *             Thrown when process fails.
+	 */
+	@Override
 	public List<CompanyInfo> getCompanyInfo() throws DaoException {
 		// TODO Auto-generated method stub
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
-		
+
 		List<CompanyInfo> companylist = null;
 		ResultSet result = null;
 		Connection connection = null;
 		PreparedStatement select = null;
-		
-		try{
+
+		try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
-			select = connection.prepareStatement(sqlStatement
-					.getProperty("get-company-info"));
+			select = connection.prepareStatement(sqlStatement.getProperty("get-company-info"));
 			result = select.executeQuery();
-			while(result.next()) {
-				if(companylist == null) {
+			while (result.next()) {
+				if (companylist == null) {
 					companylist = new ArrayList<CompanyInfo>();
 				}
 				CompanyInfo companyInfo = new CompanyInfo();
@@ -88,58 +84,51 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements
 				companylist.add(companyInfo);
 			}
 		} catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get CompanyInfo list.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerCompanyInfoDAO.getCompanyInfo", sqlStmtEx);
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get CompanyInfo list.", sqlEx);
-            throw new DaoException("SQLException:"
-                    + " @SQLServerCompanyInfoDAO.getCompanyInfo", sqlEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get CompanyInfo list.", ex);
-            throw new DaoException("Exception:"
-                    + " @SQLServerCompanyInfoDAO.getCompanyInfo", ex);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            tp.methodExit(companylist);
-        }
-		
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
+					functionName + ": Failed to get CompanyInfo list.", sqlStmtEx);
+			throw new DaoException("SQLStatementException:" + " @SQLServerUiConfigCommonDAO.getCompanyInfo", sqlStmtEx);
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get CompanyInfo list.", sqlEx);
+			throw new DaoException("SQLException:" + " @SQLServerUiConfigCommonDAO.getCompanyInfo", sqlEx);
+		} catch (Exception ex) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get CompanyInfo list.",
+					ex);
+			throw new DaoException("Exception:" + " @SQLServerUiConfigCommonDAO.getCompanyInfo", ex);
+		} finally {
+			closeConnectionObjects(connection, select, result);
+			tp.methodExit(companylist);
+		}
+
 		return companylist;
 	}
 
-    
-    /**
-     * @return return the guest zone information
-     *
-     * @throws DaoException
-     *             Thrown when process fails.
-     */
+	/**
+	 * @return return the TableStore information
+	 *
+	 * @throws DaoException
+	 *             Thrown when process fails.
+	 */
 	@Override
-	public List<StoreEntry> getTableStoreIn(final String companyId) throws DaoException {
+	public List<StoreEntry> getStoreEntryList(String companyId) throws DaoException {
 		// TODO Auto-generated method stub
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
-		tp.methodEnter("listStores")
-    	  .println("companyId", companyId);
-		
-		List<StoreEntry> tableStore = null;
+		tp.println("companyId", companyId);
+
+		List<StoreEntry> storeEntryList = null;
 		ResultSet result = null;
 		Connection connection = null;
 		PreparedStatement select = null;
-		
-		try{
+
+		try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
-			select = connection.prepareStatement(sqlStatement
-					.getProperty("get-store-info"));
+			select = connection.prepareStatement(sqlStatement.getProperty("get-store-info"));
 			select.setString(SQLStatement.PARAM1, companyId);
 			result = select.executeQuery();
-			while(result.next()) {
-				if(tableStore == null) {
-					tableStore = new ArrayList<StoreEntry>();
+			while (result.next()) {
+				if (storeEntryList == null) {
+					storeEntryList = new ArrayList<StoreEntry>();
 				}
 				StoreEntry storeEntry = new StoreEntry();
 				storeEntry.setCompanyId(result.getString("CompanyId"));
@@ -147,9 +136,9 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements
 				storeEntry.setCdMsg(result.getString("CdMsg"));
 				storeEntry.setElectroFilePath(result.getString("ElectroFilePath"));
 				storeEntry.setEventName(result.getString("EventName"));
-				//storeEntry.setMessage(result.getString("Message"));
+				// storeEntry.setMessage(result.getString("Message"));
 				storeEntry.setSalesSpaceName(result.getString("SalesSpaceName"));
-				//storeEntry.setSostUpdDate(result.getString("SostUpdDate"));
+				// storeEntry.setSostUpdDate(result.getString("SostUpdDate"));
 				storeEntry.setStatus(result.getString("Status"));
 				storeEntry.setStampTaxFilePath(result.getString("StampTaxFilePath"));
 				storeEntry.setStoreAddr(result.getString("StoreAddr"));
@@ -205,30 +194,25 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements
 				storeEntry.setSubNum13(result.getString("SubNum13"));
 				storeEntry.setSubNum14(result.getString("SubNum14"));
 				storeEntry.setSubNum15(result.getString("SubNum15"));
-				tableStore.add(storeEntry);
-            }
+				storeEntryList.add(storeEntry);
+			}
 		} catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get storeEntry list.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerStoreDAO.getTableStore", sqlStmtEx);
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get guestzone list.", sqlEx);
-            throw new DaoException("SQLException:"
-                    + " @SQLServerStoreDAO.getTableStore", sqlEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-                    + ": Failed to get getTableStore list.", ex);
-            throw new DaoException("Exception:"
-                    + " @SQLServerStoreDAO.getTableStore", ex);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            tp.methodExit(tableStore);
-        }
-		
-		return tableStore;
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get storeEntry list.",
+					sqlStmtEx);
+			throw new DaoException("SQLStatementException:" + " @SQLServerUiConfigCommonDAO.getStoreEntryList", sqlStmtEx);
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get storeEntry list.", sqlEx);
+			throw new DaoException("SQLException:" + " @SQLServerUiConfigCommonDAO.getStoreEntryList", sqlEx);
+		} catch (Exception ex) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get storeEntry list.",
+					ex);
+			throw new DaoException("Exception:" + " @SQLServerUiConfigCommonDAO.getStoreEntryList", ex);
+		} finally {
+			closeConnectionObjects(connection, select, result);
+			tp.methodExit(storeEntryList);
+		}
+
+		return storeEntryList;
 	}
-	
 
 }

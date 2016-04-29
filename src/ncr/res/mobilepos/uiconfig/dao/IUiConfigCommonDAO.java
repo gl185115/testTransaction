@@ -25,7 +25,7 @@ public interface IUiConfigCommonDAO {
      * @throws DaoException
      *            Thrown when process fails.
      */
-	List<StoreEntry> getTableStoreIn(String companyId) throws DaoException;
+	List<StoreEntry> getStoreEntryList(String companyId) throws DaoException;
 
 
 }

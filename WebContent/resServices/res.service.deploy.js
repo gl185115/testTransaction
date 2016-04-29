@@ -18,7 +18,7 @@ $(document).ready(function() {
 		getDeployStoreAndGroup : function(data, callback) {
 			$.ajax({
 				type : 'POST',
-				url : res.config.baseURL + "getDeployStoreAndGroup",
+				url : res.config.baseURL + "rest/uiconfigMaintenance/getDeployStoreAndGroup",
 				data : {
 					companyID : data.companyID
 				},

@@ -9,7 +9,7 @@ import ncr.res.mobilepos.model.ResultBase;
 
 @XmlRootElement(name = "FileInfo")
 @XmlAccessorType(XmlAccessType.NONE)
-public class FileInfo extends ResultBase {
+public class FileInfo {
 	
 	@XmlElement(name = "FileName")
 	private String fileName;

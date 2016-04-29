@@ -31,6 +31,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileDownLoadInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
@@ -301,6 +302,65 @@ public class UiConfigMaintenanceResource {
 		return result;
 	}
     
+	@Path("/fileDownload")
+	@POST
+	@Produces({"application/json;charset=UTF-8"})
+	public final FileDownLoadInfo requestConfigFileDownload(
+			@FormParam("folder") final String folder,
+			@FormParam("filename") final String filename){
+
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/fileDownload");
+		tp.println("folder", folder)
+		  .println("filename", filename);
+
+		FileDownLoadInfo result = new FileDownLoadInfo();
+		try {
+			File loadFolder = new File(configProperties.getCustomResourceBasePath(), folder);
+			File loadFile = new File(loadFolder, filename);
+
+			if (loadFile.exists()) {
+				if (loadFile.isDirectory()) {
+					tp.methodExit("The message id of Not file Exception.");
+		            LOGGER.logAlert(PROG_NAME,
+		            		functionName,
+		                    Logger.RES_EXCEP_FILENOTFOUND,
+		                    "The message id of Not file Exception.");
+		            result.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+					result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+					result.setMessage(ResultBase.RES_FAILED_MSG);
+					return result;
+				} else {
+					String fileContent = FileUtil.fileRead(loadFile);
+					result.setStatus(StaticParameter.res_success);
+					result.setResult(fileContent);
+					return result;
+				}
+			} else {
+				tp.methodExit("The message id of file Not found Exception.");
+	            LOGGER.logAlert(PROG_NAME,
+	            		functionName,
+	                    Logger.RES_EXCEP_FILENOTFOUND,
+	                    "The message id of file Not found Exception.");
+	            result.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+				result.setMessage(ResultBase.RES_FAILED_MSG);
+				return result;
+			}
+
+		} catch (Exception e) {
+			tp.methodExit("Failed to requestFileDownload.");
+            LOGGER.logAlert(PROG_NAME,
+            		functionName,
+                    Logger.RES_EXCEP_GENERAL,
+                    "Failed to requestFileDownload.");
+		} finally {
+			tp.methodExit(result.toString());
+		}
+
+		return result;
+	}
+	
     @Path("/getDeployStoreAndGroup")
     @POST
     @Produces({"application/json;charset=UTF-8"})

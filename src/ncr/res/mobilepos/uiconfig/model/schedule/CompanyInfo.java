@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 @XmlRootElement(name = "CompanyInfo")
 @XmlAccessorType(XmlAccessType.NONE)
-public class CompanyInfo extends ResultBase {
+public class CompanyInfo {
 	
 	@XmlElement(name = "CompanyId")
 	private String CompanyId;

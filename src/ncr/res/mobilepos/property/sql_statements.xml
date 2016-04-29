@@ -12550,7 +12550,7 @@ insert into txl_offline_credit
     FROM
       RESMaster.dbo.MST_STOREINFO
     WHERE
-      CompanyId = @companyid
+      CompanyId = @companyid AND
       DeleteFlag = 0.
 	ORDER BY
 	  CompanyId

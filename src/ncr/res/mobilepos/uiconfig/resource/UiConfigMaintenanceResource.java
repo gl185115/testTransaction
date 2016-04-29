@@ -12,6 +12,7 @@ package ncr.res.mobilepos.uiconfig.resource;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +33,9 @@ import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
+import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
+import ncr.res.mobilepos.uiconfig.model.store.TableStore;
+import ncr.res.mobilepos.uiconfig.model.store.TableStoreList;
 import ncr.res.mobilepos.uiconfig.utils.FileUtil;
 import ncr.res.mobilepos.uiconfig.utils.StaticParameter;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
@@ -227,6 +231,66 @@ public class UiConfigMaintenanceResource {
 		return result;
 	}
 
+    @Path("/getDeployStoreAndGroup")
+    @POST
+    @Produces({"application/json;charset=UTF-8"})
+	public final TableStoreList getDeployStoreAndGroup(@FormParam("companyID") final String companyID) {
+
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/getDeployStoreAndGroup/");
+		tp.println("companyID", companyID);
+		
+		TableStoreList result = null;
+		try {
+			result = new TableStoreList();
+			IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
+			List<StoreEntry> storeEntryList = icmyInfoDao.getStoreEntryList(companyID);
+			if(StringUtility.isNullOrEmpty(storeEntryList)) {
+				tp.println("Failed to No Data Found.");
+				LOGGER.logAlert(PROG_NAME,
+						functionName,
+						Logger.RES_EXCEP_NODATAFOUND,
+						"Failed to get StoreAndGroup information.");
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				result.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+                return result;
+			} else {
+				TableStore tableStore = null;
+				List<TableStore> tableStoreList = new ArrayList<TableStore>();
+				
+				tableStore = new TableStore();
+				tableStore.setLevelKey(StaticParameter.key_all);
+				tableStore.setCategory(StaticParameter.key_all_str);
+				tableStore.setStoreEntries(storeEntryList);
+				tableStoreList.add(tableStore);
+				
+				tableStore = new TableStore();
+				tableStore.setLevelKey(StaticParameter.key_store);
+				tableStore.setCategory(StaticParameter.key_store_str);
+				tableStore.setStoreEntries(storeEntryList);
+				tableStoreList.add(tableStore);
+				
+				result.setTableStore(tableStoreList);
+			}
+		} catch (DaoException ex) {
+			tp.println("Failed to get StoreAndGroup information.");
+			LOGGER.logAlert(PROG_NAME,
+					Logger.RES_EXCEP_DAO,
+					functionName + ":Failed to get StoreAndGroup information.",
+					ex);
+		} catch(Exception ex) {
+			tp.println("Failed to get StoreAndGroup information.");
+			LOGGER.logAlert(PROG_NAME,
+					Logger.RES_EXCEP_GENERAL,
+					functionName + ":Failed to get StoreAndGroup information.",
+					ex);
+        } finally {
+        	tp.methodExit(result.toString());
+        }
+		return result;
+    }
+    
 	private String getNoticeJson(HashMap<String, String> ref) {
 
 		StringBuilder builder = new StringBuilder();

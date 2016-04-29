@@ -238,7 +238,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 
 		if ($scope.indexLevel1) {
 			selectedDeployStoreEntries = $rootScope.model.editTask.deployCategories[$scope.indexLevel1].storeEntries[index];
-			$scope.editTargetName = selectedDeployStoreEntries.entryNameJa;
+			$scope.editTargetName = selectedDeployStoreEntries.StoreName;
 		}
 	};
 
@@ -319,7 +319,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 		} else if ($scope.indexLevel1 == 2) {
 			var entryEdit = $rootScope.model.editTask.deployCategories[2].storeEntries[$scope.indexLevel2];
 			status.total = 1;
-			task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.entryNameJa };
+			task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
 		}
 
 	    if (model.active.taskIndex != undefined) {

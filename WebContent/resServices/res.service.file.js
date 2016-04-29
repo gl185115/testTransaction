@@ -58,7 +58,7 @@ $(document).ready(function () {
             });
         },
         download: function (data, callback) {
-            requestURL = res.config.baseURL + "fileDownload";
+            requestURL = res.config.baseURL + "rest/uiconfigMaintenance/fileDownload";
             folder = data.folder;
             filename = data.file;
             $.ajax({

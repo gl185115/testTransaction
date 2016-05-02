@@ -72,6 +72,7 @@ String cmType = "4";
 //開始日・終了日を取得
 java.sql.Date sqlStartDate = toDate(startDate);
 java.sql.Date sqlEndDate = toDate(endDate);
+
 java.sql.Date currentDate = new java.sql.Date(System.currentTimeMillis());
 //DB処理開始
 JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
@@ -84,52 +85,57 @@ String sql = "";
 
 try{
     if (isEmpty(deleteFlag)) {
-        //期間重複する広告文がないかチェック
-        if (isEmpty(cmId)) {
-            //新規の場合
-            sql = "SELECT CompanyId, CMId, UpdCount" +
-                  " FROM RESMaster.dbo.MST_PRESET_CMINFO" +
-                  " WHERE CompanyId = ? and BizCatId = ? and StoreId = ? and TerminalId = ?" +
-                  " and ((? BETWEEN StartDate and EndDate) or (? BETWEEN StartDate and EndDate) or (StartDate > ? and EndDate < ?)) and DeleteFlag = 0";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, companyId);
-            ps.setString(2, bizCatId);
-            ps.setString(3, storeId);
-            ps.setString(4, terminalId);
-            ps.setDate(5, sqlStartDate);
-            ps.setDate(6, sqlEndDate);
-            ps.setDate(7, sqlStartDate);
-            ps.setDate(8, sqlEndDate);
-            rs = ps.executeQuery();
-        } else {
-            //更新の場合
-            Integer nCmId = -1;
-            if (!isEmpty(previousCmId)) {
-                nCmId = Integer.parseInt(previousCmId);
-            }
-            sql = "SELECT CompanyId, CMId, UpdCount" +
-                  " FROM RESMaster.dbo.MST_PRESET_CMINFO" +
-                  " WHERE CompanyId = ? and BizCatId = ? and StoreId = ? and TerminalId = ?" +
-                  " and ((? BETWEEN StartDate and EndDate) or (? BETWEEN StartDate and EndDate) or (StartDate > ? and EndDate < ?)) and DeleteFlag = 0 and CMId != ?";
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, companyId);
-            ps.setString(2, bizCatId);
-            ps.setString(3, storeId);
-            ps.setString(4, terminalId);
-            ps.setDate(5, sqlStartDate);
-            ps.setDate(6, sqlEndDate);
-            ps.setDate(7, sqlStartDate);
-            ps.setDate(8, sqlEndDate);
-            ps.setInt(9, nCmId);
-            rs = ps.executeQuery();
-        }
-        if (rs.next()) {
+        if (sqlStartDate == null || sqlEndDate == null) {
             resCommit = "2";
-            err = "期間が重複している広告があるため登録できません。";
-            cmId = previousCmId;
+            err = "正しい日付を入力してください。";
+        } else {
+            //期間重複する広告文がないかチェック
+            if (isEmpty(cmId)) {
+                //新規の場合
+                sql = "SELECT CompanyId, CMId, UpdCount" +
+                      " FROM RESMaster.dbo.MST_PRESET_CMINFO" +
+                      " WHERE CompanyId = ? and BizCatId = ? and StoreId = ? and TerminalId = ?" +
+                      " and ((? BETWEEN StartDate and EndDate) or (? BETWEEN StartDate and EndDate) or (StartDate > ? and EndDate < ?)) and DeleteFlag = 0";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, companyId);
+                ps.setString(2, bizCatId);
+                ps.setString(3, storeId);
+                ps.setString(4, terminalId);
+                ps.setDate(5, sqlStartDate);
+                ps.setDate(6, sqlEndDate);
+                ps.setDate(7, sqlStartDate);
+                ps.setDate(8, sqlEndDate);
+                rs = ps.executeQuery();
+            } else {
+                //更新の場合
+                Integer nCmId = -1;
+                if (!isEmpty(previousCmId)) {
+                    nCmId = Integer.parseInt(previousCmId);
+                }
+                sql = "SELECT CompanyId, CMId, UpdCount" +
+                      " FROM RESMaster.dbo.MST_PRESET_CMINFO" +
+                      " WHERE CompanyId = ? and BizCatId = ? and StoreId = ? and TerminalId = ?" +
+                      " and ((? BETWEEN StartDate and EndDate) or (? BETWEEN StartDate and EndDate) or (StartDate > ? and EndDate < ?)) and DeleteFlag = 0 and CMId != ?";
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, companyId);
+                ps.setString(2, bizCatId);
+                ps.setString(3, storeId);
+                ps.setString(4, terminalId);
+                ps.setDate(5, sqlStartDate);
+                ps.setDate(6, sqlEndDate);
+                ps.setDate(7, sqlStartDate);
+                ps.setDate(8, sqlEndDate);
+                ps.setInt(9, nCmId);
+                rs = ps.executeQuery();
+            }
+            if (rs.next()) {
+                resCommit = "2";
+                err = "期間が重複している広告があるため登録できません。";
+                cmId = previousCmId;
+            }
+            rs.close();
+            ps.close();
         }
-        rs.close();
-        ps.close();
     }
 
     if ("0".equals(resCommit) && !isEmpty(companyId)) {

@@ -352,14 +352,16 @@ try{
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="./css/bootstrap.min.css">
 <link rel="stylesheet" href="./css/select2.min.css">
-<link rel="stylesheet" href="./css/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="./css/jquery-ui.min.css">
+<link rel="stylesheet" href="./css/jquery-ui.theme.min.css">
 <link rel="stylesheet" href="./css/style.css">
 <script src="./js/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<script src="./js/bootstrap-datepicker.js"></script>
-<script src="./js/bootstrap-datepicker.ja.js"></script>
+<script src="./js/jquery-ui.min.js"></script>
+<script src="./js/datepicker-ja.js"></script>
 <script src="./js/select2.min.js"></script>
 <script src="./js/jquery.validate.min.js"></script>
+<script src="./js/messages_ja.js"></script>
 <title>レシート広告 メンテナンス</title>
 <script>
 <!--
@@ -369,21 +371,29 @@ $(document).ready(function() {
         errorClass: "error",
         rules:{
             startDate:{
-                required:true
+                required: true,
+                date: true,
+                date2: true
             },
             endDate:{
-                required:true
+                required: true,
+                date: true,
+                date2: true
             }
         },
         messages:{
             startDate:{
-                required:'この項目は必須です'
+                date2:'有効な日付を入力してください。'
             },
             endDate:{
-                required:'この項目は必須です'
+                date2:'有効な日付を入力してください。'
             }
         }
     });
+    $.validator.addMethod("date2", function(val,elem){
+        reg = new RegExp("^[0-9]{4}/[0-9]{1,2}/[0-9]{1,2}$");
+        return this.optional(elem) || reg.test(val);
+    },"有効な日付を入力してください。");
 
     $('#modal-trigger').hide();
 
@@ -413,13 +423,17 @@ $(document).ready(function() {
     }
     <% } %>
 
-    $('select').select2();
+    $("select").select2();
 
-    $('.date').datepicker( {
-        format: 'yyyy/mm/dd',
-        language: 'ja',
-        todayHighlight : true
+    $.datepicker.setDefaults({
+        dataFormat: 'yyyy/mm/dd',
+        firstDay: 1,
+        changeYear: true,
+        changeMonth: true
     });
+    $("#startDate").datepicker();
+    $("#endDate").datepicker();
+
     $(".datepicker").css("z-index","100");
 
     if ($("#companyId").val() === "") {
@@ -688,7 +702,7 @@ $(document).ready(function() {
                 <h1><small><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>元の広告文<% if (!isEmpty(previousStartDate)) { %> (<%= previousStartDate %> ~ <%= previousEndDate %>) <% } %></small></h1>
               </div>
               <div class="page-body">
-                <div class="input-group">
+                <div class="input-group" style="margin-bottom: 5px;">
                   <span class="input-group-addon" id="basic-addon1-preCmName">CM名称</span>
                   <input type="text" value="<%= escapeHtml(trimToEmpty(previousCmName)) %>" class="form-control" readonly="readonly" aria-describedby="basic-addon1-preCmName">
                 </div>
@@ -696,7 +710,7 @@ $(document).ready(function() {
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage2)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage3)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage4)) %>" class="form-control" readonly="readonly">
-                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage5)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage5)) %>" class="form-control" readonly="readonly" style="margin-bottom: 5px;">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage6)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage7)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage8)) %>" class="form-control" readonly="readonly">
@@ -709,7 +723,7 @@ $(document).ready(function() {
                 <h1><small><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>作成中の広告文</small></h1>
               </div>
               <div class="page-body">
-                <div class="input-group">
+                <div class="input-group" style="margin-bottom: 5px;">
                   <span class="input-group-addon" id="basic-addon-cmName">CM名称</span>
                   <input type="text" name="cmName" maxlength="40" value="<%= escapeHtml(trimToEmpty(cmName)) %>" class="form-control" aria-describedby="basic-addon-cmName">
                 </div>
@@ -729,7 +743,7 @@ $(document).ready(function() {
                   <span class="input-group-addon" id="basic-addon4">上段4行目</span>
                   <input type="text" name="ads4" maxlength="40" value="<%= escapeHtml(trimToEmpty(message4)) %>" class="form-control" aria-describedby="basic-addon4">
                 </div>
-                <div class="input-group">
+                <div class="input-group" style="margin-bottom: 5px;">
                   <span class="input-group-addon" id="basic-addon5">上段5行目</span>
                   <input type="text" name="ads5" maxlength="40" value="<%= escapeHtml(trimToEmpty(message5)) %>" class="form-control" aria-describedby="basic-addon5">
                 </div>
@@ -757,14 +771,12 @@ $(document).ready(function() {
               <br>
               <div class="form-inline">
                 <label for="startDate">反映開始日：</label>
-                <div class="col-xs-4 input-group date">
+                <div class="col-xs-4 input-group">
                   <input type="text" name="startDate" id="startDate" maxlength="10" value="<%= trimToEmpty(startDate) %>" class="form-control" required>
-                  <span class="input-group-addon"><span class="add-on glyphicon glyphicon-calendar"></span></span>
                 </div>
                 <label for="endDate" style="margin-left: 10px;">反映終了日：</label>
-                <div class="col-xs-4 input-group date">
+                <div class="col-xs-4 input-group">
                   <input type="text" name="endDate" id="endDate" maxlength="10" value="<%= trimToEmpty(endDate) %>" class="form-control" required>
-                  <span class="input-group-addon"><span class="add-on glyphicon glyphicon-calendar"></span></span>
                 </div>
               </div>
               <br>

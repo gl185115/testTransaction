@@ -445,6 +445,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                   <include>parameters/*</include>
                   <include>settingAds/*</include>
                   <include>settingAds/css/*</include>
+                  <include>settingAds/css/images/*</include>
                   <include>settingAds/fonts/*</include>
                   <include>settingAds/js/*</include>
                   <include>WEB-INF/lib/*.jar</include>

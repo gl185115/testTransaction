@@ -108,8 +108,8 @@ public class Authorization {
      * 1.01      2014.12.12    mlwang
      * 銀聯番号
      */
-    @XmlElement(name = "barChinaUnionPayNumber")
-    private String barChinaUnionPayNumber;
+    @XmlElement(name = "ChinaUnionPayNumber")
+    private String chinaUnionPayNumber;
     
     /**
      * 伝票番号　
@@ -169,7 +169,7 @@ public class Authorization {
         referenceNumber = null;
         barApplicationIdentifier = null;
         barApplicationTransactionCounter = null;
-        barChinaUnionPayNumber = null;
+        chinaUnionPayNumber = null;
     }
 
     /**
@@ -372,18 +372,17 @@ public class Authorization {
 	}
 
 	/**
-     * @return barChinaUnionPayNumber
+     * @return ChinaUnionPayNumber
      */
-    public String getBarChinaUnionPayNumber() {
-        return barChinaUnionPayNumber;
-    }
-
+    public String getChinaUnionPayNumber() {
+		return chinaUnionPayNumber;
+	}
     /**
-     * @param barChinaUnionPayNumber セットする barChinaUnionPayNumber
+     * @param ChinaUnionPayNumber セットする ChinaUnionPayNumber
      */
-    public void setBarChinaUnionPayNumber(String barChinaUnionPayNumber) {
-        this.barChinaUnionPayNumber = barChinaUnionPayNumber;
-    }
+	public void setChinaUnionPayNumber(String chinaUnionPayNumber) {
+		this.chinaUnionPayNumber = chinaUnionPayNumber;
+	}
 
     /**
      * @return the slipNo
@@ -410,7 +409,7 @@ public class Authorization {
                 + "ReferenceNumber: " + this.referenceNumber + "\r\n"
                 + "barApplicationIdentifier： " + this.barApplicationIdentifier + "\r\n"
                 + "barApplicationTransactionCounter： " + this.barApplicationTransactionCounter + "\r\n"
-                + "barChinaUnionPayNumber： " + this.barChinaUnionPayNumber + "\r\n"
+                + "barChinaUnionPayNumber： " + this.chinaUnionPayNumber + "\r\n"
                 + "SlipNo: " + this.slipNo;
         return authorization;
     }

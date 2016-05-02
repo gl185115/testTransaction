@@ -2917,7 +2917,7 @@ public class NetworkReceipt {
                         receipt.setIcATC(tender.getAuthorization()
                                 .getBarApplicationTransactionCounter());
                         receipt.setUnionPayNo(tender.getAuthorization()
-                                .getBarChinaUnionPayNumber());
+                                .getChinaUnionPayNumber());
                     }
                     receipt.setSignatureFlag("false");
                     if (!StringUtility.isNullOrEmpty(tender.getAuthorization())

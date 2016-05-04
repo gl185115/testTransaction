@@ -56,7 +56,8 @@ res.model = res.model || {};
 				res.ui.root.pickListDisableClose = false;
 				model.editor.selectedFile = undefined;
 				model.editor.selectedIndex = undefined;
-				model.editor.indexEdit = "editItems";
+//				model.editor.indexEdit = "editItems";
+				model.editor.indexEdit = "editLayout"
 
 				model.printList= angular.copy(model.pickList.items);
 				for(var i = 0;i< model.printList.length;i++) {

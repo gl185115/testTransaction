@@ -314,13 +314,14 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 	    	status.total = $rootScope.model.editTask.deployCategories[0].storeEntries.length;
 			task.target = { store: $scope.editTargetName, group: "", workstation: "All", storeNameJa: $scope.editTargetName };
 		} else if ($scope.indexLevel1 == 1) {
-			status.total = $rootScope.model.editTask.deployCategories[1].storeEntries[$scope.indexLevel2].entryStores.length;
-			task.target = { store: "", group: $scope.editTargetName, workstation: "All", storeNameJa: $scope.editTargetName };
-		} else if ($scope.indexLevel1 == 2) {
+		    var entryEdit = $rootScope.model.editTask.deployCategories[1].storeEntries[$scope.indexLevel2];
+            status.total = 1;
+            task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
+		} /*else if ($scope.indexLevel1 == 2) {
 			var entryEdit = $rootScope.model.editTask.deployCategories[2].storeEntries[$scope.indexLevel2];
 			status.total = 1;
 			task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
-		}
+		}*/
 
 	    if (model.active.taskIndex != undefined) {
 	        $rootScope.model.remove();

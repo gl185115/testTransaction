@@ -55,7 +55,7 @@ $(document).ready(function() {
 		setSchedule: function(data, callback) {
 			$.ajax({
 				type: 'POST',
-				url: res.config.baseURL + "setSchedule",
+				url: res.config.baseURL + "rest/uiconfigMaintenance/setSchedule",
 				data: {
 					filename: "schedule.xml",
 					schedulejson : data.schedule,

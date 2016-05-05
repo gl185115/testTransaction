@@ -25,7 +25,8 @@ res.model = res.model || {};
 				res.ui.send({
 					event : "file.picture.list",
 					data : {
-						folder : "images/pickList"
+//						folder : "images/pickList"
+					    folder : "pickList/images"
 					}
 				});
 				break;
@@ -89,7 +90,7 @@ res.model = res.model || {};
 			}
 
 			model.imageCopy.targetRoot = "\\pickList";
-			model.imageCopy.imageURL = model.imageCopy.baseURL + "pickList/";
+			model.imageCopy.imageURL = model.imageCopy.baseURL+ "pickList/";
 			break;
 		case "file.remove":
 			window.parent.res.ui.root.model.popup = "";
@@ -104,7 +105,8 @@ res.model = res.model || {};
 						context: res.ui.root.context,
 						event : "file.picture.list",
 						data : {
-							folder : "images/pickList"
+//							folder : "images/pickList"
+						    folder : "pickList/images"
 						}
 					});
 
@@ -145,7 +147,8 @@ res.model = res.model || {};
             res.ui.send({
                 event : "file.picture.list",
                 data : {
-                    folder : "images/pickList"
+//                    folder : "images/pickList"
+                    folder : "pickList/images"
                 }
             });
             break;
@@ -170,7 +173,8 @@ res.model = res.model || {};
 		this.targetfiles = [];
 		this.indexFileName = "";
 		this.recursive = true;
-		this.baseURL = "/resUiConfig/custom/images/";
+//		this.baseURL = "/resUiConfig/custom/images/";
+		this.baseURL = res.config.baseURL + "rest/uiconfig/custom/images/";
 		this.imageURL = "";
 		this.successMsgShow = false;
 		this.failedMsgShow = false;

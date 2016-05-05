@@ -1,0 +1,65 @@
+@CHARSET "UTF-8";
+
+#FileSave .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+
+#FileSave .Title {
+	position: relative; left: 40px; width: 520px; height: 40px;
+	margin-top: 20px;
+}
+#FileSave .Title p {
+	width: 100%; text-align: center;
+	text-shadow: 1px 1px 1px hsl(0, 0%, 100%);
+	font-size: 30px; line-height: 40px;
+}
+#FileSave .Guide {
+	position: relative; left: 40px; width: 520px; height: 40px;
+	margin-top: 100px;
+	text-align: center;
+	font-size: 25px;
+}
+#FileSave .Entry {
+	position: relative; left: 40px; width: 520px;
+	margin-top: 20px;
+}
+#FileSave .Entry .Value {
+	position: relative; left: 0px; width: 100%; height: 50px;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	padding-left: 10px;
+	font-size: 20px;
+}
+#FileSave .Entry.Overwrite {
+	margin-top: 50px; height: 30px;
+}
+#FileSave .Entry.Overwrite .Switch {
+	position: absolute; left: 0px; top: 0px; width: 50px; height: 30px;
+	background: -webkit-gradient(linear, left top, left bottom, from(hsl(0, 0%, 30%)), color-stop(0.99, hsl(0, 0%, 80%)), to(hsl(0, 0%, 60%)));
+	border-radius: 15px;
+}
+#FileSave .Entry.Overwrite .Switch .On {
+	position: absolute; right: 1px; top: 1px; width: 28px; height: 28px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112, 45%, 95%)),color-stop(0.4,hsl(112, 45%, 60%)),color-stop(0.7,hsl(112, 45%, 50%)),to(hsl(112, 45%, 40%)));
+	border-radius: 14px;
+}
+#FileSave .Entry.Overwrite .Switch .Off {
+	position: absolute; left: 1px; top: 1px; width: 28px; height: 28px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0, 0%, 95%)),color-stop(0.4,hsl(0, 0%, 60%)),color-stop(0.7,hsl(0, 0%, 50%)),to(hsl(0, 0%, 40%)));
+	border-radius: 14px;
+}
+#FileSave .Entry.Overwrite .Label {
+	position: absolute; left: 80px; top: 0px;
+	font-size: 20px; line-height: 30px;
+}
+#FileSave .Warning {
+	position: relative; left: 120px; width: 460px;
+	margin-top: 20px;
+	color: hsl(7, 100%, 56%);
+	font-size: 20px;
+}
+#FileSave .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#FileSave .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+#FileSave .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }
+#FileSave .Success {
+	position: absolute; left: 240px; top: 290px; width: 560px; height: 40px;
+	display: table;
+}

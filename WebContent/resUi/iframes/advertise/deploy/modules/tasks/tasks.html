@@ -1,0 +1,81 @@
+
+<div class="List">
+	<div id="wrapperTaskList" data-ng-class="{wrapperList : model.active.folder=='scheduled'}">
+		<div class="scroller">
+		    <div data-ng-repeat="set in model.resources[model.active.resource][model.active.folder]">
+		        <div class="Line" data-ng-class="{selected: $index === model.active.taskIndex}"
+		             data-res-click="selectTask($index)">
+		            <table class="Task">
+		                <tr>
+		                    <td class="Cell DateTime">
+		                        <p data-ng-bind-html="set.task.effective | resDateTime"></p>
+		                        <p class="Store">
+		                            <span data-ng-bind-html="'Tasks.To' |resPhrase:context"></span>
+		                            <span data-ng-bind-html="set.task.target.group ?  set.task.target.group : set.task.target.storeNameJa"></span>
+		                        </p>
+		                    </td>
+		                    <td class="Cell Subject">
+		                    	<div class="Expire">
+		                    		<span data-ng-bind-html="'Tasks.Expire' |resPhrase:context" data-ng-show="set.task.expire"></span>
+		                    		<span data-ng-bind-html="set.task.expire"></span>
+		                    	</div>
+		                    	<div class="FileName">
+		                    		<span data-ng-bind-html="set.task.filename | resWithoutExtension | resLongTextEllipses : 33"></span>
+		                    	</div>
+		                    </td>
+		                    <td class="Cell">
+		                        <div class="Status">
+		                            <div class="pull-left" data-ng-bind-html="'Tasks.Remaining' |resPhrase:context"></div>
+		                            <div class="pull-right" data-ng-bind-html="set.status.total - set.status.opened |resNumber"></div>
+		                        </div>
+		                        <div class="Status">
+		                            <div class="pull-left" data-ng-bind-html="'Tasks.Total' |resPhrase:context"></div>
+		                            <div class="pull-right" data-ng-bind-html="set.status.total |resNumber"></div>
+		                        </div>
+		                    </td>
+		                </tr>
+		            </table>
+		        </div>
+		    </div>
+        </div>
+    </div>
+</div>
+
+<div class="DetailView" data-ng-show="model.active.resource && model.active.folder != 'scheduled'">
+	<div class="ViewTital">
+		<div class="Message">
+			<p data-ng-bind-html="'DetailView.ViewTital' | resPhrase:context"></p>
+		</div>
+		<div class="SaveBtn resButton orange" data-res-tap="saveDetailView()"
+			data-ng-class="{disabled: model.deployDetail.detailData.length <= 0 || model.active.taskIndex == undefined}">
+			<p data-ng-bind-html="'DetailView.ViewSave' | resPhrase:context"></p>
+		</div>
+	</div>
+
+	<div class="ViewHeader">
+		<div class="Inline">
+			<p data-ng-bind-html="'DetailView.StoreID' | resPhrase:context"></p>
+		</div>
+		<div class="Inline">
+			<p data-ng-bind-html="'DetailView.StoreName' | resPhrase:context"></p>
+		</div>
+		<div class="Inline">
+			<p data-ng-bind-html="'DetailView.StoreTel' | resPhrase:context"></p>
+		</div>
+	</div>
+
+	<div id="wrapperViewList" data-ng-show="model.deployDetail.detailView">
+		<div class="scroller">
+			<table>
+				<tr class="ViewLine"
+					data-ng-repeat="task in model.deployDetail.detailData"
+					data-ng-class="{selected: $index==detailIndex}"
+					data-res-click="selectDetail($index)">
+					<td><p class="td1" data-ng-bind-html="task.storeId"></p></td>
+					<td><p class="td2" data-ng-bind-html="task.entryNameJa"></p></td>
+					<td><p class="td3" data-ng-bind-html="task.storeTel"></p></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

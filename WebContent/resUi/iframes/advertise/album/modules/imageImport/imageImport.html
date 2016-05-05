@@ -1,0 +1,52 @@
+<div class="resCasing beige">
+	<div class="resPanel beige">
+		<div id="EditFolder">
+			<div class="Panel">
+				<div class="Title">
+					<p data-ng-bind-html="'Import.Title'|resPhrase:context"></p>
+				</div>
+				<div class="FolderActions">
+					<div class="l-inline-block">
+						<div class="resButton raise gray W110xH50" data-ng-show="true"
+							data-res-tap="folderback()">
+							<p data-ng-bind-html="'Button.Back'|resPhrase: context"></p>
+						</div>
+					</div>
+					<div class="l-inline-block">
+						<div class="resButton raise green W110xH50" data-ng-show="true"
+							data-res-tap="dbClickOpen()"
+							data-ng-class="{'disabled': (model.imageCopy.folderCopyFrom=='')||(model.imageCopy.folderCopyFrom&&(model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.jpg')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.png')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.bmp')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.gif')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.jpeg')))}">
+							<p data-ng-bind-html="'Button.Open'|resPhrase: context"></p>
+						</div>
+					</div>
+				</div>
+				<div class="List">
+					<div id="wrapperFiles">
+						<div class="scroller">
+							<ul>
+								<li class="Line"
+									data-ng-repeat="file in model.imageCopy.files track by $index"
+									data-ng-class="{selected: $index==model.imageCopy.indexFile}"
+									data-ng-click="select($index)"
+									data-ng-dblclick="dbClickOpen($index)">
+									<p data-ng-bind-html="file.filename"></p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<div class=Buttons>
+					<div class="resButton raise yellow W120xH70" data-ng-show="true"
+						data-res-tap="cancel()">
+						<p data-ng-bind-html="'Button.Cancel'|resPhrase: context"></p>
+					</div>
+					<div class="resButton raise green W120xH70" data-ng-show="true"
+						data-res-tap="imageCopy()"
+						data-ng-class="{'disabled': (model.imageCopy.folderCopyFrom=='' || model.imageCopy.folderCopyTo==''||(!(model.imageCopy.folderCopyFrom&&(model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.jpg')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.png')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.bmp')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.gif')||model.imageCopy.folderCopyFrom.toLowerCase().endsWith('.jpeg')))))}">
+						<p data-ng-bind-html="'Button.ImageCopyStart'|resPhrase: context"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

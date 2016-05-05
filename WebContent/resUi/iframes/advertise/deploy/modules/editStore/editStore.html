@@ -1,0 +1,250 @@
+
+<div class="Panel">
+	<div class="InnerBox">
+
+		<div class="SelectToDo" data-ng-show="model.pageIndex==undefined">
+			<div class="Guide">
+				<p data-ng-bind-html="'EditStore.Guide'|resPhrase:context"></p>
+			</div>
+			<div class=Buttons>
+				<div class="resButton lower3D green W310xH150"
+					data-res-tap="select('addStore')">
+					<p data-ng-bind-html="'AddStore'|resPhrase:context"></p>
+				</div>
+				<div class="resButton lower3D green W310xH150"
+					data-res-tap="select('viewStores')">
+					<p data-ng-bind-html="'EditStore'|resPhrase:context"></p>
+				</div>
+				<div class="resButton lower3D green W310xH150"
+					data-res-tap="select('addStoreGroup')">
+					<p data-ng-bind-html="'AddStoreGroup'|resPhrase:context"></p>
+				</div>
+				<div class="resButton lower3D green W310xH150"
+					data-res-tap="select('viewStoreGroups')">
+					<p data-ng-bind-html="'EditStoreGroup'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise yellow W120xH70" data-res-tap="cancel()">
+					<p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="storeAdd" data-ng-show="model.pageIndex=='StoreEntryCreate'">
+			<div class="addTitle">
+				<p data-ng-bind-html="'AddStore.Guide'|resPhrase:context"></p>
+			</div>
+			<div class="guideCheck" data-ng-show="errorFlag!=''">
+				<p data-ng-bind-html="secondPhrase + errorFlag |resPhrase:context"></p>
+			</div>
+			<div class="EditBodySpace">
+				<div class="DeployStoreId">
+					<p class="Label" data-ng-bind-html="'AddStore.storeId'|resPhrase:context"></p>
+					<input data-ng-disabled="(model.editStore.actionType != 'StoreCreate')"
+					    id="StoreIdValue" class="Value" type="text" maxlength="8"
+						size="10" data-ng-model="editStoreId" data-ng-trim="false">
+<!-- 					<input data-ng-disabled="(editStoreCreateOrUpdate != 'create')" -->
+<!-- 					    id="StoreIdValue" class="Value" type="text" maxlength="8" -->
+<!-- 						size="10" data-ng-model="editStoreId" data-ng-trim="false"> -->
+				</div>
+<!-- 				<div class="DeployStoreNameEN" data-ng-show="model.pageIndex!='storeAdd'"> -->
+<!-- 					<p class="Label" -->
+<!-- 						data-ng-bind-html="'AddStore.storeEnName'|resPhrase:context"></p> -->
+<!-- 					<input id="StoreENValue" class="Value" type="text" maxlength="20" -->
+<!-- 						size="20" data-ng-model="editStoreNmEn" data-ng-trim="false"> -->
+<!-- 				</div> -->
+				<div class="DeployStoreNameJP">
+					<p class="Label"
+						data-ng-bind-html="'AddStore.storeJaName'|resPhrase:context"></p>
+					<input id="StoreJPValue" class="Value" type="text" maxlength="20"
+						size="20" data-ng-model="editStoreNmJp" data-ng-trim="false">
+				</div>
+				<div class="DeployStoreIP">
+					<p class="Label"
+						data-ng-bind-html="'AddStore.storeIP'|resPhrase:context"></p>
+					<input id="StoreIPValue" class="Value" type="text" maxlength="20"
+						size="20" data-ng-model="editStoreIP" data-ng-trim="false">
+				</div>
+				<div class="DeployStoreSecondaryIP">
+					<p class="Label"
+						data-ng-bind-html="'AddStore.storeSecondaryIP'|resPhrase:context"></p>
+					<input id="StoreSecondaryIPValue" class="Value" type="text" maxlength="20"
+						size="20" data-ng-model="editStoreSecondaryIP" data-ng-trim="false">
+				</div>
+				<div class="DeployStoreTel">
+					<p class="Label"
+						data-ng-bind-html="'AddStore.storeTel'|resPhrase:context"></p>
+					<input id="StoreTelValue" class="Value" type="text" maxlength="20"
+						size="20" data-ng-model="editStoreTel" data-ng-trim="false">
+				</div>
+			</div>
+			<div class="EditFootButton">
+				<div class="ButtonL resButton raise yellow W120xH70" data-res-tap="goBackDeploy()">
+					<p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="ButtonR resButton raise green W120xH70"
+					data-res-tap="storeRedirect('add')">
+					<p data-ng-bind-html="'Okay'|resPhrase:context"></p>
+				</div>
+<!-- 				<div data-ng-class="{'disabled': (editStoreCreateOrUpdate == 'create')}" class="resButton raise red W120xH70" -->
+<!-- 					data-res-tap="storeRedirect('delete')"> -->
+<!-- 					<p data-ng-bind-html="'DeleteStore'|resPhrase:context"></p> -->
+<!-- 				</div> -->
+			</div>
+		</div>
+
+		<div class="TableStoreEdit" data-ng-show="model.pageIndex=='StoreEntryDetail'">
+		    <div class="Search">
+		        <input data-ng-model="searchArea" placeholder="{{'EditStore.SearchStore'|resPhrase:context}}">
+		    </div>
+			<div class="List">
+				<div class="TableHeader">
+					<div class="Inline" data-res-click="sortStore('storeId')">
+						<p data-ng-bind-html="'AddStore.storeId'|resPhrase:context"></p>
+						<div class="SortStoreIdUp" data-ng-show="storeIdUp"></div>
+		                <div class="SortStoreIdDown" data-ng-show="!storeIdUp"></div>
+					</div>
+					<div class="Inline" data-res-click="sortStore('entryNameJa')">
+						<p data-ng-bind-html="'AddStore.storeJaName'|resPhrase:context"></p>
+<!-- 						<div class="SortStoreJaNameUp" data-ng-show="!storeIdUp"></div> -->
+<!-- 		                <div class="SortStoreJaNameDown" data-ng-show="storeIdUp"></div> -->
+						<div class="SortStoreJaNameUp" data-ng-show="storeJaNameUp"></div>
+		                <div class="SortStoreJaNameDown" data-ng-show="!storeJaNameUp"></div>
+					</div>
+					<div class="Inline">
+						<p data-ng-bind-html="'AddStore.storeIPDetail'|resPhrase:context"></p>
+					</div>
+					<div class="Inline">
+						<p data-ng-bind-html="'AddStore.storeSecondaryIPDetail'|resPhrase:context"></p>
+					</div>
+					<div class="Inline">
+						<p data-ng-bind-html="'AddStore.storeTel'|resPhrase:context"></p>
+					</div>
+				</div>
+				<div id="wrapperStoresList">
+					<div class="scroller">
+						<table>
+							<tr class="Line"
+								data-ng-repeat="store in model.storesCsv track by $index"
+								data-ng-class="{selected: $index == model.storesCsv.selectIndex}"
+								data-res-click="selectStore($index)">
+								<td><p class="td1" data-ng-bind-html="store.storeId"></p></td>
+								<td><p class="td2" data-ng-bind-html="store.entryNameJa"></p></td>
+								<td><p class="td3" data-ng-bind-html="store.storeIP"></p></td>
+								<td><p class="td4" data-ng-bind-html="store.storeSecondaryIP"></p></td>
+								<td><p class="td5" data-ng-bind-html="store.storeTel"></p></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="Footer">
+				<div class="resButton raise red W120xH70" data-ng-class="{'disabled': !(model.storesCsv.selectIndex>=0)}"
+					data-res-tap="storeRedirect('delete')">
+					<p data-ng-bind-html="'DeleteStore'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise yellow W120xH70" data-res-tap="goBackDeploy()">
+					<p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-ng-class="{'disabled': !(model.storesCsv.selectIndex>=0)}"
+					data-res-tap="toEditStore(model.storesCsv.selectIndex)">
+					<p data-ng-bind-html="'Okay'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="TableGroupCreate" data-ng-show="model.pageIndex=='StoreGroupCreate'">
+			<div class="Header">
+				<p data-ng-bind-html="'AddStoreGroup.Guide'|resPhrase:context"></p>
+			</div>
+			<div class="Title">
+				<div class="NameJaLabel">
+					<p data-ng-bind-html="'AddStoreGroup.storeGroupNameJa'|resPhrase:context"></p>
+				</div>
+				<input class="NameJaValue" type="text" maxlength="30" data-ng-model="model.editStore.groupEntryNameJa"
+					data-ng-disabled="(model.editStore.actionType != 'GroupCreate')" data-ng-trim="false">
+				<div class="ErrorMessage" data-ng-show="errorFlag!=''">
+					<p data-ng-bind-html="'AddStoreGroup.emptyGroupNameJa'|resPhrase:context"></p>
+				</div>
+			</div>
+			<div class="Body">
+				<div class="SelectLabel">
+					<p class="LabelLeft" data-ng-bind-html="'AddStoreGroup.storeEntryLTOR'|resPhrase:context"></p>
+					<p class="LabelRight" data-ng-bind-html="'AddStoreGroup.storeEntryRTOL'|resPhrase:context"></p>
+				</div>
+				<div id="wrapperGroupStoreEntry">
+					<div class="scroller">
+						<table>
+							<tr class="Line" data-ng-repeat="store in model.storesAllIdCsv track by $index"
+								data-ng-class="{selected: $index == model.storesAllIdCsv.selectIndex}"
+								data-res-click="selectStoreToGroup($index)">
+								<td><p class="LineItem" data-ng-bind-html="store.entryNameJa"></p></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+				<div class="GroupSelecterLR">
+					<div class="resButton raise green W120xH70" data-res-tap="toRight(model.storesAllIdCsv.selectIndex)">
+						<p data-ng-bind-html="'AddStoreGroup.doAdd'|resPhrase:context"></p>
+					</div>
+					<div class="resButton raise red W120xH70" data-res-tap="toLeft(model.storesGroupSelectedId.selectIndex)">
+						<p data-ng-bind-html="'AddStoreGroup.doDelete'|resPhrase:context"></p>
+					</div>
+				</div>
+				<div id="wrapperGroupStoreList">
+					<div class="scroller">
+						<table>
+							<tr class="Line" data-ng-repeat="rightStore in model.storesGroupSelectedId track by $index"
+								data-ng-class="{selected: $index == model.storesGroupSelectedId.selectIndex}"
+								data-res-click="selectStoreToAll($index)">
+								<td><p data-ng-bind-html="rightStore.entryNameJa"></p></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="Footer">
+				<div class="resButton raise yellow W120xH70" data-res-tap="goBackDeploy()">
+					<p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-res-tap="groupEntryEdit('create')"
+					data-ng-class="{'disabled': model.storesGroupSelectedId.length == 0}">
+					<p data-ng-bind-html="'Okay'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="TableGroupEdit" data-ng-show="model.pageIndex=='StoreGroupDetail'">
+			<div class="DetailList">
+				<div class="Header">
+					<div class="TitleNameJa">
+						<p data-ng-bind-html="'AddStoreGroup.storeGroupNameJa'|resPhrase:context"></p>
+					</div>
+				</div>
+				<div id="wrapperStoresGroupList">
+					<div class="scroller">
+						<table>
+							<tr class="Line" data-ng-repeat="storeGroup in model.storesGroupCsv track by $index"
+								data-ng-class="{selected: $index == model.storesGroupCsv.selectIndex}"
+								data-res-click="selectStoreGroup($index)">
+								<td><p data-ng-bind-html="storeGroup.entryNameJa"></p></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="Footer">
+				<div class="resButton raise red W120xH70" data-res-tap="groupEntryEdit('delete')"
+					data-ng-class="{'disabled': model.storesGroupCsv.length == 0}">
+					<p data-ng-bind-html="'DeleteStore'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise yellow W120xH70" data-res-tap="goBackDeploy()">
+					<p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-res-tap="toEditStoreGroup(model.storesGroupCsv.selectIndex)"
+					data-ng-class="{'disabled': model.storesGroupCsv.length == 0}">
+					<p data-ng-bind-html="'Okay'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

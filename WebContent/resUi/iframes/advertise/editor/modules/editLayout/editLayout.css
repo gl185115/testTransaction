@@ -1,0 +1,372 @@
+@CHARSET "UTF-8";
+
+#EditLayout .TabButton {
+	position: absolute;
+	left: 760px;
+	top: 103px;
+	width: 120px;
+	height: 60px;
+	background: -webkit-gradient(linear,left top,right top,
+		from(hsla(0,0%,30%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+	border-color: hsl(0,0%,95%);
+	border-style: solid;
+	border-width: 5px 5px 1px 5px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-radius: 15px 15px 15px 15px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	z-index: 4;
+	-webkit-transform-origin: 0% 100%;
+}
+#EditLayout .AddButton {
+	position: absolute;
+	left: 891px;
+	top: 103px;
+	width: 120px;
+	height: 60px;
+	background: -webkit-gradient(linear,left top,right top,
+		from(hsla(0,0%,30%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+	border-color: hsl(0,0%,95%);
+	border-style: solid;
+	border-width: 5px 5px 1px 5px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	border-radius: 15px 15px 15px 15px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	z-index: 4;
+	-webkit-transform-origin: 0% 100%;
+}
+#EditLayout .ClearTabItems {
+	position: absolute;
+	margin-top: 6px;
+	margin-left: 6px;
+	border-radius: 4px;
+}
+
+#EditLayout .Layout {
+	position: absolute; left: 5px; top: 160px; width: 1014px; height: 525px;
+	background: -webkit-gradient(linear,left top,right top,
+		from(hsla(0,0%,30%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+ 	border-color: hsl(0,0%,95%);
+	border-style: solid; border-width: 5px 5px 0px 5px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	border-radius: 0px 20px 0px 0px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 10px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	z-index: 4;
+	-webkit-transform-origin: 0% 100%;
+}
+/* #EditLayout .Layout .List { position: absolute; left: 60px; top: 5px; } */
+#EditLayout .Layout .List { position: relative; left: 0px; }
+#EditLayout .wrapperPickList {
+	position: absolute;
+    left: 0px;
+    width: 1000px;
+    height: 515px;
+    overflow: hidden;
+    z-index: 0;
+	}
+#EditLayout .Layout .scroller {
+	/* display: -webkit-inline-box; */
+	left: 60px;
+    position: relative;
+}
+#EditLayout .Layout .List .Column {
+	position: relative; top: 0px; width: 188px; height: 510px;
+}
+#EditLayout .PickButton {
+	position: relative;
+	width: 132px;
+	height: 120px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,50%)));
+	border-radius: 5px 5px 0px 0px;
+	border-style: none;
+	display: inline-flex;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+}
+#EditLayout .PickButton.top {
+	width: 124px;
+	height: 134px;
+}
+#EditLayout .PickButton.bottom {
+	width: 191px;
+	height: 125px;
+}
+#EditLayout .PickButton .InnerBox {
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	width: 124px;
+	height: 110px;
+	background: hsl(0,0%,100%);
+	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,95%);
+	border-style: solid;
+	border-width: 1px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	display: table;
+}
+#EditLayout .PickButton .InnerBox.top {
+	width: 115px;
+	height: 124px;
+}
+#EditLayout .PickButton .InnerBox.bottom {
+	width: 182px;
+	height: 115px;
+}
+#EditLayout .PickButton .InnerBox > p { display: table-cell; vertical-align: middle; text-align: center; }
+#EditLayout .PickButton .InnerBox .ImageBox {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 122px;
+	height: 76px;
+	text-align: center;
+	overflow: hidden;
+	display: table;
+}
+#EditLayout .PickButton .InnerBox .ImageBox.top {
+	width: 114px;
+	height: 122px;
+}
+#EditLayout .PickButton .InnerBox .ImageBox.bottom {
+	width: 180px;
+	height: 114px;
+}
+#EditLayout .PickButton .InnerBox .ImageBox  p { display: table-cell; vertical-align: middle; }
+#EditLayout .PickButton .InnerBox .LabelBox {
+	position: absolute;
+	left: -4px;
+	top: 78px;
+	width: 130px;
+	height:36px;
+	background: hsl(0,0%,95%);
+	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,100%);
+	border-style: solid;
+	border-width: 1px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	text-align: center;
+	font-size: 15px;
+	line-height: 15px;
+}
+#EditLayout .PickButton .LabelBox p { margin-top: 2px; }
+#EditLayout .PickButton .Badge {
+	position: absolute; left:-3px; top: -3px; min-width: 32px; height: 32px;
+ 	background: hsl(7, 0%, 40%);
+	color: hsl(0, 0%, 100%);
+	border-color: hsl(0, 0%, 100%);
+	border-radius: 10px;
+	border-style: solid; border-width: 1px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	font-size: 18px; text-align: center; line-height: 30px; padding: 0px 2px;
+	-webkit-transition: all 0.3s linear 0;
+	transition: all 0.2s linear 0;
+}
+#EditLayout .PickButton .Badge.ng-hide-add,
+#EditLayout .PickButton .Badge.ng-hide-remove {
+	display:block!important;
+}
+#EditLayout .PickButton .Badge.ng-hide {
+	-webkit-transform: scale(2.0, 2.0);
+	opacity: 0.1;
+}
+#EditLayout .Layout .List .PickButton {
+	margin: 3px 21px 2px;
+}
+
+#EditLayout .MountItem .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+#EditLayout .MountItem .resCasing .resPanel .Guide .Label{
+	text-align: left; vertical-align: top; display: table-cell;
+	font-size: 19px;
+}
+#EditLayout .MountItem .resCasing .resPanel .PickButton {
+	position: absolute;
+    left: 35px;
+    top: 45px;
+}
+#EditLayout .MountItem .resCasing .resPanel .PickButton.top {left: 40px;}
+#EditLayout .MountItem .resCasing .resPanel .PickButton.bottom {top: 215px; left: 15px;}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile { position: absolute; left: 160px; top: 20px; width: 260px; height: 140px; }
+#EditLayout .MountItem .resCasing .resPanel .ImageFile.bottom { top: 200px;}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Buttons.Top {
+	position: relative;
+    width: 260px;
+    top: 0px;
+    left: 115px;
+    height: 60px;
+    display: -webkit-inline-box;
+}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Buttons.Top .resButton {
+	width: 120px; height: 50px;
+}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Buttons.Top .resButton:nth-child(1) { margin-right: 10px; left: 60px;}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Buttons.Top .resButton p {
+	text-align: center; vertical-align: middle;  display: table-cell;
+	font-size: 20px;
+}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Buttons.Top .Value {
+	position: absolute; left: 0px; top: 80px; width: 250px; height: 40px;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	font-size: 20px; padding-left: 10px;
+}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Label {
+	color: hsl(0, 0%, 30%);
+}
+#EditLayout .MountItem .resCasing .resPanel .ImageFile .Value {
+	margin-top: 0px;
+}
+#EditLayout .MountItem .resCasing .resPanel .Entries { position: absolute; left: 55px; top: 337px; }
+#EditLayout .MountItem .resCasing .resPanel .Entry { position: relative; width: 420px; height: 35px; }
+#EditLayout .MountItem .resCasing .resPanel .Entry .Label {
+	position: absolute; left: 0px; top: -4px; height: 21px;
+    width: 150px; color: hsl(0,0%,30%); font-size: 19px; line-height: 60px;
+}
+#EditLayout .MountItem .resCasing .resPanel .Entry .Value {
+	position: absolute; left: 220px; top: 10px; width: 250p; height: 30px;
+   -webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset; border-radius: 5px; 
+    box-sizing: border-box; border-style: none; font-size: 20px; padding-left: 10px;
+}
+#EditLayout .MountItem .resCasing .resPanel .Entry ._720kb-datepicker-calendar._720kb-datepicker-open {
+	visibility: visible;
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+    padding: 5px;
+    left: 137px;
+    top: 40px;
+    width: 244px;
+    position: relative; 
+    height: 233px;
+}
+#EditLayout .MountItem .resCasing .resPanel.Buttons.Bottom { position: absolute; width: 100%; bottom: 20px; }
+#EditLayout .MountItem .resCasing .resPanel.Buttons.Bottom .resButton:nth-child(1) { position: absolute; left: 40px; bottom: 0px; }
+#EditLayout .MountItem .resCasing .resPanel .Buttons.Bottom .resButton:nth-child(2) { position: absolute; right: 240px; bottom: 0px; }
+
+#EditLayout .MountItem .Guide {
+	position: absolute; left: 20px; top: 20px; width: 560px; height: 40px;
+	display: table;
+}
+#EditLayout .MountItem .Guide.bottom {top: 190px;}
+#EditLayout .MountItem .Guide p {
+	text-align: center; vertical-align: top; display: table-cell;
+	font-size: 26px;
+}
+#EditLayout .MountItem .List {
+	position: absolute; left: 20px; top: 60px;  width: 560px; height: 400px;
+	border-color: hsl(0, 0%, 50%) hsl(0, 0%, 70%) hsl(0, 0%, 95%);
+	border-style: solid; border-width: 5px; box-sizing: content-box; -webkit-box-sizing: border-box;
+	overflow: hidden;
+}
+#wrapperMount { position: absolute; left: 0px; top: 0px; width: 550px; height: 390px; z-index: 1; overflow: hidden; }
+
+#EditLayout .MountItem .List table { border-collapse: collapse; width: 100%;}
+
+#EditLayout .MountItem .List .Line {
+	position: relative; left: 0px; width: 100%; height: 40px;
+}
+#EditLayout .MountItem .List .Line td {
+ 	background: hsl(0, 0%, 95%);
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 85%) hsl(0, 0%, 70%);
+	border-style: solid; border-width: 2px 2px 2px 0px; box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#EditLayout .MountItem .List .Line.selected td {
+	background: hsl(112,0%,70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#EditLayout .MountItem .List .Line td:nth-child(1) { width: 140px; }
+#EditLayout .MountItem .List .Line td:nth-child(2) { width: 180px; }
+#EditLayout .MountItem .List .Line td:nth-child(3) { width: 240px; }
+
+#EditLayout .MountItem .List .Line p { margin: 5px; }
+
+#EditLayout .MountItem .Buttons { position: absolute; left: 0px; bottom: 5px; width: 100%; }
+#EditLayout .MountItem .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 98px; }
+#EditLayout .MountItem .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 240px; }
+#EditLayout .MountItem .Buttons .resButton:nth-child(3) { position: absolute; bottom: 0px; right: 100px; }
+#EditLayout .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+#EditLayout .Remove .Message { position:absolute; left: 40px; top: 80px; width: 520px; }
+#EditLayout .Remove .Message p {
+	font-size: 24px; line-height: 1.5;
+	text-align: center;
+}
+#EditLayout .Remove .Buttons .resButton.yellow {position: absolute; left: 135px; top: 505px;}
+#EditLayout .Remove .Buttons .resButton.green {position: absolute; left: 340px; top: 505px;}
+#EditLayout .Images .resCasing { position: absolute; left: 60px; top: 30px;  width: 905px; height: 620px; }
+#EditLayout .Images .Guide,
+#EditLayout .Background .Guide {
+	position:absolute; left: 20px;  right: 20px; top: 20px;
+	font-size: 25px;
+	text-align: center;
+}
+#EditLayout .Images .PickButtons {
+	position: absolute; left: 5px; right: 5px; top: 60px; height: 535px;
+	background: hsl(0, 0%, 30%);
+	border-color: hsl(0, 0%, 10%) hsl(0, 0%, 60%) hsl(0, 0%, 80%);
+	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#EditLayout .Images .Buttons .resButton:nth-child(2) input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 110px;
+    height: 50px;
+}
+#EditLayout .Images .resButton:nth-child(1) { position: absolute; left: 20px; top: 5px; }
+#EditLayout .Images .resButton:nth-child(2) { position: absolute; right: 20px; top: 5px; }
+#EditLayout .Confirm .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+#EditLayout .Confirm .Guide {
+	position: absolute; left: 10px; top: 100px; right:10px;
+	text-align: center;
+	font-size: 25px;
+}
+#EditLayout .Confirm .ItemCheckBox {
+	position: absolute;
+	width: 50px; height:50px;
+	text-align: center;
+	font-size: 25px;
+}
+#EditLayout .Confirm .DeleteItem {
+	position: absolute;
+	left: 60px;
+	top: 300px;
+	right:10px;
+	text-align: center;
+	font-size: 25px;
+}
+#EditLayout .Confirm .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#EditLayout .Confirm .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+#EditLayout .Confirm .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }
+
+#EditLayout .Confirm .Switch {
+	position: absolute;
+	left: 85px;
+	top: 0px;
+	width: 50px;
+	height: 30px;
+	background: -webkit-gradient(linear, left top, left bottom, from(hsl(0, 0%, 30%)), color-stop(0.99, hsl(0, 0%, 80%)), to(hsl(0, 0%, 60%)));
+	border-radius: 15px;
+}
+#EditLayout .Confirm .Switch .On {
+	position: absolute; right: 1px; top: 1px; width: 28px; height: 28px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112, 45%, 95%)),color-stop(0.4,hsl(112, 45%, 60%)),color-stop(0.7,hsl(112, 45%, 50%)),to(hsl(112, 45%, 40%)));
+	border-radius: 14px;
+}
+#EditLayout .Confirm .Switch .Off {
+	position: absolute; left: 1px; top: 1px; width: 28px; height: 28px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0, 0%, 95%)),color-stop(0.4,hsl(0, 0%, 60%)),color-stop(0.7,hsl(0, 0%, 50%)),to(hsl(0, 0%, 40%)));
+	border-radius: 14px;
+}
+/**** end of CSS ****/

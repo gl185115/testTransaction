@@ -32,7 +32,8 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope) 
                 context : "PickList.Album",
                 event : "file.picture.list",
                 data : {
-                    folder : "images/pickList"
+//                    folder : "images/pickList"
+                    folder : "pickList/images"
                 }
             });
             break;

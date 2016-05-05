@@ -8,9 +8,6 @@
 	</div>
 
 	<div class="Buttons File">
-		<div class="resButton lower W98xH82 silver" data-res-tap="file.exit()">
-			<p data-ng-bind-html="'Menu.Button.FileSave' |resPhrase:context"></p>
-		</div>
 		<div class="resButton lower W98xH82 silver" data-res-tap="file.undo()"
 			data-ng-class="{disabled: (!model.active.resource)||(!model.active.item)}">
 			<p data-ng-bind-html="'Menu.Button.FileUndo' |resPhrase:context"></p>
@@ -32,18 +29,6 @@
 			data-ng-class="{ disabled: !model.active.resource || model.active.folder=='effective' || model.active.taskIndex==undefined }"
 			data-res-tap="task.remove()">
 			<p data-ng-bind-html="'Menu.Button.TaskDelete' |resPhrase:context"></p>
-		</div>
-	</div>
-
-	<div class="Buttons Address">
-		<div class="resButton lower W98xH82 silver" data-res-tap="address()">
-			<p data-ng-bind-html="'Menu.Button.Address' |resPhrase:context"></p>
-		</div>
-	</div>
-
-	<div class="Buttons CollectLogs">
-		<div class="resButton lower W98xH82 orange" data-res-tap="collectLogs()" data-ng-class="{ disabled: model.deployLogsBtn }">
-			<p data-ng-bind-html="'Menu.Button.CollectLogs' |resPhrase:context"></p>
 		</div>
 	</div>
 

@@ -36,14 +36,14 @@ $(document).ready(function () {
             });
         },
         pictureUpload: function (data, callback) {
-        	var formData = new FormData();
-        	formData.enctype = "multipart/form-data";
-        	formData.append('filename', data.filename);
-        	formData.append('folder', data.folder);
-        	formData.append('form-file', data.filecontent);
+            var formData = new FormData();
+            formData.enctype = "multipart/form-data";
+            formData.append('filename', data.filename);
+            formData.append('folder', data.folder);
+            formData.append('form-file', data.filecontent);
             $.ajax({
                 type: 'POST',
-                url: res.config.baseURL + "pictureUpload",
+                url: res.config.baseURL + "rest/uiconfigMaintenance/pictureUpload",
                 data: formData,
                 datatype: 'json',
                 contentType: false,
@@ -83,7 +83,7 @@ $(document).ready(function () {
                 type: 'POST',
                 url: requestURL,
                 data: {
-                	companyID : data.companyID,
+                    companyID : data.companyID,
                     folder : data.folder,
                     filename : data.file,
                     delFileList : JSON.stringify(data.delFileList),
@@ -124,7 +124,7 @@ $(document).ready(function () {
             });
         },
         pictureList: function (data, callback) {
-            requestURL = res.config.baseURL + "pictureList";
+            requestURL = res.config.baseURL + "rest/uiconfigMaintenance/pictureList";
             $.ajax({
                 type: 'POST',
                 url: requestURL,

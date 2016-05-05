@@ -391,7 +391,7 @@ res.model = res.model || {};
 			if (this.schedule && this.schedule.deploy) {
 				for (var i = 0; i < this.schedule.deploy.length; i++) {
 					if (this.schedule.deploy[i].company.id == company) {
-						this.schedule.deploy[i].company.name = "AEON";
+						this.schedule.deploy[i].company.name = "XEBIO";
 						break;
 					}
 				}

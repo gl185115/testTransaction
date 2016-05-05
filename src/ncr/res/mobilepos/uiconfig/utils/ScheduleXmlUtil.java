@@ -14,6 +14,8 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import org.json.JSONObject;
+
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.uiconfig.model.schedule.Company;
@@ -321,46 +323,45 @@ public class ScheduleXmlUtil {
 		return retFlg;
 	}
 
-//	public static String saveScheduleByJSON(String pScheduleJson, File pSchedulePath) {
-//
-//		String method = LogUtil.getCurrentMethodName();
-//		String xmlString = null;
-//		XmlSerializer<Schedule> xmlSer = new XmlSerializer<Schedule>();
-//
-//		try {
-//			if (!StringUtility.isNullOrEmpty(pScheduleJson)) {
-//				if (!pSchedulePath.exists()) {
-//					LOG.error(method + LogUtil.RES_NOTEXIST + pSchedulePath.getPath());
-//				}
-//
-//				JSONObject json = new JSONObject(pScheduleJson);
-//				xmlString = org.json.XML.toString(json);
-//				Schedule scheduleModel = xmlSer.unMarshallXml(xmlString, Schedule.class);
-//
-//				if (scheduleModel != null) {
-////					xmlString = xmlSer.marshallObj(Schedule.class, scheduleModel, StaticParameter.code_MS932);
-//					xmlString = xmlSer.marshallObj(Schedule.class, scheduleModel, StaticParameter.code_UTF8);
-//					xmlString = prettyFormat(xmlString);
-//
-//					if (FileUtil.fileSave(pSchedulePath, xmlString, false, StaticParameter.code_UTF8)) {
-//						LOG.info(method + "Save schedule XML [SUCCESS] : " + pSchedulePath.getPath());
-//					} else {
-//						LOG.info(method + "Save schedule XML [FAILED]");
-//					}
-//				} else {
-//					LOG.info(method + "Save schedule XML [FAILED] Target schedule model is null!");
-//				}
-//			}
-//
-//		} catch (Exception e) {
-//			LOG.error(method + LogUtil.RES_EXCEPTION + e.toString());
-//			LOG.error(method + pScheduleJson);
-//			LOG.error(method + "Error in write schedule file : " + pSchedulePath.getPath());
-//			return null;
-//		}
-//
-//		return xmlString;
-//	}
+	public static String saveScheduleByJSON(String pScheduleJson, File pSchedulePath) {
+
+		String xmlString = null;
+		XmlSerializer<Schedule> xmlSer = new XmlSerializer<Schedule>();
+
+		try {
+			if (!StringUtility.isNullOrEmpty(pScheduleJson)) {
+				if (!pSchedulePath.exists()) {
+					//LOG.error(method + LogUtil.RES_NOTEXIST + pSchedulePath.getPath());
+				}
+
+				JSONObject json = new JSONObject(pScheduleJson);
+				xmlString = org.json.XML.toString(json);
+				Schedule scheduleModel = xmlSer.unMarshallXml(xmlString, Schedule.class);
+
+				if (scheduleModel != null) {
+					xmlString = xmlSer.marshallObj(Schedule.class, scheduleModel, StaticParameter.code_MS932);
+					xmlString = xmlSer.marshallObj(Schedule.class, scheduleModel, StaticParameter.code_UTF8);
+					xmlString = prettyFormat(xmlString);
+
+					if (FileUtil.fileSave(pSchedulePath, xmlString, false, StaticParameter.code_UTF8)) {
+						//LOG.info(method + "Save schedule XML [SUCCESS] : " + pSchedulePath.getPath());
+					} else {
+						//LOG.info(method + "Save schedule XML [FAILED]");
+					}
+				} else {
+					//LOG.info(method + "Save schedule XML [FAILED] Target schedule model is null!");
+				}
+			}
+
+		} catch (Exception e) {
+			//LOG.error(method + LogUtil.RES_EXCEPTION + e.toString());
+			//LOG.error(method + pScheduleJson);
+			//LOG.error(method + "Error in write schedule file : " + pSchedulePath.getPath());
+			return null;
+		}
+
+		return xmlString;
+	}
 
 
 //	public static boolean isTaskMatched(List<Task> pTaskList, String pEffective, String pFilename) {

@@ -463,7 +463,7 @@ public class UiConfigMaintenanceResource {
 		tp.methodEnter("/pictureList");
 		tp.println("folder", folder);
 
-		PictureInfoList result = new PictureInfoList();;
+		PictureInfoList result = new PictureInfoList();
 
 		try {
 			File dir_resource = new File(configProperties.getCustomResourceBasePath(), folder);

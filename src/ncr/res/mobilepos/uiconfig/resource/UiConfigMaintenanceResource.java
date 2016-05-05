@@ -39,6 +39,7 @@ import ncr.res.mobilepos.uiconfig.model.fileInfo.FileDownLoadInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileRemoveInfo;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.PictureInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.Config;
@@ -453,6 +454,95 @@ public class UiConfigMaintenanceResource {
 		return builder.toString();
 	}
 
+	@Path("/pictureList")
+	@POST
+	@Produces({ "application/json;charset=UTF-8" })
+	public final PictureInfoList PictureListServlet(@FormParam("folder") final String folder) {
+		// Logs given parameters.
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/pictureList");
+		tp.println("folder", folder);
+
+		PictureInfoList result = new PictureInfoList();;
+
+		try {
+			File dir_resource = new File(configProperties.getCustomResourceBasePath(), folder);
+			List<String> filelist = new ArrayList<String>();
+			List<String> list = new ArrayList<String>();
+
+			if (dir_resource.exists()) {
+				String baseDir = dir_resource.getPath();
+				GetFolderList(baseDir, filelist, true);
+				if (filelist.isEmpty()) {
+
+					tp.println("file already exists.");
+					tp.println("The message id of file is empty Exception.");
+				} else {
+					
+					for (String path : filelist) {
+						path = path.substring(baseDir.length() + 1);
+						path = path.replace("\\", StaticParameter.str_separator);
+						list.add(path);
+
+					}
+					result.setResult(list);
+					return result;
+				}
+			} else {
+				dir_resource.mkdirs();
+				tp.println("The message id of Not found file Exception");
+			}
+
+		} catch (Exception e) {
+			tp.println("Failed to requestPictureList.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestPictureLists.", e);
+
+		} finally {
+			tp.methodExit(result.toString());
+		}
+		return result;
+
+	}
+
+	private void GetFolderList(String sDir, List<String> sList, boolean bRecurs) {
+
+		File subFileDir = null;
+		File fileDir = new File(sDir);
+		if (!fileDir.exists()) {
+			tp.println("Failed to requestPictureList.");
+		} else {
+			String[] names = fileDir.list();
+			for (String name : names) {
+				subFileDir = new File(sDir, name);
+				if (subFileDir.isDirectory()) {
+					if (bRecurs) {
+						GetFolderList(sDir + "\\" + name, sList, true);
+					}
+				} else if (subFileDir.isFile() && (name.toLowerCase().endsWith(".png")
+						|| name.toLowerCase().endsWith(".jpg") || name.toLowerCase().endsWith(".bmp")
+						|| name.toLowerCase().endsWith(".gif") || name.toLowerCase().endsWith(".jpeg"))) {
+					sList.add(subFileDir.getPath());
+				}
+			}
+		}
+	}
+
+	public Trace.Printer getTp() {
+		return tp;
+	}
+
+	public void setTp(Trace.Printer tp) {
+		this.tp = tp;
+	}
+
+	public static UiConfigProperties getConfigproperties() {
+		return configProperties;
+	}
+
+	public static Logger getLogger() {
+		return LOGGER;
+	}
+
 	@Path("/getSchedule")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
@@ -628,10 +718,10 @@ public class UiConfigMaintenanceResource {
 	}
 	
 	/**
-	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½íœï¿½iï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½j
+	 * ƒtƒ@ƒCƒ‹íœiƒtƒ@ƒCƒ‹—pj
 	 * @param pResource : pickList/notices
-	 * @param pFileName : ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½O
-	 * @return true(ï¿½ï¿½ï¿½ï¿½) / false(ï¿½ï¿½ï¿½s)
+	 * @param pFileName : ƒtƒ@ƒCƒ‹–¼‘O
+	 * @return true(¬Œ÷) / false(¸”s)
 	 */
 	private boolean removeResourceDirFile(String pResource, String pFileName) {
 
@@ -704,12 +794,12 @@ public class UiConfigMaintenanceResource {
 	}
 
 	/**
-	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½íœï¿½iï¿½æ‘œï¿½pï¿½j
+	 * ƒtƒ@ƒCƒ‹íœi‰æ‘œ—pj
 	 *
-	 * @param pResource : imagesï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½pickList/notices
-	 * @param pFileName : ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½O
-	 * @param pDelFileList : ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½sï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
-	 * @return true(ï¿½ï¿½ï¿½ï¿½) / false(ï¿½ï¿½ï¿½s)
+	 * @param pResource : imagesƒfƒBƒŒƒNƒgƒŠ‚ÌpickList/notices
+	 * @param pFileName : ƒtƒ@ƒCƒ‹–¼‘O
+	 * @param pDelFileList : íœ‚ğ¸”s‚½‚çA¸”sƒtƒ@ƒCƒ‹ƒŠƒXƒg‚É•Û‘¶‚·‚é
+	 * @return true(¬Œ÷) / false(¸”s)
 	 */
 	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList) {
 

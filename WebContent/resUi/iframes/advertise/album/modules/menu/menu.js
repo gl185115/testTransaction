@@ -3,29 +3,29 @@
  */
 res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 
-	$scope.exit = function() {
+    $scope.exit = function() {
 
-		$rootScope.model.imageCopy.indexFile = -1;
-		$rootScope.model.imageCopy.indexFileName = "";
-		$rootScope.model.imageCopy.targetindexFile = -1;
-		$rootScope.model.imageCopy.targetindexFileName = "";
-		$rootScope.model.imageCopy.folderCopyFrom = "";
-		$rootScope.model.imageCopy.folderCopyTo = "";
-		$rootScope.model.imageCopy.successMsgShow = false;
-		$rootScope.model.imageCopy.failedMsgShow = false;
-		$rootScope.model.imageCopy.targetfiles.length = 0;
-		window.parent.res.main.page("home");
-	};
+        $rootScope.model.imageCopy.indexFile = -1;
+        $rootScope.model.imageCopy.indexFileName = "";
+        $rootScope.model.imageCopy.targetindexFile = -1;
+        $rootScope.model.imageCopy.targetindexFileName = "";
+        $rootScope.model.imageCopy.folderCopyFrom = "";
+        $rootScope.model.imageCopy.folderCopyTo = "";
+        $rootScope.model.imageCopy.successMsgShow = false;
+        $rootScope.model.imageCopy.failedMsgShow = false;
+        $rootScope.model.imageCopy.targetfiles.length = 0;
+        window.parent.res.main.page("home");
+    };
 
-	$scope.$on("resIncludeLoaded", function() {
-	    var picklistImgfileInput = document.getElementById('picklistImgfileInput');
+    $scope.$on("resIncludeLoaded", function() {
+        var advertiseImgfileInput = document.getElementById('advertiseImgfileInput');
 
-	    picklistImgfileInput.addEventListener('change', function(e){
+        advertiseImgfileInput.addEventListener('change', function(e){
 
-	    	window.parent.res.ui.root.model.popup = "Wait";
+            window.parent.res.ui.root.model.popup = "Wait";
 
-	        for (var i = 0; i < picklistImgfileInput.files.length; i++) {
-                var file = picklistImgfileInput.files[i];
+            for (var i = 0; i < advertiseImgfileInput.files.length; i++) {
+                var file = advertiseImgfileInput.files[i];
                 var reader = new FileReader();
                 reader.filename = file.name;
                 reader.readAsDataURL(file);
@@ -35,62 +35,62 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                     data : {
                         filename : reader.filename,
                         filecontent : file,
-                        folder : "pickList"
+                        folder : "advertise"
                     }
                 });
             }
-	    });
-	});
+        });
+    });
 
-	$scope.imageDelete = function() {
+    $scope.imageDelete = function() {
 
-		window.parent.res.ui.root.model.popup = "Wait";
-		var picPath = $rootScope.model.imageCopy.pictures[$rootScope.model.imageCopy.indexImage];
+        window.parent.res.ui.root.model.popup = "Wait";
+        var picPath = $rootScope.model.imageCopy.pictures[$rootScope.model.imageCopy.indexImage];
 
-		if (picPath) {
-			res.ui.send({
-				event: "file.remove",
-				data: {
-					companyID : res.storage.getItem("CompanyID"),
-					folder : "images/pickList",
-					file : picPath,
-					confirmDel : false
-				}
-			});
-		}
+        if (picPath) {
+            res.ui.send({
+                event: "file.remove",
+                data: {
+                    companyID : res.storage.getItem("CompanyID"),
+                    folder : "images/advertise",
+                    file : picPath,
+                    confirmDel : false
+                }
+            });
+        }
 
-		$rootScope.model.imageCopy.successMsgShow = false;
-		$rootScope.model.imageCopy.failedMsgShow = false;
-	};
+        $rootScope.model.imageCopy.successMsgShow = false;
+        $rootScope.model.imageCopy.failedMsgShow = false;
+    };
 
-//	$scope.imageImport = function() {
-//		$rootScope.dialog = "imageImport";
-//		$rootScope.model.imageCopy.successMsgShow = false;
-//		$rootScope.model.imageCopy.failedMsgShow = false;
+//  $scope.imageImport = function() {
+//      $rootScope.dialog = "imageImport";
+//      $rootScope.model.imageCopy.successMsgShow = false;
+//      $rootScope.model.imageCopy.failedMsgShow = false;
 //
-//		res.ui.send({
-//			context: res.ui.root.context,
-//			event : "imagecopy.getfolder",
-//			data : {
-//				folder : !$rootScope.model.imageCopy.BasePath ? "" : $rootScope.model.imageCopy.BasePath,
-//				recursive : "false"
-//			}
-//		});
+//      res.ui.send({
+//          context: res.ui.root.context,
+//          event : "imagecopy.getfolder",
+//          data : {
+//              folder : !$rootScope.model.imageCopy.BasePath ? "" : $rootScope.model.imageCopy.BasePath,
+//              recursive : "false"
+//          }
+//      });
 //
-//		res.ui.send({
-//			context: res.ui.root.context,
-//			event : "imagecopy.gettargetfolder",
-//			data : {
-//				folder : !$rootScope.model.imageCopy.targetBasePath ? "" : $rootScope.model.imageCopy.targetBasePath,
-//				recursive : "false"
-//			}
-//		});
-//	};
+//      res.ui.send({
+//          context: res.ui.root.context,
+//          event : "imagecopy.gettargetfolder",
+//          data : {
+//              folder : !$rootScope.model.imageCopy.targetBasePath ? "" : $rootScope.model.imageCopy.targetBasePath,
+//              recursive : "false"
+//          }
+//      });
+//  };
 
-//	$scope.imageDelete = function() {
-//		$rootScope.dialog = "imageRemove";
-//		$rootScope.model.imageCopy.successMsgShow = false;
-//		$rootScope.model.imageCopy.failedMsgShow = false;
-//	};
+//  $scope.imageDelete = function() {
+//      $rootScope.dialog = "imageRemove";
+//      $rootScope.model.imageCopy.successMsgShow = false;
+//      $rootScope.model.imageCopy.failedMsgShow = false;
+//  };
 }]);
 

@@ -23,16 +23,6 @@
 		                    		<span data-ng-bind-html="set.task.filename | resWithoutExtension | resLongTextEllipses : 33"></span>
 		                    	</div>
 		                    </td>
-		                    <td class="Cell">
-		                        <div class="Status">
-		                            <div class="pull-left" data-ng-bind-html="'Tasks.Remaining' |resPhrase:context"></div>
-		                            <div class="pull-right" data-ng-bind-html="set.status.total - set.status.opened |resNumber"></div>
-		                        </div>
-		                        <div class="Status">
-		                            <div class="pull-left" data-ng-bind-html="'Tasks.Total' |resPhrase:context"></div>
-		                            <div class="pull-right" data-ng-bind-html="set.status.total |resNumber"></div>
-		                        </div>
-		                    </td>
 		                </tr>
 		            </table>
 		        </div>
@@ -41,7 +31,7 @@
     </div>
 </div>
 
-<div class="DetailView" data-ng-show="model.active.resource && model.active.folder != 'scheduled'">
+<!-- <div class="DetailView" data-ng-show="model.active.resource && model.active.folder != 'scheduled'">
 	<div class="ViewTital">
 		<div class="Message">
 			<p data-ng-bind-html="'DetailView.ViewTital' | resPhrase:context"></p>
@@ -78,4 +68,4 @@
 			</table>
 		</div>
 	</div>
-</div>
+</div> -->

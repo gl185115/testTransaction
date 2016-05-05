@@ -78,7 +78,7 @@ $(document).ready(function () {
             });
         },
         remove: function (data, callback) {
-            requestURL = res.config.baseURL + "fileRemove";
+            requestURL = res.config.baseURL + "rest/uiconfigMaintenance/fileRemove";
             $.ajax({
                 type: 'POST',
                 url: requestURL,

@@ -556,14 +556,13 @@ public class UiConfigMaintenanceResource {
 		try {
 			result = new GetScheduleInfo();
 			if (!StringUtility.isNullOrEmpty(resource)) {
-				xml_schedule = new File(configProperties.getCustomResourceBasePath(),resource);
+				xml_schedule = new File(configProperties.getCustomResourceBasePath(), resource);
 				xml_schedule = new File(xml_schedule, StaticParameter.xml_schedule);
 
 				if(!xml_schedule.exists() || !xml_schedule.isFile()){
-					if (!xml_schedule.exists() || !xml_schedule.isFile()) {
-						xml_schedule = new File(StaticParameter.dir_schedule, String.format(StaticParameter.format_scheduleXml, resource));
-					}
+					xml_schedule = new File(configProperties.getCustomResourceBasePath() + StaticParameter.key_schedule, String.format(StaticParameter.format_scheduleXml, resource));
 				}
+				
 				result.setSchedule(ScheduleXmlUtil.getSchedule(xml_schedule));
 				if (result.getSchedule() == null) {
 					result.setSchedule(ScheduleXmlUtil.getEmptyScheduleModel(resource));
@@ -718,10 +717,10 @@ public class UiConfigMaintenanceResource {
 	}
 	
 	/**
-	 * ƒtƒ@ƒCƒ‹íœiƒtƒ@ƒCƒ‹—pj
+	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½íœï¿½iï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½j
 	 * @param pResource : pickList/notices
-	 * @param pFileName : ƒtƒ@ƒCƒ‹–¼‘O
-	 * @return true(¬Œ÷) / false(¸”s)
+	 * @param pFileName : ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½O
+	 * @return true(ï¿½ï¿½ï¿½ï¿½) / false(ï¿½ï¿½ï¿½s)
 	 */
 	private boolean removeResourceDirFile(String pResource, String pFileName) {
 
@@ -794,12 +793,12 @@ public class UiConfigMaintenanceResource {
 	}
 
 	/**
-	 * ƒtƒ@ƒCƒ‹íœi‰æ‘œ—pj
+	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½íœï¿½iï¿½æ‘œï¿½pï¿½j
 	 *
-	 * @param pResource : imagesƒfƒBƒŒƒNƒgƒŠ‚ÌpickList/notices
-	 * @param pFileName : ƒtƒ@ƒCƒ‹–¼‘O
-	 * @param pDelFileList : íœ‚ğ¸”s‚½‚çA¸”sƒtƒ@ƒCƒ‹ƒŠƒXƒg‚É•Û‘¶‚·‚é
-	 * @return true(¬Œ÷) / false(¸”s)
+	 * @param pResource : imagesï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½pickList/notices
+	 * @param pFileName : ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½O
+	 * @param pDelFileList : ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½sï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return true(ï¿½ï¿½ï¿½ï¿½) / false(ï¿½ï¿½ï¿½s)
 	 */
 	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList) {
 

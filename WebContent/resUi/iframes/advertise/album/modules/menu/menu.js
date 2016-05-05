@@ -35,7 +35,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                     data : {
                         filename : reader.filename,
                         filecontent : file,
-                        folder : "advertise"
+                        folder : "advertisement"
                     }
                 });
             }
@@ -52,7 +52,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                 event: "file.remove",
                 data: {
                     companyID : res.storage.getItem("CompanyID"),
-                    folder : "images/advertise",
+                    folder : "advertisement",
                     file : picPath,
                     confirmDel : false
                 }

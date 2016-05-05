@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 			$.ajax({
 				type: 'POST',
-				url: res.config.baseURL + "getSchedule" + parameter,
+				url: res.config.baseURL + "rest/uiconfigMaintenance/getSchedule" + parameter,
 				data: {
 					resource : data.resource
 				},

@@ -60,7 +60,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 context : res.ui.root.context,
                 event : "file.picture.list",
                 data : {
-                    folder : "images/pickList"
+//                    folder : "images/pickList"
+                    folder : "pickList/images"
                 }
             });
             break;

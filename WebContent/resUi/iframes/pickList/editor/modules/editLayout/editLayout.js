@@ -6,7 +6,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 //	var numOfItems = 60;
 	var scrolls = [];
 	var scrollItems=undefined;
-	$scope.folder = res.config.baseURL + "custom/images/pickList/";
+	$scope.folder = res.config.baseURL + "rest/uiconfig/custom/images/pickList/";
 	$scope.position = { category: undefined, x: undefined, y: undefined, };
 
 	$scope.$watch(
@@ -295,7 +295,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
     $scope.setImage = function(image) {
         $scope.selectedItem.background = "image";
-        $scope.itemSeselectedItemlected.picture = image;
+        $scope.selectedItem.picture = image;
 //        $rootScope.dialog = "";
         $rootScope.dialog = "details";
     };

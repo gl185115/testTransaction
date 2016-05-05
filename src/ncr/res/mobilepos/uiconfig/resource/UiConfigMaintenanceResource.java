@@ -36,10 +36,12 @@ import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
+import ncr.res.mobilepos.uiconfig.model.schedule.GetScheduleInfo;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
 import ncr.res.mobilepos.uiconfig.model.store.TableStore;
 import ncr.res.mobilepos.uiconfig.model.store.TableStoreList;
 import ncr.res.mobilepos.uiconfig.utils.FileUtil;
+import ncr.res.mobilepos.uiconfig.utils.ScheduleXmlUtil;
 import ncr.res.mobilepos.uiconfig.utils.StaticParameter;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
 
@@ -441,5 +443,48 @@ public class UiConfigMaintenanceResource {
 
 		return builder.toString();
 	}
+
+	@Path("/getSchedule")
+	@POST
+	@Produces({"application/json;charset=UTF-8"})
+	public final GetScheduleInfo getSchedule (@FormParam("resource") final String resource){
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/getSchedule");
+		
+		File xml_schedule = null;
+		GetScheduleInfo result = null;
+
+		try {
+			result = new GetScheduleInfo();
+			if (!StringUtility.isNullOrEmpty(resource)) {
+				xml_schedule = new File(configProperties.getCustomResourceBasePath(),resource);
+				xml_schedule = new File(xml_schedule, StaticParameter.xml_schedule);
+
+				if(!xml_schedule.exists() || !xml_schedule.isFile()){
+					if (!xml_schedule.exists() || !xml_schedule.isFile()) {
+						xml_schedule = new File(StaticParameter.dir_schedule, String.format(StaticParameter.format_scheduleXml, resource));
+					}
+				}
+				result.setSchedule(ScheduleXmlUtil.getSchedule(xml_schedule));
+				if (result.getSchedule() == null) {
+					result.setSchedule(ScheduleXmlUtil.getEmptyScheduleModel(resource));
+				}
+			}
+			else {
+				tp.println("The config resource is null or empty!");
+				LOGGER.logAlert(PROG_NAME,
+						functionName,
+						Logger.RES_EXCEP_NODATAFOUND,
+						"The config resource is null or empty!");
+			}
+		} catch (Exception ex) {
+			tp.println("Failed to requestGetSchedule.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestGetSchedule.", ex);
+		} finally {
+			tp.methodExit(result.toString());
+		}
+		return result;
+	}
+	
 }
 

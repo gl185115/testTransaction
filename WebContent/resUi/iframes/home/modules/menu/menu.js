@@ -50,7 +50,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope) 
                 context : "Advertise",
                 event : "file.list",
                 data : {
-                    typeParam : "advertisement"
+                    folder : "advertisement"
                 }
             });
             break;

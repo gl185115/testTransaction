@@ -13,6 +13,7 @@ package ncr.res.mobilepos.uiconfig.resource;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +23,9 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 
+import org.json.JSONObject;
+
+import atg.taglib.json.util.JSONArray;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -34,9 +38,14 @@ import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileDownLoadInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileRemoveInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
+import ncr.res.mobilepos.uiconfig.model.schedule.Config;
+import ncr.res.mobilepos.uiconfig.model.schedule.Deploy;
 import ncr.res.mobilepos.uiconfig.model.schedule.GetScheduleInfo;
+import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
+import ncr.res.mobilepos.uiconfig.model.schedule.Task;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
 import ncr.res.mobilepos.uiconfig.model.store.TableStore;
 import ncr.res.mobilepos.uiconfig.model.store.TableStoreList;
@@ -486,5 +495,392 @@ public class UiConfigMaintenanceResource {
 		return result;
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Path("/fileRemove")
+	@POST
+	@Produces({"application/json;charset=UTF-8"})
+	public final FileRemoveInfo requestConfigFileRemove(
+			@FormParam("folder") final String folder,
+			
+			@FormParam("filename") final String filename,
+			@FormParam("confirmDel") final String confirmDel,
+			@FormParam("delFileList") final String delFileList){
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/fileRemove");
+		tp.println("folder", folder)
+		  .println("filename",filename)
+		  .println("confirmDel",confirmDel)
+		  .println("delFileList",delFileList);
+
+		imageFileArr = new JSONArray();
+		FileRemoveInfo result = new FileRemoveInfo();
+
+		try {
+			if (!StringUtility.isNullOrEmpty(folder)) {
+				if (Arrays.asList(StaticParameter.resourceArr).contains(folder)) {
+					if (removeResourceDirFile(folder, filename)) {
+						tp.println("File remove successfully");
+					} else {
+						tp.println("File remove successfully ");
+						LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILESAVEFAILED, "File remove successfully");
+						result.setStatus(StaticParameter.res_failed);
+						return result;
+					}
+
+				} else if (folder.startsWith(StaticParameter.key_images + StaticParameter.str_separator)) {
+					if (StaticParameter.res_false.equalsIgnoreCase(confirmDel)) {
+						if (isExistingPickListImage(folder, filename)) {
+							tp.println(filename + ":" + "Picture is being used");
+							LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILENOTFOUND, "Picture is being used");
+							result.setStatus(StaticParameter.res_exist);
+							result.setDescription(imageFileArr);
+							return result;
+						} else {
+							if (removeResourceDirImageFile(folder, filename, delFileList)) {
+								tp.println("File remove successfully");
+								LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_SUCCESS, "File remove successfully");
+								result.setStatus(StaticParameter.res_success);
+								return result;
+							} else {
+								tp.println("File remove failed ");
+								LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILESAVEFAILED, "File remove failed ");
+								result.setStatus(StaticParameter.res_failed);
+								result.setDescription(imageFileArr);
+								return result;
+							}
+						}
+					} else if (StaticParameter.res_true.equalsIgnoreCase(confirmDel)) {
+						if (removeResourceDirImageFile(folder, filename, delFileList)) {
+							tp.println("File remove successfully");
+							LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_SUCCESS, "File remove successfully");
+							result.setStatus(StaticParameter.res_success);
+							return result;
+						} else {
+							tp.println("File remove failed ");
+							LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILESAVEFAILED, "File remove failed ");
+							result.setStatus(StaticParameter.res_failed);
+							result.setDescription(imageFileArr);
+							return result;
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			tp.println("The message id of SQL Exception.");
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestConfigFileDownload",
+                    Logger.RES_EXCEP_SQL,
+                    "The message id of SQL Exception.");
+		} finally{
+			tp.methodExit(result.toString());
+		}
+		return result;
+	}
+	
+	/**
+	 * ファイル削除（ファイル用）
+	 * @param pResource : pickList/notices
+	 * @param pFileName : ファイル名前
+	 * @return true(成功) / false(失敗)
+	 */
+	private boolean removeResourceDirFile(String pResource, String pFileName) {
+
+		boolean isDeleteFlg = false;
+		try {
+			File delFileDir = new File(configProperties.getCustomResourceBasePath(), pResource);
+			File delFile = new File(delFileDir, pFileName);
+
+			if (removeFile(delFile)) {
+				tp.println(":" + "file already exists");
+			} else {
+				tp.println("");
+			}
+
+			if (isDeleteFlg) {
+				File xml_schedule = new File(configProperties.getCustomResourceBasePath(), pResource);
+				xml_schedule = new File(xml_schedule, configProperties.getScheduleFilePath());
+
+				deleteScheduleTask(xml_schedule, pResource, pFileName);
+			}
+		} catch (Exception e) {
+			tp.println("The message id of SQL Exception.");
+		}
+		return isDeleteFlg;
+	}
+
+	private void deleteScheduleTask(File pScheduleXml, String pResource, String pFileName) {
+
+		Config config = null;
+		Deploy deploy = null;
+		Schedule schedule = null;
+		List<Task> taskList = new ArrayList<Task>();
+		List<Task> taskTemp = new ArrayList<Task>();
+		boolean isNeedUpdate = false;
+
+		try {
+			schedule = ScheduleXmlUtil.getSchedule(pScheduleXml);
+			deploy = ScheduleXmlUtil.getDeploy(schedule, StaticParameter.companyID);
+			config = ScheduleXmlUtil.getConfig(deploy, pResource);
+
+			if (StringUtility.isNullOrEmpty(config)) {
+				tp.println("Can not find the file in Schedule Xml : " + pFileName);
+				return;
+			}
+			taskList = config.getTask();
+			if (StringUtility.isNullOrEmpty(taskList)) {
+				tp.println("Can not find the task in Schedule Xml");
+				return;
+			}
+
+			taskTemp = new ArrayList<Task>();
+			taskTemp.addAll(taskList);
+
+			for (Task task : taskList) {
+				if (pFileName.equalsIgnoreCase(task.getFilename())) {
+					if (taskTemp.remove(task)) {
+						isNeedUpdate = true;
+						tp.println( "Removed the schedule task");
+					}
+				}
+			}
+
+			if (isNeedUpdate) {
+				config.setTask(taskTemp);
+				ScheduleXmlUtil.saveSchedule(schedule, pScheduleXml);
+			}
+		} catch (Exception e) {
+			tp.println("The message id of SQL Exception.");
+		}
+	}
+
+	/**
+	 * ファイル削除（画像用）
+	 *
+	 * @param pResource : imagesディレクトリのpickList/notices
+	 * @param pFileName : ファイル名前
+	 * @param pDelFileList : 削除を失敗たら、失敗ファイルリストに保存する
+	 * @return true(成功) / false(失敗)
+	 */
+	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList) {
+
+		String resource = "";
+		String content = "";
+		String pictureName = "";
+		String filename = "";
+		File dir_resource = null;
+		File img_picture = null;
+		JSONArray delFileList = null;
+		JSONObject lineData = null;
+		boolean retFlg = false;
+
+		try {
+			dir_resource = new File(configProperties.getCustomResourceBasePath(), pResource);
+			img_picture = new File(dir_resource, pFileName);
+
+			if (removeFile(img_picture)) {
+				retFlg = true;
+				tp.println("File removal success");
+			} else {
+				tp.println("File removal failed");
+				return retFlg;
+			}
+
+			if (StringUtility.isNullOrEmpty(pDelFileList)) {
+				tp.println("The list of image delete is null or empty !");
+				retFlg = true;
+				return retFlg;
+			}
+
+			delFileList = new JSONArray(pDelFileList);
+			if (delFileList.length() == 0) {
+				tp.println("The list of image delete is null or empty !");
+				retFlg = true;
+				return retFlg;
+			}
+
+			imageFileArr = new JSONArray();
+
+			if (pResource.startsWith(configProperties.getCustomResourceBasePath() + StaticParameter.str_separator)) {
+				resource = pResource.split(StaticParameter.str_separator)[1];
+				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
+				img_picture = new File(dir_resource, pResource);
+				img_picture = new File(img_picture, pFileName);
+
+				if (pFileName.contains(StaticParameter.str_separator)) {
+					pictureName = img_picture.getParentFile().getName() + StaticParameter.str_separator + img_picture.getName();
+				} else {
+					pictureName = pFileName;
+				}
+
+				for (int i = 0; i < delFileList.length(); i++) {
+					filename = delFileList.getJSONObject(i).getString(KEY_FULLNAME);
+					if (StringUtility.isNullOrEmpty(filename)) {
+						continue;
+					}
+
+					img_picture = new File(dir_resource, filename);
+					content = FileUtil.fileRead(img_picture);
+
+					if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+						content = chargeFileSeparator(content);
+					} else if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+						pictureName = pFileName;
+					}
+
+					if (!StringUtility.isNullOrEmpty(content) && content.contains(pictureName)) {
+						content = content.replaceAll(pFileName, StaticParameter.str_empty);
+
+						if (!FileUtil.fileSave(img_picture, content, false, UiConfigHelper.ENCODING_DEPLOY_STATUS_FILE)) {
+
+							lineData = new JSONObject();
+							filename = img_picture.getName();
+							lineData.put(KEY_FULLNAME, filename);
+
+							filename = filename.substring(0, filename.length() - StaticParameter.file_js.length());
+							lineData.put(KEY_FILENAME, filename);
+
+							imageFileArr.put(lineData);
+						}
+					}
+				}
+
+				if (imageFileArr.length() == 0) {
+					retFlg = true;
+				} else {
+					retFlg = false;
+				}
+			}
+
+		} catch (Exception e) {
+			tp.println("The message id of SQL Exception.");
+		} 
+		return retFlg;
+	}
+
+	private boolean isExistingPickListImage(String pResource, String pFileName) {
+
+		String resource = "";
+		String content = "";
+		String pictureName = "";
+		String filename = "";
+		File dir_resource = null;
+		File img_picture = null;
+		JSONObject lineData = null;
+		boolean existFlg = false;
+
+		try {
+
+			if (pResource.startsWith(configProperties.getCustomResourceBasePath() + StaticParameter.str_separator)) {
+				resource = pResource.split(StaticParameter.str_separator)[1];
+				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
+				img_picture = new File(dir_resource, pResource);
+				img_picture = new File(img_picture, pFileName);
+
+				if (pFileName.contains(StaticParameter.str_separator)) {
+					pictureName = img_picture.getParentFile().getName() + StaticParameter.str_separator + img_picture.getName();
+				} else {
+					pictureName = pFileName;
+				}
+
+				for (File file : dir_resource.listFiles()) {
+					if (!file.getName().endsWith(StaticParameter.file_js)) {
+						continue;
+					}
+
+					content = FileUtil.fileRead(file);
+
+					if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+						content = chargeFileSeparator(content);
+					} else if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+						pictureName = pFileName;
+					}
+
+					if (!StringUtility.isNullOrEmpty(content) && content.contains(pictureName)) {
+						tp.println( "The picture [ "+ pFileName + " ] is existing in file : " + file.getPath());
+
+						lineData = new JSONObject();
+						filename = file.getName();
+						lineData.put(KEY_FULLNAME, filename);
+
+						filename = filename.substring(0, filename.length() - StaticParameter.file_js.length());
+						lineData.put(KEY_FILENAME, filename);
+
+						imageFileArr.put(lineData);
+
+					}
+				}
+
+				if (imageFileArr.length() == 0) {
+					existFlg = false;
+					tp.println( "The picture [ "+ pFileName + " ] is not exist in each of " + resource);
+				} else {
+					existFlg = true;
+				}
+			}
+
+		} catch (Exception e) {
+			tp.println( "The message id of SQL Exception.");
+		}
+		return existFlg;
+	}
+
+	private String chargeFileSeparator(String pChargeContent) {
+
+		String content = "";
+
+		try {
+			content = pChargeContent;
+			if (!StringUtility.isNullOrEmpty(content)) {
+				if (content.contains("\\\\\\\\")) {
+					content = content.replace("\\\\\\\\", StaticParameter.str_separator);
+				}
+
+				if (content.contains("\\\\")) {
+					content = content.replace("\\\\", StaticParameter.str_separator);
+				}
+			}
+		} catch (Exception e) {
+			tp.println( "The message id of SQL Exception.");
+		}
+
+		return content;
+	}
+
+	private boolean removeFile(File pDelFile) {
+
+		boolean isDeleteFlg = false;
+
+		try {
+			if (pDelFile.exists()) {
+				if (pDelFile.isFile()) {
+					if (pDelFile.delete()) {
+						isDeleteFlg = true;
+						tp.println("File removal success");
+
+					} else {
+						if (FileUtil.fileDeleteByCmdDel(pDelFile)) {
+							isDeleteFlg = true;
+							tp.println("File removal success");
+						}
+					}
+				} else {
+					isDeleteFlg = false;
+					tp.println("The message id of Not found file Exception.");
+				}
+			} else {
+				isDeleteFlg = true;
+				tp.println("The message id of Not found file Exception.");
+			}
+
+		} catch (Exception e) {
+			tp.println( "The message id of SQL Exception.");
+		}
+		return isDeleteFlg;
+	}
+
+	private JSONArray imageFileArr = null;
+	private static final String KEY_FILENAME = "fileName";
+	private static final String KEY_FULLNAME = "fullName";
 }
 

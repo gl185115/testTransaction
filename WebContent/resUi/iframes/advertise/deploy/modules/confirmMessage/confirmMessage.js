@@ -16,7 +16,7 @@ res.ui.controller("confirmMessage", ["$scope", "$rootScope", "$timeout", "$filte
             event : "deploy.advertise.setSchedule",
             data : {
                 schedule : jsonSchedule,
-                resource : "advertise"
+                resource : "advertisement"
             }
         });
 

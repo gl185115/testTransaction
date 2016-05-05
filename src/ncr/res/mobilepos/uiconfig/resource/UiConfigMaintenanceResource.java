@@ -495,6 +495,55 @@ public class UiConfigMaintenanceResource {
 		return result;
 	}
 	
+	@Path("/setSchedule")
+    @POST
+    @Produces({"application/json;charset=UTF-8"})
+	public final ResultBase requestSetSchedule(@FormParam("filename") final String filename,
+			@FormParam("schedulejson") final String schedulejson, 
+			@FormParam("resource") final String resource) {
+    	
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/setSchedule");
+		tp.println("filename", filename).println("schedulejson", schedulejson).println("resource", resource);
+
+		ResultBase result = new ResultBase();
+		try {
+			File scheduleXml = null;
+			File setScheduleDir = new File(configProperties.getCustomResourceBasePath());
+			if (!setScheduleDir.exists()) {
+				if (setScheduleDir.mkdirs()) {
+					tp.println( "Directory is not find. And create at : " + setScheduleDir.getPath());
+				}
+			}
+			if (!StringUtility.isNullOrEmpty(resource)) {
+				scheduleXml = new File(configProperties.getCustomResourceBasePath(), resource);
+				scheduleXml = new File(scheduleXml, configProperties.getScheduleFilePath());
+
+				ScheduleXmlUtil.saveScheduleByJSON(schedulejson, scheduleXml);
+				tp.println("xml set successfully");
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_SUCCESS, "xml set successfully");
+				result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+				result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+				result.setMessage(ResultBase.RES_SUCCESSFULL_MSG);
+				return result;
+			}else {
+				tp.println("xml set failed ");
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILESAVEFAILED, "xml set failed ");
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+				result.setMessage(ResultBase.RES_FAILED_MSG);
+				return result;
+			}
+
+		} catch (Exception e) {
+			tp.println("Failed to requestSetSchedule.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to setSchedule.", e);
+		} finally {
+			tp.methodExit(result.toString());
+		}
+		return result;
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Path("/fileRemove")
 	@POST
@@ -579,10 +628,10 @@ public class UiConfigMaintenanceResource {
 	}
 	
 	/**
-	 * ƒtƒ@ƒCƒ‹íœiƒtƒ@ƒCƒ‹—pj
+	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½íœï¿½iï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½pï¿½j
 	 * @param pResource : pickList/notices
-	 * @param pFileName : ƒtƒ@ƒCƒ‹–¼‘O
-	 * @return true(¬Œ÷) / false(¸”s)
+	 * @param pFileName : ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½O
+	 * @return true(ï¿½ï¿½ï¿½ï¿½) / false(ï¿½ï¿½ï¿½s)
 	 */
 	private boolean removeResourceDirFile(String pResource, String pFileName) {
 
@@ -655,12 +704,12 @@ public class UiConfigMaintenanceResource {
 	}
 
 	/**
-	 * ƒtƒ@ƒCƒ‹íœi‰æ‘œ—pj
+	 * ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½íœï¿½iï¿½æ‘œï¿½pï¿½j
 	 *
-	 * @param pResource : imagesƒfƒBƒŒƒNƒgƒŠ‚ÌpickList/notices
-	 * @param pFileName : ƒtƒ@ƒCƒ‹–¼‘O
-	 * @param pDelFileList : íœ‚ğ¸”s‚½‚çA¸”sƒtƒ@ƒCƒ‹ƒŠƒXƒg‚É•Û‘¶‚·‚é
-	 * @return true(¬Œ÷) / false(¸”s)
+	 * @param pResource : imagesï¿½fï¿½Bï¿½ï¿½ï¿½Nï¿½gï¿½ï¿½ï¿½ï¿½pickList/notices
+	 * @param pFileName : ï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½O
+	 * @param pDelFileList : ï¿½íœï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½sï¿½tï¿½@ï¿½Cï¿½ï¿½ï¿½ï¿½ï¿½Xï¿½gï¿½É•Û‘ï¿½ï¿½ï¿½ï¿½ï¿½
+	 * @return true(ï¿½ï¿½ï¿½ï¿½) / false(ï¿½ï¿½ï¿½s)
 	 */
 	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList) {
 

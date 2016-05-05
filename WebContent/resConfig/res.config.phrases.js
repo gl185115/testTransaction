@@ -414,6 +414,7 @@ res.config.phrases = {
     "Advertise.Deploy.Menu.No": ["No","いいえ"],
     "Advertise.Deploy.Menu.Yes": ["Yes","はい"],
     "Advertise.Deploy.Directory.Title": ["Configurations","構成一覧"],
+    "Advertise.Deploy.Directory.advertise": ["Advertise Items","広告商品"],
     "Advertise.Deploy.Directory.pickList": ["Unnumbered Items","バーコードのない商品"],
     "Advertise.Deploy.Directory.notices": ["Operational Notice","業務連絡"],
     "Advertise.Deploy.Directory.options": ["Advanced Options","詳細設定"],

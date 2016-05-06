@@ -527,22 +527,6 @@ public class UiConfigMaintenanceResource {
 		}
 	}
 
-	public Trace.Printer getTp() {
-		return tp;
-	}
-
-	public void setTp(Trace.Printer tp) {
-		this.tp = tp;
-	}
-
-	public static UiConfigProperties getConfigproperties() {
-		return configProperties;
-	}
-
-	public static Logger getLogger() {
-		return LOGGER;
-	}
-
 	@Path("/getSchedule")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})

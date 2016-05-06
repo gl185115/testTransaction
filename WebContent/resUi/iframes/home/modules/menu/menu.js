@@ -51,7 +51,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope) 
                 context : "Advertise",
                 event : "file.list",
                 data : {
-                    folder : "advertisement"
+                    folder : "advertise"
                 }
             });
             break;
@@ -60,7 +60,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope) 
                 context : "Advertise.Album",
                 event : "file.picture.list",
                 data : {
-                    folder : "images/advertisement"
+                    folder : "advertise/images"
                 }
             });
             break;

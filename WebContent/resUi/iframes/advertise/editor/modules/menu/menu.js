@@ -37,7 +37,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 				context : res.ui.root.context,
 				event : "file.download",
 				data : {
-					folder : "advertisement",
+					folder : "advertise",
 					file : $rootScope.model.editor.selectedFile
 				}
 			});

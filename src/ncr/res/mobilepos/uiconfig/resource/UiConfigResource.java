@@ -219,7 +219,7 @@ public class UiConfigResource {
      * @param filenameParam
      * @return
      */
-    @Path("/custom/images/{typeParam}/{filename}")
+    @Path("/custom/{typeParam}/images/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
     public final Response requestCustomImage(
@@ -251,8 +251,8 @@ public class UiConfigResource {
         }
 
         // 3, Searches a file with the given name in custom base path.
-//        UiConfigType configType = UiConfigType.toEnum(typeParam);
-        String customBasePath = configProperties.getCustomResourceBasePath() + typeParam;
+        UiConfigType configType = UiConfigType.toEnum(typeParam);
+        String customBasePath = configProperties.getCustomResourceBasePath() + configType.toString();
         File file = UiConfigHelper.searchImageFile(customBasePath, filename);
         if (file == null) {
             tp.methodExit("Custom image not found:" + filename);

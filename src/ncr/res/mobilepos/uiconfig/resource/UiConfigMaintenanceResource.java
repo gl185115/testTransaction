@@ -1051,7 +1051,7 @@ public class UiConfigMaintenanceResource {
 
 		String filename = "";
 		String folder = "";
-		int sizeType = 1;
+		int sizeType = 0;
 		File imgFolder = null;
 
 		PictureInfoUpload result = new PictureInfoUpload();
@@ -1075,8 +1075,10 @@ public class UiConfigMaintenanceResource {
 						filename = Streams.asString(isFormField, StaticParameter.code_UTF8);
 					} else if ("folder".equals(fis.getFieldName())) {
 						folder = Streams.asString(isFormField, StaticParameter.code_UTF8);
-					}else if("sizeType".equals(fis.getFieldName())){
+					}else if("advertise/images".equals(folder)){
+						if("sizeType".equals(fis.getFieldName())){
 						sizeType = Integer.parseInt(Streams.asString(isFormField, StaticParameter.code_UTF8));
+						}
 					}
 				} else {
 					if ("form-file".equals(fis.getFieldName())) {
@@ -1108,9 +1110,9 @@ public class UiConfigMaintenanceResource {
 					stdtargetWidth = 600;
 					stdtargetHeight = 640;
 				}else if(sizeType == 2){
-					stdtargetWidth = 1024;
-					stdtargetHeight = 604;
-				}else if(sizeType == 0){
+					stdtargetWidth = 1020;
+					stdtargetHeight = 640;
+				}else{
 					stdtargetWidth = 114;
 					stdtargetHeight = 76;
 				}
@@ -1147,6 +1149,7 @@ public class UiConfigMaintenanceResource {
 					e.printStackTrace();
 				}
 			}
+			tp.methodExit(result.toString());
 		}
 		return result;
 	}

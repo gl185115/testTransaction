@@ -557,7 +557,8 @@ res.config.phrases = {
 
     "Advertise.Album.Menu.Exit":["Exit", "終了"],
     "Advertise.Album.Menu.ImageList" :["Image List","画像一覧"],
-    "Advertise.Album.Menu.ImageImport" :["Import","画像<br>取り込み"],
+    "Advertise.Album.Menu.ImageImportPart" :["Import","画像<br>取り込み<br>600*640"],
+    "Advertise.Album.Menu.ImageImportFull" :["Import","画像<br>取り込み<br>1020*640"],
     "Advertise.Album.Menu.ImageDelete" :["Delete Image","画像<br>削除"],
     "Advertise.Album.Button.ImageCopyStart":["Import", "取り込む"],
     "Advertise.Album.Button.Back" :["Back","戻る"],

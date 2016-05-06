@@ -62,7 +62,8 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
         },
         exit: function(){
             $rootScope.model.message = "Exit";
-            $rootScope.dialog = "question";
+            /*$rootScope.dialog = "question";*/
+            $scope.exit()
         }
     };
     $scope.task = {
@@ -121,7 +122,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                 $rootScope.model.doRefreshSchedule = true;
                 break;
             case "Exit":
-                $scope.exit();
+                /*$scope.exit();*/
                 break;
             }
             $rootScope.model.message = "";

@@ -12,6 +12,9 @@ public class DeployEffective {
     @XmlElement(name = "PickList")
     private EPickList pickList;
 
+    @XmlElement(name = "Advertise")
+    private EAdvertise advertise;
+    
     @XmlElement(name = "Options")
     private EOptions options;
 
@@ -29,6 +32,14 @@ public class DeployEffective {
         this.pickList = pickList;
     }
 
+    public EAdvertise getAdvertise() {
+        return advertise;
+    }
+
+    public void setAdvertise(EAdvertise advertise) {
+        this.advertise = advertise;
+    }
+    
     public EOptions getOptions() {
         return options;
     }

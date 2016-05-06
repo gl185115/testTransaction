@@ -212,6 +212,7 @@ public class UiConfigHelper {
         List<DeployConfig> dConfigList = new ArrayList<>();
         DeployEffective dEffective = new DeployEffective();
         EPickList ePickList = new EPickList();
+        EAdvertise eAdvertise = new EAdvertise();
         EOptions eOptions = new EOptions();
         EUsability eUsability = new EUsability();
         ENotices eNotices = new ENotices();
@@ -243,6 +244,11 @@ public class UiConfigHelper {
                 ePickList = new EPickList();
                 ePickList.setDeployAppliedList(dAppliedList);
                 dEffective.setPickList(ePickList);
+                break;
+            case "advertise":
+            	eAdvertise = new EAdvertise();
+            	eAdvertise.setDeployAppliedList(dAppliedList);
+                dEffective.setAdvertise(eAdvertise);
                 break;
             case "options":
                 eOptions = new EOptions();
@@ -326,6 +332,17 @@ public class UiConfigHelper {
                             // LOG.debug(logInfo.toString());
                             return deployStatus;
                         }
+                    case "advertise":
+                    	EAdvertise ea = dc.getDeployEffective().getAdvertise();
+                        if (ea != null) {
+                            daList = ea.getDeployAppliedList();
+                            break;
+                        } else {
+                            deployStatus.getDeployConfig().get(i).
+                                    getDeployEffective().setAdvertise(eAdvertise);
+                            // LOG.debug(logInfo.toString());
+                            return deployStatus;
+                        }
                     case "options":
                         EOptions eo = dc.getDeployEffective().getOptions();
                         if (eo != null) {
@@ -389,6 +406,11 @@ public class UiConfigHelper {
                             case "pickList":
                                 deployStatus.getDeployConfig().get(i).getDeployEffective()
                                         .getPickList().getDeployAppliedList().add(dApplied);
+                                // LOG.debug(logInfo.toString());
+                                return deployStatus;
+                            case "advertise":
+                                deployStatus.getDeployConfig().get(i).getDeployEffective()
+                                        .getAdvertise().getDeployAppliedList().add(dApplied);
                                 // LOG.debug(logInfo.toString());
                                 return deployStatus;
                             case "options":

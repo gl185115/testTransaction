@@ -2,6 +2,8 @@ package ncr.res.mobilepos.uiconfig.model.schedule;
 
 
 import ncr.res.mobilepos.uiconfig.model.store.CSVStore;
+import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
+
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.ObjectWriter;
 
@@ -97,4 +99,31 @@ public class Target {
         return givenStoreID.equalsIgnoreCase(store);
     }
 
+    /**
+     * Checks if given storeID is included by the task.
+     *
+     * @param givenStoreID
+     * @param dbStores
+     * @return
+     */
+    public boolean hasStoreIDByDB(String givenStoreID, List<StoreEntry> dbStores) {
+        // 1st validation, checks if task.storeID is All. if true it skips following validations.
+        if (ALLOW_ALL.equalsIgnoreCase(store)) {
+            return true;
+        }
+        // 2nd validation, checks if given storeID is in csvStores.
+        boolean foundStore = false;
+        for (StoreEntry store : dbStores) {
+            if (givenStoreID.equals(store.getStoreId())) {
+                foundStore = true;
+                break;
+            }
+        }
+        if (!foundStore) {
+            return false;
+        }
+        // 3rd validation, compares IDs between given storeID and target storeID.
+        return givenStoreID.equalsIgnoreCase(store);
+    }
+    
 }

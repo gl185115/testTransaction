@@ -211,7 +211,8 @@ res.config.phrases = {
 
 //  "PickList.Deploy.Menu.Exit": ["Send", "配信"],
     "PickList.Deploy.Menu.Exit": ["Send", "終了"],
-    "PickList.Deploy.Menu.Button.FileSave": ["Cancel", "配信せず<br>中止"],
+    /*"PickList.Deploy.Menu.Button.FileSave": ["Cancel", "配信せず<br>中止"],*/
+    "PickList.Deploy.Menu.Button.FileSave": ["Cancel", "終了"],
     "PickList.Deploy.Menu.Button.FileUndo": ["Undo", "元に戻す"],
     "PickList.Deploy.Menu.Button.TaskCreate": ["New Task", "新規予定"],
     "PickList.Deploy.Menu.Button.TaskDelete": ["Delete", "削除する"],
@@ -389,7 +390,8 @@ res.config.phrases = {
     
     // "Advertise.Deploy.Menu.Exit": ["Send", "配信"],
     "Advertise.Deploy.Menu.Exit": ["Send", "終了"],
-    "Advertise.Deploy.Menu.Button.FileSave": ["Cancel", "配信せず<br>中止"],
+    /*"Advertise.Deploy.Menu.Button.FileSave": ["Cancel", "配信せず<br>中止"],*/
+    "Advertise.Deploy.Menu.Button.FileSave": ["Cancel", "終了"],
     "Advertise.Deploy.Menu.Button.FileUndo": ["Undo", "元に戻す"],
     "Advertise.Deploy.Menu.Button.TaskCreate": ["New Task", "新規予定"],
     "Advertise.Deploy.Menu.Button.TaskDelete": ["Delete", "削除する"],

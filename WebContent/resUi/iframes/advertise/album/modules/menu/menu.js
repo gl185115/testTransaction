@@ -47,8 +47,8 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 
             window.parent.res.ui.root.model.popup = "Wait";
 
-            for (var i = 0; i < advertiseImgfileInput.files.length; i++) {
-                var file = advertiseImgfileInput.files[i];
+            for (var i = 0; i < advertiseImgfileInputFull.files.length; i++) {
+                var file = advertiseImgfileInputFull.files[i];
                 var reader = new FileReader();
                 reader.filename = file.name;
                 reader.readAsDataURL(file);

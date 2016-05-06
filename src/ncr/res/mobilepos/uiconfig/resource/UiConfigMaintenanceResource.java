@@ -587,10 +587,6 @@ public class UiConfigMaintenanceResource {
 				xml_schedule = new File(configProperties.getCustomResourceBasePath(), resource);
 				xml_schedule = new File(xml_schedule, StaticParameter.xml_schedule);
 
-				if(!xml_schedule.exists() || !xml_schedule.isFile()){
-					xml_schedule = new File(configProperties.getCustomResourceBasePath() + StaticParameter.key_schedule, String.format(StaticParameter.format_scheduleXml, resource));
-				}
-				
 				result.setSchedule(ScheduleXmlUtil.getSchedule(xml_schedule));
 				if (result.getSchedule() == null) {
 					result.setSchedule(ScheduleXmlUtil.getEmptyScheduleModel(resource));

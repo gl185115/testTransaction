@@ -33,7 +33,7 @@ res.ui.controller("itemList", ["$scope", "$rootScope", "$timeout", function($sco
 					context : res.ui.root.context,
 					event : "file.list",
 					data : {
-						folder : "advertisement"
+						folder : "advertise"
 					}
 				});
 			}

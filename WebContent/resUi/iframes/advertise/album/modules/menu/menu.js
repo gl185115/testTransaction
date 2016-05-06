@@ -19,6 +19,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 
     $scope.$on("resIncludeLoaded", function() {
         var advertiseImgfileInput = document.getElementById('advertiseImgfileInput');
+        var advertiseImgfileInputFull = document.getElementById('advertiseImgfileInputFull');
 
         advertiseImgfileInput.addEventListener('change', function(e){
 
@@ -35,7 +36,30 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                     data : {
                         filename : reader.filename,
                         filecontent : file,
-                        folder : "advertise/images"
+                        folder : "advertisement",
+                        sizeType : '1'
+                    }
+                });
+            }
+        });
+        
+        advertiseImgfileInputFull.addEventListener('change', function(e){
+
+            window.parent.res.ui.root.model.popup = "Wait";
+
+            for (var i = 0; i < advertiseImgfileInput.files.length; i++) {
+                var file = advertiseImgfileInput.files[i];
+                var reader = new FileReader();
+                reader.filename = file.name;
+                reader.readAsDataURL(file);
+                res.ui.send({
+                    context : res.ui.root.context,
+                    event : "file.picture.upload",
+                    data : {
+                        filename : reader.filename,
+                        filecontent : file,
+                        folder : "advertisement",
+                        sizeType : '2'
                     }
                 });
             }

@@ -6,7 +6,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 //	var numOfItems = 60;
 	var scrolls = [];
 	var scrollItems=undefined;
-	$scope.folder = res.config.baseURL + "rest/uiconfig/custom/images/pickList/";
+	$scope.folder = res.config.baseURL + "rest/uiconfig/custom/pickList/images/";
 	$scope.position = { category: undefined, x: undefined, y: undefined, };
 
 	$scope.$watch(

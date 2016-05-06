@@ -21,7 +21,7 @@ res.model = res.model || {};
 				model.imageCopy.failedMsgShow = false;
 				model.imageCopy.pictures = [];
 
-				model.imageCopy.imageURL = model.imageCopy.baseURL + "pickList/";
+				model.imageCopy.imageURL = model.imageCopy.baseURL + "pickList/images/";
 				res.ui.send({
 					event : "file.picture.list",
 					data : {
@@ -90,7 +90,7 @@ res.model = res.model || {};
 			}
 
 			model.imageCopy.targetRoot = "\\pickList";
-			model.imageCopy.imageURL = model.imageCopy.baseURL+ "pickList/";
+			model.imageCopy.imageURL = model.imageCopy.baseURL+ "pickList/images/";
 			break;
 		case "file.remove":
 			window.parent.res.ui.root.model.popup = "";
@@ -133,7 +133,7 @@ res.model = res.model || {};
             model.imageCopy.successMsgShow = true;
             model.imageCopy.failedMsgShow = false;
             model.imageCopy.pictures = [];
-            model.imageCopy.imageURL = model.imageCopy.baseURL + "pickList/";
+            model.imageCopy.imageURL = model.imageCopy.baseURL + "pickList/images/";
 
             res.ui.root.itemSelected={};
             res.ui.root.itemSelected.background = "image";
@@ -174,7 +174,7 @@ res.model = res.model || {};
 		this.indexFileName = "";
 		this.recursive = true;
 //		this.baseURL = "/resUiConfig/custom/images/";
-		this.baseURL = res.config.baseURL + "rest/uiconfig/custom/images/";
+		this.baseURL = res.config.baseURL + "rest/uiconfig/custom/";
 		this.imageURL = "";
 		this.successMsgShow = false;
 		this.failedMsgShow = false;

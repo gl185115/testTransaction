@@ -41,6 +41,7 @@ $(document).ready(function () {
             formData.append('filename', data.filename);
             formData.append('folder', data.folder);
             formData.append('form-file', data.filecontent);
+            formData.append('sizeType', data.sizeType);
             $.ajax({
                 type: 'POST',
                 url: res.config.baseURL + "rest/uiconfigMaintenance/pictureUpload",

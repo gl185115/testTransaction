@@ -163,19 +163,19 @@
     <description>Relative path to schedule.xml from custom base.</description>
     <env-entry-name>scheduleFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>schedule.xml</env-entry-value>
+    <env-entry-value>/schedule.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to stores.csv from custom base.</description>
     <env-entry-name>storesCsvFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>stores.csv</env-entry-value>
+    <env-entry-value>/stores.csv</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to deployStatus.xml.</description>
     <env-entry-name>deployStatusFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>deployStatus.xml</env-entry-value>
+    <env-entry-value>/deployStatus.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Logger output file</description>

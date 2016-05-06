@@ -21,11 +21,11 @@ res.model = res.model || {};
 				model.imageCopy.failedMsgShow = false;
 				model.imageCopy.pictures = [];
 
-				model.imageCopy.imageURL = model.imageCopy.baseURL + "advertisement/";
+				model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images";
 				res.ui.send({
 					event : "file.picture.list",
 					data : {
-						folder : "images/advertisement"
+						folder : "advertise/images"
 					}
 				});
 				break;
@@ -88,8 +88,8 @@ res.model = res.model || {};
 				--model.imageCopy.indexImage;
 			}
 
-			model.imageCopy.targetRoot = "\\advertisement";
-			model.imageCopy.imageURL = model.imageCopy.baseURL + "advertisement/";
+			model.imageCopy.targetRoot = "\\advertise";
+			model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images";
 			break;
 		case "file.remove":
 			window.parent.res.ui.root.model.popup = "";
@@ -104,7 +104,7 @@ res.model = res.model || {};
 						context: res.ui.root.context,
 						event : "file.picture.list",
 						data : {
-							folder : "images/advertisement"
+							folder : "advertise/images"
 						}
 					});
 
@@ -131,7 +131,7 @@ res.model = res.model || {};
             model.imageCopy.successMsgShow = true;
             model.imageCopy.failedMsgShow = false;
             model.imageCopy.pictures = [];
-            model.imageCopy.imageURL = model.imageCopy.baseURL + "advertisement/";
+            model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images";
 
             res.ui.root.itemSelected={};
             res.ui.root.itemSelected.background = "image";
@@ -145,7 +145,7 @@ res.model = res.model || {};
             res.ui.send({
                 event : "file.picture.list",
                 data : {
-                    folder : "images/advertisement"
+                    folder : "advertise/images"
                 }
             });
             break;
@@ -170,7 +170,7 @@ res.model = res.model || {};
 		this.targetfiles = [];
 		this.indexFileName = "";
 		this.recursive = true;
-		this.baseURL = "/resTransaction/rest/uiconfig/custom/images/";
+		this.baseURL = "/resTransaction/rest/uiconfig/custom/";
 		this.imageURL = "";
 		this.successMsgShow = false;
 		this.failedMsgShow = false;

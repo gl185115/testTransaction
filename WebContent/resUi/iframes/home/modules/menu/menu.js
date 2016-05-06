@@ -60,7 +60,8 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope) 
                 context : "Advertise.Album",
                 event : "file.picture.list",
                 data : {
-                    folder : "advertise/images"
+                    folder : "advertise/images",
+                    sizeType : 0
                 }
             });
             break;

@@ -31,9 +31,11 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 data : {
                     filename : dataFileName,
                     filecontent : file,
-                    folder : "advertise/images"
+                    folder : "advertise/images",
+                    sizeType : $rootScope.model.pickList.sizeType
                 }
             });
+            $rootScope.model.pickList.sizeType = 0;
         };
         reader.readAsDataURL(file);
     });
@@ -158,10 +160,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	
 	$scope.popup = function(choice) {
 	    if (choice == 'imagesPart'){
-	        $rootScope.model.pickList.sizeType = '1';
+	        $rootScope.model.pickList.sizeType = 1;
 	        choice = 'images';
 	    } else if (choice == 'imagesFull'){
-	        $rootScope.model.pickList.sizeType = '2';
+	        $rootScope.model.pickList.sizeType = 2;
 	        choice = 'images';
 	    }
         $rootScope.dialog = choice;
@@ -176,9 +178,11 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 context : res.ui.root.context,
                 event : "file.picture.list",
                 data : {
-                    folder : "advertise/images"
+                    folder : "advertise/images",
+                    sizeType : $rootScope.model.pickList.sizeType
                 }
             });
+            $rootScope.model.pickList.sizeType = 0;
             break;
         case "fileCreate":
             $scope.indexItem = undefined;

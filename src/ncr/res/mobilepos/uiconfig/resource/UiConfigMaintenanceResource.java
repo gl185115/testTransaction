@@ -263,7 +263,7 @@ public class UiConfigMaintenanceResource {
 				fileList = resourceDir.listFiles();
 
 				if (fileList.length == 0) {
-					tp.methodExit("The message id of file Not found Exception.");
+					tp.println("The message id of file Not found Exception.");
 		            LOGGER.logAlert(PROG_NAME,
 		            		functionName,
 		                    Logger.RES_EXCEP_FILEEMPTY,
@@ -289,7 +289,7 @@ public class UiConfigMaintenanceResource {
 				
 				result.setFileInfoList(fileInfoList);
 			} else {
-				tp.methodExit("The message id of Not found file Exception.");
+				tp.println("The message id of Not found file Exception.");
 	            LOGGER.logAlert(PROG_NAME,
 	                    functionName,
 	                    Logger.RES_EXCEP_FILENOTFOUND,
@@ -298,15 +298,11 @@ public class UiConfigMaintenanceResource {
 				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
 				result.setMessage(ResultBase.RES_FAILED_MSG);
 				return result;
-				
 			}
 
 		} catch (Exception e) {
-			tp.methodExit("Failed to requestFileList.");
-            LOGGER.logAlert(PROG_NAME,
-            		functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to requestFileList.");
+			tp.println("Failed to requestFileList.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileList.", e);
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -333,7 +329,7 @@ public class UiConfigMaintenanceResource {
 
 			if (loadFile.exists()) {
 				if (loadFile.isDirectory()) {
-					tp.methodExit("The message id of Not file Exception.");
+					tp.println("The message id of Not file Exception.");
 		            LOGGER.logAlert(PROG_NAME,
 		            		functionName,
 		                    Logger.RES_EXCEP_FILENOTFOUND,
@@ -349,7 +345,7 @@ public class UiConfigMaintenanceResource {
 					return result;
 				}
 			} else {
-				tp.methodExit("The message id of file Not found Exception.");
+				tp.println("The message id of file Not found Exception.");
 	            LOGGER.logAlert(PROG_NAME,
 	            		functionName,
 	                    Logger.RES_EXCEP_FILENOTFOUND,
@@ -361,11 +357,8 @@ public class UiConfigMaintenanceResource {
 			}
 
 		} catch (Exception e) {
-			tp.methodExit("Failed to requestFileDownload.");
-            LOGGER.logAlert(PROG_NAME,
-            		functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to requestFileDownload.");
+			tp.println("Failed to requestFileDownload.");
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileDownload.", e);
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -467,36 +460,42 @@ public class UiConfigMaintenanceResource {
 
 		try {
 			File dir_resource = new File(configProperties.getCustomResourceBasePath(), folder);
-			List<String> filelist = new ArrayList<String>();
-			List<String> list = new ArrayList<String>();
-
+			
 			if (dir_resource.exists()) {
 				String baseDir = dir_resource.getPath();
+				List<String> filelist = new ArrayList<String>();
 				GetFolderList(baseDir, filelist, true);
 				if (filelist.isEmpty()) {
 
-					tp.println("file already exists.");
-					tp.println("The message id of file is empty Exception.");
+					tp.println(functionName + "There is no files in " + folder);
+					LOGGER.logAlert(PROG_NAME,
+							functionName,
+							Logger.RES_EXCEP_EXISTS,
+							functionName + "There is no files in " + folder);
+					List<String> list = new ArrayList<String>();
+					result.setResult(list);
+	                return result;
 				} else {
-					
+					List<String> list = new ArrayList<String>();
 					for (String path : filelist) {
 						path = path.substring(baseDir.length() + 1);
 						path = path.replace("\\", StaticParameter.str_separator);
 						list.add(path);
-
 					}
+					
 					result.setResult(list);
 					return result;
 				}
 			} else {
 				dir_resource.mkdirs();
-				tp.println("The message id of Not found file Exception");
+				List<String> list = new ArrayList<String>();
+				result.setResult(list);
+                return result;
 			}
 
 		} catch (Exception e) {
 			tp.println("Failed to requestPictureList.");
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestPictureLists.", e);
-
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestPictureList.", e);
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -688,12 +687,8 @@ public class UiConfigMaintenanceResource {
 				}
 			}
 		} catch (Exception e) {
-			tp.println("The message id of SQL Exception.");
-            LOGGER.logAlert(
-                    this.getClass().getSimpleName(),
-                    "requestConfigFileDownload",
-                    Logger.RES_EXCEP_SQL,
-                    "The message id of SQL Exception.");
+			tp.println("Failed to requestFileRemove.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileRemove.", e);
 		} finally{
 			tp.methodExit(result.toString());
 		}

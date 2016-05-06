@@ -422,7 +422,9 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 				context : res.ui.root.context,
 				event : "file.picture.list",
 				data : {
-					folder : "images/pickList"
+//                  folder : "images/pickList"
+                    folder : "pickList/images",
+                    sizeType : 0,
 				}
 			});
 			break;

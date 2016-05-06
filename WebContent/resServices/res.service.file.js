@@ -129,7 +129,8 @@ $(document).ready(function () {
                 type: 'POST',
                 url: requestURL,
                 data: {
-                    'folder': data.folder
+                    'folder': data.folder,
+                    'sizeType': data.sizeType,
                 },
                 datatype: 'json',
                 success: function (data) {

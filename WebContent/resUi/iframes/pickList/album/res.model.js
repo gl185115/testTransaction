@@ -26,7 +26,8 @@ res.model = res.model || {};
 					event : "file.picture.list",
 					data : {
 //						folder : "images/pickList"
-					    folder : "pickList/images"
+					    folder : "pickList/images",
+					    sizeType : 0,
 					}
 				});
 				break;
@@ -106,7 +107,8 @@ res.model = res.model || {};
 						event : "file.picture.list",
 						data : {
 //							folder : "images/pickList"
-						    folder : "pickList/images"
+						    folder : "pickList/images",
+						    sizeType : 0,
 						}
 					});
 
@@ -148,7 +150,8 @@ res.model = res.model || {};
                 event : "file.picture.list",
                 data : {
 //                    folder : "images/pickList"
-                    folder : "pickList/images"
+                    folder : "pickList/images",
+                    sizeType : 0,
                 }
             });
             break;

@@ -42,7 +42,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
             event : "deploy.advertise.setSchedule",
             data : {
                 schedule : JSON.stringify({ schedule : $rootScope.model.schedule }),
-                resource : "advertisement"
+                resource : "advertise"
             }
         });
     };
@@ -142,7 +142,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
             event: "deploy.advertise.getDeployStatus",
             data: {
                 companyID : res.storage.getItem("CompanyID"),
-                resource : "advertisement"
+                resource : "advertise"
             }
         });
     };

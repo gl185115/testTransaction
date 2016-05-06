@@ -4,7 +4,7 @@ public enum RESConfigEnum {
     REQUESTTIMER("clientRequestTimer"),
 
     DIR_CUSTOM("dir_custom"),
-    DIR_ADVERTISEMENT("dir_advertisement"),
+    DIR_ADVERTISE("dir_advertise"),
     DIR_IMAGES("dir_images"),
     DIR_NOTICES("dir_notices"),
     DIR_PICKLIST("dir_pickList"),

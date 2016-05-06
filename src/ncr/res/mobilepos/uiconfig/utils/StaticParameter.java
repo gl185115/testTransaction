@@ -31,7 +31,7 @@ public class StaticParameter {
 
 	public static File dirWorkspace = null;
 	public static File dir_custom = null;
-	public static File dir_advertisement = null;
+	public static File dir_advertise = null;
 	public static File dir_images = null;
 	public static File dir_imagesNotices = null;
 	public static File dir_imagesPickList = null;
@@ -110,7 +110,7 @@ public class StaticParameter {
 	public static final String key_primary = "primary";
 	public static final String key_secondary = "secondary";
 	public static final String key_custom = "custom";
-	public static final String key_advertisement = RESConfigEnum.DIR_ADVERTISEMENT.getValue();
+	public static final String key_advertise = RESConfigEnum.DIR_ADVERTISE.getValue();
 	public static final String key_images = RESConfigEnum.DIR_IMAGES.getValue();
 	public static final String key_notices = RESConfigEnum.DIR_NOTICES.getValue();
 	public static final String key_options = RESConfigEnum.DIR_OPTIONS.getValue();

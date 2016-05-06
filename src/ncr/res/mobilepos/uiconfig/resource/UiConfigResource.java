@@ -2,15 +2,20 @@ package ncr.res.mobilepos.uiconfig.resource;
 
 import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
+import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
+import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.model.UiConfigType;
 import ncr.res.mobilepos.uiconfig.model.schedule.Config;
 import ncr.res.mobilepos.uiconfig.model.schedule.Deploy;
 import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
 import ncr.res.mobilepos.uiconfig.model.schedule.Task;
 import ncr.res.mobilepos.uiconfig.model.store.CSVStore;
+import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
+import ncr.res.mobilepos.uiconfig.utils.StaticParameter;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
 
 import javax.ws.rs.*;
@@ -90,7 +95,9 @@ public class UiConfigResource {
         // 3, Marshals schedule.xml. This file should be provided with UTF-8 encoding.
         Schedule schedule;
         try {
-            schedule = UiConfigHelper.marshallScheduleXml(configProperties.getScheduleFileFullPath());
+            schedule = UiConfigHelper.marshallScheduleXml(configProperties.getCustomResourceBasePath() + 
+            		configType.toString() + 
+            		configProperties.getScheduleFilePath());
         } catch (IOException ioe) {
             tp.methodExit("schedule.xml: IOException while reading");
             LOGGER.logAlert(this.getClass().getSimpleName(),
@@ -134,20 +141,33 @@ public class UiConfigResource {
         }
 
         // 6, Loads store.csv into the memory. This should be provided with UTF-8 encoding.
-        List<CSVStore> csvStores;
+//        List<CSVStore> csvStores;
+//        try {
+//            csvStores = UiConfigHelper.loadStoresCSV(configProperties.getStoresCsvFileFullPath());
+//        } catch (IOException ioe) {
+//            tp.methodExit("stores.csv: IOException while reading");
+//            LOGGER.logAlert(this.getClass().getSimpleName(),
+//                    "requestConfigFile",
+//                    Logger.RES_EXCEP_IO,
+//                    "stores.csv: IOException while reading", ioe);
+//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+//        }
+        List<StoreEntry> storeEntryList;
         try {
-            csvStores = UiConfigHelper.loadStoresCSV(configProperties.getStoresCsvFileFullPath());
-        } catch (IOException ioe) {
-            tp.methodExit("stores.csv: IOException while reading");
+            IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
+            storeEntryList = icmyInfoDao.getStoreEntryList(companyID);
+        } catch (DaoException doe) {
+        	tp.methodExit("stores.csv: DaoException while reading");
             LOGGER.logAlert(this.getClass().getSimpleName(),
                     "requestConfigFile",
                     Logger.RES_EXCEP_IO,
-                    "stores.csv: IOException while reading", ioe);
+                    "stores.csv: DaoException while reading", doe);
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
-        }
+		}
 
         // 7, Filters Config.Tasks by StoreID, WorkStationID, and EffectiveDate.
-        List<Task> effectiveTasks = typeConfig.getValidTasks(storeID, workstationID, csvStores);
+//        List<Task> effectiveTasks = typeConfig.getValidTasks(storeID, workstationID, csvStores);
+        List<Task> effectiveTasks = typeConfig.getValidTasksByDB(storeID, workstationID, storeEntryList);
         if (effectiveTasks.isEmpty()) {
             tp.methodExit("schedule.xml: No valid <task> "
                     + "configType:" + configType

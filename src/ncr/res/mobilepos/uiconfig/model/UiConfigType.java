@@ -1,7 +1,7 @@
 package ncr.res.mobilepos.uiconfig.model;
 
 public enum UiConfigType {
-    PICKLIST("picklist"),
+    PICKLIST("pickList"),
     OPTIONS("options"),
     IMAGES("images"),
     NOTICE("notice"),

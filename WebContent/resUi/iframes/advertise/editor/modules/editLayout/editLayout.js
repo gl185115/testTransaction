@@ -82,38 +82,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 		}
 	};
 
-	/*$scope.$watch(
-		function(){ return $rootScope.dialog; },
-		function(dialog, oldValue){
-			if (dialog != "mountItem") return;
-			$scope.doDelete = true;
-			$scope.items = [{ itemId: "", background:"image" }].concat($rootScope.model.pickList.items);
-
-			if ($scope.indexItem == undefined) {
-				$scope.indexItem = 0;
-			}
-//			$scope.indexItem = 0;
-//			for(var i=0;i<$scope.items.length;i++){
-//				if($scope.selectedItem && ($scope.selectedItem.itemId==$scope.items[i].itemId)){
-//					$scope.indexItem=i;
-//				}
-//			}
-			if(!scrollItems){
-				scrollItems = new IScroll("#wrapperMount", {	// iScroll5
-					scrollX: false,
-					scrollY: true,
-					scrollbars: true,
-					interactiveScrollbars: true,
-					mouseWheel: true,	// or "zoom"
-				});
-			}
-			$timeout(function(){
-				$scope.itemsShow("#wrapperMount .Line:nth-child(" + ($scope.indexItem+1) + ")");
-				scrollItems.refresh();
-			}, 200);
-		}
-	);*/
-	$scope.itemsShow= function(target){
+	/*$scope.itemsShow= function(target){
 		if(!scrollItems)return;
 		var visible = {};
 		visible.top = -scrollItems.y;
@@ -124,7 +93,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 			scrollItems.scrollTo(0, -element.offsetTop, 200);
 		else if ( (element.offsetTop+element.offsetHeight) > visible.bottom)
 			scrollItems.scrollTo(0, visible.height - (element.offsetTop+element.offsetHeight), 200);
-	};
+	};*/
 
 	$scope.selectItem = function(index){
 		$scope.indexItem = index;
@@ -141,11 +110,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 		$rootScope.model.pickList.locate($rootScope.language);
 		$rootScope.dialog = "";
 	};
-//	$scope.confirmRemove = function(){
-//		$rootScope.dialog = "confirmRemove";
-//	};
 
-	$scope.delItem = function() {
+	/*$scope.delItem = function() {
 		if ($scope.indexItem == 0) return;
 		var itemId = $scope.items[$scope.indexItem].itemId;
 		if (!itemId) return;
@@ -175,7 +141,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 		$rootScope.model.pickList.locate($rootScope.language);
 		$rootScope.dialog = "mountItem";
 		$timeout(function() { scrollItems.refresh(); }, 200);
-	};
+	};*/
 
 	$scope.back = function(){
 		$rootScope.dialog = "mountItem";
@@ -191,6 +157,13 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	};
 	
 	$scope.popup = function(choice) {
+	    if (choice == 'imagesPart'){
+	        $rootScope.model.pickList.sizeType = '1';
+	        choice = 'images';
+	    } else if (choice == 'imagesFull'){
+	        $rootScope.model.pickList.sizeType = '2';
+	        choice = 'images';
+	    }
         $rootScope.dialog = choice;
     };
 
@@ -224,7 +197,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     });
 
     $scope.apply = function() {
-        //if (!$scope.doApplyCheck("all")) return;
+        if (!$scope.doApplyCheck("all")) return;
 
         var items = new ItemBlank;
         $scope.itemSelected.isblank = false;
@@ -245,21 +218,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
       
     $scope.clear = function() {
         $scope.itemSelected = angular.copy($rootScope.model.pickList.layout[$scope.position.x][$scope.position.y]);
-        /*var description = $scope.itemSelected.description;
-        if(typeof(description) == "undefined"){
-            description = $scope.itemSelected.description["jp"];
-        }
-        $scope.itemSelected.label = {
-            line1: (description.indexOf("<br>") != -1)? description.slice(0, description.indexOf("<br>")) : description,
-            line2: (description.indexOf("<br>") != -1)? description.slice(description.indexOf("<br>") + "<br>".length) : "",
-        };
-        var line1 = angular.copy($scope.itemSelected.label.line1);
-        var line2 = angular.copy($scope.itemSelected.label.line2);
-        $scope.itemSelected.inputLabel = {};
-        $scope.itemSelected.inputLabel.line1 = line1.replace(/\&amp;/g, "&").replace(/\&lt;/g, "<").replace(/\&gt;/g, ">");
-        $scope.itemSelected.inputLabel.line2 = line2.replace(/\&amp;/g, "&").replace(/\&lt;/g, "<").replace(/\&gt;/g, ">");
-
-        $scope.indexItem = index;*/
     };
     
     $scope.cancel = function() {

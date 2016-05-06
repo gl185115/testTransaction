@@ -14,7 +14,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +25,19 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 
-import org.json.JSONObject;
+import org.apache.tomcat.util.http.fileupload.FileItemIterator;
+import org.apache.tomcat.util.http.fileupload.FileItemStream;
+import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
+import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
+import org.apache.tomcat.util.http.fileupload.util.Streams;
 
 import atg.taglib.json.util.JSONArray;
 import ncr.realgate.util.Trace;
@@ -43,8 +52,10 @@ import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileDownLoadInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileRemove;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileRemoveInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.PictureInfoList;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.PictureInfoUpload;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfo;
 import ncr.res.mobilepos.uiconfig.model.schedule.CompanyInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.Config;
@@ -56,6 +67,7 @@ import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
 import ncr.res.mobilepos.uiconfig.model.store.TableStore;
 import ncr.res.mobilepos.uiconfig.model.store.TableStoreList;
 import ncr.res.mobilepos.uiconfig.utils.FileUtil;
+import ncr.res.mobilepos.uiconfig.utils.ImageScalr;
 import ncr.res.mobilepos.uiconfig.utils.ScheduleXmlUtil;
 import ncr.res.mobilepos.uiconfig.utils.StaticParameter;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
@@ -649,13 +661,11 @@ public class UiConfigMaintenanceResource {
 		return result;
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Path("/fileRemove")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
 	public final FileRemoveInfo requestConfigFileRemove(
 			@FormParam("folder") final String folder,
-			
 			@FormParam("filename") final String filename,
 			@FormParam("confirmDel") final String confirmDel,
 			@FormParam("delFileList") final String delFileList){
@@ -666,7 +676,7 @@ public class UiConfigMaintenanceResource {
 		  .println("confirmDel",confirmDel)
 		  .println("delFileList",delFileList);
 
-		imageFileArr = new JSONArray();
+		imageFileArr = new ArrayList<FileRemove>();
 		FileRemoveInfo result = new FileRemoveInfo();
 
 		try {
@@ -681,7 +691,7 @@ public class UiConfigMaintenanceResource {
 						return result;
 					}
 
-				} else if (folder.startsWith(StaticParameter.key_images + StaticParameter.str_separator)) {
+				} else if (folder.endsWith(StaticParameter.str_separator+ StaticParameter.key_images )) {
 					if (StaticParameter.res_false.equalsIgnoreCase(confirmDel)) {
 						if (isExistingPickListImage(folder, filename)) {
 							tp.println(filename + ":" + "Picture is being used");
@@ -720,8 +730,8 @@ public class UiConfigMaintenanceResource {
 				}
 			}
 		} catch (Exception e) {
-			tp.println("Failed to requestFileRemove.");
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileRemove.", e);
+			tp.println("Failed to requestfileRemove.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestfileRemove.", e);
 		} finally{
 			tp.methodExit(result.toString());
 		}
@@ -729,10 +739,10 @@ public class UiConfigMaintenanceResource {
 	}
 	
 	/**
-	 * ÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩÌèúÔøΩiÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩpÔøΩj
+	 * ÉtÉ@ÉCÉãçÌèúÅiÉtÉ@ÉCÉãópÅj
 	 * @param pResource : pickList/notices
-	 * @param pFileName : ÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩÔøΩÔøΩO
-	 * @return true(ÔøΩÔøΩÔøΩÔøΩ) / false(ÔøΩÔøΩÔøΩs)
+	 * @param pFileName : ÉtÉ@ÉCÉãñºëO
+	 * @return true(ê¨å˜) / false(é∏îs)
 	 */
 	private boolean removeResourceDirFile(String pResource, String pFileName) {
 
@@ -805,12 +815,12 @@ public class UiConfigMaintenanceResource {
 	}
 
 	/**
-	 * ÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩÌèúÔøΩiÔøΩÊëúÔøΩpÔøΩj
+	 * ÉtÉ@ÉCÉãçÌèúÅiâÊëúópÅj
 	 *
-	 * @param pResource : imagesÔøΩfÔøΩBÔøΩÔøΩÔøΩNÔøΩgÔøΩÔøΩÔøΩÔøΩpickList/notices
-	 * @param pFileName : ÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩÔøΩÔøΩO
-	 * @param pDelFileList : ÔøΩÌèúÔøΩÔøΩÔøΩÔøΩÔøΩsÔøΩÔøΩÔøΩÔøΩAÔøΩÔøΩÔøΩsÔøΩtÔøΩ@ÔøΩCÔøΩÔøΩÔøΩÔøΩÔøΩXÔøΩgÔøΩ…ï€ëÔøΩÔøΩÔøΩÔøΩÔøΩ
-	 * @return true(ÔøΩÔøΩÔøΩÔøΩ) / false(ÔøΩÔøΩÔøΩs)
+	 * @param pResource : imagesÉfÉBÉåÉNÉgÉäÇÃpickList/notices
+	 * @param pFileName : ÉtÉ@ÉCÉãñºëO
+	 * @param pDelFileList : çÌèúÇé∏îsÇΩÇÁÅAé∏îsÉtÉ@ÉCÉãÉäÉXÉgÇ…ï€ë∂Ç∑ÇÈ
+	 * @return true(ê¨å˜) / false(é∏îs)
 	 */
 	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList) {
 
@@ -821,7 +831,7 @@ public class UiConfigMaintenanceResource {
 		File dir_resource = null;
 		File img_picture = null;
 		JSONArray delFileList = null;
-		JSONObject lineData = null;
+		FileRemove lineData = null;
 		boolean retFlg = false;
 
 		try {
@@ -849,9 +859,9 @@ public class UiConfigMaintenanceResource {
 				return retFlg;
 			}
 
-			imageFileArr = new JSONArray();
+			imageFileArr = new ArrayList<FileRemove>();
 
-			if (pResource.startsWith(configProperties.getCustomResourceBasePath() + StaticParameter.str_separator)) {
+			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
 				resource = pResource.split(StaticParameter.str_separator)[1];
 				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
 				img_picture = new File(dir_resource, pResource);
@@ -872,9 +882,9 @@ public class UiConfigMaintenanceResource {
 					img_picture = new File(dir_resource, filename);
 					content = FileUtil.fileRead(img_picture);
 
-					if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+					if (StaticParameter.key_pickList.equalsIgnoreCase(resource)) {
 						content = chargeFileSeparator(content);
-					} else if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+					} else if (StaticParameter.key_notices.equalsIgnoreCase(resource)) {
 						pictureName = pFileName;
 					}
 
@@ -883,19 +893,19 @@ public class UiConfigMaintenanceResource {
 
 						if (!FileUtil.fileSave(img_picture, content, false, UiConfigHelper.ENCODING_DEPLOY_STATUS_FILE)) {
 
-							lineData = new JSONObject();
+							lineData = new FileRemove();
 							filename = img_picture.getName();
-							lineData.put(KEY_FULLNAME, filename);
+							lineData.setFullName(filename);
 
 							filename = filename.substring(0, filename.length() - StaticParameter.file_js.length());
-							lineData.put(KEY_FILENAME, filename);
+							lineData.setFileName(filename);
 
-							imageFileArr.put(lineData);
+							imageFileArr.add(lineData);
 						}
 					}
 				}
 
-				if (imageFileArr.length() == 0) {
+				if (imageFileArr.size() == 0) {
 					retFlg = true;
 				} else {
 					retFlg = false;
@@ -916,13 +926,14 @@ public class UiConfigMaintenanceResource {
 		String filename = "";
 		File dir_resource = null;
 		File img_picture = null;
-		JSONObject lineData = null;
+		FileRemove lineData = null;
 		boolean existFlg = false;
 
 		try {
 
-			if (pResource.startsWith(configProperties.getCustomResourceBasePath() + StaticParameter.str_separator)) {
-				resource = pResource.split(StaticParameter.str_separator)[1];
+			imageFileArr = new ArrayList<FileRemove>();
+			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
+				resource = pResource.split(StaticParameter.str_separator)[0];
 				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
 				img_picture = new File(dir_resource, pResource);
 				img_picture = new File(img_picture, pFileName);
@@ -940,28 +951,28 @@ public class UiConfigMaintenanceResource {
 
 					content = FileUtil.fileRead(file);
 
-					if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+					if (StaticParameter.key_pickList.equalsIgnoreCase(resource)) {
 						content = chargeFileSeparator(content);
-					} else if (configProperties.getCustomResourceBasePath().equalsIgnoreCase(resource)) {
+					} else if (StaticParameter.key_notices.equalsIgnoreCase(resource)) {
 						pictureName = pFileName;
 					}
 
 					if (!StringUtility.isNullOrEmpty(content) && content.contains(pictureName)) {
 						tp.println( "The picture [ "+ pFileName + " ] is existing in file : " + file.getPath());
 
-						lineData = new JSONObject();
+						lineData = new FileRemove();
 						filename = file.getName();
-						lineData.put(KEY_FULLNAME, filename);
+						lineData.setFullName(filename);
 
 						filename = filename.substring(0, filename.length() - StaticParameter.file_js.length());
-						lineData.put(KEY_FILENAME, filename);
+						lineData.setFileName(filename);
 
-						imageFileArr.put(lineData);
+						imageFileArr.add(lineData);
 
 					}
 				}
 
-				if (imageFileArr.length() == 0) {
+				if (imageFileArr.size() == 0) {
 					existFlg = false;
 					tp.println( "The picture [ "+ pFileName + " ] is not exist in each of " + resource);
 				} else {
@@ -1029,8 +1040,165 @@ public class UiConfigMaintenanceResource {
 		return isDeleteFlg;
 	}
 
-	private JSONArray imageFileArr = null;
-	private static final String KEY_FILENAME = "fileName";
+	private List<FileRemove> imageFileArr = null;
 	private static final String KEY_FULLNAME = "fullName";
+	
+	@Path("/pictureUpload")
+	@POST
+    @Produces({"application/json;charset=UTF-8"})
+    @Consumes({"multipart/form-data"})
+	public final PictureInfoUpload requestConfigFileList(
+			@Context final HttpServletRequest request){
+
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("/pictureUpload");
+
+		String filename = "";
+		String folder = "";
+		int sizeType = 1;
+		File imgFolder = null;
+
+		PictureInfoUpload result = new PictureInfoUpload();
+		InputStream isFormField = null;
+		InputStream isFormFile = null;
+		FileOutputStream stream = null;
+		DiskFileItemFactory factory = new DiskFileItemFactory();
+		ServletFileUpload sfu = new ServletFileUpload(factory);
+
+		try {
+			factory.setSizeThreshold(1024);
+			sfu.setSizeMax(-1);
+			sfu.setHeaderEncoding("UTF-8");
+
+			FileItemIterator list = sfu.getItemIterator(request);
+			while(list.hasNext()) {
+				FileItemStream fis = list.next();
+				if (fis.isFormField()) {
+					isFormField = fis.openStream();
+					if ("filename".equals(fis.getFieldName())) {
+						filename = Streams.asString(isFormField, StaticParameter.code_UTF8);
+					} else if ("folder".equals(fis.getFieldName())) {
+						folder = Streams.asString(isFormField, StaticParameter.code_UTF8);
+					}else if("sizeType".equals(fis.getFieldName())){
+						sizeType = Integer.parseInt(Streams.asString(isFormField, StaticParameter.code_UTF8));
+					}
+				} else {
+					if ("form-file".equals(fis.getFieldName())) {
+						isFormFile = fis.openStream();
+						imgFolder = new File(configProperties.getCustomResourceBasePath(), folder);
+						File imageFile = new File(imgFolder, filename);
+
+						stream = new FileOutputStream(imageFile);
+						int len = 0;
+						byte[] buf = new byte[1024];
+						while ((len = isFormFile.read(buf)) > 0) {
+							stream.write(buf, 0, len);
+						}
+
+						stream.flush();
+						stream.close();
+					}
+				}
+			}
+
+			if ("notices".equals(folder)) {
+				stdtargetWidth = 256;
+				stdtargetHeight = 384;
+			} else if ("pickList".equals(folder)) {
+				stdtargetWidth = 114;
+				stdtargetHeight = 76;
+			}else if("advertise/images".equals(folder)){
+				if(sizeType == 1){
+					stdtargetWidth = 600;
+					stdtargetHeight = 640;
+				}else if(sizeType == 2){
+					stdtargetWidth = 1024;
+					stdtargetHeight = 604;
+				}else if(sizeType == 0){
+					stdtargetWidth = 114;
+					stdtargetHeight = 76;
+				}
+			}
+
+			result.setImage(filename);
+			ImageCopyWithFormat(imgFolder, imgFolder, filename, "png");
+			ImageCopyWithFormat(imgFolder, imgFolder, filename, "jpg");
+			ImageCopyWithFormat(imgFolder, imgFolder, filename, "bmp");
+			ImageCopyWithFormat(imgFolder, imgFolder, filename, "gif");
+			ImageCopyWithFormat(imgFolder, imgFolder, filename, "jpeg");
+		}catch(Exception e){
+			tp.println("Failed to requestpictureUpload.");
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestpictureUpload.", e);
+		}finally{
+			if(stream != null){
+				try {
+					stream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (isFormField != null) {
+				try {
+					isFormField.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (isFormFile != null) {
+				try {
+					isFormFile.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return result;
+	}
+	
+	/**
+	 * Process of Resize Image files to specified folder.
+	 */
+	private void ImageCopyWithFormat(File sDir, File sToDir,
+									String fileName, String format) throws IOException {
+
+		String matchString = "(.*)\\." + format + "$";
+		if (fileName.toLowerCase().matches(matchString)) {
+			File subFileDir = new File(sDir, fileName);
+			BufferedImage originalImage = ImageIO.read(subFileDir);
+			int targetWidth = stdtargetWidth;
+			int targetHeight = stdtargetHeight;
+
+			// Get current image's Width and Height,calculate standard size.
+			int currentWidth = originalImage.getWidth();
+			int currentHeight = originalImage.getHeight();
+
+			if (currentHeight < currentWidth) {
+				targetHeight = (int) (((stdtargetWidth * 1.0) / currentWidth) * currentHeight);
+				targetHeight = targetHeight > stdtargetHeight ? stdtargetHeight : targetHeight;
+			} else {
+				targetWidth = (int) (((stdtargetHeight * 1.0) / currentHeight) * currentWidth);
+				targetWidth = targetWidth > stdtargetWidth ? stdtargetWidth : targetWidth;
+			}
+
+			// Call resize method of image file resize class
+			BufferedImage scaledImage = ImageScalr.resize(originalImage, targetWidth, targetHeight);
+			originalImage.flush();
+
+			// If folders or file is not exist then create
+			if (!sToDir.exists()) {
+				sToDir.mkdirs();
+			}
+
+			File destFile = new File(sToDir, fileName);
+			if (!destFile.exists()) {
+				destFile.createNewFile();
+			}
+
+			ImageIO.write(scaledImage, format, destFile);
+			scaledImage.flush();
+		}
+	}
+	private int stdtargetWidth = 76;
+	private int stdtargetHeight = 114;
 }
 

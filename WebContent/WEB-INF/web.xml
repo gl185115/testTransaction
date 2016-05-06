@@ -106,7 +106,7 @@
       <url-pattern>/rest/deviceinfo/setqueuebusterlink</url-pattern>
       <url-pattern>/rest/deviceinfo/setsignaturelink</url-pattern>
       <url-pattern>/rest/devicelog/*</url-pattern>
-      <url-pattern>/rest/uiconfig/*</url-pattern>
+      <url-pattern>/rest/uiconfig/uiconfigMaintenance</url-pattern>
       <url-pattern>/rest/discountplaninfo/*</url-pattern>
       <url-pattern>/rest/eventlog/*</url-pattern>
       <url-pattern>/rest/line/*</url-pattern>
@@ -163,19 +163,19 @@
     <description>Relative path to schedule.xml from custom base.</description>
     <env-entry-name>scheduleFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>schedule/schedule.xml</env-entry-value>
+    <env-entry-value>schedule.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to stores.csv from custom base.</description>
     <env-entry-name>storesCsvFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>schedule/stores.csv</env-entry-value>
+    <env-entry-value>stores.csv</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to deployStatus.xml.</description>
     <env-entry-name>deployStatusFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>schedule/deployStatus.xml</env-entry-value>
+    <env-entry-value>deployStatus.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Logger output file</description>

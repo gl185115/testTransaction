@@ -197,7 +197,8 @@ public class UiConfigResource {
         }
 
         // 8, Creates deploy status file. Keeps it as it is for original source, UiConfig, compatibility.
-        UiConfigHelper.doDeployStatusCustomRequest(configType, companyID, storeID, workstationID, effectiveTask, configProperties.getDeployStatusFileFullPath());
+        String deployStatusPath = configProperties.getCustomResourceBasePath() + configType.toString() + configProperties.getDeployStatusFileName();
+        UiConfigHelper.doDeployStatusCustomRequest(configType, companyID, storeID, workstationID, effectiveTask, deployStatusPath);
 
         // 9, Joins resource file path.
         String configFilePath = configProperties.getCustomResourceBasePath()

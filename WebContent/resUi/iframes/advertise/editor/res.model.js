@@ -189,6 +189,7 @@ res.model = res.model || {};
 		this.deployCategories = [];
 		this.selectedCategory = undefined;
 		this.deletedTabItems = [];
+		this.sizeType = '';
 
 		var i, j, x, y;
 		/*for (i = 0; i < numOfCategories; i++){

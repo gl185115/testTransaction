@@ -25,7 +25,7 @@ res.ui.controller("fileOpen", ["$scope", "$rootScope", "$timeout", function($sco
 				context : res.ui.root.context,
 				event : "file.list",
 				data : {
-					folder : "advertisement"
+					folder : "advertise"
 				}
 			});
 
@@ -46,7 +46,7 @@ res.ui.controller("fileOpen", ["$scope", "$rootScope", "$timeout", function($sco
 			context : res.ui.root.context,
 			event : "file.download",
 			data : {
-				folder : "advertisement",
+				folder : "advertise",
 				file : $rootScope.model.editor.files[$scope.indexFile] + ".js"
 			}
 		});

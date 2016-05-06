@@ -13,7 +13,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         interactiveScrollbars: true,
         mouseWheel: true,   // or "zoom"
     });
-	$scope.folder = res.config.baseURL + "custom/images/advertisement/";
+	$scope.folder = res.config.baseURL + "custom/advertise/images/";
 	$scope.position = { x: undefined, y: undefined, };
 	
 	var fileInput = document.getElementById('fileInput');
@@ -31,7 +31,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 data : {
                     filename : dataFileName,
                     filecontent : file,
-                    folder : "advertisement"
+                    folder : "advertise/images"
                 }
             });
         };
@@ -203,7 +203,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 context : res.ui.root.context,
                 event : "file.picture.list",
                 data : {
-                    folder : "images/advertisement"
+                    folder : "advertise/images"
                 }
             });
             break;
@@ -323,7 +323,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             $scope.itemSelected.startOfDayLength = res.string.truncate($scope.itemSelected.startOfDayLength, 8);
             $scope.itemSelected.startOfDayLength = res.string.truncate($scope.itemSelected.startOfDayLength, 8);
             $rootScope.model.failure.active = true;
-            $rootScope.model.failure.service = "advertisement";
+            $rootScope.model.failure.service = "advertise";
             $rootScope.model.failure.cause = "maxDayNumbers8";
             return false;
         }
@@ -336,7 +336,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 $scope.itemSelected.Full.fileName = res.string.truncate($scope.itemSelected.Full.fileName, 16);
             }
             $rootScope.model.failure.active = true;
-            $rootScope.model.failure.service = "advertisement";
+            $rootScope.model.failure.service = "advertise";
             $rootScope.model.failure.cause = "maxCharacters8";
             return false;
         }

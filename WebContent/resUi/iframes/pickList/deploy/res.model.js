@@ -397,7 +397,7 @@ res.model = res.model || {};
 				}
 				if (i == this.schedule.deploy.length) {
 					res.console("res.ui deploy model: config for companyID: " + res.config.companyID + " is newly created.");
-					this.schedule.deploy[i] = new Deploy();
+					this.schedule.deploy[i] = new Deploy(company);
 				}
 				this.index = i;
 

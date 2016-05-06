@@ -37,7 +37,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                         filename : reader.filename,
                         filecontent : file,
                         folder : "advertise/images",
-                        sizeType : '1'
+                        sizeType : 1
                     }
                 });
             }
@@ -59,7 +59,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                         filename : reader.filename,
                         filecontent : file,
                         folder : "advertise/images",
-                        sizeType : '2'
+                        sizeType : 2
                     }
                 });
             }

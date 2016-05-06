@@ -37,7 +37,6 @@ res.model = res.model || {};
 			model.editor.selectedIndex = undefined;
 			break;
 		case "file.download":
-		    //shibingqian
 			if (data) {
 				model.pickList = new PickList();
 				res.config.advertise = {};
@@ -189,7 +188,7 @@ res.model = res.model || {};
 		this.deployCategories = [];
 		this.selectedCategory = undefined;
 		this.deletedTabItems = [];
-		this.sizeType = '';
+		this.sizeType = 0;
 
 		var i, j, x, y;
 		/*for (i = 0; i < numOfCategories; i++){

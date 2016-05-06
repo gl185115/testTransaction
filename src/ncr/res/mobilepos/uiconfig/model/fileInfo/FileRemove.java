@@ -5,14 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "FileInfo")
+@XmlRootElement(name = "FileRemove")
 @XmlAccessorType(XmlAccessType.NONE)
 public class FileRemove {
 	
-	@XmlElement(name = "FileName")
+	@XmlElement(name = "fileName")
 	private String fileName;
 	
-	@XmlElement(name = "FullName")
+	@XmlElement(name = "fullName")
 	private String fullName;
 	
 	/**
@@ -47,8 +47,8 @@ public class FileRemove {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-        sb.append("FileName: ").append(fileName);
-        sb.append("FullName: ").append(fullName);
+        sb.append("fileName: ").append(fileName);
+        sb.append("fullName: ").append(fullName);
 		
 		return sb.toString();
 	}

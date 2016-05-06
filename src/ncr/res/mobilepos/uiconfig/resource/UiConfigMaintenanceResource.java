@@ -598,7 +598,7 @@ public class UiConfigMaintenanceResource {
 		ResultBase result = new ResultBase();
 		try {
 			File scheduleXml = null;
-			File setScheduleDir = new File(configProperties.getCustomResourceBasePath());
+			File setScheduleDir = new File(configProperties.getCustomResourceBasePath() + StaticParameter.key_schedule);
 			if (!setScheduleDir.exists()) {
 				if (setScheduleDir.mkdirs()) {
 					tp.println( "Directory is not find. And create at : " + setScheduleDir.getPath());
@@ -606,7 +606,7 @@ public class UiConfigMaintenanceResource {
 			}
 			if (!StringUtility.isNullOrEmpty(resource)) {
 				scheduleXml = new File(configProperties.getCustomResourceBasePath(), resource);
-				scheduleXml = new File(scheduleXml, configProperties.getScheduleFilePath());
+				scheduleXml = new File(scheduleXml, StaticParameter.xml_schedule);
 
 				ScheduleXmlUtil.saveScheduleByJSON(schedulejson, scheduleXml);
 				tp.println("xml set successfully");

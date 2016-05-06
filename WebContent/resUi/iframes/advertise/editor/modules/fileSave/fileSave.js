@@ -12,7 +12,7 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 				if ($rootScope.itemSelected) {
 					if ($rootScope.itemSelected.isblank) {
 						$rootScope.model.failure.active = true;
-						$rootScope.model.failure.service = "advertisement";
+						$rootScope.model.failure.service = "advertise";
 						$rootScope.model.failure.cause = "blank";
 						$rootScope.dialog = "";
 						return;
@@ -101,7 +101,7 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 				context : res.ui.root.context,
 				event: "file.upload",
 				data: {
-					folder:"advertisement",
+					folder:"advertise",
 					title: $scope.filename,
 					desfilename: savename.trim(),
 					overwrite: $scope.overwrite,

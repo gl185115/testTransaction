@@ -7,8 +7,12 @@
 			</div>
 			<!-- <div class="resButton lower W98xH82 silver" data-res-touch="imageImport()"> -->
 			<div class="resButton lower W98xH82 silver">
-				<p data-ng-bind-html="'Menu.ImageImport' |resPhrase:context"></p>
+				<p data-ng-bind-html="'Menu.ImageImportPart' |resPhrase:context"></p>
 				<input type="file" multiple accept="image/*" id="advertiseImgfileInput" class="imgupload">
+			</div>
+			<div class="resButton lower W98xH82 silver">
+				<p data-ng-bind-html="'Menu.ImageImportFull' |resPhrase:context"></p>
+				<input type="file" multiple accept="image/*" id="advertiseImgfileInputFull" class="imgupload">
 			</div>
 			<div class="resButton lower W98xH82 red"
 				data-res-touch="imageDelete()"

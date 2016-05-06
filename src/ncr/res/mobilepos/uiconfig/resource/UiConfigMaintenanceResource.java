@@ -466,14 +466,11 @@ public class UiConfigMaintenanceResource {
 				List<String> filelist = new ArrayList<String>();
 				GetFolderList(baseDir, filelist, true);
 				if (filelist.isEmpty()) {
-
 					tp.println(functionName + "There is no files in " + folder);
 					LOGGER.logAlert(PROG_NAME,
 							functionName,
 							Logger.RES_EXCEP_EXISTS,
 							functionName + "There is no files in " + folder);
-					List<String> list = new ArrayList<String>();
-					result.setResult(list);
 	                return result;
 				} else {
 					List<String> list = new ArrayList<String>();
@@ -488,8 +485,6 @@ public class UiConfigMaintenanceResource {
 				}
 			} else {
 				dir_resource.mkdirs();
-				List<String> list = new ArrayList<String>();
-				result.setResult(list);
                 return result;
 			}
 

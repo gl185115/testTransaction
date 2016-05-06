@@ -42,14 +42,14 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
             event : "deploy.advertise.setSchedule",
             data : {
                 schedule : JSON.stringify({ schedule : $rootScope.model.schedule }),
-                resource : "advertise"
+                resource : "advertisement"
             }
         });
     };
     $scope.file = {
         save: function(){
             res.ui.root.confirmMessage = "confirmMessage";
-            /*if (!$rootScope.model.active.resource) {return;}
+         /*   if (!$rootScope.model.active.resource) {return;}
             $rootScope.model.save();
             $rootScope.model.active.item=undefined;
             res.console("res.ui deploy menu save: model.schedule = " + JSON.stringify({schedule: $rootScope.model.schedule}) );
@@ -63,6 +63,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
         exit: function(){
             $rootScope.model.message = "Exit";
             /*$rootScope.dialog = "question";*/
+            $rootScope.model.save()
             $scope.exit()
         }
     };

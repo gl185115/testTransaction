@@ -1,13 +1,16 @@
 
 <div class="TopBar">
 
-	<div class=" Buttons Exit">
+	<!-- <div class=" Buttons Exit">
 		<div class="resButton lower W98xH82 silver" data-res-tap="file.save()">
 			<p data-ng-bind-html="'Menu.Exit' |resPhrase:context"></p>
 		</div>
 	</div>
-
+ -->
 	<div class="Buttons File">
+		<div class="resButton lower W98xH82 silver" data-res-tap="file.exit()">
+			<p data-ng-bind-html="'Menu.Button.FileSave' |resPhrase:context"></p>
+		</div>
 		<div class="resButton lower W98xH82 silver" data-res-tap="file.undo()"
 			data-ng-class="{disabled: (!model.active.resource)||(!model.active.item)}">
 			<p data-ng-bind-html="'Menu.Button.FileUndo' |resPhrase:context"></p>

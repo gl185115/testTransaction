@@ -25,7 +25,8 @@ res.model = res.model || {};
 				res.ui.send({
 					event : "file.picture.list",
 					data : {
-						folder : "advertise/images"
+						folder : "advertise/images",
+						sizeType : model.imageCopy.sizeType
 					}
 				});
 				break;
@@ -104,7 +105,8 @@ res.model = res.model || {};
 						context: res.ui.root.context,
 						event : "file.picture.list",
 						data : {
-							folder : "advertise/images"
+							folder : "advertise/images",
+							sizeType : model.imageCopy.sizeType
 						}
 					});
 
@@ -145,7 +147,8 @@ res.model = res.model || {};
             res.ui.send({
                 event : "file.picture.list",
                 data : {
-                    folder : "advertise/images"
+                    folder : "advertise/images",
+                    sizeType : model.imageCopy.sizeType
                 }
             });
             break;
@@ -181,6 +184,7 @@ res.model = res.model || {};
 		this.targetSelected = "none";
 		this.targetRoot = "";
 		this.disableTargetBack = false;
+		this.sizeType = 0;
 	};
 
 	ImageRemove = function() {

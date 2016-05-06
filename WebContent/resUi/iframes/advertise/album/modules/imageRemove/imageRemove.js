@@ -39,7 +39,7 @@ res.ui.controller("imageRemove", ["$scope", "$rootScope", "$timeout", function($
                 event: "file.remove",
                 data: {
                     companyID : res.storage.getItem("CompanyID"),
-                    folder : "advertisement",
+                    folder : "advertise/images",
                     file : picPath,
                     delFileList : $rootScope.model.imageRemove.delFileList,
                     confirmDel : true

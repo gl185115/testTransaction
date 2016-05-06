@@ -10,7 +10,11 @@
 
 package ncr.res.mobilepos.uiconfig.resource;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +22,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -450,11 +455,14 @@ public class UiConfigMaintenanceResource {
 	@Path("/pictureList")
 	@POST
 	@Produces({ "application/json;charset=UTF-8" })
-	public final PictureInfoList PictureListServlet(@FormParam("folder") final String folder) {
+	public final PictureInfoList PictureListServlet(
+			@FormParam("folder") final String folder,
+			@FormParam("sizeType") final int sizeType) {
 		// Logs given parameters.
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/pictureList");
-		tp.println("folder", folder);
+		tp.println("folder", folder).
+		println("sizeType", sizeType);
 
 		PictureInfoList result = new PictureInfoList();
 
@@ -464,7 +472,7 @@ public class UiConfigMaintenanceResource {
 			if (dir_resource.exists()) {
 				String baseDir = dir_resource.getPath();
 				List<String> filelist = new ArrayList<String>();
-				GetFolderList(baseDir, filelist, true);
+				GetFolderList(baseDir, filelist, true, sizeType);
 				if (filelist.isEmpty()) {
 					tp.println(functionName + "There is no files in " + folder);
 					LOGGER.logAlert(PROG_NAME,
@@ -498,8 +506,7 @@ public class UiConfigMaintenanceResource {
 
 	}
 
-	private void GetFolderList(String sDir, List<String> sList, boolean bRecurs) {
-
+	private void GetFolderList(String sDir, List<String> sList, boolean bRecurs, int sizeType) {
 		File subFileDir = null;
 		File fileDir = new File(sDir);
 		if (!fileDir.exists()) {
@@ -510,12 +517,43 @@ public class UiConfigMaintenanceResource {
 				subFileDir = new File(sDir, name);
 				if (subFileDir.isDirectory()) {
 					if (bRecurs) {
-						GetFolderList(sDir + "\\" + name, sList, true);
+						GetFolderList(sDir + "\\" + name, sList, true, sizeType);
 					}
 				} else if (subFileDir.isFile() && (name.toLowerCase().endsWith(".png")
 						|| name.toLowerCase().endsWith(".jpg") || name.toLowerCase().endsWith(".bmp")
 						|| name.toLowerCase().endsWith(".gif") || name.toLowerCase().endsWith(".jpeg"))) {
-					sList.add(subFileDir.getPath());
+					if (sizeType == 0) {
+						sList.add(subFileDir.getPath());
+					} else {
+						BufferedImage sourceImg = null;
+						int pictureWidth = -1;
+						try {
+							sourceImg = ImageIO.read(new FileInputStream(subFileDir));
+							pictureWidth = sourceImg.getWidth();
+							sourceImg = null;
+							if(sizeType == 1){
+								if(pictureWidth < 1020){
+									sList.add(subFileDir.getPath());
+								} else {
+									continue;
+								}
+							} else {
+								if(pictureWidth >= 1020){
+									sList.add(subFileDir.getPath());
+								} else {
+									continue;
+								}
+							}
+						} catch (FileNotFoundException e) {
+							tp.println("Failed to GetFolderList.");
+							sourceImg = null;
+							continue;
+						} catch (IOException e) {
+							tp.println("Failed to GetFolderList.");
+							sourceImg = null;
+							continue;
+						}
+					}
 				}
 			}
 		}

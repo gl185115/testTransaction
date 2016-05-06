@@ -413,7 +413,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		$rootScope.dialog = choice;
 	};
 
-	$scope.$watch(function() {
+	/*$scope.$watch(function() {
 		return $rootScope.dialog;
 	}, function(dialog, oldValue) {
 		switch (dialog) {
@@ -422,9 +422,11 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 				context : res.ui.root.context,
 				event : "file.picture.list",
 				data : {
-					folder : "pickList/images"
+					folder : "pickList/images",
+					sizeType : $rootScope.model.pickList.sizeType
 				}
 			});
+			$rootScope.model.pickList.sizeType = 0;
 			break;
 		case "fileCreate":
 			$scope.indexItem = undefined;
@@ -440,7 +442,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 			break;
 
 		}
-	});
+	});*/
 
 	$scope.$watch(function() {
 		return $rootScope.model.editor.pictures;

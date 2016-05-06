@@ -36,7 +36,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                     data : {
                         filename : reader.filename,
                         filecontent : file,
-                        folder : "advertisement",
+                        folder : "advertise/images",
                         sizeType : '1'
                     }
                 });
@@ -58,7 +58,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                     data : {
                         filename : reader.filename,
                         filecontent : file,
-                        folder : "advertisement",
+                        folder : "advertise/images",
                         sizeType : '2'
                     }
                 });

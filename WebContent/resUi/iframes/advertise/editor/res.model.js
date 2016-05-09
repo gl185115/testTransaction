@@ -63,7 +63,7 @@ res.model = res.model || {};
                             layout[i][j%5].startOfDay = rules[j].start;
                             layout[i][j%5].endOfDay = rules[j].end;
                             var temp = rules[j].description;
-                            temp = temp.substring(1, temp.length - 1);
+                            temp = temp.substring(1, temp.length);
                             var tempArray = temp.split(',');
                             layout[i][j%5].companyId = tempArray[0];
                             layout[i][j%5].companyName = tempArray[1];
@@ -98,13 +98,21 @@ res.model = res.model || {};
 			if (data && data.result) {
 				model.editor.pictures = data.result;
 			}
-
+			model.advertise.sizeType = 0;
 			break;
 		case "file.picture.upload.success":
 			//res.ui.root.itemSelected={};
 			//res.ui.root.itemSelected.background = "image";
 			//res.ui.root.itemSelected.picture = data.image;
-			res.ui.root.dialog = "mountItem";
+		    res.ui.send({
+                context : res.ui.root.context,
+                event : "file.picture.list",
+                data : {
+                    folder : "advertise/images",
+                    sizeType : model.advertise.sizeType
+                }
+            });
+            res.ui.root.dialog = "images";
 
 			window.parent.res.ui.root.model.popup = "";
 

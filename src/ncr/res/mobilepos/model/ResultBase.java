@@ -361,12 +361,12 @@ public class ResultBase {
     public static final String RES_EXISTS_MSG = "exist";
     /**
      * Value : {@value}<br>
-     * Database data was not found.
+     * File save successful.
      */
     public static final String RES_SUCCESSFULL_MSG = "success";
     /**
      * Value : {@value}<br>
-     * Database data was not found.
+     * File save failed.
      */
     public static final String RES_FAILED_MSG = "failed";
     /**

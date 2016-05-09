@@ -12,7 +12,7 @@ res.ui.controller("fileRemove", ["$scope", "$rootScope", function($scope, $rootS
 				event : "file.remove",
 				data : {
 					companyID : res.storage.getItem("CompanyID"),
-					folder : "pickList",
+					folder : "advertise",
 					file : $rootScope.model.editor.selectedFile
 				}
 			});

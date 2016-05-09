@@ -10,20 +10,20 @@ res.ui.controller("fileCreate", ["$scope", "$rootScope", function($scope, $rootS
 		function(newValue, oldValue) {
 			if (newValue != "fileCreate") return;
 			$scope.title = "";
-			$rootScope.model.pickList = new PickList();
-			$rootScope.model.pickList.inputEmptyName = false;
-			$rootScope.model.pickList.inValidName = false;
-			$rootScope.model.pickList.fileNameLengthOver = false;
+			$rootScope.model.advertise = new Advertise();
+			$rootScope.model.advertise.inputEmptyName = false;
+			$rootScope.model.advertise.inValidName = false;
+			$rootScope.model.advertise.fileNameLengthOver = false;
 		}
 	);
 
 	$scope.submit = function() {
-		$rootScope.model.pickList.inputEmptyName = false;
-		$rootScope.model.pickList.inValidName = false;
-		$rootScope.model.pickList.fileNameLengthOver = false;
+		$rootScope.model.advertise.inputEmptyName = false;
+		$rootScope.model.advertise.inValidName = false;
+		$rootScope.model.advertise.fileNameLengthOver = false;
 
 		if ($scope.title.trim() == "" || typeof($scope.title) == "undefined") {
-			$rootScope.model.pickList.inputEmptyName = true;
+			$rootScope.model.advertise.inputEmptyName = true;
 			return;
 		}
 
@@ -34,24 +34,24 @@ res.ui.controller("fileCreate", ["$scope", "$rootScope", function($scope, $rootS
 
 //		if (!$scope.title.match(/^[^\\\/\*\?\"\<\>\：\|]*$/)) {
 		if (!$scope.title.match(/^[^\\\/\*\?\"\<\>\:\|]*$/)) {
-			$rootScope.model.pickList.inValidName = true;
+			$rootScope.model.advertise.inValidName = true;
 			return;
 		}
 		var tiltelength = res.string.getLength($scope.title);
 		if (tiltelength > res.config.fileNameLength) {
-			$rootScope.model.pickList.fileNameLengthOver = true;
+			$rootScope.model.advertise.fileNameLengthOver = true;
 			return;
 		}
 		$rootScope.model.editor.selectedFile = undefined;
 		$rootScope.model.editor.title = $scope.title;
 		//$rootScope.model.editor.indexEdit = "editItems";
 		$rootScope.model.editor.indexEdit = "editLayout";
-		$rootScope.model.pickList = new PickList();
+		$rootScope.model.advertise = new Advertise();
 		$rootScope.model.editor.interval = "";
 		$rootScope.dialog = "";
-		$rootScope.model.pickList.OriginalItems = new PickList().items;
-		$rootScope.model.pickList.OriginalCategories = new PickList().categories;
-		$rootScope.model.pickList.OriginalLayout = new PickList().layout;
+		$rootScope.model.advertise.OriginalItems = new Advertise().items;
+		$rootScope.model.advertise.OriginalCategories = new Advertise().categories;
+		$rootScope.model.advertise.OriginalLayout = new Advertise().layout;
 		$rootScope.pickListDisableClose = false;
 		$rootScope.pickListDisableOpen = true;
 	};

@@ -17,25 +17,25 @@
 	<div id="wrapperPickList" class="wrapperPickList">
 	<div class="scroller">
 		<div class="List"
-			data-ng-repeat="list in model.pickList.layout track by $index">
+			data-ng-repeat="list in model.advertise.layout track by $index">
 			<!-- data-ng-show="indexCategory == $index" -->
 				<div class="PickButton"
 					data-ng-repeat="item in list track by $index"
 					data-res-click="selectPosition($parent.$index, $index)">
-					<div class="InnerBox" data-ng-show="item.Full.picture">
+					<div class="InnerBox" data-ng-show="item.pictureFull">
 						<div class="ImageBox">
 							<img
-								data-ng-src="{{item.Full.picture?folder + item.Full.picture:''}}" />
+								data-ng-src="{{item.pictureFull?folder + item.pictureFull:''}}" />
 						</div>
 						<div class="LabelBox">
 							<p
-								data-ng-bind-html="item.adName | resPhraseInLine | resConvertLF| resFormatStripTxt : 12"></p>
+								data-ng-bind-html="item.adName | resConvertLF"></p>
 						</div>
 					</div>
-					<div class="InnerBox" data-ng-show="!item.Full.picture">
+					<div class="InnerBox" data-ng-show="!item.pictureFull">
 						<div class="ImageBox">
 							<p
-								data-ng-bind-html="(item.Full.picture)?'EditLayout.ComingSoon':'EditLayout.Unused' |resPhrase:context"></p>
+								data-ng-bind-html="(item.pictureFull)?'EditLayout.ComingSoon':'EditLayout.Unused' |resPhrase:context"></p>
 						</div>
 						<div class="LabelBox">
 							<p data-ng-bind-html="item.adName | resConvertLF"></p>
@@ -58,12 +58,12 @@
 				<p class="Label" data-ng-bind-html="'EditLayout.smallPicture'|resPhrase:context"></p>
 			</div>
 			<div class="PickButton top">
-				<div class="InnerBox top" data-ng-show="!itemSelected.Part.picture">
+				<div class="InnerBox top" data-ng-show="itemSelected.picturePart">
 					<div class="ImageBox top">
-						<img data-ng-src="{{folder + itemSelected.Part.picture}}" />
+						<img data-ng-src="{{folder + itemSelected.picturePart}}" />
 					</div>
 				</div>
-				<div class="InnerBox top" data-ng-show="!itemSelected.Part.picture">
+				<div class="InnerBox top" data-ng-show="!itemSelected.picturePart">
 					<div class="ImageBox top">
 						<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
 					</div>
@@ -75,20 +75,20 @@
 				<div class="resButton raise blue" data-res-click="popup('imagesPart')">
 					<p data-ng-bind-html="'EditItems.SelectImage'|resPhrase:context"></p>
 				</div>
-				<input class="Value" type="text" data-res-maxlength="16"
-					data-ng-model="itemSelected.Part.fileName" placeholder="{{'EditLayout.fileName'|resPhrase:context}}">
+				<p class="Label" data-ng-bind-html="'EditItems.ImageFile'|resPhrase:context"></p>
+				<p class="Value" data-ng-bind-html="itemSelected.picturePart"></p>
 			</div>
 		</div>
 		<div class="Guide bottom">
 				<p class="Label" data-ng-bind-html="'EditLayout.bigPicture'|resPhrase:context"></p>
 		</div>
 		<div class="PickButton bottom">
-			<div class="InnerBox bottom" data-ng-show="itemSelected.Full.picture">
+			<div class="InnerBox bottom" data-ng-show="itemSelected.pictureFull">
 				<div class="ImageBox bottom">
-					<img data-ng-src="{{folder + itemSelected.Full.picture}}" />
+					<img data-ng-src="{{folder + itemSelected.pictureFull}}" />
 				</div>
 			</div>
-			<div class="InnerBox bottom" data-ng-show="!itemSelected.Full.picture">
+			<div class="InnerBox bottom" data-ng-show="!itemSelected.pictureFull">
 				<div class="ImageBox bottom">
 					<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
 				</div>
@@ -100,8 +100,8 @@
 				<div class="resButton raise blue" data-res-click="popup('imagesFull')">
 					<p data-ng-bind-html="'EditItems.SelectImage'|resPhrase:context"></p>
 				</div>
-				<input class="Value" type="text" data-res-maxlength="16"
-					data-ng-model="itemSelected.Full.fileName" placeholder="{{'EditLayout.fileName'|resPhrase:context}}">
+				<p class="Label" data-ng-bind-html="'EditItems.ImageFile'|resPhrase:context"></p>
+				<p class="Value" data-ng-bind-html="itemSelected.pictureFull">
 			</div>
 		</div>
 		<div class="Entries">
@@ -158,7 +158,7 @@
 <div class="resPopup Remove" data-ng-show="dialog == 'remove'">
 	<div class="resCasing silver">
 		<div class="resPanel silver">
-			<div data-ng-show="!model.pickList.items[indexItem].locations">
+			<div data-ng-show="!model.advertise.items[indexItem].locations">
 				<div class="Message">
 					<p data-ng-bind-html="'EditItems.ToRemove'|resPhrase:context"></p>
 				</div>
@@ -171,11 +171,11 @@
 					</div>
 				</div>
 			</div>
-			<div data-ng-show="model.pickList.items[indexItem].locations">
+			<div data-ng-show="model.advertise.items[indexItem].locations">
 				<div class="Message">
 					<p data-ng-bind-html="'EditItems.ToNotRemove'|resPhrase:context"></p>
 					<br>
-					<p data-ng-bind-html="('EditItems.ToRemoveLocation'|resPhrase:context) + model.pickList.items[indexItem].locations"></p>
+					<p data-ng-bind-html="('EditItems.ToRemoveLocation'|resPhrase:context) + model.advertise.items[indexItem].locations"></p>
 				</div>
 				<div class="Buttons Bottom">
 					<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
@@ -196,7 +196,6 @@
 			<div class="Guide">
 				<p data-ng-bind-html="'EditItems.Guide.Images'|resPhrase:context"></p>
 			</div>
-
 			<div class="PickButtons">
 				<div id="wrapperImages">
 					<div class="scroller">

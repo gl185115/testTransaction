@@ -31,7 +31,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		$scope.buttonColors = [ "silver", "red", "orange", "beige", "yellow", "green", "blue", "purple" ];
 		$scope.insetCanvas();
 
-		var fileInput = document.getElementById('fileInput');
+		var fileInput = document.getElementById('fileInput_editItems');
 		fileInput.addEventListener('change', function(e) {
 			var file = fileInput.files[0];
 			var reader = new FileReader();
@@ -46,7 +46,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 					data : {
 						filename : dataFileName,
 						filecontent : file,
-						folder : "pickList/images"
+						folder : "advertise/images"
 					}
 				});
 			};
@@ -61,20 +61,20 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		function(indexEdit, oldValue) {
 			if (indexEdit != "editItems") return;
 
-			$scope.folder = $rootScope.model.pickList.imageURL;
+			$scope.folder = $rootScope.model.advertise.imageURL;
 			$scope.folder = $scope.folder.lastIndexOf("/") ? $scope.folder += "/" : $scope.folder;
 			$scope.indexSelected = undefined;
 			$scope.itemSelected = undefined;
 //			if ($rootScope.model.pickList.items.length > 0) {
 //				$scope.select(0);
 //			}
-			$rootScope.model.pickList.items.sort($scope.getSort(true, "itemId"));
-			$rootScope.model.pickList.OriginalItems = angular.copy($rootScope.model.pickList.items);
+			$rootScope.model.advertise.items.sort($scope.getSort(true, "itemId"));
+			$rootScope.model.advertise.OriginalItems = angular.copy($rootScope.model.advertise.items);
 			res.ui.root.itemIdUp = false;
 			res.ui.root.itemNameUp = true;
 			res.ui.root.itemLocationUp = true;
 
-			if ($rootScope.model.pickList.items.length > 0) {
+			if ($rootScope.model.advertise.items.length > 0) {
 				$scope.select(0);
 			}
 
@@ -90,7 +90,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		},
 		function(newValue, oldValue) {
 			if ($rootScope.model.editor.indexEdit != "editItems") return;
-			$rootScope.model.pickList.locate($rootScope.language);
+			$rootScope.model.advertise.locate($rootScope.language);
 		}
 	);
 
@@ -108,16 +108,16 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 
 	$scope.select = function(index) {
 		if ($scope.indexSelected != index && $scope.itemSelected) { // leaving from the current selection?
-			if (!$rootScope.model.pickList.items[index].isblank) {
+			if (!$rootScope.model.advertise.items[index].isblank) {
 				if ($scope.itemSelected.itemId == "" || $scope.itemSelected.label.line1 == ""){
 					$rootScope.model.failure.active = true;
-					$rootScope.model.failure.service = "picklist";
+					$rootScope.model.failure.service = "advertise";
 					$rootScope.model.failure.cause = "empty";
 					return;
 				}
 				if ($scope.itemSelected.isblank) {
 					$rootScope.model.failure.active = true;
-					$rootScope.model.failure.service = "picklist";
+					$rootScope.model.failure.service = "advertise";
 					$rootScope.model.failure.cause = "blank";
 					return;
 				}
@@ -127,7 +127,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 	};
 
 	$scope.doselect = function(index) {          //添加商品后焦点下移
-		$scope.itemSelected = angular.copy($rootScope.model.pickList.items[index]);
+		$scope.itemSelected = angular.copy($rootScope.model.advertise.items[index]);
 		var description = $scope.itemSelected.description[$rootScope.language];
 		if(typeof(description) == "undefined"){
 			description = $scope.itemSelected.description["jp"];
@@ -156,7 +156,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		if ((option=="all" || option=="itemId")&&(!res.model.isNumber($scope.itemSelected.itemId) || (itemIdLength > 13))) {
 			$scope.itemSelected.itemId = res.string.truncate($scope.itemSelected.itemId, 13);
 			$rootScope.model.failure.active = true;
-			$rootScope.model.failure.service = "picklist";
+			$rootScope.model.failure.service = "advertise";
 			$rootScope.model.failure.cause = "maxNumbers13";
 			return false;
 		}
@@ -169,7 +169,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 				$scope.itemSelected.label.line2 = res.string.truncate($scope.itemSelected.label.line2, 16);
 			}
 			$rootScope.model.failure.active = true;
-			$rootScope.model.failure.service = "picklist";
+			$rootScope.model.failure.service = "advertise";
 			$rootScope.model.failure.cause = "maxCharacters8";
 			return false;
 		}
@@ -181,10 +181,10 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		if (!$scope.doApplyCheck("all")) return;
 
 		$scope.itemSelected.isblank = false;
-		$rootScope.model.pickList.items[$scope.indexItem].isblank = false;
-		$rootScope.model.pickList.items[$scope.indexItem].itemId = $scope.itemSelected.itemId;
-		$rootScope.model.pickList.items[$scope.indexItem].background = $scope.itemSelected.background;
-		$rootScope.model.pickList.items[$scope.indexItem].picture = $scope.itemSelected.picture;
+		$rootScope.model.advertise.items[$scope.indexItem].isblank = false;
+		$rootScope.model.advertise.items[$scope.indexItem].itemId = $scope.itemSelected.itemId;
+		$rootScope.model.advertise.items[$scope.indexItem].background = $scope.itemSelected.background;
+		$rootScope.model.advertise.items[$scope.indexItem].picture = $scope.itemSelected.picture;
 
 		// Convert <br> for normal string.
 		var line1 = $scope.itemSelected.label.line1;
@@ -196,17 +196,17 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 			line1 += "<br>" + line2;
 		}
 
-		$rootScope.model.pickList.items[$scope.indexItem].description[$rootScope.language] = line1;
+		$rootScope.model.advertise.items[$scope.indexItem].description[$rootScope.language] = line1;
 
-		if ($scope.indexItem <= $rootScope.model.pickList.items.length - 1) {
-			if ($scope.itemSelected.isblank || $scope.indexItem == ($rootScope.model.pickList.items.length - 1)) {
+		if ($scope.indexItem <= $rootScope.model.advertise.items.length - 1) {
+			if ($scope.itemSelected.isblank || $scope.indexItem == ($rootScope.model.advertise.items.length - 1)) {
 				$scope.select($scope.indexItem);
 			} else {
 				$scope.select($scope.indexItem + 1);
 			}
 		}
 
-		$rootScope.model.printList= angular.copy($rootScope.model.pickList.items);
+		$rootScope.model.printList= angular.copy($rootScope.model.advertise.items);
 		for(var i = 0;i< $rootScope.model.printList.length;i++){
 			var printItem = $rootScope.model.printList[i];
 			var description = printItem.description[res.ui.root.language];
@@ -239,31 +239,31 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 
 	$scope.create = function() {
 		var blank = new ItemBlank();
-		if ($rootScope.model.pickList.items.length == 0) {
-			$rootScope.model.pickList.items[0] = blank;
+		if ($rootScope.model.advertise.items.length == 0) {
+			$rootScope.model.advertise.items[0] = blank;
 			$scope.select(0);
 		} else {
 			if ($scope.itemSelected) {
 				if ($scope.itemSelected.itemId == "" || $scope.itemSelected.label.line1 == "") {
 					$rootScope.model.failure.active = true;
-					$rootScope.model.failure.service = "picklist";
+					$rootScope.model.failure.service = "advertise";
 					$rootScope.model.failure.cause = "empty";
 					return;
 				}
 				if ($scope.itemSelected.isblank) {
 					$rootScope.model.failure.active = true;
-					$rootScope.model.failure.service = "picklist";
+					$rootScope.model.failure.service = "advertise";
 					$rootScope.model.failure.cause = "blank";
 					return;
 				}
 			}
 
-			$rootScope.model.pickList.items.splice($scope.indexItem + 1, 0, blank);
+			$rootScope.model.advertise.items.splice($scope.indexItem + 1, 0, blank);
 			$scope.select($scope.indexItem + 1);
 		}
 		$timeout(function() {
 			scroll.items.refresh();
-			if ($scope.indexItem == $rootScope.model.pickList.items.length - 1 ){
+			if ($scope.indexItem == $rootScope.model.advertise.items.length - 1 ){
 				scroll.items.scrollTo(0, scroll.items.maxScrollY - 10, 200);
 			}
 		}, 200);
@@ -272,8 +272,8 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 	$scope.sortItem = function(item) {
 		switch (item) {
 		case "itemId":
-			$rootScope.model.pickList.items.sort($scope.getSort($rootScope.itemIdUp,item));
-				$rootScope.model.pickList.OriginalItems.sort($scope.getSort($rootScope.itemIdUp,item));
+			$rootScope.model.advertise.items.sort($scope.getSort($rootScope.itemIdUp,item));
+				$rootScope.model.advertise.OriginalItems.sort($scope.getSort($rootScope.itemIdUp,item));
 				$rootScope.model.printList.sort($scope.getSort($rootScope.itemIdUp,item));
 				
 			$rootScope.itemIdUp=!$rootScope.itemIdUp;
@@ -281,8 +281,8 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 			$rootScope.itemLocationUp = true;
 			break;
 		case "description":
-			$rootScope.model.pickList.items.sort($scope.getSortString($rootScope.itemNameUp,item));
-				$rootScope.model.pickList.OriginalItems.sort($scope.getSortString($rootScope.itemNameUp,item));
+			$rootScope.model.advertise.items.sort($scope.getSortString($rootScope.itemNameUp,item));
+				$rootScope.model.advertise.OriginalItems.sort($scope.getSortString($rootScope.itemNameUp,item));
 				$rootScope.model.printList.sort($scope.getSortString($rootScope.itemNameUp,item));
 				
 			$rootScope.itemNameUp=!$rootScope.itemNameUp;
@@ -290,8 +290,8 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 			$rootScope.itemLocationUp = true;
 			break;
 		case "locations":
-			$rootScope.model.pickList.items.sort($scope.getSortString($rootScope.itemLocationUp,item));
-				$rootScope.model.pickList.OriginalItems.sort($scope.getSortString($rootScope.itemLocationUp,item));
+			$rootScope.model.advertise.items.sort($scope.getSortString($rootScope.itemLocationUp,item));
+				$rootScope.model.advertise.OriginalItems.sort($scope.getSortString($rootScope.itemLocationUp,item));
 				$rootScope.model.printList.sort($scope.getSortString($rootScope.itemLocationUp,item));
 				
 			$rootScope.itemLocationUp=!$rootScope.itemLocationUp;
@@ -459,7 +459,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 	$scope.setImage = function(image) {
 		$scope.itemSelected.background = "image";
 		$scope.itemSelected.picture = image;
-		$rootScope.dialog = "";
+		$rootScope.dialog = "mountItem";
 	};
 
 	$scope.setBackground = function(color) {
@@ -468,26 +468,26 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 	};
 
 	$scope.remove = function() {
-		if ($rootScope.model.pickList.items.length == 0) {
+		if ($rootScope.model.advertise.items.length == 0) {
 			$scope.itemSelected = undefined;
 			$rootScope.dialog = "";
 			return;
 		}
-		var itemId = $rootScope.model.pickList.items[$scope.indexItem].itemId;
+		var itemId = $rootScope.model.advertise.items[$scope.indexItem].itemId;
 		if (itemId){
-			$rootScope.model.pickList.removeFromLayout(itemId);
+			$rootScope.model.advertise.removeFromLayout(itemId);
 		}
-		$rootScope.model.pickList.items.splice($scope.indexItem, 1);
+		$rootScope.model.advertise.items.splice($scope.indexItem, 1);
 
 		$scope.itemSelected = undefined;
 
 		$scope.indexItem = $scope.indexItem == 0 ? 0 : $scope.indexItem - 1;
-		if ($rootScope.model.pickList.items.length > 0) {
-			if ($scope.indexItem <= $rootScope.model.pickList.items.length - 1) {
+		if ($rootScope.model.advertise.items.length > 0) {
+			if ($scope.indexItem <= $rootScope.model.advertise.items.length - 1) {
 				$scope.select($scope.indexItem);
 			}
 		}
-		$rootScope.model.printList = angular.copy($rootScope.model.pickList.items);
+		$rootScope.model.printList = angular.copy($rootScope.model.advertise.items);
 		$rootScope.dialog = "";
 		$timeout(function(){ scroll.items.refresh(); }, 200);
 	};

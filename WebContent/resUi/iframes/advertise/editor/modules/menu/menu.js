@@ -12,7 +12,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 		if ($rootScope.itemSelected) {
 			if ($rootScope.itemSelected.isblank) {
 				$rootScope.model.failure.active = true;
-				$rootScope.model.failure.service = "picklist";
+				$rootScope.model.failure.service = "advertise";
 				$rootScope.model.failure.cause = "blank";
 				return;
 			}
@@ -64,12 +64,12 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 		if (pickListResource == null) {
 			$rootScope.dialog = "fileRemove";
 		} else {
-			var pickList = resetPickListEffective(pickListResource);
-			if ($scope.isCanRemove(pickList)) {
+			var advertise = resetPickListEffective(pickListResource);
+			if ($scope.isCanRemove(advertise)) {
 				$rootScope.dialog = "fileRemove";
 			} else {
 				$rootScope.model.failure.active = true;
-				$rootScope.model.failure.service = "picklist";
+				$rootScope.model.failure.service = "advertise";
 				$rootScope.model.failure.cause = "scheduled";
 			}
 		}
@@ -87,7 +87,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 			if (!dataDeploy[i].config && dataDeploy[i].config.length == 0) return null;
 
 			for (var j = 0; j < dataDeploy[i].config.length; j++) {
-				if (dataDeploy[i].config[j].resource == "pickList") {
+				if (dataDeploy[i].config[j].resource == "advertise") {
 					return dataDeploy[i].config[j].task;
 				}
 			}
@@ -127,7 +127,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 		if ($rootScope.itemSelected) {
 			if ($rootScope.itemSelected.isblank) {
 				$rootScope.model.failure.active = true;
-				$rootScope.model.failure.service = "picklist";
+				$rootScope.model.failure.service = "advertise";
 				$rootScope.model.failure.cause = "blank";
 				return;
 			}
@@ -208,7 +208,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 				 */
 				var groupEntries = [];
 				var storeEntries = [];
-				var deployCategories = res.ui.root.model.pickList.deployCategories;
+				var deployCategories = res.ui.root.model.advertise.deployCategories;
 				for (var x = 0; x < deployCategories.length; x++) {
 					if (deployCategories[x].levelKey == "group") {
 						var iGroup = deployCategories[x].storeEntries;

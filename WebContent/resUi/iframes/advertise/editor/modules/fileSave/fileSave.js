@@ -19,11 +19,11 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 					}
 				}
 
-				$rootScope.model.pickList.status = "input";
-				$rootScope.model.pickList.alreadyExists = false;
-				$rootScope.model.pickList.inputEmptyName = false;
-				$rootScope.model.pickList.inValidName = false;
-				$rootScope.model.pickList.fileNameLengthOver = false;
+				$rootScope.model.advertise.status = "input";
+				$rootScope.model.advertise.alreadyExists = false;
+				$rootScope.model.advertise.inputEmptyName = false;
+				$rootScope.model.advertise.inValidName = false;
+				$rootScope.model.advertise.fileNameLengthOver = false;
 //				$scope.filename = $rootScope.model.editor.title;
 				$scope.filename = ($rootScope.model.editor.title + ".js").trim();
 				$scope.filename = $scope.filename.substring(0, $scope.filename.length - 3);
@@ -35,28 +35,28 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 
 	$scope.okay = function(){
 
-		$rootScope.model.pickList.alreadyExists = false;
-		$rootScope.model.pickList.inputEmptyName = false;
-		$rootScope.model.pickList.inValidName = false;
-		$rootScope.model.pickList.fileNameLengthOver = false;
+		$rootScope.model.advertise.alreadyExists = false;
+		$rootScope.model.advertise.inputEmptyName = false;
+		$rootScope.model.advertise.inValidName = false;
+		$rootScope.model.advertise.fileNameLengthOver = false;
 
 		if (typeof($scope.filename) == "undefined" || $scope.filename.trim() == "") {
-			$rootScope.model.pickList.inputEmptyName = true;
+			$rootScope.model.advertise.inputEmptyName = true;
 			return;
 		}
 
 //		if (!$scope.filename.match(/^[^\\\/\*\?\"\<\>\：\|]*$/)) {
 		if (!$scope.filename.match(/^[^\\\/\*\?\"\<\>\:\|]*$/)) {
-			$rootScope.model.pickList.inValidName = true;
+			$rootScope.model.advertise.inValidName = true;
 			return;
 		}
 
 		var tiltelength = res.string.getLength($scope.filename);
 		if (tiltelength > res.config.fileNameLength) {
-			$rootScope.model.pickList.fileNameLengthOver = true;
+			$rootScope.model.advertise.fileNameLengthOver = true;
 			return;
 		}
-		if($rootScope.model.pickList.status == "input") {
+		if($rootScope.model.advertise.status == "input") {
 			/*if($rootScope.language=="ja"){
 				for(var i=0;i<$rootScope.model.pickList.categories.length;i++){
 						if($rootScope.model.pickList.categories[i]["jp"]){
@@ -73,27 +73,35 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 			}
 			$rootScope.model.pickList.convertToLists();*/
 
-			var imgURLStr  = $rootScope.model.pickList.imageURL;
+			var imgURLStr  = $rootScope.model.advertise.imageURL;
 			var imageURL   = "res.config.advertise.folder = " + angular.toJson(imgURLStr) + ";\r\n";
 			var interval = "res.config.advertise.interval = " + angular.toJson($rootScope.model.editor.interval) + ";\r\n";
 
 			var items = "res.config.advertise.rules = [\r\n";
-			for (i = 0; i < $rootScope.model.pickList.layout.length; i++){
-			    for (j = 0; j< $rootScope.model.pickList.layout[i].length; j++){
-			        items += angular.toJson({
-			            fileName: $rootScope.model.pickList.layout[i][j].Part.fileName + ".jpg",
-			            fileNameFullScreen: $rootScope.model.pickList.layout[i][j].Full.fileName + "_1020*640.jpg",
-			            start: $rootScope.model.pickList.layout[i][j].startOfDay,
-			            end: $rootScope.model.pickList.layout[i][j].endOfDay,
-	                    description: $rootScope.model.pickList.layout[i][j].companyId + "," +
-	                                 $rootScope.model.pickList.layout[i][j].companyName + "," +
-	                                 $rootScope.model.pickList.layout[i][j].Tel + "," +
-	                                 $rootScope.model.pickList.layout[i][j].adName + "," +
-	                                 $rootScope.model.pickList.layout[i][j].description ,
-	                }) + ",\r\n";
-			    }
-			}
-			items += "];\r\n";
+			for (i = 0; i < $rootScope.model.advertise.layout.length; i++){
+                for (j = 0; j< $rootScope.model.advertise.layout[i].length; j++){
+                    var pictureArr = $rootScope.model.advertise.layout[i][j].pictureFull && $rootScope.model.advertise.layout[i][j].pictureFull.split("."),
+                        fullScreen = '';
+                     //format = pictureArr[pictureArr.length-1],
+                     if (pictureArr){
+                        pictureArr.splice(pictureArr.length - 1 , 0 , "_1020*640.");
+                        fullScreen = pictureArr && pictureArr.join('');
+                     }
+                     //completeArr.lastIndexOf(format)
+                    items += angular.toJson({
+                        fileName: $rootScope.model.advertise.layout[i][j].picturePart ? $rootScope.model.advertise.layout[i][j].picturePart : '',
+                        fileNameFullScreen: fullScreen ,
+                        start: $rootScope.model.advertise.layout[i][j].startOfDay,
+                        end: $rootScope.model.advertise.layout[i][j].endOfDay,
+                        description: $rootScope.model.advertise.layout[i][j].companyId + "," +
+                                     $rootScope.model.advertise.layout[i][j].companyName + "," +
+                                     $rootScope.model.advertise.layout[i][j].Tel + "," +
+                                     $rootScope.model.advertise.layout[i][j].adName + "," +
+                                     $rootScope.model.advertise.layout[i][j].description ,
+                    }) + ",\r\n";
+                }
+            }
+            items += "];\r\n";
 
 			var savename = $scope.filename + ".js";
 
@@ -108,15 +116,15 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 					contents: imageURL + "\r\n" + interval + "\r\n" + items
 				}
 			});
-			$rootScope.model.pickList.fromSaveOrClose = "save";
-		} else if ($rootScope.model.pickList.status == "successful"){
-			$rootScope.model.pickList.doCanceled = false;
-			if ($rootScope.model.pickList.fromSaveOrClose == "close" ||$rootScope.model.pickList.fromSaveOrClose == "save") {
+			$rootScope.model.advertise.fromSaveOrClose = "save";
+		} else if ($rootScope.model.advertise.status == "successful"){
+			$rootScope.model.advertise.doCanceled = false;
+			if ($rootScope.model.advertise.fromSaveOrClose == "close" ||$rootScope.model.advertise.fromSaveOrClose == "save") {
 				$rootScope.model.editor.title = undefined;
 				$rootScope.model.editor.interval = "";
 				$rootScope.model.editor.selectedIndex = undefined;
 				$rootScope.model.editor.indexEdit = "itemList";
-				$rootScope.model.pickList = undefined;
+				$rootScope.model.advertise = undefined;
 				$rootScope.itemSelected = undefined;
 				$rootScope.indexCategory = undefined;
 
@@ -126,7 +134,7 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 				$rootScope.model.editor.title = $scope.filename;
 			}
 			$rootScope.dialog = undefined;
-		} else if ($rootScope.model.pickList.status == "failed") {
+		} else if ($rootScope.model.advertise.status == "failed") {
 			$rootScope.dialog = undefined;
 		}
 	};

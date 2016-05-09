@@ -234,6 +234,7 @@
 .ImageBox img {
 	display: block;
     margin: auto auto;
+    max-width: 70%;
 }
 
 /**** end of CSS ****/

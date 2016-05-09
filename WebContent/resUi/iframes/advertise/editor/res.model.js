@@ -9,7 +9,7 @@ res.model = res.model || {};
 	res.model.init = function() {
 		res.ui.root.model = {};
 		res.ui.root.model.editor = new Editor();
-		res.ui.root.model.pickList = new PickList();
+		res.ui.root.model.advertise = new Advertise();
 		res.ui.root.model.failure = new Failure();
 	};
 
@@ -38,15 +38,15 @@ res.model = res.model || {};
 			break;
 		case "file.download":
 			if (data) {
-				model.pickList = new PickList();
+				model.advertise = new Advertise();
 				res.config.advertise = {};
 				eval(data.result);
-				if (res.config.advertise.folder) model.pickList.imageURL = res.config.advertise.folder;
+				if (res.config.advertise.folder) model.advertise.imageURL = res.config.advertise.folder;
 				if (res.config.advertise.interval) model.editor.interval = res.config.advertise.interval;
 				if (res.config.advertise.rules) {
-				    //model.pickList.layout = res.config.advertise.rules;
+				    //model.advertise.layout = res.config.advertise.rules;
 				    var rules = res.config.advertise.rules,
-				        layout = model.pickList.layout;
+				        layout = model.advertise.layout;
                         var i = layout.length;
                         for (j = 0; j < rules.length; j++){
                             if (j == 0) layout.push([]);
@@ -56,8 +56,10 @@ res.model = res.model || {};
                                 }
                             layout[i].push([]);
                             layout[i][j%5] = new ItemBlank();
-                            layout[i][j%5].Part.fileName = rules[j].fileName.substring(0,rules[j].fileName.length-4);
-                            layout[i][j%5].Full.fileName = rules[j].fileNameFullScreen.substring(0,rules[j].fileNameFullScreen.length-13);
+                            layout[i][j%5].picturePart = rules[j].fileName;
+                            layout[i][j%5].pictureFull = rules[j].fileNameFullScreen.replace('_1020*640','');
+                            //layout[i][j%5].picturePart = layout[i][j%5].Part.fileName;
+                            //layout[i][j%5].pictureFull = layout[i][j%5].Full.fileName;
                             layout[i][j%5].startOfDay = rules[j].start;
                             layout[i][j%5].endOfDay = rules[j].end;
                             var temp = rules[j].description;
@@ -80,15 +82,15 @@ res.model = res.model || {};
 			break;
 		case "file.upload":
 			if (data == "success") {
-				model.pickList.status = "successful";
+				model.advertise.status = "successful";
 				//model.pickList.OriginalItems = angular.copy(model.pickList.items);
 				//model.pickList.OriginalCategories = angular.copy(model.pickList.categories);
-				model.pickList.OriginalLayout= angular.copy(model.pickList.layout);
+				model.advertise.OriginalLayout= angular.copy(model.advertise.layout);
 				break;
 			} else if (data == "exist") {
-				model.pickList.alreadyExists = true;
+				model.advertise.alreadyExists = true;
 			} else if (data == "failed") {
-				model.pickList.status = "failed";
+				model.advertise.status = "failed";
 			}
 			break;
 		case "file.picture.list":
@@ -99,10 +101,10 @@ res.model = res.model || {};
 
 			break;
 		case "file.picture.upload.success":
-			res.ui.root.itemSelected={};
-			res.ui.root.itemSelected.background = "image";
-			res.ui.root.itemSelected.picture = data.image;
-			res.ui.root.dialog = "";
+			//res.ui.root.itemSelected={};
+			//res.ui.root.itemSelected.background = "image";
+			//res.ui.root.itemSelected.picture = data.image;
+			res.ui.root.dialog = "mountItem";
 
 			window.parent.res.ui.root.model.popup = "";
 
@@ -113,7 +115,7 @@ res.model = res.model || {};
 			window.parent.res.ui.root.model.popup = "";
 			break;
 		default:
-			alert("pickList: unknown message.event = " + event);
+			alert("advertise: unknown message.event = " + event);
 			break;
 		}
 	};
@@ -151,14 +153,8 @@ res.model = res.model || {};
 		this.interval = "";
 	};
 	ItemBlank = function(){
-		this.Part = {
-		        fileName : "",
-		        picture : ""
-		};
-		this.Full = {
-                fileName : "",
-                picture : ""
-        };
+		this.picturePart = undefined;
+		this.pictureFull = undefined;
 		this.startOfDay = "";
 		this.endOfDay = "";
 		this.companyName = "";
@@ -175,12 +171,12 @@ res.model = res.model || {};
 		this.description= undefined,
 		this.retrying= false;
 	};
-	PickList = function(){
+	Advertise = function(){
 		this.doCanceled = false;
 		this.OriginalItems = [];
 		this.OriginalCategories = [];
 		this.OriginalLayout=[];
-		this.imageURL = res.config.baseURL + "rest/uiconfig/custom/advertise/images/";
+		this.imageURL = "resTransaction/rest/uiconfig/custom/advertise/images/";
 		this.items = [];
 		this.categories = [];
 		this.layout = [];   //repeat list
@@ -189,6 +185,7 @@ res.model = res.model || {};
 		this.selectedCategory = undefined;
 		this.deletedTabItems = [];
 		this.sizeType = 0;
+		this.pictureChoice = undefined;
 
 		var i, j, x, y;
 		/*for (i = 0; i < numOfCategories; i++){

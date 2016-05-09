@@ -13,41 +13,47 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         interactiveScrollbars: true,
         mouseWheel: true,   // or "zoom"
     });
-	$scope.folder = res.config.baseURL + "custom/advertise/images/";
+	$scope.folder = res.config.baseURL + "rest/uiconfig/custom/advertise/images/";
 	$scope.position = { x: undefined, y: undefined, };
 	
-	var fileInput = document.getElementById('fileInput');
-    fileInput.addEventListener('change', function(e) {
-        var file = fileInput.files[0];
-        var reader = new FileReader();
-        reader.filename = file.name;
+	$scope.$on("resIncludeLoaded", function() {
+	    var fileInput = document.getElementById('fileInput');
+	    fileInput.addEventListener('change', function(e) {
+	        var file = fileInput.files[0];
+	        var reader = new FileReader();
+	        reader.filename = file.name;
 
-        reader.onload = function(e) {
-            var result = reader.result;
-            var dataFileName = reader.filename;
-            res.ui.send({
-                context : res.ui.root.context,
-                event : "file.picture.upload",
-                data : {
-                    filename : dataFileName,
-                    filecontent : file,
-                    folder : "advertise/images",
-                    sizeType : $rootScope.model.pickList.sizeType
-                }
-            });
-            $rootScope.model.pickList.sizeType = 0;
-        };
-        reader.readAsDataURL(file);
-    });
-
-
+	        reader.onload = function(e) {
+	            var result = reader.result;
+	            var dataFileName = reader.filename;
+	            if ($rootScope.model.advertise.pictureChoice == 'imagesPart'){
+	                $rootScope.model.advertise.sizeType = 1;
+	            } else if ($rootScope.model.advertise.pictureChoice == 'imagesFull'){
+	                $rootScope.model.advertise.sizeType = 2;
+	            }
+	            res.ui.send({
+	                context : res.ui.root.context,
+	                event : "file.picture.upload",
+	                data : {
+	                    filename : dataFileName,
+	                    filecontent : file,
+	                    folder : "advertise/images",
+	                    sizeType : $rootScope.model.advertise.sizeType
+	                }
+	            });
+	            $rootScope.model.advertise.sizeType = 0;
+	        };
+	        reader.readAsDataURL(file);
+	    });
+	});
+	
 	    $scope.$watch(
 	        function() {
 	            return $rootScope.language;
 	        },
 	        function(newValue, oldValue) {
 	            if ($rootScope.model.editor.indexEdit != "editLayout") return;
-	            $rootScope.model.pickList.locate($rootScope.language);
+	            $rootScope.model.advertise.locate($rootScope.language);
 	        }
 	    );
 
@@ -57,10 +63,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	        },
 	        function(newValue, oldValue) {
 	            if (newValue) {
-	                $scope.itemSelected.Part.picture = newValue.Part.picture;
-	                $scope.itemSelected.Full.picture = newValue.Full.picture;
-	                $scope.itemSelected.Part.fileName = newValue.Part.fileName;
-	                $scope.itemSelected.Full.fileName = newValue.Full.fileName;
+	                $scope.itemSelected.picturePart = newValue.picturePart;
+	                $scope.itemSelected.pictureFull = newValue.pictureFull;
+	                /*$scope.itemSelected.Part.fileName = newValue.Part.fileName;
+	                $scope.itemSelected.Full.fileName = newValue.Full.fileName;*/
 	                $scope.itemSelected.startOfDay = newValue.startOfDay;
 	                $scope.itemSelected.endOfDay = newValue.endOfDay;
 	                $scope.itemSelected.companyName = newValue.companyName;
@@ -74,13 +80,13 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
 		$rootScope.dialog = "mountItem";
 		$scope.position = { x: x, y: y};
-		$scope.selectedItem= $rootScope.model.pickList.layout[$scope.position.x][$scope.position.y];
+		$scope.selectedItem= $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y];
 
 		$scope.indexItem = 0;
-		if ($rootScope.model.pickList.layout[$scope.position.x][$scope.position.y].isblank == false) {
-		    $scope.itemSelected = angular.copy($rootScope.model.pickList.layout[$scope.position.x][$scope.position.y]);
+		if ($rootScope.model.advertise.layout[$scope.position.x][$scope.position.y].isblank == false) {
+		    $scope.itemSelected = angular.copy($rootScope.model.advertise.layout[$scope.position.x][$scope.position.y]);
 		} else {
-		    $scope.itemSelected = undefined;
+		    $scope.itemSelected = {};
 		}
 	};
 
@@ -97,6 +103,16 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 			scrollItems.scrollTo(0, visible.height - (element.offsetTop+element.offsetHeight), 200);
 	};*/
 
+	$scope.setImage = function(image) {
+        //$scope.itemSelected.background = "image";
+	    if ($rootScope.model.advertise.pictureChoice == "imagesPart"){
+            $scope.itemSelected.picturePart = image;
+        } else if ($rootScope.model.advertise.pictureChoice == "imagesFull") {
+            $scope.itemSelected.pictureFull = image;
+        }
+        $rootScope.dialog = "mountItem";
+    };
+	
 	$scope.selectItem = function(index){
 		$scope.indexItem = index;
 		$scope.selectedItem = $scope.items[index];
@@ -104,12 +120,12 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
 	$scope.submit = function(){
 		if ($scope.items[$scope.indexItem].itemId != "") {
-		    $rootScope.model.pickList.layout[$scope.position.x][$scope.position.y] = $scope.items[$scope.indexItem];
+		    $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = $scope.items[$scope.indexItem];
 		} else {
-			$rootScope.model.pickList.layout[$scope.position.x][$scope.position.y] = new ItemBlank();
+			$rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = new ItemBlank();
 
 		}
-		$rootScope.model.pickList.locate($rootScope.language);
+		$rootScope.model.advertise.locate($rootScope.language);
 		$rootScope.dialog = "";
 	};
 
@@ -154,16 +170,18 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	};
 
 	$scope.clearItems = function() {
-	    $rootScope.model.pickList.layout = [];
+	    $rootScope.model.advertise.layout = [];
 		$rootScope.dialog = "";
 	};
 	
 	$scope.popup = function(choice) {
 	    if (choice == 'imagesPart'){
-	        $rootScope.model.pickList.sizeType = 1;
+	        $rootScope.model.advertise.sizeType = 1;
+	        $rootScope.model.advertise.pictureChoice = choice;
 	        choice = 'images';
 	    } else if (choice == 'imagesFull'){
-	        $rootScope.model.pickList.sizeType = 2;
+	        $rootScope.model.advertise.sizeType = 2;
+	        $rootScope.model.advertise.pictureChoice = choice;
 	        choice = 'images';
 	    }
         $rootScope.dialog = choice;
@@ -179,10 +197,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 event : "file.picture.list",
                 data : {
                     folder : "advertise/images",
-                    sizeType : $rootScope.model.pickList.sizeType
+                    sizeType : $rootScope.model.advertise.sizeType
                 }
             });
-            $rootScope.model.pickList.sizeType = 0;
+            $rootScope.model.advertise.sizeType = 0;
             break;
         case "fileCreate":
             $scope.indexItem = undefined;
@@ -201,27 +219,31 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     });
 
     $scope.apply = function() {
-        if (!$scope.doApplyCheck("all")) return;
+        //if (!$scope.doApplyCheck("all")) return;
 
         var items = new ItemBlank;
         $scope.itemSelected.isblank = false;
         items.isblank = false;
-        items.Part.picture = $scope.itemSelected.Part ? $scope.itemSelected.Part.picture : "";
-        items.Full.picture = $scope.itemSelected.Full ? $scope.itemSelected.Full.picture : "";
-        items.Part.fileName = $scope.itemSelected.Part ? $scope.itemSelected.Part.fileName : "";
-        items.Full.fileName = $scope.itemSelected.Full ? $scope.itemSelected.Full.fileName : "";
+        items.picturePart = $scope.itemSelected.picturePart;
+        items.pictureFull = $scope.itemSelected.pictureFull;
+        /*var partArr = items.picturePart && items.picturePart.split(".");
+        var partLeng = partArr[partArr.length - 1].length;
+        items.Part.fileName = items.Part.picture ? items.Part.picture.substring(0, items.Part.picture.length - partLeng + 1) : "";
+        var fullArr = items.Full.picture && items.Full.picture.split(".");
+        var fullLeng = fullArr[fullArr.length-1].length;
+        items.Full.fileName = items.Full.picture ? items.Full.picture.substring(0, items.Full.picture.length - fullLeng + 1) : "";*/
         items.startOfDay = $scope.itemSelected.startOfDay;
         items.endOfDay = $scope.itemSelected.endOfDay;
         items.companyName = $scope.itemSelected.companyName;
         items.adName = $scope.itemSelected.adName;
         items.description = $scope.itemSelected.description;
         
-        $rootScope.model.pickList.layout[$scope.position.x][$scope.position.y] = angular.copy(items);
+        $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = angular.copy(items);
         $rootScope.dialog = "";
     };
       
     $scope.clear = function() {
-        $scope.itemSelected = angular.copy($rootScope.model.pickList.layout[$scope.position.x][$scope.position.y]);
+        $scope.itemSelected = angular.copy($rootScope.model.advertise.layout[$scope.position.x][$scope.position.y]);
     };
     
     $scope.cancel = function() {
@@ -229,7 +251,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
     
     $scope.addItems = function() {
-        var layout = $rootScope.model.pickList.layout;
+        var layout = $rootScope.model.advertise.layout;
         var scroll = $scope.scrollItems;
         if(layout.length > 0) {
             var i = layout.length -1;
@@ -253,7 +275,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
     
     $scope.remove = function() {
-        $rootScope.model.pickList.layout[$scope.position.x][$scope.position.y] = {};
+        $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = {};
         $rootScope.dialog = "";
     };
     
@@ -276,8 +298,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             $rootScope.dialog = "";
             return false;
         }
-        var filePartNameLength = $scope.itemSelected.Part ? res.string.getLength($scope.itemSelected.Part.fileName) : undefined;
-        var fileFullNameLength = $scope.itemSelected.Full ? res.string.getLength($scope.itemSelected.Full.fileName) : undefined;
         var startOfDayLength = res.string.getLength($scope.itemSelected.startOfDay);
         var endOfDayLength = res.string.getLength($scope.itemSelected.endOfDay);
 
@@ -290,7 +310,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             return false;
         }
 
-        if ((option=="all" || option=="line1")&&(filePartNameLength > 16 || fileFullNameLength >16 )) {
+        /*if ((option=="all" || option=="line1")&&(filePartNameLength > 16 || fileFullNameLength >16 )) {
             if ((option=="all" || option=="line1")&&(filePartNameLength > 16)) {
                 $scope.itemSelected.Part.fileName = res.string.truncate($scope.itemSelected.Part.fileName, 16);
             }
@@ -301,7 +321,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             $rootScope.model.failure.service = "advertise";
             $rootScope.model.failure.cause = "maxCharacters8";
             return false;
-        }
+        }*/
 
         return true;
     };

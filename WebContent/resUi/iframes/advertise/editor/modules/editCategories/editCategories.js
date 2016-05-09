@@ -31,7 +31,7 @@ res.ui.controller("editCategories", ["$scope", "$rootScope", "$timeout", functio
 
 	$scope.selectList = function(index) {
 		$rootScope.indexCategory = index;
-		$scope.categoryName = $rootScope.model.pickList.categories[$rootScope.indexCategory];
+		$scope.categoryName = $rootScope.model.advertise.categories[$rootScope.indexCategory];
 		var description = $scope.categoryName[$rootScope.language];
 		if (typeof (description) === "undefined" && $rootScope.language == "ja") {
 			description = $scope.categoryName["jp"];
@@ -72,8 +72,8 @@ res.ui.controller("editCategories", ["$scope", "$rootScope", "$timeout", functio
 			line1 += "<br>" + line2;
 		}
 
-		$rootScope.model.pickList.categories[$rootScope.indexCategory][$rootScope.language] = line1;
-		$rootScope.model.pickList.locate($rootScope.language);
+		$rootScope.model.advertise.categories[$rootScope.indexCategory][$rootScope.language] = line1;
+		$rootScope.model.advertise.locate($rootScope.language);
 		$rootScope.indexCategory = undefined;
 	};
 
@@ -94,7 +94,7 @@ res.ui.controller("editCategories", ["$scope", "$rootScope", "$timeout", functio
 			if (line1Length) $scope.categoryLabel.line1 = res.string.truncate($scope.categoryLabel.line1, 14);
 			if (line2Length) $scope.categoryLabel.line2 = res.string.truncate($scope.categoryLabel.line2, 14);
 			$rootScope.model.failure.active = true;
-			$rootScope.model.failure.service = "picklist";
+			$rootScope.model.failure.service = "advertise";
 			$rootScope.model.failure.cause = "maxCharacters14";
 			return false;
 		}

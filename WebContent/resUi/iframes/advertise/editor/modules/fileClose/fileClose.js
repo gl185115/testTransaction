@@ -12,53 +12,53 @@ res.ui.controller("fileClose", ["$scope", "$rootScope", function($scope, $rootSc
 				if ($rootScope.itemSelected) {
 					if ($rootScope.itemSelected.isblank) {
 						$rootScope.model.failure.active = true;
-						$rootScope.model.failure.service = "picklist";
+						$rootScope.model.failure.service = "advertise";
 						$rootScope.model.failure.cause = "blank";
 						$rootScope.dialog = "";
 						return;
 					}
 				}
 
-				if ($rootScope.model.pickList.doCanceled) return;
+				if ($rootScope.model.advertise.doCanceled) return;
 
-				$rootScope.model.pickList.alreadyChanged = false;
-				if ($rootScope.model.pickList.items.length == $rootScope.model.pickList.OriginalItems.length) {
-					for (var i = 0; i < $rootScope.model.pickList.items.length; i++) {
-						if (JSON.stringify($rootScope.model.pickList.items[i]) != JSON.stringify($rootScope.model.pickList.OriginalItems[i])) {
-							$rootScope.model.pickList.alreadyChanged = true;
+				$rootScope.model.advertise.alreadyChanged = false;
+				if ($rootScope.model.advertise.items.length == $rootScope.model.advertise.OriginalItems.length) {
+					for (var i = 0; i < $rootScope.model.advertise.items.length; i++) {
+						if (JSON.stringify($rootScope.model.advertise.items[i]) != JSON.stringify($rootScope.model.advertise.OriginalItems[i])) {
+							$rootScope.model.advertise.alreadyChanged = true;
 							break;
 						}
 					}
 				} else {
-					$rootScope.model.pickList.alreadyChanged = true;
+					$rootScope.model.advertise.alreadyChanged = true;
 				}
 
-				if (!$rootScope.model.pickList.alreadyChanged) {
-					if ($rootScope.model.pickList.categories.length == $rootScope.model.pickList.OriginalCategories.length) {
-						for (var i = 0; i < $rootScope.model.pickList.categories.length; i++) {
-							if (JSON.stringify($rootScope.model.pickList.categories[i]) != JSON.stringify($rootScope.model.pickList.OriginalCategories[i])) {
-								$rootScope.model.pickList.alreadyChanged = true;
+				if (!$rootScope.model.advertise.alreadyChanged) {
+					if ($rootScope.model.advertise.categories.length == $rootScope.model.advertise.OriginalCategories.length) {
+						for (var i = 0; i < $rootScope.model.advertise.categories.length; i++) {
+							if (JSON.stringify($rootScope.model.advertise.categories[i]) != JSON.stringify($rootScope.model.advertise.OriginalCategories[i])) {
+								$rootScope.model.advertise.alreadyChanged = true;
 								break;
 							}
 						}
 					} else {
-						$rootScope.model.pickList.alreadyChanged = true;
+						$rootScope.model.advertise.alreadyChanged = true;
 					}
 				}
-				if (!$rootScope.model.pickList.alreadyChanged) {
-					if ($rootScope.model.pickList.layout.length == $rootScope.model.pickList.OriginalLayout.length) {
-						for (var i = 0; i < $rootScope.model.pickList.layout.length; i++) {
-							if (JSON.stringify($rootScope.model.pickList.layout[i]) != JSON.stringify($rootScope.model.pickList.OriginalLayout[i])) {
-								$rootScope.model.pickList.alreadyChanged = true;
+				if (!$rootScope.model.advertise.alreadyChanged) {
+					if ($rootScope.model.advertise.layout.length == $rootScope.model.advertise.OriginalLayout.length) {
+						for (var i = 0; i < $rootScope.model.advertise.layout.length; i++) {
+							if (JSON.stringify($rootScope.model.advertise.layout[i]) != JSON.stringify($rootScope.model.advertise.OriginalLayout[i])) {
+								$rootScope.model.advertise.alreadyChanged = true;
 								break;
 							}
 						}
 					} else {
-						$rootScope.model.pickList.alreadyChanged = true;
+						$rootScope.model.advertise.alreadyChanged = true;
 					}
 				}
 
-				$rootScope.model.pickList.fromSaveOrClose = undefined;
+				$rootScope.model.advertise.fromSaveOrClose = undefined;
 			}
 		}
 	);
@@ -86,7 +86,7 @@ res.ui.controller("fileClose", ["$scope", "$rootScope", function($scope, $rootSc
 		$rootScope.model.editor.selectedFile = undefined;
 		$rootScope.model.editor.selectedIndex = undefined;
 		$rootScope.model.editor.indexEdit = "itemList";
-		$rootScope.model.pickList = undefined;
+		$rootScope.model.advertise = undefined;
 		$rootScope.dialog = undefined;
 		$rootScope.itemSelected = undefined;
 		$rootScope.indexCategory = undefined;

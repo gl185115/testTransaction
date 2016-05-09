@@ -110,11 +110,11 @@ res.model = res.model || {};
 			res.ui.root.itemSelected={};
 			res.ui.root.itemSelected.background = "image";
 			res.ui.root.itemSelected.picture = data.image;
-			res.ui.root.dialog = "";
+			res.ui.root.dialog = "details";
 
 			window.parent.res.ui.root.model.popup = "";
 
-			var fileInput = document.getElementById('fileInput');
+			var fileInput = document.getElementById('imagefileInput');
 			fileInput.value="";
 			break;
 		case "file.picture.upload.failed":
@@ -177,7 +177,7 @@ res.model = res.model || {};
 		this.OriginalCategories = [];
 		this.OriginalLayout=[];
 //		this.imageURL = "/resUiConfig/custom/images/pickList";
-		this.imageURL = res.config.baseURL + "rest/uiconfig/custom/pickList/images/";
+		this.imageURL = "resTransaction/rest/uiconfig/custom/pickList/images/";
 		this.items = [];
 		this.categories = [];
 		this.layout = [];

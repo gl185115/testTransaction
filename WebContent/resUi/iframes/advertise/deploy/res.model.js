@@ -245,7 +245,7 @@ res.model = res.model || {};
             }
 
             for (var i = 0; i < files.length; i++){
-                if (result = files[i].match(/(.+)\.js$/i)){
+                if (result = files[i].FileName.match(/(.+)\.js$/i)){
                     model.editor.files.push(result[1]);
                 }
             }

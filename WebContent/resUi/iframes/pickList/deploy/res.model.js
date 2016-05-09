@@ -672,27 +672,19 @@ res.model = res.model || {};
 			if (task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店")) {
 				status.total = res.ui.root.model.editTask.deployCategories[0].storeEntries.length;
 				task.target.storeNameJa = "全店";
-			} else if (task.target.group) {
-				var groupEntries = res.ui.root.model.editTask.deployCategories[1].storeEntries;
-				for (var i = 0; i < groupEntries.length; i++) {
-					if (task.target.group == groupEntries[i].entryNameJa) {
-						status.total = groupEntries[i].entryStores.length;
-						task.target.storeNameJa = groupEntries[i].entryNameJa;
-						break;
-					}
-				}
 			} else if (!(task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店"))) {
-				status.total = 1;
-				var storeEntries = res.ui.root.model.editTask.deployCategories[2].storeEntries;
-				for (var i = 0; i < storeEntries.length; i++) {
-					if (task.target.store == storeEntries[i].storeId
-							|| task.target.store == storeEntries[i].entryNameJa) {
-						task.target.storeNameJa = storeEntries[i].entryNameJa;
-					}
-				}
-			}
-		},
+                status.total = 1;
+                var storeEntries = res.ui.root.model.editTask.deployCategories[1].storeEntries;
+                for (var i = 0; i < storeEntries.length; i++) {
+                    if (task.target.store == storeEntries[i].StoreId
+                            || task.target.store == storeEntries[i].StoreId) {
+                        task.target.storeNameJa = storeEntries[i].StoreName;
+                    }
+                }
+            }
+        },
 
-	};
+    };
+			 
 
 })();

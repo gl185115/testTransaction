@@ -22,17 +22,17 @@
 				<div class="PickButton"
 					data-ng-repeat="item in list track by $index"
 					data-res-click="selectPosition($parent.$index, $index)">
-					<div class="InnerBox" data-ng-show="item.pictureFull">
+					<div class="InnerBox" data-ng-show="item.pictureFull||item.picturePart">
 						<div class="ImageBox">
 							<img
-								data-ng-src="{{item.pictureFull?folder + item.pictureFull:''}}" />
+								data-ng-src="{{item.pictureFull?folder + item.pictureFull:folder +item.picturePart}}" />
 						</div>
 						<div class="LabelBox">
 							<p
 								data-ng-bind-html="item.adName | resConvertLF"></p>
 						</div>
 					</div>
-					<div class="InnerBox" data-ng-show="!item.pictureFull">
+					<div class="InnerBox" data-ng-show="!(item.pictureFull||item.picturePart)">
 						<div class="ImageBox">
 							<p
 								data-ng-bind-html="(item.pictureFull)?'EditLayout.ComingSoon':'EditLayout.Unused' |resPhrase:context"></p>

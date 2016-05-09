@@ -316,7 +316,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 		} else if ($scope.indexLevel1 == 1) {
 		    var entryEdit = $rootScope.model.editTask.deployCategories[1].storeEntries[$scope.indexLevel2];
             status.total = 1;
-            task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
+            task.target = { store: entryEdit.StoreId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
 		} /*else if ($scope.indexLevel1 == 2) {
 			var entryEdit = $rootScope.model.editTask.deployCategories[2].storeEntries[$scope.indexLevel2];
 			status.total = 1;

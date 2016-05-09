@@ -6,13 +6,13 @@ res.ui.controller("tasks", ["$scope", "$rootScope", "$timeout", function($scope,
 	var scroll = undefined;
 	var scrollTaskList = undefined;
 	$scope.$on("resIncludeLoaded", function(){	// wait for res-include complete
-		scroll = new IScroll("#wrapperViewList", {	// iScroll5
+		/*scroll = new IScroll("#wrapperViewList", {	// iScroll5
 			scrollX: false,
 			scrollY: true,
 			scrollbars: true,
 			interactiveScrollbars: true,
 			mouseWheel: true,	// or "zoom"
-		});
+		});*/
 
 		scrollTaskList = new IScroll("#wrapperTaskList", {	// iScroll5
 			scrollX: false,
@@ -23,12 +23,12 @@ res.ui.controller("tasks", ["$scope", "$rootScope", "$timeout", function($scope,
 		});
 	});
 
-    $scope.$watch(
+   /* $scope.$watch(
         function () { return $rootScope.model.deployDetail.detailData; },
         function (newValue, oldValue) {
             $timeout(function () { scroll.refresh(); }, 100);
         }
-    );
+    );*/
 
     $scope.$watch(
         function () { return $rootScope.model.active.folder; },
@@ -83,7 +83,7 @@ res.ui.controller("tasks", ["$scope", "$rootScope", "$timeout", function($scope,
 		});
 	};
 
-	$scope.selectDetail = function(index){
+	/*$scope.selectDetail = function(index){
 		$scope.detailIndex = index;
 	};
 
@@ -99,7 +99,7 @@ res.ui.controller("tasks", ["$scope", "$rootScope", "$timeout", function($scope,
 				actionGo : "goOpen"
 			}
 		});
-	};
+	};*/
 
 }]);
 

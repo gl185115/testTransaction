@@ -197,6 +197,14 @@ public class UiConfigMaintenanceResource {
 				tp.println(uploadDir.getPath() + ":" + "directory does not exist");
 				if (uploadDir.mkdirs()) {
 					tp.println("Create a" + uploadDir.getPath() + "directory");
+					LOGGER.logAlert(PROG_NAME,
+							functionName,
+							Logger.RES_EXCEP_GENERAL,
+							"Create a" + uploadDir.getPath() + "directory");
+					result.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+					result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+					result.setMessage(ResultBase.RES_FAILED_MSG);
+					return result;
 				}
 			}
 
@@ -268,6 +276,9 @@ public class UiConfigMaintenanceResource {
 		} catch (Exception e) {
 			tp.println("Failed to requestFileUpload.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileUpload.", e);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(e.getMessage());
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -333,6 +344,9 @@ public class UiConfigMaintenanceResource {
 		} catch (Exception e) {
 			tp.println("Failed to requestFileList.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileList.", e);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(e.getMessage());
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -389,6 +403,9 @@ public class UiConfigMaintenanceResource {
 		} catch (Exception e) {
 			tp.println("Failed to requestFileDownload.");
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestFileDownload.", e);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(e.getMessage());
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -522,12 +539,23 @@ public class UiConfigMaintenanceResource {
 				}
 			} else {
 				dir_resource.mkdirs();
-                return result;
+				tp.println("create folder :" + folder);
+				LOGGER.logAlert(PROG_NAME,
+						functionName,
+						Logger.RES_EXCEP_GENERAL,
+						"create folder :" + folder);
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+				result.setMessage(ResultBase.RES_FAILED_MSG);
+				return result;
 			}
 
 		} catch (Exception e) {
 			tp.println("Failed to requestPictureList.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestPictureList.", e);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(e.getMessage());
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -754,6 +782,9 @@ public class UiConfigMaintenanceResource {
 		} catch (Exception e) {
 			tp.println("Failed to requestfileRemove.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestfileRemove.", e);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(e.getMessage());
 		} finally{
 			tp.methodExit(result.toString());
 		}
@@ -1153,6 +1184,9 @@ public class UiConfigMaintenanceResource {
 		}catch(Exception e){
 			tp.println("Failed to requestpictureUpload.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestpictureUpload.", e);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(e.getMessage());
 		}finally{
 			if(stream != null){
 				try {

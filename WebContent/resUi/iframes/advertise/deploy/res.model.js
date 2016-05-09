@@ -398,7 +398,7 @@ res.model = res.model || {};
                 }
                 if (i == this.schedule.deploy.length) {
                     res.console("res.ui deploy model: config for companyID: " + res.config.companyID + " is newly created.");
-                    this.schedule.deploy[i] = new Deploy();
+                    this.schedule.deploy[i] = new Deploy(company);
                 }
                 this.index = i;
 
@@ -529,11 +529,11 @@ res.model = res.model || {};
                                 var targetOld = taskOld.target;
                                 if ((targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店") && taskNew.taskType == "all") {
                                     toUpdate = true;
-                                } else if (targetOld.group && taskNew.taskType == "group") {
+                                } /*else if (targetOld.group && taskNew.taskType == "group") {
                                     if (targetOld.group == taskNew.taskEntryName) {
                                         toUpdate = true;
                                     }
-                                } else if (!(targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店") && taskNew.taskType == "store") {
+                                }*/ else if (!(targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店") && taskNew.taskType == "store") {
                                     if (targetOld.store == taskNew.taskEntryName) {
                                         toUpdate = true;
                                     }
@@ -608,7 +608,7 @@ res.model = res.model || {};
                     var storeEntries = [];
                     var deployCategories = res.ui.root.model.editTask.deployCategories;
                     for (var x = 0; x < deployCategories.length; x++) {
-                        if (deployCategories[x].levelKey == "group") {
+                        /*if (deployCategories[x].levelKey == "group") {
                             var iGroup = deployCategories[x].storeEntries;
                             for (var y = 0; y < iGroup.length; y++) {
                                 if (iTarget.group == iGroup[y].entryNameJa) {
@@ -616,7 +616,7 @@ res.model = res.model || {};
                                     break;
                                 }
                             }
-                        } else if (deployCategories[x].levelKey == "store") {
+                        } else*/ if (deployCategories[x].levelKey == "store") {
                             storeEntries = deployCategories[x].storeEntries;
                         }
                     }
@@ -650,9 +650,9 @@ res.model = res.model || {};
 
             for (var i = 0; i < effectiveFolder.length; i++) {
                 indexTask = effectiveFolder[i].task;
-                if (indexTask.target.group) {
+               /* if (indexTask.target.group) {
                     type = indexTask.target.group;
-                } else {
+                } */if (indexTask.target.store) {
                     type = indexTask.target.store;
                 }
 
@@ -673,18 +673,9 @@ res.model = res.model || {};
             if (task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店")) {
                 status.total = res.ui.root.model.editTask.deployCategories[0].storeEntries.length;
                 task.target.storeNameJa = "全店";
-            } else if (task.target.group) {
-                var groupEntries = res.ui.root.model.editTask.deployCategories[1].storeEntries;
-                for (var i = 0; i < groupEntries.length; i++) {
-                    if (task.target.group == groupEntries[i].entryNameJa) {
-                        status.total = groupEntries[i].entryStores.length;
-                        task.target.storeNameJa = groupEntries[i].entryNameJa;
-                        break;
-                    }
-                }
             } else if (!(task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店"))) {
                 status.total = 1;
-                var storeEntries = res.ui.root.model.editTask.deployCategories[2].storeEntries;
+                var storeEntries = res.ui.root.model.editTask.deployCategories[1].storeEntries;
                 for (var i = 0; i < storeEntries.length; i++) {
                     if (task.target.store == storeEntries[i].storeId
                             || task.target.store == storeEntries[i].entryNameJa) {
@@ -695,5 +686,6 @@ res.model = res.model || {};
         },
 
     };
+             
 
 })();

@@ -143,14 +143,19 @@ public class UiConfigMaintenanceResource {
 			tp.println("Failed to get company information.");
 			LOGGER.logAlert(PROG_NAME,
 					Logger.RES_EXCEP_DAO,
-					functionName + ":Failed to get company information.",
-					ex);
+					functionName + ":Failed to get company information.",ex);
+			companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			companyInfo.setMessage(ex.getMessage());
 		} catch(Exception ex) {
 			tp.println("Failed to get company information.");
 			LOGGER.logAlert(PROG_NAME,
 					Logger.RES_EXCEP_GENERAL,
 					functionName + ":Failed to get company information.",
 					ex);
+			companyInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			companyInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			companyInfo.setMessage(ex.getMessage());
         } finally {
         	tp.methodExit(companyInfo.toString());
         }
@@ -437,14 +442,18 @@ public class UiConfigMaintenanceResource {
 			tp.println("Failed to get StoreAndGroup information.");
 			LOGGER.logAlert(PROG_NAME,
 					Logger.RES_EXCEP_DAO,
-					functionName + ":Failed to get StoreAndGroup information.",
-					ex);
+					functionName + ":Failed to get StoreAndGroup information.",ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			result.setMessage(ex.getMessage());
 		} catch(Exception ex) {
 			tp.println("Failed to get StoreAndGroup information.");
 			LOGGER.logAlert(PROG_NAME,
 					Logger.RES_EXCEP_GENERAL,
-					functionName + ":Failed to get StoreAndGroup information.",
-					ex);
+					functionName + ":Failed to get StoreAndGroup information.",ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(ex.getMessage());
         } finally {
         	tp.methodExit(result.toString());
         }
@@ -606,10 +615,16 @@ public class UiConfigMaintenanceResource {
 						functionName,
 						Logger.RES_EXCEP_NODATAFOUND,
 						"The config resource is null or empty!");
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
 			}
 		} catch (Exception ex) {
 			tp.println("Failed to requestGetSchedule.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to requestGetSchedule.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(ex.getMessage());
 		} finally {
 			tp.methodExit(result.toString());
 		}
@@ -659,6 +674,9 @@ public class UiConfigMaintenanceResource {
 		} catch (Exception e) {
 			tp.println("Failed to requestSetSchedule.");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ":Failed to setSchedule.", e);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(e.getMessage());
 		} finally {
 			tp.methodExit(result.toString());
 		}

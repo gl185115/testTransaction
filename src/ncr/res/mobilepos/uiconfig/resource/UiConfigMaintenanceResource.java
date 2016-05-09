@@ -234,6 +234,14 @@ public class UiConfigMaintenanceResource {
 				if (fileContent.contains("\\\\")) {
 					fileContent = fileContent.replace("\\\\", StaticParameter.str_separator);
 				}
+			} else if (StaticParameter.key_advertise.equalsIgnoreCase(folder)) {
+				if (fileContent.contains("\\\\\\\\")) {
+					fileContent = fileContent.replace("\\\\\\\\", StaticParameter.str_separator);
+				}
+
+				if (fileContent.contains("\\\\")) {
+					fileContent = fileContent.replace("\\\\", StaticParameter.str_separator);
+				}
 			}
 
 			if (FileUtil.fileSave(saveFile, fileContent, false, UiConfigHelper.ENCODING_CONFIG_FILE)) {

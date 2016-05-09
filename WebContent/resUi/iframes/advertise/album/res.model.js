@@ -21,7 +21,7 @@ res.model = res.model || {};
 				model.imageCopy.failedMsgShow = false;
 				model.imageCopy.pictures = [];
 
-				model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images";
+				model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images/";
 				res.ui.send({
 					event : "file.picture.list",
 					data : {
@@ -90,7 +90,7 @@ res.model = res.model || {};
 			}
 
 			model.imageCopy.targetRoot = "\\advertise";
-			model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images";
+			model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images/";
 			break;
 		case "file.remove":
 			window.parent.res.ui.root.model.popup = "";
@@ -133,7 +133,7 @@ res.model = res.model || {};
             model.imageCopy.successMsgShow = true;
             model.imageCopy.failedMsgShow = false;
             model.imageCopy.pictures = [];
-            model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images";
+            model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images/";
 
             res.ui.root.itemSelected={};
             res.ui.root.itemSelected.background = "image";

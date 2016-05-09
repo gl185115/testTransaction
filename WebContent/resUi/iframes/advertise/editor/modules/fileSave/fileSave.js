@@ -149,18 +149,4 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 		}
 		return str;
 	};
-//	$scope.getLength=function strLength(strSrc){
-//		len = 0;
-//		strSrc = escape(strSrc);
-//		for(var i = 0; i < strSrc.length; i++, len++){
-//			if(strSrc.charAt(i) == "%"){
-//				if(strSrc.charAt(++i) == "u"){
-//					i += 3;
-//					len++;
-//				}
-//				i++;
-//			}
-//		}
-//		return len;
-//	};
 }]);

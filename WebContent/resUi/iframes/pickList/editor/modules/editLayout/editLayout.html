@@ -174,78 +174,78 @@
 			<div class="Pad">
 				<div class="PickButton">
 					<div class="InnerBox"
-						data-ng-show="selectedItem.background=='image' && selectedItem.picture">
+						data-ng-show="itemSelected.background=='image' && itemSelected.picture">
 						<div class="ImageBox">
-							<img data-ng-src="{{selectedItem.picture?folder + selectedItem.picture:''}}" />
+							<img data-ng-src="{{itemSelected.picture?folder + itemSelected.picture:''}}" />
 						</div>
 						<div class="LabelBox">
 							<p
-								data-ng-bind-html="selectedItem.label.line1 + '<br>' + selectedItem.label.line2 | resConvertLF"></p>
+								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p>
 						</div>
 					</div>
 					<div class="InnerBox"
-						data-ng-show="selectedItem.background=='image' && !selectedItem.picture">
+						data-ng-show="itemSelected.background=='image' && !itemSelected.picture">
 						<div class="ImageBox">
 							<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
 						</div>
 						<div class="LabelBox">
 							<p
-								data-ng-bind-html="selectedItem.label.line1 + '<br>' + selectedItem.label.line2 | resConvertLF"></p>
+								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p>
 						</div>
 					</div>
-					<div class="InnerBox" data-ng-show="selectedItem.background!='image'"
-						data-ng-class="selectedItem.background">
+					<div class="InnerBox" data-ng-show="itemSelected.background!='image'"
+						data-ng-class="itemSelected.background">
 						<p
-							data-ng-bind-html="selectedItem.label.line1 + '<br>' + selectedItem.label.line2 | resConvertLF"></p>
+							data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p>
 					</div>
 				</div>
 				<div class="ImageFile">
 					<div class="Buttons Top">
 						<div class="resButton raise blue" data-res-click="popup('images')"
-							data-ng-class="{'disabled': !selectedItem}">
+							data-ng-class="{'disabled': !itemSelected}">
 							<p data-ng-bind-html="'EditItems.SelectImage'|resPhrase:context"></p>
 						</div>
 						<div class="resButton raise gray" data-res-click="popup('background')"
-							data-ng-class="{'disabled': !selectedItem}">
+							data-ng-class="{'disabled': !itemSelected}">
 							<p data-ng-bind-html="'EditItems.NoImage'|resPhrase:context"></p>
 						</div>
 					</div>
-					<div data-ng-show="selectedItem.background=='image'">
+					<div data-ng-show="itemSelected.background=='image'">
 						<p class="Label" data-ng-bind-html="'EditItems.ImageFile'|resPhrase:context"></p>
-						<p class="Value" data-ng-bind-html="selectedItem.picture"></p>
+						<p class="Value" data-ng-bind-html="itemSelected.picture"></p>
 					</div>
 				</div>
 				<div class="Entries">
 					<div class="Entry">
 						<p class="Label" data-ng-bind-html="'EditItems.ItemId'|resPhrase:context"></p>
 						<input class="Value" type="text" data-res-maxlength="13"
-							data-ng-model="selectedItem.itemId" data-ng-disabled="!selectedItem"
+							data-ng-model="itemSelected.itemId" data-ng-disabled="!itemSelected"
 							placeholder="{{'EditItems.MaxLength13'|resPhrase:context}}">
 					</div>
 					<div class="Entry">
 						<p class="Label" data-ng-bind-html="'EditItems.ItemName.Line1'|resPhrase:context"></p>
 						<input class="Value" type="text" data-res-maxlength="16"
-							data-ng-model="selectedItem.inputLabel.line1" data-ng-disabled="!selectedItem"
+							data-ng-model="itemSelected.inputLabel.line1" data-ng-disabled="!itemSelected"
 							placeholder="{{'EditItems.MaxLength8'|resPhrase:context}}">
 					</div>
 					<div class="Entry">
 						<p class="Label" data-ng-bind-html="'EditItems.ItemName.Line2'|resPhrase:context"></p>
 						<input class="Value" type="text" data-res-maxlength="16"
-							data-ng-model="selectedItem.inputLabel.line2" data-ng-disabled="!selectedItem"
+							data-ng-model="itemSelected.inputLabel.line2" data-ng-disabled="!itemSelected"
 							placeholder="{{'EditItems.MaxLength8'|resPhrase:context}}">
 					</div>
 				</div>
 				<div class="Buttons Bottom">
 					<div class="resButton raise orange W120xH70 " data-res-click="clear()"
-						data-ng-class="{'disabled': !selectedItem}">
+						data-ng-class="{'disabled': !itemSelected}">
 						<p data-ng-bind-html="'Void'|resPhrase:context"></p>
 					</div>
 					<div class="resButton raise orange W120xH70" data-res-click="popup('remove')"
-					data-ng-class="{'disabled': !model.pickList.items.length || !selectedItem}">
+					data-ng-class="{'disabled': !model.pickList.items.length || !itemSelected}">
 						<p data-ng-bind-html="'Delete'|resPhrase:context"></p>
 					</div>
 					<div class="resButton raise green W120xH70" data-ng-click="submit()"
-						data-ng-class="{'disabled': !selectedItem}">
+						data-ng-class="{'disabled': !itemSelected}">
 						<p data-ng-bind-html="'Apply'|resPhrase:context"></p>
 					</div>
 				</div>
@@ -328,7 +328,7 @@
 				</div>
 				<div class="resButton raise blue W110xH50">
 					<p data-ng-bind-html="'Button.Import'|resPhrase:context"></p>
-					<input type="file" accept="image/*" id="fileInput" class="upload">
+					<input type="file" accept="image/*" id="imagefileInput" class="upload">
 				</div>
 			</div>
 		</div>

@@ -41,12 +41,12 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
 	$scope.$watch(
 	        function() {
-	            return $rootScope.selectedItem;
+	            return $rootScope.itemSelected;
 	        },
 	        function(newValue, oldValue) {
 	            if (newValue) {
-	                $scope.selectedItem.picture = newValue.picture;
-	                $scope.selectedItem.background = newValue.background;
+	                $scope.itemSelected.picture = newValue.picture;
+	                $scope.itemSelected.background = newValue.background;
 	            }
 	        }
 	    );
@@ -68,11 +68,11 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             break;
         case "fileCreate":
             $scope.indexItem = undefined;
-            $scope.selectedItem = undefined;
+            $scope.itemSelected = undefined;
             break;
         case "fileSave":
             $scope.indexItem = 0;
-            $scope.selectedItem = undefined;
+            $scope.itemSelected = undefined;
             break;
         case "fileClose":
             break;
@@ -97,15 +97,15 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
 	    $rootScope.dialog = "details";
 		$scope.position = { category: category, x: x, y: y};
-		$scope.selectedItem= $rootScope.model.pickList.layout[$scope.position.category][$scope.position.x][$scope.position.y];
+		$scope.itemSelected= $rootScope.model.pickList.layout[$scope.position.category][$scope.position.x][$scope.position.y];
 		$scope.create();
 	};
 
 	$scope.create = function() {
-	    if ($scope.selectedItem.itemId){
+	    if ($scope.itemSelected.itemId){
 	      //商品編集
 	        for (var i = 0; i < $scope.items.length; i++) {
-              if ($scope.items[i].itemId == $scope.selectedItem.itemId) {
+              if ($scope.items[i].itemId == $scope.itemSelected.itemId) {
                   $scope.indexItem = i;
                   break;
               }
@@ -128,20 +128,20 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
 
     $scope.doselect = function(index) {
-        $scope.selectedItem = angular.copy($rootScope.model.pickList.items[index]);
-        var description = $scope.selectedItem.description[$rootScope.language];
+        $scope.itemSelected = angular.copy($rootScope.model.pickList.items[index]);
+        var description = $scope.itemSelected.description[$rootScope.language];
         if(typeof(description) == "undefined"){
-            description = $scope.selectedItem.description["jp"];
+            description = $scope.itemSelected.description["jp"];
         }
-        $scope.selectedItem.label = {
+        $scope.itemSelected.label = {
             line1: (description.indexOf("<br>") != -1)? description.slice(0, description.indexOf("<br>")) : description,
             line2: (description.indexOf("<br>") != -1)? description.slice(description.indexOf("<br>") + "<br>".length) : "",
         };
-        var line1 = angular.copy($scope.selectedItem.label.line1);
-        var line2 = angular.copy($scope.selectedItem.label.line2);
-        $scope.selectedItem.inputLabel = {};
-        $scope.selectedItem.inputLabel.line1 = line1.replace(/\&amp;/g, "&").replace(/\&lt;/g, "<").replace(/\&gt;/g, ">");
-        $scope.selectedItem.inputLabel.line2 = line2.replace(/\&amp;/g, "&").replace(/\&lt;/g, "<").replace(/\&gt;/g, ">");
+        var line1 = angular.copy($scope.itemSelected.label.line1);
+        var line2 = angular.copy($scope.itemSelected.label.line2);
+        $scope.itemSelected.inputLabel = {};
+        $scope.itemSelected.inputLabel.line1 = line1.replace(/\&amp;/g, "&").replace(/\&lt;/g, "<").replace(/\&gt;/g, ">");
+        $scope.itemSelected.inputLabel.line2 = line2.replace(/\&amp;/g, "&").replace(/\&lt;/g, "<").replace(/\&gt;/g, ">");
 
         $scope.indexItem = index;
     };
@@ -161,11 +161,11 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
 /*	$scope.selectItem = function(index){
 		$scope.indexItem = index;
-		$scope.selectedItem = $scope.items[index];
+		$scope.itemSelected = $scope.items[index];
 	};
 */
 	$scope.submit = function(){
-        if ($scope.selectedItem.itemId == "" || $scope.selectedItem.inputLabel.line1 == ""){
+        if ($scope.itemSelected.itemId == "" || $scope.itemSelected.inputLabel.line1 == ""){
             $rootScope.model.failure.active = true;
             $rootScope.model.failure.service = "picklist";
             $rootScope.model.failure.cause = "empty";
@@ -193,18 +193,18 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 //	};
 
 	$scope.apply = function() {
-        $scope.selectedItem.isblank = false;
+        $scope.itemSelected.isblank = false;
         $rootScope.model.pickList.items[$scope.indexItem].isblank = false;
-        $rootScope.model.pickList.items[$scope.indexItem].itemId = $scope.selectedItem.itemId;
-        $rootScope.model.pickList.items[$scope.indexItem].background = $scope.selectedItem.background;
-        $rootScope.model.pickList.items[$scope.indexItem].picture = $scope.selectedItem.picture;
+        $rootScope.model.pickList.items[$scope.indexItem].itemId = $scope.itemSelected.itemId;
+        $rootScope.model.pickList.items[$scope.indexItem].background = $scope.itemSelected.background;
+        $rootScope.model.pickList.items[$scope.indexItem].picture = $scope.itemSelected.picture;
 
         // Convert <br> for normal string.
-        var line1 = $scope.selectedItem.label.line1;
+        var line1 = $scope.itemSelected.label.line1;
         line1 = line1.replace(/\&/g,"&amp;").replace(/\</g,"&lt;").replace(/\>/g,"&gt;");
 
-        if ($scope.selectedItem.label.line2) {
-            var line2 = $scope.selectedItem.label.line2;
+        if ($scope.itemSelected.label.line2) {
+            var line2 = $scope.itemSelected.label.line2;
             line2 = line2.replace(/\&/g,"&amp;").replace(/\</g,"&lt;").replace(/\>/g,"&gt;");
             line1 += "<br>" + line2;
         }
@@ -212,7 +212,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         $rootScope.model.pickList.items[$scope.indexItem].description[$rootScope.language] = line1;
 
         /*if ($scope.indexItem <= $rootScope.model.pickList.items.length - 1) {
-            if ($scope.selectedItem.isblank || $scope.indexItem == ($rootScope.model.pickList.items.length - 1)) {
+            if ($scope.itemSelected.isblank || $scope.indexItem == ($rootScope.model.pickList.items.length - 1)) {
                 $scope.select($scope.indexItem);
             } else {
                 $scope.select($scope.indexItem + 1);
@@ -247,15 +247,15 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
 
     $scope.doApplyCheck = function(option) {
-        var itemIdLength = res.string.getLength($scope.selectedItem.itemId);
+        var itemIdLength = res.string.getLength($scope.itemSelected.itemId);
 
-        $scope.selectedItem.label.line1 = $scope.selectedItem.inputLabel.line1;
-        $scope.selectedItem.label.line2 = $scope.selectedItem.inputLabel.line2;
-        var line1Length = res.string.getLength($scope.selectedItem.label.line1);
-        var line2Length = res.string.getLength($scope.selectedItem.label.line2);
+        $scope.itemSelected.label.line1 = $scope.itemSelected.inputLabel.line1;
+        $scope.itemSelected.label.line2 = $scope.itemSelected.inputLabel.line2;
+        var line1Length = res.string.getLength($scope.itemSelected.label.line1);
+        var line2Length = res.string.getLength($scope.itemSelected.label.line2);
 
-        if ((option=="all" || option=="itemId")&&(!res.model.isNumber($scope.selectedItem.itemId) || (itemIdLength > 13))) {
-            $scope.selectedItem.itemId = res.string.truncate($scope.selectedItem.itemId, 13);
+        if ((option=="all" || option=="itemId")&&(!res.model.isNumber($scope.itemSelected.itemId) || (itemIdLength > 13))) {
+            $scope.itemSelected.itemId = res.string.truncate($scope.itemSelected.itemId, 13);
             $rootScope.model.failure.active = true;
             $rootScope.model.failure.service = "picklist";
             $rootScope.model.failure.cause = "maxNumbers13";
@@ -264,10 +264,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
         if ((option=="all" || option=="line1")&&(line1Length > 16) || (option=="all" || option=="line2")&&(line2Length != 0 && line2Length > 16)) {
             if ((option=="all" || option=="line1")&&(line1Length > 16)) {
-                $scope.selectedItem.label.line1 = res.string.truncate($scope.selectedItem.label.line1, 16);
+                $scope.itemSelected.label.line1 = res.string.truncate($scope.itemSelected.label.line1, 16);
             }
             if ((option=="all" || option=="line2")&&(line2Length != 0 && line2Length > 16)) {
-                $scope.selectedItem.label.line2 = res.string.truncate($scope.selectedItem.label.line2, 16);
+                $scope.itemSelected.label.line2 = res.string.truncate($scope.itemSelected.label.line2, 16);
             }
             $rootScope.model.failure.active = true;
             $rootScope.model.failure.service = "picklist";
@@ -295,14 +295,14 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
 
     $scope.setImage = function(image) {
-        $scope.selectedItem.background = "image";
-        $scope.selectedItem.picture = image;
+        $scope.itemSelected.background = "image";
+        $scope.itemSelected.picture = image;
 //        $rootScope.dialog = "";
         $rootScope.dialog = "details";
     };
 
     $scope.setBackground = function(color) {
-        $scope.selectedItem.background = color;
+        $scope.itemSelected.background = color;
 //        $rootScope.dialog = "";
         $rootScope.dialog = "details";
     };
@@ -393,7 +393,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
         $scope.buttonColors = [ "silver", "red", "orange", "beige", "yellow", "green", "blue", "purple" ];
 
-        var fileInput = document.getElementById('fileInput');
+        var fileInput = document.getElementById('imagefileInput');
         fileInput.addEventListener('change', function(e) {
             var file = fileInput.files[0];
             var reader = new FileReader();

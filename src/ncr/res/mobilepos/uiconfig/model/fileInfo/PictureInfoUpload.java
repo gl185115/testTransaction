@@ -9,7 +9,7 @@ import ncr.res.mobilepos.model.ResultBase;
 
 @XmlRootElement(name = "PictureInfoUpload")
 @XmlAccessorType(XmlAccessType.NONE)
-public class PictureInfoUpload {
+public class PictureInfoUpload extends ResultBase{
 	
 	@XmlElement(name = "image")
 	private String image;

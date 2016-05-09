@@ -47,14 +47,14 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 		});
 	};
 	$scope.file = {
-		save: function(){
+		/*save: function(){
 			res.ui.root.confirmMessage = "confirmMessage";
-			/*if (!$rootScope.model.active.resource) {return;}
+			if (!$rootScope.model.active.resource) {return;}
 			$rootScope.model.save();
 			$rootScope.model.active.item=undefined;
 			res.console("res.ui deploy menu save: model.schedule = " + JSON.stringify({schedule: $rootScope.model.schedule}) );
-			res.ui.send({ event: "schedule.set", data: {schedule:$rootScope.model.schedule} });*/
-		},
+			res.ui.send({ event: "schedule.set", data: {schedule:$rootScope.model.schedule} });
+		},*/
 		undo: function(){
 			if (!$rootScope.model.active.resource) {return;}
 			$rootScope.model.message = "Undo";

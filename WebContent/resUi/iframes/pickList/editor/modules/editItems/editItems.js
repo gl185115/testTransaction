@@ -94,17 +94,17 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		}
 	);
 
-	$scope.$watch(
-		function() {
-			return $rootScope.itemSelected;
-		},
-		function(newValue, oldValue) {
-			if (newValue) {
-				$scope.itemSelected.picture = newValue.picture;
-				$scope.itemSelected.background = newValue.background;
-			}
-		}
-	);
+//	$scope.$watch(
+//		function() {
+//			return $rootScope.itemSelected;
+//		},
+//		function(newValue, oldValue) {
+//			if (newValue) {
+//				$scope.itemSelected.picture = newValue.picture;
+//				$scope.itemSelected.background = newValue.background;
+//			}
+//		}
+//	);
 
 	$scope.select = function(index) {
 		if ($scope.indexSelected != index && $scope.itemSelected) { // leaving from the current selection?

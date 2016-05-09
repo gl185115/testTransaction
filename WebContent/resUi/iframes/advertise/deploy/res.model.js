@@ -677,9 +677,9 @@ res.model = res.model || {};
                 status.total = 1;
                 var storeEntries = res.ui.root.model.editTask.deployCategories[1].storeEntries;
                 for (var i = 0; i < storeEntries.length; i++) {
-                    if (task.target.store == storeEntries[i].storeId
-                            || task.target.store == storeEntries[i].entryNameJa) {
-                        task.target.storeNameJa = storeEntries[i].entryNameJa;
+                    if (task.target.store == storeEntries[i].StoreId
+                            || task.target.store == storeEntries[i].StoreId) {
+                        task.target.storeNameJa = storeEntries[i].StoreName;
                     }
                 }
             }

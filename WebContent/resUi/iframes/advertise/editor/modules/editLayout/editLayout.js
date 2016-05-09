@@ -41,7 +41,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	                    sizeType : $rootScope.model.advertise.sizeType
 	                }
 	            });
-	            $rootScope.model.advertise.sizeType = 0;
+	            //$rootScope.model.advertise.sizeType = 0;
 	        };
 	        reader.readAsDataURL(file);
 	    });
@@ -129,38 +129,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 		$rootScope.dialog = "";
 	};
 
-	/*$scope.delItem = function() {
-		if ($scope.indexItem == 0) return;
-		var itemId = $scope.items[$scope.indexItem].itemId;
-		if (!itemId) return;
-
-		$rootScope.model.pickList.removeFromLayout(itemId);
-		$rootScope.model.pickList.initItemFromItems(itemId);
-		$scope.items = [{ itemId: "", background:"image" }].concat($rootScope.model.pickList.items);
-
-		if ($scope.doDelete) {
-			$rootScope.model.pickList.removeFromItems(itemId);
-
-			if ($scope.indexItem >= 1) {
-				if ($scope.items.length > $scope.indexItem + 1) {
-					$scope.selectItem($scope.indexItem + 1);
-				} else if ($scope.items.length == $scope.indexItem + 1){
-					$scope.selectItem($scope.indexItem - 1);
-				}
-
-			} else {
-				$scope.selectItem(0);
-			}
-
-		} else {
-			$scope.selectItem($scope.indexItem);
-		}
-
-		$rootScope.model.pickList.locate($rootScope.language);
-		$rootScope.dialog = "mountItem";
-		$timeout(function() { scrollItems.refresh(); }, 200);
-	};*/
-
 	$scope.back = function(){
 		$rootScope.dialog = "mountItem";
 	};
@@ -219,7 +187,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     });
 
     $scope.apply = function() {
-        //if (!$scope.doApplyCheck("all")) return;
+        if (!$scope.doApplyCheck("all")) return;
 
         var items = new ItemBlank;
         $scope.itemSelected.isblank = false;
@@ -298,30 +266,34 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             $rootScope.dialog = "";
             return false;
         }
-        var startOfDayLength = res.string.getLength($scope.itemSelected.startOfDay);
-        var endOfDayLength = res.string.getLength($scope.itemSelected.endOfDay);
+        var startOfDay = $scope.itemSelected.startOfDay;
+        var endOfDay = $scope.itemSelected.endOfDay;
 
-        if ((option=="all" || option=="itemId") && (startOfDayLength > 8 || endOfDayLength > 8)) {
-            $scope.itemSelected.startOfDayLength = res.string.truncate($scope.itemSelected.startOfDayLength, 8);
-            $scope.itemSelected.startOfDayLength = res.string.truncate($scope.itemSelected.startOfDayLength, 8);
-            $rootScope.model.failure.active = true;
-            $rootScope.model.failure.service = "advertise";
-            $rootScope.model.failure.cause = "maxDayNumbers8";
-            return false;
+        if ((option=="all" || option=="itemId")) {
+            if (startOfDay.substring(0,4) > endOfDay.substring(0,4)){
+                $rootScope.model.failure.active = true;
+                $rootScope.model.failure.service = "advertise";
+                $rootScope.model.failure.cause = "yearError";
+                return false;
+            }
+            if (startOfDay.substring(0,4) == endOfDay.substring(0,4)){
+                if (startOfDay.substring(4,6) > endOfDay.substring(4,6)){
+                    $rootScope.model.failure.active = true;
+                    $rootScope.model.failure.service = "advertise";
+                    $rootScope.model.failure.cause = "monthError";
+                    return false;
+                }
+            }
+            if(startOfDay.substring(0,4) == endOfDay.substring(0,4) && (startOfDay.substring(4,6) == endOfDay.substring(4,6))) {
+                if (startOfDay.substring(6,8) > endOfDay.substring(6,8)){
+                    $rootScope.model.failure.active = true;
+                    $rootScope.model.failure.service = "advertise";
+                    $rootScope.model.failure.cause = "dateError";
+                    return false;
+                }
+            }
+            
         }
-
-        /*if ((option=="all" || option=="line1")&&(filePartNameLength > 16 || fileFullNameLength >16 )) {
-            if ((option=="all" || option=="line1")&&(filePartNameLength > 16)) {
-                $scope.itemSelected.Part.fileName = res.string.truncate($scope.itemSelected.Part.fileName, 16);
-            }
-            if ((option=="all" || option=="line2")&&(fileFullNameLength > 16)) {
-                $scope.itemSelected.Full.fileName = res.string.truncate($scope.itemSelected.Full.fileName, 16);
-            }
-            $rootScope.model.failure.active = true;
-            $rootScope.model.failure.service = "advertise";
-            $rootScope.model.failure.cause = "maxCharacters8";
-            return false;
-        }*/
 
         return true;
     };

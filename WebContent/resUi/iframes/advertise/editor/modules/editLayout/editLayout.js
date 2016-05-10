@@ -236,7 +236,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
     
     $scope.remove = function() {
-        $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = {};
+        $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = new ItemBlank();
         $rootScope.dialog = "";
     };
     
@@ -247,6 +247,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             $("#deployStoreValue").focus();
         } else if (index == 1) {
             $("#DeployStartDateValue").focus();
+        } else if (index == 2) {
             $("#DeployEndDateValue").focus();
         }
     };

@@ -57,9 +57,8 @@ res.model = res.model || {};
                             layout[i].push([]);
                             layout[i][j%5] = new ItemBlank();
                             layout[i][j%5].picturePart = rules[j].fileName;
-                            layout[i][j%5].pictureFull = rules[j].fileNameFullScreen.replace('_1020*640','');
-                            //layout[i][j%5].picturePart = layout[i][j%5].Part.fileName;
-                            //layout[i][j%5].pictureFull = layout[i][j%5].Full.fileName;
+                            //layout[i][j%5].pictureFull = rules[j].fileNameFullScreen.replace('_1020*640','');
+                            layout[i][j%5].pictureFull = rules[j].fileNameFullScreen;
                             layout[i][j%5].startOfDay = rules[j].start;
                             layout[i][j%5].endOfDay = rules[j].end;
                             var temp = rules[j].description;
@@ -70,7 +69,10 @@ res.model = res.model || {};
                             layout[i][j%5].Tel = tempArray[2];
                             layout[i][j%5].adName = tempArray[3];
                             layout[i][j%5].description = tempArray[4];
-                            layout[i][j%5].isblank = false;
+                            if (rules[j].fileName || rules[j].fileNameFullScreen || rules[j].start
+                                    || rules[j].end || rules[j].description){
+                                layout[i][j%5].isblank = false;
+                            }
                         }
 				}
 				

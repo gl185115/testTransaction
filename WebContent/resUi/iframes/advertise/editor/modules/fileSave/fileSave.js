@@ -80,17 +80,16 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 			var items = "res.config.advertise.rules = [\r\n";
 			for (i = 0; i < $rootScope.model.advertise.layout.length; i++){
                 for (j = 0; j< $rootScope.model.advertise.layout[i].length; j++){
-                    var pictureArr = $rootScope.model.advertise.layout[i][j].pictureFull && $rootScope.model.advertise.layout[i][j].pictureFull.split("."),
+                    /*var pictureArr = $rootScope.model.advertise.layout[i][j].pictureFull && $rootScope.model.advertise.layout[i][j].pictureFull.split("."),
                         fullScreen = '';
-                     //format = pictureArr[pictureArr.length-1],
                      if (pictureArr){
                         pictureArr.splice(pictureArr.length - 1 , 0 , "_1020*640.");
                         fullScreen = pictureArr && pictureArr.join('');
-                     }
-                     //completeArr.lastIndexOf(format)
+                     }*/
                     items += angular.toJson({
                         fileName: $rootScope.model.advertise.layout[i][j].picturePart ? $rootScope.model.advertise.layout[i][j].picturePart : '',
-                        fileNameFullScreen: fullScreen ,
+                        //fileNameFullScreen: fullScreen ,
+                        fileNameFullScreen: $rootScope.model.advertise.layout[i][j].pictureFull ? $rootScope.model.advertise.layout[i][j].pictureFull : '',
                         start: $rootScope.model.advertise.layout[i][j].startOfDay,
                         end: $rootScope.model.advertise.layout[i][j].endOfDay,
                         description: $rootScope.model.advertise.layout[i][j].companyId + "," +

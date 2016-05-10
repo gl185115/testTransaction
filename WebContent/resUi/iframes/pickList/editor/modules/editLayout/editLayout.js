@@ -408,7 +408,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                     data : {
                         filename : dataFileName,
                         filecontent : file,
-                        folder : "pickList/images"
+                        folder : "pickList/images",
+                        sizeType : 0
                     }
                 });
             };

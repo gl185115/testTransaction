@@ -15,6 +15,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 			if (indexEdit != "editLayout") return;
 
 			for (var i = 0; i < $rootScope.model.pickList.categories.length; i++){
+			    var wrapperPickList = document.getElementById('wrapperPickList' + i);
+			    if(!wrapperPickList) return;
 				scrolls[i] = new IScroll("#wrapperPickList" + i, {	// iScroll5
 					scrollX: true,
 					scrollY: false,

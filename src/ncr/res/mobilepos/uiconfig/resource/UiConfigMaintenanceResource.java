@@ -267,8 +267,8 @@ public class UiConfigMaintenanceResource {
 			} else {
 				tp.println("File save failed ");
 				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILESAVEFAILED, "File saved failed ");
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
 				result.setMessage(ResultBase.RES_FAILED_MSG);
 				return result;
 			}
@@ -1134,10 +1134,8 @@ public class UiConfigMaintenanceResource {
 						filename = Streams.asString(isFormField, StaticParameter.code_UTF8);
 					} else if ("folder".equals(fis.getFieldName())) {
 						folder = Streams.asString(isFormField, StaticParameter.code_UTF8);
-					}else if("advertise/images".equals(folder)){
-						if("sizeType".equals(fis.getFieldName())){
+					}else if("sizeType".equals(fis.getFieldName())){
 						sizeType = Integer.parseInt(Streams.asString(isFormField, StaticParameter.code_UTF8));
-						}
 					}
 				} else {
 					if ("form-file".equals(fis.getFieldName())) {
@@ -1158,10 +1156,10 @@ public class UiConfigMaintenanceResource {
 				}
 			}
 
-			if ("notices".equals(folder)) {
+			if ("notices/images".equals(folder)) {
 				stdtargetWidth = 256;
 				stdtargetHeight = 384;
-			} else if ("pickList".equals(folder)) {
+			} else if ("pickList/images".equals(folder)) {
 				stdtargetWidth = 114;
 				stdtargetHeight = 76;
 			}else if("advertise/images".equals(folder)){
@@ -1194,21 +1192,33 @@ public class UiConfigMaintenanceResource {
 				try {
 					stream.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					tp.println("Stream IO exception occured. ");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_TILL, "Stream IO exception occured.");
+					result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+					result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+					result.setMessage(e.getMessage());
 				}
 			}
 			if (isFormField != null) {
 				try {
 					isFormField.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					tp.println("Stream IO exception occured. ");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_TILL, "Stream IO exception occured.");
+					result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+					result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+					result.setMessage(e.getMessage());
 				}
 			}
 			if (isFormFile != null) {
 				try {
 					isFormFile.close();
 				} catch (IOException e) {
-					e.printStackTrace();
+					tp.println("Stream IO exception occured. ");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_TILL, "Stream IO exception occured.");
+					result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+					result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+					result.setMessage(e.getMessage());
 				}
 			}
 			tp.methodExit(result.toString());

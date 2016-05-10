@@ -35,7 +35,8 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
                     data : {
                         filename : reader.filename,
                         filecontent : file,
-                        folder : "pickList/images"
+                        folder : "pickList/images",
+                        sizeType : 0
                     }
                 });
             }

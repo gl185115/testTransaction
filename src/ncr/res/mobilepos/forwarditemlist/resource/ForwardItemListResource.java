@@ -98,8 +98,8 @@ public class ForwardItemListResource {
      * @return Forward Item data
      */
 //    @Path("/request")
-    @GET
-    @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
+//    @GET
+//    @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
     public final String requestForwardData(
             @QueryParam("storeid") final String storeid,
             @QueryParam("terminalid") final String terminalid,

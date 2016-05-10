@@ -6,7 +6,7 @@
     <servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
     <init-param>
       <param-name>com.sun.jersey.config.property.packages</param-name>
-      <param-value>	
+      <param-value>
         ncr.res.mobilepos.authentication.resource,
         ncr.res.mobilepos.barcode.resource,
         ncr.res.mobilepos.buyadditionalinfo.resource,
@@ -123,6 +123,7 @@
       <url-pattern>/rest/till/*</url-pattern>
       <url-pattern>/rest/transaction/*</url-pattern>
       <url-pattern>/rest/xebioapi/*</url-pattern>
+      <url-pattern>/rest/ItemForward/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

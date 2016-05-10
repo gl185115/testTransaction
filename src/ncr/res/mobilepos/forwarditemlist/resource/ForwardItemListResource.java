@@ -8,6 +8,8 @@
  */
 package ncr.res.mobilepos.forwarditemlist.resource;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
@@ -20,17 +22,28 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
+import ncr.realgate.util.Snap;
+import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
-import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
+import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
+import ncr.res.mobilepos.journalization.model.ForwardList;
+import ncr.res.mobilepos.journalization.model.ForwardListInfo;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
-import ncr.realgate.util.Snap;
-import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
+import ncr.res.mobilepos.journalization.model.poslog.PosLog;
+import ncr.res.mobilepos.model.ResultBase;
 
 /**
  * Transfer transactions between smart phone and POS.
@@ -49,10 +62,14 @@ public class ForwardItemListResource {
      * Instance of SnapLogger for output error transaction data to snap file.
      */
     private SnapLogger snap;
-    
+    /**
+     * The program name.
+     */
+    private static final String PROG_NAME = "ForwdItm";
+
     @Context
     private ServletContext context; //to access the web.xml
-    
+
     /**
      * Constructor.
      */
@@ -80,7 +97,7 @@ public class ForwardItemListResource {
      * @param txdate       The BusinessDate
      * @return Forward Item data
      */
-    @Path("/request")
+//    @Path("/request")
     @GET
     @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
     public final String requestForwardData(
@@ -105,13 +122,13 @@ public class ForwardItemListResource {
 			posLogXml = forwardItemListDAO.getShoppingCartData(actualstoreid,
 					terminalid, txdate);
         } catch (DaoException e) {
-            LOGGER.logAlert("ForwdItm",
+            LOGGER.logAlert(PROG_NAME,
                     "ForwardItemListResource.requestForwardData",
                     Logger.RES_EXCEP_DAO,
                     "Failed to process requestForwardData.\n"
                     + e.getMessage());
         } catch (Exception e) {
-            LOGGER.logAlert("ForwdItm",
+            LOGGER.logAlert(PROG_NAME,
                     "ForwardItemListResource.requestForwardData",
                     Logger.RES_EXCEP_GENERAL,
                     "Failed to process requestForwardData.\n"
@@ -142,17 +159,17 @@ public class ForwardItemListResource {
             println("TransactionDate", txdate);
 
         //store id is 4 digits in POS, so anyway set to 6 digits with 0.
-		String actualstoreid = String.format("%6s", storeid).replace(" ", "0");
-        
+        String actualstoreid = String.format("%6s", storeid).replace(" ", "0");
+
         ForwardCountData forwardCountData = new ForwardCountData();
         String countXml = null;
         try {
-			DAOFactory sqlServer = DAOFactory
-					.getDAOFactory(DAOFactory.SQLSERVER);
-			IForwardItemListDAO forwardItemListDAO = sqlServer
-					.getForwardItemListDAO();
-			forwardCountData = forwardItemListDAO.getForwardCountData(
-					actualstoreid, terminalid, txdate);
+            DAOFactory sqlServer = DAOFactory
+                    .getDAOFactory(DAOFactory.SQLSERVER);
+            IForwardItemListDAO forwardItemListDAO = sqlServer
+                    .getForwardItemListDAO();
+            forwardCountData = forwardItemListDAO.getForwardCountData(
+                    actualstoreid, terminalid, txdate);
 
             XmlSerializer<ForwardCountData> xmlSerializer =
                 new XmlSerializer<ForwardCountData>();
@@ -160,11 +177,11 @@ public class ForwardItemListResource {
                     forwardCountData, "shift_jis");
             countXml = countXml.replace(" standalone=\"yes\"", "");
         } catch (JAXBException e) {
-            LOGGER.logAlert("ForwdItm", "ForwardItemListResource.getCount",
+            LOGGER.logAlert(PROG_NAME, "ForwardItemListResource.getCount",
                     Logger.RES_EXCEP_JAXB,
                     "Failed to process getCount.\n " + e.getMessage());
         } catch (DaoException e) {
-            LOGGER.logAlert("ForwdItm", "ForwardItemListResource.getCount",
+            LOGGER.logAlert(PROG_NAME, "ForwardItemListResource.getCount",
                     Logger.RES_EXCEP_DAO,
                     "Failed to process getCount.\n " + e.getMessage());
         } finally {
@@ -194,7 +211,7 @@ public class ForwardItemListResource {
         tp.println("POSLogXML", poslogXml).println("DeviceNo", deviceNo).
             println("TerminalNo", terminalNo);
 
-        PosLogResp posLogResponse = null;        
+        PosLogResp posLogResponse = null;
         try {
 			DAOFactory sqlServer = DAOFactory
 					.getDAOFactory(DAOFactory.SQLSERVER);
@@ -203,21 +220,21 @@ public class ForwardItemListResource {
 			posLogResponse = forwardItemListDAO.uploadItemForwardData(deviceNo,
 					terminalNo, poslogXml);
         } catch (DaoException e) {
-            LOGGER.logAlert("ForwdItm",
+            LOGGER.logAlert(PROG_NAME,
                     "ForwardItemListResource.uploadForwardData",
                     Logger.RES_EXCEP_DAO,
                     "Failed to process uploadForwardData.\n" + e.getMessage());
             Snap.SnapInfo info = snap.write("poslog xml data", poslogXml);
-            LOGGER.logSnap("ForwdItm",
+            LOGGER.logSnap(PROG_NAME,
                     "ForwardItemListResource.uploadForwardData",
                     "Output error transaction data to snap file.", info);
         } catch (Exception e) {
-            LOGGER.logAlert("ForwdItm",
+            LOGGER.logAlert(PROG_NAME,
                     "ForwardItemListResource.uploadForwardData",
                     Logger.RES_EXCEP_GENERAL,
                     "Failed to process uploadForwardData.\n" + e.getMessage());
             Snap.SnapInfo info = snap.write("poslog xml data", poslogXml);
-            LOGGER.logSnap("ForwdItm",
+            LOGGER.logSnap(PROG_NAME,
                     "ForwardItemListResource.uploadForwardData",
                     "Output error transaction data to snap file.", info);
         } finally {
@@ -225,5 +242,269 @@ public class ForwardItemListResource {
         }
 
         return posLogResponse;
+    }
+
+    /**
+     * 前捌きデータ登録
+     * @param poslogxml
+     * @param queue
+     * @param workstationid
+     * @param trainingmode
+     * @param total
+     * @return ResultBase
+     */
+    @POST
+    @Path("/suspend")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public final ResultBase saveForwardPosLog(
+            @FormParam("poslogxml") final String poslogxml,
+            @FormParam("queue") final String queue,
+            @FormParam("workstationid") final String workstationid,
+            @FormParam("trainingmode") final String trainingmode,
+            @FormParam("total") final String total) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("poslogxml", poslogxml);
+        tp.methodEnter(functionName).println("queue", queue);
+        tp.methodEnter(functionName).println("workstationid", workstationid);
+        tp.methodEnter(functionName).println("trainingmode", trainingmode);
+        tp.methodEnter(functionName).println("total", total);
+
+        if (snap == null) {
+            snap = (SnapLogger) SnapLogger.getInstance();
+        }
+
+        ResultBase resultBase = new ResultBase();
+
+        try {
+            // unmarshall poslog xml
+            XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
+            PosLog posLog = poslogSerializer.unMarshallXml(poslogxml, PosLog.class);
+
+            // check if valid poslog
+            if (!POSLogHandler.isValid(posLog)) {
+                tp.println("Required POSLog elements are missing.");
+                Snap.SnapInfo info = snap.write("Required POSLog elements are missing.", poslogxml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Invalid POSLog Transaction to snap file", info);
+                resultBase.setMessage("Required POSLog elements are missing.");
+                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                return resultBase;
+            }
+
+            // check if valid business date format
+            String businessDate = posLog.getTransaction().getBusinessDayDate();
+            if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+                tp.println("BusinessDayDate should be in yyyy-MM-dd format.");
+                resultBase.setNCRWSSResultCode(ResultBase.RESSYS_ERROR_QB_DATEINVALID);
+                resultBase.setMessage("BusinessDayDate should be in yyyy-MM-dd format.");
+                return resultBase;
+            }
+
+            // save poslog
+            DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IPosLogDAO quebusterDAO = dao.getPOSLogDAO();
+            int result = quebusterDAO.saveForwardPosLog(posLog, poslogxml, queue, total);
+
+            if (result == SQLResultsConstants.ROW_DUPLICATE) {
+                result = 0;
+                LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
+                        "Duplicate suspended transaction. It writes out to a snap file.");
+                Snap.SnapInfo duplicatePOSLog = snap.write("Duplicate POSLog Transaction", poslogxml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
+            }
+
+            resultBase.setNCRWSSResultCode(result);
+
+        } catch (DaoException ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", poslogxml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_DAO, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_DB, ResultBase.RES_ERROR_DB, ex);
+        } catch (JAXBException ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", poslogxml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_JAXB, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_JAXB, ResultBase.RES_ERROR_JAXB, ex);
+        } catch (Exception ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", poslogxml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, ex);
+        } finally {
+            tp.methodExit(resultBase.toString());
+        }
+        return resultBase;
+    }
+
+    /**
+     * 前捌きデータ取得
+     *
+     * @param CompanyId
+     * @param RetailStoreId
+     * @param WorkstationId
+     * @param SequenceNumber
+     * @param Queue
+     * @param BusinessDayDate
+     * @param TrainingFlag
+     * @return
+     */
+    @Path("/resume")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public final SearchForwardPosLog getForwardItems(@FormParam("CompanyId") String CompanyId,
+            @FormParam("RetailStoreId") String RetailStoreId, @FormParam("WorkstationId") String WorkstationId,
+            @FormParam("SequenceNumber") String SequenceNumber, @FormParam("Queue") String Queue,
+            @FormParam("BusinessDayDate") String BusinessDayDate, @FormParam("TrainingFlag") String TrainingFlag) {
+        tp.println("CompanyId", CompanyId);
+        tp.println("RetailStoreId", RetailStoreId);
+        tp.println("WorkstationId", WorkstationId);
+        tp.println("SequenceNumber", SequenceNumber);
+        tp.println("Queue", Queue);
+        tp.println("BusinessDayDate", BusinessDayDate);
+        tp.println("TrainingFlag", TrainingFlag);
+
+        SearchForwardPosLog poslog = new SearchForwardPosLog();
+        try {
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IPosLogDAO posLogDAO = sqlServer.getPOSLogDAO();
+            poslog = posLogDAO.getForwardItemsPosLog(CompanyId, RetailStoreId, WorkstationId, SequenceNumber, Queue,
+                    BusinessDayDate, TrainingFlag);
+
+            if (StringUtility.isNullOrEmpty(poslog.getPosLogXml())) {
+                poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+                tp.println("Forward poslog not found.");
+            } else {
+                XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
+                poslog.setPoslog(poslogSerializer.unMarshallXml(poslog.getPosLogXml(), PosLog.class));
+            }
+        } catch (DaoException ex) {
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO, "Failed to get poslog xml", ex);
+            poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+        } catch (Exception ex) {
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, "Failed to get poslog xml", ex);
+            poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        }
+        return (SearchForwardPosLog) tp.methodExit(poslog);
+    }
+
+    /**
+     * 前捌きデータ一覧取得
+     *
+     * @param CompanyId
+     * @param RetailStoreId
+     * @param TrainingFlag
+     * @param LayawayFlag
+     * @return ResultBase
+     */
+    @POST
+    @Path("/list")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public final ResultBase getForwardList(
+            @FormParam("CompanyId") String CompanyId,
+            @FormParam("RetailStoreId") String RetailStoreId,
+            @FormParam("TrainingFlag") String TrainingFlag,
+            @FormParam("LayawayFlag") String LayawayFlag) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.println("CompanyId", CompanyId);
+        tp.println("StoreCode", RetailStoreId);
+        tp.println("Training", TrainingFlag);
+        tp.println("LayawayFlag", LayawayFlag);
+
+        ForwardList result = new ForwardList();
+        try {
+            if (StringUtility.isNullOrEmpty(RetailStoreId)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return result;
+            }
+
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
+            List<ForwardListInfo> forwardList = iBarneysCommenDAO.getForwardList(CompanyId, RetailStoreId,
+                    TrainingFlag, LayawayFlag);
+            result.setForwardListInfo(forwardList);
+            result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+            result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+            result.setMessage(ResultBase.RES_SUCCESS_MSG);
+        } catch (DaoException e) {
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get forward list.", e);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            result.setMessage(e.getMessage());
+        } catch (Exception ex) {
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward list.", ex);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(ex.getMessage());
+        }
+        return (ForwardList) tp.methodExit(result);
+    }
+
+    /**
+     * 前捌きデータステータス更新
+     *
+     * @param CompanyId
+     * @param RetailStoreId
+     * @param WorkstationId
+     * @param SequenceNumber
+     * @param Queue
+     * @param BusinessDayDate
+     * @param TrainingFlag
+     * @param Status
+     * @return ResultBase
+     */
+    @Path("/request")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    public final ResultBase updateForwardStatus(
+            @FormParam("CompanyId") String CompanyId,
+            @FormParam("RetailStoreId") String RetailStoreId,
+            @FormParam("WorkstationId") String WorkstationId,
+            @FormParam("SequenceNumber") String SequenceNumber,
+            @FormParam("Queue") String Queue,
+            @FormParam("BusinessDayDate") String BusinessDayDate,
+            @FormParam("TrainingFlag") String TrainingFlag,
+            @FormParam("Status") int Status) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.println("CompanyId", CompanyId);
+        tp.println("RetailStoreId", RetailStoreId);
+        tp.println("WorkstationId", WorkstationId);
+        tp.println("SequenceNumber", SequenceNumber);
+        tp.println("Queue", Queue);
+        tp.println("BusinessDayDate", BusinessDayDate);
+        tp.println("TrainingFlag", TrainingFlag);
+        tp.println("Status", Status);
+
+        ResultBase resultBase = new ResultBase();
+        try {
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
+            int result = iBarneysCommenDAO.updateForwardStatus(CompanyId, RetailStoreId, WorkstationId, SequenceNumber,
+                    Queue, BusinessDayDate, TrainingFlag, Status);
+
+            if (result == SQLResultsConstants.ROW_DUPLICATE) {
+                result = 0;
+                LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
+                        "Failed to update Forward status.\n");
+            }
+            resultBase.setNCRWSSResultCode(result);
+
+        } catch (DaoException ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+                    "Failed to update Forward status.\n" + ex.getMessage());
+            resultBase = new ResultBase(ResultBase.RES_ERROR_DB, ResultBase.RES_ERROR_DB, ex);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+                    "Failed to update Forward status.\n" + ex.getMessage());
+            resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, ex);
+        } finally {
+            tp.methodExit(resultBase.toString());
+        }
+        return resultBase;
     }
 }

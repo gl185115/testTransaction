@@ -194,18 +194,11 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         items.isblank = false;
         items.picturePart = $scope.itemSelected.picturePart;
         items.pictureFull = $scope.itemSelected.pictureFull;
-        /*var partArr = items.picturePart && items.picturePart.split(".");
-        var partLeng = partArr[partArr.length - 1].length;
-        items.Part.fileName = items.Part.picture ? items.Part.picture.substring(0, items.Part.picture.length - partLeng + 1) : "";
-        var fullArr = items.Full.picture && items.Full.picture.split(".");
-        var fullLeng = fullArr[fullArr.length-1].length;
-        items.Full.fileName = items.Full.picture ? items.Full.picture.substring(0, items.Full.picture.length - fullLeng + 1) : "";*/
         items.startOfDay = $scope.itemSelected.startOfDay;
         items.endOfDay = $scope.itemSelected.endOfDay;
-        items.companyName = $scope.itemSelected.companyName;
-        items.adName = $scope.itemSelected.adName;
-        items.description = $scope.itemSelected.description;
-        
+        items.companyName = typeof($scope.itemSelected.companyName) == 'undefined' ? '' : $scope.itemSelected.companyName;
+        items.adName = typeof($scope.itemSelected.adName) == 'undefined' ? '' : $scope.itemSelected.adName;
+        items.description = typeof($scope.itemSelected.description) == 'undefined' ? '' : $scope.itemSelected.description;
         $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = angular.copy(items);
         $rootScope.dialog = "";
     };
@@ -253,11 +246,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         if (index == 0) {
             $("#deployStoreValue").focus();
         } else if (index == 1) {
-            $("#DeployDateValue").focus();
-        } else if (index == 2) {
-            $scope.selectDeployTime(1);
-        } else if (index == 3) {
-            $scope.selectDeployTime(2);
+            $("#DeployStartDateValue").focus();
+            $("#DeployEndDateValue").focus();
         }
     };
     
@@ -269,7 +259,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         var startOfDay = $scope.itemSelected.startOfDay;
         var endOfDay = $scope.itemSelected.endOfDay;
 
-        if ((option=="all" || option=="itemId")) {
+        if ((option=="all" || option=="itemId") && startOfDay && endOfDay) {
             if (startOfDay.substring(0,4) > endOfDay.substring(0,4)){
                 $rootScope.model.failure.active = true;
                 $rootScope.model.failure.service = "advertise";
@@ -292,9 +282,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                     return false;
                 }
             }
-            
         }
-
         return true;
     };
     

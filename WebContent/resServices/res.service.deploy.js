@@ -74,7 +74,7 @@ $(document).ready(function() {
 		getDeployStatus: function(data, callback) {
 			$.ajax({
 				type: 'POST',
-				url: res.config.baseURL + "getDeployStatus",
+				url: res.config.baseURL + "rest/uiconfigMaintenance/getDeployStatus",
 				data: {
 					companyID : data.companyID,
 					resource : data.resource
@@ -92,7 +92,7 @@ $(document).ready(function() {
 		getDeployDetail: function(data, callback) {
 			$.ajax({
 				type: 'POST',
-				url: res.config.baseURL + "getDeployDetail",
+				url: res.config.baseURL + "rest/uiconfigMaintenance/getDeployDetail",
 				data: {
 					taskStoreType: data.taskStoreType,
 					taskStoreEntry: data.taskStoreEntry,

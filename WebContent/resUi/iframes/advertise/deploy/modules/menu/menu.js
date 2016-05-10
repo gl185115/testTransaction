@@ -42,7 +42,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
             event : "deploy.advertise.setSchedule",
             data : {
                 schedule : JSON.stringify({ schedule : $rootScope.model.schedule }),
-                resource : "advertisement"
+                resource : "advertise"
             }
         });
     };

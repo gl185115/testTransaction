@@ -38,14 +38,14 @@ res.model = res.model || {};
             model.schedule = data.schedule;
             model.load();
 
-            res.ui.send({
+      /*      res.ui.send({
                 context : res.ui.context,
                 event: "deploy.advertise.getDeployStatus",
                 data: {
                     companyID : res.storage.getItem("CompanyID"),
                     resource : "advertise"
                 }
-            });
+            });*/
 
             break;
 //      case "deploy.advertise.getSchedule.failed":

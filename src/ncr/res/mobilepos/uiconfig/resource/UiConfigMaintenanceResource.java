@@ -988,7 +988,7 @@ public class UiConfigMaintenanceResource {
 			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
 				resource = pResource.split(StaticParameter.str_separator)[0];
 				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
-				img_picture = new File(dir_resource, pResource);
+				img_picture = new File(dir_resource, StaticParameter.str_separator + StaticParameter.key_images);
 				img_picture = new File(img_picture, pFileName);
 
 				if (pFileName.contains(StaticParameter.str_separator)) {
@@ -1008,6 +1008,8 @@ public class UiConfigMaintenanceResource {
 						content = chargeFileSeparator(content);
 					} else if (StaticParameter.key_notices.equalsIgnoreCase(resource)) {
 						pictureName = pFileName;
+					} else if(StaticParameter.key_advertise.equalsIgnoreCase(resource)){
+						content = chargeFileSeparator(content);
 					}
 
 					if (!StringUtility.isNullOrEmpty(content) && content.contains(pictureName)) {

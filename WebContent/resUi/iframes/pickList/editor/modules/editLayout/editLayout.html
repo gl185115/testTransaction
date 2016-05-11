@@ -179,8 +179,10 @@
 							<img data-ng-src="{{itemSelected.picture?folder + itemSelected.picture:''}}" />
 						</div>
 						<div class="LabelBox">
+							<!-- <p
+								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p> -->
 							<p
-								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p>
+								data-ng-bind-html="itemSelected.inputLabel.line1 + '<br>' + itemSelected.inputLabel.line2 | resConvertLF"></p>
 						</div>
 					</div>
 					<div class="InnerBox"
@@ -189,14 +191,18 @@
 							<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
 						</div>
 						<div class="LabelBox">
+							<!-- <p
+								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p> -->
 							<p
-								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p>
+								data-ng-bind-html="itemSelected.inputLabel.line1 + '<br>' + itemSelected.inputLabel.line2 | resConvertLF"></p>
 						</div>
 					</div>
 					<div class="InnerBox" data-ng-show="itemSelected.background!='image'"
 						data-ng-class="itemSelected.background">
+						<!-- <p
+							data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p> -->
 						<p
-							data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p>
+							data-ng-bind-html="itemSelected.inputLabel.line1 + '<br>' + itemSelected.inputLabel.line2 | resConvertLF"></p>
 					</div>
 				</div>
 				<div class="ImageFile">

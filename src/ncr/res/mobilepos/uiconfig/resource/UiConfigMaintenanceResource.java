@@ -585,7 +585,7 @@ public class UiConfigMaintenanceResource {
 						BufferedImage sourceImg = null;
 						int pictureWidth = -1;
 						try {
-							sourceImg = ImageIO.read(new FileInputStream(subFileDir));
+							sourceImg = ImageIO.read(new File(subFileDir.getPath()));
 							pictureWidth = sourceImg.getWidth();
 							sourceImg = null;
 							if(sizeType == 1){
@@ -915,9 +915,9 @@ public class UiConfigMaintenanceResource {
 			imageFileArr = new ArrayList<FileRemove>();
 
 			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
-				resource = pResource.split(StaticParameter.str_separator)[1];
+				resource = pResource.split(StaticParameter.str_separator)[0];
 				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
-				img_picture = new File(dir_resource, pResource);
+				img_picture = new File(dir_resource, StaticParameter.str_separator + StaticParameter.key_images);
 				img_picture = new File(img_picture, pFileName);
 
 				if (pFileName.contains(StaticParameter.str_separator)) {
@@ -939,6 +939,8 @@ public class UiConfigMaintenanceResource {
 						content = chargeFileSeparator(content);
 					} else if (StaticParameter.key_notices.equalsIgnoreCase(resource)) {
 						pictureName = pFileName;
+					} else if(StaticParameter.key_advertise.equalsIgnoreCase(resource)){
+						content = chargeFileSeparator(content);
 					}
 
 					if (!StringUtility.isNullOrEmpty(content) && content.contains(pictureName)) {

@@ -208,7 +208,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
     
     $scope.cancel = function() {
-        $rootScope.dialog = "";
+        $rootScope.dialog = "mountItem";
     };
     
     $scope.addItems = function() {

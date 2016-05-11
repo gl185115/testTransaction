@@ -96,7 +96,9 @@ public class ForwardItemListResource {
      * @param terminalid   The Terminal ID
      * @param txdate       The BusinessDate
      * @return Forward Item data
+     * @deprecated
      */
+    @Deprecated
 //    @Path("/request")
 //    @GET
 //    @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
@@ -115,12 +117,12 @@ public class ForwardItemListResource {
         String actualstoreid = String.format("%6s", storeid).replace(" ", "0");
 
         try {
-			DAOFactory sqlServer = DAOFactory
-					.getDAOFactory(DAOFactory.SQLSERVER);
-			IForwardItemListDAO forwardItemListDAO = sqlServer
-					.getForwardItemListDAO();
-			posLogXml = forwardItemListDAO.getShoppingCartData(actualstoreid,
-					terminalid, txdate);
+            DAOFactory sqlServer = DAOFactory
+                    .getDAOFactory(DAOFactory.SQLSERVER);
+            IForwardItemListDAO forwardItemListDAO = sqlServer
+                    .getForwardItemListDAO();
+            posLogXml = forwardItemListDAO.getShoppingCartData(actualstoreid,
+                    terminalid, txdate);
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME,
                     "ForwardItemListResource.requestForwardData",
@@ -136,7 +138,6 @@ public class ForwardItemListResource {
         } finally {
             tp.methodExit(posLogXml);
         }
-
         return posLogXml;
     }
 
@@ -146,7 +147,9 @@ public class ForwardItemListResource {
      * @param terminalid       The Terminal ID
      * @param txdate           The BusinessDate
      * @return the count of Forward data
+     * @deprecated
      */
+    @Deprecated
     @Path("/getCount")
     @GET
     @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
@@ -197,7 +200,9 @@ public class ForwardItemListResource {
      * @param terminalNo    The Terminal No
      * @param deviceNo      The Device Number
      * @return The POSLog Response {@see PosLogResp}
+     * @deprecated
      */
+    @Deprecated
     @Path("/uploadforward")
     @POST
     @Consumes("application/x-www-form-urlencoded")
@@ -213,12 +218,12 @@ public class ForwardItemListResource {
 
         PosLogResp posLogResponse = null;
         try {
-			DAOFactory sqlServer = DAOFactory
-					.getDAOFactory(DAOFactory.SQLSERVER);
-			IForwardItemListDAO forwardItemListDAO = sqlServer
-					.getForwardItemListDAO();
-			posLogResponse = forwardItemListDAO.uploadItemForwardData(deviceNo,
-					terminalNo, poslogXml);
+            DAOFactory sqlServer = DAOFactory
+                    .getDAOFactory(DAOFactory.SQLSERVER);
+            IForwardItemListDAO forwardItemListDAO = sqlServer
+                    .getForwardItemListDAO();
+            posLogResponse = forwardItemListDAO.uploadItemForwardData(deviceNo,
+                    terminalNo, poslogXml);
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME,
                     "ForwardItemListResource.uploadForwardData",
@@ -240,7 +245,6 @@ public class ForwardItemListResource {
         } finally {
             tp.methodExit(posLogResponse);
         }
-
         return posLogResponse;
     }
 
@@ -499,7 +503,7 @@ public class ForwardItemListResource {
                     "Failed to update Forward status.\n" + ex.getMessage());
             resultBase = new ResultBase(ResultBase.RES_ERROR_DB, ResultBase.RES_ERROR_DB, ex);
         } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to update Forward status.\n" + ex.getMessage());
             resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, ex);
         } finally {

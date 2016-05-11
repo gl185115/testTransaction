@@ -585,7 +585,7 @@ public class UiConfigMaintenanceResource {
 						BufferedImage sourceImg = null;
 						int pictureWidth = -1;
 						try {
-							sourceImg = ImageIO.read(new File(subFileDir.getPath()));
+							sourceImg = ImageIO.read(subFileDir);
 							pictureWidth = sourceImg.getWidth();
 							sourceImg = null;
 							if(sizeType == 1){

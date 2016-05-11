@@ -71,7 +71,7 @@ res.ui.controller("tasks", ["$scope", "$rootScope", "$timeout", function($scope,
             taskStoreEntry = activeTask.target.store;
         }
 
-        res.ui.send({
+        /*res.ui.send({
             context : res.ui.context,
             event: "deploy.advertise.getDeployDetail",
             data: {
@@ -80,7 +80,7 @@ res.ui.controller("tasks", ["$scope", "$rootScope", "$timeout", function($scope,
                 taskFileName: activeTask.filename,
                 taskEffective: activeTask.effective
             }
-        });
+        });*/
     };
 
     /*$scope.selectDetail = function(index){

@@ -419,9 +419,10 @@
 
 
 .ImageBox img {
-	display: block;
+    display: block;
     margin: auto auto;
-    max-height: 70px;
+    max-width:60%;
+    max-height:70px;
 }
 
 #EditLayout .Background .resCasing,

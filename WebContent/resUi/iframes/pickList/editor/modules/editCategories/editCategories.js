@@ -74,6 +74,32 @@ res.ui.controller("editCategories", ["$scope", "$rootScope", "$timeout", functio
 
 		$rootScope.model.pickList.categories[$rootScope.indexCategory][$rootScope.language] = line1;
 		$rootScope.model.pickList.locate($rootScope.language);
+
+		$rootScope.model.printList= angular.copy($rootScope.model.pickList.items);
+		for(var i = 0;i< $rootScope.model.printList.length;i++){
+			var printItem = $rootScope.model.printList[i];
+			var description = printItem.description[res.ui.root.language];
+			if(typeof(description) == "undefined"){
+				description = printItem.description["jp"];
+			}
+			$rootScope.model.printList[i].label = {
+				line1: (description.indexOf("<br>") != -1)? description.slice(0, description.indexOf("<br>")) : description,
+				line2: (description.indexOf("<br>") != -1)? description.slice(description.indexOf("<br>") + "<br>".length) : "",
+			};
+			if(printItem.background=='image' && printItem.picture){
+				$rootScope.model.printList[i].isImage = "あり";
+				$rootScope.model.printList[i].imageName = printItem.picture;
+				$rootScope.model.printList[i].bgColor = "";
+			}else if(printItem.background=='image' && !printItem.picture){
+				$rootScope.model.printList[i].isImage = "あり";
+				$rootScope.model.printList[i].imageName = "準備中";
+				$rootScope.model.printList[i].bgColor = "";
+			}else if(printItem.background!='image'){
+				$rootScope.model.printList[i].isImage = "なし";
+				$rootScope.model.printList[i].imageName = "";
+				$rootScope.model.printList[i].bgColor = printItem.background;
+			}
+		}
 		$rootScope.indexCategory = undefined;
 	};
 

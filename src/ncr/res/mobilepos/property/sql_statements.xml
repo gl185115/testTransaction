@@ -6163,6 +6163,55 @@ ORDER BY
     COMMIT TRAN
   </entry>
 
+  <entry key="fetch-one-till">
+    SELECT
+    CompanyId, StoreId, TillId, TerminalId,
+    BusinessDayDate, SodFlag, EodFlag,
+    DeleteFlag, DelDate, DelAppId, DelOpeCode,
+    InsDate, InsAppId, InsOpeCode,
+    UpdCount, UpdDate, UpdAppId, UpdOpeCode
+    FROM
+    RESMaster.dbo.MST_TILLIDINFO
+    WHERE
+    CompanyId = ? AND StoreId= ? AND TillId = ?
+  </entry>
+
+  <!-- Optimistic locking to make sure sodFlag is unchanged from previous select. -->
+  <entry key="update-till-sodflag">
+    UPDATE
+    RESMaster.dbo.MST_TILLIDINFO
+    SET
+    TerminalId = ?,
+    SodFlag = ?,
+    BusinessDayDate = ?,
+    UpdDate = GETDATE(),
+    UpdAppId = ?,
+    UpdOpeCode = ?
+    WHERE
+    CompanyId = ? AND
+    StoreId = ? AND
+    TillId = ? AND
+    SodFlag = ?
+  </entry>
+
+  <!-- Optimistic locking to make sure sodFlag is unchanged from previous select. -->
+  <entry key="update-till-eodflag">
+    UPDATE
+    RESMaster.dbo.MST_TILLIDINFO
+    SET
+    TerminalId = ?,
+    EodFlag = ?,
+    BusinessDayDate = ?,
+    UpdDate = GETDATE(),
+    UpdAppId = ?,
+    UpdOpeCode = ?
+    WHERE
+    CompanyId = ? AND
+    StoreId = ? AND
+    TillId = ? AND
+    EodFlag = ?
+  </entry>
+
   <entry key="update-sod-till-updlock">
     DECLARE
       @storeid varchar(MAX),

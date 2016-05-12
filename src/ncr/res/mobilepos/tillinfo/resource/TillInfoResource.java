@@ -1,12 +1,15 @@
 package ncr.res.mobilepos.tillinfo.resource;
-/**
- * 改定履歴
- * バージョン        改定日付          担当者名      改定内容
- * 1.01      2015.03.09 YUANCHI  閉設の時、営業日一致性チェック処理を削除するように変更
- */
 
-import java.sql.SQLException;
-import java.util.List;
+import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.helper.*;
+import ncr.res.mobilepos.journalization.resource.JournalizationResource;
+import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
+import ncr.res.mobilepos.tillinfo.model.Till;
+import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
@@ -18,21 +21,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
-
-import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.DateFormatUtility;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.JsonMarshaller;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.journalization.resource.JournalizationResource;
-import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
-import ncr.res.mobilepos.tillinfo.model.Till;
-import ncr.res.mobilepos.tillinfo.model.ViewTill;
+import java.sql.SQLException;
+import java.util.List;
 /**
  * 
  * @author ES185134
@@ -62,22 +52,22 @@ public class TillInfoResource {
     private static final String PROG_NAME = "TilRsc";
 
     private String pathName = "till";
-    
+
     public static final String SOD_FLAG_UNFINISHED = "0";
-    
+
     public static final String SOD_FLAG_PROCESSING= "9";
 
     public static final String SOD_FLAG_FINISHED = "1";
-    
+
     public static final String EOD_FLAG_UNFINISHED = "0";
-    
+
     public static final String EOD_FLAG_PROCESSING= "9";
 
     public static final String EOD_FLAG_FINISHED = "1";
-    
+
     @Context
     private ServletContext servletContext;
-    
+
     /**
      * constructor.
      */
@@ -88,7 +78,7 @@ public class TillInfoResource {
     }
     /**
      * Service to view till details of given parameter storeid.
-     * 
+     *
      * @param storeid
      *            storeid to lookup.
      *@param tillid
@@ -140,7 +130,7 @@ public class TillInfoResource {
     }
     /**
      * Service to create a till for till id info table.
-     * 
+     *
      * @param storeid
      *            - store number
      * @param tillid
@@ -160,14 +150,14 @@ public class TillInfoResource {
         tp.methodEnter("createTill");
         tp.println("storeID", storeID).println("Till", till);
         tp.println("tillID", tillID);
-        
+
         ResultBase result = null;
 
         try {
             JsonMarshaller<Till> jsonMarshaller = new JsonMarshaller<Till>();
             Till cTill = jsonMarshaller.unMarshall(till, Till.class);
 
-            if(!StringUtility.isNullOrEmpty(cTill.getBusinessDayDate()) && 
+            if(!StringUtility.isNullOrEmpty(cTill.getBusinessDayDate()) &&
             		!DateFormatUtility.isLegalFormat(cTill.getBusinessDayDate(),
             				"yyyy-MM-dd")){
                 tp.println("Invalid value for till info");
@@ -176,7 +166,7 @@ public class TillInfoResource {
                 tp.methodExit(result);
                 return result;
             }
-            
+
             if (StringUtility.isNullOrEmpty(storeID)) {
                 tp.println("Invalid value for storeid");
                 result = new ResultBase(ResultBase.RES_STORE_INVALIDPARAMS,
@@ -192,7 +182,7 @@ public class TillInfoResource {
                 tp.methodExit(result);
                 return result;
             }
-            
+
             ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
             String appId = pathName.concat(".create");
             cTill.setUpdOpeCode(getOpeCode());
@@ -212,10 +202,10 @@ public class TillInfoResource {
         }
         return result;
     }
-    
+
     /**
      * Web Method called to update a store.
-     * 
+     *
      * @param storeid
      *            The retail Store id
      * @param storeJson
@@ -234,10 +224,10 @@ public class TillInfoResource {
         tp.methodEnter("updateTill");
         tp.println("storeID", storeID).println("till", tillJson);
         tp.println("tillID", tillID);
-        
+
         Till till = new Till();
         ViewTill viewTill = new ViewTill();
-        
+
         if (StringUtility.isNullOrEmpty(storeID)) {
             tp.println("Invalid value for storeid");
             viewTill.setNCRWSSResultCode(ResultBase.RES_STORE_INVALIDPARAMS);
@@ -251,13 +241,13 @@ public class TillInfoResource {
             tp.methodExit(viewTill);
             return viewTill;
         }
-        
+
         try {
             String appID = pathName.concat(".maintenance");
-            JsonMarshaller<Till> tillJsonMarshaller = new JsonMarshaller<Till>();             
+            JsonMarshaller<Till> tillJsonMarshaller = new JsonMarshaller<Till>();
             till = tillJsonMarshaller
                     .unMarshall(tillJson, Till.class);
-            
+
             if(!DateFormatUtility.
             		isLegalFormat(till.getBusinessDayDate(), "yyyy-MM-dd")){
                 tp.println("Invalid value for till info");
@@ -268,36 +258,93 @@ public class TillInfoResource {
             ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
             till.setUpdAppId(appID);
             till.setUpdOpeCode(getOpeCode());
-            viewTill = tillInfoDAO.updateTill(storeID, tillID, till);        
+            viewTill = tillInfoDAO.updateTill(storeID, tillID, till);
         } catch (DaoException ex) {
             LOGGER.logAlert(
                     PROG_NAME,
                     functionName,
                     Logger.RES_EXCEP_DAO,
-                    "Failed to update store# " + storeID + " and till#"+ tillID+":" 
-                            + ex.getMessage());
-
-            if (ex.getCause() instanceof SQLException) {
-            	viewTill.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-            }
-        } catch (Exception ex) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
                     "Failed to update store# " + storeID + " and till#"+ tillID+":"
                             + ex.getMessage());
-            viewTill.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-        } finally {			
-            tp.methodExit(viewTill);
-        }
-        return viewTill;
-    }
-    
-    private String getOpeCode(){
-        return ((context != null) && (context.getUserPrincipal()) != null) ? context
-                .getUserPrincipal().getName() : null;
-    }
+
+			if (ex.getCause() instanceof SQLException) {
+				viewTill.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(
+					PROG_NAME,
+					functionName,
+					Logger.RES_EXCEP_GENERAL,
+					"Failed to update store# " + storeID + " and till#"+ tillID+":"
+							+ ex.getMessage());
+			viewTill.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(viewTill);
+		}
+		return viewTill;
+	}
+
+	private String getOpeCode(){
+		return ((context != null) && (context.getUserPrincipal()) != null) ? context
+				.getUserPrincipal().getName() : null;
+	}
+
+	/**
+	 * Fetch one till by primaty key combination, companyId, storeId and tillId.
+	 *
+	 * @param companyId
+	 * @param storeId
+	 * @param tillId
+	 * @return ViewTill
+	 */
+	@Path("/fetchone")
+	@GET
+	@Produces({MediaType.APPLICATION_JSON})
+	public final ViewTill fetchOne(
+			@QueryParam("companyid") final String companyId,
+			@QueryParam("storeid") final String storeId,
+			@QueryParam("tillid") final String tillId) {
+		String functionName = "TillInfoResource.fetchOne";
+		tp.methodEnter("viewTill");
+		tp.println("companyId", companyId);
+		tp.println("storeId", storeId);
+		tp.println("tillId", tillId);
+
+		ViewTill result = new ViewTill();
+
+		try {
+			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
+			Till till = tillInfoDAO.fetchOne(companyId, storeId, tillId);
+			if (till != null) {
+				// Found.
+				result.setTill(till);
+			} else {
+				// Not found.
+				result.setNCRWSSResultCode(ResultBase.RES_TILL_NOT_EXIST);
+			}
+		} catch (DaoException ex) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+					"Failed to fetch one till#"
+							+ "CompanyId:" + companyId + ":StoreId:" + storeId + ":TillId:" + tillId + ":"
+							+ ex.getMessage());
+			if (ex.getCause() instanceof SQLException) {
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			} else {
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to fetch one till#"
+							+ "CompanyId:" + companyId + ":StoreId:" + storeId + ":TillId:" + tillId + ":"
+							+ ex.getMessage());
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(result.toString());
+		}
+
+		return result;
+	}
+
     /**
      * Web method called to get execution authority when SOD/EOD is triggered.
      * @param companyId - the company id which the Till belongs to.
@@ -312,16 +359,16 @@ public class TillInfoResource {
      * @return ResultBase
      */
     @Path("/getexecuteauthority")
-    @POST
+    @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public final ResultBase getExecuteAuthority(
-        @FormParam("companyid") final String companyId,
-		@FormParam("retailstoreid") final String storeId,
-		@FormParam("tillid") final String tillId,
-	    @FormParam("terminalid") final String terminalId,
-	    @FormParam("operatorno") final String operatorNo,
-	    @FormParam("processing") final String processingType,
-	    @FormParam("compulsoryflag") final String compulsoryFlag) {
+        @QueryParam("companyid") final String companyId,
+        @QueryParam("retailstoreid") final String storeId,
+        @QueryParam("tillid") final String tillId,
+        @QueryParam("terminalid") final String terminalId,
+        @QueryParam("operatorno") final String operatorNo,
+        @QueryParam("processing") final String processingType,
+        @QueryParam("compulsoryflag") final String compulsoryFlag) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)
@@ -332,75 +379,89 @@ public class TillInfoResource {
 				.println("processing", processingType)
 				.println("compulsoryflag", compulsoryFlag);
 
-		ViewTill viewTill = new ViewTill(); 	
 		ResultBase resultBase = new ResultBase();
-    	String todayDate = new JournalizationResource().getBussinessDate(companyId, storeId);
-    	Till aTill = new Till();
+    	String thisBusinessDay = new JournalizationResource().getBussinessDate(companyId, storeId);
     	String appId = pathName.concat(".getexecuteauthority");
-    	
+
     	// check for required parameters
-    	if (StringUtility.isNullOrEmpty(storeId, tillId, 
-    			terminalId, operatorNo, processingType)) {
+    	if (StringUtility.isNullOrEmpty(companyId, storeId, tillId, terminalId, operatorNo, processingType)) {
+			resultBase.setMessage("Required fields are empty");
+			resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		tp.println("A required parameter is null or empty.");
-    		resultBase.setNCRWSSResultCode(
-    				ResultBase.RES_ERROR_INVALIDPARAMETER);
     		tp.methodExit(resultBase);
     		return resultBase;
     	}
-    	
+
     	// check if valid value for processingType
-    	if (!"SOD".equalsIgnoreCase(processingType) && 
-			!"EOD".equalsIgnoreCase(processingType)) {
-    		tp.println("Invalid value for parameter processing.");
-    		resultBase.setNCRWSSResultCode(
-    				ResultBase.RES_ERROR_INVALIDPARAMETER);
+    	if (!"SOD".equalsIgnoreCase(processingType) && !"EOD".equalsIgnoreCase(processingType)) {
+			resultBase.setMessage("Invalid processing parameter");
+			resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+    		tp.println("Invalid value for parameter processingType.");
     		tp.methodExit(resultBase);
     		return resultBase;
     	}
-		
-    	// check if till is existing
-		viewTill = this.viewTill(storeId, tillId);		
-		if (viewTill.getNCRWSSResultCode() != ResultBase.RES_OK) {
-			resultBase.setNCRWSSResultCode(viewTill.getNCRWSSResultCode());
-			tp.methodExit(resultBase);
-			return resultBase;
-		}
-		
-		// get compulsory flag value
-		boolean compulsory = false;
-		if ("true".equalsIgnoreCase(compulsoryFlag)) {
-			compulsory = true;
-		}
-		
-		try {			
-			if("SOD".equalsIgnoreCase(processingType)) {
-				ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-				aTill = viewTill.getTill();
-				String sodFlagToChange = aTill.getSodFlag();
-				
-				aTill.setTerminalId(terminalId);		
-				aTill.setSodFlag(SOD_FLAG_PROCESSING); //change current sod flag to 9 (processing)
-				aTill.setUpdAppId(appId);
-				aTill.setUpdOpeCode(operatorNo);
-				if (!GlobalConstant.isMultiSOD()) {
-					resultBase = checkSodFlagValidity(sodFlagToChange, compulsory);
-					if (resultBase.getNCRWSSResultCode() == ResultBase.RES_OK) {
-						resultBase = tillInfoDAO.updateSODTill(aTill,
-								Integer.parseInt(sodFlagToChange));
+
+		// Converts compulsory flag to boolean, matching with 'true', ignoring case.
+		boolean compulsory = new Boolean(compulsoryFlag);
+
+		try {
+			ITillInfoDAO tillInfoDAO= daoFactory.getTillInfoDAO();
+
+			// check if till is existing
+			Till currentTill = tillInfoDAO.fetchOne(companyId, storeId, tillId);
+			if(currentTill == null) {
+				// Target till doesn't exist.
+				resultBase.setMessage("Till not found");
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_NOT_EXIST);
+				tp.methodExit(resultBase);
+				return resultBase;
+			}
+
+			// Creates copy instance of current till for updating it.
+			Till updatingTill = new Till(currentTill);
+			updatingTill.setTerminalId(terminalId);
+			updatingTill.setUpdAppId(appId);
+			updatingTill.setUpdOpeCode(operatorNo);
+			updatingTill.setBusinessDayDate(thisBusinessDay);
+
+			// SOD or EOD.
+			switch(processingType.toUpperCase()) {
+				case "SOD" :
+					updatingTill.setSodFlag(SOD_FLAG_PROCESSING);
+
+					if (GlobalConstant.isMultiSOD()) {
+						// If MultiSOD flag is on from SystemConfiguration,
+						// this forces to perform SOD without any sodFlag validity check.
+						tp.println("Allow multiple SOD on businessdaydate.");
+						resultBase = tillInfoDAO.updateSODTill(updatingTill, currentTill.getSodFlagAsShort());
+					} else {
+						// Checks if sodFlag is valid for getting Sod authority.
+						ResultBase sodValidity = checkSodFlagValidity(currentTill.getSodFlag(), compulsory);
+						if (sodValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
+							resultBase = tillInfoDAO.updateSODTill(updatingTill, currentTill.getSodFlagAsShort());
+						} else {
+							// SodFlag is invalid with the error code.
+							resultBase = sodValidity;
+						}
 					}
-				} else {
-					tp.println("Allow multiple SOD on businessdaydate.");
-					resultBase = tillInfoDAO.updateSODTill(aTill, 
-							Integer.parseInt(sodFlagToChange));
-				}
-    		 } else if ("EOD".equalsIgnoreCase(processingType)) {
-    			 resultBase = doEODGetExecuteAuthority(viewTill, terminalId, 
-    					 tillId, compulsory, todayDate, appId, operatorNo);
-    		 }
+					break;
+				case "EOD" :
+					updatingTill.setEodFlag(EOD_FLAG_PROCESSING);
+
+					// Checks if sodFlag is valid for getting Eod authority.
+					ResultBase eodValidity = checkEodFlagValidity(currentTill.getEodFlag(), compulsory);
+					if (eodValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
+						resultBase = tillInfoDAO.updateEODTill(updatingTill, currentTill.getEodFlagAsShort());
+					} else {
+						// EodFlag is invalid with the error code.
+						resultBase = eodValidity;
+					}
+					break;
+			}
         } catch (DaoException ex) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
-                    "Failed to get execution authority for store# " + storeId + 
-                    " and till# " + tillId +": "  + ex.getMessage());
+                    "Failed to get execution authority for processing:"+ processingType
+							+ ":CompanyId:" + companyId + ":StoreId:" + storeId + ":TillId:" + tillId + ":" + ex.getMessage());
             if (ex.getCause() instanceof SQLException) {
             	resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
             } else {
@@ -408,107 +469,94 @@ public class TillInfoResource {
             }
         } catch (Exception ex) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get execution authority for store# " + storeId + 
-                    " and till#"+ tillId +": " + ex.getMessage());
+                    "Failed to get execution authority for processing:"+ processingType
+							+ ":CompanyId:" + companyId + ":StoreId:" + storeId + ":TillId:" + tillId + ":" + ex.getMessage());
             resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
         } finally {
             tp.methodExit(resultBase);
         }
     	return resultBase;
     }
-    
-    private final ResultBase checkSodFlagValidity(String sodFlag, boolean compulsoryFlag) {
-    	ResultBase resultBase = new ResultBase();
-    	
+
+	/**
+	 * Checks sodFlag and complusory flag and determine if it can proceed to get SOD authority.
+	 * @param sodFlag sodFlag to check.
+	 * @param compulsoryFlag if true, it force to perform SOD even SodFlag is already '9'.
+     * @return resultBase 0: OK to get SOD authority. Otherwise: errors.
+     */
+	private final ResultBase checkSodFlagValidity(String sodFlag, boolean compulsoryFlag) {
+		ResultBase resultBase = new ResultBase();
+
     	switch (sodFlag) {
-    	case SOD_FLAG_FINISHED:
-    		// can't get execution authority with finished sod (sod flag = 1)
-			tp.println("SOD has already been performed "
-						+ "for the same till.");
-			resultBase.setNCRWSSResultCode(
-					ResultBase.RES_TILL_SOD_FINISHED);
+    	case SOD_FLAG_FINISHED: // sodFlag = 1
+    		// can't get execution authority with finished sod.
+			tp.println("SOD has already been performed for the same till.");
+			resultBase.setMessage("SodFlag is already 1");
+			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_SOD_FINISHED);
     		break;
-    	case SOD_FLAG_PROCESSING:
-    		if (!compulsoryFlag) {
-				// Other terminal is currently processing SOD for till (sod flag = 9)
-				tp.println("Other terminal is currently "
-							+ "processing SOD for the same till.");
-				resultBase.setNCRWSSResultCode(
-						ResultBase.RES_TILL_SOD_PROCESSING);
+    	case SOD_FLAG_PROCESSING: // sodFlag = 9
+    		if (compulsoryFlag) {
+				// compulsoryFlag is 'true'. so it forces to proceed to get SOD authority.
+				resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
+			} else {
+				// Other terminal is currently processing SOD for till.
+				tp.println("Other terminal is currently processing SOD for the same till.");
+				resultBase.setMessage("SodFlag is already 9");
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_SOD_PROCESSING);
 			}
     		break;
-    	case SOD_FLAG_UNFINISHED:
-    		//do nothing since this flag value is valid
+    	case SOD_FLAG_UNFINISHED: // sodFlag = 0
+			// It is safe to get SOD authority.
+			resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
     		break;
     	default:
     		tp.println("Invalid value for sod flag.");
-			resultBase.setNCRWSSResultCode(
-					ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL);
+			resultBase.setMessage("Invalid SodFlag db-entry");
+			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL);
+			break;
     	}
     	return resultBase;
     }
-    
-    private final ResultBase doEODGetExecuteAuthority(ViewTill viewTill, 
-    		String terminalId, String tillId, boolean compulsory, 
-    		String todayDate, String appId, String operatorNo) 
-    				throws DaoException {
-    	ResultBase resultBase = new ResultBase();
-    	
-		 String eodFlag = viewTill.getTill().getEodFlag();
-		 
-		 if (EOD_FLAG_FINISHED.equals(eodFlag)) {
-			 tp.println("EOD has already been performed for till# "
-			 		+ tillId);
-			 resultBase.setNCRWSSResultCode(
-					 ResultBase.RES_TILL_EOD_FINISHED);
-		 } else if (EOD_FLAG_UNFINISHED.equals(eodFlag) || 
-				 EOD_FLAG_PROCESSING.equals(eodFlag)) {
-			 if (!compulsory) {
-				 if (EOD_FLAG_PROCESSING.equals(eodFlag)) {
-					 tp.println("Other terminal is currently "
-					 		+ "processing EOD for till# " + tillId);
-					 resultBase.setNCRWSSResultCode(
-							 ResultBase.RES_TILL_EOD_PROCESSING);
-					 return resultBase;
-				 }
-			 }
-			 
-			 /* 1.01 2015.03.09 営業日一致性チェック処理削除 MOD START*/
-//			 String businessDate = 
-//					 viewTill.getTill().getBusinessDayDate();
-//			 if (todayDate.equals(businessDate)) {
-//				 ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-//				 
-//				 viewTill.getTill().setTerminalId(terminalId);
-//				 viewTill.getTill().setEodFlag(EOD_FLAG_PROCESSING);
-//				 viewTill.getTill().setUpdAppId(appId);
-//				 viewTill.getTill().setUpdOpeCode(operatorNo);
-//				 
-//				 resultBase = tillInfoDAO.updateEODTill(viewTill.getTill(), 
-//						 Integer.parseInt(eodFlag));
-//			 } else {
-//				 resultBase.setNCRWSSResultCode(
-//						 ResultBase.RES_TILL_INVALID_BIZDATE);
-//			 }
-			 ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-			 
-			 viewTill.getTill().setTerminalId(terminalId);
-			 viewTill.getTill().setEodFlag(EOD_FLAG_PROCESSING);
-			 viewTill.getTill().setUpdAppId(appId);
-			 viewTill.getTill().setUpdOpeCode(operatorNo);
-			 
-			 resultBase = tillInfoDAO.updateEODTill(viewTill.getTill(), 
-					 Integer.parseInt(eodFlag));
-			 /* 1.01 2015.03.09 営業日一致性チェック処理削除 MOD END*/
-		 } else {
-			 tp.println("Invalid value for eod flag.");
-			 resultBase.setNCRWSSResultCode(
-					 ResultBase.RES_TILL_INVALID_EOD_FLAG_VAL);
-		 }
-		 
-    	return resultBase;
-    }
-    
+
+	/**
+	 * Checks eodFlag and complusory flag and determine if it can proceed to get EOD authority.
+	 * @param eodFlag eodFlag to check.
+	 * @param compulsoryFlag if true, it forces to perform EOD even SodFlag is already '9'.
+     * @return
+     */
+	private final ResultBase checkEodFlagValidity(String eodFlag, boolean compulsoryFlag) {
+		ResultBase resultBase = new ResultBase();
+		switch (eodFlag) {
+			case EOD_FLAG_FINISHED: // eodFlag = 1
+				// can't get execution authority with finished sod.
+				tp.println("EOD has already been performed for the same till.");
+				resultBase.setMessage("EodFlag is already 1");
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_EOD_FINISHED);
+				break;
+			case EOD_FLAG_PROCESSING: // sodFlag = 9
+				if (compulsoryFlag) {
+					// compulsoryFlag is 'true'. so it forces to proceed to get EOD authority.
+					resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
+				} else {
+					// Other terminal is currently processing EOD for till.
+					tp.println("Other terminal is currently processing EOD for the same till.");
+					resultBase.setMessage("EodFlag is already 9");
+					resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_EOD_PROCESSING);
+				}
+				break;
+			case EOD_FLAG_UNFINISHED: // eodFlag = 0
+				// It is safe to get EOD authority.
+				resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
+				break;
+			default:
+				tp.println("Invalid value for eod flag.");
+				resultBase.setMessage("Invalid EodFlag db-entry");
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_INVALID_EOD_FLAG_VAL);
+				break;
+		}
+		return resultBase;
+	}
+
     /**
      * Web method called to release execution authority when SOD/EOD is released/cancelled.
      * @param companyId - The company id which the Till belongs to.
@@ -726,7 +774,7 @@ public class TillInfoResource {
    
     /**
      * Service to get till information list.
-     * 
+     *
      * @param storeid
      *            - store number
      * @return ResultBase

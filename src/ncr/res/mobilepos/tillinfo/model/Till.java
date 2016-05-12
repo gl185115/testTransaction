@@ -9,6 +9,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Till")
 public class Till{
+
+	/**
+	 * Stores companyId
+	 */
+	@XmlElement(name = "CompanyId")
+	private String companyId;
     /**
      * Store number which the Till belongs to.
      */
@@ -64,8 +70,14 @@ public class Till{
      */
     @XmlElement(name = "TerminalId")
     private String terminalId;
-    
-    public final String getStoreId() {
+
+	public String getCompanyId() {
+		return companyId;
+	}
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	public final String getStoreId() {
 		return storeId;
 	}
 	public final void setStoreId(String storeId) {
@@ -89,12 +101,18 @@ public class Till{
 	public final void setSodFlag(String sodFlag) {
 		this.sodFlag = sodFlag;
 	}
+    public final short getSodFlagAsShort() {
+        return Short.parseShort(this.sodFlag);
+    }
 	public final String getEodFlag() {
 		return eodFlag;
 	}
 	public final void setEodFlag(String eodFlag) {
 		this.eodFlag = eodFlag;
 	}
+    public final short getEodFlagAsShort() {
+        return Short.parseShort(this.eodFlag);
+    }
 	public final String getInsDate() {
 		return insDate;
 	}
@@ -133,4 +151,28 @@ public class Till{
 	public final void setTerminalId(String terminalId) {
 		this.terminalId = terminalId;
 	}
+
+    /**
+     * Default constructor.
+     */
+    public Till() {
+    }
+
+    /**
+     * Copy constructor.
+     */
+    public Till(Till sourceTill) {
+        this.companyId = sourceTill.companyId;
+        this.storeId = sourceTill.storeId;
+        this.tillId = sourceTill.tillId;
+        this.businessDayDate = sourceTill.businessDayDate;
+        this.sodFlag = sourceTill.sodFlag;
+        this.eodFlag = sourceTill.eodFlag;
+        this.insDate = sourceTill.insDate;
+        this.updDate = sourceTill.updDate;
+        this.updAppId = sourceTill.updAppId;
+        this.updOpeCode = sourceTill.updOpeCode;
+        this.state = sourceTill.state;
+        this.terminalId = sourceTill.terminalId;
+    }
 }

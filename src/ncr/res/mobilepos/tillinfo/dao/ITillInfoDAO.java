@@ -91,5 +91,15 @@ public interface ITillInfoDAO {
      * @return Till information list
      */
     List<Till> getTillInformation(String storeId)
-             throws DaoException;  
+             throws DaoException;
+
+    /**
+     * Fetches single till by primary key search.
+     * @param companyId
+     * @param storeId
+     * @param tillId
+     * @return Found till, null for not found.
+     */
+    Till fetchOne(final String companyId, final String storeId, final String tillId) throws DaoException;
+
 }

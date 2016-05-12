@@ -1026,7 +1026,7 @@ res.config.phrases = {
     "Advertise.EditLayout.Unit": ["Second", "秒"],
     "Advertise.EditLayout.ConfirmMessage": ["Change the unused buttons.<br><br>Are you sure you want?", "未使用ボタンに変更します。<br><br>よろしいですか。"],
     "Advertise.EditLayout.ConfirmDelete": ["Remove from list", "商品一覧からも削除"],
-    "Advertise.EditLayout.ClearGuide": ["Delete all of the screen placement of the classification <br>that you are currently viewing.<br><br>Are you sure you want?", "現在表示している分類の画面配置を<br>すべて削除します。<br><br>よろしいですか？"],
+    "Advertise.EditLayout.ClearGuide": ["Delete all of the screen placement of the advertisement <br>that you are currently viewing.<br><br>Are you sure you want?", "現在表示している広告の画面配置を<br>すべて削除します。<br><br>よろしいですか？"],
 //  "Advertise.EditLayout.ConfirmRemove": ["Please select an item", "この商品は、商品一覧からも削除されます。<br><br>よろしいですか。"],
 
     "Advertise.Failure.advertise.empty":["Please enter item code and name!","商品番号、または商品名が入力されていません。"],

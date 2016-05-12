@@ -1135,6 +1135,11 @@ public class ResultBase {
      * Credit summary for a specific business day date is not found.
      */
     public static final int RES_CREDIT_SUMMARY_NOT_FOUND = 1700;
+    /**
+     * Value : {@value}<br>
+     * Optimistic locking error, update failed because other thread already updated it.
+     */
+    public static final int RES_OPTIMISTIC_LOCKING_ERROR = 1516;
     /** True string for UI */
     public static final String TRUE = "True";
 

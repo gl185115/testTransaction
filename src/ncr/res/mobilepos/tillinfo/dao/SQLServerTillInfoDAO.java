@@ -444,8 +444,8 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             if(updateCount == 0) {
                 // Optimistic locking error.
                 // Other terminal is already processing SOD.
-                resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_SOD_PROCESSING);
-                resultBase.setMessage("SodFlag has been changed, Optimistic locking error");
+                resultBase.setNCRWSSResultCode(ResultBase.RES_OPTIMISTIC_LOCKING_ERROR);
+                resultBase.setMessage("SodFlag has already changed, Optimistic locking error");
                 tp.println("Failed to update SOD Till Info.");
             }
             connection.commit();
@@ -505,7 +505,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             if(updateCount == 0) {
                 // Optimistic locking error.
                 // Other terminal is already processing EOD.
-                resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_EOD_PROCESSING);
+                resultBase.setNCRWSSResultCode(ResultBase.RES_OPTIMISTIC_LOCKING_ERROR);
                 resultBase.setMessage("EodFlag has been changed, Optimistic locking error");
                 tp.println("Failed to update EOD Till Info.");
             }

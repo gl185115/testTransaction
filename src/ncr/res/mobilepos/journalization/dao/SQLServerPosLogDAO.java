@@ -99,7 +99,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Default Constructor for SQLServerPoslogDAO.
-     * 
+     *
      * @throws DaoException
      *             If exception occurred in creating instance of
      *             SQLServerPoslogDAO
@@ -381,7 +381,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      *            The Database connection object
      * @param trainingMode
      *            The trainingMode
-     * 
+     *
      * @return void
      *
      * @throws Exception
@@ -453,7 +453,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @param saveTxuTotalGuestTillDayStmt
      *            The Prepared Statement for saving The TXU_TOTAL_GUESTTILLDAY
      *            Table
-     * 
+     *
      * @return void
      *
      * @throws Exception
@@ -674,7 +674,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @param saveTxuTotalGuestTillDayStmt
      *            The Prepared Statement for saving The TXU_TOTAL_GUESTTILLDAY
      *            Table
-     * 
+     *
      * @return void
      *
      * @throws Exception
@@ -697,9 +697,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Private Method for Getting the Server Type in the System Environment
-     * 
+     *
      * @return Server Type ("STORE", "ENTERPRISE")
-     * 
+     *
      * @throws DaoException
      *             The Exception thrown when the process fails
      */
@@ -776,7 +776,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Compares environment "SERVERTYPE" to serverType parameter.
-     * 
+     *
      * @param serverType
      * @return true/false.
      */
@@ -1611,7 +1611,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Get the transaction POSLog XML in the TXL_POSLOG table. by specifying the
      * transaction number.
-     * 
+     *
      * @param companyid
      *            The Company ID
      * @param terminalid
@@ -1654,7 +1654,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Get the BussinessDate of the Web API.
-     * 
+     *
      * @param companyId
      *            the company ID
      * @param storeId
@@ -1722,7 +1722,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Get the latest available Normal POSlog Transaction.
-     * 
+     *
      * @param terminalid
      *            The terminal ID for the transaction
      * @param storeid
@@ -2104,7 +2104,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM12, "0");
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM13, posLogXml);
             saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM14,
-                    "false".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 0 : 1);
+                    "true".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 1 : 0);
 
             if (saveForwardPosLogPrepStmnt.executeUpdate() != 1) {
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
@@ -2388,7 +2388,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * Public method that is used to validate a sale transaction that is
      * already point granted
      *
-    
+
      * @param companyId
      * @param storeId
      * @param workstationId
@@ -2441,5 +2441,5 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 		return isPostPointed;
 	}
-    
+
 }

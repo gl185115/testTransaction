@@ -22,10 +22,32 @@
 				<div class="PickButton"
 					data-ng-repeat="item in list track by $index"
 					data-res-click="selectPosition($parent.$index, $index)">
-					<div class="InnerBox" data-ng-show="item.pictureFull||item.picturePart">
+					<!-- <div class="InnerBox" data-ng-show="item.pictureFull||item.picturePart">
 						<div class="ImageBox">
 							<img
 								data-ng-src="{{!(item.pictureFull||item.picturePart) ? '' : item.pictureFull ? folder + item.pictureFull : folder +item.picturePart}}" />
+						</div>
+						<div class="LabelBox">
+							<p
+								data-ng-bind-html="item.adName | resConvertLF"></p>
+						</div>
+					</div> -->
+					<div class="InnerBox" data-ng-show="item.pictureFull">
+						<div class="ImageBox">
+							<div class="full">
+								<img data-ng-src="{{item.pictureFull ? folder + item.pictureFull : ''}}"/>
+							</div>
+						</div>
+						<div class="LabelBox">
+							<p
+								data-ng-bind-html="item.adName | resConvertLF"></p>
+						</div>
+					</div>
+					<div class="InnerBox" data-ng-show="!item.pictureFull&&item.picturePart">
+						<div class="ImageBox">
+							<div class="part">
+								<img data-ng-src="{{item.picturePart ? folder +item.picturePart:''}}" />
+							</div>
 						</div>
 						<div class="LabelBox">
 							<p
@@ -235,7 +257,7 @@
 	</div>
 </div>
 
-<div class="Confirm resPopup" data-ng-show="dialog == 'confirmRemove'">
+<!-- <div class="Confirm resPopup" data-ng-show="dialog == 'confirmRemove'">
 	<div class="resCasing silver">
 		<div class="resPanel silver">
 
@@ -262,7 +284,7 @@
 
 		</div>
 	</div>
-</div>
+</div> -->
 
 <div class="Confirm resPopup" data-ng-show="dialog == 'clearTabAllItems'">
 	<div class="resCasing silver">
@@ -273,7 +295,7 @@
 			</div>
 
 			<div class="Buttons">
-				<div class="resButton raise yellow W120xH70" data-res-tap="cancel()">
+				<div class="resButton raise yellow W120xH70" data-res-tap="suspend()">
 					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
 				</div>
 				<div class="resButton raise red W120xH70" data-res-tap="clearItems()">

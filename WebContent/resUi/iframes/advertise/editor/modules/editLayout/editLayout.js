@@ -138,7 +138,11 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	};
 
 	$scope.clearItems = function() {
+	    var scroll = $scope.scrollItems;
 	    $rootScope.model.advertise.layout = [];
+        setTimeout(function(){
+            scroll.refresh();
+        },200);
 		$rootScope.dialog = "";
 	};
 	
@@ -210,6 +214,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     $scope.cancel = function() {
         $rootScope.dialog = "mountItem";
     };
+    
+    $scope.suspend = function() {
+        $rootScope.dialog = "";
+    }
     
     $scope.addItems = function() {
         var layout = $rootScope.model.advertise.layout;

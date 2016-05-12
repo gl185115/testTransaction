@@ -359,16 +359,16 @@ public class TillInfoResource {
      * @return ResultBase
      */
     @Path("/getexecuteauthority")
-    @GET
+    @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public final ResultBase getExecuteAuthority(
-        @QueryParam("companyid") final String companyId,
-        @QueryParam("retailstoreid") final String storeId,
-        @QueryParam("tillid") final String tillId,
-        @QueryParam("terminalid") final String terminalId,
-        @QueryParam("operatorno") final String operatorNo,
-        @QueryParam("processing") final String processingType,
-        @QueryParam("compulsoryflag") final String compulsoryFlag) {
+        @FormParam("companyid") final String companyId,
+        @FormParam("retailstoreid") final String storeId,
+        @FormParam("tillid") final String tillId,
+        @FormParam("terminalid") final String terminalId,
+        @FormParam("operatorno") final String operatorNo,
+        @FormParam("processing") final String processingType,
+        @FormParam("compulsoryflag") final String compulsoryFlag) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)

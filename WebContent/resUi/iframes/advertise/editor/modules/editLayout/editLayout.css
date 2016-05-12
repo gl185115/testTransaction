@@ -72,7 +72,12 @@
     overflow: hidden;
     z-index: 0;
 	}
-#EditLayout .wrapperPickList .ImageBox img{
+#EditLayout .wrapperPickList .ImageBox .part img{
+	display: block;
+    margin: auto auto;
+    max-width: 70%;
+}
+#EditLayout .wrapperPickList .ImageBox .full img{
 	display: block;
     margin: auto auto;
     max-width: 100%;

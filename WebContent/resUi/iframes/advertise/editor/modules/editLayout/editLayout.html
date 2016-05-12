@@ -60,7 +60,7 @@
 			<div class="PickButton top">
 				<div class="InnerBox top" data-ng-show="itemSelected.picturePart">
 					<div class="ImageBox top">
-						<img data-ng-src="{{folder + itemSelected.picturePart}}" />
+						<img data-ng-src="{{itemSelected.picturePart?folder + itemSelected.picturePart:''}}" />
 					</div>
 				</div>
 				<div class="InnerBox top" data-ng-show="!itemSelected.picturePart">
@@ -85,7 +85,7 @@
 		<div class="PickButton bottom">
 			<div class="InnerBox bottom" data-ng-show="itemSelected.pictureFull">
 				<div class="ImageBox bottom">
-					<img data-ng-src="{{folder + itemSelected.pictureFull}}" />
+					<img data-ng-src="{{itemSelected.pictureFull?folder + itemSelected.pictureFull:''}}" />
 				</div>
 			</div>
 			<div class="InnerBox bottom" data-ng-show="!itemSelected.pictureFull">

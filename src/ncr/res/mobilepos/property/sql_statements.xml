@@ -6176,40 +6176,23 @@ ORDER BY
     CompanyId = ? AND StoreId= ? AND TillId = ?
   </entry>
 
-  <!-- Optimistic locking to make sure sodFlag is unchanged from previous select. -->
-  <entry key="update-till-sodflag">
+  <entry key="update-till-operation-flag">
     UPDATE
-    RESMaster.dbo.MST_TILLIDINFO
+      RESMaster.dbo.MST_TILLIDINFO
     SET
-    TerminalId = ?,
-    SodFlag = ?,
-    BusinessDayDate = ?,
-    UpdDate = GETDATE(),
-    UpdAppId = ?,
-    UpdOpeCode = ?
+      TerminalId = ?,
+      SodFlag = ?,
+      EodFlag = ?,
+      BusinessDayDate = ?,
+      UpdDate = GETDATE(),
+      UpdAppId = ?,
+      UpdOpeCode = ?
     WHERE
-    CompanyId = ? AND
-    StoreId = ? AND
-    TillId = ? AND
-    SodFlag = ?
-  </entry>
-
-  <!-- Optimistic locking to make sure sodFlag is unchanged from previous select. -->
-  <entry key="update-till-eodflag">
-    UPDATE
-    RESMaster.dbo.MST_TILLIDINFO
-    SET
-    TerminalId = ?,
-    EodFlag = ?,
-    BusinessDayDate = ?,
-    UpdDate = GETDATE(),
-    UpdAppId = ?,
-    UpdOpeCode = ?
-    WHERE
-    CompanyId = ? AND
-    StoreId = ? AND
-    TillId = ? AND
-    EodFlag = ?
+      CompanyId = ? AND
+      StoreId = ? AND
+      TillId = ? AND
+      SodFlag = ? AND
+      EodFlag = ?
   </entry>
 
   <entry key="update-sod-till-updlock">

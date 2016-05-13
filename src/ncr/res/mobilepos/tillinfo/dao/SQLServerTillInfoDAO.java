@@ -405,101 +405,45 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
         viewTill.setTill(newTill);
         return viewTill;
     }
-    
-    /**
-     * Updates specific fields of Till when SOD is triggered.
-      * @param updatingTill
-     * @param currentSodFlag
-     * @return
-     * @throws DaoException
-     */
-    public ResultBase updateSODTill(Till updatingTill, int currentSodFlag)
-    		throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();            
-        tp.methodEnter("updateSODTill");
-        tp.println("till", updatingTill);
-        tp.println("sodFlagChangeFrom", currentSodFlag);
-        
-        Connection connection = null;
-        PreparedStatement updateTill = null;
-        ResultSet result = null;
-        ResultBase resultBase = new ResultBase();   
-    
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            updateTill = connection.prepareStatement(
-                    sqlStatement.getProperty("update-till-sodflag"));
-            updateTill.setString(SQLStatement.PARAM1, updatingTill.getTerminalId());
-            updateTill.setInt(SQLStatement.PARAM2, updatingTill.getSodFlagAsShort());
-            updateTill.setString(SQLStatement.PARAM3, updatingTill.getBusinessDayDate());
-            updateTill.setString(SQLStatement.PARAM4, updatingTill.getUpdAppId());
-            updateTill.setString(SQLStatement.PARAM5, updatingTill.getUpdOpeCode());
-            updateTill.setString(SQLStatement.PARAM6, updatingTill.getCompanyId());
-            updateTill.setString(SQLStatement.PARAM7, updatingTill.getStoreId());
-            updateTill.setString(SQLStatement.PARAM8, updatingTill.getTillId());
-            updateTill.setInt(SQLStatement.PARAM9, currentSodFlag);
-
-            int updateCount = updateTill.executeUpdate();
-            if(updateCount == 0) {
-                // Optimistic locking error.
-                // Other terminal is already processing SOD.
-                resultBase.setNCRWSSResultCode(ResultBase.RES_OPTIMISTIC_LOCKING_ERROR);
-                resultBase.setMessage("SodFlag has already changed, Optimistic locking error");
-                tp.println("Failed to update SOD Till Info.");
-            }
-            connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to update SOD Till Info.", ex);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerTillInfoDAO." + functionName, ex);
-        } catch (SQLException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to update SOD Till Info.", ex);
-            rollBack(connection, functionName, ex);
-            throw new DaoException("SQLException: @" + functionName, ex);
-        } finally {
-            closeConnectionObjects(connection, updateTill, result);         
-            tp.methodExit(resultBase);
-        }   
-        return resultBase;
-    }
 
     /**
-     * Updates specific fields of Till when EOD is triggered.
-     * @param updatingTill
-     * @param currentEodFlag
+     * Updates specific fields of Till when daily operations are triggered, SOD or EOD.
+     * @param currentTill Till to have current data
+     * @param updatingTill Till to have updating data
      * @return ResultBase
      * @throws DaoException
      */
     @Override
-    public ResultBase updateEODTill(Till updatingTill, int currentEodFlag)
-    		throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();            
-        tp.methodEnter(functionName);
-        tp.println("till", updatingTill);
-        tp.println("eodFlagChangeFrom", currentEodFlag);
-        
+    public ResultBase updateTillDailyOperation(Till currentTill, Till updatingTill)
+            throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+                .println("current till", currentTill)
+                .println("updating till", updatingTill);
+
         Connection connection = null;
         PreparedStatement updateTill = null;
         ResultSet result = null;
-        ResultBase resultBase = new ResultBase();   
-    
+        ResultBase resultBase = new ResultBase();
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             updateTill = connection.prepareStatement(
-                    sqlStatement.getProperty("update-till-eodflag"));
+                    sqlStatement.getProperty("update-till-operation-flag"));
+            // Set
             updateTill.setString(SQLStatement.PARAM1, updatingTill.getTerminalId());
-            updateTill.setInt(SQLStatement.PARAM2, updatingTill.getEodFlagAsShort());
-            updateTill.setString(SQLStatement.PARAM3, updatingTill.getBusinessDayDate());
-            updateTill.setString(SQLStatement.PARAM4, updatingTill.getUpdAppId());
-            updateTill.setString(SQLStatement.PARAM5, updatingTill.getUpdOpeCode());
-            updateTill.setString(SQLStatement.PARAM6, updatingTill.getCompanyId());
-            updateTill.setString(SQLStatement.PARAM7, updatingTill.getStoreId());
-            updateTill.setString(SQLStatement.PARAM8, updatingTill.getTillId());
-            updateTill.setInt(SQLStatement.PARAM9, currentEodFlag);
+            updateTill.setInt(SQLStatement.PARAM2, updatingTill.getSodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM3, updatingTill.getEodFlagAsShort());
+            updateTill.setString(SQLStatement.PARAM4, updatingTill.getBusinessDayDate());
+            updateTill.setString(SQLStatement.PARAM5, updatingTill.getUpdAppId());
+            updateTill.setString(SQLStatement.PARAM6, updatingTill.getUpdOpeCode());
+            // Where
+            updateTill.setString(SQLStatement.PARAM7, currentTill.getCompanyId());
+            updateTill.setString(SQLStatement.PARAM8, currentTill.getStoreId());
+            updateTill.setString(SQLStatement.PARAM9, currentTill.getTillId());
+            updateTill.setInt(SQLStatement.PARAM10, currentTill.getSodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM11, currentTill.getEodFlagAsShort());
 
             int updateCount = updateTill.executeUpdate();
             if(updateCount == 0) {
@@ -521,12 +465,12 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             rollBack(connection, functionName, ex);
             throw new DaoException("SQLException: @" + functionName, ex);
         } finally {
-            closeConnectionObjects(connection, updateTill, result);         
+            closeConnectionObjects(connection, updateTill, result);
             tp.methodExit(resultBase);
-        }   
+        }
         return resultBase;
     }
-    
+
     /**
      * Updates specific fields of Till after successful SOD/EOD.
      * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#updateTillOnJourn(Connection,Till, String, String, boolean)

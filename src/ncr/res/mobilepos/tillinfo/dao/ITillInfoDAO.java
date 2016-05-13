@@ -48,25 +48,6 @@ public interface ITillInfoDAO {
              throws DaoException;   
     
     /**
-     * Updates specific fields of Till when SOD is triggered.
-     * @param till - The Till
-     * @param sodFlagToChange - The current sod flag of the till that should be changed.
-     * @return ResultBase
-     * @throws DaoException
-     */
-    ResultBase updateSODTill(Till till, int sodFlagToChange) 
-    		throws DaoException;
-    
-    /**
-     * Updates specific fields of Till when EOD is triggered.
-     * @param till - The Till
-     * @param eodFlagToChange - The current eod flag of the till that should be changed.
-     * @return ResultBase
-     * @throws DaoException
-     */
-    ResultBase updateEODTill(Till till, int eodFlagToChange) 
-    		throws DaoException;
-    /**
      * Updates specific fields of Till after successful SOD/EOD.
      * @param storeId - Store number which the Till belongs to.
      * @param tillId - Till/Drawer identifier
@@ -101,5 +82,14 @@ public interface ITillInfoDAO {
      * @return Found till, null for not found.
      */
     Till fetchOne(final String companyId, final String storeId, final String tillId) throws DaoException;
+
+    /**
+     * Updates specific fields of Till when daily operations are triggered, SOD or EOD.
+     * @param currentTill Till to have current data
+     * @param updatingTill Till to have updating data
+     * @return ResultBase
+     * @throws DaoException
+     */
+    ResultBase updateTillDailyOperation(Till currentTill, Till updatingTill) throws DaoException;
 
 }

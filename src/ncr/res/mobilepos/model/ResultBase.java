@@ -1122,24 +1122,36 @@ public class ResultBase {
     public static final int RES_NO_UPDATE_PREVIOUS_AMOUNT = 1514;
     /**
      * Value : {@value}<br>
-     * Getting the value for SERVERTYPE system property failed.
-     */
-    public static final int RES_SYSTEM_PROP_ERROR = 1600;
-    /**
-     * Value : {@value}<br>
      * save file is already exist failed.
      */
     public static final int RES_FILE_ALREADY_EXIST = 1515;
     /**
      * Value : {@value}<br>
-     * Credit summary for a specific business day date is not found.
-     */
-    public static final int RES_CREDIT_SUMMARY_NOT_FOUND = 1700;
-    /**
-     * Value : {@value}<br>
      * Optimistic locking error, update failed because other thread already updated it.
      */
     public static final int RES_OPTIMISTIC_LOCKING_ERROR = 1516;
+    /**
+     * Value : {@value}<br>
+     * Invalid SOD state. SOD should be finished before EOD authority request.
+     */
+    public static final int RES_TILL_INVALID_SOD_STATE = 1517;
+    /**
+     * Value : {@value}<br>
+     * Invalid No BizDate found for the Store in RESMaster.dbo.MST_BIZDAY.
+     */
+    public static final int RES_TILL_NO_BIZDATE = 1518;
+
+    /**
+     * Value : {@value}<br>
+     * Getting the value for SERVERTYPE system property failed.
+     */
+    public static final int RES_SYSTEM_PROP_ERROR = 1600;
+    /**
+     * Value : {@value}<br>
+     * Credit summary for a specific business day date is not found.
+     */
+    public static final int RES_CREDIT_SUMMARY_NOT_FOUND = 1700;
+
     /** True string for UI */
     public static final String TRUE = "True";
 

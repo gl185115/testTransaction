@@ -12,12 +12,7 @@ import ncr.res.mobilepos.tillinfo.model.Till;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
 import javax.servlet.ServletContext;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
@@ -382,8 +377,17 @@ public class TillInfoResource {
 				.println("compulsoryflag", compulsoryFlag);
 
 		ResultBase resultBase = new ResultBase();
+		String appId = pathName.concat(".getexecuteauthority");
+
     	String thisBusinessDay = new JournalizationResource().getBussinessDate(companyId, storeId);
-    	String appId = pathName.concat(".getexecuteauthority");
+		if(StringUtility.isNullOrEmpty(thisBusinessDay)) {
+			// This is unlikely to happen.
+			resultBase.setMessage("No business day for the store");
+			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_NO_BIZDATE);
+			tp.println("No business day fot the store on MST_BIZDAY.");
+			tp.methodExit(resultBase);
+			return resultBase;
+		}
 
     	// check for required parameters
     	if (StringUtility.isNullOrEmpty(companyId, storeId, tillId, terminalId, operatorNo, processingType)) {
@@ -430,17 +434,17 @@ public class TillInfoResource {
 			switch(processingType.toUpperCase()) {
 				case "SOD" :
 					updatingTill.setSodFlag(SOD_FLAG_PROCESSING);
+
+					// If MultiSOD from SystemConfiguration is ON, it passes any SodFlag validation.
 					if (GlobalConstant.isMultiSOD()) {
-						// If MultiSOD flag is on from SystemConfiguration,
-						// this forces to perform SOD without any sodFlag validity check.
 						tp.println("Allow multiple SOD on businessdaydate.");
-						resultBase = tillInfoDAO.updateSODTill(updatingTill, currentTill.getSodFlagAsShort());
+						resultBase = tillInfoDAO.updateTillDailyOperation(currentTill, updatingTill);
 						break;
 					}
 					// Checks if sodFlag is valid for getting Sod authority.
 					ResultBase sodValidity = checkSodFlagValidity(currentTill, updatingTill, compulsory);
 					if (sodValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
-						resultBase = tillInfoDAO.updateSODTill(updatingTill, currentTill.getSodFlagAsShort());
+						resultBase = tillInfoDAO.updateTillDailyOperation(currentTill, updatingTill);
 					} else {
 						// SodFlag is invalid with the error code.
 						resultBase = sodValidity;
@@ -453,7 +457,7 @@ public class TillInfoResource {
 					// Checks if eodFlag is valid for getting Eod authority.
 					ResultBase eodValidity = checkEodFlagValidity(currentTill, updatingTill, compulsory);
 					if (eodValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
-						resultBase = tillInfoDAO.updateEODTill(updatingTill, currentTill.getEodFlagAsShort());
+						resultBase = tillInfoDAO.updateTillDailyOperation(currentTill, updatingTill);
 					} else {
 						// EodFlag is invalid with the error code.
 						resultBase = eodValidity;
@@ -499,14 +503,14 @@ public class TillInfoResource {
 			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_SOD_FINISHED);
     		break;
     	case SOD_FLAG_PROCESSING: // sodFlag = 9
+			// compulsoryFlag is 'true'. so it forces to proceed to get SOD authority.
     		if (compulsoryFlag) {
-				// compulsoryFlag is 'true'. so it forces to proceed to get SOD authority.
 				resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
 				break;
 			}
+			// Once a terminal gets the authority, the terminal passes the validation in the same business day.
 			if (updatingTill.getBusinessDayDate().equals(currentTill.getBusinessDayDate()) &&
 					updatingTill.getTerminalId().equals(currentTill.getTerminalId())) {
-				// Once a terminal gets the authority, the terminal always passes the validation in the same business day.
 				resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
 				break;
 			}
@@ -546,14 +550,14 @@ public class TillInfoResource {
 				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_EOD_FINISHED);
 				break;
 			case EOD_FLAG_PROCESSING: // sodFlag = 9
+				// compulsoryFlag is 'true'. so it forces to proceed to get EOD authority.
 				if (compulsoryFlag) {
-					// compulsoryFlag is 'true'. so it forces to proceed to get EOD authority.
 					resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
 					break;
 				}
+				// Once a terminal gets the authority, the terminal passes the validation in the same business day.
 				if (updatingTill.getBusinessDayDate().equals(currentTill.getBusinessDayDate()) &&
 						updatingTill.getTerminalId().equals(currentTill.getTerminalId())) {
-					// Once a terminal gets the authority, the terminal always passes the validation in the same business day.
 					resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
 					break;
 				}
@@ -563,8 +567,16 @@ public class TillInfoResource {
 				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_EOD_PROCESSING);
 				break;
 			case EOD_FLAG_UNFINISHED: // eodFlag = 0
-				// It is safe to get EOD authority.
-				resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
+				// To perform EOD, SOD has to be finished prior on the day.
+				if(currentTill.getSodFlag().equals(SOD_FLAG_FINISHED) &&
+						updatingTill.getBusinessDayDate().equals(currentTill.getBusinessDayDate())) {
+					resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
+					break;
+				}
+				// Invalid SOD state to get EOD authority.
+				tp.println("SOD should be finished prior to EOD.");
+				resultBase.setMessage("SOD should be finished prior to EOD");
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_INVALID_SOD_STATE);
 				break;
 			default://for sod flag values not 0, 1, or 9 (fail-safe checking)
 				tp.println("Invalid value for eod flag.");
@@ -586,15 +598,15 @@ public class TillInfoResource {
      * @return ResultBase
      */
     @Path("/releaseexecuteauthority")
-    @GET
+    @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public final ResultBase releaseExecuteAuthority(
-            @QueryParam("companyid") final String companyId,
-    		@QueryParam("retailstoreid") final String storeId,
-    		@QueryParam("tillid") final String tillId,
-    	    @QueryParam("terminalid") final String terminalId,
-    	    @QueryParam("operatorno") final String operatorNo,
-    	    @QueryParam("processing") final String processingType) {
+            @FormParam("companyid") final String companyId,
+    		@FormParam("retailstoreid") final String storeId,
+    		@FormParam("tillid") final String tillId,
+    	    @FormParam("terminalid") final String terminalId,
+    	    @FormParam("operatorno") final String operatorNo,
+    	    @FormParam("processing") final String processingType) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)
@@ -605,8 +617,17 @@ public class TillInfoResource {
 				.println("processing", processingType);
 
 		ResultBase resultBase = new ResultBase();
-    	String thisBusinessDay = new JournalizationResource().getBussinessDate(companyId, storeId);
 		String appId = pathName.concat(".releaseexecuteauthority");
+
+		String thisBusinessDay = new JournalizationResource().getBussinessDate(companyId, storeId);
+		if(StringUtility.isNullOrEmpty(thisBusinessDay)) {
+			// This is unlikely to happen.
+			resultBase.setMessage("No business day for the store");
+			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_NO_BIZDATE);
+			tp.println("No business day fot the store on MST_BIZDAY.");
+			tp.methodExit(resultBase);
+			return resultBase;
+		}
 
     	// check for required parameters
     	if (StringUtility.isNullOrEmpty(companyId, storeId, tillId, terminalId,	operatorNo, processingType)) {
@@ -655,7 +676,7 @@ public class TillInfoResource {
 					// Checks if sodFlag is valid for getting Sod authority.
 					ResultBase sodFlagValidity = checkReleaseSodFlagValidity(currentTill.getSodFlag());
 					if (sodFlagValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
-						resultBase = tillInfoDAO.updateSODTill(updatingTill, currentTill.getSodFlagAsShort());
+						resultBase = tillInfoDAO.updateTillDailyOperation(currentTill, updatingTill);
 					} else {
 						// SodFlag is invalid with the error code.
 						resultBase = sodFlagValidity;
@@ -668,7 +689,7 @@ public class TillInfoResource {
 					// Checks if eodFlag is valid for releasing Eod authority.
 					ResultBase eodFlagValidity = checkReleaseEodFlagValidity(currentTill.getEodFlag());
 					if (eodFlagValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
-						resultBase = tillInfoDAO.updateEODTill(updatingTill, currentTill.getEodFlagAsShort());
+						resultBase = tillInfoDAO.updateTillDailyOperation(currentTill, updatingTill);
 					} else {
 						// EodFlag is invalid with the error code.
 						resultBase = eodFlagValidity;

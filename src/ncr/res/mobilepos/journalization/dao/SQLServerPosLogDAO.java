@@ -1083,7 +1083,37 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
-     * Private Method for Saving SignOff Transaction
+     * Private Method for POSSOD Transaction
+     *
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for
+     *            Donation in the TXL_POSLOG
+     *
+     * @return void
+     *
+     * @throws Exception
+     *             The Exception thrown when the process fails
+     */
+    private void doPosSodTransaction(final Transaction transaction, final String posLogXml,
+                                     final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
+            throws SQLException, SQLStatementException, NamingException, DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName());
+
+        savePosLogXML(transaction, posLogXml, TxTypes.POSSOD, savePOSLogStmt, connection, trainingMode);
+
+        updatePosCtrl(transaction, null, connection);
+
+        tp.methodExit();
+    }
+
+    /**
+     * Private Method for POSEOD Transaction
      *
      * @param transaction
      *            The current transaction.
@@ -1111,6 +1141,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         tp.methodExit();
     }
+
 
     /**
      * Private Method for Saving AutoSignOff Transaction
@@ -1278,6 +1309,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     break;
                 case TxTypes.RECEIPT_REPRINT:
                     doReceiptReprintTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
+                    break;
+                case TxTypes.POSSOD:
+                    doPosSodTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.POSEOD:
                     doPosEodTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);

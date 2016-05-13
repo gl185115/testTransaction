@@ -59,7 +59,10 @@ public class ControlTransaction {
 
     @XmlElement(name = "PodEod")
     private PosEod posEod;
-   
+
+    @XmlElement(name = "PodSod")
+    private PosSod posSod;
+
 	/**
 	 * Gets the version number attribute value.
 	 * @return
@@ -177,5 +180,18 @@ public class ControlTransaction {
         this.posEod = posEod;
     }
 
+    /**
+     * @return PosEod
+     */
+    public PosSod getPosSod() {
+        return posSod;
+    }
+
+    /**
+     * @param posSod
+     */
+    public void setPosSod(PosSod posSod) {
+        this.posSod = posSod;
+    }
 
 }

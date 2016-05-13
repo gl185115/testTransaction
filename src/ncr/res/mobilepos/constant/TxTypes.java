@@ -63,6 +63,7 @@ public final class TxTypes {
     public static final String SIGNON = "SignOn";
     public static final String SIGNOFF = "SignOff";
     public static final String AUTOSIGNOFF = "AutoSignOff";
+    public static final String POSSOD = "PosSod";
     public static final String POSEOD = "PosEod";
     public static final String EXCHANGE = "Exchange";
     public static final String INQ = "Inq";

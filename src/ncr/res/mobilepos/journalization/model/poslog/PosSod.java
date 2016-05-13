@@ -6,13 +6,13 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Holds the EOD element.
+ * Holds the SOD element.
  * @author RES
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "PosEod")
-public class PosEod {
+@XmlRootElement(name = "PosSod")
+public class PosSod {
 
     /**
      * Accountability

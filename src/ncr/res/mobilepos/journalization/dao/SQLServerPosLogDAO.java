@@ -1330,6 +1330,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.CASHOUT:
                 case TxTypes.CASHOUTVOID:
                 case TxTypes.CHARGESALES:
+                case TxTypes.SUSPEND:
                     savePosLogXML(transaction, posLogXml, transactionType, savePOSLogStmt, connection, trainingMode);
                     break;
                 default:

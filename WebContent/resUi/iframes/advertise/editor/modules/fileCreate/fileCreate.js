@@ -54,6 +54,12 @@ res.ui.controller("fileCreate", ["$scope", "$rootScope", function($scope, $rootS
 		$rootScope.model.advertise.OriginalLayout = new Advertise().layout;
 		$rootScope.pickListDisableClose = false;
 		$rootScope.pickListDisableOpen = true;
+		
+		var scroll = angular.element(document.getElementById('EditLayout')).scope();
+        var scrollItems = scroll.scrollItems;
+        setTimeout(function(){
+            scrollItems.refresh();
+        },200);
 	};
 
 	$scope.cancel = function() {

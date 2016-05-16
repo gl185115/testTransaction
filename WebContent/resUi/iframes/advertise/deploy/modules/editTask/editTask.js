@@ -312,7 +312,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 
         if ($scope.indexLevel1 == 0 || $scope.indexLevel1 == -1) {
             status.total = $rootScope.model.editTask.deployCategories[0].storeEntries.length;
-            task.target = { store: $scope.editTargetName, group: "", workstation: "All", storeNameJa: $scope.editTargetName };
+            task.target = { store: "All", group: "", workstation: "All", storeNameJa: $scope.editTargetName };
         } else if ($scope.indexLevel1 == 1) {
             var entryEdit = $rootScope.model.editTask.deployCategories[1].storeEntries[$scope.indexLevel2];
             status.total = 1;

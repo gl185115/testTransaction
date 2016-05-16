@@ -49,20 +49,16 @@ public interface ITillInfoDAO {
     
     /**
      * Updates specific fields of Till after successful SOD/EOD.
-     * @param storeId - Store number which the Till belongs to.
-     * @param tillId - Till/Drawer identifier
-     * @param oldSodFlag - The old value of sod flag to be changed.
-     * @param newSodFlag - The new value of sod flag to bet set.
-     * @param oldEodFlag - The old value of eod flag to be changed.
-     * @param newEodFlag - The new value of eod flag to bet set.
-     * @param bizDate - The business day date from SOD POSlog
-     * @param operatorId - The operator who performs the SOD/EOD. Retrieved from SOD Poslog.
-     * @return ResultBase
+     * @param connection db connection
+     * @param currentTill Till with original data
+     * @param updatingTill Till with updating data
+     * @param isEnterprise if true, this update is for enterprise
      * @throws DaoException
+     * @throws TillException
      */
-    void updateTillOnJourn(Connection conn, Till till,String oldSodFlag, String oldEodFlag, boolean isEnterprise)
-    	throws DaoException, TillException;
-    
+    void updateTillOnJourn(Connection connection, Till currentTill, Till updatingTill, boolean isEnterprise)
+            throws DaoException, TillException;
+
     ResultBase searchLogonUsers(String companyId, String storeId, String tillId, 
     		String terminalId) throws DaoException;
     

@@ -722,55 +722,47 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Private Method for Start of Day Transaction
-     *
-     * @param transaction
-     *            The current transaction.
-     * @param posLogXml
-     *            The POSLog XML.
-     * @param connection
-     *            The database connection
-     * @param savePOSLogStmt
-     *            The Prepared Statement for inserting the POSLog XML for Return
-     *            in the TXL_POSLOG
-     *
-     * @return void
-     *
-     * @throws Exception
-     *             The Exception thrown when the process fails
+     * This method updates RESMaster.dbo.MST_TILLIDINFO.SodFlag to 1.
+     * @param transaction The current transaction.
+     * @param connection The database connection
+     * @throws DaoException
+     * @throws TillException
      */
-    private void doSODTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt)
-                    throws SQLException, SQLStatementException, NamingException, DaoException, TillException {
+    private void doSODTransaction(final Transaction transaction,final Connection connection)
+            throws DaoException, TillException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
 
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-        ViewTill viewTill = tillInfoDAO.viewTill(transaction.getRetailStoreID(), transaction.getTillID());
+        Till currentTill = tillInfoDAO.fetchOne(
+                transaction.getOrganizationHierarchy().getId(),
+                transaction.getRetailStoreID(),
+                transaction.getTillID());
 
-        if (viewTill.getNCRWSSResultCode() == ResultBase.RES_TILL_NOT_EXIST) {
+        // Checks if the till exists on MST_TILLIDINFO.
+        if( currentTill == null) {
+            tp.methodExit();
             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + " Till does not exist.",
                     ResultBase.RES_TILL_NOT_EXIST);
-        } else {
-            boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
-            Till searchedTill = viewTill.getTill();
-            if (!isEnterprise && TillInfoResource.SOD_FLAG_FINISHED.equals(searchedTill.getSodFlag())) {
-                throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
-                        + " SOD has already been performed for the Till.", ResultBase.RES_TILL_SOD_FINISHED);
-            }
-
-            Till till = new Till();
-            till.setStoreId(transaction.getRetailStoreID());
-            till.setTillId(transaction.getTillID());
-            till.setSodFlag(TillInfoResource.SOD_FLAG_FINISHED);
-            till.setEodFlag(TillInfoResource.EOD_FLAG_UNFINISHED);
-            till.setBusinessDayDate(transaction.getBusinessDayDate());
-            till.setUpdOpeCode(transaction.getOperatorID().getValue());
-
-            tillInfoDAO.updateTillOnJourn(connection, till, TillInfoResource.SOD_FLAG_PROCESSING,
-                    searchedTill.getEodFlag(), isEnterprise);
-
         }
+
+        // Checks if SOD is not finished yet.
+        boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
+        if (!isEnterprise && TillInfoResource.SOD_FLAG_FINISHED.equals(currentTill.getSodFlag())) {
+            tp.methodExit();
+            throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
+                    + " SOD has already been performed for the Till.", ResultBase.RES_TILL_SOD_FINISHED);
+        }
+
+        // Sets new values for updating.
+        Till updatingTill = new Till(currentTill);
+        updatingTill.setSodFlag(TillInfoResource.SOD_FLAG_FINISHED);
+        updatingTill.setEodFlag(TillInfoResource.EOD_FLAG_UNFINISHED);
+        updatingTill.setBusinessDayDate(transaction.getBusinessDayDate());
+        updatingTill.setUpdOpeCode(transaction.getOperatorID().getValue());
+
+        tillInfoDAO.updateTillOnJourn(connection, currentTill, updatingTill, isEnterprise);
         tp.methodExit();
     }
 
@@ -797,55 +789,47 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Private Method for End of Day Transaction
-     *
-     * @param transaction
-     *            The current transaction.
-     * @param posLogXml
-     *            The POSLog XML.
-     * @param connection
-     *            The database connection
-     * @param savePOSLogStmt
-     *            The Prepared Statement for inserting the POSLog XML for Return
-     *            in the TXL_POSLOG
-     *
-     * @return void
+     * This method updates RESMaster.dbo.MST_TILLIDINFO.EodFlag to 1.
+     * @param transaction The current transaction.
+     * @param connection The database connection
+     * @throws DaoException
      * @throws TillException
-     *
-     * @throws Exception
-     *             The Exception thrown when the process fails
      */
-    private void doEODTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
-            final PreparedStatement savePOSLogStmt) throws SQLException, SQLStatementException, NamingException,
-                    DaoException, TillException, ParseException {
+    private void doEODTransaction(final Transaction transaction, final Connection connection)
+            throws DaoException, TillException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
 
-        // update MST_TILLIDINFO
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-        ViewTill viewTill = tillInfoDAO.viewTill(transaction.getRetailStoreID(), transaction.getTillID());
+        Till currentTill = tillInfoDAO.fetchOne(
+                transaction.getOrganizationHierarchy().getId(),
+                transaction.getRetailStoreID(),
+                transaction.getTillID());
 
-        if (viewTill.getNCRWSSResultCode() == ResultBase.RES_TILL_NOT_EXIST) {
+        // Checks if the till exists on MST_TILLIDINFO.
+        if( currentTill == null) {
+            tp.methodExit();
             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName + " Till does not exist.",
                     ResultBase.RES_TILL_NOT_EXIST);
-        } else {
-            boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
-            Till searchedTill = viewTill.getTill();
-            if (!isEnterprise && TillInfoResource.EOD_FLAG_FINISHED.equals(searchedTill.getEodFlag())) {
-                throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
-                        + " EOD has already been performed for the Till.", ResultBase.RES_TILL_EOD_FINISHED);
-            }
-
-            Till till = new Till();
-            till.setStoreId(transaction.getRetailStoreID());
-            till.setTillId(transaction.getTillID());
-            till.setSodFlag(TillInfoResource.SOD_FLAG_UNFINISHED);
-            till.setEodFlag(TillInfoResource.EOD_FLAG_FINISHED);
-            till.setBusinessDayDate(transaction.getBusinessDayDate());
-            till.setUpdOpeCode(transaction.getOperatorID().getValue());
-            tillInfoDAO.updateTillOnJourn(connection, till, TillInfoResource.SOD_FLAG_FINISHED,
-                    TillInfoResource.EOD_FLAG_PROCESSING, isEnterprise);
         }
+
+        // Checks if EOD is not finished yet.
+        boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
+        if (!isEnterprise && TillInfoResource.EOD_FLAG_FINISHED.equals(currentTill.getEodFlag())) {
+            tp.methodExit();
+            throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
+                    + " EOD has already been performed for the Till.", ResultBase.RES_TILL_EOD_FINISHED);
+        }
+
+        // Sets new values for updating.
+        Till updatingTill = new Till(currentTill);
+        updatingTill.setSodFlag(TillInfoResource.SOD_FLAG_UNFINISHED);
+        updatingTill.setEodFlag(TillInfoResource.EOD_FLAG_FINISHED);
+        updatingTill.setBusinessDayDate(transaction.getBusinessDayDate());
+        updatingTill.setUpdOpeCode(transaction.getOperatorID().getValue());
+
+        tillInfoDAO.updateTillOnJourn(connection, currentTill, updatingTill, isEnterprise);
         tp.methodExit();
     }
 
@@ -1243,10 +1227,10 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             boolean isTxEODorSOD = false;
 
             if (transactionType.equalsIgnoreCase(TxTypes.SOD)) {
-                doSODTransaction(transaction, posLogXml, connection, savePOSLogStmt);
+                doSODTransaction(transaction, connection);
                 isTxEODorSOD = true;
             } else if (transactionType.equalsIgnoreCase(TxTypes.EOD)) {
-                doEODTransaction(transaction, posLogXml, connection, savePOSLogStmt);
+                doEODTransaction(transaction, connection);
                 isTxEODorSOD = true;
             }
 
@@ -1383,10 +1367,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", tEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName + ": Failed to update Till.", tEx);
             throw new TillException("Failed to update Till. - " + tEx.getMessage(), tEx, tEx.getErrorCode());
-        } catch (ParseException pEx) {
-            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", pEx);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to save transaction.", pEx);
-            throw new DaoException("Failed to save transaction. - " + pEx.getMessage(), pEx);
         } catch (DaoException e) {
             if (e.getErrorCode() == ResultBase.RES_SYSTEM_PROP_ERROR) {
                 rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
@@ -1458,7 +1438,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      *            The Company ID
      * @param trainingflag
      *            The Training Flag
-     * @param terminalid
+     * @param workstationid
      *            The Device Terminal ID
      * @param storeid
      *            The Store ID
@@ -1648,7 +1628,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      *
      * @param companyid
      *            The Company ID
-     * @param terminalid
+     * @param workstationid
      *            The Terminal ID
      * @param storeid
      *            The Store ID
@@ -2310,21 +2290,18 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
     /**
      * Public method that is used to validate or update lock status
-     *
-     * @param connection
-     *            The database connection
-     * @param CompanyId
-     * @param RetailStoreId
-     * @param WorkstationId
-     * @param SequenceNumber
-     * @param BusinessDayDate
-     * @param TrainingFlag
-     *
+     * @param companyid
+     * @param storeid
+     * @param workstationid
+     * @param businessdate
+     * @param sequencenumber
+     * @param trainingflag
+     * @param callType
+     * @param appId
+     * @param opeCode
+     * @param type
      * @return Returns the status of the lock
-     * @throws SQLException
-     * @throws SQLStatementException
      * @throws DaoException
-     * @throws Exception
      *             Exception thrown when the method failed.
      */
     public int getOrUpdLockStatus(String companyid, String storeid, String workstationid, String businessdate,
@@ -2421,21 +2398,14 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     /**
      * Public method that is used to validate a sale transaction that is
      * already point granted
-     *
-
-     * @param companyId
-     * @param storeId
-     * @param workstationId
+     * @param companyid
+     * @param storeid
+     * @param workstationid
      * @param businessdate
      * @param txid
-     * @param TrainingFlag
-     *
+     * @param trainingflag
      * @return Returns the status of the sale that is point granted
-     * @throws SQLException
-     * @throws SQLStatementException
-     * @throws DaoException
-     * @throws Exception
-     *             Exception thrown when the method failed.
+     * @throws DaoException Exception thrown when the method failed.
      */
 	public boolean isPostPointed(String companyid, String storeid, String workstationid, String businessdate,
 			String txid, int trainingflag) throws DaoException {

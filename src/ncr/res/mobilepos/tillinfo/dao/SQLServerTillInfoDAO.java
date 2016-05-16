@@ -428,9 +428,8 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 
         try {
             connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
             updateTill = connection.prepareStatement(
-                    sqlStatement.getProperty("update-till-operation-flag"));
+                    this.sqlStatement.getProperty("update-till-operation-flag"));
             // Set
             updateTill.setString(SQLStatement.PARAM1, updatingTill.getTerminalId());
             updateTill.setInt(SQLStatement.PARAM2, updatingTill.getSodFlagAsShort());
@@ -447,18 +446,13 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 
             int updateCount = updateTill.executeUpdate();
             if(updateCount == 0) {
-                // Optimistic locking error.
+                // Optimistic locking error due to race condition.
                 // Other terminal is already processing EOD.
                 resultBase.setNCRWSSResultCode(ResultBase.RES_OPTIMISTIC_LOCKING_ERROR);
                 resultBase.setMessage("EodFlag has been changed, Optimistic locking error");
                 tp.println("Failed to update EOD Till Info.");
             }
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to update EOD Till Info.", ex);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerTillInfoDAO." + functionName, ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to update EOD Till Info.", ex);
@@ -473,44 +467,37 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 
     /**
      * Updates specific fields of Till after successful SOD/EOD.
-     * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#updateTillOnJourn(Connection,Till, String, String, boolean)
+     * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#updateTillOnJourn(Connection,Till, Till, boolean)
      */
-    public void updateTillOnJourn(Connection connection,Till till, String oldSodFlag, String oldEodFlag, boolean isEnterprise) 
+    @Override
+    public void updateTillOnJourn(Connection connection,Till currentTill, Till updatingTill, boolean isEnterprise)
     		throws DaoException, TillException {
     	String functionName = DebugLogger.getCurrentMethodName();            
         tp.methodEnter("updateTillOnJourn");
-        tp.println("till", till);
-        tp.println("oldSodFlag", oldSodFlag);
-        tp.println("oldEodFlag", oldEodFlag);
+        tp.println("Updating till", updatingTill);
+        tp.println("oldSodFlag", currentTill.getSodFlag());
+        tp.println("oldEodFlag", currentTill.getEodFlag());
         
         PreparedStatement updateTill = null;
         ResultSet result = null; 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = new Date();
-        java.sql.Date sqlDate = null;
-    
+
         try {
-        	if(!StringUtility.isNullOrEmpty(till.getBusinessDayDate())) { 
-        		date = dateFormat.parse(till.getBusinessDayDate());
-        		sqlDate = new java.sql.Date(date.getTime());
-        	}      	
             String stringSqlStatement = isEnterprise ? "update-till-on-journ-updlock-ent" : "update-till-on-journ-updlock";
             
-            SQLStatement sqlStatement = SQLStatement.getInstance();
             updateTill = connection.prepareStatement(
-                    sqlStatement.getProperty(stringSqlStatement));
-            updateTill.setString(SQLStatement.PARAM1, till.getStoreId());
-            updateTill.setString(SQLStatement.PARAM2, till.getTillId());
-            updateTill.setInt(SQLStatement.PARAM3, Integer.parseInt(oldSodFlag));
-            updateTill.setInt(SQLStatement.PARAM4, Integer.parseInt(till.getSodFlag()));
-            updateTill.setInt(SQLStatement.PARAM5, Integer.parseInt(oldEodFlag));
-            updateTill.setInt(SQLStatement.PARAM6, Integer.parseInt(till.getEodFlag()));
-            updateTill.setDate(SQLStatement.PARAM7, sqlDate);
-            updateTill.setString(SQLStatement.PARAM8, till.getUpdOpeCode());
-                        
+                    this.sqlStatement.getProperty(stringSqlStatement));
+            updateTill.setString(SQLStatement.PARAM1, currentTill.getStoreId());
+            updateTill.setString(SQLStatement.PARAM2, currentTill.getTillId());
+            updateTill.setInt(SQLStatement.PARAM3, currentTill.getSodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM4, updatingTill.getSodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM5, currentTill.getEodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM6, updatingTill.getEodFlagAsShort());
+            updateTill.setString(SQLStatement.PARAM7, updatingTill.getBusinessDayDate());
+            updateTill.setString(SQLStatement.PARAM8, updatingTill.getUpdOpeCode());
+            updateTill.setString(SQLStatement.PARAM9, currentTill.getCompanyId());
+
             result = updateTill.executeQuery();     
-            
-            if(!result.next()) {     
+            if(!result.next()) {
                 //Concurrent access scenario. Failed to update till.
                 throw new TillException("TillException: @SQLServerTillInfoDAO." + functionName + 
                         " Failed to update till. Other terminal is processing the current till.",
@@ -518,22 +505,12 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             }
             //connection.commit() is commented out, journalization resource execute the commit functionality.
             //so that rollback functionality will work.
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to update till.", ex);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerTillInfoDAO." + functionName, ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to update till.", ex);
             rollBack(connection, functionName, ex);
             throw new DaoException("SQLException: @" + functionName, ex);
-        } catch (ParseException ex) { 
-        	LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName
-                    + ": Failed to parse business day date input.", ex);
-            throw new TillException("ParseException: @SQLServerTillInfoDAO." + functionName, ex,
-            		ResultBase.RES_TILL_INVALID_BIZDATE);
-        } catch (TillException ex) { 
+        } catch (TillException ex) {
         	LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName
                     + ": Failed to update till. Other terminal is processing the current till.", ex);
         	throw new TillException("TillException: @SQLServerTillInfoDAO." + functionName, ex, 

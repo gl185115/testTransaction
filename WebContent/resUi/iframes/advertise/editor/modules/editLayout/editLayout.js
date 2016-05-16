@@ -2,10 +2,7 @@
  * Controller
  */
 res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($scope, $rootScope, $timeout){
-//	var numOfCategories = 9;
-//	var numOfItems = 60;
-//	var scrolls = [];
-//	var scrollItems=undefined;
+
     $scope.scrollItems = new IScroll("#wrapperPickList", { // iScroll5
         scrollX: true,
         scrollY: true,

@@ -80,6 +80,12 @@ res.model = res.model || {};
 				model.editor.selectedFile = undefined;
 				model.editor.selectedIndex = undefined;
 				model.editor.indexEdit = "editLayout";
+				
+				var scroll = angular.element(document.getElementById('EditLayout')).scope();
+				var scrollItems = scroll.scrollItems;
+                setTimeout(function(){
+                    scrollItems.refresh();
+                },200);
 			}
 			break;
 		case "file.upload":

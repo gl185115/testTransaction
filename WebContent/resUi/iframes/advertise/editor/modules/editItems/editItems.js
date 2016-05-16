@@ -13,13 +13,13 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 	$rootScope.itemLocationUp = true;
 
 	$scope.$on("resIncludeLoaded", function() {	// wait for res-include complete
-		scroll.items = new IScroll("#wrapperItems", {	// iScroll5
+		/*scroll.items = new IScroll("#wrapperItems", {	// iScroll5
 			scrollX: false,
 			scrollY: true,
 			scrollbars: true,
 			interactiveScrollbars: true,
 			mouseWheel: true,	// or "zoom"
-		});
+		});*/
 		scroll.images = new IScroll("#wrapperImages", {	// iScroll5
 			scrollX: false,
 			scrollY: true,
@@ -78,9 +78,9 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 				$scope.select(0);
 			}
 
-			$timeout(function() {
+			/*$timeout(function() {
 				scroll.items.refresh();
-			}, 200);
+			}, 200);*/
 		}
 	);
 
@@ -261,12 +261,12 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 			$rootScope.model.advertise.items.splice($scope.indexItem + 1, 0, blank);
 			$scope.select($scope.indexItem + 1);
 		}
-		$timeout(function() {
+		/*$timeout(function() {
 			scroll.items.refresh();
 			if ($scope.indexItem == $rootScope.model.advertise.items.length - 1 ){
 				scroll.items.scrollTo(0, scroll.items.maxScrollY - 10, 200);
 			}
-		}, 200);
+		}, 200);*/
 	};
 
 	$scope.sortItem = function(item) {
@@ -489,7 +489,7 @@ res.ui.controller("editItems", ["$scope", "$rootScope", "$timeout", function($sc
 		}
 		$rootScope.model.printList = angular.copy($rootScope.model.advertise.items);
 		$rootScope.dialog = "";
-		$timeout(function(){ scroll.items.refresh(); }, 200);
+		//$timeout(function(){ scroll.items.refresh(); }, 200);
 	};
 
 	$scope.clear = function() {

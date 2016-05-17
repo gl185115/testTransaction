@@ -6,6 +6,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 //    var numOfItems = 60;
     var scrolls = [];
     var scrollItems=undefined;
+    var newItemFlag=false;
     $scope.folder = res.config.baseURL + "rest/uiconfig/custom/pickList/images/";
     $scope.position = { category: undefined, x: undefined, y: undefined, };
 
@@ -120,6 +121,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             } else {
                 $scope.indexItem = $rootScope.model.pickList.items.length;
                 $rootScope.model.pickList.items.splice($scope.indexItem, 0, blank);
+                newItemFlag = true;
                 $scope.doselect($scope.indexItem);
             }
         }
@@ -270,6 +272,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
 
     $scope.detailsCancel = function() {
+        if(newItemFlag){
+            $rootScope.model.pickList.items.splice($scope.indexItem,1);
+            newItemFlag = false;
+        }
         $rootScope.dialog = "";
     };
 

@@ -17,6 +17,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -71,7 +72,6 @@ import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
 import ncr.res.mobilepos.tillinfo.model.Till;
-import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 /**
@@ -96,6 +96,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     private static final String PROG_NAME = "PosLgDAO";
     /** default server type */
     static final String DEFAULT_SERVERTYPE = "STORE";
+
+    // Constants for updating TXU_POS_CTRL.
+    public static final int POS_CTRL_UPDATE_TYPE_SOD = 0;
+    public static final int POS_CTRL_UPDATE_TYPE_EOD = 1;
+    private static final short OPEN_CLOSE_STAT_SOD = 1;
+    private static final short OPEN_CLOSE_STAT_EOD = 4;
+    private static final SimpleDateFormat BEGIN_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /**
      * Default Constructor for SQLServerPoslogDAO.
@@ -1031,7 +1038,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             }
         }
 
-        updatePosCtrl(transaction, transaction.getOperatorID().getValue(), connection);
+        updatePosCtrlOpeCode(transaction, transaction.getOperatorID().getValue(), connection);
 
         tp.methodExit();
     }
@@ -1061,14 +1068,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         savePosLogXML(transaction, posLogXml, TxTypes.SIGNOFF, savePOSLogStmt, connection, trainingMode);
 
-        updatePosCtrl(transaction, null, connection);
+        updatePosCtrlOpeCode(transaction, null, connection);
 
         tp.methodExit();
     }
 
     /**
-     * Private Method for POSSOD Transaction
-     *
+     * Private Method for POSSOD Transaction.
      * @param transaction
      *            The current transaction.
      * @param posLogXml
@@ -1078,27 +1084,26 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @param savePOSLogStmt
      *            The Prepared Statement for inserting the POSLog XML for
      *            Donation in the TXL_POSLOG
-     *
-     * @return void
-     *
-     * @throws Exception
+     * @param trainingMode
+     * @throws SQLException
+     * @throws SQLStatementException
+     * @throws NamingException
+     * @throws DaoException
+     * @throws ParseException
      *             The Exception thrown when the process fails
      */
     private void doPosSodTransaction(final Transaction transaction, final String posLogXml,
                                      final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
-            throws SQLException, SQLStatementException, NamingException, DaoException {
+            throws SQLException, SQLStatementException, NamingException, DaoException, ParseException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-
         savePosLogXML(transaction, posLogXml, TxTypes.POSSOD, savePOSLogStmt, connection, trainingMode);
-
-        updatePosCtrl(transaction, null, connection);
-
+        // Updates TXU_POS_CTRL.OpenCloseStat, SodTranNo and SodTime.
+        updatePosCtrlDailyOperation(transaction, connection, POS_CTRL_UPDATE_TYPE_SOD);
         tp.methodExit();
     }
 
     /**
-     * Private Method for POSEOD Transaction
-     *
+     * Private Method for POSEOD Transaction.
      * @param transaction
      *            The current transaction.
      * @param posLogXml
@@ -1108,21 +1113,21 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @param savePOSLogStmt
      *            The Prepared Statement for inserting the POSLog XML for
      *            Donation in the TXL_POSLOG
-     *
-     * @return void
-     *
-     * @throws Exception
+     * @param trainingMode
+     * @throws SQLException
+     * @throws SQLStatementException
+     * @throws NamingException
+     * @throws DaoException
+     * @throws ParseException
      *             The Exception thrown when the process fails
      */
     private void doPosEodTransaction(final Transaction transaction, final String posLogXml,
                                       final Connection connection, final PreparedStatement savePOSLogStmt, final int trainingMode)
-            throws SQLException, SQLStatementException, NamingException, DaoException {
+            throws SQLException, SQLStatementException, NamingException, DaoException, ParseException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-
         savePosLogXML(transaction, posLogXml, TxTypes.POSEOD, savePOSLogStmt, connection, trainingMode);
-
-        updatePosCtrl(transaction, null, connection);
-
+        // Updates TXU_POS_CTRL.OpenCloseStat, EodTranNo and EodTime.
+        updatePosCtrlDailyOperation(transaction, connection, POS_CTRL_UPDATE_TYPE_EOD);
         tp.methodExit();
     }
 
@@ -1152,7 +1157,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         savePosLogXML(transaction, posLogXml, TxTypes.AUTOSIGNOFF, savePOSLogStmt, connection, trainingMode);
 
-        updatePosCtrl(transaction, null, connection);
+        updatePosCtrlOpeCode(transaction, null, connection);
 
         tp.methodExit();
     }
@@ -1227,10 +1232,16 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             boolean isTxEODorSOD = false;
 
             if (transactionType.equalsIgnoreCase(TxTypes.SOD)) {
+                // Updates MST_TILL_INFO.SodFlag.
                 doSODTransaction(transaction, connection);
+                // Updates TXU_POS_CTRL.OpenCloseStat.
+                updatePosCtrlDailyOperation(transaction, connection, POS_CTRL_UPDATE_TYPE_SOD);
                 isTxEODorSOD = true;
             } else if (transactionType.equalsIgnoreCase(TxTypes.EOD)) {
+                // Updates MST_TILL_INFO.EodFlag.
                 doEODTransaction(transaction, connection);
+                // Updates TXU_POS_CTRL.OpenCloseStat.
+                updatePosCtrlDailyOperation(transaction, connection, POS_CTRL_UPDATE_TYPE_EOD);
                 isTxEODorSOD = true;
             }
 
@@ -1374,6 +1385,11 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             }
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to save transaction.", e);
             throw new DaoException("Failed to save transaction. - " + e.getMessage(), e);
+        } catch (ParseException parseEx) {
+            // Failed by ParseException thrown by invalid format of BusinessDayDate or BeginDateTime .
+            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", parseEx);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to update PosCtrl.", parseEx);
+            throw new TillException("Failed to update PosCtrl. - " + parseEx.getMessage(), parseEx);
         } finally {
             closeConnectionObjects(null, savePOSLogStmt, null);
             closeConnectionObjects(null, saveSummaryReceiptDetailsStmt, null);
@@ -1575,17 +1591,44 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
     }
 
-    private void updatePosCtrl(Transaction transaction, String operatorId, Connection connection)
+    private void updatePosCtrlOpeCode(Transaction transaction, String operatorId, Connection connection)
             throws SQLException, SQLStatementException, DaoException {
         PreparedStatement createUpdate = null;
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            createUpdate = connection.prepareStatement(sqlStatement.getProperty("create-update-pos-state"));
+            createUpdate = connection.prepareStatement(sqlStatement.getProperty("create-update-pos-opecode"));
             createUpdate.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
             createUpdate.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
             createUpdate.setString(SQLStatement.PARAM3, transaction.getWorkStationID().getValue());
             createUpdate.setString(SQLStatement.PARAM4, operatorId);
 
+            createUpdate.executeUpdate();
+        } finally {
+            closeConnectionObjects(null, createUpdate, null);
+        }
+    }
+
+    private void updatePosCtrlDailyOperation(Transaction transaction, Connection connection, int updateType)
+            throws SQLStatementException, SQLException, DaoException, ParseException {
+        PreparedStatement createUpdate = null;
+        try {
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            createUpdate = connection.prepareStatement(sqlStatement.getProperty(
+                    updateType == POS_CTRL_UPDATE_TYPE_SOD ? "create-update-pos-sod-state" : "create-update-pos-eod-state"));
+
+            createUpdate.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
+            createUpdate.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
+            createUpdate.setString(SQLStatement.PARAM3, transaction.getWorkStationID().getValue());
+            createUpdate.setShort(SQLStatement.PARAM4,
+                    updateType == POS_CTRL_UPDATE_TYPE_SOD ? OPEN_CLOSE_STAT_SOD : OPEN_CLOSE_STAT_EOD);
+
+            // Concats the first part of BusinessDayDate and the last part of BeginDateTime.
+            String concatBusinessDate = transaction.getBusinessDayDate()
+                    + transaction.getBeginDateTime().substring(transaction.getBusinessDayDate().length());
+            Timestamp businessDateTime = new Timestamp(BEGIN_DATE_TIME_FORMAT.parse(concatBusinessDate).getTime());
+            createUpdate.setTimestamp(SQLStatement.PARAM5, businessDateTime);
+
+            createUpdate.setString(SQLStatement.PARAM6, transaction.getSequenceNo());
             createUpdate.executeUpdate();
         } finally {
             closeConnectionObjects(null, createUpdate, null);

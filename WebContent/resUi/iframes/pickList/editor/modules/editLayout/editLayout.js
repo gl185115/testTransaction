@@ -269,6 +269,10 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         $rootScope.dialog = "details";
     };
 
+    $scope.detailsCancel = function() {
+        $rootScope.dialog = "";
+    };
+
     $scope.setImage = function(image) {
         $scope.itemSelected.background = "image";
         $scope.itemSelected.picture = image;

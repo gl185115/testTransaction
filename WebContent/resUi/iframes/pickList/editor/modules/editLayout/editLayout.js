@@ -14,6 +14,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         function(indexEdit, oldValue){
             if (indexEdit != "editLayout") return;
 
+            $scope.items = $rootScope.model.pickList.items;
             for (var i = 0; i < $rootScope.model.pickList.categories.length; i++){
                 var wrapperPickList = document.getElementById('wrapperPickList' + i);
                 if(!wrapperPickList) return;
@@ -25,11 +26,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                     mouseWheel: true,    // or "zoom"
                 });
             }
-
-            $scope.items = $rootScope.model.pickList.items;
-//            $scope.isShowAllClearBtn = false;
             $scope.selectCategory(0);
-//            $scope.indexItem = 0;
         }
     );
 

@@ -2846,14 +2846,16 @@ ORDER BY
     WHERE
       GroupCode = ?
   </entry>
-    <entry key="create-update-pos-opecode">
+
+
+  <entry key="create-update-pos-opecode">
         DECLARE
           @companyid varchar(max),
-            @storeid varchar(max),
-            @terminalno varchar(max),
-            @opecode varchar(max)
+          @storeid varchar(max),
+          @terminalno varchar(max),
+          @opecode varchar(max)
 
-    SET @companyid=?
+        SET @companyid=?
         SET @storeid=?
         SET @terminalno=?
         SET @opecode=?
@@ -2877,18 +2879,18 @@ ORDER BY
                 )
             VALUES
                 (@companyid,@storeid,@terminalno,@opecode)
-    </entry>
+  </entry>
 
-    <entry key="create-update-pos-sod-state">
+  <entry key="create-update-pos-sod-state">
         DECLARE
-        @companyid varchar(max),
-        @storeid varchar(max),
-        @terminalno varchar(max),
-        @openclosestat tinyint,
-        @sodtime datetime,
-        @sodtranno char(4),
-        @eodtime datetime,
-        @eodtranno char(4)
+          @companyid varchar(max),
+          @storeid varchar(max),
+          @terminalno varchar(max),
+          @openclosestat tinyint,
+          @sodtime datetime,
+          @sodtranno char(4),
+          @eodtime datetime,
+          @eodtranno char(4)
 
         SET @companyid=?
         SET @storeid=?
@@ -2900,38 +2902,38 @@ ORDER BY
         SET @eodtranno=null
 
         IF EXISTS (SELECT * FROM TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
-        UPDATE
-        TXU_POS_CTRL
-        SET
-        OpenCloseStat = @openclosestat,
-        SodTime = @sodtime,
-        SodTranNo = @sodtranno,
-        EodTime = @eodtime,
-        EodTranNo = @eodtranno
-        WHERE
-        CompanyId=@companyid AND
-        StoreId=@storeid AND
-        TerminalNo=@terminalno
+          UPDATE
+            TXU_POS_CTRL
+          SET
+            OpenCloseStat = @openclosestat,
+            SodTime = @sodtime,
+            SodTranNo = @sodtranno,
+            EodTime = @eodtime,
+            EodTranNo = @eodtranno
+          WHERE
+            CompanyId=@companyid AND
+            StoreId=@storeid AND
+            TerminalNo=@terminalno
         ELSE
-        INSERT INTO TXU_POS_CTRL (
-        CompanyId,
-        StoreId,
-        TerminalNo,
-        OpenCloseStat,
-        SodTime,
-        SodTranNo,
-        EodTime,
-        EodTranNo )
-        VALUES (
-        @companyid,
-        @storeid,
-        @terminalno,
-        @openclosestat,
-        @sodtime,
-        @sodtranno,
-        @eodtime,
-        @eodtranno )
-    </entry>
+          INSERT INTO TXU_POS_CTRL (
+            CompanyId,
+            StoreId,
+            TerminalNo,
+            OpenCloseStat,
+            SodTime,
+            SodTranNo,
+            EodTime,
+            EodTranNo )
+          VALUES (
+            @companyid,
+            @storeid,
+            @terminalno,
+            @openclosestat,
+            @sodtime,
+            @sodtranno,
+            @eodtime,
+            @eodtranno )
+  </entry>
 
     <entry key="create-update-pos-eod-state">
         DECLARE
@@ -12695,6 +12697,20 @@ insert into txl_offline_credit
       DeleteFlag = 0.
 	ORDER BY
 	  CompanyId
+    </entry>
+
+    <!-- *************************  ENTRY KEY FOR DEVICE INFO  ************************* -->
+    <entry key="get-posctrl-openclose-status">
+      SELECT
+        OpenCloseStat,
+        SodTime
+      FROM
+        TXU_POS_CTRL
+      WHERE
+        CompanyId = ? AND
+        StoreId = ? AND
+        TerminalNo = ? AND
+        SodTime >= ?
     </entry>
 
 </properties>

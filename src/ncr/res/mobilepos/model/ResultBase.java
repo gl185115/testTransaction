@@ -1139,7 +1139,7 @@ public class ResultBase {
      * Value : {@value}<br>
      * Invalid No BizDate found for the Store in RESMaster.dbo.MST_BIZDAY.
      */
-    public static final int RES_TILL_NO_BIZDATE = 1518;
+    public static final int RES_NO_BIZDATE = 1518;
 
     /**
      * Value : {@value}<br>
@@ -1151,6 +1151,11 @@ public class ResultBase {
      * Credit summary for a specific business day date is not found.
      */
     public static final int RES_CREDIT_SUMMARY_NOT_FOUND = 1700;
+    /**
+     * Value : {@value}<br>
+     * Referring TXU_POS_CTRL, Terminal is not working.
+     */
+    public static final int RES_TERMIAL_NOT_WORKING = 1800;
 
     /** True string for UI */
     public static final String TRUE = "True";

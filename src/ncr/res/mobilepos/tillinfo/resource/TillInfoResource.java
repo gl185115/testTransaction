@@ -383,7 +383,7 @@ public class TillInfoResource {
 		if(StringUtility.isNullOrEmpty(thisBusinessDay)) {
 			// This is unlikely to happen.
 			resultBase.setMessage("No business day for the store");
-			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_NO_BIZDATE);
+			resultBase.setNCRWSSResultCode(ResultBase.RES_NO_BIZDATE);
 			tp.println("No business day fot the store on MST_BIZDAY.");
 			tp.methodExit(resultBase);
 			return resultBase;
@@ -623,7 +623,7 @@ public class TillInfoResource {
 		if(StringUtility.isNullOrEmpty(thisBusinessDay)) {
 			// This is unlikely to happen.
 			resultBase.setMessage("No business day for the store");
-			resultBase.setNCRWSSResultCode(ResultBase.RES_TILL_NO_BIZDATE);
+			resultBase.setNCRWSSResultCode(ResultBase.RES_NO_BIZDATE);
 			tp.println("No business day fot the store on MST_BIZDAY.");
 			tp.methodExit(resultBase);
 			return resultBase;

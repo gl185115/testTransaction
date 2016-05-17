@@ -1,11 +1,5 @@
 package ncr.res.mobilepos.deviceinfo.dao;
 
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
-
-import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
@@ -17,6 +11,11 @@ import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.model.Till;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * IDeviceInfoDAO Interface.
@@ -308,4 +307,13 @@ public interface IDeviceInfoDAO {
 	ViewTerminalInfo getTerminalInfo(String companyyId, String storeId, 
 			String terminalId) throws Exception;
 
+    /**
+     * Gets Terminal Open-Close status from TXU_POS_CTRL.OpenCloseStatus.
+     * @param storeId - Store ID
+     * @param terminalId - Terminal ID
+     * @param companyId - Company ID
+     * @return PosControlOpenCloseStatus for successful return, ResultBase for failure.
+     */
+    ResultBase getPosCtrlOpenCloseStatus(String companyId, String storeId, String terminalId, String thisBusinessDay)
+            throws DaoException;
 }

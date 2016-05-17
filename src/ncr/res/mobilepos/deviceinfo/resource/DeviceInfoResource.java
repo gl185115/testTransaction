@@ -8,7 +8,6 @@ import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
 import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
 import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
-import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.POSLinkInfo;
@@ -26,6 +25,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
@@ -2103,4 +2103,69 @@ public class DeviceInfoResource {
     	}
     	return terminalInfoResult;
     }
+
+    /**
+     * Gets Terminal Open-Close status from TXU_POS_CTRL.OpenCloseStatus.
+     * @param storeId - Store ID
+     * @param terminalId - Terminal ID
+     * @param companyId - Company ID
+     * @return PosControlOpenCloseStatus for successful return, ResultBase for failure.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/getdevicestatus")
+    public final ResultBase getDeviceStatus(
+            @QueryParam("companyId") final String companyId,
+            @QueryParam("storeId") final String storeId,
+            @QueryParam("terminalId") final String terminalId) {
+        final String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+                .println("companyId", companyId)
+                .println("storeid", storeId)
+                .println("terminalId", terminalId);
+
+        ResultBase resultBase = new ResultBase();
+
+        // Obtains this business day.
+        String thisBusinessDay = new JournalizationResource().getBussinessDate(companyId, storeId);
+        if(StringUtility.isNullOrEmpty(thisBusinessDay)) {
+            // This is unlikely to happen.
+            resultBase.setMessage("No business day for the store");
+            resultBase.setNCRWSSResultCode(ResultBase.RES_NO_BIZDATE);
+            tp.println("No business day fot the store on MST_BIZDAY.");
+            tp.methodExit(resultBase);
+            return resultBase;
+        }
+
+        // check for required parameters
+        if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId)) {
+            resultBase.setMessage("Required fields are empty");
+            resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.println("A required parameter is null or empty.");
+            tp.methodExit(resultBase);
+            return resultBase;
+        }
+
+        // DB lookup.
+        try{
+            IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
+            resultBase = deviceInfoDao.getPosCtrlOpenCloseStatus(companyId, storeId, terminalId, thisBusinessDay);
+        } catch (DaoException ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+                    "Failed to select TXU_POS_CTRL:"
+                            + ":CompanyId:" + companyId + ":StoreId:" + storeId + ":TerminalId:" + terminalId + ":"
+                            + ex.getMessage());
+            resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to select TXU_POS_CTRL:"
+                            + ":CompanyId:" + companyId + ":StoreId:" + storeId + ":TerminalId:" + terminalId + ":"
+                            + ex.getMessage());
+            resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        } finally {
+            tp.methodExit(resultBase);
+        }
+        return resultBase;
+    }
+
 }

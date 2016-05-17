@@ -1,10 +1,7 @@
 package ncr.res.mobilepos.deviceinfo.dao;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,14 +12,7 @@ import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
-import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
-import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
-import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
-import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
-import ncr.res.mobilepos.deviceinfo.model.TerminalInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
+import ncr.res.mobilepos.deviceinfo.model.*;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -60,7 +50,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     /**
      *  Snap Logger. 
      */
-    private SnapLogger snap;    
+    private SnapLogger snap;
+	/**
+	 * SQLStatement.
+	 */
+	private SQLStatement sqlStatement;
+
     /**
      * SQLDeviceInfoDAO default constructor.
      * @throws DaoException database exception
@@ -69,7 +64,15 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(
                 Thread.currentThread().getId(), getClass());
-    }
+		try {
+			// Gets Singleton reference from the factory.
+			this.sqlStatement = SQLStatement.getInstance();
+		} catch (SQLStatementException e) {
+			LOGGER.logAlert(PROG_NAME, "SQLDeviceInfoDAO.SQLDeviceInfoDAO",
+					Logger.RES_EXCEP_SQLSTATEMENT, "Failed to instantiate SQLStatement:" + e.getMessage());
+			throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO.SQLDeviceInfoDAO", e);
+		}
+	}
 
 	/**
 	 * Set the Pos Terminal Link association for a device.
@@ -2138,4 +2141,63 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     	}
     	return viewTerminalInfo;
     }
+
+	/**
+	 * getPosCtrlOpenCloseStatus
+	 * @param companyId
+	 * @param storeId
+	 * @param terminalId
+	 * @param thisBusinessDay
+	 * @return
+     * @throws DaoException
+     */
+	@Override
+	public ResultBase getPosCtrlOpenCloseStatus(String companyId, String storeId, String terminalId, String thisBusinessDay)
+			throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+				.println("companyId", companyId)
+				.println("storeId", storeId)
+				.println("terminalId", terminalId)
+				.println("thisBusinessDay", thisBusinessDay);
+
+		Connection connection = null;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		ResultBase resultBase = new ResultBase();
+
+		try {
+			connection = dbManager.getConnection();
+			statement = connection.prepareStatement(
+					this.sqlStatement.getProperty("get-posctrl-openclose-status"));
+
+			statement.setString(SQLStatement.PARAM1, companyId);
+			statement.setString(SQLStatement.PARAM2, storeId);
+			statement.setString(SQLStatement.PARAM3, terminalId);
+			statement.setString(SQLStatement.PARAM4, thisBusinessDay);
+			resultSet = statement.executeQuery();
+			if(resultSet.next()) {
+				PosControlOpenCloseStatus posControlOpenCloseStatus = new PosControlOpenCloseStatus();
+				posControlOpenCloseStatus.setNCRWSSResultCode(ResultBase.RES_OK);
+				posControlOpenCloseStatus.setOpenCloseStat(resultSet.getShort("OpenCloseStat"));
+				resultBase = posControlOpenCloseStatus;
+			} else {
+				// PosCtrl not found.
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TERMIAL_NOT_WORKING);
+				resultBase.setMessage("PosCtrl not found.");
+				tp.println("PosCtrl not found.");
+			}
+
+		} catch (SQLException ex) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
+					"DapException: @SQLDeviceInfoDAO." + functionName 	+ " Failed to get PosCtrl OpenCloseStat.", ex);
+			throw new DaoException("SQLException: @" + functionName, ex);
+		} finally {
+			closeConnectionObjects(connection, statement, resultSet);
+			tp.methodExit(resultBase);
+		}
+		return resultBase;
+	}
+
+
 }

@@ -7,7 +7,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     var scrolls = [];
     var scrollItems=undefined;
     var newItemFlag=false;
-    $scope.folder = res.config.baseURL + "rest/uiconfig/custom/pickList/images/";
+    var companyID = res.storage.getItem("CompanyID");
+    $scope.folder = "/resTransaction/rest/uiconfigMaintenance/custom/" + companyID + "/pickList/images/";
     $scope.position = { category: undefined, x: undefined, y: undefined, };
 
     $scope.scrollPic = new IScroll("#wrapperPictures", {   // iScroll5

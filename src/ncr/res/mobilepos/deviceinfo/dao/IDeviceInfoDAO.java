@@ -3,6 +3,7 @@ package ncr.res.mobilepos.deviceinfo.dao;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
+import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
@@ -316,4 +317,11 @@ public interface IDeviceInfoDAO {
      */
     ResultBase getPosCtrlOpenCloseStatus(String companyId, String storeId, String terminalId, String thisBusinessDay)
             throws DaoException;
+
+    /**
+     * Get working device status from AUT_DEVICES, TXU_POS_CTRL, MST_DEVICEINFO.
+     * @return WorkingDevice - a class which holds the status of the working device
+     * @throws DaoException - holds the exception that was thrown
+     */
+    List<TerminalStatus> getWorkingDeviceStatus() throws DaoException;
 }

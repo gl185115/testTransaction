@@ -1,6 +1,8 @@
 package ncr.res.mobilepos.deviceinfo.resource;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
+import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.credential.model.Employee;
@@ -15,10 +17,12 @@ import ncr.res.mobilepos.deviceinfo.model.POSLinks;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.Printers;
 import ncr.res.mobilepos.deviceinfo.model.SearchedDevice;
+import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPosLinkInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
+import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -47,6 +51,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,6 +128,17 @@ public class DeviceInfoResource {
     public final String getName() {
         return "peripheraldevicecontrol";
     }
+
+    /**
+     * DateFormat for Business Date.
+     */
+    private static final DateFormat BUSINESS_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    /**
+     * TXU_POS_CTRL OpenCloseStat.
+     */
+    private static int POSCTRL_OPEN_CLOSE_STAT_OPENED = 1;
+    private static int POSCTRL_OPEN_CLOSE_STAT_CLOSED = 4;
+
     /**
      * PeripheralDeviceControl default constructor.
      */
@@ -2166,6 +2184,109 @@ public class DeviceInfoResource {
             tp.methodExit(resultBase);
         }
         return resultBase;
+    }
+
+    /**
+     * Gets all the active terminals on this business day under the Application Server.
+     * @param storeId - Store ID
+     * @param terminalId - Terminal ID
+     * @param companyId - Company ID
+     * @return
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/getworkingdevices")
+    public final ResultBase getWorkingDevices(
+            @QueryParam("companyId") final String companyId,
+            @QueryParam("storeId") final String storeId,
+            @QueryParam("terminalId") final String terminalId) {
+        final String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+                .println("companyId", companyId)
+                .println("storeid", storeId)
+                .println("terminalId", terminalId);
+
+        ResultBase resultBase = new ResultBase();
+
+        // 1, check for required parameters
+        if (StringUtility.isNullOrEmpty(companyId, storeId)) {
+            resultBase.setMessage("Required fields are empty");
+            resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.println("A required parameter is null or empty.");
+            tp.methodExit(resultBase);
+            return resultBase;
+        }
+
+        // 2, Obtains this business day.
+        String thisBusinessDay = new JournalizationResource().getBussinessDate(companyId, storeId);
+        if(StringUtility.isNullOrEmpty(thisBusinessDay)) {
+            // This is unlikely to happen.
+            resultBase.setMessage("No business day for the store");
+            resultBase.setNCRWSSResultCode(ResultBase.RES_NO_BIZDATE);
+            tp.println("No business day fot the store on MST_BIZDAY.");
+            tp.methodExit(resultBase);
+            return resultBase;
+        }
+
+        try{
+            // 3, Gets all the devices by selecting RESMaster.AUT_DEVICES
+            IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
+            List<TerminalStatus> allDeviceList = deviceInfoDao.getWorkingDeviceStatus();
+
+            // 4, Parses business day to Timestamp. As a result,
+            Timestamp thisBusinessDatetime = new Timestamp(BUSINESS_DATE_FORMAT.parse(thisBusinessDay).getTime());
+
+            // 5, Sublists actively working terminals on this business day.
+            List<TerminalStatus> terminalStatusList = new ArrayList<>();
+            for(TerminalStatus device : allDeviceList) {
+                if(isTerminalWorking(device, thisBusinessDatetime)) {
+                    terminalStatusList.add(device);
+                }
+            }
+            resultBase = new WorkingDevices(ResultBase.RES_OK, terminalStatusList);
+        } catch (DaoException ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+                    "DaoException thrown:"
+                            + ":CompanyId:" + companyId + ":StoreId:" + storeId + ":TerminalId:" + terminalId + ":"
+                            + ex.getMessage());
+            resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Exception thrown:"
+                            + ":CompanyId:" + companyId + ":StoreId:" + storeId + ":TerminalId:" + terminalId + ":"
+                            + ex.getMessage());
+            resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        } finally {
+            tp.methodExit(resultBase);
+        }
+        return resultBase;
+    }
+
+    /**
+     * Checks if the given terminal is considered as active and working this business day.
+     * @param device
+     * @param thisBusinessDatetime
+     * @return true : terminal is opened and active.
+     *          false : terminal is closed or inactive on this business day.
+     */
+    private boolean isTerminalWorking(TerminalStatus device, Timestamp thisBusinessDatetime) {
+        // 0, Validates if both sodTime and eodTime are not null.
+        if(device.getSodTime() == null || device.getEodTime() == null) {
+            // This terminal has been inactive.
+            return false;
+        }
+        // 1, Terminal which already finishes EOD and SOD on the business day has to be inactive as closed.
+        if(device.getOpenCloseStat() == POSCTRL_OPEN_CLOSE_STAT_CLOSED &&
+                device.getSodTime().after(thisBusinessDatetime) &&
+                device.getEodTime().after(thisBusinessDatetime )) {
+            return false;
+        }
+        // 2, Terminal whose SodTIme is past means inactive as not opened on the day.
+        if(device.getSodTime().before(thisBusinessDatetime)) {
+            return false;
+        }
+        // Otherwise, active.
+        return true;
     }
 
 }

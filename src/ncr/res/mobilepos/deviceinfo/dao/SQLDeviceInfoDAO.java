@@ -1,10 +1,7 @@
 package ncr.res.mobilepos.deviceinfo.dao;
 
-import java.io.IOException;
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-
+import atg.taglib.json.util.JSONException;
+import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -12,7 +9,16 @@ import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
-import ncr.res.mobilepos.deviceinfo.model.*;
+import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
+import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
+import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.PosControlOpenCloseStatus;
+import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
+import ncr.res.mobilepos.deviceinfo.model.TerminalInfo;
+import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
+import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
+import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -24,8 +30,14 @@ import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.tillinfo.model.Till;
-import atg.taglib.json.util.JSONException;
-import atg.taglib.json.util.JSONObject;
+
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * PeripheralControl data access object.
  * @see IDeviceInfoDAO
@@ -1793,7 +1805,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         tp.methodEnter(functionName).println("storeid", storeId)
                 .println("key", key).println("limit", limit);
         
-        List<Till> tillList = new ArrayList<Till>();
+        List<Till> tillList = new ArrayList<>();
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
@@ -1937,16 +1949,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 
         ResultBase returnData = null;
         SQLStatement sqlStatement;
-        try {
-            sqlStatement = SQLStatement.getInstance();
-        } catch (SQLStatementException sqlStmtEx) {
-            tp.methodExit(returnData);
-            throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to  Get the Attribute Info.", sqlStmtEx);
-        }
 
         try (Connection con = dbManager.getConnection();
-             PreparedStatement ps = con.prepareStatement(sqlStatement.getProperty("get-attribute-info"))) {
+             PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-attribute-info"))) {
             ps.setString(SQLStatement.PARAM1, storeId);
             ps.setString(SQLStatement.PARAM2, terminalId);
             ps.setString(SQLStatement.PARAM3, companyId);
@@ -2199,5 +2204,47 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		return resultBase;
 	}
 
+	/**
+	 * Get working device status from AUT_DEVICES, TXU_POS_CTRL, MST_DEVICEINFO.
+	 * @return List<TerminalStatus> list of TerminalStatus.
+	 * @throws DaoException - holds the exception that was thrown
+	 */
+	@Override
+	public List<TerminalStatus> getWorkingDeviceStatus() throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter("getWorkingDeviceStatus");
+		tp.methodEnter(functionName);
+
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet resultSet = null;
+		List<TerminalStatus> terminals = new ArrayList<>();
+
+		try {
+			connection = dbManager.getConnection();
+			selectStmt = connection.prepareStatement(sqlStatement.getProperty("get-working-device-status"));
+
+			resultSet = selectStmt.executeQuery();
+			while(resultSet.next()) {
+				TerminalStatus device = new TerminalStatus();
+				device.setCompanyId(resultSet.getString("CompanyId"));
+				device.setStoreId(resultSet.getString("StoreId"));
+				device.setTerminalId(resultSet.getString("TerminalId"));
+				device.setTerminalName(resultSet.getString("DeviceName"));
+				device.setOpenCloseStat(resultSet.getShort("OpenCloseStat"));
+				device.setSodTime(resultSet.getTimestamp("SodTime"));
+				device.setEodTime(resultSet.getTimestamp("EodTime"));
+				terminals.add(device);
+			}
+
+		} catch (SQLException sqle) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL, sqle.getMessage());
+			throw new DaoException("SQLException is thrown", sqle);
+		} finally {
+			closeConnectionObjects(connection, selectStmt, resultSet);
+			tp.methodExit(terminals);
+		}
+		return terminals;
+	}
 
 }

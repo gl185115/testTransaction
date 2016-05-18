@@ -586,17 +586,20 @@ public class UiConfigMaintenanceResource {
 	@Produces({ "application/json;charset=UTF-8" })
 	public final PictureInfoList PictureListServlet(
 			@FormParam("folder") final String folder,
-			@FormParam("sizeType") final int sizeType) {
+			@FormParam("sizeType") final int sizeType,
+			@FormParam("companyID") final String companyID) {
 		// Logs given parameters.
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/pictureList");
 		tp.println("folder", folder).
-		println("sizeType", sizeType);
+		println("sizeType", sizeType).
+		println("companyID", companyID);
 
 		PictureInfoList result = new PictureInfoList();
 
 		try {
-			File dir_resource = new File(configProperties.getCustomMaintenanceBasePath(), folder);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			File dir_resource = new File(url, folder);
 			
 			if (dir_resource.exists()) {
 				String baseDir = dir_resource.getPath();

@@ -160,6 +160,10 @@
 			</div>
 		</div>
 		<div class="Buttons Bottom">
+			<div class="resButton raise yellow W120xH70 "
+				data-res-click="suspend()" data-ng-class="{}">
+				<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+			</div>
 			<div class="resButton raise orange W120xH70 "
 				data-res-click="clear()" data-ng-class="{}">
 				<p data-ng-bind-html="'Void'|resPhrase:context"></p>
@@ -219,7 +223,7 @@
 				<p data-ng-bind-html="'EditItems.Guide.Images'|resPhrase:context"></p>
 			</div>
 			<div class="PickButtons">
-				<div id="wrapperImages">
+				<div id="wrapperImages" class="wrapperImages">
 					<div class="scroller">
 						<div class="PickButton" data-ng-repeat="picture in model.editor.pictures track by $index"
 							data-res-click="setImage(picture)">

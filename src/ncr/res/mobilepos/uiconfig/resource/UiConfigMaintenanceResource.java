@@ -439,16 +439,19 @@ public class UiConfigMaintenanceResource {
 	@Produces({"application/json;charset=UTF-8"})
 	public final FileDownLoadInfo requestConfigFileDownload(
 			@FormParam("folder") final String folder,
-			@FormParam("filename") final String filename){
+			@FormParam("filename") final String filename,
+			@FormParam("companyID") final String companyID){
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileDownload");
 		tp.println("folder", folder)
-		  .println("filename", filename);
-
+		  .println("filename", filename)
+		  .println("companyID", companyID);
+		
 		FileDownLoadInfo result = new FileDownLoadInfo();
 		try {
-			File loadFolder = new File(configProperties.getCustomMaintenanceBasePath(), folder);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			File loadFolder = new File(url, folder);
 			File loadFile = new File(loadFolder, filename);
 
 			if (loadFile.exists()) {

@@ -18,7 +18,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         interactiveScrollbars: true,
         mouseWheel: true,   // or "zoom"
     });
-	$scope.folder = res.config.baseURL + "rest/uiconfig/custom/advertise/images/";
+    var companyID = res.storage.getItem("CompanyID");
+    $scope.folder = "/resTransaction/rest/uiconfigMaintenance/custom/" + companyID + "/advertise/images/";
 	$scope.position = { x: undefined, y: undefined, };
 	
 	$scope.$on("resIncludeLoaded", function() {

@@ -64,12 +64,14 @@ $(document).ready(function () {
             requestURL = res.config.baseURL + "rest/uiconfigMaintenance/fileDownload";
             folder = data.folder;
             filename = data.file;
+            var companyID = res.storage.getItem("CompanyID");
             $.ajax({
                 type: 'POST',
                 url: requestURL,
                 data: {
                     'folder': folder,
-                    'filename': filename
+                    'filename': filename,
+                    'companyID':companyID
                 },
                 datatype: 'json',
                 success: function (data) {

@@ -43,7 +43,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         return $rootScope.model.editor.pictures;
     }, function(pictures, oldValue) {
         $timeout(function() {
-            scroll.images.refresh();
+            $scope.scrollPic.refresh();
         }, 200);
     });
 
@@ -382,13 +382,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 //    };
 
     $scope.$on("resIncludeLoaded", function() {    // wait for res-include complete
-        scroll.images = new IScroll("#wrapperImages", { // iScroll5
-            scrollX: false,
-            scrollY: true,
-            scrollbars: true,
-            interactiveScrollbars: true,
-            mouseWheel: true,   // or "zoom"
-        });
 
         $scope.buttonColors = [ "silver", "red", "orange", "beige", "yellow", "green", "blue", "purple" ];
 

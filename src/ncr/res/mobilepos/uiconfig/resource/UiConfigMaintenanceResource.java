@@ -12,11 +12,12 @@ package ncr.res.mobilepos.uiconfig.resource;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,16 +29,21 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 
 import org.apache.tomcat.util.http.fileupload.FileItemIterator;
 import org.apache.tomcat.util.http.fileupload.FileItemStream;
 import org.apache.tomcat.util.http.fileupload.disk.DiskFileItemFactory;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.util.Streams;
+
+import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
 
 import atg.taglib.json.util.JSONArray;
 import ncr.realgate.util.Trace;
@@ -49,6 +55,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
+import ncr.res.mobilepos.uiconfig.model.UiConfigType;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileDownLoadInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
 import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
@@ -81,6 +88,9 @@ import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
  */
 @Path("/uiconfigMaintenance")
 public class UiConfigMaintenanceResource {
+    // Extensions for custom images.
+    private static final String EXTENSION_CUSTOM_IMAGE_JPG = ".jpg";
+    private static final String EXTENSION_CUSTOM_IMAGE_PNG = ".png";
 
 	/**
      * ClassSimpleName
@@ -112,6 +122,71 @@ public class UiConfigMaintenanceResource {
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
 
+    /**
+     * Returns custom image files.
+     *
+     * @param filenameParam
+     * @return
+     */
+    @Path("/custom/{companyID}/{typeParam}/images/{filename}")
+    @GET
+    @Produces({"image/png", "image/jpg"})
+    public final Response requestCustomImage(
+    		@PathParam("companyID") final String companyID,
+    		@PathParam("typeParam") final String typeParam,
+    		@PathParam("filename") final String filenameParam) {
+        // Logs given parameters.
+        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        tp.methodEnter("/uiconfigMaintenance/custom/" + companyID + "/" + typeParam + "/images/" + filenameParam);
+        tp.println("companyID", companyID);
+        tp.println("typeParam", typeParam);
+        tp.println("filename", filenameParam);
+
+        // 1, Decodes filename.
+        String filename = null;
+        try {
+            filename = URLDecoder.decode(filenameParam, UiConfigHelper.URL_ENCODING_CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            // This exception is never thrown.
+        }
+
+        // 2, Validates file extension, it should be png or jpg.
+        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG)) {
+            tp.methodExit("Invalid filename:" + filename);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomImage",
+                    Logger.RES_EXCEP_GENERAL,
+                    "Invalid filename:" + filename);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        // 3, Searches a file with the given name in custom base path.
+        UiConfigType configType = UiConfigType.toEnum(typeParam);
+        String customBasePath = configProperties.getCustomMaintenanceBasePath() +
+        		companyID +
+        		StaticParameter.str_separator +
+        		configType.toString();
+        File file = UiConfigHelper.searchImageFile(customBasePath, filename);
+        if (file == null) {
+            tp.methodExit("Custom image not found:" + filename);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomImage",
+                    Logger.RES_EXCEP_FILENOTFOUND,
+                    "Custom image not found:" + filename);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        // 4, Returns file for the response.
+        Response.ResponseBuilder rb = new ResponseBuilderImpl();
+        rb.header("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+        rb.status(Response.Status.OK);
+        rb.entity(file);
+        tp.methodExit("Returns " + file.getAbsolutePath());
+        return rb.build();
+    }
+    
     @Path("/getcompanyinfo")
     @POST
     @Produces({"application/json;charset=UTF-8"})
@@ -172,13 +247,14 @@ public class UiConfigMaintenanceResource {
 			@FormParam("picturename") final String picturename,
 			@FormParam("expire") final String expire, 
 			@FormParam("title") final String title,
-			@FormParam("title2") final String title2) {
+			@FormParam("title2") final String title2,
+			@FormParam("companyID") final String companyID) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileUpload");
 		tp.println("folder", folder).println("contents", contents).println("desfilename", desfilename)
 				.println("overwrite", overwrite).println("picturename", picturename).println("expire", expire)
-				.println("title", title).println("title2", title2);
+				.println("title", title).println("title2", title2).println("companyID", companyID);
 
 		HashMap<String, String> ref = new HashMap<String, String>();
 		ref.put("title", title);
@@ -192,7 +268,8 @@ public class UiConfigMaintenanceResource {
 
 		ResultBase result = new ResultBase();
 		try {
-			File uploadDir = new File(configProperties.getCustomResourceBasePath(), folder);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			File uploadDir = new File(url, folder);
 			if (!uploadDir.exists()) {
 				tp.println(uploadDir.getPath() + ":" + "directory does not exist");
 				if (uploadDir.mkdirs()) {
@@ -289,15 +366,18 @@ public class UiConfigMaintenanceResource {
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
 	public final FileInfoList requestConfigFileList(
+			@FormParam("companyID") final String companyID,
 			@FormParam("folder") final String folder){
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileList");
+		tp.println("companyID", companyID);
 		tp.println("folder", folder);
 
 		FileInfoList result = new FileInfoList();
 		try {
-			File resourceDir = new File(configProperties.getCustomResourceBasePath(), folder);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			File resourceDir = new File(url, folder);
 			File[] fileList = null;
 
 			if (resourceDir.exists()) {
@@ -368,7 +448,7 @@ public class UiConfigMaintenanceResource {
 
 		FileDownLoadInfo result = new FileDownLoadInfo();
 		try {
-			File loadFolder = new File(configProperties.getCustomResourceBasePath(), folder);
+			File loadFolder = new File(configProperties.getCustomMaintenanceBasePath(), folder);
 			File loadFile = new File(loadFolder, filename);
 
 			if (loadFile.exists()) {
@@ -513,7 +593,7 @@ public class UiConfigMaintenanceResource {
 		PictureInfoList result = new PictureInfoList();
 
 		try {
-			File dir_resource = new File(configProperties.getCustomResourceBasePath(), folder);
+			File dir_resource = new File(configProperties.getCustomMaintenanceBasePath(), folder);
 			
 			if (dir_resource.exists()) {
 				String baseDir = dir_resource.getPath();
@@ -629,7 +709,7 @@ public class UiConfigMaintenanceResource {
 		try {
 			result = new GetScheduleInfo();
 			if (!StringUtility.isNullOrEmpty(resource)) {
-				xml_schedule = new File(configProperties.getCustomResourceBasePath(), resource);
+				xml_schedule = new File(configProperties.getCustomMaintenanceBasePath(), resource);
 				xml_schedule = new File(xml_schedule, StaticParameter.xml_schedule);
 
 				result.setSchedule(ScheduleXmlUtil.getSchedule(xml_schedule));
@@ -673,14 +753,14 @@ public class UiConfigMaintenanceResource {
 		ResultBase result = new ResultBase();
 		try {
 			File scheduleXml = null;
-			File setScheduleDir = new File(configProperties.getCustomResourceBasePath() + StaticParameter.key_schedule);
+			File setScheduleDir = new File(configProperties.getCustomMaintenanceBasePath() + StaticParameter.key_schedule);
 			if (!setScheduleDir.exists()) {
 				if (setScheduleDir.mkdirs()) {
 					tp.println( "Directory is not find. And create at : " + setScheduleDir.getPath());
 				}
 			}
 			if (!StringUtility.isNullOrEmpty(resource)) {
-				scheduleXml = new File(configProperties.getCustomResourceBasePath(), resource);
+				scheduleXml = new File(configProperties.getCustomMaintenanceBasePath(), resource);
 				scheduleXml = new File(scheduleXml, StaticParameter.xml_schedule);
 
 				ScheduleXmlUtil.saveScheduleByJSON(schedulejson, scheduleXml);
@@ -792,16 +872,16 @@ public class UiConfigMaintenanceResource {
 	}
 	
 	/**
-	 * ファイル削除（ファイル用）
+	 * ?t?@?C?????i?t?@?C???p?j
 	 * @param pResource : pickList/notices
-	 * @param pFileName : ファイル名前
-	 * @return true(成功) / false(失敗)
+	 * @param pFileName : ?t?@?C?????O
+	 * @return true(????) / false(???s)
 	 */
 	private boolean removeResourceDirFile(String pResource, String pFileName) {
 
 		boolean isDeleteFlg = false;
 		try {
-			File delFileDir = new File(configProperties.getCustomResourceBasePath(), pResource);
+			File delFileDir = new File(configProperties.getCustomMaintenanceBasePath(), pResource);
 			File delFile = new File(delFileDir, pFileName);
 
 			if (removeFile(delFile)) {
@@ -811,7 +891,7 @@ public class UiConfigMaintenanceResource {
 			}
 
 			if (isDeleteFlg) {
-				File xml_schedule = new File(configProperties.getCustomResourceBasePath(), pResource);
+				File xml_schedule = new File(configProperties.getCustomMaintenanceBasePath(), pResource);
 				xml_schedule = new File(xml_schedule, configProperties.getScheduleFilePath());
 
 				deleteScheduleTask(xml_schedule, pResource, pFileName);
@@ -868,12 +948,12 @@ public class UiConfigMaintenanceResource {
 	}
 
 	/**
-	 * ファイル削除（画像用）
+	 * ?t?@?C?????i???p?j
 	 *
-	 * @param pResource : imagesディレクトリのpickList/notices
-	 * @param pFileName : ファイル名前
-	 * @param pDelFileList : 削除を失敗たら、失敗ファイルリストに保存する
-	 * @return true(成功) / false(失敗)
+	 * @param pResource : images?f?B???N?g????pickList/notices
+	 * @param pFileName : ?t?@?C?????O
+	 * @param pDelFileList : ???????s????A???s?t?@?C?????X?g????????
+	 * @return true(????) / false(???s)
 	 */
 	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList) {
 
@@ -888,7 +968,7 @@ public class UiConfigMaintenanceResource {
 		boolean retFlg = false;
 
 		try {
-			dir_resource = new File(configProperties.getCustomResourceBasePath(), pResource);
+			dir_resource = new File(configProperties.getCustomMaintenanceBasePath(), pResource);
 			img_picture = new File(dir_resource, pFileName);
 
 			if (removeFile(img_picture)) {
@@ -916,7 +996,7 @@ public class UiConfigMaintenanceResource {
 
 			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
 				resource = pResource.split(StaticParameter.str_separator)[0];
-				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
+				dir_resource = new File(configProperties.getCustomMaintenanceBasePath(), resource);
 				img_picture = new File(dir_resource, StaticParameter.str_separator + StaticParameter.key_images);
 				img_picture = new File(img_picture, pFileName);
 
@@ -989,7 +1069,7 @@ public class UiConfigMaintenanceResource {
 			imageFileArr = new ArrayList<FileRemove>();
 			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
 				resource = pResource.split(StaticParameter.str_separator)[0];
-				dir_resource = new File(configProperties.getCustomResourceBasePath(), resource);
+				dir_resource = new File(configProperties.getCustomMaintenanceBasePath(), resource);
 				img_picture = new File(dir_resource, StaticParameter.str_separator + StaticParameter.key_images);
 				img_picture = new File(img_picture, pFileName);
 
@@ -1142,7 +1222,7 @@ public class UiConfigMaintenanceResource {
 				} else {
 					if ("form-file".equals(fis.getFieldName())) {
 						isFormFile = fis.openStream();
-						imgFolder = new File(configProperties.getCustomResourceBasePath(), folder);
+						imgFolder = new File(configProperties.getCustomMaintenanceBasePath(), folder);
 						File imageFile = new File(imgFolder, filename);
 
 						stream = new FileOutputStream(imageFile);

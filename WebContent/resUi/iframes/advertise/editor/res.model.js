@@ -18,7 +18,7 @@ res.model = res.model || {};
 		var scroll = angular.element(document.getElementById('EditLayout')).scope();
 		switch(event){
 		case "file.list":
-			var files = data;
+			var files = data || [];
 			model.editor.files = [];
 			var result;
 			for (var i = 0; i < files.length; i++){

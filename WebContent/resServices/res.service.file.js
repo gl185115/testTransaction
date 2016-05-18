@@ -133,12 +133,14 @@ $(document).ready(function () {
         },
         pictureList: function (data, callback) {
             requestURL = res.config.baseURL + "rest/uiconfigMaintenance/pictureList";
+            var companyID = res.storage.getItem("CompanyID");
             $.ajax({
                 type: 'POST',
                 url: requestURL,
                 data: {
                     'folder': data.folder,
                     'sizeType': data.sizeType,
+                    'companyID': companyID
                 },
                 datatype: 'json',
                 success: function (data) {

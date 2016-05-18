@@ -15,6 +15,7 @@ res.model = res.model || {};
 
 	res.model.update = function(event, data) {
 		var model = res.ui.root.model;
+		var scroll = angular.element(document.getElementById('EditLayout')).scope();
 		switch(event){
 		case "file.list":
 			var files = data;
@@ -81,7 +82,6 @@ res.model = res.model || {};
 				model.editor.selectedIndex = undefined;
 				model.editor.indexEdit = "editLayout";
 				
-				var scroll = angular.element(document.getElementById('EditLayout')).scope();
 				var scrollItems = scroll.scrollItems;
                 setTimeout(function(){
                     scrollItems.refresh();
@@ -107,6 +107,10 @@ res.model = res.model || {};
 				model.editor.pictures = data.result;
 			}
 			model.advertise.sizeType = 0;
+			var scrollPic = scroll.scrollPic;
+			setTimeout(function(){
+			    scrollPic.refresh();
+            },200);
 			break;
 		case "file.picture.upload.success":
 			//res.ui.root.itemSelected={};
@@ -126,6 +130,11 @@ res.model = res.model || {};
 
 			var fileInput = document.getElementById('fileInput');
 			fileInput.value="";
+			
+			var scrollPic = scroll.scrollPic;
+            setTimeout(function(){
+                scrollPic.refresh();
+            },200);
 			break;
 		case "file.picture.upload.failed":
 			window.parent.res.ui.root.model.popup = "";

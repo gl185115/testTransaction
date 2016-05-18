@@ -826,7 +826,7 @@ public class UiConfigMaintenanceResource {
 		try {
 			if (!StringUtility.isNullOrEmpty(folder)) {
 				if (Arrays.asList(StaticParameter.resourceArr).contains(folder)) {
-					if (removeResourceDirFile(folder, filename,companyID)) {
+					if (removeResourceDirFile(folder, filename, companyID)) {
 						tp.println("File remove successfully");
 					} else {
 						tp.println("File remove successfully ");
@@ -837,14 +837,14 @@ public class UiConfigMaintenanceResource {
 
 				} else if (folder.endsWith(StaticParameter.str_separator+ StaticParameter.key_images )) {
 					if (StaticParameter.res_false.equalsIgnoreCase(confirmDel)) {
-						if (isExistingPickListImage(folder, filename,companyID)) {
+						if (isExistingPickListImage(folder, filename, companyID)) {
 							tp.println(filename + ":" + "Picture is being used");
 							LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_FILENOTFOUND, "Picture is being used");
 							result.setStatus(StaticParameter.res_exist);
 							result.setDescription(imageFileArr);
 							return result;
 						} else {
-							if (removeResourceDirImageFile(folder, filename, delFileList,companyID)) {
+							if (removeResourceDirImageFile(folder, filename, delFileList, companyID)) {
 								tp.println("File remove successfully");
 								LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_SUCCESS, "File remove successfully");
 								result.setStatus(StaticParameter.res_success);
@@ -858,7 +858,7 @@ public class UiConfigMaintenanceResource {
 							}
 						}
 					} else if (StaticParameter.res_true.equalsIgnoreCase(confirmDel)) {
-						if (removeResourceDirImageFile(folder, filename, delFileList,companyID)) {
+						if (removeResourceDirImageFile(folder, filename, delFileList, companyID)) {
 							tp.println("File remove successfully");
 							LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_SUCCESS, "File remove successfully");
 							result.setStatus(StaticParameter.res_success);
@@ -886,16 +886,17 @@ public class UiConfigMaintenanceResource {
 	}
 	
 	/**
-	 * ?t?@?C?????i?t?@?C???p?j
+	 * ファイル削除（ファイル用）
 	 * @param pResource : pickList/notices
-	 * @param pFileName : ?t?@?C?????O
-	 * @return true(????) / false(???s)
+	 * @param pFileName : ファイル名前
+	 * @return true(成功) / false(失敗)
 	 */
-	private boolean removeResourceDirFile(String pResource, String pFileName,String companyID) {
+	private boolean removeResourceDirFile(String pResource, String pFileName, String companyID) {
 
 		boolean isDeleteFlg = false;
 		try {
-			File delFileDir = new File(configProperties.getCustomMaintenanceBasePath()+ companyID + StaticParameter.str_separator, pResource);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			File delFileDir = new File(url, pResource);
 			File delFile = new File(delFileDir, pFileName);
 
 			if (removeFile(delFile)) {
@@ -905,7 +906,7 @@ public class UiConfigMaintenanceResource {
 			}
 
 			if (isDeleteFlg) {
-				File xml_schedule = new File(configProperties.getCustomMaintenanceBasePath()+ companyID + StaticParameter.str_separator, pResource);
+				File xml_schedule = new File(url, pResource);
 				xml_schedule = new File(xml_schedule, configProperties.getScheduleFilePath());
 
 				deleteScheduleTask(xml_schedule, pResource, pFileName,companyID);
@@ -916,7 +917,7 @@ public class UiConfigMaintenanceResource {
 		return isDeleteFlg;
 	}
 
-	private void deleteScheduleTask(File pScheduleXml, String pResource, String pFileName,String companyID) {
+	private void deleteScheduleTask(File pScheduleXml, String pResource, String pFileName, String companyID) {
 
 		Config config = null;
 		Deploy deploy = null;
@@ -962,14 +963,14 @@ public class UiConfigMaintenanceResource {
 	}
 
 	/**
-	 * ?t?@?C?????i???p?j
+	 * ファイル削除（画像用）
 	 *
-	 * @param pResource : images?f?B???N?g????pickList/notices
-	 * @param pFileName : ?t?@?C?????O
-	 * @param pDelFileList : ???????s????A???s?t?@?C?????X?g????????
-	 * @return true(????) / false(???s)
+	 * @param pResource : imagesディレクトリのpickList/notices
+	 * @param pFileName : ファイル名前
+	 * @param pDelFileList : 削除を失敗たら、失敗ファイルリストに保存する
+	 * @return true(成功) / false(失敗)
 	 */
-	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList,String companyID) {
+	private boolean removeResourceDirImageFile(String pResource, String pFileName, String pDelFileList, String companyID) {
 
 		String resource = "";
 		String content = "";
@@ -982,7 +983,8 @@ public class UiConfigMaintenanceResource {
 		boolean retFlg = false;
 
 		try {
-			dir_resource = new File(configProperties.getCustomMaintenanceBasePath()+ companyID + StaticParameter.str_separator, pResource);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			dir_resource = new File(url, pResource);
 			img_picture = new File(dir_resource, pFileName);
 
 			if (removeFile(img_picture)) {
@@ -1010,7 +1012,7 @@ public class UiConfigMaintenanceResource {
 
 			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
 				resource = pResource.split(StaticParameter.str_separator)[0];
-				dir_resource = new File(configProperties.getCustomMaintenanceBasePath()+ companyID + StaticParameter.str_separator, resource);
+				dir_resource = new File(url, resource);
 				img_picture = new File(dir_resource, StaticParameter.str_separator + StaticParameter.key_images);
 				img_picture = new File(img_picture, pFileName);
 
@@ -1067,7 +1069,7 @@ public class UiConfigMaintenanceResource {
 		return retFlg;
 	}
 
-	private boolean isExistingPickListImage(String pResource, String pFileName,String companyID) {
+	private boolean isExistingPickListImage(String pResource, String pFileName, String companyID) {
 
 		String resource = "";
 		String content = "";
@@ -1083,7 +1085,8 @@ public class UiConfigMaintenanceResource {
 			imageFileArr = new ArrayList<FileRemove>();
 			if (pResource.endsWith(StaticParameter.str_separator + StaticParameter.key_images)) {
 				resource = pResource.split(StaticParameter.str_separator)[0];
-				dir_resource = new File(configProperties.getCustomMaintenanceBasePath()+ companyID + StaticParameter.str_separator, resource);
+				String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+				dir_resource = new File(url, resource);
 				img_picture = new File(dir_resource, StaticParameter.str_separator + StaticParameter.key_images);
 				img_picture = new File(img_picture, pFileName);
 

@@ -327,12 +327,12 @@
 	border-color: hsl(0, 0%, 10%) hsl(0, 0%, 60%) hsl(0, 0%, 80%);
 	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
 }
-#EditLayout .Images .PickButtons .wrapperImages {
-	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px; width: 864px; height: 521px;
+#EditLayout .Images .PickButtons .wrapperPictures {
+	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px; width: 862px; height: 521px;
 	overflow: hidden;
 	z-index: 0;
 }
-#EditLayout .Images .PickButtons .wrapperImages .scroller {
+#EditLayout .Images .PickButtons .wrapperPictures .scroller {
 	/* display: -webkit-inline-box; */
     position: relative;
 }

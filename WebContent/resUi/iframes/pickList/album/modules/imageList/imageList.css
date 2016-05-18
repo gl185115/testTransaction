@@ -86,7 +86,7 @@
 #ImageList .Images .PickButton {
 	position: relative;
 	display: inline-block;
-	margin: 4px;
+	margin: 3px;
 }
 
 #ImageList .Images .resButton { position: absolute; left: 20px; top: 5px; }

@@ -21,7 +21,8 @@ res.model = res.model || {};
 				model.imageCopy.failedMsgShow = false;
 				model.imageCopy.pictures = [];
 
-				model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images/";
+				var companyID = res.storage.getItem("CompanyID");
+	            model.imageCopy.imageURL = model.imageCopy.baseURL + companyID + "/advertise/images/";
 				res.ui.send({
 					event : "file.picture.list",
 					data : {
@@ -90,7 +91,8 @@ res.model = res.model || {};
 			}
 
 			model.imageCopy.targetRoot = "\\advertise";
-			model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images/";
+			var companyID = res.storage.getItem("CompanyID");
+            model.imageCopy.imageURL = model.imageCopy.baseURL + companyID + "/advertise/images/";
 			break;
 		case "file.remove":
 			window.parent.res.ui.root.model.popup = "";
@@ -133,7 +135,8 @@ res.model = res.model || {};
             model.imageCopy.successMsgShow = true;
             model.imageCopy.failedMsgShow = false;
             model.imageCopy.pictures = [];
-            model.imageCopy.imageURL = model.imageCopy.baseURL + "advertise/images/";
+            var companyID = res.storage.getItem("CompanyID");
+            model.imageCopy.imageURL = model.imageCopy.baseURL + companyID + "/advertise/images/";
 
             res.ui.root.itemSelected={};
             res.ui.root.itemSelected.background = "image";
@@ -173,7 +176,7 @@ res.model = res.model || {};
 		this.targetfiles = [];
 		this.indexFileName = "";
 		this.recursive = true;
-		this.baseURL = "/resTransaction/rest/uiconfig/custom/";
+		this.baseURL = "/resTransaction/rest/uiconfigMaintenance/custom/";
 		this.imageURL = "";
 		this.successMsgShow = false;
 		this.failedMsgShow = false;

@@ -20,10 +20,12 @@ $(document).ready(function () {
 
     Service_file.prototype = {
         list: function (data, callback) {
+            var companyID = res.storage.getItem("CompanyID");
             $.ajax({
                 type: 'POST',
                 url: res.config.baseURL + "rest/uiconfigMaintenance/fileList",
                 data: {
+                    'companyID': companyID,
                     'folder': data.folder
                 },
                 datatype: 'json',
@@ -101,6 +103,7 @@ $(document).ready(function () {
         },
         upload: function (data, callback) {
             requestURL = res.config.baseURL + "rest/uiconfigMaintenance/fileUpload";
+            var companyID = res.storage.getItem("CompanyID");
             $.ajax({
                 type: 'POST',
                 url: requestURL,
@@ -113,7 +116,8 @@ $(document).ready(function () {
                     'desfilename': data.desfilename,
                     'overwrite': data.overwrite,
                     'contents': data.contents,
-                    'picturename': data.despicturename
+                    'picturename': data.despicturename,
+                    'companyID': companyID,
                 },
                 datatype: 'json',
                 success: function (data) {

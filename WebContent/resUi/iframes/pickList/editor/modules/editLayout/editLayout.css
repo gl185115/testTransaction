@@ -381,13 +381,14 @@
 	border-color: hsl(0, 0%, 10%) hsl(0, 0%, 60%) hsl(0, 0%, 80%);
 	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
 }
-#wrapperImages {
-	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px;
+#wrapperPictures {
+	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px; width: 864px; height: 524px;
 	overflow: hidden;
 	z-index: 0;
 }
-#wrapperImages .scroller {
-	display: -webkit-inline-box;
+#wrapperPictures .scroller {
+	/* display: -webkit-inline-box; */
+	position: relative;
 }
 
 #EditLayout .Background .PickButtons {
@@ -398,7 +399,7 @@
 #EditLayout .Background .PickButton {
 	position: relative;
 	display: inline-block;
-	margin: 5px;
+	margin: 4px;
 }
 #EditLayout .Images .Buttons .resButton:nth-child(2) input.upload {
     position: absolute;

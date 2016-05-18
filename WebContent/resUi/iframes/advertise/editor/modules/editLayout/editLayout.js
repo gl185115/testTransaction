@@ -3,8 +3,16 @@
  */
 res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($scope, $rootScope, $timeout){
 
+    $scope.scrollPic = new IScroll("#wrapperPictures", {   // iScroll5
+        scrollX: false,
+        scrollY: true,
+        scrollbars: true,
+        interactiveScrollbars: true,
+        mouseWheel: true,   // or "zoom"
+    });
+    
     $scope.scrollItems = new IScroll("#wrapperPickList", { // iScroll5
-        scrollX: true,
+        scrollX: false,
         scrollY: true,
         scrollbars: true,
         interactiveScrollbars: true,
@@ -86,19 +94,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 		    $scope.itemSelected = {};
 		}
 	};
-
-	/*$scope.itemsShow= function(target){
-		if(!scrollItems)return;
-		var visible = {};
-		visible.top = -scrollItems.y;
-		visible.height = 390;
-		visible.bottom = visible.top + visible.height;
-		var element = document.querySelector(target);
-		if (element.offsetTop < visible.top)
-			scrollItems.scrollTo(0, -element.offsetTop, 200);
-		else if ( (element.offsetTop+element.offsetHeight) > visible.bottom)
-			scrollItems.scrollTo(0, visible.height - (element.offsetTop+element.offsetHeight), 200);
-	};*/
 
 	$scope.setImage = function(image) {
         //$scope.itemSelected.background = "image";

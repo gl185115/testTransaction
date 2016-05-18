@@ -10,6 +10,14 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     $scope.folder = res.config.baseURL + "rest/uiconfig/custom/pickList/images/";
     $scope.position = { category: undefined, x: undefined, y: undefined, };
 
+    $scope.scrollPic = new IScroll("#wrapperPictures", {   // iScroll5
+        scrollX: false,
+        scrollY: true,
+        scrollbars: true,
+        interactiveScrollbars: true,
+        mouseWheel: true,   // or "zoom"
+    });
+    
     $scope.$watch(
         function(){ return $rootScope.model.editor.indexEdit; },
         function(indexEdit, oldValue){

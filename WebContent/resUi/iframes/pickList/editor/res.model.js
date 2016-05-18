@@ -105,6 +105,11 @@ res.model = res.model || {};
 				model.editor.pictures = data.result;
 			}
 
+			var scroll = angular.element(document.getElementById('EditLayout')).scope();
+			var scrollPic = scroll.scrollPic;
+            setTimeout(function(){
+                scrollPic.refresh();
+            },200);
 			break;
 		case "file.picture.upload.success":
 			res.ui.root.itemSelected={};
@@ -116,6 +121,11 @@ res.model = res.model || {};
 
 			var fileInput = document.getElementById('imagefileInput');
 			fileInput.value="";
+			var scroll = angular.element(document.getElementById('EditLayout')).scope();
+			var scrollPic = scroll.scrollPic;
+            setTimeout(function(){
+                scrollPic.refresh();
+            },200);
 			break;
 		case "file.picture.upload.failed":
 			window.parent.res.ui.root.model.popup = "";

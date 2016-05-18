@@ -702,9 +702,12 @@ public class UiConfigMaintenanceResource {
 	@Path("/getSchedule")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
-	public final GetScheduleInfo getSchedule (@FormParam("resource") final String resource){
+	public final GetScheduleInfo getSchedule (@FormParam("resource") final String resource,
+			@FormParam("companyID") final String companyID){
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/getSchedule");
+		tp.println("resource", resource).
+		println("companyID", companyID);
 		
 		File xml_schedule = null;
 		GetScheduleInfo result = null;
@@ -712,12 +715,13 @@ public class UiConfigMaintenanceResource {
 		try {
 			result = new GetScheduleInfo();
 			if (!StringUtility.isNullOrEmpty(resource)) {
-				xml_schedule = new File(configProperties.getCustomMaintenanceBasePath(), resource);
+				String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+				xml_schedule = new File(url, resource);
 				xml_schedule = new File(xml_schedule, StaticParameter.xml_schedule);
 
 				result.setSchedule(ScheduleXmlUtil.getSchedule(xml_schedule));
 				if (result.getSchedule() == null) {
-					result.setSchedule(ScheduleXmlUtil.getEmptyScheduleModel(resource));
+					result.setSchedule(ScheduleXmlUtil.getEmptyScheduleModel(resource, companyID));
 				}
 			}
 			else {
@@ -747,23 +751,28 @@ public class UiConfigMaintenanceResource {
     @Produces({"application/json;charset=UTF-8"})
 	public final ResultBase requestSetSchedule(@FormParam("filename") final String filename,
 			@FormParam("schedulejson") final String schedulejson, 
-			@FormParam("resource") final String resource) {
+			@FormParam("resource") final String resource,
+			@FormParam("companyID") final String companyID) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/setSchedule");
-		tp.println("filename", filename).println("schedulejson", schedulejson).println("resource", resource);
+		tp.println("filename", filename).
+		println("schedulejson", schedulejson).
+		println("resource", resource).
+		println("companyID", companyID);
 
 		ResultBase result = new ResultBase();
 		try {
 			File scheduleXml = null;
-			File setScheduleDir = new File(configProperties.getCustomMaintenanceBasePath() + StaticParameter.key_schedule);
+			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
+			File setScheduleDir = new File(url + StaticParameter.key_schedule);
 			if (!setScheduleDir.exists()) {
 				if (setScheduleDir.mkdirs()) {
 					tp.println( "Directory is not find. And create at : " + setScheduleDir.getPath());
 				}
 			}
 			if (!StringUtility.isNullOrEmpty(resource)) {
-				scheduleXml = new File(configProperties.getCustomMaintenanceBasePath(), resource);
+				scheduleXml = new File(url, resource);
 				scheduleXml = new File(scheduleXml, StaticParameter.xml_schedule);
 
 				ScheduleXmlUtil.saveScheduleByJSON(schedulejson, scheduleXml);

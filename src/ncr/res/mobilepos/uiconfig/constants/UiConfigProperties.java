@@ -19,12 +19,14 @@ public class UiConfigProperties {
     private static UiConfigProperties myInstance;
 
     // Properties Keys.
+    private static final String KEY_CUSTOM_MAINTENANCE_BASE_PATH = "customMaintenanceBasePath";
     private static final String KEY_CUSTOM_RESOURCE_BASE_PATH = "customResourceBasePath";
     private static final String KEY_SCHEDULE_FILE_PATH = "scheduleFilePath";
     private static final String KEY_STORES_CSV_FILE_PATH = "storesCsvFilePath";
     private static final String KEY_DEPLOY_STATUS_FILE_PATH = "deployStatusFilePath";
 
     // Absolute path to 'custom'.
+    private String customMaintenanceBasePath;
     private String customResourceBasePath;
     // Relative paths.
     private String scheduleFilePath;
@@ -47,6 +49,7 @@ public class UiConfigProperties {
             return;
         }
         // Path to 'custom' directory.
+        customMaintenanceBasePath = loadProperty(KEY_CUSTOM_MAINTENANCE_BASE_PATH, context);
         customResourceBasePath = loadProperty(KEY_CUSTOM_RESOURCE_BASE_PATH, context);
         scheduleFilePath = loadProperty(KEY_SCHEDULE_FILE_PATH, context);
 
@@ -86,6 +89,10 @@ public class UiConfigProperties {
     }
 
     // Simple getters.
+    public String getCustomMaintenanceBasePath() {
+        return customMaintenanceBasePath;
+    }
+    
     public String getCustomResourceBasePath() {
         return customResourceBasePath;
     }

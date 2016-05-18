@@ -34,13 +34,12 @@ $(document).ready(function() {
 
 		getSchedule: function(data, callback) {
 			var companyID = res.storage.getItem("CompanyID");
-			var parameter = "?companyID=" + companyID;
-
 			$.ajax({
 				type: 'POST',
-				url: res.config.baseURL + "rest/uiconfigMaintenance/getSchedule" + parameter,
+				url: res.config.baseURL + "rest/uiconfigMaintenance/getSchedule",
 				data: {
-					resource : data.resource
+					resource : data.resource,
+					companyID : companyID
 				},
 				datatype: 'json',
 				success: function(data){
@@ -53,13 +52,15 @@ $(document).ready(function() {
 		},
 
 		setSchedule: function(data, callback) {
+		    var companyID = res.storage.getItem("CompanyID");
 			$.ajax({
 				type: 'POST',
 				url: res.config.baseURL + "rest/uiconfigMaintenance/setSchedule",
 				data: {
 					filename: "schedule.xml",
 					schedulejson : data.schedule,
-					resource : data.resource
+					resource : data.resource,
+					companyID: companyID,
 				},
 				datatype: 'json',
 				success: function(data){

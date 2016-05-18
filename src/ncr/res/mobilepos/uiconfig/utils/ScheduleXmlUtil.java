@@ -45,13 +45,13 @@ public class ScheduleXmlUtil {
 		return null;
 	}
 
-	public static String getSchedule(File pScheduleFile, String pResource) {
+	public static String getSchedule(File pScheduleFile, String pResource, String companyID) {
 
 		StringBuilder scheduleJson = new StringBuilder("\n{\"schedule\":");
 
 		Schedule schedule = getSchedule(pScheduleFile);
 		if (schedule == null) {
-			schedule = getEmptyScheduleModel(pResource);
+			schedule = getEmptyScheduleModel(pResource, companyID);
 		}
 
 		scheduleJson.append(schedule.toString()).append("}");
@@ -378,7 +378,8 @@ public class ScheduleXmlUtil {
 //		return false;
 //	}
 
-	public static Schedule getEmptyScheduleModel(String pResource) {
+	public static Schedule getEmptyScheduleModel(String pResource,
+			String companyID) {
 
 		Schedule schedule = null;
 		Company company = null;
@@ -408,7 +409,7 @@ public class ScheduleXmlUtil {
 			configList.add(config);
 
 			company = new Company();
-			company.setId(StaticParameter.companyID);
+			company.setId(companyID);
 			company.setName(StaticParameter.str_empty);
 
 			deploy = new Deploy();

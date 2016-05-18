@@ -155,6 +155,12 @@
     <listener-class>org.apache.commons.fileupload.servlet.FileCleanerCleanup</listener-class>
   </listener>
   <env-entry>
+    <description>Path to custom Maintenance base directory. This needs '/' at the end.</description>
+    <env-entry-name>customMaintenanceBasePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>c:/software/ncr/res/custom/</env-entry-value>
+  </env-entry>
+  <env-entry>
     <description>Path to custom base directory. This needs '/' at the end.</description>
     <env-entry-name>customResourceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>

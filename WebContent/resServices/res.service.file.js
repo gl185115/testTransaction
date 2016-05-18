@@ -84,11 +84,12 @@ $(document).ready(function () {
         },
         remove: function (data, callback) {
             requestURL = res.config.baseURL + "rest/uiconfigMaintenance/fileRemove";
+            var companyID = res.storage.getItem("CompanyID");
             $.ajax({
                 type: 'POST',
                 url: requestURL,
                 data: {
-                    companyID : data.companyID,
+                	'companyID': companyID,
                     folder : data.folder,
                     filename : data.file,
                     delFileList : JSON.stringify(data.delFileList),

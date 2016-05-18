@@ -189,14 +189,14 @@
 	border-color: hsl(0, 0%, 10%) hsl(0, 0%, 60%) hsl(0, 0%, 80%);
 	border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
 }
-#wrapperImages {
+/* #wrapperImages {
 	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px;
 	overflow: hidden;
 	z-index: 0;
 }
 #wrapperImages .scroller {
 	display: -webkit-inline-box;
-}
+} */
 
 
 #EditItems .Background .PickButtons {

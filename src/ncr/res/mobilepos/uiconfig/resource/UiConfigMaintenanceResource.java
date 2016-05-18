@@ -1204,12 +1204,13 @@ public class UiConfigMaintenanceResource {
 	@POST
     @Produces({"application/json;charset=UTF-8"})
     @Consumes({"multipart/form-data"})
-	public final PictureInfoUpload requestConfigFileList(
+	public final PictureInfoUpload requestConfigPictureUpload(
 			@Context final HttpServletRequest request){
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/pictureUpload");
 
+		String companyID = "";
 		String filename = "";
 		String folder = "";
 		int sizeType = 0;
@@ -1238,11 +1239,13 @@ public class UiConfigMaintenanceResource {
 						folder = Streams.asString(isFormField, StaticParameter.code_UTF8);
 					}else if("sizeType".equals(fis.getFieldName())){
 						sizeType = Integer.parseInt(Streams.asString(isFormField, StaticParameter.code_UTF8));
+					}else if("companyID".equals(fis.getFieldName())){
+						companyID = Streams.asString(isFormField, StaticParameter.code_UTF8);
 					}
 				} else {
 					if ("form-file".equals(fis.getFieldName())) {
 						isFormFile = fis.openStream();
-						imgFolder = new File(configProperties.getCustomMaintenanceBasePath(), folder);
+						imgFolder = new File(configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator, folder);
 						File imageFile = new File(imgFolder, filename);
 
 						stream = new FileOutputStream(imageFile);
@@ -1327,7 +1330,7 @@ public class UiConfigMaintenanceResource {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * Process of Resize Image files to specified folder.
 	 */

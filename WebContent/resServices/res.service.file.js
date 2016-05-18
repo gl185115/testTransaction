@@ -38,8 +38,10 @@ $(document).ready(function () {
             });
         },
         pictureUpload: function (data, callback) {
+            var companyID = res.storage.getItem("CompanyID");
             var formData = new FormData();
             formData.enctype = "multipart/form-data";
+            formData.append('companyID', companyID);
             formData.append('filename', data.filename);
             formData.append('folder', data.folder);
             formData.append('form-file', data.filecontent);

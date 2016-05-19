@@ -18,8 +18,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         interactiveScrollbars: true,
         mouseWheel: true,   // or "zoom"
     });
-    var companyID = res.storage.getItem("CompanyID");
-    $scope.folder = "/resTransaction/rest/uiconfigMaintenance/custom/" + companyID + "/advertise/images/";
+    
 	$scope.position = { x: undefined, y: undefined, };
 	
 	$scope.$on("resIncludeLoaded", function() {
@@ -53,35 +52,44 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	    });
 	});
 	
-	    $scope.$watch(
-	        function() {
-	            return $rootScope.language;
-	        },
-	        function(newValue, oldValue) {
-	            if ($rootScope.model.editor.indexEdit != "editLayout") return;
-	            $rootScope.model.advertise.locate($rootScope.language);
-	        }
-	    );
+    /*$scope.$watch(
+        function() {
+            return $rootScope.language;
+        },
+        function(newValue, oldValue) {
+            if ($rootScope.model.editor.indexEdit != "editLayout") return;
+            $rootScope.model.advertise.locate($rootScope.language);
+        }
+    );*/
 
-	    $scope.$watch(
-	        function() {
-	            return $rootScope.itemSelected;
-	        },
-	        function(newValue, oldValue) {
-	            if (newValue) {
-	                $scope.itemSelected.picturePart = newValue.picturePart;
-	                $scope.itemSelected.pictureFull = newValue.pictureFull;
-	                /*$scope.itemSelected.Part.fileName = newValue.Part.fileName;
-	                $scope.itemSelected.Full.fileName = newValue.Full.fileName;*/
-	                $scope.itemSelected.startOfDay = newValue.startOfDay;
-	                $scope.itemSelected.endOfDay = newValue.endOfDay;
-	                $scope.itemSelected.companyName = newValue.companyName;
-	                $scope.itemSelected.adName = newValue.adName;
-	                $scope.itemSelected.description = newValue.description;
-	            }
-	        }
-	    );
-	    
+    $scope.$watch(
+        function() {
+            return $rootScope.itemSelected;
+        },
+        function(newValue, oldValue) {
+            if (newValue) {
+                $scope.itemSelected.picturePart = newValue.picturePart;
+                $scope.itemSelected.pictureFull = newValue.pictureFull;
+                $scope.itemSelected.startOfDay = newValue.startOfDay;
+                $scope.itemSelected.endOfDay = newValue.endOfDay;
+                $scope.itemSelected.companyName = newValue.companyName;
+                $scope.itemSelected.adName = newValue.adName;
+                $scope.itemSelected.description = newValue.description;
+            }
+        }
+    );
+    
+    $scope.$watch(
+            function(){
+                return $rootScope.model.editor.indexEdit;
+            },
+            function(newValue, oldValue) {
+                if ($rootScope.model.editor.indexEdit != 'editLayout') return;
+                var compantID = res.storage.getItem("CompanyID");
+                    $scope.folder = "/resTransaction/rest/uiconfigMaintenance/custom/" + compantID + "/advertise/images/";
+                }
+        );
+    
 	$scope.selectPosition = function(x, y) {
 
 		$rootScope.dialog = "mountItem";
@@ -122,9 +130,9 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 		$rootScope.dialog = "";
 	};
 
-	$scope.back = function(){
+	/*$scope.back = function(){
 		$rootScope.dialog = "mountItem";
-	};
+	};*/
 
 	$scope.clearAllItems = function() {
 		$rootScope.dialog = "clearTabAllItems";
@@ -179,7 +187,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             break;
         default:
             break;
-
         }
     });
 
@@ -262,27 +269,13 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         var endOfDay = $scope.itemSelected.endOfDay;
 
         if ((option=="all" || option=="itemId") && startOfDay && endOfDay) {
-            if (startOfDay.substring(0,4) > endOfDay.substring(0,4)){
+            if (startOfDay.substring(0,4) > endOfDay.substring(0,4) || 
+                    ((startOfDay.substring(0,4) == endOfDay.substring(0,4)) && (startOfDay.substring(4,6) > endOfDay.substring(4,6))) || 
+                    ((startOfDay.substring(0,4) == endOfDay.substring(0,4) && (startOfDay.substring(4,6) == endOfDay.substring(4,6)) && (startOfDay.substring(6,8) > endOfDay.substring(6,8))))){
                 $rootScope.model.failure.active = true;
                 $rootScope.model.failure.service = "advertise";
-                $rootScope.model.failure.cause = "yearError";
+                $rootScope.model.failure.cause = "dateError";
                 return false;
-            }
-            if (startOfDay.substring(0,4) == endOfDay.substring(0,4)){
-                if (startOfDay.substring(4,6) > endOfDay.substring(4,6)){
-                    $rootScope.model.failure.active = true;
-                    $rootScope.model.failure.service = "advertise";
-                    $rootScope.model.failure.cause = "monthError";
-                    return false;
-                }
-            }
-            if(startOfDay.substring(0,4) == endOfDay.substring(0,4) && (startOfDay.substring(4,6) == endOfDay.substring(4,6))) {
-                if (startOfDay.substring(6,8) > endOfDay.substring(6,8)){
-                    $rootScope.model.failure.active = true;
-                    $rootScope.model.failure.service = "advertise";
-                    $rootScope.model.failure.cause = "dateError";
-                    return false;
-                }
             }
         }
         return true;

@@ -450,7 +450,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                   <include>external/iscroll/iscroll-5/*</include>
                   <include>external/jquery/1.11.0/*</include>
                   <include>external/jquery/1.11.1/*</include>
-                  <include>external/jquery-barcode/2.0.3/*</include>                  
+                  <include>external/jquery-barcode/2.0.3/*</include>
                   <include>images/*</include>
                   <include>images/home/*</include>
                   <include>parameters/*</include>
@@ -578,9 +578,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                   <include>resUi/iframes/usability/*</include>
                   <include>settingAds/*</include>
                   <include>settingAds/css/*</include>
+                  <include>settingAds/css/images/*</include>
                   <include>settingAds/fonts/*</include>
                   <include>settingAds/js/*</include>
                   <include>WEB-INF/lib/*.jar</include>
+                  <include>sharedlib/*</include>
                 </includes>
                 <excludes>
                   <exclude>WEB-INF/lib/mail-*.jar</exclude>

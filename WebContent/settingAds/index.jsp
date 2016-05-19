@@ -355,9 +355,9 @@ try{
 <link rel="stylesheet" href="./css/jquery-ui.min.css">
 <link rel="stylesheet" href="./css/jquery-ui.theme.min.css">
 <link rel="stylesheet" href="./css/style.css">
-<script src="./js/jquery.min.js"></script>
+<script src="../sharedlib/jquery.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
-<script src="./js/jquery-ui.min.js"></script>
+<script src="../sharedlib/jquery-ui.min.js"></script>
 <script src="./js/datepicker-ja.js"></script>
 <script src="./js/select2.min.js"></script>
 <script src="./js/jquery.validate.min.js"></script>

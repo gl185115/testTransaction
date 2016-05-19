@@ -1031,9 +1031,9 @@ res.config.phrases = {
 
     "Advertise.Failure.advertise.empty":["Please enter item code and name!","商品番号、または商品名が入力されていません。"],
     "Advertise.Failure.advertise.blank":["Please apply item!","商品を適用してださい。"],
-    "Advertise.Failure.advertise.yearError":["The beginning of the year is bigger than the end of year","開始年 > 終了年 ,正しく入力して下さい!"],
-    "Advertise.Failure.advertise.monthError":["The beginning of the month is bigger than the end of month","開始月 > 終了月 ,正しく入力して下さい!"],
-    "Advertise.Failure.advertise.dateError":["The beginning of the date is bigger than the end of date","開始日 > 終了日 ,正しく入力して下さい!"],
+//    "Advertise.Failure.advertise.yearError":["The beginning of the year is bigger than the end of year","開始年 > 終了年 ,正しく入力して下さい!"],
+//    "Advertise.Failure.advertise.monthError":["The beginning of the month is bigger than the end of month","開始月 > 終了月 ,正しく入力して下さい!"],
+    "Advertise.Failure.advertise.dateError":["The beginning of the date is bigger than the end of date","開始日付 > 終了日付 ,正しく入力して下さい!"],
     "Advertise.Failure.advertise.maxNumbers13":["Can not input more than 13 numbers!","商品番号には、最大13桁の数字(半角)を入力してください。"],
     "Advertise.Failure.advertise.maxCharacters6":["Can not input more than 6 characters!","商品名には、全角6文字まで入力してください。"],
     "Advertise.Failure.advertise.maxCharacters8":["Can not input more than 8 characters!","商品名には、全角8文字まで入力してください。"],

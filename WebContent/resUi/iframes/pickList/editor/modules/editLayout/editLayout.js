@@ -7,8 +7,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     var scrolls = [];
     var scrollItems=undefined;
     var newItemFlag=false;
-    var companyID = res.storage.getItem("CompanyID");
-    $scope.folder = "/resTransaction/rest/uiconfigMaintenance/custom/" + companyID + "/pickList/images/";
     $scope.position = { category: undefined, x: undefined, y: undefined, };
 
     $scope.scrollPic = new IScroll("#wrapperPictures", {   // iScroll5
@@ -24,6 +22,8 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         function(indexEdit, oldValue){
             if (indexEdit != "editLayout") return;
 
+            var companyID = res.storage.getItem("CompanyID");
+            $scope.folder = "/resTransaction/rest/uiconfigMaintenance/custom/" + companyID + "/pickList/images/";
             $scope.items = $rootScope.model.pickList.items;
             for (var i = 0; i < $rootScope.model.pickList.categories.length; i++){
                 var wrapperPickList = document.getElementById('wrapperPickList' + i);
@@ -39,6 +39,16 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
             $scope.selectCategory(0);
         }
     );
+
+    $scope.$watch(
+            function() {
+                return $rootScope.language;
+            },
+            function(newValue, oldValue) {
+                if ($rootScope.model.editor.indexEdit != "editLayout") return;
+                $rootScope.model.pickList.locate($rootScope.language);
+            }
+        );
 
     $scope.$watch(function() {
         return $rootScope.model.editor.pictures;

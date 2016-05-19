@@ -768,7 +768,7 @@ public class UiConfigMaintenanceResource {
 		try {
 			File scheduleXml = null;
 			String url = configProperties.getCustomMaintenanceBasePath() + companyID + StaticParameter.str_separator;
-			File setScheduleDir = new File(url + StaticParameter.key_schedule);
+			File setScheduleDir = new File(url + resource);
 			if (!setScheduleDir.exists()) {
 				if (setScheduleDir.mkdirs()) {
 					tp.println( "Directory is not find. And create at : " + setScheduleDir.getPath());

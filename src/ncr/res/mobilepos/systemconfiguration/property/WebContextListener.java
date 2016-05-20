@@ -163,6 +163,7 @@ public class WebContextListener implements ServletContextListener {
 
         GlobalConstant.setDefaultLanguage(sysParams.get(GlobalConstant.DEFAULT_LANGUAGE));
 
+        GlobalConstant.setApiServerUrl(sysParams.get(GlobalConstant.API_SERVER_URL));
         String apiServerTimeout = sysParams.get(GlobalConstant.API_SERVER_TIMEOUT);
         if(!StringUtility.isNullOrEmpty()) {
             GlobalConstant.setApiServerTimeout(Integer.parseInt(apiServerTimeout));
@@ -176,9 +177,8 @@ public class WebContextListener implements ServletContextListener {
 
         GlobalConstant.setPricingType(sysParams.get(GlobalConstant.PRICING_TYPE));
 
-        GlobalConstant.setEnterpriseServerTimeout(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT);
-        GlobalConstant.setEnterpriseServerUri(GlobalConstant.ENTERPRISE_SERVER_URI);
-
+        GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
+        GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
     }
 
 }

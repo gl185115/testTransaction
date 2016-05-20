@@ -2270,9 +2270,14 @@ public class DeviceInfoResource {
      *          false : terminal is closed or inactive on this business day.
      */
     private boolean isTerminalWorking(TerminalStatus device, Timestamp thisBusinessDatetime) {
-        // 0, Validates if both sodTime and eodTime are not null.
-        if(device.getSodTime() == null || device.getEodTime() == null) {
+        // 0-1, Validates sodTime, If SodTime is null, this means the terminal never gets available.
+        if(device.getSodTime() == null) {
             // This terminal has been inactive.
+            return false;
+        }
+        // 0-2, Validates eodTIme, if OpenCloseStat == 4,Eod time must be given.
+        if(device.getOpenCloseStat() == POSCTRL_OPEN_CLOSE_STAT_CLOSED && device.getEodTime() == null) {
+            // This unlikely happens.
             return false;
         }
         // 1, Terminal which already finishes EOD and SOD on the business day has to be inactive as closed.

@@ -2230,6 +2230,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 				device.setCompanyId(resultSet.getString("CompanyId"));
 				device.setStoreId(resultSet.getString("StoreId"));
 				device.setTerminalId(resultSet.getString("TerminalId"));
+				device.setTillId(resultSet.getString("TillId"));
 				device.setTerminalName(resultSet.getString("DeviceName"));
 				device.setOpenCloseStat(resultSet.getShort("OpenCloseStat"));
 				device.setSodTime(resultSet.getTimestamp("SodTime"));

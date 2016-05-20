@@ -30,6 +30,11 @@ public class TerminalStatus {
     @XmlElement(name = "terminalid")
     private String terminalId;
     /**
+     * TillId
+     */
+    @XmlTransient
+    private String tillId;
+    /**
      * TerminalName
      */
     @XmlElement(name = "terminalName", nillable = true)
@@ -105,6 +110,14 @@ public class TerminalStatus {
 
     public void setEodTime(Timestamp eodTime) {
         this.eodTime = eodTime;
+    }
+
+    public String getTillId() {
+        return tillId;
+    }
+
+    public void setTillId(String tillId) {
+        this.tillId = tillId;
     }
 
 }

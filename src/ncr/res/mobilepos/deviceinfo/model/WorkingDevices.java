@@ -16,10 +16,36 @@ import java.util.List;
 public class WorkingDevices extends ResultBase{
 
     @XmlElement(name = "terminals")
-    private List<TerminalStatus> terminals;
+    private List<TerminalStatus> activeTerminals;
 
-    public WorkingDevices(int returnCode, List<TerminalStatus> terminals) {
-        setNCRWSSResultCode(returnCode);
-        this.terminals = terminals;
+    @XmlElement(name = "group")
+    private TerminalTillGroup ownTillGroup;
+
+    @XmlElement(name = "groups")
+    private List<TerminalTillGroup> tillGroups;
+
+    public List<TerminalStatus> getActiveTerminals() {
+        return activeTerminals;
     }
+
+    public void setActiveTerminals(List<TerminalStatus> activeTerminals) {
+        this.activeTerminals = activeTerminals;
+    }
+
+    public TerminalTillGroup getOwnTillGroup() {
+        return ownTillGroup;
+    }
+
+    public void setOwnTillGroup(TerminalTillGroup ownTillGroup) {
+        this.ownTillGroup = ownTillGroup;
+    }
+
+    public List<TerminalTillGroup> getTillGroups() {
+        return tillGroups;
+    }
+
+    public void setTillGroups(List<TerminalTillGroup> tillGroups) {
+        this.tillGroups = tillGroups;
+    }
+
 }

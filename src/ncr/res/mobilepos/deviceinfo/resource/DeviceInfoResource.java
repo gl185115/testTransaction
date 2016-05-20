@@ -1,8 +1,6 @@
 package ncr.res.mobilepos.deviceinfo.resource;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
-import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.credential.model.Employee;
@@ -18,6 +16,7 @@ import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.Printers;
 import ncr.res.mobilepos.deviceinfo.model.SearchedDevice;
 import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
+import ncr.res.mobilepos.deviceinfo.model.TerminalTillGroup;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPosLinkInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
@@ -53,9 +52,12 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DeviceInfoResource Web Resource Class.
@@ -2209,7 +2211,7 @@ public class DeviceInfoResource {
         ResultBase resultBase = new ResultBase();
 
         // 1, check for required parameters
-        if (StringUtility.isNullOrEmpty(companyId, storeId)) {
+        if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId)) {
             resultBase.setMessage("Required fields are empty");
             resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.println("A required parameter is null or empty.");
@@ -2233,17 +2235,9 @@ public class DeviceInfoResource {
             IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
             List<TerminalStatus> allDeviceList = deviceInfoDao.getWorkingDeviceStatus();
 
-            // 4, Parses business day to Timestamp. As a result,
-            Timestamp thisBusinessDatetime = new Timestamp(BUSINESS_DATE_FORMAT.parse(thisBusinessDay).getTime());
+            // 4, Makes terminal groups by till id.
+            resultBase = groupByTillId(allDeviceList, thisBusinessDay, companyId, storeId, terminalId);
 
-            // 5, Sublists actively working terminals on this business day.
-            List<TerminalStatus> terminalStatusList = new ArrayList<>();
-            for(TerminalStatus device : allDeviceList) {
-                if(isTerminalWorking(device, thisBusinessDatetime)) {
-                    terminalStatusList.add(device);
-                }
-            }
-            resultBase = new WorkingDevices(ResultBase.RES_OK, terminalStatusList);
         } catch (DaoException ex) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
                     "DaoException thrown:"
@@ -2260,6 +2254,63 @@ public class DeviceInfoResource {
             tp.methodExit(resultBase);
         }
         return resultBase;
+    }
+
+    /**
+     * Makes terminal groups by till id.
+     * @param allTerminals Terminals on AUT_DEVICES.
+     * @param thisBusinessDay this Business day.
+     * @param companyId Company Id.
+     * @param storeId Store Id.
+     * @param terminalId Terminal Id.
+     * @return WorkingDevices
+     * @throws ParseException
+     */
+    private WorkingDevices groupByTillId(List<TerminalStatus> allTerminals,
+                                         String thisBusinessDay,
+                                         String companyId,
+                                         String storeId,
+                                         String terminalId) throws ParseException {
+        // Parses business day to Timestamp.
+        Timestamp thisBusinessDatetime = new Timestamp(BUSINESS_DATE_FORMAT.parse(thisBusinessDay).getTime());
+
+        // Stores all the active terminals.
+        List<TerminalStatus> activeTerminals = new ArrayList<>();
+        // Stores all the active terminals by till groups.
+        Map<String, TerminalTillGroup> activeGroups = new HashMap<>();
+        // Keeps a reference to a group which API caller belongs to.
+        TerminalTillGroup ownGroup = null;
+
+        for(TerminalStatus terminal : allTerminals) {
+            // Checks if the terminal is active on this business day.
+            if(isTerminalWorking(terminal, thisBusinessDatetime)) {
+                activeTerminals.add(terminal);
+
+                // Adds an entry to till id group.
+                TerminalTillGroup tillGroup = activeGroups.get(terminal.getTillId());
+                if(tillGroup == null) {
+                    // New Till Id group.
+                    tillGroup = new TerminalTillGroup(terminal.getTillId());
+                    activeGroups.put(terminal.getTillId(), tillGroup);
+                }
+                tillGroup.add(terminal);
+
+                // This terminal belongs to the group, so keeps the reference as own group.
+                if(companyId.equals(terminal.getCompanyId())  &&
+                        storeId.equals(terminal.getStoreId()) &&
+                        terminalId.equals(terminal.getTerminalId())) {
+                    ownGroup = tillGroup;
+                }
+            }
+        }
+
+        // Creates WorkingDevices for JSON return.
+        WorkingDevices normalReturn = new WorkingDevices();
+        normalReturn.setNCRWSSResultCode(ResultBase.RES_OK);
+        normalReturn.setActiveTerminals(activeTerminals);
+        normalReturn.setTillGroups(new ArrayList<TerminalTillGroup>(activeGroups.values()));
+        normalReturn.setOwnTillGroup(ownGroup);
+        return normalReturn;
     }
 
     /**

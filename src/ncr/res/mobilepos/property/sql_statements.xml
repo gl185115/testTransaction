@@ -12718,6 +12718,7 @@ insert into txl_offline_credit
         AD.CompanyId,
         AD.StoreId,
         AD.TerminalId,
+        DI.TillId,
         DI.DeviceName,
         PC.OpenCloseStat,
         PC.SodTime,
@@ -12728,7 +12729,7 @@ insert into txl_offline_credit
             AD.CompanyId = PC.CompanyId AND
             AD.StoreId = PC.StoreId AND
             AD.TerminalId = PC.TerminalNo
-          LEFT OUTER JOIN RESMaster.dbo.MST_DEVICEINFO DI ON
+          INNER JOIN RESMaster.dbo.MST_DEVICEINFO DI ON
             AD.CompanyId = DI.CompanyId AND
             AD.StoreId = DI.StoreId AND
             AD.TerminalId = DI.TerminalId AND

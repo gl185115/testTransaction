@@ -18,14 +18,14 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.journalization.model.DepartmentName;
 import ncr.res.mobilepos.journalization.model.EventDetail;
 import ncr.res.mobilepos.journalization.model.ForwardListInfo;
-import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
 import ncr.res.mobilepos.journalization.model.GoldCertificate;
 import ncr.res.mobilepos.journalization.model.GoldCertificateInfo;
+import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
+import ncr.res.mobilepos.journalization.model.Reservation;
+import ncr.res.mobilepos.journalization.model.ReservationInfo;
 import ncr.res.mobilepos.journalization.model.Salespersoninfo;
 import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
 import ncr.res.mobilepos.journalization.model.SearchGuestOrderInfo;
-import ncr.res.mobilepos.journalization.model.Reservation;
-import ncr.res.mobilepos.journalization.model.ReservationInfo;
 import ncr.res.mobilepos.journalization.model.SequenceNo;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
@@ -248,7 +248,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 dptName.setEn(resultSet.getString("DptName"));
                 dptName.setJa(resultSet.getString("DptNameLocal"));
                 searchGuestOrderInfo.setDepartmentName(dptName);
-                
+
                 guestOrderlist.add(searchGuestOrderInfo);
             }
 
@@ -687,7 +687,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 eventDetail.setMdInternal(resultSet.getString("MdInternal"));
                 eventDetail.setSalesPrice(resultSet.getInt("SalesPrice"));
             }
-            
+
         } catch (SQLStatementException sqlStmtEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     functionName + ": Failed to get event login result set", sqlStmtEx);
@@ -709,7 +709,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
         }
         return eventDetail;
     }
-    
+
     /**
      * @param reservationId
      *
@@ -739,7 +739,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
             selectStmnt.setString(SQLStatement.PARAM1, reservationId);
 
             resultSet = selectStmnt.executeQuery();
-            
+
             while (resultSet.next()) {
                 if(reservationInfolist == null){
                 	reservationInfolist = new ArrayList<ReservationInfo>();
@@ -836,10 +836,10 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 dptName.setEn(resultSet.getString("DptName"));
                 dptName.setJa(resultSet.getString("DptNameLocal"));
                 reservationInfo.setDepartmentName(dptName);
-                
+
                 reservationInfolist.add(reservationInfo);
             }
-            
+
             if (reservationInfolist == null) {
             	reservation
                         .setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
@@ -853,7 +853,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 selectStmnt = connection.prepareStatement(sqlStatement
                         .getProperty("get-reservation-max-line"));
                 selectStmnt.setString(SQLStatement.PARAM1, reservationId);
-                
+
                 resultSet = selectStmnt.executeQuery();
                 if(resultSet.next()){
                 	reservation.setMaxLine(resultSet.getString("maxLine"));
@@ -890,13 +890,14 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
      * 前捌 リストの取得
      */
     @Override
-    public List<ForwardListInfo> getForwardList(String CompanyId, String RetailStoreId, 
-            String TrainingFlag, String LayawayFlag) throws DaoException {
+    public List<ForwardListInfo> getForwardList(String CompanyId, String RetailStoreId,
+            String TrainingFlag, String LayawayFlag, String Queue) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId)
                 .println("TrainingFlag", TrainingFlag)
-                .println("LayawayFlag", LayawayFlag);
+                .println("LayawayFlag", LayawayFlag)
+                .println("Queue", Queue);
 
         ArrayList<ForwardListInfo> forwardList = null;
         ResultSet result = null;
@@ -912,6 +913,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
 //            select.setString(SQLStatement.PARAM3, WorkstationId);
             select.setString(SQLStatement.PARAM3, TrainingFlag);
             select.setString(SQLStatement.PARAM4, LayawayFlag);
+            select.setString(SQLStatement.PARAM5, Queue);
             result = select.executeQuery();
             while (result.next()) {
                 if (forwardList == null) {
@@ -951,7 +953,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
 
     /**
      * 前捌レコード ステータスの更新
-     * 
+     *
      * @throws SQLException
      */
     @Override

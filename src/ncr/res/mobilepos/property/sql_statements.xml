@@ -9,7 +9,7 @@
             @typeNoNextValue INT,@typeNoMaxLength INT,
       @typeNoMaxValue INT
         SET @typeId = ?
-            
+
     IF @typeId = '0001'
       SET @typeNoMaxLength = 8
     ELSE IF @typeId = '0002' OR @typeId = '0003' OR @typeId = '0004'
@@ -17,14 +17,14 @@
     ELSE
       SET @typeNoMaxLength = 9
 
-    SET @typeNoMaxValue = CONVERT(INT,REPLICATE('9', @typeNoMaxLength))   
+    SET @typeNoMaxValue = CONVERT(INT,REPLICATE('9', @typeNoMaxLength))
         SET @typeNo = ( SELECT seq.SequenceNo FROM   RESMaster.dbo.MST_SEQUENCE seq
                         WHERE  seq.SequenceTypeId = @typeId)
         SET @typeNoNextValue = CONVERT(INT,@typeNo) + 1
 
         IF @typeNoNextValue &lt;= @typeNoMaxValue AND @typeNoNextValue > 0
             BEGIN
-                SET @typeNo = RIGHT( REPLICATE('0', @typeNoMaxLength) + CONVERT(VARCHAR,@typeNoNextValue), @typeNoMaxLength)       
+                SET @typeNo = RIGHT( REPLICATE('0', @typeNoMaxLength) + CONVERT(VARCHAR,@typeNoNextValue), @typeNoMaxLength)
                 UPDATE RESMaster.dbo.MST_SEQUENCE SET SequenceNo = @typeNo
                 OUTPUT INSERTED.SequenceTypeId,INSERTED.SequenceNo,INSERTED.SequenceTypeName
                 WHERE SequenceTypeId = @typeId
@@ -121,13 +121,13 @@ SELECT TOP 1
        plu.DiscountType DiscountType,
        colorInfo.Colorkananame,
        sizeInfo.SizeKanaName
-FROM 
+FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
     ON plu.CompanyId = plustore.CompanyId
     AND plustore.StoreId = @storeId
     AND plustore.MdInternal = plu.MdInternal
-    AND plustore.DeleteFlag = 0.0 
+    AND plustore.DeleteFlag = 0.0
 LEFT JOIN RESMaster.dbo.MST_DPTINFO dpt
 ON plu.CompanyId = dpt.CompanyId
 AND  dpt.StoreId = plu.StoreId
@@ -151,7 +151,7 @@ AND plu.StoreId = system.StoreId
 AND system.NameId = plu.TaxType
 AND system.NameCategory = '0060'
 AND system.DeleteFlag = 0.0
-LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo 
+LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo
 ON plu.CompanyId = colorInfo.CompanyId
 AND plu.StoreId = colorInfo.StoreId
 AND plu.Md01 = colorInfo.ColorId
@@ -162,7 +162,7 @@ AND plu.StoreId = sizeInfo.StoreId
 AND plu.Md05 = sizeInfo.SizeId
 
 LEFT JOIN  (
-    SELECT 
+    SELECT
         info.CompanyId,
         info.Sku,
         info.SequenceNo,
@@ -170,19 +170,19 @@ LEFT JOIN  (
         info.NewPrice,
         info.OldPrice
     FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
-    INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store 
-    ON info.CompanyId  = store.CompanyId 
+    INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
+    ON info.CompanyId  = store.CompanyId
     AND info.RecordId = store.RecordId
     AND store.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate 
+    AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
     AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @storeId)
     AND info.DeleteFlag = 0.0
-    
-) urgent ON 
-plu.CompanyId  = urgent.CompanyId 
-AND plu.Sku  = urgent.Sku 
-AND plu.Md01 = urgent.ColorId 
- 
+
+) urgent ON
+plu.CompanyId  = urgent.CompanyId
+AND plu.Sku  = urgent.Sku
+AND plu.Md01 = urgent.ColorId
+
 WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
 ORDER BY urgent.SequenceNo DESC
 
@@ -200,74 +200,74 @@ DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @sku VARCHAR(32), @busi
 IF NOT EXISTS (
     SELECT
         TOP 1
-        info.PromotionId 
-    FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail 
-        ON info.companyId = detail.companyId 
+        info.PromotionId
+    FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info
+    INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail
+        ON info.companyId = detail.companyId
         AND info.PromotionId = detail.PromotionId
         AND detail.DeleteFlag = 0.0
-    WHERE info.DeleteFlag = 0.0 AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-        AND info.companyId =  @companyId 
-        AND detail.sku = @sku 
+    WHERE info.DeleteFlag = 0.0 AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.companyId =  @companyId
+        AND detail.sku = @sku
         AND info.TargetStoreType = '1'
         ORDER BY info.UpdDate DESC)
 
-    SELECT 
+    SELECT
         TOP 1
         info.CompanyId,
-        info.PromotionName, 
-        detail.Sku, 
+        info.PromotionName,
+        detail.Sku,
         detail.DiscountAmt,
         info.PromotionId
-    FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail 
-        ON info.companyId = detail.companyId 
-        AND info.PromotionId = detail.PromotionId 
+    FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info
+    INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail
+        ON info.companyId = detail.companyId
+        AND info.PromotionId = detail.PromotionId
         AND detail.DeleteFlag = 0.0
-    WHERE 
-        info.DeleteFlag = 0.0 
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-        AND info.companyId =  @companyId 
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.companyId =  @companyId
         AND detail.sku = @sku
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
         ORDER BY info.UpdDate DESC
 
 ELSE
 
-     SELECT 
+     SELECT
         TOP 1
         info.CompanyId ,
-        info.PromotionName, 
+        info.PromotionName,
         detail.Sku, detail.DiscountAmt,
-        info.PromotionId 
-     FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info 
-     INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail 
-        ON info.companyId = detail.companyId 
-        AND info.PromotionId = detail.PromotionId 
+        info.PromotionId
+     FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info
+     INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail
+        ON info.companyId = detail.companyId
+        AND info.PromotionId = detail.PromotionId
         AND detail.DeleteFlag = 0.0
      INNER JOIN RESMaster.dbo.MST_REPLACESUPPORT_STORE store
-        ON info.companyId = store.companyId 
+        ON info.companyId = store.companyId
         AND info.PromotionId = store.PromotionId
         AND store.StoreId = @storeId AND store.DeleteFlag = 0.0
-    WHERE 
-        info.DeleteFlag = 0.0 
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-        AND info.companyId = @companyId 
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.companyId = @companyId
         AND detail.sku = @sku
         AND info.TargetStoreType = '1'
         ORDER BY info.UpdDate DESC
-        
+
 
 </entry>
 
 <entry key="get-price-prom-info">
 
 DECLARE    @storeId VARCHAR(10) ,
-           @companyId VARCHAR(12), 
-           @sku VARCHAR(32), 
+           @companyId VARCHAR(12),
+           @sku VARCHAR(32),
            @businessDate VARCHAR(32),
-           @dpt VARCHAR(32), 
-           @BrandId VARCHAR(32), 
+           @dpt VARCHAR(32),
+           @BrandId VARCHAR(32),
            @class VARCHAR(32)
 
     SET       @storeId = LTRIM(RTRIM(?))
@@ -278,26 +278,26 @@ DECLARE    @storeId VARCHAR(10) ,
     SET       @BrandId = LTRIM(RTRIM(?))
     SET       @class = LTRIM(RTRIM(?))
 IF NOT EXISTS (
-SELECT   
+SELECT
     TOP 1
     info.PromotionNo
-FROM RESMaster.dbo.MST_PRICE_PROM_INFO info 
-INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail 
+FROM RESMaster.dbo.MST_PRICE_PROM_INFO info
+INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
     ON info.companyId = detail.companyId AND info.PromotionNo = detail.PromotionNo
     AND detail.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate 
+    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
 WHERE info.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
-    AND info.companyId = @companyId 
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.companyId = @companyId
     AND info.TargetStoreType = '1'
-    AND ((PromotionType ='1' AND detail.Dpt = @dpt ) 
+    AND ((PromotionType ='1' AND detail.Dpt = @dpt )
         OR (PromotionType ='2' AND  detail.Class = @class)
         OR (PromotionType ='3' AND detail.sku = @sku ))
         AND ((BrandFlag = '1' AND (detail.BrandId = @BrandId OR detail.BrandId IS NULL)) OR BrandFlag = '0')
         ORDER BY info.UpdDate DESC)
 
 
-SELECT 
+SELECT
     TOP 1
     info.PromotionNo,
     info.PromotionName,
@@ -307,16 +307,16 @@ SELECT
     detail.DiacountRate,
     detail.DiscountAmt,
     detail.DiscountClass
- FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info 
- INNER  JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail 
+ FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
+ INNER  JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
     ON info.companyId = detail.companyId AND info.PromotionNo = detail.PromotionNo
     AND detail.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate 
+    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
 WHERE info.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
-    AND info.companyId = @companyId 
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.companyId = @companyId
     AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
-    AND ((PromotionType ='1' AND detail.Dpt = @dpt ) 
+    AND ((PromotionType ='1' AND detail.Dpt = @dpt )
         OR (PromotionType ='2' AND  detail.Class = @class)
     OR (PromotionType ='3' AND detail.sku = @sku ))
    AND ((BrandFlag = '1' AND (detail.BrandId = @BrandId OR detail.BrandId IS NULL)) OR BrandFlag = '0')
@@ -324,7 +324,7 @@ WHERE info.DeleteFlag = 0.0
 
 ELSE
 
-SELECT  
+SELECT
     TOP 1
     store.CompanyId,
     info.PromotionNo,
@@ -334,22 +334,22 @@ SELECT
     detail.DiacountRate,
     detail.DiscountAmt,
     detail.DiscountClass
-   
-FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info 
-INNER  JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail 
+
+FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
+INNER  JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
     ON info.companyId = detail.companyId AND info.PromotionNo = detail.PromotionNo
     AND detail.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate 
+    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
 INNER JOIN RESMaster.dbo.MST_PRICE_PROM_STORE store
    ON info.companyId = store.companyId
    AND info.PromotionNo = store.PromotionNo
    AND store.StoreId = @storeId
    AND store.DeleteFlag = 0.0
 WHERE info.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
-    AND info.companyId = @companyId 
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.companyId = @companyId
     AND info.TargetStoreType = '1'
-    AND ((PromotionType ='1' AND detail.Dpt = @dpt ) 
+    AND ((PromotionType ='1' AND detail.Dpt = @dpt )
         OR (PromotionType ='2'  AND  detail.Class = @class)
     OR (PromotionType ='3'  AND detail.sku = @sku ))
     AND ((BrandFlag = '1' AND (detail.BrandId = @BrandId OR detail.BrandId IS NULL)) OR BrandFlag = '0')
@@ -364,24 +364,24 @@ DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @sku VARCHAR(32), @busi
     SET        @sku = LTRIM(RTRIM(?))
     SET       @businessDate = LTRIM(RTRIM(?))
 IF NOT EXISTS (
-    SELECT 
+    SELECT
         TOP 1
-        info.MMNo 
-    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail 
-        ON info.companyId = detail.companyId 
+        info.MMNo
+    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.companyId = detail.companyId
         AND info.MMNo = detail.MMNo
         AND detail.DeleteFlag = 0.0
-    WHERE 
-        info.DeleteFlag = 0.0 
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-        AND info.companyId =  @companyId 
-        AND detail.sku = @sku 
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.companyId =  @companyId
+        AND detail.sku = @sku
         AND info.TargetStoreType = '1')
 
-    SELECT 
+    SELECT
         TOP 1
-        info.CompanyId,  
+        info.CompanyId,
         info.Note,
         info.ConditionCount1,
         info.ConditionPrice1,
@@ -396,24 +396,24 @@ IF NOT EXISTS (
         info.DecisionPrice3,
         info.AveragePrice3,
         info.MMNo
-    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail 
-        ON info.companyId = detail.companyId 
-        AND info.MMNo = detail.MMNo 
+    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.companyId = detail.companyId
+        AND info.MMNo = detail.MMNo
         AND detail.DeleteFlag = 0.0
-    WHERE 
-        info.DeleteFlag = 0.0 
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-        AND info.companyId =  @companyId 
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.companyId =  @companyId
         AND detail.sku = @sku
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
-        
+
 
 ELSE
 
-    SELECT 
+    SELECT
         TOP 1
-        info.CompanyId,  
+        info.CompanyId,
         info.Note,
         info.ConditionCount1,
         info.ConditionPrice1,
@@ -428,30 +428,30 @@ ELSE
         info.DecisionPrice3,
         info.AveragePrice3,
         info.MMNo
-    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail 
-        ON info.companyId = detail.companyId 
-        AND info.MMNo = detail.MMNo 
+    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.companyId = detail.companyId
+        AND info.MMNo = detail.MMNo
         AND detail.DeleteFlag = 0.0
     INNER JOIN RESMaster.dbo.MST_PRICE_MM_STORE store
-        ON info.companyId = store.companyId 
+        ON info.companyId = store.companyId
         AND info.MMNo = store.MMNo
-        AND store.StoreId = @storeId 
+        AND store.StoreId = @storeId
         AND store.DeleteFlag = 0.0
-    WHERE 
-        info.DeleteFlag = 0.0 
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-        AND info.companyId =  @companyId 
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.companyId =  @companyId
         AND detail.sku = @sku
         AND info.TargetStoreType = '1'
-        
+
 
 </entry>
 
 <entry key="get-coupon-info">
 DECLARE    @storeId VARCHAR(10) ,
-           @companyId VARCHAR(12), 
-           @sku VARCHAR(32), 
+           @companyId VARCHAR(12),
+           @sku VARCHAR(32),
            @businessDate VARCHAR(32),
            @dpt VARCHAR(32),
            @BrandId VARCHAR(32)
@@ -466,24 +466,24 @@ IF NOT EXISTS (
     SELECT
         TOP 1
         info.CouponNo
-    FROM  RESMaster.dbo.MST_COUPON_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail 
+    FROM  RESMaster.dbo.MST_COUPON_INFO info
+    INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail
         ON info.companyId = detail.companyId
         AND info.CouponNo = detail.CouponNo
         AND detail.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
-     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
-     
+     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+
      AND info.companyId = @companyId
      AND info.TargetStoreType = '1'
          AND ((CouponType = '1' AND detail.Dpt = @dpt AND (detail.BrandId = @BrandId OR detail.BrandId IS null)) OR
           (CouponType = '2' AND detail.sku = @sku ))
          ORDER BY info.UpdDate DESC)
 
-    SELECT   
+    SELECT
         TOP 1
         info.CouponNo,
-        info.EvenetName , 
+        info.EvenetName ,
         info.ReceiptName,
         info.UnitPrice,
         info.IssueCount,
@@ -492,13 +492,13 @@ IF NOT EXISTS (
         detail.CouponType,
         detail.Dpt,detail.Sku,
         detail.BrandId
-    FROM  RESMaster.dbo.MST_COUPON_INFO info 
-    INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail 
+    FROM  RESMaster.dbo.MST_COUPON_INFO info
+    INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail
         ON info.companyId = detail.companyId
         AND info.CouponNo = detail.CouponNo
         AND detail.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
         AND info.companyId = @companyId
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
          AND ((CouponType = '1' AND detail.Dpt = @dpt AND (detail.BrandId = @BrandId OR detail.BrandId IS null)) OR
@@ -506,18 +506,18 @@ IF NOT EXISTS (
          ORDER BY info.UpdDate DESC
 ELSE
 
-    SELECT   
+    SELECT
         TOP 1
         info.CouponNo,
-        info.EvenetName , 
+        info.EvenetName ,
         info.ReceiptName,
         info.UnitPrice,
         info.IssueCount,
         info.IssueType,
         detail.CouponDetailNo,detail.CouponType,
         detail.Dpt,detail.Sku,detail.BrandId
-     FROM  RESMaster.dbo.MST_COUPON_INFO info 
-     INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail 
+     FROM  RESMaster.dbo.MST_COUPON_INFO info
+     INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail
         ON info.companyId = detail.companyId
         AND info.CouponNo = detail.CouponNo
         AND detail.DeleteFlag = 0.0
@@ -527,19 +527,19 @@ ELSE
         AND store.StoreId = @storeId
         AND store.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
         AND info.companyId = @companyId
         AND info.TargetStoreType = '1'
         AND ((CouponType = '1' AND detail.Dpt = @dpt AND (detail.BrandId = @BrandId OR detail.BrandId IS null)) OR
           (CouponType = '2' AND detail.sku = @sku ))
             ORDER BY info.UpdDate DESC
-        
+
 </entry>
 
 <entry key="get-premiumitem-info">
 DECLARE    @storeId VARCHAR(10) ,
-           @companyId VARCHAR(12), 
-           @sku VARCHAR(32), 
+           @companyId VARCHAR(12),
+           @sku VARCHAR(32),
            @businessDate VARCHAR(32),
            @dpt VARCHAR(32),
            @brandId VARCHAR(32),
@@ -554,9 +554,9 @@ DECLARE    @storeId VARCHAR(10) ,
     SET       @conn = LTRIM(RTRIM(?))
 SELECT * FROM (
 
-   SELECT   
+   SELECT
        info.UpdDate,
-       info.PremiumItemNo, 
+       info.PremiumItemNo,
        detail.Dpt,
        detail.Sku,
        detail.BrandId,
@@ -564,23 +564,23 @@ SELECT * FROM (
        info.PremiumItemName,
        info.TargetPrice,
        info.TargetCount
-   FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info 
-   INNER  JOIN RESMaster.dbo.MST_PREMIUMITEM_DETAIL detail 
+   FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info
+   INNER  JOIN RESMaster.dbo.MST_PREMIUMITEM_DETAIL detail
        ON info.companyId = detail.companyId
        AND info.PremiumItemNo = detail.PremiumItemNo
        AND detail.DeleteFlag = 0.0
    WHERE info.DeleteFlag = 0.0
-       AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
+       AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
        AND info.companyId = @companyId
        AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
-       AND ((detail.PreminumItemType = '1' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL)) 
-             OR (detail.PreminumItemType = '2' AND detail.Dpt = @dpt  AND( detail.BrandId = @brandId OR  detail.BrandId IS NULL)) 
+       AND ((detail.PreminumItemType = '1' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
+             OR (detail.PreminumItemType = '2' AND detail.Dpt = @dpt  AND( detail.BrandId = @brandId OR  detail.BrandId IS NULL))
              OR(detail.PreminumItemType = '3'  AND detail.sku = @sku  ))
-       
+
 UNION
-     SELECT   
+     SELECT
          info.UpdDate,
-         info.PremiumItemNo, 
+         info.PremiumItemNo,
          detail.Dpt,
          detail.Sku,
          detail.BrandId,
@@ -588,9 +588,9 @@ UNION
          info.PremiumItemName,
         info.TargetPrice,
         info.TargetCount
-      
-     FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info 
-     INNER  JOIN RESMaster.dbo.MST_PREMIUMITEM_DETAIL detail 
+
+     FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info
+     INNER  JOIN RESMaster.dbo.MST_PREMIUMITEM_DETAIL detail
          ON info.companyId = detail.companyId
         AND info.PremiumItemNo = detail.PremiumItemNo
         AND detail.DeleteFlag = 0.0
@@ -600,31 +600,31 @@ UNION
         AND store.StoreId = @storeId
         AND store.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
-        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate  
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
         AND info.companyId = @companyId
         AND info.TargetStoreType = '1'
-        AND ((detail.PreminumItemType = '1' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL)) 
-             OR (detail.PreminumItemType = '2' AND detail.Dpt = @dpt  AND( detail.BrandId = @brandId OR  detail.BrandId IS NULL)) 
+        AND ((detail.PreminumItemType = '1' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
+             OR (detail.PreminumItemType = '2' AND detail.Dpt = @dpt  AND( detail.BrandId = @brandId OR  detail.BrandId IS NULL))
              OR(detail.PreminumItemType = '3'  AND detail.sku = @sku  ))
 ) PREMIUMITEM   ORDER BY PREMIUMITEM.UpdDate DESC
 </entry>
 
 <entry key="get-taxrate-info">
   DECLARE @businessDate VARCHAR(32)
-          
+
     SET  @businessDate = LTRIM(RTRIM(?))
-  
-  SELECT TaxRate , 2 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE 
-  WHERE 
+
+  SELECT TaxRate , 2 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
+  WHERE
     CONVERT(DATE,@businessDate) BETWEEN StartDate AND EndDate
   UNION ALL
 
- SELECT TaxRate , 3 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE 
+ SELECT TaxRate , 3 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
   WHERE  CONVERT(DATE,@businessDate) &lt; StartDate
  UNION ALL
- SELECT TaxRate , 1 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE 
+ SELECT TaxRate , 1 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
   WHERE  CONVERT(DATE,@businessDate) &gt; EndDate
- 
+
 
 
 </entry>
@@ -634,10 +634,10 @@ UNION
 DECLARE @companyId VARCHAR(32),
         @dpt VARCHAR(32),
         @brandId VARCHAR(32),
-        @class VARCHAR(32), 
+        @class VARCHAR(32),
         @sku VARCHAR(32),
         @storeId VARCHAR(32),
-        @businessDate VARCHAR(10), 
+        @businessDate VARCHAR(10),
         @conn VARCHAR(32)
 
 SET @companyId =LTRIM(RTRIM(?))
@@ -650,7 +650,7 @@ SET @businessDate =LTRIM(RTRIM(?))
 SET @conn =LTRIM(RTRIM(?))
 SELECT * FROM(
 
-SELECT 
+SELECT
     info.PromotionId QRPromotionId,
     info.PromotionName QRPromotionName,
     info.MinimumPrice,
@@ -660,28 +660,28 @@ SELECT
     info.BMPFileCount,
     info.OutputType,
     info.DisplayOrder
-FROM 
+FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
     ON info.CompanyId = detail.CompanyId
     AND info.PromotionId = detail.PromotionId
     AND detail.DeleteFlag = 0.0
-WHERE 
-    CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-    AND info.DeleteFlag = 0.0 
+WHERE
+    CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.DeleteFlag = 0.0
     AND info.CompanyId = @CompanyId
-    AND (detail.PromotionType = '1' 
+    AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
              OR (detail.PromotionType = '4' AND detail.Dpt = @dpt  AND (detail.BrandId = @brandId OR detail.BrandId IS NULL))
              OR (detail.PromotionType = '5' AND detail.Class = @class )
              OR (detail.PromotionType = '6' AND detail.Sku = @sku)
     )
-    AND info.TargetStoreType IN ('0','2') 
+    AND info.TargetStoreType IN ('0','2')
 
-UNION 
+UNION
 
-SELECT 
+SELECT
     info.PromotionId QRPromotionId,
     info.PromotionName QRPromotionName,
     info.MinimumPrice,
@@ -691,7 +691,7 @@ SELECT
     info.BMPFileCount,
     info.OutputType,
     info.DisplayOrder
-FROM 
+FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
     ON info.CompanyId = detail.CompanyId
@@ -702,18 +702,18 @@ INNER JOIN RESMaster.dbo.MST_QRCODE_STORE store
     AND store.DeleteFlag = 0.0
     AND store.PromotionId = info.PromotionId
     AND store.StoreId = @storeId
-WHERE 
-    CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate 
-    AND info.DeleteFlag = 0.0 
+WHERE
+    CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.DeleteFlag = 0.0
     AND info.CompanyId = @CompanyId
-    AND (detail.PromotionType = '1' 
+    AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
              OR (detail.PromotionType = '4' AND detail.Dpt = @dpt  AND (detail.BrandId = @brandId OR detail.BrandId IS NULL))
              OR (detail.PromotionType = '5' AND detail.Class = @class )
              OR (detail.PromotionType = '6' AND detail.Sku = @sku)
     )
-    
+
 ) A ORDER BY DisplayOrder
 
 </entry>
@@ -783,7 +783,7 @@ WHERE
   RESMaster.dbo.MST_DPTINFO dpt ON dpt.StoreId = CASE WHEN EXISTS ( SELECT Dpt
                                     FROM RESMaster.dbo.MST_DPTINFO
                                     WHERE Dpt = pos.MerchandiseHierarchy1
-                                      AND StoreId = pos.RetailStoreId ) 
+                                      AND StoreId = pos.RetailStoreId )
                                 THEN pos.RetailStoreId
                             ELSE '0'
                            END
@@ -871,13 +871,13 @@ WHERE
     AND         res.StatusCode = '0'
     ORDER BY    Line
   </entry>
-  
+
   <entry key="get-reservation-max-line">
    SELECT  MAX(Line)  AS maxLine
    FROM    TXL_POS_GUEST_RESERVATION
    WHERE   GuestNo = ?
   </entry>
-  
+
   <entry key="get-till-information-list">
   DECLARE    @storeId VARCHAR(6)
   SET        @storeId = LTRIM(RTRIM(?))
@@ -1014,7 +1014,7 @@ WHERE
           AND ISNULL(PLU.VenderCode, '') = CASE WHEN @vendercode &lt;&gt; '' THEN @vendercode ELSE ISNULL(PLU.VenderCode, '') END
           AND ISNULL(PLU.Md05, '') = CASE WHEN @md05 &lt;&gt; '' THEN @md05 ELSE ISNULL(PLU.Md05, '') END
   </entry>
-  
+
   <entry key="get-brand-product-info">
     DECLARE @dpt VARCHAR(20),
             @vendercode VARCHAR(20),
@@ -1029,7 +1029,7 @@ WHERE
     SET @md14 = ISNULL(?, '')
     SET @groupId = ISNULL(?, '')
     SET @line = ISNULL(?, '')
-    
+
     SELECT  ISNULL(NAME.Name, '') BrandName,
             ISNULL(PLU.Md01, '') Md01,
             ISNULL(PLU.MdShortName, '') MdShortName,
@@ -1065,7 +1065,7 @@ WHERE
   AND   ISNULL(PLU.Md14, 0) = CASE WHEN @md14 &lt;&gt; '' THEN @md14 ELSE ISNULL(PLU.Md14, 0) END
   AND   ISNULL(PLU.SubCode1, '') = CASE WHEN @groupId &lt;&gt; '' THEN @groupId ELSE ISNULL(PLU.SubCode1, '') END
   AND   RIGHT(PLU.Line, LEN(@line)) = CASE WHEN @line &lt;&gt; '' THEN @line ELSE RIGHT(PLU.Line, LEN(@line)) END
-  GROUP BY PLU.Md01, 
+  GROUP BY PLU.Md01,
            CASE WHEN ISNULL(PRICE.SalesPrice, 0) = 0 THEN ISNULL(PLU.SalesPrice1, 0)
                ELSE PRICE.SalesPrice
            END,
@@ -1078,7 +1078,7 @@ WHERE
        PLU.DiscountRate,
        PLU.DiscountAmt,
        PLU.Line
-  ORDER BY PLU.Md01, 
+  ORDER BY PLU.Md01,
            CASE WHEN ISNULL(PRICE.SalesPrice, 0) = 0 THEN ISNULL(PLU.SalesPrice1, 0)
                ELSE PRICE.SalesPrice
            END,
@@ -1092,7 +1092,7 @@ WHERE
        PLU.DiscountAmt,
        PLU.Line
   </entry>
-  
+
   <entry key="get-group-line">
     SELECT  LTRIM(RTRIM(GROUPTBL.KeyId)) GroupId,
             GROUPTBL.Value GroupName,
@@ -1171,14 +1171,14 @@ DECLARE
     @tenderType VARCHAR (50)
 SET @storeId = LTRIM(RTRIM(?))
 SET @companyId = LTRIM(RTRIM(?))
-SET @tenderType = LTRIM(RTRIM(?)) 
-    
+SET @tenderType = LTRIM(RTRIM(?))
+
 IF NOT EXISTS (
   SELECT
     *
-  FROM 
+  FROM
     RESMaster.dbo.MST_TENDERINFO
-  WHERE 
+  WHERE
     TenderType IN (
         SELECT
             TenderType
@@ -1192,7 +1192,7 @@ IF NOT EXISTS (
     AND CompanyId = @companyId
 )
   SET @storeId = '0000'
-  
+
 SELECT
     CompanyId,
     StoreId,
@@ -1232,15 +1232,15 @@ DECLARE
     @tenderId VARCHAR(20)
 SET @storeId = LTRIM(RTRIM(?))
 SET @companyId = LTRIM(RTRIM(?))
-SET @tenderType = LTRIM(RTRIM(?)) 
-SET @tenderId = LTRIM(RTRIM(?)) 
-    
+SET @tenderType = LTRIM(RTRIM(?))
+SET @tenderId = LTRIM(RTRIM(?))
+
 IF NOT EXISTS (
   SELECT
     *
-  FROM 
+  FROM
     RESMaster.dbo.MST_TENDERINFO
-  WHERE 
+  WHERE
     TenderType = @tenderType
     AND DeleteFlag = 0.0
     AND StoreId = @storeId
@@ -1248,7 +1248,7 @@ IF NOT EXISTS (
     AND TenderId = @tenderId
 )
   SET @storeId = '0000'
-  
+
 SELECT
     CompanyId,
     StoreId,
@@ -1337,7 +1337,7 @@ ORDER BY
          EndDateId,
          MdInternal,
          SalesPrice
-  FROM     RESMaster.dbo.MST_EVENT_PRICE 
+  FROM     RESMaster.dbo.MST_EVENT_PRICE
   WHERE    @businessDateId &lt;= EndDateId
   AND      EventId = CASE WHEN @eventId &lt;&gt; '' THEN @eventId ELSE EventId END
   AND      EventKbn = @eventKbn
@@ -1350,19 +1350,19 @@ ORDER BY
   <entry key="get-event-for-eventcheck">
     DECLARE   @eventId VARCHAR(20),
               @storeId VARCHAR(6)
-              
+
     SET @eventId = LTRIM(RTRIM(?))
     SET @storeId = LTRIM(RTRIM(?))
     IF NOT EXISTS(SELECT TOP 1*
-                  FROM   RESMaster.dbo.MST_EVENT_PRICE 
-                  WHERE  EventId =  @eventId 
+                  FROM   RESMaster.dbo.MST_EVENT_PRICE
+                  WHERE  EventId =  @eventId
           AND    StoreId = @storeId
           AND    COALESCE(DelFlag, '0')! = '1')
         SET @storeId = '0'
-        
+
     SELECT Top 1*
-    FROM   RESMaster.dbo.MST_EVENT_PRICE 
-    WHERE  EventId =  @eventId 
+    FROM   RESMaster.dbo.MST_EVENT_PRICE
+    WHERE  EventId =  @eventId
   AND    StoreId = @storeId
     AND    COALESCE(DelFlag, '0')! = '1'
   </entry>
@@ -1496,10 +1496,10 @@ ORDER BY
       WHERE
         (((@storeid IS NULL OR LEN(@storeid) = 0) OR (
             item.StoreId = @storeid )) AND
-        ((@plu IS NULL OR LEN(@plu) = 0) OR (item.MdInternal LIKE @plu {ESCAPE '\'})) AND     
-        ((@name IS NULL OR LEN(@name) = 0) OR 
-          (((LOWER(MdName) LIKE  LOWER(@name)  {ESCAPE '\'} ) OR 
-          (LOWER(MdNameLocal) LIKE LOWER(@name) {ESCAPE '\'} )))             
+        ((@plu IS NULL OR LEN(@plu) = 0) OR (item.MdInternal LIKE @plu {ESCAPE '\'})) AND
+        ((@name IS NULL OR LEN(@name) = 0) OR
+          (((LOWER(MdName) LIKE  LOWER(@name)  {ESCAPE '\'} ) OR
+          (LOWER(MdNameLocal) LIKE LOWER(@name) {ESCAPE '\'} )))
 
     )))
 
@@ -1534,93 +1534,93 @@ ORDER BY
   </entry>
 
     <entry key="get-items-by-key-name">
-        DECLARE 
-            @limit int, 
-            @storeid varchar(MAX), 
-            @plu varchar(MAX), 
+        DECLARE
+            @limit int,
+            @storeid varchar(MAX),
+            @plu varchar(MAX),
             @name varchar(MAX)
-        
+
         SET @limit = ?
         SET @storeid = ?
         SET @plu = ?
         SET @name = ?
-        
+
         SET @limit = (
-            CASE 
-                WHEN(@limit > -1) 
-                THEN @limit 
-                ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_PLU) 
+            CASE
+                WHEN(@limit > -1)
+                THEN @limit
+                ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_PLU)
             END
         )
 
         ;WITH itemselectedtable AS (
             SELECT  DISTINCT
-                item.MdInternal, 
-                item.StoreId, 
-                item.MdName, 
-                item.MdNameLocal, 
-                item.SalesPrice1, 
-                item.Dpt, 
-                item.Line, 
-                item.Class, 
-                item.DiscountRate, 
-                item.DiscountType, 
-                item.DiscountFlag, 
-                item.DiscountAmt, 
-                item.MMCode, 
-                item.SubInt10, 
-                item.TaxType, 
-                item.TaxRate, 
-                item.AgeRestrictedFlag, 
+                item.MdInternal,
+                item.StoreId,
+                item.MdName,
+                item.MdNameLocal,
+                item.SalesPrice1,
+                item.Dpt,
+                item.Line,
+                item.Class,
+                item.DiscountRate,
+                item.DiscountType,
+                item.DiscountFlag,
+                item.DiscountAmt,
+                item.MMCode,
+                item.SubInt10,
+                item.TaxType,
+                item.TaxRate,
+                item.AgeRestrictedFlag,
                 item.Md32,
                 item.PosMdType,
-        item.InheritFlag 
-            FROM 
-                RESMaster.dbo.MST_PLU item 
-            LEFT JOIN 
-                RESMaster.dbo.MST_DPTINFO dpt 
-            ON 
-                dpt.Dpt = item.Dpt AND dpt.StoreId = item.StoreId 
-            WHERE 
-                ((@storeid IS NULL OR LEN(@storeid) = 0) OR (item.StoreId = @storeid OR item.StoreId = 0)) AND 
-                ((@plu IS NULL OR LEN(@plu) = 0) OR item.MdInternal LIKE @plu + '%') AND 
+        item.InheritFlag
+            FROM
+                RESMaster.dbo.MST_PLU item
+            LEFT JOIN
+                RESMaster.dbo.MST_DPTINFO dpt
+            ON
+                dpt.Dpt = item.Dpt AND dpt.StoreId = item.StoreId
+            WHERE
+                ((@storeid IS NULL OR LEN(@storeid) = 0) OR (item.StoreId = @storeid OR item.StoreId = 0)) AND
+                ((@plu IS NULL OR LEN(@plu) = 0) OR item.MdInternal LIKE @plu + '%') AND
                 ((@name IS NULL OR LEN(@name) = 0) OR (
-                    (LOWER(item.MdName) LIKE '%' + LOWER(@name) + '%') OR 
-                    (LOWER(item.MdNameLocal) LIKE '%' + LOWER(@name) + '%') OR 
-                    (LOWER(dpt.DptName) LIKE '%' + LOWER(@name) + '%') OR 
+                    (LOWER(item.MdName) LIKE '%' + LOWER(@name) + '%') OR
+                    (LOWER(item.MdNameLocal) LIKE '%' + LOWER(@name) + '%') OR
+                    (LOWER(dpt.DptName) LIKE '%' + LOWER(@name) + '%') OR
                     (LOWER(dpt.DptNameLocal) LIKE '%' + LOWER(@name) + '%')
                 ))
         )
-        
-        SELECT TOP (@limit) 
-            MdInternal, 
-            StoreId, 
-            MdName, 
-            MdNameLocal, 
-            SalesPrice1, 
-            Dpt, 
-            Line, 
-            Class, 
-            DiscountType, 
-            DiscountRate, 
-            DiscountFlag, 
-            DiscountAmt, 
-            TaxType, 
-            TaxRate, 
-            MMCode, 
-            SubInt10, 
-            AgeRestrictedFlag, 
+
+        SELECT TOP (@limit)
+            MdInternal,
+            StoreId,
+            MdName,
+            MdNameLocal,
+            SalesPrice1,
+            Dpt,
+            Line,
+            Class,
+            DiscountType,
+            DiscountRate,
+            DiscountFlag,
+            DiscountAmt,
+            TaxType,
+            TaxRate,
+            MMCode,
+            SubInt10,
+            AgeRestrictedFlag,
             Md32,
             PosMdType,
-      InheritFlag 
-        FROM 
-            itemselectedtable 
-        ORDER BY 
-            StoreId, 
-            CASE 
-                WHEN (@name IS NOT NULL AND @plu IS NULL) 
-                THEN MdName 
-            END, 
+      InheritFlag
+        FROM
+            itemselectedtable
+        ORDER BY
+            StoreId,
+            CASE
+                WHEN (@name IS NOT NULL AND @plu IS NULL)
+                THEN MdName
+            END,
             MdInternal
     </entry>
 
@@ -1929,7 +1929,7 @@ ORDER BY
      ,@mobileShop varchar(50)
      ,@resTransaction varchar(50)
      ,@resTabletUi varchar(50)
-     ,@resUiConfig varchar(50)     
+     ,@resUiConfig varchar(50)
 
   set @companyId=?
     set @storeId=?
@@ -1938,7 +1938,7 @@ ORDER BY
     set @mobileShop=?
     set @resTransaction=?
     set @resTabletUi=?
-    set @resUiConfig=?    
+    set @resUiConfig=?
 
     IF EXISTS (select container from txu_software_version
                where storeId=@storeId and terminalId=@terminalId and companyId=@companyId)
@@ -2055,7 +2055,7 @@ ORDER BY
       TOP 1 Tx
     FROM
       TXL_SALES_JOURNAL
-      WHERE        
+      WHERE
         CompanyId = ? AND
         RetailStoreId = ? AND
         WorkstationId = ? AND
@@ -2095,8 +2095,8 @@ ORDER BY
 
   <entry key="get-bussiness-date">
     SELECT DISTINCT TOP 1
-      StoreId, TodayDate 
-    FROM 
+      StoreId, TodayDate
+    FROM
       RESMaster.dbo.MST_BIZDAY
     WHERE
       CompanyId = ? AND StoreId in (?, '0')
@@ -2166,14 +2166,14 @@ ORDER BY
     SET @trainingflag = ?
     ;with searcedList as
     (select journal.Tx, journal.TxType, journal.journalLine,
-            row_number() over (order by 
+            row_number() over (order by
                 journal.JournalLine DESC,
                 journal.RetailStoreId ASC,
                 journal.WorkstationId ASC,
                 journal.SequenceNumber ASC,
                 journal.SystemDateTime ASC
             ) as row_num, journal.companyId, journal.TrainingFlag
-        FROM 
+        FROM
             TXL_SALES_JOURNAL journal LEFT JOIN
             TXL_SALES_LEDGER ledger ON
             journal.BusinessDayDate = ledger.BusinessDayDate AND
@@ -2191,7 +2191,7 @@ ORDER BY
           (@subcode4 IS NULL OR ledger.SubCode4 = @subcode4) AND
           (@itemid IS NULL OR (
             ledger.ItemId LIKE @itemid + '%' AND
-            (ledger.Account = 1 OR ledger.Account = 8 
+            (ledger.Account = 1 OR ledger.Account = 8
              OR ledger.Account = 13 OR ledger.Account = 11)
           )) AND
           (@storeid IS NULL OR journal.RetailStoreId = @storeid) AND
@@ -2282,9 +2282,9 @@ ORDER BY
       );
   </entry>
   <entry key="get-void-details">
-    SELECT 
-      COUNT(*) AS [rowcount] 
-    FROM 
+    SELECT
+      COUNT(*) AS [rowcount]
+    FROM
       TXL_SALES_VOIDED
     WHERE
       RetailStoreId = ? AND
@@ -2380,11 +2380,11 @@ ORDER BY
         @companyId varchar(max),
         @storeId varchar(max),
         @nameCategory varchar(max)
-        
+
       SET @companyId = ?
       SET @storeId = ?
       SET @nameCategory = ?
-      
+
       IF NOT EXISTS (
         SELECT
           CompanyId,
@@ -2400,7 +2400,7 @@ ORDER BY
           DeleteFlag = 0.0
       )
         SET @storeId = '0'
-      
+
       SELECT
         CompanyId,
         StoreId,
@@ -2475,7 +2475,7 @@ ORDER BY
                                                 WHERE  Dpt = dpts.Dpt
                                                        AND StoreId = dpts.RetailStoreId ) THEN dpts.RetailStoreId
                                    ELSE '0'
-                             END 
+                             END
     AND    dptinfo.Dpt = dpts.Dpt
     INNER JOIN
                   (SELECT  StoreId
@@ -3601,7 +3601,7 @@ ORDER BY
       AND dptinfo.StoreId = CASE WHEN EXISTS ( SELECT StoreId
                                                FROM   RESMaster.dbo.MST_DPTINFO
                                                WHERE  StoreId = dptsum.RetailStoreId
-                                                      AND Dpt = dptsum.Dpt ) THEN dptsum.RetailStoreId 
+                                                      AND Dpt = dptsum.Dpt ) THEN dptsum.RetailStoreId
                                  ELSE '0'
                              END
       INNER JOIN
@@ -3677,7 +3677,7 @@ ORDER BY
     SET @BusinessDayDate = ?
     SET @storeid = LTRIM(RTRIM(?))
     SET @SalesPersonId = LTRIM(RTRIM(?))
-        SELECT 
+        SELECT
             COALESCE(MdNameLocal,'') MdNameLocal,
             MdInternal,
             SUM(SalesItemCnt) SalesItemCnt,
@@ -3697,8 +3697,8 @@ ORDER BY
                  ON
                      tillItemday.Plu = plu.MdInternal
                  AND
-                     plu.StoreId = CASE WHEN EXISTS (SELECT plu 
-                           FROM   RESMaster.dbo.MST_PLU 
+                     plu.StoreId = CASE WHEN EXISTS (SELECT plu
+                           FROM   RESMaster.dbo.MST_PLU
                            WHERE  Plu = tillItemday.Plu
                                   AND StoreId = tillItemday.RetailStoreId)
                        THEN tillItemday.RetailStoreId
@@ -3730,7 +3730,7 @@ ORDER BY
     DECLARE   @BusinessDayDate varchar(16),@storeid varchar(6)
     SET       @BusinessDayDate = ?
     SET       @storeid = LTRIM(RTRIM(?))
-    SELECT 
+    SELECT
             plu.SubCode1 AS groupId,
             COALESCE(sysconfig.Value,'') groupName,
             SUM(guestitem.SalesGuestCnt) SalesGuestCnt,
@@ -3746,7 +3746,7 @@ ORDER BY
               GROUP BY  RetailStoreId,
                         Plu,
                         BusinessDayDate ) itemday
-    INNER JOIN 
+    INNER JOIN
       ( SELECT  RetailStoreId,
             Plu,
             BusinessDayDate,
@@ -3758,7 +3758,7 @@ ORDER BY
     ON      itemday.RetailStoreId = guestitem.RetailStoreId
             AND itemday.Plu = guestitem.Plu
             AND itemday.BusinessDayDate = guestitem.BusinessDayDate
-    LEFT JOIN  
+    LEFT JOIN
       RESMaster.dbo.MST_PLU plu
     ON      plu.StoreId = CASE WHEN EXISTS ( SELECT storeId
                                              FROM   RESMaster.dbo.MST_PLU
@@ -3848,8 +3848,8 @@ ORDER BY
     SET   @storeid = LTRIM(RTRIM(?))
     SET   @businessDayDate = ?
     SET   @dpt = LTRIM(RTRIM(?))
-  
-    SELECT  
+
+    SELECT
       class.Class,
       COALESCE(class.ClassNameLocal, '') ClassNameLocal,
             SUM(GuestCnt) SalesGuestCnt,
@@ -3884,7 +3884,7 @@ ORDER BY
                           END
             AND itemday.Plu = plu.MdInternal
   LEFT JOIN  RESMaster.dbo.MST_CLASSINFO class
-  ON    class.StoreId =  CASE WHEN EXISTS (SELECT Class 
+  ON    class.StoreId =  CASE WHEN EXISTS (SELECT Class
                                              FROM   RESMaster.dbo.MST_CLASSINFO
                          WHERE  Class = plu.Class
                                 AND StoreId = plu.StoreId) THEN plu.StoreId
@@ -4140,7 +4140,7 @@ ORDER BY
       Status = 0;
   </entry>
   <entry key="delete-forward-item">
-    DELETE FROM 
+    DELETE FROM
       RESTransaction.dbo.TXL_FORWARD_ITEM
     WHERE
       CompanyId = LTRIM(RTRIM(?)) AND
@@ -4195,7 +4195,7 @@ ORDER BY
     WHERE
       StoreId like ? AND
       (TerminalId like ?  {ESCAPE '\'}  ) AND (DeviceName IS NULL OR (LOWER(DeviceName) like LOWER(?)  {ESCAPE '\'} ) ) AND
-      Status = 'Active' 
+      Status = 'Active'
     ORDER BY StoreId ASC, TerminalId ASC
   </entry>
 
@@ -4246,7 +4246,7 @@ ORDER BY
     deviceinfo.StoreId,
     deviceinfo.TerminalId,
     deviceinfo.Training,
-    ISNULL(deviceinfo.DeviceName, '') AS DeviceName,  
+    ISNULL(deviceinfo.DeviceName, '') AS DeviceName,
     ISNULL(deviceinfo.AttributeId, '') AS AttributeId,
     ISNULL(deviceinfo.PrinterId, '') AS PrinterId,
     ISNULL(deviceinfo.TillId, '') AS TillId,
@@ -4312,22 +4312,22 @@ ORDER BY
       printinfo.PortNumUdp,
       printinfo.PortNumTcp,
       devinfo.AttributeId
-    FROM 
+    FROM
       RESMaster.dbo.MST_DEVICEINFO devinfo
-    LEFT JOIN 
-      RESMaster.dbo.MST_PRINTERINFO printinfo 
+    LEFT JOIN
+      RESMaster.dbo.MST_PRINTERINFO printinfo
     ON
       devinfo.CompanyId = printinfo.CompanyId AND
       devinfo.StoreId = printinfo.StoreId AND
-      devinfo.PrinterId = printinfo.PrinterId      
-    LEFT JOIN 
-      RESMaster.dbo.PRM_SYSTEM_CONFIG syscon 
-    ON 
+      devinfo.PrinterId = printinfo.PrinterId
+    LEFT JOIN
+      RESMaster.dbo.PRM_SYSTEM_CONFIG syscon
+    ON
       syscon.KeyId = 'PricingType'
     WHERE
       devInfo.CompanyId = ? AND
-      devinfo.StoreId = ? AND 
-      devinfo.TerminalId = ? AND 
+      devinfo.StoreId = ? AND
+      devinfo.TerminalId = ? AND
       devinfo.Training = ?
   </entry>
 
@@ -4400,75 +4400,75 @@ ORDER BY
       RESMaster.dbo.MST_DEVICEINFO
     SET
       CompanyId =
-        CASE 
-          WHEN len(@CompanyId) > 0 
+        CASE
+          WHEN len(@CompanyId) > 0
           THEN @CompanyId
           ELSE CompanyId
         END,
       StoreId =
-        CASE 
-          WHEN len(@StoreId) > 0 
+        CASE
+          WHEN len(@StoreId) > 0
           THEN @StoreId
           ELSE StoreId
         END,
       TerminalId =
-        CASE 
-          WHEN len(@TerminalId) > 0 
+        CASE
+          WHEN len(@TerminalId) > 0
           THEN @TerminalId
           ELSE TerminalId
         END,
       DeviceName =
-        CASE 
-          WHEN @DeviceName IS NULL 
+        CASE
+          WHEN @DeviceName IS NULL
           THEN COALESCE(DeviceName, '')
           ELSE @DeviceName
         END,
       LinkQueueBuster =
-        CASE 
-          WHEN @LinkQueueBuster IS NULL 
+        CASE
+          WHEN @LinkQueueBuster IS NULL
           THEN LinkQueueBuster
           ELSE @LinkQueueBuster
         END,
       LinkAuthorization =
-        CASE 
-          WHEN @LinkAuthorization IS NULL 
+        CASE
+          WHEN @LinkAuthorization IS NULL
           THEN LinkAuthorization
           ELSE @LinkAuthorization
         END,
       LinkSignature =
-        CASE 
-          WHEN @LinkSignature IS NULL 
+        CASE
+          WHEN @LinkSignature IS NULL
           THEN LinkSignature
           ELSE @LinkSignature
         END,
       PrinterId =
         CASE
-          WHEN @PrinterId = 0 OR @PrinterId = -1 
+          WHEN @PrinterId = 0 OR @PrinterId = -1
           THEN @PrinterId
           WHEN EXISTS(
-            SELECT * 
-            FROM RESMaster.dbo.MST_PRINTERINFO AS a 
-            WHERE 
-              a.PrinterId = @PrinterId AND 
-              a.Status = 'Active' AND 
-              a.StoreId = 
-                CASE 
-                  WHEN LEN(@StoreId) > 0 
-                  THEN @StoreId 
-                  ELSE RESMaster.dbo.MST_DEVICEINFO.StoreId 
+            SELECT *
+            FROM RESMaster.dbo.MST_PRINTERINFO AS a
+            WHERE
+              a.PrinterId = @PrinterId AND
+              a.Status = 'Active' AND
+              a.StoreId =
+                CASE
+                  WHEN LEN(@StoreId) > 0
+                  THEN @StoreId
+                  ELSE RESMaster.dbo.MST_DEVICEINFO.StoreId
                 END
           )
           THEN @PrinterId
           WHEN @PrinterId IS NULL AND EXISTS(
-            SELECT * 
-            FROM RESMaster.dbo.MST_PRINTERINFO AS a 
-            WHERE a.PrinterId = RESMaster.dbo.MST_DEVICEINFO.PrinterId AND 
-            a.Status = 'Active' AND 
-            a.StoreId = 
-              CASE 
-                WHEN LEN(@StoreId) > 0 
-                THEN @StoreId 
-                ELSE RESMaster.dbo.MST_DEVICEINFO.StoreId 
+            SELECT *
+            FROM RESMaster.dbo.MST_PRINTERINFO AS a
+            WHERE a.PrinterId = RESMaster.dbo.MST_DEVICEINFO.PrinterId AND
+            a.Status = 'Active' AND
+            a.StoreId =
+              CASE
+                WHEN LEN(@StoreId) > 0
+                THEN @StoreId
+                ELSE RESMaster.dbo.MST_DEVICEINFO.StoreId
               END
           )
           THEN PrinterId
@@ -4476,55 +4476,55 @@ ORDER BY
         END,
       TillId =
         CASE
-          WHEN @TillId IS NULL 
+          WHEN @TillId IS NULL
           THEN COALESCE(TillId, '')
           ELSE @TillId
         END,
       LinkPosTerminalId =
         CASE
-          WHEN @LinkPosTerminalId IS NULL 
+          WHEN @LinkPosTerminalId IS NULL
           THEN LinkPosTerminalId
           ELSE @LinkPosTerminalId
         END,
       SendLogFile =
         CASE
-          WHEN @SendLogFile IS NULL 
+          WHEN @SendLogFile IS NULL
           THEN SendLogFile
-          WHEN @SendLogFile > 0 
+          WHEN @SendLogFile > 0
           THEN @SendLogFile
           ELSE 3
         END,
       SaveLogFile =
         CASE
-          WHEN @SaveLogFile IS NULL 
+          WHEN @SaveLogFile IS NULL
           THEN SaveLogFile
-          WHEN @SaveLogFile > 0 
+          WHEN @SaveLogFile > 0
           THEN @SaveLogFile
           ELSE 40
         END,
       AutoUpload =
         CASE
-          WHEN @AutoUpload IS NULL 
+          WHEN @AutoUpload IS NULL
           THEN AutoUpload
-          WHEN @AutoUpload > 0 
+          WHEN @AutoUpload > 0
           THEN 1
           ELSE 0
         END,
       LastTxId =
         CASE
-          WHEN @LastTxId IS NULL 
+          WHEN @LastTxId IS NULL
           THEN LastTxId
           ELSE @LastTxId
           END,
       LastSuspendTxId =
         CASE
-          WHEN @LastSuspendTxId IS NULL 
+          WHEN @LastSuspendTxId IS NULL
           THEN LastSuspendTxId
           ELSE @LastSuspendTxId
         END,
       EjSequence =
         CASE
-          WHEN @EjSequence IS NULL 
+          WHEN @EjSequence IS NULL
           THEN EjSequence
           ELSE @EjSequence
         END,
@@ -4550,8 +4550,8 @@ ORDER BY
       INSERTED.LastSuspendTxId,
       INSERTED.Training
     WHERE
-      CompanyId = ? AND 
-      StoreId = ? AND 
+      CompanyId = ? AND
+      StoreId = ? AND
       TerminalId = ? AND
       Training = ? AND
       Status = 'Active'
@@ -4708,7 +4708,7 @@ ORDER BY
     UPDATE RESMaster.dbo.MST_DEVICEINFO SET LinkPosTerminalId = ? WHERE
     StoreId = ? AND TerminalId = ?;
   </entry>
-  
+
   <entry key="set-tillid">
     UPDATE RESMaster.dbo.MST_DEVICEINFO
     SET TillId = ?,
@@ -4731,7 +4731,7 @@ ORDER BY
      FROM RESMaster.dbo.MST_STOREINFO
      WHERE StoreId = ? ;
   </entry>
-  
+
     <entry key="get-store-bystoreIdandcomnpanyId">
      SELECT StoreId
           , StoreName
@@ -4743,7 +4743,7 @@ ORDER BY
           , EventName
           , Ads
      FROM RESMaster.dbo.MST_STOREINFO
-     WHERE StoreId = ? 
+     WHERE StoreId = ?
      AND CompanyId = ?
      AND Status = 'Active'
      AND DeleteFlag = 0.0
@@ -4804,7 +4804,7 @@ ORDER BY
   </entry>
 
   <entry key="create-peripheraldeviceinfo">
-    DECLARE 
+    DECLARE
       @StoreId varchar(MAX),
       @TerminalId varchar(MAX),
       @DeviceName varchar(MAX),
@@ -4851,7 +4851,7 @@ ORDER BY
       SET @InsOpeCode = ?
       SET @AttributeId = ?
 
-    INSERT INTO 
+    INSERT INTO
       RESMaster.dbo.MST_DEVICEINFO(
         StoreId
         ,TerminalId
@@ -4887,57 +4887,57 @@ ORDER BY
       @PrinterId,
       @TillId,
       CASE
-        WHEN len(@LinkPosTerminalId) > 0 
+        WHEN len(@LinkPosTerminalId) > 0
         THEN @LinkPosTerminalId
         ELSE null
       END,
       CASE
-        WHEN @SendLogFile > 0 
+        WHEN @SendLogFile > 0
         THEN @SendLogFile
         ELSE 3
       END,
       CASE
-        WHEN @SaveLogFile > 0 
+        WHEN @SaveLogFile > 0
         THEN @SaveLogFile
         ELSE 40
       END,
       CASE
-        WHEN @AutoUpload > 0 
+        WHEN @AutoUpload > 0
         THEN 1
         ELSE 0
       END,
       CASE
-        WHEN len(@LinkQueueBuster) > 0 
+        WHEN len(@LinkQueueBuster) > 0
         THEN @LinkQueueBuster
         ELSE null
       END,
       CASE
-        WHEN len(@LinkAuthorization) > 0 
+        WHEN len(@LinkAuthorization) > 0
         THEN @LinkAuthorization
         ELSE null
       END,
       CASE
-        WHEN len(@LinkSignature) > 0 
+        WHEN len(@LinkSignature) > 0
         THEN @LinkSignature
         ELSE null
       END,
       CASE
-        WHEN len(@LastTxId) > 0 
+        WHEN len(@LastTxId) > 0
         THEN @LastTxId
         ELSE null
       END,
       CASE
-        WHEN len(@LastSuspendTxId) > 0 
+        WHEN len(@LastSuspendTxId) > 0
         THEN @LastSuspendTxId
         ELSE null
       END,
       CASE
-        WHEN len(@EjSequence) > 0 
+        WHEN len(@EjSequence) > 0
         THEN @EjSequence
         ELSE null
       END,
       CASE
-        WHEN len(@DeviceName) > 0 
+        WHEN len(@DeviceName) > 0
         THEN @DeviceName
         ELSE ''
       END,
@@ -5296,7 +5296,7 @@ ORDER BY
     TerminalId=?
   </entry>
   <entry key="save-device">
-    DECLARE 
+    DECLARE
     @CompanyId varchar(12),
     @StoreId varchar(10),
     @TerminalId varchar(6),
@@ -5613,11 +5613,13 @@ ORDER BY
         @CompanyId VARCHAR (12),
         @RetailStoreId VARCHAR (MAX),
         @TrainingFlag VARCHAR (MAX),
-        @LayawayFlag VARCHAR (MAX)
+        @LayawayFlag VARCHAR (MAX),
+        @Queue VARCHAR (MAX)
     SET @CompanyId = ?
     SET @RetailStoreId = ?
-    SET @TrainingFlag = ? 
-    SET @LayawayFlag = ? 
+    SET @TrainingFlag = ?
+    SET @LayawayFlag = ?
+    SET @Queue = ?
     SELECT
         A.CompanyId,
         A.RetailStoreId,
@@ -5638,6 +5640,7 @@ ORDER BY
     WHERE
         A.CompanyId = @CompanyId
     AND A.RetailStoreId = @RetailStoreId
+    AND A.Queue = @Queue
     AND A.TrainingFlag = @TrainingFlag
     AND A.Status = 0
     AND A.LayawayFlag = @LayawayFlag
@@ -5652,7 +5655,7 @@ ORDER BY
       @BusinessDayDate VARCHAR(MAX),
       @TrainingFlag varchar(MAX),
       @WorkstationId varchar(MAX)
-    
+
     SET @CompanyId = ?
     SET @RetailStoreId = ?
     SET @SequenceNumber = ?
@@ -5660,7 +5663,7 @@ ORDER BY
     SET @BusinessDayDate = ?
     SET @TrainingFlag = ?
     SET @WorkstationId = ?
-    
+
     SELECT
       Status,
       Tx
@@ -5916,9 +5919,9 @@ ORDER BY
       TodayDate,
       SwitchTime,
       Skip
-    FROM 
+    FROM
       RESMaster.dbo.MST_BIZDAY
-    WHERE 
+    WHERE
         CompanyId = ? AND StoreId in (?, '0')
     ORDER BY
       StoreId DESC
@@ -6342,47 +6345,47 @@ ORDER BY
        SodFlag = @sodflagtochange
     COMMIT TRAN
   </entry>
-    
+
     <entry key="update-eod-till-updlock">
-        DECLARE 
-            @storeid varchar(MAX), 
-            @tillid varchar(MAX), 
+        DECLARE
+            @storeid varchar(MAX),
+            @tillid varchar(MAX),
             @terminalid varchar(MAX),
-            @eodflag tinyint, 
+            @eodflag tinyint,
             @updappid varchar(MAX),
             @updopecode varchar(MAX),
             @eodflagtochange tinyint
-            
+
         SET @storeid = ?;
         SET @tillid = ?;
         SET @terminalid = ?;
-        SET @eodflag = ?;   
+        SET @eodflag = ?;
         SET @updappid = ?;
         SET @updopecode = ?;
         SET @eodflagtochange = ?;
-        
+
         SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-        
-        BEGIN TRAN          
-        SELECT 
+
+        BEGIN TRAN
+        SELECT
             StoreId, TillId
         FROM
             RESMaster.dbo.MST_TILLIDINFO(UPDLOCK)
         WHERE
-            StoreId = @storeid AND 
+            StoreId = @storeid AND
             TillId = @tillid AND
             EodFlag = @eodflagtochange
-                
-        UPDATE 
-            RESMaster.dbo.MST_TILLIDINFO 
-        SET 
+
+        UPDATE
+            RESMaster.dbo.MST_TILLIDINFO
+        SET
             TerminalId = @terminalid,
             EodFlag = @eodflag,
             UpdDate = GETDATE(),
             UpdAppId = @updappid,
             UpdOpeCode = @updopecode
-        WHERE 
-            StoreId = @storeid AND 
+        WHERE
+            StoreId = @storeid AND
             TillId = @tillid AND
             EodFlag = @eodflagtochange
         COMMIT TRAN
@@ -6396,7 +6399,7 @@ ORDER BY
       @amount numeric(15,0),
       @operatorid varchar(MAX),
       @businessdate date
-    
+
     SET @companyid = ?;
     SET @storeid = ?;
     SET @tillid = ?;
@@ -6404,7 +6407,7 @@ ORDER BY
     SET @amount = ?;
     SET @businessdate = ?;
     SET @operatorid = ?;
-    
+
      IF EXISTS (SELECT StoreId FROM RESTransaction.dbo.TXL_SOD
         WHERE CompanyId = @companyid and StoreId = @storeid)
             UPDATE
@@ -6422,9 +6425,9 @@ ORDER BY
      ELSE
       INSERT INTO RESTransaction.dbo.TXL_SOD (CompanyId, StoreId, TerminalId, OperatorId, TillId, Amount, BusinessDate, CreatedDate, UpdDate)
       VALUES
-      (@companyid, @storeid, @terminalid, @operatorid, @tillid, @amount, @businessdate, GETDATE(), GETDATE()) 
+      (@companyid, @storeid, @terminalid, @operatorid, @tillid, @amount, @businessdate, GETDATE(), GETDATE())
   </entry>
-  
+
   <entry key="update-till-on-journ-updlock">
     DECLARE
       @storeid varchar(MAX),
@@ -6476,7 +6479,7 @@ ORDER BY
        EodFlag = @eodflagtochange
     COMMIT TRAN
   </entry>
-  
+
   <entry key="update-till-on-journ-updlock-ent">
     DECLARE
       @storeid varchar(MAX),
@@ -6524,20 +6527,20 @@ ORDER BY
        TillId = @tillid
     COMMIT TRAN
   </entry>
-    
+
     <entry key="get-all-tills">
-        DECLARE             
-            @storeid varchar(max),          
+        DECLARE
+            @storeid varchar(max),
             @tillid varchar(max),
             @limit int
         SET @storeid=?
-        SET @tillid=?       
+        SET @tillid=?
         SET @limit=?
         SET @limit = (CASE
-                     WHEN(@limit > -1) 
+                     WHEN(@limit > -1)
                         THEN @limit
-                        ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_TILLIDINFO) 
-                     END)                                   
+                        ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_TILLIDINFO)
+                     END)
         SELECT TOP(@limit)
             StoreId,
             TillId,
@@ -6551,19 +6554,19 @@ ORDER BY
         AND (@tillid IS NULL OR len(@tillid) = 0 OR TillId like @tillid)
         ORDER BY TillId;
     </entry>
-    
+
     <entry key="search-logon-users">
         DECLARE
           @companyid varchar(max),
             @storeid varchar(max),
             @tillid varchar(max),
             @terminalid varchar(max)
-        
-        SET @companyid = ?    
+
+        SET @companyid = ?
         SET @storeid = ?
         SET @tillid = ?
         SET @terminalid = ?
-        
+
         SELECT
             device.TerminalId
         FROM
@@ -6787,8 +6790,8 @@ ORDER BY
           )) AND
       ((@key IS NULL OR LEN(@key) = 0) OR (
             Dpt LIKE @key  {ESCAPE '\'}
-          )) AND    
-      ((@name IS NULL) OR ( 
+          )) AND
+      ((@name IS NULL) OR (
             ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
             (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
           ))) AND
@@ -7277,7 +7280,7 @@ ORDER BY
     WHERE
       StoreId like ? AND
       (Id like ?  {ESCAPE '\'} ) AND (DisplayName IS NULL OR (LOWER(DisplayName) like LOWER(?)  {ESCAPE '\'} ) ) AND
-      Status = 'Active' 
+      Status = 'Active'
 
   </entry>
 
@@ -7574,7 +7577,7 @@ ORDER BY
   </entry>
   <entry key="view-authorization">
     SELECT SecLevel1, SecLevel2, SecLevel3, SecLevel4, SecLevel5, SecLevel6, SecLevel7, SecLevel8, SecLevel9,
-    SecLevel10 
+    SecLevel10
     FROM RESMaster.dbo.MST_EMP_SEC
     WHERE CompanyId = ? and EmpCode = ? and DeleteFlag = 0.0
   </entry>
@@ -8192,15 +8195,15 @@ ORDER BY
       BusinessDayDate = ? AND
       AccountCode IN (301, 201, 202, 203, 801)
     </entry>
-    
+
     <entry key="get-previous-amount">
     DECLARE
     @storeid varchar(MAX),
     @companyid varchar(MAX)
-    
+
     SET @companyid = ?
     SET @storeid = ?
-    
+
   SELECT TOP 1
     CompanyId,
     RetailStoreId,
@@ -8297,9 +8300,9 @@ WHERE
       (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
       AND (@dpt IS NULL OR len(@dpt) = 0 OR Dpt = @dpt)
       AND (@itemclass IS NULL OR len(@itemclass) = 0  OR (Class like @itemclass  {ESCAPE '\'}) )
-      AND (@name IS NULL OR len(@name) = 0 
-        OR ( LOWER(ClassName) like LOWER(@name)  {ESCAPE '\'} ) 
-        OR ( LOWER(ClassNameLocal) like LOWER(@name)  {ESCAPE '\'} ) 
+      AND (@name IS NULL OR len(@name) = 0
+        OR ( LOWER(ClassName) like LOWER(@name)  {ESCAPE '\'} )
+        OR ( LOWER(ClassNameLocal) like LOWER(@name)  {ESCAPE '\'} )
       )
   </entry>
   <entry key="delete-class">
@@ -8517,8 +8520,8 @@ WHERE
       (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
       AND (@dpt IS NULL OR len(@dpt) = 0 OR Dpt = @dpt)
       AND (@line IS NULL OR len(@line) = 0 OR ( Line like @line {ESCAPE '\'} ))
-      AND (@name IS NULL OR len(@name) = 0 
-      OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} ) 
+      AND (@name IS NULL OR len(@name) = 0
+      OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} )
       OR ( LOWER(LineNameLocal) like LOWER(@name) {ESCAPE '\'} )
       )
   </entry>
@@ -8763,7 +8766,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode IN('1','13') AND financiall.AccountSubCode = '4' THEN financiall.Count1 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='4' AND financiall.AccountCodeExtend != '2' then financiall.count1 ELSE 0 END),0)) AS AccountancyAccount ,
             (ISNULL ( SUM ( CASE WHEN financiall.AccountCode IN('1','13') AND financiall.AccountSubCode = '2' THEN financiall.Debit ELSE 0 END),0)+
-             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='2' AND financiall.AccountCodeExtend != '2' THEN financiall.Debit ELSE 0 END),0)- 
+             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='2' AND financiall.AccountCodeExtend != '2' THEN financiall.Debit ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountSubCode = '2' THEN financiall.Credit+financiall.Debit ELSE 0 END),0) -
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode IN('1','13') AND financiall.AccountSubCode = '4' THEN financiall.Credit ELSE 0 END),0) +
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountSubCode = '4' THEN financiall.Debit+financiall.Credit ELSE 0 END),0) -
@@ -8842,7 +8845,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode IN('1','13') AND financiall.AccountSubCode = '4' THEN financiall.Credit ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '501' AND financiall.AccountCodeExtend !='1' AND financiall.AccountSubCode IN('1','4') THEN financiall.Credit ELSE 0 END ),0)+
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '501' AND financiall.AccountCodeExtend !='1' AND financiall.AccountSubCode IN ('2','3') THEN financiall.Credit ELSE 0 END ),0)+
-             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='4' AND financiall.AccountCodeExtend != '2' then financiall.Credit ELSE 0 END),0) 
+             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='4' AND financiall.AccountCodeExtend != '2' then financiall.Credit ELSE 0 END),0)
              ) AS AccountancyAmount ,
             'TaxNetSales' AS AccountancyItemName,
             '1-10' AS SalesOrPay
@@ -8951,7 +8954,7 @@ WHERE
              <!--13 税-->
              '0'  AS AccountancyAccount,
             (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '501' AND financiall.AccountCodeExtend !='1' AND financiall.AccountSubCode IN ('1','4') THEN financiall.Credit ELSE 0 END ),0) -
-             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '501' AND financiall.AccountCodeExtend !='1' AND financiall.AccountSubCode IN ('2','3') THEN financiall.Credit ELSE 0 END ),0) 
+             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '501' AND financiall.AccountCodeExtend !='1' AND financiall.AccountSubCode IN ('2','3') THEN financiall.Credit ELSE 0 END ),0)
              )AS AccountancyAmount,
             'Tax' AS AccountancyItemName,
             '1-14' AS SalesOrPay
@@ -9369,7 +9372,7 @@ WHERE
        (SELECT
             <!--＜金種別内訳＞-->
             <!--29 現金-->
-           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '3' THEN financiall.Count2 ELSE 0 END),0 )) AS AccountancyAccount,
            (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) -
@@ -9396,7 +9399,7 @@ WHERE
          UNION ALL
        (SELECT
             <!--30 クレジット-->
-           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'Credit' AS AccountancyItemName,
@@ -9421,7 +9424,7 @@ WHERE
          UNION ALL
        (SELECT
             <!--31 銀聯-->
-           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'UnionPay' AS AccountancyItemName,
@@ -9446,7 +9449,7 @@ WHERE
          UNION ALL
        (SELECT
             <!--32 ギフトカード-->
-           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'GiftCard' AS AccountancyItemName,
@@ -9471,7 +9474,7 @@ WHERE
          UNION ALL
        (SELECT
        <!--33 商品券-->
-           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'GiftCertificates' AS AccountancyItemName,
@@ -9496,7 +9499,7 @@ WHERE
          UNION ALL
        (SELECT
              <!--34 振込入金-->
-           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'TransferPayment' AS AccountancyItemName,
@@ -9545,20 +9548,20 @@ WHERE
         UNION ALL
        (SELECT
             <!--計-->
-           ( ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+           ( ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '3' THEN financiall.Count2 ELSE 0 END),0 )+
-       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)+
-       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)+
-       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)+
-       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)+
-       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)- 
+       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2')  THEN financiall.Count2 ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('4','3')  THEN financiall.Count2 ELSE 0 END),0)+
-             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '1'  THEN financiall.Count2 ELSE 0 END),0)) as AccountancyAccount, 
+             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '1'  THEN financiall.Count2 ELSE 0 END),0)) as AccountancyAccount,
             (ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '301' AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0)-
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '3' THEN financiall.Debit ELSE 0 END),0 )+
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0)+
@@ -9566,7 +9569,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0)+
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0)+
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0)+
-             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '1' THEN financiall.Debit ELSE 0 END),0) 
+             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '1' THEN financiall.Debit ELSE 0 END),0)
              ) AS AccountancyAmount,
             'GoldSpeciesSubtotal' AS AccountancyItemName,
             '2-08' AS SalesOrPay
@@ -10195,11 +10198,11 @@ ORDER BY SalesOrPay
 
 
   <entry key="get-guest-order-info-by-sequenceNo">
-     DECLARE @RetailStoreId VARCHAR(20), 
+     DECLARE @RetailStoreId VARCHAR(20),
              @BusinessDate varchar(16),
              @TranNo numeric(5, 0),
              @TerminalNo varchar(6)
-             
+
      SET @RetailStoreId= LTRIM(RTRIM(?))
    SET @TerminalNo =LTRIM(RTRIM(?))
      SET @TranNo = LTRIM(RTRIM(?))
@@ -10208,17 +10211,17 @@ ORDER BY SalesOrPay
      SELECT TOP 1 ps.GuestNo
      FROM   (
               (
-                SELECT ord.GuestNo 
-              FROM   TXL_POS_GUEST_ORDER ord 
+                SELECT ord.GuestNo
+              FROM   TXL_POS_GUEST_ORDER ord
           WHERE  ord.RetailStoreId = @RetailStoreId
           AND    ord.TerminalNo = @TerminalNo
           AND    ord.TranNo = @TranNo
               AND    ord.BusinessDate = @BusinessDate
           AND    ord.StatusCode = '0'
             )
-            UNION ALL 
+            UNION ALL
             (
-              SELECT res.GuestNo 
+              SELECT res.GuestNo
               FROM   TXL_POS_GUEST_RESERVATION res
               WHERE  res.RetailStoreId=@RetailStoreId
             AND    res.TerminalNo=@TerminalNo
@@ -10226,7 +10229,7 @@ ORDER BY SalesOrPay
               AND    res.BusinessDate=@BusinessDate
                 AND    res.StatusCode='0'
             )
-            ) AS ps  
+            ) AS ps
   </entry>
 
     <entry key="select-line-details">
@@ -10351,7 +10354,7 @@ ORDER BY SalesOrPay
     </entry>
 
   <entry key="get-total-amount">
-    SELECT 
+    SELECT
       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '801' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.ChangeFund ELSE 0 END),0) +
       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '201' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Loan ELSE 0 END),0) -
       ((ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode IN('1','4') THEN financiall.Amount1 ELSE 0 END),0)-
@@ -10369,10 +10372,10 @@ ORDER BY SalesOrPay
     AND  financiall.AccountSubCode = gift.AccountSubCode
     AND  financiall.TillID = gift.TillID
     AND  financiall.RetailStoreId = gift.RetailStoreId
-    AND  financiall.BusinessDayDate = gift.BusinessDayDate  
+    AND  financiall.BusinessDayDate = gift.BusinessDayDate
     WHERE financiall.RetailStoreId = ? AND financiall.TillID = ? AND financiall.BusinessDayDate = ?
   </entry>
-   
+
   <entry key="get-premium-flag">
 SET NOCOUNT ON
 IF OBJECT_ID('tempdb..#TEMPTABLE') IS NOT NULL
@@ -10382,14 +10385,14 @@ END
 IF OBJECT_ID('tempdb..#TEMPLIST') IS NOT NULL
 BEGIN
     DROP TABLE #TEMPLIST
-END 
+END
 IF OBJECT_ID('tempdb..#FLAGTABLE') IS NOT NULL
 BEGIN
     DROP TABLE #FLAGTABLE
-END 
+END
 CREATE TABLE #FLAGTABLE
 (
-    DptId varchar(50), 
+    DptId varchar(50),
     Flag varchar(2),
     primary key (DptId)
 )
@@ -10422,7 +10425,7 @@ SELECT
     STORE.BizCatId,
     STORE.StoreId,
     STORE.TerminalId,
-    DETAIL.DptId 
+    DETAIL.DptId
 INTO
      #TEMPTABLE
 FROM
@@ -10438,16 +10441,16 @@ AND DETAIL.DeleteFlag = 0.0
 AND INFO.CompanyId = @CompanyId
 
 SET @BizCatId = (
-        SELECT 
-            SubCode1 
-        FROM 
-            RESMaster.DBO.MST_STOREINFO 
-        WHERE 
-            CompanyId = @CompanyId 
+        SELECT
+            SubCode1
+        FROM
+            RESMaster.DBO.MST_STOREINFO
+        WHERE
+            CompanyId = @CompanyId
         AND StoreId = @StoreId
         AND DeleteFlag = 0.0
     )
-SET @TargetType = 
+SET @TargetType =
     (
         CASE
         WHEN (
@@ -10460,7 +10463,7 @@ SET @TargetType =
             AND BizCatId = @BizCatId
             AND StoreId = @StoreId
             AND TerminalId = @TerminalId
-        ) &gt; 0 
+        ) &gt; 0
         THEN
             '4'
         WHEN (
@@ -10473,7 +10476,7 @@ SET @TargetType =
             AND BizCatId = @BizCatId
             AND StoreId = @StoreId
             AND TerminalId = '0000'
-        ) &gt; 0 
+        ) &gt; 0
         THEN
             '3'
         WHEN (
@@ -10486,7 +10489,7 @@ SET @TargetType =
             AND BizCatId = @BizCatId
             AND StoreId = '0000'
             AND TerminalId = '0000'
-        ) &gt; 0 
+        ) &gt; 0
         THEN
             '2'
         WHEN (
@@ -10499,7 +10502,7 @@ SET @TargetType =
             AND BizCatId = '00'
             AND StoreId = '0000'
             AND TerminalId = '0000'
-        ) &gt; 0 
+        ) &gt; 0
         THEN
             '1'
         ELSE
@@ -10510,17 +10513,17 @@ IF @TargetType &gt; '0'
     BEGIN
         SET @BizCatId = (
             CASE
-                WHEN @TargetType = '1' 
+                WHEN @TargetType = '1'
                 THEN
                     '00'
                 ELSE
                     @BizCatId
             END
         )
-        SET @StoreId = (        
+        SET @StoreId = (
             CASE
                 WHEN @TargetType = '1'
-                OR @TargetType = '2' 
+                OR @TargetType = '2'
                 THEN
                     '0000'
                 ELSE
@@ -10531,16 +10534,16 @@ IF @TargetType &gt; '0'
             CASE
                 WHEN @TargetType = '1'
                 OR @TargetType = '2'
-                OR @TargetType = '3' 
+                OR @TargetType = '3'
                 THEN
                     '0000'
                 ELSE
                     @TerminalId
-            END 
+            END
         )
         SELECT
-            * 
-        INTO 
+            *
+        INTO
             #TEMPLIST
         FROM
             #TEMPTABLE
@@ -10559,7 +10562,7 @@ IF @TargetType &gt; '0'
             SET @DptId = left(@DptIdList,@i-1)
             IF @DptId &lt;&gt; ''
             BEGIN
-                SET @FLAG = 
+                SET @FLAG =
                  CASE
                     WHEN EXISTS (
                         SELECT
@@ -10615,8 +10618,8 @@ IF @TargetType &gt; '0'
                         AND DptTargetType = 0
                     ) THEN
                         '0'
-                END 
-                INSERT INTO #FLAGTABLE (DptId,Flag) values (@DptId,@Flag) 
+                END
+                INSERT INTO #FLAGTABLE (DptId,Flag) values (@DptId,@Flag)
             END
             SET @DptIdList = SUBSTRING(@DptIdList,@i+@splen,8000)
             SET @i = CHARINDEX(@spli,@DptIdList)
@@ -10629,11 +10632,11 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       @companyId varchar(max),
       @storeId varchar(max),
       @cardClassId varchar(max)
-      
+
     SET @companyId = ?
     SET @storeId = ?
     SET @cardClassId = NULLIF(?, '')
-    
+
     IF NOT EXISTS (
       SELECT
         CompanyId,
@@ -10648,7 +10651,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
         DeleteFlag = 0.0
     )
       SET @storeId = '0'
-       
+
     SELECT
       CompanyId,
       StoreId,
@@ -10677,7 +10680,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     SET @companyId = ?
     SET @storeId = ?
     SET @membershipId = ?
-     
+
     SELECT
       typeInfo.CompanyId,
       typeInfo.StoreId,
@@ -10700,31 +10703,31 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       typeInfo.CompanyId = @companyId AND
       typeInfo.StoreId = @storeId AND
       typeInfo.CardClassId = classInfo.CardClassId AND
-      (typeInfo.PrefixCode16From = @membershipId OR 
-      typeInfo.PrefixCode16To = @membershipId OR 
+      (typeInfo.PrefixCode16From = @membershipId OR
+      typeInfo.PrefixCode16To = @membershipId OR
       typeInfo.PrefixCode13 = @membershipId) AND
       typeInfo.DeleteFlag = 0.0
   </entry>
-  <entry key="get-nationality-info-all">      
+  <entry key="get-nationality-info-all">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max)
-      
+
     SET @companyId = ?
     SET @storeId = ?
-    
+
     IF NOT EXISTS (
       SELECT
         *
-      FROM 
+      FROM
         RESMaster.dbo.MST_NATIONALITYINFO
-      WHERE 
+      WHERE
           CompanyId = @companyId AND
           StoreId = @storeId AND
           DeleteFlag = 0.0
     )
       SET @storeId = '0'
-      
+
     SELECT
       CompanyId,
       StoreId,
@@ -10740,26 +10743,26 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       StoreId = @storeId AND
       DeleteFlag = 0.0
   </entry>
-  <entry key="get-customer-class-info-all">      
+  <entry key="get-customer-class-info-all">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max)
-      
+
     SET @companyId = ?
     SET @storeId = ?
-    
+
     IF NOT EXISTS (
       SELECT
         *
-      FROM 
+      FROM
         RESMaster.dbo.MST_CUSTOMERCLASS
-      WHERE 
+      WHERE
           CompanyId = @companyId AND
           StoreId = @storeId AND
           DeleteFlag = 0.0
     )
       SET @storeId = '0000'
-      
+
     SELECT
       CompanyId,
       StoreId,
@@ -10775,27 +10778,27 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
-  </entry> 
-  <entry key="get-buyadditional-info-all">      
+  </entry>
+  <entry key="get-buyadditional-info-all">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max)
-      
+
     SET @companyId = ?
     SET @storeId = ?
-    
+
     IF NOT EXISTS (
       SELECT
         *
-      FROM 
+      FROM
         RESMaster.dbo.MST_BUYADDITIONALINFO
-      WHERE 
+      WHERE
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
     )
       SET @storeId = '0'
-      
+
     SELECT
       CompanyId,
       StoreId,
@@ -10817,12 +10820,12 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       @storeId varchar(max),
       @businessDayDate date,
       @trainingFlag tinyint
-      
+
     SET @companyId = ?
     SET @storeId = ?
     SET @businessDayDate = ?
     SET @trainingFlag = ?
-    
+
     SELECT
       CompanyId,
       RetailStoreId,
@@ -10837,7 +10840,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       RetailStoreId = @storeId AND
       BusinessDayDate = @businessDayDate AND
       TrainingFlag = @trainingFlag
-    GROUP BY 
+    GROUP BY
       CompanyId,
       RetailStoreId,
       BusinessDayDate,
@@ -10850,28 +10853,28 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       @cardType varchar(max),
       @seqNo int,
       @discountType varchar(max)
-      
+
     SET @storeId = ?
     SET @companyId = ?
     SET @cardType = ?
     SET @seqNo = ?
     SET @discountType = ?
-    
+
     IF NOT EXISTS (
       SELECT
         *
-      FROM 
+      FROM
         RESMaster.dbo.MST_PRICE_DISCOUNT
-      WHERE 
+      WHERE
         StoreId = @storeId  AND
         CompanyId = @companyId AND
         CardType = @cardType AND
-        SeqNo = @seqNo AND 
+        SeqNo = @seqNo AND
         DiscountType = @discountType AND
         DeleteFlag = 0.0
     )
       SET @storeId = '0'
-      
+
   SELECT
     CompanyId,
     StoreId,
@@ -10906,7 +10909,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     StoreId = @storeId AND
     CompanyId = @companyId AND
     CardType = @cardType AND
-    SeqNo = @seqNo AND 
+    SeqNo = @seqNo AND
     DiscountType = @discountType AND
     DeleteFlag = 0.0
   </entry>
@@ -10917,26 +10920,26 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       @businessDayDate date,
       @trainingFlag tinyint,
       @origStoreId varchar(max)
-      
+
     SET @companyId = ?
     SET @storeId = ?
     SET @businessDayDate = ?
     SET @trainingFlag = ?
     SET @origStoreId = @storeId
-    
+
     IF NOT EXISTS (
       SELECT
         *
-      FROM 
+      FROM
         RESMaster.dbo.MST_TENDERINFO tender
-      WHERE 
+      WHERE
         tender.CompanyId = @companyId AND
         tender.StoreId = @storeId AND
         tender.TenderType = 1 AND
         tender.DeleteFlag = 0.0
     )
       SET @storeId = '0000'
-    
+
      SELECT
       tender.CompanyId,
       tender.StoreId,
@@ -10951,7 +10954,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       tender.StoreId = @storeId AND
       tender.TenderType = 1 AND
       tender.DeleteFlag = 0.0
-    
+
   </entry>
 <entry key = "get-promotioninfo-type">
 DECLARE
@@ -11000,7 +11003,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
     WHERE
         PartialFlag = @partialFlag
     AND (
-        DiscountReason = @discountReason  
+        DiscountReason = @discountReason
     OR  DiscountBarcodeType = @discountBarcodeType
     )
     AND CompanyId = @companyId
@@ -11024,7 +11027,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       		 company.SubNum3,
       		 company.SubNum4,
       		 company.SubNum5
-      FROM 
+      FROM
       	RESMaster.dbo.MST_COMPANYINFO company
       WHERE
       	company.DeleteFlag = 0.
@@ -11034,11 +11037,11 @@ SET @partialFlag = LTRIM(RTRIM(?))
         @companyId varchar(max),
         @storeId varchar(max),
         @terminalId varchar(max)
-        
+
       SET @companyId = ?
       SET @storeId = ?
       SET @terminalId = ?
-      
+
       SELECT
         term.CompanyId,
         term.StoreId,
@@ -11094,11 +11097,11 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @businessDayDate = ?
       SET @log = ?
 
-      insert into txl_ope_event 
-             (companyId, retailStoreId, workstationId, trainingFlag, sequenceNumber, 
-                                 childNumber, businessDayDate, log, insDateTime) 
-      values (@companyId, @retailStoreId, @workstationId, @training, @sequenceNumber, 
-                                 @childNumber, @businessDayDate, @log, sysdatetime()) 
+      insert into txl_ope_event
+             (companyId, retailStoreId, workstationId, trainingFlag, sequenceNumber,
+                                 childNumber, businessDayDate, log, insDateTime)
+      values (@companyId, @retailStoreId, @workstationId, @training, @sequenceNumber,
+                                 @childNumber, @businessDayDate, @log, sysdatetime())
     </entry>
     <entry key="select-eventlog">
       DECLARE
@@ -11124,12 +11127,12 @@ SET @partialFlag = LTRIM(RTRIM(?))
       @storeId varchar(max),
       @txtype varchar(max),
       @trainingFlag tinyint
-    
+
     SET @companyId = ?
     SET @storeId = ?
     SET @txtype = ?
     SET @trainingFlag = ?
-    
+
     SELECT
       COUNT(*) AS TxCount
     FROM
@@ -11145,11 +11148,11 @@ SET @partialFlag = LTRIM(RTRIM(?))
           @companyId varchar(max),
           @storeId varchar(max),
           @cardTypeNo varchar(max)
-          
+
         SET @companyId = ?
         SET @storeId = ?
         SET @cardTypeNo = ?
-         
+
         SELECT
           CompanyId,
           StoreId,
@@ -11192,13 +11195,13 @@ SET @partialFlag = LTRIM(RTRIM(?))
       @terminalId varchar(max),
       @businessDate varchar(max),
       @trainingFlag tinyint
-      
+
     SET @companyId = ?
     SET @storeId = ?
     SET @terminalId = ?
     SET @businessDate = ?
     SET @trainingFlag = ?
-    
+
     SELECT TOP 1
       Tx,
       InsDateTime
@@ -11284,10 +11287,10 @@ SET @partialFlag = LTRIM(RTRIM(?))
         DECLARE
           @companyId varchar(max),
           @storeId varchar(max)
-          
+
         SET @companyId = ?
         SET @storeId = ?
-       
+
         SELECT
           CompanyId,
           StoreId,
@@ -11323,7 +11326,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
           StoreId = @storeId AND
           DeleteFlag = 0.0
   </entry>
-  <entry key="get-lock-status">    
+  <entry key="get-lock-status">
     DECLARE
       @companyId varchar(max),
       @retailStoreId varchar(max),
@@ -11331,15 +11334,15 @@ SET @partialFlag = LTRIM(RTRIM(?))
       @sequenceNumber int,
       @businessDayDate date,
       @trainingFlag tinyint
-      
+
     SET @companyId = ?
     SET @retailStoreId = ?
     SET @workstationId = ?
     SET @sequenceNumber = ?
     SET @businessDayDate = ?
     SET @trainingFlag = ?
-   
-    SELECT 
+
+    SELECT
       Status
     FROM
       RESTransaction.dbo.TXL_TRAN_LOCK
@@ -11368,7 +11371,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       @insOpeCode varchar(max),
       @updAppId varchar(max),
       @updOpeCode varchar(max)
-        
+
     SET @companyId = ?
     SET @retailStoreId = ?
     SET @workstationId = ?
@@ -11384,7 +11387,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
     SET @insOpeCode = ?
     SET @updAppId = ?
     SET @updOpeCode = ?
-        
+
     INSERT INTO RESTransaction.dbo.TXL_TRAN_LOCK
       (CompanyId,
        RetailStoreId,
@@ -11430,7 +11433,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       @sequenceNumber int,
       @businessDayDate date,
       @trainingFlag tinyint
-      
+
     SET @companyId = ?
     SET @retailStoreId = ?
     SET @workstationId = ?
@@ -11448,38 +11451,38 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TrainingFlag = @trainingFlag
   </entry>
   <entry key="get-preset-cm-info">
-         DECLARE         
+         DECLARE
       @companyId varchar(12),
       @storeId varchar(10),
       @terminalId varchar(6),
       @bizCatId varchar(20),
       @businessDayDate date
-                        
+
       SET @companyId = ?
       SET @storeId = ?
       SET @terminalId = ?
       SET @businessDayDate = ?
       SET @bizCatId = (
-                                SELECT SubCode1 
-                                FROM RESMaster.dbo.MST_STOREINFO 
+                                SELECT SubCode1
+                                FROM RESMaster.dbo.MST_STOREINFO
                                 WHERE CompanyId = @companyId AND StoreId = @storeId)
-    SELECT      
-     TOP 1      
-      *             
-    FROM                
+    SELECT
+     TOP 1
+      *
+    FROM
       RESMaster.dbo.MST_PRESET_CMINFO
-    WHERE               
+    WHERE
       CompanyId = @companyId
-    AND             
-      (@businessDayDate BETWEEN StartDate AND EndDate) 
-    AND                 
+    AND
+      (@businessDayDate BETWEEN StartDate AND EndDate)
+    AND
       DeleteFlag = 0.0
-    AND             
-            ((CMType ='1' AND BizCatId = '00' AND StoreId = '0000' AND TerminalId = '0000') 
+    AND
+            ((CMType ='1' AND BizCatId = '00' AND StoreId = '0000' AND TerminalId = '0000')
               OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0000' AND TerminalId = '0000')
               OR (CMType ='3' AND StoreId = @storeId AND TerminalId = '0000')
               OR (CMType ='4' AND TerminalId = @terminalId)
-    )               
+    )
  ORDER BY UpdDate DESC
 
   </entry>
@@ -11488,11 +11491,11 @@ SET @partialFlag = LTRIM(RTRIM(?))
       @companyId varchar(12),
       @storeId varchar(10),
       @itemType varchar(10)
-          
+
       SET @companyId = ?
       SET @storeId = ?
       SET @itemType = ?
-    
+
     IF NOT EXISTS (
       SELECT
         CompanyId, StoreId, RecordId
@@ -11501,7 +11504,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       WHERE
         CompanyId = @companyId AND
         StoreId = @storeId AND
-        ItemType = COALESCE(@itemType, ItemType) AND 
+        ItemType = COALESCE(@itemType, ItemType) AND
         DeleteFlag = 0.0
     )
      SET @storeId = '0000'
@@ -11513,7 +11516,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
     WHERE
       CompanyId = @companyId AND
       StoreId = @storeId AND
-      ItemType = COALESCE(@itemType, ItemType) AND 
+      ItemType = COALESCE(@itemType, ItemType) AND
       DeleteFlag = 0.0
     ORDER BY
       ItemType, DisplayOrder
@@ -11601,7 +11604,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
 </entry>
 <entry key="get-subNum1">
     SELECT
-    SubNum1 
+    SubNum1
     FROM
       RESMaster.dbo.MST_DEVICEINFO
     WHERE
@@ -11628,7 +11631,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
 DECLARE    @companyId VARCHAR(12), @MdInternal VARCHAR(32)
     SET        @companyId = LTRIM(RTRIM(?))
     SET        @MdInternal = LTRIM(RTRIM(?))
-SELECT 
+SELECT
        plu.CompanyId,
        plu.StoreId,
        plu.MdInternal,
@@ -11689,10 +11692,10 @@ SELECT
        plu.DiscountType,
        colorInfo.Colorkananame,
        sizeInfo.SizeKanaName
-FROM 
+FROM
   RESMaster.dbo.MST_PLU plu
-  
-LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo 
+
+LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo
 ON plu.CompanyId = colorInfo.CompanyId
 AND plu.StoreId = colorInfo.StoreId
 AND plu.Md01 = colorInfo.ColorId
@@ -11701,7 +11704,7 @@ LEFT JOIN RESMaster.dbo.MST_SIZEINFO sizeInfo
 ON plu.CompanyId = sizeInfo.CompanyId
 AND plu.StoreId = sizeInfo.StoreId
 AND plu.Md05 = sizeInfo.SizeId
-  
+
 WHERE plu.companyId = @companyId
 AND plu.MdInternal = @MdInternal
 AND plu.StoreId = '0'
@@ -11710,7 +11713,7 @@ AND plu.DeleteFlag = 0.0
 <entry key="get-isMemberCard-info">
 DECLARE  @MdInternal VARCHAR(32)
 SET        @MdInternal = LTRIM(RTRIM(?))
-    SELECT 
+    SELECT
         CompanyId,
         StoreId,
         CardTypeId,
@@ -11781,7 +11784,7 @@ DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @MdInternal VARCHAR(32)
        plu.SubCode3,
        plu.SubNum1,
        plu.SubNum2
-FROM 
+FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
     ON plu.CompanyId = plustore.CompanyId
@@ -11789,7 +11792,7 @@ LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
     AND plustore.MdInternal = plu.MdInternal
     AND plustore.DeleteFlag = 0.0
 LEFT JOIN  (
-    SELECT 
+    SELECT
         info.CompanyId,
         info.Sku,
         info.SequenceNo,
@@ -11797,20 +11800,20 @@ LEFT JOIN  (
         info.NewPrice,
         info.OldPrice
     FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
-    INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store 
-    ON info.CompanyId  = store.CompanyId 
+    INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
+    ON info.CompanyId  = store.CompanyId
     AND info.RecordId = store.RecordId
     AND store.DeleteFlag = 0.0
-    AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate 
+    AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
     AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @storeId)
     AND info.DeleteFlag = 0
-    
-) urgent 
-ON 
-plu.CompanyId  = urgent.CompanyId 
-AND plu.Sku  = urgent.Sku 
-AND plu.Md01 = urgent.ColorId 
- 
+
+) urgent
+ON
+plu.CompanyId  = urgent.CompanyId
+AND plu.Sku  = urgent.Sku
+AND plu.Md01 = urgent.ColorId
+
 WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
 ORDER BY urgent.SequenceNo DESC
 </entry>
@@ -11829,17 +11832,17 @@ insert into txl_offline_credit
       @terminalId varchar(max),
       @businessDate varchar(max),
       @trainingFlag tinyint
-      
+
     SET @companyId = ?
     SET @storeId = ?
     SET @terminalId = NULLIF(?, '')
     SET @businessDate = ?
     SET @trainingFlag = ?
     SET @retailstoreid = @storeId
-    
+
     IF NOT EXISTS(SELECT DataType FROM RESMaster.dbo.MST_NAME_DAILYREPORT WHERE StoreId = @storeId)
       SET @storeId = '0'
-      
+
     SELECT
       a.CompanyId,
       a.StoreId,
@@ -11852,12 +11855,12 @@ insert into txl_offline_credit
       a.DisplayOrder,
       b.WorkstationId,
       b.RetailStoreId,
-      (CASE 
+      (CASE
         WHEN @terminalId IS NULL
         THEN (
-          SELECT 
+          SELECT
             SUM(ItemCnt)
-          FROM 
+          FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
             CompanyId = @companyId AND
@@ -11868,19 +11871,19 @@ insert into txl_offline_credit
         ELSE
           b.ItemCnt
       END) AS ItemCnt,
-      (CASE 
+      (CASE
         WHEN @terminalId IS NULL
         THEN (
-          SELECT 
+          SELECT
             SUM(ItemAmt)
-          FROM 
+          FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
             CompanyId = @companyId AND
             RetailStoreId = @storeId AND
             ItemType = a.DataType AND
             BusinessDayDate = @businessDate AND
-            TrainingFlag = @trainingFlag) 
+            TrainingFlag = @trainingFlag)
         ELSE
           b.ItemAmt
       END) AS ItemAmt
@@ -11904,11 +11907,11 @@ insert into txl_offline_credit
       a.DeleteFlag = 0.0 AND
       b.WorkstationId = COALESCE(@terminalId, b.WorkstationId)
     ORDER BY
-      a.DataType, 
-      cast(a.ItemLevel1 as int), 
-      cast(a.ItemLevel2 as int), 
-      cast(a.ItemLevel3 as int), 
-      a.ItemLevel4, 
+      a.DataType,
+      cast(a.ItemLevel1 as int),
+      cast(a.ItemLevel2 as int),
+      cast(a.ItemLevel3 as int),
+      a.ItemLevel4,
       a.DisplayOrder ASC
 </entry>
 <entry key="get-point-item-rate">
@@ -11927,7 +11930,7 @@ insert into txl_offline_credit
   SET @bizCategoryId = '00'
 
   IF NOT EXISTS(
-    SELECT 
+    SELECT
       base.RecordId
     FROM
       RESMaster.dbo.MST_POINT_INFO base
@@ -11970,7 +11973,7 @@ insert into txl_offline_credit
       BEGIN
       SET @targetType = '3'
       END
-    SELECT 
+    SELECT
       base.PointFlag,
       base.BasePrice,
       base.RecordId,
@@ -11979,7 +11982,7 @@ insert into txl_offline_credit
       dept.StoreSettingFlag,
       class.CardClassId
     FROM
-      RESMaster.dbo.MST_POINT_INFO base 
+      RESMaster.dbo.MST_POINT_INFO base
     LEFT JOIN
       RESMaster.dbo.MST_POINT_DPT dept
     ON
@@ -12010,7 +12013,7 @@ insert into txl_offline_credit
       base.DptSettingFlag = '1'
       AND
       dept.StoreSettingFlag = '0'
-      OR 
+      OR
       (dept.StoreSettingFlag = '1' AND store.StoreId = @storeId)
       AND
       base.RecordId = dept.RecordId
@@ -12153,7 +12156,7 @@ insert into txl_offline_credit
     base.TargetStoreType,
     class.CardClassId
   FROM
-    RESMaster.dbo.MST_CAMPAIGN_INFO base 
+    RESMaster.dbo.MST_CAMPAIGN_INFO base
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_DPT dept
   ON
@@ -12180,7 +12183,7 @@ insert into txl_offline_credit
     AND
     base.DptSettingFlag = '1'
     AND
-    ((dept.StoreSettingFlag = '0') OR 
+    ((dept.StoreSettingFlag = '0') OR
       (dept.StoreSettingFlag = '1' AND store.StoreId = @storeId))
     AND
     base.RecordId = dept.RecordId
@@ -12193,7 +12196,7 @@ insert into txl_offline_credit
   @targetType varchar(10),
   @cardClassId varchar(10),
   @businessDate date
-  
+
   SET @companyId = ?
   SET @storeId = ?
   SET @businessDate = ?
@@ -12201,7 +12204,7 @@ insert into txl_offline_credit
   SET @bizCategoryId = '00'
 
   IF NOT EXISTS(
-    SELECT 
+    SELECT
       RecordId
     FROM
       RESMaster.dbo.MST_POINT_INFO
@@ -12235,10 +12238,10 @@ insert into txl_offline_credit
           SET @targetType = '3'
         END
   IF EXISTS(
-    SELECT 
+    SELECT
       base.RecordId
     FROM
-      RESMaster.dbo.MST_POINT_INFO base 
+      RESMaster.dbo.MST_POINT_INFO base
     LEFT JOIN
       RESMaster.dbo.MST_POINT_CARD pointcard
     ON
@@ -12257,13 +12260,13 @@ insert into txl_offline_credit
       CONVERT(DATE,@businessDate) >= base.StartDate
       AND
       base.DeleteFlag = 0.0
-      AND 
+      AND
       base.CardSettingFlag = '1'
-      AND 
+      AND
       base.DptSettingFlag = '0'
       AND
       base.RecordId = pointcard.RecordId)
-   SELECT 
+   SELECT
       base.PointFlag,
       base.BasePrice,
       base.RecordId,
@@ -12276,7 +12279,7 @@ insert into txl_offline_credit
       base.CardSettingFlag,
       base.DptSettingFlag
     FROM
-      RESMaster.dbo.MST_POINT_INFO base 
+      RESMaster.dbo.MST_POINT_INFO base
     LEFT JOIN
       RESMaster.dbo.MST_POINT_CARD pointcard
     ON
@@ -12315,7 +12318,7 @@ insert into txl_offline_credit
       base.CardSettingFlag,
       base.DptSettingFlag
     FROM
-      RESMaster.dbo.MST_POINT_INFO base 
+      RESMaster.dbo.MST_POINT_INFO base
     WHERE
       base.CompanyId = @companyId
       AND
@@ -12344,10 +12347,10 @@ insert into txl_offline_credit
   SET @cardClassId = ?
   SET @bizCategoryId = '00'
   IF EXISTS(
-    SELECT 
+    SELECT
       base.RecordId
     FROM
-      RESMaster.dbo.MST_CAMPAIGN_INFO base 
+      RESMaster.dbo.MST_CAMPAIGN_INFO base
     LEFT JOIN
       RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
     ON
@@ -12359,13 +12362,13 @@ insert into txl_offline_credit
     WHERE
     base.CompanyId = @companyId AND
     ((base.TargetStoreType = '1' AND store.StoreId = @storeId) OR
-    base.TargetStoreType = '0' OR base.TargetStoreType = '2') 
+    base.TargetStoreType = '0' OR base.TargetStoreType = '2')
     AND
     (base.CardSettingFlag= '1' AND pointcard.CardClassId = @cardClassId)
     AND
     CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate)
     BEGIN
-      SELECT 
+      SELECT
         base.PointType,
         base.BasePrice,
         base.RecordId,
@@ -12396,7 +12399,7 @@ insert into txl_offline_credit
         base.DptSettingFlag,
         base.ItemSettingFlag
       FROM
-        RESMaster.dbo.MST_CAMPAIGN_INFO base 
+        RESMaster.dbo.MST_CAMPAIGN_INFO base
       LEFT JOIN
         RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
       ON
@@ -12420,7 +12423,7 @@ insert into txl_offline_credit
         base.DeleteFlag = 0.0
     END
   ELSE
-    SELECT 
+    SELECT
       base.PointType,
       base.BasePrice,
       base.RecordId,
@@ -12451,7 +12454,7 @@ insert into txl_offline_credit
       base.DptSettingFlag,
       base.ItemSettingFlag
     FROM
-      RESMaster.dbo.MST_CAMPAIGN_INFO base 
+      RESMaster.dbo.MST_CAMPAIGN_INFO base
     LEFT JOIN
       RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
     ON
@@ -12482,7 +12485,7 @@ insert into txl_offline_credit
       @dataType varchar(max),
       @itemLevel1 varchar(max),
       @itemLevel2 varchar(max)
-      
+
     SET @companyId = ?
     SET @storeId = ?
     SET @terminalId = ?
@@ -12491,7 +12494,7 @@ insert into txl_offline_credit
     SET @dataType = ?
     SET @itemLevel1 = ?
     SET @itemLevel2 = ?
-    
+
    SELECT
       a.CompanyId,
       a.RetailStoreId,
@@ -12505,9 +12508,9 @@ insert into txl_offline_credit
       a.WorkstationId,
 	  a.ItemCnt,
 	  a.ItemAmt,
-	   (SELECT 
+	   (SELECT
             SUM(ItemCnt)
-          FROM 
+          FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
             CompanyId = @companyId AND
@@ -12519,9 +12522,9 @@ insert into txl_offline_credit
 		    ItemLevel2 = @itemLevel2
 			Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
 			) as CntSum,
-	  (SELECT 
+	  (SELECT
             SUM(ItemAmt)
-          FROM 
+          FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
             CompanyId = @companyId AND
@@ -12533,7 +12536,7 @@ insert into txl_offline_credit
 		    ItemLevel2 = @itemLevel2
 			Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
 			) as AmtSum
-      
+
 	  FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
 	  WHERE
 	   a.CompanyId = @companyId AND
@@ -12555,14 +12558,14 @@ insert into txl_offline_credit
       @businessDate varchar(max),
       @trainingFlag tinyint,
       @tenderId varchar(max)
-           
+
     SET @companyId = ?
     SET @storeId = ?
     SET @terminalId = ?
     SET @businessDate = ?
     SET @trainingFlag = ?
     SET @tenderId = ?
-       
+
    SELECT
       a.CompanyId,
       a.RetailStoreId,
@@ -12597,16 +12600,16 @@ insert into txl_offline_credit
       @businessDate varchar(max),
       @txId varchar(max),
       @trainingFlag tinyint
-          
+
     SET @companyId = ?
     SET @storeId = ?
     SET @workstationId = ?
     SET @businessDate = ?
     SET @txId = ?
     SET @trainingFlag = ?
-      
+
     SELECT
-      SalesAmt, 
+      SalesAmt,
       BusinessDayDate,
       SequenceNumber,
       OriginalSequenceNumber
@@ -12620,13 +12623,13 @@ insert into txl_offline_credit
       TrainingFlag = @trainingFlag AND
       OriginalSequenceNumber = @txId
   </entry>
-  
+
   <entry key="get-store-info">
     DECLARE
     @companyid varchar(12)
-    
+
     SET @companyid = ?
-	 
+
 	 SELECT
        CompanyId
       ,StoreId

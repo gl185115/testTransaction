@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +31,6 @@ import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -48,6 +46,12 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -57,11 +61,11 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.JournalizationException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.exception.TillException;
-import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.FileHandler;
 import ncr.res.mobilepos.helper.FileParser;
+import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.POSLogUtility;
@@ -72,39 +76,28 @@ import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.constants.JournalizationConstants;
 import ncr.res.mobilepos.journalization.constants.PosLogRespConstants;
 import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
-import ncr.res.mobilepos.journalization.dao.SQLServerBarneysCommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
+import ncr.res.mobilepos.journalization.dao.SQLServerBarneysCommonDAO;
 import ncr.res.mobilepos.journalization.helper.PosLogLogger;
-import ncr.res.mobilepos.journalization.helper.ScreenReceipt;
 import ncr.res.mobilepos.journalization.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.journalization.model.EventDetail;
 import ncr.res.mobilepos.journalization.model.EventInformation;
 import ncr.res.mobilepos.journalization.model.EventList;
-import ncr.res.mobilepos.journalization.model.ForwardList;
-import ncr.res.mobilepos.journalization.model.ForwardListInfo;
+import ncr.res.mobilepos.journalization.model.GoldCertificate;
 import ncr.res.mobilepos.journalization.model.GuestZone;
 import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
 import ncr.res.mobilepos.journalization.model.JSONData;
-import ncr.res.mobilepos.journalization.model.GoldCertificate;
+import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.Reservation;
 import ncr.res.mobilepos.journalization.model.Salesperson;
 import ncr.res.mobilepos.journalization.model.Salespersoninfo;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
-import ncr.res.mobilepos.journalization.model.SequenceNo;
-import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
-import ncr.res.mobilepos.journalization.model.SearchedPosLogs;
+import ncr.res.mobilepos.journalization.model.SequenceNo;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.journalization.model.poslog.TransactionSearch;
 import ncr.res.mobilepos.model.ResultBase;
-
-import atg.taglib.json.util.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 /**
  * Journalization Web Resource Class.
@@ -167,11 +160,11 @@ public class JournalizationResource {
     public void init(){
     	try {
 			javax.naming.Context env = (javax.naming.Context) new InitialContext().lookup("java:comp/env");
-			String spmPath = (String) (env).lookup("Journalization/spmPath");			
+			String spmPath = (String) (env).lookup("Journalization/spmPath");
 			String serverID = (String) (env).lookup("serverID");
-			
+
 			FileHandler.createDirectory(spmPath);
-			
+
 			if(spmPath!=null){
 				File file = new File(spmPath + "/" + SPM_FILENAME + "_" + serverID);
 				if(spmFw == null){
@@ -181,13 +174,13 @@ public class JournalizationResource {
 					} catch (IOException e) {
 						LOGGER.logWarning("Jrnalztn", "Init",
 								Logger.RES_EXCEP_IO, e.getMessage());
-					} finally {					
+					} finally {
 						if (context.getAttribute(GlobalConstant.SPM_FW) == null) {
 							context.setAttribute(GlobalConstant.SPM_FW, spmFw);
 						}
 					}
 				}
-			} 
+			}
 		} catch (NamingException e) {
 			LOGGER.logWarning(PROG_NAME, "init", Logger.RES_EXCEP_PARSE, e);
 		}
@@ -211,31 +204,31 @@ public class JournalizationResource {
 		if (spmFw != null) {
 			jrnlSpm = JrnSpm.startSpm(spmFw);
 		}
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("POSLog xml", posLogXml);
         if (snap == null) {
             snap = (SnapLogger) SnapLogger.getInstance();
         }
-        
+
         PosLogResp posLogResponse = null;
         PosLogLogger posLogger = new PosLogLogger();
         PosLog posLog = null;
-        
+
         try {
         	XmlSerializer<PosLog> xmlTmpl = new XmlSerializer<PosLog>();
 	        posLog = (PosLog) xmlTmpl.unMarshallXml(posLogXml, PosLog.class);
 
 	        if (!POSLogHandler.isValid(posLog)) {
 	        	tp.println("Required POSLog elements are missing.");
-	            Snap.SnapInfo info = 
+	            Snap.SnapInfo info =
 	            		snap.write("Required POSLog elements are missing.", posLogXml);
 				LOGGER.logSnap(PROG_NAME, functionName,
-						"Invalid POSLog Transaction to snap file", info);	            
+						"Invalid POSLog Transaction to snap file", info);
 	            posLogResponse = new PosLogResp();
                 posLogResponse.setMessage("Required POSLog elements are missing.");
                 posLogResponse.setStatus(PosLogRespConstants.ERROR_END_1);
-                posLogResponse.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);                
+                posLogResponse.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
                 return posLogResponse;
             }
 
@@ -265,8 +258,8 @@ public class JournalizationResource {
 			LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName,
 					"Output error transaction data to snap file", infos);
 			posLogResponse = new PosLogResp(e.getErrorCode(), e.getErrorCode(),
-					PosLogRespConstants.ERROR_END_1, e);			
-        } catch (TillException e) { 
+					PosLogRespConstants.ERROR_END_1, e);
+        } catch (TillException e) {
         	 Snap.SnapInfo[] infos = {
  					snap.write("Pos log xml data in journalize", posLogXml),
  					snap.write("Exception", e) };
@@ -284,15 +277,15 @@ public class JournalizationResource {
 					ResultBase.RES_ERROR_GENERAL,
 					PosLogRespConstants.ERROR_END_1, e);
         }
-        
+
         if(spmFw != null){
 			jrnlSpm.endSpm(POSLogUtility.toPosLog(posLogXml),
 					Integer.parseInt(posLogResponse.getStatus()));
         }
-        
+
         return (PosLogResp)tp.methodExit(posLogResponse);
     }
-   
+
     /**
      * The method called by the Web Service to retrieve the
      * POSLog of a transaction in JSON format.
@@ -341,7 +334,7 @@ public class JournalizationResource {
                 poslog =
                     poslogSerializer.unMarshallXml(poslogXML,
                             SearchedPosLog.class);
-                
+
                 info = posLogDAO.getVoidedAndReturned(companyid, storeid, workstationid, businessdate, txid, trainingflag, txtype);
                 lockStatus = posLogDAO.getOrUpdLockStatus(companyid, storeid, workstationid, businessdate, Integer.parseInt(txid), trainingflag, "", "", "", "getLockStatus");
                 receiptCount = posLogDAO.getSummaryReceiptCount(companyid,storeid, workstationid, txid, businessdate);
@@ -562,7 +555,7 @@ public class JournalizationResource {
         tp.methodEnter(functionName);
         tp.println("APIType", APIType);
         tp.println("JournalData", JournalData);
-        
+
         JSONData jsonData = new JSONData();
         JSONObject result = null;
         String address = "";
@@ -577,7 +570,7 @@ public class JournalizationResource {
                 address = apiUrl + JournalizationConstants.JOURNALLIST_URL + value;
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
             }
-            
+
             if (StringUtility.isNullOrEmpty(result)) {
                 jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -640,7 +633,7 @@ public class JournalizationResource {
     public final GuestZone getGuestZoneList() {
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.methodEnter(functionName);
-    	
+
         GuestZone result = new GuestZone();
         try {
             IBarneysCommonDAO iPerCtrlDao = new SQLServerBarneysCommonDAO();
@@ -688,7 +681,7 @@ public class JournalizationResource {
         tp.methodEnter(functionName).println("guestNo", guestNo);
 
         SearchGuestOrder searchGuestOrder = new SearchGuestOrder();
-        
+
         try {
         	if (StringUtility.isNullOrEmpty(guestNo)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -697,7 +690,7 @@ public class JournalizationResource {
                 searchGuestOrder.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return searchGuestOrder;
             }
-        	
+
             DAOFactory sqlServer = DAOFactory
                     .getDAOFactory(DAOFactory.SQLSERVER);
             IBarneysCommonDAO iBarneysCommenDAO = sqlServer
@@ -732,7 +725,7 @@ public class JournalizationResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public final Salesperson getSalesPerson(
             @QueryParam("OpeKanaName") final String OpeKanaName) {
-    	
+
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
           .println("OpeKanaName", OpeKanaName);
@@ -787,13 +780,13 @@ public class JournalizationResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public SequenceNo getSequenceNo(
             @QueryParam("SequenceTypeId") final String SequenceTypeId) {
-    	
+
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.methodEnter(functionName);
     	tp.println("SequenceTypeId", SequenceTypeId);
-    	
+
         SequenceNo sqNo = new SequenceNo();
-        
+
         try {
         	if (StringUtility.isNullOrEmpty(SequenceTypeId)
                     || SequenceTypeId.length() > 4) {
@@ -805,7 +798,7 @@ public class JournalizationResource {
                 sqNo.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return sqNo;
             }
-        	
+
             IBarneysCommonDAO dao = DAOFactory.getDAOFactory(
                     DAOFactory.SQLSERVER).getBarneysCommonDAO();
 
@@ -860,7 +853,7 @@ public class JournalizationResource {
             @QueryParam("deviceId") final String deviceId,
             @QueryParam("sequenceNo") final String sequenceNo,
             @QueryParam("businessDate") final String businessDate) {
-        
+
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("storeId", storeId)
                 .println("deviceId", deviceId)
@@ -868,7 +861,7 @@ public class JournalizationResource {
                 .println("businessDate", businessDate);
 
         SearchGuestOrder searchGuestOrder = new SearchGuestOrder();
-        
+
         try {
         	if (StringUtility.isNullOrEmpty(storeId)
                     || StringUtility.isNullOrEmpty(deviceId)
@@ -882,7 +875,7 @@ public class JournalizationResource {
                 searchGuestOrder.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return searchGuestOrder;
             }
-        	
+
             DAOFactory sqlServer = DAOFactory
                     .getDAOFactory(DAOFactory.SQLSERVER);
             IBarneysCommonDAO iBarneysCommenDAO = sqlServer
@@ -910,7 +903,7 @@ public class JournalizationResource {
         return (SearchGuestOrder)tp.methodExit(searchGuestOrder);
     }
 	/**
-	 * 
+	 *
 	 * @param compCat
 	 * @return GoldCertificate
 	 */
@@ -934,7 +927,7 @@ public class JournalizationResource {
 				goldCertificate.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
 				return goldCertificate;
 			}
-			
+
 			DAOFactory sqlServer = DAOFactory
 					.getDAOFactory(DAOFactory.SQLSERVER);
 			IBarneysCommonDAO iBarneysCommenDAO = sqlServer
@@ -983,7 +976,7 @@ public class JournalizationResource {
 	        .println("pluCode", pluCode);
 	        try {
 	        	if (StringUtility.isNullOrEmpty(storeId) ||
-	        				!this.checkDate(businessDateId) || (eventKbn != 1 
+	        				!this.checkDate(businessDateId) || (eventKbn != 1
 	        				&& eventKbn != 2)){
 	                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
 	                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -991,7 +984,7 @@ public class JournalizationResource {
 	                result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
 	                return result;
 	            }
-	        	
+
 	            DAOFactory sqlServer = DAOFactory
 	                    .getDAOFactory(DAOFactory.SQLSERVER);
 	            IBarneysCommonDAO iBarneysCommenDAO = sqlServer
@@ -1028,7 +1021,7 @@ public class JournalizationResource {
 	        }
 	        return (EventList)tp.methodExit(result);
 	    }
-	 
+
 	 /**
 	     * @param EventId
 	     * @param StoreId
@@ -1053,7 +1046,7 @@ public class JournalizationResource {
 		        .println("eventKbn", eventKbn);
 		        try {
 		        	if (StringUtility.isNullOrEmpty(eventId,storeId) ||
-		        				!this.checkDate(businessDateId) || (eventKbn != 1 
+		        				!this.checkDate(businessDateId) || (eventKbn != 1
 		        				&& eventKbn != 2)){
 		                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
 		                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -1061,7 +1054,7 @@ public class JournalizationResource {
 		                result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
 		                return result;
 		            }
-		        	
+
 		            DAOFactory sqlServer = DAOFactory
 		                    .getDAOFactory(DAOFactory.SQLSERVER);
 		            IBarneysCommonDAO iBarneysCommenDAO = sqlServer
@@ -1113,7 +1106,7 @@ public class JournalizationResource {
 		        }
                 return (EventInformation)tp.methodExit(result);
 		    }
-	 
+
 		  /*
 		    * @param the reservationId
 		    * @return  the list of reservation information.
@@ -1127,7 +1120,7 @@ public class JournalizationResource {
 		        tp.methodEnter(functionName).println("reservationId", reservationId);
 
 		        Reservation reservation = new Reservation();
-		        
+
 		        try {
 		        	if (StringUtility.isNullOrEmpty(reservationId)) {
 		                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -1136,7 +1129,7 @@ public class JournalizationResource {
 		                reservation.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
 		                return reservation;
 		            }
-		        	
+
 		            DAOFactory sqlServer = DAOFactory
 		                    .getDAOFactory(DAOFactory.SQLSERVER);
 		            IBarneysCommonDAO iBarneysCommenDAO = sqlServer
@@ -1169,7 +1162,7 @@ public class JournalizationResource {
      * @param workstationid
      * @param trainingmode
      * @param total
-     * @return int 
+     * @return int
      */
     @POST
     @Path("/saveforwardposlog")
@@ -1259,66 +1252,8 @@ public class JournalizationResource {
     }
 
     /**
-     * Forward PosLog save
-     * 
-     * @param poslogxml
-     * @param queue
-     * @param workstationid
-     * @param trainingmode
-     * @param total
-     * @return int
-     */
-    @POST
-    @Path("/getforwardlist")
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final ResultBase getForwardList(
-            @FormParam("CompanyId") String CompanyId,
-            @FormParam("RetailStoreId") String RetailStoreId,
-//            @FormParam("WorkstationId") String WorkstationId,
-            @FormParam("TrainingFlag") String TrainingFlag,
-            @FormParam("LayawayFlag") String LayawayFlag) {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.println("CompanyId", CompanyId);
-        tp.println("StoreCode", RetailStoreId);
-        //        tp.println("WorkstationId", WorkstationId);
-        tp.println("Training", TrainingFlag);
-        tp.println("LayawayFlag", LayawayFlag);
-
-        ForwardList result = new ForwardList();
-        try {
-            if (StringUtility.isNullOrEmpty(RetailStoreId)) {
-                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
-                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-                return result;
-            }
-
-            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
-            List<ForwardListInfo> forwardList = iBarneysCommenDAO.getForwardList(CompanyId, RetailStoreId,
-                    TrainingFlag, LayawayFlag);
-            result.setForwardListInfo(forwardList);
-            result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-            result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-            result.setMessage(ResultBase.RES_SUCCESS_MSG);
-        } catch (DaoException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get forward list.", e);
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
-            result.setMessage(e.getMessage());
-        } catch (Exception ex) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward list.", ex);
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-            result.setMessage(ex.getMessage());
-        }
-        return (ForwardList) tp.methodExit(result);
-    }
-
-    /**
      * 前捌商品明細 PosLog 検索
-     * 
+     *
      * @param CompanyId
      * @param RetailStoreId
      * @param WorkstationId
@@ -1369,7 +1304,7 @@ public class JournalizationResource {
 
     /**
      * 前捌レコード ステータスの更新
-     * 
+     *
      * @param CompanyId
      * @param RetailStoreId
      * @param WorkstationId
@@ -1456,7 +1391,7 @@ public class JournalizationResource {
 	        }
 		 return true;
 	 }
-	 
+
 	 @GET
 	 @Path("/getlastpaytransactionposlog")
 	 @Produces({ MediaType.APPLICATION_JSON })
@@ -1473,10 +1408,10 @@ public class JournalizationResource {
          	.println("terminalId", terminalId)
          	.println("businessDate", businessDate)
          	.println("trainingFlag", trainingFlag);
-		 
+
 		SearchedPosLog poslog = new SearchedPosLog();
 		String poslogString = null;
-		
+
 		if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, businessDate)) {
 			tp.println("A required parameter is null or empty.");
 			poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -1488,13 +1423,13 @@ public class JournalizationResource {
 		try {
 			DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 			IPosLogDAO poslogDao = sqlServer.getPOSLogDAO();
-			poslogString = poslogDao.getLastPayTxPoslog(companyId, storeId, 
+			poslogString = poslogDao.getLastPayTxPoslog(companyId, storeId,
 					terminalId, businessDate, trainingFlag);
 			if (poslogString == null) {
 				poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 				poslog.setMessage("Last pay tx poslog not found.");
 			} else {
-				XmlSerializer<SearchedPosLog> 
+				XmlSerializer<SearchedPosLog>
 						poslogSerializer = new XmlSerializer<SearchedPosLog>();
 				poslog = poslogSerializer.unMarshallXml(
 						poslogString, SearchedPosLog.class);
@@ -1516,8 +1451,8 @@ public class JournalizationResource {
             LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
                     "Failed to get last payIn/payOut transaction poslog for "
                     + "companyId#" + companyId + ", storeId#" + storeId + ", "
-                    + "terminalId#" + terminalId + ", businessDate" + businessDate + ", " 
-                    + "and trainingFlag" + trainingFlag + ": " + e.getMessage()); 
+                    + "terminalId#" + terminalId + ", businessDate" + businessDate + ", "
+                    + "and trainingFlag" + trainingFlag + ": " + e.getMessage());
 		 } finally {
 			 tp.methodExit(poslog.toString());
 		 }
@@ -1525,7 +1460,7 @@ public class JournalizationResource {
 	 }
 	 /**
      * 取引ロックステータスの更新とチエック
-     * 
+     *
      * @param Type
      * @param CompanyId
      * @param RetailStoreId
@@ -1535,7 +1470,7 @@ public class JournalizationResource {
      * @param TrainingFlag
      * @return ResultBase
      */
-     @Path("/updatelockstatus") 
+     @Path("/updatelockstatus")
      @POST
      @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
      public final ResultBase UpdateLockStatus(

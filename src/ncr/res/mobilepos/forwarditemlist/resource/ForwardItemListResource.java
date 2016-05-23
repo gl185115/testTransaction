@@ -401,6 +401,7 @@ public class ForwardItemListResource {
      * @param RetailStoreId
      * @param TrainingFlag
      * @param LayawayFlag
+     * @param Queue
      * @return ResultBase
      */
     @POST
@@ -410,12 +411,14 @@ public class ForwardItemListResource {
             @FormParam("CompanyId") String CompanyId,
             @FormParam("RetailStoreId") String RetailStoreId,
             @FormParam("TrainingFlag") String TrainingFlag,
-            @FormParam("LayawayFlag") String LayawayFlag) {
+            @FormParam("LayawayFlag") String LayawayFlag,
+            @FormParam("Queue") String Queue) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("StoreCode", RetailStoreId);
         tp.println("Training", TrainingFlag);
         tp.println("LayawayFlag", LayawayFlag);
+        tp.println("Queue", Queue);
 
         ForwardList result = new ForwardList();
         try {
@@ -430,7 +433,7 @@ public class ForwardItemListResource {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
             List<ForwardListInfo> forwardList = iBarneysCommenDAO.getForwardList(CompanyId, RetailStoreId,
-                    TrainingFlag, LayawayFlag);
+                    TrainingFlag, LayawayFlag, Queue);
             result.setForwardListInfo(forwardList);
             result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);

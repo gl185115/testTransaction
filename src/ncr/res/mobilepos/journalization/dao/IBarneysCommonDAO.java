@@ -1,5 +1,6 @@
 package ncr.res.mobilepos.journalization.dao;
 
+import java.sql.SQLException;
 /**
  * 新規履歴
  * バージョン      新規日付        担当者名      新規内容
@@ -13,15 +14,14 @@ package ncr.res.mobilepos.journalization.dao;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.sql.SQLException;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.journalization.model.EventDetail;
 import ncr.res.mobilepos.journalization.model.ForwardListInfo;
-import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
 import ncr.res.mobilepos.journalization.model.GoldCertificate;
+import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
+import ncr.res.mobilepos.journalization.model.Reservation;
 import ncr.res.mobilepos.journalization.model.Salespersoninfo;
 import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
-import ncr.res.mobilepos.journalization.model.Reservation;
 import ncr.res.mobilepos.journalization.model.SequenceNo;
 
 
@@ -87,14 +87,14 @@ public interface IBarneysCommonDAO {
     /* 1.05 2014.12.11 FENGSHA 取引番号により前受金番号取得 ADD END */
     /* 1.06 2014.12.22 LiQian 金種情報取得 ADD Start */
     /**
-     * 
+     *
      * @param compCat
      * @return GoldCertificate
      * @throws DaoException
      */
 	public GoldCertificate getGoldCertificateType(String compCat) throws DaoException;
 	/* 1.06 2014.12.22 LiQian 金種情報取得 ADD END */
-	
+
 	   /**
      * @return list of the event information
      *
@@ -103,7 +103,7 @@ public interface IBarneysCommonDAO {
      */
     List<EventDetail> getEventList(String eventId,int eventKbn,
     		int businessDateId,String storeId,String pluCode) throws DaoException;
-    
+
     /**
      *get event login result set.
      *
@@ -116,7 +116,7 @@ public interface IBarneysCommonDAO {
      *             Thrown when error occurs.
      */
    public EventDetail getEventLoginResultSet(String eventId,String storeId) throws DaoException;
-   
+
    /**
     * @param reservationId
     *
@@ -126,17 +126,18 @@ public interface IBarneysCommonDAO {
     *         Thrown when process fails.
     */
    Reservation searchReservationInfo(String reservationId) throws DaoException;
-   
+
    /**
     * 前捌一覧　取得
     * @param CompanyId
     * @param RetailStoreId
     * @param TrainingFlag
+    * @param Queue
     * @return　一覧リスト
     * @throws DaoException
     */
-   public List<ForwardListInfo> getForwardList (String CompanyId, String RetailStoreId, String TrainingFlag, String LayawayFlag) throws DaoException;
-   
+   public List<ForwardListInfo> getForwardList (String CompanyId, String RetailStoreId, String TrainingFlag, String LayawayFlag, String Queue) throws DaoException;
+
    /**
     * 前捌レコード　ステータスの更新
     * @param CompanyId
@@ -148,7 +149,7 @@ public interface IBarneysCommonDAO {
     * @param TrainingFlag
     * @param Status
     * @return　ResultBase
-    * @throws SQLException 
+    * @throws SQLException
     */
    public int updateForwardStatus(String CompanyId, String RetailStoreId, String WorkstationId, String SequenceNumber, String Queue, String BusinessDayDate, String TrainingFlag, int Status) throws DaoException, SQLException;
 }

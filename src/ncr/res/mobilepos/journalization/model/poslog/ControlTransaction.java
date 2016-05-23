@@ -57,10 +57,10 @@ public class ControlTransaction {
     @XmlElement(name = "AutoSignoff")
     private OperatorAutoSignOff autoSignOff;
 
-    @XmlElement(name = "PodEod")
+    @XmlElement(name = "POSEOD")
     private PosEod posEod;
 
-    @XmlElement(name = "PodSod")
+    @XmlElement(name = "POSSOD")
     private PosSod posSod;
 
 	/**

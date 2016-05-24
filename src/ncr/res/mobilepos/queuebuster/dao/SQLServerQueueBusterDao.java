@@ -13,7 +13,6 @@ import javax.xml.bind.JAXBException;
 
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.cashaccount.model.CashBalance;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.constant.SuspendTransactionStatus;
 import ncr.res.mobilepos.credential.model.Employee;
@@ -24,7 +23,6 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
-import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.POSLogHandler;
@@ -93,9 +91,9 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
      */
     @Override
 	public int saveTransactionToQueue(PosLog posLog,
-                                      String posLogXml, 
+                                      String posLogXml,
                                       String queue) throws DaoException {
-    	
+
 		String functioName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functioName).println("storeid", posLogXml)
 				.println("queue", queue);
@@ -105,11 +103,11 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
         PreparedStatement saveTransToQuePrepStmnt = null;
 
         try {
-        	connection = dbManager.getConnection();        	
-        	
+        	connection = dbManager.getConnection();
+
             SQLStatement sqlStatement = SQLStatement.getInstance();
             Transaction transaction = posLog.getTransaction();
-            
+
 			saveTransToQuePrepStmnt = connection.prepareStatement(
 					sqlStatement.getProperty("save-transaction-to-queue"));
 			saveTransToQuePrepStmnt.setString(SQLStatement.PARAM1,
@@ -126,7 +124,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	                    (transaction.getTrainingModeFlag().equals("false")) ? 0 : 1);
 			saveTransToQuePrepStmnt.setString(SQLStatement.PARAM7, queue);
 			saveTransToQuePrepStmnt.setString(SQLStatement.PARAM8,
-					posLogXml);			
+					posLogXml);
 			if (saveTransToQuePrepStmnt.executeUpdate() == 1) {
                 updateLastSuspendTxId(posLog, connection);
             } else {
@@ -158,13 +156,13 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			throw new DaoException("Exception: @" + functioName, e);
 		} finally {
 			closeConnectionObjects(connection, saveTransToQuePrepStmnt);
-			
+
 			tp.methodExit(result);
 		}
 
 		return result;
 	}
-    
+
     private void updateLastSuspendTxId(PosLog posLog, Connection connection) {
         String functionName = DebugLogger.getCurrentMethodName();
         try {
@@ -172,23 +170,23 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             		DAOFactory.SQLSERVER).getDeviceInfoDAO();
         	boolean updated = iDeviceInfoDao.updateLastSuspendTxidAtQueueBuster(
         			posLog, connection);
-        	
+
         	if (!updated) {
-        		tp.methodExit("Failed to update last suspend txid - " + 
+        		tp.methodExit("Failed to update last suspend txid - " +
         				posLog.getTransaction().getSequenceNo() + ".");
         	}
         } catch (DaoException e) {
-        	tp.methodExit("Failed to update last suspend txid - " + 
+        	tp.methodExit("Failed to update last suspend txid - " +
     				posLog.getTransaction().getSequenceNo() + ".");
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to update last suspend txid - " + 
+					+ ": Failed to update last suspend txid - " +
 					posLog.getTransaction().getSequenceNo() + ".", e);
         } catch (Exception e) {
-        	tp.methodExit("Failed to update last suspend txid - " + 
+        	tp.methodExit("Failed to update last suspend txid - " +
     				posLog.getTransaction().getSequenceNo() + ".");
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, 
-					functionName + 
-					": Failed to update last suspend txid - " + 
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+					functionName +
+					": Failed to update last suspend txid - " +
 					posLog.getTransaction().getSequenceNo() + ".", e);
         }
     }
@@ -212,13 +210,13 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                 .println("txid", sequenceNumber)
                 .println("txdate", businessDayDate)
                 .println("trainingFlag", trainingFlag);
-        
+
         Connection connection = null;
         PreparedStatement selectTransaction = null;
         PreparedStatement resumeTransaction = null;
         ResultSet selectResult = null;
         ResultSet resumeResult = null;
-        
+
         ResumedTransaction resumedTransaction = new ResumedTransaction();
         resumedTransaction.setRetailStoreID(retailStoreId);
         resumedTransaction.setQueue(queue);
@@ -228,7 +226,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            
+
             // check if transaction exist and if still resumable
             selectTransaction = connection.prepareStatement(
                     sqlStatement.getProperty("select-transaction-from-queue"));
@@ -241,10 +239,10 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             selectTransaction.setInt(SQLStatement.PARAM7, trainingFlag);
 
             selectResult = selectTransaction.executeQuery();
-            
+
             if (selectResult.next()) {
                 // transaction exist
-                
+
                 // check if valid poslog
                 String poslogString = selectResult.getString(selectResult.findColumn("Tx"));
                 PosLog poslogObject = POSLogHandler.toObject(poslogString);
@@ -254,7 +252,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                     resumedTransaction.setNCRWSSResultCode(ResultBase.RES_ERROR_TXINVALID);
                     return resumedTransaction;
                 }
-                
+
                 String status = selectResult.getString(selectResult.findColumn("Status"));
                 if (status.equals(SuspendTransactionStatus.INITIAL)) {
                     // transaction not yet resumed
@@ -267,10 +265,10 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                     resumeTransaction.setString(SQLStatement.PARAM5, sequenceNumber);
                     resumeTransaction.setString(SQLStatement.PARAM6, businessDayDate);
                     resumeTransaction.setInt(SQLStatement.PARAM7, trainingFlag);
-                    
+
                     resumeResult = resumeTransaction.executeQuery();
                     connection.commit();
-                    
+
                     if (resumeResult.next()) {
                         // transaction successfully resumed
                         String posLog = resumeResult.getString(selectResult.
@@ -310,7 +308,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
         } finally {
             closeConnectionObjects(null, selectTransaction, selectResult);
             closeConnectionObjects(connection, resumeTransaction, resumeResult);
-            
+
             tp.methodExit(resumedTransaction.toString());
         }
 
@@ -323,7 +321,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
     @Override
 	public final String selectOldestTransactionFromQueue(final String queue,
 			final String retailStoreId) throws DaoException {
-        
+
     	String result = null;
         String functioName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functioName).println("queue", queue)
@@ -372,7 +370,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                         retailStoreId, queue,
                         workstationid, businessdate, sequencenumber, status);
             }
-            
+
 		} catch (SQLStatementException e) {
 			LOGGER.logAlert(
 					PROG_NAME,
@@ -394,9 +392,9 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 					+ ": Failed to select oldest transaction from queue.", e);
 			throw new DaoException("Exception: @" + functioName, e);
 		} finally {
-			closeConnectionObjects(connection, slctTransFromQuePrepStmnt, 
+			closeConnectionObjects(connection, slctTransFromQuePrepStmnt,
 					resultset);
-			
+
 			tp.methodExit(result);
 		}
 
@@ -410,7 +408,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
     public final List<BusteredTransaction> listTransactionFromQueue(
             final String queue, final String companyId, final String retailStoreId,
             final String workstationId, final int trainingFlag) throws DaoException {
-        
+
         String functioName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functioName).println("queue", queue)
                 .println("storeid", companyId)
@@ -422,10 +420,10 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
         PreparedStatement slctTransFromQuePrepStmnt = null;
         PreparedStatement selectOperatorQueueStmt = null;
         ResultSet resultset = null;
-		
+
         List<BusteredTransaction> bustList = new ArrayList<BusteredTransaction>();
 		XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
-		
+
         try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -471,7 +469,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 						}
 					}
 				}
-				
+
 				bustTransaction.setTotal(grandAmount); // set subtotal
 
 				List<LineItem> lineItem = retailTransaction.getLineItems();
@@ -497,7 +495,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 				closeObject(result);
 				bustList.add(bustTransaction);
 			}
-			
+
 		} catch (SQLStatementException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
 					functioName + ": Failed to list suspended transactions.", e);
@@ -516,11 +514,11 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			throw new DaoException("Exception: @" + functioName, e);
 		} finally {
 			closeConnectionObjects(null, selectOperatorQueueStmt);
-			closeConnectionObjects(connection, slctTransFromQuePrepStmnt, 
+			closeConnectionObjects(connection, slctTransFromQuePrepStmnt,
 					resultset);
 
 			int bustListSize = bustList != null ? bustList.size() : 0;
-			
+
 			tp.methodExit(bustListSize);
 		}
 
@@ -541,7 +539,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			final String queue, final String workstationId,
 			final String businessDate, final String sequenceNumber,
 			final String status) throws DaoException {
-		
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeid", retailStoreId)
 				.println("queue", queue).println("termid", workstationId)
@@ -570,7 +568,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 
             result += updateQueTransStatsStmnt.executeUpdate();
             connection.commit();
-            
+
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update status of suspended transaction.", e);
@@ -588,7 +586,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
     @Override
 	public final int forwardTransactionToQueue(final String posLogXml)
 			throws DaoException {
-        
+
 		int result = 0;
 		String functioName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functioName).println("poslogxml", posLogXml);
@@ -597,12 +595,12 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 		String workstationid = "";
 		String txdate = "";
 		String sequencenumber = "";
-		
+
 		Connection connection = null;
         PreparedStatement saveTransToQuePrepStmnt = null;
 
         try {
-        	
+
             XmlSerializer<PosLog> xmlTmpl = new XmlSerializer<PosLog>();
             PosLog posLog =
                 (PosLog) xmlTmpl.unMarshallXml(posLogXml, PosLog.class);
@@ -676,7 +674,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	public final int updateQueuedTransactionStatus(final String retailstoreid,
 			final String txdate, final String workstationid, final String txid,
 			final int methodCode) throws DaoException {
-        
+
     	String functioName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functioName).println("storeid", retailstoreid)
 				.println("txdate", txdate).println("termid", workstationid)
@@ -717,7 +715,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             }
 
             connection.commit();
-	
+
         } catch (SQLStatementException e) {
 			LOGGER.logAlert(
 					PROG_NAME,
@@ -753,7 +751,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	public final SuspendData selectSuspendTransactionFromQueue(
 			final String retailStoreID, final String txDate,
 			final String workstationID, final String txID) throws DaoException {
-        
+
 		String functioName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functioName).println("storeid", retailStoreID)
 				.println("workstationid", workstationID)
@@ -834,9 +832,9 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			throw new DaoException("Exception: @" + functioName
 					+ "- A general exception occured. ", e);
 		} finally {
-			closeConnectionObjects(connection, slctTransFromQuePrepStmnt, 
+			closeConnectionObjects(connection, slctTransFromQuePrepStmnt,
 					resultset);
-			
+
 			tp.methodExit(suspendData);
 		}
 
@@ -925,21 +923,22 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
     }
 
 	@Override
-	public final String selectForwardItemCount(final String companyId, 
-			final String storeId, final String businessDayDate, 
-			final String workstationId) throws DaoException {
+	public final String selectForwardItemCount(final String companyId,
+			final String storeId, final String businessDayDate,
+			final String workstationId, final String queue) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("CompanyId", companyId)
 			.println("StoreId", storeId)
 			.println("BusinessDayDate",businessDayDate)
-			.println("WorkstationId", workstationId);
+			.println("WorkstationId", workstationId)
+			.println("Queue", queue);
 
 		String resultCnt = null;
 		Connection connection = null;
 		PreparedStatement select = null;
 		ResultSet resultset = null;
-		
+
 		try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -948,14 +947,15 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 			select.setString(SQLStatement.PARAM1, companyId);
 			select.setString(SQLStatement.PARAM2, storeId);
 			select.setString(SQLStatement.PARAM3, businessDayDate);
-			select.setString(SQLStatement.PARAM4, workstationId);
+			select.setString(SQLStatement.PARAM4, StringUtility.convNullToEmpty(workstationId));
+			select.setString(SQLStatement.PARAM5, StringUtility.convNullToEmpty(queue));
 			resultset = select.executeQuery();
 
 			if (resultset.next()) {
 				resultCnt = resultset.getString("count");
 			}
 		} catch (SQLStatementException stmntEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName 
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName
 					+ ": Failed to Select Forward Item Count.", stmntEx);
 			throw new DaoException("SQLStatementException: @" + functionName, stmntEx);
 		} catch (SQLException sqlEx) {
@@ -974,8 +974,8 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	}
 
 	@Override
-	public final ResultBase deleteForwardItem(final String companyId, 
-			final String storeId, final String businessDayDate) 
+	public final ResultBase deleteForwardItem(final String companyId,
+			final String storeId, final String businessDayDate)
 					throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -987,7 +987,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 		Connection connection = null;
 		PreparedStatement deleteStmnt = null;
 		int status = 0;
-		
+
 		try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1038,13 +1038,13 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 		tp.methodEnter("getPreviousAmount");
     	tp.println("Company Id", companyId)
     		.println("Store Id", storeId);
-    	
+
     	Connection connection = null;
     	PreparedStatement statement = null;
     	ResultSet result = null;
     	CashDrawer cashDrawer = new CashDrawer();
     	PosLog poslog = null;
-    	
+
     	try {
     		connection = dbManager.getConnection();
     		SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1062,10 +1062,10 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
     		    TillSettle tillSettle = poslog.getTransaction().getTenderControlTransaction().getTillSettle();
     			String cashOnHand =  tillSettle.getTender().getAmount();
     			cashDrawer.setCashOnHand(cashOnHand);
-    		} 
+    		}
     	} catch (Exception e) {
-    		LOGGER.logAlert(PROG_NAME, "SQLServerQueueBusterDao.getPreviousAmount()", 
-    				Logger.RES_EXCEP_SQL, 
+    		LOGGER.logAlert(PROG_NAME, "SQLServerQueueBusterDao.getPreviousAmount()",
+    				Logger.RES_EXCEP_SQL,
     				"Failed to get previous amount.\n" + e.getMessage());
     		throw new DaoException("DaoException: "
     				+ "@SQLServerQueueBusterDao.getPreviousAmount() - " + e.getMessage(), e);
@@ -1080,18 +1080,18 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 	public void updatePreviousAmount(Connection connection, CashDrawer cashDrawer) throws DaoException {
 		tp.methodEnter("updatePreviousAmount");
     	tp.println(cashDrawer.toString());
-    		
-    	String functionName = DebugLogger.getCurrentMethodName();            
+
+    	String functionName = DebugLogger.getCurrentMethodName();
         PreparedStatement updateSOD = null;
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         java.sql.Date sqlDate = null;
         int result = 0;
         try {
-        	if(!StringUtility.isNullOrEmpty(cashDrawer.getBusinessDayDate())) { 
+        	if(!StringUtility.isNullOrEmpty(cashDrawer.getBusinessDayDate())) {
         		date = dateFormat.parse(cashDrawer.getBusinessDayDate());
         		sqlDate = new java.sql.Date(date.getTime());
-        	}      	
+        	}
             SQLStatement sqlStatement = SQLStatement.getInstance();
             updateSOD = connection.prepareStatement(
                 sqlStatement.getProperty("update-previous-amount"));
@@ -1102,7 +1102,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             updateSOD.setString(SQLStatement.PARAM5, cashDrawer.getCashOnHand());
             updateSOD.setDate(SQLStatement.PARAM6, sqlDate);
             updateSOD.setString(SQLStatement.PARAM7, cashDrawer.getOperatorId());
-            result = updateSOD.executeUpdate();     
+            result = updateSOD.executeUpdate();
         } catch (Exception  ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     functionName + ": Failed to update previous amount.", ex);
@@ -1110,7 +1110,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                     + "@SQLServerQueueBusterDao.updatePreviousAmount() - " + ex.getMessage(), ex);
         } finally {
             tp.methodExit();
-        }   	
-		
+        }
+
 	}
 }

@@ -4128,15 +4128,28 @@ ORDER BY
   </entry>
 
   <entry key="get-forward-item-count">
+    DECLARE
+        @companyid varchar(max),
+        @storeid varchar(max),
+        @businessdaydate varchar(max),
+        @terminalid varchar(max),
+        @queue varchar(max)
+    SET @companyid = ?
+    SET @storeid = ?
+    SET @businessdaydate = ?
+    SET @terminalid = ?
+    SET @queue = ?
+
     SELECT
       COUNT(1) as count
     FROM
       TXL_FORWARD_ITEM
     WHERE
-      CompanyId = LTRIM(RTRIM(?)) AND
-      RetailStoreId = LTRIM(RTRIM(?)) AND
-      BusinessDayDate = LTRIM(RTRIM(?)) AND
-      WorkstationId = LTRIM(RTRIM(?)) AND
+      CompanyId = LTRIM(RTRIM(@companyid)) AND
+      RetailStoreId = LTRIM(RTRIM(@storeid)) AND
+      BusinessDayDate = LTRIM(RTRIM(@businessdaydate)) AND
+      (@terminalid = '' OR WorkstationId = LTRIM(RTRIM(@terminalid))) AND
+      (@queue = '' OR Queue = LTRIM(RTRIM(@queue))) AND
       Status = 0;
   </entry>
   <entry key="delete-forward-item">
@@ -11012,25 +11025,25 @@ SET @partialFlag = LTRIM(RTRIM(?))
     </entry>
     <entry key="get-company-info">
       SELECT company.CompanyId,
-      		 company.CompanyName,
-      		 company.CompanyKanaName,
-      		 company.CompanyShortName,
-      		 company.CompanyShortKanaName,
-      		 company.DisplayOrder,
-      		 company.SubCode1,
-      		 company.SubCode2,
-      		 company.SubCode3,
-      		 company.SubCode4,
-      		 company.SubCode5,
-      		 company.SubNum1,
-      		 company.SubNum2,
-      		 company.SubNum3,
-      		 company.SubNum4,
-      		 company.SubNum5
+             company.CompanyName,
+             company.CompanyKanaName,
+             company.CompanyShortName,
+             company.CompanyShortKanaName,
+             company.DisplayOrder,
+             company.SubCode1,
+             company.SubCode2,
+             company.SubCode3,
+             company.SubCode4,
+             company.SubCode5,
+             company.SubNum1,
+             company.SubNum2,
+             company.SubNum3,
+             company.SubNum4,
+             company.SubNum5
       FROM
-      	RESMaster.dbo.MST_COMPANYINFO company
+        RESMaster.dbo.MST_COMPANYINFO company
       WHERE
-      	company.DeleteFlag = 0.
+        company.DeleteFlag = 0.
     </entry>
     <entry key="get-terminal-info">
       DECLARE
@@ -12506,9 +12519,9 @@ insert into txl_offline_credit
       a.ItemLevel3,
       a.ItemLevel4,
       a.WorkstationId,
-	  a.ItemCnt,
-	  a.ItemAmt,
-	   (SELECT
+      a.ItemCnt,
+      a.ItemAmt,
+       (SELECT
             SUM(ItemCnt)
           FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
@@ -12519,10 +12532,10 @@ insert into txl_offline_credit
             BusinessDayDate = @businessDate AND
             TrainingFlag = @trainingFlag AND
             ItemLevel1 = @itemLevel1 AND
-		    ItemLevel2 = @itemLevel2
-			Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
-			) as CntSum,
-	  (SELECT
+            ItemLevel2 = @itemLevel2
+            Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
+            ) as CntSum,
+      (SELECT
             SUM(ItemAmt)
           FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
@@ -12533,20 +12546,20 @@ insert into txl_offline_credit
             BusinessDayDate = @businessDate AND
             TrainingFlag = @trainingFlag AND
             ItemLevel1 = @itemLevel1 AND
-		    ItemLevel2 = @itemLevel2
-			Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
-			) as AmtSum
+            ItemLevel2 = @itemLevel2
+            Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
+            ) as AmtSum
 
-	  FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
-	  WHERE
-	   a.CompanyId = @companyId AND
+      FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
+      WHERE
+       a.CompanyId = @companyId AND
        a.RetailStoreId = @storeId AND
-	   a.WorkstationId = @terminalId AND
-	   a.BusinessDayDate = @businessDate  AND
-	   a.ItemType = @dataType AND
-	   a.itemLevel1 = @itemLevel1 AND
-	   a.itemLevel2 = @itemLevel2 AND
-	   a.TrainingFlag = @trainingFlag
+       a.WorkstationId = @terminalId AND
+       a.BusinessDayDate = @businessDate  AND
+       a.ItemType = @dataType AND
+       a.itemLevel1 = @itemLevel1 AND
+       a.itemLevel2 = @itemLevel2 AND
+       a.TrainingFlag = @trainingFlag
 
 </entry>
 
@@ -12577,20 +12590,20 @@ insert into txl_offline_credit
       a.ItemLevel3,
       a.ItemLevel4,
       a.WorkstationId,
-	  a.ItemCnt,
-	  a.ItemAmt
-	  FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
-	  WHERE
-	   a.CompanyId = @companyId AND
+      a.ItemCnt,
+      a.ItemAmt
+      FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
+      WHERE
+       a.CompanyId = @companyId AND
        a.RetailStoreId = @storeId AND
-	   a.WorkstationId = @terminalId AND
-	   a.BusinessDayDate = @businessDate  AND
-	   a.ItemType = '2' AND
-	   (a.itemLevel1 = '01' OR a.itemLevel1 = '02') AND
-	   a.itemLevel3 = @tenderId AND
-	   a.TrainingFlag = @trainingFlag AND
-	   a.itemLevel2 in ('01', '12', '13', '14', '15')
-	   ORDER BY a.ItemLevel2 ASC
+       a.WorkstationId = @terminalId AND
+       a.BusinessDayDate = @businessDate  AND
+       a.ItemType = '2' AND
+       (a.itemLevel1 = '01' OR a.itemLevel1 = '02') AND
+       a.itemLevel3 = @tenderId AND
+       a.TrainingFlag = @trainingFlag AND
+       a.itemLevel2 in ('01', '12', '13', '14', '15')
+       ORDER BY a.ItemLevel2 ASC
 </entry>
 <entry key="get-postpoint-status">
     DECLARE
@@ -12631,7 +12644,7 @@ insert into txl_offline_credit
 
     SET @companyid = ?
 
-	 SELECT
+     SELECT
        CompanyId
       ,StoreId
       ,StoreName
@@ -12699,8 +12712,8 @@ insert into txl_offline_credit
     WHERE
       CompanyId = @companyid AND
       DeleteFlag = 0.
-	ORDER BY
-	  CompanyId
+    ORDER BY
+      CompanyId
     </entry>
 
     <!-- *************************  ENTRY KEY FOR DEVICE INFO  ************************* -->

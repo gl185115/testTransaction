@@ -9,25 +9,42 @@
 */
 package ncr.res.mobilepos.queuebuster.resource;
 
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
+
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.*;
+import ncr.res.mobilepos.helper.DateFormatUtility;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.POSLogHandler;
+import ncr.res.mobilepos.helper.SnapLogger;
+import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
-import ncr.res.mobilepos.queuebuster.model.*;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
-import java.util.List;
+import ncr.res.mobilepos.queuebuster.model.BusteredCount;
+import ncr.res.mobilepos.queuebuster.model.BusteredTransaction;
+import ncr.res.mobilepos.queuebuster.model.BusteredTransactionList;
+import ncr.res.mobilepos.queuebuster.model.CashDrawer;
+import ncr.res.mobilepos.queuebuster.model.ResumedTransaction;
+import ncr.res.mobilepos.queuebuster.model.SuspendData;
 
 /**
  * QueueBusterResource is a Resource Class for QueueBustering.
@@ -66,9 +83,9 @@ public class QueueBusterResource {
      * told from the specs for Disney Store.
      */
     private static final String METHOD_COMPLETE = "complete";
-    
+
     @Context
-    private ServletContext context; 
+    private ServletContext context;
 
     /** The Default Constructor. */
     public QueueBusterResource() {
@@ -97,7 +114,7 @@ public class QueueBusterResource {
                     @QueryParam("workstationid") final String workstationId,
                     @QueryParam("sequencenumber") final String sequenceNumber,
                     @FormParam("poslogxml") final String posLogXml) {
-    	
+
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
           .println("retailstoreid", retailStoreId)
@@ -105,20 +122,20 @@ public class QueueBusterResource {
           .println("workstationid", workstationId)
           .println("sequencenumber", sequenceNumber)
           .println("poslogxml", posLogXml);
-    	
+
         if (snap == null) {
             snap = (SnapLogger) SnapLogger.getInstance();
         }
-        
+
         ResultBase resultBase = new ResultBase();
-        
+
         try {
         	// unmarshall poslog xml
-            XmlSerializer<PosLog> poslogSerializer = 
+            XmlSerializer<PosLog> poslogSerializer =
             		new XmlSerializer<PosLog>();
-            PosLog posLog = poslogSerializer.unMarshallXml(posLogXml, 
+            PosLog posLog = poslogSerializer.unMarshallXml(posLogXml,
             		PosLog.class);
-        	
+
         	// check if valid poslog
             if (!POSLogHandler.isValid(posLog)) {
             	tp.println("Required POSLog elements are missing.");
@@ -129,9 +146,9 @@ public class QueueBusterResource {
             	resultBase.setMessage("Required POSLog elements are missing.");
             	resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
             	return resultBase;
-            	
+
             }
-            
+
             // check if valid business date format
             String businessDate = posLog.getTransaction().getBusinessDayDate();
             if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
@@ -142,12 +159,12 @@ public class QueueBusterResource {
             			"BusinessDayDate should be in yyyy-MM-dd format.");
             	return resultBase;
             }
-        	
+
         	// suspend poslog
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IQueueBusterDAO quebusterDAO = dao.getQueBusterDAO();
             int result = quebusterDAO.saveTransactionToQueue(posLog, posLogXml, queue);
-            
+
 			if (result == SQLResultsConstants.ROW_DUPLICATE) {
 				result = 0;
 				LOGGER.logWarning(PROG_NAME, functionName,
@@ -163,9 +180,9 @@ public class QueueBusterResource {
 						"Duplicate POSLog Transaction to snap file",
 						duplicatePOSLog);
 			}
-            
+
             resultBase.setNCRWSSResultCode(result);
-            
+
 		} catch (DaoException ex) {
 			Snap.SnapInfo[] infos = new Snap.SnapInfo[] {
 					snap.write("poslog xml data", posLogXml),
@@ -240,15 +257,15 @@ public class QueueBusterResource {
             .println("sequencenumber", sequenceNumber)
             .println("businessdaydate", businessDayDate)
             .println("trainingFlag", trainingFlag);
-        
+
         ResumedTransaction resumedTransaction = new ResumedTransaction();
         resumedTransaction.setRetailStoreID(retailStoreId);
         resumedTransaction.setQueue(queue);
         resumedTransaction.setWorkstationID(workstationId);
         resumedTransaction.setSequenceNumber(sequenceNumber);
-        
+
         try {
-        	if (StringUtility.isNullOrEmpty(companyId, retailStoreId, queue, 
+        	if (StringUtility.isNullOrEmpty(companyId, retailStoreId, queue,
         	        workstationId, sequenceNumber, businessDayDate, trainingFlag)) {
         		tp.println("Some of the parameters are null or empty.");
         		poslog.setNCRWSSResultCode(
@@ -260,7 +277,7 @@ public class QueueBusterResource {
                 resumedTransaction = quebusterDAO.selectTransactionFromQueue(
                         companyId, retailStoreId, queue,
                         workstationId, sequenceNumber, businessDayDate, trainingFlag);
-                
+
                 XmlSerializer<SearchedPosLog> poslogSerializer =
                         new XmlSerializer<SearchedPosLog>();
                 poslog =
@@ -336,7 +353,7 @@ public class QueueBusterResource {
                 tp.println("There are no List of Transaction for"
                         + " QueueBustering.");
             }
-            
+
             busteredTransactionList.setBusteredTransactionList(bustList);
 
         } catch (DaoException ex) {
@@ -381,10 +398,10 @@ public class QueueBusterResource {
                     @FormParam("poslogxml") final String poslogxml) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("poslogxml", poslogxml);
-        
+
 		PosLogResp posLogResp = new PosLogResp();
         posLogResp.setStatus("0");
-        
+
         try {
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IQueueBusterDAO quebusterDAO = dao.getQueBusterDAO();
@@ -453,14 +470,14 @@ public class QueueBusterResource {
                     @QueryParam("terminalid") final String terminalid,
                     @QueryParam("txid") final String txid,
                     @QueryParam("txdate") final String txdate) {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("method", method)
 				.println("storeid", storeid).println("terminalid", terminalid)
 				.println("txid", txid).println("txdate", txdate);
-		
+
         SuspendData suspendData = new SuspendData();
-        
+
         try {
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IQueueBusterDAO quebusterDAO = dao.getQueBusterDAO();
@@ -520,14 +537,15 @@ public class QueueBusterResource {
         }
         return suspendData;
     }
-    
+
     /**
      *  Web Method call for getting Forward Item Count.
      * @param storeId
      * @param businessDayDate
      * @param workstationId
+     * @param queue
      * @return The JSON object that holds the result
-     *          code for the Web Method 
+     *          code for the Web Method
      */
     @GET
     @Path("/getforwarditemcount")
@@ -536,21 +554,23 @@ public class QueueBusterResource {
     	@QueryParam("companyId") final String companyId,
         @QueryParam("storeId") final String storeId,
         @QueryParam("businessDayDate") final String businessDayDate,
-        @QueryParam("workstationId") final String workstationId) {
+        @QueryParam("workstationId") final String workstationId,
+        @QueryParam("queue") final String queue) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId)
 			.println("storeId", storeId)
 			.println("businessDayDate", businessDayDate)
-			.println("workstationId", workstationId);
+			.println("workstationId", workstationId)
+			.println("queue", queue);
 
 		String count = null;
 		BusteredCount result = new BusteredCount();
 		try {
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IQueueBusterDAO quebusterDao = dao.getQueBusterDAO();
-            count = quebusterDao.selectForwardItemCount(companyId, storeId, 
-            		businessDayDate, workstationId);
+            count = quebusterDao.selectForwardItemCount(companyId, storeId,
+            		businessDayDate, workstationId, queue);
             result.setCount(count);
             result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
@@ -558,14 +578,20 @@ public class QueueBusterResource {
 		} catch (DaoException daoEx) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
 					+ ": Failed to Select Forward Item Count of StoreId="
-					+ storeId + ";Businessdaydate=" + businessDayDate, daoEx);
+					+ storeId + ";Businessdaydate=" + businessDayDate
+					 + ";WorkstationId=" + workstationId
+					 + ";Queue=" + queue
+					, daoEx);
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
 			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
             result.setMessage(daoEx.getMessage());
 		} catch(Exception ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,functionName
 					+ ": Failed to Select Forward Item Count of StoreId="
-					+ storeId + ";Businessdaydate=" + businessDayDate, ex);
+					+ storeId + ";Businessdaydate=" + businessDayDate
+					 + ";WorkstationId=" + workstationId
+					 + ";Queue=" + queue
+					, ex);
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
 			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             result.setMessage(ex.getMessage());
@@ -574,12 +600,12 @@ public class QueueBusterResource {
 		}
 		return result;
     }
-    
+
     /**
      * Web Method call for Deleting ForWard Item.
      * @param storeId
      * @param businessDayDate
-     * @return The JSON object that holds the 
+     * @return The JSON object that holds the
      *         ForWard Item Count for the Web Method.
      */
     @GET
@@ -601,7 +627,7 @@ public class QueueBusterResource {
             IQueueBusterDAO quebusterDao = dao.getQueBusterDAO();
             result = quebusterDao.deleteForwardItem(companyId, storeId, businessDayDate);
 		} catch(DaoException daoEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName 
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
 					+ ": Failed to Select Forward Item Count of StoreId="
 					+ storeId + ";Businessdaydate=" + businessDayDate, daoEx);
 		} catch(Exception ex) {
@@ -618,26 +644,26 @@ public class QueueBusterResource {
      *
      * @param tillId			drawer id
      * @param storeId			store id
-     * 
+     *
      * @return GetCashBalance   Cash Balance response
      */
     @Path("/getpreviousamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public final CashDrawer getPreviousAmount(
-    		@QueryParam("companyId") final String companyId, 
+    		@QueryParam("companyId") final String companyId,
     		@QueryParam("storeid") final String storeId) {
-    	
+
     	tp.methodEnter("getPreviousAmount");
     	tp.println("Company Id", companyId)
     		.println("Store Id", storeId);
-    		
+
     	CashDrawer response = new CashDrawer();
-    	
+
     	try {
     		DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
     		IQueueBusterDAO queueBusterDao = sqlServer.getQueBusterDAO();
-    		
+
     		response = queueBusterDao.getPreviousAmount(companyId, storeId);
     	} catch (DaoException e) {
 			LOGGER.logAlert(PROG_NAME, "getPreviousAmount", Logger.RES_EXCEP_DAO,
@@ -651,7 +677,7 @@ public class QueueBusterResource {
     	} finally {
     		tp.methodExit(response.toString());
     	}
-    	
+
     	return response;
     }
 

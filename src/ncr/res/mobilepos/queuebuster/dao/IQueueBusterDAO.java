@@ -12,8 +12,8 @@ package ncr.res.mobilepos.queuebuster.dao;
 import java.sql.Connection;
 import java.util.List;
 
-import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.queuebuster.model.BusteredTransaction;
 import ncr.res.mobilepos.queuebuster.model.CashDrawer;
@@ -35,7 +35,7 @@ public interface IQueueBusterDAO {
      * @throws Exception        The Exception thrown when saving
      *                              of the poslog xml transaction fail
      */
-    int saveTransactionToQueue(PosLog posLog, String posLogXml, String queue) 
+    int saveTransactionToQueue(PosLog posLog, String posLogXml, String queue)
             throws DaoException;
 
     /**
@@ -47,7 +47,7 @@ public interface IQueueBusterDAO {
      * @param workStationId     The Terminal ID
      * @param sequenceNumber    The Sequence Number
      * @param businessDayDate	The BusinessDayDate
-     * @param trainingFlag 
+     * @param trainingFlag
      * @return                  The response object containing the resumed transaction
      * @throws Exception        The Exception when
      *                              the Selecting a transaction failed
@@ -69,14 +69,14 @@ public interface IQueueBusterDAO {
 
 	/**
 	 * List suspended transactions of the specified queue and store.
-	 * 
+	 *
 	 * @param retailStoreID
 	 *            The StoreId of the transactions was made.
 	 * @param queue
 	 *            The QueueId of the transactions to be resumed.
-	 * @param workstationId 
+	 * @param workstationId
 	 *             The StationId of the transactions was made.
-	 * @param trainingFlag 
+	 * @param trainingFlag
 	 *             The trainingFlag of the transactions was made.
 	 * @return The List of Suspended Transaction
 	 * @throws Exception
@@ -151,28 +151,29 @@ public interface IQueueBusterDAO {
     int validateRequestToQueuedTransaction(String retailStoreId,
             String txdate, String workstationid,
             String txid, int statusToSet) throws DaoException;
-    
+
     /**
      *  Web Method call for getting Forward Item Count.
      * @param storeId
      * @param businessDayDate
-     * @param workstationId 
+     * @param workstationId
+     * @param queue
      * @return The JSON object that holds the result
-     *          code for the Web Method 
+     *          code for the Web Method
      */
-	String selectForwardItemCount(String companyId, String storeId, 
-			String businessDayDate, String workstationId) throws DaoException;
-	
+	String selectForwardItemCount(String companyId, String storeId,
+			String businessDayDate, String workstationId, String queue) throws DaoException;
+
 	/**
      * Web Method call for Deleting ForWard Item.
      * @param storeId
      * @param businessDayDate
-     * @return The JSON object that holds the 
+     * @return The JSON object that holds the
      *         ForWard Item Count for the Web Method.
      */
-	ResultBase deleteForwardItem(String companyId, String storeId, 
+	ResultBase deleteForwardItem(String companyId, String storeId,
 			String businessDayDate) throws DaoException;
-	
+
 	/**
 	 * get the previous amount of SOD
 	 * @param companyId
@@ -182,7 +183,7 @@ public interface IQueueBusterDAO {
 	 * @throws DaoException
 	 */
 	CashDrawer getPreviousAmount(String companyId, String storeId) throws DaoException;
-	
+
 	/**
 	 * update the SOD during journalization/ saving of poslog.
 	 * update the sod amount

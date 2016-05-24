@@ -2088,7 +2088,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
             throw e;
         } finally {
-            closeConnectionObjects(null, statement, resultSet);
+            closeConnectionObjects(connection, statement, resultSet);
         }
 
         return result;

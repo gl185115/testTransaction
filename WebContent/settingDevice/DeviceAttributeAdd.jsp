@@ -9,6 +9,7 @@
 final String ERR_01_TERMINALID = "属性番号が既に存在します。";
 final String ERR_02_INTERNAL = "内部エラーが発生しました。";
 final String INFO_01_INSERT = "属性の新規登録に成功しました。";
+final String INFO_02_CHECK = "属性の整合性がとれていません。";
 final String CONFIRM_01_INSERT = "属性を登録してよろしいですか。";
 
 ArrayList<String> PRINTER_VAL = new ArrayList<String>() {{add("0"); add("1");}};
@@ -114,6 +115,8 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
     <script type="text/javascript" src="../sharedlib/jquery-ui.min.js"></script>
     <!-- ダイアログ共通 -->
     <script type="text/javascript" src="./js/DialogMessage.js"></script>
+    <!-- 属性チェック -->
+    <script type="text/javascript" src="./js/DeviceAttributeChk.js"></script>
 </head>
 <body class="res-maincontent">
 属性登録<br><br>
@@ -319,6 +322,33 @@ jQuery(function ($) {
         	fakeButton.click();
             return;
         }
+        
+        var valueList=[];
+        valueList.push(document.getElementById('Printer').value);
+        valueList.push(document.getElementById('Till').value);
+        valueList.push(document.getElementById('CreditTerminal').value);
+        valueList.push(document.getElementById('MSR').value);
+        valueList.push(document.getElementById('CashChanger').value);
+        valueList.push(document.getElementById('Attribute1').value);
+        valueList.push(document.getElementById('Attribute2').value);
+        valueList.push(document.getElementById('Attribute3').value);
+        valueList.push(document.getElementById('Attribute4').value);
+        valueList.push(document.getElementById('Attribute5').value);
+        valueList.push(document.getElementById('Attribute6').value);
+        valueList.push(document.getElementById('Attribute7').value);
+        var checkResult = checkAttributeRelation(valueList);
+        if(checkResult != '') {
+            showDialog(
+                    "タイトル：未使用",
+                    checkResult,
+                    ButtonOK,
+                    function() {
+                        //「はい」を押したときの処理
+                    }
+                );
+        	return;
+        }
+
         showDialog(
             "タイトル：未使用",
             <%='\'' + CONFIRM_01_INSERT + '\''%>,

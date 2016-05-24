@@ -9,6 +9,8 @@ final String ERR_01_TERMINALID = "端末が既に存在します。";
 final String ERR_02_INTERNAL = "内部エラーが発生しました。";
 final String INFO_01_INSERT = "端末の新規登録に成功しました。";
 final String CONFIRM_01_INSERT = "端末を登録してよろしいですか。";
+
+ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンター"); add("ネットワークプリンター");}};
 %>
 <%
     String sqlStr = "";
@@ -90,13 +92,13 @@ final String CONFIRM_01_INSERT = "端末を登録してよろしいですか。"
                         + "  END"
                         /* MST_PRINTERINFO */
                         + " UPDATE RESMaster.dbo.MST_PRINTERINFO"
-                        + "  SET PrinterName=?, IpAddress=?, PortNumTcp='8080', PortNumUdp='0', UpdCount=UpdCount+1, UpdDate=CURRENT_TIMESTAMP, UpdAppId='system', UpdOpeCode='system'"
+                        + "  SET PrinterName=?, Description=?, IpAddress=?, PortNumTcp='8080', PortNumUdp='0', UpdCount=UpdCount+1, UpdDate=CURRENT_TIMESTAMP, UpdAppId='system', UpdOpeCode='system'"
                         + "  WHERE CompanyId=? AND StoreId=? AND PrinterId=?"
                         + "  IF @@ROWCOUNT = 0"
                         + "  BEGIN"
                         + "  INSERT INTO RESMaster.dbo.MST_PRINTERINFO"
-                        + "  (CompanyId, StoreId, PrinterId, PrinterName, IpAddress, PortNumTcp, PortNumUdp, Status, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + "  VALUES (?, ?, ?, ?, ?, 8080, 0, 'Active', 0, CURRENT_TIMESTAMP, 'system', 'system', 0, CURRENT_TIMESTAMP, 'system', 'system')"
+                        + "  (CompanyId, StoreId, PrinterId, PrinterName, Description, IpAddress, PortNumTcp, PortNumUdp, Status, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
+                        + "  VALUES (?, ?, ?, ?, ?, ?, 8080, 0, 'Active', 0, CURRENT_TIMESTAMP, 'system', 'system', 0, CURRENT_TIMESTAMP, 'system', 'system')"
                         + "  END"
                         /* MST_TILLIDINFO */
                         + " UPDATE RESMaster.dbo.MST_TILLIDINFO"
@@ -158,28 +160,38 @@ final String CONFIRM_01_INSERT = "端末を登録してよろしいですか。"
                 psIns.setString(40, request.getParameter("inshiPath"));
                 // MST_PRINTERINFO(update)
                 psIns.setString(41, request.getParameter("printerName"));
-                psIns.setString(42, request.getParameter("ipAddressPrint"));
-                psIns.setString(43, request.getParameter("addCompanyID"));
-                psIns.setString(44, request.getParameter("addStoreID"));
-                psIns.setString(45, request.getParameter("terminalID")); // printerid
+                psIns.setString(42, request.getParameter("printerDescription"));
+                if (request.getParameter("ipAddressPrint") == null) {
+                    psIns.setString(43, "");
+                } else {
+                    psIns.setString(43, request.getParameter("ipAddressPrint"));
+                }
+                psIns.setString(44, request.getParameter("addCompanyID"));
+                psIns.setString(45, request.getParameter("addStoreID"));
+                psIns.setString(46, request.getParameter("terminalID")); // printerid
                 // MST_PRINTERINFO(insert)
-                psIns.setString(46, request.getParameter("addCompanyID"));
-                psIns.setString(47, request.getParameter("addStoreID"));
-                psIns.setString(48, request.getParameter("terminalID")); // printerid
-                psIns.setString(49, request.getParameter("printerName"));
-                psIns.setString(50, request.getParameter("ipAddressPrint"));
+                psIns.setString(47, request.getParameter("addCompanyID"));
+                psIns.setString(48, request.getParameter("addStoreID"));
+                psIns.setString(49, request.getParameter("terminalID")); // printerid
+                psIns.setString(50, request.getParameter("printerName"));
+                psIns.setString(51, request.getParameter("printerDescription"));
+                if (request.getParameter("ipAddressPrint") == null) {
+                    psIns.setString(52, "");
+                } else {
+                    psIns.setString(52, request.getParameter("ipAddressPrint"));
+                }
                 // MST_TILLIDINFO(update)
-                psIns.setString(51, request.getParameter("terminalID"));
-                psIns.setString(52, today);
-                psIns.setString(53, request.getParameter("addCompanyID"));
-                psIns.setString(54, request.getParameter("addStoreID"));
-                psIns.setString(55, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(53, request.getParameter("terminalID"));
+                psIns.setString(54, today);
+                psIns.setString(55, request.getParameter("addCompanyID"));
+                psIns.setString(56, request.getParameter("addStoreID"));
+                psIns.setString(57, request.getParameter("addStoreID") + request.getParameter("terminalID"));
                 // MST_TILLIDINFO(insert)
-                psIns.setString(56, request.getParameter("addCompanyID"));
-                psIns.setString(57, request.getParameter("addStoreID"));
-                psIns.setString(58, request.getParameter("addStoreID") + request.getParameter("terminalID"));
-                psIns.setString(59, request.getParameter("terminalID"));
-                psIns.setString(60, today);
+                psIns.setString(58, request.getParameter("addCompanyID"));
+                psIns.setString(59, request.getParameter("addStoreID"));
+                psIns.setString(60, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(61, request.getParameter("terminalID"));
+                psIns.setString(62, today);
 
                 try {
                     int rsIns = psIns.executeUpdate();
@@ -338,10 +350,30 @@ out.println("</br>:"+sqlStr);
             </td>
           </tr>
           <tr>
+            <td align="right">プリンター説明 ： </td>
+            <td align="left">
+              <input maxlength="40" type="text" name="printerDescription" id="printerDescription" size=40 required pattern=".{0,20}">(全角20文字以内で入力してください。)
+            </td>
+          </tr>
+          <tr>
+            <td align="right">プリンター種別 ： </td>
+            <td>
+              <select name="printerType" id="printerType" onChange="changePrinterType(this)" required style="width:50%">
+              <%
+                for (int i=0;i<PRINTER_TYPE.size();i++) {
+                  out.print("<option value=\"" + PRINTER_TYPE.get(i) + "\"");
+                  out.println(">" + PRINTER_TYPE.get(i) + "</option>");
+                }
+              %>
+              </select>
+            </td>
+          </tr>
+          <tr id="printerIpRow" style="display:none">
               <td align="right">プリンターIPアドレス ： </td>
               <td align="left">
-                  <input maxlength="15" type="text" name="ipAddressPrint" id="ipAddressPrint" size=15 required pattern="^\d{1,3}(\.\d{1,3}){3}$"></td>
-              </tr>
+                  <input maxlength="15" type="text" name="ipAddressPrint" id="ipAddressPrint" size=15 disabled required pattern="^\d{1,3}(\.\d{1,3}){3}$">
+              </td>
+          </tr>
           <tr>
             <td align="right">属性番号 ： </td>
             <td>
@@ -378,6 +410,16 @@ out.println("</br>:"+sqlStr);
   </form>
 </body>
 <script type="text/javascript">
+function changePrinterType(obj) {
+    if (obj.value == 'USBプリンター') {
+        document.getElementById('ipAddressPrint').disabled = true;
+        document.getElementById('printerIpRow').style.display = 'none';
+    } else {
+        document.getElementById('ipAddressPrint').disabled = false;
+        document.getElementById('printerIpRow').style.display = '';
+	}
+}
+
 jQuery(function ($) {
     // ボタン・クリック時にダイアログを開く
     $('#insertDev').click(function(e){

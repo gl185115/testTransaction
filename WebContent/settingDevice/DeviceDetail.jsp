@@ -81,9 +81,32 @@
             }
 
         } else if ( "delete".equals(g_UpFlg) ) {
+            // Delete(AUT_DEVICES)
+            int rsDel = 0;
+            String sqlStr = 
+                   "DELETE FROM RESMaster.dbo.AUT_DEVICES "
+                   + "WHERE "
+                   + "     CompanyId= " + "'" + g_companyID  + "'"
+                   + " AND StoreId=   " + "'" + g_storeID    + "'"
+                   + " AND TerminalId=" + "'" + g_terminalID + "'"
+                   + ";"
+                   ;
+
+            PreparedStatement psDel = connection.prepareStatement(sqlStr);
+            try {
+                rsDel = psDel.executeUpdate();
+                connection.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                connection.close();
+                errStr = "1";
+            } finally {
+                psDel.close();
+            }
+           
            // Delete(Update)
-           int rsDel = 0;
-           String sqlStr = 
+           rsDel = 0;
+           sqlStr = 
                    "UPDATE RESMaster.dbo.MST_DEVICEINFO SET "
                    + "  Status=?                  "
                    + " ,DeleteFlag=?              "
@@ -416,8 +439,8 @@
                 MstPrinterinfoList.add(rs.getString("mpi_StoreId"));
                 MstPrinterinfoList.add(rs.getString("mpi_PrinterId"));
                 MstPrinterinfoList.add(rs.getString("mpi_PrinterName"));
-                MstPrinterinfoList.add(rs.getString("mpi_IpAddress"));
                 MstPrinterinfoList.add(rs.getString("mpi_Description"));
+                MstPrinterinfoList.add(rs.getString("mpi_IpAddress"));
                 // ～List:6
                 MstPrinterinfoList.add(rs.getString("mpi_DeleteFlag"));
                 MstPrinterinfoList.add(rs.getString("mpi_Status"));
@@ -584,7 +607,7 @@
                     <input type="text" id="ter_TerminalType" name="ter_TerminalType" value="<%=MstTerminalinfoLists.get(0).get(7)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="orangetd">ドロアータイプ(TillType)</td>
+                    <td colspan="2" class="orangetd">ドロワータイプ(TillType)</td>
                     <td colspan="2">
                     <input type="text" id="ter_TillType" name="ter_TillType" value="<%=MstTerminalinfoLists.get(0).get(8)%>"  disabled style="width: 100%" ></td>
                 </tr>
@@ -725,14 +748,14 @@
                     <td><input type="text" id="tra_mpi_PrinterName" name="tra_mpi_PrinterName" value="<%= MstPrinterinfoLists.get(1).get(3)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="orangetd">プリンターIPアドレス(PrinterIPAddress)</td>
-                    <td><input type="text" id="mpi_IpAddress" name="mpi_IpAddress" value="<%= MstPrinterinfoLists.get(0).get(4)%>"  disabled style="width: 100%" ></td>
-                    <td><input type="text" id="tra_mpi_IpAddress" name="tra_mpi_IpAddress" value="<%= MstPrinterinfoLists.get(1).get(4)%>"  disabled style="width: 100%" ></td>
+                    <td colspan="2" class="orangetd">プリンター説明(Description)</td>
+                    <td><input type="text" id="mpi_Description" name="mpi_Description" value="<%= MstPrinterinfoLists.get(0).get(4)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_mpi_Description" name="tra_mpi_Description" value="<%= MstPrinterinfoLists.get(1).get(4)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="orangetd">キュー名称(Description)</td>
-                    <td><input type="text" id="mpi_Description" name="mpi_Description" value="<%= MstPrinterinfoLists.get(0).get(5)%>"  disabled style="width: 100%" ></td>
-                    <td><input type="text" id="tra_mpi_Description" name="tra_mpi_Description" value="<%= MstPrinterinfoLists.get(1).get(5)%>"  disabled style="width: 100%" ></td>
+                    <td colspan="2" class="orangetd">プリンターIPアドレス(PrinterIPAddress)</td>
+                    <td><input type="text" id="mpi_IpAddress" name="mpi_IpAddress" value="<%= MstPrinterinfoLists.get(0).get(5)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_mpi_IpAddress" name="tra_mpi_IpAddress" value="<%= MstPrinterinfoLists.get(1).get(5)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
                     <td colspan="2" class="orangetd">ステータス(Status)</td>
@@ -874,7 +897,7 @@
                 </tr>
 -->
                 <tr>
-                    <td colspan="2" class="orangetd">説明(DisplayName)</td>
+                    <td colspan="2" class="orangetd">キュー名称(DisplayName)</td>
                     <td><input type="text" id="pql_DisplayName" name="pql_DisplayName" value="<%=PRMQueuebusterLinkLists.get(0).get(2)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_pql_DisplayName" name="tra_pql_DisplayName" value="<%=PRMQueuebusterLinkLists.get(1).get(2)%>"  disabled style="width: 100%" ></td>
                 </tr>

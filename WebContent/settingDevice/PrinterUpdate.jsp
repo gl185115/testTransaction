@@ -2,6 +2,7 @@
 <%@page
     import="ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer"
     import="java.util.Date"
+    import="java.util.ArrayList"
     import="java.text.SimpleDateFormat"
     import="java.sql.*"%>
 <%!
@@ -18,6 +19,8 @@
     final String CONFIRM_01_UPDATE = "プリンター情報を更新してよろしいですか。";
     final String CONFIRM_02_DELETE = "プリンター情報を削除してよろしいですか。";
     final String CONFIRM_03_REUSE = "プリンター情報を再利用してよろしいですか。";
+
+    ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンター"); add("ネットワークプリンター");}};
 %>
 <%
     request.setCharacterEncoding("UTF-8");
@@ -36,6 +39,7 @@
           + " ,printerinfo.StoreId AS StoreId"
           + " ,printerinfo.PrinterId AS PrinterId"
           + " ,printerinfo.PrinterName AS PrinterName"
+          + " ,printerinfo.Description AS PrinterDescription"
           + " ,printerinfo.IpAddress AS IpAddress"
           + " ,printerinfo.Status AS PrinterStatus"
           + " ,printerinfo.DeleteFlag AS PrinterDeleteFlag"
@@ -53,14 +57,20 @@
             String CompanyId = rs.getString("CompanyId");
             String PrinterId = rs.getString("PrinterId");
             String PrinterName = rs.getString("PrinterName");
+            String PrinterDescription = rs.getString("PrinterDescription");
             String IpAddress = rs.getString("IpAddress");
             String PrinterStatus = rs.getString("PrinterStatus");
             String DeleteFlag = rs.getString("PrinterDeleteFlag");
+            
+            if (PrinterName == null) PrinterName = "";
+            if (PrinterDescription == null) PrinterDescription = "";
+            if (IpAddress == null) IpAddress = "";
 
             java.lang.StringBuilder sb = new java.lang.StringBuilder();
             sb.append("{\"CompanyId\": \"").append(CompanyId).append("\", ")
               .append("\"PrinterId\": \"").append(PrinterId).append("\", ")
               .append("\"PrinterName\": \"").append(PrinterName).append("\", ")
+              .append("\"PrinterDescription\": \"").append(PrinterDescription).append("\", ")
               .append("\"IpAddress\": \"").append(IpAddress).append("\", ")
               .append("\"PrinterStatus\": \"").append(PrinterStatus).append("\", ")
               .append("\"PrinterDeleteFlag\": \"").append(DeleteFlag).append("\"}");
@@ -87,15 +97,20 @@
                     Connection connection = dbManager.getConnection();
 
                     String sqlStr = "UPDATE RESMaster.dbo.MST_PRINTERINFO"
-                                   + " SET PrinterName=?,IpAddress=?,"
+                                   + " SET PrinterName=?,Description=?,IpAddress=?,"
                                    + " UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='system',UpdOpeCode='system'"
                                    + " WHERE CompanyId=? and StoreId=? and PrinterId=?";
                     PreparedStatement psUpd = connection.prepareStatement(sqlStr);
                     psUpd.setString(1, request.getParameter("CheckedPrinterName"));
-                    psUpd.setString(2, request.getParameter("CheckedIpAddress"));
-                    psUpd.setString(3, request.getParameter("companyID"));
-                    psUpd.setString(4, request.getParameter("storeID"));
-                    psUpd.setString(5, request.getParameter("printerID"));
+                    psUpd.setString(2, request.getParameter("CheckedPrinterDescription"));
+                    if (request.getParameter("CheckedIpAddress") == null) {
+                        psUpd.setString(3, "");
+                    } else {
+                        psUpd.setString(3, request.getParameter("CheckedIpAddress"));
+                    }
+                    psUpd.setString(4, request.getParameter("companyID"));
+                    psUpd.setString(5, request.getParameter("storeID"));
+                    psUpd.setString(6, request.getParameter("printerID"));
 
                     try {
                         int rsUpd = psUpd.executeUpdate();
@@ -215,13 +230,14 @@
   
   <div style="padding:10px 10px;"></div>
   
-  <div class="table-scroll-area-v table-scroll-area-h" id="tablearea" style="display:none; height:338px">
+  <div class="table-scroll-area-v table-scroll-area-h" id="tablearea" style="display:none; height:315px">
     <table class="res-tbl">
       <thead>
         <tr>
           <th></th>
           <th>プリンターID(PrinterId)</th>
           <th>プリンター名(PrinterName)</th>
+          <th>プリンター説明(Description)</th>
           <th>プリンターIPアドレス(IpAddress)</th>
           <th>ステータス(PrinterStatus)</th>
         </tr>
@@ -263,6 +279,25 @@
             </td>
           </tr>
           <tr>
+            <td align="right">プリンター説明 ： </td>
+            <td align="left">
+              <input maxlength="40" type="text" name="CheckedPrinterDescription" id="CheckedPrinterDescription" size=40 required pattern=".{0,20}">(全角20文字以内で入力してください。)
+            </td>
+          </tr>
+          <tr>
+            <td align="right">プリンター種別 ： </td>
+            <td>
+              <select name="CheckedPrinterType" id="CheckedPrinterType" onChange="changePrinterType(this)" required style="width:50%">
+              <%
+                for (int i=0;i<PRINTER_TYPE.size();i++) {
+                  out.print("<option value=\"" + PRINTER_TYPE.get(i) + "\"");
+                  out.println(">" + PRINTER_TYPE.get(i) + "</option>");
+                }
+              %>
+              </select>
+            </td>
+          </tr>
+          <tr id="printerIpRow">
             <td align="right">プリンターIPアドレス ： </td>
             <td>
               <input maxlength="15" type="text" name="CheckedIpAddress" id="CheckedIpAddress" size=15 required pattern="^\d{1,3}(\.\d{1,3}){3}$">
@@ -281,19 +316,38 @@
   </form>
 </body>
 <script type="text/javascript">
+function changePrinterType(obj) {
+    if (obj.value == 'USBプリンター') {
+        document.getElementById('CheckedIpAddress').disabled = true;
+        document.getElementById('printerIpRow').style.display = 'none';
+    } else {
+        document.getElementById('CheckedIpAddress').disabled = false;
+        document.getElementById('printerIpRow').style.display = '';
+    }
+}
+
 function check(inValue) {
     // PrinterId
     var strId = 'PrinterId' + inValue;
-    document.getElementById('CheckedPrinterId').value = document.getElementById(strId).value || false;
+    document.getElementById('CheckedPrinterId').value = document.getElementById(strId).value || '';
     document.getElementById('printerID').value = document.getElementById(strId).value || false;
     
     // PrinterName
     strId = 'PrinterName' + inValue;
-    document.getElementById('CheckedPrinterName').value = document.getElementById(strId).value || false;
+    document.getElementById('CheckedPrinterName').value = document.getElementById(strId).value || '';
     
+    // PrinterDescription
+    strId = 'PrinterDescription' + inValue;
+    document.getElementById('CheckedPrinterDescription').value = document.getElementById(strId).value || '';
+
     // IpAddress
     strId = 'IpAddress' + inValue;
-    document.getElementById('CheckedIpAddress').value = document.getElementById(strId).value || false;
+    document.getElementById('CheckedIpAddress').value = document.getElementById(strId).value || '';
+    if (!document.getElementById('CheckedIpAddress').value) {
+        document.getElementById('CheckedPrinterType').value = 'USBプリンター';
+    } else {
+        document.getElementById('CheckedPrinterType').value = 'ネットワークプリンター';
+    }
     
     // PrinterStatus
     //strId = 'PrinterStatus' + inValue;
@@ -309,6 +363,10 @@ function check(inValue) {
         for(var i=0;i<input_tags.length;i++){
             input_tags[i].disabled = true;
         }
+        var select_tags = document.getElementById("panel").getElementsByTagName("select");
+        for(var i=0;i<select_tags.length;i++){
+        	select_tags[i].disabled = true;
+        }
     } else {
         document.getElementById('DeleteButton').innerText =  <%='\''+ BUTTON_01_DELETE + '\''%>;
         document.getElementById('UpdateButton').style.display = "block";
@@ -321,6 +379,12 @@ function check(inValue) {
                 input_tags[i].disabled = false;
             }
         }
+        var select_tags = document.getElementById("panel").getElementsByTagName("select");
+        for(var i=0;i<select_tags.length;i++){
+            select_tags[i].disabled = false;
+        }
+        
+        changePrinterType(document.getElementById('CheckedPrinterType'));
     }
     
     document.getElementById('updateArea').style.display = "block";
@@ -394,13 +458,17 @@ jQuery(function ($) {
                     + i + '" onclick="check(id)">' + '</td>';
             log += '<td><input type="text" id="PrinterId' + i 
                     + '" name="PrinterId' + i + '" disabled value="'
-                    + (currentLog[i].PrinterId || '&nbsp;' ) + '" >' + '</td>';
+                    + (currentLog[i].PrinterId || '' ) + '" >' + '</td>';
             log += '<td><input type="text" id="PrinterName' + i 
                 + '" name="PrinterName' + i + '" disabled value="'
-                + (currentLog[i].PrinterName || '&nbsp;' ) + '">' + '</td>';
+                + (currentLog[i].PrinterName || '' ) + '">' + '</td>';
+            log += '<td><input type="text" id="PrinterDescription' + i 
+                + '" name="PrinterDescription' + i + '" disabled value="'
+                + (currentLog[i].PrinterDescription || '' ) + '">' + '</td>';
             log += '<td><input type="text" id="IpAddress' + i  
                 + '" name="IpAddress' + i + '" disabled value="'
-                + (currentLog[i].IpAddress || '&nbsp;' ) + '">' + '</td>';
+                + (currentLog[i].IpAddress || '' ) + '">' + '</td>';
+                
             if (currentLog[i].PrinterStatus == 'Deleted' || currentLog[i].PrinterDeleteFlag=='1') {
                 log += '<td><input type="text" id="PrinterDeleted' + i  
                 + '" name="PrinterDeleted' + i + '" disabled value="'

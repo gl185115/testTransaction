@@ -210,6 +210,8 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 <script type="text/javascript" src="../sharedlib/jquery-ui.min.js"></script>
 <!-- ダイアログ共通 -->
 <script type="text/javascript" src="./js/DialogMessage.js"></script>
+<!-- 属性チェック -->
+<script type="text/javascript" src="./js/DeviceAttributeChk.js"></script>
 </head>
 <body class="res-maincontent">
 <div class="page-wrapper">
@@ -513,6 +515,33 @@ jQuery(function ($) {
         	fakeButton.click();
             return;
         }
+        
+        var valueList=[];
+        valueList.push(document.getElementById('ATTPrinter').value);
+        valueList.push(document.getElementById('ATTTill').value);
+        valueList.push(document.getElementById('ATTCreditTerminal').value);
+        valueList.push(document.getElementById('ATTMSR').value);
+        valueList.push(document.getElementById('ATTCashChanger').value);
+        valueList.push(document.getElementById('ATTAttribute1').value);
+        valueList.push(document.getElementById('ATTAttribute2').value);
+        valueList.push(document.getElementById('ATTAttribute3').value);
+        valueList.push(document.getElementById('ATTAttribute4').value);
+        valueList.push(document.getElementById('ATTAttribute5').value);
+        valueList.push(document.getElementById('ATTAttribute6').value);
+        valueList.push(document.getElementById('ATTAttribute7').value);
+        var checkResult = checkAttributeRelation(valueList);
+        if(checkResult != '') {
+            showDialog(
+                    "タイトル：未使用",
+                    checkResult,
+                    ButtonOK,
+                    function() {
+                        //「はい」を押したときの処理
+                    }
+                );
+            return;
+        }
+
         showDialog(
             "タイトル：未使用",
             <%='\'' + CONFIRM_01_UPDATE + '\''%>,

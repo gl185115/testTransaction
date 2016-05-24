@@ -660,7 +660,7 @@
       </tr>
  -->
       <tr>
-        <td align="right">会社番号 ： </td>
+        <td align="right">企業番号 ： </td>
         <td align="left">
           <input type="text" id="ter_CompanyId" name="ter_CompanyId" value="<%= ter_CompanyId%>" disabled style="width: 100%" >
         </td>

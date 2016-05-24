@@ -56,6 +56,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.journalization.model.PointPosted;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
@@ -2451,7 +2452,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @return Returns the status of the sale that is point granted
      * @throws DaoException Exception thrown when the method failed.
      */
-	public boolean isPostPointed(String companyid, String storeid, String workstationid, String businessdate,
+	public PointPosted isPointPosted(String companyid, String storeid, String workstationid, String businessdate,
 			String txid, int trainingflag) throws DaoException {
 	  String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyid).println("StoreID", storeid)
@@ -2460,7 +2461,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         Connection connection = null;
         ResultSet resultSet = null;
-        boolean isPostPointed = false;
+        PointPosted pointPosted = new PointPosted();
+        pointPosted.setPostPointed(false);
+        pointPosted.setMemberId(null);
         ResultSet result = null;
         PreparedStatement statement = null;
         try {
@@ -2477,17 +2480,18 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             if (resultSet.next()) {
             	String originalSequence = resultSet.getString("OriginalSequenceNumber");
             	if(!StringUtility.isNullOrEmpty(originalSequence)) {
-            		isPostPointed = true;
+            		pointPosted.setPostPointed(true);
+            		pointPosted.setMemberId(resultSet.getString("MemberId"));
             	}
             }
         } catch (Exception ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "isPostPointed: Error in checking if "
                     + "transaction was already post pointed", ex);
-            isPostPointed = false;
+            pointPosted.setPostPointed(false);
         } finally {
             closeConnectionObjects(connection, null, null);
         }
-		return isPostPointed;
+		return pointPosted;
 	}
 
 }

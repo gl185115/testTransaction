@@ -42,6 +42,9 @@ public class AdditionalInformation {
     @XmlElement(name="PostPointed")
     private boolean isPostPointed;
 
+    @XmlElement(name="MemberId")
+    private String memberId;
+    
 	public final String getVoided() {
 		return voided;
 	}
@@ -132,4 +135,11 @@ public class AdditionalInformation {
 		this.isPostPointed = isPostPointed;
 	}
     
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
 }

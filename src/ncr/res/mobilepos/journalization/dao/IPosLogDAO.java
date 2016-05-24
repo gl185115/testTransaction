@@ -16,6 +16,7 @@ import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.journalization.model.PointPosted;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
@@ -181,7 +182,7 @@ public interface IPosLogDAO {
      * @return
      * @throws DaoException
      */
-    public boolean isPostPointed(String companyid, String storeid, String workstationid,
+    public PointPosted isPointPosted(String companyid, String storeid, String workstationid,
             String businessdate, String txid, int trainingflag) throws DaoException;
     
     public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)

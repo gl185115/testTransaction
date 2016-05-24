@@ -87,6 +87,7 @@ import ncr.res.mobilepos.journalization.model.GoldCertificate;
 import ncr.res.mobilepos.journalization.model.GuestZone;
 import ncr.res.mobilepos.journalization.model.GuestZoneInfo;
 import ncr.res.mobilepos.journalization.model.JSONData;
+import ncr.res.mobilepos.journalization.model.PointPosted;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.Reservation;
 import ncr.res.mobilepos.journalization.model.Salesperson;
@@ -316,6 +317,7 @@ public class JournalizationResource {
         SearchedPosLog poslog = new SearchedPosLog();
         String poslogXML = "";
         AdditionalInformation info = null;
+        PointPosted pointPosted = null;
         int lockStatus = 0;
         int receiptCount = 0;
         try {
@@ -339,7 +341,11 @@ public class JournalizationResource {
                 lockStatus = posLogDAO.getOrUpdLockStatus(companyid, storeid, workstationid, businessdate, Integer.parseInt(txid), trainingflag, "", "", "", "getLockStatus");
                 receiptCount = posLogDAO.getSummaryReceiptCount(companyid,storeid, workstationid, txid, businessdate);
                 info.setSummaryReceipt(String.valueOf(receiptCount));
-                info.setPostPointed(posLogDAO.isPostPointed(companyid, storeid, workstationid, businessdate, txid, trainingflag));
+                pointPosted = posLogDAO.isPointPosted(companyid, storeid, workstationid, businessdate, txid, trainingflag);
+                info.setPostPointed(pointPosted.isPostPointed());
+                if(pointPosted.isPostPointed()){
+                	info.setMemberId(pointPosted.getMemberId().toString());
+                }
                 info.setLocked(String.valueOf(lockStatus));
                 info.setPoslogXML(poslogXML);
             }

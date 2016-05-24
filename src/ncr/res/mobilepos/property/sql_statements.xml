@@ -12611,6 +12611,7 @@ insert into txl_offline_credit
     SELECT
       SalesAmt,
       BusinessDayDate,
+      MemberId,
       SequenceNumber,
       OriginalSequenceNumber
     FROM

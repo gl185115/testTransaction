@@ -10543,7 +10543,7 @@ IF @TargetType &gt; '0'
             CASE
                 WHEN @TargetType = '1'
                 THEN
-                    '00'
+                    '0000'
                 ELSE
                     @BizCatId
             END
@@ -11479,7 +11479,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TrainingFlag = @trainingFlag
   </entry>
   <entry key="get-preset-cm-info">
-         DECLARE
+      DECLARE
       @companyId varchar(12),
       @storeId varchar(10),
       @terminalId varchar(6),
@@ -11491,9 +11491,10 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @terminalId = ?
       SET @businessDayDate = ?
       SET @bizCatId = (
-                                SELECT SubCode1
-                                FROM RESMaster.dbo.MST_STOREINFO
-                                WHERE CompanyId = @companyId AND StoreId = @storeId)
+              SELECT SubCode1
+              FROM RESMaster.dbo.MST_STOREINFO
+              WHERE CompanyId = @companyId AND StoreId = @storeId
+            )
     SELECT
      TOP 1
       *
@@ -11505,13 +11506,13 @@ SET @partialFlag = LTRIM(RTRIM(?))
       (@businessDayDate BETWEEN StartDate AND EndDate)
     AND
       DeleteFlag = 0.0
-    AND
-            ((CMType ='1' AND BizCatId = '00' AND StoreId = '0000' AND TerminalId = '0000')
-              OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0000' AND TerminalId = '0000')
-              OR (CMType ='3' AND StoreId = @storeId AND TerminalId = '0000')
-              OR (CMType ='4' AND TerminalId = @terminalId)
+    AND(
+         (CMType ='1' AND BizCatId = '0000' AND StoreId = '0000' AND TerminalId = '0000') 
+        OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0000' AND TerminalId = '0000')
+        OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0000')
+        OR (CMType ='4' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = @terminalId)
     )
- ORDER BY UpdDate DESC
+ ORDER BY CMType DESC,CUpdDate DESC
 
   </entry>
   <entry key="get-picklist-items">

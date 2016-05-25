@@ -1,25 +1,35 @@
 package ncr.res.mobilepos.tillinfo.resource;
 
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.*;
+import ncr.res.mobilepos.helper.DateFormatUtility;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.JsonMarshaller;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
 import ncr.res.mobilepos.tillinfo.model.Till;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
-import java.sql.SQLException;
-import java.util.List;
 /**
- * 
+ *
  * @author ES185134
  */
 @Path("/till")
@@ -568,8 +578,7 @@ public class TillInfoResource {
 				break;
 			case EOD_FLAG_UNFINISHED: // eodFlag = 0
 				// To perform EOD, SOD has to be finished prior on the day.
-				if(currentTill.getSodFlag().equals(SOD_FLAG_FINISHED) &&
-						updatingTill.getBusinessDayDate().equals(currentTill.getBusinessDayDate())) {
+				if(currentTill.getSodFlag().equals(SOD_FLAG_FINISHED)) {
 					resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
 					break;
 				}
@@ -637,7 +646,7 @@ public class TillInfoResource {
     		tp.methodExit(resultBase);
     		return resultBase;
     	}
-    	
+
     	// check if valid value for processingType
     	if (!"SOD".equalsIgnoreCase(processingType) && !"EOD".equalsIgnoreCase(processingType)) {
 			resultBase.setMessage("Invalid processing parameter");
@@ -796,8 +805,8 @@ public class TillInfoResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     public final ResultBase search(
             @FormParam("companyid") final String companyid,
-    		@FormParam("retailstoreid") final String storeId, 
-    		@FormParam("tillid") final String tillId, 
+    		@FormParam("retailstoreid") final String storeId,
+    		@FormParam("tillid") final String tillId,
     		@FormParam("terminalid") final String terminalId) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
@@ -805,9 +814,9 @@ public class TillInfoResource {
 				.println("storeId", storeId)
 				.println("tillId", tillId)
 				.println("terminalId", terminalId);
-		
+
 		ResultBase resultBase = new ResultBase();
-        
+
         // check for required parameters
         if (StringUtility.isNullOrEmpty(storeId, tillId, terminalId)) {
             tp.println("A required parameter is null or empty.");
@@ -816,39 +825,39 @@ public class TillInfoResource {
             tp.methodExit(resultBase);
             return resultBase;
         }
-		
+
     	// check if till is existing
-        ViewTill viewTill = this.viewTill(storeId, tillId);		
+        ViewTill viewTill = this.viewTill(storeId, tillId);
 		if (viewTill.getNCRWSSResultCode() != ResultBase.RES_OK) {
 			resultBase.setNCRWSSResultCode(viewTill
 					.getNCRWSSResultCode());
 			tp.methodExit(resultBase);
 			return resultBase;
 		}
-		
+
 		try {
 			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-			resultBase = tillInfoDAO.searchLogonUsers(companyid, storeId, tillId, 
+			resultBase = tillInfoDAO.searchLogonUsers(companyid, storeId, tillId,
 					terminalId);
 		} catch (DaoException e) {
-            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO, 
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
             		"Failed to search for logon users for storeid "
-            		+ storeId + " and tillid " + tillId + ": " + 
+            		+ storeId + " and tillid " + tillId + ": " +
             				e.getMessage());
             resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
 		} catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, 
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
             		"Failed to search for logon users for storeid "
-            		+ storeId + " and tillid " + tillId + ": " + 
+            		+ storeId + " and tillid " + tillId + ": " +
             				e.getMessage());
             resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
 		} finally {
             tp.methodExit(resultBase);
         }
-		
+
     	return resultBase;
     }
-   
+
     /**
      * Service to get till information list.
      *
@@ -865,7 +874,7 @@ public class TillInfoResource {
         tp.methodEnter(functionName);
         tp.println("storeId", storeId);
         ViewTill result = new ViewTill();
-       
+
         try {
 			if (StringUtility.isNullOrEmpty(storeId)) {
 				tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -906,6 +915,6 @@ public class TillInfoResource {
         }
         return result;
     }
-    
-    
+
+
 }

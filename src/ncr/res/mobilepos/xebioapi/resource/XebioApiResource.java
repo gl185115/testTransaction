@@ -693,7 +693,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                             }else{
                                 newJsonArray.add(json);
                             }
-                            Double priceDiscountAmt = json.get("PriceDiscountAmt") != null ? json.getDouble("PriceDiscountAmt") : 0;
+                            Double priceDiscountAmt = !"null".equals(json.getString("PriceDiscountAmt")) ? json.getDouble("PriceDiscountAmt") : 0;
                             // get the same setCode make a setBind
                             if(!"null".equals(json.getString("SetNo"))){
                                 if(!set.contains(json.getString("SetNo"))){

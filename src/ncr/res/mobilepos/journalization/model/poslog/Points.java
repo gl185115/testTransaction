@@ -51,6 +51,12 @@ public class Points {
      */
     @XmlElement(name = "Detail")
     private Detail detail;
+    /**
+     * Points.XebMemeberInfo.CardCompany
+     */
+    @XmlElement(name = "XebMemeberInfo")
+    private XebMemberInfo xebMemeberInfo;
+
 	/**
      * @return the pointRate
      */
@@ -134,5 +140,17 @@ public class Points {
      */
     public final void setDetail(final Detail detail) {
         this.detail = detail;
+    }
+    /**
+     * @return the XebMemberInfo
+     */
+    public final XebMemberInfo getXebMemeberInfo() {
+        return xebMemeberInfo;
+    }
+    /**
+     * @param xebMemeberInfo XebMemberInfo to set
+     */
+    public final void setXebMemeberInfo(XebMemberInfo xebMemeberInfo) {
+        this.xebMemeberInfo = xebMemeberInfo;
     }
 }

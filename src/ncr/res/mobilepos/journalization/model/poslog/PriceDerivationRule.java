@@ -26,6 +26,14 @@ public class PriceDerivationRule {
     @XmlElement(name = "PriceDerivationRuleID")
     private String priceDerivationRuleID;
 
+    /** The Price ReplaceSupportCode. */
+    @XmlElement(name = "ReplaceSupportCode")
+    private String replaceSupportCode;
+    
+    /** The Price PricePromCode. */
+    @XmlElement(name = "PricePromCode")
+    private String pricePromCode;
+    
     /** The PromotionCode. */
     @XmlElement(name = "PromotionCode")
     private String PromotionCode;
@@ -129,7 +137,23 @@ public class PriceDerivationRule {
         this.priceDerivationRuleID = priceDerivationRuleIDToSet;
     }
 
-    /**
+    public final String getReplaceSupportCode() {
+		return replaceSupportCode;
+	}
+
+	public final void setReplaceSupportCode(String replaceSupportCode) {
+		this.replaceSupportCode = replaceSupportCode;
+	}
+
+	public final String getPricePromCode() {
+		return pricePromCode;
+	}
+
+	public final void setPricePromCode(String pricePromCode) {
+		this.pricePromCode = pricePromCode;
+	}
+
+	/**
      * @return the description
      */
     public final String getDescription() {

@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ncr.res.mobilepos.journalization.model.PointPosted;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "AdditionalInformation")
 public class AdditionalInformation {
@@ -40,8 +42,8 @@ public class AdditionalInformation {
     private String poslogXML;
     
     @XmlElement(name="PostPointed")
-    private boolean isPostPointed;
-
+    private PointPosted postPointed;
+    
     @XmlElement(name="MemberId")
     private String memberId;
     
@@ -127,12 +129,12 @@ public class AdditionalInformation {
         this.poslogXML = poslogXML;
     }
 
-	public boolean isPostPointed() {
-		return isPostPointed;
+	public final PointPosted getPostPointed() {
+		return postPointed;
 	}
 
-	public void setPostPointed(boolean isPostPointed) {
-		this.isPostPointed = isPostPointed;
+	public final void setPostPointed(PointPosted postPointed) {
+		this.postPointed = postPointed;
 	}
     
 	public String getMemberId() {

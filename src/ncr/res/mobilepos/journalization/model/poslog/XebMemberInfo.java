@@ -97,6 +97,11 @@ public class XebMemberInfo {
     @XmlElement(name = "CardCompany")
     private String cardCompany;
     /**
+     * The CardCategory.
+     */
+    @XmlElement(name = "CardCategory")
+    private String cardCategory;
+    /**
      * The QuantityPerYear.
      */
     @XmlElement(name = "QuantityPerYear")
@@ -493,7 +498,23 @@ public class XebMemberInfo {
         this.cardClass = cardClass;
     }
 
-    @Override
+    public String getCardCompany() {
+		return cardCompany;
+	}
+
+	public void setCardCompany(String cardCompany) {
+		this.cardCompany = cardCompany;
+	}
+
+	public String getCardCategory() {
+		return cardCategory;
+	}
+
+	public void setCardCategory(String cardCategory) {
+		this.cardCategory = cardCategory;
+	}
+
+	@Override
     public String toString() {
         return "XebMemberInfo [unifiedMembershipId=" + unifiedMembershipId + ", quantityForPoints=" + quantityForPoints
                 + ", pointsRedeemed=" + pointsRedeemed + ", rank=" + rank + ", quantityForRank=" + quantityForRank

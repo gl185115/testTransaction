@@ -33,6 +33,8 @@ public class ChargeSales {
     private String previousBalance;
     @XmlElement(name = "CurPaymentAmt")
     private String curPaymentAmt;
+    @XmlElement(name = "CurReturnAmt")
+    private String curReturnAmt;
     public String getSlipNo() {
         return slipNo;
     }
@@ -81,7 +83,13 @@ public class ChargeSales {
     public void setCurPaymentAmt(String curPaymentAmt) {
         this.curPaymentAmt = curPaymentAmt;
     }
-    @Override
+    public final String getCurReturnAmt() {
+		return curReturnAmt;
+	}
+	public final void setCurReturnAmt(String curReturnAmt) {
+		this.curReturnAmt = curReturnAmt;
+	}
+	@Override
     public String toString() {
         return "ChargeSales [slipNo=" + slipNo + ", retailStoreID=" + retailStoreID + ", workstationID=" + workstationID
                 + ", businessDayDate=" + businessDayDate + ", chageSalesAmt=" + chageSalesAmt + ", paymentAmt="

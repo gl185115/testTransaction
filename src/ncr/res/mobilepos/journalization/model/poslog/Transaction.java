@@ -134,6 +134,12 @@ public class Transaction {
     @XmlElement(name = "TenderControlTransaction")
     private TenderControlTransaction tenderControlTransaction;
     /**
+     * SummaryReceiptNo of SummaryReceipt
+     * being printed.
+     */
+    @XmlElement(name = "SummaryReceiptNo")
+    private ControlTransaction summaryReceiptNo;
+    /**
      * ControlTransaction of SummaryReceipt details for transaction that is
      * being printed.
      */
@@ -460,7 +466,15 @@ public class Transaction {
         receiptDateTime = receiptDateTimeToSet;
     }
 
-    /**
+    public ControlTransaction getSummaryReceiptNo() {
+		return summaryReceiptNo;
+	}
+
+	public void setSummaryReceiptNo(ControlTransaction summaryReceiptNo) {
+		this.summaryReceiptNo = summaryReceiptNo;
+	}
+
+	/**
      * Set the Till ID.
      * 
      * @param tillIDToSet

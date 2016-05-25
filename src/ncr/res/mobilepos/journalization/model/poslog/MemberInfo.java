@@ -23,6 +23,11 @@ public class MemberInfo {
     @XmlElement(name = "AmountForPoints")
     private String amountForPoints;
     /**
+     * The private member variable that will hold AfterAddDate.
+     */
+    @XmlElement(name = "AfterAddDate")
+    private String AfterAddDate;
+    /**
      * The private member variable that will hold the point rate.
      */
     @XmlElement(name = "PointRate")
@@ -37,6 +42,16 @@ public class MemberInfo {
      */
     @XmlElement(name = "ExpirationDate")
     private String expirationDate;
+    /**
+     * The private member variable that will hold the applyStart date.
+     */
+    @XmlElement(name = "ApplyStart")
+    private String applyStart;
+    /**
+     * The private member variable that will hold the applyEnd date.
+     */
+    @XmlElement(name = "ApplyEnd")
+    private String applyEnd;
     /**
      * The private member variable that will hold the membershipId13 Id.
      */
@@ -122,6 +137,12 @@ public class MemberInfo {
      */
     @XmlElement(name = "PointCalcExp")
     private String pointCalcExp;
+    
+    /**
+     * The private member variable that will hold the value of OfflineFlag.
+     */
+    @XmlElement(name = "OfflineFlag")
+    private String offlineFlag;
     /**
      * The private member variable that will hold the xeb member info.
      */
@@ -271,7 +292,13 @@ public class MemberInfo {
     public final void setPointsMethod(final String pointsMethodSet) {
         this.pointsMethod = pointsMethodSet;
     }
-    /**
+    public String getAfterAddDate() {
+		return AfterAddDate;
+	}
+	public void setAfterAddDate(String afterAddDate) {
+		AfterAddDate = afterAddDate;
+	}
+	/**
      * Gets the StatusCode under LineItem.
      *
      * @return        The StatusCode under LineItem.
@@ -351,7 +378,13 @@ public class MemberInfo {
     public final void setLostPoints(final String lostPointsSet) {
         this.lostPoints = lostPointsSet;
     }
-    /**
+    public final String getOfflineFlag() {
+		return offlineFlag;
+	}
+	public final void setOfflineFlag(String offlineFlag) {
+		this.offlineFlag = offlineFlag;
+	}
+	/**
      * 
      * @return
      */
@@ -460,6 +493,18 @@ public class MemberInfo {
 	 */
 	public void setPointCalcExp(String pointCalcExp) {
 		this.pointCalcExp = pointCalcExp;
+	}
+	public String getApplyStart() {
+		return applyStart;
+	}
+	public void setApplyStart(String applyStart) {
+		this.applyStart = applyStart;
+	}
+	public String getApplyEnd() {
+		return applyEnd;
+	}
+	public void setApplyEnd(String applyEnd) {
+		this.applyEnd = applyEnd;
 	}
 	@Override
     public String toString() {

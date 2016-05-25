@@ -56,6 +56,12 @@ public class Tender {
      */
     @XmlAttribute(name = "TenderType")
     private String tenderType;
+    
+    /**
+     * The private member variable that will hold the tender type of Tender.
+     */
+    @XmlAttribute(name = "TenderTiming")
+    private String tenderTiming;
 
     /**
      * The private member variable that will hold the type code of Tender.
@@ -439,5 +445,13 @@ public class Tender {
     public final void setVoucherName(String voucherName) {
         this.voucherName = voucherName;
     }
+
+	public final String getTenderTiming() {
+		return tenderTiming;
+	}
+
+	public final void setTenderTiming(String tenderTiming) {
+		this.tenderTiming = tenderTiming;
+	}
 
 }

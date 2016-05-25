@@ -56,6 +56,11 @@ public class PostPoint {
     /**
      * 
      */
+    @XmlElement(name = "CardCompany")
+    private String cardCompany;
+    /**
+     * 
+     */
     @XmlElement(name = "CardType")
     private String cardType;
     /**
@@ -246,6 +251,20 @@ public class PostPoint {
      */
     public void setCardClass(String cardClass) {
         this.cardClass = cardClass;
+    }
+    /**
+     * 
+     * @return
+     */
+    public String getCardCompany() {
+        return cardCompany;
+    }
+    /**
+     * 
+     * @param cardCompany
+     */
+    public void setCardCompany(String cardCompany) {
+        this.cardCompany = cardCompany;
     }
     /**
      * 

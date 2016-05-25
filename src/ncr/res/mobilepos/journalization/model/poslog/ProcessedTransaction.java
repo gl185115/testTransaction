@@ -53,7 +53,11 @@ public class ProcessedTransaction {
     
     @XmlElement(name = "SalesAmountByRank")
     private int salesAmountByRank;
-    /**
+
+	@XmlElement(name = "ItemAmount")
+    private int itemAmount;
+
+	/**
      * 
      */
     @XmlElement(name = "AmountForPoints")
@@ -230,6 +234,16 @@ public class ProcessedTransaction {
     
     public void setSalesAmountByRank(int salesAmountByRank) {
         this.salesAmountByRank = salesAmountByRank;
+    }
+    public int getItemAmount() {
+        return itemAmount;
+    }
+    /**
+     * 
+     * @param itemAmount
+     */
+    public void setItemAmount(int itemAmount) {
+        this.itemAmount = itemAmount;
     }
     /**
      * 

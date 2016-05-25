@@ -168,6 +168,12 @@ public class TillSettle {
     private CreditDebit creditDebit;
 
     /**
+     * EODFlag (ê∏éZÉtÉâÉO)
+     */
+    @XmlElement(name = "EODFlag")
+    private Integer eodFlag;
+
+    /**
      * UnionPay (ã‚ó¸)
      */
     @XmlElement(name = "UnionPay")
@@ -616,6 +622,22 @@ public class TillSettle {
         this.creditDebit = creditDebit;
     }
 
+    /**
+     * 
+     * @return
+     */
+    public Integer getEODFlag() {
+        return eodFlag;
+    }
+
+    /**
+     * 
+     * @param eodFlag
+     */
+    public void setEODFlag(Integer eodFlag) {
+        this.eodFlag = eodFlag;
+    }
+    
     /**
      * @return unionPay
      */

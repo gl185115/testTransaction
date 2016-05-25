@@ -53,6 +53,11 @@ public class Coupon {
     @XmlElement(name="CouponIssueType")
     private int couponIssueType;
     /**
+     * CouponIssueType
+     */
+    @XmlElement(name="CouponCount")
+    private int couponCount;
+    /**
      * CouponReceiptName
      */
     @XmlElement(name="CouponReceiptName")
@@ -119,7 +124,13 @@ public class Coupon {
     public final void setCouponIssueType(final int couponIssueType) {
         this.couponIssueType = couponIssueType;
     }
-    /**
+    public final int getCouponCount() {
+		return couponCount;
+	}
+	public final void setCouponCount(int couponCount) {
+		this.couponCount = couponCount;
+	}
+	/**
      * @return the couponReceiptName
      */
     public final String getCouponReceiptName() {

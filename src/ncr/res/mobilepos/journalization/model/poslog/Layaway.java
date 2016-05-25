@@ -184,6 +184,57 @@ public class Layaway {
     private String groupCode;
     
     /**
+    *The private member variable that will hold the OldSizeId of LayawayReturn.
+    */
+
+    @XmlElement(name = "OldSizeId")
+    private String oldSizeId;
+    /**
+    *The private member variable that will hold the SizePatternId1 of LayawayReturn.
+    */
+
+    @XmlElement(name = "SizePatternId1")
+    private String sizePatternId1;
+    /**
+    *The private member variable that will hold the SizePatternId2 of LayawayReturn.
+    */
+
+    @XmlElement(name = "SizePatternId2")
+    private String sizePatternId2;
+    /**
+    *The private member variable that will hold the BrandId of LayawayReturn.
+    */
+
+    @XmlElement(name = "BrandId")
+    private String brandId;
+    
+    /**
+    *The private member variable that will hold the BrandName of LayawayReturn.
+    */
+
+    @XmlElement(name = "BrandName")
+    private String brandName;
+
+    /**
+    *The private member variable that will hold the DptNameLocal of LayawayReturn.
+    */
+
+    @XmlElement(name = "DptNameLocal")
+    private String dptNameLocal;
+    
+    /**
+    *The private member variable that will hold the OldSku of LayawayReturn.
+    */
+
+    @XmlElement(name = "OldSku")
+    private String oldSku;
+    /**
+    *The private member variable that will hold the RepSku of LayawayReturn.
+    */
+
+    @XmlElement(name = "RepSku")
+    private String repSku;
+    /**
      * The private member variable that will hold the sales priceFrom of Layaway.
      */
     @XmlElement(name = "SalesPriceFrom")
@@ -990,7 +1041,61 @@ public class Layaway {
     public final void setGroupCode(final String groupCode) {
         this.groupCode = groupCode;
     }
-    /**
+    public final String getOldSizeId() {
+		return oldSizeId;
+	}
+	public final void setOldSizeId(String oldSizeId) {
+		this.oldSizeId = oldSizeId;
+	}
+	public final String getSizePatternId1() {
+		return sizePatternId1;
+	}
+	public final void setSizePatternId1(String sizePatternId1) {
+		this.sizePatternId1 = sizePatternId1;
+	}
+	public final String getSizePatternId2() {
+		return sizePatternId2;
+	}
+	public final void setSizePatternId2(String sizePatternId2) {
+		this.sizePatternId2 = sizePatternId2;
+	}
+	public final String getBrandId() {
+		return brandId;
+	}
+	public final void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+	public final String getBrandName() {
+		return brandName;
+	}
+	public final void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+	public final String getDptNameLocal() {
+		return dptNameLocal;
+	}
+	public final void setDptNameLocal(String dptNameLocal) {
+		this.dptNameLocal = dptNameLocal;
+	}
+	public final String getOldSku() {
+		return oldSku;
+	}
+	public final void setOldSku(String oldSku) {
+		this.oldSku = oldSku;
+	}
+	public final String getRepSku() {
+		return repSku;
+	}
+	public final void setRepSku(String repSku) {
+		this.repSku = repSku;
+	}
+	public final QRPromotionInfo getQrPromotionInfo() {
+		return qrPromotionInfo;
+	}
+	public final void setQrPromotionInfo(QRPromotionInfo qrPromotionInfo) {
+		this.qrPromotionInfo = qrPromotionInfo;
+	}
+	/**
      * @return the salesPriceFrom
      */
     public final SalesPriceFrom getSalesPriceFrom() {

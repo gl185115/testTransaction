@@ -47,6 +47,12 @@ public class CreditDebit {
     @XmlAttribute(name = "CardType")
     private String cardType;
     /**
+     * The private member variable which holds the Settled Brand
+     * information that the Customer owned.
+     */
+    @XmlAttribute(name = "SettledBrand")
+    private String settledbrand;
+    /**
      * The private member variable which holds the Card Type
      * information that the Customer owned.
      */
@@ -171,6 +177,7 @@ public class CreditDebit {
      */
     public CreditDebit() {
         cardType = null;
+        settledbrand = null;
         creditCardCompanyCode = null;
         expirationDate = null;
         issuerName = null;
@@ -257,6 +264,23 @@ public class CreditDebit {
      */
     public final void setCardType(final String cardTypeToSet) {
         this.cardType = cardTypeToSet;
+    }
+    /**
+     * Gets the Settled Brand information.
+     *
+     * @return        Returns the Settled Brand information
+     */
+    public final String getSettledBrand() {
+        return settledbrand;
+    }
+
+    /**
+     * Sets the Card's type information.
+     *
+     * @param SettledBrand to Set The new value for the Settled Brand
+     */
+    public final void setSettledBrand(final String settledbrandToSet) {
+        this.settledbrand = settledbrandToSet;
     }
     /**
      * Gets the payment method code information.

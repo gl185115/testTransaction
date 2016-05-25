@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Points")
-public class Points {
+public class Points {    
     /**
      * BasicPointRate
      */
@@ -51,7 +51,7 @@ public class Points {
      */
     @XmlElement(name = "Detail")
     private Detail detail;
-    /**
+	/**
      * @return the pointRate
      */
     public final String getPointRate() {

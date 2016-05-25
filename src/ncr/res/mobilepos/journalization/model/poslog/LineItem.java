@@ -51,6 +51,11 @@ public class LineItem {
     @XmlElement(name = "Tender")
     private Tender tender;
     /**
+     * The private member variable that will hold the Tender.
+     */
+    @XmlElement(name = "PendingPayment")
+    private PendingPayment pendingPayment;
+    /**
      * The private member variable that will hold the Sale.
      */
     @XmlElement(name = "Sale")
@@ -487,7 +492,15 @@ public class LineItem {
     public void setPointTicket(PointTicketIssue pointTicket) {
         this.pointTicket = pointTicket;
     }
-    /**
+    public final PendingPayment getPendingPayment() {
+		return pendingPayment;
+	}
+
+	public final void setPendingPayment(PendingPayment pendingPayment) {
+		this.pendingPayment = pendingPayment;
+	}
+
+	/**
      * Override toString() Method.
      * @return The String Representation of LineItem.
      */

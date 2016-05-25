@@ -61,6 +61,10 @@ public class PluChange {
     private String beforeSizeId;
 
     /** The AfterMdInternal. */
+    @XmlElement(name = "AfterSlipLineNo")
+    private String afterSlipLineNo;
+
+    /** The AfterMdInternal. */
     @XmlElement(name = "AfterMdInternal")
     private String afterMdInternal;
 
@@ -111,6 +115,30 @@ public class PluChange {
     /** The ItemCnt. */
     @XmlElement(name = "ItemCnt")
     private int itemCnt;
+
+    /** The AfterDepartment. */
+    @XmlElement(name = "AfterDepartment")
+    private String afterDepartment;
+
+    /** The AfterClass. */
+    @XmlElement(name = "AfterClass")
+    private String afterClass;
+
+    /** The AfterGroupCode. */
+    @XmlElement(name = "AfterGroupCode")
+    private String afterGroupCode;
+
+    /** The AfterMdVender. */
+    @XmlElement(name = "AfterMdVender")
+    private String afterMdVender;
+
+    /** The AfterMdKanaName. */
+    @XmlElement(name = "AfterMdKanaName")
+    private String afterMdKanaName;
+
+    /** The ItemSellingRule. */
+    @XmlElement(name = "ItemSellingRule")
+    private ItemSellingRule itemSellingRule;
 
     public final String getBeforeSlipLineNo() {
         return beforeSlipLineNo;
@@ -280,7 +308,15 @@ public class PluChange {
         this.beforeDeptCode = beforeDeptCode;
     }
 
-    public final String getAfterColorName() {
+    public final String getAfterSlipLineNo() {
+		return afterSlipLineNo;
+	}
+
+	public final void setAfterSlipLineNo(String afterSlipLineNo) {
+		this.afterSlipLineNo = afterSlipLineNo;
+	}
+
+	public final String getAfterColorName() {
         return afterColorName;
     }
 
@@ -303,5 +339,53 @@ public class PluChange {
     public void setAfterScanBarCode(String afterScanBarCode) {
         this.afterScanBarCode = afterScanBarCode;
     }
+
+	public String getAfterDepartment() {
+		return afterDepartment;
+	}
+
+	public void setAfterDepartment(String afterDepartment) {
+		this.afterDepartment = afterDepartment;
+	}
+
+	public String getAfterClass() {
+		return afterClass;
+	}
+
+	public void setAfterClass(String afterClass) {
+		this.afterClass = afterClass;
+	}
+
+	public String getAfterGroupCode() {
+		return afterGroupCode;
+	}
+
+	public void setAfterGroupCode(String afterGroupCode) {
+		this.afterGroupCode = afterGroupCode;
+	}
+
+	public String getAfterMdVender() {
+		return afterMdVender;
+	}
+
+	public void setAfterMdVender(String afterMdVender) {
+		this.afterMdVender = afterMdVender;
+	}
+
+	public String getAfterMdKanaName() {
+		return afterMdKanaName;
+	}
+
+	public void setAfterMdKanaName(String afterMdKanaName) {
+		this.afterMdKanaName = afterMdKanaName;
+	}
+
+	public ItemSellingRule getItemSellingRule() {
+		return itemSellingRule;
+	}
+
+	public void setItemSellingRule(ItemSellingRule itemSellingRule) {
+		this.itemSellingRule = itemSellingRule;
+	}
 
 }

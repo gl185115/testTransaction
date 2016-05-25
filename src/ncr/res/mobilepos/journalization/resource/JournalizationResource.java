@@ -342,10 +342,7 @@ public class JournalizationResource {
                 receiptCount = posLogDAO.getSummaryReceiptCount(companyid,storeid, workstationid, txid, businessdate);
                 info.setSummaryReceipt(String.valueOf(receiptCount));
                 pointPosted = posLogDAO.isPointPosted(companyid, storeid, workstationid, businessdate, txid, trainingflag);
-                info.setPostPointed(pointPosted.isPostPointed());
-                if(pointPosted.isPostPointed()){
-                	info.setMemberId(pointPosted.getMemberId().toString());
-                }
+                info.setPostPointed(pointPosted);
                 info.setLocked(String.valueOf(lockStatus));
                 info.setPoslogXML(poslogXML);
             }

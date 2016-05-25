@@ -2188,7 +2188,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 				resultBase = posControlOpenCloseStatus;
 			} else {
 				// PosCtrl not found.
-				resultBase.setNCRWSSResultCode(ResultBase.RES_TERMIAL_NOT_WORKING);
+				resultBase.setNCRWSSResultCode(ResultBase.RES_TERMINAL_NOT_WORKING);
 				resultBase.setMessage("PosCtrl not found.");
 				tp.println("PosCtrl not found.");
 			}

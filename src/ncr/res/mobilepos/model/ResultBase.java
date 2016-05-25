@@ -1155,7 +1155,7 @@ public class ResultBase {
      * Value : {@value}<br>
      * Referring TXU_POS_CTRL, Terminal is not working.
      */
-    public static final int RES_TERMIAL_NOT_WORKING = 1800;
+    public static final int RES_TERMINAL_NOT_WORKING = 1800;
 
     /** True string for UI */
     public static final String TRUE = "True";

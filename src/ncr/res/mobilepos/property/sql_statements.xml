@@ -2433,6 +2433,7 @@ ORDER BY
            DiscountReason,
            DiscountReasonName
        FROM RESMaster.dbo.MST_PRICE_PROMOTION
+       WHERE DiscountType = '2'
        ORDER BY PromotionId;
 </entry>
 

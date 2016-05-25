@@ -659,13 +659,20 @@ SELECT
     info.BMPFileFlag,
     info.BMPFileCount,
     info.OutputType,
-    info.DisplayOrder
+    info.DisplayOrder,
+    exclsion.Dpt ExclsionInfo
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
     ON info.CompanyId = detail.CompanyId
     AND info.PromotionId = detail.PromotionId
     AND detail.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion 
+    ON exclsion.CompanyId = detail.CompanyId
+    AND exclsion.DeleteFlag = 0.0
+    AND exclsion.Dpt = @dpt
+    AND exclsion.Class = @class
+    AND exclsion.PromotionId = detail.PromotionId
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
@@ -690,7 +697,8 @@ SELECT
     info.BMPFileFlag,
     info.BMPFileCount,
     info.OutputType,
-    info.DisplayOrder
+    info.DisplayOrder,
+    exclsion.Dpt ExclsionInfo
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
@@ -702,6 +710,12 @@ INNER JOIN RESMaster.dbo.MST_QRCODE_STORE store
     AND store.DeleteFlag = 0.0
     AND store.PromotionId = info.PromotionId
     AND store.StoreId = @storeId
+LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion 
+    ON exclsion.CompanyId = detail.CompanyId
+    AND exclsion.DeleteFlag = 0.0
+    AND exclsion.Dpt = @dpt
+    AND exclsion.Class = @class
+    AND exclsion.PromotionId = detail.PromotionId
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0

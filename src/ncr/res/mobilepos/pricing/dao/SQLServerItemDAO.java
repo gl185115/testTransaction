@@ -1727,6 +1727,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             select.setString(SQLStatement.PARAM8, searchedItem.getConn1());
             result = select.executeQuery();
             while(result.next()){
+            	if(null == result.getObject(result.findColumn("ExclsionInfo"))){
                 QrCodeInfo qr = new QrCodeInfo();
                 qr.setBmpFileCount(result.getString(result.findColumn("BmpFileCount")));
                 qr.setBmpFileFlag(result.getString(result.findColumn("BmpFileFlag")));
@@ -1741,6 +1742,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 qr.setPromotionName(result.getString(result.findColumn("QRPromotionName")));
                 qr.setOutputType(result.getString(result.findColumn("OutputType")));
                 list.add(qr);
+              }
             }
             searchedItem.setQrCodeList(list);
         } catch (SQLException sqlEx) {

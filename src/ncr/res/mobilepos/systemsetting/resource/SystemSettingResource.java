@@ -1,8 +1,5 @@
 package ncr.res.mobilepos.systemsetting.resource;
 
-import java.text.DateFormat;
-import java.util.Date;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,8 +15,8 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.store.dao.IStoreDAO;
 import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.model.DateTime;
@@ -151,10 +148,24 @@ public class SystemSettingResource {
             .println("storeid", storeId);
 
         try {
+            String qCompanyId = StringUtility.isNullOrEmpty(companyId) ? "0" : companyId;
+            String qStoreId = StringUtility.isNullOrEmpty(storeId) ? "0" : storeId;
 
             ISystemSettingDAO systemSetDao = daoFactory.getSystemSettingDAO();
 
-            dateSetting = systemSetDao.getDateSetting(companyId, storeId);
+            dateSetting = systemSetDao.getDateSetting(qCompanyId, qStoreId);
+            if (dateSetting == null) {
+                if (!"0".equals(qStoreId)) {
+                    qStoreId = "0";
+                    dateSetting = systemSetDao.getDateSetting(qCompanyId, qStoreId);
+                }
+            }
+            if (dateSetting == null) {
+                if (!"0".equals(qCompanyId)) {
+                    qCompanyId = "0";
+                    dateSetting = systemSetDao.getDateSetting(qCompanyId, qStoreId);
+                }
+            }
 
             //Are there date being reetrieved?
             //If yes, set the DateSetting.

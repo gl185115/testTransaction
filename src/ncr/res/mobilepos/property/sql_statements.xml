@@ -667,7 +667,7 @@ INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
     ON info.CompanyId = detail.CompanyId
     AND info.PromotionId = detail.PromotionId
     AND detail.DeleteFlag = 0.0
-LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion 
+LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
     ON exclsion.CompanyId = detail.CompanyId
     AND exclsion.DeleteFlag = 0.0
     AND exclsion.Dpt = @dpt
@@ -710,7 +710,7 @@ INNER JOIN RESMaster.dbo.MST_QRCODE_STORE store
     AND store.DeleteFlag = 0.0
     AND store.PromotionId = info.PromotionId
     AND store.StoreId = @storeId
-LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion 
+LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
     ON exclsion.CompanyId = detail.CompanyId
     AND exclsion.DeleteFlag = 0.0
     AND exclsion.Dpt = @dpt
@@ -5942,17 +5942,16 @@ ORDER BY
     SET Skip = ?
   </entry>
   <entry key="select-date-setting">
-    SELECT DISTINCT TOP 1
-      Storeid,
+    SELECT
+      CompanyId,
+      StoreId,
       TodayDate,
       SwitchTime,
       Skip
     FROM
       RESMaster.dbo.MST_BIZDAY
     WHERE
-        CompanyId = ? AND StoreId in (?, '0')
-    ORDER BY
-      StoreId DESC
+      CompanyId = ? AND StoreId = ? AND DeleteFlag = 0
   </entry>
 
   <!-- *************************  ENTRY KEY FOR DEVICE LOG TABLE ************************* -->
@@ -11507,7 +11506,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND
       DeleteFlag = 0.0
     AND(
-         (CMType ='1' AND BizCatId = '0000' AND StoreId = '0000' AND TerminalId = '0000') 
+         (CMType ='1' AND BizCatId = '0000' AND StoreId = '0000' AND TerminalId = '0000')
         OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0000' AND TerminalId = '0000')
         OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0000')
         OR (CMType ='4' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = @terminalId)

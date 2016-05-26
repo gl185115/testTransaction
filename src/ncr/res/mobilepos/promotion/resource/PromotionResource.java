@@ -604,7 +604,7 @@ public class PromotionResource {
         item.setMd02(json.getString("md02"));
         item.setMd03(json.getString("md03"));
         item.setMd04(json.getString("md04"));
-        item.setMd05(json.getString("md06"));
+        item.setMd05(json.getString("md05"));
         item.setMd06(json.getString("md06"));
         item.setMd07(json.getString("md07"));
         item.setMd08(json.getString("md08"));

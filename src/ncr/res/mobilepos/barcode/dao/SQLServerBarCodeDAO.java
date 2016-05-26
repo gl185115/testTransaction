@@ -180,15 +180,18 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
                             break;
                         }
                     } else {
-                        if(cardCode.startsWith(resultSet.getString("PrefixCode16From")) 
-                                || cardCode.startsWith(resultSet.getString("PrefixCode16To"))){
-                        	newRegistFlag = "1".equals(resultSet.getString("NewRegistFlag"));
-                            flag = true;
-                            flagArray.put("cardTypeId",resultSet.getString("CardTypeId"));
-                            flagArray.put("subCode2",resultSet.getString("SubCode2"));
-                            flagArray.put("subCode3",resultSet.getString("SubCode3"));
-                            break;
-                        } 
+                    	if (!StringUtility.isNullOrEmpty(resultSet.getString("PrefixCode16From"))
+								&& !StringUtility.isNullOrEmpty(resultSet.getString("PrefixCode16To"))) {
+							if (isIncludeBy(resultSet.getString("PrefixCode16From"),
+									resultSet.getString("PrefixCode16To"), cardCode)) {
+	                        	newRegistFlag = "1".equals(resultSet.getString("NewRegistFlag"));
+	                            flag = true;
+	                            flagArray.put("cardTypeId",resultSet.getString("CardTypeId"));
+	                            flagArray.put("subCode2",resultSet.getString("SubCode2"));
+	                            flagArray.put("subCode3",resultSet.getString("SubCode3"));
+	                            break;
+                            } 
+                        }
                     }
               }
                                 
@@ -213,4 +216,18 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
         }
         return flagArray;
     }
+    public boolean isIncludeBy(String startStr, String endStr, String codeStr) {
+		boolean isInclude = false;
+		int startLen = startStr.length();
+		int endLen = endStr.length();
+		if (startStr.equals(endStr)) {
+			isInclude = codeStr.startsWith(startStr);
+		} else if (startLen == endLen) {
+			long code = Long.parseLong(codeStr.trim().substring(0, startLen));
+			long start = Long.parseLong(startStr.trim());
+			long end = Long.parseLong(endStr.trim());
+			isInclude = code >= start && code <= end;
+		}
+		return isInclude;
+	}
 }

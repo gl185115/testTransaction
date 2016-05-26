@@ -1798,9 +1798,21 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setConditionPrice2(result.getDouble(result.findColumn("ConditionPrice2")));
                 searchedItem.setConditionPrice3(result.getDouble(result.findColumn("ConditionPrice3")));
 
-                searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
-                searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
-                searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
+//                searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
+//                searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
+//                searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
+                
+                if(result.getObject(result.findColumn("DecisionPrice1")) != null ){
+                    searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
+                }
+                
+                if(result.getObject(result.findColumn("DecisionPrice2")) != null ){
+                    searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
+                }
+                
+                if(result.getObject(result.findColumn("DecisionPrice3")) != null ){
+                    searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
+                }
 
                 searchedItem.setAveragePrice1(result.getDouble(result.findColumn("AveragePrice1")));
                 searchedItem.setAveragePrice2(result.getDouble(result.findColumn("AveragePrice2")));

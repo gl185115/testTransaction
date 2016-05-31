@@ -29,6 +29,7 @@ import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
+import ncr.res.mobilepos.forwarditemlist.model.ForwardItemCount;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -362,6 +363,7 @@ public class ForwardItemListResource {
             @FormParam("RetailStoreId") String RetailStoreId, @FormParam("WorkstationId") String WorkstationId,
             @FormParam("SequenceNumber") String SequenceNumber, @FormParam("Queue") String Queue,
             @FormParam("BusinessDayDate") String BusinessDayDate, @FormParam("TrainingFlag") String TrainingFlag) {
+        String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);
         tp.println("WorkstationId", WorkstationId);
@@ -385,10 +387,10 @@ public class ForwardItemListResource {
                 poslog.setPoslog(poslogSerializer.unMarshallXml(poslog.getPosLogXml(), PosLog.class));
             }
         } catch (DaoException ex) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO, "Failed to get poslog xml", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get poslog xml", ex);
             poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
         } catch (Exception ex) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, "Failed to get poslog xml", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get poslog xml", ex);
             poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
         }
         return (SearchForwardPosLog) tp.methodExit(poslog);
@@ -439,17 +441,89 @@ public class ForwardItemListResource {
             result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             result.setMessage(ResultBase.RES_SUCCESS_MSG);
         } catch (DaoException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get forward list.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get forward list.", e);
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
             result.setMessage(e.getMessage());
         } catch (Exception ex) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward list.", ex);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward list.", ex);
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             result.setMessage(ex.getMessage());
         }
         return (ForwardList) tp.methodExit(result);
+    }
+
+    /**
+     * 前捌きデータ数カウント
+     * @param companyId
+     * @param storeId
+     * @param businessDayDate
+     * @param workstationId
+     * @param queue
+     * @param trainingFlag
+     * @return Forward Item Count
+     */
+    @GET
+    @Path("/getforwarditemcount")
+    @Produces({ MediaType.APPLICATION_JSON })
+    public final ForwardItemCount getForwardItemCount(
+    	@QueryParam("companyId") final String companyId,
+        @QueryParam("storeId") final String storeId,
+        @QueryParam("businessDayDate") final String businessDayDate,
+        @QueryParam("workstationId") final String workstationId,
+        @QueryParam("queue") final String queue,
+        @QueryParam("trainingFlag") final String trainingFlag) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+            .println("storeId", storeId)
+            .println("businessDayDate", businessDayDate)
+            .println("workstationId", workstationId)
+            .println("queue", queue)
+            .println("trainingFlag", trainingFlag);
+
+        String count = null;
+        ForwardItemCount result = new ForwardItemCount();
+        try {
+            DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IForwardItemListDAO forwardItemListDAO = dao.getForwardItemListDAO();
+            count = forwardItemListDAO.selectForwardItemCount(companyId, storeId,
+                    businessDayDate, workstationId, queue, trainingFlag);
+            result.setCount(count);
+            result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+            result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+            result.setMessage(ResultBase.RES_SUCCESS_MSG);
+        } catch (DaoException daoEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
+                    + ": Failed to Select Forward Item Count of"
+                    + " CompanyId=" + companyId
+                    + ";StoreId=" + storeId
+                    + ";Businessdaydate=" + businessDayDate
+                    + ";WorkstationId=" + workstationId
+                    + ";Queue=" + queue
+                    + ";trainingFlag=" + trainingFlag
+                    , daoEx);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            result.setMessage(daoEx.getMessage());
+        } catch(Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,functionName
+                    + ": Failed to Select Forward Item Count of"
+                    + " CompanyId=" + companyId
+                    + ";StoreId=" + storeId
+                    + ";Businessdaydate=" + businessDayDate
+                    + ";WorkstationId=" + workstationId
+                    + ";Queue=" + queue
+                    + ";trainingFlag=" + trainingFlag
+                    , ex);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(ex.getMessage());
+        } finally {
+            tp.methodExit();
+        }
+        return result;
     }
 
     /**

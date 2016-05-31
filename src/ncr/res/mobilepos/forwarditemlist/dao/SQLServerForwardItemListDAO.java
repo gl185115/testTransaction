@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 
 import javax.xml.bind.JAXBException;
 
+import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -19,15 +20,15 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.forwarditemlist.model.ForwardCountData;
-import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
-import ncr.realgate.util.Trace;
 /**
  * A Data Access Object implementation for
  * Transfer transactions between smart phone and POS.
@@ -113,7 +114,7 @@ extends AbstractDao implements IForwardItemListDAO {
             selectForwardDataStmt.setString(SQLStatement.PARAM1, storeid);
             selectForwardDataStmt.setString(SQLStatement.PARAM2, terminalid);
             selectForwardDataStmt.setString(SQLStatement.PARAM3, txDate);
-            
+
             rs = selectForwardDataStmt.executeQuery();
 			if (rs.next()) {
 				shoppingCartData = rs.getString("Tx");
@@ -167,11 +168,11 @@ extends AbstractDao implements IForwardItemListDAO {
 						tp.println("Status updated to " + status);
 					} else {
 						tp.println("Status not updated.");
-						shoppingCartData = null;						
+						shoppingCartData = null;
 					}
 				} else {
 					tp.println("Error closing objects or exception occurs.");
-					shoppingCartData = null;					
+					shoppingCartData = null;
 				}
 			} catch (SQLException sqlEx) {
 				LOGGER.logAlert(
@@ -193,7 +194,7 @@ extends AbstractDao implements IForwardItemListDAO {
 				isErrorClosing = true;
 			} finally {
 				closeConnectionObjects(connection, selectForwardDataStmt, null);
-				
+
 				tp.methodExit(shoppingCartData);
 			}
         }
@@ -266,7 +267,7 @@ extends AbstractDao implements IForwardItemListDAO {
             forwardCountData.setStatus("1");
         } finally {
             closeConnectionObjects(connection, getForwardItemCount, rs);
-            
+
             tp.methodExit(forwardCountData.toString());
         }
 
@@ -359,9 +360,74 @@ extends AbstractDao implements IForwardItemListDAO {
                     + "PosLog was null.");
         } finally {
             closeConnectionObjects(connection, saveItemForwardData);
-            
+
             tp.methodExit(poslogResp.toString());
         }
         return poslogResp;
+    }
+
+    /**
+     * Get the Forward Item Count.
+     * @param companyId       The Company ID
+     * @param storeId         The Store ID
+     * @param businessDayDate The BusinessDate
+     * @param workstationId   The Workstation ID
+     * @param queue           The Queue
+     * @param trainingFlag    The training Flag
+     *
+     * @return Forward Item Count
+     * @exception DaoException The exception thrown when error occur.
+     */
+    @Override
+    public final String selectForwardItemCount(final String companyId,
+            final String storeId, final String businessDayDate,
+            final String workstationId, final String queue, final String trainingFlag) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("CompanyId", companyId)
+            .println("StoreId", storeId)
+            .println("BusinessDayDate",businessDayDate)
+            .println("WorkstationId", workstationId)
+            .println("Queue", queue)
+            .println("TrainingFlag", trainingFlag);
+
+        String resultCnt = null;
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet resultset = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement
+                    .getProperty("get-forward-item-count"));
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, storeId);
+            select.setString(SQLStatement.PARAM3, businessDayDate);
+            select.setString(SQLStatement.PARAM4, StringUtility.convNullToEmpty(workstationId));
+            select.setString(SQLStatement.PARAM5, StringUtility.convNullToEmpty(queue));
+            select.setString(SQLStatement.PARAM6, trainingFlag);
+            resultset = select.executeQuery();
+
+            if (resultset.next()) {
+                resultCnt = resultset.getString("count");
+            }
+        } catch (SQLStatementException stmntEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName
+                    + ": Failed to Select Forward Item Count.", stmntEx);
+            throw new DaoException("SQLStatementException: @" + functionName, stmntEx);
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to Select Forward Item Count.", sqlEx);
+            throw new DaoException("SQLException: @" + functionName, sqlEx);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+                    + ": Failed to Select Forward Item Count.", e);
+            throw new DaoException("Exception: @" + functionName, e);
+        } finally {
+            closeConnectionObjects(connection, select, resultset);
+            tp.methodExit();
+        }
+        return resultCnt;
     }
 }

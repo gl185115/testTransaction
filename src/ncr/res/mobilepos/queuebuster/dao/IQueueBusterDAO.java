@@ -152,18 +152,6 @@ public interface IQueueBusterDAO {
             String txdate, String workstationid,
             String txid, int statusToSet) throws DaoException;
 
-    /**
-     *  Web Method call for getting Forward Item Count.
-     * @param storeId
-     * @param businessDayDate
-     * @param workstationId
-     * @param queue
-     * @return The JSON object that holds the result
-     *          code for the Web Method
-     */
-	String selectForwardItemCount(String companyId, String storeId,
-			String businessDayDate, String workstationId, String queue) throws DaoException;
-
 	/**
      * Web Method call for Deleting ForWard Item.
      * @param storeId

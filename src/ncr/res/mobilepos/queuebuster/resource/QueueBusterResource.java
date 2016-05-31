@@ -39,7 +39,6 @@ import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
-import ncr.res.mobilepos.queuebuster.model.BusteredCount;
 import ncr.res.mobilepos.queuebuster.model.BusteredTransaction;
 import ncr.res.mobilepos.queuebuster.model.BusteredTransactionList;
 import ncr.res.mobilepos.queuebuster.model.CashDrawer;
@@ -536,69 +535,6 @@ public class QueueBusterResource {
             tp.methodExit(suspendData.toString());
         }
         return suspendData;
-    }
-
-    /**
-     *  Web Method call for getting Forward Item Count.
-     * @param storeId
-     * @param businessDayDate
-     * @param workstationId
-     * @param queue
-     * @return The JSON object that holds the result
-     *          code for the Web Method
-     */
-    @GET
-    @Path("/getforwarditemcount")
-    @Produces({ MediaType.APPLICATION_JSON })
-    public final BusteredCount getForwardItemCount(
-    	@QueryParam("companyId") final String companyId,
-        @QueryParam("storeId") final String storeId,
-        @QueryParam("businessDayDate") final String businessDayDate,
-        @QueryParam("workstationId") final String workstationId,
-        @QueryParam("queue") final String queue) {
-    	String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName);
-		tp.println("companyId", companyId)
-			.println("storeId", storeId)
-			.println("businessDayDate", businessDayDate)
-			.println("workstationId", workstationId)
-			.println("queue", queue);
-
-		String count = null;
-		BusteredCount result = new BusteredCount();
-		try {
-            DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IQueueBusterDAO quebusterDao = dao.getQueBusterDAO();
-            count = quebusterDao.selectForwardItemCount(companyId, storeId,
-            		businessDayDate, workstationId, queue);
-            result.setCount(count);
-            result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-            result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-            result.setMessage(ResultBase.RES_SUCCESS_MSG);
-		} catch (DaoException daoEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
-					+ ": Failed to Select Forward Item Count of StoreId="
-					+ storeId + ";Businessdaydate=" + businessDayDate
-					 + ";WorkstationId=" + workstationId
-					 + ";Queue=" + queue
-					, daoEx);
-			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
-            result.setMessage(daoEx.getMessage());
-		} catch(Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,functionName
-					+ ": Failed to Select Forward Item Count of StoreId="
-					+ storeId + ";Businessdaydate=" + businessDayDate
-					 + ";WorkstationId=" + workstationId
-					 + ";Queue=" + queue
-					, ex);
-			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-            result.setMessage(ex.getMessage());
-		} finally {
-			tp.methodExit();
-		}
-		return result;
     }
 
     /**

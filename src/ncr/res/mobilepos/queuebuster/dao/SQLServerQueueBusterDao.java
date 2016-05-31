@@ -923,57 +923,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
     }
 
 	@Override
-	public final String selectForwardItemCount(final String companyId,
-			final String storeId, final String businessDayDate,
-			final String workstationId, final String queue) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName);
-		tp.println("CompanyId", companyId)
-			.println("StoreId", storeId)
-			.println("BusinessDayDate",businessDayDate)
-			.println("WorkstationId", workstationId)
-			.println("Queue", queue);
-
-		String resultCnt = null;
-		Connection connection = null;
-		PreparedStatement select = null;
-		ResultSet resultset = null;
-
-		try {
-			connection = dbManager.getConnection();
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			select = connection.prepareStatement(sqlStatement
-					.getProperty("get-forward-item-count"));
-			select.setString(SQLStatement.PARAM1, companyId);
-			select.setString(SQLStatement.PARAM2, storeId);
-			select.setString(SQLStatement.PARAM3, businessDayDate);
-			select.setString(SQLStatement.PARAM4, StringUtility.convNullToEmpty(workstationId));
-			select.setString(SQLStatement.PARAM5, StringUtility.convNullToEmpty(queue));
-			resultset = select.executeQuery();
-
-			if (resultset.next()) {
-				resultCnt = resultset.getString("count");
-			}
-		} catch (SQLStatementException stmntEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName
-					+ ": Failed to Select Forward Item Count.", stmntEx);
-			throw new DaoException("SQLStatementException: @" + functionName, stmntEx);
-		} catch (SQLException sqlEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to Select Forward Item Count.", sqlEx);
-			throw new DaoException("SQLException: @" + functionName, sqlEx);
-		} catch (Exception e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to Select Forward Item Count.", e);
-			throw new DaoException("Exception: @" + functionName, e);
-		} finally {
-			closeConnectionObjects(connection, select, resultset);
-			tp.methodExit();
-		}
-		return resultCnt;
-	}
-
-	@Override
 	public final ResultBase deleteForwardItem(final String companyId,
 			final String storeId, final String businessDayDate)
 					throws DaoException {

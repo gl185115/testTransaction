@@ -58,4 +58,21 @@ public interface IForwardItemListDAO {
      */
     PosLogResp uploadItemForwardData(String deviceNo, String terminalNo,
             String poslogXml) throws DaoException;
+
+    /**
+     * Get the Forward Item Count in the TXL_FORWARD_ITEM table
+     * by company id and store id and business date
+     *  and workstation id and queue and training flag.
+     * @param companyId
+     * @param storeId
+     * @param businessDayDate
+     * @param workstationId
+     * @param queue
+	 * @param trainingFlag
+     * @exception DaoException The exception thrown when error occur.
+     * @return Forward Item Count
+     */
+	String selectForwardItemCount(String companyId, String storeId,
+            String businessDayDate, String workstationId, String queue, String trainingFlag) throws DaoException;
+
 }

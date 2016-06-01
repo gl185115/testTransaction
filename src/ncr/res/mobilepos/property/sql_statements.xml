@@ -11209,7 +11209,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
           PrefixCode16To,
           PrefixCode13,
           CardStatusType,
-          MagneticDataType
+          MagneticDataType,
+          OwnCreditFlag
         FROM
           RESMaster.dbo.MST_CARD_TYPEINFO
         WHERE
@@ -11348,7 +11349,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
           PrefixCode16To,
           PrefixCode13,
           CardStatusType,
-          MagneticDataType
+          MagneticDataType,
+          OwnCreditFlag
         FROM
           RESMaster.dbo.MST_CARD_TYPEINFO
         WHERE

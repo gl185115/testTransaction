@@ -176,6 +176,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
                 cardTypeInfo.setMagneticDataType(result.getString("MagneticDataType"));
                 cardTypeInfo.setCardTypeShortName(result.getString("CardTypeShortName"));
                 cardTypeInfo.setSubCode1(result.getString("SubCode1"));
+                cardTypeInfo.setOwnCreditFlag(result.getString("OwnCreditFlag"));
                 cardTypeInfos.add(cardTypeInfo);
             }
         } catch (Exception e) {

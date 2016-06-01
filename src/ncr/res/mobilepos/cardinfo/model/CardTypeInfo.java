@@ -64,6 +64,8 @@ public class CardTypeInfo extends ResultBase {
     private String magneticDataType;
     @XmlElement(name = "SubCode1")
     private String subCode1;
+    @XmlElement(name = "OwnCreditFlag")
+    private String ownCreditFlag;
 
     /**
      * @return the companyId
@@ -469,8 +471,16 @@ public class CardTypeInfo extends ResultBase {
     public void setSubCode1(String subCode1) {
         this.subCode1 = subCode1;
     }
+    
+    public String getOwnCreditFlag() {
+		return ownCreditFlag;
+	}
 
-    /*
+	public void setOwnCreditFlag(String ownCreditFlag) {
+		this.ownCreditFlag = ownCreditFlag;
+	}
+
+	/*
      * (non-Javadoc)
      * 
      * @see java.lang.Object#toString()

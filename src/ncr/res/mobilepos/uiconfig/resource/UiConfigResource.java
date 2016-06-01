@@ -248,7 +248,7 @@ public class UiConfigResource {
     		@PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
-        tp.methodEnter("/uiconfig/custom/images/" + filenameParam);
+        tp.methodEnter("/uiconfig/custom/" + typeParam + "/images/" + filenameParam);
         tp.println("typeParam", typeParam);
         tp.println("filename", filenameParam);
 
@@ -293,4 +293,61 @@ public class UiConfigResource {
         tp.methodExit("Returns " + file.getAbsolutePath());
         return rb.build();
     }
+    
+    /**
+     * Returns custom image files.
+     *
+     * @param filenameParam
+     * @return
+     */
+    @Path("/custom/images/{filename}")
+    @GET
+    @Produces({"image/png", "image/jpg"})
+    public final Response requestCustomImage(@PathParam("filename") final String filenameParam) {
+        // Logs given parameters.
+        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        tp.methodEnter("/uiconfig/custom/images/" + filenameParam);
+        tp.println("filename", filenameParam);
+
+        // 1, Decodes filename.
+        String filename = null;
+        try {
+            filename = URLDecoder.decode(filenameParam, UiConfigHelper.URL_ENCODING_CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            // This exception is never thrown.
+        }
+
+        // 2, Validates file extension, it should be png or jpg.
+        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG)) {
+            tp.methodExit("Invalid filename:" + filename);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomImage",
+                    Logger.RES_EXCEP_GENERAL,
+                    "Invalid filename:" + filename);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        // 3, Searches a file with the given name in custom base path.
+        String customBasePath = configProperties.getCustomResourceBasePath();
+        File file = UiConfigHelper.searchImageFile(customBasePath, filename);
+        if (file == null) {
+            tp.methodExit("Custom image not found:" + filename);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomImage",
+                    Logger.RES_EXCEP_FILENOTFOUND,
+                    "Custom image not found:" + filename);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        // 4, Returns file for the response.
+        Response.ResponseBuilder rb = new ResponseBuilderImpl();
+        rb.header("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+        rb.status(Response.Status.OK);
+        rb.entity(file);
+        tp.methodExit("Returns " + file.getAbsolutePath());
+        return rb.build();
+    }
+    
 }

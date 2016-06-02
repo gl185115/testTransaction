@@ -10529,7 +10529,7 @@ SET @TargetType =
                 #TEMPTABLE
             WHERE
                 TargetType = '1'
-            AND BizCatId = '00'
+            AND BizCatId = '0000'
             AND StoreId = '0000'
             AND TerminalId = '0000'
         ) &gt; 0
@@ -11960,7 +11960,7 @@ insert into txl_offline_credit
   SET @storeId = ?
   SET @businessDate = ?
   SET @deptCode = ?
-  SET @bizCategoryId = '00'
+  SET @bizCategoryId = '0000'
 
   IF NOT EXISTS(
     SELECT
@@ -11993,7 +11993,7 @@ insert into txl_offline_credit
           AND @deptCode BETWEEN dpt.DptFrom AND dpt.DptTo)
         BEGIN
           SET @targetType = '1'
-          SET @bizCategoryId = '00'
+          SET @bizCategoryId = '0000'
           SET @storeId = '0000'
         END
       ELSE
@@ -12234,7 +12234,7 @@ insert into txl_offline_credit
   SET @storeId = ?
   SET @businessDate = ?
   SET @cardClassId = ?
-  SET @bizCategoryId = '00'
+  SET @bizCategoryId = '0000'
 
   IF NOT EXISTS(
     SELECT
@@ -12257,7 +12257,7 @@ insert into txl_offline_credit
           AND CONVERT(DATE,@businessDate) >= StartDate)
           BEGIN
             SET @targetType = '1'
-            SET @bizCategoryId = '00'
+            SET @bizCategoryId = '0000'
             SET @storeId = '0000'
           END
         ELSE

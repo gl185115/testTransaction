@@ -11516,7 +11516,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
         OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0000')
         OR (CMType ='4' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = @terminalId)
     )
- ORDER BY CMType DESC,CUpdDate DESC
+ ORDER BY CMType DESC,UpdDate DESC
 
   </entry>
   <entry key="get-picklist-items">

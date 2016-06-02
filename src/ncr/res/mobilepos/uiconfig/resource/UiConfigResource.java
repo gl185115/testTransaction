@@ -243,7 +243,7 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}/images/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
-    public final Response requestCustomImage(
+    public final Response requestTypeParamCustomImage(
     		@PathParam("typeParam") final String typeParam,
     		@PathParam("filename") final String filenameParam) {
         // Logs given parameters.
@@ -300,13 +300,16 @@ public class UiConfigResource {
      * @param filenameParam
      * @return
      */
-    @Path("/custom/images/{filename}")
+    @Path("/custom/images/{typeParam}/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
-    public final Response requestCustomImage(@PathParam("filename") final String filenameParam) {
+    public final Response requestCustomTypeParamImage(
+    		@PathParam("typeParam") final String typeParam,
+    		@PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
-        tp.methodEnter("/uiconfig/custom/images/" + filenameParam);
+        tp.methodEnter("/uiconfig/custom/images/" + typeParam + "/" + filenameParam);
+        tp.println("typeParam", typeParam);
         tp.println("filename", filenameParam);
 
         // 1, Decodes filename.
@@ -329,7 +332,7 @@ public class UiConfigResource {
         }
 
         // 3, Searches a file with the given name in custom base path.
-        String customBasePath = configProperties.getCustomResourceBasePath();
+        String customBasePath = configProperties.getCustomResourceBasePath() + UiConfigType.IMAGES.toString() + "/" + typeParam + "/";
         File file = UiConfigHelper.searchImageFile(customBasePath, filename);
         if (file == null) {
             tp.methodExit("Custom image not found:" + filename);

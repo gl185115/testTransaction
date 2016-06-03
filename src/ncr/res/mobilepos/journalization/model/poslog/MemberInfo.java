@@ -147,7 +147,7 @@ public class MemberInfo {
      * The private member variable that will hold the xeb member info.
      */
     @XmlElement(name = "XebMemberInfo")
-    private XebMemberInfo xebMemeberInfo;
+    private XebMemberInfo xebMemberInfo;
     /**
      * Gets the AmountForPoints under LineItem.
      *
@@ -388,15 +388,15 @@ public class MemberInfo {
      * 
      * @return
      */
-    public XebMemberInfo getXebMemeberInfo() {
-        return xebMemeberInfo;
+    public XebMemberInfo getXebMemberInfo() {
+        return xebMemberInfo;
     }
     /**
      * 
-     * @param xebMemeberInfo
+     * @param xebMemberInfo
      */
-    public void setXebMemeberInfo(XebMemberInfo xebMemeberInfo) {
-        this.xebMemeberInfo = xebMemeberInfo;
+    public void setXebMemberInfo(XebMemberInfo xebMemberInfo) {
+        this.xebMemberInfo = xebMemberInfo;
     }
     /**
      * 
@@ -514,7 +514,7 @@ public class MemberInfo {
                 + piontsTransactionId + ", pointsMethod=" + pointsMethod + ", statusCode=" + statusCode
                 + ", serverStatusCode=" + serverStatusCode + ", pointsPrior=" + pointsPrior + ", totalPoints="
                 + totalPoints + ", lostPoints=" + lostPoints + ", bonusPoints=" + bonusPoints + ", termPoints="
-                + termPoints + ", basicPoints=" + basicPoints + ", pointCalcExp=" + pointCalcExp + ", xebMemeberInfo=" + xebMemeberInfo + "]";
+                + termPoints + ", basicPoints=" + basicPoints + ", pointCalcExp=" + pointCalcExp + ", xebMemberInfo=" + xebMemberInfo + "]";
     }
     
     

@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.credential.model;
 
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -8,6 +9,8 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+
+import com.wordnik.swagger.annotations.ApiModel;
 
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -17,6 +20,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Employees")
 @XmlSeeAlso({ Employee.class })
+@ApiModel(value="Employees")
 public class Employees extends ResultBase {
     /**
      * The retail store identifier string.

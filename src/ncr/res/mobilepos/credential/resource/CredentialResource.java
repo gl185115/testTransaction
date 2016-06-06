@@ -8,28 +8,56 @@
  */
 package ncr.res.mobilepos.credential.resource;
 
+import java.sql.SQLException;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.SecurityContext;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
-import ncr.res.mobilepos.credential.model.*;
+import ncr.res.mobilepos.credential.model.Authorization;
+import ncr.res.mobilepos.credential.model.Employee;
+import ncr.res.mobilepos.credential.model.Employees;
+import ncr.res.mobilepos.credential.model.NameMasterInfo;
+import ncr.res.mobilepos.credential.model.Operator;
+import ncr.res.mobilepos.credential.model.SystemNameMasterList;
+import ncr.res.mobilepos.credential.model.UserGroup;
+import ncr.res.mobilepos.credential.model.UserGroupLabel;
+import ncr.res.mobilepos.credential.model.UserGroupList;
+import ncr.res.mobilepos.credential.model.ViewEmployee;
+import ncr.res.mobilepos.credential.model.ViewUserGroup;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.*;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.JsonMarshaller;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.helper.TodHelper;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
-import java.sql.SQLException;
-import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * CredentialResource Class is a Web Resource which support MobilePOS Credential
@@ -37,6 +65,7 @@ import java.util.regex.Pattern;
  *
  */
 @Path("/credential")
+@Api(value="/credential", description="ユーザ認証関連API")
 public class CredentialResource {
     /**
      * ServletContext instance.
@@ -99,7 +128,7 @@ public class CredentialResource {
 
     /**
      * Handles the sign-on process with SPART credentials.
-     * 
+     *
      * @param empCode
      *            Employee Code.
      * @param passcode
@@ -163,12 +192,23 @@ public class CredentialResource {
      *            True for demo mode. False if not demo mode.
      * @return "OK" if operator sign on success otherwise "NG".
      */
-    @Path("{operatorno}/signon")
+    @Path("/{operatorno}/signon")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final Operator requestSignOn(@PathParam("operatorno") final String operatorNumber,
-            @FormParam("companyId") final String companyId, @FormParam("passcode") final String passCode,
-            @FormParam("terminalid") final String terminalID, @FormParam("demo") final boolean demo) {
+    @ApiOperation(value="ユーザー(従業員)ログイン認証", response=Operator.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザ未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_PASSCODE_INVALID, message="パスワード未検出")
+    })
+    public final Operator requestSignOn(@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String operatorNumber,
+            @ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
+            @ApiParam(name="passcode", value="パスワード") @FormParam("passcode") final String passCode,
+            @ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") final String terminalID,
+            @ApiParam(name="demo", value="") @FormParam("demo") final boolean demo) {
 
         tp.methodEnter("requestSignOn");
         tp.println("companyId", companyId).println("operatorNumber", operatorNumber).println("passCode", passCode)
@@ -365,7 +405,14 @@ public class CredentialResource {
     @Path("/{operatorno}/signoff")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ResultBase requestSignOff(@PathParam("operatorno") final String operatorNumber) {
+    @ApiOperation(value="ユーザー(従業員)ログオフ", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザ未検出"),
+            @ApiResponse(code=ResultBase.RESCREDL_ERROR_NG, message="パラメータ無効")
+        })
+    public final ResultBase requestSignOff(@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String operatorNumber) {
 
         tp.methodEnter("requestSignOff");
         tp.println("operatorNumber", operatorNumber);
@@ -454,7 +501,7 @@ public class CredentialResource {
 
     /**
      * Get system name list
-     * 
+     *
      * @param name
      *            type id (NameTypeIdが単一のNameTypeIdを設定)
      * @param system
@@ -576,9 +623,15 @@ public class CredentialResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final Employees listOperators(@QueryParam("retailstoreid") final String retailStoreID,
-            @QueryParam("key") final String key, @QueryParam("name") final String name,
-            @QueryParam("limit") final int limit) {
+    @ApiOperation(value="ユーザー(従業員)リスト取得", response=Employees.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        })
+    public final Employees listOperators(@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="key", value="従業員番号検索キーワード") @QueryParam("key") final String key,
+            @ApiParam(name="name", value="従業員名検索キーワード") @QueryParam("name") final String name,
+            @ApiParam(name="limit", value="最大取得件数") @QueryParam("limit") final int limit) {
 
         String functioname = className + ".listOperators";
         tp.methodEnter("listOperators").println("RetailStoreID", retailStoreID).println("Key", key)
@@ -983,7 +1036,7 @@ public class CredentialResource {
 
     /**
      * Web Method call for Deleting User Group.
-     * 
+     *
      * @param groupCode
      *            the code of the User Group to be deleted.
      * @return the {@link ResultBase}. If result code is zero(0), it is success.
@@ -1015,7 +1068,7 @@ public class CredentialResource {
 
     /**
      * View Group Detail.
-     * 
+     *
      * @param groupCode
      *            Group Code (Identifier).
      * @return UserGroup The object containing result code and UserGroup
@@ -1103,7 +1156,7 @@ public class CredentialResource {
 
     /**
      * Updates Group in PRM_GROUP_FUNCTION.
-     * 
+     *
      * @param groupCode
      *            Group code of the group to be updated.
      * @param jsonGroup
@@ -1158,7 +1211,7 @@ public class CredentialResource {
 
     /**
      * check if the string has non-alpha numeric characters.
-     * 
+     *
      * @param str
      *            - the string to check
      * @return true if there are present, false if not

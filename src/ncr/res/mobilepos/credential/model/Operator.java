@@ -15,11 +15,15 @@ package ncr.res.mobilepos.credential.model;
  */
 
 import java.util.regex.Pattern;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -28,6 +32,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Details")
+@ApiModel(value="Operator")
 public class Operator extends ResultBase {
     /**
      * Operator number.
@@ -84,20 +89,20 @@ public class Operator extends ResultBase {
     @XmlElement(name = "Securitylevel")
     private String securitylevel;
     /* 1.01 2014.12.04 ëÄçÏàıèÛë‘éÊìæ ADD END*/
-    
+
     /**
      * security level
      */
     @XmlElement(name = "Authorization")
     private Authorization authorization;
-    
+
     @XmlAttribute(name = "OperatorNameKana")
     private String opeNameKana;
-    
+
     private String updAppId;
 
     private String updOpeCode;
-    
+
     /**
      * Spart Operator Not Found.
      */
@@ -175,6 +180,7 @@ public class Operator extends ResultBase {
         this.date = dateToSet;
     }
 
+    @ApiModelProperty(hidden=true)
     public String getUpdAppId() {
         return updAppId;
     }
@@ -183,6 +189,7 @@ public class Operator extends ResultBase {
         this.updAppId = updAppId;
     }
 
+    @ApiModelProperty(hidden=true)
     public String getUpdOpeCode() {
         return updOpeCode;
     }
@@ -190,7 +197,7 @@ public class Operator extends ResultBase {
     public void setUpdOpeCode(String updOpeCode) {
         this.updOpeCode = updOpeCode;
     }
-    
+
     public String getOpeNameKana() {
     	return this.opeNameKana;
     }
@@ -343,7 +350,7 @@ public class Operator extends ResultBase {
         this.securitylevel = securitylevel;
     }
     /* 1.01 2014.12.04 ëÄçÏàıèÛë‘éÊìæ ADD END*/
-    
+
     /**
      * set the operator security level
      * @param authorization
@@ -351,11 +358,11 @@ public class Operator extends ResultBase {
     public void setAuthorization(Authorization authorization) {
         this.authorization = authorization;
     }
-    
+
     public Authorization getAuthorization() {
         return this.authorization;
     }
-    
+
     @Override
     public final String toString() {
         StringBuilder sb = new StringBuilder();

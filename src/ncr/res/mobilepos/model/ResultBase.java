@@ -3,6 +3,9 @@ package ncr.res.mobilepos.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.helper.StringUtility;
 /**
  * 改定履歴
@@ -13,7 +16,8 @@ import ncr.res.mobilepos.helper.StringUtility;
 /**
  * Base model for representing operational results.
  */
-@XmlRootElement(name = "Result")
+@XmlRootElement(name="Result")
+@ApiModel(value="結果情報")
 public class ResultBase {
     /**
      *Message holder.
@@ -32,7 +36,7 @@ public class ResultBase {
     /**************** Start: Generic Server Error Codes****************/
     /**
      * Generic Server Error. <p/>
-     * 
+     *
      * Preferably "Internal Server Error".
      * An error code for server failure of valid request.
      * Check the NCRWSSExtendedResultCode for the error cause.
@@ -43,16 +47,16 @@ public class ResultBase {
      */
     public static final int RES_SERVER_LIBRARYNOTFOUND = 5001;
     /**************** End: Generic Server Error Codes ****************/
-    
+
     /**************** Start: Generic Client Error Codes ****************/
     /**
      * Generic Client Error.<p/>
-     * 
+     *
      * An error code for client failure of invalid request.
      * Check the NCRWSSExtendedResultCode for the status response
      * like 404 - Not Found, 400 - Bad Request, etc.
      */
-    public static final int RES_CLIENT_ERROR_4XX = 4000;   
+    public static final int RES_CLIENT_ERROR_4XX = 4000;
     /**************** End: Generic Client Error Codes ****************/
 
     /**
@@ -324,23 +328,23 @@ public class ResultBase {
     public static final int RES_ERROR_NODATAFOUND = 157;
     /**
      * Value : {@value}<br>
-     * Creating a connection to the remote host failed. 
+     * Creating a connection to the remote host failed.
      */
     public static final int RES_ERROR_UNKNOWNHOST = 158;
     /**
      * Value : {@value}<br>
-     * Search API failed. 
+     * Search API failed.
      */
     public static final int RES_ERROR_SEARCHAPI = 159;
-   
+
     /**
      * Value : {@value}<br>
-     * Event Check failed because businessDateId not between at resultset's StartDateId and EndDateId. 
+     * Event Check failed because businessDateId not between at resultset's StartDateId and EndDateId.
      */
     public static final int RES_ERROR_BUSINESSDATEIDCHECKFAILED = 160;
     /**
      * Value : {@value}<br>
-     * Event Check failed because EventKbn not equals to resultset's EventKbn. 
+     * Event Check failed because EventKbn not equals to resultset's EventKbn.
      */
     public static final int RES_ERROR_EVENTKBNCHECKFAILED = 161;
     /**************** Start: Generic Client Error Messages ****************/
@@ -509,37 +513,37 @@ public class ResultBase {
      *The Store ID for the device is Invalid.
      */
     public static final int RESDEVCTL_INVALID_STOREID = 228;
-    
+
     /**
      * Value : {@value}<br>
      *PrinterInfo is not updated.
      */
     public static final int RES_PRINTER_NO_UPDATE = 229;
-   
+
     /**
      * Value : {@value}<br>
      *PrinterInfo is not deleted.
      */
     public static final int RES_PRINTER_NOT_DELETED =230;
-        
-    
+
+
     /**
      * Value : {@value}<br>
      *PrinterInfo is existing but is not Active.
      */
     public static final int RES_PRINTER_IS_DELETED =231;
-    
+
     /**
      * Value : {@value}<br>
      *PrinterInfo is existing and with 'Active' status.
      */
     public static final int RES_PRINTER_IS_ACTIVE =232;
-    
+
     /**
      * Value : {@value}<br>
      *Device is in currently used.
      */
-    public static final int RES_DEVICE_IS_IN_USE =233;   
+    public static final int RES_DEVICE_IS_IN_USE =233;
     /**
      * Value : {@value}<br>
      *The printer port was not found.
@@ -741,7 +745,7 @@ public class ResultBase {
      */
     public static final int RESNETRECPT_ERROR_OTHER = 408;
     /**
-     * Invalid Business Date for Credit Slip. 
+     * Invalid Business Date for Credit Slip.
      */
     public static final int RESNETRECPT_CREDSLIP_INVALID_DATE = 409;
     //Signature Activation
@@ -977,7 +981,7 @@ public class ResultBase {
      * value : {@value}<br>
      * Failed to insert forward item data.
      */
-    public static final int RES_FORWARD_ITEM_NO_INSERT = 1301;    
+    public static final int RES_FORWARD_ITEM_NO_INSERT = 1301;
     //line info maintenance
     /**
      * value : {@value}<br>
@@ -1049,17 +1053,17 @@ public class ResultBase {
      * value : {@value}<br>
      * Till does not exist.
      */
-    public static final int RES_TILL_NOT_EXIST = 1500;    
+    public static final int RES_TILL_NOT_EXIST = 1500;
     /**
      * value : {@value}<br>
      * Till ID is not valid.
      */
-    public static final int RES_TILL_INVALIDPARAMS = 1501;        
+    public static final int RES_TILL_INVALIDPARAMS = 1501;
     /**
      * value : {@value}<br>
      * Till already exists.
      */
-    public static final int RES_TILL_EXISTS = 1502;     
+    public static final int RES_TILL_EXISTS = 1502;
     /**
      * Value : {@value}<br>
      * Failed to update Till.
@@ -1166,7 +1170,7 @@ public class ResultBase {
     public static final String toString(boolean b) {
         return (b) ? TRUE : FALSE;
     }
-    
+
     /**
      * The default constructor.
      */
@@ -1188,7 +1192,7 @@ public class ResultBase {
 
 	/**
 	 * ResultBase constructor.
-	 * 
+	 *
 	 * @param resultCode
 	 *            -Code that causes the error.
 	 * @param extendedResultCode
@@ -1202,7 +1206,7 @@ public class ResultBase {
 		this.ncrwssExtendedResultCode = extendedResultCode;
 		this.message = StringUtility.printStackTrace(throwable);
 	}
-    
+
     /**
      * Constructor.
      * @param resultCode
@@ -1210,7 +1214,7 @@ public class ResultBase {
     public ResultBase(final int resultCode){
     	this.ncrwssResultCode = resultCode;
     }
-    
+
     /**
      * Getter for the message value.
      *
@@ -1218,6 +1222,7 @@ public class ResultBase {
      *         - value of the message
      */
     @XmlElement(name = "message")
+    @ApiModelProperty(position=3, value="結果メッセージ", notes="結果メッセージ")
     public final String getMessage() {
         return message;
     }
@@ -1228,6 +1233,7 @@ public class ResultBase {
      *         - value of the resultcode
      */
     @XmlElement(name = "NCRWSSResultCode")
+    @ApiModelProperty(position=1, value="結果コード", notes="結果コード")
     public final int getNCRWSSResultCode() {
         return ncrwssResultCode;
     }
@@ -1247,6 +1253,7 @@ public class ResultBase {
      *         - value of the extendedresultcode
      */
     @XmlElement(name = "NCRWSSExtendedResultCode")
+    @ApiModelProperty(position=2, value="拡張結果コード", notes="拡張結果コード")
     public final int getNCRWSSExtendedResultCode() {
         return ncrwssExtendedResultCode;
     }
@@ -1274,7 +1281,7 @@ public class ResultBase {
      */
     public static final class PROMOTION {
         /** The Default Constructor. */
-        private PROMOTION() {        	
+        private PROMOTION() {
         }
         /**
          * value : {@value}<br>

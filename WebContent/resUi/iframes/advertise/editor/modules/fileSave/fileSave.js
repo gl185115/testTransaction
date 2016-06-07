@@ -75,7 +75,7 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 
 			var imgURLStr  = $rootScope.model.advertise.imageURL;
 			var imageURL   = "res.config.advertise.folder = " + angular.toJson(imgURLStr) + ";\r\n";
-			var interval = "res.config.advertise.interval = " + angular.toJson($rootScope.model.editor.interval) + ";\r\n";
+			var interval = "res.config.advertise.interval = " + angular.toJson(($rootScope.model.editor.interval*1000).toString()) + ";\r\n";
 
 			var items = "res.config.advertise.rules = [\r\n";
 			for (i = 0; i < $rootScope.model.advertise.layout.length; i++){

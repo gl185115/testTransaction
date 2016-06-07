@@ -43,7 +43,7 @@ res.model = res.model || {};
 				res.config.advertise = {};
 				eval(data.result);
 				if (res.config.advertise.folder) model.advertise.imageURL = res.config.advertise.folder;
-				if (res.config.advertise.interval) model.editor.interval = res.config.advertise.interval;
+				if (res.config.advertise.interval) model.editor.interval = res.config.advertise.interval/1000;
 				if (res.config.advertise.rules) {
 				    //model.advertise.layout = res.config.advertise.rules;
 				    var rules = res.config.advertise.rules,

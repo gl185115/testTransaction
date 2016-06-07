@@ -268,6 +268,13 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         var startOfDay = $scope.itemSelected.startOfDay;
         var endOfDay = $scope.itemSelected.endOfDay;
 
+        if(!startOfDay || !endOfDay){
+        	  $rootScope.model.failure.active = true;
+        	  $rootScope.model.failure.service = "advertise";
+        	  $rootScope.model.failure.cause = "DateEmpty";
+        	return false;
+        }
+        
         if ((option=="all" || option=="itemId") && startOfDay && endOfDay) {
             if (startOfDay.substring(0,4) > endOfDay.substring(0,4) || 
                     ((startOfDay.substring(0,4) == endOfDay.substring(0,4)) && (startOfDay.substring(4,6) > endOfDay.substring(4,6))) || 

@@ -8,28 +8,27 @@
 // Err
 // 0:DeviceDetail.jsp/SELECT（Data Not Found.）
 final String ERR_01_01 = "対象データが存在しません。";
-// 1:DeviceDetail.jsp/DELETE
-final String ERR_01_02 = "「AUT_DEVICES」レコードの削除に失敗しました。";
+// 1:DeviceDetail.jsp/DELETE2
+final String ERR_01_02 = "「AUT_DEVICES」レコードの削除に失敗しました。<br>システム担当者に確認してください。";
 final String ERR_01_05 = "「AUT_DEVICES」レコードは既に削除されています。";
 // 2:DeviceDetail.jsp/DELETE(UPDATE)
-final String ERR_01_03 = "端末情報の更新に失敗しました。";
+final String ERR_01_03 = "端末情報の削除に失敗しました。<br>システム担当者に確認してください。";
 // 3:DeviceUpdate.jsp/SELECT（Data Not Found.）
-final String ERR_02_01 = "対象データが存在しません。";
+final String ERR_02_01 = "対象データが存在しません。<br>システム担当者に確認してください。";
 //　4:DeviceUpdate.jsp/UPDATE
-final String ERR_02_02 = "更新処理に失敗しました。";
+final String ERR_02_02 = "端末情報の更新に失敗しました。<br>システム担当者に確認してください。";
 // 5:DeviceDetail.jsp/UPDATE2
-final String ERR_01_04 = "再利用に失敗しました。";
+final String ERR_01_04 = "端末情報の再利用に失敗しました。<br>システム担当者に確認してください。";
 
 // info
-//　0:DeviceDetail.jsp/DELETEの成功
+//　0:DeviceDetail.jsp/DELETE2の成功
 final String INFO_01_01 = "「AUT_DEVICES」レコードの削除に成功しました。";
-//　1:DeviceDetail.jsp/DELETE(UPDATE)の成功
-final String INFO_01_02 = "端末情報の更新に成功しました。";
+//　1:DeviceDetail.jsp/DELETEの成功
+final String INFO_01_02 = "端末情報の削除に成功しました。";
 // 2:DeviceUpdate.jsp/UPDATE
-final String INFO_02_01 = "更新処理に成功しました。";
+final String INFO_02_01 = "端末情報の更新に成功しました。";
 // 3:DeviceDetail.jsp/UPDATE2の成功
-final String INFO_01_03 = "再利用に成功しました。";
-
+final String INFO_01_03 = "端末情報の再利用に成功しました。";
 %>
 <%
     request.setCharacterEncoding("UTF-8");

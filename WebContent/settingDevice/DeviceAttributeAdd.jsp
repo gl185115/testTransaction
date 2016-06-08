@@ -6,8 +6,8 @@
 	import="java.util.ArrayList"
 	import="java.text.SimpleDateFormat"%>
 <%!
-final String ERR_01_TERMINALID = "属性番号が既に存在します。";
-final String ERR_02_INTERNAL = "内部エラーが発生しました。";
+final String ERR_01_TERMINALID = "属性番号が既に存在します。<br>属性番号を確認後、再度登録を実行してください。";
+final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
 final String INFO_01_INSERT = "属性の新規登録に成功しました。";
 final String INFO_02_CHECK = "属性の整合性がとれていません。";
 final String CONFIRM_01_INSERT = "属性を登録してよろしいですか。";
@@ -18,9 +18,9 @@ ArrayList<String> TILL_VAL = new ArrayList<String>() {{add("Manual"); add("Auto"
 ArrayList<String> CREDIT_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CREDIT_NAME = new ArrayList<String>() {{add("クレジット処理不可"); add("クレジット処理可");}};
 ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2");}};
-ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("付属なし"); add("カードリーダー"); add("iSMR");}};
+ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMR");}};
 ArrayList<String> CASH_VAL = new ArrayList<String>() {{add("0"); add("1");}};
-ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("付属なし"); add("付属あり");}};
+ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("なし"); add("あり");}};
 ArrayList<String> ATT1_VAL = new ArrayList<String>() {{add("1"); add("2"); add("3");}};
 ArrayList<String> ATT1_NAME = new ArrayList<String>() {{add("POSスキャナー"); add("Bluetoothスキャナー"); add("ScanTab");}};
 ArrayList<String> ATT2_VAL = new ArrayList<String>() {{add("0"); add("1");}};
@@ -28,9 +28,9 @@ ArrayList<String> ATT2_NAME = new ArrayList<String>() {{add("開設/精算を行
 ArrayList<String> ATT3_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT3_NAME = new ArrayList<String>() {{add("前捌きのみ"); add("決済端末");}};
 ArrayList<String> ATT4_VAL = new ArrayList<String>() {{add("0"); add("1");}};
-ArrayList<String> ATT4_NAME = new ArrayList<String>() {{add("ＣＩＤ付属なし"); add("ＣＩＤ付属あり");}};
+ArrayList<String> ATT4_NAME = new ArrayList<String>() {{add("ＣＩＤなし"); add("ＣＩＤあり");}};
 ArrayList<String> ATT5_VAL = new ArrayList<String>() {{add("0"); add("1");}};
-ArrayList<String> ATT5_NAME = new ArrayList<String>() {{add("Line Display付属なし"); add("Line Display付属あり");}};
+ArrayList<String> ATT5_NAME = new ArrayList<String>() {{add("Line Displayなし"); add("Line Displayあり");}};
 ArrayList<String> ATT6_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT6_NAME = new ArrayList<String>() {{add("精算後シャットダウンしない"); add("精算後シャットダウンする");}};
 ArrayList<String> ATT7_VAL = new ArrayList<String>() {{add("0"); add("1");}};
@@ -133,7 +133,7 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 			</tr>
 			<tr>
 				<td align="right">属性説明 ： </td>
-				<td align="left"><input type="text" id="Description" name="Description" size=50 maxlength="25" required pattern=".{0,25}">(全角25文字以内で入力してください)</td>
+				<td align="left"><input type="text" id="Description" name="Description" size=50 maxlength="25" required pattern=".{0,25}">(25文字以内で入力してください)</td>
 			</tr>
 			<tr>
 				<td align="right">プリンター ： </td>

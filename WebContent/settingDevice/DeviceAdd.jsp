@@ -5,15 +5,18 @@
     import="java.util.ArrayList"
 	import="java.text.SimpleDateFormat"%>
 <%!
-final String ERR_01_TERMINALID = "端末が既に存在します。";
-final String ERR_02_INTERNAL = "内部エラーが発生しました。";
+final String ERR_01_TERMINALID = "端末が既に存在します。<br>端末番号を確認後、再度登録を実行してください。";
+final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
 final String INFO_01_INSERT = "端末の新規登録に成功しました。";
 final String CONFIRM_01_INSERT = "端末を登録してよろしいですか。";
 
 ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンター"); add("ネットワークプリンター");}};
 %>
 <%
-    String sqlStr = "";
+    request.setCharacterEncoding("UTF-8");
+    response.setContentType("text/html;charset=UTF-8");
+
+String sqlStr = "";
     String errString = "";
     String infoString = "";
     Boolean isUpdateAreaHide = true;
@@ -38,7 +41,6 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
         }
         psSelect.close();
 
-//        sqlStr = "SELECT q.Id ,q.DisplayName FROM RESMaster.dbo.PRM_QUEUEBUSTER_LINK q WHERE q.StoreId=? and q.Status<>'Deleted'";
         sqlStr = "SELECT q.Id ,q.DisplayName FROM RESMaster.dbo.PRM_QUEUEBUSTER_LINK q WHERE q.StoreId=? and q.CompanyId=? and q.Status<>'Deleted'";
         psSelect = connection.prepareStatement(sqlStr);
         psSelect.setString(1, request.getParameter("searchStoreID").toString());
@@ -73,6 +75,22 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 errString = ERR_01_TERMINALID;
                 connection.close();
             } else {
+                psSelect.close();
+                
+                sqlStr = "SELECT TodayDate"
+                        + " FROM RESMaster.dbo.MST_BIZDAY"
+                        + " WHERE companyID=?";
+                psSelect = connection.prepareStatement(sqlStr);
+                psSelect.setString(1, request.getParameter("addCompanyID").toString());
+                rsSelect = psSelect.executeQuery();
+                
+                Date nowDate = new Date();
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                String today = formatter.format(nowDate);
+                if (rsSelect.next()) {
+                    today = rsSelect.getString("TodayDate");
+                }
+
                 sqlStr = /* MST_DEVICEINFO */
                         "INSERT INTO RESMaster.dbo.MST_DEVICEINFO"
                         + " (CompanyId, StoreId, TerminalId, Training, DeviceName, AttributeId, PrinterId, TillId, LinkPosTerminalId, LinkQueueBuster, SendLogFile, SaveLogFile, AutoUpload, Status, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
@@ -110,9 +128,6 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                         + "  (CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SodFlag, EodFlag, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
                         + "  VALUES (?, ?, ?, ?, ?, '1', '0', '0', CURRENT_TIMESTAMP, 'system', 'system', 0, CURRENT_TIMESTAMP, 'system', 'system')"
                         + "  END";
-                Date nowDate = new Date();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-                String today = formatter.format(nowDate);
                 PreparedStatement psIns = connection.prepareStatement(sqlStr);
                 // MST_DEVICEINFO(normal)
                 psIns.setString(1, request.getParameter("addCompanyID"));
@@ -246,21 +261,11 @@ window.onload = function() {
     <script type="text/javascript" src="./js/DialogMessage.js"></script>
 端末登録<br><br>
  ※下記すべて入力し、最後に登録を押下してください。<br><br>
-<%--
-out.println("</br>searchCompanyID:"+request.getParameter("searchCompanyID"));
-out.println("</br>searchStoreID:"+request.getParameter("searchStoreID"));
-out.println("</br>addCompanyID:"+request.getParameter("addCompanyID"));
-out.println("</br>addStoreID:"+request.getParameter("addStoreID"));
-out.println("</br>terminalID:"+request.getParameter("terminalID"));
-out.println("</br>attributeList:"+request.getParameter("attributeList"));
-out.println("</br>queueList:"+request.getParameter("queueList"));
-out.println("</br>:"+sqlStr);
---%>
   <iframe name="storesearch" id="storeSearch" src="./StoreSearch.jsp"></iframe>
   <form action="DeviceAdd.jsp" method="post" id="searchform">
     <input type="hidden" name="searchCompanyID" id="searchCompanyID">
     <input type="hidden" name="searchStoreID" id="searchStoreID">
-    <button class="res-small-green" onclick="searchDev(this)">検索</button>
+    <button class="res-small-green" onclick="searchDev(this)">次へ</button>
   </form>
   <label class="res-err-msg"><%out.println(errString); %></label>
   <label class="res-info-msg"><%out.println(infoString); %></label>
@@ -291,7 +296,7 @@ out.println("</br>:"+sqlStr);
           <tr>
             <td align="right">端末名 ： </td>
             <td align="left">
-              <input maxlength="15" type="text" name="terminalName" id="terminalName" size=30 required pattern=".{0,15}">(全角15文字以内で入力してください。)
+              <input maxlength="15" type="text" name="terminalName" id="terminalName" size=30 required pattern=".{0,15}">(15文字以内で入力してください。)
             </td>
           </tr>
           <tr>
@@ -346,13 +351,13 @@ out.println("</br>:"+sqlStr);
           <tr>
             <td align="right">プリンター名 ： </td>
             <td align="left">
-              <input maxlength="40" type="text" name="printerName" id="printerName" size=40 pattern=".{0,20}">(全角20文字以内で入力してください。)
+              <input maxlength="40" type="text" name="printerName" id="printerName" size=40 pattern=".{0,20}">(20文字以内で入力してください。)
             </td>
           </tr>
           <tr>
             <td align="right">プリンター説明 ： </td>
             <td align="left">
-              <input maxlength="40" type="text" name="printerDescription" id="printerDescription" size=40 required pattern=".{0,20}">(全角20文字以内で入力してください。)
+              <input maxlength="40" type="text" name="printerDescription" id="printerDescription" size=40 required pattern=".{0,20}">(20文字以内で入力してください。)
             </td>
           </tr>
           <tr>

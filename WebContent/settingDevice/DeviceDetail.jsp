@@ -18,8 +18,6 @@
     	g_UpFlg = "select";
     }
 
-//    ArrayList<String> MstDeviceinfoList = new ArrayList<String>();
-//    ArrayList<String> MstDeviceinfoList2 = new ArrayList<String>();
     ArrayList<ArrayList<String>> MstDeviceinfoLists = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<String>> MstTerminalinfoLists = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<String>> PrmDeviceAttributeLists = new ArrayList<ArrayList<String>>();
@@ -515,7 +513,7 @@
                     <th style="width: 25%">設定値(トレーニング用)</th>
                 </tr>
                 <tr>
-                    <td colspan="2">企業番号(CompanyId)）</td>
+                    <td colspan="2">企業番号(CompanyId)</td>
                     <td><input type="text" id="dev_CompanyId" name="dev_CompanyId" disabled style="width: 100%" value="<%=MstDeviceinfoLists.get(0).get(0)%>"/></td>
                     <td><input type="text" id="tra_CompanyId" name="tra_CompanyId" disabled style="width: 100%" value="<%=MstDeviceinfoLists.get(1).get(0)%>"/></td>
                 </tr>

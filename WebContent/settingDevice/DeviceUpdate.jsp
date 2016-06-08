@@ -524,7 +524,7 @@
         <td><input maxlength="15" type="text" id="tra_DeviceName" name="tra_DeviceName" size=30 value="<%= tra_DeviceName%>" required pattern=".{0,15}"></td>
       </tr>
       <tr>
-        <td colspan="3" align="right">(全角15文字以内で入力してください。)</td>
+        <td colspan="3" align="right">(15文字以内で入力してください。)</td>
       </tr>
       <tr>
         <td align="right" class="orangetd">属性番号： </td>
@@ -686,7 +686,7 @@
       <tr>
         <td align="right">端末名 ： </td>
         <td align="left">
-          <input maxlength="15" type="text" id="ter_TerminalName" name="ter_TerminalName" value="<%= ter_TerminalName%>" size=30 required pattern=".{0,15}">(全角15文字以内で入力してください。)
+          <input maxlength="15" type="text" id="ter_TerminalName" name="ter_TerminalName" value="<%= ter_TerminalName%>" size=30 required pattern=".{0,15}">(15文字以内で入力してください。)
         </td>
       </tr>
       <tr>

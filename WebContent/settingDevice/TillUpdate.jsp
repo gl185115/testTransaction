@@ -7,11 +7,11 @@
     import="java.sql.*"
 %>
 <%!
-    final String ERR_01_TILL = "ドロワーが使用中のため削除できません。";
-    final String ERR_02_UPDATE = "ドロワー情報の更新に失敗しました。";
-    final String ERR_03_DELETE = "ドロワー情報の削除に失敗しました。";
-    final String ERR_04_INTERNAL = "内部エラーが発生しました。";
-    final String ERR_05_REUSE = "ドロワー情報の再利用に失敗しました。";
+    final String ERR_01_TILL = "ドロワーが使用中のため削除できません。<br>削除したい場合、端末に登録されているドロワーを変更してから再度実行してください。";
+    final String ERR_02_UPDATE = "ドロワー情報の更新に失敗しました。<br>システム担当者に確認してください。";
+    final String ERR_03_DELETE = "ドロワー情報の削除に失敗しました。<br>システム担当者に確認してください。";
+    final String ERR_04_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
+    final String ERR_05_REUSE = "ドロワー情報の再利用に失敗しました。<br>システム担当者に確認してください。";
     final String INFO_01_UPDATE = "ドロワー情報の更新に成功しました。";
     final String INFO_02_DELETE = "ドロワー情報の削除に成功しました。";
     final String INFO_03_REUSE = "ドロワー情報の再利用に成功しました。";
@@ -78,15 +78,6 @@
          connection.close();
     } else{
          if (request.getMethod() == "POST") {
-             /*
-                         out.println(request.getParameter("CheckedBusinessDayDate"));
-                         out.println(request.getParameter("CheckedSodFlag"));
-                         out.println(request.getParameter("CheckedEodFlag"));
-                         out.println(request.getParameter("companyID"));
-                         out.println(request.getParameter("storeID"));
-                         out.println(request.getParameter("tillID"));
-                         out.println(request.getParameter("action").toString());
-             */
              if (request.getParameter("action") != null) {
                  if (request.getParameter("action").toString().equals("update")) {
                      JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
@@ -274,7 +265,7 @@
           <tr>
             <td align="right">開設 ： </td>
             <td>
-              <select name="CheckedSodFlag" id="CheckedSodFlag" required style="width:50%">
+              <select name="CheckedSodFlag" id="CheckedSodFlag" onChange="changeAnotherSelect(this)" required style="width:50%">
                 <%
                 for (int i=0;i<SOD_VAL.size();i++) {
                     out.print("<option value=\"" + SOD_VAL.get(i) + "\"");
@@ -287,7 +278,7 @@
           <tr>
             <td align="right">閉設 ： </td>
             <td>
-              <select name="CheckedEodFlag" id="CheckedEodFlag" required style="width:50%">
+              <select name="CheckedEodFlag" id="CheckedEodFlag" onChange="changeAnotherSelect(this)" required style="width:50%">
                 <%
                 for (int i=0;i<EOD_VAL.size();i++) {
                     out.print("<option value=\"" + EOD_VAL.get(i) + "\"");
@@ -362,6 +353,26 @@ function check(inValue) {
 
 
     document.getElementById('updateArea').style.display = "block";
+}
+
+function changeAnotherSelect(obj) {
+    var anotherObjId = 'CheckedSodFlag';
+    if (obj.id == 'CheckedSodFlag') {
+        var anotherObjId = 'CheckedEodFlag';
+    }
+    
+    var anotherValue = '0';
+    if(obj.value == '0') {
+        anotherValue = '1';
+    }
+    
+    var pulldown_option = document.getElementById(anotherObjId).getElementsByTagName('option');
+    for(i=0; i<pulldown_option.length;i++){
+        if(pulldown_option[i].value == anotherValue){
+            pulldown_option[i].selected = true;
+            break;
+        }
+    }
 }
 
 jQuery(function ($) {

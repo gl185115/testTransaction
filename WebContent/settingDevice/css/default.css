@@ -59,29 +59,12 @@ body.indexBody {
     position: absolute;
     width: 100%;
     height: 100%;
-/*    background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(208, 11%, 60%)), to(hsl(208, 11%, 40%)));*/
     background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,90%)),to(hsl(0,0%,50%)));
     border: none;
     z-index: 1;
     overflow: hidden;
     padding: 10px;
 }
-/*
-.indexLeft ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-}
-
-.indexLeft ul li {
-    background: #3B3E40;
-    border-bottom: 1px solid #27292a;
-    border-top: 1px solid #46494b;
-    box-shadow: inset -20px 0 10px -20px #000;
-    -moz-box-shadow: inset -20px 0 10px -20px #000;
-    -webkit-box-shadow: inset -20px 0 10px -20px #000;
-}
-*/
 .indexLeft a {
     text-align: left;
     font-size: 15px;
@@ -116,7 +99,6 @@ body.indexBody {
 }
 /* panel*/
 .res-maincontent .panel {
-/*    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,90%)),to(hsl(0,0%,50%)));*/
     background: -webkit-gradient(linear,left top,right bottom,from(hsl(0,0%,100%)),to(hsl(0,0%,80%)));
     border-radius: 10px;
     padding: 10px;
@@ -269,6 +251,22 @@ input:focus,button:focus,select:focus {
 .res-maincontent table.res-tbl tr:nth-child(even) {
     background: #fff;
 }
+
+/*テキストエリア*/
+.res-maincontent .rawdata {
+    resize: none;
+    width: 99%;
+    margin: 10px 0px;
+}
+
+.res-maincontent DIV.htmlArea {
+    background:#FFFFFF;
+    width:100%;
+    height:100%;
+    border: solid #A0A0A0;
+    border-width: 1px;
+}
+
 /*ダイアログ全体*/
 .ui-dialog2 {
     width: 420px;

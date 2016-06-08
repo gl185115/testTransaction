@@ -6,11 +6,11 @@
     import="java.text.SimpleDateFormat"
     import="java.sql.*"%>
 <%!
-    final String ERR_01_PRINTER = "プリンターが使用中のため削除できません。";
-    final String ERR_02_UPDATE = "プリンター情報の更新に失敗しました。";
-    final String ERR_03_DELETE = "プリンター情報の削除に失敗しました。";
-    final String ERR_04_INTERNAL = "内部エラーが発生しました。";
-    final String ERR_05_REUSE = "プリンター情報の再利用に失敗しました。";
+    final String ERR_01_PRINTER = "プリンターが使用中のため削除できません。<br>削除したい場合、端末に登録されているプリンターを変更してから再度実行してください。";
+    final String ERR_02_UPDATE = "プリンター情報の更新に失敗しました。<br>システム担当者に確認してください。";
+    final String ERR_03_DELETE = "プリンター情報の削除に失敗しました。<br>システム担当者に確認してください。";
+    final String ERR_04_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
+    final String ERR_05_REUSE = "プリンター情報の再利用に失敗しました。<br>システム担当者に確認してください。";
     final String INFO_01_UPDATE = "プリンター情報の更新に成功しました。";
     final String INFO_02_DELETE = "プリンター情報の削除に成功しました。";
     final String INFO_03_REUSE = "プリンター情報の再利用に成功しました。";
@@ -83,14 +83,6 @@
          connection.close();
     } else {
         if (request.getMethod() == "POST") {
-/*
-            out.println(request.getParameter("CheckedPrinterName"));
-            out.println(request.getParameter("CheckedIpAddress"));
-            out.println(request.getParameter("companyID"));
-            out.println(request.getParameter("storeID"));
-            out.println(request.getParameter("printerID"));
-            out.println(request.getParameter("action").toString());
-*/
             if (request.getParameter("action") != null) {
                 if ("update".equals(request.getParameter("action").toString())) {
                     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
@@ -275,13 +267,13 @@
           <tr>
             <td align="right">プリンター名 ： </td>
             <td>
-              <input maxlength="20" type="text" name="CheckedPrinterName" id="CheckedPrinterName" size=40 pattern=".{0,20}">(全角20文字以内で入力してください。)
+              <input maxlength="20" type="text" name="CheckedPrinterName" id="CheckedPrinterName" size=40 pattern=".{0,20}">(20文字以内で入力してください。)
             </td>
           </tr>
           <tr>
             <td align="right">プリンター説明 ： </td>
             <td align="left">
-              <input maxlength="40" type="text" name="CheckedPrinterDescription" id="CheckedPrinterDescription" size=40 required pattern=".{0,20}">(全角20文字以内で入力してください。)
+              <input maxlength="40" type="text" name="CheckedPrinterDescription" id="CheckedPrinterDescription" size=40 required pattern=".{0,20}">(20文字以内で入力してください。)
             </td>
           </tr>
           <tr>

@@ -6,8 +6,8 @@
 	import="java.util.ArrayList"
 	import="java.text.SimpleDateFormat"%>
 <%!
-final String ERR_01_ID = "キューIDが既に存在します。";
-final String ERR_02_INTERNAL = "内部エラーが発生しました。";
+final String ERR_01_ID = "キューIDが既に存在します。<br>キューIDを確認後、再度登録を実行してください。";
+final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
 final String ERR_03_STOREID = "店番号を選択してください。";
 final String INFO_01_INSERT = "キューの新規登録に成功しました。";
 final String CONFIRM_01_INSERT = "キューを登録してよろしいですか。";%>
@@ -27,7 +27,6 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
 				+ ", queuebuster_link.Id AS Id"
 				+ " FROM RESMaster.dbo.PRM_QUEUEBUSTER_LINK queuebuster_link"
                 + " WHERE queuebuster_link.StoreId=? and queuebuster_link.Id=? and queuebuster_link.CompanyId=?"
-//                + " WHERE queuebuster_link.StoreId=? and queuebuster_link.Id=?"
 		;
 		PreparedStatement psSelect = connection.prepareStatement(sqlStr);
         psSelect.setString(1, request.getParameter("searchStoreID").toString());
@@ -43,8 +42,6 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
 			sqlStr = "INSERT INTO RESMaster.dbo.PRM_QUEUEBUSTER_LINK"
                     + "(StoreId, ID, DisplayName, CompanyId, Status, UpdDate, UpdAppId, UpdOpeCode) "
                     + " VALUES (?, ?, ?, ?, 'Active', CURRENT_TIMESTAMP, 'system', 'system');";
-//					+ "(StoreId, ID, DisplayName, Status, UpdDate, UpdAppId, UpdOpeCode) "
-//					+ " VALUES (?, ?, ?, 'Active', CURRENT_TIMESTAMP, 'system', 'system');";
 
 			Date nowDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -102,7 +99,7 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
 			    </tr>
 			    <tr>
 			    	<td align="right">キュー名称： </td>
-				    <td align="left"><input type="text" id="DisplayName" name="DisplayName" value="" size=40 maxlength="20" required pattern=".{0,20}">(全角20文字以内で入力してください)</td>
+				    <td align="left"><input type="text" id="DisplayName" name="DisplayName" value="" size=40 maxlength="20" required pattern=".{0,20}">(20文字以内で入力してください)</td>
 			    </tr>
 		    </table>
 		    <br>

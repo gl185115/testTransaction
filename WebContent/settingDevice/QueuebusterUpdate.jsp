@@ -5,11 +5,11 @@
     import="java.text.SimpleDateFormat"
     import="java.sql.*"%>
 <%!
-    final String ERR_01_QUEUE = "キューが使用中のため削除できません。";
-    final String ERR_02_UPDATE = "キュー情報の更新に失敗しました。";
-    final String ERR_03_DELETE = "キュー情報の削除に失敗しました。";
-    final String ERR_04_INTERNAL = "内部エラーが発生しました。";
-    final String ERR_05_REUSE = "キュー情報の再利用に失敗しました。";
+    final String ERR_01_QUEUE = "キューが使用中のため削除できません。<br>削除したい場合、端末に登録されているキューを変更してから再度実行してください。";
+    final String ERR_02_UPDATE = "キュー情報の更新に失敗しました。<br>システム担当者に確認してください。";
+    final String ERR_03_DELETE = "キュー情報の削除に失敗しました。<br>システム担当者に確認してください。";
+    final String ERR_04_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
+    final String ERR_05_REUSE = "キュー情報の再利用に失敗しました。<br>システム担当者に確認してください。";
     final String INFO_01_UPDATE = "キュー情報の更新に成功しました。";
     final String INFO_02_DELETE = "キュー情報の削除に成功しました。";
     final String INFO_03_REUSE = "キュー情報の再利用に成功しました。";
@@ -65,13 +65,6 @@
          connection.close();
     } else {
         if (request.getMethod() == "POST") {
-/*
-            out.println(request.getParameter("CheckedDisplayName"));
-            out.println(request.getParameter("companyID"));
-            out.println(request.getParameter("storeID"));
-            out.println(request.getParameter("queueID"));
-            out.println(request.getParameter("action").toString());
-*/
             if (request.getParameter("action") != null) {
                 if ("update".equals(request.getParameter("action").toString())) {
                     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
@@ -81,7 +74,6 @@
                                    + " SET DisplayName=?,"
                                    + " UpdDate=CURRENT_TIMESTAMP, UpdAppId='system',UpdOpeCode='system'"
                                    + " WHERE StoreId=? and Id=? and CompanyId=?";
-//                                   + " WHERE StoreId=? and Id=?";
                     PreparedStatement psUpd = connection.prepareStatement(sqlStr);
                     psUpd.setString(1, request.getParameter("CheckedDisplayName"));
                     psUpd.setString(2, request.getParameter("storeID"));
@@ -110,7 +102,6 @@
                                    + " FROM RESMaster.dbo.MST_DEVICEINFO devinfo"
                                    + " WHERE devinfo.StoreId=? AND devinfo.LinkQueueBuster=? AND devinfo.CompanyId=?"
                                    + " AND devinfo.DeleteFlag<>'1' AND devinfo.Status<>'Deleted'";
-//                                   + " WHERE devinfo.StoreId=? AND devinfo.LinkQueueBuster=?";
                     PreparedStatement psSelect = connection.prepareStatement(sqlStr);
                     psSelect.setString(1, request.getParameter("storeID"));
                     psSelect.setString(2, request.getParameter("queueID"));
@@ -125,7 +116,6 @@
                         sqlStr = "UPDATE RESMaster.dbo.PRM_QUEUEBUSTER_LINK"
                                 + " SET Status='Deleted'"
                                 + " WHERE StoreId=? and Id=? AND CompanyId=?";
-//                                + " WHERE StoreId=? and Id=?";
                         PreparedStatement psUpd = connection.prepareStatement(sqlStr);
                         psUpd.setString(1, request.getParameter("storeID"));
                         psUpd.setString(2, request.getParameter("queueID"));
@@ -155,7 +145,6 @@
                             + " SET Status='Active',"
                             + " UpdDate=CURRENT_TIMESTAMP, UpdAppId='system',UpdOpeCode='system'"
                             + " WHERE StoreId=? and Id=? and CompanyId=?";
-//                            + " WHERE StoreId=? and Id=?";
                     PreparedStatement psUpd = connection.prepareStatement(sqlStr);
                     psUpd.setString(1, request.getParameter("storeID"));
                     psUpd.setString(2, request.getParameter("queueID"));
@@ -250,14 +239,14 @@
           <tr>
             <td align="right">キュー名称 ： </td>
             <td>
-              <input maxlength="20" type="text" name="CheckedDisplayName" id="CheckedDisplayName" size=40 required pattern=".{0,20}">(全角20文字以内で入力してください。)
+              <input maxlength="20" type="text" name="CheckedDisplayName" id="CheckedDisplayName" size=40 required pattern=".{0,20}">(20文字以内で入力してください。)
             </td>
           </tr>
         </table>
       </div>
       <table align="right">
         <tr>
-          <td align="right" style="padding:10px;"><button type="button" id="DeleteButton" name="DeleteButton" class="res-big-yellow"">削除</button></td>
+          <td align="right" style="padding:10px;"><button type="button" id="DeleteButton" name="DeleteButton" class="res-big-yellow">削除</button></td>
           <td align="right" style="padding:10px;"><button type="button" id="UpdateButton" name="UpdateButton" class="res-big-green">更新</button></td>
         </tr>
       </table>

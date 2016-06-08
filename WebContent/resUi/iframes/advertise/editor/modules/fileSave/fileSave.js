@@ -86,6 +86,14 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
                         pictureArr.splice(pictureArr.length - 1 , 0 , "_1020*640.");
                         fullScreen = pictureArr && pictureArr.join('');
                      }*/
+                	var startOfDay = $rootScope.model.advertise.layout[i][j].startOfDay;
+                    var endOfDay = $rootScope.model.advertise.layout[i][j].endOfDay;
+                	if(!startOfDay || !endOfDay){
+                  	  $rootScope.model.failure.active = true;
+                  	  $rootScope.model.failure.service = "advertise";
+                  	  $rootScope.model.failure.cause = "DateEmpty";
+                  	return false;
+                  }
                     items += angular.toJson({
                         fileName: $rootScope.model.advertise.layout[i][j].picturePart ? $rootScope.model.advertise.layout[i][j].picturePart : '',
                         //fileNameFullScreen: fullScreen ,

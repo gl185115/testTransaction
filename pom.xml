@@ -781,7 +781,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <supportSpringMvc>false</supportSpringMvc>
                         <locations>ncr.res.mobilepos</locations>
                         <apiInfo>
-                            <title>RES Mex API</title>
+                            <title>RES Mex Transaction API</title>
                             <description>This is a specification for RES Mex API</description>
                         </apiInfo>
                         <apiVersion>0.1</apiVersion>
@@ -794,6 +794,14 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                     </apiSource>
                 </apiSources>
             </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
         </plugin>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>

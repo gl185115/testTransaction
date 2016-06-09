@@ -47,7 +47,7 @@ res.ui.controller("fileCreate", ["$scope", "$rootScope", function($scope, $rootS
 		//$rootScope.model.editor.indexEdit = "editItems";
 		$rootScope.model.editor.indexEdit = "editLayout";
 		$rootScope.model.advertise = new Advertise();
-		$rootScope.model.editor.interval = "";
+		$rootScope.model.editor.interval = "3";
 		$rootScope.dialog = "";
 		$rootScope.model.advertise.OriginalItems = new Advertise().items;
 		$rootScope.model.advertise.OriginalCategories = new Advertise().categories;

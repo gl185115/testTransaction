@@ -398,4 +398,7 @@
 	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0, 0%, 95%)),color-stop(0.4,hsl(0, 0%, 60%)),color-stop(0.7,hsl(0, 0%, 50%)),to(hsl(0, 0%, 40%)));
 	border-radius: 14px;
 }
+#EditLayout .red {
+	background:red;
+}
 /**** end of CSS ****/

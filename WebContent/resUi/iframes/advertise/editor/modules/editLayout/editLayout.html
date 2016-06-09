@@ -20,6 +20,7 @@
 			data-ng-repeat="list in model.advertise.layout track by $index">
 			<!-- data-ng-show="indexCategory == $index" -->
 				<div class="PickButton"
+				  data-ng-class = "{'red':item.error}"
 					data-ng-repeat="item in list track by $index"
 					data-res-click="selectPosition($parent.$index, $index)">
 					<!-- <div class="InnerBox" data-ng-show="item.pictureFull||item.picturePart">

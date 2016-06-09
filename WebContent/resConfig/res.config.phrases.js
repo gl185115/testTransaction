@@ -1031,6 +1031,7 @@ res.config.phrases = {
 
     "Advertise.Failure.advertise.empty":["Please enter item code and name!","商品番号、または商品名が入力されていません。"],
     "Advertise.Failure.advertise.DateEmpty":["Please enter strat date and end date!","開始日付、終了日付が入力されていません。"],
+    "Advertise.Failure.advertise.DateEmpty_save":["Please enter strat date and end date!","開始日付、終了日付が入力されていない広告があります。<br>ご確認下さい。"],
     "Advertise.Failure.advertise.blank":["Please apply item!","商品を適用してださい。"],
 //    "Advertise.Failure.advertise.yearError":["The beginning of the year is bigger than the end of year","開始年 > 終了年 ,正しく入力して下さい!"],
 //    "Advertise.Failure.advertise.monthError":["The beginning of the month is bigger than the end of month","開始月 > 終了月 ,正しく入力して下さい!"],

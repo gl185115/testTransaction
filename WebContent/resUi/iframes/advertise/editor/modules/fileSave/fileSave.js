@@ -44,7 +44,20 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 			$rootScope.model.advertise.inputEmptyName = true;
 			return;
 		}
-
+		if($rootScope.model.editor.interval<=0){
+        	  $rootScope.model.failure.active = true;
+        	  $rootScope.model.failure.service = "advertise";
+        	  $rootScope.model.failure.cause = "interval";
+        	  $rootScope.dialog = undefined;
+        	  return false;
+        	}
+        if($rootScope.model.advertise.layout.length<=0){
+        	$rootScope.model.failure.active = true;
+      	    $rootScope.model.failure.service = "advertise";
+      	    $rootScope.model.failure.cause = "dataEmpty";
+      	    $rootScope.dialog = undefined;
+      	  return false;
+        }
 //		if (!$scope.filename.match(/^[^\\\/\*\?\"\<\>\：\|]*$/)) {
 		if (!$scope.filename.match(/^[^\\\/\*\?\"\<\>\:\|]*$/)) {
 			$rootScope.model.advertise.inValidName = true;
@@ -78,6 +91,7 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 			var interval = "res.config.advertise.interval = " + angular.toJson(($rootScope.model.editor.interval*1000).toString()) + ";\r\n";
 
 			var items = "res.config.advertise.rules = [\r\n";
+			var errorCount =0;
 			for (i = 0; i < $rootScope.model.advertise.layout.length; i++){
                 for (j = 0; j< $rootScope.model.advertise.layout[i].length; j++){
                     /*var pictureArr = $rootScope.model.advertise.layout[i][j].pictureFull && $rootScope.model.advertise.layout[i][j].pictureFull.split("."),
@@ -89,10 +103,8 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
                 	var startOfDay = $rootScope.model.advertise.layout[i][j].startOfDay;
                     var endOfDay = $rootScope.model.advertise.layout[i][j].endOfDay;
                 	if(!startOfDay || !endOfDay){
-                  	  $rootScope.model.failure.active = true;
-                  	  $rootScope.model.failure.service = "advertise";
-                  	  $rootScope.model.failure.cause = "DateEmpty";
-                  	return false;
+                		  $rootScope.model.advertise.layout[i][j].error = true;
+                          errorCount +=1;
                   }
                     items += angular.toJson({
                         fileName: $rootScope.model.advertise.layout[i][j].picturePart ? $rootScope.model.advertise.layout[i][j].picturePart : '',
@@ -109,6 +121,13 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
                 }
             }
             items += "];\r\n";
+            if(errorCount>0){
+            	  $rootScope.model.failure.active = true;
+            	  $rootScope.model.failure.service = "advertise";
+            	  $rootScope.model.failure.cause = "DateEmpty_save";
+            	  $rootScope.dialog = undefined;
+            	return false;
+            	}
 
 			var savename = $scope.filename + ".js";
 

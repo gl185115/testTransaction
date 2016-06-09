@@ -21,7 +21,7 @@
 					</div>
 					<div class="InnerBox" data-ng-show="picture">
 						<div class="ImageBox">
-							<img data-ng-src="{{picture?model.imageCopy.imageURL + picture:''}}" />
+							<img data-ng-src="{{picture?model.imageCopy.imageURL + picture + '?' + random:''}}" />
 						</div>
 						<div class="LabelBox">
 							<p data-ng-bind-html="picture"></p>

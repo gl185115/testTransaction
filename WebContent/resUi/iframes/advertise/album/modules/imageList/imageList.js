@@ -26,6 +26,6 @@ res.ui.controller("imageList", ["$scope", "$rootScope", "$timeout",function($sco
 	$scope.setImage = function(index) {
 		$rootScope.model.imageCopy.indexImage = index;
 	};
-
+    $scope.random = Math.random();
 }]);
 

@@ -222,9 +222,15 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     $scope.addItems = function() {
         var layout = $rootScope.model.advertise.layout;
         var scroll = $scope.scrollItems;
+        if(layout.length>=200&&layout[layout.length-1].length>=4){
+        	$rootScope.model.failure.active = true;
+      	    $rootScope.model.failure.service = "advertise";
+      	    $rootScope.model.failure.cause = "overNum";
+      	    return false;
+        }
         if(layout.length > 0) {
             var i = layout.length -1;
-            var k = layout[i].length ? layout[i].length - 1 : 0;
+            var k = layout[i].length ? layout[i].length - 1 : -1;
             if(layout[i].length > 0 && layout[i].length > 4) {
                 i++;
                 layout.push([]);
@@ -244,7 +250,15 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
     };
     
     $scope.remove = function() {
-        $rootScope.model.advertise.layout[$scope.position.x][$scope.position.y] = new ItemBlank();
+    	var layout = $rootScope.model.advertise.layout;
+        $rootScope.model.advertise.layout[$scope.position.x].splice($scope.position.y,1);
+        for(var i=$scope.position.x;i<layout.length;i++){
+        	if(layout[i+1]&&layout[i+1].length>0){
+        		layout[i][4]= layout[i+1].shift();
+        	}else if(layout[i+1]&&layout[i+1].length===0){
+        		layout.splice(i+1,1);
+        	}
+        }
         $rootScope.dialog = "";
     };
     

@@ -173,6 +173,7 @@ res.model = res.model || {};
 		this.picture = "";
 		this.description = { ja: "", en: "" };
 		this.isblank=true;
+		this.itemVoid = false;
 	};
 	Failure=function(){
 		this.active= false,

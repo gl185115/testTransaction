@@ -250,7 +250,7 @@
 						<p data-ng-bind-html="'Void'|resPhrase:context"></p>
 					</div>
 					<div class="resButton raise orange W120xH70" data-res-click="popup('remove')"
-					data-ng-class="{'disabled': itemSelected.itemId===''}">
+					data-ng-class="{'disabled': !itemSelected.itemVoid}">
 						<p data-ng-bind-html="'Delete'|resPhrase:context"></p>
 					</div>
 					<div class="resButton raise green W120xH70" data-ng-click="submit()"

@@ -181,6 +181,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
         if ($scope.items[$scope.indexItem].itemId != "") {
             $rootScope.model.pickList.layout[$scope.position.category][$scope.position.x][$scope.position.y] = $scope.items[$scope.indexItem];
+            $rootScope.model.pickList.layout[$scope.position.category][$scope.position.x][$scope.position.y].itemVoid = true;
         } else {
             $rootScope.model.pickList.layout[$scope.position.category][$scope.position.x][$scope.position.y] = new ItemBlank();
 

@@ -76,6 +76,7 @@
 	display: block;
     margin: auto auto;
     max-width: 70%;
+    max-heifht:109px;
 }
 #EditLayout .wrapperPickList .ImageBox .full img{
 	display: block;
@@ -339,7 +340,7 @@
 #EditLayout .Images .ImageBox img{
 	display: block;
     margin: auto auto;
-    max-width: 70%;
+   /*  max-width: 70%; */
 }
 #EditLayout .Images .Buttons .resButton:nth-child(2) input.upload {
     position: absolute;
@@ -400,5 +401,11 @@
 }
 #EditLayout .red {
 	background:red;
+}
+#EditLayout .Images .ImageBox .picturePart{
+	max-width:70%;
+}
+#EditLayout .Images .ImageBox .pictureFull{
+	max-width:100%;
 }
 /**** end of CSS ****/

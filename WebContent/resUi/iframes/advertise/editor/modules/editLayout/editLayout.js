@@ -151,10 +151,12 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 	    if (choice == 'imagesPart'){
 	        $rootScope.model.advertise.sizeType = 1;
 	        $rootScope.model.advertise.pictureChoice = choice;
+	        $rootScope.model.advertise.showSize = 1;
 	        choice = 'images';
 	    } else if (choice == 'imagesFull'){
 	        $rootScope.model.advertise.sizeType = 2;
 	        $rootScope.model.advertise.pictureChoice = choice;
+	        $rootScope.model.advertise.showSize = 2;
 	        choice = 'images';
 	    }
         $rootScope.dialog = choice;
@@ -174,6 +176,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 }
             });
             $rootScope.model.advertise.sizeType = 0;
+            $scope.random = Math.random();
             break;
         case "fileCreate":
             $scope.indexItem = undefined;

@@ -19,6 +19,7 @@ res.ui.controller("imageList", ["$scope", "$rootScope", "$timeout",function($sco
 	}, function(indexEdit, oldValue) {
 		$timeout(function() {
 			scroll.refresh();
+			$scope.Date = Math.random();
 		}, 200);
 //		$rootScope.model.imageCopy.indexImage = 0;
 	});
@@ -26,6 +27,6 @@ res.ui.controller("imageList", ["$scope", "$rootScope", "$timeout",function($sco
 	$scope.setImage = function(index) {
 		$rootScope.model.imageCopy.indexImage = index;
 	};
-	$scope.Date = Math.random();
+	
 }]);
 

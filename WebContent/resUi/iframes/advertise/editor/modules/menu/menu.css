@@ -25,13 +25,16 @@
 	position: absolute; left: 0px; top: 42px; width: 410px; height: 40px;
 }
 #Menu .File .FileName .Label {
-	position: absolute; left: 0px; top: 0px; width: 100px; height: 40px;
+	position: absolute; left: 0px; top: 0px; width: 120px; height: 40px;
 	color: hsl(0, 0%, 100%);
 	line-height: 40px;
 	overflow: hidden;
 }
 #Menu .File .FileName .Label.unit {
-	position: absolute; left: 175px; 
+	position: absolute; left: 190px; 
+}
+#Menu .File .FileName .Label.remarks {
+	position: absolute; left: 210px; 
 }
 #Menu .File .FileName .Value {
 	position: absolute; left: 102px; top: 0px; width: 304px; height: 40px;
@@ -42,8 +45,8 @@
 #Menu .File .FileName .TimeValue input{
 	height: 30px;
     width: 55px;
-    left: 100px;
-    position: relative;
+    left: 115px;
+    position: absolute;
     font-size: 20px;
     padding-left: 10px;
 }

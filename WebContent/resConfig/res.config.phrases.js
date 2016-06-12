@@ -333,6 +333,7 @@ res.config.phrases = {
     "PickList.Deploy.Warning.invalidDateTime":["Date/Time is invalid.","無効な日付または時刻です。"],
     "PickList.Deploy.Warning.passedDateTime":["The date/time already passed.","入力された日時は、既に過ぎています。"],
     "PickList.Deploy.Warning.missingFile":["config file is not selected.","配信する構成が選択されていません。"],
+    "PickList.Deploy.Warning.effectiveFile":["file is effective.","適用中のファイルが選択できません。"],
 
     "PickList.Deploy.FileExplorer.Title.Exmport": ["Exmport to new file", "出力先を選択"],
     "PickList.Deploy.FileExplorer.Button.CsvSave":["Save", "保存"],
@@ -529,6 +530,7 @@ res.config.phrases = {
     "Advertise.Deploy.Warning.invalidDateTime":["Date/Time is invalid.","無効な日付または時刻です。"],
     "Advertise.Deploy.Warning.passedDateTime":["The date/time already passed.","入力された日時は、既に過ぎています。"],
     "Advertise.Deploy.Warning.missingFile":["config file is not selected.","配信する構成が選択されていません。"],
+    "Advertise.Deploy.Warning.effectiveFile":["file is effective.","適用中のファイルが選択できません。"],
 
     "Advertise.Deploy.FileExplorer.Title.Exmport": ["Exmport to new file", "出力先を選択"],
     "Advertise.Deploy.FileExplorer.Button.CsvSave":["Save", "保存"],

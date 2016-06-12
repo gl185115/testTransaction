@@ -197,6 +197,7 @@ public final class SaleItemsHandler {
         saleRes.setPremiumList(item.getPremiumList());
         saleRes.setColorkananame(item.getColorkananame());
         saleRes.setSizeKanaName(item.getSizeKanaName());
+        saleRes.setBrandName(item.getBrandName());
         /* 1.01 2014.11.19 ¤•iî•ñæ“¾ ADD START */
         saleRes.setEmpPrice1(item.getEmpPrice1());
         saleRes.setMd01(item.getMd01());

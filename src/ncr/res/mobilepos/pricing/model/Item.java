@@ -311,6 +311,9 @@ public class Item {
     @XmlElement(name ="SizeKanaName")
     private String sizeKanaName;
     
+    @XmlElement(name ="BrandName")
+    private String brandName;
+    
     public String getColorkananame() {
         return colorkananame;
     }
@@ -1383,7 +1386,15 @@ public class Item {
         this.premiumList = premiumList;
     }
 
-    @Override
+    public final String getBrandName() {
+		return brandName;
+	}
+
+	public final void setBrandName(String brandName) {
+		this.brandName = brandName;
+	}
+
+	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();
       String clrf = "; ";

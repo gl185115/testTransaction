@@ -1336,6 +1336,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setGroupID(result.getString(result.findColumn("GroupId")));
                 searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
                 searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
+                searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));
@@ -2060,6 +2061,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
                 searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
+                searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
 
                 // // ì¡îÑä«óù
                 // if (!isHasPromDetailInfo(actualStoreid, searchedItem,

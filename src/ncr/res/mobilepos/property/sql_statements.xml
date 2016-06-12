@@ -120,7 +120,8 @@ SELECT TOP 1
        system.NameText,
        plu.DiscountType DiscountType,
        colorInfo.Colorkananame,
-       sizeInfo.SizeKanaName
+       sizeInfo.SizeKanaName,
+       brandInfo.BrandName
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -160,6 +161,10 @@ LEFT JOIN RESMaster.dbo.MST_SIZEINFO sizeInfo
 ON plu.CompanyId = sizeInfo.CompanyId
 AND plu.StoreId = sizeInfo.StoreId
 AND plu.Md05 = sizeInfo.SizeId
+LEFT JOIN RESMaster.dbo.MST_BRANDINFO brandInfo
+ON plu.CompanyId = brandInfo.CompanyId
+AND plu.StoreId = brandInfo.StoreId
+AND plu.Md07 = brandInfo.BrandId
 
 LEFT JOIN  (
     SELECT

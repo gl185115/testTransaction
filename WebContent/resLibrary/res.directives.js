@@ -257,9 +257,11 @@ res.directives.directive("resMaxlength", function(){
 		link: function(scope, element, attr){
 			var max = parseInt(attr.resMaxlength);
 			element.bind("keydown", function(event){
-				if (event.keyCode==8 || event.keyCode==46) return; 	// backspace or del key
+				if (event.keyCode==8 || event.keyCode==46)return;// backspace or del key
 				if (element[0] && stringWidth(element[0].value + String.fromCharCode(event.keyCode)) > max){
-					event.preventDefault();
+					if(event.key!=="Tab"&&event.key!=="ArrowRight"&&event.key!=="ArrowLeft"){
+						event.preventDefault();
+					}
 				}
 			});
 

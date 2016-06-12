@@ -267,6 +267,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
         hour = parseInt($scope.deployTimeHour);
         minute = parseInt($scope.deployTimeMinute);
         var date = new Date(year, month - 1, day, hour, minute);
+        var effectiveTask = $rootScope.model.resources[$rootScope.model.active.resource].effective;
 
         if ((typeof $scope.editTargetName === "undefined") || $scope.editTargetName === "") {
 //          alert("適用店舗を選択してください");
@@ -303,6 +304,13 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
             $scope.warning = "missingFile";
             return;
         }
+        for(var i=0;i<effectiveTask.length;i++){
+            if ($scope.taskFilename==effectiveTask[i].task.filename.substring(0, effectiveTask[i].task.filename.length - 3)) {
+//          alert("適用中のファイルが選択できません。");
+            $scope.warning = "effectiveFile";
+            return;
+        }
+         }
 
         if (!$scope.taskFilename.endsWith(".js")) {
             task.filename = $scope.taskFilename + ".js";

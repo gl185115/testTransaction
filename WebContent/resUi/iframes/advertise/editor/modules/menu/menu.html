@@ -44,10 +44,12 @@
 			<p data-ng-bind-html="'EditLayout.Interval' |resPhrase:context"></p>
 		</div>
 		<div class="TimeValue">
-			<input class="Value" type="text" data-ng-model="model.editor.interval" data-res-maxlength="5">
-		</div>
+			<input class="Value" type="text" data-ng-model="model.editor.interval" data-res-maxlength="2">
 		<div class="Label unit">
 			<p data-ng-bind-html="'EditLayout.Unit' |resPhrase:context"></p>
+		</div>
+		<div class="Label remarks">
+			<p data-ng-bind-html="'EditLayout.remarks' |resPhrase:context"></p>
 		</div>
 	</div>
 </div>

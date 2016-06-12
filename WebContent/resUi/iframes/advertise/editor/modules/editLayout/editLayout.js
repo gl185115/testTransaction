@@ -176,7 +176,6 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
                 }
             });
             $rootScope.model.advertise.sizeType = 0;
-            $scope.random = Math.random();
             break;
         case "fileCreate":
             $scope.indexItem = undefined;

@@ -110,6 +110,7 @@ res.model = res.model || {};
 			var scrollPic = scroll.scrollPic;
 			setTimeout(function(){
 			    scrollPic.refresh();
+			    model.advertise.Random = Math.random();
             },200);
 			break;
 		case "file.picture.upload.success":
@@ -211,6 +212,7 @@ res.model = res.model || {};
 		this.deletedTabItems = [];
 		this.sizeType = 0;
 		this.pictureChoice = undefined;
+		this.Random = 0;
 
 		var i, j, x, y;
 		/*for (i = 0; i < numOfCategories; i++){

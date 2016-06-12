@@ -238,7 +238,7 @@
 							</div>
 							<div class="InnerBox" data-ng-show="picture">
 								<div class="ImageBox">
-									<img data-ng-class ="{'picturePart':model.advertise.showSize===1,'pictureFull':model.advertise.showSize===2}" data-ng-src="{{picture?folder + picture + '?'+ random :''}}" />
+									<img data-ng-class ="{'picturePart':model.advertise.showSize===1,'pictureFull':model.advertise.showSize===2}" data-ng-src="{{picture?folder + picture + '?'+ model.advertise.Random :''}}" />
 								</div>
 								<div class="LabelBox">
 									<p data-ng-bind-html="picture"></p>

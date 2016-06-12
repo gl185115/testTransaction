@@ -44,13 +44,6 @@ res.ui.controller("fileSave", ["$scope", "$rootScope", function($scope, $rootSco
 			$rootScope.model.advertise.inputEmptyName = true;
 			return;
 		}
-		if($rootScope.model.editor.interval<=0){
-        	  $rootScope.model.failure.active = true;
-        	  $rootScope.model.failure.service = "advertise";
-        	  $rootScope.model.failure.cause = "interval";
-        	  $rootScope.dialog = undefined;
-        	  return false;
-        	}
         if($rootScope.model.advertise.layout.length<=0){
         	$rootScope.model.failure.active = true;
       	    $rootScope.model.failure.service = "advertise";

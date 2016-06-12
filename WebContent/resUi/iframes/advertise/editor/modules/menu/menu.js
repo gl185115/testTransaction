@@ -49,6 +49,18 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 		if ($rootScope.pickListDisableClose) {
 			return;
 		}
+		if (isNaN($rootScope.model.editor.interval)){
+            $rootScope.model.failure.active = true;
+            $rootScope.model.failure.service = "advertise";
+            $rootScope.model.failure.cause = "InputError";
+            return;
+        }
+		if ($rootScope.model.editor.interval > 60 || $rootScope.model.editor.interval < 1) {
+		    $rootScope.model.failure.active = true;
+            $rootScope.model.failure.service = "advertise";
+            $rootScope.model.failure.cause = "timeError";
+            return;
+		}
 		$rootScope.dialog = "fileSave";
 	};
 

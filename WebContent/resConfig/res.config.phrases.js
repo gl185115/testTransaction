@@ -1030,6 +1030,7 @@ res.config.phrases = {
 //  "Advertise.EditLayout.ConfirmRemove": ["Please select an item", "この商品は、商品一覧からも削除されます。<br><br>よろしいですか。"],
 
     "Advertise.Failure.advertise.empty":["Please enter item code and name!","商品番号、または商品名が入力されていません。"],
+    "Advertise.Failure.advertise.dateEmpty":["Empty item can not be save, please add items!","保存するファイルに商品が登録されていません</br/>商品を追加してから保存してください!"],
     "Advertise.Failure.advertise.DateEmpty":["Please enter strat date and end date!","開始日付、終了日付が入力されていません。"],
     "Advertise.Failure.advertise.DateEmpty_save":["Please enter strat date and end date!","開始日付、終了日付が入力されていない広告があります。<br>ご確認下さい。"],
     "Advertise.Failure.advertise.blank":["Please apply item!","商品を適用してださい。"],

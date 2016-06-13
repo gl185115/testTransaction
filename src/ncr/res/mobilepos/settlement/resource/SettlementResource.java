@@ -94,6 +94,7 @@ public class SettlementResource {
     public final SettlementInfo getVoucherList(
     		@QueryParam("companyId") final String companyId,
     		@QueryParam("storeId") final String storeId,
+    		@QueryParam("tillId") final String tillId,
     		@QueryParam("terminalId") final String terminalId,
     		@QueryParam("businessDayDate") final String businessDayDate,
     		@QueryParam("trainingFlag") final int trainingFlag) {
@@ -101,6 +102,7 @@ public class SettlementResource {
         tp.methodEnter(functionName)
         	.println("companyId", companyId)
         	.println("storeId", storeId)
+        	.println("tillId", tillId)
         	.println("businessDayDate", businessDayDate)
         	.println("terminalId", terminalId)
         	.println("trainingFlag", trainingFlag);
@@ -112,11 +114,22 @@ public class SettlementResource {
             tp.methodExit(settlement.toString());
             return settlement;
     	}
-    	
+    	if(StringUtility.isNullOrEmpty(tillId) && StringUtility.isNullOrEmpty(terminalId)){
+    		tp.println("tillId and terminalId both are is null or empty.");
+            settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.methodExit(settlement.toString());
+            return settlement;
+    	}
     	try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
-            settlement = settlementDao.getVoucherList(companyId, storeId, 
-            		businessDayDate, terminalId, trainingFlag);
+            if(StringUtility.isNullOrEmpty(tillId)){
+            	settlement = settlementDao.getVoucherList(companyId, storeId, 
+                		businessDayDate, terminalId, trainingFlag);
+            }else{
+            	settlement = settlementDao.getVoucherListByTillId(companyId, storeId, 
+                		businessDayDate, tillId, trainingFlag);
+            }
+            
     	} catch (Exception e) {
             String loggerErrorCode = null;
             int resultBaseErrorCode = 0;
@@ -196,12 +209,13 @@ public class SettlementResource {
     public final SettlementInfo getCredit(
             @FormParam("companyId") final String companyId,
             @FormParam("storeId") final String storeId,
+            @FormParam("tillId") final String tillId,
             @FormParam("terminalId") final String terminalId,
             @FormParam("businessDate") final String businessDate,
             @FormParam("trainingFlag") final int trainingFlag,
             @FormParam("dataType") final String dataType,
             @FormParam("itemLevel1")final String itemLevel1,
-            @FormParam("itemLevel2") final String itemLevel2) {
+            @FormParam("itemLevel2") final String itemLevel2){
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -214,17 +228,27 @@ public class SettlementResource {
         
         SettlementInfo settlement = new SettlementInfo();
         
-        if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate, terminalId)) {
+        if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
             tp.println("A required parameter is null or empty.");
             settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(settlement.toString());
             return settlement;
         }
-        
+        if(StringUtility.isNullOrEmpty(tillId) && StringUtility.isNullOrEmpty(terminalId)){
+        	tp.println("tillId and terminalId both are null or empty.");
+            settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.methodExit(settlement.toString());
+            return settlement;
+        }
         try {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
-            settlement = settlementDao.getCredit(companyId, storeId, terminalId, 
-                    businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+            if(StringUtility.isNullOrEmpty(tillId)){
+            	settlement = settlementDao.getCredit(companyId, storeId, terminalId, 
+                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+            }else{
+            	settlement = settlementDao.getCreditByTillId(companyId, storeId, tillId, 
+                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+            }
         } catch (Exception e) {
             String loggerErrorCode = null;
             int resultBaseErrorCode = 0;

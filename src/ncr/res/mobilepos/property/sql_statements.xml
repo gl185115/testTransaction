@@ -12587,7 +12587,62 @@ insert into txl_offline_credit
        a.TrainingFlag = @trainingFlag
 
 </entry>
+<entry key="get-report-item-tillId">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @businessDate varchar(max),
+      @trainingFlag tinyint,
+      @dataType varchar(max),
+      @itemLevel1 varchar(max),
+      @itemLevel2 varchar(max),
+      @tillId varchar(max)
 
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @tillId = ?
+    SET @businessDate = ?
+    SET @trainingFlag = ?
+    SET @dataType = ?
+    SET @itemLevel1 = ?
+    SET @itemLevel2 = ?
+	
+   SELECT
+      a.CompanyId,
+      a.RetailStoreId,
+      a.BusinessDayDate,
+      a.TrainingFlag,
+      a.ItemType,
+      a.ItemLevel1,
+      a.ItemLevel2,
+      SUM(a.ItemCnt) AS CntSum,
+	  SUM(a.ItemAmt) AS AmtSum
+      FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
+      WHERE
+       a.CompanyId = @companyId AND
+       a.RetailStoreId = @storeId AND
+       a.WorkstationId  IN (
+	     SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO] 
+			WHERE 
+			CompanyID = @companyId and
+			StoreId = @storeId and
+			Training = @trainingFlag and
+			TillId = @tillId
+	   ) AND
+       a.BusinessDayDate = @businessDate  AND
+       a.ItemType = @dataType AND
+       a.itemLevel1 = @itemLevel1 AND
+       a.itemLevel2 = @itemLevel2 AND
+       a.TrainingFlag = @trainingFlag
+	   GROUP BY
+	   a.CompanyId,
+       a.RetailStoreId,
+	   BusinessDayDate,
+	   ItemType,
+	   itemLevel1,
+	   itemLevel2,
+	   TrainingFlag
+</entry>
 <entry key="get-voucher-details">
     DECLARE
       @companyId varchar(max),
@@ -12629,6 +12684,63 @@ insert into txl_offline_credit
        a.TrainingFlag = @trainingFlag AND
        a.itemLevel2 in ('01', '12', '13', '14', '15')
        ORDER BY a.ItemLevel2 ASC
+</entry>
+<entry key="get-voucher-details-tillId">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @tillId varchar(max),
+      @businessDate varchar(max),
+      @trainingFlag tinyint,
+      @tenderId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @tillId = ?
+    SET @businessDate = ?
+    SET @trainingFlag = ?
+    SET @tenderId = ?
+
+   SELECT
+      a.CompanyId,
+      a.RetailStoreId,
+      a.BusinessDayDate,
+      a.TrainingFlag,
+      a.ItemType,
+      a.ItemLevel1,
+      a.ItemLevel2,
+      a.ItemLevel3,
+      a.ItemLevel4,
+      SUM(a.ItemCnt) AS ItemCnt,
+      SUM(a.ItemAmt) AS ItemAmt
+      FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
+      WHERE
+       a.CompanyId = @companyId AND
+       a.RetailStoreId = @storeId AND
+       a.WorkstationId IN (
+	       SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO] 
+			WHERE 
+			CompanyID = @companyId and
+			StoreId = @storeId and
+			Training = @trainingFlag and
+			TillId = @tillId
+	   ) AND
+       a.BusinessDayDate = @businessDate  AND
+       a.ItemType = '2' AND
+       (a.itemLevel1 = '01' OR a.itemLevel1 = '02') AND
+       a.itemLevel3 = @tenderId AND
+       a.TrainingFlag = @trainingFlag AND
+       a.itemLevel2 in ('01', '12', '13', '14', '15')
+	   GROUP BY
+	   a.CompanyId,
+       a.RetailStoreId,
+       a.BusinessDayDate,
+       a.TrainingFlag,
+       a.ItemType,
+       a.ItemLevel1,
+       a.ItemLevel2,
+	   a.ItemLevel3,
+	   a.ItemLevel4
 </entry>
 <entry key="get-postpoint-status">
     DECLARE

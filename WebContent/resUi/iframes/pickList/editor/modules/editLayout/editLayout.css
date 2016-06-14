@@ -67,7 +67,8 @@
 	vertical-align: middle;
 	display: table-cell;
 	width: 150px;
-    height: 50px
+    height: 50px;
+    font-size:16px;
 }
 #EditLayout .Layout .Categories .Category .innerBox {
 	width: 150px;
@@ -327,6 +328,8 @@
 	color: hsl(0, 0%, 30%);
 }
 #EditLayout .Details .Pad .ImageFile .Value {
+    word-break:break-all;
+    width: 350px;
 	margin-top: 0px;
 }
 #EditLayout .Details .Pad .Entries { /* position: absolute; left: 10px; top: 160px;  */

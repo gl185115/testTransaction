@@ -283,7 +283,26 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         }
         var startOfDay = $scope.itemSelected.startOfDay;
         var endOfDay = $scope.itemSelected.endOfDay;
-
+        var adNameLength = res.string.getLength($scope.itemSelected.adName);
+        var companyNameLength = res.string.getLength($scope.itemSelected.companyName);
+        var descriptionLength = res.string.getLength($scope.itemSelected.description);
+        
+        if (adNameLength > 16 || companyNameLength > 16) {
+			if (adNameLength) $scope.itemSelected.adName = res.string.truncate($scope.itemSelected.adName, 14);
+			if (companyNameLength) $scope.itemSelected.companyName = res.string.truncate($scope.itemSelected.companyName, 14);
+			$rootScope.model.failure.active = true;
+			$rootScope.model.failure.service = "editLayout";
+			$rootScope.model.failure.cause = "maxCharacters8";
+			return false;
+		}
+        if (descriptionLength > 32) {
+			if (descriptionLength) $scope.itemSelected.description = res.string.truncate($scope.itemSelected.description, 30);
+			$rootScope.model.failure.active = true;
+			$rootScope.model.failure.service = "editLayout";
+			$rootScope.model.failure.cause = "maxCharacters16";
+			return false;
+		}
+        
         if(!startOfDay || !endOfDay){
         	  $rootScope.model.failure.active = true;
         	  $rootScope.model.failure.service = "advertise";

@@ -234,7 +234,7 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
         }
 
         $rootScope.model.pickList.items[$scope.indexItem].description[$rootScope.language] = line1;
-
+        newItemFlag = false;
         /*if ($scope.indexItem <= $rootScope.model.pickList.items.length - 1) {
             if ($scope.itemSelected.isblank || $scope.indexItem == ($rootScope.model.pickList.items.length - 1)) {
                 $scope.select($scope.indexItem);
@@ -312,7 +312,14 @@ res.ui.controller("editLayout", ["$scope", "$rootScope", "$timeout", function($s
 
     $scope.delItem = function() {
         var itemId = $scope.items[$scope.indexItem].itemId;
-        if (!itemId) return;
+        if (!itemId){
+        	$rootScope.dialog = "";
+        	 $rootScope.model.failure.active = true;
+             $rootScope.model.failure.service = "picklist";
+             $rootScope.model.failure.cause = "noitemId";
+             newItemFlag = false;
+        	return false;
+        } 
 
         $rootScope.model.pickList.removeFromLayout(itemId);
         $rootScope.model.pickList.initItemFromItems(itemId);

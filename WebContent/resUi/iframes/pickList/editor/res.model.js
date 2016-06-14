@@ -25,7 +25,6 @@ res.model = res.model || {};
 					model.editor.files.push(result[1]);
 				}
 			}
-
 			model.editor.indexEdit = "itemList";
 			model.editor.selectedFile = undefined;
 			model.editor.selectedIndex = undefined;
@@ -116,6 +115,7 @@ res.model = res.model || {};
 			res.ui.root.itemSelected.background = "image";
 			res.ui.root.itemSelected.picture = data.image;
 			res.ui.root.dialog = "details";
+			model.editor.Random = Math.random();
 
 			window.parent.res.ui.root.model.popup = "";
 
@@ -166,6 +166,7 @@ res.model = res.model || {};
 		this.files = [];
 //		this.pictures = ["", "vegetables/cucumber.jpg", "vegetables/lettuce.jpg", "vegetables/broccoli.jpg","vegetables/celery.jpg","vegetables/asparagus.jpg"];
 		this.pictures = [];
+		this.Random = 0;
 	};
 	ItemBlank = function(){
 		this.itemId = "";

@@ -40,7 +40,7 @@
 						data-res-click="selectPosition($parent.$parent.$index, $parent.$index, $index)">
 						<div class="InnerBox" data-ng-show="item.background == 'image' && item.picture">
 							<div class="ImageBox">
-								<img data-ng-src="{{item.picture?folder + item.picture:''}}" />
+								<img data-ng-src="{{item.picture?folder + item.picture+'?'+model.editor.Random:''}}" />
 							</div>
 							<div class="LabelBox">
 								<p data-ng-bind-html="item.description | resPhraseInLine | resConvertLF| resFormatStripTxt : 12"></p>
@@ -176,7 +176,7 @@
 					<div class="InnerBox"
 						data-ng-show="itemSelected.background=='image' && itemSelected.picture">
 						<div class="ImageBox">
-							<img data-ng-src="{{itemSelected.picture?folder + itemSelected.picture:''}}" />
+							<img data-ng-src="{{itemSelected.picture?folder + itemSelected.picture+ '?'+ model.editor.Random:''}}" />
 						</div>
 						<div class="LabelBox">
 							<!-- <p
@@ -230,13 +230,13 @@
 					</div>
 					<div class="Entry">
 						<p class="Label" data-ng-bind-html="'EditItems.ItemName.Line1'|resPhrase:context"></p>
-						<input class="Value" type="text" data-res-maxlength="16"
+						<input class="Value" type="text" maxlength="8"
 							data-ng-model="itemSelected.inputLabel.line1" data-ng-disabled="!itemSelected"
 							placeholder="{{'EditItems.MaxLength8'|resPhrase:context}}">
 					</div>
 					<div class="Entry">
 						<p class="Label" data-ng-bind-html="'EditItems.ItemName.Line2'|resPhrase:context"></p>
-						<input class="Value" type="text" data-res-maxlength="16"
+						<input class="Value" type="text" maxlength="8"
 							data-ng-model="itemSelected.inputLabel.line2" data-ng-disabled="!itemSelected"
 							placeholder="{{'EditItems.MaxLength8'|resPhrase:context}}">
 					</div>
@@ -250,7 +250,7 @@
 						<p data-ng-bind-html="'Void'|resPhrase:context"></p>
 					</div>
 					<div class="resButton raise orange W120xH70" data-res-click="popup('remove')"
-					data-ng-class="{'disabled': !itemSelected.itemVoid}">
+					data-ng-class="{'disabled': !itemSelected}">
 						<p data-ng-bind-html="'Delete'|resPhrase:context"></p>
 					</div>
 					<div class="resButton raise green W120xH70" data-ng-click="submit()"
@@ -320,7 +320,7 @@
 							</div>
 							<div class="InnerBox" data-ng-show="picture">
 								<div class="ImageBox">
-									<img data-ng-src="{{picture?folder + picture:''}}" />
+									<img data-ng-src="{{picture?folder + picture+ '?'+ model.editor.Random :''}}" />
 								</div>
 								<div class="LabelBox">
 									<p data-ng-bind-html="picture"></p>

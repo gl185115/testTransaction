@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "BuyadditionalInfo")
+@ApiModel(value="BuyadditionalInfo")
 public class BuyadditionalInfo {
 	@XmlElement(name = "CompanyId")
 	private String companyId;
@@ -23,6 +27,7 @@ public class BuyadditionalInfo {
 	@XmlElement(name = "BuyAdditionalInfoShortKanaName")
 	private String shortKanaName;
 
+	@ApiModelProperty(value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
 	}
@@ -31,6 +36,7 @@ public class BuyadditionalInfo {
 		this.companyId = companyId;
 	}
 
+	@ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
@@ -39,6 +45,7 @@ public class BuyadditionalInfo {
 		this.storeId = storeId;
 	}
 
+	@ApiModelProperty(value="購買補助コード", notes="購買補助コード")
 	public final String getId() {
 		return id;
 	}
@@ -47,6 +54,7 @@ public class BuyadditionalInfo {
 		this.id = id;
 	}
 
+	@ApiModelProperty(value="購買補助名称", notes="購買補助名称")
 	public final String getName() {
 		return name;
 	}
@@ -55,6 +63,7 @@ public class BuyadditionalInfo {
 		this.name = name;
 	}
 
+	@ApiModelProperty(value="購買補助名称(カナ)", notes="購買補助名称(カナ)")
 	public final String getKanaName() {
 		return kanaName;
 	}
@@ -63,6 +72,7 @@ public class BuyadditionalInfo {
 		this.kanaName = kanaName;
 	}
 
+	@ApiModelProperty(value="購買補助略称", notes="購買補助略称")
 	public final String getShortName() {
 		return shortName;
 	}
@@ -71,6 +81,7 @@ public class BuyadditionalInfo {
 		this.shortName = shortName;
 	}
 
+	@ApiModelProperty(value="購買補助略称(カナ)", notes="購買補助略称(カナ)")
 	public final String getShortKanaName() {
 		return shortKanaName;
 	}

@@ -8,6 +8,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.buyadditionalinfo.dao.IBuyadditionalInfoDAO;
 import ncr.res.mobilepos.buyadditionalinfo.model.BuyadditionalInfoList;
@@ -19,6 +25,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 @Path("/buyadditionalinfo")
+@Api(value="/buyadditionalinfo", description="購買補助情報API")
 public class BuyadditionalInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -45,9 +52,15 @@ public class BuyadditionalInfoResource {
     @Path("/getbuyadditionalinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="購買補助情報取得", response=BuyadditionalInfoList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+    })
     public final BuyadditionalInfoList getBuyadditionalInfo(
-    		@QueryParam("companyId") final String companyId,
-    		@QueryParam("storeId") final String storeId) {
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
         	.println("companyId", companyId)

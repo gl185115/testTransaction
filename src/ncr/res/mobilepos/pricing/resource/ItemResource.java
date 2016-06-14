@@ -29,6 +29,11 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -42,6 +47,7 @@ import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.helper.ItemHelper;
@@ -68,6 +74,7 @@ import ncr.res.mobilepos.store.resource.StoreResource;
  * 
  */
 @Path("/pricing")
+@Api(value="/pricing", description="価格設定API")
 public class ItemResource {
 
     /**
@@ -754,10 +761,23 @@ public class ItemResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="価格リスト作成", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ITEM_ALREADY_EXIST, message="そのプロジェクトのストレージが見つかりませんでした"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにはいない"),
+            @ApiResponse(code=ResultBase.RES_ITEM_STORE_NOT_EXIST, message="そのプロジェクトのストレージを見つける"),
+            @ApiResponse(code=ResultBase.RES_DPTMT_OK, message="結果が正しい"),
+            @ApiResponse(code=ResultBase.RES_ITEM_DPT_NOT_EXIST, message="当該プロジェクトの部門を探し当てていない"),
+            @ApiResponse(code=ResultBase.RES_ITEM_INVALIDPARAMETER, message="定価サービス中の無効パラメーター"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+        })
     public final ResultBase createItem(
-            @FormParam("retailstoreid") final String storeId,
-            @FormParam("itemid") final String itemId,
-            @FormParam("item") final String jsonitem) {
+    		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="itemid", value="プロジェクトコード") @FormParam("itemid") final String itemId,
+    		@ApiParam(name="item", value="プロジェクト") @FormParam("item") final String jsonitem) {
 
         String functionname = "ItemResource.createItem";
         tp.methodEnter(DebugLogger.getCurrentMethodName())

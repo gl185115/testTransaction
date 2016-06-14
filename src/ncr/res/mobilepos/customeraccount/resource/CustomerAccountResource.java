@@ -17,6 +17,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
 import ncr.res.mobilepos.customeraccount.model.Customer;
@@ -24,12 +30,14 @@ import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.model.ResultBase;
 
 /**
  * CustomerAccountResource Class is a Web Resource which support
  * MobilePOS Customer Account processes.
  */
 @Path("/customeraccount")
+@Api(value="/customeraccount", description="会員アカウント関連API")
 public class CustomerAccountResource {
     /**
      * Logger.
@@ -70,10 +78,12 @@ public class CustomerAccountResource {
     @Path("/{customerid}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public final Customer getCustomerByID(@PathParam("customerid")
+    @ApiOperation(value="会員情報を得る", response=Customer.class)
+    @ApiResponses(value={})
+    public final Customer getCustomerByID(@ApiParam(name="customerid", value="会員番号") @PathParam("customerid")
                           final String customerid,
-                          @FormParam("deviceno") final String deviceNo,
-                          @FormParam("operatorno") final String operatorNo) {
+                          @ApiParam(name="deviceno", value="設備番号") @FormParam("deviceno") final String deviceNo,
+                          @ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo) {
 
         tp.methodEnter("getCustomerByID");
         tp.println("CustomerID", customerid).println("DeviceNo", deviceNo).

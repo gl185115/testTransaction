@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
  /**
@@ -24,6 +27,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Customer")
+@ApiModel(value="Customer")
 public class Customer extends ResultBase {
     /**
      * The Customer ID.
@@ -75,6 +79,7 @@ public class Customer extends ResultBase {
      * Get The Customer's Address.
      * @return The Customer's Address
      */
+    @ApiModelProperty(value="ƒAƒhƒŒƒX", notes="ƒAƒhƒŒƒX")
     public final String getAddress() {
         return address;
     }
@@ -92,6 +97,7 @@ public class Customer extends ResultBase {
      *
      * @return      Returns Memberfs ID.
      */
+    @ApiModelProperty(value="‰ïˆõ”Ô†", notes="‰ïˆõ”Ô†")
     public final String getCustomerid() {
         return customerid;
     }
@@ -108,6 +114,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs full name.
      * @return      Returns Memberfs full name.
      */
+    @ApiModelProperty(value="‰ïˆõ–¼", notes="‰ïˆõ–¼")
     public final String getCustomername() {
         return customername;
     }
@@ -125,6 +132,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs default value of discount rate.
      * @return      Returns Memberfs discount rate.
      */
+    @ApiModelProperty(value="Š„ˆø—¦", notes="Š„ˆø—¦")
     public final String getDiscountrate() {
         return discountrate;
     }
@@ -142,6 +150,7 @@ public class Customer extends ResultBase {
      *
      * @return      Returns destination of receipt.
      */
+    @ApiModelProperty(value="—Ìû‘‚Ìˆ¶æ", notes="—Ìû‘‚Ìˆ¶æ")
     public final String getDestreceipt() {
         return destreceipt;
     }
@@ -158,6 +167,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs Mail address which receipts are sent to.
      * @return      Returns Memberfs Mail address.
      */
+    @ApiModelProperty(value="ƒ[ƒ‹ƒAƒhƒŒƒX", notes="ƒ[ƒ‹ƒAƒhƒŒƒX")
     public final String getMailaddress() {
         return mailaddress;
     }
@@ -176,6 +186,7 @@ public class Customer extends ResultBase {
      *
      * @return      Returns the Updated date and time.
      */
+    @ApiModelProperty(value="XVŠú“ú", notes="XVŠú“ú")
     public final String getUpddate() {
         return upddate;
     }
@@ -192,6 +203,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs Grade.
      * @return      Returns Memberfs Grade.
      */
+    @ApiModelProperty(value="‰ïˆõ“™‹‰", notes="‰ïˆõ“™‹‰")
     public final String getGrade() {
          return grade;
     }
@@ -208,6 +220,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs Points.
      * @return      Returns Memberfs Points.
      */
+    @ApiModelProperty(value="‰ïˆõÏ•ª", notes="‰ïˆõÏ•ª")
     public final int getPoints() {
         return points;
     }

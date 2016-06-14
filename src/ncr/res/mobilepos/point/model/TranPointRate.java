@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "TranPointRate")
+@ApiModel(value="TranPointRate")
 public class TranPointRate {
 	@XmlElement(name = "CompanyId")
 	private String companyId;
@@ -46,6 +50,7 @@ public class TranPointRate {
 		this.companyId = companyId;
 	}
 	
+    @ApiModelProperty(value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
 	}
@@ -54,6 +59,7 @@ public class TranPointRate {
 		this.storeId = storeId;
 	}
 	
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
@@ -62,6 +68,7 @@ public class TranPointRate {
 		this.pointflag = pointflag;
 	}
 	
+    @ApiModelProperty(value="ポイント運用フラグ", notes="ポイント運用フラグ")
 	public final String getPointFlag() {
 		return pointflag;
 	}
@@ -70,6 +77,7 @@ public class TranPointRate {
 		this.baseprice = baseprice;
 	}
 	
+    @ApiModelProperty(value="基準額", notes="基準額")
 	public final String getBasePrice() {
 		return baseprice;
 	}
@@ -78,6 +86,7 @@ public class TranPointRate {
 		this.recordid = recordid;
 	}
 	
+    @ApiModelProperty(value="管理NO", notes="管理NO")
 	public final String getRecordId() {
 		return recordid;
 	}
@@ -86,14 +95,16 @@ public class TranPointRate {
 		this.basepointcash = basepointcash;
 	}
 	
+    @ApiModelProperty(value="基準ポイント(現金)", notes="基準ポイント(現金)")
 	public final String getBasePointCash() {
 		return basepointcash;
 	}
 
-		public final void setBasePointAffiliate(String basepointaffiliate) {
+	public final void setBasePointAffiliate(String basepointaffiliate) {
 		this.basepointaffiliate = basepointaffiliate;
 	}
 	
+	@ApiModelProperty(value="基準ポイント(提携)", notes="基準ポイント(提携)")
 	public final String getBasePointAffiliate() {
 		return basepointaffiliate;
 	}
@@ -102,6 +113,7 @@ public class TranPointRate {
 		this.basepointnonaffiliate = basepointnonaffiliate;
 	}
 	
+	@ApiModelProperty(value="基準ポイント(提携外)", notes="基準ポイント(提携外)")
 	public final String getBasePointNonAffiliate() {
 		return basepointnonaffiliate;
 	}
@@ -110,6 +122,7 @@ public class TranPointRate {
 		this.pointcalctype = pointcalctype;
 	}
 	
+	@ApiModelProperty(value="計算単位区分", notes="計算単位区分")
 	public final String getPointCalcType() {
 		return pointcalctype;
 	}
@@ -118,6 +131,7 @@ public class TranPointRate {
 		this.taxcalctype = taxcalctype;
 	}
 	
+	@ApiModelProperty(value="税計算区分", notes="税計算区分")
 	public final String getTaxCalcType() {
 		return taxcalctype;
 	}
@@ -126,6 +140,7 @@ public class TranPointRate {
 		this.roundtype = roundtype;
 	}
 	
+	@ApiModelProperty(value="丸め方法区分", notes="丸め方法区分")
 	public final String getRoundType() {
 		return roundtype;
 	}
@@ -134,6 +149,7 @@ public class TranPointRate {
 		this.cardsettingflag = cardsettingflag;
 	}
 	
+	@ApiModelProperty(value="カード別設定フラグ", notes="カード別設定フラグ")
 	public final String getCardSettingFlag() {
 		return cardsettingflag;
 	}
@@ -142,6 +158,7 @@ public class TranPointRate {
 		this.dptsettingflag = dptsettingflag;
 	}
 	
+	@ApiModelProperty(value="部門別設定フラグ", notes="部門別設定フラグ")
 	public final String getDptSettingFlag() {
 		return dptsettingflag;
 	}
@@ -150,6 +167,7 @@ public class TranPointRate {
 		this.itemsettingflag = itemsettingflag;
 	}
 	
+	@ApiModelProperty(value="プロジェクト別設定フラグ", notes="プロジェクト別設定フラグ")
 	public final String getItemSettingFlag() {
 		return itemsettingflag;
 	}
@@ -158,6 +176,7 @@ public class TranPointRate {
 		this.targetstoretype = targetstoretype;
 	}
 	
+	@ApiModelProperty(value="設定店舗区分", notes="設定店舗区分")
 	public final String getTargetStoreType() {
 		return targetstoretype;
 	}
@@ -166,6 +185,7 @@ public class TranPointRate {
 		this.type = type;
 	}
 	
+    @ApiModelProperty(value="タイプ", notes="タイプ")
 	public final String getType() {
 		return type;
 	}

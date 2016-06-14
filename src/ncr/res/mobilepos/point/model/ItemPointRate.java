@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ItemPointRate")
+@ApiModel(value="ItemPointRate")
 public class ItemPointRate {
 	@XmlElement(name = "CompanyId")
 	private String companyId;
@@ -44,6 +48,7 @@ public class ItemPointRate {
 		this.companyId = companyId;
 	}
 	
+    @ApiModelProperty(value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
 	}
@@ -52,6 +57,7 @@ public class ItemPointRate {
 		this.storeId = storeId;
 	}
 	
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
@@ -60,6 +66,7 @@ public class ItemPointRate {
 		this.pointflag = pointflag;
 	}
 	
+    @ApiModelProperty(value="ポイント運用フラグ", notes="ポイント運用フラグ")
 	public final String getPointFlag() {
 		return pointflag;
 	}
@@ -68,6 +75,7 @@ public class ItemPointRate {
 		this.baseprice = baseprice;
 	}
 	
+    @ApiModelProperty(value="基準額", notes="基準額")
 	public final String getBasePrice() {
 		return baseprice;
 	}
@@ -76,6 +84,7 @@ public class ItemPointRate {
 		this.recordid = recordid;
 	}
 	
+    @ApiModelProperty(value="管理NO", notes="管理NO")
 	public final String getRecordId() {
 		return recordid;
 	}
@@ -84,6 +93,7 @@ public class ItemPointRate {
 		this.basepoint = basepoint;
 	}
 	
+    @ApiModelProperty(value="基準ポイント", notes="基準ポイント")
 	public final String getBasePoint() {
 		return basepoint;
 	}
@@ -92,6 +102,7 @@ public class ItemPointRate {
 		this.dptsettingflag = dptsettingflag;
 	}
 	
+    @ApiModelProperty(value="部門別設定フラグ", notes="部門別設定フラグ")
 	public final String getDptSettingFlag() {
 		return dptsettingflag;
 	}
@@ -100,6 +111,7 @@ public class ItemPointRate {
 		this.itemsettingflag = itemsettingflag;
 	}
 	
+    @ApiModelProperty(value="プロジェクト別設定フラグ", notes="プロジェクト別設定フラグ")
 	public final String getItemSettingFlag() {
 		return itemsettingflag;
 	}
@@ -108,6 +120,7 @@ public class ItemPointRate {
 		this.cardsettingflag = cardsettingflag;
 	}
 	
+    @ApiModelProperty(value="カード別設定フラグ", notes="カード別設定フラグ")
 	public final String getCardSettingFlag() {
 		return cardsettingflag;
 	}
@@ -116,6 +129,7 @@ public class ItemPointRate {
 		this.storesettingflag = storesettingflag;
 	}
 	
+    @ApiModelProperty(value="店舗別設定フラグ", notes="店舗別設定フラグ")
 	public final String getStoreSettingFlag() {
 		return storesettingflag;
 	}
@@ -124,6 +138,7 @@ public class ItemPointRate {
 		this.cardclassid = cardclassid;
 	}
 	
+    @ApiModelProperty(value="カード区分コード", notes="カード区分コード")
 	public final String getCardClassId() {
 		return cardclassid;
 	}
@@ -132,6 +147,7 @@ public class ItemPointRate {
 		this.type = type;
 	}
 	
+    @ApiModelProperty(value="タイプ", notes="タイプ")
 	public final String getType() {
 		return type;
 	}
@@ -140,6 +156,7 @@ public class ItemPointRate {
 		this.basepointcash = basepointcash;
 	}
 	
+    @ApiModelProperty(value="基準ポイント(現金)", notes="基準ポイント(現金)")
 	public final String getBasePointCash() {
 		return basepointcash;
 	}
@@ -148,6 +165,7 @@ public class ItemPointRate {
 		this.basepointaffiliate = basepointaffiliate;
 	}
 	
+    @ApiModelProperty(value="基準ポイント(提携)", notes="基準ポイント(提携)")
 	public final String getBasePointAffiliate() {
 		return basepointaffiliate;
 	}
@@ -156,6 +174,7 @@ public class ItemPointRate {
 		this.basepointnonaffiliate = basepointnonaffiliate;
 	}
 	
+    @ApiModelProperty(value="基準ポイント(提携外)", notes="基準ポイント(提携外)")
 	public final String getBasePointNonAffiliate() {
 		return basepointnonaffiliate;
 	}

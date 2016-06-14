@@ -5,10 +5,16 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
+@XmlRootElement(name = "PointRateResponse")
+@ApiModel(value="PointRateResponse")
 public class PointRateResponse extends ResultBase{
 
     @XmlElement(name = "ItemPointRate")
@@ -20,6 +26,7 @@ public class PointRateResponse extends ResultBase{
     /**
      * @return the item point rate
      */
+    @ApiModelProperty(value="プロジェクトポイントの速度", notes="プロジェクトポイントの速度")
     public List<ItemPointRate> getItemPointRateList() {
         return itemPointRateList;
     }
@@ -34,6 +41,7 @@ public class PointRateResponse extends ResultBase{
     /**
      * @return the tran point rate
      */
+    @ApiModelProperty(value="伝送ポイントの速度", notes="伝送ポイントの速度")
     public List<TranPointRate> getTranPointRateList() {
         return tranPointRateList;
     }

@@ -12,12 +12,19 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.point.model.Point;
 import ncr.res.mobilepos.point.model.ItemPointRate;
 import ncr.res.mobilepos.point.model.TranPointRate;
 import ncr.res.mobilepos.point.model.PointRateResponse;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -26,6 +33,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 @Path("/point")
+@Api(value="/point", description="ポイントの速度API")
 public class PointResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -44,14 +52,21 @@ public class PointResource {
     @Path("/getitempointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="プロジェクトポイントの速度", response=PointRateResponse.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+        })
     public final PointRateResponse getItemPointRate(
-            @QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId,
-            @QueryParam("businessDate") final String businessDate,
-            @QueryParam("deptCode") final String deptCode,
-            @QueryParam("groupCode") final String groupCode,
-            @QueryParam("brandId") final String brandId,
-            @QueryParam("sku") final String sku
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+    		@ApiParam(name="deptCode", value="部門コード") @QueryParam("deptCode") final String deptCode,
+    		@ApiParam(name="groupCode", value="グループコード") @QueryParam("groupCode") final String groupCode,
+    		@ApiParam(name="brandId", value="ブランドコード") @QueryParam("brandId") final String brandId,
+    		@ApiParam(name="sku", value="自社品番") @QueryParam("sku") final String sku
     ) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -104,11 +119,18 @@ public class PointResource {
     @Path("/gettranpointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="伝送ポイントの速度", response=PointRateResponse.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+        })
     public final PointRateResponse getTranPointRate(
-            @QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId,
-            @QueryParam("businessDate") final String businessDate,
-            @QueryParam("cardClassId") final String cardClassId) {
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+    		@ApiParam(name="cardClassId", value="カード区分コード") @QueryParam("cardClassId") final String cardClassId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)

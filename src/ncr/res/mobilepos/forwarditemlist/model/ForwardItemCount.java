@@ -5,9 +5,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ForwardItemCount")
+@ApiModel(value="ForwardItemCount")
 public class ForwardItemCount extends ResultBase {
 
     @XmlElement(name = "Count")
@@ -16,6 +20,7 @@ public class ForwardItemCount extends ResultBase {
     /**
      * @return the count
      */
+    @ApiModelProperty( value="前捌きデータ数", notes="前捌きデータ数")
     public final String getCount() {
         return count;
     }

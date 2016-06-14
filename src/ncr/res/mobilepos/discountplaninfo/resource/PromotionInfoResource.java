@@ -8,9 +8,16 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
+import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscount;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -19,6 +26,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 @Path("/discountplaninfo")
+@Api(value="/discountplaninfo", description="割引企画情報API")
 public class PromotionInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -44,12 +52,21 @@ public class PromotionInfoResource {
     @Path("/getPromotionInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData getPromotionInfo(@QueryParam("CompanyId") final String companyId,
-            @QueryParam("StoreId") final String storeId, @QueryParam("DiscountReason") final String discountReason,
-            @QueryParam("DiscountBarcodeType") final String discountBarcodeType,
-            @QueryParam("PartialFlag") final String partialFlag,
-            @QueryParam("PriceDiscountFlag") final String priceDiscountFlag,
-            @QueryParam("RateDiscountFlag") final String rateDiscountFlag) {
+    @ApiOperation(value="獲得割引企画情報", response=JSONData.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    })
+    public final JSONData getPromotionInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="DiscountReason", value="割引理由コード") @QueryParam("DiscountReason") final String discountReason,
+    		@ApiParam(name="DiscountBarcodeType", value="割引バーコード") @QueryParam("DiscountBarcodeType") final String discountBarcodeType,
+    		@ApiParam(name="PartialFlag", value="割引部分フラグ") @QueryParam("PartialFlag") final String partialFlag,
+    		@ApiParam(name="PriceDiscountFlag", value="額割引フラグ") @QueryParam("PriceDiscountFlag") final String priceDiscountFlag,
+    		@ApiParam(name="RateDiscountFlag", value="％割引フラグ") @QueryParam("RateDiscountFlag") final String rateDiscountFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("DiscountReason", discountReason).println("DiscountBarcodeType", discountBarcodeType)

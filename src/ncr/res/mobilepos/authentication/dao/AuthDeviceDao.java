@@ -116,7 +116,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Exception: @" + functionName, ex);
         }finally {
             closeConnectionObjects(connection, insertStmt);
-            
+
             tp.methodExit(result);
         }
         return result;
@@ -139,10 +139,10 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             deleteStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("delete-device"));            
+                    sqlStatement.getProperty("delete-device"));
             deleteStmt.setString(SQLStatement.PARAM1, storeid);
             deleteStmt.setString(SQLStatement.PARAM2, terminalid);
-            
+
             result = deleteStmt.executeUpdate();
 
             if (SQLResultsConstants.ONE_ROW_AFFECTED == result) {
@@ -158,7 +158,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Failed to delete device.", e);
         } finally {
             closeConnectionObjects(connection, deleteStmt);
-            
+
             tp.methodExit(ret);
         }
         return ret;
@@ -205,14 +205,14 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, deleteStmt);
-            
+
             tp.methodExit(result);
         }
         return result;
     }
 
     @Override
-    public final int authenticateUser(final String storeid, 
+    public final int authenticateUser(final String storeid,
     		final String terminalid) throws DaoException {
         String functionName = className + "authenticateUser";
 
@@ -224,11 +224,11 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 
         try {
             ret = validateDevice(storeid, terminalid);
-            
+
             if (ret != ResultBase.RESAUTH_OK) {
                 return ret;
             }
-            
+
             int userState = getUserStatus(storeid, terminalid);
 
             if (userState == DeviceStatus.STATUS_DEVICENOTFOUND) {
@@ -248,7 +248,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
         } finally {
             tp.methodExit(ret);
         }
-        
+
         return ret;
     }
 
@@ -299,17 +299,17 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 
     /**
      * Get user's status directly from database.
-     * 
+     *
      * @param storeid - the store id
      * @param terminalid - the terminal id of the device
      *  to request the status of
-     *  
+     *
      * @return DeviceStatus - a class which holds the status
      *  of the device
-     *  
+     *
      * @throws DaoException - holds the exception that was thrown
      */
-    private DeviceStatus getUserStatusFromDB(final String storeid, 
+    private DeviceStatus getUserStatusFromDB(final String storeid,
     		final String terminalid) throws DaoException {
 
         String functionName = className + "getUserStatusFromDB";
@@ -335,7 +335,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             resultSet = selectStmt.executeQuery();
 
             if (resultSet.next()) {
-                retVal = new DeviceStatus(terminalid, 
+                retVal = new DeviceStatus(terminalid,
                 		resultSet.getInt(resultSet.findColumn("State")), "");
             } else {
                 retVal = new DeviceStatus(DeviceStatus.STATUS_DEVICENOTFOUND,
@@ -349,7 +349,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(retVal);
         }
         return retVal;
@@ -401,7 +401,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(retVal);
         }
         return retVal;
@@ -418,11 +418,11 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
         	.println("terminalid", terminalid);
 
         int status = ResultBase.RESREG_OK;
-        
+
         try {
-            DeviceStatus deviceStatus = 
+            DeviceStatus deviceStatus =
             		getUserStatusFromDB(storeid, terminalid);
-            
+
             status = deviceStatus.getTerminalStatus();
         } catch (Exception e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -473,16 +473,16 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 
     /**
      * Sets the state of the device.
-     * 
+     *
      * @param storeid - the store id
      * @param terminalid - the terminal id of the device to set
      * @param state - the new state
-     * 
+     *
      * @return int - result code of the request
-     * 
+     *
      * @throws DaoException - holds the exception that was thrown
      */
-    private int setState(final String storeid, final String terminalid, 
+    private int setState(final String storeid, final String terminalid,
     		final int state) throws DaoException {
 
         tp.methodEnter("setState");
@@ -519,7 +519,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, updateStmt);
-            
+
             tp.methodExit(result);
         }
         return result;
@@ -527,15 +527,15 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 
     /**
      * Validates the device.
-     * 
+     *
      * @param storeId - the store id of the device
      * @param terminalId - the terminal id of the device
-     * 
+     *
      * @return int - result code of the query
-     * 
+     *
      * @throws DaoException - holds the exception that was thrown
      */
-    public final int validateDevice(final String storeId, 
+    public final int validateDevice(final String storeId,
     		final String terminalId) throws DaoException {
         String functionName = className + "validateDevice";
 
@@ -571,10 +571,10 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(ret);
         }
-        
+
         return ret;
     }
 
@@ -618,7 +618,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 			throw new DaoException("Failed to check device existent.", e);
 		} finally {
 			closeConnectionObjects(connection, selectStmt, resultSet);
-			
+
 			tp.methodExit(ret);
 		}
 		return ret;
@@ -628,12 +628,12 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             final String udid) throws DaoException {
         tp.methodEnter("isDeviceExisting");
         tp.println("uuid", uuid).println("udid", udid);
-        
+
         Connection connection = null;
         PreparedStatement selectStmt = null;
         ResultSet resultSet = null;
         boolean ret = false;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -659,7 +659,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("SQLStatementException", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(ret);
         }
         return ret;
@@ -708,7 +708,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, updateStmt);
-            
+
             tp.methodExit(ret);
         }
         return ret;
@@ -806,7 +806,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(result);
         }
         return result;
@@ -846,7 +846,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(webAppUrl);
         }
         return webAppUrl;
@@ -888,7 +888,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(corpname);
         }
         return corpname;
@@ -930,13 +930,13 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(storename);
         }
         return storename;
     }
 
-   
+
 
     /**
      * {@inheritDoc}
@@ -989,7 +989,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, updateStmt);
-            
+
             tp.methodExit(result);
         }
         return result;
@@ -997,7 +997,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
     }
 
     @Override
-    public final SignDetails getSignDetails(final String companyId, final String storeId, final String terminalId, 
+    public final SignDetails getSignDetails(final String companyId, final String storeId, final String terminalId,
             final String udid, final String uuid) throws DaoException {
 
         String functionName = className + "getSignDetails";
@@ -1029,22 +1029,22 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             if (resultSet.next()) {
                 signDetails.setSignStatus(
                         resultSet.getInt(resultSet.findColumn("SignStatus")));
-                
+
                 String signTId = resultSet.getString(resultSet.findColumn("SignTid"));
                 signDetails.setSignTid(signTId == null ? " " : signTId.trim());
 
                 String signActivationKey = resultSet.getString(resultSet.findColumn("SignActivationKey"));
                 signDetails.setSignActivationKey(signActivationKey == null ? " " : signActivationKey.trim());
-            } else{ 
+            } else{
                 tp.println("Sign details not found.");
-            } 
+            }
         } catch (Exception e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     e.getMessage());
             throw new DaoException("Abnormal operation!", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(signDetails);
         }
         return signDetails;
@@ -1062,7 +1062,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
         PreparedStatement selectStmt = null;
         ResultSet resultSet = null;
         ViewCorpStore result = new ViewCorpStore();
-        
+
 		try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1095,6 +1095,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 
 			if (result.getNCRWSSResultCode() == ResultBase.RESAUTH_OK) {
 				CorpStore corpStore = new CorpStore();
+				corpStore.setCompanyName(resultSet.getString("CompanyName"));
 				corpStore.setStorename(resultSet.getString("StoreName"));
 				result.setCorpstore(corpStore);
 			}
@@ -1117,7 +1118,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 					"Exception: @AuthDeviceDao.validateCorpStore ", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
-            
+
             tp.methodExit(result);
         }
         return result;

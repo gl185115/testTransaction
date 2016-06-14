@@ -62,10 +62,10 @@ public class RegistrationResource {
     public final void setContext(final ServletContext contextToSet) {
         this.context = contextToSet;
     }
-    
+
 	/**
 	 * Registers new terminal.
-	 * 
+	 *
 	 * @method POST
 	 * @param storeid
 	 *            store id of the device.
@@ -97,7 +97,7 @@ public class RegistrationResource {
 		        .println("storeid", storeId)
 		        .println("terminalid", terminalId)
 				.println("devicename", deviceName)
-				.println("passcode", passCode)				
+				.println("passcode", passCode)
 				.println("udid", udid)
 				.println("uuid", uuid)
 				.println("signstatus", signStatus)
@@ -137,16 +137,17 @@ public class RegistrationResource {
 			}
 
 
-			// TODO: DeviceName missing in AUT_DEVICES.	TBD.		
+			// TODO: DeviceName missing in AUT_DEVICES.	TBD.
 			ResultBase rb = addDevice(companyId, storeId, terminalId, deviceName, udid, uuid,
 			        signStatus, signTId, signActivationKey);
 			if (ResultBase.RESREG_OK == rb.getNCRWSSResultCode()) {
 				result = new DeviceStatus(ResultBase.RESREG_OK,
 						"Registration Success");
+				result.setCorpID(companyId);
 				result.setStoreID(storeId);
 				result.setTerminalID(terminalId);
 				result.setStoreName(authPassCode.getCorpstore().getStorename());
-				result.setCorpCompany(authPassCode.getCorpstore().getCompanyName());
+				result.setCorpName(authPassCode.getCorpstore().getCompanyName());
 				result.setDeviceName(deviceName);
 			} else {
 				result = new DeviceStatus(rb.getNCRWSSResultCode(), "Error");
@@ -231,9 +232,9 @@ public class RegistrationResource {
         tp.println("corpid", corpid).println("storeid", storeid)
             .println("deviceid", deviceid).println("udid", udid)
             .println("uuid", uuid);
-        
+
         ResultBase result = new ResultBase(ResultBase.RESREG_OK, "");
-        
+
         if (hasNonAlpha(deviceid)) {
             tp.println("deviceid is invalid");
             tp.methodExit();
@@ -266,13 +267,13 @@ public class RegistrationResource {
         } finally {
             tp.methodExit();
         }
-        
+
         return result;
     }
 
 	/**
 	 * Adds new device.
-	 * 
+	 *
 	 * @param terminalId
 	 *            the terminal id
 	 * @param storeId
@@ -308,7 +309,7 @@ public class RegistrationResource {
 			result = new ResultBase(ResultBase.RESREG_DEVICEEXIST,
 					"Device trying to register is already existing!");
 		} else {
-			int ret = deviceDao.registerTerminal(companyId, storeId, terminalId, deviceName, 
+			int ret = deviceDao.registerTerminal(companyId, storeId, terminalId, deviceName,
 			        udid, uuid, signStatus, signTId, signActivationKey);
             result = new ResultBase(ret, "Registration result: " + ret);
         }
@@ -333,7 +334,7 @@ public class RegistrationResource {
 
         DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         IAuthDeviceDao device = daoFactory.getAuthDeviceDAO();
-        
+
         if (device.isDeviceExisting(companyId, storeId, terminalId, true)) {
 			int ret = device.deregisterTerminal(storeId, terminalId);
             result = new ResultBase(ResultBase.RESREG_OK,
@@ -342,7 +343,7 @@ public class RegistrationResource {
 			result = new ResultBase(ResultBase.RESREG_DEVICENOTEXIST,
 					"Device does not exist.");
         }
-        
+
         tp.methodExit(result);
         return result;
     }
@@ -427,6 +428,6 @@ public class RegistrationResource {
 
         return result;
     }
-   
+
 
 }

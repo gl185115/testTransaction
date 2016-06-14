@@ -5463,13 +5463,19 @@ ORDER BY
   </entry>
   <entry key="select-passcode-permission-from-corp-store">
     SELECT
-      PassCode,
-      Permission,
-      StoreName
+      store.PassCode,
+      store.Permission,
+      store.StoreName,
+      store.CompanyId,
+      company.CompanyName
     FROM
-      RESMaster.dbo.MST_CORP_STORE
+      RESMaster.dbo.MST_CORP_STORE store
+    LEFT JOIN
+      RESMaster.dbo.MST_COMPANYINFO company
+    ON
+      store.CompanyId = company.CompanyId
     WHERE
-      StoreId = ? AND CompanyId = ?
+      store.StoreId = ? AND store.CompanyId = ?
   </entry>
   <entry key="select-url-by-corpid">
     SELECT
@@ -12606,7 +12612,7 @@ insert into txl_offline_credit
     SET @dataType = ?
     SET @itemLevel1 = ?
     SET @itemLevel2 = ?
-	
+
    SELECT
       a.CompanyId,
       a.RetailStoreId,
@@ -12622,8 +12628,8 @@ insert into txl_offline_credit
        a.CompanyId = @companyId AND
        a.RetailStoreId = @storeId AND
        a.WorkstationId  IN (
-	     SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO] 
-			WHERE 
+	     SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO]
+			WHERE
 			CompanyID = @companyId and
 			StoreId = @storeId and
 			Training = @trainingFlag and
@@ -12718,8 +12724,8 @@ insert into txl_offline_credit
        a.CompanyId = @companyId AND
        a.RetailStoreId = @storeId AND
        a.WorkstationId IN (
-	       SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO] 
-			WHERE 
+	       SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO]
+			WHERE
 			CompanyID = @companyId and
 			StoreId = @storeId and
 			Training = @trainingFlag and

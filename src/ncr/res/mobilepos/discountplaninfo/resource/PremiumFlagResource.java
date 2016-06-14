@@ -8,6 +8,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.discountplaninfo.dao.IPremiumFlagDAO;
@@ -16,9 +22,11 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 @Path("/premiumInfo")
+@Api(value="/premiumInfo", description="費用情報API")
 public class PremiumFlagResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -41,9 +49,20 @@ public class PremiumFlagResource {
     @Path("/getPremiumFlag")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData getPremiumFlag(@QueryParam("CompanyId") final String companyId,
-            @QueryParam("StoreId") final String storeId, @QueryParam("TerminalId") final String terminalId,
-            @QueryParam("DptIdList") final String dptIdList) {
+    @ApiOperation(value="費用フラグ", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功の結果を報告する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+        })
+    public final JSONData getPremiumFlag(
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="TerminalId", value="端末コード") @QueryParam("TerminalId") final String terminalId,
+    		@ApiParam(name="DptIdList", value="部門コードリスト") @QueryParam("DptIdList") final String dptIdList) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("TerminalId", terminalId).println("DptIdList", dptIdList);

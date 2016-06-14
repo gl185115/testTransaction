@@ -110,18 +110,23 @@ res.ui.controller("editCategories", ["$scope", "$rootScope", "$timeout", functio
 //	};
 
 	$scope.doApplyCheck = function() {
-		var line1Length = res.string.getLength($scope.categoryLabel.line1);
+//		var line1Length = res.string.getLength($scope.categoryLabel.line1);
+//		var line2Length = 0;
+//		if ($scope.categoryLabel.line2) {
+//			line2Length = res.string.getLength($scope.categoryLabel.line2);
+//		}
+		var line1Length = $scope.categoryLabel.line1.length;
 		var line2Length = 0;
 		if ($scope.categoryLabel.line2) {
-			line2Length = res.string.getLength($scope.categoryLabel.line2);
+//			line2Length = res.string.getLength($scope.categoryLabel.line2);
+			var line2Length = $scope.categoryLabel.line2.length;
 		}
-
-		if (line1Length > 14 || line2Length > 14) {
-			if (line1Length) $scope.categoryLabel.line1 = res.string.truncate($scope.categoryLabel.line1, 14);
-			if (line2Length) $scope.categoryLabel.line2 = res.string.truncate($scope.categoryLabel.line2, 14);
+		if (line1Length > 8 || line2Length > 8) {
+//			if (line1Length) $scope.categoryLabel.line1 = res.string.truncate($scope.categoryLabel.line1, 14);
+//			if (line2Length) $scope.categoryLabel.line2 = res.string.truncate($scope.categoryLabel.line2, 14);
 			$rootScope.model.failure.active = true;
 			$rootScope.model.failure.service = "picklist";
-			$rootScope.model.failure.cause = "maxCharacters14";
+			$rootScope.model.failure.cause = "maxCharacters8";
 			return false;
 		}
 		return true;

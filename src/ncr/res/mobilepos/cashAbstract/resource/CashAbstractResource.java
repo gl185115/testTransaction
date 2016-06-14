@@ -16,6 +16,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cashAbstract.dao.ICashAbstractDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -27,6 +33,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 @Path("/cashAbstract")
+@Api(value="/cashAbstract", description="入出金摘要情報API")
 public class CashAbstractResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -47,12 +54,18 @@ public class CashAbstractResource {
     @Path("/getcashAbstract")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="入出金摘要情報取得", response=JSONData.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+    })
     public final JSONData getcashAbstract(
-            @QueryParam("CompanyId") final String companyId,
-            @QueryParam("StoreId") final String storeId, 
-            @QueryParam("CashFlowDirection") final String cashFlowDirection,
-            @QueryParam("TenderId") final String tenderId,
-            @QueryParam("TenderType") final String tenderType) {
+            @ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
+            @ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
+            @ApiParam(name="CashFlowDirection", value="入出金区分") @QueryParam("CashFlowDirection") final String cashFlowDirection,
+            @ApiParam(name="TenderId", value="種別コード") @QueryParam("TenderId") final String tenderId,
+            @ApiParam(name="TenderType", value="支払種別") @QueryParam("TenderType") final String tenderType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
         .println("CompanyId", companyId)

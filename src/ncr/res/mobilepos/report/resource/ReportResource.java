@@ -70,11 +70,18 @@ import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 /**
  * ReportResource class is a web resource which provides support for reports
  * creation.
  */
 @Path("/report")
+@Api(value="/report", description="レポートAPI")
 public class ReportResource {
 
     /** The context. */
@@ -136,11 +143,17 @@ public class ReportResource {
     @Path("/getAccountancyReport")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="項目報告", response=ReportItems.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        })
     public final ReportItems getAccountancyReport(
-            @QueryParam("companyid") final String companyid,
-            @QueryParam("storeid") final String storeid,
-            @QueryParam("tillid") final String tillid,
-            @QueryParam("language") final String language ) {
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyid,
+    		@ApiParam(name="storeid", value="店舗コード")@QueryParam("storeid") final String storeid,
+    		@ApiParam(name="tillid", value="ドロワーID")@QueryParam("tillid") final String tillid,
+    		@ApiParam(name="language", value="言葉")@QueryParam("language") final String language ) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -221,11 +234,17 @@ public class ReportResource {
     @Path("/getsalesreport")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="新しい報告書を得る", response=ReportItems.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        })
     public final ReportItems getReportNew(
-            @QueryParam("companyid") final String companyId,
-            @QueryParam("reporttype") final String reportType,
-            @QueryParam("operatorno") final String operatorNo,
-            @QueryParam("storeid") final String storeNo) {
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
+    		@ApiParam(name="companyid", value="レポートタイプ")@QueryParam("reporttype") final String reportType,
+    		@ApiParam(name="companyid", value="従業員番号")@QueryParam("operatorno") final String operatorNo,
+    		@ApiParam(name="companyid", value="店舗コード")@QueryParam("storeid") final String storeNo) {
 
         String threadname = "Thread" + this.hashCode();
         String functionName = DebugLogger.getCurrentMethodName();
@@ -502,10 +521,16 @@ public class ReportResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
+    @ApiOperation(value="財務報告を得る", response=FinancialReport.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+        })
     public final FinancialReport getFinancialReport(
-            @QueryParam("companyid") final String companyId,
-            @QueryParam("deviceid") final String deviceNo,
-            @QueryParam("storeid") final String storeNo) {
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
+    		@ApiParam(name="companyid", value="デバイスコード")@QueryParam("deviceid") final String deviceNo,
+    		@ApiParam(name="companyid", value="店舗コード")@QueryParam("storeid") final String storeNo) {
 
         tp.methodEnter("getFinancialReport");
         tp.println("CompanyID", companyId)
@@ -568,10 +593,17 @@ public class ReportResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
+    @ApiOperation(value="財務報告の引き出し", response=DrawerFinancialReport.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+        })
     public final DrawerFinancialReport getDrawerFinancialReport(
-            @QueryParam("companyid") final String companyId,
-            @QueryParam("printerid") final String printerID,
-            @QueryParam("storeid") final String storeNo) {
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
+    		@ApiParam(name="companyid", value="プリンターID")@QueryParam("printerid") final String printerID,
+    		@ApiParam(name="companyid", value="店舗コード")@QueryParam("storeid") final String storeNo) {
 
         tp.methodEnter("getDrawerFinancialReport");
         tp.println("companyId", companyId)
@@ -3752,12 +3784,19 @@ public class ReportResource {
     @Path("/getreportitems")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="レポート項目を得る", response=DailyReportItems.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        })
     public final DailyReportItems getReportItems(
-            @FormParam("companyId") final String companyId,
-            @FormParam("storeId") final String storeId,
-            @FormParam("terminalId") final String terminalId,
-            @FormParam("businessDate") final String businessDate,
-            @FormParam("trainingFlag") final int trainingFlag) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyId") final String companyId,
+    		@ApiParam(name="companyid", value="店舗コード")@FormParam("storeId") final String storeId,
+    		@ApiParam(name="companyid", value="端末番号")@FormParam("terminalId") final String terminalId,
+    		@ApiParam(name="companyid", value="営業日付")@FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="companyid", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag) {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

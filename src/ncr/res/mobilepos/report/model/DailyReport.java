@@ -5,11 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DailyReport")
+@ApiModel(value="DailyReport")
 public class DailyReport extends ResultBase {
 
     /**
@@ -94,6 +98,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the companyId
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyId() {
         return companyId;
     }
@@ -108,6 +113,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the storeId
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getStoreId() {
         return storeId;
     }
@@ -122,6 +128,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the dataType
      */
+    @ApiModelProperty(value="データ種別", notes="データ種別")
     public String getDataType() {
         return dataType;
     }
@@ -136,6 +143,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemLevel1
      */
+    @ApiModelProperty(value="項目レベル１", notes="項目レベル１")
     public String getItemLevel1() {
         return itemLevel1;
     }
@@ -150,6 +158,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemLevel2
      */
+    @ApiModelProperty(value="項項目レベル２", notes="項目レベル２")
     public String getItemLevel2() {
         return itemLevel2;
     }
@@ -164,6 +173,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemLevel3
      */
+    @ApiModelProperty(value="項目レベル３", notes="項目レベル３")
     public String getItemLevel3() {
         return itemLevel3;
     }
@@ -178,6 +188,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemLevel4
      */
+    @ApiModelProperty(value="項目レベル４", notes="項目レベル４")
     public String getItemLevel4() {
         return itemLevel4;
     }
@@ -192,6 +203,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemName
      */
+    @ApiModelProperty(value="項目名", notes="項目名")
     public String getItemName() {
         return itemName;
     }
@@ -206,6 +218,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the displayOrder
      */
+    @ApiModelProperty(value="表示順", notes="表示順")
     public String getDisplayOrder() {
         return displayOrder;
     }
@@ -220,6 +233,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the workStationId
      */
+    @ApiModelProperty(value="POSコード", notes="POSコード")
     public String getWorkStationId() {
         return workStationId;
     }
@@ -234,6 +248,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the businessDayDate
      */
+    @ApiModelProperty(value="営業日", notes="営業日")
     public String getBusinessDayDate() {
         return businessDayDate;
     }
@@ -248,6 +263,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemCount
      */
+    @ApiModelProperty(value="件数", notes="件数")
     public int getItemCount() {
         return itemCount;
     }
@@ -262,6 +278,7 @@ public class DailyReport extends ResultBase {
     /**
      * @return the itemAmt
      */
+    @ApiModelProperty(value="金額", notes="金額")
     public int getItemAmt() {
         return itemAmt;
     }

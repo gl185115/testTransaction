@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Transaction Model Object.
  *
@@ -14,6 +17,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Transaction")
+@ApiModel(value="Transaction")
 public class Transaction {
     /** The Transaction Mode. 0=Normal, 1=Training.*/
     @XmlElement(name = "TransactionMode")
@@ -47,6 +51,7 @@ public class Transaction {
     /**
      * @return the  companyId
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
 		return companyId;
 	}
@@ -59,6 +64,7 @@ public class Transaction {
 	/**
      * @return the transactionMode
      */
+    @ApiModelProperty(value="業務モード", notes="業務モード")
     public final int getTransactionMode() {
         return transactionMode;
     }
@@ -71,6 +77,7 @@ public class Transaction {
     /**
      * @return the operatorID
      */
+    @ApiModelProperty(value="オペレーターコード", notes="オペレーターコード")
     public final String getOperatorID() {
         return operatorID;
     }
@@ -83,6 +90,7 @@ public class Transaction {
     /**
      * @return the beginDateTime
      */
+    @ApiModelProperty(value="日付を開始", notes="日付を開始")
     public final String getBeginDateTime() {
         return beginDateTime;
     }
@@ -95,6 +103,7 @@ public class Transaction {
     /**
      * @return the status
      */
+    @ApiModelProperty(value="身元", notes="身元")
     public final String getStatus() {
         return status;
     }
@@ -107,6 +116,7 @@ public class Transaction {
     /**
      * @return the endDateTime
      */
+    @ApiModelProperty(value="瞭期日", notes="瞭期日")
     public final String getEndDateTime() {
         return endDateTime;
     }
@@ -119,6 +129,7 @@ public class Transaction {
     /**
      * @return the sales
      */
+    @ApiModelProperty(value="販売リスト", notes="販売リスト")
     public final List<Sale> getSales() {
         return sales;
     }
@@ -139,6 +150,7 @@ public class Transaction {
      * Sale getter.
      * @return the sale
      */
+    @ApiModelProperty(value="販売商品", notes="販売商品")
     public final Sale getSale() {
         return sale;
     }
@@ -153,6 +165,7 @@ public class Transaction {
      * Entry Flag getter.
      * @return  The Entry Flag of transaction.
      */
+    @ApiModelProperty(value="入口マーク", notes="入口マーク")
     public final String getEntryFlag() {
         return entryFlag;
     }

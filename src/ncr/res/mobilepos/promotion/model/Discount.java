@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Discount Model Object.
  *
@@ -14,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Discount")
+@ApiModel(value="Discount")
 public class Discount {
     /**
      * The RewardID.
@@ -53,6 +57,7 @@ public class Discount {
     /**
      * @return the rewardID
      */
+    @ApiModelProperty(value="奨励コード", notes="奨励コード")
     public final int getRewardID() {
         return rewardID;
     }
@@ -65,6 +70,7 @@ public class Discount {
     /**
      * @return the earnedRewardID
      */
+    @ApiModelProperty(value="奨励を得るコード", notes="奨励を得るコード")
     public final String getEarnedRewardID() {
         return earnedRewardID;
     }
@@ -77,6 +83,7 @@ public class Discount {
     /**
      * @return the promotionCode
      */
+    @ApiModelProperty(value="割引企画コード", notes="割引企画コード")
     public final String getPromotionCode() {
         return promotionCode;
     }
@@ -89,6 +96,7 @@ public class Discount {
     /**
      * @return the discountDescription
      */
+    @ApiModelProperty(value="割引の説明", notes="割引の説明")
     public final String getDiscountDescription() {
         return discountDescription;
     }
@@ -102,6 +110,7 @@ public class Discount {
     /**
      * @return the itemEntryID
      */
+    @ApiModelProperty(value="プロジェクト入力コード", notes="プロジェクト入力コード")
     public final String getItemEntryID() {
         return itemEntryID;
     }
@@ -114,6 +123,7 @@ public class Discount {
     /**
      * @return the unitDiscountAmount
      */
+    @ApiModelProperty(value="単位割引金額", notes="単位割引金額")
     public final long getUnitDiscountAmount() {
         return unitDiscountAmount;
     }
@@ -157,12 +167,14 @@ public class Discount {
      * gets the amount remaining.
      * @return the capacity for accepting overflow discounts
      */
+    @ApiModelProperty(value="剰余量", notes="剰余量")
     public final int getAmountRemaining() {
         return amountRemaining;
     }
     /**
      * @return the quantity
      */
+    @ApiModelProperty(value="数量", notes="数量")
     public final int getQuantity() {
         return quantity;
     }

@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.pricing.model.Item;
 
 /**
@@ -12,6 +15,7 @@ import ncr.res.mobilepos.pricing.model.Item;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Sale")
+@ApiModel(value="Sale")
 public class Sale extends Item {
     
     public static final int DISC_AMOUNT = 0;
@@ -73,6 +77,7 @@ public class Sale extends Item {
         this.isPriceOverride = isPriceOverride;
     }
     
+    @ApiModelProperty(value="項目のエントリコード", notes="項目のエントリコード")
     public final String getItemEntryId() {
         return itemEntryId;
     }
@@ -81,6 +86,7 @@ public class Sale extends Item {
         this.itemEntryId = itemEntryId;
     }
     
+    @ApiModelProperty(value="アイテムタイプコード", notes="アイテムタイプコード")
     public final String getItemIdType() {
         return itemIdType;
     }
@@ -89,6 +95,7 @@ public class Sale extends Item {
         this.itemIdType = itemIdType;
     }
     
+    @ApiModelProperty(value="数量", notes="数量")
     public final int getQuantity() {
         return quantity;
     }
@@ -97,6 +104,7 @@ public class Sale extends Item {
         this.quantity = quantity;
     }
     
+    @ApiModelProperty(value="拡張量", notes="拡張量")
     public final double getExtendedAmount() {
         return extendedAmount;
     }
@@ -105,6 +113,7 @@ public class Sale extends Item {
         this.extendedAmount = extendedAmount;
     }
     
+    @ApiModelProperty(value="割引数", notes="割引数")
     public final int getDiscountCount() {
         return discountCount;
     }
@@ -113,6 +122,7 @@ public class Sale extends Item {
         this.discountCount = discountCount;
     }
     
+    @ApiModelProperty(value="奨励コード", notes="奨励コード")
     public final int getRewardId() {
         return rewardId;
     }
@@ -121,6 +131,7 @@ public class Sale extends Item {
         this.rewardId = rewardId;
     }
     
+    @ApiModelProperty(value="割引率", notes="割引率")
     public final double getDiscountRate() {
         return discountRate;
     }
@@ -129,6 +140,7 @@ public class Sale extends Item {
         this.discountRate = discountRate;
     }
     
+    @ApiModelProperty(value="入力タイプ", notes="入力タイプ")
     public final int getInputType() {
         return inputType;
     }
@@ -138,18 +150,23 @@ public class Sale extends Item {
     }
     
     //-------
+    @ApiModelProperty(value="旧自社品番", notes="旧自社品番")
     public final String getOldSku() {
          return oldSku;
      }
      public final void setOldSku(final String oldSku) {
          this.oldSku = oldSku;
      }
+     
+     @ApiModelProperty(value="コードサイズ", notes="コードサイズ")
      public final String getSizeCode() {
          return sizeCode;
      }
      public final void setSizeCode(final String sizeCode) {
          this.sizeCode = sizeCode;
      }
+     
+     @ApiModelProperty(value="コードの色", notes="コードの色")
      public final String getColorCode() {
          return colorCode;
      }

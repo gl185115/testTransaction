@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.model.CouponInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
@@ -22,6 +25,7 @@ import ncr.res.mobilepos.pricing.model.QrCodeInfo;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Promotion")
+@ApiModel(value="Promotion")
 public class Promotion extends ResultBase {
     /** The List of Discount(s) in a promotion. */
     @XmlElement(name = "Discount")
@@ -42,18 +46,22 @@ public class Promotion extends ResultBase {
     @XmlElement(name = "CouponInfoList")
     private List<CouponInfo> couponInfoList;
 
+    @ApiModelProperty(value="コード情報リスト", notes="コード情報リスト")
     public List<QrCodeInfo> getQrCodeInfoMap() {
         return qrCodeInfoList;
     }
     public void setQrCodeInfoList(List<QrCodeInfo> qrCodeInfoList) {
         this.qrCodeInfoList = qrCodeInfoList;
     }
+    
+    @ApiModelProperty(value="クーポン情報リスト", notes="クーポン情報リスト")
     public List<CouponInfo> getCouponInfoList() {
         return couponInfoList;
     }
     public void setCouponInfoList(List<CouponInfo> couponInfoList) {
         this.couponInfoList = couponInfoList;
     }
+    
     public Map<String, Map<String, Object>> getMap() {
         return map;
     }
@@ -63,6 +71,7 @@ public class Promotion extends ResultBase {
     /**
      * @return the discounts
      */
+    @ApiModelProperty(value="割引", notes="割引")
     public final List<Discount> getDiscounts() {
         return discounts;
     }
@@ -76,12 +85,14 @@ public class Promotion extends ResultBase {
      * Revoke setter.
      * @param revokeToSet    The Revoke to set.
      */
+
     public final void setRevoke(final Revoke revokeToSet) {
         this.revoke = revokeToSet;
     }
     /**
      * @return The Revoke
      */
+    @ApiModelProperty(value="設定をキャンセル", notes="設定をキャンセル")
     public final Revoke getRevoke() {
         return revoke;
     }

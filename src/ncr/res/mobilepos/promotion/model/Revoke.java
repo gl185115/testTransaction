@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Revoke Model Object.
  *
@@ -13,6 +16,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Revoke")
+@ApiModel(value="Revoke")
 public class Revoke {
     /** The custom constructor for Revoke.
      * @param earnedRewardIDToSet The Earned Reward ID to set.
@@ -29,6 +33,7 @@ public class Revoke {
     /**
      * @return The earnedRewardID
      */
+    @ApiModelProperty(value="奨励を得るコード", notes="奨励を得るコード")
     public final String getEarnedRewardID() {
         return earnedRewardID;
     }

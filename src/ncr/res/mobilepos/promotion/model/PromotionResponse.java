@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * PromotionResponse Model Object.
@@ -16,6 +19,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Transaction")
+@ApiModel(value="PromotionResponse")
 public class PromotionResponse extends ResultBase {
 	/**
 	 * default constructor.
@@ -57,6 +61,7 @@ public class PromotionResponse extends ResultBase {
      * Transaction getter.
      * @return {@link Transaction}
      */
+    @ApiModelProperty(value="‹Æ–±‚ð“¾‚é", notes="‹Æ–±‚ð“¾‚é")
     public final Transaction getTransaction() {
         return transaction;
     }
@@ -72,6 +77,7 @@ public class PromotionResponse extends ResultBase {
      * Promotion getter.
      * @return  promotion.
      */
+    @ApiModelProperty(value="Š„ˆøŠé‰æ", notes="Š„ˆøŠé‰æ")
     public final Promotion getPromotion() {
         return promotion;
     }

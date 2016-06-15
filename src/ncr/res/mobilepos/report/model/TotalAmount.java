@@ -5,10 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "TotalAmount")
+@ApiModel(value="TotalAmount")
 public class TotalAmount extends ResultBase {
 	
 	@XmlElement(name = "Cash")
@@ -23,6 +27,7 @@ public class TotalAmount extends ResultBase {
 	/**
 	 * @return the cash
 	 */
+	@ApiModelProperty(value="現金", notes="現金")
 	public final String getCash() {
 		return cash;
 	}
@@ -37,6 +42,7 @@ public class TotalAmount extends ResultBase {
 	/**
 	 * @return the credit
 	 */
+	@ApiModelProperty(value="クレジット", notes="クレジット")
 	public final String getCredit() {
 		return credit;
 	}
@@ -51,6 +57,7 @@ public class TotalAmount extends ResultBase {
 	/**
 	 * @return the giftCard
 	 */
+	@ApiModelProperty(value="ギフトカード", notes="ギフトカード")
 	public final String getGiftCard() {
 		return giftCard;
 	}

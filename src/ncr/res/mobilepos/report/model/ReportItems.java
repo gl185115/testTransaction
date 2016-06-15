@@ -4,6 +4,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * 改定履歴
@@ -16,6 +20,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ReportItems")
+@ApiModel(value="ReportItems")
 public class ReportItems extends ResultBase {
 
     /** The report item list. */
@@ -75,6 +80,7 @@ public class ReportItems extends ResultBase {
      *
      * @return the report items
      */
+    @ApiModelProperty(value="公布するプロジェクト", notes="公布するプロジェクト")
     public final ReportItem[] getReportItems() {
         if (reportItemList == null) {
             return new ReportItem[0];
@@ -97,6 +103,7 @@ public class ReportItems extends ResultBase {
      *
      * @return the business day date
      */
+    @ApiModelProperty(value="処理日付", notes="処理日付")
     public final String getBusinessDayDate() {
         return this.businessDayDate;
     }
@@ -106,6 +113,7 @@ public class ReportItems extends ResultBase {
      *
      * @return the store name
      */
+    @ApiModelProperty(value="店舗名", notes="店舗名")
     public String getStoreName() {
         return storeName;
     }
@@ -124,6 +132,7 @@ public class ReportItems extends ResultBase {
      *
      * @return the operator name
      */
+    @ApiModelProperty(value="担当者名", notes="担当者名ト")
     public String getOperatorName() {
         return operatorName;
     }
@@ -141,6 +150,7 @@ public class ReportItems extends ResultBase {
      *
      * @return the department name
      */
+    @ApiModelProperty(value="部署名", notes="部署名")
     public final String getDepartmentName() {
         return departmentName;
     }
@@ -157,6 +167,7 @@ public class ReportItems extends ResultBase {
     /**
      * @return the companyId
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
         return CompanyId;
     }
@@ -171,6 +182,7 @@ public class ReportItems extends ResultBase {
 	/**
 	 * @return the storeId
 	 */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return StoreId;
 	}
@@ -185,6 +197,7 @@ public class ReportItems extends ResultBase {
 	/**
 	 * @return the operatorId
 	 */
+	@ApiModelProperty(value="担当者コード", notes="担当者コード")
 	public final String getOperatorId() {
 		return OperatorId;
 	}
@@ -199,6 +212,7 @@ public class ReportItems extends ResultBase {
 	/**
 	 * @return the departmentId
 	 */
+	@ApiModelProperty(value="部署コード", notes="部署コード")
 	public final String getDepartmentId() {
 		return DepartmentId;
 	}
@@ -211,7 +225,7 @@ public class ReportItems extends ResultBase {
 	}
 
   //1.01 FENGSHA 2014.11.27 売上表を対応 ADD END
-
+	@ApiModelProperty(value="ドロワーコード", notes="ドロワーコード")
 	public String getTillid() {
 		return tillid;
 	}

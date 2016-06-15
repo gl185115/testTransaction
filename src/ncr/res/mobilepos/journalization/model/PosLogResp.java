@@ -15,6 +15,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -25,6 +28,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "POSLogResp")
+@ApiModel(value="POSLogResp")
 public class PosLogResp extends ResultBase {
 	/**
 	 * Default constructor.
@@ -60,6 +64,7 @@ public class PosLogResp extends ResultBase {
      *
      * @return        Returns the processing status response.
      */
+    @ApiModelProperty( value="取引状態", notes="取引状態")
     public final String getStatus() {
         return status;
     }
@@ -78,6 +83,7 @@ public class PosLogResp extends ResultBase {
      *
      * @return        Returns the transaction number.
      */
+    @ApiModelProperty( value="取引内容コード", notes="取引内容コード")
     public final String getTxID() {
         return txID;
     }

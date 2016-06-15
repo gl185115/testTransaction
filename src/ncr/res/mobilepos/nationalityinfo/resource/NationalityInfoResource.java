@@ -8,17 +8,25 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.line.model.SearchedLine;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.nationalityinfo.model.NationalityInfoList;
 
 @Path("/nationalityinfo")
+@Api(value="/nationalityinfo", description="国籍情報API")
 public class NationalityInfoResource {
 	private static final Logger LOGGER = (Logger) Logger.getInstance();
 	private Trace.Printer tp;
@@ -44,8 +52,13 @@ public class NationalityInfoResource {
 	@Path("/getnationalityinfo")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-	public final NationalityInfoList getNationalityInfo(@QueryParam("companyId") final String companyId,
-			@QueryParam("storeId") final String storeId) {
+	@ApiOperation(value="国籍情報取得", response=NationalityInfoList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
+	public final NationalityInfoList getNationalityInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 		NationalityInfoList nationalityInfo = new NationalityInfoList();

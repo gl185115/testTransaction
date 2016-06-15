@@ -151,7 +151,7 @@ public class ReportResource {
         })
     public final ReportItems getAccountancyReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyid,
-    		@ApiParam(name="storeid", value="店舗コード")@QueryParam("storeid") final String storeid,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeid,
     		@ApiParam(name="tillid", value="ドロワーID")@QueryParam("tillid") final String tillid,
     		@ApiParam(name="language", value="言葉")@QueryParam("language") final String language ) {
 
@@ -242,9 +242,9 @@ public class ReportResource {
         })
     public final ReportItems getReportNew(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="companyid", value="レポートタイプ")@QueryParam("reporttype") final String reportType,
-    		@ApiParam(name="companyid", value="従業員番号")@QueryParam("operatorno") final String operatorNo,
-    		@ApiParam(name="companyid", value="店舗コード")@QueryParam("storeid") final String storeNo) {
+    		@ApiParam(name="reporttype", value="レポートタイプ")@QueryParam("reporttype") final String reportType,
+    		@ApiParam(name="operatorno", value="従業員番号")@QueryParam("operatorno") final String operatorNo,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeNo) {
 
         String threadname = "Thread" + this.hashCode();
         String functionName = DebugLogger.getCurrentMethodName();
@@ -381,11 +381,17 @@ public class ReportResource {
     @Path("/getsalesreportbydivcode")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="divコードによって売上報告を得る", response=ReportItems.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        })
     public final ReportItems getReportByDivCode(
-            @QueryParam("companyid") final String companyId,
-            @QueryParam("reporttype") final String reportType,
-            @QueryParam("storeid") final String storeNo,
-            @QueryParam("departmentno") final String departmentNo){
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@QueryParam("reporttype") final String reportType,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeNo,
+    		@ApiParam(name="departmentno", value="部門番号")@QueryParam("departmentno") final String departmentNo){
 
         String threadname = "Thread" + this.hashCode();
         String functionName = DebugLogger.getCurrentMethodName();
@@ -529,8 +535,8 @@ public class ReportResource {
         })
     public final FinancialReport getFinancialReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="companyid", value="デバイスコード")@QueryParam("deviceid") final String deviceNo,
-    		@ApiParam(name="companyid", value="店舗コード")@QueryParam("storeid") final String storeNo) {
+    		@ApiParam(name="deviceid", value="デバイスコード")@QueryParam("deviceid") final String deviceNo,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeNo) {
 
         tp.methodEnter("getFinancialReport");
         tp.println("CompanyID", companyId)
@@ -602,8 +608,8 @@ public class ReportResource {
         })
     public final DrawerFinancialReport getDrawerFinancialReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="companyid", value="プリンターID")@QueryParam("printerid") final String printerID,
-    		@ApiParam(name="companyid", value="店舗コード")@QueryParam("storeid") final String storeNo) {
+    		@ApiParam(name="printerid", value="プリンターID")@QueryParam("printerid") final String printerID,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeNo) {
 
         tp.methodEnter("getDrawerFinancialReport");
         tp.println("companyId", companyId)
@@ -796,22 +802,34 @@ public class ReportResource {
     @Path("/printsalesreportforcommon")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="印刷する一般の営業報告書", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase printSalesReportForCommon(
-            @FormParam("companyid") final String companyId,
-    		@FormParam("sequenceno") final String sequenceno,
-            @FormParam("storename") final String storeName,
-            @FormParam("businessdate") final String bussinessDate,
-            @FormParam("begindatetime") final String begindatetime,
-            @FormParam("reporttype") final String reportType,
-            @FormParam("storeid") final String storeId,
-            @FormParam("language") final String language,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("deviceno") final String deviceNo,
-            @FormParam("storeidsearch") final String storeidSearch,
-            @FormParam("printerid") final String printerid,
-            @FormParam("totalquantitystr") final String totalQuantityStr,
-            @FormParam("trainingflag") final int trainingFlag,
-            @FormParam("datastr") final String dataStr){
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="sequenceno", value="送信管理順序")@FormParam("sequenceno") final String sequenceno,
+    		@ApiParam(name="storename", value="店舗名")@FormParam("storename") final String storeName,
+    		@ApiParam(name="businessdate", value="営業日")@FormParam("businessdate") final String bussinessDate,
+    		@ApiParam(name="begindatetime", value="POSLogのシステム日時")@FormParam("begindatetime") final String begindatetime,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@FormParam("reporttype") final String reportType,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeId,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language,
+    		@ApiParam(name="operatorno", value="従業員番号")@FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="deviceno", value="装置番号")@FormParam("deviceno") final String deviceNo,
+    		@ApiParam(name="storeidsearch", value="店舗番号検索")@FormParam("storeidsearch") final String storeidSearch,
+    		@ApiParam(name="printrid", value="プリンターID")@FormParam("printerid") final String printerid,
+    		@ApiParam(name="totalquantitystr", value="総量文字列")@FormParam("totalquantitystr") final String totalQuantityStr,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag,
+    		@ApiParam(name="datastr", value="データ文字列")@FormParam("datastr") final String dataStr){
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
@@ -1083,24 +1101,36 @@ public class ReportResource {
     @Path("/printsalesreportwithdivcode")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="印刷販売divコード情報", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase printSalesReportWithDivCode(
-            @FormParam("companyid") final String companyId,
-    		@FormParam("sequenceno") final String sequenceno,
-            @FormParam("storename") final String storeName,
-            @FormParam("businessdate") final String bussinessDate,
-            @FormParam("begindatetime") final String begindatetime,
-            @FormParam("reporttype") final String reportType,
-            @FormParam("storeid") final String storeId,
-            @FormParam("language") final String language,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("deviceno") final String deviceNo,
-            @FormParam("divcode") final String divCode,
-            @FormParam("divname") final String divName,
-            @FormParam("printerid") final String printerid,
-            @FormParam("storeidsearch") final String storeidSearch,
-            @FormParam("totalquantitystr") final String totalQuantityStr,
-            @FormParam("trainingflag") final int trainingFlag,
-            @FormParam("datastr") final String dataStr){
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="sequenceno", value="送信管理順序")@FormParam("sequenceno") final String sequenceno,
+    		@ApiParam(name="storename", value="店舗名")@FormParam("storename") final String storeName,
+    		@ApiParam(name="businessdate", value="営業日")@FormParam("businessdate") final String bussinessDate,
+    		@ApiParam(name="begindatetime", value="POSLogのシステム日時")@FormParam("begindatetime") final String begindatetime,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@FormParam("reporttype") final String reportType,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeId,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language,
+    		@ApiParam(name="operatorno", value="従業員番号")@FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="deviceno", value="装置番号")@FormParam("deviceno") final String deviceNo,
+    		@ApiParam(name="divcode", value="divコード")@FormParam("divcode") final String divCode,
+    		@ApiParam(name="divname", value="div名前")@FormParam("divname") final String divName,
+    		@ApiParam(name="printerid", value="プリンターID")@FormParam("printerid") final String printerid,
+    		@ApiParam(name="storeidsearch", value="店舗番号検索")@FormParam("storeidsearch") final String storeidSearch,
+    		@ApiParam(name="totalquantitystr", value="総量文字列")@FormParam("totalquantitystr") final String totalQuantityStr,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag,
+    		@ApiParam(name="datastr", value="データ文字列")@FormParam("datastr") final String dataStr){
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
@@ -1453,24 +1483,36 @@ public class ReportResource {
     @Path("/printsalesreportwithsalesmanno")//for have saleman code
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="販売人員番号によって営業報告書を印刷する", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase printSalesReportWithSalesManNo(
-            @FormParam("companyid") final String companyId,
-    		@FormParam("sequenceno") final String sequenceno,
-            @FormParam("begindatetime") final String begindatetime,
-            @FormParam("storename") final String storeName,
-            @FormParam("businessdate") final String bussinessDate,
-            @FormParam("reporttype") final String reportType,
-            @FormParam("storeid") final String storeId,
-            @FormParam("language") final String language,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("deviceno") final String deviceNo,
-            @FormParam("storeidsearch") final String storeidSearch,
-            @FormParam("printerid") final String printerId,
-            @FormParam("salesmanno") final String salesManNo,
-            @FormParam("salesmanname") final String salesManName,
-            @FormParam("totalquantitystr") final String totalQuantityStr,
-            @FormParam("trainingflag") final int trainingFlag,
-            @FormParam("datastr") final String dataStr){
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="sequenceno", value="送信管理順序")@FormParam("sequenceno") final String sequenceno,
+    		@ApiParam(name="begindatetime", value="POSLogのシステム日時")@FormParam("begindatetime") final String begindatetime,
+    		@ApiParam(name="storename", value="店舗名")@FormParam("storename") final String storeName,
+    		@ApiParam(name="businessdate", value="営業日")@FormParam("businessdate") final String bussinessDate,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@FormParam("reporttype") final String reportType,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeId,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language,
+    		@ApiParam(name="operatorno", value="従業員番号")@FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="deviceno", value="装置番号")@FormParam("deviceno") final String deviceNo,
+    		@ApiParam(name="storeidsearch", value="店舗番号検索")@FormParam("storeidsearch") final String storeidSearch,
+    		@ApiParam(name="printerid", value="プリンターID")@FormParam("printerid") final String printerId,
+    		@ApiParam(name="salesmanno", value="販売人員番号")@FormParam("salesmanno") final String salesManNo,
+    		@ApiParam(name="salesmanname", value="販売人員名前")@FormParam("salesmanname") final String salesManName,
+    		@ApiParam(name="totalquantitystr", value="総量文字列")@FormParam("totalquantitystr") final String totalQuantityStr,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag,
+    		@ApiParam(name="datastr", value="データ文字列")@FormParam("datastr") final String dataStr){
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
@@ -2305,21 +2347,34 @@ public class ReportResource {
     @Path("/printCashInDrawReport")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="印刷するレポート現金", response=ReportModes.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ReportModes printCashInDrawReport(
-            @FormParam("companyid") final String companyId,
-            @FormParam("sequenceno") final String sequenceno,
-            @FormParam("reporttype") final String reporttype,
-            @FormParam("tillid") final String tillid,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("language") final String language,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("begindatetime") final String begindatetime,
-            @FormParam("dataType") final String dataType,
-            @FormParam("totaldata") final String totaldata,
-            @FormParam("printerid") final String printerid,
-    	    @FormParam("type") final String type,
-    	    @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="sequenceno", value="送信管理順序")@FormParam("sequenceno") final String sequenceno,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@FormParam("reporttype") final String reporttype,
+    		@ApiParam(name="tillid", value="ドロワーコード")@FormParam("tillid") final String tillid,
+    		@ApiParam(name="deviceid", value="デバイス番号")@FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeNo,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language,
+    		@ApiParam(name="operatorno", value="従業員番号")@FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="begindatetime", value="POSLogのシステム日時")@FormParam("begindatetime") final String begindatetime,
+    		@ApiParam(name="dataType", value="データ種別")@FormParam("dataType") final String dataType,
+    		@ApiParam(name="totaldata", value="全データ")@FormParam("totaldata") final String totaldata,
+    		@ApiParam(name="printerid", value="プリンターID")@FormParam("printerid") final String printerid,
+    		@ApiParam(name="type", value="タイプ")@FormParam("type") final String type,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
@@ -2682,11 +2737,21 @@ public class ReportResource {
     @Path("/printfinancialreport")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="プリントする財務報告", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase printFinancialReport(
-            @FormParam("companyid") final String companyId,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("language") final String language) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="deviceid", value="デバイスコード")@FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="storeid", value="店舗名")@FormParam("storeid") final String storeNo,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language) {
 
         tp.methodEnter("printFinancialReport");
         tp.println("companyId", companyId)
@@ -2938,9 +3003,16 @@ public class ReportResource {
     @Path("/opendrawer")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="開いた引き出し", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="ユーザグループ未検出"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_DRAWER, message="オープンする引き出し失敗"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+        })
     public final ResultBase openDrawer(
-            @FormParam("storeid") final String storeid,
-            @FormParam("deviceid") final String deviceNo) {
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeid,
+    		@ApiParam(name="deviceid", value="デバイスコード")@FormParam("deviceid") final String deviceNo) {
 
         tp.methodEnter("openDrawer");
         tp.println("storeid", storeid)
@@ -3020,23 +3092,35 @@ public class ReportResource {
     @Path("/printAccountancyReport")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
+    @ApiOperation(value="プリントする会計報告", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミング例外が発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase printAccountancyReport(
-            @FormParam("companyid") final String companyId,
-            @FormParam("sequenceno") final String sequenceno,
-            @FormParam("storename") final String storename,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("reporttype") final String reporttype,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("language") final String language,
-            @FormParam("begindatetime") final String begindatetime,
-            @FormParam("dataType") final String dataType,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("printerid") final String printerid,
-            @FormParam("storeidsearch") final String storeidSearch,
-            @FormParam("tillid") final String tillid,
-            @FormParam("type") final String type,
-         	@FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="sequenceno", value="送信管理順序")@FormParam("sequenceno") final String sequenceno,
+    		@ApiParam(name="storename", value="店舗名")@FormParam("storename") final String storename,
+    		@ApiParam(name="businessdate", value="営業日")@FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@FormParam("reporttype") final String reporttype,
+    		@ApiParam(name="deviceid", value="店舗番号")@FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeNo,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language,
+    		@ApiParam(name="begindatetime", value="POSLogのシステム日時")@FormParam("begindatetime") final String begindatetime,
+    		@ApiParam(name="dataType", value="データ種別")@FormParam("dataType") final String dataType,
+    		@ApiParam(name="operatorno", value="従業員番号")@FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="printerid", value="プリンターID")@FormParam("printerid") final String printerid,
+    		@ApiParam(name="storeidsearch", value="店舗番号検索")@FormParam("storeidsearch") final String storeidSearch,
+    		@ApiParam(name="tillid", value="ドロワーコード")@FormParam("tillid") final String tillid,
+    		@ApiParam(name="type", value="タイプ")@FormParam("type") final String type,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
@@ -3733,10 +3817,16 @@ public class ReportResource {
     @Path("/gettotalamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="合計金額を得る", response=TotalAmount.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        })
     public final TotalAmount getTotalAmount(
-    		@QueryParam("storeId") final String storeId,
-            @QueryParam("tillId") final String tillId,
-            @QueryParam("businessDate") final String businessDate) {
+    		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="tillId", value="ドロワーコード")@QueryParam("tillId") final String tillId,
+    		@ApiParam(name="businessDate", value="営業日付")@QueryParam("businessDate") final String businessDate) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
 		
@@ -3793,10 +3883,10 @@ public class ReportResource {
         })
     public final DailyReportItems getReportItems(
     		@ApiParam(name="companyid", value="会社コード")@FormParam("companyId") final String companyId,
-    		@ApiParam(name="companyid", value="店舗コード")@FormParam("storeId") final String storeId,
-    		@ApiParam(name="companyid", value="端末番号")@FormParam("terminalId") final String terminalId,
-    		@ApiParam(name="companyid", value="営業日付")@FormParam("businessDate") final String businessDate,
-    		@ApiParam(name="companyid", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag) {
+    		@ApiParam(name="storeId", value="店舗番号")@FormParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="端末番号")@FormParam("terminalId") final String terminalId,
+    		@ApiParam(name="businessDate", value="営業日付")@FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag) {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

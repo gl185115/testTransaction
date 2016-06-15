@@ -12,7 +12,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customerSearch.helper.HTTPBasicAuthorization;
@@ -29,6 +36,7 @@ import ncr.res.mobilepos.model.ResultBase;
  * search customer.
  */
 @Path("/customerSearch")
+@Api(value="/customerSearch", description="検索会員API")
 public class CustomerSearchResource {
 
     /** The instance of the trace debug printer. */
@@ -61,13 +69,25 @@ public class CustomerSearchResource {
     @Path("/getMemberSearch")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="会員を検索する", response=CustomerSearchReturnBean.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+        @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="不正常なURL"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        
+    })
     public final CustomerSearchReturnBean getMemberSearch(
-            @FormParam("cardNo") final String cardNo,
-            @FormParam("memberSeiKana") final String memberSeiKana,
-            @FormParam("memberMeiKana") final String memberMeiKana,
-            @FormParam("birthday") final String birthday,
-            @FormParam("phone") final String phone,
-            @FormParam("maxResult") final String maxResult) {
+    		@ApiParam(name="cardNo", value="カードコード") @FormParam("cardNo") final String cardNo,
+    		@ApiParam(name="memberSeiKana", value="会員の姓") @FormParam("memberSeiKana") final String memberSeiKana,
+    		@ApiParam(name="memberMeiKana", value="会員の名") @FormParam("memberMeiKana") final String memberMeiKana,
+    		@ApiParam(name="birthday", value="誕生日") @FormParam("birthday") final String birthday,
+    		@ApiParam(name="phone", value="電話") @FormParam("phone") final String phone,
+    		@ApiParam(name="maxResult", value="最大の結果") @FormParam("maxResult") final String maxResult) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();

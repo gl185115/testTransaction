@@ -8,7 +8,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
 import ncr.res.mobilepos.customerclass.model.CustomerClassInfoList;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -19,6 +26,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 @Path("/customerclass")
+@Api(value="/customerclass", description="客層API")
 public class CustomerClassInfoResource {
 	private static final Logger LOGGER = (Logger) Logger.getInstance();
 	private Trace.Printer tp;
@@ -44,8 +52,14 @@ public class CustomerClassInfoResource {
 	@Path("/getcustomerclassinfo")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-	public final CustomerClassInfoList getCustomerClassInfo(@QueryParam("companyId") final String companyId,
-			@QueryParam("storeId") final String storeId) {
+	@ApiOperation(value="客層情報を取得する", response=CustomerClassInfoList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    })
+	public final CustomerClassInfoList getCustomerClassInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 		CustomerClassInfoList customerInfo = new CustomerClassInfoList();

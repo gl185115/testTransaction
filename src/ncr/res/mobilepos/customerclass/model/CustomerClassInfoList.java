@@ -7,14 +7,19 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CustomerClassInfoList")
+@ApiModel(value="CustomerClassInfoList")
 public class CustomerClassInfoList extends ResultBase {
 	@XmlElement(name = "CustomerClassInfoList")
 	private List<CustomerClassInfo> customerClassInfoList;
 
+	@ApiModelProperty(value="‹q‘w‚ÌÚ‚µ‚¢î•ñ", notes="‹q‘w‚ÌÚ‚µ‚¢î•ñ")
 	public final List<CustomerClassInfo> getCustomerClassInfoList() {
 		return customerClassInfoList;
 	}

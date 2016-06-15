@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CustomerClassInfo")
 public class CustomerClassInfo {
@@ -25,6 +27,7 @@ public class CustomerClassInfo {
 	@XmlElement(name = "OtherType")
 	private String otherType;
 
+	@ApiModelProperty(value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
 	}
@@ -33,6 +36,7 @@ public class CustomerClassInfo {
 		this.companyId = companyId;
 	}
 
+	@ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
@@ -41,6 +45,7 @@ public class CustomerClassInfo {
 		this.storeId = storeId;
 	}
 
+	@ApiModelProperty(value="客層コード", notes="客層コード")
 	public final String getId() {
 		return id;
 	}
@@ -49,6 +54,7 @@ public class CustomerClassInfo {
 		this.id = id;
 	}
 
+	@ApiModelProperty(value="客層名称(漢字)", notes="客層名称(漢字)")
 	public final String getName() {
 		return name;
 	}
@@ -57,6 +63,7 @@ public class CustomerClassInfo {
 		this.name = name;
 	}
 
+	@ApiModelProperty(value="客層名称(カナ)", notes="客層名称(カナ)")
 	public final String getKanaName() {
 		return kanaName;
 	}
@@ -65,6 +72,7 @@ public class CustomerClassInfo {
 		this.kanaName = kanaName;
 	}
 
+	@ApiModelProperty(value="世代区分", notes="世代区分")
 	public final String getGenerationType() {
 		return generationType;
 	}
@@ -73,6 +81,7 @@ public class CustomerClassInfo {
 		this.generationType = generationType;
 	}
 
+	@ApiModelProperty(value="性別区分", notes="性別区分")
 	public final String getSexType() {
 		return sexType;
 	}
@@ -81,6 +90,7 @@ public class CustomerClassInfo {
 		this.sexType = sexType;
 	}
 
+	@ApiModelProperty(value="その他区分", notes="その他区分")
 	public final String getOtherType() {
 		return otherType;
 	}

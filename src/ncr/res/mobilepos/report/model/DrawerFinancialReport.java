@@ -19,6 +19,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.helper.ReceiptFormatter;
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -27,6 +31,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DrawerFinancialReport")
+@ApiModel(value="DrawerFinancialReport")
 public class DrawerFinancialReport extends ResultBase {
 
     /** The printer id. */
@@ -97,6 +102,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return String Device Number
      */
+    @ApiModelProperty(value="プリンターID", notes="プリンターID")
     public final String getPrinterID() {
         return printerID;
     }
@@ -116,6 +122,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return String Device Number
      */
+    @ApiModelProperty(value="雑多", notes="雑多")
     public final BigDecimal getMiscellaneous() {
         return miscellaneous;
     }
@@ -135,6 +142,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return String Business Day Date
      */
+    @ApiModelProperty(value="営業日付", notes="営業日付")
     public final String getBusinessDate() {
         return businessDate;
     }
@@ -154,6 +162,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal Gross Sales Revenue
      */
+    @ApiModelProperty(value="販売収益", notes="販売収益")
     public final BigDecimal getGrossSalesRevenue() {
         return grossSalesRevenue;
     }
@@ -174,6 +183,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal Discount
      */
+    @ApiModelProperty(value="ディスカウントセール", notes="ディスカウントセール")
     public final BigDecimal getDiscountSale() {
         return discountSale;
     }
@@ -197,6 +207,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal Return
      */
+    @ApiModelProperty(value="返品売価", notes="返品売価")
     public final BigDecimal getReturnSale() {
         return returnSale;
     }
@@ -216,6 +227,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal Void
      */
+    @ApiModelProperty(value="取消売価", notes="取消売価")
     public final BigDecimal getVoidSale() {
         return voidSale;
     }
@@ -235,6 +247,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal Cash
      */
+    @ApiModelProperty(value="現金", notes="現金")
     public final BigDecimal getCash() {
         return cash;
     }
@@ -254,6 +267,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal CreditCard
      */
+    @ApiModelProperty(value="クレジットカード", notes="クレジットカード")
     public final BigDecimal getCreditCard() {
         return creditCard;
     }
@@ -273,6 +287,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal TotalSale
      */
+    @ApiModelProperty(value="商品売上", notes="商品売上")
     public final BigDecimal getTotalSale() {
         return cash.add(creditCard).add(miscellaneous);
     }
@@ -282,6 +297,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return BigDecimal Net Revenue
      */
+    @ApiModelProperty(value="純収益", notes="純収益")
     public final BigDecimal getNetRevenue() {
         return grossSalesRevenue.subtract(discountSale).subtract(returnSale)
                 .subtract(voidSale);
@@ -302,6 +318,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return String data of financial report
      */
+    @ApiModelProperty(value="金融レポートデータ", notes="金融レポートデータ")
     public final String getFinancialRptData() {
         return financialRptData;
     }
@@ -311,6 +328,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return storeid
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getStoreid() {
         return storeid;
     }
@@ -330,6 +348,7 @@ public class DrawerFinancialReport extends ResultBase {
      *
      * @return storeName
      */
+    @ApiModelProperty(value="店舗名", notes="店舗名")
     public final String getStoreName() {
         return storeName;
     }

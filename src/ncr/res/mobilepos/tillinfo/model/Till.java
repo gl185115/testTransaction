@@ -6,8 +6,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "Till")
+@XmlRootElement(name="Till")
+@ApiModel(value="Till")
 public class Till{
 
 	/**
@@ -70,80 +74,107 @@ public class Till{
      */
     @XmlElement(name = "TerminalId")
     private String terminalId;
-
+    
+    @ApiModelProperty(value="会社コード", notes="会社コード")
 	public String getCompanyId() {
 		return companyId;
 	}
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
+	
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
+	
 	public final void setStoreId(String storeId) {
 		this.storeId = storeId;
 	}
+
+    @ApiModelProperty(value="ドロワーコード", notes="ドロワーコード")
 	public final String getTillId() {
 		return tillId;
 	}
 	public final void setTillId(String tillId) {
 		this.tillId = tillId;
 	}
+
+    @ApiModelProperty(value="営業日", notes="営業日")
 	public final String getBusinessDayDate() {
 		return businessDayDate;
 	}
 	public final void setBusinessDayDate(String businessDayDate) {
 		this.businessDayDate = businessDayDate;
 	}
+
+    @ApiModelProperty(value="SODフラグ", notes="SODフラグ")
 	public final String getSodFlag() {
 		return sodFlag;
 	}
 	public final void setSodFlag(String sodFlag) {
 		this.sodFlag = sodFlag;
 	}
+
+    @ApiModelProperty(value="短いSODフラグ", notes="短いSODフラグ")
     public final short getSodFlagAsShort() {
         return Short.parseShort(this.sodFlag);
-    }
+    }	
+
+    @ApiModelProperty(value="EODDフラグ", notes="EODDフラグ")
 	public final String getEodFlag() {
 		return eodFlag;
 	}
 	public final void setEodFlag(String eodFlag) {
 		this.eodFlag = eodFlag;
 	}
+	
+    @ApiModelProperty(value="短いEODDフラグ", notes="短いEODDフラグ")
     public final short getEodFlagAsShort() {
         return Short.parseShort(this.eodFlag);
     }
+	
+    @ApiModelProperty(value="登録日時", notes="登録日時")
 	public final String getInsDate() {
 		return insDate;
 	}
 	public final void setInsDate(String insDate) {
 		this.insDate = insDate;
 	}
+
+    @ApiModelProperty(value="最終更新日時", notes="最終更新日時")
 	public final String getUpdDate() {
 		return updDate;
 	}
 	public final void setUpdDate(String updDate) {
 		this.updDate = updDate;
 	}
+
+    @ApiModelProperty(value="登録プログラムＩＤ", notes="登録プログラムＩＤ")
 	public final String getUpdAppId() {
 		return updAppId;
 	}
 	public final void setUpdAppId(String updAppId) {
 		this.updAppId = updAppId;
 	}
+
+    @ApiModelProperty(value="登録ユーザＩＤ", notes="登録ユーザＩＤ")
 	public final String getUpdOpeCode() {
 		return updOpeCode;
 	}
 	public final void setUpdOpeCode(String updOpeCode) {
 		this.updOpeCode = updOpeCode;
 	}
+
+    @ApiModelProperty(value="状態", notes="状態")
 	public final String getState() {
 		return state;
 	}
 	public final void setState(String state) {
 		this.state = state;
 	}
-	
+
+    @ApiModelProperty(value="端末コード", notes="端末コード")
 	public final String getTerminalId() {
 		return this.terminalId;
 	}

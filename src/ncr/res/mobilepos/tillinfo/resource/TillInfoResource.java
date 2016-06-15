@@ -13,6 +13,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -33,6 +38,7 @@ import ncr.res.mobilepos.tillinfo.model.ViewTill;
  * @author ES185134
  */
 @Path("/till")
+@Api(value="/till", description="ドロワ情報API")
 public class TillInfoResource {
     /**
      * the servelet context.
@@ -93,9 +99,17 @@ public class TillInfoResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="査看ドロワ", response=ViewTill.class)//next time to do
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています"),
+    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです")
+    })
     public final ViewTill viewTill(
-    		@QueryParam("storeid") final String storeID,
-    		@QueryParam("tillid") final String tillID) {
+    		@ApiParam(name="storeid", value="店舗コード")  @QueryParam("storeid") final String storeID,
+    		@ApiParam(name="tillid", value="ドロワーコード")  @QueryParam("tillid") final String tillID) {
 
         String functionName = "TillResource.viewTill";
 
@@ -147,10 +161,19 @@ public class TillInfoResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="新しいドロワを作成する", response=ResultBase.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効なドロワコード"),
+    @ApiResponse(code=ResultBase.RES_STORE_INVALIDPARAMS, message="無効な店舗コード"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),
+    @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています")
+    })
     public final ResultBase createTill(
-            @FormParam("storeid") final String storeID,
-            @FormParam("tillid") final String tillID,
-            @FormParam("till") final String till) {
+    		@ApiParam(name="storeid", value="店舗コード")  @FormParam("storeid") final String storeID,
+    		@ApiParam(name="tillid", value="ドロワーコード")  @FormParam("tillid") final String tillID,
+    		@ApiParam(name="till", value="ドロワ") @FormParam("till") final String till) {
 
         tp.methodEnter("createTill");
         tp.println("storeID", storeID).println("Till", till);
@@ -222,10 +245,19 @@ public class TillInfoResource {
     @Path("/maintenance")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="アップデートドロワ", response=ResultBase.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効なドロワコード"),
+    @ApiResponse(code=ResultBase.RES_STORE_INVALIDPARAMS, message="無効な店舗コード"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),
+    @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています")
+    })
     public final ViewTill updateTill(
-            @FormParam("storeid") final String storeID,
-            @FormParam("tillid") final String tillID,
-            @FormParam("till") final String tillJson) {
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeID,
+    		@ApiParam(name="tillid", value="店舗コード") @FormParam("tillid") final String tillID,
+    		@ApiParam(name="till", value="ドロワ") @FormParam("till") final String tillJson) {
         String functionName = "TillInfoResource.updateTill";
 
         tp.methodEnter("updateTill");
@@ -368,14 +400,25 @@ public class TillInfoResource {
     @Path("/getexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="実行権限を取得する", response=ResultBase.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    @ApiResponse(code=ResultBase.RES_TILL_NOT_EXIST, message="ドロワは存在しない"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_OPTIMISTIC_LOCKING_ERROR, message="更新ができない")
+    
+    })
     public final ResultBase getExecuteAuthority(
-        @FormParam("companyid") final String companyId,
-        @FormParam("retailstoreid") final String storeId,
-        @FormParam("tillid") final String tillId,
-        @FormParam("terminalid") final String terminalId,
-        @FormParam("operatorno") final String operatorNo,
-        @FormParam("processing") final String processingType,
-        @FormParam("compulsoryflag") final String compulsoryFlag) {
+    		@ApiParam(name="companyId", value="会社コード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="tillid", value="ドロワーコード") @FormParam("tillid") final String tillId,
+    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="operatorno", value="営業商番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="processing", value="処理") @FormParam("processing") final String processingType,
+    		@ApiParam(name="compulsoryflag", value="強制フラグ") @FormParam("compulsoryflag") final String compulsoryFlag) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)
@@ -606,16 +649,27 @@ public class TillInfoResource {
      * @param processingType - The processing type: SOD or EOD.
      * @return ResultBase
      */
+	
     @Path("/releaseexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="権限を解除する", response=ResultBase.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),   
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    @ApiResponse(code=ResultBase.RES_TILL_NOT_EXIST, message="ドロワは存在しない"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_OPTIMISTIC_LOCKING_ERROR, message="更新ができない")    
+    })
     public final ResultBase releaseExecuteAuthority(
-            @FormParam("companyid") final String companyId,
-    		@FormParam("retailstoreid") final String storeId,
-    		@FormParam("tillid") final String tillId,
-    	    @FormParam("terminalid") final String terminalId,
-    	    @FormParam("operatorno") final String operatorNo,
-    	    @FormParam("processing") final String processingType) {
+    		@ApiParam(name="companyid", value="ドロワーコード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid",value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="tillid",value="ドロワーコード") @FormParam("tillid") final String tillId,
+    		@ApiParam(name="terminalid",value="端末コード") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="operatorno",value="営業商番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="processing",value="処理") @FormParam("processing") final String processingType) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyId)
@@ -800,14 +854,23 @@ public class TillInfoResource {
      * @param terminalId - The terminal ID of the POS where SOD/EOD is executed.
      * @return ResultBase
      */
+	
+	
     @Path("/search")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="探す", response=ResultBase.class)
+    @ApiResponses(value={   
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")  
+    })
     public final ResultBase search(
-            @FormParam("companyid") final String companyid,
-    		@FormParam("retailstoreid") final String storeId,
-    		@FormParam("tillid") final String tillId,
-    		@FormParam("terminalid") final String terminalId) {
+    		@ApiParam(name="companyid",value="ドロワーコード") @FormParam("companyid") final String companyid,
+    		@ApiParam(name="retailstoreid",value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="tillid",value="ドロワーコード") @FormParam("tillid") final String tillId,
+    		@ApiParam(name="terminalid",value="端末コード") @FormParam("terminalid") final String terminalId) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyid)
@@ -868,8 +931,16 @@ public class TillInfoResource {
     @Path("/getTillList")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="得到ドロワ表", response=ViewTill.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
+    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    })
     public final ViewTill getTillList(
-            @FormParam("storeId") final String storeId){
+    		@ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId){
             String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("storeId", storeId);

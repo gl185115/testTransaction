@@ -78,8 +78,7 @@ public class CustomerSearchResource {
         @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="不正常なURL"),
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-        
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
     })
     public final CustomerSearchReturnBean getMemberSearch(
     		@ApiParam(name="cardNo", value="カードコード") @FormParam("cardNo") final String cardNo,
@@ -87,7 +86,7 @@ public class CustomerSearchResource {
     		@ApiParam(name="memberMeiKana", value="会員の名") @FormParam("memberMeiKana") final String memberMeiKana,
     		@ApiParam(name="birthday", value="誕生日") @FormParam("birthday") final String birthday,
     		@ApiParam(name="phone", value="電話") @FormParam("phone") final String phone,
-    		@ApiParam(name="maxResult", value="最大の結果") @FormParam("maxResult") final String maxResult) {
+    		@ApiParam(name="maxResult", value="最大カウント") @FormParam("maxResult") final String maxResult) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
@@ -267,13 +266,24 @@ public class CustomerSearchResource {
     @Path("/getMemberTradeList")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="会員取引情報を取得する", response=CustomerSearchReturnBean.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="不正常なURL"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+        })
     public final CustomerSearchReturnBean getMemberTradeList(
-            @FormParam("cardNo") final String cardNo,
-            @FormParam("tradeDateFrom") final String tradeDateFrom,
-            @FormParam("tradeDateTo") final String tradeDateTo,
-            @FormParam("firstResult") final String firstResult,
-            @FormParam("maxResult") final String maxResult,
-            @FormParam("forcedBflag") final String forcedBflag) {
+    		@ApiParam(name="cardNo", value="カードコード") @FormParam("cardNo") final String cardNo,
+    		@ApiParam(name="tradeDateFrom", value="取引開始日") @FormParam("tradeDateFrom") final String tradeDateFrom,
+    		@ApiParam(name="tradeDateTo", value="取引終瞭日") @FormParam("tradeDateTo") final String tradeDateTo,
+    		@ApiParam(name="firstResult", value="取引開始位置") @FormParam("firstResult") final String firstResult,
+    		@ApiParam(name="maxResult", value="最大カウント") @FormParam("maxResult") final String maxResult,
+    		@ApiParam(name="forcedBflag", value="検索フラグ") @FormParam("forcedBflag") final String forcedBflag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();

@@ -24,6 +24,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
@@ -42,6 +48,7 @@ import ncr.res.mobilepos.line.model.ViewLine;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
+import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 /**
  * LineResource Web Resource Line
@@ -51,6 +58,7 @@ import ncr.res.mobilepos.store.resource.StoreResource;
  * 
  */
 @Path("/line")
+@Api(value="/line", description="品種情報API")
 public class LineResource {
 
     /**
@@ -138,12 +146,18 @@ public class LineResource {
     @Path("/list")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="品種情報一覧取得", response=SearchedLine.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    })
     public final SearchedLine list(
-            @FormParam("retailstoreid") final String retailstoreid,
-            @FormParam("departmentid") final String departmentid,
-            @FormParam("key") final String key,
-            @FormParam("name") final String name,
-            @FormParam("limit") final int limit) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
+    		@ApiParam(name="departmentid", value=" 部門コード") @FormParam("departmentid") final String departmentid,
+    		@ApiParam(name="key", value="品種コード") @FormParam("key") final String key,
+    		@ApiParam(name="name", value="品種名称") @FormParam("name") final String name,
+    		@ApiParam(name="limit", value="制限条目") @FormParam("limit") final int limit) {
 
         String functionName = "LineResource.list";
         tp.methodEnter(DebugLogger.getCurrentMethodName())

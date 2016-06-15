@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.pricing.model.Description;
 
 /**
@@ -12,6 +15,7 @@ import ncr.res.mobilepos.pricing.model.Description;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "LineInfo")
+@ApiModel(value="Line")
 public class Line {
 	
 	@XmlElement(name = "CompanyID")
@@ -122,6 +126,7 @@ public class Line {
       return str.toString();
     }
 	
+	@ApiModelProperty( value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
 	}
@@ -130,6 +135,7 @@ public class Line {
 		this.companyId = companyId;
 	}
 
+	@ApiModelProperty( value="店舗コード", notes="店舗コード")
 	public final String getRetailStoreId() {
 		return retailStoreId;
 	}
@@ -137,7 +143,8 @@ public class Line {
 	public final void setRetailStoreId(String retailStoreId) {
 		this.retailStoreId = retailStoreId;
 	}
-
+   
+	@ApiModelProperty( value="品種コード", notes="品種コード")
 	public final String getLine() {
 		return line;
 	}
@@ -146,6 +153,7 @@ public class Line {
 		this.line = line;
 	}	
 
+	@ApiModelProperty( value="種類", notes="種類")
 	public final Description getDescription() {
 		return description;
 	}
@@ -154,6 +162,7 @@ public class Line {
 		this.description = description;
 	}
 
+	@ApiModelProperty( value="部門コード", notes="部門コード")
 	public final String getDepartment() {
 		return department;
 	}
@@ -162,6 +171,7 @@ public class Line {
 		this.department = department;
 	}
 
+	@ApiModelProperty( value="課税区分", notes="課税区分")
 	public final String getTaxType() {
 		return taxType;
 	}
@@ -170,6 +180,7 @@ public class Line {
 		this.taxType = taxType;
 	}
 
+	@ApiModelProperty( value="消費税率", notes="消費税率")
 	public final String getTaxRate() {
 		return taxRate;
 	}
@@ -178,6 +189,7 @@ public class Line {
 		this.taxRate = taxRate;
 	}
 
+	@ApiModelProperty( value="値引・割引除外区分", notes="値引・割引除外区分")
 	public final String getDiscountType() {
 		return discountType;
 	}
@@ -186,6 +198,7 @@ public class Line {
 		this.discountType = discountType;
 	}
 
+	@ApiModelProperty( value="売上外フラグ", notes="売上外フラグ")
 	public final String getExceptionFlag() {
 		return exceptionFlag;
 	}
@@ -194,6 +207,7 @@ public class Line {
 		this.exceptionFlag = exceptionFlag;
 	}
 
+	@ApiModelProperty( value="自動値引フラグ", notes="自動値引フラグ")
 	public final String getDiscountFlag() {
 		return discountFlag;
 	}
@@ -202,6 +216,7 @@ public class Line {
 		this.discountFlag = discountFlag;
 	}
 
+	@ApiModelProperty( value="自動値引金額", notes="自動値引金額")
 	public final double getDiscountAmount() {
 		return discountAmount;
 	}
@@ -210,6 +225,7 @@ public class Line {
 		this.discountAmount = discountAmount;
 	}
 
+	@ApiModelProperty( value="自動値引率", notes="自動値引率")
 	public final double getDiscountRate() {
 		return discountRate;
 	}
@@ -218,6 +234,7 @@ public class Line {
 		this.discountRate = discountRate;
 	}
 
+	@ApiModelProperty( value="年齢制限フラグ", notes="年齢制限フラグ")
 	public final String getAgeRestrictedFlag() {
 		return ageRestrictedFlag;
 	}
@@ -226,6 +243,7 @@ public class Line {
 		this.ageRestrictedFlag = ageRestrictedFlag;
 	}
 
+	@ApiModelProperty( value="継承フラグ", notes="継承フラグ")
 	public final String getInheritFlag() {
 		return inheritFlag;
 	}
@@ -234,6 +252,7 @@ public class Line {
 		this.inheritFlag = inheritFlag;
 	}
 
+	@ApiModelProperty( value="予約", notes="予約")
 	public final String getSubSmallInt5() {
 		return subSmallInt5;
 	}
@@ -242,6 +261,7 @@ public class Line {
 		this.subSmallInt5 = subSmallInt5;
 	}
 
+	@ApiModelProperty( value="最終更新プログラムID", notes="最終更新プログラムID")
 	public final String getUpdAppId() {
 		return updAppId;
 	}
@@ -250,6 +270,7 @@ public class Line {
 		this.updAppId = updAppId;
 	}
 
+	@ApiModelProperty( value="最終更新ユーザーID", notes="最終更新ユーザーID")
 	public final String getUpdOpeCode() {
 		return updOpeCode;
 	}

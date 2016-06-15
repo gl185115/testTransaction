@@ -5,11 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DeviceAttribute")
+@ApiModel(value="DeviceAttribute")
 public class DeviceAttribute extends ResultBase {
     @XmlElement(name = "CompanyId")
     private String companyId;
@@ -53,6 +57,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
      * @return the companyId
      */
+	@ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
         return companyId;
     }
@@ -67,6 +72,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the storeId
 	 */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
@@ -81,6 +87,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the terminalId
 	 */
+	@ApiModelProperty(value="端末番号", notes="端末番号")
 	public final String getTerminalId() {
 		return terminalId;
 	}
@@ -95,6 +102,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
      * @return the training mode
      */
+	@ApiModelProperty(value="トレーニングフラグ", notes="トレーニングフラグ")
     public final int getTrainingMode() {
         return training;
     }
@@ -109,6 +117,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the deviceName
 	 */
+    @ApiModelProperty(value="端末名称", notes="端末名称")
 	public final String getDeviceName() {
 		return deviceName;
 	}
@@ -123,6 +132,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the attributeId
 	 */
+	@ApiModelProperty(value="属性コード", notes="属性コード")
 	public final String getAttributeId() {
 		return attributeId;
 	}
@@ -137,6 +147,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the printerId
 	 */
+	@ApiModelProperty(value="プリンターID", notes="プリンターID")
 	public final String getPrinterId() {
 		return printerId;
 	}
@@ -151,6 +162,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the tillId
 	 */
+	@ApiModelProperty(value="ドロワーID", notes="ドロワーID")
 	public final String getTillId() {
 		return tillId;
 	}
@@ -165,6 +177,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the linkQueueBuster
 	 */
+	@ApiModelProperty(value="BluetoothプリンターID", notes="BluetoothプリンターID")
 	public final String getLinkQueueBuster() {
 		return linkQueueBuster;
 	}
@@ -179,6 +192,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the printDes
 	 */
+	@ApiModelProperty(value="備考", notes="備考")
 	public final String getPrintDes() {
 		return printDes;
 	}
@@ -193,6 +207,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the drawerId
 	 */
+	@ApiModelProperty(value="ドロワーコード", notes="ドロワーコード")
 	public final String getDrawerId() {
 		return drawerId;
 	}
@@ -207,6 +222,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the displayName
 	 */
+	@ApiModelProperty(value="iphoneの画面上に表示された名前", notes="iphoneの画面上に表示された名前")
 	public final String getDisplayName() {
 		return displayName;
 	}
@@ -221,6 +237,7 @@ public class DeviceAttribute extends ResultBase {
 	/**
 	 * @return the attributeDes
 	 */
+	@ApiModelProperty(value="記述", notes="記述")
 	public final String getAttributeDes() {
 		return attributeDes;
 	}

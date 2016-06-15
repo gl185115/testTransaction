@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "TerminalInfo")
+@ApiModel(value="TerminalInfo")
 public class TerminalInfo {
 	@XmlElement(name = "CompanyId")
 	private String companyId;
@@ -76,6 +80,7 @@ public class TerminalInfo {
 		this.companyId = companyId;
 	}
 	
+	@ApiModelProperty(value="会社コード", notes="会社コード")
 	public String getCompanyId() {
 		return companyId;
 	}
@@ -84,6 +89,7 @@ public class TerminalInfo {
 		this.storeId = storeId;
 	}
 	
+	@ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public String getStoreId() {
 		return storeId;
 	}
@@ -92,6 +98,7 @@ public class TerminalInfo {
 		this.terminalId = terminalId;
 	}
 	
+	@ApiModelProperty(value="端末NO", notes="端末NO")
 	public String getTerminalId() {
 		return terminalId;
 	}
@@ -100,6 +107,7 @@ public class TerminalInfo {
 		this.floorId = floorId;
 	}
 	
+	@ApiModelProperty(value="フロアコード", notes="フロアコード")
 	public String getFloorId() {
 		return floorId;
 	}
@@ -108,6 +116,7 @@ public class TerminalInfo {
 		this.terminalName = terminalName;
 	}
 	
+	@ApiModelProperty(value="端末ID(ホスト名)", notes="端末ID(ホスト名)")
 	public String getTerminalName() {
 		return terminalName;
 	}
@@ -116,6 +125,7 @@ public class TerminalInfo {
 		this.ipAddress = ipAddress;
 	}
 	
+	@ApiModelProperty(value="IPアドレス", notes="IPアドレス")
 	public String getIpAddress() {
 		return ipAddress;
 	}
@@ -124,6 +134,7 @@ public class TerminalInfo {
 		this.storeClass = storeClass;
 	}
 	
+	@ApiModelProperty(value="本部区分", notes="本部区分")
 	public String getStoreClass() {
 		return storeClass;
 	}
@@ -132,6 +143,7 @@ public class TerminalInfo {
 		this.terminalType = terminalType;
 	}
 	
+	@ApiModelProperty(value="端末区分", notes="端末区分")
 	public String getTerminalType() {
 		return terminalType;
 	}
@@ -140,6 +152,7 @@ public class TerminalInfo {
 		this.tillType = tillType;
 	}
 	
+	@ApiModelProperty(value="POS区分", notes="POS区分")
 	public String getTillType() {
 		return tillType;
 	}
@@ -148,6 +161,7 @@ public class TerminalInfo {
 		this.relationType = relationType;
 	}
 	
+	@ApiModelProperty(value="親子区分", notes="親子区分")
 	public String getRelationType() {
 		return relationType;
 	}
@@ -156,6 +170,7 @@ public class TerminalInfo {
 		this.connectionFlag1 = connectionFlag1;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１:プリンタ", notes="接続フラグ１:プリンタ")
 	public int getConnectionFlag1() {
 		return connectionFlag1;
 	}
@@ -164,6 +179,7 @@ public class TerminalInfo {
 		this.connectionFlag2 = connectionFlag2;
 	}
 	
+	@ApiModelProperty(value="接続フラグ２:スキャナ", notes="接続フラグ２:スキャナ")
 	public int getConnectionFlag2() {
 		return connectionFlag2;
 	}
@@ -172,6 +188,7 @@ public class TerminalInfo {
 		this.connectionFlag3 = connectionFlag3;
 	}
 	
+	@ApiModelProperty(value="接続フラグ３:ドロア", notes="接続フラグ３:ドロア")
 	public int getConnectionFlag3() {
 		return connectionFlag3;
 	}
@@ -180,6 +197,7 @@ public class TerminalInfo {
 		this.connectionFlag4 = connectionFlag4;
 	}
 	
+	@ApiModelProperty(value="接続フラグ４:カードリーダー", notes="接続フラグ４:カードリーダー")
 	public int getConnectionFlag4() {
 		return connectionFlag4;
 	}
@@ -188,6 +206,7 @@ public class TerminalInfo {
 		this.connectionFlag5 = connectionFlag5;
 	}
 	
+	@ApiModelProperty(value="接続フラグ５:自動釣銭", notes="接続フラグ５:自動釣銭")
 	public int getConnectionFlag5() {
 		return connectionFlag5;
 	}
@@ -196,6 +215,7 @@ public class TerminalInfo {
 		this.connectionFlag6 = connectionFlag6;
 	}
 	
+	@ApiModelProperty(value="接続フラグ６:OES", notes="接続フラグ６:OES")
 	public int getConnectionFlag6() {
 		return connectionFlag6;
 	}
@@ -204,6 +224,7 @@ public class TerminalInfo {
 		this.connectionFlag7 = connectionFlag7;
 	}
 	
+	@ApiModelProperty(value="接続フラグ７:キッチンプリンタ", notes="接続フラグ７:キッチンプリンタ")
 	public int getConnectionFlag7() {
 		return connectionFlag7;
 	}
@@ -212,6 +233,7 @@ public class TerminalInfo {
 		this.connectionFlag8 = connectionFlag8;
 	}
 	
+	@ApiModelProperty(value="接続フラグ８:電子マネー", notes="接続フラグ８:電子マネー")
 	public int getConnectionFlag8() {
 		return connectionFlag8;
 	}
@@ -220,6 +242,7 @@ public class TerminalInfo {
 		this.connectionFlag9 = connectionFlag9;
 	}
 	
+	@ApiModelProperty(value="接続フラグ９:IC PINパッド", notes="接続フラグ９:IC PINパッド")
 	public int getConnectionFlag9() {
 		return connectionFlag9;
 	}
@@ -228,6 +251,7 @@ public class TerminalInfo {
 		this.connectionFlag10 = connectionFlag10;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１０", notes="接続フラグ１０")
 	public int getConnectionFlag10() {
 		return connectionFlag10;
 	}
@@ -236,6 +260,7 @@ public class TerminalInfo {
 		this.connectionFlag11 = connectionFlag11;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１１", notes="接続フラグ１１")
 	public int getConnectionFlag11() {
 		return connectionFlag11;
 	}
@@ -244,6 +269,7 @@ public class TerminalInfo {
 		this.connectionFlag12 = connectionFlag12;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１２", notes="接続フラグ１２")
 	public int getConnectionFlag12() {
 		return connectionFlag12;
 	}
@@ -252,6 +278,7 @@ public class TerminalInfo {
 		this.connectionFlag13 = connectionFlag13;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１３", notes="接続フラグ１３")
 	public int getConnectionFlag13() {
 		return connectionFlag13;
 	}
@@ -260,6 +287,7 @@ public class TerminalInfo {
 		this.connectionFlag14 = connectionFlag14;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１４", notes="接続フラグ１４")
 	public int getConnectionFlag14() {
 		return connectionFlag14;
 	}
@@ -268,6 +296,7 @@ public class TerminalInfo {
 		this.connectionFlag15 = connectionFlag15;
 	}
 	
+	@ApiModelProperty(value="接続フラグ１５", notes="接続フラグ１５")
 	public int getConnectionFlag15() {
 		return connectionFlag15;
 	}
@@ -276,6 +305,7 @@ public class TerminalInfo {
 		this.logoFileName = logoFileName;
 	}
 	
+	@ApiModelProperty(value="ロゴファイル名", notes="ロゴファイル名")
 	public String getLogoFileName() {
 		return logoFileName;
 	}
@@ -284,6 +314,7 @@ public class TerminalInfo {
 		this.inshiFileName = inshiFileName;
 	}
 	
+	@ApiModelProperty(value="印紙ファイル名", notes="印紙ファイル名")
 	public String getInshiFileName() {
 		return inshiFileName;
 	}
@@ -292,6 +323,7 @@ public class TerminalInfo {
 		this.note = note;
 	}
 	
+	@ApiModelProperty(value="メモ", notes="メモ")
 	public String getNote() {
 		return note;
 	}
@@ -300,6 +332,7 @@ public class TerminalInfo {
 		this.companyName = companyName;
 	}
 	
+	@ApiModelProperty(value="会社名称", notes="会社名称")
 	public String getCompanyName() {
 		return companyName;
 	}
@@ -308,6 +341,7 @@ public class TerminalInfo {
 		this.subCode1 = subCode1;
 	}
 	
+	@ApiModelProperty(value="領収書用印紙税ビットマップファイル名", notes="領収書用印紙税ビットマップファイル名")
 	public String getSubCode1() {
 		return subCode1;
 	}
@@ -316,6 +350,7 @@ public class TerminalInfo {
 		this.subCode2 = subCode2;
 	}
 	
+	@ApiModelProperty(value="QRコードビットマップファイル名", notes="QRコードビットマップファイル名")
 	public String getSubCode2() {
 		return subCode2;
 	}
@@ -324,6 +359,7 @@ public class TerminalInfo {
 		this.subCode3 = subCode3;
 	}
 	
+	@ApiModelProperty(value="ロゴファイル名(Enterprise用)", notes="ロゴファイル名(Enterprise用)")
 	public String getSubCode3() {
 		return subCode3;
 	}
@@ -332,6 +368,7 @@ public class TerminalInfo {
 		this.subCode4 = subCode4;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public String getSubCode4() {
 		return subCode4;
 	}
@@ -340,6 +377,7 @@ public class TerminalInfo {
 		this.subCode5 = subCode5;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public String getSubCode5() {
 		return subCode5;
 	}
@@ -348,6 +386,7 @@ public class TerminalInfo {
 		this.subNum1 = subNum1;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public int getSubNum1() {
 		return subNum1;
 	}
@@ -356,6 +395,7 @@ public class TerminalInfo {
 		this.subNum2 = subNum2;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public int getSubNum2() {
 		return subNum2;
 	}
@@ -364,6 +404,7 @@ public class TerminalInfo {
 		this.subNum3 = subNum3;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public int getSubNum3() {
 		return subNum3;
 	}
@@ -372,6 +413,7 @@ public class TerminalInfo {
 		this.subNum4 = subNum4;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public int getSubNum4() {
 		return subNum4;
 	}
@@ -380,6 +422,7 @@ public class TerminalInfo {
 		this.subNum5 = subNum5;
 	}
 	
+	@ApiModelProperty(value="予約", notes="予約")
 	public int getSubNum5() {
 		return subNum5;
 	}

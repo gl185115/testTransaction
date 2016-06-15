@@ -1,6 +1,10 @@
 package ncr.res.mobilepos.deviceinfo.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -9,6 +13,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 // please note all members are small letters
 @XmlRootElement(name = "printers")
+@ApiModel(value="Printers")
 public class Printers extends ResultBase {
 	/**
 	 * Default constructor.
@@ -46,6 +51,7 @@ public class Printers extends ResultBase {
      * Getter for the printer list.
      * @return PrinterInfo[] array of PrinterInfo
      */
+    @ApiModelProperty(value="ˆóüî•ñ‚ğ“¾‚é", notes="ˆóüî•ñ‚ğ“¾‚é")
     public final PrinterInfo[] getPrinters() {
         if (printers == null) {
             return new PrinterInfo[0];

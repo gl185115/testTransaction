@@ -7,12 +7,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * PrinterInfo
  * Model for representing printer information.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PrinterInfo")
+@ApiModel(value="PrinterInfo")
 public class PrinterInfo {
 	 /**
      * The store identifier is set here.
@@ -55,12 +59,14 @@ public class PrinterInfo {
     
     private String updOpeCode;
     
+    @ApiModelProperty(value="最終更新プログラムID", notes="最終更新プログラムID")
     public String getUpdAppId() {
         return updAppId;
     }
     public void setUpdAppId(String updAppId) {
         this.updAppId = updAppId;
     }
+    @ApiModelProperty(value="最終更新ユーザーID", notes="最終更新ユーザーID")
     public String getUpdOpeCode() {
         return updOpeCode;
     }
@@ -78,6 +84,7 @@ public class PrinterInfo {
      * Getter for the store id.
      * @return String
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getRetailStoreId() {
         return storeid;
     }
@@ -92,6 +99,7 @@ public class PrinterInfo {
      * Getter for the printer id.
      * @return int
      */
+    @ApiModelProperty(value="プリンターコード", notes="プリンターコード")
     public final String getPrinterId() {
         return printerid;
     }
@@ -106,6 +114,7 @@ public class PrinterInfo {
      * Getter for the printer name.
      * @return String
      */
+    @ApiModelProperty(value="プリンター名称", notes="プリンター名称")
     public final String getPrinterName() {
         return printername;
     }
@@ -120,6 +129,7 @@ public class PrinterInfo {
      * Getter for the printer description.
      * @return String
      */
+    @ApiModelProperty(value="備考", notes="備考")
     public final String getPrinterDescription() {
         return printerdescription;
     }
@@ -153,6 +163,7 @@ public class PrinterInfo {
      *
      * @return the IP Address
      */
+    @ApiModelProperty(value="IPアドレス", notes="IPアドレス")
     public final String getIpAddress() {
         return ipAddress;
     }
@@ -171,6 +182,7 @@ public class PrinterInfo {
      *
      * @return the TCP port number.
      */
+    @ApiModelProperty(value="TCPポート番号", notes="TCPポート番号")
     public final String getPortNumTcp() {
         return portNumTcp;
     }
@@ -189,6 +201,7 @@ public class PrinterInfo {
      *
      * @return the UDP port number
      */
+    @ApiModelProperty(value="UDPポート番号", notes="UDPポート番号")
     public final String getPortNumUdp() {
         return portNumUdp;
     }
@@ -205,6 +218,7 @@ public class PrinterInfo {
      *
      * @return the status of printer
      */
+	@ApiModelProperty(value="レコードステータス", notes="レコードステータス")
     public final String getStatus() {
         return portNumUdp;
     }

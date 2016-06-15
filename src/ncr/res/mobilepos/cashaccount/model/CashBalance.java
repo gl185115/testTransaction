@@ -5,11 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Represents the Cash Balance information.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CashBalance")
+@ApiModel(value="CashBalance")
 public class CashBalance {
 	
     /**
@@ -29,6 +33,7 @@ public class CashBalance {
      *
      * @return tillId
      */
+	@ApiModelProperty(value="ドロアID", notes="ドロアID")
 	public final String getTillId() {
 		return tillId;
 	}
@@ -47,6 +52,7 @@ public class CashBalance {
      *
      * @return cashOnHand
      */
+	@ApiModelProperty(value="可用金額", notes="可用金額")
 	public final String getCashOnHand() {
 		return cashOnHand;
 	}

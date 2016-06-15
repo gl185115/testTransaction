@@ -12,6 +12,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
@@ -27,6 +33,7 @@ import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.report.model.DailyReport;
 
 @Path("cashaccount")
+@Api(value="/cashaccount", description="現金アカウント情報API")
 public class CashAccountResource {
 	
     /**
@@ -57,10 +64,16 @@ public class CashAccountResource {
     @Path("/getcashbalance")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="現金残額情報取得", response=GetCashBalance.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE, message="残額未検出")
+        })
     public final GetCashBalance getCashBalance(
-    		@QueryParam("tillid") final String tillId, 
-    		@QueryParam("storeid") final String storeId,
-    		@QueryParam("businessdaydate") final String businessDayDate) {
+    		@ApiParam(name="tillid", value="ドロアID") @QueryParam("tillid") final String tillId, 
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="businessdaydate", value="営業日") @QueryParam("businessdaydate") final String businessDayDate) {
     	tp.methodEnter("getCashBalance");
     	tp.println("Till Id", tillId)
     		.println("Store Id", storeId)
@@ -105,15 +118,22 @@ public class CashAccountResource {
     @Path("/getcash")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="現金残額情報取得", response=GetCashBalance.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE, message="残額未検出")
+        })
     public final GetCashBalance getReportItems(
-            @FormParam("companyId") final String companyId,
-            @FormParam("storeId") final String storeId,
-            @FormParam("terminalId") final String terminalId,
-            @FormParam("businessDate") final String businessDate,
-            @FormParam("trainingFlag") final int trainingFlag,
-            @FormParam("dataType") final String dataType,
-            @FormParam("itemLevel1")final String itemLevel1,
-            @FormParam("itemLevel2") final String itemLevel2) {
+    		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="POSコード") @FormParam("terminalId") final String terminalId,
+    		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングフラグ") @FormParam("trainingFlag") final int trainingFlag,
+    		@ApiParam(name="dataType", value="データ分類") @FormParam("dataType") final String dataType,
+    		@ApiParam(name="itemLevel1", value="項目レベル１") @FormParam("itemLevel1")final String itemLevel1,
+    		@ApiParam(name="itemLevel2", value="項目レベル２") @FormParam("itemLevel2") final String itemLevel2) {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

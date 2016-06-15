@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "GroupLineInfo")
+@ApiModel(value="GroupLineInfo")
 public class GroupLineInfo {
 
 	@XmlElement(name = "GroupId")
@@ -24,6 +28,7 @@ public class GroupLineInfo {
 	/**
 	 * @return the groupId
 	 */
+	@ApiModelProperty(value="グループコード", notes="グループコード")
 	public final String getGroupId() {
 		return groupId;
 	}
@@ -38,6 +43,7 @@ public class GroupLineInfo {
 	/**
 	 * @return the groupName
 	 */
+	@ApiModelProperty(value="グループ名称", notes="グループ名称")
 	public final String getGroupName() {
 		return groupName;
 	}
@@ -52,6 +58,7 @@ public class GroupLineInfo {
 	/**
 	 * @return the line
 	 */
+	@ApiModelProperty(value="行数", notes="行数")
 	public final String getLine() {
 		return line;
 	}
@@ -66,6 +73,7 @@ public class GroupLineInfo {
 	/**
 	 * @return the lineName
 	 */
+	@ApiModelProperty(value="行の名称", notes="行の名称")
 	public final String getLineName() {
 		return lineName;
 	}

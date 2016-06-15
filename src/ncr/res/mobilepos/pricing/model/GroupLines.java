@@ -7,10 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "GroupLines")
+@ApiModel(value="GroupLines")
 public class GroupLines extends ResultBase{
 
 	@XmlElement(name = "GroupLineList")
@@ -19,6 +23,7 @@ public class GroupLines extends ResultBase{
 	/**
 	 * @return the groupLineList
 	 */
+	@ApiModelProperty(value="グループリスト", notes="グループリスト")
 	public final List<GroupLineInfo> getGroupLineList() {
 		return groupLineList;
 	}

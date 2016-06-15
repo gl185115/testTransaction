@@ -5,11 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * BrandProduct Model Object.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "BrandProduct")
+@ApiModel(value="BrandProductInfo")
 public class BrandProductInfo{
 	
     @XmlElement(name = "Line")
@@ -55,6 +59,7 @@ public class BrandProductInfo{
 	/**
      * @return the line
      */
+    @ApiModelProperty(value="品種コード(中分類コード)", notes="品種コード(中分類コード)")
     public final String getLine() {
         return line;
     }
@@ -69,6 +74,7 @@ public class BrandProductInfo{
     /**
 	 * @return the brandName
 	 */
+    @ApiModelProperty(value="ブランド名称", notes="ブランド名称")
 	public final String getBrandName() {
 		return brandName;
 	}
@@ -83,6 +89,7 @@ public class BrandProductInfo{
 	/**
 	 * @return the productNum
 	 */
+    @ApiModelProperty(value="製品数量", notes="製品数量")
 	public final String getProductNum() {
 		return productNum;
 	}
@@ -97,6 +104,7 @@ public class BrandProductInfo{
 	/**
 	 * @return the mdShortName
 	 */
+    @ApiModelProperty(value="レシート用商品名", notes="レシート用商品名")
 	public final String getMdShortName() {
 		return mdShortName;
 	}
@@ -111,6 +119,7 @@ public class BrandProductInfo{
 	/**
 	 * @return the salesPrice
 	 */
+    @ApiModelProperty(value="販売価格", notes="販売価格")
 	public final double getSalesPrice() {
 		return salesPrice;
 	}
@@ -125,6 +134,7 @@ public class BrandProductInfo{
 	/**
 	 * @return the taxType
 	 */
+    @ApiModelProperty(value="課税区分", notes="課税区分")
 	public final int getTaxType() {
 		return taxType;
 	}
@@ -139,6 +149,7 @@ public class BrandProductInfo{
 	/**
 	 * @return the taxRate
 	 */
+    @ApiModelProperty(value="消費税率", notes="消費税率")
 	public final int getTaxRate() {
 		return taxRate;
 	}
@@ -153,6 +164,7 @@ public class BrandProductInfo{
 	/**
 	 * @return the rowCount
 	 */
+    @ApiModelProperty(value="行数", notes="行数")
 	public final int getRowCount() {
 		return rowCount;
 	}
@@ -167,6 +179,7 @@ public class BrandProductInfo{
 	/**
      * @return the discountType
      */
+    @ApiModelProperty(value="割引種別", notes="割引種別")
     public final int getDiscountType() {
         return discountType;
     }
@@ -181,6 +194,7 @@ public class BrandProductInfo{
     /**
      * @return the discountFlag
      */
+    @ApiModelProperty(value="自動値引フラグ", notes="自動値引フラグ")
     public final int getDiscountFlag() {
         return discountFlag;
     }
@@ -195,6 +209,7 @@ public class BrandProductInfo{
     /**
      * @return the discountRate
      */
+    @ApiModelProperty(value="自動値引率", notes="自動値引率")
     public final double getDiscountRate() {
         return discountRate;
     }
@@ -209,6 +224,7 @@ public class BrandProductInfo{
     /**
      * @return the discountAmt
      */
+    @ApiModelProperty(value="自動値引金額", notes="自動値引金額")
     public final double getDiscountAmt() {
         return discountAmt;
     }
@@ -223,6 +239,7 @@ public class BrandProductInfo{
     /**
      * @return the actualSalesPrice
      */
+    @ApiModelProperty(value="実際の販売価格", notes="実際の販売価格")
     public final double getActualSalesPrice() {
         return actualSalesPrice;
     }

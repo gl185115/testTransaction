@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -20,6 +23,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SearchedProducts")
+@ApiModel(value="SearchedProducts")
 public class SearchedProducts extends ResultBase {
     /**
      * Array ot items.
@@ -31,6 +35,7 @@ public class SearchedProducts extends ResultBase {
      * Getter for array of items.
      * @return array of items
      */
+    @ApiModelProperty(value="アイテムリスト", notes="アイテムリスト")
     public final List<Item> getItems() {
         return items;
     }

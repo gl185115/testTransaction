@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -21,6 +24,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "maintenance")
+@ApiModel(value="ItemMaintenance")
 public class ItemMaintenance extends ResultBase {
 
     /**
@@ -46,6 +50,7 @@ public class ItemMaintenance extends ResultBase {
      * The getters for Store ID.
      * @return The Store ID.
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getStoreid() {
         return storeid;
     }
@@ -62,6 +67,7 @@ public class ItemMaintenance extends ResultBase {
      * Getters for Workstation ID.
      * @return The Workstation ID.
      */
+    @ApiModelProperty(value="作業台コード", notes="作業台コード")
     public final String getWorkstationid() {
         return workstationid;
     }
@@ -86,6 +92,7 @@ public class ItemMaintenance extends ResultBase {
      * Getters for item.
      * @return The Item.
      */
+    @ApiModelProperty(value="商品", notes="商品")
     public final Item getItem() {
         return this.item;
     }

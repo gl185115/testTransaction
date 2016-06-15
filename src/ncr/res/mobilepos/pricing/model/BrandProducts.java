@@ -7,10 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "BrandProducts")
+@ApiModel(value="BrandProducts")
 public class BrandProducts extends ResultBase{
 
 	@XmlElement(name = "BrandProductList")
@@ -19,6 +23,7 @@ public class BrandProducts extends ResultBase{
 	/**
 	 * @return the brandProductList
 	 */
+    @ApiModelProperty(value="ブランド製品リスト", notes="ブランド製品リスト")
 	public final List<BrandProductInfo> getBrandProductList() {
 		return brandProductList;
 	}

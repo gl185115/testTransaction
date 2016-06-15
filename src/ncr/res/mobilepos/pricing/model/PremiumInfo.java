@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Premium Model Object.
  *
@@ -26,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PremiumInfo")
+@ApiModel(value="PremiumInfo")
 public class PremiumInfo {
     @XmlElement(name = "PremiumItemNo")
     private String premiumItemNo;
@@ -39,6 +43,7 @@ public class PremiumInfo {
     @XmlElement(name = "TargetCount")
     private int targetCount;
 
+    @ApiModelProperty(value="プレミアム商品NO", notes="プレミアム商品NO")
     public String getPremiumItemNo() {
         return premiumItemNo;
     }
@@ -47,6 +52,7 @@ public class PremiumInfo {
         this.premiumItemNo = premiumItemNo;
     }
 
+    @ApiModelProperty(value="プレミアム商品名称", notes="プレミアム商品名称")
     public String getPremiumItemName() {
         return premiumItemName;
     }
@@ -55,6 +61,7 @@ public class PremiumInfo {
         this.premiumItemName = premiumItemName;
     }
 
+    @ApiModelProperty(value="対象金額", notes="対象金額")
     public String getTargetPrice() {
         return targetPrice;
     }
@@ -63,6 +70,7 @@ public class PremiumInfo {
         this.targetPrice = targetPrice;
     }
 
+    @ApiModelProperty(value="商品数量", notes="商品数量")
     public int getTargetCount() {
         return targetCount;
     }

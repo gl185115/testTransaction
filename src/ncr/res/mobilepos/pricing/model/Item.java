@@ -13,11 +13,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Item Model Object.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Item")
+@ApiModel(value="Item")
 public class Item {
 
     // rounding options
@@ -69,6 +73,7 @@ public class Item {
     @XmlElement(name = "SubNum1")
     private int subNum1 = 0;
 
+    @ApiModelProperty(value="部門割引タイプ", notes="部門割引タイプ")
     public int getDptDiscountType() {
         return dptDiscountType;
     }
@@ -77,6 +82,7 @@ public class Item {
         this.dptDiscountType = dptDiscountType;
     }
 
+    @ApiModelProperty(value="ロット数", notes="ロット数")
     public int getSubNum1() {
         return subNum1;
     }
@@ -104,6 +110,7 @@ public class Item {
     @XmlElement(name = "MdType")
     private String mdType = "";
     
+    @ApiModelProperty(value="商品区分", notes="商品区分")
     public String getMdType() {
         return mdType;
     }
@@ -189,6 +196,7 @@ public class Item {
     @XmlElement(name = "StoreId")
     private String storeId;
     
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getStoreId() {
         return storeId;
     }
@@ -210,6 +218,7 @@ public class Item {
     private int replaceSupportdiscountAmt = 0;
    // ReplaceSupport
     
+    @ApiModelProperty(value="置き換え自動値引金額", notes="置き換え自動値引金額")
     public int getReplaceSupportdiscountAmt() {
         return replaceSupportdiscountAmt;
     }
@@ -314,6 +323,7 @@ public class Item {
     @XmlElement(name ="BrandName")
     private String brandName;
     
+    @ApiModelProperty(value="カラー名称(カナ)", notes="カラー名称(カナ)")
     public String getColorkananame() {
         return colorkananame;
     }
@@ -322,6 +332,7 @@ public class Item {
         this.colorkananame = colorkananame;
     }
 
+    @ApiModelProperty(value="サイズ名称(カナ)", notes="サイズ名称(カナ)")
     public String getSizeKanaName() {
         return sizeKanaName;
     }
@@ -333,6 +344,7 @@ public class Item {
     @XmlElement(name ="QrCodeList")
     private List<QrCodeInfo> qrCodeList;
     
+    @ApiModelProperty(value="QRコード管理マスタ", notes="QRコード管理マスタ")
     public List<QrCodeInfo> getQrCodeList() {
         return qrCodeList;
     }
@@ -341,6 +353,7 @@ public class Item {
         this.qrCodeList = qrCodeList;
     }
 
+    @ApiModelProperty(value="QR企画コード", notes="QR企画コード")
     public String getQrPromotionId() {
         return qrPromotionId;
     }
@@ -349,6 +362,7 @@ public class Item {
         this.qrPromotionId = qrPromotionId;
     }
 
+    @ApiModelProperty(value="QR企画名称", notes="QR企画名称")
     public String getQrPromotionName() {
         return qrPromotionName;
     }
@@ -357,6 +371,7 @@ public class Item {
         this.qrPromotionName = qrPromotionName;
     }
 
+    @ApiModelProperty(value="QR下限金額", notes="QR下限金額")
     public Double getQrMinimumPrice() {
         return qrMinimumPrice;
     }
@@ -365,6 +380,7 @@ public class Item {
         this.qrMinimumPrice = qrMinimumPrice;
     }
 
+    @ApiModelProperty(value="QR出力基準値", notes="QR出力基準値")
     public String getQrOutputTargetValue() {
         return qrOutputTargetValue;
     }
@@ -373,6 +389,7 @@ public class Item {
         this.qrOutputTargetValue = qrOutputTargetValue;
     }
 
+    @ApiModelProperty(value="QR bmpファイル名", notes="QR bmpファイル名")
     public String getQrBmpFileName() {
         return qrBmpFileName;
     }
@@ -381,6 +398,7 @@ public class Item {
         this.qrBmpFileName = qrBmpFileName;
     }
 
+    @ApiModelProperty(value="QR bmpファイルフラグ", notes="QR bmpファイルフラグ")
     public String getQrBmpFileFlag() {
         return qrBmpFileFlag;
     }
@@ -389,6 +407,7 @@ public class Item {
         this.qrBmpFileFlag = qrBmpFileFlag;
     }
 
+    @ApiModelProperty(value="QR bmpファイル分割数", notes="QR bmpファイル分割数")
     public String getQrBmpFileCount() {
         return qrBmpFileCount;
     }
@@ -403,6 +422,7 @@ public class Item {
     @XmlElement(name ="QrBmpFileCount")
     private String qrBmpFileCount;
     
+    @ApiModelProperty(value="グループコード", notes="グループコード")
     public String getGroupID() {
         return groupID;
     }
@@ -414,6 +434,7 @@ public class Item {
     @XmlElement(name = "dptSubCode1")
     private String dptSubCode1;
     
+    @ApiModelProperty(value="日本語大分類名称", notes="日本語大分類名称")
     public String getDptNameLocal() {
         return dptNameLocal;
     }
@@ -422,6 +443,7 @@ public class Item {
         this.dptNameLocal = dptNameLocal;
     }
 
+    @ApiModelProperty(value="日本語クラス名称", notes="日本語クラス名称")
     public String getClassNameLocal() {
         return classNameLocal;
     }
@@ -430,6 +452,7 @@ public class Item {
         this.classNameLocal = classNameLocal;
     }
 
+    @ApiModelProperty(value="グループ名称", notes="グループ名称")
     public String getGroupName() {
         return groupName;
     }
@@ -438,6 +461,7 @@ public class Item {
         this.groupName = groupName;
     }
 
+    @ApiModelProperty(value="名称", notes="名称")
     public String getNameText() {
         return nameText;
     }
@@ -446,6 +470,7 @@ public class Item {
         this.nameText = nameText;
     }
 
+    @ApiModelProperty(value="部門品番区分", notes="部門品番区分")
     public String getDptSubCode1() {
         return dptSubCode1;
     }
@@ -454,6 +479,7 @@ public class Item {
         this.dptSubCode1 = dptSubCode1;
     }
 
+    @ApiModelProperty(value="JANコード価格", notes="JANコード価格")
     public double getPluPrice() {
         return pluPrice;
     }
@@ -462,6 +488,7 @@ public class Item {
         this.pluPrice = pluPrice;
     }
 
+    @ApiModelProperty(value="原単価", notes="原単価")
     public double getCostPrice1() {
         return costPrice1;
     }
@@ -470,6 +497,7 @@ public class Item {
         this.costPrice1 = costPrice1;
     }
 
+    @ApiModelProperty(value="製造単価", notes="製造単価")
     public double getMakerPrice() {
         return makerPrice;
     }
@@ -478,6 +506,7 @@ public class Item {
         this.makerPrice = makerPrice;
     }
 
+    @ApiModelProperty(value="仕入先コード", notes="仕入先コード")
     public String getConn1() {
         return conn1;
     }
@@ -486,6 +515,7 @@ public class Item {
         this.conn1 = conn1;
     }
 
+    @ApiModelProperty(value="サブ仕入先コード", notes="サブ仕入先コード")
     public String getConn2() {
         return conn2;
     }
@@ -497,9 +527,7 @@ public class Item {
     @XmlElement(name = "MdVender")
     private String mdVender = "";
     
-    
-
-    
+    @ApiModelProperty(value="メーカー品番", notes="メーカー品番")
     public String getMdVender() {
         return mdVender;
     }
@@ -508,6 +536,7 @@ public class Item {
         this.mdVender = mdVender;
     }
 
+    @ApiModelProperty(value="旧売単価", notes="旧売単価")
     public double getOldPrice() {
         return oldPrice;
     }
@@ -516,6 +545,7 @@ public class Item {
         this.oldPrice = oldPrice;
     }
 
+    @ApiModelProperty(value="販売価格", notes="販売価格")
     public String getSalesPriceFrom() {
         return salesPriceFrom;
     }
@@ -524,6 +554,7 @@ public class Item {
         this.salesPriceFrom = salesPriceFrom;
     }
 
+    @ApiModelProperty(value="パラメーター備考", notes="パラメーター備考")
     public String getNote() {
         return note;
     }
@@ -532,10 +563,12 @@ public class Item {
         this.note = note;
     }
 
+    @ApiModelProperty(value="割引券NO", notes="割引券NO")
     public String getCouponNo() {
         return couponNo;
     }
 
+    @ApiModelProperty(value="プレミアム商品名称", notes="プレミアム商品名称")
     public String getPremiumItemName() {
         return premiumItemName;
     }
@@ -544,6 +577,7 @@ public class Item {
         this.premiumItemName = premiumItemName;
     }
 
+    @ApiModelProperty(value="対象金額", notes="対象金額")
     public double getTargetPrice() {
         return targetPrice;
     }
@@ -552,6 +586,7 @@ public class Item {
         this.targetPrice = targetPrice;
     }
 
+    @ApiModelProperty(value="商品数量", notes="商品数量")
     public int getTargetCount() {
         return targetCount;
     }
@@ -564,6 +599,7 @@ public class Item {
         this.couponNo = couponNo;
     }
 
+    @ApiModelProperty(value="イベント名称", notes="イベント名称")
     public String getEvenetName() {
         return evenetName;
     }
@@ -572,6 +608,7 @@ public class Item {
         this.evenetName = evenetName;
     }
 
+    @ApiModelProperty(value="レシート名称", notes="レシート名称")
     public String getReceiptName() {
         return receiptName;
     }
@@ -580,6 +617,7 @@ public class Item {
         this.receiptName = receiptName;
     }
 
+    @ApiModelProperty(value="単位金額(税込)", notes="単位金額(税込)")
     public double getUnitPrice() {
         return unitPrice;
     }
@@ -588,6 +626,7 @@ public class Item {
         this.unitPrice = unitPrice;
     }
 
+    @ApiModelProperty(value="発行枚数", notes="発行枚数")
     public int getIssueCount() {
         return issueCount;
     }
@@ -596,6 +635,7 @@ public class Item {
         this.issueCount = issueCount;
     }
 
+    @ApiModelProperty(value="発行方法", notes="発行方法")
     public String getIssueType() {
         return issueType;
     }
@@ -604,6 +644,7 @@ public class Item {
         this.issueType = issueType;
     }
 
+    @ApiModelProperty(value="割引率", notes="割引率")
     public double getDiacountRate() {
         return diacountRate;
     }
@@ -612,6 +653,7 @@ public class Item {
         this.diacountRate = diacountRate;
     }
 
+    @ApiModelProperty(value="自動値引金額", notes="自動値引金額")
     public int getDiscountAmt() {
         return discountAmt;
     }
@@ -620,6 +662,7 @@ public class Item {
         this.discountAmt = discountAmt;
     }
 
+    @ApiModelProperty(value="割引区分", notes="割引区分")
     public int getDiscountClass() {
         return discountClass;
     }
@@ -659,6 +702,7 @@ public class Item {
     @XmlElement(name = "AveragePrice2")
     private double AveragePrice2;
     
+    @ApiModelProperty(value="規定数量1", notes="規定数量1")
     public int getRuleQuantity1() {
         return ruleQuantity1;
     }
@@ -667,6 +711,7 @@ public class Item {
         this.ruleQuantity1 = ruleQuantity1;
     }
 
+    @ApiModelProperty(value="規定数量2", notes="規定数量2")
     public int getRuleQuantity2() {
         return ruleQuantity2;
     }
@@ -675,6 +720,7 @@ public class Item {
         this.ruleQuantity2 = ruleQuantity2;
     }
 
+    @ApiModelProperty(value="規定数量3", notes="規定数量3")
     public int getRuleQuantity3() {
         return ruleQuantity3;
     }
@@ -683,6 +729,7 @@ public class Item {
         this.ruleQuantity3 = ruleQuantity3;
     }
 
+    @ApiModelProperty(value="成立価格1", notes="成立価格1")
     public double getConditionPrice1() {
         return ConditionPrice1;
     }
@@ -691,6 +738,7 @@ public class Item {
         ConditionPrice1 = conditionPrice1;
     }
 
+    @ApiModelProperty(value="成立価格2", notes="成立価格2")
     public double getConditionPrice2() {
         return ConditionPrice2;
     }
@@ -699,6 +747,7 @@ public class Item {
         ConditionPrice2 = conditionPrice2;
     }
 
+    @ApiModelProperty(value="成立価格3", notes="成立価格3")
     public double getConditionPrice3() {
         return ConditionPrice3;
     }
@@ -707,6 +756,7 @@ public class Item {
         ConditionPrice3 = conditionPrice3;
     }
 
+    @ApiModelProperty(value="成立後価格1", notes="成立後価格1")
     public Double getDecisionPrice1() {
         return DecisionPrice1;
     }
@@ -715,6 +765,7 @@ public class Item {
         DecisionPrice1 = decisionPrice1;
     }
 
+    @ApiModelProperty(value="成立後価格2", notes="成立後価格2")
     public Double getDecisionPrice2() {
         return DecisionPrice2;
     }
@@ -723,6 +774,7 @@ public class Item {
         DecisionPrice2 = decisionPrice2;
     }
 
+    @ApiModelProperty(value="成立後価格3", notes="成立後価格3")
     public Double getDecisionPrice3() {
         return DecisionPrice3;
     }
@@ -731,6 +783,7 @@ public class Item {
         DecisionPrice3 = decisionPrice3;
     }
 
+    @ApiModelProperty(value="平均価格1", notes="平均価格1")
     public double getAveragePrice1() {
         return AveragePrice1;
     }
@@ -739,6 +792,7 @@ public class Item {
         AveragePrice1 = averagePrice1;
     }
 
+    @ApiModelProperty(value="平均価格2", notes="平均価格2")
     public double getAveragePrice2() {
         return AveragePrice2;
     }
@@ -747,6 +801,7 @@ public class Item {
         AveragePrice2 = averagePrice2;
     }
 
+    @ApiModelProperty(value="平均価格3", notes="平均価格3")
     public double getAveragePrice3() {
         return AveragePrice3;
     }
@@ -758,7 +813,7 @@ public class Item {
     @XmlElement(name = "AveragePrice3")
     private double AveragePrice3;
  
-    
+    @ApiModelProperty(value="自社品番", notes="自社品番")
     public String getSku() {
         return sku;
     }
@@ -767,6 +822,7 @@ public class Item {
         this.sku = sku;
     }
 
+    @ApiModelProperty(value="旧サイズNo", notes="旧サイズNo")
     public String getMd02() {
         return md02;
     }
@@ -775,6 +831,7 @@ public class Item {
         this.md02 = md02;
     }
 
+    @ApiModelProperty(value="サイズパターンコード１", notes="サイズパターンコード１")
     public String getMd03() {
         return md03;
     }
@@ -783,6 +840,7 @@ public class Item {
         this.md03 = md03;
     }
 
+    @ApiModelProperty(value="サイズパターンコード２", notes="サイズパターンコード２")
     public String getMd04() {
         return md04;
     }
@@ -791,6 +849,7 @@ public class Item {
         this.md04 = md04;
     }
 
+    @ApiModelProperty(value="サイズコード", notes="サイズコード")
     public String getMd05() {
         return md05;
     }
@@ -799,6 +858,7 @@ public class Item {
         this.md05 = md05;
     }
 
+    @ApiModelProperty(value="シーズン", notes="シーズン")
     public String getMd06() {
         return md06;
     }
@@ -807,6 +867,7 @@ public class Item {
         this.md06 = md06;
     }
 
+    @ApiModelProperty(value="ブランドコード", notes="ブランドコード")
     public String getMd07() {
         return md07;
     }
@@ -815,6 +876,7 @@ public class Item {
         this.md07 = md07;
     }
 
+    @ApiModelProperty(value="旧自社品番", notes="旧自社品番")
     public String getMd08() {
         return md08;
     }
@@ -823,6 +885,7 @@ public class Item {
         this.md08 = md08;
     }
 
+    @ApiModelProperty(value="代表自社品番", notes="代表自社品番")
     public String getMd09() {
         return md09;
     }
@@ -831,6 +894,7 @@ public class Item {
         this.md09 = md09;
     }
 
+    @ApiModelProperty(value="グループコード", notes="グループコード")
     public String getMd10() {
         return md10;
     }
@@ -839,6 +903,7 @@ public class Item {
         this.md10 = md10;
     }
 
+    @ApiModelProperty(value="割引対象フラグ", notes="割引対象フラグ")
     public String getMd11() {
         return md11;
     }
@@ -847,6 +912,7 @@ public class Item {
         this.md11 = md11;
     }
 
+    @ApiModelProperty(value="ポイント対象フラグ", notes="ポイント対象フラグ")
     public String getMd12() {
         return md12;
     }
@@ -855,6 +921,7 @@ public class Item {
         this.md12 = md12;
     }
 
+    @ApiModelProperty(value="テイクアウトフラグ", notes="テイクアウトフラグ")
     public String getMd13() {
         return md13;
     }
@@ -863,6 +930,7 @@ public class Item {
         this.md13 = md13;
     }
 
+    @ApiModelProperty(value="保証書フラグ", notes="保証書フラグ")
     public String getMd14() {
         return md14;
     }
@@ -871,6 +939,7 @@ public class Item {
         this.md14 = md14;
     }
 
+    @ApiModelProperty(value="補充発注対象商品", notes="補充発注対象商品")
     public String getMd15() {
         return md15;
     }
@@ -879,6 +948,7 @@ public class Item {
         this.md15 = md15;
     }
 
+    @ApiModelProperty(value="本宮物流フラグ", notes="本宮物流フラグ")
     public String getMd16() {
         return md16;
     }
@@ -887,6 +957,7 @@ public class Item {
         this.md16 = md16;
     }
 
+    @ApiModelProperty(value="日本語商品名", notes="日本語商品名")
     public String getMdNameLocal() {
         return mdNameLocal;
     }
@@ -895,6 +966,7 @@ public class Item {
         this.mdNameLocal = mdNameLocal;
     }
 
+    @ApiModelProperty(value="半角カナ商品名", notes="半角カナ商品名")
     public String getMdKanaName() {
         return mdKanaName;
     }
@@ -903,6 +975,7 @@ public class Item {
         this.mdKanaName = mdKanaName;
     }
 
+    @ApiModelProperty(value="会員売単価", notes="会員売単価")
     public double getSalesPrice2() {
         return salesPrice2;
     }
@@ -911,6 +984,7 @@ public class Item {
         this.salesPrice2 = salesPrice2;
     }
 
+    @ApiModelProperty(value="支払区分", notes="支払区分")
     public int getPaymentType() {
         return paymentType;
     }
@@ -919,6 +993,7 @@ public class Item {
         this.paymentType = paymentType;
     }
 
+    @ApiModelProperty(value="品番区分", notes="品番区分")
     public String getSubCode1() {
         return subCode1;
     }
@@ -927,6 +1002,7 @@ public class Item {
         this.subCode1 = subCode1;
     }
 
+    @ApiModelProperty(value="仕入区分", notes="仕入区分")
     public String getSubCode2() {
         return subCode2;
     }
@@ -935,6 +1011,7 @@ public class Item {
         this.subCode2 = subCode2;
     }
 
+    @ApiModelProperty(value="調達区分", notes="調達区分")
     public String getSubCode3() {
         return subCode3;
     }
@@ -943,6 +1020,7 @@ public class Item {
         this.subCode3 = subCode3;
     }
 
+    @ApiModelProperty(value="本宮ロット数", notes="本宮ロット数")
     public int getSubNum2() {
         return subNum2;
     }
@@ -951,6 +1029,7 @@ public class Item {
         this.subNum2 = subNum2;
     }
 
+    @ApiModelProperty(value="企画コード", notes="企画コード")
     public String getPromotionId() {
         return promotionId;
     }
@@ -959,6 +1038,7 @@ public class Item {
         this.promotionId = promotionId;
     }
     
+    @ApiModelProperty(value="企画No", notes="企画No")
     public String getPromotionNo() {
         return promotionNo;
     }
@@ -967,6 +1047,7 @@ public class Item {
         this.promotionNo = promotionNo;
     }
 
+    @ApiModelProperty(value="プレミアム商品NO", notes="プレミアム商品NO")
     public String getPremiumItemNo() {
         return premiumItemNo;
     }
@@ -1119,6 +1200,7 @@ public class Item {
         /* 1.01 2014.11.19 商品情報取得 ADD END*/
     }
     
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
         return this.companyId;
     }
@@ -1127,6 +1209,7 @@ public class Item {
         this.companyId = companyId;
     }
 
+    @ApiModelProperty(value="プロジェクトコード", notes="プロジェクトコード")
     public final String getItemId() {
         return this.itemId;
     }
@@ -1135,6 +1218,7 @@ public class Item {
         this.itemId = itemId;
     }
 
+    @ApiModelProperty(value="部門", notes="部門")
     public final String getDepartment() {
         return this.department;
     }
@@ -1143,6 +1227,7 @@ public class Item {
         this.department = department;
     }
 
+    @ApiModelProperty(value="備考", notes="備考")
     public final Description getDescription() {
         return this.description;
     }
@@ -1151,6 +1236,7 @@ public class Item {
         this.description = description;
     }
 
+    @ApiModelProperty(value="定期販売単価", notes="定期販売単価")
     public final double getRegularSalesUnitPrice() {
         return this.regularSalesUnitPrice;
     }
@@ -1159,6 +1245,7 @@ public class Item {
         this.regularSalesUnitPrice = regularSalesUnitPrice;
     }
 
+    @ApiModelProperty(value="割引", notes="割引")
     public final double getDiscount() {
         return this.discount;
     }
@@ -1167,6 +1254,7 @@ public class Item {
         this.discount = discount;
     }
 
+    @ApiModelProperty(value="割引額", notes="割引額")
     public final double getDiscountAmount() {
         return this.discountAmount;
     }
@@ -1175,6 +1263,7 @@ public class Item {
         this.discountAmount = discountAmount;
     }
 
+    @ApiModelProperty(value="現在の販売単位価格", notes="現在の販売単位価格")
     public final double getActualSalesUnitPrice() {
         return this.actualSalesUnitPrice;
     }
@@ -1183,6 +1272,7 @@ public class Item {
         this.actualSalesUnitPrice = actualSalesUnitPrice;
     }
 
+    @ApiModelProperty(value="可能性割り引き", notes="可能性割り引き")
     public final boolean getDiscountable() {
         return this.discountable;
     }
@@ -1191,6 +1281,7 @@ public class Item {
         this.discountable = discountable;
     }
 
+    @ApiModelProperty(value="消費税率", notes="消費税率")
     public final int getTaxRate() {
         return taxRate;
     }
@@ -1199,6 +1290,7 @@ public class Item {
         this.taxRate = taxRate;
     }
 
+    @ApiModelProperty(value="課税区分", notes="課税区分")
     public final int getTaxType() {
         return this.taxType;
     }
@@ -1207,6 +1299,7 @@ public class Item {
         this.taxType = taxType;
     }
 
+    @ApiModelProperty(value="値引許可フラグ", notes="値引許可フラグ")
     public final int getDiscountType() {
         return this.discountType;
     }
@@ -1218,6 +1311,7 @@ public class Item {
         this.discountable = (this.discountType == 0);
     }
 
+    @ApiModelProperty(value="非販売", notes="非販売")
     public final int getNonSales() {
         return this.nonSales;
     }
@@ -1234,6 +1328,7 @@ public class Item {
         this.subInt10 = subInt10;
     }
 
+    @ApiModelProperty(value="品種コード(中分類コード)", notes="品種コード(中分類コード)")
     public final String getLine() {
         return this.line;
     }
@@ -1242,6 +1337,7 @@ public class Item {
         this.line = line;
     }
 
+    @ApiModelProperty(value="項目類", notes="項目類")
     public final String getItemClass() {
         return this.itemClass;
     }
@@ -1250,6 +1346,7 @@ public class Item {
         this.itemClass = itemClass;
     }
 
+    @ApiModelProperty(value="年齢制限フラグ", notes="年齢制限フラグ")
     public final int getAgeRestrictedFlag() {
         return this.ageRestrictedFlag;
     }
@@ -1258,6 +1355,7 @@ public class Item {
         this.ageRestrictedFlag = ageRestrictedFlag;
     }
 
+    @ApiModelProperty(value="クーポン券フラグ", notes="クーポン券フラグ")
     public final String getCouponFlag() {
         return couponFlag;
     }
@@ -1266,6 +1364,7 @@ public class Item {
         this.couponFlag = couponFlag;
     }
 
+    @ApiModelProperty(value="割引フラグ", notes="割引フラグ")
     public final int getDiscountFlag() {
         return discountFlag;
     }
@@ -1274,6 +1373,7 @@ public class Item {
         this.discountFlag = discountFlag;
     }
 
+    @ApiModelProperty(value="マストバイフラグ", notes="マストバイフラグ")
     public final int getMustBuyFlag() {
         return this.mustBuyFlag;
     }
@@ -1282,6 +1382,7 @@ public class Item {
         this.mustBuyFlag = mustBuyFlag;
     }
 
+    @ApiModelProperty(value="混合のコード", notes="混合のコード")
     public final String getMixMatchCode() {
         return this.mixMatchCode;
     }
@@ -1290,6 +1391,7 @@ public class Item {
         this.mixMatchCode = mixMatchCode;
     }
 
+    @ApiModelProperty(value="小売店のコード", notes="小売店のコード")
     public final String getRetailStoreId() {
         return retailStoreId;
     }
@@ -1298,6 +1400,7 @@ public class Item {
         this.retailStoreId = retailStoreId;
     }
 
+    @ApiModelProperty(value="最終更新プログラムコード", notes="最終更新プログラムコード")
     public final String getUpdAppId() {
         return updAppId;
     }
@@ -1306,6 +1409,7 @@ public class Item {
         this.updAppId = updAppId;
     }
 
+    @ApiModelProperty(value="最終更新ユーザーコード", notes="最終更新ユーザーコード")
     public final String getUpdOpeCode() {
         return updOpeCode;
     }
@@ -1314,6 +1418,7 @@ public class Item {
         this.updOpeCode = updOpeCode;
     }
     /* 1.01 2014.11.19 商品情報取得 ADD START*/
+    @ApiModelProperty(value="社員購入売単価１", notes="社員購入売単価１")
    public final double getEmpPrice1() {
        return this.empPrice1;
    }
@@ -1322,6 +1427,7 @@ public class Item {
        this.empPrice1 = empPrice1;
    }
 
+   @ApiModelProperty(value="カラーコード", notes="カラーコード")
    public final String getMd01(){
        return this.md01;
    }
@@ -1330,6 +1436,7 @@ public class Item {
        this.md01 = md01;
    }
    
+   @ApiModelProperty(value="セ－ル/プロパ－区分(P:プロパ－  S:セ－ル)", notes="セ－ル/プロパ－区分(P:プロパ－  S:セ－ル)")
    public final String getPSType(){
        return this.pSType;
    }
@@ -1338,6 +1445,7 @@ public class Item {
        this.pSType = pSType;
    }
    
+   @ApiModelProperty(value="基本（プロパー）上代", notes="基本（プロパー）上代")
    public final double getOrgSalesPrice1(){
        return this.orgSalesPrice1;
    }
@@ -1347,7 +1455,7 @@ public class Item {
    } 
    /* 1.01 2014.11.19 商品情報取得 ADD END*/
 
-
+   @ApiModelProperty(value="継承フラグ", notes="継承フラグ")
     public String getInheritFlag() {
             return inheritFlag;
         }
@@ -1355,6 +1463,8 @@ public class Item {
     public void setInheritFlag(String inheritFlag) {
         this.inheritFlag = inheritFlag;
     }
+    
+    @ApiModelProperty(value="イベントコード", notes="イベントコード")
     public String  getEventId() {
         return EventId;
     }
@@ -1363,6 +1473,7 @@ public class Item {
         EventId = eventId;
     }
 
+    @ApiModelProperty(value="イベント名称", notes="イベント名称")
     public String getEventName() {
         return EventName;
     }
@@ -1371,6 +1482,7 @@ public class Item {
         EventName = eventName;
     }
 
+    @ApiModelProperty(value="イベント販売価格", notes="イベント販売価格")
     public double getEventSalesPrice() {
         return eventSalesPrice;
     }
@@ -1378,6 +1490,8 @@ public class Item {
     public void setEventSalesPrice(double eventSalesPrice) {
         this.eventSalesPrice = eventSalesPrice;
     }
+    
+    @ApiModelProperty(value="プレミアム・リスト", notes="プレミアム・リスト")
     public List<PremiumInfo> getPremiumList() {
         return premiumList;
     }
@@ -1386,6 +1500,7 @@ public class Item {
         this.premiumList = premiumList;
     }
 
+    @ApiModelProperty(value="ブランド名称", notes="ブランド名称")
     public final String getBrandName() {
 		return brandName;
 	}

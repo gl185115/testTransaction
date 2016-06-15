@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PickListItem")
+@ApiModel(value="PickListItem")
 public class PickListItem {
 
     /**
@@ -36,6 +40,7 @@ public class PickListItem {
     /**
      * @return the itemName
      */
+    @ApiModelProperty(value="商品名称", notes="商品名称")
     public String getItemName() {
         return itemName;
     }
@@ -50,6 +55,7 @@ public class PickListItem {
     /**
      * @return the mdInternal
      */
+    @ApiModelProperty(value="商品コード", notes="商品コード")
     public String getMdInternal() {
         return mdInternal;
     }
@@ -64,6 +70,7 @@ public class PickListItem {
     /**
      * @return the displayOrder
      */
+    @ApiModelProperty(value="表示順", notes="表示順")
     public int getDisplayOrder() {
         return displayOrder;
     }
@@ -78,6 +85,7 @@ public class PickListItem {
     /**
      * @return the itemType
      */
+    @ApiModelProperty(value="分類コード", notes="分類コード")
     public int getItemType() {
         return itemType;
     }

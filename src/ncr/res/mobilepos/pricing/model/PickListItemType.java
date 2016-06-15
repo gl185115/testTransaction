@@ -7,8 +7,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PickListItemType")
+@ApiModel(value="PickListItemType")
 public class PickListItemType {
 
     /**
@@ -21,6 +25,7 @@ public class PickListItemType {
      * Getter for array of items.
      * @return array of items
      */
+    @ApiModelProperty(value="選択リストタイプ", notes="選択リストタイプ")
     public final List<PickListItem> getItems() {
         return items;
     }

@@ -38,6 +38,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.department.resource.DepartmentResource;
@@ -163,11 +164,18 @@ public class ItemResource {
     @Path("/{storeid}/{plucode}")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="同店舗の同商品の値段が上がる", response=SearchedProduct.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
+        })
     public final SearchedProduct getItemByPLUcode(
-            @PathParam("storeid") final String storeID,
-            @PathParam("plucode") final String pluCode,
-            @FormParam("companyId") final String companyId,
-            @FormParam("bussinessDate") final String bussinessDate) {
+    		@ApiParam(name="storeid", value="店舗コード") @PathParam("storeid") final String storeID,
+    		@ApiParam(name="plucode", value="商品の値段が上がる") @PathParam("plucode") final String pluCode,
+    		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
+    		@ApiParam(name="bussinessDate", value="営業日") @FormParam("bussinessDate") final String bussinessDate) {
 
         String functionName = "ItemResource.getItemByPLUcode";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -317,11 +325,18 @@ public class ItemResource {
     @Path("/search")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="特定のメモリを捜索する", response=SearchedProducts.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ITEM_MANUAL_SEARCH_NOTALLOWED, message="定価は正常でない")
+    })
     public final SearchedProducts search(
-    		@FormParam("storeid") final String storeId, 
-    		@FormParam("key") final String key, 
-    		@FormParam("name") final String name, 
-    		@FormParam("limit") final int limit) {
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId, 
+    		@ApiParam(name="key", value="商品コード") @FormParam("key") final String key, 
+    		@ApiParam(name="name", value="商品名") @FormParam("name") final String name, 
+    		@ApiParam(name="limit", value="制限条目") @FormParam("limit") final int limit) {
 
         String functionName = "ItemResource.search";
         
@@ -387,10 +402,24 @@ public class ItemResource {
     @Path("/maintenance")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="プロジェクトポイントの速度", response=ItemMaintenance.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="項目が存在しない"),
+            @ApiResponse(code=ResultBase.RES_ITEM_ALREADY_EXIST, message="その店は見つからなかっ"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースに見つけません"),
+            @ApiResponse(code=ResultBase.RES_ITEM_STORE_NOT_EXIST, message="その店は見つからなかっ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門番号を見つける"),
+            @ApiResponse(code=ResultBase.RES_ITEM_DPT_NOT_EXIST, message="当該プロジェクトの部門を探し当てていない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ITEM_NO_UPDATE, message="その店は見つからなかっ")
+        })
     public final ItemMaintenance updateItem(
-            @FormParam("retailstoreid") final String storeId,
-            @FormParam("itemid") final String itemId,
-            @FormParam("item") final String jsonItem) {
+    		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="itemid", value="商品コード") @FormParam("itemid") final String itemId,
+    		@ApiParam(name="item", value="商品") @FormParam("item") final String jsonItem) {
 
         String functionname = "ItemResource.updateItem";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -607,9 +636,16 @@ public class ItemResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="項目を削除する", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
+        })
     public final ResultBase deleteItem(
-            @FormParam("retailstoreid") final String storeId,
-            @FormParam("itemid") final String itemId) {
+    		@ApiParam(name="retailstoreid", value="小売店のコード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="itemid", value="項目コード") @FormParam("itemid") final String itemId) {
 
         String functionName = "ItemResource.deleteItem";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -898,15 +934,22 @@ public class ItemResource {
     @Path("/getItemForSeachingItem")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="商品検索用商品情報取得", response=SearchedProducts.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="結果コード報告は成功"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
+        })
     public final SearchedProducts getItemForSeachingItem(
-            @QueryParam("Plu") final String plu,
-            @QueryParam("MdName") final String mdName,
-            @QueryParam("ProductNum") final String productNum,
-            @QueryParam("Color") final String color,
-            @QueryParam("ItemSize") final String itemSize,
-            @QueryParam("Dpt") final String dpt,
-            @QueryParam("VenderCode") final String venderCode,
-            @QueryParam("Annual") final String annual) {
+    		@ApiParam(name="Plu", value="商品コード") @QueryParam("Plu") final String plu,
+    		@ApiParam(name="MdName", value="商品名") @QueryParam("MdName") final String mdName,
+    		@ApiParam(name="ProductNum", value="品番") @QueryParam("ProductNum") final String productNum,
+    		@ApiParam(name="Color", value="カラー") @QueryParam("Color") final String color,
+    		@ApiParam(name="ItemSize", value="サイズ") @QueryParam("ItemSize") final String itemSize,
+    		@ApiParam(name="Dpt", value="Divコード") @QueryParam("Dpt") final String dpt,
+    		@ApiParam(name="VenderCode", value="ブランド") @QueryParam("VenderCode") final String venderCode,
+    		@ApiParam(name="Annual", value="展開年度") @QueryParam("Annual") final String annual) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
@@ -973,13 +1016,21 @@ public class ItemResource {
     @Path("/getBrandProductInfo")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="ブランド商品情報取得", response=BrandProducts.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="結果コード報告は成功"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
+        })
     public final BrandProducts getBrandProductInfo(
-            @QueryParam("Dpt") final String dpt,
-            @QueryParam("VenderCode") final String venderCode,
-            @QueryParam("Annual") final String annual,
-            @QueryParam("Reservation") final String reservation,
-            @QueryParam("GroupId") final String groupId, 
-			@QueryParam("Line") final String line) {
+    		@ApiParam(name="Dpt", value="部門") @QueryParam("Dpt") final String dpt,
+    		@ApiParam(name="VenderCode", value="メーカーコード") @QueryParam("VenderCode") final String venderCode,
+    		@ApiParam(name="Annual", value="年度") @QueryParam("Annual") final String annual,
+    		@ApiParam(name="Reservation", value="予約") @QueryParam("Reservation") final String reservation,
+    		@ApiParam(name="GroupId", value="グループコード") @QueryParam("GroupId") final String groupId, 
+    		@ApiParam(name="Line", value="ファイル行") @QueryParam("Line") final String line) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("Dpt", dpt)
@@ -1031,8 +1082,12 @@ public class ItemResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/getItemPrice")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final List<Item> getItemsPrice(@FormParam("transaction") String transaction,
-            @FormParam("StoreId") String storeId, @FormParam("CompanyId") String companyId ,@FormParam("businessDate") String businessDate) {
+    @ApiOperation(value="プロジェクトの価格表を獲得し", response=Item.class)
+    public final List<Item> getItemsPrice(
+    		@ApiParam(name="transaction", value="業務") @FormParam("transaction") String transaction,
+    		@ApiParam(name="StoreId", value="店舗コード") @FormParam("StoreId") String storeId, 
+    		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String companyId ,
+    		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("transaction", transaction).println("storeId", storeId)
                 .println("companyId", companyId);
@@ -1081,6 +1136,13 @@ public class ItemResource {
     @Path("/getGroupLineInfo")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="グループとライン情報取得", response=GroupLines.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="結果コード報告は成功"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
+        })
     public final GroupLines getGroupLines(){
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -1122,10 +1184,14 @@ public class ItemResource {
     @Path("/getpicklistitems")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="選択リスト", response=PickList.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final PickList getPickList(
-            @QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId,
-            @QueryParam("itemType") final String itemType) {
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="itemType", value="アイテムタイプ") @QueryParam("itemType") final String itemType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
           .println("companyId", companyId)
@@ -1158,9 +1224,15 @@ public class ItemResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/getitementry")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="獲得プロジェクトと促進情報の入力を求めます", response=PromotionResponse.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
+        })
     public final PromotionResponse getitementry(
-            @FormParam("itemId") final String itemId, 
-            @FormParam("companyId") final String companyId) {
+    		@ApiParam(name="itemId", value="プロジェクトコード") @FormParam("itemId") final String itemId, 
+    		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("RetailStoreId", itemId).println("companyId", companyId);
         Transaction transactionOut = new Transaction();

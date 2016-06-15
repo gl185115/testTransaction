@@ -11,11 +11,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * The Class ReportItem.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ReportItem")
+@ApiModel(value="ReportItem")
 public class ReportItem {
 
     /** The itemlabel. */
@@ -45,6 +49,7 @@ public class ReportItem {
    private String TimeZoneCode = null;
 
     @XmlElement(name = "TimeZoneCode")
+    @ApiModelProperty(value="タイムゾーンコード", notes="タイムゾーンコード")
     public final String getTimeZoneCode() {
         return TimeZoneCode;
     }
@@ -81,6 +86,7 @@ public class ReportItem {
      * @return the items
      */
     @XmlElement(name = "ItemName")
+    @ApiModelProperty(value="項目名", notes="項目名")
     public String getItemName() {
         return itemName;
     }
@@ -103,6 +109,7 @@ public class ReportItem {
      * @return the sales revenue
      */
     @XmlElement(name = "SalesRevenue")
+    @ApiModelProperty(value="販売収益", notes="販売収益")
     public final double getSalesRevenue() {
         return this.salesRevenue;
     }
@@ -113,6 +120,7 @@ public class ReportItem {
      * @return the customer
      */
     @XmlElement(name = "Customers")
+    @ApiModelProperty(value="顧客", notes="顧客")
     public final long getCustomer() {
         return this.customer;
     }
@@ -123,6 +131,7 @@ public class ReportItem {
      * @return the items
      */
     @XmlElement(name = "Items")
+    @ApiModelProperty(value="項目", notes="項目")
     public final long getItems() {
         return this.items;
     }
@@ -153,6 +162,7 @@ public class ReportItem {
      * @return the item label
      */
     @XmlElement(name = "ItemLabel")
+    @ApiModelProperty(value="項目ラベル", notes="項目ラベル")
     public final ItemLabel getItemLabel() {
         return this.itemlabel;
     }

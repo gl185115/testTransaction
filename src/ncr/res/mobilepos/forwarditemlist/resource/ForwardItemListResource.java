@@ -216,10 +216,15 @@ public class ForwardItemListResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
+    @ApiOperation(value="前捌きデータをアップロードする", response=PosLogResp.class)
+    @ApiResponses(value={
+    		 @ApiResponse(code=ResultBase.RES_OK, message="成功コード"),
+    		 @ApiResponse(code=ResultBase.RES_FORWARD_ITEM_NO_INSERT, message="データ挿入失敗"),
+    })
     public final PosLogResp uploadForwardData(
-            @FormParam("poslogxml") final String poslogXml,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("terminalid") final String terminalNo) {
+    		@ApiParam(name="poslogxml", value="PoslogXml情報") @FormParam("poslogxml") final String poslogXml,
+    		@ApiParam(name="deviceid", value="装置番号") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalNo) {
 
         tp.methodEnter("uploadForwardData");
         tp.println("POSLogXML", poslogXml).println("DeviceNo", deviceNo).

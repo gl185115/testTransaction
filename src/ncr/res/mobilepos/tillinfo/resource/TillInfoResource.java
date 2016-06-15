@@ -256,7 +256,7 @@ public class TillInfoResource {
     })
     public final ViewTill updateTill(
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeID,
-    		@ApiParam(name="tillid", value="店舗コード") @FormParam("tillid") final String tillID,
+    		@ApiParam(name="tillid", value="ドロワーコード") @FormParam("tillid") final String tillID,
     		@ApiParam(name="till", value="ドロワ") @FormParam("till") final String tillJson) {
         String functionName = "TillInfoResource.updateTill";
 
@@ -859,7 +859,7 @@ public class TillInfoResource {
     @Path("/search")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="探す", response=ResultBase.class)
+    @ApiOperation(value="検索", response=ResultBase.class)
     @ApiResponses(value={   
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),

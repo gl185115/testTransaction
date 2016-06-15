@@ -10,6 +10,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcode.dao.IBarCodeDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -21,6 +27,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 @Path("/barcode")
+@Api(value="/barcode", description="バーコード関連API")
 public class BarCodeResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -44,9 +51,17 @@ public class BarCodeResource {
     @Path("/getDiscountInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData getDiscountInfo(@QueryParam("CompanyId") final String companyId,
-            @QueryParam("StoreId") final String storeId, @QueryParam("CardType") final String cardType,
-            @QueryParam("SeqNo") final String seqNo, @QueryParam("DiscountType") final String discountType) {
+    @ApiOperation(value="値引割引情報取得",response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+        })
+    public final JSONData getDiscountInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId,
+    		@ApiParam(name="CardType", value="割引券種コード") @QueryParam("CardType") final String cardType,
+    		@ApiParam(name="SeqNo", value="SEQ-NO") @QueryParam("SeqNo") final String seqNo,
+    		@ApiParam(name="DiscountType", value="割引種別") @QueryParam("DiscountType") final String discountType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("CardType", cardType).println("SeqNo", seqNo).println("DiscountType", discountType);
@@ -92,7 +107,12 @@ public class BarCodeResource {
     @Path("/isMemberCard")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData isMemberCard(@FormParam("cardCode") final String cardCode) {
+    @ApiOperation(value="会員カード検証",response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        })
+    public final JSONData isMemberCard(@ApiParam(name="cardCode", value="カードコード") @FormParam("cardCode") final String cardCode) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("cardCode", cardCode);
         JSONData jsondata = new JSONData();

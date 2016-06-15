@@ -331,6 +331,11 @@
     word-break:break-all;
     width: 350px;
 	margin-top: 0px;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
 }
 #EditLayout .Details .Pad .Entries { /* position: absolute; left: 10px; top: 160px;  */
     position: absolute;

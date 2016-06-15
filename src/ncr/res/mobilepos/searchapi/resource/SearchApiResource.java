@@ -13,6 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -20,6 +26,8 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.report.model.DrawerFinancialReport;
+import ncr.res.mobilepos.report.model.ReportItems;
 import ncr.res.mobilepos.searchapi.constant.SearchApiConstants;
 import ncr.res.mobilepos.searchapi.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.searchapi.model.JSONData;
@@ -29,6 +37,7 @@ import ncr.res.mobilepos.searchapi.model.JSONData;
  * customer.
  */
 @Path("/searchapi")
+@Api(value="/SearchApi", description="検索API")
 public class SearchApiResource {
 
 	/** A private member variable used for the servlet context. */
@@ -146,8 +155,17 @@ public class SearchApiResource {
 	@Path("/advanceOrderData")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="事前注文データ", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗した"),	
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
 	public final JSONData getAdvanceOrderData(
-			@FormParam("Body") String body) {
+			@ApiParam(name="body", value="ボディ")@FormParam("Body") String body) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -414,8 +432,17 @@ public class SearchApiResource {
 	@Path("/inventoryData")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="在庫データを取得する", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗した"),	
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
 	public final JSONData getInventoryData(
-			@FormParam("Body") String body) {
+			@ApiParam(name="body", value="ボディ")@FormParam("Body") String body) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);

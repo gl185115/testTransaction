@@ -7,11 +7,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DailyReportItems")
+@ApiModel(value="DailyReportItems")
 public class DailyReportItems extends ResultBase {
 
     @XmlElement(name = "ReportItems")
@@ -20,6 +24,7 @@ public class DailyReportItems extends ResultBase {
     /**
      * @return the reportItems
      */
+    @ApiModelProperty(value="çÄñ⁄ïÒçê", notes="çÄñ⁄ïÒçê")
     public List<DailyReport> getReportItems() {
         return reportItems;
     }

@@ -5,11 +5,15 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * The Class ItemLabel.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ItemLabel")
+@ApiModel(value="ItemLabel")
 public class ItemLabel {
 
     /** The code. */
@@ -44,6 +48,7 @@ public class ItemLabel {
      * @return the code
      */
     @XmlElement(name = "Code")
+    @ApiModelProperty(value="コード", notes="コード")
     public final String getCode() {
         return this.code;
     }
@@ -54,6 +59,7 @@ public class ItemLabel {
      * @return the name
      */
     @XmlElement(name = "Name")
+    @ApiModelProperty(value="名前", notes="名前")
     public final String getName() {
         return this.name;
     }

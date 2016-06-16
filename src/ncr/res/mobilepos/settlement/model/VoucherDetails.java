@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "VoucherDetails")
+@ApiModel(value="VoucherDetails")
 public class VoucherDetails {
 
         /**
@@ -80,6 +84,7 @@ public class VoucherDetails {
         /**
          * @return the companyId
          */
+        @ApiModelProperty(value="会社コード", notes="会社コード")
         public String getCompanyId() {
             return companyId;
         }
@@ -94,6 +99,7 @@ public class VoucherDetails {
         /**
          * @return the storeId
          */
+        @ApiModelProperty(value="店舗番号", notes="店舗番号")
         public String getStoreId() {
             return storeId;
         }
@@ -108,6 +114,7 @@ public class VoucherDetails {
         /**
          * @return the dataType
          */
+        @ApiModelProperty(value="データ種別", notes="データ種別")
         public String getDataType() {
             return dataType;
         }
@@ -122,6 +129,7 @@ public class VoucherDetails {
         /**
          * @return the itemLevel1
          */
+        @ApiModelProperty(value="項目レベル１", notes="項目レベル１")
         public String getItemLevel1() {
             return itemLevel1;
         }
@@ -136,6 +144,7 @@ public class VoucherDetails {
         /**
          * @return the itemLevel2
          */
+        @ApiModelProperty(value="項目レベル２", notes="項目レベル２")
         public String getItemLevel2() {
             return itemLevel2;
         }
@@ -150,6 +159,7 @@ public class VoucherDetails {
         /**
          * @return the itemLevel3
          */
+        @ApiModelProperty(value="項目レベル３", notes="項目レベル３")
         public String getItemLevel3() {
             return itemLevel3;
         }
@@ -164,6 +174,7 @@ public class VoucherDetails {
         /**
          * @return the itemLevel4
          */
+        @ApiModelProperty(value="項目レベル４", notes="項目レベル４")
         public String getItemLevel4() {
             return itemLevel4;
         }
@@ -178,6 +189,7 @@ public class VoucherDetails {
         /**
          * @return the workStationId
          */
+        @ApiModelProperty(value="POSコード", notes="POSコード")
         public String getWorkStationId() {
             return workStationId;
         }
@@ -192,6 +204,7 @@ public class VoucherDetails {
         /**
          * @return the businessDayDate
          */
+        @ApiModelProperty(value="営業日", notes="営業日")
         public String getBusinessDayDate() {
             return businessDayDate;
         }
@@ -206,6 +219,7 @@ public class VoucherDetails {
         /**
          * @return the itemCount
          */
+        @ApiModelProperty(value="商品数", notes="商品数")
         public int getItemCount() {
             return itemCount;
         }
@@ -220,6 +234,7 @@ public class VoucherDetails {
         /**
          * @return the itemAmt
          */
+        @ApiModelProperty(value="商品金額", notes="商品金額")
         public String getItemAmt() {
             return itemAmt;
         }

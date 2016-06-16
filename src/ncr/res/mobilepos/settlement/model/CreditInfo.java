@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CreditInfo")
+@ApiModel(value="CreditInfo")
 public class CreditInfo {
     @XmlElement(name = "CompanyId")
     private String companyId;
@@ -35,6 +39,7 @@ public class CreditInfo {
     	this.companyId = companyId;
     }
     
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
     	return companyId;
     }
@@ -43,6 +48,7 @@ public class CreditInfo {
     	this.storeId = storeId;
     }
     
+    @ApiModelProperty(value="店舗番号", notes="店舗番号")
     public final String getStoreId() {
     	return storeId;
     }
@@ -51,6 +57,7 @@ public class CreditInfo {
     	this.creditCompanyId = creditCompanyId;
     }
     
+    @ApiModelProperty(value="クレジット会社コード", notes="クレジット会社コード")
     public final String getCreditCompanyId() {
     	return creditCompanyId;
     }
@@ -59,6 +66,7 @@ public class CreditInfo {
     	this.paymentMethod = paymentMethod;
     }
     
+    @ApiModelProperty(value="支払方法", notes="支払方法")
     public final String getPaymentMethod() {
     	return paymentMethod;
     }
@@ -67,6 +75,7 @@ public class CreditInfo {
     	this.businessDayDate = businessDayDate;
     }
     
+    @ApiModelProperty(value="取引日付", notes="取引日付")
     public final String getBusinessDayDate() {
     	return businessDayDate;
     }
@@ -75,6 +84,7 @@ public class CreditInfo {
     	this.trainingFlag = trainingFlag;
     }
     
+    @ApiModelProperty(value="トレーニングフラグ", notes="トレーニングフラグ")
     public final int getTrainingFlag() {
     	return trainingFlag;
     }
@@ -83,6 +93,7 @@ public class CreditInfo {
     	this.txType = txType;
     }
     
+    @ApiModelProperty(value="取引種別", notes="取引種別")
     public final String getTxType() {
     	return txType;
     }
@@ -91,6 +102,7 @@ public class CreditInfo {
     	this.salesItemCnt = salesItemCnt;
     }
     
+    @ApiModelProperty(value="売上数量", notes="売上数量")
     public final int getSalesItemCnt() {
     	return salesItemCnt;
     }
@@ -99,6 +111,7 @@ public class CreditInfo {
     	this.salesItemAmt = salesItemAmt;
     }
     
+    @ApiModelProperty(value="売上金額", notes="売上金額")
     public final double getSalesItemAmt() {
     	return salesItemAmt;
     }
@@ -107,6 +120,7 @@ public class CreditInfo {
     	this.salesCntSum = salesCntSum;
     }
     
+    @ApiModelProperty(value="売上数量和", notes="売上数量和")
     public final int getSalesCntSum() {
     	return salesCntSum;
     }
@@ -115,6 +129,7 @@ public class CreditInfo {
     	this.salesAmtSum = salesAmtSum;
     }
     
+    @ApiModelProperty(value="売上金額和", notes="売上金額和")
     public final double getSalesAmtSum() {
     	return salesAmtSum;
     }

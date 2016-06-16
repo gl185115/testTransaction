@@ -1,9 +1,14 @@
 package ncr.res.mobilepos.report.model;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * 改定履歴
  * バージョン      改定日付      担当者名        改定内容
  * 1.01            2014.10.21    FENGSHA         レポート出力を対応
  */
+@ApiModel(value="ItemMode")
 public class ItemMode {
 
     /** Division設定 flag */
@@ -46,6 +51,7 @@ public class ItemMode {
     /**
      * @return itemCode
      */
+    @ApiModelProperty(value="商品コード", notes="商品コード")
     public String getItemCode() {
         return ItemCode;
     }
@@ -58,6 +64,7 @@ public class ItemMode {
     /**
      * @return itemName
      */
+    @ApiModelProperty(value="商品名", notes="商品名")
     public String getItemName() {
         return ItemName;
     }
@@ -70,6 +77,7 @@ public class ItemMode {
     /**
      * @return guestCnt
      */
+    @ApiModelProperty(value="来店客数", notes="来店客数")
     public long getGuestCnt() {
         return GuestCnt;
     }
@@ -82,6 +90,7 @@ public class ItemMode {
     /**
      * @return itemCnt
      */
+    @ApiModelProperty(value="数量", notes="数量")
     public long getItemCnt() {
         return ItemCnt;
     }
@@ -94,6 +103,7 @@ public class ItemMode {
     /**
      * @return salesAmt
      */
+    @ApiModelProperty(value="売上金額", notes="売上金額")
     public double getSalesAmt() {
         return SalesAmt;
     }
@@ -106,6 +116,7 @@ public class ItemMode {
     /**
      * @return isHeaderFlag
      */
+    @ApiModelProperty(value="ヘッダフラグ", notes="ヘッダフラグ")
     public String getIsHeaderFlag() {
         return isHeaderFlag;
     }
@@ -118,6 +129,7 @@ public class ItemMode {
     /**
      * @return guestCntSum
      */
+    @ApiModelProperty(value="客数和", notes="客数和")
     public long getGuestCntSum() {
         return GuestCntSum;
     }
@@ -130,6 +142,7 @@ public class ItemMode {
     /**
      * @return itemCntSum
      */
+    @ApiModelProperty(value="商品数和", notes="商品数和")
     public long getItemCntSum() {
         return ItemCntSum;
     }
@@ -142,6 +155,7 @@ public class ItemMode {
     /**
      * @return salesAmtSum
      */
+    @ApiModelProperty(value="売価金額和", notes="売価金額和")
     public double getSalesAmtSum() {
         return SalesAmtSum;
     }
@@ -154,6 +168,7 @@ public class ItemMode {
     /**
      * @return divisionName
      */
+    @ApiModelProperty(value="部門名", notes="部門名")
     public String getDivisionName() {
         return divisionName;
     }
@@ -166,6 +181,7 @@ public class ItemMode {
     /**
      * @return isFooterFlag
      */
+    @ApiModelProperty(value="フッタフラグ", notes="フッタフラグ")
     public String getIsFooterFlag() {
         return isFooterFlag;
     }
@@ -178,6 +194,7 @@ public class ItemMode {
     /**
      * @return isBodyFlag
      */
+    @ApiModelProperty(value="ボディフラグ", notes="ボディフラグ")
     public String getIsBodyFlag() {
         return isBodyFlag;
     }

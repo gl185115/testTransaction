@@ -7,11 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SystemNameMasterList")
-
+@ApiModel(value="SystemNameMasterList")
 public class SystemNameMasterList extends ResultBase{
 	/** The system name master list. */
 	@XmlElement(name = "systemNameMasterList")
@@ -22,6 +25,7 @@ public class SystemNameMasterList extends ResultBase{
 	 *
 	 * @return the system name list
 	 */
+	@ApiModelProperty( value="システム名称リスト", notes="システム名称リスト")
 	public List<NameMasterInfo> getNamemasterinfo() {
 		return namemasterinfoList;
 	}

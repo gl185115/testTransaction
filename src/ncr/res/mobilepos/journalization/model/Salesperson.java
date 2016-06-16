@@ -8,6 +8,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * @author 
@@ -16,6 +20,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "Salesperson")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="Salesperson")
 public class Salesperson extends ResultBase{
 	
 	/*This list is used to save sales person information*/
@@ -27,6 +32,7 @@ public class Salesperson extends ResultBase{
 	 *
 	 * @return the sales person list
 	 */
+    @ApiModelProperty(value="販売員コード", notes="販売員コード")
     public final Salespersoninfo[] getSalesperson() {
         return Salesperson;
     }

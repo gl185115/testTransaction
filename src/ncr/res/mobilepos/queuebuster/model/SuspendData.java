@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 
 /**
@@ -17,6 +20,7 @@ import ncr.res.mobilepos.journalization.model.poslog.PosLog;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SuspendData")
+@ApiModel(value="SuspendData")
 public class SuspendData {
     /**
      * The Initial Status of the Suspended Data.
@@ -67,6 +71,7 @@ public class SuspendData {
      * The Getter method for Status.
      * @return The status
      */
+    @ApiModelProperty(value="取引状態", notes="取引状態")
     public final int getStatus() {
         return status;
     }
@@ -81,6 +86,7 @@ public class SuspendData {
      * The Getter method for the suspended Status.
      * @return  The Suspend status.
      */
+    @ApiModelProperty(value="一時停止取引", notes="一時停止取引")
     public final String getSuspendStatus() {
         return suspendStatus;
     }
@@ -95,6 +101,7 @@ public class SuspendData {
      * The getter of the POSLog transaction.
      * @return  The POSLog object.
      */
+    @ApiModelProperty(value="業務のposlog", notes="業務のposlog")
     public final PosLog getPoslog() {
         return poslog;
     }
@@ -109,6 +116,7 @@ public class SuspendData {
      * The getter of the error message.
      * @return  The Error Message.
      */
+    @ApiModelProperty(value="APIエラー内容", notes="APIエラー内容")
     public final String getErrormessage() {
         return errormessage;
     }

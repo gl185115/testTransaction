@@ -12,7 +12,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
@@ -32,6 +39,7 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
  * QueueSignatureResource is a Web Resource that supports for queuing Signature.
  */
 @Path("/QueueSignature")
+@Api(value="/QueueSignature", description="待ち行列署名資源API")
     public class QueueSignatureResource {
     /**
      * The IOWriter for the log.
@@ -121,10 +129,18 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="署名請求リスト", response=SignatureRequestList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
+        @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
+    })
     public final SignatureRequestList getSignatureRequestList(
-                 @QueryParam("retailstoreid") final String storeID,
-                 @QueryParam("queue") final String queue,
-                 @QueryParam("txdate")final String txDate) {
+    		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String storeID,
+    		@ApiParam(name="queue", value="署名要請の列標識") @QueryParam("queue") final String queue,
+    		@ApiParam(name="txdate", value="業務日付") @QueryParam("txdate")final String txDate) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("retailstoreid", storeID)
@@ -204,12 +220,21 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes("application/x-www-form-urlencoded")
+    @ApiOperation(value="署名を得る", response=SignatureRequestBill.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_INPROG, message="外部のデータはすでに処理されている"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NORMEND, message="外部の処理が正常に終わる"),
+        @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
+    })
     public final SignatureRequestBill getSignatureRequest(
-                    @QueryParam("retailstoreid") final String storeid,
-                    @QueryParam("queue") final String queue,
-                    @QueryParam("workstationid") final String posterminalid,
-                    @QueryParam("sequencenumber") final String seqnum,
-                    @QueryParam("txdate") final String businessdate) {
+    		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String storeid,
+    		@ApiParam(name="queue", value="署名要請の列標識") @QueryParam("queue") final String queue,
+    		@ApiParam(name="workstationid", value="作業台コード") @QueryParam("workstationid") final String posterminalid,
+    		@ApiParam(name="sequencenumber", value="シリアルナンバー") @QueryParam("sequencenumber") final String seqnum,
+    		@ApiParam(name="txdate", value="業務日付") @QueryParam("txdate") final String businessdate) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("RetailStoreID", storeid)
           .println("Queue", queue)
@@ -299,13 +324,20 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes("application/x-www-form-urlencoded")
+    @ApiOperation(value="更新サイン入り状態のネットワーク方法を呼び出す", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
+            @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
+        })
     public final ResultBase updateSignatureRequestStatus(
-            @FormParam("retailstoreid") final String storeid,
-            @FormParam("queue") final String queue,
-            @FormParam("workstationid") final String posterminalid,
-            @FormParam("sequencenumber") final String seqnum,
-            @FormParam("txdate") final String businessdate,
-            @FormParam("status") final String status) {
+    		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String storeid,
+    		@ApiParam(name="queue", value="署名要請の列標識") @FormParam("queue") final String queue,
+    		@ApiParam(name="workstationid", value="作業台コード") @FormParam("workstationid") final String posterminalid,
+    		@ApiParam(name="sequencenumber", value="シリアルナンバー") @FormParam("sequencenumber") final String seqnum,
+    		@ApiParam(name="txdate", value="業務日付") @FormParam("txdate") final String businessdate,
+    		@ApiParam(name="status", value="ステータス") @FormParam("status") final String status) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("RetailStoreID", storeid)
           .println("Queue", queue)

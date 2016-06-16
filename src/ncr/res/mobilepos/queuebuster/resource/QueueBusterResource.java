@@ -22,6 +22,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
@@ -44,12 +50,14 @@ import ncr.res.mobilepos.queuebuster.model.BusteredTransactionList;
 import ncr.res.mobilepos.queuebuster.model.CashDrawer;
 import ncr.res.mobilepos.queuebuster.model.ResumedTransaction;
 import ncr.res.mobilepos.queuebuster.model.SuspendData;
+import ncr.res.mobilepos.queuesignature.model.SignatureRequestBill;
 
 /**
  * QueueBusterResource is a Resource Class for QueueBustering.
  *
  */
 @Path("/QueueSuspend")
+@Api(value="/QueueSuspend", description="Bluetooth機器接続情報API")
 public class QueueBusterResource {
     /**
      * The IOWriter for Log.
@@ -107,12 +115,19 @@ public class QueueBusterResource {
     @POST
     @Path("/suspend")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="機械の接続情報取り引き過程", response=ResultBase.class)
+    @ApiResponses(value={
+    	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="取引の期日を無効にする"),
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラーが発生する、XML /分析")
+        })
     public final ResultBase suspend(
-                    @QueryParam("retailstoreid") final String retailStoreId,
-                    @QueryParam("queue") final String queue,
-                    @QueryParam("workstationid") final String workstationId,
-                    @QueryParam("sequencenumber") final String sequenceNumber,
-                    @FormParam("poslogxml") final String posLogXml) {
+    		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="queue", value="キュー番号") @QueryParam("queue") final String queue,
+    		@ApiParam(name="workstationid", value="POSコード") @QueryParam("workstationid") final String workstationId,
+    		@ApiParam(name="sequencenumber", value="取引番号") @QueryParam("sequencenumber") final String sequenceNumber,
+    		@ApiParam(name="poslogxml", value="Poslog Xml") @FormParam("poslogxml") final String posLogXml) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -238,14 +253,24 @@ public class QueueBusterResource {
     @GET
     @Path("/resume")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="機械の接続情報回復の取引", response=SearchedPosLog.class)
+    @ApiResponses(value={
+        	@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXINVALID, message="無効な事務タイプ"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="取引は回復に回復している"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="機器接続情報見つからない"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="機械の接続情報パラメータは発見されていない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラーが発生する、XML /分析")
+        })
     public final SearchedPosLog resume(
-            @QueryParam("companyid") final String companyId,
-            @QueryParam("retailstoreid") final String retailStoreId,
-            @QueryParam("queue") final String queue,
-            @QueryParam("workstationid") final String workstationId,
-            @QueryParam("sequencenumber") final String sequenceNumber,
-            @QueryParam("businessdaydate") final String businessDayDate,
-            @QueryParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="queue", value="キュー番号") @QueryParam("queue") final String queue,
+    		@ApiParam(name="workstationid", value="POSコード") @QueryParam("workstationid") final String workstationId,
+    		@ApiParam(name="sequencenumber", value="取引番号") @QueryParam("sequencenumber") final String sequenceNumber,
+    		@ApiParam(name="businessdaydate", value="POS業務日付") @QueryParam("businessdaydate") final String businessDayDate,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final int trainingFlag) {
         SearchedPosLog poslog = new SearchedPosLog();
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -324,12 +349,18 @@ public class QueueBusterResource {
     @GET
     @Path("/list")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="検索取引リストで打ち壊すされて", response=BusteredTransactionList.class)
+    @ApiResponses(value={
+    	@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_LISTEMPTY, message="事務リストアップは空の")
+    })
     public final BusteredTransactionList list(
-            @QueryParam("companyid") final String companyId,
-            @QueryParam("retailstoreid") final String retailStoreId,
-            @QueryParam("workstationid") final String workstationId,
-            @QueryParam("queue") final String queue,
-            @QueryParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="workstationid", value="作業台コード") @QueryParam("workstationid") final String workstationId,
+    		@ApiParam(name="queue", value="署名要請の列標識") @QueryParam("queue") final String queue,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("retailstoreid", retailStoreId)
@@ -463,12 +494,17 @@ public class QueueBusterResource {
     @GET
     @Path("/request")
     @Produces({ MediaType.APPLICATION_XML })
+    @ApiOperation(value="Web方法の呼び出し要求、取り消し、機器接続情報過程で完成取引", response=SuspendData.class)
+    @ApiResponses(value={
+    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="機器接続情報見つからない"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="機器接続情報請求は無効なのです")
+    })
     public final SuspendData requestToQueue(
-                    @QueryParam("method") final String method,
-                    @QueryParam("storeid") final String storeid,
-                    @QueryParam("terminalid") final String terminalid,
-                    @QueryParam("txid") final String txid,
-                    @QueryParam("txdate") final String txdate) {
+    		@ApiParam(name="method", value="方法") @QueryParam("method") final String method,
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
+    		@ApiParam(name="terminalid", value="端末番号") @QueryParam("terminalid") final String terminalid,
+    		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txid,
+    		@ApiParam(name="txdate", value="取引日時") @QueryParam("txdate") final String txdate) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("method", method)
@@ -547,10 +583,15 @@ public class QueueBusterResource {
     @GET
     @Path("/deleteforwarditem")
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="プロジェクト前のネットワークの方法を削除する", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ"),
+            @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
+        })
     public final ResultBase deleteForwardItem(
-    	@QueryParam("companyId") final String companyId,
-		@QueryParam("storeId") final String storeId,
-		@QueryParam("businessDayDate") final String businessDayDate) {
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="businessDayDate", value="営業日") @QueryParam("businessDayDate") final String businessDayDate) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("companyid", companyId)
@@ -586,9 +627,14 @@ public class QueueBusterResource {
     @Path("/getpreviousamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="検索前の金額", response=CashDrawer.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        })
     public final CashDrawer getPreviousAmount(
-    		@QueryParam("companyId") final String companyId,
-    		@QueryParam("storeid") final String storeId) {
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId) {
 
     	tp.methodEnter("getPreviousAmount");
     	tp.println("Company Id", companyId)

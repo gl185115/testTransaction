@@ -18,11 +18,15 @@ import ncr.res.mobilepos.credential.model.Employee;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * The Model Class representation of a Transaction for QueueBuster.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Transaction")
+@ApiModel(value="BusteredTransaction")
 public class BusteredTransaction {
     /** The Workstation ID. */
     @XmlElement(name = "WorkstationID")
@@ -35,6 +39,8 @@ public class BusteredTransaction {
     private Double total;
     @XmlElement(name = "ReceiptDateTime")
     private String receiptDateTime;
+    
+    @ApiModelProperty(value="領収書日付時間", notes="領収書日付時間")
     public String getReceiptDateTime() {
 		return receiptDateTime;
 	}
@@ -43,6 +49,7 @@ public class BusteredTransaction {
 		this.receiptDateTime = receiptDateTime;
 	}
 
+    @ApiModelProperty(value="営業日", notes="営業日")
 	public String getBusinessDayDate() {
 		return businessDayDate;
 	}
@@ -51,6 +58,7 @@ public class BusteredTransaction {
 		this.businessDayDate = businessDayDate;
 	}
 
+    @ApiModelProperty(value="従業員", notes="従業員")
 	public Employee getEmployee() {
 		return employee;
 	}
@@ -70,6 +78,7 @@ public class BusteredTransaction {
      * Get the workstation ID.
      * @return  The Workstation ID.
      */
+    @ApiModelProperty(value="作業台コード", notes="作業台コード")
     public final String getWorkstationid() {
         return workstationid;
     }
@@ -86,6 +95,7 @@ public class BusteredTransaction {
      * Get the Sequence Number.
      * @return The Sequence Number.
      */
+    @ApiModelProperty(value="シリアルナンバー", notes="シリアルナンバー")
     public final String getSequencenumber() {
         return sequencenumber;
     }
@@ -102,6 +112,7 @@ public class BusteredTransaction {
      * Get the Total.
      * @return  The Total.
      */
+    @ApiModelProperty(value="総数", notes="総数")
     public final Double getTotal() {
         return total;
     }

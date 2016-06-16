@@ -3,12 +3,16 @@ package ncr.res.mobilepos.queuesignature.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * The Model Class Representing the Signature Request Bill.
  *
  */
 @XmlRootElement(name = "SignatureRequestBill")
+@ApiModel(value="SignatureRequestBill")
 public class SignatureRequestBill extends ResultBase {
     /**
      * the CA Information.
@@ -41,6 +45,7 @@ public class SignatureRequestBill extends ResultBase {
      * @return  The CA info.
      */
     @XmlElement(name = "CAInfo")
+    @ApiModelProperty(value="CA情報", notes="CA情報")
     public final CAInfo getCAInfo() {
         return this.caInfo;
     }
@@ -56,6 +61,7 @@ public class SignatureRequestBill extends ResultBase {
      * @return The Queue.
      */
     @XmlElement(name = "Queue")
+    @ApiModelProperty(value="署名要請の列標識コード", notes="署名要請の列標識コード")
     public final String getQueue() {
         return this.queueId;
     }
@@ -71,6 +77,7 @@ public class SignatureRequestBill extends ResultBase {
      * @return The Retail Store ID.
      */
     @XmlElement(name = "RetailStoreID ")
+    @ApiModelProperty(value="小売店コード", notes="小売店コード")
     public final String getRetailStoreID() {
         return this.retailStoreId;
     }
@@ -86,6 +93,7 @@ public class SignatureRequestBill extends ResultBase {
      * @return The Workstation ID.
      */
     @XmlElement(name = "WorkstationID ")
+    @ApiModelProperty(value="作業台コード", notes="作業台コード")
     public final String getWorkstationID() {
         return this.workstationId;
     }
@@ -101,6 +109,7 @@ public class SignatureRequestBill extends ResultBase {
      * @return Sequence Number
      */
     @XmlElement(name = "SequenceNumber")
+    @ApiModelProperty(value="シリアルナンバー", notes="シリアルナンバー")
     public final String getSequenceNumber() {
         return this.sequenceNumber;
     }

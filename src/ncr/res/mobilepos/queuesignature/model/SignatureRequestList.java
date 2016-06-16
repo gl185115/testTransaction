@@ -6,6 +6,10 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * The Model Class  containing the Signature Request List.
@@ -13,6 +17,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "SignatureRequestList")
 @XmlSeeAlso({ Transaction.class })
+@ApiModel(value="SignatureRequestList")
 public class SignatureRequestList extends ResultBase {
     /**
      * The transaction List for Signature Request(s).
@@ -36,6 +41,7 @@ public class SignatureRequestList extends ResultBase {
      */
     @XmlElementWrapper(name = "TransactionList")
     @XmlElementRef()
+    @ApiModelProperty(value="業務リスト", notes="業務リスト")
     public final List<Transaction> getTransactionList() {
         return this.transactionList;
     }
@@ -51,6 +57,7 @@ public class SignatureRequestList extends ResultBase {
      * @return  The Queue ID.
      */
     @XmlElement(name = "Queue")
+    @ApiModelProperty(value="署名要請の列標識", notes="署名要請の列標識")
     public final String getQueue() {
         return this.queueId;
     }

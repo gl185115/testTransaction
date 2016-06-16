@@ -5,12 +5,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Employee is a Model Class that represents an Operator's info It only consists
  * of Operator's number and name.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Employee")
+@ApiModel(value="Employee")
 public class Employee {
     /**
      * The company ID.
@@ -63,6 +67,7 @@ public class Employee {
      *
      * @return passcode
      */
+    @ApiModelProperty(value="パスワード", notes="パスワード")
     public final String getPasscode() {
         return passcode;
     }
@@ -78,6 +83,7 @@ public class Employee {
         this.passcode = passCode;
     }
     
+    @ApiModelProperty(value="最終更新ユーザーコード", notes="最終更新ユーザーコード")
     public String getUpdOpeCode() {
         return updOpeCode;
     }
@@ -86,6 +92,7 @@ public class Employee {
         this.updOpeCode = updOpeCode;
     }
 
+    @ApiModelProperty(value="最終更新プログラムーコード", notes="最終更新プログラムーコード")
     public String getUpdAppId() {
         return updAppId;
     }
@@ -100,6 +107,7 @@ public class Employee {
      *
      * @return String operatorType.
      */
+    @ApiModelProperty(value="操作タイプ", notes="操作タイプ")
     public final String getOperatorType() {
         return operatorType;
     }
@@ -119,6 +127,7 @@ public class Employee {
      *
      * @return String companyId.
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
         return companyId;
     }
@@ -138,6 +147,7 @@ public class Employee {
      *
      * @return String workStationID.
      */
+    @ApiModelProperty(value="作業台コード", notes="作業台コード")
     public final String getWorkStationID() {
         return workStationID;
     }
@@ -157,6 +167,7 @@ public class Employee {
      *
      * @return String retailStoreID.
      */
+    @ApiModelProperty(value="小売店コード", notes="小売店コード")
     public final String getRetailStoreID() {
         return retailStoreID;
     }
@@ -176,6 +187,7 @@ public class Employee {
      *
      * @return String The operatorID.
      */
+    @ApiModelProperty(value="操作員番号", notes="操作員番号")
     public final String getNumber() {
         return number;
     }
@@ -195,6 +207,7 @@ public class Employee {
      *
      * @return String The operatorName.
      */
+    @ApiModelProperty(value="操作員名前", notes="操作員名前")
     public final String getName() {
         return name;
     }
@@ -212,6 +225,7 @@ public class Employee {
     /**
      * @return the status
      */
+    @ApiModelProperty(value="操作員身分", notes="操作員身分")
     public String getStatus() {
         return status;
     }
@@ -240,6 +254,7 @@ public class Employee {
      * Returns role
      * @return
      */
+    @ApiModelProperty(value="操作員役柄", notes="操作員役柄")
 	public String getRole() {
 		return role;
 	}

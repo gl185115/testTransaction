@@ -5,10 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.journalization.model.PointPosted;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "AdditionalInformation")
+@ApiModel(value="AdditionalInformation")
 public class AdditionalInformation {
 	
     @XmlElement(name = "Voided")
@@ -47,6 +51,7 @@ public class AdditionalInformation {
     @XmlElement(name="MemberId")
     private String memberId;
     
+    @ApiModelProperty(value="取消", notes="取消")
 	public final String getVoided() {
 		return voided;
 	}
@@ -54,7 +59,7 @@ public class AdditionalInformation {
 	public final void setVoided(String voided) {
 		this.voided = voided;
 	}
-
+	@ApiModelProperty(value="返品", notes="返品")
 	public final String getReturned() {
 		return returned;
 	}
@@ -62,7 +67,7 @@ public class AdditionalInformation {
 	public final void setReturned(String returned) {
 		this.returned = returned;
 	}
-
+	@ApiModelProperty(value="ロック", notes="ロック")
 	public String getLocked() {
 		return locked;
 	}
@@ -70,7 +75,7 @@ public class AdditionalInformation {
 	public void setLocked(String locked) {
 		this.locked = locked;
 	}
-	
+	@ApiModelProperty(value="領収書の概要", notes="領収書の概要")
 	public final String getSummaryReceipt() {
 		return summaryReceipt;
 	}
@@ -78,7 +83,7 @@ public class AdditionalInformation {
 	public final void setSummaryReceipt(String summaryReceipt) {
 		this.summaryReceipt = summaryReceipt;
 	}
-
+	@ApiModelProperty(value="領収書", notes="領収書")
 	public final String[] getReceipt() {
 		return receipt;
 	}
@@ -87,7 +92,7 @@ public class AdditionalInformation {
         this.receipt = new String[receipt.length];
         System.arraycopy(receipt, 0, this.receipt, 0, receipt.length);
 	}
-
+	@ApiModelProperty(value="領収書の属性", notes="領収書の属性")
 	public final String[] getReceiptAttributes() {
 		return receiptAttributes;
 	}
@@ -96,7 +101,7 @@ public class AdditionalInformation {
         this.receiptAttributes = new String[receipt.length];
         System.arraycopy(receipt, 0, this.receiptAttributes, 0, receipt.length);
 	}
-
+	@ApiModelProperty(value="取引のタイプ", notes="取引のタイプ")
 	public final String getTransactionType() {
 		return transactionType;
 	}
@@ -104,7 +109,7 @@ public class AdditionalInformation {
 	public final void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
 	}
-
+	@ApiModelProperty(value="連番", notes="連番")
     public final long getJournalLine() {
         return journalLine;
     }
@@ -112,7 +117,7 @@ public class AdditionalInformation {
     public final void setJournalLine(long line) {
         journalLine = line;
     }
-
+    @ApiModelProperty(value="取消", notes="取消")
     public final String getVoidable() {
         return voidable;
     }
@@ -120,7 +125,7 @@ public class AdditionalInformation {
     public final void setVoidable(String s) {
         voidable = s;
     }
-
+    @ApiModelProperty(value="PoslogのXML", notes="PoslogのXML")
     public String getPoslogXML() {
         return poslogXML;
     }
@@ -128,7 +133,7 @@ public class AdditionalInformation {
     public void setPoslogXML(String poslogXML) {
         this.poslogXML = poslogXML;
     }
-
+    @ApiModelProperty(value="ポスト・ポイント", notes="ポスト・ポイント")
 	public final PointPosted getPostPointed() {
 		return postPointed;
 	}
@@ -136,7 +141,7 @@ public class AdditionalInformation {
 	public final void setPostPointed(PointPosted postPointed) {
 		this.postPointed = postPointed;
 	}
-    
+	@ApiModelProperty(value="会員コード", notes="会員コード")
 	public String getMemberId() {
 		return memberId;
 	}

@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * PosLog Model Object.
  *
@@ -27,6 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "POSLog")
+@ApiModel(value="POSLog")
 public class PosLog {
 
     /**
@@ -59,6 +63,7 @@ public class PosLog {
      *
      * @return        Returns the Transaction under POSLog.
      */
+    @ApiModelProperty(value="トランザクション", notes="トランザクション")
     public final Transaction getTransaction() {
         return transaction;
     }

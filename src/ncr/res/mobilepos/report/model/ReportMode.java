@@ -7,6 +7,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * 改定履歴
  * バージョン      改定日付      担当者名        改定内容
@@ -16,7 +19,7 @@ import java.util.List;
  * 1.04            2015.1.21     MAJINHUI        点検・精算レポート出力を対応
  * 1.05            2015.2.13     MAJINHUI        レポート出力を対応
  */
-
+@ApiModel(value="ReportMode")
 public class ReportMode {
 	
 	private String type;
@@ -28,6 +31,7 @@ public class ReportMode {
 	//差額
 	private double GapAmt;
 	
+	@ApiModelProperty(value="実在高", notes="実在高")
 	public double getCalculateTotalAmt() {
 		return CalculateTotalAmt;
 	}
@@ -36,6 +40,7 @@ public class ReportMode {
 		CalculateTotalAmt = calculateTotalAmt;
 	}
 
+	@ApiModelProperty(value="計算在高", notes="計算在高")
 	public double getRealTotalAmt() {
 		return RealTotalAmt;
 	}
@@ -44,6 +49,7 @@ public class ReportMode {
 		RealTotalAmt = realTotalAmt;
 	}
 
+	@ApiModelProperty(value="差額", notes="差額")
 	public double getGapAmt() {
 		return GapAmt;
 	}
@@ -52,6 +58,7 @@ public class ReportMode {
 		GapAmt = gapAmt;
 	}
 
+	@ApiModelProperty(value="トレーニングフラグ", notes="トレーニングフラグ")
     public int getTrainingFlag() {
 		return TrainingFlag;
 	}
@@ -60,6 +67,7 @@ public class ReportMode {
 		TrainingFlag = trainingFlag;
 	}
 	
+	@ApiModelProperty(value="タイプ", notes="タイプ")
     public String getType() {
 		return type;
 	}
@@ -495,6 +503,7 @@ public class ReportMode {
     // 印 紙 4,000金額
     private double stamp4000Amt;
 
+    @ApiModelProperty(value="電話", notes="電話")
     public String getTelephone() {
         return telephone;
     }
@@ -503,6 +512,7 @@ public class ReportMode {
         this.telephone = telephone;
     }
 
+    @ApiModelProperty(value="回 収 金件数", notes="回 収 金件数")
 	public long getCollectedfundsPoints() {
 		return collectedfundsPoints;
 	}
@@ -511,6 +521,7 @@ public class ReportMode {
 		this.collectedfundsPoints = collectedfundsPoints;
 	}
 
+	@ApiModelProperty(value="払戻金件数", notes="払戻金件数")
 	public long getModorikinnPoints() {
 		return modorikinnPoints;
 	}
@@ -519,6 +530,7 @@ public class ReportMode {
 		this.modorikinnPoints = modorikinnPoints;
 	}
 
+	@ApiModelProperty(value="現 金件数", notes="現 金件数")
 	public long getCashPoints() {
 		return cashPoints;
 	}
@@ -527,6 +539,7 @@ public class ReportMode {
 		this.cashPoints = cashPoints;
 	}
 
+	@ApiModelProperty(value="ク レ ジ ッ ト件数", notes="ク レ ジ ッ ト件数")
 	public long getCreditPoints() {
 		return creditPoints;
 	}
@@ -535,6 +548,7 @@ public class ReportMode {
 		this.creditPoints = creditPoints;
 	}
 
+	@ApiModelProperty(value="銀 聯件数", notes="銀 聯件数")
 	public long getUnionPayPoints() {
 		return unionPayPoints;
 	}
@@ -543,6 +557,7 @@ public class ReportMode {
 		this.unionPayPoints = unionPayPoints;
 	}
 
+	@ApiModelProperty(value="ギ フ ト カ ー ド件数", notes="ギ フ ト カ ー ド件数")
 	public long getGiftCardPoints() {
 		return giftCardPoints;
 	}
@@ -551,6 +566,7 @@ public class ReportMode {
 		this.giftCardPoints = giftCardPoints;
 	}
 
+	@ApiModelProperty(value="商 品 券件数", notes="商 品 券件数")
 	public long getGiftCertificatesPoints() {
 		return giftCertificatesPoints;
 	}
@@ -559,6 +575,7 @@ public class ReportMode {
 		this.giftCertificatesPoints = giftCertificatesPoints;
 	}
 
+	@ApiModelProperty(value="振 込 入 金件数", notes="振 込 入 金件数")
 	public long getTransferPaymentPoints() {
 		return transferPaymentPoints;
 	}
@@ -567,6 +584,7 @@ public class ReportMode {
 		this.transferPaymentPoints = transferPaymentPoints;
 	}
 
+	@ApiModelProperty(value="前受金売上件数", notes="前受金売上件数")
 	public long getAdvancesSalesPoints() {
 		return AdvancesSalesPoints;
 	}
@@ -575,6 +593,7 @@ public class ReportMode {
 		AdvancesSalesPoints = advancesSalesPoints;
 	}
 
+	@ApiModelProperty(value="金 種 別 内 訳点数計", notes="金 種 別 内 訳点数計")
 	public long getGoldSpeciesPoints() {
 		return goldSpeciesPoints;
 	}
@@ -583,6 +602,7 @@ public class ReportMode {
 		this.goldSpeciesPoints = goldSpeciesPoints;
 	}
 
+	@ApiModelProperty(value="買 物 券件数", notes="買 物 券件数")
 	public long getShoppingTicketPoints() {
 		return shoppingTicketPoints;
 	}
@@ -591,6 +611,7 @@ public class ReportMode {
 		this.shoppingTicketPoints = shoppingTicketPoints;
 	}
 
+	@ApiModelProperty(value="ギ フ ト 券件数", notes="ギ フ ト 券件数")
 	public long getGiftVoucherPoints() {
 		return giftVoucherPoints;
 	}
@@ -599,6 +620,7 @@ public class ReportMode {
 		this.giftVoucherPoints = giftVoucherPoints;
 	}
 
+	@ApiModelProperty(value="伊 勢 丹件数", notes="伊 勢 丹件数")
 	public long getIsetanPoints() {
 		return isetanPoints;
 	}
@@ -607,6 +629,7 @@ public class ReportMode {
 		this.isetanPoints = isetanPoints;
 	}
 
+	@ApiModelProperty(value="DC件数", notes="DC件数")
 	public long getDCLablePoints() {
 		return DCLablePoints;
 	}
@@ -615,6 +638,7 @@ public class ReportMode {
 		DCLablePoints = dCLablePoints;
 	}
 
+	@ApiModelProperty(value="AMEX件数", notes="AMEX件数")
 	public long getAMEXLablePoints() {
 		return AMEXLablePoints;
 	}
@@ -623,6 +647,7 @@ public class ReportMode {
 		AMEXLablePoints = aMEXLablePoints;
 	}
 
+	@ApiModelProperty(value="JCB件数", notes="JCB件数")
 	public long getJCBLablePoints() {
 		return JCBLablePoints;
 	}
@@ -631,6 +656,7 @@ public class ReportMode {
 		JCBLablePoints = jCBLablePoints;
 	}
 
+	@ApiModelProperty(value="Diners件数", notes="Diners件数")
 	public long getDinersLablePoints() {
 		return dinersLablePoints;
 	}
@@ -639,6 +665,7 @@ public class ReportMode {
 		this.dinersLablePoints = dinersLablePoints;
 	}
 
+	@ApiModelProperty(value="Iカード件数", notes="Iカード件数")
 	public long getICardPoints() {
 		return ICardPoints;
 	}
@@ -647,6 +674,7 @@ public class ReportMode {
 		ICardPoints = iCardPoints;
 	}
 
+	@ApiModelProperty(value="三 井件数", notes="三 井件数")
 	public long getMitsuiLablePoints() {
 		return mitsuiLablePoints;
 	}
@@ -655,6 +683,7 @@ public class ReportMode {
 		this.mitsuiLablePoints = mitsuiLablePoints;
 	}
 
+	@ApiModelProperty(value="軽 井 沢件数", notes="軽 井 沢件数")
 	public long getKaruizawaPoints() {
 		return karuizawaPoints;
 	}
@@ -663,6 +692,7 @@ public class ReportMode {
 		this.karuizawaPoints = karuizawaPoints;
 	}
 
+	@ApiModelProperty(value="Chel 1000件数", notes="Chel 1000件数")
 	public long getChel1000Points() {
 		return chel1000Points;
 	}
@@ -671,6 +701,7 @@ public class ReportMode {
 		this.chel1000Points = chel1000Points;
 	}
 
+	@ApiModelProperty(value="Chel 2000件数", notes="Chel 2000件数")
 	public long getChel2000Points() {
 		return chel2000Points;
 	}
@@ -679,6 +710,7 @@ public class ReportMode {
 		this.chel2000Points = chel2000Points;
 	}
 
+	@ApiModelProperty(value="その他件数", notes="その他件数")
 	public long getSonotaPoints() {
 		return sonotaPoints;
 	}
@@ -687,6 +719,7 @@ public class ReportMode {
 		this.sonotaPoints = sonotaPoints;
 	}
 
+	@ApiModelProperty(value="計件数", notes="計件数")
 	public long getGiftCertificatesSubtotalPoints() {
 		return giftCertificatesSubtotalPoints;
 	}
@@ -697,6 +730,7 @@ public class ReportMode {
 	}
     
     // 1.04 2015.1.21 MAJINHUI 点検・精算レポート出力を対応　ADD START
+	@ApiModelProperty(value="すべて引く金額", notes="すべて引く金額")
     public double getAllDrawAmount() {
         return AllDrawAmount;
     }
@@ -704,6 +738,8 @@ public class ReportMode {
     public void setAllDrawAmount(double allDrawAmount) {
         AllDrawAmount = allDrawAmount;
     }
+    
+    @ApiModelProperty(value="ドロワーコード", notes="ドロワーコード")
     public String getTillId() {
         return tillId;
     }
@@ -713,6 +749,7 @@ public class ReportMode {
     }
     // 1.04 2015.1.21 MAJINHUI 点検・精算レポート出力を対応　ADD END
 
+    @ApiModelProperty(value="売 上", notes="売 上")
     public String getSales() {
         return sales;
     }
@@ -721,6 +758,7 @@ public class ReportMode {
         this.sales = sales;
     }
 
+    @ApiModelProperty(value="売 上点数", notes="売 上点数")
     public long getSalesPoints() {
         return salesPoints;
     }
@@ -729,6 +767,7 @@ public class ReportMode {
         this.salesPoints = salesPoints;
     }
 
+    @ApiModelProperty(value="売 上金額", notes="売 上金額")
     public double getSalesAmt() {
         return salesAmt;
     }
@@ -737,6 +776,7 @@ public class ReportMode {
         this.salesAmt = salesAmt;
     }
 
+    @ApiModelProperty(value="売 上 値 引", notes="売 上 値 引")
     public String getSalesDiscount() {
         return salesDiscount;
     }
@@ -745,6 +785,7 @@ public class ReportMode {
         this.salesDiscount = salesDiscount;
     }
 
+    @ApiModelProperty(value="売 上 値 引点数", notes="売 上 値 引点数")
     public long getSalesDiscountPoints() {
         return salesDiscountPoints;
     }
@@ -753,6 +794,7 @@ public class ReportMode {
         this.salesDiscountPoints = salesDiscountPoints;
     }
 
+    @ApiModelProperty(value="売 上 値 引金額", notes="売 上 値 引金額")
     public double getSalesDiscountAmt() {
         return salesDiscountAmt;
     }
@@ -761,6 +803,7 @@ public class ReportMode {
         this.salesDiscountAmt = salesDiscountAmt;
     }
 
+    @ApiModelProperty(value="取 消", notes="取 消")
     public String getCancel() {
         return cancel;
     }
@@ -769,6 +812,7 @@ public class ReportMode {
         this.cancel = cancel;
     }
 
+    @ApiModelProperty(value="取 消点数", notes="取 消点数")
     public long getCancelPoints() {
         return cancelPoints;
     }
@@ -777,6 +821,7 @@ public class ReportMode {
         this.cancelPoints = cancelPoints;
     }
 
+    @ApiModelProperty(value="取 消金額", notes="取 消金額")
     public double getCancelAmt() {
         return cancelAmt;
     }
@@ -785,6 +830,7 @@ public class ReportMode {
         this.cancelAmt = cancelAmt;
     }
 
+    @ApiModelProperty(value="小 計", notes="小 計")
     public String getSalesSubTotal() {
         return salesSubTotal;
     }
@@ -793,6 +839,7 @@ public class ReportMode {
         this.salesSubTotal = salesSubTotal;
     }
 
+    @ApiModelProperty(value="小 計点数", notes="小 計点数")
     public long getSalesTotalPoints() {
         return salesTotalPoints;
     }
@@ -801,6 +848,7 @@ public class ReportMode {
         this.salesTotalPoints = salesTotalPoints;
     }
 
+    @ApiModelProperty(value="小 計金額", notes="小 計金額")
     public double getSalesTotalAmt() {
         return salesTotalAmt;
     }
@@ -809,6 +857,7 @@ public class ReportMode {
         this.salesTotalAmt = salesTotalAmt;
     }
     //1.05   2015.2.13   MAJINHUI   レポート出力を対応 add start
+    @ApiModelProperty(value="前受金売上", notes="前受金売上")
     public String getAdvancesSales() {
         return AdvancesSales;
     }
@@ -817,6 +866,7 @@ public class ReportMode {
         AdvancesSales = advancesSales;
     }
 
+    @ApiModelProperty(value="前受金売上金額", notes="前受金売上金額")
     public double getAdvancesSalesAmt() {
         return AdvancesSalesAmt;
     }
@@ -825,6 +875,7 @@ public class ReportMode {
         AdvancesSalesAmt = advancesSalesAmt;
     }
     //1.05   2015.2.13   MAJINHUI   レポート出力を対応 add end
+    @ApiModelProperty(value="返 品 売 上", notes="返 品 売 上")
     public String getReturnSales() {
         return returnSales;
     }
@@ -833,6 +884,7 @@ public class ReportMode {
         this.returnSales = returnSales;
     }
 
+    @ApiModelProperty(value="返 品 売 上点数", notes="返 品 売 上点数")
     public long getReturnSalesPoints() {
         return returnSalesPoints;
     }
@@ -841,6 +893,7 @@ public class ReportMode {
         this.returnSalesPoints = returnSalesPoints;
     }
 
+    @ApiModelProperty(value="返 品 売 上点数", notes="返 品 売 上点数")
     public double getReturnSalesAmt() {
         return returnSalesAmt;
     }
@@ -849,6 +902,7 @@ public class ReportMode {
         this.returnSalesAmt = returnSalesAmt;
     }
 
+    @ApiModelProperty(value="返 品 値 引", notes="返 品 値 引")
     public String getReturnDiscount() {
         return returnDiscount;
     }
@@ -857,6 +911,7 @@ public class ReportMode {
         this.returnDiscount = returnDiscount;
     }
 
+    @ApiModelProperty(value="返 品 値 引点数", notes="返 品 値 引点数")
     public long getReturnDiscountPoints() {
         return returnDiscountPoints;
     }
@@ -865,6 +920,7 @@ public class ReportMode {
         this.returnDiscountPoints = returnDiscountPoints;
     }
 
+    @ApiModelProperty(value="返 品 値 引金額", notes="返 品 値 引金額")
     public double getReturnDiscountAmt() {
         return returnDiscountAmt;
     }
@@ -873,6 +929,7 @@ public class ReportMode {
         this.returnDiscountAmt = returnDiscountAmt;
     }
 
+    @ApiModelProperty(value="返 品 取 消", notes="返 品 取 消")
     public String getReturnCancel() {
         return returnCancel;
     }
@@ -881,6 +938,7 @@ public class ReportMode {
         this.returnCancel = returnCancel;
     }
 
+    @ApiModelProperty(value="返 品 取 消点数", notes="返 品 取 消点数")
     public long getReturnCancelPoint() {
         return returnCancelPoint;
     }
@@ -889,6 +947,7 @@ public class ReportMode {
         this.returnCancelPoint = returnCancelPoint;
     }
 
+    @ApiModelProperty(value="返 品 取 消金額", notes="返 品 取 消金額")
     public double getReturnCancelAmt() {
         return returnCancelAmt;
     }
@@ -897,6 +956,7 @@ public class ReportMode {
         this.returnCancelAmt = returnCancelAmt;
     }
 
+    @ApiModelProperty(value="小 計", notes="小 計")
     public String getReturnSubTotal() {
         return returnSubTotal;
     }
@@ -905,6 +965,7 @@ public class ReportMode {
         this.returnSubTotal = returnSubTotal;
     }
 
+    @ApiModelProperty(value="小 計点数", notes="小 計点数")
     public long getReturnTotalPoints() {
         return returnTotalPoints;
     }
@@ -913,6 +974,7 @@ public class ReportMode {
         this.returnTotalPoints = returnTotalPoints;
     }
 
+    @ApiModelProperty(value="小 計金額", notes="小 計金額")
     public double getReturnTotalAmt() {
         return returnTotalAmt;
     }
@@ -921,6 +983,7 @@ public class ReportMode {
         this.returnTotalAmt = returnTotalAmt;
     }
 
+    @ApiModelProperty(value="純 売 上", notes="純 売 上")
     public String getNetSales() {
         return netSales;
     }
@@ -929,6 +992,7 @@ public class ReportMode {
         this.netSales = netSales;
     }
 
+    @ApiModelProperty(value="純 売 上点数", notes="純 売 上点数")
     public long getNetSalesPoints() {
         return netSalesPoints;
     }
@@ -937,6 +1001,7 @@ public class ReportMode {
         this.netSalesPoints = netSalesPoints;
     }
 
+    @ApiModelProperty(value="純 売 上金額", notes="純 売 上金額")
     public double getNetSalesAmt() {
         return netSalesAmt;
     }
@@ -945,6 +1010,7 @@ public class ReportMode {
         this.netSalesAmt = netSalesAmt;
     }
 
+    @ApiModelProperty(value="純 売 上 (税 抜 )", notes="純 売 上 (税 抜 )")
     public String getTaxNetSales() {
         return taxNetSales;
     }
@@ -953,6 +1019,7 @@ public class ReportMode {
         this.taxNetSales = taxNetSales;
     }
 
+    @ApiModelProperty(value="純 売 上 (税 抜 )金額", notes="純 売 上 (税 抜 )金額")
     public double getTaxNetSalesAmt() {
         return taxNetSalesAmt;
     }
@@ -961,6 +1028,7 @@ public class ReportMode {
         this.taxNetSalesAmt = taxNetSalesAmt;
     }
 
+    @ApiModelProperty(value="総 売 上", notes="総 売 上")
     public String getTotalSales() {
         return totalSales;
     }
@@ -969,6 +1037,7 @@ public class ReportMode {
         this.totalSales = totalSales;
     }
 
+    @ApiModelProperty(value="総 売 上点数", notes="総 売 上点数")
     public long getTotalSalesPoints() {
         return totalSalesPoints;
     }
@@ -977,6 +1046,7 @@ public class ReportMode {
         this.totalSalesPoints = totalSalesPoints;
     }
 
+    @ApiModelProperty(value="総 売 上金額", notes="総 売 上金額")
     public double getTotalSalesAmt() {
         return totalSalesAmt;
     }
@@ -985,6 +1055,7 @@ public class ReportMode {
         this.totalSalesAmt = totalSalesAmt;
     }
 
+    @ApiModelProperty(value="総 売 上 (税 抜 )", notes="総 売 上 (税 抜 )")
     public String getTaxTotalSales() {
         return taxTotalSales;
     }
@@ -993,6 +1064,7 @@ public class ReportMode {
         this.taxTotalSales = taxTotalSales;
     }
 
+    @ApiModelProperty(value="総 売 上 (税 抜 )金額", notes="総 売 上 (税 抜 )金額")
     public double getTaxTotalSalesAmt() {
         return taxTotalSalesAmt;
     }
@@ -1001,6 +1073,7 @@ public class ReportMode {
         this.taxTotalSalesAmt = taxTotalSalesAmt;
     }
 
+    @ApiModelProperty(value="客 数", notes="客 数")
     public String getCustomers() {
         return customers;
     }
@@ -1009,6 +1082,7 @@ public class ReportMode {
         this.customers = customers;
     }
 
+    @ApiModelProperty(value="客 数点数", notes="客 数点数")
     public long getCustomersNo() {
         return customersNo;
     }
@@ -1017,6 +1091,7 @@ public class ReportMode {
         this.customersNo = customersNo;
     }
 
+    @ApiModelProperty(value="課 税 (税 抜 )", notes="課 税 (税 抜 ) ")
     public String getTaxation() {
         return taxation;
     }
@@ -1025,6 +1100,7 @@ public class ReportMode {
         this.taxation = taxation;
     }
 
+    @ApiModelProperty(value="課 税 (税 抜 )点数", notes="課 税 (税 抜 )点数")
     public long getTaxationPoints() {
         return taxationPoints;
     }
@@ -1033,6 +1109,7 @@ public class ReportMode {
         this.taxationPoints = taxationPoints;
     }
 
+    @ApiModelProperty(value="課 税 (税 抜 )金額", notes="課 税 (税 抜 )金額")
     public double getTaxationAmt() {
         return taxationAmt;
     }
@@ -1041,6 +1118,7 @@ public class ReportMode {
         this.taxationAmt = taxationAmt;
     }
 
+    @ApiModelProperty(value="税", notes="税")
     public String getTax() {
         return tax;
     }
@@ -1049,6 +1127,7 @@ public class ReportMode {
         this.tax = tax;
     }
 
+    @ApiModelProperty(value="税金額", notes="税金額")
     public double getTaxAmt() {
         return taxAmt;
     }
@@ -1057,6 +1136,7 @@ public class ReportMode {
         this.taxAmt = taxAmt;
     }
 
+    @ApiModelProperty(value="非 課 税", notes="非 課 税")
     public String getTaxExemption() {
         return taxExemption;
     }
@@ -1065,6 +1145,7 @@ public class ReportMode {
         this.taxExemption = taxExemption;
     }
 
+    @ApiModelProperty(value="非 課 税点数", notes="非 課 税点数")
     public long getTaxExemptionPoints() {
         return taxExemptionPoints;
     }
@@ -1073,6 +1154,7 @@ public class ReportMode {
         this.taxExemptionPoints = taxExemptionPoints;
     }
 
+    @ApiModelProperty(value="非 課 税金額", notes="非 課 税金額")
     public double getTaxExemptionAmt() {
         return taxExemptionAmt;
     }
@@ -1081,6 +1163,7 @@ public class ReportMode {
         this.taxExemptionAmt = taxExemptionAmt;
     }
 
+    @ApiModelProperty(value="計", notes="計")
     public String getTaxSubtotal() {
         return taxSubtotal;
     }
@@ -1089,6 +1172,7 @@ public class ReportMode {
         this.taxSubtotal = taxSubtotal;
     }
 
+    @ApiModelProperty(value="計点数", notes="計点数")
     public long getTaxSubtotalPoints() {
         return taxSubtotalPoints;
     }
@@ -1097,6 +1181,7 @@ public class ReportMode {
         this.taxSubtotalPoints = taxSubtotalPoints;
     }
 
+    @ApiModelProperty(value="計金額", notes="計金額")
     public double getTaxSubtotalAmt() {
         return taxSubtotalAmt;
     }
@@ -1105,6 +1190,7 @@ public class ReportMode {
         this.taxSubtotalAmt = taxSubtotalAmt;
     }
 
+    @ApiModelProperty(value="明 細 割 引", notes="明 細 割 引")
     public String getItemDiscounts() {
         return itemDiscounts;
     }
@@ -1113,6 +1199,7 @@ public class ReportMode {
         this.itemDiscounts = itemDiscounts;
     }
 
+    @ApiModelProperty(value="明 細 割 引点数", notes="明 細 割 引点数")
     public long getItemDiscountsPoints() {
         return itemDiscountsPoints;
     }
@@ -1121,6 +1208,7 @@ public class ReportMode {
         this.itemDiscountsPoints = itemDiscountsPoints;
     }
 
+    @ApiModelProperty(value="明 細 割 引金額", notes="明 細 割 引金額")
     public double getItemDiscountsAmt() {
         return itemDiscountsAmt;
     }
@@ -1129,6 +1217,7 @@ public class ReportMode {
         this.itemDiscountsAmt = itemDiscountsAmt;
     }
 
+    @ApiModelProperty(value="明 細 値 引", notes="明 細 値 引")
     public String getItemNebiki() {
         return itemNebiki;
     }
@@ -1137,6 +1226,7 @@ public class ReportMode {
         this.itemNebiki = itemNebiki;
     }
 
+    @ApiModelProperty(value="明 細 値 引点数", notes="明 細 値 引点数")
     public long getItemNebikiPoints() {
         return itemNebikiPoints;
     }
@@ -1145,6 +1235,7 @@ public class ReportMode {
         this.itemNebikiPoints = itemNebikiPoints;
     }
 
+    @ApiModelProperty(value="明 細 値 引金額", notes="明 細 値 引金額")
     public double getItemNebikiAmt() {
         return itemNebikiAmt;
     }
@@ -1153,6 +1244,7 @@ public class ReportMode {
         this.itemNebikiAmt = itemNebikiAmt;
     }
 
+    @ApiModelProperty(value="イ ベ ン ト", notes="イ ベ ン ト")
     public String getEventsName() {
         return eventsName;
     }
@@ -1161,6 +1253,7 @@ public class ReportMode {
         this.eventsName = eventsName;
     }
 
+    @ApiModelProperty(value="イ ベ ン ト点数", notes="イ ベ ン ト点数")
     public long getEventsPoints() {
         return eventsPoints;
     }
@@ -1169,6 +1262,7 @@ public class ReportMode {
         this.eventsPoints = eventsPoints;
     }
 
+    @ApiModelProperty(value="イ ベ ン ト金額", notes="イ ベ ン ト金額")
     public double getEventsAmt() {
         return eventsAmt;
     }
@@ -1177,6 +1271,7 @@ public class ReportMode {
         this.eventsAmt = eventsAmt;
     }
 
+    @ApiModelProperty(value="社 員 販 売", notes="社 員 販 売")
     public String getEmployeeSales() {
         return employeeSales;
     }
@@ -1185,6 +1280,7 @@ public class ReportMode {
         this.employeeSales = employeeSales;
     }
 
+    @ApiModelProperty(value="社 員 販 売点数", notes="社 員 販 売点数")
     public long getEmployeeSalesPoints() {
         return employeeSalesPoints;
     }
@@ -1193,6 +1289,7 @@ public class ReportMode {
         this.employeeSalesPoints = employeeSalesPoints;
     }
 
+    @ApiModelProperty(value="社 員 販 売金額", notes="社 員 販 売金額")
     public double getEmployeeSalesAmt() {
         return employeeSalesAmt;
     }
@@ -1201,6 +1298,7 @@ public class ReportMode {
         this.employeeSalesAmt = employeeSalesAmt;
     }
 
+    @ApiModelProperty(value="小 計 割 引", notes="小 計 割 引")
     public String getSubtotalDiscounts() {
         return subtotalDiscounts;
     }
@@ -1209,6 +1307,7 @@ public class ReportMode {
         this.subtotalDiscounts = subtotalDiscounts;
     }
 
+    @ApiModelProperty(value="小 計 割 引点数", notes="小 計 割 引点数")
     public long getSubtotalDiscountsPoints() {
         return subtotalDiscountsPoints;
     }
@@ -1217,6 +1316,7 @@ public class ReportMode {
         this.subtotalDiscountsPoints = subtotalDiscountsPoints;
     }
 
+    @ApiModelProperty(value="小 計 割 引金額", notes="小 計 割 引金額")
     public double getSubtotalDiscountsAmt() {
         return subtotalDiscountsAmt;
     }
@@ -1225,6 +1325,7 @@ public class ReportMode {
         this.subtotalDiscountsAmt = subtotalDiscountsAmt;
     }
 
+    @ApiModelProperty(value="小 計 値 引", notes="小 計 値 引")
     public String getSubtotalNebiki() {
         return subtotalNebiki;
     }
@@ -1233,6 +1334,7 @@ public class ReportMode {
         this.subtotalNebiki = subtotalNebiki;
     }
 
+    @ApiModelProperty(value="小 計 値 引点数", notes="小 計 値 引点数")
     public long getSubtotalNebikiPoints() {
         return subtotalNebikiPoints;
     }
@@ -1241,6 +1343,7 @@ public class ReportMode {
         this.subtotalNebikiPoints = subtotalNebikiPoints;
     }
 
+    @ApiModelProperty(value="小 計 値 引金額", notes="小 計 値 引金額")
     public double getSubtotalNebikiAmt() {
         return subtotalNebikiAmt;
     }
@@ -1249,6 +1352,7 @@ public class ReportMode {
         this.subtotalNebikiAmt = subtotalNebikiAmt;
     }
 
+    @ApiModelProperty(value="計", notes="計")
     public String getDiscountsSubtotal() {
         return discountsSubtotal;
     }
@@ -1257,6 +1361,7 @@ public class ReportMode {
         this.discountsSubtotal = discountsSubtotal;
     }
 
+    @ApiModelProperty(value="計金額", notes="計金額")
     public double getDiscountSubtotalAmt() {
         return discountSubtotalAmt;
     }
@@ -1265,6 +1370,7 @@ public class ReportMode {
         this.discountSubtotalAmt = discountSubtotalAmt;
     }
 
+    @ApiModelProperty(value="販 売", notes="販 売")
     public String getSell() {
         return sell;
     }
@@ -1273,6 +1379,7 @@ public class ReportMode {
         this.sell = sell;
     }
 
+    @ApiModelProperty(value="販 売点数", notes="販 売点数")
     public long getSellPoints() {
         return sellPoints;
     }
@@ -1281,6 +1388,7 @@ public class ReportMode {
         this.sellPoints = sellPoints;
     }
 
+    @ApiModelProperty(value="販 売金額", notes="販 売金額")
     public double getSellAmt() {
         return sellAmt;
     }
@@ -1289,6 +1397,7 @@ public class ReportMode {
         this.sellAmt = sellAmt;
     }
 
+    @ApiModelProperty(value="販 売 取 消", notes="販 売 取 消")
     public String getSellCancel() {
         return sellCancel;
     }
@@ -1297,6 +1406,7 @@ public class ReportMode {
         this.sellCancel = sellCancel;
     }
 
+    @ApiModelProperty(value="販 売 取 消点数", notes="販 売 取 消点数")
     public long getSellCancelPoints() {
         return sellCancelPoints;
     }
@@ -1305,6 +1415,7 @@ public class ReportMode {
         this.sellCancelPoints = sellCancelPoints;
     }
 
+    @ApiModelProperty(value="販 売 取 消金額", notes="販 売 取 消金額")
     public double getSellCancelAmt() {
         return sellCancelAmt;
     }
@@ -1313,6 +1424,7 @@ public class ReportMode {
         this.sellCancelAmt = sellCancelAmt;
     }
 
+    @ApiModelProperty(value="計", notes="計")
     public String getSellSubtotal() {
         return sellSubtotal;
     }
@@ -1321,6 +1433,7 @@ public class ReportMode {
         this.sellSubtotal = sellSubtotal;
     }
 
+    @ApiModelProperty(value="計点数", notes="計点数")
     public long getSellSubtotalPoints() {
         return sellSubtotalPoints;
     }
@@ -1329,6 +1442,7 @@ public class ReportMode {
         this.sellSubtotalPoints = sellSubtotalPoints;
     }
 
+    @ApiModelProperty(value="計金額", notes="計金額")
     public double getSellSubtotalAmt() {
         return sellSubtotalAmt;
     }
@@ -1337,6 +1451,7 @@ public class ReportMode {
         this.sellSubtotalAmt = sellSubtotalAmt;
     }
 
+    @ApiModelProperty(value="前 受 金", notes="前 受 金")
     public String getAdvances() {
         return advances;
     }
@@ -1345,6 +1460,7 @@ public class ReportMode {
         this.advances = advances;
     }
 
+    @ApiModelProperty(value="前 受 金点数", notes="前 受 金点数")
     public long getAdvancesPoints() {
         return advancesPoints;
     }
@@ -1353,6 +1469,7 @@ public class ReportMode {
         this.advancesPoints = advancesPoints;
     }
 
+    @ApiModelProperty(value="前 受 金金額", notes="前 受 金金額")
     public double getAdvancesAmt() {
         return advancesAmt;
     }
@@ -1361,6 +1478,7 @@ public class ReportMode {
         this.advancesAmt = advancesAmt;
     }
 
+    @ApiModelProperty(value="前 受 金 取 消", notes="前 受 金 取 消")
     public String getAdvancesCancel() {
         return advancesCancel;
     }
@@ -1369,6 +1487,7 @@ public class ReportMode {
         this.advancesCancel = advancesCancel;
     }
 
+    @ApiModelProperty(value="前 受 金 取 消点数", notes="前 受 金 取 消点数")
     public long getAdvancesCancelPoints() {
         return advancesCancelPoints;
     }
@@ -1377,6 +1496,7 @@ public class ReportMode {
         this.advancesCancelPoints = advancesCancelPoints;
     }
 
+    @ApiModelProperty(value="前 受 金 取 消金額", notes="前 受 金 取 消金額")
     public double getAdvancesCancelAmt() {
         return advancesCancelAmt;
     }
@@ -1385,6 +1505,7 @@ public class ReportMode {
         this.advancesCancelAmt = advancesCancelAmt;
     }
 
+    @ApiModelProperty(value="計", notes="計")
     public String getAdvancesSubtotal() {
         return advancesSubtotal;
     }
@@ -1393,6 +1514,7 @@ public class ReportMode {
         this.advancesSubtotal = advancesSubtotal;
     }
 
+    @ApiModelProperty(value="計点数", notes="計点数")
     public long getAdvancesSubtotalPoints() {
         return advancesSubtotalPoints;
     }
@@ -1401,6 +1523,7 @@ public class ReportMode {
         this.advancesSubtotalPoints = advancesSubtotalPoints;
     }
 
+    @ApiModelProperty(value="計金額", notes="計金額")
     public double getAdvancesSubtotalAmt() {
         return advancesSubtotalAmt;
     }
@@ -1409,6 +1532,7 @@ public class ReportMode {
         this.advancesSubtotalAmt = advancesSubtotalAmt;
     }
 
+    @ApiModelProperty(value="現 金", notes="現 金")
     public String getCash() {
         return cash;
     }
@@ -1417,6 +1541,7 @@ public class ReportMode {
         this.cash = cash;
     }
 
+    @ApiModelProperty(value="現 金金額", notes="現 金金額")
     public double getCashAmt() {
         return cashAmt;
     }
@@ -1425,6 +1550,7 @@ public class ReportMode {
         this.cashAmt = cashAmt;
     }
 
+    @ApiModelProperty(value="ク レ ジ ッ ト", notes="ク レ ジ ッ ト")
     public String getCredit() {
         return credit;
     }
@@ -1433,6 +1559,7 @@ public class ReportMode {
         this.credit = credit;
     }
 
+    @ApiModelProperty(value="ク レ ジ ッ ト金額", notes="ク レ ジ ッ ト金額")
     public double getCreditAmt() {
         return creditAmt;
     }
@@ -1441,6 +1568,7 @@ public class ReportMode {
         this.creditAmt = creditAmt;
     }
 
+    @ApiModelProperty(value="銀 聯", notes="銀 聯")
     public String getUnionPay() {
         return unionPay;
     }
@@ -1449,6 +1577,7 @@ public class ReportMode {
         this.unionPay = unionPay;
     }
 
+    @ApiModelProperty(value="銀 聯金額", notes="銀 聯金額")
     public double getUnionPayAmt() {
         return unionPayAmt;
     }
@@ -1457,6 +1586,7 @@ public class ReportMode {
         this.unionPayAmt = unionPayAmt;
     }
 
+    @ApiModelProperty(value="ギ フ ト カ ー ド", notes="ギ フ ト カ ー ド")
     public String getGiftCard() {
         return giftCard;
     }
@@ -1465,6 +1595,7 @@ public class ReportMode {
         this.giftCard = giftCard;
     }
 
+    @ApiModelProperty(value="ギ フ ト カ ー ド金額", notes="ギ フ ト カ ー ド金額")
     public double getGiftCardAmt() {
         return giftCardAmt;
     }
@@ -1473,6 +1604,7 @@ public class ReportMode {
         this.giftCardAmt = giftCardAmt;
     }
 
+    @ApiModelProperty(value="商 品 券", notes="商 品 券")
     public String getGiftCertificates() {
         return giftCertificates;
     }
@@ -1481,6 +1613,7 @@ public class ReportMode {
         this.giftCertificates = giftCertificates;
     }
 
+    @ApiModelProperty(value="商 品 券金額", notes="商 品 券金額")
     public double getGiftCertificatesAmt() {
         return giftCertificatesAmt;
     }
@@ -1489,6 +1622,7 @@ public class ReportMode {
         this.giftCertificatesAmt = giftCertificatesAmt;
     }
 
+    @ApiModelProperty(value="振 込 入 金", notes="振 込 入 金")
     public String getTransferPayment() {
         return transferPayment;
     }
@@ -1497,6 +1631,7 @@ public class ReportMode {
         this.transferPayment = transferPayment;
     }
 
+    @ApiModelProperty(value="振 込 入 金金額", notes="振 込 入 金金額")
     public double getTransferPaymentAmt() {
         return transferPaymentAmt;
     }
@@ -1505,6 +1640,7 @@ public class ReportMode {
         this.transferPaymentAmt = transferPaymentAmt;
     }
 
+    @ApiModelProperty(value="計", notes="計")
     public String getGoldSpecies() {
         return goldSpecies;
     }
@@ -1513,6 +1649,7 @@ public class ReportMode {
         this.goldSpecies = goldSpecies;
     }
 
+    @ApiModelProperty(value="計金額", notes="計金額")
     public double getGoldSpeciesSubtotal() {
         return goldSpeciesSubtotal;
     }
@@ -1521,6 +1658,7 @@ public class ReportMode {
         this.goldSpeciesSubtotal = goldSpeciesSubtotal;
     }
 
+    @ApiModelProperty(value="買 物 券", notes="買 物 券")
     public String getShoppingTicket() {
         return shoppingTicket;
     }
@@ -1529,6 +1667,7 @@ public class ReportMode {
         this.shoppingTicket = shoppingTicket;
     }
 
+    @ApiModelProperty(value="買 物 券金額", notes="買 物 券金額")
     public double getShoppingTicketAmt() {
         return shoppingTicketAmt;
     }
@@ -1537,6 +1676,7 @@ public class ReportMode {
         this.shoppingTicketAmt = shoppingTicketAmt;
     }
 
+    @ApiModelProperty(value="ギ フ ト 券", notes="ギ フ ト 券")
     public String getGiftVoucher() {
         return giftVoucher;
     }
@@ -1545,6 +1685,7 @@ public class ReportMode {
         this.giftVoucher = giftVoucher;
     }
 
+    @ApiModelProperty(value="ギ フ ト 券金額", notes="ギ フ ト 券金額")
     public double getGiftVoucherAmt() {
         return giftVoucherAmt;
     }
@@ -1553,6 +1694,7 @@ public class ReportMode {
         this.giftVoucherAmt = giftVoucherAmt;
     }
 
+    @ApiModelProperty(value="伊 勢 丹", notes="伊 勢 丹")
     public String getIsetan() {
         return isetan;
     }
@@ -1561,6 +1703,7 @@ public class ReportMode {
         this.isetan = isetan;
     }
 
+    @ApiModelProperty(value="伊 勢 丹金額", notes="伊 勢 丹金額")
     public double getIsetanAmt() {
         return isetanAmt;
     }
@@ -1569,6 +1712,7 @@ public class ReportMode {
         this.isetanAmt = isetanAmt;
     }
 
+    @ApiModelProperty(value="DC", notes="DC")
     public String getDCLable() {
         return DCLable;
     }
@@ -1577,6 +1721,7 @@ public class ReportMode {
         DCLable = dCLable;
     }
 
+    @ApiModelProperty(value="DC金額", notes="DC金額")
     public double getDCAmt() {
         return DCAmt;
     }
@@ -1585,6 +1730,7 @@ public class ReportMode {
         DCAmt = dCAmt;
     }
 
+    @ApiModelProperty(value="AMEX", notes="AMEX")
     public String getAMEXLable() {
         return AMEXLable;
     }
@@ -1593,6 +1739,7 @@ public class ReportMode {
         AMEXLable = aMEXLable;
     }
 
+    @ApiModelProperty(value="AMEX金額", notes="AMEX金額")
     public double getAMEXAmt() {
         return AMEXAmt;
     }
@@ -1601,6 +1748,7 @@ public class ReportMode {
         AMEXAmt = aMEXAmt;
     }
 
+    @ApiModelProperty(value="JCB", notes="JCB")
     public String getJCBLable() {
         return JCBLable;
     }
@@ -1609,6 +1757,7 @@ public class ReportMode {
         JCBLable = jCBLable;
     }
 
+    @ApiModelProperty(value="JCB金額", notes="JCB金額")
     public double getJCBAmt() {
         return JCBAmt;
     }
@@ -1617,6 +1766,7 @@ public class ReportMode {
         JCBAmt = jCBAmt;
     }
 
+    @ApiModelProperty(value="Diners", notes="Diners")
     public String getDinersLable() {
         return dinersLable;
     }
@@ -1625,6 +1775,7 @@ public class ReportMode {
         this.dinersLable = dinersLable;
     }
 
+    @ApiModelProperty(value="Diners金額", notes="Diners金額")
     public double getDinersAmt() {
         return dinersAmt;
     }
@@ -1633,6 +1784,7 @@ public class ReportMode {
         this.dinersAmt = dinersAmt;
     }
 
+    @ApiModelProperty(value="三 井金額", notes="三 井金額")
     public String getMitsuiLable() {
         return mitsuiLable;
     }
@@ -1641,6 +1793,7 @@ public class ReportMode {
         this.mitsuiLable = mitsuiLable;
     }
 
+    @ApiModelProperty(value="三 井金額", notes="三 井金額")
     public double getMitsuiAmt() {
         return mitsuiAmt;
     }
@@ -1649,6 +1802,7 @@ public class ReportMode {
         this.mitsuiAmt = mitsuiAmt;
     }
 
+    @ApiModelProperty(value="軽 井 沢", notes="軽 井 沢")
     public String getKaruizawa() {
         return karuizawa;
     }
@@ -1657,6 +1811,7 @@ public class ReportMode {
         this.karuizawa = karuizawa;
     }
 
+    @ApiModelProperty(value="軽 井 沢金額", notes="軽 井 沢金額")
     public double getKaruizawaAmt() {
         return karuizawaAmt;
     }
@@ -1665,7 +1820,7 @@ public class ReportMode {
         this.karuizawaAmt = karuizawaAmt;
     }
 
-
+    @ApiModelProperty(value="Iカード", notes="Iカード")
     public String getICard() {
         return ICard;
     }
@@ -1674,6 +1829,7 @@ public class ReportMode {
         ICard = iCard;
     }
 
+    @ApiModelProperty(value="Iカード金額", notes="Iカード金額")
     public double getICardAmt() {
         return ICardAmt;
     }
@@ -1682,6 +1838,7 @@ public class ReportMode {
         ICardAmt = iCardAmt;
     }
 
+    @ApiModelProperty(value="Chel 1000", notes="Chel 1000")
     public String getChel1000() {
         return chel1000;
     }
@@ -1690,6 +1847,7 @@ public class ReportMode {
         this.chel1000 = chel1000;
     }
 
+    @ApiModelProperty(value="Chel 1000 金額", notes="Chel 1000 金額")
     public double getChel1000Amt() {
         return chel1000Amt;
     }
@@ -1698,6 +1856,7 @@ public class ReportMode {
         this.chel1000Amt = chel1000Amt;
     }
 
+    @ApiModelProperty(value="Chel 2000", notes="Chel 2000")
     public String getChel2000() {
         return chel2000;
     }
@@ -1706,6 +1865,7 @@ public class ReportMode {
         this.chel2000 = chel2000;
     }
 
+    @ApiModelProperty(value="Chel 2000金額", notes="Chel 2000金額")
     public double getChel2000Amt() {
         return chel2000Amt;
     }
@@ -1714,6 +1874,7 @@ public class ReportMode {
         this.chel2000Amt = chel2000Amt;
     }
 
+    @ApiModelProperty(value="計", notes="計")
     public String getGiftCertificatesSubtotal() {
         return giftCertificatesSubtotal;
     }
@@ -1722,6 +1883,7 @@ public class ReportMode {
         this.giftCertificatesSubtotal = giftCertificatesSubtotal;
     }
 
+    @ApiModelProperty(value="計金額", notes="計金額")
     public double getGiftCertificatesSubtotalAmt() {
         return giftCertificatesSubtotalAmt;
     }
@@ -1731,6 +1893,7 @@ public class ReportMode {
         this.giftCertificatesSubtotalAmt = giftCertificatesSubtotalAmt;
     }
 
+    @ApiModelProperty(value="回 収 金", notes="回 収 金")
     public String getCollectedfunds() {
         return collectedfunds;
     }
@@ -1739,6 +1902,7 @@ public class ReportMode {
         this.collectedfunds = collectedfunds;
     }
 
+    @ApiModelProperty(value="レポートモデル", notes="レポートモデル")
     public double getCollectedfundAmt() {
         return collectedfundAmt;
     }
@@ -1747,6 +1911,7 @@ public class ReportMode {
         this.collectedfundAmt = collectedfundAmt;
     }
 
+    @ApiModelProperty(value="回 収 金金額", notes="回 収 金金額")
     public String getDiscontinuation() {
         return discontinuation;
     }
@@ -1755,6 +1920,7 @@ public class ReportMode {
         this.discontinuation = discontinuation;
     }
 
+    @ApiModelProperty(value="中 止 回 数点数", notes="中 止 回 数点数")
     public long getDiscontinuationPoints() {
         return discontinuationPoints;
     }
@@ -1763,6 +1929,7 @@ public class ReportMode {
         this.discontinuationPoints = discontinuationPoints;
     }
 
+    @ApiModelProperty(value="両 替 回 数", notes="両 替 回 数")
     public String getExchange() {
         return exchange;
     }
@@ -1771,6 +1938,7 @@ public class ReportMode {
         this.exchange = exchange;
     }
 
+    @ApiModelProperty(value="両 替 回 数点数", notes="両 替 回 数点数")
     public long getExchangePoints() {
         return exchangePoints;
     }
@@ -1779,6 +1947,7 @@ public class ReportMode {
         this.exchangePoints = exchangePoints;
     }
 
+    @ApiModelProperty(value="印 紙 200", notes="印 紙 200")
     public String getStamp200() {
         return stamp200;
     }
@@ -1787,6 +1956,7 @@ public class ReportMode {
         this.stamp200 = stamp200;
     }
 
+    @ApiModelProperty(value="印 紙 200金額", notes="印 紙 200金額")
     public double getStamp200Amt() {
         return stamp200Amt;
     }
@@ -1795,6 +1965,7 @@ public class ReportMode {
         this.stamp200Amt = stamp200Amt;
     }
 
+    @ApiModelProperty(value="印 紙 400", notes="印 紙 400")
     public String getStamp400() {
         return stamp400;
     }
@@ -1803,6 +1974,7 @@ public class ReportMode {
         this.stamp400 = stamp400;
     }
 
+    @ApiModelProperty(value="印 紙 400金額", notes="印 紙 400金額")
     public double getStamp400Amt() {
         return stamp400Amt;
     }
@@ -1811,6 +1983,7 @@ public class ReportMode {
         this.stamp400Amt = stamp400Amt;
     }
 
+    @ApiModelProperty(value="印 紙 600", notes="印 紙 600")
     public String getStamp600() {
         return stamp600;
     }
@@ -1819,6 +1992,7 @@ public class ReportMode {
         this.stamp600 = stamp600;
     }
 
+    @ApiModelProperty(value="印 紙 600金額", notes="印 紙 600金額")
     public double getStamp600Amt() {
         return stamp600Amt;
     }
@@ -1827,6 +2001,7 @@ public class ReportMode {
         this.stamp600Amt = stamp600Amt;
     }
 
+    @ApiModelProperty(value="印 紙 1,000", notes="印 紙 1,000")
     public String getStamp1000() {
         return stamp1000;
     }
@@ -1835,6 +2010,7 @@ public class ReportMode {
         this.stamp1000 = stamp1000;
     }
 
+    @ApiModelProperty(value="印 紙 1,000金額", notes="印 紙 1,000金額")
     public double getStamp1000Amt() {
         return stamp1000Amt;
     }
@@ -1843,6 +2019,7 @@ public class ReportMode {
         this.stamp1000Amt = stamp1000Amt;
     }
 
+    @ApiModelProperty(value="印 紙 2,000", notes="印 紙 2,000")
     public String getStamp2000() {
         return stamp2000;
     }
@@ -1851,6 +2028,7 @@ public class ReportMode {
         this.stamp2000 = stamp2000;
     }
 
+    @ApiModelProperty(value="印 紙 2,000金額", notes="印 紙 2,000金額")
     public double getStamp2000Amt() {
         return stamp2000Amt;
     }
@@ -1859,6 +2037,7 @@ public class ReportMode {
         this.stamp2000Amt = stamp2000Amt;
     }
 
+    @ApiModelProperty(value="印 紙 4,000", notes="印 紙 4,000")
     public String getStamp4000() {
         return stamp4000;
     }
@@ -1867,6 +2046,7 @@ public class ReportMode {
         this.stamp4000 = stamp4000;
     }
 
+    @ApiModelProperty(value="印 紙 4,000金額", notes="印 紙 4,000金額")
     public double getStamp4000Amt() {
         return stamp4000Amt;
     }
@@ -1876,7 +2056,7 @@ public class ReportMode {
     }
 
     // 1.03 2014.12.25 MAJINHUI 会計レポート出力を対応　ADD END
-
+    @ApiModelProperty(value="集計日付", notes="集計日付")
     public String getBusinessDayDate() {
         return businessDayDate;
     }
@@ -1885,6 +2065,7 @@ public class ReportMode {
         this.businessDayDate = businessDayDate;
     }
 
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyID() {
         return companyID;
     }
@@ -1893,6 +2074,7 @@ public class ReportMode {
         this.companyID = companyID;
     }
 
+    @ApiModelProperty(value="店舗番号", notes="店舗番号")
     public String getStoreID() {
         return storeID;
     }
@@ -1901,6 +2083,7 @@ public class ReportMode {
         this.storeID = storeID;
     }
 
+    @ApiModelProperty(value="言葉", notes="言葉")
     public String getLanguage() {
         return language;
     }
@@ -1909,6 +2092,7 @@ public class ReportMode {
         this.language = language;
     }
     
+    @ApiModelProperty(value="予備日付ID", notes="予備日付ID")
     public String getSubdateid2() {
 		return subdateid2;
 	}
@@ -1917,6 +2101,7 @@ public class ReportMode {
 		this.subdateid2 = subdateid2;
 	}
 
+	@ApiModelProperty(value="予備日付ID", notes="予備日付ID")
 	public String getSubdateid1() {
         return subdateid1;
     }
@@ -1928,6 +2113,7 @@ public class ReportMode {
                 + cal.get(Calendar.DATE);
     }
 
+    @ApiModelProperty(value="カレンダー", notes="カレンダー")
     private Calendar getTime(String time) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         Date date;
@@ -1942,6 +2128,7 @@ public class ReportMode {
         return cal;
     }
 
+    @ApiModelProperty(value="POSNO", notes="POSNO")
     public String getWorkStationID() {
         return workStationID;
     }
@@ -1950,6 +2137,7 @@ public class ReportMode {
         this.workStationID = workStationID;
     }
 
+    @ApiModelProperty(value="送信管理順序", notes="送信管理順序")
     public String getSequenceNo() {
         return sequenceNo;
     }
@@ -1958,6 +2146,7 @@ public class ReportMode {
         this.sequenceNo = sequenceNo;
     }
 
+    @ApiModelProperty(value="店舗名", notes="店舗名")
     public String getStoreName() {
         return storeName;
     }
@@ -1969,6 +2158,7 @@ public class ReportMode {
     /**
      * @return rptlist
      */
+    @ApiModelProperty(value="レポートリスト", notes="レポートリスト")
     public List<ItemMode> getRptlist() {
         return rptlist;
     }
@@ -1983,6 +2173,7 @@ public class ReportMode {
     /**
      * @return salesManNo
      */
+    @ApiModelProperty(value="販売人員番号", notes="販売人員番号")
     public String getSalesManNo() {
         return salesManNo;
     }
@@ -1997,6 +2188,7 @@ public class ReportMode {
     /**
      * @return operaterNo
      */
+    @ApiModelProperty(value="従業員番号", notes="従業員番号")
     public String getOperaterNo() {
         return operaterNo;
     }
@@ -2011,6 +2203,7 @@ public class ReportMode {
     /**
      * @return reportType
      */
+    @ApiModelProperty(value="レポートタイプ", notes="レポートタイプ")
     public String getReportType() {
         return reportType;
     }
@@ -2025,6 +2218,7 @@ public class ReportMode {
     /**
      * @return div
      */
+    @ApiModelProperty(value="div", notes="div")
     public String getDiv() {
         return div;
     }
@@ -2039,6 +2233,7 @@ public class ReportMode {
     /**
      * @return storeidSearch
      */
+    @ApiModelProperty(value="店舗番号検索", notes="店舗番号検索")
     public String getStoreidSearch() {
         return storeidSearch;
     }
@@ -2053,6 +2248,7 @@ public class ReportMode {
     /**
      * @return salesManName
      */
+    @ApiModelProperty(value="販売人員名前", notes="販売人員名前")
     public String getSalesManName() {
         return salesManName;
     }
@@ -2067,6 +2263,7 @@ public class ReportMode {
     /**
      * @return divName
      */
+    @ApiModelProperty(value="div名前", notes="div名前")
     public String getDivName() {
         return divName;
     }
@@ -2081,6 +2278,7 @@ public class ReportMode {
     /**
      * @return allGuestCount
      */
+    @ApiModelProperty(value="客数の合計", notes="客数の合計")
     public long getAllGuestCount() {
         return AllGuestCount;
     }
@@ -2095,6 +2293,7 @@ public class ReportMode {
     /**
      * @return allItemCount
      */
+    @ApiModelProperty(value="点数の合計", notes="点数の合計")
     public long getAllItemCount() {
         return AllItemCount;
     }
@@ -2109,6 +2308,7 @@ public class ReportMode {
     /**
      * @return allSalesAmount
      */
+    @ApiModelProperty(value="金額の合計", notes="金額の合計")
     public double getAllSalesAmount() {
         return AllSalesAmount;
     }
@@ -2121,6 +2321,7 @@ public class ReportMode {
         AllSalesAmount = allSalesAmount;
     }
 
+    @ApiModelProperty(value="POSLogのシステム日時", notes="POSLogのシステム日時")
 	public String getBegindatetime() {
 		return begindatetime;
 	}
@@ -2129,6 +2330,7 @@ public class ReportMode {
 		this.begindatetime = begindatetime;
 	}
 
+	@ApiModelProperty(value="払戻金", notes="払戻金")
 	public String getModorikinn() {
 		return modorikinn;
 	}
@@ -2137,6 +2339,7 @@ public class ReportMode {
 		this.modorikinn = modorikinn;
 	}
 
+	@ApiModelProperty(value="払戻金金額", notes="払戻金金額")
 	public double getModorikinnAmt() {
 		return modorikinnAmt;
 	}
@@ -2145,6 +2348,7 @@ public class ReportMode {
 		this.modorikinnAmt = modorikinnAmt;
 	}
 
+	@ApiModelProperty(value="その他", notes="その他")
 	public String getSonota() {
 		return sonota;
 	}
@@ -2153,6 +2357,7 @@ public class ReportMode {
 		this.sonota = sonota;
 	}
 
+	@ApiModelProperty(value="その他金額", notes="その他金額")
 	public double getSonotaAmt() {
 		return sonotaAmt;
 	}

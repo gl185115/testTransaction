@@ -5,9 +5,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="SequenceNo")
+@ApiModel(value="SequenceNo")
 public class SequenceNo extends ResultBase{
 
     @XmlElement(name="SequenceTypeId")
@@ -22,6 +26,7 @@ public class SequenceNo extends ResultBase{
     /**
      * @return SequenceTypeId
      */
+     @ApiModelProperty(value="シーケンスタイプコード", notes="シーケンスタイプコード")
     public String getSequenceTypeId() {
         return SequenceTypeId;
     }
@@ -36,6 +41,8 @@ public class SequenceNo extends ResultBase{
     /**
      * @return SequenceNo
      */
+ 
+    @ApiModelProperty(value="送信管理順序", notes="送信管理順序")
     public String getSequenceNo() {
         return SequenceNo;
     }
@@ -50,6 +57,7 @@ public class SequenceNo extends ResultBase{
     /**
      * @return SequenceTypeName
      */
+    @ApiModelProperty(value="シーケンスタイプ名", notes="シーケンスタイプ名")
     public String getSequenceTypeName() {
         return SequenceTypeName;
     }

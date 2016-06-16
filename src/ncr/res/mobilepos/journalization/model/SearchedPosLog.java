@@ -14,6 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
@@ -29,6 +32,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "POSLog")
+@ApiModel(value="SearchedPosLog")
 public class SearchedPosLog extends ResultBase {
 
     /**
@@ -67,6 +71,7 @@ public class SearchedPosLog extends ResultBase {
      *
      * @return        Returns the Transaction under POSLog.
      */
+    @ApiModelProperty(value="取引", notes="取引")
     public final Transaction getTransaction() {
         return transaction;
     }
@@ -84,6 +89,7 @@ public class SearchedPosLog extends ResultBase {
     /**
      * @return the additionalInformation
      */
+    @ApiModelProperty(value="エキストラの情報を得る", notes="エキストラの情報を得る")
     public AdditionalInformation getAdditionalInformation() {
         return additionalInformation;
     }

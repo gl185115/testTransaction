@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * @author 
@@ -24,6 +27,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "SearchGuestOrder")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="SearchGuestOrder")
 @XmlSeeAlso({ SearchGuestOrderInfo.class })
 public class SearchGuestOrder extends ResultBase {
     
@@ -45,6 +49,7 @@ public class SearchGuestOrder extends ResultBase {
     /**
      * @return GuestNO
      */
+    @ApiModelProperty(value="お客様番号", notes="お客様番号")
     public String getGuestNo() {
         return guestNo;
     }
@@ -62,6 +67,7 @@ public class SearchGuestOrder extends ResultBase {
 	 *
 	 * @return the guest order list
 	 */
+    @ApiModelProperty(value="検索のゲストのための情報を取得する", notes="検索のゲストのための情報を取得する")
     public List<SearchGuestOrderInfo> getSearchGuestOrderInfo() {
         return searchGuestOrderInfo;
     }

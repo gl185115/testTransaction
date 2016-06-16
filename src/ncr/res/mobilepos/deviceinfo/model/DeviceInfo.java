@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 
 
 /**
@@ -17,6 +20,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 //please note all members are small letters
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DeviceInfo")
+@ApiModel(value="DeviceInfo")
 public class DeviceInfo {
 	 /**
      * The id of the company.
@@ -145,6 +149,7 @@ public class DeviceInfo {
      * Getter for the device name.
      * @return String the device name
      */
+    @ApiModelProperty(value="端末名称", notes="端末名称")
     public final String getDeviceName() {
         return devicename;
     }
@@ -159,6 +164,7 @@ public class DeviceInfo {
      * Getter for the printer id.
      * @return String the printer id
      */
+    @ApiModelProperty(value="プリンターID", notes="プリンターID")
     public final String getPrinterId() {
         return printerid;
     }
@@ -173,6 +179,7 @@ public class DeviceInfo {
      * Getter for the retail store id.
      * @return String the retail store id
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getRetailStoreId() {
         return storeid;
     }
@@ -187,6 +194,7 @@ public class DeviceInfo {
      * Getter for the training flag.
      * @return int the training flag
      */
+    @ApiModelProperty(value="トレーニングフラグ", notes="トレーニングフラグ")
     public final int getTrainingMode() {
         return training;
     }
@@ -201,6 +209,7 @@ public class DeviceInfo {
      * Getter for the log auto upload flag.
      * @return String the log auto upload flag
      */
+    @ApiModelProperty(value="自動ログインフラグ", notes="自動ログインフラグ")
     public final String getLogAutoUpload() {
         return logautoupload;
     }
@@ -215,6 +224,7 @@ public class DeviceInfo {
      * Getter for the log size.
      * @return String the log size
      */
+    @ApiModelProperty(value="ログサイズ", notes="ログサイズ")
     public final String getLogSize() {
         return logsize;
     }
@@ -229,6 +239,7 @@ public class DeviceInfo {
      * Getter for the save log file.
      * @return String the save log file
      */
+    @ApiModelProperty(value="ログファイル保持世代数", notes="ログファイル保持世代数")
     public final String getSaveLogFile() {
         return savelogfile;
     }
@@ -243,6 +254,7 @@ public class DeviceInfo {
      * Getter for the device id.
      * @return String the device id
      */
+    @ApiModelProperty(value="端末コード", notes="端末コード")
     public final String getDeviceId() {
         return deviceid;
     }
@@ -262,6 +274,7 @@ public class DeviceInfo {
      * Getter for the pos terminal link.
      * @return String the pos terminal link id
      */
+    @ApiModelProperty(value="接続先POS端末番号", notes="接続先POS端末番号")
     public final String getLinkPOSTerminalId() {
         return linkposterminalid;
     }
@@ -277,6 +290,7 @@ public class DeviceInfo {
      * Getter for the printer info.
      * @return PrinterInfo printer info
      */
+    @ApiModelProperty(value="プリンター情報", notes="プリンター情報")
     public final PrinterInfo getPrinterInfo() {
         return printerinfo;
     }
@@ -308,6 +322,7 @@ public class DeviceInfo {
      *
      * @return the pricingtype
      */
+    @ApiModelProperty(value="価格タイプ", notes="価格タイプ")
     public final String getPricingType() {
         return pricingtype;
     }
@@ -316,6 +331,7 @@ public class DeviceInfo {
      *
      * @return the authorization link
      */
+    @ApiModelProperty(value="認可リンク", notes="認可リンク")
     public final String getAuthorizationlink() {
         return authorizationlink;
     }
@@ -337,6 +353,7 @@ public class DeviceInfo {
      *
      * @return the queuebuster link
      */
+    @ApiModelProperty(value="Bluetoothプリンターリンク", notes="Bluetoothプリンターリンク")
     public final String getQueuebusterlink() {
         return queuebusterlink;
     }
@@ -358,6 +375,7 @@ public class DeviceInfo {
      *
      * @return the signature link
      */
+    @ApiModelProperty(value="署名リンク", notes="署名リンク")
     public final String getSignaturelink() {
         return signaturelink;
     }
@@ -374,18 +392,21 @@ public class DeviceInfo {
         }
         this.signaturelink = link;
     }
+    @ApiModelProperty(value="取引番号", notes="取引番号")
     public final String getTxid() {
         return txid;
     }
     public final void setTxid(final String txid) {
         this.txid = txid;
     }
+    @ApiModelProperty(value="保留取引番号", notes="保留取引番号")
     public final String getSuspendtxid() {
 		return suspendtxid;
 	}
 	public final void setSuspendtxid(final String suspendtxid) {
 		this.suspendtxid = suspendtxid;
 	}
+	@ApiModelProperty(value="最終EJシーケンス番号", notes="最終EJシーケンス番号")
 	public final int getEjSequence() {
         return ejSequence;
     }
@@ -399,45 +420,53 @@ public class DeviceInfo {
      * Getter for the device status.
      * @return String the device name
      */
+	@ApiModelProperty(value="レコードステータス", notes="レコードステータス")
     public final String getStatus() {
         return status;
     }
     public final void setTillId(final String tillId) {
         this.tillid = tillId;
     }
+    @ApiModelProperty(value="ドロワーID", notes="ドロワーID")
     public final String getTillId() {
     	return tillid;
     }
+    @ApiModelProperty(value="最終更新プログラムID", notes="最終更新プログラムID")
     public final String getUpdAppId() {
         return updAppId;
     }
     public final void setUpdAppId(final String updAppId) {
         this.updAppId = updAppId;
     }
+    @ApiModelProperty(value="最終更新ユーザーID", notes="最終更新ユーザーID")
     public final String getUpdOpeCode() {
         return updOpeCode;
     }
     public final void setUpdOpeCode(final String updOpeCode) {
         this.updOpeCode = updOpeCode;
     }
+    @ApiModelProperty(value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
 	}
 	public final void setCompanyId(final String companyIdToSet) {
 		this.companyId = companyIdToSet;
 	}
+	@ApiModelProperty(value="プログラムＩＤ", notes="プログラムＩＤ")
 	public final String getAppId() {
         return appId;
     }
     public final void setAppId(final String appIdToSet) {
         this.appId = appIdToSet;
     }
+    @ApiModelProperty(value="ユーザＩＤ", notes="ユーザＩＤ")
     public final String getOpeCode() {
         return opeCode;
     }
     public final void setOpeCode(final String opeCodeToSet) {
         this.opeCode = opeCodeToSet;
     }
+    @ApiModelProperty(value="属性コード", notes="属性コード")
     public final String getAttributeId() {
     	return attributeId;
     }

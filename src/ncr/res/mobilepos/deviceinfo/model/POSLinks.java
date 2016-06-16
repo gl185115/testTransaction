@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -20,6 +23,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlRootElement(name = "POSLinks")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({ POSLinkInfo.class })
+@ApiModel(value="POSLinks")
 public class POSLinks extends ResultBase {
 
     public POSLinks() {
@@ -51,6 +55,7 @@ public class POSLinks extends ResultBase {
      * gets the pos link information.
      * @return the collection of pos link information
      */
+    @ApiModelProperty(value="POSÉäÉìÉNèÓïÒ", notes="POSÉäÉìÉNèÓïÒ")
     public final List<POSLinkInfo> getPOSLinkInfos() {
         return this.posLinkInfos;
     }

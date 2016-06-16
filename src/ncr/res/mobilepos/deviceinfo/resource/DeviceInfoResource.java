@@ -566,11 +566,18 @@ public class DeviceInfoResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="取得端末リスト", response=SearchedDevice.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースに見つからない")
+    })
     public final SearchedDevice listDevices(
-    		@QueryParam("retailstoreid") final String storeId,
-    		@QueryParam("key") final String key,
-            @QueryParam("name") final String name,
-            @QueryParam("limit") final int limit) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String storeId,
+    		@ApiParam(name="key", value="検索キー") @QueryParam("key") final String key,
+    		@ApiParam(name="name", value="検索名") @QueryParam("name") final String name,
+    		@ApiParam(name="limit", value="制限数") @QueryParam("limit") final int limit) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", storeId)
@@ -774,12 +781,20 @@ public class DeviceInfoResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/maintenance")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="更新端末情報", response=ViewDeviceInfo.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+    })
     public final ViewDeviceInfo updateDevice(
-		@FormParam("companyid") final String companyID,
-        @FormParam("retailstoreid") final String retailStoreID,
-        @FormParam("deviceid") final String deviceID,            
-        @FormParam("deviceinfo") final String jsonDeviceInfo,
-        @FormParam("trainingmode") final int trainingMode) {
+    	@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
+    	@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+    	@ApiParam(name="deviceid", value="端末番号") @FormParam("deviceid") final String deviceID,            
+    	@ApiParam(name="deviceinfo", value="端末情報") @FormParam("deviceinfo") final String jsonDeviceInfo,
+    	@ApiParam(name="trainingmode", value="トレーニングフラグ") @FormParam("trainingmode") final int trainingMode) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 	        .println("companyid", companyID)
@@ -843,10 +858,18 @@ public class DeviceInfoResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/printer/create")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="プリンターを作成する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+    })
 	public final ResultBase createPrinter(
-			@FormParam("retailstoreid") final String storeId,
-			@FormParam("printerid") final String printerId,
-			@FormParam("printerinfo") final String jsonPrinterInfo) {
+			@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+			@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
+			@ApiParam(name="printerinfo", value="プリンター情報") @FormParam("printerinfo") final String jsonPrinterInfo) {
         
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("retailstoreid", storeId)
@@ -919,10 +942,20 @@ public class DeviceInfoResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/printer/maintenance")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="プリンターを更新する", response=ViewPrinterInfo.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターをみつからない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+    })
     public final ViewPrinterInfo updatePrinterInfo(
-    		@FormParam("retailstoreid") final String storeId,
-            @FormParam("printerid") final String printerId,
-            @FormParam("printerinfo") final String printerInfoJson) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
+    		@ApiParam(name="printerinfo", value="プリンター情報") @FormParam("printerinfo") final String printerInfoJson) {
     	
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -1004,9 +1037,17 @@ public class DeviceInfoResource {
    @Produces({MediaType.APPLICATION_JSON })
    @Path("/printer/delete")
    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+   @ApiOperation(value="プリンターを削除する", response=ResultBase.class)
+   @ApiResponses(value={
+       @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+       @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+       @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+       @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターをみつからない"),
+       @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+   })
    public final ResultBase deletePrinter(
-           @FormParam("retailstoreid") final String storeid,
-           @FormParam("printerid") final String printerid) {
+		   @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+		   @ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid) {
        
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", storeid)
@@ -1066,11 +1107,22 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/link/{linktype}/add")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="新しいリンクを追加する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースに存在しない"),
+        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+    })
+
 	public final ResultBase createLink(
-			@PathParam("linktype") final String linktype,
-			@FormParam("retailstoreid") final String storeid,
-			@FormParam("poslinkid") final String linkid,
-			@FormParam("poslinkinfo") final String linkinfoJson) {
+			@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linktype,
+			@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+			@ApiParam(name="poslinkid", value="リンクコード") @FormParam("poslinkid") final String linkid,
+			@ApiParam(name="poslinkinfo", value="リンク情報") @FormParam("poslinkinfo") final String linkinfoJson) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("linktype", linktype)
@@ -1181,10 +1233,20 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/link/{linktype}/delete")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="新しいリンクを削除する", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+            @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクは見つからない")
+    })
     public final ResultBase deleteLink(
-            @PathParam("linktype") final String linkType,
-            @FormParam("retailstoreid") final String storeId,
-            @FormParam("poslinkid") final String linkId) {
+    		@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="poslinkid", value="リンクコード") @FormParam("poslinkid") final String linkId) {
         
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("linktype", linkType)
@@ -1278,10 +1340,19 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/link/{linktype}/{retailstoreid}/{poslinkid}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="検索リンク情報", response=ViewPosLinkInfo.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクは見つからない"),
+        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
+    })
 	public final ViewPosLinkInfo getLinkItem(
-			@PathParam("linktype") final String linkType,
-			@PathParam("retailstoreid") final String storeId,
-			@PathParam("poslinkid") final String posLinkId) {
+			@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
+			@ApiParam(name="retailstoreid", value="店舗コード") @PathParam("retailstoreid") final String storeId,
+			@ApiParam(name="poslinkid", value="posリンクコード") @PathParam("poslinkid") final String posLinkId) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("linktype", linkType)
@@ -1369,12 +1440,21 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/link/{linktype}/list")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="リンクリストを取得", response=POSLinks.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
+        @ApiResponse(code=ResultBase.RES_LINK_LISTEMPTY, message="リンクリストは空き")
+    })
     public final POSLinks getLinksList(
-            @PathParam("linktype") final String linkType,
-            @QueryParam("storeid") final String storeId,
-            @QueryParam("key") final String key,
-            @QueryParam("name") final String name,
-            @QueryParam("limit") final int limit) {
+    		@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="key", value="検索キー") @QueryParam("key") final String key,
+    		@ApiParam(name="name", value="検索名") @QueryParam("name") final String name,
+    		@ApiParam(name="limit", value="制限数") @QueryParam("limit") final int limit) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("linktype", linkType)
@@ -1471,11 +1551,23 @@ public class DeviceInfoResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/link/{linktype}/maintenance")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="更新リンク", response=ViewPosLinkInfo.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_POSLINKID, message="無効なリンクコード"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_STOREID, message="無効な店舗コード"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースに見つからない")
+    })
     public final ViewPosLinkInfo updateLink(
-            @PathParam("linktype") final String linkType,
-            @FormParam("retailstoreid") final String storeId,
-            @FormParam("poslinkid") final String posLinkId,
-            @FormParam("poslinkinfo") final String posLinkInfoJson) {
+    		@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="poslinkid", value="リンクコード") @FormParam("poslinkid") final String posLinkId,
+    		@ApiParam(name="poslinkinfo", value="posリンク情報") @FormParam("poslinkinfo") final String posLinkInfoJson) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("linktype", linkType)

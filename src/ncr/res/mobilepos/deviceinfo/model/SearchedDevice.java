@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -17,6 +20,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SearchedDevice")
 @XmlSeeAlso({ DeviceInfo.class })
+@ApiModel(value="SearchedDevice")
 public class SearchedDevice extends ResultBase {
 
     public SearchedDevice() {
@@ -49,6 +53,7 @@ public class SearchedDevice extends ResultBase {
      *
      * @return the devices
      */
+    @ApiModelProperty(value="í[ññèÓïÒ", notes="í[ññèÓïÒ")
     public final List<DeviceInfo> getDevices() {
         return devices;
     }

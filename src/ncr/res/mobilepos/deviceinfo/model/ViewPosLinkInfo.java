@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -16,6 +19,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ViewPosLinkInfo")
+@ApiModel(value="ViewPosLinkInfo")
 public class ViewPosLinkInfo extends ResultBase {
     /**
      * The information of the POS Link.
@@ -39,6 +43,7 @@ public class ViewPosLinkInfo extends ResultBase {
      *
      * @return POSLinkInfo model.
      */
+	@ApiModelProperty(value="POSÉäÉìÉNèÓïÒ", notes="POSÉäÉìÉNèÓïÒ")
     public final POSLinkInfo getPosLinkInfo() {
         return poslinkinfo;
     }

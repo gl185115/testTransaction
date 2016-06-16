@@ -7,12 +7,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Model for representing POS Link Information.
  * @author RD185102
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "POSLinkInfo")
+@ApiModel(value="POSLinkInfo")
 public class POSLinkInfo {
     /**
      * The POS Link ID.
@@ -36,6 +40,7 @@ public class POSLinkInfo {
     
     private String updOpeCode;
     
+    @ApiModelProperty(value="ステータス", notes="ステータス")
     public String getStatus() {
 		return status;
 	}
@@ -43,12 +48,15 @@ public class POSLinkInfo {
 		this.status = status;
 	}
     
+	@ApiModelProperty(value="最終更新プログラムID", notes="最終更新プログラムID")
     public String getUpdAppId() {
         return updAppId;
     }
     public void setUpdAppId(String updAppId) {
         this.updAppId = updAppId;
     }
+    
+    @ApiModelProperty(value="最終更新ユーザーID", notes="最終更新ユーザーID")
     public String getUpdOpeCode() {
         return updOpeCode;
     }
@@ -67,6 +75,7 @@ public class POSLinkInfo {
      * Getter for the Retail Store ID.
      * @return  The Retail Store ID.
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getRetailStoreId() {
         return retailstoreid;
     }
@@ -81,6 +90,8 @@ public class POSLinkInfo {
      * Getter for the POS Link Name.
      * @return  The POS Link Name.
      */
+    
+    @ApiModelProperty(value="リンク名", notes="リンク名")
     public final String getLinkName() {
         return linkname;
     }
@@ -95,6 +106,8 @@ public class POSLinkInfo {
      * Getter for the POS Link ID.
      * @return  The POS Link ID.
      */
+    
+    @ApiModelProperty(value="リンクコード", notes="リンクコード")
     public final String getPosLinkId() {
         return poslinkid;
     }

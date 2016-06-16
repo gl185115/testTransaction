@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -15,6 +18,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "ViewPrinterInfo")
+@ApiModel(value="ViewPrinterInfo")
 public class ViewPrinterInfo extends ResultBase {
 
     public ViewPrinterInfo() {
@@ -35,6 +39,7 @@ public class ViewPrinterInfo extends ResultBase {
      * returns the device info.
      * @return PrinterInfo model
      */
+    @ApiModelProperty(value="プリント情報", notes="プリント情報")
     public final PrinterInfo getPrinterInfo() {
         return printerinfo;
     }

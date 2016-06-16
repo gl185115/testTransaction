@@ -8,8 +8,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "VoucherInfo")
+@ApiModel(value="VoucherInfo")
 public class VoucherInfo {
 	@XmlElement(name = "CompanyId")
     private String companyId;
@@ -39,6 +43,7 @@ public class VoucherInfo {
     	this.companyId = companyId;
     }
     
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
     	return companyId;
     }
@@ -47,6 +52,7 @@ public class VoucherInfo {
     	this.storeId = storeId;
     }
     
+    @ApiModelProperty(value="店舗番号", notes="店舗番号")
     public final String getStoreId() {
     	return storeId;
     }
@@ -55,6 +61,7 @@ public class VoucherInfo {
     	this.voucherCompanyId = voucherCompanyId;
     }
     
+    @ApiModelProperty(value="ギフト券会社コード", notes="ギフト券会社コード")
     public final String getVoucherCompanyId() {
     	return voucherCompanyId;
     }
@@ -63,6 +70,7 @@ public class VoucherInfo {
     	this.voucherType = voucherType;
     }
     
+    @ApiModelProperty(value="商品券タイプ", notes="商品券タイプ")
     public final String getVoucherType() {
     	return voucherType;
     }
@@ -71,6 +79,7 @@ public class VoucherInfo {
     	this.businessDayDate = businessDayDate;
     }
     
+    @ApiModelProperty(value="営業日", notes="営業日")
     public final String getBusinessDayDate() {
     	return businessDayDate;
     }
@@ -79,6 +88,7 @@ public class VoucherInfo {
     	this.trainingFlag = trainingFlag;
     }
     
+    @ApiModelProperty(value="トレーニングフラグ", notes="トレーニングフラグ")
     public final int getTrainingFlag() {
     	return trainingFlag;
     }
@@ -87,6 +97,7 @@ public class VoucherInfo {
     	this.salesItemCnt = salesItemCnt;
     }
     
+    @ApiModelProperty(value="売上数量", notes="売上数量")
     public final int getSalesItemCnt() {
     	return salesItemCnt;
     }
@@ -95,6 +106,7 @@ public class VoucherInfo {
     	this.salesItemAmt = salesItemAmt;
     }
     
+    @ApiModelProperty(value="売上金額", notes="売上金額")
     public final double getSalesItemAmt() {
     	return salesItemAmt;
     }
@@ -103,6 +115,7 @@ public class VoucherInfo {
     	this.voucherName = voucherName;
     }
     
+    @ApiModelProperty(value="商品券名前", notes="商品券名前")
     public final String getVoucherName() {
     	return voucherName;
     }
@@ -111,6 +124,7 @@ public class VoucherInfo {
     	this.voucherKanaName = voucherKanaName;
     }
     
+    @ApiModelProperty(value="商品券のカナ名", notes="商品券のカナ名")
     public final String getVoucherKanaName() {
     	return voucherKanaName;
     }
@@ -118,6 +132,7 @@ public class VoucherInfo {
     /**
      * @return the dailyReport
      */
+    @ApiModelProperty(value="商品券詳細", notes="商品券詳細")
     public List<VoucherDetails> getVoucherDetails() {
         return details;
     }

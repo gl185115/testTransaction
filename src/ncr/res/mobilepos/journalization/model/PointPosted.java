@@ -5,12 +5,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * SubtotalDiscount info
  * Model for SubtotalDiscount information.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PointPosted")
+@ApiModel(value="PointPosted")
 public class PointPosted {
 
     /* the isPointPosted */
@@ -48,7 +52,7 @@ public class PointPosted {
     public void setPostPointed(boolean postPointed) {
         PostPointed = postPointed;
     }
-
+    @ApiModelProperty(value="会員コード", notes="会員コード")
     public String getMemberId() {
         return MemberId;
     }
@@ -57,7 +61,7 @@ public class PointPosted {
         MemberId = memberId;
     }
 
-
+    @ApiModelProperty(value="売価金額", notes="売価金額")
     public final String getSalesAmt() {
 		return SalesAmt;
 	}
@@ -65,7 +69,7 @@ public class PointPosted {
 	public final void setSalesAmt(String salesAmt) {
 		SalesAmt = salesAmt;
 	}
-
+	 @ApiModelProperty(value="ポイントの数", notes="ポイントの数")
 	public final String getForPointAmt() {
 		return ForPointAmt;
 	}
@@ -73,7 +77,7 @@ public class PointPosted {
 	public final void setForPointAmt(String forPointAmt) {
 		ForPointAmt = forPointAmt;
 	}
-
+	 @ApiModelProperty(value="今回付与ポイント", notes="今回付与ポイント")
 	public final String getAddPoint() {
 		return AddPoint;
 	}
@@ -81,7 +85,7 @@ public class PointPosted {
 	public final void setAddPoint(String addPoint) {
 		AddPoint = addPoint;
 	}
-
+	 @ApiModelProperty(value="更新前累計ポイント", notes="更新前累計ポイント")
 	public final String getBeforePoint() {
 		return BeforePoint;
 	}
@@ -89,7 +93,7 @@ public class PointPosted {
 	public final void setBeforePoint(String beforePoint) {
 		BeforePoint = beforePoint;
 	}
-
+	 @ApiModelProperty(value="更新後累計ポイント", notes="更新後累計ポイント")
 	public final String getAfterPoint() {
 		return AfterPoint;
 	}

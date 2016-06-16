@@ -63,7 +63,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 				// editTask -> update
 				var task = model.resources[model.active.resource][model.active.folder][model.active.taskIndex].task;
 				res.console("res.ui deploy editTask : updated original task = " + JSON.stringify(task));
-				if (task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店") {
+				if (task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店舗") {
 					for (var i = 0; i < model.editTask.deployCategories.length; i++) {
 						if (model.editTask.deployCategories[i].levelKey == "all") {
 							$scope.editTargetName = model.editTask.deployCategories[i].category;
@@ -87,7 +87,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 							break;
 						}
 					}
-				} else if (!(task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店")) {
+				} else if (!(task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店舗")) {
 					$scope.editTargetName = task.target.store;
 					for (var i = 0; i < model.editTask.deployCategories.length; i++) {
 						if (model.editTask.deployCategories[i].levelKey == "store") {

@@ -61,7 +61,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
                 // editTask -> update
                 var task = model.resources[model.active.resource][model.active.folder][model.active.taskIndex].task;
                 res.console("res.ui deploy editTask : updated original task = " + JSON.stringify(task));
-                if (task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店") {
+                if (task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店舗") {
                     for (var i = 0; i < model.editTask.deployCategories.length; i++) {
                         if (model.editTask.deployCategories[i].levelKey == "all") {
                             $scope.editTargetName = model.editTask.deployCategories[i].category;
@@ -85,7 +85,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
                             break;
                         }
                     }
-                } else if (!(task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店")) {
+                } else if (!(task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店舗")) {
                     $scope.editTargetName = task.target.store;
                     for (var i = 0; i < model.editTask.deployCategories.length; i++) {
                         if (model.editTask.deployCategories[i].levelKey == "store") {
@@ -268,7 +268,8 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
         minute = parseInt($scope.deployTimeMinute);
         var date = new Date(year, month - 1, day, hour, minute);
         var effectiveTask = $rootScope.model.resources[$rootScope.model.active.resource].effective;
-
+        var scheduledTask = $rootScope.model.resources[$rootScope.model.active.resource].scheduled;
+        
         if ((typeof $scope.editTargetName === "undefined") || $scope.editTargetName === "") {
 //          alert("適用店舗を選択してください");
             $scope.warning = "missingTarget";
@@ -330,7 +331,16 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
             status.total = 1;
             task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
         }*/
-
+        for(var i=0;i<scheduledTask.length;i++){
+			if(task.effective ===scheduledTask[i].task.effective){
+				if(task.target.store==scheduledTask[i].task.target.store){
+					$scope.warning = "effectiveDate";
+					return;
+				}
+			}
+		}
+        
+        
         if (model.active.taskIndex != undefined) {
             $rootScope.model.remove();
         }

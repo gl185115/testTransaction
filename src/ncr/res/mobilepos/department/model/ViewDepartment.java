@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -12,6 +15,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "ViewDepartment")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="ViewDepartment")
 public class ViewDepartment extends ResultBase {
     /**
      * List of Departments.
@@ -29,6 +33,7 @@ public class ViewDepartment extends ResultBase {
      *
      * @return an array list of department.
      */
+    @ApiModelProperty( value="部門情報", notes="部門情報")
     public final Department getDepartment() {
         return department;
     }
@@ -47,6 +52,7 @@ public class ViewDepartment extends ResultBase {
      *
      * @return retailStoreID
      */
+    @ApiModelProperty( value="店舗コード", notes="店舗コード")
     public final String getRetailStoreID() {
         return retailStoreID;
     }

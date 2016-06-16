@@ -67,8 +67,17 @@ public class SearchApiResource {
 	@Path("/productData")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="製品データを取得する", response=JSONData.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
 	public final JSONData getProductData(
-			@FormParam("Body") String body) {
+			@ApiParam(name="Body", value="ボディ")@FormParam("Body") String body) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -160,7 +169,7 @@ public class SearchApiResource {
             @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
             @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗した"),	
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),	
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -254,8 +263,17 @@ public class SearchApiResource {
 	@Path("/sellMissData")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="販売ミスデータを得る", response=JSONData.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
 	public final JSONData getSellMissData(
-			@FormParam("Body") String body) {
+			@ApiParam(name="Body", value="ボディ")@FormParam("Body") String body) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -343,8 +361,17 @@ public class SearchApiResource {
 	@Path("/orderData")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="注文データを得る", response=JSONData.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
 	public final JSONData getOrderData(
-			@FormParam("Body") String body) {
+			@ApiParam(name="Body", value="ボディ")@FormParam("Body") String body) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -437,7 +464,7 @@ public class SearchApiResource {
             @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
             @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗した"),	
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),	
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })

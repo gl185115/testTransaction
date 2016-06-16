@@ -9,6 +9,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 import java.util.List;
 
@@ -20,6 +24,7 @@ import java.util.List;
 @XmlRootElement(name = "GuestZone")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({ GuestZoneInfo.class })
+@ApiModel(value="GuestZone")
 public class GuestZone extends ResultBase{
 	
 	/*This list is used to save guest zone information*/
@@ -41,6 +46,7 @@ public class GuestZone extends ResultBase{
 	 *
 	 * @return the guestzone list
 	 */
+	@ApiModelProperty(value="ゲストのゾーン情報", notes="ゲストのゾーン情報")
 	public  List<GuestZoneInfo> getGuestZoneInfos() {
 		return this.guestZoneInfos;
 	}

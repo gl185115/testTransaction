@@ -8,16 +8,20 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlRootElement(name = "ForwardList")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="ForwardList")
 public class ForwardList extends ResultBase {
 
     @XmlElementWrapper(name = "ForwardListInfo")
     @XmlElementRef()
     private List<ForwardListInfo> ForwardListInfo;
-
+    @ApiModelProperty(value="順リスト情報", notes="順リスト情報")
     public List<ForwardListInfo> getForwardListInfo() {
         return ForwardListInfo;
     }

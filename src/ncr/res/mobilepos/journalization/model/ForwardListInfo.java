@@ -4,8 +4,12 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 @XmlRootElement(name = "ForwardListInfo")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="ForwardListInfo")
 public class ForwardListInfo {
 
     @XmlElement(name = "CompanyId")
@@ -43,7 +47,7 @@ public class ForwardListInfo {
 
     @XmlElement(name = "Status")
     private String Status;
-
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyId() {
         return CompanyId;
     }
@@ -51,7 +55,7 @@ public class ForwardListInfo {
     public void setCompanyId(String companyId) {
         CompanyId = companyId;
     }
-
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getRetailStoreId() {
         return RetailStoreId;
     }
@@ -59,7 +63,7 @@ public class ForwardListInfo {
     public void setRetailStoreId(String retailStoreId) {
         RetailStoreId = retailStoreId;
     }
-
+    @ApiModelProperty(value="POSコード", notes="POSコード")
     public String getWorkstationId() {
         return WorkstationId;
     }
@@ -67,7 +71,7 @@ public class ForwardListInfo {
     public void setWorkstationId(String workstationId) {
         WorkstationId = workstationId;
     }
-
+    @ApiModelProperty(value="取引番号", notes="取引番号")
     public String getSequenceNumber() {
         return SequenceNumber;
     }
@@ -75,7 +79,7 @@ public class ForwardListInfo {
     public void setSequenceNumber(String sequenceNumber) {
         SequenceNumber = sequenceNumber;
     }
-
+    @ApiModelProperty(value="キュー番号", notes="キュー番号")
     public String getQueue() {
         return Queue;
     }
@@ -83,7 +87,7 @@ public class ForwardListInfo {
     public void setQueue(String queue) {
         Queue = queue;
     }
-
+    @ApiModelProperty(value="POS業務日付", notes="POS業務日付")
     public String getBusinessDayDate() {
         return BusinessDayDate;
     }
@@ -91,7 +95,7 @@ public class ForwardListInfo {
     public void setBusinessDayDate(String businessDayDate) {
         BusinessDayDate = businessDayDate;
     }
-
+    @ApiModelProperty(value="トレーニングフラグ", notes="トレーニングフラグ")
     public String getTrainingFlag() {
         return TrainingFlag;
     }
@@ -99,7 +103,7 @@ public class ForwardListInfo {
     public void setTrainingFlag(String trainingFlag) {
         TrainingFlag = trainingFlag;
     }
-
+    @ApiModelProperty(value="取引時刻", notes="取引時刻")
     public String getBusinessDateTime() {
         return BusinessDateTime;
     }
@@ -107,7 +111,7 @@ public class ForwardListInfo {
     public void setBusinessDateTime(String businessDateTime) {
         BusinessDateTime = businessDateTime;
     }
-
+    @ApiModelProperty(value="担当者コード", notes="担当者コード")
     public String getOperatorId() {
         return OperatorId;
     }
@@ -115,7 +119,7 @@ public class ForwardListInfo {
     public void setOperatorId(String operatorId) {
         OperatorId = operatorId;
     }
-
+    @ApiModelProperty(value="担当者名", notes="担当者名")
     public String getOperatorName() {
         return OperatorName;
     }
@@ -123,7 +127,7 @@ public class ForwardListInfo {
     public void setOperatorName(String operatorName) {
         OperatorName = operatorName;
     }
-
+    @ApiModelProperty(value="取引合計金額", notes="取引合計金額")
     public String getSalesTotalAmt() {
         return SalesTotalAmt;
     }
@@ -131,7 +135,7 @@ public class ForwardListInfo {
     public void setSalesTotalAmt(String salesTotalAmt) {
         SalesTotalAmt = salesTotalAmt;
     }
-
+    @ApiModelProperty(value="取引状態", notes="取引状態")
     public String getStatus() {
         return Status;
     }

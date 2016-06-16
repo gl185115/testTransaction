@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * @author 
@@ -13,6 +16,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "SubtotalDiscount")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="SubtotalDiscount")
 public class SubtotalDiscount extends ResultBase {
 	
 	/*This list is used to save SubtotalDiscount information*/
@@ -24,6 +28,7 @@ public class SubtotalDiscount extends ResultBase {
 	 *
 	 * @return the sales person list
 	 */
+    @ApiModelProperty(value="è¨åväÑà¯", notes="è¨åväÑà¯")
     public final SubtotalDiscountInfo[] getSubtotalDiscount() {
         return SubtotalDiscount;
     }

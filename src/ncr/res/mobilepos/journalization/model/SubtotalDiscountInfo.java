@@ -5,12 +5,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * SubtotalDiscount info
  * Model for SubtotalDiscount information.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SubtotalDiscountInfo")
+@ApiModel(value="SubtotalDiscountInfo")
 public class SubtotalDiscountInfo {
 
 	/* the DiscountReason */
@@ -26,6 +30,7 @@ public class SubtotalDiscountInfo {
 	 *
 	 * @return the discountReason
 	 */
+    @ApiModelProperty(value="割引の理由", notes="割引の理由")
     public String getDiscountReason() {
         return DiscountReason;
     }
@@ -45,6 +50,7 @@ public class SubtotalDiscountInfo {
    	 *
    	 * @return the discountReasonName
    	 */
+    @ApiModelProperty(value="割引の理由の名", notes="割引の理由の名")
     public String getDiscountReasonName() {
         return DiscountReasonName;
     }

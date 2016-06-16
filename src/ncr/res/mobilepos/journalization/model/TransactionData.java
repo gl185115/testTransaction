@@ -11,6 +11,10 @@
 package ncr.res.mobilepos.journalization.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElement;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -18,24 +22,29 @@ import ncr.res.mobilepos.model.ResultBase;
  *
  * <P>Encapsulates Transaction's Receipt and POSLog XML.
  */
-@XmlRootElement
+@XmlRootElement(name="TransactionData")
+@ApiModel(value="TransactionData")
 public class TransactionData extends ResultBase {
     /**
      * The Transaction POSLOg XML.
      */
+	@XmlElement(name = "xmlData")
     private String xmlData;
     /**
      * The Transaction Receipt.
      */
+	@XmlElement(name = "receiptData")
     private String receiptData;
     /**
      * The transaction Type.
      */
+	@XmlElement(name = "txType")
     private String txType;
 
     /**
      * Default Constructor.
      */
+	
     public TransactionData() {
     }
 
@@ -57,6 +66,7 @@ public class TransactionData extends ResultBase {
      * Gets the POSLog XML.
      * @return The POSLog XML.
      */
+    @ApiModelProperty(value="xmlデータ", notes="xmlデータ")
     public final String getXmlData() {
         return xmlData;
     }
@@ -71,6 +81,7 @@ public class TransactionData extends ResultBase {
      * Gets the Receipt.
      * @return The Receipt.
      */
+    @ApiModelProperty(value="領収書のデータ", notes="領収書のデータ")
     public final String getReceiptData() {
         return receiptData;
     }
@@ -85,6 +96,7 @@ public class TransactionData extends ResultBase {
      * Gets the Transaction Type.
      * @return Return the Transaction Type.
      */
+    @ApiModelProperty(value="電文種別", notes="電文種別")
     public final String getTxType() {
         return txType;
     }

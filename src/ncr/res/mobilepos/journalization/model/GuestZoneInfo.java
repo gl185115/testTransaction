@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import org.jsefa.xml.annotation.XmlElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * 
  *  @author 
@@ -16,6 +19,7 @@ import org.jsefa.xml.annotation.XmlElement;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "GuestZoneInfo")
+@ApiModel(value="GuestZoneInfo")
 public class GuestZoneInfo {
 	/* the guest id */
 	@XmlElement(name = "GuestCode")
@@ -50,6 +54,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the guest code
 	 */
+	@ApiModelProperty(value="客層コード", notes="客層コード")
 	public String getGuestcode() {
 		return guestcode;
 	}
@@ -69,6 +74,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the guestzone name
 	 */
+	@ApiModelProperty(value="客層名称（", notes="客層名称")
 	public String getGuestzonename() {
 		return guestzonename;
 	}
@@ -88,6 +94,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the guestzone kananname
 	 */
+	@ApiModelProperty(value="客層カナ名称", notes="客層カナ名称")
 	public String getGuestzonekananame() {
 		return guestzonekananame;
 	}
@@ -107,6 +114,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the guestzone kananname
 	 */
+	@ApiModelProperty(value="世代区分", notes="世代区分")
 	public String getGuestgen() {
 		return guestgen;
 	}
@@ -126,6 +134,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the guest sex
 	 */
+	@ApiModelProperty(value="性別区分", notes="性別区分")
 	public String getGuestsex() {
 		return guestsex;
 	}
@@ -145,6 +154,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the guest type
 	 */
+	@ApiModelProperty(value="その他区分", notes="その他区分")
 	public String getGuesttype() {
 		return guesttype;
 	}
@@ -164,6 +174,7 @@ public class GuestZoneInfo {
 	 *
 	 * @return the subcode
 	 */
+	@ApiModelProperty(value="サブコード", notes="サブコード")
 	public String getSubcode() {
 		return subcode;
 	}

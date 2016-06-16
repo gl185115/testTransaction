@@ -10,12 +10,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * Search Guest Order Info
  * Model for search guest order information.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SearchGuestOrderInfo")
+@ApiModel(value="SearchGuestOrderInfo")
 public class SearchGuestOrderInfo {
 
     /*
@@ -315,6 +319,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注番号", notes="客注番号")
     public String getGuestNO() {
         return GuestNO;
     }
@@ -334,6 +339,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="行番号", notes="行番号")
     public String getLine() {
         return Line;
     }
@@ -353,6 +359,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付店舗番号", notes="客注受付店舗番号")
     public String getRetailStoreId() {
         return RetailStoreId;
     }
@@ -372,6 +379,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付日", notes="客注受付日")
     public String getBusinessDate() {
         return BusinessDate;
     }
@@ -391,6 +399,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付日", notes="客注受付日")
     public String getBusinessDateTime() {
         return BusinessDateTime;
     }
@@ -410,6 +419,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付時の取引番号", notes="客注受付時の取引番号")
     public String getTranNo() {
         return TranNo;
     }
@@ -429,6 +439,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付時の端末番号(POS)", notes="客注受付時の端末番号(POS)")
     public String getTerminalNo() {
         return TerminalNo;
     }
@@ -448,6 +459,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付の販売員コード", notes="客注受付の販売員コード")
     public String getOpeCode() {
         return OpeCode;
     }
@@ -467,6 +479,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注受付の販売員名", notes="客注受付の販売員名")
     public String getOpeName() {
         return OpeName;
     }
@@ -486,6 +499,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="会員番号(客注入金時)", notes="会員番号(客注入金時)")
     public String getKaiinNo() {
         return KaiinNo;
     }
@@ -505,6 +519,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="会員番号(客注精算時)", notes="会員番号(客注精算時)")
     public String getKaiinNoSeiSan() {
         return KaiinNoSeiSan;
     }
@@ -524,6 +539,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注区分", notes="客注区分")
     public String getOrderKbn() {
         return OrderKbn;
     }
@@ -543,6 +559,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード", notes="商品コード")
     public String getMdInternal() {
         return MdInternal;
     }
@@ -562,6 +579,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(1)   類番(3桁)", notes="商品コード(1)   類番(3桁)")
     public String getMd1() {
         return Md1;
     }
@@ -581,6 +599,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(2)   型番(2桁)", notes="商品コード(2)   型番(2桁)")
     public String getMd2() {
         return Md2;
     }
@@ -600,6 +619,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(3)   生地番(3桁)", notes="商品コード(3)   生地番(3桁)")
     public String getMd3() {
         return Md3;
     }
@@ -619,6 +639,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(4)   色番(2桁)", notes="商品コード(4)   色番(2桁)")
     public String getMd4() {
         return Md4;
     }
@@ -638,6 +659,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(5)   体型(2桁)", notes="商品コード(5)   体型(2桁)")
     public String getMd5() {
         return Md5;
     }
@@ -657,6 +679,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(6)   サイズ(4桁)", notes="商品コード(6)   サイズ(4桁)")
     public String getMd6() {
         return Md6;
     }
@@ -667,6 +690,7 @@ public class SearchGuestOrderInfo {
      * @param the
      *            Md6 field the value.
      */
+
     public void setMd6(String md6) {
         this.Md6 = md6;
     }
@@ -676,6 +700,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(7)   ■未使用■", notes="商品コード(7)   ■未使用■")
     public String getMd7() {
         return Md7;
     }
@@ -695,6 +720,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(8)   ■未使用■", notes="商品コード(8)   ■未使用■")
     public String getMd8() {
         return Md8;
     }
@@ -714,6 +740,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(9)   ■未使用■", notes="商品コード(9)   ■未使用■")
     public String getMd9() {
         return Md9;
     }
@@ -733,6 +760,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品コード(10)   ■未使用■", notes="商品コード(10)   ■未使用■")
     public String getMd10() {
         return Md10;
     }
@@ -752,6 +780,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品名", notes="商品名")
     public String getMdName() {
         return MdName;
     }
@@ -771,6 +800,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注数量", notes="客注数量")
     public String getSalesCnt() {
         return SalesCnt;
     }
@@ -790,6 +820,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注時の上代単価", notes="客注時の上代単価")
     public String getSalesPrice() {
         return SalesPrice;
     }
@@ -809,6 +840,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注時の上代金額", notes="客注時の上代金額")
     public String getSalesAmt() {
         return SalesAmt;
     }
@@ -828,6 +860,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注金額（預かり額）", notes="客注金額（預かり額）")
     public String getDepositAmt() {
         return DepositAmt;
     }
@@ -847,6 +880,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="TEL確認フラグ", notes="TEL確認フラグ")
     public String getTelKakuninFlag() {
         return TelKakuninFlag;
     }
@@ -866,6 +900,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注精算/返金日(営業日付) ", notes="客注精算/返金日(営業日付) ")
     public String getSeisanDate() {
         return SeisanDate;
     }
@@ -885,6 +920,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注精算/返金日(System日付)", notes="客注精算/返金日(System日付)")
     public String getSeisanDateTime() {
         return SeisanDateTime;
     }
@@ -904,6 +940,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="精算時の売価金額", notes="精算時の売価金額")
     public String getCommitSalesAmt() {
         return CommitSalesAmt;
     }
@@ -923,6 +960,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注返金額", notes="客注返金額")
     public String getRepayAmt() {
         return RepayAmt;
     }
@@ -942,6 +980,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="客注残額(客注精算後残額)", notes="客注残額(客注精算後残額)")
     public String getBalanceAmt() {
         return BalanceAmt;
     }
@@ -961,6 +1000,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="精算状態", notes="精算状態")
     public String getStatusCode() {
         return StatusCode;
     }
@@ -980,6 +1020,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="POS使用中フラグ", notes="POS使用中フラグ")
     public String getPOSFlag() {
         return POSFlag;
     }
@@ -999,6 +1040,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="PLU未登録Flag", notes="PLU未登録Flag")
     public String getPluFlag() {
         return PluFlag;
     }
@@ -1018,6 +1060,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="簡易メモ", notes="簡易メモ")
     public String getMemo() {
         return Memo;
     }
@@ -1037,6 +1080,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="もらった商品（1）", notes="もらった商品（1）")
     public String getMerchandiseHierarchy1() {
         return MerchandiseHierarchy1;
     }
@@ -1056,6 +1100,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="もらった商品（2）", notes="もらった商品（2）")
     public String getMerchandiseHierarchy2() {
         return MerchandiseHierarchy2;
     }
@@ -1075,6 +1120,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="もらった商品（3）", notes="もらった商品（3）")
     public String getMerchandiseHierarchy3() {
         return MerchandiseHierarchy3;
     }
@@ -1094,6 +1140,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="もらった商品（4）", notes="もらった商品（4）")
     public String getMerchandiseHierarchy4() {
         return MerchandiseHierarchy4;
     }
@@ -1113,6 +1160,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="もらった商品（5）", notes="もらった商品（5）")
     public String getMerchandiseHierarchy5() {
         return MerchandiseHierarchy5;
     }
@@ -1132,6 +1180,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="課税区分", notes="課税区分")
     public String getTaxType() {
         return TaxType;
     }
@@ -1151,6 +1200,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="売上外商品Flag", notes="売上外商品Flag")
     public String getPosMdType() {
         return PosMdType;
     }
@@ -1170,6 +1220,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="在庫更新区分", notes="在庫更新区分")
     public String getTagType() {
         return TagType;
     }
@@ -1189,6 +1240,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="商品Id", notes="商品Id")
     public String getKeyPlu() {
         return KeyPlu;
     }
@@ -1208,6 +1260,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="ポイント計算用P/S区分", notes="ポイント計算用P/S区分")
     public String getMdType() {
         return MdType;
     }
@@ -1227,6 +1280,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="JANコード", notes="JANコード")
     public String getPlu() {
         return Plu;
     }
@@ -1246,6 +1300,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="フラグ（1）", notes="フラグ（1）")
     public String getFlag1() {
         return Flag1;
     }
@@ -1265,6 +1320,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="フラグ（2）", notes="フラグ（2）")
     public String getFlag2() {
         return Flag2;
     }
@@ -1278,12 +1334,12 @@ public class SearchGuestOrderInfo {
     public void setFlag2(String flag2) {
         this.Flag2 = flag2;
     }
-
-    /**
+	/**
      * Getter for the Type1.
      * 
      * @return String
      */
+    @ApiModelProperty(value="タイプ（1）", notes="タイプ（1）")
     public String getType1() {
         return Type1;
     }
@@ -1303,6 +1359,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="タイプ（2）", notes="タイプ（2）")
     public String getType2() {
         return Type2;
     }
@@ -1322,6 +1379,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="挿入日付", notes="挿入日付")
     public String getInsDate() {
         return InsDate;
     }
@@ -1341,6 +1399,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="更新日付", notes="更新日付")
     public String getUpdDate() {
         return UpdDate;
     }
@@ -1360,6 +1419,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="更新アプリケーションID", notes="更新アプリケーションID")
     public String getUpdAppId() {
         return UpdAppId;
     }
@@ -1379,6 +1439,7 @@ public class SearchGuestOrderInfo {
      * 
      * @return String
      */
+    @ApiModelProperty(value="更新担当者コード", notes="更新担当者コード")
     public String getUpdOpeCode() {
         return UpdOpeCode;
     }
@@ -1396,6 +1457,7 @@ public class SearchGuestOrderInfo {
 	/**
 	 * @return the departmentName
 	 */
+    @ApiModelProperty(value="部署名", notes="部署名")
 	public DepartmentName getDepartmentName() {
 		return DepartmentName;
 	}

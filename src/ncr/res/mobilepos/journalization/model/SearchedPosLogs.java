@@ -18,6 +18,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionSearch;
 import ncr.res.mobilepos.model.ResultBase;
@@ -36,6 +39,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "POSLogs")
 @XmlSeeAlso({ PosLog.class })
+@ApiModel(value="SearchedPosLogs")
 public class SearchedPosLogs extends ResultBase {
 
 	/**
@@ -54,6 +58,7 @@ public class SearchedPosLogs extends ResultBase {
      */
     @XmlElementWrapper(name = "POSLogList")
     @XmlElementRef()
+   
     private List<TransactionSearch> posLogs;
 
     /**
@@ -61,6 +66,7 @@ public class SearchedPosLogs extends ResultBase {
      *
      * @return the pos logs
      */
+    @ApiModelProperty(value="posLogs", notes="posLogs")
     public final List<TransactionSearch> getPosLogs() {
         return posLogs;
     }

@@ -13,6 +13,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -33,6 +39,7 @@ import ncr.res.mobilepos.store.resource.StoreResource;
  * バージョン         改定日付       担当者名           改定内容
  * 1.01               2014.12.11     LiQian             DIV存在チェックを対応
  */
+import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 /**
  *
@@ -40,6 +47,7 @@ import ncr.res.mobilepos.store.resource.StoreResource;
  * @author RD185102
  */
 @Path("/departmentinfo")
+@Api(value="/departmentinfo", description="部門情報API")
 public class DepartmentResource {
 	/**
      * context.
@@ -109,9 +117,16 @@ public class DepartmentResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="部門を削除する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_DPTMT_OK, message="成功コード"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_DPTMT_NOT_EXIST, message="部門が存在しない"),
+    })
     public final ResultBase deleteDepartment(
-            @FormParam("retailstoreid") final String storeid,
-            @FormParam("departmentid") final String dptid) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+    		@ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String dptid) {
 
         tp.methodEnter("deleteDepartment");
         tp.println("StoreID", storeid).println("DepartmentID", dptid);
@@ -157,10 +172,18 @@ public class DepartmentResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="有効な部門情報を検索する", response=ViewDepartment.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門コード未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    })
     public final ViewDepartment selectDepartmentDetail(
-    		@QueryParam("companyid") final String companyID,
-            @QueryParam("retailstoreid") final String retailStoreID,
-            @QueryParam("departmentid") final String departmentID) {
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyID,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentID) {
 
         tp.methodEnter("selectDepartmentDetail");
         tp.println("CompanyID", companyID)
@@ -218,11 +241,17 @@ public class DepartmentResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="有効な部門情報取得", response=DepartmentList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    })
     public final DepartmentList listDepartments(
-            @QueryParam("retailstoreid") final String storeId,
-            @QueryParam("key") final String key,
-            @QueryParam("name") final String name,
-            @QueryParam("limit") final int limit) {
+    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("retailstoreid") final String storeId,
+    		@ApiParam(name="key", value="部門コード") @QueryParam("key") final String key,
+    		@ApiParam(name="name", value="部門名称") @QueryParam("name") final String name,
+    		@ApiParam(name="limit", value="制限条数") @QueryParam("limit") final int limit) {
 
         String functionName = "DepartmentResource.listDepartments";
 
@@ -343,10 +372,17 @@ public class DepartmentResource {
         @Path("/maintenance")
         @POST
         @Produces({MediaType.APPLICATION_JSON })
+        @ApiOperation(value="部門情報更新", response=ViewDepartment.class)
+        @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_DPTMT_NOT_EXIST, message="部門存しない"),
+            @ApiResponse(code=ResultBase.RES_DPTMT_NOTACTIVE, message="無効な部門"),
+        })
         public final ViewDepartment updateDepartment(
-          @FormParam("retailstoreid") final String retailStoreID,
-          @FormParam("departmentid") final String departmentID,
-          @FormParam("department") final String jsonDepartment) {
+          @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+          @ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String departmentID,
+          @ApiParam(name="department", value="部門情報(json)") @FormParam("department") final String jsonDepartment) {
 
             tp.methodEnter("updateDepartment");
             tp.println("RetailStoreID", retailStoreID).println("DepartmentID",
@@ -400,9 +436,17 @@ public class DepartmentResource {
         @Path("/getDepartmentInfo")
         @GET
         @Produces({ MediaType.APPLICATION_JSON })
+        @ApiOperation(value="部門情報取得", response=ViewDepartment.class)
+        @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        })
         public final ViewDepartment getDepartmentInfo(
-                @QueryParam("retailstoreid") final String retailStoreID,
-                @QueryParam("departmentid") final String departmentID) {
+        		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+        		@ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentID) {
 
       	  String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);

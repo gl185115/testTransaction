@@ -302,6 +302,7 @@ res.model = res.model || {};
 						if (i < this.items.length){
 							var cat = this.categories[category][res.ui.root.language];
 							this.items[i].locations += cat ? cat + "(" + (x * 4 + y + 1) + ") " : "(" + (x * 4 + y + 1) + ") ";
+							this.items[i].locations += "<br>";
 						}
 					}
 				}

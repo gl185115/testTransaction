@@ -193,7 +193,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 			indexTask = effectiveSample[k];
 			if (indexTask == undefined || indexTask.target == undefined) continue;
 			var iTarget = indexTask.target;
-			if (iTarget.store.toLowerCase() == "all" || iTarget.store == "全店") {
+			if (iTarget.store.toLowerCase() == "all" || iTarget.store == "全店舗") {
 				for (var j = k + 1; j < effectiveSample.length; j++) {
 					pickListResources["obsolete"].push(effectiveSample[j]);
 					pickListResources["effective"].splice(j, 1);
@@ -228,7 +228,7 @@ res.ui.controller("menu", ["$scope", "$rootScope", function($scope, $rootScope){
 						if (groupEntries[m] == storeEntries[n].storeId) {
 							for (var d = k + 1; d < effectiveSample.length; d++) {
 								var deleteTask = effectiveSample[d];
-								if (!(deleteTask.target.store.toLowerCase() == "all" || deleteTask.target.store == "全店")
+								if (!(deleteTask.target.store.toLowerCase() == "all" || deleteTask.target.store == "全店舗")
 										&& deleteTask.target.store == storeEntries[n].entryNameJa) {
 									pickListResources["obsolete"].push(effectiveSample[d]);
 									pickListResources["effective"].splice(d, 1);

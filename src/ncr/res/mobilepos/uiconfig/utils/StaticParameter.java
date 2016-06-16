@@ -122,8 +122,8 @@ public class StaticParameter {
 	public static final String key_all = "all";
 	public static final String key_store = "store";
 	public static final String key_group = "group";
-	public static final String key_all_str = "‘S“X";
-	public static final String key_store_str = "ŒÂ“X";
+	public static final String key_all_str = "‘S“X•Ü";
+	public static final String key_store_str = "ŒÂ•Ê“X•Ü";
 	public static final String key_group_str = "“X•ÜƒOƒ‹[ƒv";
 	public static final String key_resource = RESConfigEnum.RESOURCE.getValue();
 

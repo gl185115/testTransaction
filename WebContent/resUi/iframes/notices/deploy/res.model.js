@@ -705,13 +705,13 @@ res.model = res.model || {};
 
 							if (taskOld.effective == taskNew.effective && taskOld.filename == taskNew.filename) {
 								var targetOld = taskOld.target;
-								if ((targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店") && taskNew.taskType == "all") {
+								if ((targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店舗") && taskNew.taskType == "all") {
 									toUpdate = true;
 								} else if (targetOld.group && taskNew.taskType == "group") {
 									if (targetOld.group == taskNew.taskEntryName) {
 										toUpdate = true;
 									}
-								} else if (!(targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店") && taskNew.taskType == "store") {
+								} else if (!(targetOld.store.toLowerCase() == "all" || targetOld.store.toLowerCase() == "全店舗") && taskNew.taskType == "store") {
 									if (targetOld.store == taskNew.taskEntryName) {
 										toUpdate = true;
 									}
@@ -757,9 +757,9 @@ res.model = res.model || {};
 			if (!task || !status) return;
 			if (!task.target.store && !task.target.group) return;
 
-			if (task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店")) {
+			if (task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店舗")) {
 				status.total = res.ui.root.model.editTask.deployCategories[0].storeEntries.length;
-				task.target.storeNameJa = "全店";
+				task.target.storeNameJa = "全店舗";
 			} else if (task.target.group) {
 				var groupEntries = res.ui.root.model.editTask.deployCategories[1].storeEntries;
 				for (var i = 0; i < groupEntries.length; i++) {
@@ -769,7 +769,7 @@ res.model = res.model || {};
 						break;
 					}
 				}
-			} else if (!(task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店"))) {
+			} else if (!(task.target.store && (task.target.store.toLowerCase() == "all" || task.target.store == "全店舗"))) {
 				status.total = 1;
 				var storeEntries = res.ui.root.model.editTask.deployCategories[2].storeEntries;
 				for (var i = 0; i < storeEntries.length; i++) {
@@ -797,7 +797,7 @@ res.model = res.model || {};
 //				if (indexTask == undefined || indexTask.target == undefined) continue;
 //				var iTarget = indexTask.target;
 //
-//				if (iTarget.store.toLowerCase() == "all" || iTarget.store == "全店") {
+//				if (iTarget.store.toLowerCase() == "all" || iTarget.store == "全店舗") {
 //					for (var j = k + 1; j < effectiveSample.length; j++) {
 //									this.resources["pickList"]["obsolete"].push(effectiveSample[j]);
 //									this.resources["pickList"]["effective"].splice(j, 1);
@@ -832,7 +832,7 @@ res.model = res.model || {};
 //							if (groupEntries[m] == storeEntries[n].storeId) {
 //								for (var d = k + 1; d < effectiveSample.length; d++) {
 //									var deleteTask = effectiveSample[d].task;
-//									if (!(deleteTask.target.store.toLowerCase() == "all" || deleteTask.target.store == "全店")
+//									if (!(deleteTask.target.store.toLowerCase() == "all" || deleteTask.target.store == "全店舗")
 //											&& deleteTask.target.store == storeEntries[n].entryNameJa) {
 //										this.resources["pickList"]["obsolete"].push(effectiveSample[d]);
 //														this.resources["pickList"]["effective"].splice(d, 1);

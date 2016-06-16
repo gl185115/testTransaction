@@ -7,6 +7,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * @author 
@@ -15,6 +19,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "EventList")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="EventList")
 public class EventList extends ResultBase {
     
 	/*
@@ -29,6 +34,7 @@ public class EventList extends ResultBase {
 	/**
 	 * @return the eventDetails
 	 */
+	@ApiModelProperty(value="イベントの詳細を得てください", notes="イベントの詳細を得てください")
 	public List<EventDetail> getEventDetails() {
 		return eventDetails;
 	}

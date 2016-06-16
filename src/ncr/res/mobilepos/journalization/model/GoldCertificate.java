@@ -7,9 +7,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 @XmlRootElement(name = "GoldCertificate")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="GoldCertificate")
 public class GoldCertificate extends ResultBase {
 	
     @XmlElement(name = "GoldCertificateInfo")
@@ -18,6 +22,7 @@ public class GoldCertificate extends ResultBase {
 	/**
 	 * @return the goldCertificateInfo
 	 */
+    @ApiModelProperty(value="ã‡éëäièÓïÒ", notes="ã‡éëäièÓïÒ")
 	public final List<GoldCertificateInfo> getGoldCertificateInfo() {
 		return goldCertificateInfo;
 	}

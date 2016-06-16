@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="EventDetail")
+@ApiModel(value="EventDetail")
 public class EventDetail{
 	
 	@XmlElement(name="EventId")
@@ -34,6 +38,7 @@ public class EventDetail{
 	/**
 	 * @return the eventId
 	 */
+	@ApiModelProperty(value="イベントコード", notes="イベントコード")
 	public String getEventId() {
 		return eventId;
 	}
@@ -48,6 +53,7 @@ public class EventDetail{
 	/**
 	 * @return the eventName
 	 */
+	 @ApiModelProperty(value="イベント名", notes="イベント名")
 	public String getEventName() {
 		return eventName;
 	}
@@ -63,6 +69,7 @@ public class EventDetail{
 	/**
 	 * @return the startDateId
 	 */
+	@ApiModelProperty(value="始めコード", notes="始めコード")
 	public int getStartDateId() {
 		return startDateId;
 	}
@@ -77,6 +84,7 @@ public class EventDetail{
 	/**
 	 * @return the endDateId
 	 */
+	@ApiModelProperty(value="終瞭コード", notes="終瞭コード")
 	public int getEndDateId() {
 		return endDateId;
 	}
@@ -91,6 +99,7 @@ public class EventDetail{
 	/**
 	 * @return the mdInternal
 	 */
+	@ApiModelProperty(value="商品コード", notes="商品コード")
 	public String getMdInternal() {
 		return mdInternal;
 	}
@@ -105,6 +114,7 @@ public class EventDetail{
 	/**
 	 * @return the salesPrice
 	 */
+	@ApiModelProperty(value="売単価", notes="売単価")
 	public int getSalesPrice() {
 		return salesPrice;
 	}
@@ -120,6 +130,7 @@ public class EventDetail{
 	/**
 	 * @return the eventKbn
 	 */
+	@ApiModelProperty(value="イベント区分", notes="イベント区分")
 	public int getEventKbn() {
 		return eventKbn;
 	}

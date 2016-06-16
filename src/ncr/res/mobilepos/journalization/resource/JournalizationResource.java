@@ -105,6 +105,7 @@ import ncr.res.mobilepos.journalization.model.SequenceNo;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
 /**
  * Journalization Web Resource Class.
@@ -1211,8 +1212,16 @@ public class JournalizationResource {
 		    @Path("/searchReservationList")
 		    @GET
 		    @Produces({ MediaType.APPLICATION_JSON })
+		    @ApiOperation(value="検索予約リスト", response=Reservation.class)
+		    @ApiResponses(value={
+		    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),		    
+		    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
+		    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+		    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+		    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+		    })
 		    public final Reservation searchReservationList(
-		            @QueryParam("reservationId") final String reservationId) {
+		    		@ApiParam(name="reservationId", value="予約コード") @QueryParam("reservationId") final String reservationId) {
 		        String functionName = DebugLogger.getCurrentMethodName();
 		        tp.methodEnter(functionName).println("reservationId", reservationId);
 
@@ -1577,17 +1586,22 @@ public class JournalizationResource {
      @Path("/updatelockstatus")
      @POST
      @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+     @ApiOperation(value="ロックの状態を更新", response=ResultBase.class)
+     @ApiResponses(value={
+     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+     })
      public final ResultBase UpdateLockStatus(
-            @FormParam("Type") String Type,
-            @FormParam("CompanyId") String CompanyId,
-            @FormParam("RetailStoreId") String RetailStoreId,
-            @FormParam("WorkstationId") String WorkstationId,
-            @FormParam("SequenceNumber") int SequenceNumber,
-            @FormParam("BusinessDayDate") String BusinessDayDate,
-            @FormParam("TrainingFlag") int TrainingFlag,
-            @FormParam("CallType") String CallType,
-            @FormParam("AppId") String AppId,
-            @FormParam("UserId") String UserId) {
+    		 @ApiParam(name="Type", value="種別") @FormParam("Type") String Type,
+    		 @ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
+    		 @ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
+    		 @ApiParam(name="WorkstationId", value="POSコード") @FormParam("WorkstationId") String WorkstationId,
+    		 @ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") int SequenceNumber,
+    		 @ApiParam(name="BusinessDayDate", value="POS業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
+    		 @ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") int TrainingFlag,
+    		 @ApiParam(name="CallType", value="呼出し種別") @FormParam("CallType") String CallType,
+    		 @ApiParam(name="AppId", value="プログラムID") @FormParam("AppId") String AppId,
+    		 @ApiParam(name="UserId", value="ユーザID") @FormParam("UserId") String UserId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("Type", Type);
         tp.println("CompanyId", CompanyId);

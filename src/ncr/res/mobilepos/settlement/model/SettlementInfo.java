@@ -7,10 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SettlementInfo")
+@ApiModel(value="SettlementInfo")
 public class SettlementInfo extends ResultBase {
     @XmlElement(name = "CreditInfo")
     private CreditInfo creditInfo;
@@ -23,6 +27,7 @@ public class SettlementInfo extends ResultBase {
     	this.creditInfo = creditInfo;
     }
     
+    @ApiModelProperty(value="クレジット情報", notes="クレジット情報")
     public final CreditInfo getCreditInfo() {
     	return creditInfo;
     }
@@ -31,6 +36,7 @@ public class SettlementInfo extends ResultBase {
     	this.voucherList = voucherList;
     }
     
+    @ApiModelProperty(value="商品券リスト", notes="商品券リスト")
     public final List<VoucherInfo> getVoucherList() {
     	return voucherList;
     }
@@ -38,6 +44,7 @@ public class SettlementInfo extends ResultBase {
     /**
      * @return the txCount
      */
+    @ApiModelProperty(value="取引数", notes="取引数")
     public int getTxCount() {
         return txCount;
     }

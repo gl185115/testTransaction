@@ -99,7 +99,7 @@ public class TillInfoResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="査看ドロワ", response=ViewTill.class)//next time to do
+    @ApiOperation(value="査看ドロワ", response=ViewTill.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),

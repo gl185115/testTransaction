@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
 import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -40,6 +41,7 @@ public class Employees extends ResultBase {
      *
      * @return retailStoreID.
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getRetailtStoreID() {
         return retailtStoreID;
     }
@@ -59,6 +61,7 @@ public class Employees extends ResultBase {
      *
      * @return List of Employee.
      */
+    @ApiModelProperty(value="ユーザー(従業員)リスト", notes="ユーザー(従業員)リスト")
     public final List<Employee> getEmployeeList() {
         return employeeList;
     }

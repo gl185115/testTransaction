@@ -245,7 +245,7 @@ public class TillInfoResource {
     @Path("/maintenance")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="アップデートドロワ", response=ResultBase.class)
+    @ApiOperation(value="アップデートドロワ", response=ViewTill.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効なドロワコード"),
     @ApiResponse(code=ResultBase.RES_STORE_INVALIDPARAMS, message="無効な店舗コード"),

@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 
 /**
  * Sales person info
@@ -16,6 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Salespersoninfo")
+@ApiModel(value="Salespersoninfo")
 public class Salespersoninfo {
 
 	/* the opernate kananame */
@@ -35,6 +39,8 @@ public class Salespersoninfo {
 	 *
 	 * @return the opernate kananame
 	 */
+    
+    @ApiModelProperty(value="カナ氏名", notes="カナ氏名")
     public String getOpeKanaName() {
         return OpeKanaName;
     }
@@ -54,6 +60,8 @@ public class Salespersoninfo {
    	 *
    	 * @return the opernate name
    	 */
+   
+    @ApiModelProperty(value="氏名", notes="氏名")
     public String getOpeName() {
         return OpeName;
     }
@@ -73,6 +81,7 @@ public class Salespersoninfo {
    	 *
    	 * @return the employee code
    	 */
+    @ApiModelProperty(value="担当者コード", notes="担当者コード")
     public String getEmpCode() {
         return EmpCode;
     }

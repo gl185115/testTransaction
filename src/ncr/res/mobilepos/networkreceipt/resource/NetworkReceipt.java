@@ -26,10 +26,18 @@ import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.CMPresetInfos;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
+import ncr.res.mobilepos.xebioapi.model.JSONData;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -51,6 +59,7 @@ import java.util.*;
  *
  */
 @Path("/networkreceipt")
+@Api(value="/networkreceipt", description="領収書印刷API")
 public class NetworkReceipt {
 
     static class NoDataFoundException extends RuntimeException {
@@ -132,16 +141,28 @@ public class NetworkReceipt {
     @Path("/printcreditcardslip/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="クレジットカード印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
+        @ApiResponse(code=ResultBase.RES_OK, message="成功コード"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESNETRECPT_CREDSLIP_INVALID_DATE, message="無効な取引データ"),
+        @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="領収書印刷エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
+    })
     public final ResultBase printCreditCardSlip(
-            @PathParam("txid") final String txid,
-            @FormParam("companyid") final String companyId,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("settlementtermid") final String settlementtermid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("trainingflag") final int trainingFlag,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("language") final String language,
-            @FormParam("businessdate") final String businessDate) {
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="settlementtermid", value="端末番号") @FormParam("settlementtermid") final String settlementtermid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="language", value="言語") @FormParam("language") final String language,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
@@ -327,17 +348,28 @@ public class NetworkReceipt {
     @Path("/printsummaryreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="概要領収書印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IOストリームエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
+    })
     public final ResultBase printSummaryReceipt(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("txdate") final String txDate,
-            @FormParam("retryflag") final String retryflag,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("printerid") final String printerid,
-            @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="txdate", value="取引日付") @FormParam("txdate") final String txDate,
+            @ApiParam(name="retryflag", value="リプリントフラグ") @FormParam("retryflag") final String retryflag,
+            @ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+            @ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
+            @ApiParam(name="printerid", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
@@ -533,16 +565,28 @@ public class NetworkReceipt {
     @Path("/printpointticketreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="ポイントチケット領収書印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="領収書印刷エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IOストリームエラー"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
+    })
     public final ResultBase printPointTicketReceipt(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("retryflag") final String retryflag,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("printerid") final String printerid,
-            @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="retryflag", value="リプリントフラグ") @FormParam("retryflag") final String retryflag,
+    		@ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
@@ -740,22 +784,33 @@ public class NetworkReceipt {
     @Path("/printpaperreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="売上領収書印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IOストリームエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
+    })
     public final ResultBase printNormalReceipt(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("language") final String language,
-            @FormParam("retryflag") final String retryflag,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("receiptforcust") final String receiptForCust,
-            @FormParam("receiptforshop") final String receiptForShop,
-            @FormParam("receipttwoforshop") final String receipttwoforshop,
-            @FormParam("receiptforcardcompany") final String receiptForCardCompany,
-            @FormParam("receiptforcommodityattached") final String receiptForCommodityAttached,
-            @FormParam("printerid") final String printerid,
-            @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="language", value="言語") @FormParam("language") final String language,
+    		@ApiParam(name="retryflag", value="リプリントフラグ") @FormParam("retryflag") final String retryflag,
+    		@ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+    		@ApiParam(name="receiptforcust", value="顧客領収書") @FormParam("receiptforcust") final String receiptForCust,
+    		@ApiParam(name="receiptforshop", value="店舗領収書") @FormParam("receiptforshop") final String receiptForShop,
+    		@ApiParam(name="receipttwoforshop", value="セコンド店舗領収書") @FormParam("receipttwoforshop") final String receipttwoforshop,
+    		@ApiParam(name="receiptforcardcompany", value="カード会社領収書") @FormParam("receiptforcardcompany") final String receiptForCardCompany,
+    		@ApiParam(name="receiptforcommodityattached", value="アタッチ商品領収書") @FormParam("receiptforcommodityattached") final String receiptForCommodityAttached,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
+    		@ApiParam(name="StoreId", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
                 .println("storeNo", storeNo).println("deviceNo", deviceNo)
@@ -1557,17 +1612,28 @@ public class NetworkReceipt {
     @Path("/printvoidpaperreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="取消領収書印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IOストリームエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
+    })
     public final ResultBase printVoidReceipt(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("language") final String language,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("retryflag") final String retryflag,
-            @FormParam("printerid") final String printerid,
-            @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="language", value="言語") @FormParam("language") final String language,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+    		@ApiParam(name="retryflag", value="リプリントフラグ") @FormParam("retryflag") final String retryflag,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
+    		@ApiParam(name="printerid", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
@@ -1811,18 +1877,30 @@ public class NetworkReceipt {
     @Path("/printtendercontrolreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="テンダーコントロール領収書印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IOストリームエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定されたファイル未検出"),
+    })
     public final ResultBase printTenderControlReceipt(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("language") final String language,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("printerid") final String printerid,
-            @FormParam("txprinttype") final String txprinttype,
-            @FormParam("poslogtype") final String poslogtype,
-            @FormParam("trainingflag") final int trainingFlag){
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="language", value="言語") @FormParam("language") final String language,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
+    		@ApiParam(name="txprinttype", value="取引印刷種類") @FormParam("txprinttype") final String txprinttype,
+    		@ApiParam(name="poslogtype", value="poslog情報種類") @FormParam("poslogtype") final String poslogtype,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag){
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)

@@ -123,6 +123,7 @@ public class Operator extends ResultBase {
     /**
      * @return the daysPwdBeforeExpire
      */
+    @ApiModelProperty(value="パスワード有効期", notes="パスワード有効期")
     public final String getDaysPwdBeforeExpire() {
         return daysPwdBeforeExpire;
     }
@@ -147,6 +148,7 @@ public class Operator extends ResultBase {
      *
      * @return passcode of an operator.
      */
+    @ApiModelProperty(value="パスワード", notes="パスワード")
     public final String getPasscode() {
         return passcode;
     }
@@ -166,6 +168,7 @@ public class Operator extends ResultBase {
      *
      * @return date sign-on.
      */
+    @ApiModelProperty(value="ログイン日", notes="ログイン日")
     public final String getDate() {
         return date;
     }
@@ -198,6 +201,7 @@ public class Operator extends ResultBase {
         this.updOpeCode = updOpeCode;
     }
 
+    @ApiModelProperty(value="従業員カナ氏名", notes="従業員カナ氏名")
     public String getOpeNameKana() {
     	return this.opeNameKana;
     }
@@ -210,6 +214,7 @@ public class Operator extends ResultBase {
      *
      * @return datetime when the operator sign-on.
      */
+    @ApiModelProperty(value="ログイン日時", notes="ログイン日時")
     public final String getSignOnAt() {
         return signOnAt;
     }
@@ -228,6 +233,7 @@ public class Operator extends ResultBase {
      *
      * @return response.
      */
+    @ApiModelProperty(value="レスポンス", notes="レスポンス")
     public final String getResponse() {
         return response;
     }
@@ -247,6 +253,7 @@ public class Operator extends ResultBase {
      *
      * @return operator number.
      */
+    @ApiModelProperty(value="従業員番号", notes="従業員番号")
     public final String getOperatorNo() {
         return operatorNo;
     }
@@ -266,6 +273,7 @@ public class Operator extends ResultBase {
      *
      * @return name.
      */
+    @ApiModelProperty(value="従業員氏名", notes="従業員氏名")
     public final String getName() {
         return name;
     }
@@ -295,6 +303,7 @@ public class Operator extends ResultBase {
      * The Getter for Operator Type.
      * @return  The Operator type.
      */
+    @ApiModelProperty(value="従業員区分", notes="従業員区分")
     public final int getOperatorType() {
         return operatorType;
     }
@@ -309,6 +318,7 @@ public class Operator extends ResultBase {
     /**
      * @return the permissions
      */
+    @ApiModelProperty(value="従業員権限情報", notes="従業員権限情報")
     public final Permissions getPermissions() {
         return permissions;
     }
@@ -324,6 +334,7 @@ public class Operator extends ResultBase {
      * get the operator kananame
      * @return opeKananame
      */
+    @ApiModelProperty(value="従業員カナ氏名", notes="従業員カナ氏名")
     public final String getOpeKananame() {
         return opeKananame;
     }
@@ -338,6 +349,7 @@ public class Operator extends ResultBase {
      * get the operator Security level
      * @return securitylevel
      */
+    @ApiModelProperty(value="セキュリティレベル", notes="セキュリティレベル")
     public final String getSecuritylevel() {
         return securitylevel;
     }
@@ -359,6 +371,7 @@ public class Operator extends ResultBase {
         this.authorization = authorization;
     }
 
+    @ApiModelProperty(value="従業員認証権限", notes="従業員認証権限")
     public Authorization getAuthorization() {
         return this.authorization;
     }

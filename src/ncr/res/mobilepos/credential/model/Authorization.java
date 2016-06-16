@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Authorization")
+@ApiModel(value="Authorization")
 public class Authorization {
     /**
      * security level 1 (returns, exchange, cancellation)
@@ -62,6 +66,7 @@ public class Authorization {
      * 
      * @return security level 1
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P", notes="‹–‰Âƒtƒ‰ƒO‚P")
     public boolean isSecLevel1() {
         return secLevel1;
     }
@@ -76,6 +81,7 @@ public class Authorization {
      * 
      * @return security level 2
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚Q", notes="‹–‰Âƒtƒ‰ƒO‚Q")
     public boolean isSecLevel2() {
         return secLevel2;
     }
@@ -90,6 +96,7 @@ public class Authorization {
      * 
      * @return security level 3
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚R", notes="‹–‰Âƒtƒ‰ƒO‚R")
     public boolean isSecLevel3() {
         return secLevel3;
     }
@@ -104,6 +111,7 @@ public class Authorization {
      * 
      * @return security level 4
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚S", notes="‹–‰Âƒtƒ‰ƒO‚S")
     public boolean isSecLevel4() {
         return secLevel4;
     }
@@ -118,6 +126,7 @@ public class Authorization {
      * 
      * @return security level 5
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚T", notes="‹–‰Âƒtƒ‰ƒO‚T")
     public boolean isSecLevel5() {
         return secLevel5;
     }
@@ -132,6 +141,7 @@ public class Authorization {
      * 
      * @return security level 6
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚U", notes="‹–‰Âƒtƒ‰ƒO‚U")
     public boolean isSecLevel6() {
         return secLevel6;
     }
@@ -146,6 +156,7 @@ public class Authorization {
      * 
      * @return security level 7
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚V", notes="‹–‰Âƒtƒ‰ƒO‚V")
     public boolean isSecLevel7() {
         return secLevel7;
     }
@@ -160,6 +171,7 @@ public class Authorization {
      * 
      * @return security level 8
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚W", notes="‹–‰Âƒtƒ‰ƒO‚W")
     public boolean isSecLevel8() {
         return secLevel8;
     }
@@ -174,6 +186,7 @@ public class Authorization {
      * 
      * @return security level 9
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚X", notes="‹–‰Âƒtƒ‰ƒO‚X")
     public boolean isSecLevel9() {
         return secLevel9;
     }
@@ -188,6 +201,7 @@ public class Authorization {
      * 
      * @return security level 10
      */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P‚O", notes="‹–‰Âƒtƒ‰ƒO‚P‚O")
     public boolean isSecLevel10() {
         return secLevel10;
     }

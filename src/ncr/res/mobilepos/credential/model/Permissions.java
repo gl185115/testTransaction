@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * The Model Class containing the User Group Permissions.
  * @author cc185102
@@ -14,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Permissions")
+@ApiModel(value="Permissions")
 public class Permissions {
     /** The Transactions flag. */
     @XmlElement(name = "Transactions")
@@ -36,6 +40,7 @@ public class Permissions {
     /**
      * @return the transactions
      */
+    @ApiModelProperty(value="取引フラグ", notes="取引フラグ")
     public final boolean isTransactions() {
         return transactions;
     }
@@ -48,6 +53,7 @@ public class Permissions {
     /**
      * @return the reports
      */
+    @ApiModelProperty(value="レポートフラグ", notes="レポートフラグ")
     public final boolean isReports() {
         return reports;
     }
@@ -60,6 +66,7 @@ public class Permissions {
     /**
      * @return the settings
      */
+    @ApiModelProperty(value="セットフラグ", notes="セットフラグ")
     public final boolean isSettings() {
         return settings;
     }
@@ -72,6 +79,7 @@ public class Permissions {
     /**
      * @return the merchandise
      */
+    @ApiModelProperty(value="商品販売フラグ", notes="商品販売フラグ")
     public final boolean isMerchandise() {
         return merchandise;
     }
@@ -84,6 +92,7 @@ public class Permissions {
     /**
      * @return the administration
      */
+    @ApiModelProperty(value="管理フラグ", notes="管理フラグ")
     public final boolean isAdministration() {
         return administration;
     }
@@ -96,6 +105,7 @@ public class Permissions {
     /**
      * @return the drawer
      */
+    @ApiModelProperty(value="ドロアフラグ", notes="ドロアフラグ")
     public final boolean isDrawer() {
         return drawer;
     }

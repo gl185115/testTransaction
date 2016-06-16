@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -18,6 +21,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlRootElement(name = "DepartmentList")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso(Department.class)
+@ApiModel(value="DepartmentList")
 public class DepartmentList extends ResultBase {
     /**
      * List of Departments.
@@ -36,6 +40,7 @@ public class DepartmentList extends ResultBase {
      *
      * @return an array list of department.
      */
+    @ApiModelProperty( value="部門情報", notes="部門情報")
     public final List<Department> getDepartments() {
         return departments;
     }
@@ -54,6 +59,7 @@ public class DepartmentList extends ResultBase {
      *
      * @return retailStoreID
      */
+    @ApiModelProperty( value="店舗コード", notes="店舗コード")
     public final String getRetailStoreID() {
         return retailStoreID;
     }

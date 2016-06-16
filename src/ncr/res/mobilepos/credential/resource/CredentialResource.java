@@ -140,8 +140,21 @@ public class CredentialResource {
     @Path("/spart/{operatorno}/signon")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public final Operator credentialSpartLogin(@PathParam("operatorno") final String empCode,
-            @FormParam("passcode") final String passcode, @FormParam("terminalid") final String terminalId) {
+    @ApiOperation(value="SPARTユーザー(従業員)ログイン認証", response=Operator.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_INACTIVE, message="ユーザー無効"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_DELETED, message="ユーザー削除された"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_PASSCODE_INVALID, message="パスワード無効"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_EXPIRED, message="パスワード満期"),
+    })
+    public final Operator credentialSpartLogin(@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String empCode,
+    		@ApiParam(name="passcode", value="パスワード") @FormParam("passcode") final String passcode,
+    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") final String terminalId) {
 
         tp.methodEnter("CcredentialSpartLogIn");
         tp.println("EmpCode", empCode).println("Passcode", passcode).println("TerminalID", terminalId);
@@ -202,7 +215,7 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザ未検出"),
-        @ApiResponse(code=ResultBase.RESCREDL_ERROR_PASSCODE_INVALID, message="パスワード未検出")
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_PASSCODE_INVALID, message="パスワード無効")
     })
     public final Operator requestSignOn(@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String operatorNumber,
             @ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
@@ -458,8 +471,16 @@ public class CredentialResource {
     @Path("/getstatusofoperator/{companyid}/{operatorno}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public final Operator getStatusOfOperator(@PathParam("companyid") final String companyid,
-            @PathParam("operatorno") final String empCode) {
+    @ApiOperation(value="ユーザー(従業員)状態取得", response=Operator.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+        @ApiResponse(code=ResultBase.RESRPT_OK, message="レポート成功")
+    })
+    public final Operator getStatusOfOperator(@ApiParam(name="companyid", value="会社コード") @PathParam("companyid") final String companyid,
+    		@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String empCode) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -513,8 +534,17 @@ public class CredentialResource {
     @Path("/getSystemNameMasterList")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final SystemNameMasterList getSystemNameMasterList(@FormParam("companyId") final String companyId,
-            @FormParam("storeId") final String storeId, @FormParam("nameCategory") final String nameCategory) {
+    @ApiOperation(value="システム名称一覧取得", response=SystemNameMasterList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RESRPT_OK, message="レポート成功"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
+    })
+    public final SystemNameMasterList getSystemNameMasterList(@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
+    		@ApiParam(name="nameCategory", value="名称区分") @FormParam("nameCategory") final String nameCategory) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -675,8 +705,15 @@ public class CredentialResource {
     @Path("/reset")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ResultBase resetOperator(@FormParam("retailstoreid") final String retailstoreid,
-            @FormParam("operatorid") final String operatorno) {
+    @ApiOperation(value="パスワードリセット", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_RESET_FAIL, message="パスワードリセット失敗")
+    })
+    public final ResultBase resetOperator(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
+    		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorno) {
         ResultBase rsBase = new ResultBase();
         String functioname = className + "resetOperator";
 
@@ -735,8 +772,15 @@ public class CredentialResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ViewEmployee viewEmployee(@QueryParam("retailstoreid") final String retailStoreID,
-            @QueryParam("operatorid") final String operatorID) {
+    @ApiOperation(value="ユーザー(従業員)詳細情報取得", response=ViewEmployee.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー(従業員)未検出")
+    })
+    public final ViewEmployee viewEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="operatorid", value="従業員番号") @QueryParam("operatorid") final String operatorID) {
 
         tp.methodEnter("viewEmployee");
         tp.println("retailStoreID", retailStoreID).println("operatorID", operatorID);
@@ -780,8 +824,18 @@ public class CredentialResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ResultBase createEmployee(@FormParam("retailstoreid") final String retailStoreID,
-            @FormParam("operatorid") final String operatorID, @FormParam("employee") final String jsonEmployee) {
+    @ApiOperation(value="ユーザー(従業員)新規作成", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_EXISTS, message="ユーザー(従業員)もう存在")
+    })
+    public final ResultBase createEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorID,
+    		@ApiParam(name="employee", value="従業員情報") @FormParam("employee") final String jsonEmployee) {
 
         tp.methodEnter("createEmployee");
         tp.println("retailStoreID", retailStoreID).println("operatorID", operatorID).println("jsonEmployee",
@@ -844,8 +898,15 @@ public class CredentialResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final ResultBase deleteEmployee(@FormParam("retailstoreid") final String storeId,
-            @FormParam("operatorid") final String operatorId) {
+    @ApiOperation(value="ユーザー(従業員)削除", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE, message="ユーザー(従業員)オンライン"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー(従業員)未検出")
+    })
+    public final ResultBase deleteEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorId) {
 
         tp.methodEnter("deleteEmployee");
         tp.println("storeid", storeId).println("operatorid", operatorId);
@@ -888,9 +949,20 @@ public class CredentialResource {
     @POST
     @Consumes({ MediaType.APPLICATION_FORM_URLENCODED })
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ViewEmployee updateEmployee(@FormParam("retailstoreid") final String retailStoreID,
-            @FormParam("currentoperatorid") final String currentOperatorID,
-            @FormParam("operatorid") final String operatorID, @FormParam("employee") final String employeeJSON) {
+    @ApiOperation(value="ユーザー(従業員)メンテナンス", response=ViewEmployee.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_NO_UPDATE, message="ユーザー(従業員)更新失敗"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE, message="ユーザー(従業員)オンライン"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_EXISTS, message="ユーザー(従業員)もう存在")
+    })
+    public final ViewEmployee updateEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="currentoperatorid", value="現在の従業員番号") @FormParam("currentoperatorid") final String currentOperatorID,
+    		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorID,
+    		@ApiParam(name="employee", value="従業員情報") @FormParam("employee") final String employeeJSON) {
 
         tp.methodEnter("updateEmployee");
         tp.println("retailStoreID", retailStoreID).println("currentOperatorID", currentOperatorID)
@@ -948,8 +1020,18 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/changepasscode/{operatorid}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final ResultBase changePasscode(@PathParam("operatorid") final String operatorID,
-            @FormParam("old") final String oldPasscode, @FormParam("new") final String newPasscode) {
+    @ApiOperation(value="パスワード変更", response=ResultBase.class)
+    @ApiResponses(value={
+    	@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー(従業員)未検出"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_PASSCODE_INVALID, message="パスワード無効"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE, message="ユーザー(従業員)オンライン")
+    })
+    public final ResultBase changePasscode(@ApiParam(name="operatorid", value="従業員番号") @PathParam("operatorid") final String operatorID,
+    		@ApiParam(name="old", value="旧いパスワード") @FormParam("old") final String oldPasscode,
+    		@ApiParam(name="new", value="新しいパスワード") @FormParam("new") final String newPasscode) {
 
         String functionName = "changePasscode";
         tp.methodEnter(functionName).println("operatorid", operatorID).println("old", oldPasscode).println("new",
@@ -994,8 +1076,17 @@ public class CredentialResource {
     @Path("/groups/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ResultBase createGroup(@FormParam("groupcode") final int groupCode,
-            @FormParam("group") final String jsonGroup) {
+    @ApiOperation(value="グループ新規作成", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RESCREDL_ERROR_NG, message="認証用パラメータ可能な無効"),
+        @ApiResponse(code=ResultBase.RES_GROUP_EXISTS, message="グループもう存在")
+    })
+    public final ResultBase createGroup(@ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode,
+    		@ApiParam(name="group", value="グループ情報") @FormParam("group") final String jsonGroup) {
 
         tp.methodEnter("createGroup");
         tp.println("groupCode", groupCode).println("jsonGroup", jsonGroup);
@@ -1045,7 +1136,13 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/groups/delete")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final ResultBase deleteGroup(@FormParam("groupcode") final int groupCode) {
+    @ApiOperation(value="グループ削除", response=ResultBase.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出")
+    })
+    public final ResultBase deleteGroup(@ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode) {
         tp.methodEnter("deleteGroup");
         tp.println("GroupCode", groupCode);
 
@@ -1077,7 +1174,14 @@ public class CredentialResource {
     @Path("groups/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ViewUserGroup viewGroupDetail(@QueryParam("code") final int groupCode) {
+    @ApiOperation(value="グループ詳細情報取得", response=ViewUserGroup.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出")
+    })
+    public final ViewUserGroup viewGroupDetail(@ApiParam(name="code", value="グループコード") @QueryParam("code") final int groupCode) {
 
         tp.methodEnter("viewGroupDetail");
         tp.println("GroupCode", groupCode);
@@ -1117,7 +1221,13 @@ public class CredentialResource {
     @Path("/groups/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final UserGroupList listGroups(@QueryParam("key") final String key) {
+    @ApiOperation(value="グループ一覧取得", response=UserGroupList.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出")
+    })
+    public final UserGroupList listGroups(@ApiParam(name="key", value="グループキー") @QueryParam("key") final String key) {
 
         String functioname = className + ".listGroups";
         tp.methodEnter("listGroups").println("key", key);
@@ -1167,8 +1277,16 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/groups/maintenance")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final ViewUserGroup updateGroup(@FormParam("groupcode") final int groupCode,
-            @FormParam("group") final String jsonGroup) {
+    @ApiOperation(value="グループメンテナンス", response=ViewUserGroup.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    })
+    public final ViewUserGroup updateGroup(@ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode,
+    		@ApiParam(name="group", value="グループ情報") @FormParam("group") final String jsonGroup) {
 
         String functionName = "updateGroup";
         tp.methodEnter(functionName);

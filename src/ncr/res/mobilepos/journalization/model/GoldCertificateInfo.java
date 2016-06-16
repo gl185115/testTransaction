@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="GoldCertificateInfo")
+@ApiModel(value="GoldCertificateInfo")
 public class GoldCertificateInfo{
 	
 	@XmlElement(name="CrCompCode")
@@ -24,6 +28,7 @@ public class GoldCertificateInfo{
 	/**
 	 * @return the crCompCode
 	 */
+	@ApiModelProperty(value="認証会社コード", notes="認証会社コード")
 	public final String getCrCompCode() {
 		return CrCompCode;
 	}
@@ -38,6 +43,7 @@ public class GoldCertificateInfo{
 	/**
 	 * @return the crCompName
 	 */
+	@ApiModelProperty(value="認証会社名", notes="認証会社名")
 	public final String getCrCompName() {
 		return CrCompName;
 	}
@@ -52,6 +58,7 @@ public class GoldCertificateInfo{
 	/**
 	 * @return the crCompKanaName
 	 */
+	@ApiModelProperty(value="認証会社氏名", notes="認証会社氏名")
 	public final String getCrCompKanaName() {
 		return CrCompKanaName;
 	}
@@ -66,6 +73,7 @@ public class GoldCertificateInfo{
 	/**
 	 * @return the subcode1
 	 */
+	@ApiModelProperty(value="属性コード1", notes="属性コード1")
 	public final String getSubcode1() {
 		return Subcode1;
 	}

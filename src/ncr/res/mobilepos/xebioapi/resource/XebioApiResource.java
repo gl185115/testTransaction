@@ -14,6 +14,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
@@ -26,12 +32,14 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.Item;
+import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.xebioapi.constants.XebioApiConstants;
 import ncr.res.mobilepos.xebioapi.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 
     @Path("/xebioapi")
+    @Api(value="/xebioapi", description="XebioAPI")
     public class XebioApiResource {
 
         /** A private member variable used for the servlet context. */
@@ -58,7 +66,18 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
     @Path("/updateSalesCharge")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData salesChargeUpdateAPI(@FormParam("Data") String Data) {
+    @ApiOperation(value="販売手数料更新", response=JSONData.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),  
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+    @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+    @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    
+    })
+    public final JSONData salesChargeUpdateAPI(@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -124,7 +143,18 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
     @Path("/getSalesCharge")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData getSalesChargeAPI(@FormParam("Data") String Data) {
+    @ApiOperation(value="販売手数料", response=JSONData.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),  
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+    @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+    @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    
+    })
+    public final JSONData getSalesChargeAPI(@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -195,9 +225,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getTransactionReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="業務報告を得", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),  
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getTransactionReport(
-                @FormParam("apiData") String apiData,
-                @FormParam("reportType") String reportType) {
+        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData,
+        		@ApiParam(name="reportType", value="レポートのタイプ") @FormParam("reportType") String reportType) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
@@ -278,7 +318,17 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getCashInOutReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        public final JSONData getCashInOutReport(@FormParam("apiData") String apiData) {
+        @ApiOperation(value="査看ドロワ", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
+        public final JSONData getCashInOutReport(@ApiParam(name="apiData", value="APIデータ")  @FormParam("apiData") String apiData) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
@@ -342,9 +392,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getGroupReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="グループ報告書", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),                        
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),                                     
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),       
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getGroupReport(
-                @FormParam("apiData") String apiData,
-                @FormParam("reportType") String reportType) {
+        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData,
+        		@ApiParam(name="reportType", value="レポートのタイプ") @FormParam("reportType") String reportType) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
@@ -412,10 +472,23 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
          *            the api Data
          * @return the Operation report
          */
+       
+        
+        
         @Path("/getOperationReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        public final JSONData getOperationReport(@FormParam("apiData") String apiData) {
+        @ApiOperation(value="動作報告を得てください", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
+        public final JSONData getOperationReport(@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("apiData", apiData);
@@ -479,9 +552,20 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/list")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="トランザクションデータを取得する", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),       
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getTransaction(
-                @FormParam("APIType") String APIType,
-                @FormParam("JournalData") String JournalData) {
+        		@ApiParam(name="APIType", value="APIタイプ") @FormParam("APIType") String APIType,
+        		@ApiParam(name="JournalData", value="ジャーナルデータ") @FormParam("JournalData") String JournalData) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("APIType", APIType);
@@ -563,8 +647,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/hhtUpdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="更新HTT取引明細", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),       
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData hhtUpdate(
-                @FormParam("Data") String Data) {
+        		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("Data", Data);
@@ -640,7 +735,18 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/gethhtinfo")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        public final JSONData getHHTInfo(@FormParam("param") String param) {
+        @ApiOperation(value="得HTT取引明細や建設データ", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),       
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
+        public final JSONData getHHTInfo(@ApiParam(name="param", value="パラメータ") @FormParam("param") String param) {
 
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
@@ -809,6 +915,16 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/PendingTran")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="実行中のトランザクションデータを取得する", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),       
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getPendingTranInfo(
             @FormParam("Data") String Data){
 
@@ -878,8 +994,20 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpricingsearch")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="取得価格検索", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_ITEMIDNOTFOUND, message="指定の商品IDは取得しない"),  
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getPricingSearch(
-            @FormParam("Data") String Data) {
+        		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
         	
         	String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
@@ -951,7 +1079,18 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpendingtranupdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        public final JSONData getPendingTranUpdate(@FormParam("apiData") String apiData){
+        @ApiOperation(value="実行中のトランザクションの更新を取得", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
+        public final JSONData getPendingTranUpdate(@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName).println("apiData",apiData);
             JSONData jsonData = new JSONData();
@@ -1016,8 +1155,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpremiumitemstore")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="プレミアム・アイテム店", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getPremiumItemStore(
-                @FormParam("apiData") String apiData){
+        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName)
             .println("apiData",apiData);
@@ -1083,8 +1233,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpremiumitemstoreupdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="プレミアムアイテム更新", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getPremiumItemStoreUpdate(
-                @FormParam("apiData") String apiData) {
+        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData) {
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName).println("apiData", apiData);
             JSONData jsonData = new JSONData();
@@ -1153,8 +1314,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getslipno")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="高級プロジェクト記憶情報", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getSlipNo(
-                @FormParam("apiData") String apiData){
+        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName)
             .println("apiData",apiData);
@@ -1220,8 +1392,19 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getslipnoupdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="高級プロジェクト記憶情報", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+        @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
         public final JSONData getSlipNoUpdate(
-                @FormParam("apiData") String apiData){
+        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
             String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName)
             .println("apiData",apiData);

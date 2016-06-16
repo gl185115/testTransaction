@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -14,6 +17,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "ViewUserGroup")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="ViewUserGroup")
 public class ViewUserGroup extends ResultBase {
 
     /**
@@ -34,6 +38,7 @@ public class ViewUserGroup extends ResultBase {
      * Getter for UserGroup.
      * @return  userGroup   UserGroup instance.
      */
+    @ApiModelProperty(value="グループ情報", notes="グループ情報")
     public final UserGroup getUserGroup() {
         return userGroup;
     }

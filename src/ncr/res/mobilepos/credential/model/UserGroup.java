@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * holds the data for a User Group.
  * @author AP185142
@@ -14,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Group")
+@ApiModel(value="UserGroup")
 public class UserGroup {
     /**
      * The GroupCode.
@@ -26,6 +30,7 @@ public class UserGroup {
      *
      * @return GroupCode
      */
+    @ApiModelProperty(value="グループコード", notes="グループコード")
     public final int getGroupCode() {
         return groupcode;
     }
@@ -51,6 +56,7 @@ public class UserGroup {
      *
      * @return GroupName
      */
+    @ApiModelProperty(value="グループ名称", notes="グループ名称")
     public final String getGroupName() {
         return groupname;
     }
@@ -76,6 +82,7 @@ public class UserGroup {
      *
      * @return Transaction
      */
+    @ApiModelProperty(value="取引フラグ", notes="取引フラグ")
     public final boolean isTransaction() {
         return transaction;
     }
@@ -101,6 +108,7 @@ public class UserGroup {
      *
      * @return Reports
      */
+    @ApiModelProperty(value="レポートフラグ", notes="レポートフラグ")
     public final boolean isReports() {
         return reports;
     }
@@ -126,6 +134,7 @@ public class UserGroup {
      *
      * @return Settings
      */
+    @ApiModelProperty(value="セットフラグ", notes="セットフラグ")
     public final boolean isSettings() {
         return settings;
     }
@@ -151,6 +160,7 @@ public class UserGroup {
      *
      * @return Merchandise
      */
+    @ApiModelProperty(value="商品販売フラグ", notes="商品販売フラグ")
     public final boolean isMerchandise() {
         return merchandise;
     }
@@ -176,6 +186,7 @@ public class UserGroup {
      *
      * @return Administration
      */
+    @ApiModelProperty(value="管理フラグ", notes="管理フラグ")
     public final boolean isAdministration() {
         return administration;
     }
@@ -201,6 +212,7 @@ public class UserGroup {
      *
      * @return Drawer
      */
+    @ApiModelProperty(value="ドロアフラグ", notes="ドロアフラグ")
     public final boolean isDrawer() {
         return drawer;
     }

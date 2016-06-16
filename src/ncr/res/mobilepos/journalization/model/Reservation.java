@@ -10,6 +10,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * @author 
@@ -19,6 +22,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlRootElement(name = "Reservation")
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlSeeAlso({ SearchGuestOrderInfo.class })
+@ApiModel(value="Reservation")
 public class Reservation extends ResultBase {
     
 	/*
@@ -40,6 +44,8 @@ public class Reservation extends ResultBase {
 	/**
 	 * @return the reservationInfo
 	 */
+    
+    @ApiModelProperty(value="予約情報", notes="予約情報")
 	public List<ReservationInfo> getReservationInfo() {
 		return ReservationInfo;
 	}
@@ -56,6 +62,7 @@ public class Reservation extends ResultBase {
 	/**
 	 * @return the maxLine
 	 */
+	 @ApiModelProperty(value="マックス・ライン", notes="マックス・ライン")
 	public String getMaxLine() {
 		return maxLine;
 	}

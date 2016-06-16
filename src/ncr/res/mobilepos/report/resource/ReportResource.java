@@ -152,7 +152,7 @@ public class ReportResource {
     public final ReportItems getAccountancyReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyid,
     		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeid,
-    		@ApiParam(name="tillid", value="ドロワーID")@QueryParam("tillid") final String tillid,
+    		@ApiParam(name="tillid", value="ドロワーコード")@QueryParam("tillid") final String tillid,
     		@ApiParam(name="language", value="言葉")@QueryParam("language") final String language ) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -2112,19 +2112,33 @@ public class ReportResource {
     @Path("/printCheckAndSettleReport")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="印刷するチェックと解決レポート", response=ReportModes.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
+    		@ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+
+        })
     public final ReportModes printCheckAndSettleReport(
-            @FormParam("companyid") final String companyId,
-            @FormParam("sequenceno") final String sequenceno,
-            @FormParam("reporttype") final String reporttype,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("language") final String language,
-            @FormParam("tillid") final String tillid,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("begindatetime") final String begindatetime,
-            @FormParam("printerid") final String printerid,
-            @FormParam("type") final String type,
-            @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="sequenceno", value="送信管理順序")@FormParam("sequenceno") final String sequenceno,
+    		@ApiParam(name="reporttype", value="レポートタイプ")@FormParam("reporttype") final String reporttype,
+    		@ApiParam(name="deviceid", value="デバイス番号")@FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeNo,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language,
+    		@ApiParam(name="tillid", value="ドロワーコード")@FormParam("tillid") final String tillid,
+    		@ApiParam(name="operatorno", value="従業員番号")@FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="begindatetime", value="POSLogのシステム日時")@FormParam("begindatetime") final String begindatetime,
+    		@ApiParam(name="printerid", value="プリンターID")@FormParam("printerid") final String printerid,
+    		@ApiParam(name="type", value="タイプ")@FormParam("type") final String type,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyid", companyId)
@@ -2740,7 +2754,7 @@ public class ReportResource {
     @ApiOperation(value="プリントする財務報告", response=ResultBase.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
-            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="ネットワーク受信成功コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
@@ -2860,12 +2874,20 @@ public class ReportResource {
     @Path("/printdrawerfinancialreport")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="プリントする引き出し財務報告", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="ネットワーク受信成功コード"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        })
     public final ResultBase printDrawerFinancialReport(
-            @FormParam("companyid") final String companyId,
-            @FormParam("printerid") final String printerID,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("storename") final String storeName,
-            @FormParam("language") final String language) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="printerid", value="プリンターID")@FormParam("printerid") final String printerID,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeNo,
+    		@ApiParam(name="storename", value="店舗名")@FormParam("storename") final String storeName,
+    		@ApiParam(name="language", value="言葉")@FormParam("language") final String language) {
 
         tp.methodEnter("printDrawerFinancialReport");
         tp.println("companyId", companyId)
@@ -3006,7 +3028,7 @@ public class ReportResource {
     @ApiOperation(value="開いた引き出し", response=ResultBase.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="ユーザグループ未検出"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_DRAWER, message="オープンする引き出し失敗"),
             @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
         })

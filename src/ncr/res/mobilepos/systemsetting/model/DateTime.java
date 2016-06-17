@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -14,6 +17,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DateSettings")
+@ApiModel(value="DateTime")
 public class DateTime extends ResultBase {
     /**
      * Represents  the server's current date and time.
@@ -24,6 +28,7 @@ public class DateTime extends ResultBase {
     /**
      * @return the currentDateTime
      */
+    @ApiModelProperty( value="汎用日付", notes="汎用日付")
     public final String getCurrentDateTime() {
         return currentDateTime;
     }

@@ -278,7 +278,7 @@ public class CustomerSearchResource {
     public final CustomerSearchReturnBean getMemberTradeList(
     		@ApiParam(name="cardNo", value="カードコード") @FormParam("cardNo") final String cardNo,
     		@ApiParam(name="tradeDateFrom", value="取引開始日") @FormParam("tradeDateFrom") final String tradeDateFrom,
-    		@ApiParam(name="tradeDateTo", value="取引終瞭日") @FormParam("tradeDateTo") final String tradeDateTo,
+    		@ApiParam(name="tradeDateTo", value="取引終了日") @FormParam("tradeDateTo") final String tradeDateTo,
     		@ApiParam(name="firstResult", value="取引開始位置") @FormParam("firstResult") final String firstResult,
     		@ApiParam(name="maxResult", value="最大カウント") @FormParam("maxResult") final String maxResult,
     		@ApiParam(name="forcedBflag", value="検索フラグ") @FormParam("forcedBflag") final String forcedBflag) {

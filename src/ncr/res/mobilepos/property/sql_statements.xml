@@ -11868,6 +11868,17 @@ insert into txl_offline_credit
   values
     (?, ?, ?, ?, ?, ?, ?, ?, sysdatetime())
 </entry>
+<entry key="get-credit-card-company">
+	SELECT 
+	   CompanyId,
+       CreditCompanyId,
+	   CreditCompanyName,
+       CreditCompanyShortName
+  	FROM
+  	   [RESMaster].[dbo].[MST_COMPINFO]
+  	WHERE
+  	   CompanyId = ?
+</entry>
 <entry key="get-report-items">
     DECLARE
       @companyId varchar(max),

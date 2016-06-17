@@ -27,6 +27,8 @@ import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.credential.dao.SQLServerGroupDAO;
+import ncr.res.mobilepos.creditcard.dao.ICreditCardAbstractDAO;
+import ncr.res.mobilepos.creditcard.dao.SQLServerCreditCardDAO;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customerSearch.dao.SQLServerCustomerSearchDAO;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
@@ -334,5 +336,9 @@ public class SQLServerDAOFactory extends DAOFactory {
 	public ICardInfoDAO getStatusInfo() throws Exception {
 		return new SQLServerCardInfoDAO();
 	}
-
+	
+	@Override
+	public ICreditCardAbstractDAO getCreditCardInfo() throws Exception {
+		return new SQLServerCreditCardDAO();
+	}
 }

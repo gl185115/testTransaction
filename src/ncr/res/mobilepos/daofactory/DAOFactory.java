@@ -23,6 +23,7 @@ import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
 import ncr.res.mobilepos.classinfo.dao.IClassInfoDAO;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
+import ncr.res.mobilepos.creditcard.dao.ICreditCardAbstractDAO;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
 import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
@@ -425,4 +426,6 @@ public abstract class DAOFactory {
     public abstract ICardInfoDAO getMemberInfo() throws Exception;
 
 	public abstract ICardInfoDAO getStatusInfo() throws Exception;
+	
+	public abstract ICreditCardAbstractDAO getCreditCardInfo() throws Exception;
 }

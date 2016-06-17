@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * Model Class containing the list of CM Preset Info.
@@ -26,11 +29,13 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CMPresetInfos")
 @XmlSeeAlso(CMPresetInfo.class)
+@ApiModel(value="CMPresetInfos")
 public class CMPresetInfos extends ResultBase {
     @XmlElementWrapper(name = "CMPresetInfoList")
     @XmlElementRef
     private List<CMPresetInfo> cmPresetInfoList;
 
+    @ApiModelProperty(value="cmプリセット情報リスト", notes="cmプリセット情報リスト")
     public final List<CMPresetInfo> getCMPresetInfoList() {
         return cmPresetInfoList;
     }

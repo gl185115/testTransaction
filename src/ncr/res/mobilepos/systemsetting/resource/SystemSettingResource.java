@@ -8,6 +8,12 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -21,12 +27,14 @@ import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.model.DateTime;
 import ncr.res.mobilepos.systemsetting.model.SystemSetting;
+import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 /**
  * SystemSettingResource class is a web resource which provides support
  * for System Setting.
  */
 @Path("/SystemSettings")
+@Api(value="/SystemSettings", description="システムの設定API")
 public class SystemSettingResource {
 
     /**
@@ -66,12 +74,21 @@ public class SystemSettingResource {
     @Path("/DateSettings/change")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="日付を設定する", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RESSYS_ERROR_INVALID_DATE, message="システムの設定日付は無効"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_INVALID_TIME, message="システムの設定時間は無効"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_INVALID_SKIP, message="システムの設定スキップは無効"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_DATESET_FAIL, message="システム設定データの取得に失敗しました"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase setDateSetting(
-            @FormParam("companyid") final String companyid,
-            @FormParam("storeid") final String storeid,
-            @FormParam("today") final String today,
-            @FormParam("endofday") final String eod,
-            @FormParam("skips") final String skips) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyid,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeid,
+    		@ApiParam(name="today", value="今日")@FormParam("today") final String today,
+    		@ApiParam(name="endofday", value="一日の終わる")@FormParam("endofday") final String eod,
+    		@ApiParam(name="skips", value="スキップ")@FormParam("skips") final String skips) {
         String functionname = "BusinessResource.setDateSetting";
 
         tp.methodEnter("setDateSetting");
@@ -136,9 +153,15 @@ public class SystemSettingResource {
     @POST
     @Path("/DateSettings/get")
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="日付の設定を得る", response=SystemSetting.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RESSYS_ERROR_NO_SETTINGS_FOUND, message="システム設定データが見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final SystemSetting getDateSetting(
-            @FormParam("companyid") final String companyId,
-            @FormParam("storeid") final String storeId) {
+    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeId) {
         String functionname = "SystemSettingResource.getDateSetting";
         DateSetting dateSetting;
         SystemSetting systemSetting = new SystemSetting();
@@ -217,6 +240,11 @@ public class SystemSettingResource {
     @GET
     @Path("/DateSettings/getcurrentdatetime")
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="汎用日付を得る", response=DateTime.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_OK, message="一般OK"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final DateTime getCurrentDateTime() {
         String functionname = "SystemSettingResource.getCurrentDateTime";
         tp.methodEnter("getCurrentDateTime");

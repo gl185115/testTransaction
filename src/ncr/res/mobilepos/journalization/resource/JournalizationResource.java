@@ -315,7 +315,7 @@ public class JournalizationResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引のデータが見つからない"),   
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="無効のパラメータ"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),  
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final SearchedPosLog getPOSLogTransactionByNumber(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyid") final String companyid,
@@ -664,7 +664,6 @@ public class JournalizationResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="ドロワがすでに存在しています")
     })
     public final GuestZone getGuestZoneList() {
@@ -717,8 +716,7 @@ public class JournalizationResource {
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="パラメーターが無効です。"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
-    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです") 
+    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
     })
     public final SearchGuestOrder getGuestOrderList(
     		@ApiParam(name="guestNo", value="お客様番号") @QueryParam("guestNo") final String guestNo) {
@@ -772,9 +770,7 @@ public class JournalizationResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),
- 
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー") 
     })
     public final Salesperson getSalesPerson(
     		@ApiParam(name="OpeKanaName", value="カナ氏名") @QueryParam("OpeKanaName") final String OpeKanaName) {
@@ -836,8 +832,7 @@ public class JournalizationResource {
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),   
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="無効な店舗コード"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです")
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public SequenceNo getSequenceNo(
     		@ApiParam(name="SequenceTypeId", value="シーケンスタイプコード") @QueryParam("SequenceTypeId") final String SequenceTypeId) {
@@ -914,8 +909,7 @@ public class JournalizationResource {
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),      
-    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     
     })
     public final SearchGuestOrder getAdvancedInfoBySequenceNo(
@@ -985,8 +979,7 @@ public class JournalizationResource {
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),      
-    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     
     })
 	public final GoldCertificate getGoldCertificateType(//CrCompCat ？
@@ -1042,10 +1035,9 @@ public class JournalizationResource {
 	 @ApiOperation(value="イベントリスト", response=EventList.class)
 	    @ApiResponses(value={
 	    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-	    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),   
 	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
 	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
 	    })
 	 public final EventList getEventList(
 			 @ApiParam(name="EventId", value="イベントコード") @QueryParam("EventId") final String eventId,
@@ -1126,7 +1118,6 @@ public class JournalizationResource {
 		    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),   
 		    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_BUSINESSDATEIDCHECKFAILED, message="事件検査の失敗は、営業日と終わり、期日と終わり"),
-		    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_EVENTKBNCHECKFAILED, message="事件の検査失敗はイベント区分が結果のイベント区分に等しい")
 		    
 		    })
@@ -1215,7 +1206,6 @@ public class JournalizationResource {
 		    @ApiOperation(value="検索予約リスト", response=Reservation.class)
 		    @ApiResponses(value={
 		    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),		    
-		    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")

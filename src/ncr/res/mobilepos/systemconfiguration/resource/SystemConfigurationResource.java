@@ -17,6 +17,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.store.model.ViewStore;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
@@ -24,6 +25,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -34,6 +41,7 @@ import java.util.Map.Entry;
  *
  */
 @Path("/systemconfiguration")
+@Api(value="/SystemConfiguration", description="システム配置API")
 public class SystemConfigurationResource {
     /**
      * Servlet Context.
@@ -87,6 +95,10 @@ public class SystemConfigurationResource {
     @GET
     @Produces ({MediaType.APPLICATION_JSON })
     @Path("")
+    @ApiOperation(value="システムの設定を取得する", response=Map.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
+        })
     public final Map<String, Object> getSystemConfiguration() {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

@@ -12,6 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -20,6 +26,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.taxrate.dao.ITaxRateDao;
 import ncr.res.mobilepos.taxrate.dao.SQLServerTaxRateDao;
+import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 /**
  * PromotionResource Class is a Web Resource which support MobilePOS Promotion
@@ -28,6 +35,7 @@ import ncr.res.mobilepos.taxrate.dao.SQLServerTaxRateDao;
  */
 
 @Path("/taxrate")
+@Api(value="/TaxRate", description="消費税率API")
 public class TaxRateResource {
 
     /** A private member variable used for logging the class implementations. */
@@ -61,7 +69,14 @@ public class TaxRateResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/gettaxrate")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final Map<String,String> itemMixMatchInfobySku(@FormParam("businessDate") final String businessdate) {
+    @ApiOperation(value="自社品番によって商品混合情報を得る", response=Map.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final Map<String,String> itemMixMatchInfobySku(
+    		@ApiParam(name="businessDate", value="営業日")@FormParam("businessDate") final String businessdate) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("businessdate", businessdate);
         Map<String,String> map = new HashMap<String,String>();

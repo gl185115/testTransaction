@@ -17,6 +17,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * Model Class containing the list of stores.
@@ -26,6 +29,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Stores")
 @XmlSeeAlso(Store.class)
+@ApiModel(value="Stores")
 public class Stores extends ResultBase {
     /**
      * The List of stores.
@@ -38,6 +42,7 @@ public class Stores extends ResultBase {
      * Get the list of stores.
      * @return  The List of stores.
      */
+    @ApiModelProperty(value="ストアリスト", notes="ストアリスト")
     public final List<Store> getStorelist() {
         return storelist;
     }

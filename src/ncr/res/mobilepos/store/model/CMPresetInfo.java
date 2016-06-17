@@ -14,6 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  *
  * @author EA185055
@@ -21,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Store")
+@ApiModel(value="CMPresetInfo")
 public class CMPresetInfo {    
 	@XmlElement(name = "CompanyId")
 	private String companyId;
@@ -79,6 +83,7 @@ public class CMPresetInfo {
     @XmlElement(name = "Bottom5Message")
     private String bottom5Message;
 
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
     	return companyId;
     }
@@ -87,6 +92,7 @@ public class CMPresetInfo {
     	this.companyId = companyId;
     }
     
+    @ApiModelProperty(value="CMNO", notes="CMNO")
     public final int getCMId() {
         return cmId;
     }
@@ -95,6 +101,7 @@ public class CMPresetInfo {
         this.cmId = cmID;
     }
 
+    @ApiModelProperty(value="CM名称", notes="CM名称")
     public final String getCMName() {
         return cmName;
     }
@@ -103,6 +110,7 @@ public class CMPresetInfo {
         this.cmName = cmName;
     }
 
+    @ApiModelProperty(value="登録区分", notes="登録区分")
     public final String getCMType() {
         return cmType;
     }
@@ -111,6 +119,7 @@ public class CMPresetInfo {
         this.cmType = cmType;
     }
 
+    @ApiModelProperty(value="業態コード", notes="業態コード")
     public final String getBizCatId() {
         return bizCatId;
     }
@@ -119,6 +128,7 @@ public class CMPresetInfo {
         this.bizCatId = bizCatID;
     }
 
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getStoreId() {
         return storeId;
     }
@@ -127,6 +137,7 @@ public class CMPresetInfo {
         this.storeId = storeID;
     }
     
+    @ApiModelProperty(value="POSコード", notes="POSコード")
     public final String getTerminalId() {
         return terminalId;
     }
@@ -135,6 +146,7 @@ public class CMPresetInfo {
         this.terminalId = terminalID;
     }
     
+    @ApiModelProperty(value="CM期間FROM", notes="CM期間FROM")
     public final String getStartDate() {
         return startDate;
     }
@@ -143,6 +155,7 @@ public class CMPresetInfo {
         this.startDate = startDate;
     }
     
+    @ApiModelProperty(value="CM期間TO", notes="CM期間TO")
     public final String getEndDate() {
         return endDate;
     }
@@ -151,6 +164,7 @@ public class CMPresetInfo {
         this.endDate = endDate;
     }
     
+    @ApiModelProperty(value="上段1行目", notes="上段1行目")
     public final String getTop1Message() {
         return top1Message;
     }
@@ -159,6 +173,7 @@ public class CMPresetInfo {
         this.top1Message = top1Message;
     }
     
+    @ApiModelProperty(value="上段2行目", notes="上段2行目")
     public final String getTop2Message() {
         return top2Message;
     }
@@ -167,7 +182,8 @@ public class CMPresetInfo {
         this.top2Message = top2Message;
     }
     
-    public final String getTop3Message() {
+    @ApiModelProperty(value="上段3行目", notes="上段3行目")
+    public final String getTop3Message() {	
         return top3Message;
     }
 
@@ -175,6 +191,7 @@ public class CMPresetInfo {
         this.top3Message = top3Message;
     }
     
+    @ApiModelProperty(value="上段4行目", notes="上段4行目")
     public final String getTop4Message() {
         return top4Message;
     }
@@ -183,6 +200,7 @@ public class CMPresetInfo {
         this.top4Message = top4Message;
     }
     
+    @ApiModelProperty(value="上段5行目", notes="上段5行目")
     public final String getTop5Message() {
         return top5Message;
     }
@@ -191,6 +209,7 @@ public class CMPresetInfo {
         this.top5Message = top5Message;
     }
     
+    @ApiModelProperty(value="下段1行目", notes="下段1行目")
     public final String getBottom1Message() {
         return bottom1Message;
     }
@@ -199,6 +218,7 @@ public class CMPresetInfo {
         this.bottom1Message = bottom1Message;
     }
     
+    @ApiModelProperty(value="下段2行目", notes="下段2行目")
     public final String getBottom2Message() {
         return bottom2Message;
     }
@@ -207,6 +227,7 @@ public class CMPresetInfo {
         this.bottom2Message = bottom2Message;
     }
     
+    @ApiModelProperty(value="下段3行目", notes="下段3行目")
     public final String getBottom3Message() {
         return bottom3Message;
     }
@@ -215,6 +236,7 @@ public class CMPresetInfo {
         this.bottom3Message = bottom3Message;
     }
     
+    @ApiModelProperty(value="下段4行目", notes="下段4行目")
     public final String getBottom4Message() {
         return bottom4Message;
     }
@@ -223,6 +245,7 @@ public class CMPresetInfo {
         this.bottom4Message = bottom4Message;
     }
     
+    @ApiModelProperty(value="下段5行目", notes="下段5行目")
     public final String getBottom5Message() {
         return bottom5Message;
     }

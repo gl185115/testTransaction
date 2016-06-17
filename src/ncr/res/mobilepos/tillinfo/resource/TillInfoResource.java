@@ -104,8 +104,7 @@ public class TillInfoResource {
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています"),
-    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです")
+    @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています")
     })
     public final ViewTill viewTill(
     		@ApiParam(name="storeid", value="店舗コード")  @QueryParam("storeid") final String storeID,
@@ -167,7 +166,6 @@ public class TillInfoResource {
     @ApiResponse(code=ResultBase.RES_STORE_INVALIDPARAMS, message="無効な店舗コード"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),
     @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています")
     })
     public final ResultBase createTill(
@@ -251,7 +249,6 @@ public class TillInfoResource {
     @ApiResponse(code=ResultBase.RES_STORE_INVALIDPARAMS, message="無効な店舗コード"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果はOKです"),
     @ApiResponse(code=ResultBase.RES_TILL_EXISTS, message="ドロワがすでに存在しています")
     })
     public final ViewTill updateTill(
@@ -934,7 +931,6 @@ public class TillInfoResource {
     @ApiOperation(value="得到ドロワ表", response=ViewTill.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-    @ApiResponse(code=ResultBase.RESRPT_OK, message="結果はOKです"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")

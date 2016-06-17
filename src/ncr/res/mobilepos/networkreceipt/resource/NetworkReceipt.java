@@ -143,8 +143,6 @@ public class NetworkReceipt {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="クレジットカード印刷", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
-        @ApiResponse(code=ResultBase.RES_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESNETRECPT_CREDSLIP_INVALID_DATE, message="無効な取引データ"),
@@ -350,7 +348,6 @@ public class NetworkReceipt {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="概要領収書印刷", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
@@ -567,7 +564,6 @@ public class NetworkReceipt {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="ポイントチケット領収書印刷", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
@@ -786,7 +782,6 @@ public class NetworkReceipt {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="売上領収書印刷", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
@@ -1614,7 +1609,6 @@ public class NetworkReceipt {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="取消領収書印刷", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
@@ -1879,7 +1873,6 @@ public class NetworkReceipt {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="テンダーコントロール領収書印刷", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="印刷成功"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),

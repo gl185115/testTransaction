@@ -95,7 +95,7 @@ public class UiConfigResource {
         // 3, Marshals schedule.xml. This file should be provided with UTF-8 encoding.
         Schedule schedule;
         try {
-            schedule = UiConfigHelper.marshallScheduleXml(configProperties.getCustomResourceBasePath() + 
+        	schedule = UiConfigHelper.marshallScheduleXml(configProperties.getCustomResourceBasePath() + 
             		configType.toString() + 
             		configProperties.getScheduleFilePath());
         } catch (IOException ioe) {
@@ -185,7 +185,17 @@ public class UiConfigResource {
                             + " workstationID:" + workstationID);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        Task effectiveTask = effectiveTasks.get(0);
+        Task effectiveTask = new Task();
+        if(effectiveTasks.size()>1){
+        	for(int i=0;i<effectiveTasks.size();i++){
+            	if(effectiveTasks.get(i).getTarget().getStore().equals(storeID)){
+            		 effectiveTask = effectiveTasks.get(i);	
+            	}
+            }
+        }else{
+        	effectiveTask = effectiveTasks.get(0);
+        }
+        
         if (effectiveTask.getFilename() == null) {
             tp.methodExit("schedule.xml: No <filename> in effective <task><target>");
             LOGGER.logAlert(

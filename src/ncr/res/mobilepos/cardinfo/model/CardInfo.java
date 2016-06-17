@@ -7,10 +7,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CardInfo")
+@ApiModel(value="CardInfo")
 public class CardInfo extends ResultBase {
 	@XmlElement(name = "CardClassInfo")
 	private CardClassInfo cardClassInfo;
@@ -20,7 +24,8 @@ public class CardInfo extends ResultBase {
 	public final void setCardClassInfo(CardClassInfo cardClassInfo) {
 		this.cardClassInfo = cardClassInfo;
 	}
-	
+
+	@ApiModelProperty(value="カード区分情報", notes="カード区分情報")
 	public final CardClassInfo getCardClassInfo() {
 		return cardClassInfo;
 	}
@@ -28,7 +33,8 @@ public class CardInfo extends ResultBase {
 	public final void setCardClassInfoList(List<CardClassInfo> cardClassInfoList) {
 		this.cardClassInfoList = cardClassInfoList;
 	}
-	
+
+	@ApiModelProperty(value="カード区分情報リスト", notes="カード区分情報リスト")
 	public final List<CardClassInfo> getCardClassInfoList() {
 		return cardClassInfoList;
 	}

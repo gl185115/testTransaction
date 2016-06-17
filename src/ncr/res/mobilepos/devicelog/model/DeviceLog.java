@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -16,6 +19,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "DeviceLog")
+@ApiModel(value="DeviceLog")
 public class DeviceLog extends ResultBase {
     /**
      * The Log's Row ID.
@@ -42,6 +46,7 @@ public class DeviceLog extends ResultBase {
      * Get the Row ID.
      * @return  The Row ID.
      */
+    @ApiModelProperty( value="列NO", notes="列NO")
     @XmlElement(name = "rowId")
     public final String getRowId() {
         return rowId;
@@ -59,6 +64,7 @@ public class DeviceLog extends ResultBase {
      * Get the Unique Device ID for the Log.
      * @return The Unique Device ID.
      */
+    @ApiModelProperty( value="唯一装置コード", notes="唯一装置コード")
     @XmlElement(name = "udid")
     public final String getUdid() {
         return udid;
@@ -76,6 +82,7 @@ public class DeviceLog extends ResultBase {
      * Get the Log Date.
      * @return  The Log Date.
      */
+    @ApiModelProperty( value="日志日付", notes="日志日付")
     @XmlElement(name = "logDate")
     public final Date getLogDate() {
         return (Date) logDate.clone();
@@ -93,6 +100,7 @@ public class DeviceLog extends ResultBase {
      * Get the upload time.
      * @return  The date and time for Upload.
      */
+    @ApiModelProperty( value="アップロード時刻", notes="アップロード時刻")
     @XmlElement(name = "uploadTime")
     public final Date getUploadTime() {
         return (Date) uploadTime.clone();
@@ -110,6 +118,7 @@ public class DeviceLog extends ResultBase {
      * Get the Last update.
      * @return The last update date.
      */
+    @ApiModelProperty( value="最終更新日時", notes="最終更新日時")
     @XmlElement(name = "lastUpdated")
     public final Date getLastUpdated() {
         return (Date) lastUpdated.clone();

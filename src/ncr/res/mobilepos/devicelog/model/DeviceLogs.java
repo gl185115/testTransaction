@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -16,6 +19,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlType(propOrder = { "udid", "count", "startIndex", "endIndex", "logs" })
 @XmlRootElement(name = "DeviceLogs")
+@ApiModel(value="DeviceLogs")
 public class DeviceLogs extends ResultBase {
     /**
      * The Unique Device ID.
@@ -43,6 +47,7 @@ public class DeviceLogs extends ResultBase {
      * @return  The Unique Device ID.
      */
     @XmlElement(name = "udid")
+    @ApiModelProperty( value="唯一装置コード", notes="唯一装置コード")
     public final String getUdid() {
         return udid;
     }
@@ -59,6 +64,7 @@ public class DeviceLogs extends ResultBase {
      * Get the Start Index.
      * @return  The Start index.
      */
+    @ApiModelProperty( value="スタート索引", notes="スタート索引")
     @XmlElement(name = "startIndex")
     public final int getStartIndex() {
         return startIndex;
@@ -76,6 +82,7 @@ public class DeviceLogs extends ResultBase {
      * Get the End index.
      * @return The End Index.
      */
+    @ApiModelProperty( value="最終索引", notes="最終索引")
     @XmlElement(name = "endIndex")
     public final int getEndIndex() {
         return endIndex;
@@ -93,6 +100,7 @@ public class DeviceLogs extends ResultBase {
      * Get the number of Logs.
      * @return The number of Logs.
      */
+    @ApiModelProperty( value="返されるインデックス数", notes="返されるインデックス数")
     @XmlElement(name = "count")
     public final int getCount() {
         return count;
@@ -110,6 +118,7 @@ public class DeviceLogs extends ResultBase {
      * The Device Logs.
      * @return  The Device Logs.
      */
+    @ApiModelProperty( value="デバイス日志", notes="デバイス日志")
     @XmlElement(name = "DeviceLog")
     @XmlElementWrapper(name = "logs")
     public final DeviceLog[] getLogs() {

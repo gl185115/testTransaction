@@ -119,7 +119,6 @@ public class DepartmentResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="部門を削除する", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_DPTMT_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_DPTMT_NOT_EXIST, message="部門が存在しない"),
@@ -438,7 +437,6 @@ public class DepartmentResource {
         @Produces({ MediaType.APPLICATION_JSON })
         @ApiOperation(value="部門情報取得", response=ViewDepartment.class)
         @ApiResponses(value={
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),

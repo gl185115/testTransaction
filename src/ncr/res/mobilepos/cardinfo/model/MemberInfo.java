@@ -5,10 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "GetMemberInfo")
+@ApiModel(value="MemberInfo")
 public class MemberInfo extends ResultBase {
     @XmlElement(name = "CompanyId")
     private String companyId;
@@ -58,6 +62,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the companyId
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
         return companyId;
     }
@@ -73,6 +78,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the storeId
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getStoreId() {
         return storeId;
     }
@@ -88,6 +94,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberId
      */
+    @ApiModelProperty(value="統合会員コード", notes="統合会員コード")
     public final String getMemberId() {
         return memberId;
     }
@@ -103,6 +110,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the cardCompanyId
      */
+    @ApiModelProperty(value="カード会社コード", notes="カード会社コード")
     public final String getCardCompanyId() {
         return cardCompanyId;
     }
@@ -118,6 +126,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberId1
      */
+    @ApiModelProperty(value="会員コード１", notes="会員コード１")
     public final String getMemberId1() {
         return memberId1;
     }
@@ -133,6 +142,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberId2
      */
+    @ApiModelProperty(value="会員コード２", notes="会員コード２")
     public final String getMemberId2() {
         return memberId2;
     }
@@ -148,6 +158,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the cardType
      */
+    @ApiModelProperty(value="カード区分", notes="カード区分")
     public final String getCardType() {
         return cardType;
     }
@@ -163,6 +174,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberRank
      */
+    @ApiModelProperty(value="会員ランク", notes="会員ランク")
     public final String getMemberRank() {
         return memberRank;
     }
@@ -178,6 +190,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberStatus
      */
+    @ApiModelProperty(value="会員状態コード", notes="会員状態コード")
     public final String getMemberStatus() {
         return memberStatus;
     }
@@ -193,6 +206,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberType
      */
+    @ApiModelProperty(value="会員区分（今回）", notes="会員区分（今回）")
     public final String getMemberType() {
         return memberType;
     }
@@ -208,6 +222,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberTypeNext
      */
+    @ApiModelProperty(value="会員区分（次回）", notes="会員区分（次回）")
     public final String getMemberTypeNext() {
         return memberTypeNext;
     }
@@ -223,6 +238,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the memberTypeUpdDate
      */
+    @ApiModelProperty(value="変更日付（会員区分）", notes="変更日付（会員区分）")
     public final String getMemberTypeUpdDate() {
         return memberTypeUpdDate;
     }
@@ -238,6 +254,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subCode1
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubCode1() {
         return subCode1;
     }
@@ -253,6 +270,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subCode2
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubCode2() {
         return subCode2;
     }
@@ -268,6 +286,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subCode3
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubCode3() {
         return subCode3;
     }
@@ -283,6 +302,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subCode4
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubCode4() {
         return subCode4;
     }
@@ -298,6 +318,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subCode5
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubCode5() {
         return subCode5;
     }
@@ -313,6 +334,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subNum1
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubNum1() {
         return subNum1;
     }
@@ -328,6 +350,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subNum2
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubNum2() {
         return subNum2;
     }
@@ -343,6 +366,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subNum3
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubNum3() {
         return subNum3;
     }
@@ -358,6 +382,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subNum4
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubNum4() {
         return subNum4;
     }
@@ -373,6 +398,7 @@ public class MemberInfo extends ResultBase {
     /**
      * @return the subNum5
      */
+    @ApiModelProperty(value="予約", notes="予約")
     public final String getSubNum5() {
         return subNum5;
     }

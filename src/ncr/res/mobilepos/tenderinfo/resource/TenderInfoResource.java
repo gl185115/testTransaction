@@ -8,6 +8,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -19,6 +25,7 @@ import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 @Path("/tenderinfo")
+@Api(value="/tenderinfo", description="差し出す情報API")
 public class TenderInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -39,8 +46,18 @@ public class TenderInfoResource {
     @Path("/getTenderInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final JSONData getTenderInfo(@QueryParam("CompanyId") final String companyId,
-            @QueryParam("StoreId") final String storeId, @QueryParam("TenderType") final String tenderType) {
+    @ApiOperation(value="差し出す情報を得る", response=JSONData.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
+    		@ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final JSONData getTenderInfo(
+    		@ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="TenderType", value="支払種別")@QueryParam("TenderType") final String tenderType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("TenderType", tenderType);
 
@@ -82,10 +99,18 @@ public class TenderInfoResource {
     @Path("/gettenderinfobytype")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="タイプによって差し出す情報を得る", response=JSONData.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
+    		@ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final JSONData getTenderInfoByType(@QueryParam("CompanyId") final String companyId,
-            @QueryParam("StoreId") final String storeId, 
-            @QueryParam("TenderType") final String tenderType,
-            @QueryParam("TenderId") final String tenderId) {
+    		@ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="TenderType", value="支払種別")@QueryParam("TenderType") final String tenderType,
+    		@ApiParam(name="TenderId", value="種別コード")@QueryParam("TenderId") final String tenderId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                                     .println("TenderType", tenderType).println("TenderId", tenderId);

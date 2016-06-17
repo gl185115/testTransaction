@@ -218,7 +218,6 @@ public class ForwardItemListResource {
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
     @ApiOperation(value="前捌きデータをアップロードする", response=PosLogResp.class)
     @ApiResponses(value={
-    		 @ApiResponse(code=ResultBase.RES_OK, message="成功コード"),
     		 @ApiResponse(code=ResultBase.RES_FORWARD_ITEM_NO_INSERT, message="データ挿入失敗"),
     })
     public final PosLogResp uploadForwardData(
@@ -440,7 +439,6 @@ public class ForwardItemListResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="前捌きデータ一覧取得", response=ResultBase.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
@@ -505,7 +503,6 @@ public class ForwardItemListResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="前捌きデータ数カウント", response=ForwardItemCount.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })

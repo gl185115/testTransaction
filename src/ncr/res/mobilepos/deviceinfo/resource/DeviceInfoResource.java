@@ -171,9 +171,9 @@ public class DeviceInfoResource {
     @Path("/setlinkposterminalid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public final ResultBase setLinkPosTerminalId(
-            @FormParam("storeid") final String storeid,
-            @FormParam("terminalid") final String terminalid,
-            @FormParam("linkposterminalid") final String linkposterminalid) {
+    		@FormParam("storeid") final String storeid,
+    		@FormParam("terminalid") final String terminalid,
+    		@FormParam("linkposterminalid") final String linkposterminalid) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeid", storeid)
@@ -230,10 +230,17 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/setprinterid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="端末番号によると、印刷関係を設定する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターを見つからない")
+    })
     public final ResultBase setPrinterId(
-            @FormParam("retailstoreid") final String storeId,
-            @FormParam("terminalid") final String terminalId,
-            @FormParam("printerid") final String printerId) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("retailstoreid", storeId)
@@ -1679,10 +1686,17 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/setsignaturelink")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="端末に署名リンクを設置する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない")
+    })
     public final ResultBase setSignatureLink(
-            @FormParam("retailstoreid") final String retailstoreid,
-            @FormParam("terminalid") final String terminalid,
-            @FormParam("signaturelink") final String signaturelink) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
+    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalid,
+    		@ApiParam(name="signaturelink", value="署名リンク") @FormParam("signaturelink") final String signaturelink) {
        
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", retailstoreid)
@@ -1738,10 +1752,17 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/setauthorizationlink")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="端末に認可リンクを設置する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない")
+    })
     public final ResultBase setAuthorizationLink(
-            @FormParam("retailstoreid") final String retailStoreId,
-            @FormParam("terminalid") final String terminalId,
-            @FormParam("authorizationlink") final String authorizationLink) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="authorizationlink", value="認可リンク") @FormParam("authorizationlink") final String authorizationLink) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", retailStoreId)
@@ -1800,10 +1821,17 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/setqueuebusterlink")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="端末にBluetoothプリンターリンクを設置する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない")
+    })
     public final ResultBase setQueueBusterLink(
-            @FormParam("retailstoreid") final String storeid,
-            @FormParam("terminalid") final String terminalid,
-            @FormParam("queuebusterlink") final String queuebusterlink) {
+    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalid,
+    		@ApiParam(name="queuebusterlink", value="Bluetoothプリンター") @FormParam("queuebusterlink") final String queuebusterlink) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", storeid)
@@ -1990,10 +2018,17 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/settillid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="ドゥローアを設置する", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効のドゥローアコード")
+    })
     public final ResultBase setTillId(
-            @FormParam("storeid") final String storeId,
-            @FormParam("terminalid") final String terminalId,
-            @FormParam("tillid") final String tillId) {
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="tillid", value="ドゥローアコード") @FormParam("tillid") final String tillId) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("storeid", storeId)
             .println("terminalid", terminalId)

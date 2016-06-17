@@ -586,7 +586,6 @@ public class QueueBusterResource {
     @ApiOperation(value="プロジェクト前のネットワークの方法を削除する", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ"),
-            @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
         })
     public final ResultBase deleteForwardItem(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,

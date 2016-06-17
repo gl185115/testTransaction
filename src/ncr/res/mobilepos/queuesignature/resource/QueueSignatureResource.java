@@ -135,7 +135,6 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
-        @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
     })
     public final SignatureRequestList getSignatureRequestList(
     		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String storeID,
@@ -227,7 +226,6 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_INPROG, message="外部のデータはすでに処理されている"),
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NORMEND, message="外部の処理が正常に終わる"),
-        @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
     })
     public final SignatureRequestBill getSignatureRequest(
     		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String storeid,
@@ -329,7 +327,6 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
             @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
-            @ApiResponse(code=ResultBase.RESEXTCA_OK, message="外部認証の結果が成功する")
         })
     public final ResultBase updateSignatureRequestStatus(
     		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String storeid,

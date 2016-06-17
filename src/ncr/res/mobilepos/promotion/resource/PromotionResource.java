@@ -127,8 +127,7 @@ public class PromotionResource {
     @ApiOperation(value="業務開始", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="入力出力ストリーム発生異常"),
-        @ApiResponse(code=ResultBase.RES_OK, message="ok"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RES_PROMOTION_DATE_INVALID, message="日付と時間は増加して、時間は無効になり")
     })
@@ -200,8 +199,7 @@ public class PromotionResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_PROMOTION_ENDTRANSACTION_FAILED, message="業務が終わって失敗する"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="入力出力ストリーム発生異常"),
-            @ApiResponse(code=ResultBase.RES_OK, message="ok"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_PROMOTION_DATE_INVALID, message="日付と時間は増加して、時間は無効になり")
         })
@@ -292,8 +290,7 @@ public class PromotionResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="指定した事務とは既存の事務とのマッチングはできない"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="入力出力ストリーム発生異常"),
-            @ApiResponse(code=ResultBase.RES_OK, message="ok"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
         })
     public final PromotionResponse itemEntry(
@@ -454,7 +451,7 @@ public class PromotionResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="指定した事務とは既存の事務とのマッチングはできない"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="入力出力ストリーム発生異常"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
         })
     public final PromotionResponse itemMixMatchInfobySku(

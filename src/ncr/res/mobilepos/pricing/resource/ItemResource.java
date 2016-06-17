@@ -805,7 +805,6 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ITEM_ALREADY_EXIST, message="そのプロジェクトのストレージが見つかりませんでした"),
             @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにはいない"),
             @ApiResponse(code=ResultBase.RES_ITEM_STORE_NOT_EXIST, message="そのプロジェクトのストレージを見つける"),
-            @ApiResponse(code=ResultBase.RES_DPTMT_OK, message="結果が正しい"),
             @ApiResponse(code=ResultBase.RES_ITEM_DPT_NOT_EXIST, message="当該プロジェクトの部門を探し当てていない"),
             @ApiResponse(code=ResultBase.RES_ITEM_INVALIDPARAMETER, message="定価サービス中の無効パラメーター"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
@@ -938,7 +937,6 @@ public class ItemResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="結果コード報告は成功"),
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
         })
     public final SearchedProducts getItemForSeachingItem(
@@ -1021,7 +1019,6 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="結果コード報告は成功"),
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
         })
     public final BrandProducts getBrandProductInfo(
@@ -1140,7 +1137,6 @@ public class ItemResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="結果コード報告は成功"),
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
         })
     public final GroupLines getGroupLines(){

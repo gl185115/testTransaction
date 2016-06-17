@@ -6,32 +6,48 @@ package ncr.res.mobilepos.pointserver.resource;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+
 import javax.servlet.ServletContext;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import ncr.realgate.util.Snap;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+
 import ncr.realgate.util.Trace;
-
-import ncr.res.pointserver.dao.ServerAccess;
-import ncr.res.pointserver.dao.SQLServerPointRequest;
-import ncr.res.pointserver.model.Config;
-import ncr.res.pointserver.model.message.*;
-
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.pointserver.dao.SQLServerPointRequest;
+import ncr.res.pointserver.dao.ServerAccess;
+import ncr.res.pointserver.model.Config;
+import ncr.res.pointserver.model.message.CardChangeRequest;
+import ncr.res.pointserver.model.message.CardMergeRequest;
+import ncr.res.pointserver.model.message.CardStopRequest;
+import ncr.res.pointserver.model.message.HistoryItemRequest;
+import ncr.res.pointserver.model.message.HistoryItemResponse;
+import ncr.res.pointserver.model.message.HistoryRequest;
+import ncr.res.pointserver.model.message.HistoryResponse;
+import ncr.res.pointserver.model.message.IssueTicket;
+import ncr.res.pointserver.model.message.MemberRequest;
+import ncr.res.pointserver.model.message.MemberResponse;
+import ncr.res.pointserver.model.message.MemberSearchRequest;
+import ncr.res.pointserver.model.message.MemberSearchResponse;
+import ncr.res.pointserver.model.message.Message;
+import ncr.res.pointserver.model.message.MessageHelper;
+import ncr.res.pointserver.model.message.NewMemberRequest;
+import ncr.res.pointserver.model.message.PosSales;
+import ncr.res.pointserver.model.message.PostPoints;
 
 /**
  * Back Office PointServer interface.
  */
 @Path("/POINTAPI")
+@Api(value="/POINTAPI", description="ポイントAPI")
 public class BoInterface {
     static final String PROGNAME = "BOPTINTF";
     static final String DEFAULT_PATH = "d:\\software\\ncr\\res\\para";
@@ -67,6 +83,7 @@ public class BoInterface {
     @Path("/TP010A01.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="会員検索カード",response=MemberResponse.class)
     public MemberResponse memberRequest(MemberRequest request) {
         tp.methodEnter("memberRequest");
         tp.println("request", request);
@@ -81,6 +98,7 @@ public class BoInterface {
     @Path("/TP010A02.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="メンバープロパティの検索モード",response=MemberSearchResponse.class)
     public MemberSearchResponse memberSearchRequest(MemberSearchRequest request) {
         tp.methodEnter("memberSearchRequest");
         tp.println("request", request);
@@ -95,6 +113,7 @@ public class BoInterface {
     @Path("/TP010A03.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="POS販売", response=MemberResponse.class)
     public Message posSalesRequest(PosSales request) {
         tp.methodEnter("posSales");
         tp.println("request", request);
@@ -117,6 +136,7 @@ public class BoInterface {
     @Path("/TP010A04.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="追加ポイント", response=MemberResponse.class)
     public Message postPointsRequest(PostPoints request) {
         tp.methodEnter("postPoints");
         tp.println("request", request);
@@ -131,6 +151,7 @@ public class BoInterface {
     @Path("/TP010A05.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="カードを交換する", response=MemberResponse.class)
     public Message cardChangeRequest(CardChangeRequest request) {
         tp.methodEnter("cardChange");
         tp.println("request", request);
@@ -145,6 +166,7 @@ public class BoInterface {
     @Path("/TP010A06.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="統合カード", response=MemberResponse.class)
     public Message cardMergeRequest(CardMergeRequest request) {
         tp.methodEnter("cardMerge");
         tp.println("request", request);
@@ -159,6 +181,7 @@ public class BoInterface {
     @Path("/TP010A07.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="カードの停止", response=MemberResponse.class)
     public Message cardStopRequest(CardStopRequest request) {
         tp.methodEnter("cardStop");
         tp.println("request", request);
@@ -173,6 +196,7 @@ public class BoInterface {
     @Path("/TP010A08.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="カードを出す", response=MemberResponse.class)
     public Message cardIssueRequest(NewMemberRequest request) {
         tp.methodEnter("cardIssue");
         tp.println("request", request);
@@ -187,6 +211,7 @@ public class BoInterface {
     @Path("/TP010A09.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="歴史を検索する", response=MemberResponse.class)
     public HistoryResponse historySearchRequest(HistoryRequest request) {
         tp.methodEnter("historySearchRequest");
         tp.println("request", request);
@@ -201,6 +226,7 @@ public class BoInterface {
     @Path("/TP010A10.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="歴史プロジェクトの検索の歴史", response=MemberResponse.class)
     public HistoryItemResponse historyItemSearchRequest(HistoryItemRequest request) {
         tp.methodEnter("historyItemSearchRequest");
         tp.println("request", request);
@@ -215,6 +241,7 @@ public class BoInterface {
     @Path("/TP010A11.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="券の発行", response=MemberResponse.class)
     public Message ticketRequest(IssueTicket request) {
         tp.methodEnter("ticketRequest");
         tp.println("request", request);

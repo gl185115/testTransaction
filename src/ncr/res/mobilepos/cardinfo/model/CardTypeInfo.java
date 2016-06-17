@@ -5,10 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CardTypeInfo")
+@ApiModel(value="CardTypeInfo")
 public class CardTypeInfo extends ResultBase {
     @XmlElement(name = "CompanyId")
     private String companyId;
@@ -70,6 +74,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the companyId
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyId() {
         return companyId;
     }
@@ -85,6 +90,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the storeId
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getStoreId() {
         return storeId;
     }
@@ -100,6 +106,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardTypeId
      */
+    @ApiModelProperty(value="カードタイプコード", notes="カードタイプコード")
     public String getCardTypeId() {
         return cardTypeId;
     }
@@ -115,6 +122,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardTypeName
      */
+    @ApiModelProperty(value="カードタイプ名称", notes="カードタイプ名称")
     public String getCardTypeName() {
         return cardTypeName;
     }
@@ -130,6 +138,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardTypeKanaName
      */
+    @ApiModelProperty(value="カードタイプ名称(カナ)", notes="カードタイプ名称(カナ)")
     public String getCardTypeKanaName() {
         return cardTypeKanaName;
     }
@@ -145,6 +154,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardTypeShortName
      */
+    @ApiModelProperty(value="カードタイプ略称", notes="カードタイプ略称")
     public String getCardTypeShortName() {
         return cardTypeShortName;
     }
@@ -160,6 +170,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardTypeShortKanaName
      */
+    @ApiModelProperty(value="カードタイプ略称(カナ)", notes="カードタイプ略称(カナ)")
     public String getCardTypeShortKanaName() {
         return cardTypeShortKanaName;
     }
@@ -175,6 +186,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the terminalCompanyId
      */
+    @ApiModelProperty(value="会社コード(端末)", notes="会社コード(端末)")
     public String getTerminalCompanyId() {
         return terminalCompanyId;
     }
@@ -190,6 +202,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardClassId
      */
+    @ApiModelProperty(value="カード区分", notes="カード区分")
     public String getCardClassId() {
         return cardClassId;
     }
@@ -205,6 +218,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardCompanyId
      */
+    @ApiModelProperty(value="会社コード(カード)", notes="会社コード(カード)")
     public String getCardCompanyId() {
         return cardCompanyId;
     }
@@ -220,6 +234,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the memberType
      */
+    @ApiModelProperty(value="会員区分", notes="会員区分")
     public String getMemberType() {
         return memberType;
     }
@@ -235,6 +250,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the memberRank
      */
+    @ApiModelProperty(value="会員ランク", notes="会員ランク")
     public String getMemberRank() {
         return memberRank;
     }
@@ -250,6 +266,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the newRegistFlag
      */
+    @ApiModelProperty(value="新規登録フラグ", notes="新規登録フラグ")
     public int getNewRegistFlag() {
         return newRegistFlag;
     }
@@ -265,6 +282,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardMergeFlag
      */
+    @ApiModelProperty(value="切替/合算可否フラグ", notes="切替/合算可否フラグ")
     public int getCardMergeFlag() {
         return cardMergeFlag;
     }
@@ -280,6 +298,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the pointExpdateAddMonth
      */
+    @ApiModelProperty(value="有効期限延長月数", notes="有効期限延長月数")
     public int getPointExpdateAddMonth() {
         return pointExpdateAddMonth;
     }
@@ -295,6 +314,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the pointExpdatePrintFlag
      */
+    @ApiModelProperty(value="有効期限印字フラグ", notes="有効期限印字フラグ")
     public int getPointExpdatePrintFlag() {
         return pointExpdatePrintFlag;
     }
@@ -310,6 +330,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the displayDigitType
      */
+    @ApiModelProperty(value="表示桁数区分", notes="表示桁数区分")
     public String getDisplayDigitType() {
         return displayDigitType;
     }
@@ -325,6 +346,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the printDigitType
      */
+    @ApiModelProperty(value="印字桁数区分", notes="印字桁数区分")
     public String getPrintDigitType() {
         return printDigitType;
     }
@@ -340,6 +362,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardCategory
      */
+    @ApiModelProperty(value="カード種別", notes="カード種別")
     public String getCardCategory() {
         return cardCategory;
     }
@@ -355,6 +378,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the pointAllowanceFlag
      */
+    @ApiModelProperty(value="ポイント引当不可フラグ", notes="ポイント引当不可フラグ")
     public String getPointAllowanceFlag() {
         return pointAllowanceFlag;
     }
@@ -370,6 +394,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the uCUseArea
      */
+    @ApiModelProperty(value="UC使用欄1", notes="UC使用欄1")
     public String getuCUseArea() {
         return uCUseArea;
     }
@@ -385,6 +410,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the prefixCode16From
      */
+    @ApiModelProperty(value="先頭コード（16桁）（FROM）", notes="先頭コード（16桁）（FROM）")
     public String getPrefixCode16From() {
         return prefixCode16From;
     }
@@ -400,6 +426,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the prefixCode16To
      */
+    @ApiModelProperty(value="先頭コード（16桁）（TO）", notes="先頭コード（16桁）（TO）")
     public String getPrefixCode16To() {
         return prefixCode16To;
     }
@@ -415,6 +442,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the prefixCode13
      */
+    @ApiModelProperty(value="先頭コード（13桁）", notes="先頭コード（13桁）")
     public String getPrefixCode13() {
         return prefixCode13;
     }
@@ -430,6 +458,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the cardStatusType
      */
+    @ApiModelProperty(value="カード状態区分", notes="カード状態区分")
     public String getCardStatusType() {
         return cardStatusType;
     }
@@ -445,6 +474,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the magneticDataType
      */
+    @ApiModelProperty(value="磁気データ区分", notes="磁気データ区分")
     public String getMagneticDataType() {
         return magneticDataType;
     }
@@ -460,6 +490,7 @@ public class CardTypeInfo extends ResultBase {
     /**
      * @return the subCode1
      */
+    @ApiModelProperty(value="店舗会社コード(カード)", notes="店舗会社コード(カード)")
     public String getSubCode1() {
         return subCode1;
     }
@@ -471,7 +502,8 @@ public class CardTypeInfo extends ResultBase {
     public void setSubCode1(String subCode1) {
         this.subCode1 = subCode1;
     }
-    
+
+    @ApiModelProperty(value="自社クレジットフラグ", notes="自社クレジットフラグ")
     public String getOwnCreditFlag() {
 		return ownCreditFlag;
 	}

@@ -6,9 +6,13 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="CardTypeInfoResponse")
 public class CardTypeInfoResponse extends ResultBase{
 
     @XmlElement(name = "CardTypeInfo")
@@ -17,6 +21,7 @@ public class CardTypeInfoResponse extends ResultBase{
     /**
      * @return the cardTypeInfos
      */
+    @ApiModelProperty(value="カードタイプ情報リスト", notes="カードタイプ情報リスト")
     public List<CardTypeInfo> getCardTypeInfos() {
         return cardTypeInfos;
     }

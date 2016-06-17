@@ -5,10 +5,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "GeStatusInfo")
+@ApiModel(value="StatusInfo")
 public class StatusInfo extends ResultBase {
     @XmlElement(name = "CompanyId")
     private String companyId;
@@ -48,6 +52,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the companyId
      */
+    @ApiModelProperty(value="‰ïĞƒR[ƒh", notes="‰ïĞƒR[ƒh")
     public String getCompanyId() {
         return companyId;
     }
@@ -62,6 +67,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the storeId
      */
+    @ApiModelProperty(value="“X•ÜƒR[ƒh", notes="“X•ÜƒR[ƒh")
     public String getStoreId() {
         return storeId;
     }
@@ -76,6 +82,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the memberStatus
      */
+    @ApiModelProperty(value="‰ïˆõó‘ÔƒR[ƒh", notes="‰ïˆõó‘ÔƒR[ƒh")
     public String getMemberStatus() {
         return memberStatus;
     }
@@ -90,6 +97,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the memberStatusName
      */
+    @ApiModelProperty(value="‰ïˆõó‘Ô–¼Ì", notes="‰ïˆõó‘Ô–¼Ì")
     public String getMemberStatusName() {
         return memberStatusName;
     }
@@ -104,6 +112,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the registerFlag
      */
+    @ApiModelProperty(value="‰ïˆõ“o˜^‰Â”Û", notes="‰ïˆõ“o˜^‰Â”Û")
     public String getRegisterFlag() {
         return registerFlag;
     }
@@ -118,6 +127,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the pointAddFlag
      */
+    @ApiModelProperty(value="ƒ|ƒCƒ“ƒg•t—^‰Â”Û", notes="ƒ|ƒCƒ“ƒg•t—^‰Â”Û")
     public String getPointAddFlag() {
         return pointAddFlag;
     }
@@ -132,6 +142,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the pointUseFlag
      */
+    @ApiModelProperty(value="ƒ|ƒCƒ“ƒgˆø“–‰Â”Û", notes="ƒ|ƒCƒ“ƒgˆø“–‰Â”Û")
     public String getPointUseFlag() {
         return pointUseFlag;
     }
@@ -146,6 +157,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subCode1
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubCode1() {
         return subCode1;
     }
@@ -160,6 +172,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subCode2
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubCode2() {
         return subCode2;
     }
@@ -174,6 +187,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subCode3
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubCode3() {
         return subCode3;
     }
@@ -188,6 +202,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subCode4
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubCode4() {
         return subCode4;
     }
@@ -202,6 +217,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subCode5
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubCode5() {
         return subCode5;
     }
@@ -216,6 +232,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subNum1
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubNum1() {
         return subNum1;
     }
@@ -230,6 +247,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subNum2
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubNum2() {
         return subNum2;
     }
@@ -244,6 +262,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subNum3
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubNum3() {
         return subNum3;
     }
@@ -258,6 +277,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subNum4
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubNum4() {
         return subNum4;
     }
@@ -272,6 +292,7 @@ public class StatusInfo extends ResultBase {
     /**
      * @return the subNum5
      */
+    @ApiModelProperty(value="—\–ñ", notes="—\–ñ")
     public String getSubNum5() {
         return subNum5;
     }

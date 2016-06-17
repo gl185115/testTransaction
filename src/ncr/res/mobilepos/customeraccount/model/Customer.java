@@ -97,7 +97,7 @@ public class Customer extends ResultBase {
      *
      * @return      Returns Memberfs ID.
      */
-    @ApiModelProperty(value="‰ïˆõ”Ô†", notes="‰ïˆõ”Ô†")
+    @ApiModelProperty(value="ŒÚ‹q”Ô†", notes="ŒÚ‹q”Ô†")
     public final String getCustomerid() {
         return customerid;
     }
@@ -114,7 +114,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs full name.
      * @return      Returns Memberfs full name.
      */
-    @ApiModelProperty(value="‰ïˆõ–¼", notes="‰ïˆõ–¼")
+    @ApiModelProperty(value="ŒÚ‹q–¼", notes="ŒÚ‹q–¼")
     public final String getCustomername() {
         return customername;
     }
@@ -203,7 +203,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs Grade.
      * @return      Returns Memberfs Grade.
      */
-    @ApiModelProperty(value="‰ïˆõ“™‹‰", notes="‰ïˆõ“™‹‰")
+    @ApiModelProperty(value="ŒÚ‹q“™‹‰", notes="ŒÚ‹q“™‹‰")
     public final String getGrade() {
          return grade;
     }
@@ -220,7 +220,7 @@ public class Customer extends ResultBase {
      * Gets the Memberfs Points.
      * @return      Returns Memberfs Points.
      */
-    @ApiModelProperty(value="‰ïˆõÏ•ª", notes="‰ïˆõÏ•ª")
+    @ApiModelProperty(value="ŒÚ‹qÏ•ª", notes="ŒÚ‹qÏ•ª")
     public final int getPoints() {
         return points;
     }

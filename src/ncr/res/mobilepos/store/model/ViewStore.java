@@ -4,6 +4,10 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -11,6 +15,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlRootElement(name = "ViewStore")
 @XmlAccessorType(XmlAccessType.NONE)
+@ApiModel(value="ViewStore")
 public class ViewStore extends ResultBase {
     /**
      * Store instance. Holds store data.
@@ -36,6 +41,7 @@ public class ViewStore extends ResultBase {
      * Gets store.
      * @return store The Store instance.
      */
+    @ApiModelProperty(value="ìXï‹", notes="ìXï‹")
     public final Store getStore() {
         return store;
     }
@@ -43,6 +49,7 @@ public class ViewStore extends ResultBase {
     /**
      * @return the logo
      */
+    @ApiModelProperty(value="ÉçÉS", notes="ÉçÉS")
     public final StoreLogo getLogo() {
         return logo;
     }

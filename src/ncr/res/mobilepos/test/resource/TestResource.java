@@ -5,16 +5,23 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.searchapi.model.JSONData;
 
 /**
  * 
  * @author WangXu
  */
 @Path("/test")
+@Api(value="/Test", description="テストAPI")
 public class TestResource {
     
     /** The Trace Printer. */
@@ -45,7 +52,12 @@ public class TestResource {
     @Path("/GetConnectionResult")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final ResultBase GetConnectionResult() {
+    @ApiOperation(value="接続の結果を取得する", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_OK, message="一般ok"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final ResultBase GetConnectionResult() {	
 
         String functionName = DebugLogger.getCurrentMethodName();
         

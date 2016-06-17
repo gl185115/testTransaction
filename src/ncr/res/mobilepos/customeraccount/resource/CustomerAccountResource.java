@@ -37,7 +37,7 @@ import ncr.res.mobilepos.model.ResultBase;
  * MobilePOS Customer Account processes.
  */
 @Path("/customeraccount")
-@Api(value="/customeraccount", description="会員アカウント関連API")
+@Api(value="/customeraccount", description="顧客アカウント関連API")
 public class CustomerAccountResource {
     /**
      * Logger.
@@ -78,9 +78,9 @@ public class CustomerAccountResource {
     @Path("/{customerid}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="会員情報を得る", response=Customer.class)
+    @ApiOperation(value="顧客情報を得る", response=Customer.class)
     @ApiResponses(value={})
-    public final Customer getCustomerByID(@ApiParam(name="customerid", value="会員番号") @PathParam("customerid")
+    public final Customer getCustomerByID(@ApiParam(name="customerid", value="顧客番号") @PathParam("customerid")
                           final String customerid,
                           @ApiParam(name="deviceno", value="設備番号") @FormParam("deviceno") final String deviceNo,
                           @ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo) {

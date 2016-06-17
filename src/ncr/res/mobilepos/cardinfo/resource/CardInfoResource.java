@@ -12,6 +12,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cardinfo.dao.ICardInfoDAO;
 import ncr.res.mobilepos.cardinfo.model.CardInfo;
@@ -29,6 +35,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 @Path("/cardinfo")
+@Api(value="/cardinfo", description="カード情報API")
 public class CardInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -46,9 +53,17 @@ public class CardInfoResource {
     @Path("/getcardclassinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final CardInfo getCardClassInfo(@QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId, @QueryParam("cardClassId") final String cardClassId,
-            @QueryParam("membershipId") final String membershipId) {
+    @ApiOperation(value="カード区分情報取得", response=CardInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+        })
+    public final CardInfo getCardClassInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="cardClassId", value="カード区分コード") @QueryParam("cardClassId") final String cardClassId,
+    		@ApiParam(name="membershipId", value="会員番号") @QueryParam("membershipId") final String membershipId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
                 .println("cardClassId", cardClassId).println("membershipId", membershipId);
@@ -89,8 +104,16 @@ public class CardInfoResource {
     @Path("/getcardtypeinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final CardTypeInfoResponse getCardTypeInfo(@QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId, @QueryParam("cardTypeNo") final String cardTypeNo) {
+    @ApiOperation(value="カードタイプ情報取得", response=CardTypeInfoResponse.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+        })
+    public final CardTypeInfoResponse getCardTypeInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="cardTypeNo", value="カードタイプコード") @QueryParam("cardTypeNo") final String cardTypeNo) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("cardTypeNo",
                 cardTypeNo);
@@ -133,8 +156,16 @@ public class CardInfoResource {
     @Path("/getMemberInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final MemberInfoResponse getMemberInfo(@QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId, @QueryParam("membershipId") final String membershipId) {
+    @ApiOperation(value="会員補助情報取得", response=MemberInfoResponse.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+        })
+    public final MemberInfoResponse getMemberInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="membershipId", value="会員番号") @QueryParam("membershipId") final String membershipId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("membershipId",
                 membershipId);
@@ -176,8 +207,16 @@ public class CardInfoResource {
     @Path("/getStatusInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final StatusInfoResponse getStatusInfo(@QueryParam("companyId") final String companyId,
-            @QueryParam("storeId") final String storeId, @QueryParam("statusCode") final String statusCode) {
+    @ApiOperation(value="会員状態情報取得", response=StatusInfoResponse.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
+        })
+    public final StatusInfoResponse getStatusInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="statusCode", value="会員状態コード") @QueryParam("statusCode") final String statusCode) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("statusCode",
                 statusCode);

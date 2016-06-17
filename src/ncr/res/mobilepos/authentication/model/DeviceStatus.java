@@ -4,6 +4,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -11,6 +14,7 @@ import ncr.res.mobilepos.model.ResultBase;
  *
  */
 @XmlRootElement
+@ApiModel(value="DeviceStatus")
 public class DeviceStatus extends ResultBase {
 	/**
      * status code for offline device.
@@ -123,6 +127,7 @@ public class DeviceStatus extends ResultBase {
      * gets the store id.
      * @return String - the store id
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getStoreID() {
         return storeID;
     }
@@ -137,6 +142,7 @@ public class DeviceStatus extends ResultBase {
      * gets the company id.
      * @return String - the company id
      */
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCorpID() {
         return corpID;
     }
@@ -152,6 +158,7 @@ public class DeviceStatus extends ResultBase {
      * gets the url for the web application to use.
      * @return String - url of the web application
      */
+    @ApiModelProperty(value="アプリケーションURL", notes="アプリケーションURL")
     public final String getWebAppUrl() {
         return webAppUrl;
     }
@@ -166,6 +173,7 @@ public class DeviceStatus extends ResultBase {
      * gets the device name.
      * @return String - the name of the device
      */
+    @ApiModelProperty(value="デバイス名称", notes="デバイス名称")
     public final String getDeviceName() {
         return deviceName;
     }
@@ -180,6 +188,7 @@ public class DeviceStatus extends ResultBase {
      * gets the store name.
      * @return String - the store name
      */
+    @ApiModelProperty(value="店舗名称", notes="店舗名称")
     public final String getStoreName() {
         return storeName;
     }
@@ -194,6 +203,7 @@ public class DeviceStatus extends ResultBase {
      * gets the company name.
      * @return String - the company name
      */
+    @ApiModelProperty(value="会社名称", notes="会社名称")
     public final String getCorpName() {
         return corpName;
     }
@@ -208,6 +218,7 @@ public class DeviceStatus extends ResultBase {
      * gets the company name.
      * @return String - the company name
      */
+    @ApiModelProperty(value="会社名称", notes="会社名称")
     public final String getCorpCompany() {
         return corpCompany;
     }
@@ -222,6 +233,7 @@ public class DeviceStatus extends ResultBase {
      * gets the terminal id.
      * @return String - the terminal id
      */
+    @ApiModelProperty(value="端末コード", notes="端末コード")
     public final String getTerminalID() {
         return terminalID;
     }
@@ -236,6 +248,7 @@ public class DeviceStatus extends ResultBase {
      * gets the terminal status.
      * @return int - the status of the terminal
      */
+    @ApiModelProperty(value="端末ステータス", notes="端末ステータス")
     public final int getTerminalStatus() {
         return terminalStatus;
     }
@@ -257,6 +270,7 @@ public class DeviceStatus extends ResultBase {
      * gets the expiry date.
      * @return String - the date of the expiry
      */
+    @ApiModelProperty(value="有効期間", notes="有効期間")
     public final String getActiveValidUntil() {
         return activeValidUntil;
     }
@@ -272,6 +286,7 @@ public class DeviceStatus extends ResultBase {
      * gets the activation key.
      * @return ActivationKey  - the activation key model
      */
+    @ApiModelProperty(value="アクティベーションキー", notes="アクティベーションキー")
     public final ActivationKey getActivationKey() {
         return activationKey;
     }
@@ -279,6 +294,7 @@ public class DeviceStatus extends ResultBase {
      * gets the sign status.
      * @return int - the status of signature
      */
+    @ApiModelProperty(value="サインステータス", notes="サインステータス")
     public final int getSignStatus() {
         return signStatus;
     }

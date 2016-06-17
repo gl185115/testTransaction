@@ -13,6 +13,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.model.ActivationKey;
@@ -33,6 +39,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 
 @Path("/authentication")
+@Api(value="/authentication", description="認証関連API")
 public class AuthenticationResource {
     /**
      * the class instance of the logger.
@@ -77,12 +84,18 @@ public class AuthenticationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス認証", response=DeviceStatus.class)
+    @ApiResponses(value={
+	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	    @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスコード無効")
+    })
     public final DeviceStatus authenticateDevice(
-            @FormParam("companyid") final String companyid,
-            @FormParam("storeid") final String storeid,
-            @PathParam("terminalid") final String terminalid,
-            @FormParam("udid") final String udid,
-            @FormParam("uuid") final String uuid) {
+            @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyid,
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalid,
+            @ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
+            @ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid) {
 
         tp.methodEnter("authenticateDevice");
         tp.println("companyid", companyid)
@@ -369,15 +382,21 @@ public class AuthenticationResource {
     @Path("/setSignatureActivationStatus")
     @POST
     @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="シグネチャーテータス設定", response=DeviceStatus.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスコード無効")
+    })
     public final DeviceStatus setSignatureActivationStatus(
-            @FormParam("corpid") final String corpId,
-            @FormParam("storeid") final String storeId,
-            @FormParam("terminalid") final String terminalId,
-            @FormParam("udid") final String udid,
-            @FormParam("uuid") final String uuid,
-            @FormParam("signstatus") final int signStatus,
-            @FormParam("signtid") final String signTid,
-            @FormParam("signactivationkey") final String signActivationKey) {
+    		@ApiParam(name="corpid", value="会社コード") @FormParam("corpid") final String corpId,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
+    		@ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid,
+    		@ApiParam(name="signstatus", value="シグネチャーテータス") @FormParam("signstatus") final int signStatus,
+    		@ApiParam(name="signtid", value="シグネチャーTID") @FormParam("signtid") final String signTid,
+    		@ApiParam(name="signactivationkey", value="シグネチャー活性キー") @FormParam("signactivationkey") final String signActivationKey) {
         tp.methodEnter("setSignatureActivationStatus");
         tp.println("corpId", corpId)
         	.println("storeId", storeId)

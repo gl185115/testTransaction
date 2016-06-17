@@ -7,6 +7,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  * {@link StoreLogo} Class holds information of the Customer Store Logo.
  *
@@ -15,6 +18,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "StoreLogo")
+@ApiModel(value="StoreLogo")
 public class StoreLogo {
     /** The LOGO image in Base64 string format.  */
     @XmlElement(name = "Image")
@@ -23,6 +27,7 @@ public class StoreLogo {
     /**
      * @return the image
      */
+    @ApiModelProperty(value="‰æ‘œ", notes="‰æ‘œ")
     public final String getImage() {
         return image;
     }

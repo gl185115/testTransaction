@@ -39,7 +39,7 @@ if (request.getParameter("s") != null) {
 <div>
 POSログ照会<br><br>
   <iframe name="storesearch" id="storeSearch" src="./StoreSearch.jsp"></iframe><br>
-  <form  id="searchform" style="display:none">
+  <form  id="searchform" style="display:none" onsubmit="return false;">
    <table style="padding: 10px;">
    <tr>
    <td>　　端末番号 ： <input type="text" id="workstationID" value="" size="4" maxlength="4" required pattern="\d{4}"></td>
@@ -83,7 +83,7 @@ window.onload = function() {
   document.getElementById('start').addEventListener('click', function() {
     var myform = document.getElementById('searchform');
     if (myform.checkValidity() == false) {
-      fakeButton.click();
+    	document.getElementById('fakeButton').click();
       return;
     }
 
@@ -120,6 +120,8 @@ window.onload = function() {
                     + '&w=' + document.getElementById('workstationID').value
                     + '&x=' + document.getElementById('seqNum').value
 				    + '&t=' + document.getElementById('training').value, true);
+      xhr.setRequestHeader('Pragma', 'no-cache');
+      xhr.setRequestHeader('Cache-Control', 'no-cache');
       xhr.send();
     } catch (e) {
       alert(e.name + ':' + e.message + ':' + e.stack);
@@ -127,6 +129,10 @@ window.onload = function() {
   });
 })();
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>
 <%
 }

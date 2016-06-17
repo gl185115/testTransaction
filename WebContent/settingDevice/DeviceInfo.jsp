@@ -276,6 +276,8 @@ function update(){
                  + '&r1='+ storesearch.document.getElementById('companyidlist').value
                  + '&y1='+ 'select'
                  , true);
+            xhr.setRequestHeader('Pragma', 'no-cache');
+            xhr.setRequestHeader('Cache-Control', 'no-cache');
             xhr.send();
         } catch (e) {
                 alert(e.name + ':' + e.message + ':' + e.stack);
@@ -283,6 +285,10 @@ function update(){
     });
 })();
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>
 <%
 }

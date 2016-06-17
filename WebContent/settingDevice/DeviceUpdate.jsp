@@ -31,7 +31,14 @@
     String g_UpFlg;
     String errStr = "";
     String infoStr = "";
-    
+
+    String user = ""; //ログインユーザー名
+    //ログインユーザー名取得
+	try {
+	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
+	} catch (Exception e) {
+	}
+
     String dev_CompanyId="",dev_StoreId="",dev_TerminalId="",dev_Training="",dev_DeviceName="",dev_AttributeId="",dev_PrinterId="",dev_TillId="",dev_LinkQueueBuster = "";
     String tra_CompanyId="",tra_StoreId="",tra_TerminalId="",tra_Training="",tra_DeviceName="",tra_AttributeId="",tra_PrinterId="",tra_TillId="",tra_LinkQueueBuster = "";
     String ter_CompanyId="",ter_StoreId="",ter_TerminalId="",ter_FloorId="",ter_TerminalName="",ter_IPAddress="",ter_StoreClass="",ter_TerminalType="",
@@ -248,8 +255,8 @@
                 + " ,DeleteFlag = '0'               "
                 + " ,UpdCount   = UpdCount+1        "
                 + " ,UpdDate    = CURRENT_TIMESTAMP "
-                + " ,UpdAppId   = 'system'          "
-                + " ,UpdOpeCode = 'system'          "
+                + " ,UpdAppId   = 'settingDevice'   "
+                + " ,UpdOpeCode = ?                 "
                 + "WHERE "
                 + "     CompanyId= " + "'" + g_companyID  + "'"
                 + " AND StoreId=   " + "'" + g_storeID    + "'"
@@ -266,8 +273,8 @@
                 + " ,DeleteFlag = '0'               "
                 + " ,UpdCount   = UpdCount+1        "
                 + " ,UpdDate    = CURRENT_TIMESTAMP "
-                + " ,UpdAppId   = 'system'          "
-                + " ,UpdOpeCode = 'system'          "
+                + " ,UpdAppId   = 'settingDevice'   "
+                + " ,UpdOpeCode = ?                 "
                 + "WHERE "
                 + "     CompanyId= " + "'" + g_companyID  + "'"
                 + " AND StoreId=   " + "'" + g_storeID    + "'"
@@ -286,13 +293,10 @@
                 + " ,LogoFileName=?                 "
                 + " ,InshiFileName=?                "
                 + " ,DeleteFlag = '0'               "
-                + " ,InsDate    = CURRENT_TIMESTAMP "
-                + " ,InsAppId   ='system'           "
-                + " ,InsOpeCode ='system'           "
                 + " ,UpdCount   = UpdCount+1        "
                 + " ,UpdDate    = CURRENT_TIMESTAMP "
-                + " ,UpdAppId   = 'system'          "
-                + " ,UpdOpeCode = 'system'          "
+                + " ,UpdAppId   = 'settingDevice'   "
+                + " ,UpdOpeCode = ?                 "
                 + "WHERE "
                 + "     CompanyId= " + "'" + g_companyID  + "'"
                 + " AND StoreId=   " + "'" + g_storeID    + "'"
@@ -351,12 +355,12 @@
                 + " , ?                  "
                 + " , '0'                "
                 + " , CURRENT_TIMESTAMP  "
-                + " , 'system'           "
-                + " , 'system'           "
+                + " , 'settingDevice'    "
+                + " , ?                  "
                 + " , 0                  "
                 + " , CURRENT_TIMESTAMP  "
-                + " , 'system'           "
-                + " , 'system'           "
+                + " , 'settingDevice'    "
+                + " , ?                  "
                 + " ,'0'                 "
                 + " ,'0'                 "
                 + " ,'0'                 "
@@ -389,45 +393,53 @@
                //LinkQueueBuster
             psUpd.setString(5, request.getParameter("dev_LinkQueueBuster"));
 
+            psUpd.setString(6, user);
+
             // MST_DEVICEINFOの設定(トレーニング)
             //DeviceName
-            psUpd.setString(6, request.getParameter("tra_DeviceName"));
+            psUpd.setString(7, request.getParameter("tra_DeviceName"));
                //AttributeId
-            psUpd.setString(7, request.getParameter("tra_AttributeId"));
+            psUpd.setString(8, request.getParameter("tra_AttributeId"));
                //PrinterId
-            psUpd.setString(8, request.getParameter("tra_PrinterId"));
+            psUpd.setString(9, request.getParameter("tra_PrinterId"));
                //TillId
-            psUpd.setString(9, request.getParameter("tra_TillId"));
+            psUpd.setString(10, request.getParameter("tra_TillId"));
                //LinkQueueBuster
-            psUpd.setString(10, request.getParameter("tra_LinkQueueBuster"));
+            psUpd.setString(11, request.getParameter("tra_LinkQueueBuster"));
+
+            psUpd.setString(12, user);
 
             // MST_TERMINALINFOの設定(update)
                //FloorId
-            psUpd.setString(11, request.getParameter("ter_FloorId"));
+            psUpd.setString(13, request.getParameter("ter_FloorId"));
                //TerminalName
-            psUpd.setString(12, request.getParameter("ter_TerminalName"));
+            psUpd.setString(14, request.getParameter("ter_TerminalName"));
                //IPAddress
-            psUpd.setString(13, request.getParameter("ter_IPAddress"));
+            psUpd.setString(15, request.getParameter("ter_IPAddress"));
                //StoreClass
-            psUpd.setString(14, request.getParameter("ter_StoreClass"));
+            psUpd.setString(16, request.getParameter("ter_StoreClass"));
                //TerminalType
-            psUpd.setString(15, request.getParameter("ter_TerminalType"));
+            psUpd.setString(17, request.getParameter("ter_TerminalType"));
                //TillType
-            psUpd.setString(16, request.getParameter("ter_TillType"));
+            psUpd.setString(18, request.getParameter("ter_TillType"));
                //RelationType
-            psUpd.setString(17, request.getParameter("ter_RelationType"));
-            psUpd.setString(18, request.getParameter("ter_LogoFileName"));
-            psUpd.setString(19, request.getParameter("ter_InshiFileName"));
+            psUpd.setString(19, request.getParameter("ter_RelationType"));
+            psUpd.setString(20, request.getParameter("ter_LogoFileName"));
+            psUpd.setString(21, request.getParameter("ter_InshiFileName"));
+            psUpd.setString(22, user);
+
             // MST_TERMINALINFOの設定(insert)
-            psUpd.setString(20, request.getParameter("ter_FloorId"));
-            psUpd.setString(21, request.getParameter("ter_TerminalName"));
-            psUpd.setString(22, request.getParameter("ter_IPAddress"));
-            psUpd.setString(23, request.getParameter("ter_StoreClass"));
-            psUpd.setString(24, request.getParameter("ter_TerminalType"));
-            psUpd.setString(25, request.getParameter("ter_TillType"));
-            psUpd.setString(26, request.getParameter("ter_RelationType"));
-            psUpd.setString(27, request.getParameter("ter_LogoFileName"));
-            psUpd.setString(28, request.getParameter("ter_InshiFileName"));
+            psUpd.setString(23, request.getParameter("ter_FloorId"));
+            psUpd.setString(24, request.getParameter("ter_TerminalName"));
+            psUpd.setString(25, request.getParameter("ter_IPAddress"));
+            psUpd.setString(26, request.getParameter("ter_StoreClass"));
+            psUpd.setString(27, request.getParameter("ter_TerminalType"));
+            psUpd.setString(28, request.getParameter("ter_TillType"));
+            psUpd.setString(29, request.getParameter("ter_RelationType"));
+            psUpd.setString(30, request.getParameter("ter_LogoFileName"));
+            psUpd.setString(31, request.getParameter("ter_InshiFileName"));
+            psUpd.setString(32, user);
+            psUpd.setString(33, user);
 
             try {
                int iret = psUpd.executeUpdate();
@@ -472,7 +484,7 @@
 </head>
 <body class="res-maincontent">
 
-<form action="DeviceUpdate.jsp" method="post" id="updateform">
+<form action="DeviceUpdate.jsp" method="post" id="updateform" onsubmit="return false;">
 
 <input type="hidden" name="add_dev_CompanyId" id="add_dev_CompanyId" value="<%=request.getParameter("dev_CompanyId")%>">
 <input type="hidden" name="add_dev_StoreId" id="add_dev_StoreId" value="<%=request.getParameter("dev_StoreId")%>">
@@ -751,7 +763,7 @@ jQuery(function ($) {
     $('#Update').click(function(e){
         var myform = document.getElementById('updateform');
         if (myform.checkValidity() == false) {
-        	fakeButton.click();
+        	document.getElementById('fakeButton').click();
             return;
         }
         showDialog(
@@ -774,6 +786,10 @@ jQuery(function ($) {
     };
 })();
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>
 <%
 }

@@ -32,7 +32,14 @@
 
     String errString = "";
     String infoString = "";
-    
+
+    String user = ""; //ログインユーザー名
+    //ログインユーザー名取得
+	try {
+	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
+	} catch (Exception e) {
+	}
+
     if (request.getMethod() == "GET" && "select".equals(request.getParameter("y1"))) {
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
         Connection connection = dbManager.getConnection();
@@ -85,15 +92,16 @@
 
                      String sqlStr = "UPDATE RESMaster.dbo.MST_TILLIDINFO"
                                     + " SET BusinessDayDate=?,SodFlag=?,EodFlag=?,"
-                                    + " UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='system',UpdOpeCode='system'"
+                                    + " UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice', UpdOpeCode=?"
                                     + " WHERE CompanyId=? and StoreId=? and TillId=?";
                      PreparedStatement psUpd = connection.prepareStatement(sqlStr);
                      psUpd.setString(1, request.getParameter("CheckedBusinessDayDate"));
                      psUpd.setString(2, request.getParameter("CheckedSodFlag"));
                      psUpd.setString(3, request.getParameter("CheckedEodFlag"));
-                     psUpd.setString(4, request.getParameter("companyID"));
-                     psUpd.setString(5, request.getParameter("storeID"));
-                     psUpd.setString(6, request.getParameter("tillID"));
+                     psUpd.setString(4, user);
+                     psUpd.setString(5, request.getParameter("companyID"));
+                     psUpd.setString(6, request.getParameter("storeID"));
+                     psUpd.setString(7, request.getParameter("tillID"));
 
                      try {
                          int rsUpd = psUpd.executeUpdate();
@@ -130,12 +138,13 @@
                      } else {
                          sqlStr = "UPDATE RESMaster.dbo.MST_TILLIDINFO"
                                  + " SET DeleteFlag=1,"
-                                 + " DelDate=CURRENT_TIMESTAMP, DelAppId='system',DelOpeCode='system'"
+                                 + " DelDate=CURRENT_TIMESTAMP, DelAppId='settingDevice', DelOpeCode=?"
                                  + " WHERE CompanyId=? and StoreId=? and TillId=?";
                          PreparedStatement psUpd = connection.prepareStatement(sqlStr);
-                         psUpd.setString(1, request.getParameter("companyID"));
-                         psUpd.setString(2, request.getParameter("storeID"));
-                         psUpd.setString(3, request.getParameter("tillID"));
+                         psUpd.setString(1, user);
+                         psUpd.setString(2, request.getParameter("companyID"));
+                         psUpd.setString(3, request.getParameter("storeID"));
+                         psUpd.setString(4, request.getParameter("tillID"));
                   
                          try {
                              int rsUpd = psUpd.executeUpdate();
@@ -159,12 +168,13 @@
 
                      String sqlStr = "UPDATE RESMaster.dbo.MST_TILLIDINFO"
                              + " SET DeleteFlag=0,"
-                             + " UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='system',UpdOpeCode='system'"
+                             + " UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice', UpdOpeCode=?"
                              + " WHERE CompanyId=? and StoreId=? and TillId=?";
                      PreparedStatement psUpd = connection.prepareStatement(sqlStr);
-                     psUpd.setString(1, request.getParameter("companyID"));
-                     psUpd.setString(2, request.getParameter("storeID"));
-                     psUpd.setString(3, request.getParameter("tillID"));
+                     psUpd.setString(1, user);
+                     psUpd.setString(2, request.getParameter("companyID"));
+                     psUpd.setString(3, request.getParameter("storeID"));
+                     psUpd.setString(4, request.getParameter("tillID"));
               
                      try {
                          int rsUpd = psUpd.executeUpdate();
@@ -231,7 +241,7 @@
     </table>
   </div>
 
-  <form action="TillUpdate.jsp" method="post" id="updateform">
+  <form action="TillUpdate.jsp" method="post" id="updateform" onsubmit="return false;">
     <input type="hidden" name="action" id="action">
     <input type="hidden" name="companyID" id="companyID">
     <input type="hidden" name="storeID" id="storeID">
@@ -380,7 +390,7 @@ jQuery(function ($) {
     $('#UpdateButton').click(function(e){
         var myform = document.getElementById('updateform');
         if (myform.checkValidity() == false) {
-        	fakeButton.click();
+        	document.getElementById('fakeButton').click();
             return;
         }
         showDialog(
@@ -514,6 +524,8 @@ jQuery(function ($) {
                  + '&r1='+ storesearch.document.getElementById('companyidlist').value
                  + '&y1='+ 'select'
                  , true);
+            xhr.setRequestHeader('Pragma', 'no-cache');
+            xhr.setRequestHeader('Cache-Control', 'no-cache');
             xhr.send();
         } catch (e) {
                 alert(e.name + ':' + e.message + ':' + e.stack);
@@ -521,6 +533,10 @@ jQuery(function ($) {
     });
 })();
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>
 <%
 }

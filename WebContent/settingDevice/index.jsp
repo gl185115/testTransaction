@@ -83,4 +83,8 @@ function selectPage(id){
     </div>
   </div>
 </body>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>

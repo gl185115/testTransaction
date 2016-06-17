@@ -5,7 +5,10 @@
     import="java.util.ArrayList"
     import="java.text.SimpleDateFormat"
     import="java.sql.*"%>
-
+<%!
+final String MSG_UPDATE_INFO = "「MST_DEVICEINFO」テーブルの「LastTxId(取引NO)」の更新に成功しました。";
+final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(取引NO)」の更新に失敗しました。";
+%>
 <%
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html;charset=UTF-8");
@@ -15,8 +18,15 @@
     String g_companyID  = request.getParameter("r1");
     String g_UpFlg      = request.getParameter("UpFlg");
     if (g_UpFlg == null) {
-    	g_UpFlg = "select";
+        g_UpFlg = "select";
     }
+
+    String user = ""; //ログインユーザー名
+    //ログインユーザー名取得
+	try {
+	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
+	} catch (Exception e) {
+	}
 
     ArrayList<ArrayList<String>> MstDeviceinfoLists = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<String>> MstTerminalinfoLists = new ArrayList<ArrayList<String>>();
@@ -139,13 +149,13 @@
            psIns.setString(1, "Deleted");
            psIns.setString(2, "1");
 
-           psIns.setString(3, "system");
-           psIns.setString(4, "system");
+           psIns.setString(3, "settingDevice");
+           psIns.setString(4, user);
 
            // MST_TERMINALINFOの設定
            psIns.setString(5, "1");
-           psIns.setString(6, "system");
-           psIns.setString(7, "system");
+           psIns.setString(6, "settingDevice");
+           psIns.setString(7, user);
 
            try {
                rsDel = psIns.executeUpdate();
@@ -182,8 +192,8 @@
                     + " ,DeleteFlag = '0'               "
                     + " ,UpdCount   = UpdCount+1        "
                     + " ,UpdDate    = CURRENT_TIMESTAMP "
-                    + " ,UpdAppId   = 'system'          "
-                    + " ,UpdOpeCode = 'system'          "
+                    + " ,UpdAppId   = ?                 "
+                    + " ,UpdOpeCode = ?                 "
                     + "WHERE "
                     + "     CompanyId= " + "'" + g_companyID  + "'"
                     + " AND StoreId=   " + "'" + g_storeID    + "'"
@@ -198,8 +208,8 @@
                     + " ,DeleteFlag = '0'               "
                     + " ,UpdCount   = UpdCount+1        "
                     + " ,UpdDate    = CURRENT_TIMESTAMP "
-                    + " ,UpdAppId   = 'system'          "
-                    + " ,UpdOpeCode = 'system'          "
+                    + " ,UpdAppId   = ?                 "
+                    + " ,UpdOpeCode = ?                 "
                     + "WHERE "
                     + "     CompanyId= " + "'" + g_companyID  + "'"
                     + " AND StoreId=   " + "'" + g_storeID    + "'"
@@ -213,8 +223,8 @@
                     + "  DeleteFlag = '0'               "
                     + " ,UpdCount   = UpdCount+1        "
                     + " ,UpdDate    = CURRENT_TIMESTAMP "
-                    + " ,UpdAppId   = 'system'          "
-                    + " ,UpdOpeCode = 'system'          "
+                    + " ,UpdAppId   = ?                 "
+                    + " ,UpdOpeCode = ?                 "
                     + "WHERE "
                     + "     CompanyId= " + "'" + g_companyID  + "'"
                     + " AND StoreId=   " + "'" + g_storeID    + "'"
@@ -224,6 +234,18 @@
  //out.print(sqlStr);
 
             PreparedStatement psUp = connection.prepareStatement(sqlStr);
+
+            // MST_DEVICEINFOの設定
+            psUp.setString(1, "settingDevice");
+            psUp.setString(2, user);
+
+            // MST_TERMINALINFO(トレーニング)の設定
+            psUp.setString(3, "settingDevice");
+            psUp.setString(4, user);
+
+            // MST_TERMINALINFOの設定
+            psUp.setString(5, "settingDevice");
+            psUp.setString(6, user);
 
             try {
                 rsUp = psUp.executeUpdate();
@@ -257,6 +279,19 @@
                     ;
             response.sendRedirect(s_msg);
 
+        } else if ( "Update3".equals(g_UpFlg) ){
+            // Update3
+            //connection.close();
+            String s_msg ="DeviceLastTxId.jsp?"
+                    + "s1=" + g_storeID
+                    + "&t1=" + g_terminalID
+                    + "&r1="+  g_companyID
+                    + "&y1="
+                    + "&err="
+                    + "&info="
+                    ;
+            response.sendRedirect(s_msg);
+
         } else {
             // Select
             // SQL設定
@@ -271,6 +306,7 @@
             sqlStr += " ,deviceinfo.PrinterId       AS dev_PrinterId           ";
             sqlStr += " ,deviceinfo.TillId          AS dev_TillId              ";
             sqlStr += " ,deviceinfo.LinkQueueBuster AS dev_LinkQueueBuster     ";
+            sqlStr += " ,deviceinfo.LastTxId        AS dev_LastTxId            ";
             sqlStr += " ,deviceinfo.Status          AS dev_Status              ";
             sqlStr += " ,deviceinfo.DeleteFlag      AS dev_DeleteFlag          ";
             //MST_TERMINALINFO
@@ -374,7 +410,7 @@
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-            	ArrayList<String> MstDeviceinfoList = new ArrayList<String>();
+                ArrayList<String> MstDeviceinfoList = new ArrayList<String>();
                 // MST_DEVICEINFO
                 // List:0　～
                 MstDeviceinfoList.add(rs.getString("dev_CompanyId"));
@@ -387,6 +423,7 @@
                 MstDeviceinfoList.add(rs.getString("dev_TillId"));
                 // ～List:8
                 MstDeviceinfoList.add(rs.getString("dev_LinkQueueBuster"));
+                MstDeviceinfoList.add(rs.getString("dev_LastTxId"));
                 MstDeviceinfoList.add(rs.getString("dev_Status"));
                 MstDeviceinfoList.add(rs.getString("dev_DeleteFlag"));
 
@@ -495,7 +532,7 @@
     <script type="text/javascript" src="./js/DialogMessage.js"></script>
 </head>
 <body class="res-maincontent">
-<form action="DeviceDetail.jsp" method="post" id="updateform">
+<form action="DeviceDetail.jsp" method="post" id="updateform" onsubmit="return false;">
 
 <input type="hidden" name="add_dev_CompanyId" id="add_dev_CompanyId" value="<%=request.getParameter("dev_CompanyId")%>">
 <input type="hidden" name="add_dev_StoreId" id="add_dev_StoreId" value="<%=request.getParameter("dev_StoreId")%>">
@@ -504,8 +541,32 @@
 <input type="hidden" name="s1" id="s1" value="<%=request.getParameter("s1")%>">
 <input type="hidden" name="t1" id="t1" value="<%=request.getParameter("t1")%>">
 <input type="hidden" name="r1" id="r1" value="<%=request.getParameter("r1")%>">
+<input type="hidden" name="err" id="err" value="<%=request.getParameter("err")%>">
+<input type="hidden" name="info" id="info" value="<%=request.getParameter("info")%>">
 
         <div class="table-scroll-area-v table-scroll-area-h" id="tabletable" style="height:780px">
+            <%
+            String str_info = request.getParameter("info");
+            String str_err  = request.getParameter("err");
+
+            if ( "".equals(str_info) != true && "".equals(str_err) != true){
+            }else{
+                out.print("<div " + "id=\"" + "panel\"" + "><tr><td>");
+                if ("1".equals(str_info)){
+                    // 成功
+                out.print(" <label class=\"" + "res-info-msg\"");
+                out.print(" id=\"" + "infoMsg\"");
+                    out.print(">" + MSG_UPDATE_INFO);
+                }else{
+                    // 異常
+                    out.print(" <label class=\"" + "res-err-msg\"");
+                    out.print(" id=\"" + "infoMsg\"");
+                    out.print(">" + MSG_UPDATE_ERR);
+                }
+                out.print("</label>");
+                out.print("</td></tr></div>");
+            }
+            %>
             <table class="res-tbl" style="width:100%">
                 <tr>
                     <th style="width: 50%" colspan="2">MST_DEVICEINFO 項目</th>
@@ -558,6 +619,11 @@
                     <td colspan="2" class="orangetd">キューID(LinkQueueBuster)</td>
                     <td><input type="text" id="dev_LinkQueueBuster" name="dev_LinkQueueBuster" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(0).get(8)%>"></td>
                     <td><input type="text" id="tra_LinkQueueBuster" name="tra_LinkQueueBuster" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(1).get(8)%>"></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">取引NO(LastTxId)</td>
+                    <td><input type="text" id="dev_LastTxId" name="dev_LastTxId" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(0).get(9)!= null ? MstDeviceinfoLists.get(0).get(9) : 0 %>"></td>
+                    <td><input type="text" id="tra_LastTxId" name="tra_LastTxId" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(1).get(9)!= null ? MstDeviceinfoLists.get(1).get(9) : 0%>"></td>
                 </tr>
 
                 <tr>
@@ -945,15 +1011,24 @@
           <table>
             <tr>
               <%
-              String dev_Status = MstDeviceinfoLists.get(0).get(9);
-              String dev_DeleteFlag = MstDeviceinfoLists.get(0).get(10);
-              String tra_Status = MstDeviceinfoLists.get(1).get(9);
-              String tra_DeleteFlag = MstDeviceinfoLists.get(1).get(10);
+              String dev_Status = MstDeviceinfoLists.get(0).get(10);
+              String dev_DeleteFlag = MstDeviceinfoLists.get(0).get(11);
+              String tra_Status = MstDeviceinfoLists.get(1).get(10);
+              String tra_DeleteFlag = MstDeviceinfoLists.get(1).get(11);
               if (!( "Deleted".equals(dev_Status)
                   || "Deleted".equals(tra_Status)
                   || "1".equals(dev_DeleteFlag)
                   || "1".equals(tra_DeleteFlag)
               )){
+                  // 取引NO更新
+                  out.print("<td style=\"" + "padding:10px;\"" + ">");
+                  out.print("<input type=\"" + "button\"");
+                  out.print(" value=\"" + "取引NO更新\"");
+                  out.print(" onclick=\"" + "Update3(this)\"");
+                  out.print(" class=\"" + "res-big-green\"");
+                  out.print(" style=\"" + "width:150px\"");
+                  out.print(" >");
+                  out.print("</td>");
                   // 削除(AUT_DEVICES)
                   out.print("<td style=\"" + "padding:10px;\"" + ">");
                   out.print("<input type=\"" + "button\"");
@@ -977,7 +1052,7 @@
                   out.print(" value=\"" + "更新画面へ\"");
                   out.print(" onclick=\"" + "Update(this)\"");
                   out.print(" class=\"" + "res-big-green\"");
-                  out.print(" style=\"" + "width:260px\"");
+                  out.print(" style=\"" + "width:200px\"");
                   out.print(" >");
                   out.print("</td>");
               }else{
@@ -1002,6 +1077,13 @@
 function Update(obj) {
     var myform = document.getElementById('updateform');
     document.getElementById("UpFlg").value = "Update"
+    // 画面遷移を行う
+    myform.submit();
+}
+
+function Update3(obj) {
+    var myform = document.getElementById('updateform');
+    document.getElementById("UpFlg").value = "Update3"
     // 画面遷移を行う
     myform.submit();
 }
@@ -1070,6 +1152,10 @@ jQuery(function ($) {
 });
 
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>
 <%
     }

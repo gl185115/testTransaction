@@ -19,6 +19,13 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
 	String errString = "";
 	String infoString = "";
 
+    String user = ""; //ログインユーザー名
+    //ログインユーザー名取得
+	try {
+	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
+	} catch (Exception e) {
+	}
+
 	if (request.getParameter("searchStoreID") != null && request.getParameter("searchStoreID").length() > 0) {
 		JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
 		Connection connection = dbManager.getConnection();
@@ -40,8 +47,8 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
             connection.close();
         } else {
 			sqlStr = "INSERT INTO RESMaster.dbo.PRM_QUEUEBUSTER_LINK"
-                    + "(StoreId, ID, DisplayName, CompanyId, Status, UpdDate, UpdAppId, UpdOpeCode) "
-                    + " VALUES (?, ?, ?, ?, 'Active', CURRENT_TIMESTAMP, 'system', 'system');";
+                    + "(StoreId, ID, DisplayName, CompanyId, Status, UpdDate, UpdAppId, UpdOpeCode)"
+                    + " VALUES (?, ?, ?, ?, 'Active', CURRENT_TIMESTAMP, 'settingDevice', ?);";
 
 			Date nowDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -51,7 +58,8 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
 			psIns.setString(1, request.getParameter("searchStoreID"));
 			psIns.setString(2, request.getParameter("Id"));
 			psIns.setString(3, request.getParameter("DisplayName"));
-            psIns.setString(4, request.getParameter("searchCompanyID"));
+			psIns.setString(4, request.getParameter("searchCompanyID"));
+			psIns.setString(5, user);
 
 			try {
 				int rsIns = psIns.executeUpdate();
@@ -87,7 +95,7 @@ final String CONFIRM_01_INSERT = "キューを登録してよろしいですか�
 <iframe name="storesearch" id="storeSearch" src="./StoreSearch.jsp" frameborder="none" width="100%" height="40px"></iframe>
 <label class="res-err-msg"><%out.println(errString); %></label>
 <label class="res-info-msg"><%out.println(infoString); %></label>
-<form action="QueuebusterLinkAdd.jsp" method="post" id="QueuebusterLinkAdd.jsp">
+<form action="QueuebusterLinkAdd.jsp" method="post" id="QueuebusterLinkAdd.jsp" onsubmit="return false;">
     <div id="updateArea" style="display:none">
         <div class="panel">
             <input type="hidden" name="searchCompanyID" id="searchCompanyID">
@@ -123,7 +131,7 @@ jQuery(function ($) {
     	var myform = document.getElementById('QueuebusterLinkAdd.jsp');
 
         if (myform.checkValidity() == false) {
-        	fakeButton.click();
+        	document.getElementById('fakeButton').click();
             return;
         }
 
@@ -152,4 +160,8 @@ window.onload = function() {
 	}, false );
 };
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>

@@ -251,7 +251,7 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 	</div>
 </div>
 </body>
-<form action="DeviceAttributeUpdate.jsp" method="post" id="updateform">
+<form action="DeviceAttributeUpdate.jsp" method="post" id="updateform" onsubmit="return false;">
   <input type="hidden" name="AttributeId" id="AttributeId">
 <div id="updateArea" style="display:none">
 	<div class="panel">
@@ -512,7 +512,7 @@ jQuery(function ($) {
     $('#start').click(function(e){
         var myform = document.getElementById('updateform');
         if (myform.checkValidity() == false) {
-        	fakeButton.click();
+        	document.getElementById('fakeButton').click();
             return;
         }
         
@@ -634,4 +634,8 @@ jQuery(function ($) {
         showLog();
 	})();
 </script>
+<HEAD>
+<meta http-equiv=”Pragma” content=”no-cache”>
+<meta http-equiv=”Cache-Control” content=”no-cache”>
+</HEAD> 
 </html>

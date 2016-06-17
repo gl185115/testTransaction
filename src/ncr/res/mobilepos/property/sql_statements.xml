@@ -11899,38 +11899,8 @@ insert into txl_offline_credit
       a.DisplayOrder,
       b.WorkstationId,
       b.RetailStoreId,
-      (CASE
-        WHEN @terminalId IS NULL
-        THEN (
-          SELECT
-            SUM(ItemCnt)
-          FROM
-            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
-          WHERE
-            CompanyId = @companyId AND
-            RetailStoreId = @storeId AND
-            ItemType = a.DataType AND
-            BusinessDayDate = @businessDate AND
-            TrainingFlag = @trainingFlag)
-        ELSE
-          b.ItemCnt
-      END) AS ItemCnt,
-      (CASE
-        WHEN @terminalId IS NULL
-        THEN (
-          SELECT
-            SUM(ItemAmt)
-          FROM
-            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
-          WHERE
-            CompanyId = @companyId AND
-            RetailStoreId = @storeId AND
-            ItemType = a.DataType AND
-            BusinessDayDate = @businessDate AND
-            TrainingFlag = @trainingFlag)
-        ELSE
-          b.ItemAmt
-      END) AS ItemAmt
+      b.ItemCnt,
+      b.ItemAmt
     FROM
       RESMaster.dbo.MST_NAME_DAILYREPORT a
     LEFT JOIN

@@ -52,9 +52,8 @@ public class PromotionInfoResource {
     @Path("/getPromotionInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="獲得割引企画情報", response=JSONData.class)
+    @ApiOperation(value="割引企画情報獲得", response=JSONData.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),

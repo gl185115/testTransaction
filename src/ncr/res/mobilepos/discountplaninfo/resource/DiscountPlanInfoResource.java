@@ -30,7 +30,7 @@ import ncr.res.mobilepos.model.ResultBase;
  *
  */
 @Path("/discountplan")
-@Api(value="/discountplan", description="獲得小計割引関連API")
+@Api(value="/discountplan", description="小計割引獲得API")
 public class DiscountPlanInfoResource {
 	/** A private member variable used for logging the class implementations. */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
@@ -55,9 +55,8 @@ public class DiscountPlanInfoResource {
     @Path("/getSubtotalDiscount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="獲得小計割引", response=SubtotalDiscount.class)
+    @ApiOperation(value="小計割引獲得", response=SubtotalDiscount.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RESRPT_OK, message="成功コード"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),

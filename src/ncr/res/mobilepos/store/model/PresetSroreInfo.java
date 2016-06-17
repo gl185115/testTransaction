@@ -5,8 +5,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PresetSroreInfo")
+@ApiModel(value="PresetSroreInfo")
 public class PresetSroreInfo extends StoreInfo {
 
     @XmlElement(name = "TerminalId")
@@ -15,6 +19,7 @@ public class PresetSroreInfo extends StoreInfo {
     @XmlElement(name = "ReceiptStoreName")
     private String receiptStoreName = "";
 
+    @ApiModelProperty(value="端末番号", notes="端末番号")
     public String getTerminalId() {
         return terminalId;
     }
@@ -23,6 +28,7 @@ public class PresetSroreInfo extends StoreInfo {
         this.terminalId = terminalId;
     }
 
+    @ApiModelProperty(value="レシート店舗名", notes="レシート店舗名")
     public String getReceiptStoreName() {
         return receiptStoreName;
     }
@@ -31,6 +37,7 @@ public class PresetSroreInfo extends StoreInfo {
         this.receiptStoreName = receiptStoreName;
     }
 
+    @ApiModelProperty(value="レシート電話番号", notes="レシート電話番号")
     public String getReceiptTelNo() {
         return receiptTelNo;
     }
@@ -39,6 +46,7 @@ public class PresetSroreInfo extends StoreInfo {
         this.receiptTelNo = receiptTelNo;
     }
 
+    @ApiModelProperty(value="領収書店舗名", notes="領収書店舗名")
     public String getFormalReceiptStoreName() {
         return formalReceiptStoreName;
     }
@@ -47,6 +55,7 @@ public class PresetSroreInfo extends StoreInfo {
         this.formalReceiptStoreName = formalReceiptStoreName;
     }
 
+    @ApiModelProperty(value="領収書電話番号", notes="領収書電話番号")
     public String getFormalReceiptTelNo() {
         return formalReceiptTelNo;
     }

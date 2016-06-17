@@ -39,6 +39,12 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -57,6 +63,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 
 @Path("/devicelog")
+@Api(value="/devicelog", description="日誌情報API")
 public class DeviceLogResource {
 
 
@@ -140,10 +147,14 @@ public class DeviceLogResource {
     @Path("/upload")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="移動設備からサーバーに日誌をアップロードする", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase uploadLog(@Context final HttpServletRequest request,
-	    @FormParam("storeid") final String storeId,
-	    @FormParam("termid") final String termId,
-	    @FormParam("data") final String data) {
+    	@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    	@ApiParam(name="termid", value="端末番号") @FormParam("termid") final String termId,
+    	@ApiParam(name="data", value="日誌データ") @FormParam("data") final String data) {
 	// Logs given parameters for Debug.
 	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
 	tp.methodEnter("uploadLog");
@@ -426,10 +437,15 @@ public class DeviceLogResource {
     @Path("/getloglist/{udid}")
     @GET
     @Produces(MediaType.APPLICATION_ATOM_XML)
+    @ApiOperation(value="日誌情報取得", response=DeviceLogs.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final DeviceLogs getDeviceLogs(
-            @PathParam("udid") final String udid,
-            @QueryParam("startIndex") final int startIndex,
-            @QueryParam("count") final int count) {
+    		@ApiParam(name="udid", value="唯一装置コード") @PathParam("udid") final String udid,
+    		@ApiParam(name="startIndex", value="スタート索引") @QueryParam("startIndex") final int startIndex,
+    		@ApiParam(name="count", value="返されるインデックス数") @QueryParam("count") final int count) {
 
         tp.methodEnter("getDeviceLogs");
         tp.println("udid", udid)
@@ -484,9 +500,15 @@ public class DeviceLogResource {
      */
     @Path("/download/{rowId}")
     @GET
+    @ApiOperation(value="日誌ファイルダウンロード", response=Response.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="SQLエラー"),
+    })
     public final Response downloadLogFile(
-            @PathParam("rowId") final String rowId,
-            @QueryParam("asPlainText") final boolean asPlainText) {
+    		@ApiParam(name="rowId", value="列NO") @PathParam("rowId") final String rowId,
+    		@ApiParam(name="asPlainText", value="フラグ") @QueryParam("asPlainText") final boolean asPlainText) {
 
         tp.methodEnter("downloadLogFile");
         tp.println("rowId", rowId)

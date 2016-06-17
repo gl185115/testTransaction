@@ -222,7 +222,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             result = selectStmnt.executeQuery();
             
             if (result.next()) {
-                String cashOnHand = result.getString("ItemAmt");
+                String cashOnHand = result.getString("AmtSum");
                 if (cashOnHand == null) {
                     getCashBalance.setNCRWSSResultCode(
                             ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);

@@ -144,14 +144,11 @@ public class CashAccountResource {
           .println("datatype", dataType)
           .println("itemLevel1", itemLevel1)
           .println("itemLevel2", itemLevel2);
-        
-        GetCashBalance response = new GetCashBalance();
-        
+        GetCashBalance response = new GetCashBalance(); 
         try {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICashAccountDAO cashAccountDAO = sqlServer.getCashAccountDAO();
-            
-            if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
+            if (StringUtility.isNullOrEmpty(companyId,storeId,businessDate)) {
                 response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 response.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);

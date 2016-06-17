@@ -15,7 +15,7 @@ import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "JSONData")
-@ApiModel(value="TotalAmount")
+@ApiModel(value="JSONData")
 public class JSONData extends ResultBase{
 	
 	@XmlElement(name = "JSONObject")

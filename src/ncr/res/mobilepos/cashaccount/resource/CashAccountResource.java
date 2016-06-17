@@ -128,6 +128,7 @@ public class CashAccountResource {
     public final GetCashBalance getReportItems(
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
+    		@ApiParam(name="tillId", value="tillコード") @FormParam("tillId") final String tillId,
     		@ApiParam(name="terminalId", value="POSコード") @FormParam("terminalId") final String terminalId,
     		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") final String businessDate,
     		@ApiParam(name="trainingFlag", value="トレーニングフラグ") @FormParam("trainingFlag") final int trainingFlag,
@@ -150,15 +151,25 @@ public class CashAccountResource {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICashAccountDAO cashAccountDAO = sqlServer.getCashAccountDAO();
             
-            if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate, terminalId)) {
+            if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
                 response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 response.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return response;
             }
-            
-            response = cashAccountDAO.getCashBalance(companyId, storeId, terminalId, 
-                    businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+            if (StringUtility.isNullOrEmpty(tillId) && StringUtility.isNullOrEmpty(terminalId)) {
+                response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                response.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return response;
+            }
+            if(StringUtility.isNullOrEmpty(tillId)){
+            	response = cashAccountDAO.getCashBalance(companyId, storeId, terminalId, 
+                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+            }else{
+            	response = cashAccountDAO.getCashBalanceByTillId(companyId, storeId, tillId, 
+                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+            }
         } catch (DaoException e) {
             LOGGER.logAlert(progName, "getCashBalance", Logger.RES_EXCEP_DAO,
                     "Failed to get Cash Balance.\n" + e.getMessage());

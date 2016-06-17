@@ -183,5 +183,78 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
          }
         return getCashBalance;
     }
+    /* (non-Javadoc)
+     * @see ncr.res.mobilepos.report.dao.IReportDAO#getDailyReport(java.lang.String, java.lang.String, java.lang.String, java.lang.String, int, int, int, int)
+     */
+    @Override
+    public GetCashBalance getCashBalanceByTillId(String companyId, String storeId, String tillId, String businessDate,
+            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws DaoException {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("terminalId", tillId)
+          .println("businessDate", businessDate)
+          .println("trainingFlag", trainingFlag)
+          .println("dataType", dataType)
+          .println("itemLevel1", itemLevel1)
+          .println("itemLevel2", itemLevel2);
+        
+        PreparedStatement selectStmnt = null;
+        ResultSet result = null;
+        Connection connection = null;
+        GetCashBalance getCashBalance = new GetCashBalance();
+        
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-report-item-tillId"));
+            selectStmnt.setString(SQLStatement.PARAM1, companyId);
+            selectStmnt.setString(SQLStatement.PARAM2, storeId);
+            selectStmnt.setString(SQLStatement.PARAM3, tillId);
+            selectStmnt.setString(SQLStatement.PARAM4, businessDate);
+            selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
+            selectStmnt.setString(SQLStatement.PARAM6, dataType);
+            selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
+            selectStmnt.setString(SQLStatement.PARAM8, itemLevel2);
+            
+            result = selectStmnt.executeQuery();
+            
+            if (result.next()) {
+                String cashOnHand = result.getString("ItemAmt");
+                if (cashOnHand == null) {
+                    getCashBalance.setNCRWSSResultCode(
+                            ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
+                    tp.println("Cash balance not retrieved.");
+                    
+                    return getCashBalance;
+                }
+                
+                CashBalance cashBalance = new CashBalance();
+                cashBalance.setCashOnHand(cashOnHand);
+                cashBalance.setTillId(tillId);
+                
+                getCashBalance.setCashBalance(cashBalance);
+            } else {
+                getCashBalance.setNCRWSSResultCode(
+                        ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
+                tp.println("Cash balance not retrieved.");
+            }
+         } catch (Exception e) {
+             LOGGER.logAlert(functionName,
+                     functionName,
+                     Logger.RES_EXCEP_GENERAL, 
+                     "Failed to get Daily Report item.\n"
+                              + e.getMessage());
+             throw new DaoException("Exception: @"
+                     + "SqlServerReportDAO:" + functionName
+                     + " - Failed to get Daily Report Item.", e);
+         } finally {
+             closeConnectionObjects(connection, selectStmnt, result);
+             tp.methodExit(result);
+         }
+        return getCashBalance;
+    }
 
 }

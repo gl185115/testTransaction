@@ -25,6 +25,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -54,6 +60,7 @@ import ncr.res.mobilepos.store.model.ViewStore;
  * @author RD185102
  */
 @Path("/storeinfo")
+@Api(value="/storeinfo", description="ストア情報API")
 public class StoreResource {
     /**
      * the servelet context.
@@ -97,8 +104,15 @@ public class StoreResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="ビュー店", response=ViewStore.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースで見つからない店"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ViewStore viewStore(
-            @QueryParam("retailstoreid") final String retailStoreID) {
+    		@ApiParam(name="retailstoreid", value="店舗コード")@QueryParam("retailstoreid") final String retailStoreID) {
 
         String functionName = "StoreResource.viewStore";
 
@@ -149,8 +163,16 @@ public class StoreResource {
     @Path("/getstoredetailinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="店の詳細情報を取得する", response=ViewStore.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースで見つからない店"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ViewStore getStoreDetailInfo(
-            @QueryParam("retailstoreid") final String retailStoreID,@QueryParam("companyId") final String companyId) {
+    		@ApiParam(name="retailstoreid", value="店舗コード")@QueryParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId) {
 
         String functionName = "StoreResource.getStoreDetailInfo";
 
@@ -202,9 +224,17 @@ public class StoreResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="創造するストア", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_EXISTS, message="店はすでに存在"),
+            @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果OK"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase createStore(
-            @FormParam("retailstoreid") final String retailStoreID,
-            @FormParam("store") final String store) {
+    		@ApiParam(name="retailstoreid", value="店舗コード")@FormParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="store", value="店舗")@FormParam("store") final String store) {
 
         tp.methodEnter("createStore");
         tp.println("RetailStoreID", retailStoreID).println("Store", store);
@@ -253,8 +283,16 @@ public class StoreResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="削除するストア", response=ResultBase.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースで見つからない店"),
+            @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果OK"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ResultBase deleteStore(
-            @FormParam("retailstoreid") final String retailStoreID) {
+    		@ApiParam(name="retailstoreid", value="店舗コード")@FormParam("retailstoreid") final String retailStoreID) {
 
         String functionName = "StoreResource.deleteStore";
 
@@ -304,11 +342,17 @@ public class StoreResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="検索するストア", response=Stores.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final Stores searchStores(
-    	@QueryParam("companyId") final String companyId,
-		@QueryParam("key") final String key, 
-		@QueryParam("name") final String name,
-		@QueryParam("limit") final int searchLimit) {
+    		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
+    		@ApiParam(name="key", value="キー")@QueryParam("key") final String key, 
+    		@ApiParam(name="name", value="名")@QueryParam("name") final String name,
+    		@ApiParam(name="limit", value="期限")@QueryParam("limit") final int searchLimit) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("searchStores")
         	.println("companyId", companyId)
@@ -351,9 +395,17 @@ public class StoreResource {
     @Path("/maintenance")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="更新するストア", response=ViewStore.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_EXISTS, message="店はすでに存在"),
+            @ApiResponse(code=ResultBase.RES_STORE_NO_UPDATE, message="更新するストアは失敗"),
+        })
     public final ViewStore updateStores(
-            @FormParam("retailstoreid") final String storeid,
-            @FormParam("store") final String storeJson) {
+    		@ApiParam(name="retailstoreid", value="店舗コード")@FormParam("retailstoreid") final String storeid,
+    		@ApiParam(name="store", value="店舗")@FormParam("store") final String storeJson) {
         String functionName = "StoreResource.updateStores";
 
         tp.methodEnter("updateStores");
@@ -407,8 +459,17 @@ public class StoreResource {
     @Path("/{retailstoreid}/image")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="画像を得る", response=ViewStore.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果OK"),
+            @ApiResponse(code=ResultBase.RES_STORE_LOGO_INVALID, message="店ロゴが無効"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースで見つからない店"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final ViewStore getImage(
-            @PathParam("retailstoreid") final String retailStoreID) {
+    		@ApiParam(name="retailstoreid", value="店舗コード")@PathParam("retailstoreid") final String retailStoreID) {
         tp.methodEnter("getImage").println("RetailStoreID", retailStoreID);
         ViewStore viewStore = new ViewStore();
         IStoreDAO storeDao;
@@ -538,12 +599,16 @@ public class StoreResource {
     @Path("/presetcminfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="CMプリセットするストアリスト情報を得る", response=CMPresetInfos.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final CMPresetInfos getCMPresetInfoList(
-        @QueryParam("companyid") final String companyId,
-        @QueryParam("storeid") final String storeId, 
-        @QueryParam("terminalid") final String terminalId,
-        @QueryParam("businessdaydate") final String businessDayDate) {
-
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalid") final String terminalId,
+    		@ApiParam(name="businessdaydate", value="営業日")@QueryParam("businessdaydate") final String businessDayDate) {
+    	
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("getCMPresetInfoList")
             .println("companyid", companyId)
@@ -576,10 +641,14 @@ public class StoreResource {
     @Path("/getcmpresetstoreinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="CMプリセットするストア情報を得る", response=PresetSroreInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final PresetSroreInfo getCMPresetStoreInfo(
-        @QueryParam("companyid") final String companyId,
-        @QueryParam("storeid") final String storeId, 
-        @QueryParam("terminalid") final String terminalId) {
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalid") final String terminalId) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("getCMPresetStoreInfo")
@@ -610,11 +679,15 @@ public class StoreResource {
     @Path("/getsummaryreceiptno")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="摘要レシートNoを得る", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final JSONData getSummaryReceiptNo(
-        @QueryParam("companyId") final String companyId,
-        @QueryParam("storeId") final String storeId, 
-        @QueryParam("terminalId") final String terminalId,
-        @QueryParam("traning") final String traning) {
+    		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeId") final String storeId, 
+    		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         JSONData json = new JSONData();

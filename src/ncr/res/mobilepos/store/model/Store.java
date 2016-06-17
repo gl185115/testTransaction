@@ -14,6 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 /**
  *
  * @author AP185142
@@ -21,6 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Store")
+@ApiModel(value="Store")
 public class Store {
 	@XmlElement(name = "CompanyId")
 	private String companyId;
@@ -79,7 +83,7 @@ public class Store {
     
     private String updAppId;
     
-    
+    @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
     	return companyId;
     }
@@ -92,6 +96,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public final String getRetailStoreID() {
         return retailStoreID;
     }
@@ -111,6 +116,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="店舗名", notes="店舗名")
     public final String getStoreName() {
         return storeName;
     }
@@ -130,6 +136,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="アドレス", notes="アドレス")
     public final String getAddress() {
         return address;
     }
@@ -149,6 +156,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="電話番号", notes="電話番号")
     public final String getTel() {
         return tel;
     }
@@ -168,6 +176,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="URL", notes="URL")
     public final String getUrl() {
         return url;
     }
@@ -187,6 +196,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="販売スペース名", notes="販売スペース名")
     public final String getSalesSpaceName() {
         return salesSpaceName;
     }
@@ -206,6 +216,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="イベント名", notes="イベント名")
     public final String getEventName() {
         return eventName;
     }
@@ -225,6 +236,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="レシート広告文", notes="レシート広告文")
     public final String getAds() {
         return ads;
     }
@@ -244,6 +256,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="レシートロゴファイルパス", notes="レシートロゴファイルパス")
     public final String getElectroFilePath() {
         return electroFilePath;
     }
@@ -263,6 +276,7 @@ public class Store {
      *
      * @return String
      */
+    @ApiModelProperty(value="印紙ロゴファイルパス", notes="印紙ロゴファイルパス")
     public final String getStampTaxFilePath() {
         return stampTaxFilePath;
     }
@@ -277,6 +291,7 @@ public class Store {
         this.stampTaxFilePath = filePath;
     }
 
+    @ApiModelProperty(value="更新アプリケーションID", notes="更新アプリケーションID")
     public String getUpdAppId() {
         return updAppId;
     }
@@ -285,6 +300,7 @@ public class Store {
         this.updAppId = updAppId;
     }
 
+    @ApiModelProperty(value="更新担当者コード", notes="更新担当者コード")
     public String getUpdOpeCode() {
         return updOpeCode;
     }

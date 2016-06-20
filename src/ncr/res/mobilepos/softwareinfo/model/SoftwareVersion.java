@@ -16,6 +16,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -24,6 +27,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SoftwareVersion")
+@ApiModel(value="SoftwareVersion")
 public class SoftwareVersion extends ResultBase {
 
     /**
@@ -41,6 +45,7 @@ public class SoftwareVersion extends ResultBase {
      * Getter for name of the application software.
      * @return  Name of the application software
      */
+    @ApiModelProperty(value="名", notes="名")
     public final String getName() {
         return name;
     }
@@ -48,6 +53,7 @@ public class SoftwareVersion extends ResultBase {
      * Getter for name of the application software.
      * @return Version of the application software
      */
+    @ApiModelProperty(value="バージョン", notes="バージョン")
     public final String getVersion() {
         return version;
     }

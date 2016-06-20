@@ -11869,7 +11869,7 @@ insert into txl_offline_credit
     (?, ?, ?, ?, ?, ?, ?, ?, sysdatetime())
 </entry>
 <entry key="get-credit-card-company">
-	SELECT 
+	SELECT
 	   CompanyId,
        CreditCompanyId,
 	   CreditCompanyName,
@@ -11908,29 +11908,81 @@ insert into txl_offline_credit
       a.ItemLevel4,
       a.ItemName,
       a.DisplayOrder,
-      b.WorkstationId,
-      b.RetailStoreId,
-      b.ItemCnt,
-      b.ItemAmt
+      @terminalId as WorkstationId,
+      (CASE
+        WHEN @terminalId IS NULL
+        THEN (
+          SELECT
+            SUM(ItemCnt)
+          FROM
+            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
+          WHERE
+            CompanyId = @companyId AND
+            RetailStoreId = @retailstoreId AND
+            ItemType = a.DataType AND
+            ItemLevel1 = a.ItemLevel1 AND
+            ItemLevel2 = a.ItemLevel2 AND
+            ItemLevel3 = a.ItemLevel3 AND
+            ItemLevel4 = a.ItemLevel4 AND
+            BusinessDayDate = @businessDate AND
+            TrainingFlag = @trainingFlag)
+        ELSE (
+          SELECT
+            ItemCnt
+          FROM
+            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
+          WHERE
+            CompanyId = @companyId AND
+            RetailStoreId = @retailstoreId AND
+            ItemType = a.DataType AND
+            ItemLevel1 = a.ItemLevel1 AND
+            ItemLevel2 = a.ItemLevel2 AND
+            ItemLevel3 = a.ItemLevel3 AND
+            ItemLevel4 = a.ItemLevel4 AND
+            BusinessDayDate = @businessDate AND
+            TrainingFlag = @trainingFlag AND
+            WorkstationId = @terminalId)
+      END) AS ItemCnt,
+      (CASE
+        WHEN @terminalId IS NULL
+        THEN (
+          SELECT
+            SUM(ItemAmt)
+          FROM
+            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
+          WHERE
+            CompanyId = @companyId AND
+            RetailStoreId = @retailstoreId AND
+            ItemType = a.DataType AND
+            ItemLevel1 = a.ItemLevel1 AND
+            ItemLevel2 = a.ItemLevel2 AND
+            ItemLevel3 = a.ItemLevel3 AND
+            ItemLevel4 = a.ItemLevel4 AND
+            BusinessDayDate = @businessDate AND
+            TrainingFlag = @trainingFlag)
+        ELSE (
+          SELECT
+            ItemAmt
+          FROM
+            RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
+          WHERE
+            CompanyId = @companyId AND
+            RetailStoreId = @retailstoreId AND
+            ItemType = a.DataType AND
+            ItemLevel1 = a.ItemLevel1 AND
+            ItemLevel2 = a.ItemLevel2 AND
+            ItemLevel3 = a.ItemLevel3 AND
+            ItemLevel4 = a.ItemLevel4 AND
+            BusinessDayDate = @businessDate AND
+            TrainingFlag = @trainingFlag AND
+            WorkstationId = @terminalId)
+      END) AS ItemAmt
     FROM
       RESMaster.dbo.MST_NAME_DAILYREPORT a
-    LEFT JOIN
-      RESTransaction.dbo.TXU_TOTAL_DAILYREPORT b
-    ON
-      a.CompanyId = b.CompanyId AND
-      a.DataType = b.ItemType AND
-      a.ItemLevel1 = b.ItemLevel1 AND
-      a.ItemLevel2 = b.ItemLevel2 AND
-      a.ItemLevel3 = b.ItemLevel3 AND
-      a.ItemLevel4 = b.ItemLevel4 AND
-      b.BusinessDayDate = @businessDate AND
-      b.TrainingFlag = @trainingFlag
     WHERE
       a.CompanyId = @companyId AND
       a.StoreId = @storeId AND
-      b.RetailStoreId = @retailstoreId AND
-      a.DeleteFlag = 0.0 AND
-      b.WorkstationId = COALESCE(@terminalId, b.WorkstationId)
+      a.DeleteFlag = 0.0
     ORDER BY
       a.DataType,
       cast(a.ItemLevel1 as int),

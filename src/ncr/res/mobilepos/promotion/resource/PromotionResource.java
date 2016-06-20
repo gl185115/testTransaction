@@ -289,7 +289,7 @@ public class PromotionResource {
     @ApiOperation(value="プロジェクトと促進情報の入力を求めます", response=PromotionResponse.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="指定した事務とは既存の事務とのマッチングはできない"),
+            @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="マッチング取引ができない"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
         })
@@ -450,7 +450,7 @@ public class PromotionResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="指定した事務とは既存の事務とのマッチングはできない"),
+            @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="マッチング取引ができない"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
         })
@@ -798,7 +798,7 @@ public class PromotionResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="解析エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="指定した事務とは既存の事務とのマッチングはできない"),
+            @ApiResponse(code=ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message="マッチング取引ができない"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
         })
     public final PromotionResponse itemUpdate(

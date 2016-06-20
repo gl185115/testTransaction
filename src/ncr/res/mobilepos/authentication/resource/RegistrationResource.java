@@ -95,6 +95,8 @@ public class RegistrationResource {
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
         @ApiResponse(code=ResultBase.RESREG_DEVICEEXIST, message="既に存在する"),
         @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="設備の標識は無効にする"),
+        @ApiResponse(code=ResultBase.RESAUTH_PASSCODE_INVALID, message="パスコードはCORP証明書が一致しない"),
+        @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="データベース中で企業コードと店舗コードがない"),
     })
 	public final DeviceStatus registerDevice(
 			@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,

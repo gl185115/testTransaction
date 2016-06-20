@@ -440,10 +440,10 @@ $(document).ready(function() {
         $("#bizCatId").attr("disabled", "disabled");
         $("#btnSet").attr("disabled", "disabled");
     }
-    if ($("#companyId").val() === "" || $("#bizCatId").val() === "") {
+    if ($("#companyId").val() === "" || $("#bizCatId").val() === "" || $("#bizCatId").val() === "00") {
         $("#storeId").attr("disabled", "disabled");
     }
-    if ($("#companyId").val() === "" || $("#bizCatId").val() === "" || $("#storeId").val() === "") {
+    if ($("#companyId").val() === "" || $("#bizCatId").val() === "" || $("#bizCatId").val() === "00" || $("#storeId").val() === "" || $("#storeId").val() === "0000") {
         $("#terminalId").attr("disabled", "disabled");
     }
     $("#companyId").change(function() {

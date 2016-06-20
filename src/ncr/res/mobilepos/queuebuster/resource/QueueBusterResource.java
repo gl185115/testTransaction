@@ -120,7 +120,7 @@ public class QueueBusterResource {
     	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="取引の期日を無効にする"),
-            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラーが発生する、XML /分析")
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にJAXBエラーが起こっています")
         })
     public final ResultBase suspend(
     		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String retailStoreId,
@@ -258,10 +258,10 @@ public class QueueBusterResource {
         	@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_TXINVALID, message="無効な事務タイプ"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="取引は回復に回復している"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="機器接続情報見つからない"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="機械の接続情報パラメータは発見されていない"),
-            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラーが発生する、XML /分析")
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="既に取引を再開した"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="キューバスターパラメータが見つかりませんでした"),
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にJAXBエラーが起こっています")
         })
     public final SearchedPosLog resume(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
@@ -349,11 +349,11 @@ public class QueueBusterResource {
     @GET
     @Path("/list")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="検索取引リストで打ち壊すされて", response=BusteredTransactionList.class)
+    @ApiOperation(value="取引リストを得る", response=BusteredTransactionList.class)
     @ApiResponses(value={
     	@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_LISTEMPTY, message="事務リストアップは空の")
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_LISTEMPTY, message="キューのバスター・トランザクションのリストが空")
     })
     public final BusteredTransactionList list(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
@@ -496,8 +496,8 @@ public class QueueBusterResource {
     @Produces({ MediaType.APPLICATION_XML })
     @ApiOperation(value="Web方法の呼び出し要求、取り消し、機器接続情報過程で完成取引", response=SuspendData.class)
     @ApiResponses(value={
-    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="機器接続情報見つからない"),
-        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="機器接続情報請求は無効なのです")
+    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="キューバスタートランザクション要求が無効です")
     })
     public final SuspendData requestToQueue(
     		@ApiParam(name="method", value="方法") @QueryParam("method") final String method,

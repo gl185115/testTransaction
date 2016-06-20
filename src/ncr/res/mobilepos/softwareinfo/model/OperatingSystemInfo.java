@@ -14,12 +14,15 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+
 /**
  * OperatingSystemInfo Model class for application's software vesion.
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "OperatingSystemInfo")
+@ApiModel(value="OperatingSystemInfo")
 public class OperatingSystemInfo extends SoftwareVersion  {
 
     /**

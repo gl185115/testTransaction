@@ -5,12 +5,16 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "StoreInfo")
+@ApiModel(value="StoreInfo")
 public class StoreInfo extends ResultBase {
-    
+	@ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyid() {
         return companyid;
     }
@@ -19,6 +23,7 @@ public class StoreInfo extends ResultBase {
         this.companyid = companyid;
     }
 
+    @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getStoreId() {
         return storeId;
     }
@@ -27,6 +32,7 @@ public class StoreInfo extends ResultBase {
         this.storeId = storeId;
     }
 
+    @ApiModelProperty(value="店舗名", notes="店舗名")
     public String getStoreName() {
         return storeName;
     }
@@ -35,6 +41,7 @@ public class StoreInfo extends ResultBase {
         this.storeName = storeName;
     }
 
+    @ApiModelProperty(value="店舗名（略称）", notes="店舗名（略称）")
     public String getStoreShortName() {
         return storeShortName;
     }
@@ -43,6 +50,7 @@ public class StoreInfo extends ResultBase {
         this.storeShortName = storeShortName;
     }
 
+    @ApiModelProperty(value="店舗区分", notes="店舗区分")
     public String getStoreKubun() {
         return storeKubun;
     }
@@ -51,6 +59,7 @@ public class StoreInfo extends ResultBase {
         this.storeKubun = storeKubun;
     }
 
+    @ApiModelProperty(value="店舗郵便番号", notes="店舗郵便番号")
     public String getStoreZip() {
         return storeZip;
     }
@@ -59,6 +68,7 @@ public class StoreInfo extends ResultBase {
         this.storeZip = storeZip;
     }
 
+    @ApiModelProperty(value="店舗住所", notes="店舗住所")
     public String getStoreAddr() {
         return storeAddr;
     }
@@ -67,6 +77,7 @@ public class StoreInfo extends ResultBase {
         this.storeAddr = storeAddr;
     }
 
+    @ApiModelProperty(value="店舗住所１", notes="店舗住所１")
     public String getStoreAddr1() {
         return storeAddr1;
     }
@@ -75,6 +86,7 @@ public class StoreInfo extends ResultBase {
         this.storeAddr1 = storeAddr1;
     }
 
+    @ApiModelProperty(value="店舗電話番号", notes="店舗電話番号")
     public String getStoreTel() {
         return storeTel;
     }
@@ -83,6 +95,7 @@ public class StoreInfo extends ResultBase {
         this.storeTel = storeTel;
     }
 
+    @ApiModelProperty(value="店舗FAX番号", notes="店舗FAX番号")
     public String getStoreFax() {
         return storeFax;
     }
@@ -91,6 +104,7 @@ public class StoreInfo extends ResultBase {
         this.storeFax = storeFax;
     }
 
+    @ApiModelProperty(value="レシート広告文", notes="レシート広告文")
     public String getAds() {
         return ads;
     }
@@ -99,6 +113,7 @@ public class StoreInfo extends ResultBase {
         this.ads = ads;
     }
 
+    @ApiModelProperty(value="カスタマーディスプレイメッセージ", notes="カスタマーディスプレイメッセージ")
     public String getCdMsg() {
         return cdMsg;
     }
@@ -107,6 +122,7 @@ public class StoreInfo extends ResultBase {
         this.cdMsg = cdMsg;
     }
 
+    @ApiModelProperty(value="レシートエレクトロビットマップファイルパス", notes="レシートエレクトロビットマップファイルパス")
     public String getElectroFilePath() {
         return electroFilePath;
     }
@@ -115,6 +131,7 @@ public class StoreInfo extends ResultBase {
         this.electroFilePath = electroFilePath;
     }
 
+    @ApiModelProperty(value="印紙税後納ビットマップファイルパス", notes="印紙税後納ビットマップファイルパス")
     public String getStampTaxFilePath() {
         return stampTaxFilePath;
     }
@@ -123,6 +140,7 @@ public class StoreInfo extends ResultBase {
         this.stampTaxFilePath = stampTaxFilePath;
     }
 
+    @ApiModelProperty(value="企業体コード", notes="企業体コード")
     public String getStoreCompCode() {
         return storeCompCode;
     }
@@ -131,6 +149,7 @@ public class StoreInfo extends ResultBase {
         this.storeCompCode = storeCompCode;
     }
 
+    @ApiModelProperty(value="業態コード", notes="業態コード")
     public String getSubCode1() {
         return subCode1;
     }
@@ -139,6 +158,7 @@ public class StoreInfo extends ResultBase {
         this.subCode1 = subCode1;
     }
 
+    @ApiModelProperty(value="エリアコード", notes="エリアコード")
     public String getSubCode2() {
         return subCode2;
     }
@@ -147,6 +167,7 @@ public class StoreInfo extends ResultBase {
         this.subCode2 = subCode2;
     }
 
+    @ApiModelProperty(value="責任者名", notes="責任者名")
     public String getSubCode3() {
         return subCode3;
     }
@@ -155,6 +176,7 @@ public class StoreInfo extends ResultBase {
         this.subCode3 = subCode3;
     }
 
+    @ApiModelProperty(value="郵便番号", notes="郵便番号")
     public String getSubCode4() {
         return subCode4;
     }
@@ -163,6 +185,7 @@ public class StoreInfo extends ResultBase {
         this.subCode4 = subCode4;
     }
 
+    @ApiModelProperty(value="郵便番号2", notes="郵便番号2")
     public String getSubCode5() {
         return subCode5;
     }
@@ -171,6 +194,7 @@ public class StoreInfo extends ResultBase {
         this.subCode5 = subCode5;
     }
 
+    @ApiModelProperty(value="クレ/デビ伝票加盟店名上段", notes="クレ/デビ伝票加盟店名上段")
     public String getSubCode6() {
         return subCode6;
     }
@@ -179,6 +203,7 @@ public class StoreInfo extends ResultBase {
         this.subCode6 = subCode6;
     }
 
+    @ApiModelProperty(value="クレ/デビ伝票加盟店名下段", notes="クレ/デビ伝票加盟店名下段")
     public String getSubCode7() {
         return subCode7;
     }
@@ -187,6 +212,7 @@ public class StoreInfo extends ResultBase {
         this.subCode7 = subCode7;
     }
 
+    @ApiModelProperty(value="クレジット商品コード", notes="クレジット商品コード")
     public String getSubCode8() {
         return subCode8;
     }
@@ -195,6 +221,7 @@ public class StoreInfo extends ResultBase {
         this.subCode8 = subCode8;
     }
 
+    @ApiModelProperty(value="未決伝票1枚目控文言", notes="未決伝票1枚目控文言")
     public String getSubCode9() {
         return subCode9;
     }
@@ -203,6 +230,7 @@ public class StoreInfo extends ResultBase {
         this.subCode9 = subCode9;
     }
 
+    @ApiModelProperty(value="未決伝票2枚目控文言", notes="未決伝票2枚目控文言")
     public String getSubCode10() {
         return subCode10;
     }
@@ -211,6 +239,7 @@ public class StoreInfo extends ResultBase {
         this.subCode10 = subCode10;
     }
 
+    @ApiModelProperty(value="未決伝票3枚目控文言", notes="未決伝票3枚目控文言")
     public String getSubCode11() {
         return subCode11;
     }
@@ -219,6 +248,7 @@ public class StoreInfo extends ResultBase {
         this.subCode11 = subCode11;
     }
 
+    @ApiModelProperty(value="未決伝票4枚目控文言", notes="未決伝票4枚目控文言")
     public String getSubCode12() {
         return subCode12;
     }
@@ -227,6 +257,7 @@ public class StoreInfo extends ResultBase {
         this.subCode12 = subCode12;
     }
 
+    @ApiModelProperty(value="開店年月日", notes="開店年月日")
     public String getSubCode13() {
         return subCode13;
     }
@@ -235,6 +266,7 @@ public class StoreInfo extends ResultBase {
         this.subCode13 = subCode13;
     }
 
+    @ApiModelProperty(value="開店時刻", notes="開店時刻")
     public String getSubCode14() {
         return subCode14;
     }
@@ -243,6 +275,7 @@ public class StoreInfo extends ResultBase {
         this.subCode14 = subCode14;
     }
 
+    @ApiModelProperty(value="印字用店舗名", notes="印字用店舗名")
     public String getSubCode15() {
         return subCode15;
     }
@@ -251,6 +284,7 @@ public class StoreInfo extends ResultBase {
         this.subCode15 = subCode15;
     }
 
+    @ApiModelProperty(value="印字用住所1", notes="印字用住所1")
     public String getSubCode16() {
         return subCode16;
     }
@@ -259,6 +293,7 @@ public class StoreInfo extends ResultBase {
         this.subCode16 = subCode16;
     }
 
+    @ApiModelProperty(value="印字用住所2", notes="印字用住所2")
     public String getSubCode17() {
         return subCode17;
     }
@@ -267,6 +302,7 @@ public class StoreInfo extends ResultBase {
         this.subCode17 = subCode17;
     }
 
+    @ApiModelProperty(value="未決伝票枚数", notes="未決伝票枚数")
     public String getSubNum1() {
         return subNum1;
     }
@@ -275,6 +311,7 @@ public class StoreInfo extends ResultBase {
         this.subNum1 = subNum1;
     }
 
+    @ApiModelProperty(value="HOSTIF更新日時", notes="HOSTIF更新日時")
     public String getHostUpdDate() {
         return hostUpdDate;
     }
@@ -283,6 +320,7 @@ public class StoreInfo extends ResultBase {
         this.hostUpdDate = hostUpdDate;
     }
 
+    @ApiModelProperty(value="ステータス", notes="ステータス")
     public String getStatus() {
         return status;
     }
@@ -378,6 +416,7 @@ public class StoreInfo extends ResultBase {
     @XmlElement(name = "SubCode13")
     private String subCode13;
 
+    @ApiModelProperty(value="店舗住所２", notes="店舗住所２")
     public String getStoreAddr2() {
         return storeAddr2;
     }
@@ -404,6 +443,7 @@ public class StoreInfo extends ResultBase {
     @XmlElement(name = "SubSmallInt1")
     private String subSmallInt1;
     
+    @ApiModelProperty(value="在庫更新有無", notes="在庫更新有無")
     public String getSubSmallInt1() {
     	return this.subSmallInt1;
     }
@@ -411,6 +451,7 @@ public class StoreInfo extends ResultBase {
     	this.subSmallInt1 = str;
     }
 
+    @ApiModelProperty(value="会社名", notes="会社名")
     public String getCompanyName() {
         return companyName;
     }

@@ -121,7 +121,7 @@ public class Till{
         return Short.parseShort(this.sodFlag);
     }	
 
-    @ApiModelProperty(value="EODDフラグ", notes="EODDフラグ")
+    @ApiModelProperty(value="EODフラグ", notes="EODフラグ")
 	public final String getEodFlag() {
 		return eodFlag;
 	}
@@ -129,7 +129,7 @@ public class Till{
 		this.eodFlag = eodFlag;
 	}
 	
-    @ApiModelProperty(value="短いEODDフラグ", notes="短いEODDフラグ")
+    @ApiModelProperty(value="短いEODフラグ", notes="短いEODフラグ")
     public final short getEodFlagAsShort() {
         return Short.parseShort(this.eodFlag);
     }

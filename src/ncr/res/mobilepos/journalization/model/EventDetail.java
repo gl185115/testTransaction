@@ -69,7 +69,7 @@ public class EventDetail{
 	/**
 	 * @return the startDateId
 	 */
-	@ApiModelProperty(value="始めコード", notes="始めコード")
+	@ApiModelProperty(value="開始日", notes="開始日")
 	public int getStartDateId() {
 		return startDateId;
 	}
@@ -84,7 +84,7 @@ public class EventDetail{
 	/**
 	 * @return the endDateId
 	 */
-	@ApiModelProperty(value="終瞭コード", notes="終瞭コード")
+	@ApiModelProperty(value="終了日", notes="終了日")
 	public int getEndDateId() {
 		return endDateId;
 	}
@@ -99,7 +99,7 @@ public class EventDetail{
 	/**
 	 * @return the mdInternal
 	 */
-	@ApiModelProperty(value="商品コード", notes="商品コード")
+	@ApiModelProperty(value="単品コ－ド", notes="単品コ－ド")
 	public String getMdInternal() {
 		return mdInternal;
 	}

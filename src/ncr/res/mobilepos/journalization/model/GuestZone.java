@@ -46,7 +46,7 @@ public class GuestZone extends ResultBase{
 	 *
 	 * @return the guestzone list
 	 */
-	@ApiModelProperty(value="ƒQƒXƒg‚Ìƒ][ƒ“î•ñ", notes="ƒQƒXƒg‚Ìƒ][ƒ“î•ñ")
+	@ApiModelProperty(value="‹q‘wî•ñ", notes="‹q‘wî•ñ")
 	public  List<GuestZoneInfo> getGuestZoneInfos() {
 		return this.guestZoneInfos;
 	}

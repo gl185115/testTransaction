@@ -32,7 +32,7 @@ public class Salesperson extends ResultBase{
 	 *
 	 * @return the sales person list
 	 */
-    @ApiModelProperty(value="販売員コード", notes="販売員コード")
+    @ApiModelProperty(value="販売員情報", notes="販売員情報")
     public final Salespersoninfo[] getSalesperson() {
         return Salesperson;
     }

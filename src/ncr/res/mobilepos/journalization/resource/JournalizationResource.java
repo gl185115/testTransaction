@@ -206,13 +206,13 @@ public class JournalizationResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
-    @ApiOperation(value="日誌", response=PosLogResp.class)
+    @ApiOperation(value="通常の取引を記録する", response=PosLogResp.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にエラーが起こっています")
     })
     public final PosLogResp journalize(//poslogxml？
-    		@ApiParam(name="poslogxml", value="posログのxml")  @FormParam("poslogxml") final String posLogXml,
+    		@ApiParam(name="poslogxml", value="poslogのxml")  @FormParam("poslogxml") final String posLogXml,
     		@ApiParam(name="trainingmode", value="トレーニングモード")  @FormParam("trainingmode") final int trainingMode) {
     	JrnSpm jrnlSpm = null;
 		if (spmFw != null) {
@@ -311,7 +311,7 @@ public class JournalizationResource {
     @Path("/gettransactionposlog")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="番号を得るにposlogのトランザクション", response=SearchedPosLog.class)
+    @ApiOperation(value="取引のposlogを得る", response=SearchedPosLog.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引のデータが見つからない"),   
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="無効のパラメータ"),
@@ -322,7 +322,7 @@ public class JournalizationResource {
     		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
     		@ApiParam(name="deviceid", value="設備コード") @QueryParam("deviceid") final String workstationid,
     		@ApiParam(name="businessdate", value="営業日") @QueryParam("businessdate") final String businessdate,
-    		@ApiParam(name="txid", value="トランザクションコード") @QueryParam("txid") final String txid,
+    		@ApiParam(name="txid", value="取引コード") @QueryParam("txid") final String txid,
     		@ApiParam(name="trainingmode", value="トレーニングモード") @QueryParam("trainingmode") final int trainingflag,
     		@ApiParam(name="txtype", value="取引種別") @QueryParam("txtype") final String txtype) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -660,7 +660,7 @@ public class JournalizationResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/getguestzoneList")
-    @ApiOperation(value="ゲストのリストを得る", response=GuestZone.class)
+    @ApiOperation(value="客層のリストを得る", response=GuestZone.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -766,7 +766,7 @@ public class JournalizationResource {
     @Path("/getSalesperson")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="販売人", response=Salesperson.class)
+    @ApiOperation(value="販売員情報", response=Salesperson.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -827,10 +827,10 @@ public class JournalizationResource {
     @Path("/getSequenceNo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="得るシーケンス", response=SequenceNo.class)
+    @ApiOperation(value="順序番号を得る", response=SequenceNo.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),   
-    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="無効な店舗コード"),
+    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
@@ -914,8 +914,8 @@ public class JournalizationResource {
     })
     public final SearchGuestOrder getAdvancedInfoBySequenceNo(
     		@ApiParam(name="storeId", value="会社コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="deviceId", value="設備コード") @QueryParam("deviceId") final String deviceId,
-    		@ApiParam(name="sequenceNo", value="シリアルナンバー") @QueryParam("sequenceNo") final String sequenceNo,
+    		@ApiParam(name="deviceId", value="端末コード") @QueryParam("deviceId") final String deviceId,
+    		@ApiParam(name="sequenceNo", value="送信管理順序") @QueryParam("sequenceNo") final String sequenceNo,
     		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
@@ -974,7 +974,7 @@ public class JournalizationResource {
 	@Path("/getGoldCertificateType")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="金の証明書の型を取得する", response=GoldCertificate.class)
+    @ApiOperation(value="金券のタイプを取得する", response=GoldCertificate.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
@@ -1032,7 +1032,7 @@ public class JournalizationResource {
 	 @Path("/getEventList")
 	 @GET
 	 @Produces({ MediaType.APPLICATION_JSON })
-	 @ApiOperation(value="イベントリスト", response=EventList.class)
+	 @ApiOperation(value="イベントリストを得る", response=EventList.class)
 	    @ApiResponses(value={
 	    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
 	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
@@ -1043,7 +1043,7 @@ public class JournalizationResource {
 			 @ApiParam(name="EventId", value="イベントコード") @QueryParam("EventId") final String eventId,
 			 @ApiParam(name="EventKbn", value="イベント区分") @QueryParam("EventKbn") final int eventKbn,
 			 @ApiParam(name="BusinessDateId", value="営業日コード") @QueryParam("BusinessDateId") final int businessDateId,
-			 @ApiParam(name="StoreId", value="店番") @QueryParam("StoreId") final String storeId,
+			 @ApiParam(name="StoreId", value="店舗番号") @QueryParam("StoreId") final String storeId,
 			 @ApiParam(name="PluCode", value="付加コード") @QueryParam("PluCode") final String pluCode) {
 	        String functionName = DebugLogger.getCurrentMethodName();
 	        EventList result = new EventList();
@@ -1491,7 +1491,7 @@ public class JournalizationResource {
 	 @GET
 	 @Path("/getlastpaytransactionposlog")
 	 @Produces({ MediaType.APPLICATION_JSON })
-	 @ApiOperation(value="検索posLog情報", response=SearchedPosLog.class)
+	 @ApiOperation(value="検索最後賃金取引のposLog情報", response=SearchedPosLog.class)
 	    @ApiResponses(value={
 	    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
 	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),  
@@ -1585,7 +1585,7 @@ public class JournalizationResource {
     		 @ApiParam(name="Type", value="種別") @FormParam("Type") String Type,
     		 @ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
     		 @ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
-    		 @ApiParam(name="WorkstationId", value="POSコード") @FormParam("WorkstationId") String WorkstationId,
+    		 @ApiParam(name="WorkstationId", value="ターミナルID") @FormParam("WorkstationId") String WorkstationId,
     		 @ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") int SequenceNumber,
     		 @ApiParam(name="BusinessDayDate", value="POS業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
     		 @ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") int TrainingFlag,

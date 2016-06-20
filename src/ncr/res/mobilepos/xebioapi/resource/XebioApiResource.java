@@ -66,13 +66,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
     @Path("/updateSalesCharge")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="販売手数料更新", response=JSONData.class)
+    @ApiOperation(value="売掛情報更新", response=JSONData.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
     @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
     @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     
     })
@@ -142,13 +142,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
     @Path("/getSalesCharge")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="販売手数料", response=JSONData.class)
+    @ApiOperation(value="売掛情報を得る", response=JSONData.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"), 
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
     @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
     @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     
     })
@@ -223,12 +223,12 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getTransactionReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="業務報告を得", response=JSONData.class)
+        @ApiOperation(value="取引別点検情報を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"), 
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -315,12 +315,12 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getCashInOutReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="査看ドロワ", response=JSONData.class)
+        @ApiOperation(value="入出金の点検を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),        
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -388,7 +388,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getGroupReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="グループ報告書", response=JSONData.class)
+        @ApiOperation(value="グループ点検を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),                                                            
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),       
@@ -473,12 +473,12 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getOperationReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="動作報告を得てください", response=JSONData.class)
+        @ApiOperation(value="オペレーターの点検を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),     
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -546,13 +546,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/list")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="トランザクションデータを取得する", response=JSONData.class)
+        @ApiOperation(value="ジャーナル情報を取得する", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),              
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -646,7 +646,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),              
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -727,13 +727,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/gethhtinfo")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="得HTT取引明細や建設データ", response=JSONData.class)
+        @ApiOperation(value="HHT取引リストと詳しい情報を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),               
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -906,17 +906,17 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/PendingTran")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="実行中のトランザクションデータを取得する", response=JSONData.class)
+        @ApiOperation(value="未決情報を取得する", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),               
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-        
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常")
         })
         public final JSONData getPendingTranInfo(
-            @FormParam("Data") String Data){
+        		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data){
 
         	String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
@@ -991,7 +991,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @ApiResponse(code=ResultBase.RES_ERROR_ITEMIDNOTFOUND, message="指定の商品IDは取得しない"),      
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -1068,13 +1068,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpendingtranupdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="実行中のトランザクションの更新を取得", response=JSONData.class)
+        @ApiOperation(value="未決情報更新", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),        
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -1143,13 +1143,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpremiumitemstore")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="プレミアム・アイテム店", response=JSONData.class)
+        @ApiOperation(value="プレミアム・アイテム店の情報を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),        
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -1220,13 +1220,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getpremiumitemstoreupdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="プレミアムアイテム更新", response=JSONData.class)
+        @ApiOperation(value="プレミアム・アイテム店の情報を更新する", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),       
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })
@@ -1377,13 +1377,13 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @Path("/getslipnoupdate")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="高級プロジェクト記憶情報", response=JSONData.class)
+        @ApiOperation(value="取引番号更新", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),         
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })

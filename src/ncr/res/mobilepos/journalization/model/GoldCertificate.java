@@ -22,7 +22,7 @@ public class GoldCertificate extends ResultBase {
 	/**
 	 * @return the goldCertificateInfo
 	 */
-    @ApiModelProperty(value="‹à‘Šiî•ñ", notes="‹à‘Šiî•ñ")
+    @ApiModelProperty(value="‹àŒ”î•ñ", notes="‹àŒ”î•ñ")
 	public final List<GoldCertificateInfo> getGoldCertificateInfo() {
 		return goldCertificateInfo;
 	}

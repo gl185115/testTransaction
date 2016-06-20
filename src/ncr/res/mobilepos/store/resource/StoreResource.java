@@ -718,12 +718,17 @@ public class StoreResource {
     @Path("/updatesummaryreceiptno")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="摘要レシートNoを更新する", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_QUEUEFULL, message="各商店の列がいっぱいになっている"),
+        })
     public final JSONData updateSummaryReceiptNo(
-        @QueryParam("SubNum1") final int SubNum1,
-        @QueryParam("companyId") final String companyId,
-        @QueryParam("storeId") final String storeId, 
-        @QueryParam("terminalId") final String terminalId,
-        @QueryParam("traning") final String traning) {
+    		@ApiParam(name="SubNum1", value="予約")@QueryParam("SubNum1") final int SubNum1,
+    		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗コード")@QueryParam("storeId") final String storeId, 
+    		@ApiParam(name="terminalId", value="POSコード")@QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         JSONData json = new JSONData();

@@ -73,9 +73,6 @@ public class JavaScriptConsoleResource {
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ユーザーログ出力(ログレベル)", response=ResultBase.class)
-    @ApiResponses(value={
-    	@ApiResponse(code=ResultBase.RES_OK, message="汎用OK")
-    })
     public ResultBase log(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
     		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
@@ -95,9 +92,6 @@ public class JavaScriptConsoleResource {
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ユーザーログ出力(エラーレベル)", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_OK, message="汎用OK")
-    })
     public ResultBase error(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
     		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
@@ -117,9 +111,6 @@ public class JavaScriptConsoleResource {
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ユーザーログ出力(警告レベル)", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_OK, message="汎用OK")
-    })
     public ResultBase warn(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
     		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
@@ -139,9 +130,6 @@ public class JavaScriptConsoleResource {
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ユーザーログ出力(インフォメーションレベル)", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_OK, message="汎用OK")
-    })
     public ResultBase info(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
     		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
@@ -161,9 +149,6 @@ public class JavaScriptConsoleResource {
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ユーザーログ出力(トレースレベル)", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_OK, message="汎用OK")
-    })
     public ResultBase debug(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
     		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,

@@ -242,7 +242,6 @@ public class SystemSettingResource {
     @Produces({MediaType.APPLICATION_JSON })
     @ApiOperation(value="汎用日付を得る", response=DateTime.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_OK, message="一般OK"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final DateTime getCurrentDateTime() {

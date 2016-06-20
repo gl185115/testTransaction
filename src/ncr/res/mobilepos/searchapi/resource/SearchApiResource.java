@@ -70,7 +70,6 @@ public class SearchApiResource {
 	@ApiOperation(value="製品データを取得する", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
@@ -167,7 +166,6 @@ public class SearchApiResource {
 	@ApiOperation(value="事前注文データ", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),	
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
@@ -266,7 +264,6 @@ public class SearchApiResource {
 	@ApiOperation(value="販売ミスデータを得る", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
@@ -364,7 +361,6 @@ public class SearchApiResource {
 	@ApiOperation(value="注文データを得る", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
@@ -462,7 +458,6 @@ public class SearchApiResource {
 	@ApiOperation(value="在庫データを取得する", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="正しくないURLエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),	
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),

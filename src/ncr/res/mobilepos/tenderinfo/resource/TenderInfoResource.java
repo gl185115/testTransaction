@@ -51,7 +51,6 @@ public class TenderInfoResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
-    		@ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final JSONData getTenderInfo(
@@ -104,7 +103,6 @@ public class TenderInfoResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
-    		@ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final JSONData getTenderInfoByType(@QueryParam("CompanyId") final String companyId,

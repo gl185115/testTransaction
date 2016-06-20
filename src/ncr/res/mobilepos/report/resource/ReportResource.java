@@ -531,7 +531,6 @@ public class ReportResource {
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
         })
     public final FinancialReport getFinancialReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
@@ -604,7 +603,6 @@ public class ReportResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
         })
     public final DrawerFinancialReport getDrawerFinancialReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
@@ -808,7 +806,6 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
             @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
@@ -1107,7 +1104,6 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
             @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
@@ -1489,7 +1485,6 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
             @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミングエラーが発生する"),
@@ -2118,7 +2113,6 @@ public class ReportResource {
     		@ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
     		@ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
@@ -2367,7 +2361,6 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
@@ -2754,7 +2747,6 @@ public class ReportResource {
     @ApiOperation(value="プリントする財務報告", response=ResultBase.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
-            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="ネットワーク受信成功コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
@@ -2877,8 +2869,6 @@ public class ReportResource {
     @ApiOperation(value="プリントする引き出し財務報告", response=ResultBase.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
-            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="ネットワーク受信成功コード"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         })
@@ -3030,7 +3020,6 @@ public class ReportResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_DRAWER, message="オープンする引き出し失敗"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
         })
     public final ResultBase openDrawer(
     		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeid,
@@ -3120,7 +3109,6 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功レポート結果コード"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
             @ApiResponse(code=ResultBase.RES_ERROR_NAMINGEXCEPTION, message="ネーミング例外が発生する"),

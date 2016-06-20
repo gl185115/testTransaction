@@ -229,7 +229,6 @@ public class StoreResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_STORE_EXISTS, message="店はすでに存在"),
-            @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果OK"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final ResultBase createStore(
@@ -288,7 +287,6 @@ public class StoreResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースで見つからない店"),
-            @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果OK"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final ResultBase deleteStore(
@@ -462,7 +460,6 @@ public class StoreResource {
     @ApiOperation(value="画像を得る", response=ViewStore.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
-            @ApiResponse(code=ResultBase.RES_STORE_OK, message="結果OK"),
             @ApiResponse(code=ResultBase.RES_STORE_LOGO_INVALID, message="店ロゴが無効"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースで見つからない店"),

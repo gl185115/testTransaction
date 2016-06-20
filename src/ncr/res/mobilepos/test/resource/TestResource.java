@@ -54,7 +54,6 @@ public class TestResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="Ú‘±‚ÌŒ‹‰Ê‚ğæ“¾‚·‚é", response=ResultBase.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_OK, message="ˆê”Êok"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="”Ä—pƒGƒ‰["),
         })
     public final ResultBase GetConnectionResult() {	

@@ -21,10 +21,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.settlement.model.SettlementInfo;
 import ncr.res.mobilepos.softwareinfo.model.OperatingSystemInfo;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareComponents;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareVersion;
@@ -38,6 +44,7 @@ import ncr.res.mobilepos.softwareinfo.model.WebApiSw;
  *
  */
 @Path("/softwareinfo")
+@Api(value="/softwareinfo", description="ソフトウェア情報API")
 public class SoftwareInfo {
     private static final String PROG_NAME = "SofInf";
 
@@ -156,6 +163,10 @@ public class SoftwareInfo {
 	@Path("/operatingsystem")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value="オペレーティングシステム情報を取得", response=OperatingSystemInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
 	public final OperatingSystemInfo getOperatingSystemInfo() {
 		tp.methodEnter("getOperatingSystemInfo");
 		OperatingSystemInfo operatingSystemInfo = null;
@@ -207,6 +218,10 @@ public class SoftwareInfo {
     @Path("/getallsoftwareinfo")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="すべてソフト情報を取得する", response=SoftwareComponents.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
     public final SoftwareComponents getAllSoftwareInfo() {
     	tp.methodEnter("getAllSoftwareInfo");
     	

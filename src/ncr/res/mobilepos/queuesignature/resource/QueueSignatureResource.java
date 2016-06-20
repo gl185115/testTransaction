@@ -133,8 +133,8 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
-        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部のCAデータが見つからない"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="無効な日付は外部caのデータにいる"),
     })
     public final SignatureRequestList getSignatureRequestList(
     		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String storeID,
@@ -222,8 +222,8 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @ApiOperation(value="署名を得る", response=SignatureRequestBill.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
-        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部のCAデータが見つからない"),
+        @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="無効な日付は外部caのデータにいる"),
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_INPROG, message="外部のデータはすでに処理されている"),
         @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NORMEND, message="外部の処理が正常に終わる"),
     })
@@ -325,8 +325,8 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @ApiOperation(value="更新サイン入り状態のネットワーク方法を呼び出す", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部データ未見つかっ"),
-            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="外部データの無効日"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="外部のCAデータが見つからない"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="無効な日付は外部caのデータにいる"),
         })
     public final ResultBase updateSignatureRequestStatus(
     		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String storeid,

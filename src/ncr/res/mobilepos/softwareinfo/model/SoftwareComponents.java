@@ -5,6 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -20,6 +23,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SoftwareComponents")
+@ApiModel(value="SoftwareComponents")
 public class SoftwareComponents extends ResultBase {
     
     @XmlElement(name = "ServerInfo")
@@ -34,6 +38,7 @@ public class SoftwareComponents extends ResultBase {
     @XmlElement(name = "OperatingSystemInfo")
     private SoftwareVersion operatingSystemVersionInfo;
 
+    @ApiModelProperty(value="サーバのバージョン情報", notes="サーバのバージョン情報")
 	public SoftwareVersion getServerVersionInfo() {
 		return serverVersionInfo;
 	}
@@ -42,6 +47,7 @@ public class SoftwareComponents extends ResultBase {
 		this.serverVersionInfo = serverVersionInfo;
 	}
 
+	@ApiModelProperty(value="サーバのjava情報", notes="サーバのjava情報")
 	public SoftwareVersion getJavaVersionInfo() {
 		return javaVersionInfo;
 	}
@@ -50,6 +56,7 @@ public class SoftwareComponents extends ResultBase {
 		this.javaVersionInfo = javaVersionInfo;
 	}
 
+	@ApiModelProperty(value="サービスのバージョン情報", notes="サービスのバージョン情報")
 	public SoftwareVersion getServiceVersionInfo() {
 		return serviceVersionInfo;
 	}
@@ -58,6 +65,7 @@ public class SoftwareComponents extends ResultBase {
 		this.serviceVersionInfo = serviceVersionInfo;
 	}
 
+	@ApiModelProperty(value="オペレーティングシステムのバージョン情報", notes="オペレーティングシステムのバージョン情報")
 	public SoftwareVersion getOperatingSystemVersionInfo() {
 		return operatingSystemVersionInfo;
 	}

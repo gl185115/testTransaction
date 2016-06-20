@@ -456,8 +456,8 @@ $(document).ready(function() {
     $("#bizCatId").change(function() {
         $("#cId").val($("#companyId").val());
         $("#bId").val($(this).val());
-        $("#sId").val($("#storeId").val());
-        $("#tId").val($("#terminalId").val());
+        $("#sId").val("0000");
+        $("#tId").val("0000");
         $("#frm").submit();
     });
     $("#storeId").change(function() {

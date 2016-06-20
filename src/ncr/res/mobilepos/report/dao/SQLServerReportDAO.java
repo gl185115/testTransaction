@@ -27,9 +27,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.constant.TransactionVariable.TransactionCode;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.constant.TransactionVariable.TransactionCode;
 import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -2424,7 +2424,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
         return storeTel;
     }
     // 1.04 2014.12.29 MAJINHUI 会計レポート出力を対応 ADD END
-    
+
     /**
      * サーバー計算した在高金額を取得.
      *
@@ -2440,25 +2440,25 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
      */
     public final TotalAmount getTotalAmount(final String storeId, final String tillId,
 			String businessDate)throws DaoException{
-    	
+
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
 		  .println("tillId", tillId)
 		  .println("businessDate", businessDate);
-		
+
         ResultSet resultSet = null;
         TotalAmount totalAmount = new TotalAmount();
-        
+
         try {
             String selectStmt = "get-total-amount";
             resultSet = executeQuery(selectStmt, storeId, tillId, businessDate);
-            
+
             if(resultSet.next()){
             	totalAmount.setCash(resultSet.getString("Cash"));
             	totalAmount.setCredit(resultSet.getString("Credit"));
             	totalAmount.setGiftCard(resultSet.getString("GiftCard"));
-            	
+
             	totalAmount.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             	totalAmount.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             	totalAmount.setMessage(ResultBase.RES_SUCCESS_MSG);
@@ -2486,7 +2486,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
          } catch (Exception e) {
              LOGGER.logAlert(PROG_NAME,
                      functionName,
-                     Logger.RES_EXCEP_GENERAL, 
+                     Logger.RES_EXCEP_GENERAL,
                      "Failed to get Total Amount.\n"
                      		  + e.getMessage());
              throw new DaoException("Exception: @"
@@ -2505,29 +2505,29 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
      */
     @Override
     public List<DailyReport> getDailyReportItems(String companyId, String storeId,
-            String terminalId, String businessDate, int trainingFlag) throws DaoException {
-       
+            String tillId, String businessDate, int trainingFlag) throws DaoException {
+
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)
-          .println("terminalId", terminalId)
+          .println("tillId", tillId)
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag);
-        
+
         PreparedStatement selectStmnt = null;
         ResultSet resultSet = null;
         Connection connection = null;
         List<DailyReport> dailyReportItems = new ArrayList<DailyReport>();
         DailyReport dailyReport = null;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-report-items"));
             selectStmnt.setString(SQLStatement.PARAM1, companyId);
             selectStmnt.setString(SQLStatement.PARAM2, storeId);
-            selectStmnt.setString(SQLStatement.PARAM3, terminalId);
+            selectStmnt.setString(SQLStatement.PARAM3, tillId);
             selectStmnt.setString(SQLStatement.PARAM4, businessDate);
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             resultSet = selectStmnt.executeQuery();
@@ -2536,7 +2536,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
                 dailyReport = new DailyReport();
                 dailyReport.setCompanyId(resultSet.getString("CompanyId"));
                 dailyReport.setStoreId(resultSet.getString("StoreId"));
-                dailyReport.setWorkStationId(resultSet.getString("WorkstationId"));
+                dailyReport.setTillId(resultSet.getString("TillId"));
                 dailyReport.setDataType(resultSet.getString("DataType"));
                 dailyReport.setItemLevel1(resultSet.getString("ItemLevel1"));
                 dailyReport.setItemLevel2(resultSet.getString("ItemLevel2"));
@@ -2550,7 +2550,7 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
          } catch (Exception e) {
              LOGGER.logAlert(PROG_NAME,
                      functionName,
-                     Logger.RES_EXCEP_GENERAL, 
+                     Logger.RES_EXCEP_GENERAL,
                      "Failed to get Daily Report items.\n"
                               + e.getMessage());
              throw new DaoException("Exception: @"
@@ -2562,5 +2562,5 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
          }
         return dailyReportItems;
     }
-    
+
 }

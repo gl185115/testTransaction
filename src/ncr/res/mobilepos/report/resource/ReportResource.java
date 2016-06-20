@@ -34,6 +34,17 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -52,7 +63,6 @@ import ncr.res.mobilepos.report.dao.IReportDAO;
 import ncr.res.mobilepos.report.helper.FinancialReportFormatter;
 import ncr.res.mobilepos.report.helper.FinancialReportPrint;
 import ncr.res.mobilepos.report.helper.FinancialReportPrinter;
-import ncr.res.mobilepos.report.model.DailyReport;
 import ncr.res.mobilepos.report.model.DailyReportItems;
 import ncr.res.mobilepos.report.model.DrawerFinancialReport;
 import ncr.res.mobilepos.report.model.FinancialReport;
@@ -64,17 +74,6 @@ import ncr.res.mobilepos.report.model.TotalAmount;
 import ncr.res.mobilepos.simpleprinterdriver.NetPrinterInfo;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 /**
  * ReportResource class is a web resource which provides support for reports
@@ -125,7 +124,7 @@ public class ReportResource {
         tp = DebugLogger.getDbgPrinter(
                 Thread.currentThread().getId(), getClass());
     }
-    
+
     /**
      * Gets the Accountancy report info.
      * @param companyid
@@ -1141,7 +1140,7 @@ public class ReportResource {
             .println("divcode", divCode)
             .println("divname", divName)
             .println("printerid", printerid)
-            .println("storeidsearch", storeidSearch)            
+            .println("storeidsearch", storeidSearch)
             .println("totalquantitystr", totalQuantityStr)
             .println("trainingflag", trainingFlag)
             .println("datastr", dataStr);
@@ -1513,7 +1512,7 @@ public class ReportResource {
         tp.println("companyid", companyId)
             .println("sequenceno",sequenceno)
             .println("begindatetime",begindatetime)
-            .println("storename", storeName)                        
+            .println("storename", storeName)
             .println("businessdate", bussinessDate)
             .println("reporttype", reportType)
             .println("storeid", storeId)
@@ -1546,7 +1545,7 @@ public class ReportResource {
                         ResultBase.RES_ERROR_INVALIDPARAMETER);
                 resultBase.setNCRWSSResultCode(
                         ResultBase.RES_ERROR_INVALIDPARAMETER);
-        
+
     		        resultBase.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return resultBase;
             }
@@ -1586,7 +1585,7 @@ public class ReportResource {
             reportMode.setSubdateid2(begindatetime.trim());
             reportMode.setSequenceNo(sequenceno.trim());
             reportMode.setStoreID(storeId);
-            reportMode.setTrainingFlag(trainingFlag);            
+            reportMode.setTrainingFlag(trainingFlag);
             ItemMode itemMode = null;
             switch (reportType.trim()){
            /*販売員・単品別*/
@@ -2395,7 +2394,7 @@ public class ReportResource {
                 .println("dataType", dataType)
                 .println("operatorno", operatorNo)
                 .println("totaldata", totaldata)
-                .println("printerid", printerid)               
+                .println("printerid", printerid)
                 .println("type", type)
                 .println("trainingflag", trainingFlag);
 
@@ -2584,7 +2583,7 @@ public class ReportResource {
                             .convNullToDoubleZero(itemstr[1]));
                     reportmode.setSonotaPoints(StringUtility
     						.convNullToLongZero(itemstr[2]));
-                    break;   
+                    break;
                 // 計
                 case ReportConstants.ATYREPORT_GIFTCERTIFICATESSUBTOTAL:
                     reportmode.setGiftCertificatesSubtotalAmt(StringUtility
@@ -2602,7 +2601,7 @@ public class ReportResource {
                 	reportmode.setGapAmt(StringUtility
                 			.convNullToDoubleZero(itemstr[1]));
                 	break;
-                    
+
                 default:
                     break;
                 }
@@ -2673,7 +2672,7 @@ public class ReportResource {
                 reportsList.add(frbx.getReport());
             } else {
                 LOGGER.logError(PROG_NAME, "printCashInDrawReport",
-                                Logger.RES_EXCEP_FILENOTFOUND, 
+                                Logger.RES_EXCEP_FILENOTFOUND,
                                 nrRcptFormatPath + "file is not found");
                 reportModes
                         .setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
@@ -2711,7 +2710,7 @@ public class ReportResource {
             reportModes
                     .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNSUPPORTEDENCODING);
         } catch (NamingException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_NAMINGEXC, 
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_NAMINGEXC,
                                     "Exception : " + e.getMessage(), e);
             reportModes.setNCRWSSResultCode(ResultBase.RESNETRECPT_ERROR_NG);
             reportModes
@@ -3148,7 +3147,7 @@ public class ReportResource {
             .println("storeidSearch", storeidSearch)
             .println("tillid", tillid)
             .println("type", type)
-            .println("trainingflag", trainingFlag);     
+            .println("trainingflag", trainingFlag);
 
         ReportMode atyReportMode = new ReportMode();
         ResultBase resultBase = new ResultBase();
@@ -3210,7 +3209,7 @@ public class ReportResource {
             } else {
             	atyReportMode.setType(type);
             }
-            
+
             IReceiptDAO iReceiptDAO = daoFactory.getReceiptDAO();
             NetPrinterInfo netPrinterInfo = null;
             //check if printer default setting
@@ -3823,7 +3822,7 @@ public class ReportResource {
         }
         return atyReportMode;
     }
-    
+
     @Path("/gettotalamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -3837,30 +3836,30 @@ public class ReportResource {
     		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name="tillId", value="ドロワーコード")@QueryParam("tillId") final String tillId,
     		@ApiParam(name="businessDate", value="営業日付")@QueryParam("businessDate") final String businessDate) {
-    	
+
     	String functionName = DebugLogger.getCurrentMethodName();
-		
+
 		tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
 		  .println("tillId", tillId)
 		  .println("businessDate", businessDate);
-		
+
 		TotalAmount result = new TotalAmount();
-		
+
 		try{
 			if(StringUtility.isNullOrEmpty(storeId, tillId, businessDate)){
 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 				result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-				
+
 				return result;
 			}
-			
+
 			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IReportDAO reportDAO = daoFactory.getReportDAO();
-			 
+
 			result = reportDAO.getTotalAmount(storeId, tillId, businessDate);
-			
+
 		}catch (DaoException daoEx) {
             LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_DAO,
@@ -3868,7 +3867,7 @@ public class ReportResource {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
             result.setMessage(daoEx.getMessage());
-		} catch (Exception ex) {		
+		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_GENERAL,
                     "Failed to get Total Amount.\n" + ex.getMessage(), ex);
@@ -3878,9 +3877,9 @@ public class ReportResource {
 		} finally {
 			tp.methodExit(result);
 		}
-		return result;	
+		return result;
     }
-    
+
     @Path("/getreportitems")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
@@ -3892,20 +3891,22 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
         })
     public final DailyReportItems getReportItems(
-    		@ApiParam(name="companyid", value="会社コード")@FormParam("companyId") final String companyId,
+    		@ApiParam(name="companyId", value="会社コード")@FormParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店舗番号")@FormParam("storeId") final String storeId,
-    		@ApiParam(name="terminalId", value="端末番号")@FormParam("terminalId") final String terminalId,
+    		@ApiParam(name="tillId", value="ドロワーコード")@FormParam("tillId") final String tillId,
     		@ApiParam(name="businessDate", value="営業日付")@FormParam("businessDate") final String businessDate,
     		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag) {
-        
+
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
           .println("storeId", storeId)
+          .println("tillId", tillId)
+          .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag);
-        
+
         DailyReportItems result = new DailyReportItems();
-        
+
         try {
             if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
                 result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -3913,11 +3914,11 @@ public class ReportResource {
                 result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return result;
             }
-            
+
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IReportDAO reportDAO = daoFactory.getReportDAO();
-            result.setReportItems(reportDAO.getDailyReportItems(companyId, storeId, 
-            		terminalId, businessDate, trainingFlag));
+            result.setReportItems(reportDAO.getDailyReportItems(companyId, storeId,
+            		tillId, businessDate, trainingFlag));
         } catch (DaoException daoEx) {
             LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_DAO,
@@ -3925,7 +3926,7 @@ public class ReportResource {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
             result.setMessage(daoEx.getMessage());
-        } catch (Exception ex) {        
+        } catch (Exception ex) {
             LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_GENERAL,
                     "Failed to getdaily report items.\n" + ex.getMessage(), ex);
@@ -3935,7 +3936,7 @@ public class ReportResource {
         } finally {
             tp.methodExit(result);
         }
-        return result;  
+        return result;
     }
-      
+
 }

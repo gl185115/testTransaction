@@ -11884,13 +11884,13 @@ insert into txl_offline_credit
       @companyId varchar(max),
       @storeId varchar(max),
       @retailstoreid varchar(max),
-      @terminalId varchar(max),
+      @tillId varchar(max),
       @businessDate varchar(max),
       @trainingFlag tinyint
 
     SET @companyId = ?
     SET @storeId = ?
-    SET @terminalId = NULLIF(?, '')
+    SET @tillId = NULLIF(?, '')
     SET @businessDate = ?
     SET @trainingFlag = ?
     SET @retailstoreid = @storeId
@@ -11908,9 +11908,9 @@ insert into txl_offline_credit
       a.ItemLevel4,
       a.ItemName,
       a.DisplayOrder,
-      @terminalId as WorkstationId,
+      @tillId as TillId,
       (CASE
-        WHEN @terminalId IS NULL
+        WHEN @tillId IS NULL
         THEN (
           SELECT
             SUM(ItemCnt)
@@ -11928,7 +11928,7 @@ insert into txl_offline_credit
             TrainingFlag = @trainingFlag)
         ELSE (
           SELECT
-            ItemCnt
+            SUM(ItemCnt)
           FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
@@ -11941,10 +11941,18 @@ insert into txl_offline_credit
             ItemLevel4 = a.ItemLevel4 AND
             BusinessDayDate = @businessDate AND
             TrainingFlag = @trainingFlag AND
-            WorkstationId = @terminalId)
+            WorkstationId IN (
+                SELECT distinct TerminalId FROM RESMaster.dbo.MST_DEVICEINFO
+                    WHERE
+                    CompanyId = @companyId and
+                    StoreId = @retailstoreid and
+                    Training = @trainingFlag and
+                    TillId = @tillId
+            )
+        )
       END) AS ItemCnt,
       (CASE
-        WHEN @terminalId IS NULL
+        WHEN @tillId IS NULL
         THEN (
           SELECT
             SUM(ItemAmt)
@@ -11962,7 +11970,7 @@ insert into txl_offline_credit
             TrainingFlag = @trainingFlag)
         ELSE (
           SELECT
-            ItemAmt
+            SUM(ItemAmt)
           FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
@@ -11975,7 +11983,15 @@ insert into txl_offline_credit
             ItemLevel4 = a.ItemLevel4 AND
             BusinessDayDate = @businessDate AND
             TrainingFlag = @trainingFlag AND
-            WorkstationId = @terminalId)
+            WorkstationId IN (
+                SELECT distinct TerminalId FROM RESMaster.dbo.MST_DEVICEINFO
+                    WHERE
+                    CompanyId = @companyId and
+                    StoreId = @retailstoreid and
+                    Training = @trainingFlag and
+                    TillId = @tillId
+            )
+        )
       END) AS ItemAmt
     FROM
       RESMaster.dbo.MST_NAME_DAILYREPORT a

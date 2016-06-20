@@ -86,7 +86,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 						}
 					}
 				} else if (!(task.target.store.toLowerCase() == "all" || task.target.store.toLowerCase() == "全店舗")) {
-					$scope.editTargetName = task.target.store;
+					$scope.editTargetName = task.target.storeNameJa;
 					for (var i = 0; i < model.editTask.deployCategories.length; i++) {
 						if (model.editTask.deployCategories[i].levelKey == "store") {
 							var iGroup = model.editTask.deployCategories[i].storeEntries;

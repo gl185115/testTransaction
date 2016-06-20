@@ -98,7 +98,7 @@ public class BoInterface {
     @Path("/TP010A02.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="メンバープロパティの検索モード",response=MemberSearchResponse.class)
+    @ApiOperation(value="属性によってメンバーを検索する",response=MemberSearchResponse.class)
     public MemberSearchResponse memberSearchRequest(MemberSearchRequest request) {
         tp.methodEnter("memberSearchRequest");
         tp.println("request", request);
@@ -226,7 +226,7 @@ public class BoInterface {
     @Path("/TP010A10.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="歴史プロジェクトの検索の歴史", response=MemberResponse.class)
+    @ApiOperation(value="歴史によって歴史プロジェクトを検索する", response=MemberResponse.class)
     public HistoryItemResponse historyItemSearchRequest(HistoryItemRequest request) {
         tp.methodEnter("historyItemSearchRequest");
         tp.println("request", request);

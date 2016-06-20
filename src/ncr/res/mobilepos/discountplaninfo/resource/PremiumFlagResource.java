@@ -52,10 +52,8 @@ public class PremiumFlagResource {
     @ApiOperation(value="費用フラグ", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="成功の結果を報告する"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
         })
     public final JSONData getPremiumFlag(

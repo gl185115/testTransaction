@@ -120,7 +120,7 @@ public class QueueBusterResource {
     	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="取引の期日を無効にする"),
-            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にJAXBエラーが起こっています")
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
         })
     public final ResultBase suspend(
     		@ApiParam(name="retailstoreid", value="小売店コード") @QueryParam("retailstoreid") final String retailStoreId,
@@ -261,7 +261,7 @@ public class QueueBusterResource {
             @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="既に取引を再開した"),
             @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
             @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="キューバスターパラメータが見つかりませんでした"),
-            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にJAXBエラーが起こっています")
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
         })
     public final SearchedPosLog resume(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,

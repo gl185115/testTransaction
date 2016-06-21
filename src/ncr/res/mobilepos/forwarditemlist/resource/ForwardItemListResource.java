@@ -277,7 +277,7 @@ public class ForwardItemListResource {
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXB エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にJAXBエラーが起こっています"),
         @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="無効なキュー番号"),
     })
     public final ResultBase saveForwardPosLog(

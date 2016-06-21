@@ -75,7 +75,7 @@ public class CustomerSearchResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="不正常なURL"),
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
     })
@@ -271,7 +271,7 @@ public class CustomerSearchResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
-            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="不正常なURL"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
         })

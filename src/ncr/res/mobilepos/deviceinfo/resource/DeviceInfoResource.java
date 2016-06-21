@@ -644,7 +644,7 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_DEVICEID, message="既にデータベースにデータが存在しています。"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_STOREID, message="無効な設備のstoreId"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
@@ -795,7 +795,7 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
         @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データを発見していない")      
@@ -874,13 +874,13 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
+        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターが見つからない"),
         @ApiResponse(code=ResultBase.RES_PRINTER_IS_DELETED, message="プリンタは既に存在しているが"),
         @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
         @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
-        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="データベースの異常")
+        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="SQLエラー")
     })
 	public final ResultBase createPrinter(
 			@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
@@ -969,7 +969,7 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_PRINTER_IS_DELETED, message="プリンタは既に存在しているが"),
         @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
         @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
-        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="データベースの異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="SQLエラー"),
         @ApiResponse(code=ResultBase.RES_PRINTER_NO_UPDATE, message="プリンターはアップグレードしません")
     })
     public final ViewPrinterInfo updatePrinterInfo(

@@ -15,13 +15,13 @@ public static String trimToEmpty(String str) {
 <%
 String cmId = request.getParameter("cmId");
 String companyId = request.getParameter("companyId");
-String storeId = request.getParameter("storeId");
-String bizCatId = request.getParameter("bizCatId");
-String terminalId = request.getParameter("terminalId");
+String storeId = request.getParameter("storeId") == null ? "0000" : request.getParameter("storeId");
+String bizCatId = request.getParameter("bizCatId") == null ? "00" : request.getParameter("bizCatId");
+String terminalId = request.getParameter("terminalId") == null ? "0000" : request.getParameter("terminalId");
 String selectCompanyId = companyId;
-String selectStoreId = storeId == null ? "0000" : storeId;
-String selectBizCatId = bizCatId == null ? "00" : bizCatId;
-String selectTerminalId = terminalId == null ? "0000" : terminalId;
+String selectStoreId = storeId;
+String selectBizCatId = bizCatId;
+String selectTerminalId = terminalId;
 String cmName = "";
 String[] messages = new String[10];
 for (int i=0; i<10; i++) {

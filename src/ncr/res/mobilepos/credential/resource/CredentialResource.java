@@ -477,7 +477,6 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
-        @ApiResponse(code=ResultBase.RESRPT_OK, message="レポート成功")
     })
     public final Operator getStatusOfOperator(@ApiParam(name="companyid", value="会社コード") @PathParam("companyid") final String companyid,
     		@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String empCode) {
@@ -539,7 +538,6 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
-        @ApiResponse(code=ResultBase.RESRPT_OK, message="レポート成功"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
     })
     public final SystemNameMasterList getSystemNameMasterList(@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,

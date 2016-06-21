@@ -97,7 +97,7 @@ public class SystemConfigurationResource {
     @Path("")
     @ApiOperation(value="システムの設定を取得する", response=Map.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
     public final Map<String, Object> getSystemConfiguration() {
         String functionName = DebugLogger.getCurrentMethodName();

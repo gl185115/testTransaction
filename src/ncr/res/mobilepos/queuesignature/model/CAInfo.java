@@ -3,14 +3,10 @@ package ncr.res.mobilepos.queuesignature.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
 /**
  * The Model Class that represents CA Information.
  */
-@XmlRootElement(name = "SignatureRequestList")
-@ApiModel(value="CAInfo")
+@XmlRootElement(name = "CAInfo")
 public class CAInfo {
     /** The Shop Name. */
     private String shopName;
@@ -19,7 +15,6 @@ public class CAInfo {
      * @return  The Shop Name.
      */
     @XmlElement(name = "ShopName")
-    @ApiModelProperty(value="店の名前", notes="店の名前")
     public final String getShopName() {
          return shopName;
      }
@@ -37,7 +32,6 @@ public class CAInfo {
       * @return The Terminal ID.
       */
      @XmlElement(name = "TerminalId")
-     @ApiModelProperty(value="端末番号", notes="端末番号")
      public final String getTerminalId() {
          return terminalId;
      }
@@ -57,7 +51,6 @@ public class CAInfo {
      * @return The Time of use.
      */
     @XmlElement(name = "TimeOfUse")
-    @ApiModelProperty(value="使用時間", notes="使用時間")
     public final String getTimeOfUse() {
          return timeOfUse;
      }
@@ -77,7 +70,6 @@ public class CAInfo {
      * @return The Slip Number.
      */
     @XmlElement(name = "SlipNo")
-    @ApiModelProperty(value="伝票番号", notes="伝票番号")
     public final int getSlipNo() {
          return slipNo;
      }
@@ -97,7 +89,6 @@ public class CAInfo {
       * @return The Cancel Slip Number
       */
      @XmlElement(name = "CancelSlipNo")
-     @ApiModelProperty(value="キャンセル伝票番号", notes="キャンセル伝票番号")
      public final int getCancelSlipNo() {
          return cancelSlipNo;
      }
@@ -115,7 +106,6 @@ public class CAInfo {
       * @return The Card Number.
       */
      @XmlElement(name = "CardNo")
-     @ApiModelProperty(value="カード番号", notes="カード番号")
      public final String getCardNo() {
          return cardNo;
      }
@@ -135,7 +125,6 @@ public class CAInfo {
       * @return The Expiration Date.
       */
      @XmlElement(name = "ExpireDate")
-     @ApiModelProperty(value="有効期限", notes="有効期限")
      public final String getExpireDate() {
          return expireDate;
      }
@@ -155,7 +144,6 @@ public class CAInfo {
       * @return The Approval Number.
       */
      @XmlElement(name = "ApprovalNo")
-     @ApiModelProperty(value="承認No", notes="承認No")
     public final String getApprovalNo() {
          return this.approvalNo;
      }
@@ -175,7 +163,6 @@ public class CAInfo {
       * @return The Cancel Division.
       */
      @XmlElement(name = "CancelDivision")
-     @ApiModelProperty(value="キャンセル分割", notes="キャンセル分割")
      public final String getCancelDivision() {
          return cancelDivision;
      }
@@ -195,7 +182,6 @@ public class CAInfo {
       * @return The Business Division.
       */
      @XmlElement(name = "BusinessDivision")
-     @ApiModelProperty(value="業務分割", notes="業務分割")
     public final String getBusinessDivision() {
          return businessDivision;
      }
@@ -215,7 +201,6 @@ public class CAInfo {
       * @return The Merchandise code.
       */
      @XmlElement(name = "MerchandiseCode")
-     @ApiModelProperty(value="商品コード", notes="商品コード")
      public final String getMerchandiseCode() {
          return merchandiseCode;
      }
@@ -235,7 +220,6 @@ public class CAInfo {
       * @return The Card Company Code.
       */
      @XmlElement(name = "CardCompanyCode")
-     @ApiModelProperty(value="会社番号", notes="会社番号")
      public final String getCardCompanyCode() {
          return cardCompanyCode;
      }
@@ -255,7 +239,6 @@ public class CAInfo {
       * @return The Card Company Name.
       */
      @XmlElement(name = "CardCompanyName")
-     @ApiModelProperty(value="会社名", notes="会社名")
      public final String getCardCompanyName() {
          return cardCompanyName;
      }
@@ -275,7 +258,6 @@ public class CAInfo {
       * @return The Payment Division.
       */
      @XmlElement(name = "PaymentDivision")
-     @ApiModelProperty(value="支払い分割", notes="支払い分割")
      public final int getPaymentDivision() {
          return paymentDivision;
      }
@@ -295,7 +277,6 @@ public class CAInfo {
       * @return The Installment Amount.
       */
      @XmlElement(name = "InstallmentAmount")
-     @ApiModelProperty(value="割賦金額", notes="割賦金額")
      public final double getInstallmentAmount() {
          return this.installmentAmount;
      }
@@ -315,7 +296,6 @@ public class CAInfo {
      * @return The Start Month
      */
     @XmlElement(name = "StartMonth")
-    @ApiModelProperty(value="開始月", notes="開始月")
     public final int getStartMonth() {
          return startMonth;
      }
@@ -335,7 +315,6 @@ public class CAInfo {
      * @return The Number of Bonuses.
      */
     @XmlElement(name = "NumberOfBonuses")
-    @ApiModelProperty(value="賞金数", notes="賞金数")
     public final int getNumberOfBonuses() {
          return numberOfBonuses;
      }
@@ -355,7 +334,6 @@ public class CAInfo {
      * @return Sum to Set.
      */
     @XmlElement(name = "Sum")
-    @ApiModelProperty(value="総数", notes="総数")
     public final double getSum() {
          return sum;
      }
@@ -375,7 +353,6 @@ public class CAInfo {
      * @return  The Tax and Postage.
      */
     @XmlElement(name = "TaxAndPostage")
-    @ApiModelProperty(value="税と郵便料金は", notes="税と郵便料金は")
     public final double getTaxAndPostage() {
          return taxAndPostage;
      }
@@ -395,7 +372,6 @@ public class CAInfo {
      * @return The Roman Name.
      */
     @XmlElement(name = "RomanName")
-    @ApiModelProperty(value="ローマの名前", notes="ローマの名前")
     public final String getRomanName() {
          return romanName;
      }
@@ -415,7 +391,6 @@ public class CAInfo {
      * @return  The Cup Number.
      */
     @XmlElement(name = "CupNo")
-    @ApiModelProperty(value="コップの番号", notes="コップの番号")
     public final int getCupNo() {
          return this.cupNo;
      }
@@ -435,7 +410,6 @@ public class CAInfo {
      * @return  The CupSendDate
      */
     @XmlElement(name = "CupSendDate")
-    @ApiModelProperty(value="カップを送る日付", notes="カップを送る日付")
     public final String getCupSendDate() {
          return this.cupSendDate;
      }
@@ -453,7 +427,6 @@ public class CAInfo {
      * @return  The sign
      */
     @XmlElement(name = "Sign")
-    @ApiModelProperty(value="署名", notes="署名")
     public final String getSign() {
          return sign;
      }
@@ -472,7 +445,6 @@ public class CAInfo {
       * Get the Status.
       * @return The Status.
       */
-     @ApiModelProperty(value="ステータス", notes="ステータス")
      public final int getStatus() {
          return status;
      }

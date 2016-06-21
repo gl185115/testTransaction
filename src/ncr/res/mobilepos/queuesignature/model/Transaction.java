@@ -3,15 +3,11 @@ package ncr.res.mobilepos.queuesignature.model;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
 /**
  * Model Class that represents Transaction.
  *
  */
 @XmlRootElement(name = "Transaction")
-@ApiModel(value="Transaction")
 public class Transaction {
     /**
      * The Worksation ID.
@@ -30,7 +26,6 @@ public class Transaction {
      * @return  The Total.
      */
     @XmlElement(name = "Total")
-    @ApiModelProperty(value="総計", notes="総計")
     public final double getTotal() {
         return this.total;
     }
@@ -46,7 +41,6 @@ public class Transaction {
      * @return  The Workstation ID.
      */
     @XmlElement(name = "WorkstationID")
-    @ApiModelProperty(value="作業台コード", notes="作業台コード")
     public final String getWorkstationID() {
         return this.workstationID;
     }
@@ -62,7 +56,6 @@ public class Transaction {
      * @return The Sequence Number.
      */
     @XmlElement(name = "SequenceNumber")
-    @ApiModelProperty(value="シリアルナンバー", notes="シリアルナンバー")
     public final String getSequenceNumber() {
         return this.sequenceNumber;
     }

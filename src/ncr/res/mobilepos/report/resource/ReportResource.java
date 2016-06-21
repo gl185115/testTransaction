@@ -146,7 +146,7 @@ public class ReportResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         })
     public final ReportItems getAccountancyReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyid,
@@ -237,7 +237,7 @@ public class ReportResource {
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         })
     public final ReportItems getReportNew(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
@@ -384,7 +384,7 @@ public class ReportResource {
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         })
     public final ReportItems getReportByDivCode(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
@@ -801,7 +801,7 @@ public class ReportResource {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="印刷する一般の営業報告書", response=ResultBase.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
@@ -1099,7 +1099,7 @@ public class ReportResource {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="印刷販売divコード情報", response=ResultBase.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
@@ -1480,7 +1480,7 @@ public class ReportResource {
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
     @ApiOperation(value="販売人員番号によって営業報告書を印刷する", response=ResultBase.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
@@ -2108,7 +2108,7 @@ public class ReportResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value="印刷するチェックと解決レポート", response=ReportModes.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     		@ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
     		@ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
@@ -2356,7 +2356,7 @@ public class ReportResource {
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value="印刷するレポート現金", response=ReportModes.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
@@ -2747,7 +2747,7 @@ public class ReportResource {
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力エラーが発生する"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="エンコードするデータをサポートされない"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="発生するネットワークレシート印刷エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -3104,7 +3104,7 @@ public class ReportResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
     @ApiOperation(value="プリントする会計報告", response=ResultBase.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンタポートが見ない"),
             @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンタが見ない"),
             @ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="指定したファイルが見ない"),
@@ -3830,7 +3830,7 @@ public class ReportResource {
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         })
     public final TotalAmount getTotalAmount(
     		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
@@ -3888,7 +3888,7 @@ public class ReportResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
         })
     public final DailyReportItems getReportItems(
     		@ApiParam(name="companyId", value="会社コード")@FormParam("companyId") final String companyId,

@@ -235,7 +235,9 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターを見つからない")
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターを見つからない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOPOSTERMINALLINK, message="端末接続の設備は発見されていない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している")       
     })
     public final ResultBase setPrinterId(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
@@ -312,8 +314,7 @@ public class DeviceInfoResource {
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_OK, message="周辺装置制御の成功")
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final Printers getAllPrinters(
     		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
@@ -646,7 +647,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_STOREID, message="無効な設備のstoreId"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している")
     })
 	public final ResultBase createDevice(
 			@ApiParam(name="deviceinfo", value="端末情報相関") @FormParam("deviceinfo") final String deviceInfoJson) {
@@ -794,7 +796,9 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データを発見していない")      
     })
     public final ViewDeviceInfo updateDevice(
     	@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
@@ -871,7 +875,12 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースには店舗が存在しない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターが見つからない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_IS_DELETED, message="プリンタは既に存在しているが"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="データベースの異常")
     })
 	public final ResultBase createPrinter(
 			@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
@@ -957,7 +966,12 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターをみつからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_IS_DELETED, message="プリンタは既に存在しているが"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="データベースの異常"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_NO_UPDATE, message="プリンターはアップグレードしません")
     })
     public final ViewPrinterInfo updatePrinterInfo(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
@@ -1050,7 +1064,10 @@ public class DeviceInfoResource {
        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターをみつからない"),
-       @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+       @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+       @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターをみつからない"),
+       @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
+       @ApiResponse(code=ResultBase.RES_PRINTER_NOT_DELETED, message="プリンタ情報は削除していません")
    })
    public final ResultBase deletePrinter(
 		   @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
@@ -1691,7 +1708,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない")
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データは見つからない")
     })
     public final ResultBase setSignatureLink(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
@@ -1757,7 +1775,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない")
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データは見つからない")
     })
     public final ResultBase setAuthorizationLink(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
@@ -1826,7 +1845,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない")
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データは見つからない")
     })
     public final ResultBase setQueueBusterLink(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
@@ -2023,7 +2043,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効のドゥローアコード")
+        @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効のドゥローアコード"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはデータベースにおいてすでに存在している")
     })
     public final ResultBase setTillId(
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
@@ -2123,7 +2144,9 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
+        
     })
     public final ResultBase getAttribute(
     		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
@@ -2206,7 +2229,9 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
+        
     })
     public final DeviceAttribute getDeviceAttribute(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
@@ -2267,7 +2292,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
     })
     public final ViewTerminalInfo getTerminalInfo(
     	@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
@@ -2329,7 +2355,8 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="無効な営業日")
+        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="無効な営業日"),
+        @ApiResponse(code=ResultBase.RES_TERMINAL_NOT_WORKING, message="端末が仕事をしない")
     })
     public final ResultBase getDeviceStatus(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,

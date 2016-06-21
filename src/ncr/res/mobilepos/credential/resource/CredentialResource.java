@@ -1076,17 +1076,8 @@ public class CredentialResource {
     @Path("/groups/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="グループ新規作成", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="無効なパラメータ"),
-        @ApiResponse(code=ResultBase.RESCREDL_ERROR_NG, message="認証用パラメータ可能な無効"),
-        @ApiResponse(code=ResultBase.RES_GROUP_EXISTS, message="グループもう存在")
-    })
-    public final ResultBase createGroup(@ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode,
-    		@ApiParam(name="group", value="グループ情報") @FormParam("group") final String jsonGroup) {
+    public final ResultBase createGroup(@FormParam("groupcode") final int groupCode,
+            @FormParam("group") final String jsonGroup) {
 
         tp.methodEnter("createGroup");
         tp.println("groupCode", groupCode).println("jsonGroup", jsonGroup);
@@ -1136,13 +1127,7 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/groups/delete")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="グループ削除", response=ResultBase.class)
-        @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出")
-    })
-    public final ResultBase deleteGroup(@ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode) {
+    public final ResultBase deleteGroup(@FormParam("groupcode") final int groupCode) {
         tp.methodEnter("deleteGroup");
         tp.println("GroupCode", groupCode);
 
@@ -1174,14 +1159,7 @@ public class CredentialResource {
     @Path("groups/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="グループ詳細情報取得", response=ViewUserGroup.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出")
-    })
-    public final ViewUserGroup viewGroupDetail(@ApiParam(name="code", value="グループコード") @QueryParam("code") final int groupCode) {
+    public final ViewUserGroup viewGroupDetail(@QueryParam("code") final int groupCode) {
 
         tp.methodEnter("viewGroupDetail");
         tp.println("GroupCode", groupCode);
@@ -1271,16 +1249,8 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/groups/maintenance")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="グループメンテナンス", response=ViewUserGroup.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
-    })
-    public final ViewUserGroup updateGroup(@ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode,
-    		@ApiParam(name="group", value="グループ情報") @FormParam("group") final String jsonGroup) {
+    public final ViewUserGroup updateGroup(@FormParam("groupcode") final int groupCode,
+            @FormParam("group") final String jsonGroup) {
 
         String functionName = "updateGroup";
         tp.methodEnter(functionName);

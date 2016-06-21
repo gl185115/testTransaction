@@ -57,7 +57,6 @@ public class BarCodeResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
-            @ApiResponse(code=ResultBase.RESRPT_OK, message="レポート成功")
         })
     public final JSONData getDiscountInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
     		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId,

@@ -331,6 +331,13 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
             status.total = 1;
             task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
         }*/
+        
+        
+        
+        if (model.active.taskIndex != undefined) {
+            $rootScope.model.remove();
+        }
+        
         for(var i=0;i<scheduledTask.length;i++){
 			if(task.effective ===scheduledTask[i].task.effective){
 				if(task.target.store==scheduledTask[i].task.target.store){
@@ -339,11 +346,6 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 				}
 			}
 		}
-        
-        
-        if (model.active.taskIndex != undefined) {
-            $rootScope.model.remove();
-        }
 //      res.ui.send({ event: "schedule.getNotices", data: {} });
 //      $scope.updateNewTask(task);
 

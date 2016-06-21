@@ -59,7 +59,7 @@ public class DiscountPlanInfoResource {
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     })
     public final SubtotalDiscount getSubtotalDiscount() {
     	

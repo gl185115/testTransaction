@@ -91,7 +91,7 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 						if (model.editTask.deployCategories[i].levelKey == "store") {
 							var iGroup = model.editTask.deployCategories[i].storeEntries;
 							for (var j = 0; j < iGroup.length; j++) {
-								if (task.target.store == iGroup[j].entryNameJa) {
+								if (task.target.store == iGroup[j].StoreId) {
 									$scope.indexLevel1 = i;
 									$scope.indexLevel2 = j;
 									break;
@@ -333,18 +333,18 @@ res.ui.controller("editTask", ["$scope", "$rootScope", "$timeout", "$filter", fu
 			task.target = { store: entryEdit.storeId, group: "", workstation: "All", storeNameJa: entryEdit.StoreName };
 		}*/
 
-	    for(var i=0;i<scheduledTask.length;i++){
-			if(task.effective ===scheduledTask[i].task.effective){
-				if(task.target.store==scheduledTask[i].task.target.store){
-					$scope.warning = "effectiveDate";
-					return;
-				}
-			}
-		}
 	    
 	    if (model.active.taskIndex != undefined) {
 	        $rootScope.model.remove();
 	    }
+	    for(var i=0;i<scheduledTask.length;i++){
+			if(task.effective ===scheduledTask[i].task.effective){
+				if(task.target.store==scheduledTask[i].task.target.store){
+						$scope.warning = "effectiveDate";
+						return;
+				}
+			}
+		}
 //		res.ui.send({ event: "schedule.getNotices", data: {} });
 //	    $scope.updateNewTask(task);
 

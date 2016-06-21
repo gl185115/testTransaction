@@ -7,17 +7,13 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
 /**
  * holds the data for a User Group.
  * @author AP185142
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "Group")
-@ApiModel(value="UserGroupLabel")
+@XmlRootElement(name = "GroupLabel")
 public class UserGroupLabel {
     /**
      * The GroupCode.
@@ -30,7 +26,6 @@ public class UserGroupLabel {
      *
      * @return GroupCode
      */
-    @ApiModelProperty(value="グループコード", notes="グループコード")
     public final int getGroupCode() {
         return groupcode;
     }
@@ -56,7 +51,6 @@ public class UserGroupLabel {
      *
      * @return GroupName
      */
-    @ApiModelProperty(value="グループ名称", notes="グループ名称")
     public final String getGroupName() {
         return groupname;
     }

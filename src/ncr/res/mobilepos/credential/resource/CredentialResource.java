@@ -1221,13 +1221,7 @@ public class CredentialResource {
     @Path("/groups/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="グループ一覧取得", response=UserGroupList.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出")
-    })
-    public final UserGroupList listGroups(@ApiParam(name="key", value="グループキー") @QueryParam("key") final String key) {
+    public final UserGroupList listGroups(@QueryParam("key") final String key) {
 
         String functioname = className + ".listGroups";
         tp.methodEnter("listGroups").println("key", key);

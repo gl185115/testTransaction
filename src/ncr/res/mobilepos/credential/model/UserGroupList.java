@@ -9,9 +9,6 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -20,7 +17,6 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "UserGroups")
 @XmlSeeAlso({ UserGroupLabel.class })
-@ApiModel(value="UserGroupList")
 public class UserGroupList extends ResultBase {
 
     /**
@@ -42,7 +38,6 @@ public class UserGroupList extends ResultBase {
      * gets the list of user groups.
      * @return list of user groups
      */
-    @ApiModelProperty(value="ユーザグループリスト", notes="ユーザグループリスト")
     public final List<UserGroupLabel> getGroupList() {
         return this.userGroups;
     }

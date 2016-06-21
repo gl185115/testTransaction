@@ -209,7 +209,7 @@ public class JournalizationResource {
     @ApiOperation(value="通常の取引を記録する", response=PosLogResp.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="xmlの結合解析中にエラーが起こっています")
+    @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
     })
     public final PosLogResp journalize(//poslogxml？
     		@ApiParam(name="poslogxml", value="poslogのxml")  @FormParam("poslogxml") final String posLogXml,

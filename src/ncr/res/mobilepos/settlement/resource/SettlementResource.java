@@ -50,7 +50,7 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="クレジットの概要を得る", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -108,11 +108,11 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="商品券リストを取得する", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
     public final SettlementInfo getVoucherList(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
@@ -182,11 +182,11 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="トランザクションの数を得る", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースのデータが見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
     public final SettlementInfo getTransactionCount(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
@@ -239,7 +239,7 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="クレジット", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),

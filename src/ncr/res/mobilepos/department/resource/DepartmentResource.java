@@ -173,7 +173,7 @@ public class DepartmentResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="有効な部門情報を検索する", response=ViewDepartment.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門コード未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門がみつからない"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -375,7 +375,7 @@ public class DepartmentResource {
         @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_DPTMT_NOT_EXIST, message="部門存しない"),
+            @ApiResponse(code=ResultBase.RES_DPTMT_NOT_EXIST, message="部門が存在しない"),
             @ApiResponse(code=ResultBase.RES_DPTMT_NOTACTIVE, message="無効な部門"),
         })
         public final ViewDepartment updateDepartment(
@@ -439,7 +439,7 @@ public class DepartmentResource {
         @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベースデータ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
         })
         public final ViewDepartment getDepartmentInfo(

@@ -393,7 +393,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),                                                            
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),       
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="ストリーム入出力例外が発生します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         
         })

@@ -585,7 +585,7 @@ public class QueueBusterResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="プロジェクト前のネットワークの方法を削除する", response=ResultBase.class)
     @ApiResponses(value={
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
     public final ResultBase deleteForwardItem(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,

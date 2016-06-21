@@ -409,9 +409,9 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="項目が存在しない"),
             @ApiResponse(code=ResultBase.RES_ITEM_ALREADY_EXIST, message="その店は見つからなかっ"),
-            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="データベースに見つけません"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
             @ApiResponse(code=ResultBase.RES_ITEM_STORE_NOT_EXIST, message="その店は見つからなかっ"),
-            @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門番号を見つける"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門がみつからない"),
             @ApiResponse(code=ResultBase.RES_ITEM_DPT_NOT_EXIST, message="当該プロジェクトの部門を探し当てていない"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ITEM_NO_UPDATE, message="その店は見つからなかっ")
@@ -803,7 +803,7 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ITEM_ALREADY_EXIST, message="そのプロジェクトのストレージが見つかりませんでした"),
-            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにはいない"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
             @ApiResponse(code=ResultBase.RES_ITEM_STORE_NOT_EXIST, message="そのプロジェクトのストレージを見つける"),
             @ApiResponse(code=ResultBase.RES_ITEM_DPT_NOT_EXIST, message="当該プロジェクトの部門を探し当てていない"),
             @ApiResponse(code=ResultBase.RES_ITEM_INVALIDPARAMETER, message="定価サービス中の無効パラメーター"),
@@ -937,7 +937,7 @@ public class ItemResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
         })
     public final SearchedProducts getItemForSeachingItem(
     		@ApiParam(name="Plu", value="商品コード") @QueryParam("Plu") final String plu,
@@ -1019,7 +1019,7 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
         })
     public final BrandProducts getBrandProductInfo(
     		@ApiParam(name="Dpt", value="部門") @QueryParam("Dpt") final String dpt,
@@ -1137,7 +1137,7 @@ public class ItemResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="見つからないデータベースデータ")
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
         })
     public final GroupLines getGroupLines(){
     	String functionName = DebugLogger.getCurrentMethodName();

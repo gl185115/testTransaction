@@ -966,7 +966,6 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターをみつからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_PRINTER_IS_DELETED, message="プリンタは既に存在しているが"),
         @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
         @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),

@@ -1284,7 +1284,7 @@ public class NetworkReceipt {
     @Path("/printreturnpaperreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
-    @ApiOperation(value="返品印刷", response=ResultBase.class)
+    @ApiOperation(value="返品領収書印刷", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),

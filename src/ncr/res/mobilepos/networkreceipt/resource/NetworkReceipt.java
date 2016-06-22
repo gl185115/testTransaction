@@ -802,7 +802,7 @@ public class NetworkReceipt {
     		@ApiParam(name="receiptforcust", value="顧客領収書") @FormParam("receiptforcust") final String receiptForCust,
     		@ApiParam(name="receiptforshop", value="店舗領収書") @FormParam("receiptforshop") final String receiptForShop,
     		@ApiParam(name="receipttwoforshop", value="セコンド店舗領収書") @FormParam("receipttwoforshop") final String receipttwoforshop,
-    		@ApiParam(name="receiptforcardcompany", value="カード会社領収書") @FormParam("receiptforcardcompany") final String receiptForCardCompany,
+    		@ApiParam(name="receiptforcardcompany", value="カード発行会社領収書") @FormParam("receiptforcardcompany") final String receiptForCardCompany,
     		@ApiParam(name="receiptforcommodityattached", value="アタッチ商品領収書") @FormParam("receiptforcommodityattached") final String receiptForCommodityAttached,
     		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
     		@ApiParam(name="StoreId", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
@@ -1284,21 +1284,30 @@ public class NetworkReceipt {
     @Path("/printreturnpaperreceipt/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="返品印刷", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメーター"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+    })
     public final ResultBase printReturnPaperReceipt(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("language") final String language,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("retryflag") final String retryflag,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("receiptforcust") final String receiptForCust,
-            @FormParam("receiptforshop") final String receiptForShop,
-            @FormParam("receipttwoforshop") final String receipttwoforshop,
-            @FormParam("receiptforcardcompany") final String receiptForCardCompany,
-            @FormParam("printerid") final String printerid,
-            @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+    		@ApiParam(name="deviceid", value="装置コード") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo,
+    		@ApiParam(name="language", value="言語") @FormParam("language") final String language,
+    		@ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+    		@ApiParam(name="retryflag", value="リプリントフラグ") @FormParam("retryflag") final String retryflag,
+    		@ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+    		@ApiParam(name="receiptforcust", value="顧客用領収書") @FormParam("receiptforcust") final String receiptForCust,
+    		@ApiParam(name="receiptforshop", value="ショップ用領収書") @FormParam("receiptforshop") final String receiptForShop,
+    		@ApiParam(name="receipttwoforshop", value="セコンド店舗領収書") @FormParam("receipttwoforshop") final String receipttwoforshop,
+    		@ApiParam(name="receiptforcardcompany", value="カード発行会社領収書") @FormParam("receiptforcardcompany") final String receiptForCardCompany,
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ")@FormParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
@@ -1627,7 +1636,7 @@ public class NetworkReceipt {
     		@ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
     		@ApiParam(name="retryflag", value="リプリントフラグ") @FormParam("retryflag") final String retryflag,
     		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
-    		@ApiParam(name="printerid", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)

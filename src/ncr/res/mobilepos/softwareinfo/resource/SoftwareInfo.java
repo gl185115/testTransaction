@@ -98,6 +98,8 @@ public class SoftwareInfo {
     @Path("/service")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="apiのウェブ版を得る", response=SoftwareVersion.class)
+    @ApiResponses(value={})
     public final SoftwareVersion getWebAPIVersion() {
         String functionName = "SoftwareInfo.getWebAPIVersion";
 		tp.methodEnter(functionName);
@@ -128,6 +130,8 @@ public class SoftwareInfo {
     @Path("/server")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="トムキャットバージョンを取得する", response=SoftwareVersion.class)
+    @ApiResponses(value={})
     public final SoftwareVersion getTomCatVersion() {
         tp.methodEnter("getTomCatVersion");
 
@@ -145,6 +149,8 @@ public class SoftwareInfo {
     @Path("/java")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="javaのバージョンを取得する", response=SoftwareVersion.class)
+    @ApiResponses(value={})
     public final SoftwareVersion getJavaVersion() {
       tp.methodEnter("getJavaVersion");
 
@@ -192,6 +198,8 @@ public class SoftwareInfo {
     @Path("/getsoftwareinfo/{softwareName}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="ソフトウェアの情報を取得する", response=SoftwareVersion.class)
+    @ApiResponses(value={})
     public final SoftwareVersion getSoftwareInfo(final String softwareName) {
 
         tp.methodEnter("getSoftwareInfo");

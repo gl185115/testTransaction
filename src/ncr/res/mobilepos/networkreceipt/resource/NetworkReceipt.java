@@ -805,7 +805,7 @@ public class NetworkReceipt {
     		@ApiParam(name="receiptforcardcompany", value="カード発行会社領収書") @FormParam("receiptforcardcompany") final String receiptForCardCompany,
     		@ApiParam(name="receiptforcommodityattached", value="アタッチ商品領収書") @FormParam("receiptforcommodityattached") final String receiptForCommodityAttached,
     		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid,
-    		@ApiParam(name="StoreId", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("txid", txid)
                 .println("storeNo", storeNo).println("deviceNo", deviceNo)

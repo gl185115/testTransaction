@@ -1292,6 +1292,7 @@ public class NetworkReceipt {
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_UNSUPPORTEDENCODING, message="データ符号化支を持されていない"),
+        @ApiResponse(code=ResultBase.RES_PRINTER_PORT_NOT_FOUND, message="プリンターポート未検出"),
     })
     public final ResultBase printReturnPaperReceipt(
     		@ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,

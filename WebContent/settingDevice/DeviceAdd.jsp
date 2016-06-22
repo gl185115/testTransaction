@@ -99,9 +99,9 @@ String sqlStr = "";
 
                 sqlStr = /* MST_DEVICEINFO */
                         "INSERT INTO RESMaster.dbo.MST_DEVICEINFO"
-                        + " (CompanyId, StoreId, TerminalId, Training, DeviceName, AttributeId, PrinterId, TillId, LinkPosTerminalId, LinkQueueBuster, SendLogFile, SaveLogFile, AutoUpload, Status, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + " VALUES (?, ?, ?, 0, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?),"
-                        + "        (?, ?, ?, 1, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
+                        + " (CompanyId, StoreId, TerminalId, Training, DeviceName, AttributeId, PrinterId, TillId, LinkPosTerminalId, LinkQueueBuster, SendLogFile, SaveLogFile, AutoUpload, Status, subNum1, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
+                        + " VALUES (?, ?, ?, 0, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?),"
+                        + "        (?, ?, ?, 1, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
                         /* MST_TERMINALINFO */
                         + " UPDATE RESMaster.dbo.MST_TERMINALINFO"
                         + "  SET FloorId=?, TerminalName=?, IPAddress=?, StoreClass=?, TerminalType=?, TillType=?, RelationType=?, LogoFileName=?, InshiFileName=?, UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice',UpdOpeCode=?"

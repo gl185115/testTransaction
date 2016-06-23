@@ -842,39 +842,39 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
 <!--                 </execution> -->
 <!--             </executions> -->
 <!--         </plugin> -->
-<!--         <plugin> -->
-<!--             <groupId>com.github.kongchen</groupId> -->
-<!--             <artifactId>swagger-maven-plugin</artifactId> -->
-<!--             <version>3.1.2</version> -->
-<!--             <configuration> -->
-<!--                 <apiSources> -->
-<!--                     <apiSource> -->
-<!--                         <springmvc>false</springmvc> -->
-<!--                         <locations>ncr.res.mobilepos</locations> -->
-<!--                         <schemes>https</schemes> -->
-<!--                         <info> -->
-<!--                             <version>0.1</version> -->
-<!--                             <title>RES Mex Transaction API</title> -->
-<!--                             <description>This is a specification for RES Mex API</description> -->
-<!--                         </info> -->
-<!--                         <host>localhost:8443</host> -->
-<!--                         <basePath>/resTransaction/rest</basePath> -->
-<!--                         <templatePath>${basedir}/resources/strapdown.html.hbs</templatePath> -->
-<!--                         <outputPath>${basedir}/target/api_document.html</outputPath> -->
-<!--                         <swaggerDirectory>${basedir}/target/swagger-ui_data</swaggerDirectory> -->
-<!--                         <attachSwaggerArtifact>false</attachSwaggerArtifact> -->
-<!--                     </apiSource> -->
-<!--                 </apiSources> -->
-<!--             </configuration> -->
-<!--             <executions> -->
-<!--                 <execution> -->
-<!--                     <phase>package</phase> -->
-<!--                     <goals> -->
-<!--                         <goal>generate</goal> -->
-<!--                     </goals> -->
-<!--                 </execution> -->
-<!--             </executions> -->
-<!--         </plugin> -->
+        <plugin>
+            <groupId>com.github.kongchen</groupId>
+            <artifactId>swagger-maven-plugin</artifactId>
+            <version>3.1.2</version>
+            <configuration>
+                <apiSources>
+                    <apiSource>
+                        <springmvc>false</springmvc>
+                        <locations>ncr.res.mobilepos</locations>
+                        <schemes>https</schemes>
+                        <info>
+                            <version>0.1</version>
+                            <title>RES Mex Transaction API</title>
+                            <description>This is a specification for RES Mex API</description>
+                        </info>
+                        <host>localhost:8443</host>
+                        <basePath>/resTransaction/rest</basePath>
+                        <templatePath>${basedir}/resources/strapdown.html.hbs</templatePath>
+                        <outputPath>${basedir}/target/api_document.html</outputPath>
+                        <swaggerDirectory>${basedir}/target/swagger-ui_data</swaggerDirectory>
+                        <attachSwaggerArtifact>false</attachSwaggerArtifact>
+                    </apiSource>
+                </apiSources>
+            </configuration>
+            <executions>
+                <execution>
+                    <phase>package</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>

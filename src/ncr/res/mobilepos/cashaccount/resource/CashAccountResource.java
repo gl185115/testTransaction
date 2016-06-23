@@ -1,9 +1,5 @@
 package ncr.res.mobilepos.cashaccount.resource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -12,16 +8,13 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
-import ncr.realgate.util.IoWriter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
-import ncr.res.mobilepos.cashaccount.model.CashBalance;
 import ncr.res.mobilepos.cashaccount.model.GetCashBalance;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -29,13 +22,11 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.report.model.DailyReport;
 
 @Path("cashaccount")
 @Api(value="/cashaccount", description="現金アカウント情報API")
 public class CashAccountResource {
-	
+
     /**
      * logger.
      */
@@ -48,17 +39,17 @@ public class CashAccountResource {
      * Program name, used for logging
      */
     private String progName = "CashAcct";
-    
+
     public CashAccountResource() {
     	this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
-    
+
     /**
      * Retrieve the cash balance of a drawer given its id
      *
      * @param tillId			drawer id
      * @param storeId			store id
-     * 
+     *
      * @return GetCashBalance   Cash Balance response
      */
     @Path("/getcashbalance")
@@ -71,21 +62,21 @@ public class CashAccountResource {
             @ApiResponse(code=ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE, message="残額未検出")
         })
     public final GetCashBalance getCashBalance(
-    		@ApiParam(name="tillid", value="ドロアID") @QueryParam("tillid") final String tillId, 
+    		@ApiParam(name="tillid", value="ドロアID") @QueryParam("tillid") final String tillId,
     		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
     		@ApiParam(name="businessdaydate", value="営業日") @QueryParam("businessdaydate") final String businessDayDate) {
     	tp.methodEnter("getCashBalance");
     	tp.println("Till Id", tillId)
     		.println("Store Id", storeId)
     		.println("Business Day Date", businessDayDate);
-    	
+
     	GetCashBalance response = new GetCashBalance();
-    	
+
     	try {
     		DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
     		ICashAccountDAO cashAccountDAO = sqlServer.getCashAccountDAO();
-    		
-    		response = cashAccountDAO.getCashBalance(tillId, storeId, 
+
+    		response = cashAccountDAO.getCashBalance(tillId, storeId,
     				businessDayDate);
     	} catch (DaoException e) {
 			LOGGER.logAlert(progName, "getCashBalance", Logger.RES_EXCEP_DAO,
@@ -99,10 +90,10 @@ public class CashAccountResource {
     	} finally {
     		tp.methodExit(response.toString());
     	}
-    	
+
     	return response;
     }
-    
+
     /**
      * get cash balance in txu_daily_report
      * @param companyId
@@ -135,7 +126,7 @@ public class CashAccountResource {
     		@ApiParam(name="dataType", value="データ分類") @FormParam("dataType") final String dataType,
     		@ApiParam(name="itemLevel1", value="項目レベル１") @FormParam("itemLevel1")final String itemLevel1,
     		@ApiParam(name="itemLevel2", value="項目レベル２") @FormParam("itemLevel2") final String itemLevel2) {
-        
+
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
@@ -144,7 +135,7 @@ public class CashAccountResource {
           .println("datatype", dataType)
           .println("itemLevel1", itemLevel1)
           .println("itemLevel2", itemLevel2);
-        GetCashBalance response = new GetCashBalance(); 
+        GetCashBalance response = new GetCashBalance();
         try {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICashAccountDAO cashAccountDAO = sqlServer.getCashAccountDAO();
@@ -161,10 +152,10 @@ public class CashAccountResource {
                 return response;
             }
             if(StringUtility.isNullOrEmpty(tillId)){
-            	response = cashAccountDAO.getCashBalance(companyId, storeId, terminalId, 
+            	response = cashAccountDAO.getCashBalance(companyId, storeId, terminalId,
                         businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
             }else{
-            	response = cashAccountDAO.getCashBalanceByTillId(companyId, storeId, tillId, 
+            	response = cashAccountDAO.getCashBalanceByTillId(companyId, storeId, tillId,
                         businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
             }
         } catch (DaoException e) {
@@ -179,9 +170,9 @@ public class CashAccountResource {
         } finally {
             tp.methodExit(response.toString());
         }
-        
+
         return response;
     }
-    
-      
+
+
 }

@@ -3,15 +3,15 @@ package ncr.res.mobilepos.journalization.model;
 /**
  * 改定履歴
  * バージョン      改定日付        担当者名      改定内容
- * 1.01     2014.11.19  FENGSHA    前受金情報取得(新規) 
+ * 1.01     2014.11.19  FENGSHA    前受金情報取得(新規)
  */
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Search Guest Order Info
@@ -313,10 +313,10 @@ public class SearchGuestOrderInfo {
      */
     @XmlElement(name = "DepartmentName")
     private DepartmentName DepartmentName;
-    
+
     /**
      * Getter for the guest no.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注番号", notes="客注番号")
@@ -326,7 +326,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the guest no.
-     * 
+     *
      * @param the
      *            guestNo field the value.
      */
@@ -336,7 +336,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the line.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="行番号", notes="行番号")
@@ -346,7 +346,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the line.
-     * 
+     *
      * @param the
      *            Line field the value.
      */
@@ -356,7 +356,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the retailStore id.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付店舗番号", notes="客注受付店舗番号")
@@ -366,7 +366,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the RetailStore Id.
-     * 
+     *
      * @param the
      *            RetailStoreId field the value.
      */
@@ -376,7 +376,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the business date.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付日", notes="客注受付日")
@@ -386,7 +386,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Business Date.
-     * 
+     *
      * @param the
      *            BusinessDate field the value.
      */
@@ -396,7 +396,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the business date time.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付日", notes="客注受付日")
@@ -406,7 +406,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Business Date Time.
-     * 
+     *
      * @param the
      *            BusinessDateTime field the value.
      */
@@ -416,7 +416,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the tranNo.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付時の取引番号", notes="客注受付時の取引番号")
@@ -426,7 +426,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the TranNo.
-     * 
+     *
      * @param the
      *            TranNo field the value.
      */
@@ -436,7 +436,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the terminal no.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付時の端末番号(POS)", notes="客注受付時の端末番号(POS)")
@@ -446,7 +446,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Terminal No.
-     * 
+     *
      * @param the
      *            TerminalNo field the value.
      */
@@ -456,7 +456,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the opecode .
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付の販売員コード", notes="客注受付の販売員コード")
@@ -466,7 +466,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the OpeCode.
-     * 
+     *
      * @param the
      *            OpeCode field the value.
      */
@@ -476,7 +476,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the opeName.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注受付の販売員名", notes="客注受付の販売員名")
@@ -486,7 +486,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the OpeName.
-     * 
+     *
      * @param the
      *            OpeName field the value.
      */
@@ -496,7 +496,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the kaiin no.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="会員番号(客注入金時)", notes="会員番号(客注入金時)")
@@ -506,7 +506,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the KaiinNo.
-     * 
+     *
      * @param the
      *            KaiinNo field the value.
      */
@@ -516,7 +516,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the KaiinNoSeiSan.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="会員番号(客注精算時)", notes="会員番号(客注精算時)")
@@ -526,7 +526,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the KaiinNoSeiSan.
-     * 
+     *
      * @param the
      *            KaiinNoSeiSan field the value.
      */
@@ -536,7 +536,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the OrderKbn.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注区分", notes="客注区分")
@@ -546,7 +546,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the OrderKbn.
-     * 
+     *
      * @param the
      *            OrderKbn field the value.
      */
@@ -556,7 +556,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MdInternal.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード", notes="商品コード")
@@ -566,7 +566,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MdInternal.
-     * 
+     *
      * @param the
      *            MdInternal field the value.
      */
@@ -576,7 +576,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md1.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(1)   類番(3桁)", notes="商品コード(1)   類番(3桁)")
@@ -586,7 +586,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md1.
-     * 
+     *
      * @param the
      *            Md1 field the value.
      */
@@ -596,7 +596,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md2.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(2)   型番(2桁)", notes="商品コード(2)   型番(2桁)")
@@ -606,7 +606,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md2.
-     * 
+     *
      * @param the
      *            Md2 field the value.
      */
@@ -616,7 +616,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md3.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(3)   生地番(3桁)", notes="商品コード(3)   生地番(3桁)")
@@ -626,7 +626,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md3.
-     * 
+     *
      * @param the
      *            Md3 field the value.
      */
@@ -636,7 +636,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md4.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(4)   色番(2桁)", notes="商品コード(4)   色番(2桁)")
@@ -646,7 +646,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md4.
-     * 
+     *
      * @param the
      *            Md4 field the value.
      */
@@ -656,7 +656,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md5.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(5)   体型(2桁)", notes="商品コード(5)   体型(2桁)")
@@ -666,7 +666,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md5.
-     * 
+     *
      * @param the
      *            Md5 field the value.
      */
@@ -676,7 +676,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md6.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(6)   サイズ(4桁)", notes="商品コード(6)   サイズ(4桁)")
@@ -686,7 +686,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md6.
-     * 
+     *
      * @param the
      *            Md6 field the value.
      */
@@ -697,7 +697,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md7.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(7)   ■未使用■", notes="商品コード(7)   ■未使用■")
@@ -707,7 +707,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md7.
-     * 
+     *
      * @param the
      *            Md7 field the value.
      */
@@ -717,7 +717,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md8.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(8)   ■未使用■", notes="商品コード(8)   ■未使用■")
@@ -727,7 +727,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md8.
-     * 
+     *
      * @param the
      *            Md8 field the value.
      */
@@ -737,7 +737,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md9.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(9)   ■未使用■", notes="商品コード(9)   ■未使用■")
@@ -747,7 +747,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md9.
-     * 
+     *
      * @param the
      *            Md9 field the value.
      */
@@ -757,7 +757,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Md10.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品コード(10)   ■未使用■", notes="商品コード(10)   ■未使用■")
@@ -767,7 +767,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Md10.
-     * 
+     *
      * @param the
      *            Md10 field the value.
      */
@@ -777,7 +777,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MdName.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品名", notes="商品名")
@@ -787,7 +787,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MdName.
-     * 
+     *
      * @param the
      *            MdName field the value.
      */
@@ -797,7 +797,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the SalesCnt.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注数量", notes="客注数量")
@@ -807,7 +807,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MdName.
-     * 
+     *
      * @param the
      *            MdName field the value.
      */
@@ -817,7 +817,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the SalesPrice.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注時の上代単価", notes="客注時の上代単価")
@@ -827,7 +827,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MdName.
-     * 
+     *
      * @param the
      *            MdName field the value.
      */
@@ -837,7 +837,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the SalesAmt.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注時の上代金額", notes="客注時の上代金額")
@@ -847,7 +847,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MdName.
-     * 
+     *
      * @param the
      *            MdName field the value.
      */
@@ -857,7 +857,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the DepositAmt.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注金額（預かり額）", notes="客注金額（預かり額）")
@@ -867,7 +867,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MdName.
-     * 
+     *
      * @param the
      *            MdName field the value.
      */
@@ -877,7 +877,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the TelKakuninFlag.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="TEL確認フラグ", notes="TEL確認フラグ")
@@ -887,7 +887,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the TelKakuninFlag.
-     * 
+     *
      * @param the
      *            TelKakuninFlag field the value.
      */
@@ -897,7 +897,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the SeisanDate.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注精算/返金日(営業日付) ", notes="客注精算/返金日(営業日付) ")
@@ -907,7 +907,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the SeisanDate.
-     * 
+     *
      * @param the
      *            SeisanDate field the value.
      */
@@ -917,7 +917,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the SeisanDateTime.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注精算/返金日(System日付)", notes="客注精算/返金日(System日付)")
@@ -927,7 +927,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the SeisanDateTime.
-     * 
+     *
      * @param the
      *            SeisanDateTime field the value.
      */
@@ -937,7 +937,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the CommitSalesAmt.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="精算時の売価金額", notes="精算時の売価金額")
@@ -947,7 +947,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the CommitSalesAmt.
-     * 
+     *
      * @param the
      *            CommitSalesAmt field the value.
      */
@@ -957,7 +957,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the RepayAmt.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注返金額", notes="客注返金額")
@@ -967,7 +967,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the RepayAmt.
-     * 
+     *
      * @param the
      *            RepayAmt field the value.
      */
@@ -977,7 +977,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the BalanceAmt.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="客注残額(客注精算後残額)", notes="客注残額(客注精算後残額)")
@@ -987,7 +987,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the BalanceAmt.
-     * 
+     *
      * @param the
      *            BalanceAmt field the value.
      */
@@ -997,7 +997,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the StatusCode.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="精算状態", notes="精算状態")
@@ -1007,7 +1007,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the statusCode.
-     * 
+     *
      * @param the
      *            statusCode field the value.
      */
@@ -1017,7 +1017,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the POSFlag.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="POS使用中フラグ", notes="POS使用中フラグ")
@@ -1027,7 +1027,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the pOSFlag.
-     * 
+     *
      * @param the
      *            pOSFlag field the value.
      */
@@ -1037,7 +1037,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the PluFlag.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="PLU未登録Flag", notes="PLU未登録Flag")
@@ -1047,7 +1047,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the pluFlag.
-     * 
+     *
      * @param the
      *            pluFlag field the value.
      */
@@ -1057,7 +1057,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Memo.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="簡易メモ", notes="簡易メモ")
@@ -1067,7 +1067,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Memo.
-     * 
+     *
      * @param the
      *            Memo field the value.
      */
@@ -1077,7 +1077,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MerchandiseHierarchy1.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="もらった商品（1）", notes="もらった商品（1）")
@@ -1087,7 +1087,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MerchandiseHierarchy1.
-     * 
+     *
      * @param the
      *            MerchandiseHierarchy1 field the value.
      */
@@ -1097,7 +1097,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MerchandiseHierarchy2.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="もらった商品（2）", notes="もらった商品（2）")
@@ -1107,7 +1107,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MerchandiseHierarchy2.
-     * 
+     *
      * @param the
      *            MerchandiseHierarchy2 field the value.
      */
@@ -1117,7 +1117,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MerchandiseHierarchy3.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="もらった商品（3）", notes="もらった商品（3）")
@@ -1127,7 +1127,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MerchandiseHierarchy3.
-     * 
+     *
      * @param the
      *            MerchandiseHierarchy3 field the value.
      */
@@ -1137,7 +1137,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MerchandiseHierarchy4.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="もらった商品（4）", notes="もらった商品（4）")
@@ -1147,7 +1147,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MerchandiseHierarchy4.
-     * 
+     *
      * @param the
      *            MerchandiseHierarchy4 field the value.
      */
@@ -1157,7 +1157,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MerchandiseHierarchy5.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="もらった商品（5）", notes="もらった商品（5）")
@@ -1167,7 +1167,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the MerchandiseHierarchy5.
-     * 
+     *
      * @param the
      *            MerchandiseHierarchy5 field the value.
      */
@@ -1177,7 +1177,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MdName.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="課税区分", notes="課税区分")
@@ -1187,7 +1187,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the TaxType.
-     * 
+     *
      * @param the
      *            TaxType field the value.
      */
@@ -1197,7 +1197,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MdName.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="売上外商品Flag", notes="売上外商品Flag")
@@ -1207,7 +1207,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the PosMdType.
-     * 
+     *
      * @param the
      *            PosMdType field the value.
      */
@@ -1217,7 +1217,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MdName.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="在庫更新区分", notes="在庫更新区分")
@@ -1227,7 +1227,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the TagType.
-     * 
+     *
      * @param the
      *            TagType field the value.
      */
@@ -1237,7 +1237,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the KeyPlu.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="商品Id", notes="商品Id")
@@ -1247,7 +1247,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the KeyPlu.
-     * 
+     *
      * @param the
      *            keyPlu field the value.
      */
@@ -1257,7 +1257,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the MdType.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="ポイント計算用P/S区分", notes="ポイント計算用P/S区分")
@@ -1267,7 +1267,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the mdType.
-     * 
+     *
      * @param the
      *            mdType field the value.
      */
@@ -1277,7 +1277,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Plu.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="JANコード", notes="JANコード")
@@ -1287,7 +1287,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the plu.
-     * 
+     *
      * @param the
      *            plu field the value.
      */
@@ -1297,7 +1297,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Flag1.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="フラグ（1）", notes="フラグ（1）")
@@ -1307,7 +1307,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Flag1.
-     * 
+     *
      * @param the
      *            Flag1 field the value.
      */
@@ -1317,7 +1317,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Flag2.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="フラグ（2）", notes="フラグ（2）")
@@ -1327,7 +1327,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Flag2.
-     * 
+     *
      * @param the
      *            Flag2 field the value.
      */
@@ -1336,7 +1336,7 @@ public class SearchGuestOrderInfo {
     }
 	/**
      * Getter for the Type1.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="タイプ（1）", notes="タイプ（1）")
@@ -1346,7 +1346,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Type1.
-     * 
+     *
      * @param the
      *            Type1 field the value.
      */
@@ -1356,7 +1356,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the Type2.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="タイプ（2）", notes="タイプ（2）")
@@ -1366,7 +1366,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the Type2.
-     * 
+     *
      * @param the
      *            Type2 field the value.
      */
@@ -1376,7 +1376,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the InsDate.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="挿入日付", notes="挿入日付")
@@ -1386,7 +1386,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the InsDate.
-     * 
+     *
      * @param the
      *            InsDate field the value.
      */
@@ -1396,7 +1396,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the UpdDate.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="更新日付", notes="更新日付")
@@ -1406,7 +1406,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the UpdDate.
-     * 
+     *
      * @param the
      *            UpdDate field the value.
      */
@@ -1416,7 +1416,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the UpdAppId.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="更新アプリケーションID", notes="更新アプリケーションID")
@@ -1426,7 +1426,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the UpdAppId.
-     * 
+     *
      * @param the
      *            UpdAppId field the value.
      */
@@ -1436,7 +1436,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Getter for the UpdOpeCode.
-     * 
+     *
      * @return String
      */
     @ApiModelProperty(value="更新担当者コード", notes="更新担当者コード")
@@ -1446,7 +1446,7 @@ public class SearchGuestOrderInfo {
 
     /**
      * Setter for the UpdOpeCode.
-     * 
+     *
      * @param the
      *            UpdOpeCode field the value.
      */
@@ -1471,14 +1471,14 @@ public class SearchGuestOrderInfo {
 
 	@Override
 	public String toString() {
-		
+
 		StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
-		
+
 		if(null != this.GuestNO){
 			sb.append("GuestNo :").append(this.GuestNO.toString());
 		}
-				
+
 		if(null != this.Line){
 			sb.append(crlf).append("Line :").append(this.Line.toString());
 		}
@@ -1486,146 +1486,146 @@ public class SearchGuestOrderInfo {
 		if(null != this.RetailStoreId){
 			sb.append(crlf).append("RetailStoreId :").append(this.RetailStoreId.toString());
 		}
-		
+
 		if(null != this.BusinessDate){
 			sb.append(crlf).append("BusinessDate :").append(this.BusinessDate.toString());
-		}	
-		
+		}
+
 		if(null != this.BusinessDateTime){
 			sb.append(crlf).append("BusinessDateTime :").append(this.BusinessDateTime.toString());
 		}
 		if(null != this.TranNo){
 			sb.append(crlf).append("TranNo :").append(this.TranNo.toString());
 		}
-		
+
 		if(null != this.TerminalNo){
 			sb.append(crlf).append("TerminalNo :").append(this.TerminalNo.toString());
 		}
-		
+
 		if(null != this.OpeCode){
 			sb.append(crlf).append("OpeCode :").append(this.OpeCode.toString());
 		}
-		
+
 		if(null != this.OpeName){
 			sb.append(crlf).append("OpeName :").append(this.OpeName.toString());
 		}
-		
+
 		if(null != this.KaiinNo){
 			sb.append(crlf).append("KaiinNo :").append(this.KaiinNo.toString());
 		}
-		
+
 		if(null != this.KaiinNoSeiSan){
 			sb.append(crlf).append("KaiinNoSeiSan :").append(this.KaiinNoSeiSan.toString());
 		}
-		
+
 		if(null != this.OrderKbn){
 			sb.append(crlf).append("OrderKbn :").append(this.OrderKbn.toString());
 		}
-		
+
 		if(null != this.MdInternal){
 			sb.append(crlf).append("MdInternal :").append(this.MdInternal.toString());
 		}
-		
+
 		if(null != this.Md1){
 			sb.append(crlf).append("Md1 :").append(this.Md1.toString());
 		}
-		
+
 		if(null != this.Md2){
 			sb.append(crlf).append("Md2 :").append(this.Md2.toString());
 		}
-		
+
 		if(null != this.Md3){
 			sb.append(crlf).append("Md3 :").append(this.Md3.toString());
 		}
-		
+
 		if(null != this.Md4){
 			sb.append(crlf).append("Md4 :").append(this.Md4.toString());
 		}
-		
+
 		if(null != this.Md5){
 			sb.append(crlf).append("Md5 :").append(this.Md5.toString());
 		}
-		
+
 		if(null != this.Md6){
 			sb.append(crlf).append("Md6 :").append(this.Md6.toString());
 		}
-		
+
 		if(null != this.Md7){
 			sb.append(crlf).append("Md7 :").append(this.Md7.toString());
 		}
-		
+
 		if(null != this.Md8){
 			sb.append(crlf).append("Md8 :").append(this.Md8.toString());
 		}
-		
+
 		if(null != this.Md9){
 			sb.append(crlf).append("Md9 :").append(this.Md9.toString());
 		}
-		
+
 		if(null != this.Md10){
 			sb.append(crlf).append("Md10 :").append(this.Md10.toString());
 		}
-		
+
 		if(null != this.MdName){
 			sb.append(crlf).append("MdName :").append(this.MdName.toString());
 		}
-		
+
 		if(null != this.SalesCnt){
 			sb.append(crlf).append("SalesCnt :").append(this.SalesCnt.toString());
 		}
-		
+
 		if(null != this.SalesPrice){
 			sb.append(crlf).append("SalesPrice :").append(this.SalesPrice.toString());
 		}
-		
+
 		if(null != this.SalesAmt){
 			sb.append(crlf).append("SalesAmt :").append(this.SalesAmt.toString());
 		}
-		
+
 		if(null != this.DepositAmt){
 			sb.append(crlf).append("DepositAmt :").append(this.DepositAmt.toString());
 		}
-		
+
 		if(null != this.TelKakuninFlag){
 			sb.append(crlf).append("TelKakuninFlag :").append(this.TelKakuninFlag.toString());
 		}
-		
+
 		if(null != this.SeisanDate){
 			sb.append(crlf).append("SeisanDate :").append(this.SeisanDate.toString());
 		}
-		
+
 		if(null != this.SeisanDateTime){
 			sb.append(crlf).append("SeisanDateTime :").append(this.SeisanDateTime.toString());
 		}
-		
+
 		if(null != this.CommitSalesAmt){
 			sb.append(crlf).append("CommitSalesAmt :").append(this.CommitSalesAmt.toString());
 		}
-		
+
 		if(null != this.RepayAmt){
 			sb.append(crlf).append("RepayAmt :").append(this.RepayAmt.toString());
 		}
-		
+
 		if(null != this.BalanceAmt){
 			sb.append(crlf).append("BalanceAmt :").append(this.BalanceAmt.toString());
 		}
-		
+
 		if(null != this.StatusCode){
 			sb.append(crlf).append("StatusCode :").append(this.StatusCode.toString());
 		}
-		
+
 		if(null != this.POSFlag){
 			sb.append(crlf).append("POSFlag :").append(this.POSFlag.toString());
 		}
-		
+
 		if(null != this.PluFlag){
 			sb.append(crlf).append("PluFlag :").append(this.PluFlag.toString());
 		}
-		
+
 		if(null != this.Memo){
 			sb.append(crlf).append("Memo :").append(this.Memo.toString());
 		}
-		
+
 		if(null != this.MerchandiseHierarchy1){
 			sb.append(crlf).append("MerchandiseHierarchy1 :").append(this.MerchandiseHierarchy1.toString());
 		}
@@ -1638,67 +1638,67 @@ public class SearchGuestOrderInfo {
 		if(null != this.MerchandiseHierarchy4){
 			sb.append(crlf).append("MerchandiseHierarchy4 :").append(this.MerchandiseHierarchy4.toString());
 		}
-		
+
 		if(null != this.MerchandiseHierarchy5){
 			sb.append(crlf).append("MerchandiseHierarchy5 :").append(this.MerchandiseHierarchy5.toString());
 		}
-		
+
 		if(null != this.TaxType){
 			sb.append(crlf).append("TaxType :").append(this.TaxType.toString());
 		}
-		
+
 		if(null != this.PosMdType){
 			sb.append(crlf).append("PosMdType :").append(this.PosMdType.toString());
 		}
-		
+
 		if(null != this.TagType){
 			sb.append(crlf).append("TagType :").append(this.TagType.toString());
 		}
-		
+
 		if(null != this.KeyPlu){
 			sb.append(crlf).append("KeyPlu :").append(this.KeyPlu.toString());
 		}
-		
+
 		if(null != this.MdType){
 			sb.append(crlf).append("MdType :").append(this.MdType.toString());
 		}
-		
+
 		if(null != this.Plu){
 			sb.append(crlf).append("Plu :").append(this.Plu.toString());
 		}
-		
+
 		if(null != this.Flag1){
 			sb.append(crlf).append("Flag1 :").append(this.Flag1.toString());
 		}
-		
+
 		if(null != this.Flag2){
 			sb.append(crlf).append("Flag2 :").append(this.Flag2.toString());
 		}
-		
+
 		if(null != this.Type1){
 			sb.append(crlf).append("Type1 :").append(this.Type1.toString());
 		}
-		
+
 		if(null != this.Type2){
 			sb.append(crlf).append("Type2 :").append(this.Type2.toString());
 		}
-		
+
 		if(null != this.InsDate){
 			sb.append(crlf).append("InsDate :").append(this.InsDate.toString());
 		}
-		
+
 		if(null != this.UpdDate){
 			sb.append(crlf).append("UpdDate :").append(this.UpdDate.toString());
 		}
-		
+
 		if(null != this.UpdAppId){
 			sb.append(crlf).append("UpdAppId :").append(this.UpdAppId.toString());
 		}
-		
+
 		if(null != this.UpdOpeCode){
 			sb.append(crlf).append("UpdOpeCode :").append(this.UpdOpeCode.toString());
 		}
-		
+
 		if(null != this.DepartmentName){
 			sb.append(crlf).append("DepartmentName :").append(this.DepartmentName.toString());
 		}

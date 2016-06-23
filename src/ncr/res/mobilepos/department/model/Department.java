@@ -10,8 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 1.01               2014.12.11     LiQian             DIV存在チェックを対応
  */
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Represents the Department information.
@@ -57,48 +57,48 @@ public class Department {
     public final void setDptStatus(String dptStatus) {
         this.dptStatus = dptStatus;
     }
-    
+
     @XmlElement(name = "TaxType")
     private String taxType;
 
     @XmlElement(name = "TaxRate")
     private String taxRate;
-    
+
     @XmlElement(name = "DiscountType")
     private String discountType;
-    
+
     @XmlElement(name = "NonSales")
     private int nonSales;
-    
+
     @XmlElement(name = "DiscountFlag")
     private String discountFlag;
-    
+
     @XmlElement(name = "DiscountAmt")
     private double discountAmt;
-    
+
     @XmlElement(name = "DiscountRate")
     private double discounRate;
-    
+
     @XmlElement(name = "AgeRestrictedFlag")
     private String ageRestrictedFlag;
-    
+
     @XmlElement(name = "InheritFlag")
     private String inheritFlag;
 
     @XmlElement(name = "SubSmallInt5")
     private int subSmallInt5;
-    
+
     @XmlElement(name = "SubNum1")
     private String subNum1;
-    
+
     @XmlElement(name = "SubNum2")
     private String subNum2;
-    
+
     @XmlElement(name = "SubNum3")
     private String subNum3;
-    
+
     private String updAppId;
-    
+
     private String updOpeCode;
 
     /**
@@ -158,8 +158,8 @@ public class Department {
     public final void setDepartmentName(final DepartmentName dptName) {
         this.departmentName = dptName;
     }
-    
-    
+
+
     @ApiModelProperty( value="売上税区分", notes="売上税区分")
     public String getTaxType() {
         return taxType;
@@ -255,28 +255,28 @@ public class Department {
     public final String getUpdAppId() {
 	return updAppId;
     }
-    
+
     public final void setUpdAppId(String updAppId) {
 	this.updAppId = updAppId;
     }
-	
+
     @ApiModelProperty( value="最終更新ユーザーID", notes="最終更新ユーザーID")
     public final String getUpdOpeCode() {
 	return updOpeCode;
     }
-	
+
     public final void setUpdOpeCode(String updOpeCode) {
 	this.updOpeCode = updOpeCode;
     }
 
-    
+
     @Override
     public final String toString() {
         StringBuilder str = new StringBuilder();
         String clrf = "; ";
         str.append("retailStoreID: ").append(retailStoreID).append(clrf)
         	.append("departmentID: ").append(departmentID).append(clrf)
-        	.append("departmentName: ").append(departmentName == null ? 
+        	.append("departmentName: ").append(departmentName == null ?
         			"" : departmentName.toString()).append(clrf)
             // 1.01  2014.12.11 LiQian DIV存在チェックを対応   ADD START
             .append("dptStatus: ").append(dptStatus).append(clrf)

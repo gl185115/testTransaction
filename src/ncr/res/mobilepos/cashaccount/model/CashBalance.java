@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Represents the Cash Balance information.
@@ -15,13 +15,13 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 @XmlRootElement(name = "CashBalance")
 @ApiModel(value="CashBalance")
 public class CashBalance {
-	
+
     /**
      * till id / drawer id
      */
 	@XmlElement(name = "TillId")
 	private String tillId;
-	
+
     /**
      * cash on hand
      */
@@ -37,7 +37,7 @@ public class CashBalance {
 	public final String getTillId() {
 		return tillId;
 	}
-	
+
     /**
      * Sets the till id.
      *
@@ -56,7 +56,7 @@ public class CashBalance {
 	public final String getCashOnHand() {
 		return cashOnHand;
 	}
-	
+
     /**
      * Sets the cash on hand.
      *
@@ -72,6 +72,6 @@ public class CashBalance {
 		sb.append("TillId:" + this.tillId + "; CashOnHand:" + this.cashOnHand);
 		return sb.toString();
 	}
-	
-	
+
+
 }

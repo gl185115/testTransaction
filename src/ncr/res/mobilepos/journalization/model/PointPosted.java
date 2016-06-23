@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * SubtotalDiscount info
@@ -20,7 +20,7 @@ public class PointPosted {
     /* the isPointPosted */
     @XmlElement(name = "PostPointed")
     private boolean PostPointed ;
-    
+
     /* the MemberId */
     @XmlElement(name = "MemberId")
     private String MemberId ;
@@ -28,23 +28,23 @@ public class PointPosted {
 	/* the SalesAmt */
 	@XmlElement(name = "SalesAmt")
 	private String SalesAmt;
-	
+
 	/* the ForPointAmt */
 	@XmlElement(name = "ForPointAmt")
 	private String ForPointAmt;
-	
+
 	/* the AddPoint */
 	@XmlElement(name = "AddPoint")
 	private String AddPoint;
-	
+
 	/* the BeforePoint */
 	@XmlElement(name = "BeforePoint")
 	private String BeforePoint;
-	
+
 	/* the AfterPoint */
 	@XmlElement(name = "AfterPoint")
 	private String AfterPoint;
-    
+
     public boolean isPostPointed() {
         return PostPointed;
     }
@@ -106,13 +106,13 @@ public class PointPosted {
     public final String toString() {
         StringBuilder sb = new StringBuilder();
         String crlf= "\r\n";
-        
+
         sb.append("PostPointed: ").append(String.valueOf(this.PostPointed));
-        
+
         if(null != this.MemberId){
             sb.append(crlf).append("MemberId: ").append(this.MemberId.toString());
         }
-        
+
         return sb.toString();
     }
 }

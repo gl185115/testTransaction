@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * SubtotalDiscount info
@@ -20,7 +20,7 @@ public class SubtotalDiscountInfo {
 	/* the DiscountReason */
     @XmlElement(name = "DiscountReason")
     private String DiscountReason ;
-    
+
     /* the DiscountReasonName */
     @XmlElement(name = "DiscountReasonName")
     private String DiscountReasonName ;
@@ -34,7 +34,7 @@ public class SubtotalDiscountInfo {
     public String getDiscountReason() {
         return DiscountReason;
     }
-    
+
     /**
 	 * Sets the discountReasonName of the column.
 	 *
@@ -44,7 +44,7 @@ public class SubtotalDiscountInfo {
     public void setDiscountReason(String discountReason) {
     	DiscountReason = discountReason;
     }
-    
+
     /**
    	 * Gets the discountReasonName.
    	 *
@@ -54,7 +54,7 @@ public class SubtotalDiscountInfo {
     public String getDiscountReasonName() {
         return DiscountReasonName;
     }
-    
+
     /**
    	 * Sets the discountReasonName of the column.
    	 *
@@ -69,15 +69,15 @@ public class SubtotalDiscountInfo {
 	public final String toString() {
 		StringBuilder sb = new StringBuilder();
 		String crlf= "\r\n";
-		
+
 		if(null != this.DiscountReason){
 			sb.append("DiscountReason: ").append(this.DiscountReason.toString());
 		}
-		
+
 		if(null != this.DiscountReasonName){
 			sb.append(crlf).append("DiscountReasonName: ").append(this.DiscountReasonName.toString());
 		}
-		
+
 		return sb.toString();
 	}
 }

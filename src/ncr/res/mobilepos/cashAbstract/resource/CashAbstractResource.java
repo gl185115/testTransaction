@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 /**
  * @author xxj
@@ -16,12 +16,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cashAbstract.dao.ICashAbstractDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -46,7 +45,7 @@ public class CashAbstractResource {
     }
 
     /**
-     * 
+     *
      * @param companyId,
      *            storeId, cashFlowDirection
      * @return Tender
@@ -62,7 +61,7 @@ public class CashAbstractResource {
     })
     public final JSONData getcashAbstract(
             @ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-            @ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
+            @ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId,
             @ApiParam(name="CashFlowDirection", value="入出金区分") @QueryParam("CashFlowDirection") final String cashFlowDirection,
             @ApiParam(name="TenderId", value="種別コード") @QueryParam("TenderId") final String tenderId,
             @ApiParam(name="TenderType", value="支払種別") @QueryParam("TenderType") final String tenderType) {

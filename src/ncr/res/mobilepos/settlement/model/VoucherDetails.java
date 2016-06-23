@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "VoucherDetails")
@@ -18,63 +18,63 @@ public class VoucherDetails {
          */
         @XmlElement(name = "CompanyId")
         private String companyId;
-        
+
         /**
          * private variable that will store the value of store id
          */
         @XmlElement(name = "StoreId")
         private String storeId;
-        
+
         /**
          * private variable that will store the value of data type
          */
         @XmlElement(name = "DataType")
         private String dataType;
-        
+
         /**
          * private variable that will store the value of item level 1
          */
         @XmlElement(name = "ItemLevel1")
         private String itemLevel1;
-        
+
         /**
          * private variable that will store the value of item level 2
          */
         @XmlElement(name = "ItemLevel2")
         private String itemLevel2;
-        
+
         /**
          * private variable that will store the value of item level 3
          */
         @XmlElement(name = "ItemLevel3")
         private String itemLevel3;
-        
+
         /**
          * private variable that will store the value of item level 4
          */
         @XmlElement(name = "ItemLevel4")
         private String itemLevel4;
-        
-           
+
+
         /**
          * private variable that will store the value of workstation id
          */
         @XmlElement(name = "WorkStationId")
         private String workStationId;
-        
-        
+
+
         /**
          * private variable that will store the value of Business day date
          */
         @XmlElement(name = "BusinessDayDate")
         private String businessDayDate;
-        
+
         /**
          * private variable that will store the value of item count
          */
         @XmlElement(name = "ItemCount")
         private int itemCount;
-        
+
         /**
          * private variable that will store the value of item amount
          */
@@ -256,7 +256,7 @@ public class VoucherDetails {
                     + ", itemLevel4=" + itemLevel4 + ", workStationId=" + workStationId + ", businessDayDate="
                     + businessDayDate + ", itemCount=" + itemCount + ", itemAmt=" + itemAmt + "]";
         }
-        
-        
+
+
 
 }

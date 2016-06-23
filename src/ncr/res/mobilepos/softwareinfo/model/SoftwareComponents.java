@@ -5,9 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -19,22 +18,22 @@ import ncr.res.mobilepos.model.ResultBase;
  * SoftwareVersion javaVersionInfo
  * SoftwareVersion serviceVersionInfo
  * SoftwareVersion operatingSystemVersionInfo
- * 
+ *
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "SoftwareComponents")
 @ApiModel(value="SoftwareComponents")
 public class SoftwareComponents extends ResultBase {
-    
+
     @XmlElement(name = "ServerInfo")
     private SoftwareVersion serverVersionInfo;
-    
+
     @XmlElement(name = "JavaInfo")
     private SoftwareVersion javaVersionInfo;
-    
+
     @XmlElement(name = "ServiceInfo")
     private SoftwareVersion serviceVersionInfo;
-    
+
     @XmlElement(name = "OperatingSystemInfo")
     private SoftwareVersion operatingSystemVersionInfo;
 
@@ -73,6 +72,6 @@ public class SoftwareComponents extends ResultBase {
 	public void setOperatingSystemVersionInfo(
 			SoftwareVersion operatingSystemVersionInfo) {
 		this.operatingSystemVersionInfo = operatingSystemVersionInfo;
-	}   
-	
+	}
+
 }

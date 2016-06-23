@@ -1,14 +1,14 @@
 package ncr.res.mobilepos.deviceinfo.model;
 
-import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * Model for representing POS Link Information.
@@ -33,13 +33,13 @@ public class POSLinkInfo {
      */
     @XmlElement(name = "RetailStoreID")
     private String retailstoreid;
-    
+
     private String status;
-    
+
    	private String updAppId;
-    
+
     private String updOpeCode;
-    
+
     @ApiModelProperty(value="ステータス", notes="ステータス")
     public String getStatus() {
 		return status;
@@ -47,7 +47,7 @@ public class POSLinkInfo {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-    
+
 	@ApiModelProperty(value="最終更新プログラムID", notes="最終更新プログラムID")
     public String getUpdAppId() {
         return updAppId;
@@ -55,7 +55,7 @@ public class POSLinkInfo {
     public void setUpdAppId(String updAppId) {
         this.updAppId = updAppId;
     }
-    
+
     @ApiModelProperty(value="最終更新ユーザーID", notes="最終更新ユーザーID")
     public String getUpdOpeCode() {
         return updOpeCode;
@@ -90,7 +90,7 @@ public class POSLinkInfo {
      * Getter for the POS Link Name.
      * @return  The POS Link Name.
      */
-    
+
     @ApiModelProperty(value="リンク名", notes="リンク名")
     public final String getLinkName() {
         return linkname;
@@ -106,7 +106,7 @@ public class POSLinkInfo {
      * Getter for the POS Link ID.
      * @return  The POS Link ID.
      */
-    
+
     @ApiModelProperty(value="リンクコード", notes="リンクコード")
     public final String getPosLinkId() {
         return poslinkid;

@@ -5,9 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.pricing.model.Description;
 
 /**
@@ -17,91 +16,91 @@ import ncr.res.mobilepos.pricing.model.Description;
 @XmlRootElement(name = "LineInfo")
 @ApiModel(value="Line")
 public class Line {
-	
+
 	@XmlElement(name = "CompanyID")
     private String companyId;
-	
+
 	@XmlElement(name = "RetailStoreID")
     private String retailStoreId;
-	
+
 	@XmlElement(name = "Line")
-    private String line; 
-	
+    private String line;
+
 	@XmlElement(name = "Description")
     private Description description;
-    
+
     @XmlElement(name = "Department")
     private String department;
-    
+
     @XmlElement(name = "TaxType")
     private String taxType;
-    
+
     @XmlElement(name = "TaxRate")
-    private String taxRate;  
-    
+    private String taxRate;
+
     @XmlElement(name = "DiscountType")
     private String discountType;
-    
+
     @XmlElement(name = "ExceptionFlag")
     private String exceptionFlag;
-    
+
     @XmlElement(name = "DiscountFlag")
     private String discountFlag;
-    
+
     @XmlElement(name = "DiscountAmount")
     private double discountAmount;
-    
+
     @XmlElement(name = "DiscountRate")
     private double discountRate;
-    
+
     @XmlElement(name = "AgeRestrictedFlag")
     private String ageRestrictedFlag;
-    
+
     @XmlElement(name = "InheritFlag")
     private String inheritFlag;
-    
+
     @XmlElement(name = "SubSmallInt5")
     private String subSmallInt5;
-    
+
     private String updAppId;
-    
+
     private String updOpeCode;
-    
+
     // constructors
-    public Line() {    	
+    public Line() {
     }
-    
+
     public Line(final String line) {
         this.line = line;
     }
-    
-    public Line(final Line classInfo) { 
+
+    public Line(final Line classInfo) {
     	this.companyId = classInfo.getCompanyId();
     	this.retailStoreId = classInfo.getRetailStoreId();
-    	this.line = classInfo.getLine();    	
+    	this.line = classInfo.getLine();
     	this.description = classInfo.getDescription();
-    	this.department = classInfo.getDepartment();    	
+    	this.department = classInfo.getDepartment();
     	this.taxType = classInfo.getTaxType();
     	this.taxRate = classInfo.getTaxRate();
     	this.discountType = classInfo.getDiscountType();
     	this.exceptionFlag = classInfo.getExceptionFlag();
-    	this.discountType = classInfo.getDiscountType();    	
+    	this.discountType = classInfo.getDiscountType();
     	this.discountAmount = classInfo.getDiscountAmount();
     	this.discountRate = classInfo.getDiscountRate();
     	this.ageRestrictedFlag = classInfo.getAgeRestrictedFlag();
     	this.inheritFlag = classInfo.getInheritFlag();
-    	this.subSmallInt5 = classInfo.getSubSmallInt5();    
-    	this.updAppId = classInfo.getUpdAppId();  
+    	this.subSmallInt5 = classInfo.getSubSmallInt5();
+    	this.updAppId = classInfo.getUpdAppId();
     	this.updOpeCode = classInfo.getUpdOpeCode();
     }
-    
-    public Line(final String line, final String retailStoreId, 
-    		final Description description, final String department) {    	
+
+    public Line(final String line, final String retailStoreId,
+    		final Description description, final String department) {
         this.setDescription(description);
         this.setDepartment(department);
-        this.setLine(line);        
-        this.setRetailStoreId(retailStoreId);        
-    } 	
+        this.setLine(line);
+        this.setRetailStoreId(retailStoreId);
+    }
 
 	@Override
     public final String toString() {
@@ -109,23 +108,23 @@ public class Line {
       String clrf = "; ";
       str.append("CompanyID: ").append(companyId).append(clrf)
             .append("RetailStoreID: ").append(retailStoreId).append(clrf)
-      		.append("Line: ").append(line).append(clrf)        	
-      		.append("Description: ").append(description != null ? 
+      		.append("Line: ").append(line).append(clrf)
+      		.append("Description: ").append(description != null ?
         		 description.toString() : "").append(clrf)
         	.append("Department: ").append(department).append(clrf)
-        	.append("TaxType: ").append(taxType).append(clrf)        		 
-        	.append("TaxRate: ").append(taxRate).append(clrf)        		 
-        	.append("DiscountType: ").append(taxType).append(clrf)        		 
-        	.append("ExceptionFlag: ").append(exceptionFlag).append(clrf)        		 
-        	.append("DiscountFlag: ").append(discountFlag).append(clrf)        		 
-        	.append("DiscountAmount: ").append(discountAmount).append(clrf)        		 
-        	.append("DiscountRate: ").append(discountRate).append(clrf)        		 
-        	.append("AgeRestrictedFlag: ").append(ageRestrictedFlag).append(clrf)        		 
-        	.append("InheritFlag: ").append(inheritFlag).append(clrf)        		 
-        	.append("SubSmallInt5: ").append(subSmallInt5).append(clrf);    
+        	.append("TaxType: ").append(taxType).append(clrf)
+        	.append("TaxRate: ").append(taxRate).append(clrf)
+        	.append("DiscountType: ").append(taxType).append(clrf)
+        	.append("ExceptionFlag: ").append(exceptionFlag).append(clrf)
+        	.append("DiscountFlag: ").append(discountFlag).append(clrf)
+        	.append("DiscountAmount: ").append(discountAmount).append(clrf)
+        	.append("DiscountRate: ").append(discountRate).append(clrf)
+        	.append("AgeRestrictedFlag: ").append(ageRestrictedFlag).append(clrf)
+        	.append("InheritFlag: ").append(inheritFlag).append(clrf)
+        	.append("SubSmallInt5: ").append(subSmallInt5).append(clrf);
       return str.toString();
     }
-	
+
 	@ApiModelProperty( value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
@@ -143,7 +142,7 @@ public class Line {
 	public final void setRetailStoreId(String retailStoreId) {
 		this.retailStoreId = retailStoreId;
 	}
-   
+
 	@ApiModelProperty( value="品種コード", notes="品種コード")
 	public final String getLine() {
 		return line;
@@ -151,7 +150,7 @@ public class Line {
 
 	public final void setLine(String line) {
 		this.line = line;
-	}	
+	}
 
 	@ApiModelProperty( value="種類", notes="種類")
 	public final Description getDescription() {

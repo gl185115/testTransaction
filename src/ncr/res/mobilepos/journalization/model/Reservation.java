@@ -10,13 +10,12 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 /**
- * @author 
- * 
+ * @author
+ *
  * Reservation Class is a Model representation of the Reservation information List.
  */
 @XmlRootElement(name = "Reservation")
@@ -24,15 +23,15 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlSeeAlso({ SearchGuestOrderInfo.class })
 @ApiModel(value="Reservation")
 public class Reservation extends ResultBase {
-    
+
 	/*
 	 * This list is used to save Reservation information
-	 * 
+	 *
 	 */
     @XmlElementWrapper(name = "Reservations")
     @XmlElementRef()
     private List<ReservationInfo> ReservationInfo = null;
-    
+
 
     /**
      * the Line
@@ -40,11 +39,11 @@ public class Reservation extends ResultBase {
     @XmlElement(name = "MaxLine")
     private String maxLine;
 
-    
+
 	/**
 	 * @return the reservationInfo
 	 */
-    
+
     @ApiModelProperty(value="ó\ñÒèÓïÒ", notes="ó\ñÒèÓïÒ")
 	public List<ReservationInfo> getReservationInfo() {
 		return ReservationInfo;
@@ -57,7 +56,7 @@ public class Reservation extends ResultBase {
 		ReservationInfo = reservationInfo;
 	}
 
-	
+
 
 	/**
 	 * @return the maxLine
@@ -76,17 +75,17 @@ public class Reservation extends ResultBase {
 
 	@Override
     public final String toString() {
-    	
+
     	StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
 		sb.append(super.toString());
-    	
+
 		if(null != this.ReservationInfo){
 			sb.append(crlf).append("ReservationInfo: ").append(this.ReservationInfo.toString());
 		}
-		
+
 			sb.append(crlf).append("maxLine: ").append(this.maxLine.toString());
-		
+
     	return sb.toString();
     }
 }

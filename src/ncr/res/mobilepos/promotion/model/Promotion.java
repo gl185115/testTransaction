@@ -10,9 +10,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.model.CouponInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
@@ -36,13 +35,13 @@ public class Promotion extends ResultBase {
      */
     @XmlElement(name = "Revoke")
     private Revoke revoke;
-    
+
     @XmlElement(name = "Map")
     private Map<String,Map<String,Object>> map;
-    
+
     @XmlElement(name = "QrCodeInfoList")
     private List<QrCodeInfo> qrCodeInfoList;
-    
+
     @XmlElement(name = "CouponInfoList")
     private List<CouponInfo> couponInfoList;
 
@@ -53,7 +52,7 @@ public class Promotion extends ResultBase {
     public void setQrCodeInfoList(List<QrCodeInfo> qrCodeInfoList) {
         this.qrCodeInfoList = qrCodeInfoList;
     }
-    
+
     @ApiModelProperty(value="クーポン情報リスト", notes="クーポン情報リスト")
     public List<CouponInfo> getCouponInfoList() {
         return couponInfoList;
@@ -61,7 +60,7 @@ public class Promotion extends ResultBase {
     public void setCouponInfoList(List<CouponInfo> couponInfoList) {
         this.couponInfoList = couponInfoList;
     }
-    
+
     public Map<String, Map<String, Object>> getMap() {
         return map;
     }

@@ -1,8 +1,7 @@
 package ncr.res.mobilepos.customerSearch.model;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 @ApiModel(value="CustomerSearchReturnBean")

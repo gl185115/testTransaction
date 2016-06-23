@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "QrCodeInfo")
@@ -15,25 +15,25 @@ public class QrCodeInfo {
 
     @XmlElement(name = "PromotionId")
     private String promotionId;
-    
+
     @XmlElement(name = "PromotionName")
     private String promotionName;
-    
+
     @XmlElement(name = "MinimumPrice")
     private Double minimumPrice;
-    
+
     @XmlElement(name = "OutputTargetValue")
     private String outputTargetValue;
-    
+
     @XmlElement(name = "BMPFileName")
     private String bmpFileName;
-    
+
     @XmlElement(name = "BMPFileFlag")
     private String bmpFileFlag;
-    
+
     @XmlElement(name = "BMPFileCount")
     private String bmpFileCount;
-    
+
     @XmlElement(name = "OutputType")
     private String outputType;
 

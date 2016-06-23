@@ -5,23 +5,23 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="GoldCertificateInfo")
 @ApiModel(value="GoldCertificateInfo")
 public class GoldCertificateInfo{
-	
+
 	@XmlElement(name="CrCompCode")
     private String CrCompCode;
-	
+
 	@XmlElement(name="CrCompName")
     private String CrCompName;
-	
+
 	@XmlElement(name="CrCompKanaName")
     private String CrCompKanaName;
-	
+
 	@XmlElement(name="Subcode1")
     private String Subcode1;
 
@@ -84,29 +84,29 @@ public class GoldCertificateInfo{
 	public final void setSubcode1(String subcode1) {
 		Subcode1 = subcode1;
 	}
-	
+
 	@Override
 	public String toString() {
-		
+
 		StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
-		
+
 		if(null != this.CrCompCode){
 			sb.append("CrCompCode: ").append(this.CrCompCode.toString());
 		}
-		
+
 		if(null != this.CrCompName){
 			sb.append(crlf).append("CrCompName: ").append(this.CrCompName.toString());
 		}
-		
+
 		if(null != this.CrCompKanaName){
 			sb.append(crlf).append("CrCompKanaName: ").append(this.CrCompKanaName.toString());
 		}
-		
+
 		if(null != this.Subcode1){
 			sb.append(crlf).append("Subcode1: ").append(this.Subcode1.toString());
 		}
-		
+
 		return sb.toString();
 	}
 

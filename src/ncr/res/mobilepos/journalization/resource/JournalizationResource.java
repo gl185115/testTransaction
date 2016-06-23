@@ -22,11 +22,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.annotation.PostConstruct;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -56,8 +51,12 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-
 import atg.taglib.json.util.JSONObject;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -105,7 +104,6 @@ import ncr.res.mobilepos.journalization.model.SequenceNo;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
 /**
  * Journalization Web Resource Class.
@@ -313,7 +311,7 @@ public class JournalizationResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="取引のposlogを得る", response=SearchedPosLog.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引のデータが見つからない"),   
+    @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引のデータが見つからない"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
@@ -770,7 +768,7 @@ public class JournalizationResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー") 
+    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final Salesperson getSalesPerson(
     		@ApiParam(name="OpeKanaName", value="カナ氏名") @QueryParam("OpeKanaName") final String OpeKanaName) {
@@ -829,7 +827,7 @@ public class JournalizationResource {
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="順序番号を得る", response=SequenceNo.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),   
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
@@ -908,9 +906,9 @@ public class JournalizationResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
-    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),      
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-    
+
     })
     public final SearchGuestOrder getAdvancedInfoBySequenceNo(
     		@ApiParam(name="storeId", value="会社コード") @QueryParam("storeId") final String storeId,
@@ -978,9 +976,9 @@ public class JournalizationResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
-    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),      
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-    
+
     })
 	public final GoldCertificate getGoldCertificateType(//CrCompCat ？
 			@ApiParam(name="CrCompCat", value="認証会社の種類") @QueryParam("CrCompCat") final String compCat) {
@@ -1115,11 +1113,11 @@ public class JournalizationResource {
 		    @ApiResponses(value={
 		    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-		    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),   
+		    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_BUSINESSDATEIDCHECKFAILED, message="事件検査の失敗は、営業日と終わり、期日と終わり"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_EVENTKBNCHECKFAILED, message="事件の検査失敗はイベント区分が結果のイベント区分に等しい")
-		    
+
 		    })
          public final EventInformation getEventLoginCheckCode(
         		 @ApiParam(name="EventId", value="イベントコード")  @QueryParam("EventId") final String eventId,
@@ -1205,7 +1203,7 @@ public class JournalizationResource {
 		    @Produces({ MediaType.APPLICATION_JSON })
 		    @ApiOperation(value="検索予約リスト", response=Reservation.class)
 		    @ApiResponses(value={
-		    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),		    
+		    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
 		    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
@@ -1494,7 +1492,7 @@ public class JournalizationResource {
 	 @ApiOperation(value="検索最後賃金取引のposLog情報", response=SearchedPosLog.class)
 	    @ApiResponses(value={
 	    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),  
+	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
 	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
 	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
 	    })

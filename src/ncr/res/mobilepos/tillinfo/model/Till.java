@@ -6,8 +6,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="Till")
@@ -60,12 +60,12 @@ public class Till{
      * Update operator code
      */
     @XmlElement(name = "OperatorId")
-    private String updOpeCode;   
+    private String updOpeCode;
     /**
-     * Update SOD flag state. 
+     * Update SOD flag state.
      * (1) Allow "SOD" processing
      * (2) Already finish "SOD"
-     * (3) Other tablet is in the "SOD" processing. 
+     * (3) Other tablet is in the "SOD" processing.
      */
     @XmlElement(name = "State")
     private String state;
@@ -74,7 +74,7 @@ public class Till{
      */
     @XmlElement(name = "TerminalId")
     private String terminalId;
-    
+
     @ApiModelProperty(value="会社コード", notes="会社コード")
 	public String getCompanyId() {
 		return companyId;
@@ -82,12 +82,12 @@ public class Till{
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
-	
+
     @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
-	
+
 	public final void setStoreId(String storeId) {
 		this.storeId = storeId;
 	}
@@ -119,7 +119,7 @@ public class Till{
     @ApiModelProperty(value="短いSODフラグ", notes="短いSODフラグ")
     public final short getSodFlagAsShort() {
         return Short.parseShort(this.sodFlag);
-    }	
+    }
 
     @ApiModelProperty(value="EODフラグ", notes="EODフラグ")
 	public final String getEodFlag() {
@@ -128,12 +128,12 @@ public class Till{
 	public final void setEodFlag(String eodFlag) {
 		this.eodFlag = eodFlag;
 	}
-	
+
     @ApiModelProperty(value="短いEODフラグ", notes="短いEODフラグ")
     public final short getEodFlagAsShort() {
         return Short.parseShort(this.eodFlag);
     }
-	
+
     @ApiModelProperty(value="登録日時", notes="登録日時")
 	public final String getInsDate() {
 		return insDate;
@@ -178,7 +178,7 @@ public class Till{
 	public final String getTerminalId() {
 		return this.terminalId;
 	}
-	
+
 	public final void setTerminalId(String terminalId) {
 		this.terminalId = terminalId;
 	}

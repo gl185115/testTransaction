@@ -779,7 +779,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                         <goal>install-file</goal>
                     </goals>
                     <configuration>
-                        <file>${basedir}/swagger-maven-plugin_custom-3.1.2.jar</file>
+                        <file>${basedir}/external library/swagger-maven-plugin_custom-3.1.2.jar</file>
                         <groupId>com.ncr.res</groupId>
                         <artifactId>swagger-maven-plugin_custom</artifactId>
                         <version>3.1.2</version>

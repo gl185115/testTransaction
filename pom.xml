@@ -767,27 +767,27 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                 </execution>
             </executions>
         </plugin>
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-install-plugin</artifactId>
-            <version>2.5.2</version>
-            <executions>
-                <execution>
-                    <id>install-library</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>install-file</goal>
-                    </goals>
-                    <configuration>
-                        <file>${basedir}/external library/swagger-maven-plugin_custom-3.1.2.jar</file>
-                        <groupId>com.ncr.res</groupId>
-                        <artifactId>swagger-maven-plugin_custom</artifactId>
-                        <version>3.1.2</version>
-                        <packaging>jar</packaging>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+<!--         <plugin> -->
+<!--             <groupId>org.apache.maven.plugins</groupId> -->
+<!--             <artifactId>maven-install-plugin</artifactId> -->
+<!--             <version>2.5.2</version> -->
+<!--             <executions> -->
+<!--                 <execution> -->
+<!--                     <id>install-library</id> -->
+<!--                     <phase>prepare-package</phase> -->
+<!--                     <goals> -->
+<!--                         <goal>install-file</goal> -->
+<!--                     </goals> -->
+<!--                     <configuration> -->
+<!--                         <file>${basedir}/external library/swagger-maven-plugin_custom-3.1.2.jar</file> -->
+<!--                         <groupId>com.ncr.res</groupId> -->
+<!--                         <artifactId>swagger-maven-plugin_custom</artifactId> -->
+<!--                         <version>3.1.2</version> -->
+<!--                         <packaging>jar</packaging> -->
+<!--                     </configuration> -->
+<!--                 </execution> -->
+<!--             </executions> -->
+<!--         </plugin> -->
         <plugin>
             <groupId>com.ncr.res</groupId>
             <artifactId>swagger-maven-plugin_custom</artifactId>
@@ -816,7 +816,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                 <execution>
                     <phase>package</phase>
                     <goals>
-                        <goal>generate</goal>
+                        <goal>single</goal>
                     </goals>
                 </execution>
             </executions>

@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 
 
@@ -42,7 +42,7 @@ public class DeviceInfo {
      * The name of the device.m.mm,
      */
     @XmlElement(name = "Name")
-    private String devicename;
+    private String devicename;    
     /**
      * The training flag where the device
      * is registered.
@@ -117,28 +117,28 @@ public class DeviceInfo {
      */
     @XmlElement(name = "SuspendTxid")
     private  String suspendtxid;
-
+    
     @XmlElement(name = "EjSequence")
     private int ejSequence;
-
+    
     @XmlElement(name = "Status")
 	private String status;
-
+    
     @XmlElement(name = "AppId")
     private String appId;
-
+    
     @XmlElement(name = "OpeCode")
     private String opeCode;
 
     private String updAppId;
-
+    
     private String updOpeCode;
-
+    
     @XmlElement(name = "AttributeId")
     private String attributeId;
 
     /**
-     *
+     * 
      * Setter for the device name.
      * @param devicenameToSet the name of the device
      */

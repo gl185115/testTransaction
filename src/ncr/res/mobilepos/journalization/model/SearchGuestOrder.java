@@ -3,8 +3,8 @@ package ncr.res.mobilepos.journalization.model;
 /**
  * 改定履歴
  * バージョン      改定日付        担当者名      改定内容
- * 1.01     2014.11.19  FENGSHA    前受金情報取得(新規)
- * 1.02     2014.12.15  MAJINHUI   前受金番号取得
+ * 1.01     2014.11.19  FENGSHA    前受金情報取得(新規) 
+ * 1.02     2014.12.15  MAJINHUI   前受金番号取得 
  */
 import java.util.List;
 
@@ -16,12 +16,13 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
- * @author
- *
+ * @author 
+ * 
  * Sales SearchGuestOrder Class is a Model representation of the guest order List.
  */
 @XmlRootElement(name = "SearchGuestOrder")
@@ -29,15 +30,15 @@ import ncr.res.mobilepos.model.ResultBase;
 @ApiModel(value="SearchGuestOrder")
 @XmlSeeAlso({ SearchGuestOrderInfo.class })
 public class SearchGuestOrder extends ResultBase {
-
+    
 	/*
 	 * This list is used to save guest order information
-	 *
+	 * 
 	 */
     @XmlElementWrapper(name = "SearchGuestOrder")
     @XmlElementRef()
     private List<SearchGuestOrderInfo> searchGuestOrderInfo = null;
-
+    
     //1.02     2014.12.15  MAJINHUI   前受金番号取得  ADD START
     /**
      * the Guest NO
@@ -70,7 +71,7 @@ public class SearchGuestOrder extends ResultBase {
     public List<SearchGuestOrderInfo> getSearchGuestOrderInfo() {
         return searchGuestOrderInfo;
     }
-
+    
     /**
 	 * Sets the guest order information of the list.
 	 *
@@ -84,15 +85,15 @@ public class SearchGuestOrder extends ResultBase {
 
     @Override
     public final String toString() {
-
+    	
     	StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
 		sb.append(super.toString());
-
+    	
 		if(null != this.searchGuestOrderInfo){
 			sb.append(crlf).append("SearchGuestOrderInfo: ").append(this.searchGuestOrderInfo.toString());
 		}
-
+		
 		if(null != this.guestNo){
 			sb.append(crlf).append("GuestNo: ").append(this.guestNo.toString());
 		}

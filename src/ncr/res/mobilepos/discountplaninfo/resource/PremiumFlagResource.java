@@ -8,11 +8,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.discountplaninfo.dao.IPremiumFlagDAO;
@@ -21,6 +22,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 @Path("/premiumInfo")
@@ -56,7 +58,7 @@ public class PremiumFlagResource {
         })
     public final JSONData getPremiumFlag(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId,
+    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
     		@ApiParam(name="TerminalId", value="端末コード") @QueryParam("TerminalId") final String terminalId,
     		@ApiParam(name="DptIdList", value="部門コードリスト") @QueryParam("DptIdList") final String dptIdList) {
         String functionName = DebugLogger.getCurrentMethodName();

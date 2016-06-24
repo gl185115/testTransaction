@@ -5,23 +5,24 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 /**
- * @author
- *
+ * @author 
+ * 
  * Sales person Class is a Model representation of the SubtotalDiscount List.
  */
 @XmlRootElement(name = "SubtotalDiscount")
 @XmlAccessorType(XmlAccessType.NONE)
 @ApiModel(value="SubtotalDiscount")
 public class SubtotalDiscount extends ResultBase {
-
+	
 	/*This list is used to save SubtotalDiscount information*/
     @XmlElement(name = "SubtotalDiscountInfo")
     private SubtotalDiscountInfo[] SubtotalDiscount;
-
+    
     /**
 	 * Gets the sales person list.
 	 *
@@ -31,7 +32,7 @@ public class SubtotalDiscount extends ResultBase {
     public final SubtotalDiscountInfo[] getSubtotalDiscount() {
         return SubtotalDiscount;
     }
-
+    
     /**
 	 * Sets the SubtotalDisExcept information of the list.
 	 *
@@ -44,15 +45,15 @@ public class SubtotalDiscount extends ResultBase {
 
     @Override
     public final String toString() {
-
+		
 		StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
 		sb.append(super.toString());
-
+		
 		if( null != this.SubtotalDiscount){
 			sb.append(crlf).append("SubtotalDiscount: ").append(this.SubtotalDiscount.toString());
 		}
-
+		
 		return sb.toString();
     }
 }

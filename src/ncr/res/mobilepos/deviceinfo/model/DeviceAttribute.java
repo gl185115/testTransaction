@@ -5,8 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 
@@ -16,40 +17,40 @@ import ncr.res.mobilepos.model.ResultBase;
 public class DeviceAttribute extends ResultBase {
     @XmlElement(name = "CompanyId")
     private String companyId;
-
+	
 	@XmlElement(name = "StoreId")
     private String storeId;
-
+	
 	@XmlElement(name = "TerminalId")
 	private String terminalId;
-
+	
 	@XmlElement(name = "Training")
     private int training;
-
+	
 	@XmlElement(name = "DeviceName")
 	private String deviceName;
-
+	
 	@XmlElement(name = "AttributeId")
 	private String attributeId;
-
+	
 	@XmlElement(name = "PrinterId")
 	private String printerId;
-
+	
 	@XmlElement(name = "TillId")
 	private String tillId;
-
+	
 	@XmlElement(name= "LinkQueueBuster")
 	private String linkQueueBuster;
-
+	
 	@XmlElement(name = "PrintDes")
 	private String printDes;
-
+	
 	@XmlElement(name = "DrawerId")
 	private String drawerId;
-
+	
 	@XmlElement(name = "DisplayName")
 	private String displayName;
-
+	
 	@XmlElement(name = "AttributeDes")
 	private String attributeDes;
 
@@ -97,7 +98,7 @@ public class DeviceAttribute extends ResultBase {
 	public final void setTerminalId(final String terminalId) {
 		this.terminalId = terminalId;
 	}
-
+	
 	/**
      * @return the training mode
      */
@@ -258,5 +259,5 @@ public class DeviceAttribute extends ResultBase {
 				+ ", displayName=" + displayName + ", attributeDes="
 				+ attributeDes + "]";
 	}
-
+	
 }

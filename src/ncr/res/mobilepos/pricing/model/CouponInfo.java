@@ -5,29 +5,29 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CouponInfo")
 @ApiModel(value="CouponInfo")
 public class CouponInfo {
-
+    
     @XmlElement(name = "CouponNo")
     private String couponNo;
-
+    
     @XmlElement(name = "EvenetName")
     private String evenetName;
-
+    
     @XmlElement(name = "ReceiptName")
     private String receiptName;
-
+    
     @XmlElement(name = "IssueType")
     private String IssueType;
-
+    
     @XmlElement(name = "IssueCount")
     private int issueCount;
-
+    
     @XmlElement(name = "UnitPrice")
     private Double UnitPrice;
 

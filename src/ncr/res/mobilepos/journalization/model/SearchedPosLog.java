@@ -14,8 +14,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
@@ -39,7 +40,7 @@ public class SearchedPosLog extends ResultBase {
      */
     @XmlElement(name = "Transaction")
     private Transaction transaction;
-
+    
     /**
      * The private member variable that will hold the Additional information.
      */

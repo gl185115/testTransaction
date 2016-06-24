@@ -1,38 +1,5 @@
 package ncr.res.mobilepos.networkreceipt.resource;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -41,62 +8,9 @@ import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
 import ncr.res.mobilepos.customeraccount.model.Customer;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.DateFormatUtility;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.FormatReceiptByXML;
-import ncr.res.mobilepos.helper.FormatSummaryReceiptByXML;
-import ncr.res.mobilepos.helper.JsonMarshaller;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.POSLogHandler;
-import ncr.res.mobilepos.helper.PrintReceiptToImg;
-import ncr.res.mobilepos.helper.ReceiptNormalFormatter;
-import ncr.res.mobilepos.helper.ReceiptReturnFormatter;
-import ncr.res.mobilepos.helper.ReceiptVoidFormatter;
-import ncr.res.mobilepos.helper.SnapLogger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.helper.*;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
-import ncr.res.mobilepos.journalization.model.poslog.BarLoyaltyReward;
-import ncr.res.mobilepos.journalization.model.poslog.BarPoints;
-import ncr.res.mobilepos.journalization.model.poslog.Beginning;
-import ncr.res.mobilepos.journalization.model.poslog.CashChanger;
-import ncr.res.mobilepos.journalization.model.poslog.CashDrawer;
-import ncr.res.mobilepos.journalization.model.poslog.CreditDebit;
-import ncr.res.mobilepos.journalization.model.poslog.Devices;
-import ncr.res.mobilepos.journalization.model.poslog.Discount;
-import ncr.res.mobilepos.journalization.model.poslog.Guarantee;
-import ncr.res.mobilepos.journalization.model.poslog.Layaway;
-import ncr.res.mobilepos.journalization.model.poslog.LineItem;
-import ncr.res.mobilepos.journalization.model.poslog.MonetaryKind;
-import ncr.res.mobilepos.journalization.model.poslog.PayIn;
-import ncr.res.mobilepos.journalization.model.poslog.PayInPlan;
-import ncr.res.mobilepos.journalization.model.poslog.PayOut;
-import ncr.res.mobilepos.journalization.model.poslog.PaymentOnAccount;
-import ncr.res.mobilepos.journalization.model.poslog.PointTicketIssue;
-import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.journalization.model.poslog.PostPoint;
-import ncr.res.mobilepos.journalization.model.poslog.PreviousLayaway;
-import ncr.res.mobilepos.journalization.model.poslog.PriceDerivationResult;
-import ncr.res.mobilepos.journalization.model.poslog.ProcessedTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.RainCheck;
-import ncr.res.mobilepos.journalization.model.poslog.RetailPriceModifier;
-import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.Return;
-import ncr.res.mobilepos.journalization.model.poslog.Sale;
-import ncr.res.mobilepos.journalization.model.poslog.StoredValueInstrument;
-import ncr.res.mobilepos.journalization.model.poslog.Tax;
-import ncr.res.mobilepos.journalization.model.poslog.Tender;
-import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
-import ncr.res.mobilepos.journalization.model.poslog.TenderLoan;
-import ncr.res.mobilepos.journalization.model.poslog.TenderPickup;
-import ncr.res.mobilepos.journalization.model.poslog.TenderSummary;
-import ncr.res.mobilepos.journalization.model.poslog.TillSettle;
-import ncr.res.mobilepos.journalization.model.poslog.Total;
-import ncr.res.mobilepos.journalization.model.poslog.Transaction;
-import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
-import ncr.res.mobilepos.journalization.model.poslog.UnspentAmount;
-import ncr.res.mobilepos.journalization.model.poslog.Voucher;
+import ncr.res.mobilepos.journalization.model.poslog.*;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.networkreceipt.helper.CreditSlipFormatter;
@@ -112,6 +26,32 @@ import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.CMPresetInfos;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
+import ncr.res.mobilepos.xebioapi.model.JSONData;
+
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletContext;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.xml.bind.JAXBException;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.text.ParseException;
+import java.util.*;
 
 /**
  * NetworkReceipt Class is a Web Resource which support MobilePOS Email
@@ -497,7 +437,7 @@ public class NetworkReceipt {
             PaperReceiptPrint receiptPrint = new PaperReceiptPrint(null,
                     netPrinterInfo, logopath, docTaxStampPath, haveDocTax,
                     null,
-                    new FormatSummaryReceiptByXML().getPrintDirection(),
+                    new FormatSummaryReceiptByXML().getPrintDirection(), 
                     tran.getRetailStoreID(),
                     tran.getWorkStationID().getValue(), tran.getSequenceNo());
             int printResult = receiptPrint.printAllReceipt(receiptsList);
@@ -561,7 +501,7 @@ public class NetworkReceipt {
 
         return resultBase;
     }
-
+    
 	public List<List<byte[]>> summaryReceipt(IReceiptDAO iReceiptDAO,
 			ReceiptMode receiptMode) throws NamingException,
 			UnsupportedEncodingException, ParseException,
@@ -570,9 +510,9 @@ public class NetworkReceipt {
 		List<List<byte[]>> receiptsList = new ArrayList<List<byte[]>>();
 		Context env = (Context) new InitialContext().lookup("java:comp/env");
 		FormatSummaryReceiptByXML frbx = null;
-
+		
 			int[] types = new int[4];
-
+			
 				types[0] = 1;
 				types[1] = 2;
 
@@ -599,7 +539,7 @@ public class NetworkReceipt {
 						frbx = new FormatSummaryReceiptByXML(receiptMode,
 								vdRcptFormatPath);
 						receiptsList.add(frbx.getReceipt());
-					}
+					} 
 				}
 			}
 		return receiptsList;
@@ -709,22 +649,22 @@ public class NetworkReceipt {
                             : retryflag.toLowerCase());
             FormatSummaryReceiptByXML frbx = null;
             List<List<byte[]>> receiptsList = new ArrayList<List<byte[]>>();
-
+            
             String docTaxStampPath = null;
             String vdRcptFormatPath = "";
             Boolean haveDocTax = false;
             Context env = (Context) new InitialContext().lookup("java:comp/env");
-
+            
             vdRcptFormatPath = (String) env
 					.lookup("rnRcptForPointTicketFormatPath");
-
+            
             String logopath = iReceiptDAO.getLogoFilePath(storeNo);
             Transaction tran = poslog.getTransaction();
-
+            
             frbx = new FormatSummaryReceiptByXML(receiptMode,
 					vdRcptFormatPath);
             receiptsList.add(frbx.getReceipt());
-
+            
             String company, dt, ticketval;
             receiptMode = new ReceiptMode();
             company = poslog.getTransaction().getOrganizationHierarchy().getLevel();
@@ -744,14 +684,14 @@ public class NetworkReceipt {
             receiptMode.setReceiptType("Normal");
             vdRcptFormatPath = (String) env
 					.lookup("rnRcptForPointTicketBarcodeFormatPath");
-            FormatReceiptByXML frbxx = new FormatReceiptByXML(receiptMode,
+            FormatReceiptByXML frbxx = new FormatReceiptByXML(receiptMode, 
             		vdRcptFormatPath);
             receiptsList.add(frbxx.getReceipt());
-
+            
             PaperReceiptPrint receiptPrint = new PaperReceiptPrint(null,
                     netPrinterInfo, logopath, docTaxStampPath, haveDocTax,
                     null,
-                    new FormatSummaryReceiptByXML().getPrintDirection(),
+                    new FormatSummaryReceiptByXML().getPrintDirection(), 
                     tran.getRetailStoreID(),
                     tran.getWorkStationID().getValue(), tran.getSequenceNo());
             int printResult = receiptPrint.printAllReceipt(receiptsList, false);
@@ -815,7 +755,7 @@ public class NetworkReceipt {
 
         return resultBase;
     }
-
+    
     /**
      * Prints sales transaction receipt.
      * @param txid                          The transaction number.
@@ -1040,13 +980,13 @@ public class NetworkReceipt {
 
         FormatReceiptByXML frbx = null;
         ReceiptNormalFormatter rf = null;
-        if(receiptMode.getCreditPayment() > 0 || receiptMode.getExemptTaxAmount() > 0
+        if(receiptMode.getCreditPayment() > 0 || receiptMode.getExemptTaxAmount() > 0 
                 || Boolean.TRUE.toString().equalsIgnoreCase(receiptMode.getIsAdvanceFlag())
                 || Boolean.TRUE.toString().equalsIgnoreCase(receiptMode.getIsRainCheckFlag())){
             int[] types = new int[5];
             // types[0] guest
             // types[1] card company
-            // types[2] shop
+            // types[2] shop 
             // types[3] commodity attached
             // types[4] credit and tax free other receipt for shop
             if (!StringUtility.isNullOrEmpty(receiptForCust)
@@ -1058,7 +998,7 @@ public class NetworkReceipt {
                 && receiptMode.getCreditPayment() > 0) {
                 types[1] = 2;
             }
-            if (!StringUtility.isNullOrEmpty(receiptForShop)
+            if (!StringUtility.isNullOrEmpty(receiptForShop) 
             	&& ResultBase.TRUE.equalsIgnoreCase(receiptForShop)) {
                 types[2] = 3;
             }
@@ -1068,7 +1008,7 @@ public class NetworkReceipt {
                         Boolean.TRUE.toString().equalsIgnoreCase(receiptMode.getIsRainCheckFlag()))){
                 types[3] = 4;
             }
-            if(!StringUtility.isNullOrEmpty(receipttwoforshop)
+            if(!StringUtility.isNullOrEmpty(receipttwoforshop) 
                 && ResultBase.TRUE.equalsIgnoreCase(receipttwoforshop)
                 && receiptMode.getCreditPayment() > 0
                 && (receiptMode.getExemptTaxAmount() > 0 || receiptMode.getAdvanceAmount() > 0)){
@@ -1590,18 +1530,18 @@ public class NetworkReceipt {
             	&& receiptMode.getCreditPayment() > 0) {
             types[1] = 2;
         }
-        if (receiptMode.getExemptTaxAmount() > 0 ||
+        if (receiptMode.getExemptTaxAmount() > 0 || 
         	(!StringUtility.isNullOrEmpty(receiptForShop)
                     && ResultBase.TRUE.equalsIgnoreCase(receiptForShop))) {
             types[2] = 3;
         }
-        if (receiptMode.getExemptTaxAmount() > 0 &&
-        		receiptMode.getCreditPayment() > 0 &&
-        		!StringUtility.isNullOrEmpty(receipttwoforshop) &&
+        if (receiptMode.getExemptTaxAmount() > 0 && 
+        		receiptMode.getCreditPayment() > 0 && 
+        		!StringUtility.isNullOrEmpty(receipttwoforshop) && 
 				ResultBase.TRUE.equalsIgnoreCase(receipttwoforshop)){
         	types[3] = 4;
         }
-
+        
         List<List<byte[]>> receiptsList = new ArrayList<List<byte[]>>();
 
         // Format receiptmode by XML or java source code.
@@ -1932,10 +1872,10 @@ public class NetworkReceipt {
      * @param businessDate The Business Date
      * @param poslogxml     The POSLog xml of sales transaction to be printed.
      * @param printerid     The Printer ID (output destination of receipt)
-     * @param poslogtype    The poslog type for printing non-cash for Balancing and EOD
+     * @param poslogtype    The poslog type for printing non-cash for Balancing and EOD 
      *                      and store receipt for EOD
      * @param trainingFlag  The Training flag
-     *
+     * 
      * @return result of the operation
      */
     @Path("/printtendercontrolreceipt/{txid}")
@@ -2016,52 +1956,52 @@ public class NetworkReceipt {
             if (netPrinterInfo == null) {
                 return resultBase;
             }
-
+            
             IStoreDAO iStoreDAO = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER).getStoreDAO();
             ViewStore viewStore = null;
 
             String logopath = iReceiptDAO.getLogoFilePath(storeNo),
             	   opeName, opeId, dayPart, storeName, storeTelNo;
-
+            
             viewStore = iStoreDAO.viewStore(storeNo);
-
+            
             Transaction trans = poslog.getTransaction();
             TenderControlTransaction tenderCtrlTrans = trans.getTenderControlTransaction();
             dayPart = tenderCtrlTrans.getDayPart();
             ReceiptMode receiptMode = null;
-
+            
             List<List<byte[]>> receiptsList = new ArrayList<List<byte[]>>();
             // Format receiptmode by XML or java source code.
             Context env = (Context) new InitialContext().lookup("java:comp/env");
             String vdRcptFormatPath = (String) env.lookup("tcRcptFormatPath");
-
+            
             if (StringUtility.isNullOrEmpty(dayPart)) {
             	dayPart = StringUtility.convNullToEmpty(dayPart);
             }
-
+            
             if (dayPart.equals("Balancing") || dayPart.equals("EOD")) {
             	List<ReceiptMode> receiptModeList = this.resolveTenderControlArrayPoslog(poslog, txPrintTypes);
             	FormatReceiptByXML frbx;
             	int i = 0;
-
+            	
             	if (!StringUtility.isNullOrEmpty(vdRcptFormatPath)
                         && (new File(vdRcptFormatPath)).exists()) {
-
+            		
             		for(Iterator<ReceiptMode> iterReceiptMode = receiptModeList.iterator(); iterReceiptMode.hasNext();) {
 	            		receiptMode = iterReceiptMode.next();
-
+	            		
 	            		setLanguage(language, receiptMode);
-
+	            		
 	            		if (!StringUtility.isNullOrEmpty(viewStore)) {
 	            			receiptMode.setStoreName(viewStore.getStore().getStoreName());
 	            			receiptMode.setTelNo(viewStore.getStore().getTel());
 	            		}
 	            		receiptModeList.set(i, receiptMode);
-
+	            		
 	            		frbx = new FormatReceiptByXML(receiptMode,
 	                            vdRcptFormatPath);
 	            		receiptsList.add(frbx.getReceipt());
-
+	            		
 	            		i++;
 	            	}
             	} else {
@@ -2074,8 +2014,8 @@ public class NetworkReceipt {
                             ResultBase.RES_ERROR_FILENOTFOUND, new Exception(
                                     errorMessage));
                 }
-
-
+	            	
+            	
             } else {
             	receiptMode = this.resolveTenderControlPoslog(poslog);
                 setLanguage(language, receiptMode);
@@ -2086,7 +2026,7 @@ public class NetworkReceipt {
         			receiptMode.setStoreName(viewStore.getStore().getStoreName());
         			receiptMode.setTelNo(viewStore.getStore().getTel());
         		}
-
+                
                 if (!StringUtility.isNullOrEmpty(vdRcptFormatPath)
                         && (new File(vdRcptFormatPath)).exists()) {
                     FormatReceiptByXML frbx = new FormatReceiptByXML(receiptMode,
@@ -2104,7 +2044,7 @@ public class NetworkReceipt {
                                     errorMessage));
                 }
             }
-
+            
             // call print service
             int printResult;
             Transaction tran = poslog.getTransaction();
@@ -2231,25 +2171,25 @@ public class NetworkReceipt {
      * @throws DaoException
      */
     public ReceiptMode resolvePoslog(PosLog poslog) throws DaoException{
-
+    	
     	// init debug
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 NetworkReceipt.class);
         tp.methodEnter(DebugLogger.getCurrentMethodName()).println("poslog",
                 poslog.toString());
-
+        
         // get the store information
         ReceiptMode receipt = null;
         if(StringUtility.isNullOrEmpty((receipt = this.setStoreInfo(poslog)))){
         	return receipt;
         }
-
+        
         // get transaction status
         this.setReceiptTypeInfo(poslog, receipt);
         if(ReceiptMode.RECEIPTTYPE_CANCEL.equalsIgnoreCase(receipt.getReceiptType())){
         	return null;
         }
-
+        
         tp.println("Receipt type: " + receipt.getReceiptType());
         // set transaction information
         if(!StringUtility.isNullOrEmpty(poslog.getTransaction())){
@@ -2276,7 +2216,7 @@ public class NetworkReceipt {
         if(!StringUtility.isNullOrEmpty(cot.getTotal())){
         	this.setTotalInfo(cot.getTotal(), receipt);
         }
-
+        
         List<PriceDerivationResult> pdrList = cot.getPriceDerivationResult();
         if (StringUtility.isNullOrEmpty(pdrList)) {
             pdrList = new ArrayList<PriceDerivationResult>();
@@ -3083,7 +3023,7 @@ public class NetworkReceipt {
                     receipt.setCashPament(StringUtility.convNullToDoubleZero(tender
                             .getAmount()));
                     if (!StringUtility.isNullOrEmpty(tender.getTenderChange())) {
-                        receipt.setTenderChange(receipt.getTenderChange() +
+                        receipt.setTenderChange(receipt.getTenderChange() + 
                                 tender.getTenderChange().getAmount());
                     }
 
@@ -3158,7 +3098,7 @@ public class NetworkReceipt {
                     receipt.setBankTransferAmount(StringUtility.convNullToDoubleZero(
                             tender.getAmount()));
                     if (!StringUtility.isNullOrEmpty(tender.getTenderChange())) {
-                        receipt.setTenderChange(receipt.getTenderChange() +
+                        receipt.setTenderChange(receipt.getTenderChange() + 
                                 tender.getTenderChange().getAmount());
                     }
                 }
@@ -3191,8 +3131,8 @@ public class NetworkReceipt {
                     itemList.add(item);
                     break;
             	}
-            }else if (!StringUtility.isNullOrEmpty(tax) && null != tax.get(0)
-                    && null !=tax.get(0).getTaxType()
+            }else if (!StringUtility.isNullOrEmpty(tax) && null != tax.get(0) 
+                    && null !=tax.get(0).getTaxType() 
                     && "VAT".equals(tax.get(0).getTaxType())) {
                 receipt.setTaxAmount(StringUtility.convNullToDoubleZero(tax.get(0).getAmount()));
                 receipt.setTaxPercent(tax.get(0).getPercent());
@@ -3207,7 +3147,7 @@ public class NetworkReceipt {
             }else if(!StringUtility.isNullOrEmpty(barpoint)){
                 receipt.setCustomerPoints(barpoint.getBarCorrectionPoints());
             }else if (!StringUtility.isNullOrEmpty(tax) && null != tax.get(0)
-                    && null != tax.get(0).getTaxType()
+                    && null != tax.get(0).getTaxType() 
                     && "Documentary".equals(tax.get(0).getTaxType())) {
                 receipt.setHaveDocTax("true");
             } else if (!StringUtility.isNullOrEmpty(postPt)) {
@@ -3215,12 +3155,12 @@ public class NetworkReceipt {
             	String ptcarddiv, ptcardno, prepttotal, cumulativepttotal;
             	String opeId, opeName;
             	int salesamt, amtforpts;
-
+            	
             	IReceiptDAO iReceiptDao = DAOFactory.getDAOFactory(
                         DAOFactory.SQLSERVER).getReceiptDAO();
                 opeId = poslog.getTransaction().getOperatorID().getValue();
                 opeName = iReceiptDao.getOperatorName(opeId);
-
+                
                 receipt.setOperatorName(opeName);
     	        ProcessedTransaction processedTrans = postPt.getProcessedTransacton();
     	        ptcardno = "";
@@ -3246,7 +3186,7 @@ public class NetworkReceipt {
     	        }
     	        prepttotal = postPt.getBeforePointsTotal();
     	        cumulativepttotal = postPt.getCumulativePointsTotal();
-
+    	        
     	        if (txType.contains("Void")) {
     	        	receipt.setReceiptType("Voided");
     	        } else {
@@ -3259,7 +3199,7 @@ public class NetworkReceipt {
             	receipt.setAmountForPts(amtforpts);
             	receipt.setBasicPts(basicpts);
             	receipt.setPtsGeneratedTotal(ptsgentot);
-
+            	
             	receipt.setPtCardDiv(ptcarddiv);
             	receipt.setPtCardNo(ptcardno);
             	receipt.setPrePtTotal(prepttotal);
@@ -3271,7 +3211,7 @@ public class NetworkReceipt {
                         DAOFactory.SQLSERVER).getReceiptDAO();
                 String ticketValue, storeId, wkStnId, ticketCntr, ticketIssueNum, storeName, temp,
                        ticketValBC, company;
-
+                
             	ticketValue = ptTicketIssue.getPointsRedeemed();
             	storeId = poslog.getTransaction().getRetailStoreID();
             	wkStnId = poslog.getTransaction().getWorkStationID().getValue();
@@ -3282,11 +3222,11 @@ public class NetworkReceipt {
             	} else {
             		ticketCntr = String.format("%04d", Integer.parseInt(ticketCntr));
             	}
-
+            	
             	if (wkStnId.length()>2) {
             		wkStnId = wkStnId.substring(2, wkStnId.length());
             	}
-
+            	
             	ticketValue = StringUtility.addCommaYenToNumString(ticketValue);
             	temp = PointsConstantVars.pointTicketFtr1a + ticketValue +
             			 PointsConstantVars.pointTicketFtr1b;
@@ -3330,11 +3270,11 @@ public class NetworkReceipt {
         }else if(StringUtility.isNullOrEmpty(tenderControl)){
             return null;
         }
-
+        
         String opeId, opeName;
         opeId = poslog.getTransaction().getOperatorID().getValue();
         opeName = iReceiptDao.getOperatorName(opeId);
-
+        
         receipt.setOperatorID(opeId);
         receipt.setOperatorName(opeName);
         receipt.setTrainModeFlag(poslog.getTransaction().getTrainingModeFlag());
@@ -3348,7 +3288,7 @@ public class NetworkReceipt {
         receipt.setReceiptType("TenderControl");
         TillSettle tillSettle = tenderControl.getTillSettle();
         String dayPart = tenderControl.getDayPart();
-
+        
         if (!StringUtility.isNullOrEmpty(dayPart) && dayPart.toLowerCase().equals("balancing")) {
         	CreditDebit creditDebit = tillSettle.getCreditDebit();
         	List<Voucher> voucherList = tillSettle.getVoucher();
@@ -3357,12 +3297,12 @@ public class NetworkReceipt {
         	CashDrawer cashDrawer = tender.getDevices().getCashDrawer();
         	Long totalAmt;
         	String regCnt, calcAmt, calcAmt2, gap, regAmt;
-
+        	
         	List<ItemMode> nonCashAmountList = new ArrayList<ItemMode>();
         	ItemMode item = null;
         	receipt.setTenderControlType(TransactionVariable.BALANCING);
         	receipt.setTenderCtrlBalanceType("NonCash");
-
+        	
         	regCnt = creditDebit.getRegisteredCount();
         	calcAmt = creditDebit.getCurrentCount();
         	calcAmt2 = creditDebit.getCurrentAmount();
@@ -3371,7 +3311,7 @@ public class NetworkReceipt {
         	calcAmt = FillSpace(calcAmt, 9, "right");
         	calcAmt2 = FillSpace(calcAmt2, 13, "right");
         	gap = FillSpace(gap, 9, "right");
-
+        	
         	item = new ItemMode();
         	item.setTenderCtrlType(dayPart);
         	item.setTenderCtrlBalType("NonCash");
@@ -3381,7 +3321,7 @@ public class NetworkReceipt {
         	item.setCalculatedAmt2(calcAmt2);
         	item.setGapAmount(gap);
         	nonCashAmountList.add(item);
-
+        	
         	String tenderType;
         	Voucher voucher;
         	Long voucherRegAmt, voucherCurAmt, voucherDiff;
@@ -3395,7 +3335,7 @@ public class NetworkReceipt {
         	for(Iterator<Voucher> iterVoucherList=voucherList.iterator(); iterVoucherList.hasNext();) {
         		voucher = iterVoucherList.next();
         		tenderType = voucher.getTenderType();
-
+        		
         		if (tenderType.equals(CashNonCashConstants.VOUCHERCOMMON)) {
         			voucherRegAmt = voucherRegAmt + Long.parseLong(voucher.getRegisteredAmount());
         			voucherCurAmt = voucherCurAmt + Long.parseLong(voucher.getCurrentAmount());
@@ -3405,10 +3345,10 @@ public class NetworkReceipt {
         			vouOtherCurAmt = vouOtherCurAmt + Long.parseLong(voucher.getCurrentAmount());
         			vouOtherDiff = vouOtherDiff + Long.parseLong(voucher.getDifference());
         		} else {
-
+        			
         		}
         	}
-
+        	
         	regAmt = Long.toString(voucherRegAmt);
         	calcAmt = Long.toString(voucherCurAmt);
         	gap = Long.toString(voucherDiff);
@@ -3417,7 +3357,7 @@ public class NetworkReceipt {
         	regCnt = FillSpace(regCnt, 9, "right");
         	calcAmt = FillSpace(calcAmt, 13, "right");
         	gap = FillSpace(gap, 23, "right");
-
+        	
         	item = new ItemMode();
         	item.setTenderCtrlType(dayPart);
         	item.setTenderCtrlBalType("NonCash");
@@ -3428,7 +3368,7 @@ public class NetworkReceipt {
         	item.setCalculatedAmt2(calcAmt);
         	item.setGapAmount(gap);
         	nonCashAmountList.add(item);
-
+        	
         	regAmt = Long.toString(vouOtherRegAmt);
         	calcAmt = Long.toString(vouOtherCurAmt);
         	gap = Long.toString(vouOtherDiff);
@@ -3437,7 +3377,7 @@ public class NetworkReceipt {
         	regCnt = FillSpace(regCnt, 9, "right");
         	calcAmt = FillSpace(calcAmt, 13, "right");
         	gap = FillSpace(gap, 23, "right");
-
+        	
         	item = new ItemMode();
         	item.setTenderCtrlType(dayPart);
         	item.setTenderCtrlBalType("NonCash");
@@ -3448,10 +3388,10 @@ public class NetworkReceipt {
         	item.setCalculatedAmt2(calcAmt);
         	item.setGapAmount(gap);
         	nonCashAmountList.add(item);
-
+        	
         	receipt.setItemList(nonCashAmountList);
         	receiptResult.add(receipt);
-
+        	
         	receipt = new ReceiptMode();
         	receipt = iReceiptDao.getReceiptInfo(poslog,
                     poslog.getTransaction().getRetailStoreID());
@@ -3466,7 +3406,7 @@ public class NetworkReceipt {
             receipt.setStoreID(poslog.getTransaction().getRetailStoreID());
 
             receipt.setReceiptType("TenderControl");
-
+        	
         	List<ItemMode> cashMachineList = new ArrayList<ItemMode>();
         	receipt.setTenderControlType(TransactionVariable.BALANCING);
         	receipt.setTenderCtrlBalanceType("Cash");
@@ -3475,7 +3415,7 @@ public class NetworkReceipt {
         	receipt.setTenderBalCashGrossTotalAmt(tender.getGrossTotal());
         	receipt.setTenderBalCashDiffAmt(tender.getDifference());
         	receipt.setTenderBalCashChangeReserveAmt(tender.getChangeReserve());
-        	totalAmt = (long)cashChanger.getAmount().getAmount() +
+        	totalAmt = (long)cashChanger.getAmount().getAmount() + 
         			            (long)cashDrawer.getAmount().getAmount();
         	receipt.setTenderBalCashCMCDTotalAmt(totalAmt.toString());
         	receipt.setTenderBalNetTotal(tender.getNetTotal());
@@ -3483,7 +3423,7 @@ public class NetworkReceipt {
         	receipt.setTenderBalDiff(tender.getDifference());
         	receipt.setTenderBalChangeReserve(tender.getChangeReserve());
         	receipt.setItemList(cashMachineList);
-
+        	
         	receiptResult.add(receipt);
         } else if (!StringUtility.isNullOrEmpty(dayPart) && dayPart.equals("EOD")) {
         	CreditDebit creditDebit = tillSettle.getCreditDebit();
@@ -3498,16 +3438,16 @@ public class NetworkReceipt {
         		    storeId = "0",
         		    nameCategory = "0004",
         		    weather, weatherName = "", customers, guests;
-
+        	        	
         	if (!StringUtility.isNullOrEmpty(txPrintTypes) && txPrintTypes.getPrintNonCashReceipt().equals("true")) {
         		String regCnt, calcAmt, calcAmt2, gap, regAmt;
             	List<ItemMode> nonCashAmountList = new ArrayList<ItemMode>();
             	ItemMode item = null;
-
+            	
             	receipt = new ReceiptMode();
             	receipt = iReceiptDao.getReceiptInfo(poslog,
                         poslog.getTransaction().getRetailStoreID());
-
+            	
             	receipt.setOperatorID(opeId);
                 receipt.setOperatorName(opeName);
                 receipt.setTrainModeFlag(poslog.getTransaction().getTrainingModeFlag());
@@ -3519,10 +3459,10 @@ public class NetworkReceipt {
                 receipt.setStoreID(poslog.getTransaction().getRetailStoreID());
 
                 receipt.setReceiptType("TenderControl");
-
+            	
             	receipt.setTenderControlType(TransactionVariable.BALANCING);
             	receipt.setTenderCtrlBalanceType("NonCash");
-
+            	
             	regCnt = creditDebit.getRegisteredCount();
             	calcAmt = creditDebit.getCurrentCount();
             	calcAmt2 = creditDebit.getCurrentAmount();
@@ -3531,7 +3471,7 @@ public class NetworkReceipt {
             	calcAmt = FillSpace(calcAmt, 9, "right");
             	calcAmt2 = FillSpace(calcAmt2, 13, "right");
             	gap = FillSpace(gap, 9, "right");
-
+            	
             	item = new ItemMode();
             	item.setTenderCtrlType(TransactionVariable.BALANCING);
             	item.setTenderCtrlBalType("NonCash");
@@ -3541,7 +3481,7 @@ public class NetworkReceipt {
             	item.setCalculatedAmt2(calcAmt2);
             	item.setGapAmount(gap);
             	nonCashAmountList.add(item);
-
+            	
             	String tenderType;
             	Voucher voucher;
             	Long voucherRegAmt, voucherCurAmt, voucherDiff;
@@ -3555,7 +3495,7 @@ public class NetworkReceipt {
             	for(Iterator<Voucher> iterVoucherList=voucherList.iterator(); iterVoucherList.hasNext();) {
             		voucher = iterVoucherList.next();
             		tenderType = voucher.getTenderType();
-
+            		
             		if (tenderType.equals(CashNonCashConstants.VOUCHERCOMMON)) {
             			voucherRegAmt = voucherRegAmt + Long.parseLong(voucher.getRegisteredAmount());
             			voucherCurAmt = voucherCurAmt + Long.parseLong(voucher.getCurrentAmount());
@@ -3565,10 +3505,10 @@ public class NetworkReceipt {
             			vouOtherCurAmt = vouOtherCurAmt + Long.parseLong(voucher.getCurrentAmount());
             			vouOtherDiff = vouOtherDiff + Long.parseLong(voucher.getDifference());
             		} else {
-
+            			
             		}
             	}
-
+            	
             	regAmt = Long.toString(voucherRegAmt);
             	calcAmt = Long.toString(voucherCurAmt);
             	gap = Long.toString(voucherDiff);
@@ -3577,7 +3517,7 @@ public class NetworkReceipt {
             	regCnt = FillSpace(regCnt, 9, "right");
             	calcAmt = FillSpace(calcAmt, 13, "right");
             	gap = FillSpace(gap, 23, "right");
-
+            	
             	item = new ItemMode();
             	item.setTenderCtrlType(TransactionVariable.BALANCING);
             	item.setTenderCtrlBalType("NonCash");
@@ -3587,7 +3527,7 @@ public class NetworkReceipt {
             	item.setCalculatedAmt2(calcAmt);
             	item.setGapAmount(gap);
             	nonCashAmountList.add(item);
-
+            	
             	regAmt = Long.toString(vouOtherRegAmt);
             	calcAmt = Long.toString(vouOtherCurAmt);
             	gap = Long.toString(vouOtherDiff);
@@ -3596,7 +3536,7 @@ public class NetworkReceipt {
             	regCnt = FillSpace(regCnt, 9, "right");
             	calcAmt = FillSpace(calcAmt, 13, "right");
             	gap = FillSpace(gap, 23, "right");
-
+            	
             	item = new ItemMode();
             	item.setTenderCtrlType(TransactionVariable.BALANCING);
             	item.setTenderCtrlBalType("NonCash");
@@ -3606,14 +3546,14 @@ public class NetworkReceipt {
             	item.setCalculatedAmt2(calcAmt);
             	item.setGapAmount(gap);
             	nonCashAmountList.add(item);
-
+            	
             	receipt.setItemList(nonCashAmountList);
             	receiptResult.add(receipt);
         	}
-
+        	
         	if (!StringUtility.isNullOrEmpty(txPrintTypes) && txPrintTypes.getPrintCashReceipt().equals("true")) {
         		Long totalAmt;
-
+        		
         		receipt = new ReceiptMode();
             	receipt = iReceiptDao.getReceiptInfo(poslog,
                         poslog.getTransaction().getRetailStoreID());
@@ -3628,7 +3568,7 @@ public class NetworkReceipt {
                 receipt.setStoreID(poslog.getTransaction().getRetailStoreID());
 
                 receipt.setReceiptType("TenderControl");
-
+            	
             	List<ItemMode> cashMachineList = new ArrayList<ItemMode>();
             	receipt.setTenderControlType(TransactionVariable.BALANCING);
             	receipt.setTenderCtrlBalanceType("Cash");
@@ -3637,14 +3577,14 @@ public class NetworkReceipt {
             	receipt.setTenderBalCashGrossTotalAmt(tender.getGrossTotal());
             	receipt.setTenderBalCashDiffAmt(tender.getDifference());
             	receipt.setTenderBalCashChangeReserveAmt(tender.getChangeReserve());
-            	totalAmt = (long)cashChanger.getAmount().getAmount() +
+            	totalAmt = (long)cashChanger.getAmount().getAmount() + 
             			            (long)cashDrawer.getAmount().getAmount();
             	receipt.setTenderBalCashCMCDTotalAmt(totalAmt.toString());
             	receipt.setItemList(cashMachineList);
-
+            	
             	receiptResult.add(receipt);
         	}
-
+        	
         	if (!StringUtility.isNullOrEmpty(txPrintTypes) && txPrintTypes.getPrintStoreReceipt().equals("true")) {
 	        	guests = ": ";
 	        	weather = transactionLink.getWeather().getCode();
@@ -3656,23 +3596,23 @@ public class NetworkReceipt {
 	        	weatherName = FillSpace(weatherName, 29, "left");
 	        	customers = FillSpace(customers, 31, "left");
 	        	guests = FillSpace(guests, 31, "left");
-
+	        	
 	        	receipt.setWeatherNameId(weatherName);
 	        	receipt.setEODNumCustomers(customers);
 	        	receipt.setEODNumGuests(guests);
 	        	receipt.setTenderControlType(TransactionVariable.EOD);
 	        	receipt.setItemList(listItemMode);
-
+	        	
 	        	testNum1 = "999";
 	        	testNum2 = "999999";
-
+	        	
 	        	testNum2 = FillSpace(testNum2, 15, "right");
-
+	        	
 	        	receipt.setTenderControlPayIn(testNum1 + testNum2);
 	        	receiptResult.add(receipt);
         	}
         }
-
+        
         return receiptResult;
     }
     private ReceiptMode resolveTenderControlPoslog(PosLog poslog) throws DaoException{
@@ -3714,12 +3654,12 @@ public class NetworkReceipt {
             payin = tillSettle.getPayIn();
             payinplan = tillSettle.getPayInPlan();
         }
-
+        
         Beginning beginning = null;
         TenderSummary tenderSummary = null;
         Tender tender = null;
         String dayPart = tenderControl.getDayPart();
-
+        
         if (!StringUtility.isNullOrEmpty(loan)){
             receipt.setTenderControlType(TransactionVariable.LOAN);
             receipt.setTenderControlLoan(StringUtility.convNullToDoubleZero(loan.getAmount()));
@@ -3739,23 +3679,23 @@ public class NetworkReceipt {
         	total = Long.toString((long)payinplan.getAmount().getAmount());
         	total = StringUtility.addCommaToNumString(total);
         	receipt.setTenderCtrlPayInPlanDrawerAmt(total);
-
+        	
         	List<ItemMode> cashMachineList = new ArrayList<ItemMode>();
         	cashMachineList = SetChangerDrawerValues(cashMachineList, payout.getDevices(), tenderControl.getDayPart());
         	cashMachineList = SetDrawerValues(cashMachineList, payinplan.getDevices().getCashDrawer(), "PayInPlan");
         	receipt.setItemList(cashMachineList);
-
-
+        	
+        	
         } else if (!StringUtility.isNullOrEmpty(payin)){
         	receipt.setTenderCtrlTypePayInOut("true");
         	receipt.setTenderControlType(TransactionVariable.PAYIN);
-
+        	
         	Double changeMachineAmt, cashDrawerAmt, payinAmt;
         	changeMachineAmt = payin.getDevices().getCashChanger().getAmount().getAmount();
         	cashDrawerAmt = payin.getDevices().getCashDrawer().getAmount().getAmount();
         	payinAmt = changeMachineAmt + cashDrawerAmt;
         	receipt.setTenderControlPayIn(StringUtility.convNullToDoubleZero(payinAmt + "") + "");
-
+        	
         	List<ItemMode> cashMachineList = new ArrayList<ItemMode>();
         	cashMachineList = SetChangerDrawerValues(cashMachineList, payin.getDevices(), tenderControl.getDayPart());
         	receipt.setItemList(cashMachineList);
@@ -3764,28 +3704,28 @@ public class NetworkReceipt {
         } else if (dayPart.equals("SOD")) {
         	String beginAmount = "0",
         			storeId, compId, terminalId, businessDayDate;
-
+        	
             if (!StringUtility.isNullOrEmpty(tillSettle)) {
             	tender = tillSettle.getTender();
             	if (!StringUtility.isNullOrEmpty(tender)) {
             		beginAmount = tender.getAmount();
             	}
             }
-
+            
             StoreResource storeRes = new StoreResource();
             CMPresetInfos cmpresetInfos = new CMPresetInfos();
             Transaction tran = poslog.getTransaction();
             String topmsg1, topmsg2, topmsg3, topmsg4, topmsg5,
                    botmsg1, botmsg2, botmsg3, botmsg4, botmsg5;
             int cmType=0;
-
+            
             storeId = tran.getRetailStoreID();
             compId = tran.getOrganizationHierarchy().getId();
             terminalId = tran.getWorkStationID().getValue();
             businessDayDate = tran.getBusinessDayDate();
             cmpresetInfos = storeRes.getCMPresetInfoList(compId, storeId, terminalId, businessDayDate);
             CMPresetInfo cmpHighest = null;
-
+            
             for(CMPresetInfo cmpi:  cmpresetInfos.getCMPresetInfoList()) {
             	if (cmpHighest == null) {
             		cmpHighest = cmpi;
@@ -3827,13 +3767,13 @@ public class NetworkReceipt {
     private String FillSpace(String strToFill, int fixedLength, String direction) {
     	String str;
     	str = strToFill;
-
+    	
     	if(direction.toLowerCase()=="left") {
     		str = String.format("%1$-" + fixedLength + "s", str);
     	} else {
     		str = String.format("%1$," + fixedLength + "d", Long.parseLong(str));
     	}
-
+    	
     	return str;
     }
     private List<ItemMode> SetDrawerValues(List<ItemMode> cashDrawerList, CashDrawer cashDrawer, String dayPart) {
@@ -3852,7 +3792,7 @@ public class NetworkReceipt {
     	qty = Long.parseLong("0");
     	rolls = Long.parseLong("0");
     	amount = Long.parseLong("0");
-
+    	
     	col1Len = cncc.GetCorrectLen(dayPart, "col1");
     	col2Len = cncc.GetCorrectLen(dayPart, "col2");
     	col3Len = cncc.GetCorrectLen(dayPart, "col3");
@@ -3862,9 +3802,9 @@ public class NetworkReceipt {
     		} else {
     			item = cashDrawerList.get(i);
     		}
-
+    		
     		mk = iterMonetaryKind.next();
-
+    		
     		kind = Integer.parseInt(mk.getKind());
     		qty = Long.parseLong(mk.getQuantity());
     		if (!StringUtility.isNullOrEmpty(mk.getRolls())) {
@@ -3872,19 +3812,19 @@ public class NetworkReceipt {
     		}
     		qty = qty + (rolls * cncc.DetermineRolls(kind));
     		amount = qty * kind;
-
+    		
     		sKind = StringUtility.addCommaYenToNumString(Integer.toString(kind));
     		sKind = FillSpace(sKind, col1Len, "left");
     		sqty = Long.toString(qty);
     		sqty = FillSpace(sqty, col2Len, "right");
     		samount = Long.toString(amount);
     		samount = FillSpace(samount, col3Len, "right");
-
+    		
     		item.setPayInPlanDenomination(sKind);
     		item.setPayInPlanDenomQty(sqty);
     		item.setPayInPlanDrawerAmount(samount);
     		item.setTenderCtrlType(dayPart);
-
+    		
     		if (cashDrawerList.isEmpty()) {
     			cashDrawerList.add(item);
     		} else {
@@ -3892,7 +3832,7 @@ public class NetworkReceipt {
     			i++;
     		}
     	}
-
+    	
     	return cashDrawerList;
     }
     private List<ItemMode> SetChangerDrawerValues(List<ItemMode> cashMachineList, Devices devices, String dayPart) {
@@ -3910,7 +3850,7 @@ public class NetworkReceipt {
     	for(Iterator<MonetaryKind> itermonetaryKind = lmonetaryKind.iterator(); itermonetaryKind.hasNext();) {
     		item = new ItemMode();
     		mk = itermonetaryKind.next();
-
+    		
     		kind = Integer.parseInt(mk.getKind());
     		cmQty = Long.parseLong(mk.getQuantity());
     		item.setDenomination(mk.getKind() + "");
@@ -3918,22 +3858,22 @@ public class NetworkReceipt {
     		item.setChangeMachineDenomQty(cmQty.toString());
     		item.setDenominationQty(cmQty.toString());
     		cashMachineList.add(item);
-
+    		
     	}
-
+    	
     	int i;
     	Long qty;
     	lmonetaryKind = devices.getCashDrawer().getMonetaryKind();
-
+    	
     	item = new ItemMode();
     	i=0;
     	CashNonCashConstants crc = new CashNonCashConstants();
         for(Iterator<MonetaryKind> itermonetaryKind = lmonetaryKind.iterator(); itermonetaryKind.hasNext();) {
     		mk = itermonetaryKind.next();
     		item = cashMachineList.get(i);
-
+    		
     		kind = Integer.parseInt(mk.getKind());
-
+    		
     		if (Integer.parseInt(item.getDenomination()) == kind) {
     			cdQty = Long.parseLong(mk.getQuantity());
     			cdRolls = Long.parseLong("0");
@@ -3945,42 +3885,42 @@ public class NetworkReceipt {
     			item.setCashDrawerAmount(Long.toString(kind * qty));
     			item.setChangeMachineDrawerTotal(Long.toString(cmcdTotal));
     			item.setCashDrawerDenomQty(qty.toString());
-
+    			
     			qty = qty + Long.parseLong(item.getChangeMachineDenomQty());
     			item.setDenominationQty(qty.toString());
     			cashMachineList.set(i, item);
     		}
     		i++;
     	}
-
+        
         i=0;
         String strDenom, strcmAmount, strcdAmount, strcmdTotalAmount, strDenomQty;
-
+        
         col1Len = crc.GetCorrectLen(dayPart, "col1");
     	col2Len = crc.GetCorrectLen(dayPart, "col2");
     	col3Len = crc.GetCorrectLen(dayPart, "col3");
     	col4Len = crc.GetCorrectLen(dayPart, "col4");
         for(Iterator<ItemMode> itercmList = cashMachineList.iterator(); itercmList.hasNext();) {
         	item = itercmList.next();
-
+        	
         	strDenom = StringUtility.addCommaYenToNumString(item.getDenomination());
         	strcmAmount = item.getChangeMachineAmount();
         	strcdAmount = item.getCashDrawerAmount();
         	strcmdTotalAmount = item.getChangeMachineDrawerTotal();
         	strDenomQty = item.getDenominationQty();
-
+        	
         	strDenom = FillSpace(strDenom, col1Len, "left");
         	strcmAmount = FillSpace(strcmAmount, col2Len, "right");
         	strcdAmount = FillSpace(strcdAmount, col3Len, "right");
         	strcmdTotalAmount = FillSpace(strcmdTotalAmount, col4Len, "right");
         	strDenomQty = FillSpace(strDenomQty, col2Len, "right");
-
+        	
         	item.setDenomination(strDenom);
         	item.setChangeMachineAmount(strcmAmount);
         	item.setCashDrawerAmount(strcdAmount);
         	item.setChangeMachineDrawerTotal(strcmdTotalAmount);
         	item.setDenominationQty(strDenomQty);
-
+        	
         	if (dayPart.equals("PayIn") || dayPart.equals("PayOut")) {
         		item.setTenderCtrlTypePayInOutList("true");
         	} else if (dayPart.equals("Balancing")) {
@@ -3988,7 +3928,7 @@ public class NetworkReceipt {
         		item.setTenderCtrlBalType("Cash");
         		item.setTenderCtrlTypePayInOutList("false");
         	}
-
+        	
         	cashMachineList.set(i, item);
         	i++;
         }
@@ -4196,16 +4136,16 @@ public class NetworkReceipt {
             //前受金一括取消タイプ
             receipt.setAdvanceVoidType(TransactionVariable.ADVANCEVOIDTYPE);
             receipt.setInventoryReservationID(tLink.getInventoryReservationID());
-        }else if("Voided".equals(receipt.getReceiptType())
+        }else if("Voided".equals(receipt.getReceiptType()) 
                 && "Hold".equalsIgnoreCase(tLink.getReasonCode())){
             receipt.setHoldVoidType(TransactionVariable.HOLDVOID);
             receipt.setInventoryReservationID(tLink.getInventoryReservationID());
-        }else if("Voided".equals(receipt.getReceiptType())
+        }else if("Voided".equals(receipt.getReceiptType()) 
                 && "CustomerOrder".equalsIgnoreCase(tLink.getReasonCode())){
             receipt.setCustomrOrderVoidType(TransactionVariable.CUSTOMERORDERVOID);
             receipt.setInventoryReservationID(tLink.getInventoryReservationID());
         }
-
+    
     }
     /**
      * @param totalList
@@ -4240,25 +4180,25 @@ public class NetworkReceipt {
         receipt.setCustomerId(customerIdSubStr);
     }
     private void setItemLineTagInfo(){}
-
+    
     private String addMonths(String date, int MM) {
     	String res = "",
     		   ares[];
         int mm;
-
+    	
     	ares = date.split("-");
-
+    	
     	if (ares.length > 2) {
     		mm = Integer.parseInt(ares[1]);
     		mm = mm + MM;
     		if (mm > 12) {
     			mm = mm - 12;
     		}
-
+    		
     		ares[1] = String.format("%02d", mm);
     		res = ares[0] + "-" + ares[1] + "-" + ares[2];
     	}
-
+    	
     	return res;
     }
 

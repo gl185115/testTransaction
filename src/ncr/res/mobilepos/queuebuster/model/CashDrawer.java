@@ -2,28 +2,29 @@ package ncr.res.mobilepos.queuebuster.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlRootElement(name = "CashDrawer")
 @ApiModel(value="CashDrawer")
 public class CashDrawer extends ResultBase {
-
+	
 	private String companyId;
-
+	
 	private String cashOnHand;
-
+	
 	private String tillId;
-
+	
 	private String storeId;
-
+	
 	private String businessDayDate;
-
+	
 	private String operatorId;
-
+	
 	private String terminalId;
-
+	
     @ApiModelProperty(value="í[ññî‘çÜ", notes="í[ññî‘çÜ")
 	public String getTerminalId() {
 		return terminalId;
@@ -93,7 +94,7 @@ public class CashDrawer extends ResultBase {
 				+ storeId + ", businessDate=" + businessDayDate + ", operatorId=" + operatorId + "]";
 	}
 
-
-
+	
+	
 
 }

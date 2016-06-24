@@ -5,35 +5,35 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="EventDetail")
 @ApiModel(value="EventDetail")
 public class EventDetail{
-
+	
 	@XmlElement(name="EventId")
     private String eventId;
-
+	
 	@XmlElement(name="EventName")
     private String eventName;
-
+	
 	@XmlElement(name="StartDateId")
     private int startDateId;
-
+	
 	@XmlElement(name="EndDateId")
     private int endDateId;
-
+	
 	@XmlElement(name="MdInternal")
     private String mdInternal;
-
+	
 	@XmlElement(name="SalesPrice")
     private int salesPrice;
-
+	
 	@XmlElement(name="EventKbn")
     private int eventKbn;
-
+	
 
 	/**
 	 * @return the eventId
@@ -65,7 +65,7 @@ public class EventDetail{
 		this.eventName = eventName;
 	}
 
-
+	
 	/**
 	 * @return the startDateId
 	 */
@@ -125,7 +125,7 @@ public class EventDetail{
 	public void setSalesPrice(int salesPrice) {
 		this.salesPrice = salesPrice;
 	}
-
+	
 
 	/**
 	 * @return the eventKbn
@@ -144,27 +144,27 @@ public class EventDetail{
 
 	@Override
 	public String toString() {
-
+		
 		StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
-
+		
 		if(null != this.eventId){
 			sb.append("eventId: ").append(this.eventId.toString());
 		}
-
+		
 		if(null != this.eventName){
 			sb.append(crlf).append("eventName: ").append(this.eventName.toString());
 		}
-
+		
 		if(null != this.mdInternal){
 			sb.append(crlf).append("mdInternal: ").append(this.mdInternal.toString());
 		}
-
+		
 			sb.append(crlf).append("salesPrice: ").append(this.salesPrice)
 			.append(crlf).append("eventKbn: ").append(this.eventKbn)
 			.append(crlf).append("startDateId: ").append(this.startDateId)
 			.append(crlf).append("endDateId: ").append(this.endDateId);
-
+		
 		return sb.toString();
 	}
 

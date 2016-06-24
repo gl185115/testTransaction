@@ -7,8 +7,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -33,12 +34,12 @@ public class BrandProducts extends ResultBase{
 	public final void setBrandProductList(List<BrandProductInfo> brandProductList) {
 		this.brandProductList = brandProductList;
 	}
-
+	
 	@Override
 	public String toString() {
 		StringBuilder str = new StringBuilder();
         String crlf = "\r\n";
-
+        
 		if (null != this.brandProductList) {
 			for (BrandProductInfo brandProductInfo : brandProductList) {
 				str.append(crlf).append("BrandProductInfo : ").append(crlf)

@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * BrandProduct Model Object.
@@ -15,47 +15,47 @@ import io.swagger.annotations.ApiModelProperty;
 @XmlRootElement(name = "BrandProduct")
 @ApiModel(value="BrandProductInfo")
 public class BrandProductInfo{
-
+	
     @XmlElement(name = "Line")
     private String line;
-
+    
 	@XmlElement(name = "BrandName")
     private String brandName;
 
 	@XmlElement(name = "ProductNum")
 	private String productNum;
-
+	
 	@XmlElement(name = "MdShortName")
 	private String mdShortName;
-
+	
 	@XmlElement(name = "SalesPrice")
 	private double salesPrice;
-
+	
 	@XmlElement(name = "ActualSalesPrice")
 	private double actualSalesPrice;
-
+	
 	@XmlElement(name = "TaxType")
     private int taxType;
-
+	
 	@XmlElement(name = "TaxRate")
 	private int taxRate;
-
+	
 	@XmlElement(name = "DiscountType")
 	private int discountType;
-
+	
 	@XmlElement(name = "DiscountFlag")
 	private int discountFlag;
-
+	
 	@XmlElement(name = "DiscountRate")
 	private double discountRate;
-
+	
 	@XmlElement(name = "DiscountAmt")
 	private double discountAmt;
-
+	
 	@XmlElement(name = "RowCount")
 	private int rowCount;
-
-
+	
+	
 	/**
      * @return the line
      */
@@ -255,7 +255,7 @@ public class BrandProductInfo{
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		String crlf = "\r\n";
-
+		
 		str.append("BrandName : ").append(this.brandName).append(crlf)
 		   .append("ProductNum : ").append(this.productNum).append(crlf)
 		   .append("MdShortName : ").append(this.mdShortName).append(crlf)
@@ -268,7 +268,7 @@ public class BrandProductInfo{
 		   .append("DiscountRate : ").append(this.discountRate).append(crlf)
 		   .append("DiscountAmt : ").append(this.discountAmt).append(crlf)
 		   .append("RowCount : ").append(this.rowCount).append(crlf);
-
+		   
 		return str.toString();
 	}
 }

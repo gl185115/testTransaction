@@ -19,16 +19,18 @@ import javax.ws.rs.core.MediaType;
 
 import org.codehaus.jackson.JsonParseException;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -72,14 +74,14 @@ public class PromotionResource {
      * Discountable type of item.
      */
     public static final int DISCOUNTABLE = 0;
-
+    
     public static final String REMOTE_UTL = "resTransaction/rest/remoteitem/item_getremoteinfo";
-
+    
     /**
      * ALL_DISCOUNTABLE for all MixMatch item.
      */
     public static final String ALL_DISCOUNTABLE = "ALL";
-
+    
     /** A private member variable used for the servlet context. */
     @Context
     private ServletContext context; // to access the web.xml
@@ -107,7 +109,7 @@ public class PromotionResource {
 
     /**
      * The Begin Transaction for Promotion.
-     *
+     * 
      * @param retailStoreId
      *            The Retail Store ID.
      * @param workStationId
@@ -132,7 +134,7 @@ public class PromotionResource {
     public final ResultBase beginTransaction(
     		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String retailStoreId,
     		@ApiParam(name="workstationid", value="作業台コード") @FormParam("workstationid") final String workStationId,
-    		@ApiParam(name="sequencenumber", value="シリアルナンバー") @FormParam("sequencenumber") final String sequenceNo,
+    		@ApiParam(name="sequencenumber", value="シリアルナンバー") @FormParam("sequencenumber") final String sequenceNo, 
     		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyid,
     		@ApiParam(name="transaction", value="業務") @FormParam("transaction") final String transactionJson) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -266,7 +268,7 @@ public class PromotionResource {
 
     /**
      * Item entry for requesting item and promotion information.
-     *
+     * 
      * @param retailStoreId
      *            Store Number where the transaction is coming from
      * @param workStationId
@@ -295,7 +297,7 @@ public class PromotionResource {
     		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String retailStoreId,
     		@ApiParam(name="workstationid", value="作業台コード") @FormParam("workstationid") final String workStationId,
     		@ApiParam(name="sequencenumber", value="シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
-    		@ApiParam(name="transaction", value="業務") @FormParam("transaction") final String transaction,
+    		@ApiParam(name="transaction", value="業務") @FormParam("transaction") final String transaction, 
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
     		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") final String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -363,7 +365,7 @@ public class PromotionResource {
                 } else {
                     item = searchedProd.getItem();
                 }
-
+               
                 info.setTruePrice(item.getRegularSalesUnitPrice());
                 Promotion promotion = new Promotion();
                 promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
@@ -375,7 +377,7 @@ public class PromotionResource {
                         Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(),"");
                         promotion.setMap(map);
                     }
-
+                   
                 }
 
                 discounttype = item.getDiscountType();
@@ -414,7 +416,7 @@ public class PromotionResource {
         }
         return response;
     }
-
+    
     private List<CouponInfo> makeCouponInfoList(Map<String,CouponInfo> map){
         List<CouponInfo> list = new ArrayList<CouponInfo>();
         for(Map.Entry<String, CouponInfo> map1 : map.entrySet()){
@@ -425,7 +427,7 @@ public class PromotionResource {
 
     /**
      * Get The MixMatch by Sku
-     *
+     * 
      * @param retailStoreId
      *            Store Number where the transaction is coming from
      * @param workStationId
@@ -456,7 +458,7 @@ public class PromotionResource {
     		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String retailStoreId,
     		@ApiParam(name="workstationid", value="作業台コード") @FormParam("workstationid") final String workStationId,
     		@ApiParam(name="sequencenumber", value="シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
-    		@ApiParam(name="transaction", value="業務") @FormParam("transaction") final String transaction,
+    		@ApiParam(name="transaction", value="業務") @FormParam("transaction") final String transaction, 
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
     		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") final String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -511,7 +513,7 @@ public class PromotionResource {
                         info.setMmNo(item.getMixMatchCode());
                         terminalItem.addBmRuleMap(item.getMixMatchCode(), item ,saleIn.getItemEntryId());
                         terminalItem.setBmDetailMap(item.getMixMatchCode(), info, true);
-                    }
+                    } 
                 }
                 Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap();
                 Promotion promotion = new Promotion();
@@ -593,7 +595,7 @@ public class PromotionResource {
         int count = 0;
         url = url + "?";
         while (it.hasNext()) {
-
+            
             String key = (String) it.next();
             if(count == 0){
                 url = url + key + "=" + json.get(key);
@@ -669,7 +671,7 @@ public class PromotionResource {
         item.setDiacountRate(json.getDouble("diacountRate"));
         item.setDiscountAmt(json.getInt("discountAmt"));
         item.setDiscountClass(json.getInt("discountClass"));
-
+        
         List<PremiumInfo> premiumList = new ArrayList<PremiumInfo>();
         if(json.get("premiumList") != null){
             JSONArray jsonArray = new JSONArray(json.getString("premiumList"));
@@ -684,7 +686,7 @@ public class PromotionResource {
             }
         }
         item.setPremiumList(premiumList);
-
+       
         item.setItemClass(json.getString("itemClass"));
         item.setAgeRestrictedFlag(json.getInt("ageRestrictedFlag"));
         item.setCouponFlag(json.getString("couponFlag"));
@@ -733,7 +735,7 @@ public class PromotionResource {
         item.setColorCode(json.getString("colorCode"));
         item.setDiscountRate(json.getDouble("discountRate"));
         item.setDiscountCount(json.getInt("discountCount"));
-
+        
         if(!"null".equals(json.getString("qrPromotionId"))){
             item.setQrBmpFileCount(json.getString("qrBmpFileCount"));
             item.setQrBmpFileFlag(json.getString("qrBmpFileFlag"));
@@ -743,7 +745,7 @@ public class PromotionResource {
             item.setQrPromotionId(json.getString("qrPromotionId"));
             item.setQrPromotionName(json.getString("qrPromotionName"));
         }
-
+        
         List<QrCodeInfo> list = new ArrayList<QrCodeInfo>();
         if(json.get("qrCodeList") != null){
             JSONArray jsonArray = new JSONArray(json.getString("qrCodeList"));
@@ -762,7 +764,7 @@ public class PromotionResource {
             }
         }
         item.setQrCodeList(list);
-
+        
         if(!"null".equals(json.getString("couponNo"))){
             item.setCouponNo(json.getString("couponNo"));
             item.setEvenetName(json.getString("evenetName"));
@@ -771,7 +773,7 @@ public class PromotionResource {
             item.setReceiptName(json.getString("receiptName"));
             item.setUnitPrice(json.getDouble("unitPrice"));
         }
-
+        
         return item;
     }
 
@@ -860,7 +862,7 @@ public class PromotionResource {
                 }
                 promotionResponse.setPromotion(promotion);
             }
-
+           
         } catch (JsonParseException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to update quantity.", e);
             promotionResponse = new PromotionResponse(ResultBase.RES_ERROR_PARSE, ResultBase.RES_ERROR_PARSE, e);

@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * Premium Model Object.
@@ -33,13 +33,13 @@ import io.swagger.annotations.ApiModelProperty;
 public class PremiumInfo {
     @XmlElement(name = "PremiumItemNo")
     private String premiumItemNo;
-
+    
     @XmlElement(name = "PremiumItemName")
     private String premiumItemName;
-
+    
     @XmlElement(name = "TargetPrice")
     private String targetPrice;
-
+    
     @XmlElement(name = "TargetCount")
     private int targetCount;
 

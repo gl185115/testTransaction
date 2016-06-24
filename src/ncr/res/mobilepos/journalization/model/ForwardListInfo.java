@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 @XmlRootElement(name = "ForwardListInfo")
 @XmlAccessorType(XmlAccessType.NONE)
 @ApiModel(value="ForwardListInfo")
@@ -41,7 +41,7 @@ public class ForwardListInfo {
 
     @XmlElement(name = "OperatorName")
     private String OperatorName;
-
+    
     @XmlElement(name = "SalesTotalAmt")
     private String SalesTotalAmt;
 

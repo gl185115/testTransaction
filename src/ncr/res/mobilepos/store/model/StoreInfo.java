@@ -5,8 +5,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -438,10 +439,10 @@ public class StoreInfo extends ResultBase {
 
     @XmlElement(name = "SubNum1")
     private String subNum1;
-
+    
     @XmlElement(name = "SubSmallInt1")
     private String subSmallInt1;
-
+    
     @ApiModelProperty(value="在庫更新有無", notes="在庫更新有無")
     public String getSubSmallInt1() {
     	return this.subSmallInt1;
@@ -464,7 +465,7 @@ public class StoreInfo extends ResultBase {
 
     @XmlElement(name = "Status")
     private String status;
-
+    
     @XmlElement(name = "CompanyName")
     private String companyName;
 

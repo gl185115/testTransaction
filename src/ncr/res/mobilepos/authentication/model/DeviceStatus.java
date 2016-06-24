@@ -4,8 +4,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -82,7 +83,7 @@ public class DeviceStatus extends ResultBase {
     /**
      * the status of the signature.
      */
-    private int signStatus = 0;
+    private int signStatus = 0;    
 
     /**
      * constructor.

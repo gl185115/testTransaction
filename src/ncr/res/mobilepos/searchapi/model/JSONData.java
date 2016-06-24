@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 //import org.json.JSONObject;
 //import atg.taglib.json.util.JSONObject;
@@ -17,7 +17,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlRootElement(name = "JSONData")
 @ApiModel(value="JSONData")
 public class JSONData extends ResultBase{
-
+	
 	@XmlElement(name = "JSONObject")
 	private String jsonObject = null;
 
@@ -35,5 +35,5 @@ public class JSONData extends ResultBase{
 	public final void setJsonObject(String jsonObject) {
 		this.jsonObject = jsonObject;
 	}
-
+	
 }

@@ -12,22 +12,25 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.point.dao.IPointDAO;
+import ncr.res.mobilepos.point.model.Point;
+import ncr.res.mobilepos.point.model.ItemPointRate;
+import ncr.res.mobilepos.point.model.TranPointRate;
+import ncr.res.mobilepos.point.model.PointRateResponse;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.point.dao.IPointDAO;
-import ncr.res.mobilepos.point.model.ItemPointRate;
-import ncr.res.mobilepos.point.model.PointRateResponse;
-import ncr.res.mobilepos.point.model.TranPointRate;
 
 @Path("/point")
 @Api(value="/point", description="ポイントの速度API")
@@ -39,13 +42,13 @@ public class PointResource {
     private static final String PATH_NAME = "point";
     @Context
     private ServletContext servletContext;
-
+    
     public PointResource() {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), 
         		getClass());
     }
-
+    
     @Path("/getitempointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -76,13 +79,13 @@ public class PointResource {
             .println("sku", sku);
         PointRateResponse response = new PointRateResponse();
         List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
-
+        
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(response.toString());
             return response;
         }
-
+        
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
             itemPointRateList = pointDao.getItemPointRate(companyId, storeId, businessDate, deptCode, groupCode, brandId, sku);
@@ -111,8 +114,8 @@ public class PointResource {
         }
         return response;
     }
-
-
+    
+    
     @Path("/gettranpointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
@@ -136,13 +139,13 @@ public class PointResource {
             .println("cardClassId", cardClassId);
         PointRateResponse response = new PointRateResponse();
         List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
-
+        
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
             response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.methodExit(response.toString());
             return response;
         }
-
+        
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
             tranPointRateList = pointDao.getTranPointRate(companyId, storeId, businessDate, cardClassId);

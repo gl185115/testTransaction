@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -236,8 +237,8 @@ public class AuthenticationResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     public final DeviceStatus getDeviceStatus(
-            @FormParam("corpid") final String corpid,
-            @FormParam("storeid") final String storeid,
+    		@QueryParam("corpid") final String corpid,
+            @QueryParam("storeid") final String storeid,
             @PathParam("terminalid") final String terminalid) {
 
         tp.methodEnter("getDeviceStatus");

@@ -445,8 +445,8 @@ public class JournalizationResource {
     @ApiOperation(value="営業日を得る", response=String.class)
     @ApiResponses(value={})
     public final String getBussinessDate(
-    	@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
-        @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId) {
+    	@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+        @ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyid", companyId)

@@ -8,29 +8,28 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 /**
- * @author 
- * 
+ * @author
+ *
  * Sales SearchGuestOrder Class is a Model representation of the guest order List.
  */
 @XmlRootElement(name = "EventList")
 @XmlAccessorType(XmlAccessType.NONE)
 @ApiModel(value="EventList")
 public class EventList extends ResultBase {
-    
+
 	/*
 	 * This list is used to save event information
-	 * 
+	 *
 	 */
 	@XmlElementWrapper(name = "EventDetails")
     @XmlElementRef()
 	private List<EventDetail> eventDetails;
-	 
-	
+
+
 	/**
 	 * @return the eventDetails
 	 */
@@ -50,15 +49,15 @@ public class EventList extends ResultBase {
 
 	@Override
     public final String toString() {
-    	
+
     	StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
 		sb.append(super.toString());
-    	
+
 		if(null != this.eventDetails){
 			sb.append(crlf).append("eventDetails: ").append(this.eventDetails.toString());
 		}
-		
+
     	return sb.toString();
     }
 }

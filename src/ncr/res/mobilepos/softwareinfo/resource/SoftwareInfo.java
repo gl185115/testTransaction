@@ -21,20 +21,18 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.settlement.model.SettlementInfo;
+import ncr.res.mobilepos.softwareinfo.model.JavaFramework;
 import ncr.res.mobilepos.softwareinfo.model.OperatingSystemInfo;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareComponents;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareVersion;
-import ncr.res.mobilepos.softwareinfo.model.JavaFramework;
 import ncr.res.mobilepos.softwareinfo.model.TomCatServer;
 import ncr.res.mobilepos.softwareinfo.model.WebApiSw;
 
@@ -112,12 +110,12 @@ public class SoftwareInfo {
 
         } catch (IOException e) {
             tp.println("Cannot read file.");
-            LOGGER.logAlert(PROG_NAME, 
+            LOGGER.logAlert(PROG_NAME,
                     Logger.RES_EXCEP_IO, "Failed to read MANIFEST.MF", e);
         } catch (Exception e) {
             tp.println("MANIFEST.MF file does not exist in the META-INF.");
-            LOGGER.logAlert(PROG_NAME, 
-                    Logger.RES_EXCEP_GENERAL, 
+            LOGGER.logAlert(PROG_NAME,
+                    Logger.RES_EXCEP_GENERAL,
                     "MANIFEST.MF file does not exist in the META-INF.", e);
         }
         return (SoftwareVersion)tp.methodExit(webApiSw);
@@ -161,7 +159,7 @@ public class SoftwareInfo {
 
         return (SoftwareVersion)tp.methodExit(javaVersion);
     }
-    
+
     /**
      * Web service for getting the Operating System of the application software.
      * @return  OperatingSystemInfo
@@ -187,8 +185,8 @@ public class SoftwareInfo {
         }
         return (OperatingSystemInfo)tp.methodExit(operatingSystemInfo);
 	}
-    
-    
+
+
     /**
      * Web service for getting the Software information of the application
      * software.
@@ -210,7 +208,7 @@ public class SoftwareInfo {
         } else if ("Web Store Server".equalsIgnoreCase(softwareName)) {
             software = this.getWebAPIVersion();
         } else if ("J2EE".equalsIgnoreCase(softwareName)) {
-            software  = this.getJavaVersion();            
+            software  = this.getJavaVersion();
         } else if ("OperatingSystem".equalsIgnoreCase(softwareName)) {
             software  = this.getOperatingSystemInfo();
         }  else {
@@ -218,7 +216,7 @@ public class SoftwareInfo {
         }
         return (SoftwareVersion)tp.methodExit(software);
     }
-    
+
     /**
      * Web service for getting all Server components version of the application software.
      * @return  SoftwareComponents
@@ -232,7 +230,7 @@ public class SoftwareInfo {
         })
     public final SoftwareComponents getAllSoftwareInfo() {
     	tp.methodEnter("getAllSoftwareInfo");
-    	
+
 		SoftwareComponents softwareComponents = new SoftwareComponents();
 		try {
 			softwareComponents.setServiceVersionInfo(this.getWebAPIVersion());

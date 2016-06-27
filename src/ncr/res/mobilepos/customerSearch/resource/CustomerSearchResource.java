@@ -12,14 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customerSearch.helper.HTTPBasicAuthorization;
@@ -134,7 +132,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B0110);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add maxResult
             strbParams.append("maxResult=");
@@ -237,7 +235,7 @@ public class CustomerSearchResource {
                         .setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
                 customerSearchReturnBean
                         .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-                customerSearchReturnBean.setMessage(e.getMessage());        		
+                customerSearchReturnBean.setMessage(e.getMessage());
         	}
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
@@ -335,7 +333,7 @@ public class CustomerSearchResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(CustomerSearchConstants.API_B0407);
-            
+
             StringBuilder strbParams = new StringBuilder();
             // add cardNo
             strbParams.append("cardNo=");

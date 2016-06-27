@@ -18,9 +18,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionSearch;
 import ncr.res.mobilepos.model.ResultBase;
@@ -52,13 +51,13 @@ public class SearchedPosLogs extends ResultBase {
 			final Throwable throwable) {
 		super(resultCode, extendedResultCode, throwable);
 	}
-	
+
     /**
      * The private member variable that will hold the List of PosLog.
      */
     @XmlElementWrapper(name = "POSLogList")
     @XmlElementRef()
-   
+
     private List<TransactionSearch> posLogs;
 
     /**

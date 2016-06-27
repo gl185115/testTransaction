@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "CardClassInfo")
@@ -34,7 +34,7 @@ public class CardClassInfo {
 	private String rankType;
 	@XmlElement(name = "CardStatusType")
 	private String cardStatusType;
-	
+
 	public final void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
@@ -43,7 +43,7 @@ public class CardClassInfo {
 	public final String getCompanyId() {
 		return companyId;
 	}
-	
+
 	public final void setStoreId(String storeId) {
 		this.storeId = storeId;
 	}
@@ -52,7 +52,7 @@ public class CardClassInfo {
 	public final String getStoreId() {
 		return storeId;
 	}
-	
+
 	public final void setId(String id) {
 		this.id = id;
 	}
@@ -61,7 +61,7 @@ public class CardClassInfo {
 	public final String getId() {
 		return id;
 	}
-	
+
 	public final void setName(String name) {
 		this.name = name;
 	}
@@ -70,7 +70,7 @@ public class CardClassInfo {
 	public final String getName() {
 		return name;
 	}
-	
+
 	public final void setKanaName(String kanaName) {
 		this.kanaName = kanaName;
 	}
@@ -79,7 +79,7 @@ public class CardClassInfo {
 	public final String getKanaName() {
 		return kanaName;
 	}
-	
+
 	public final void setShortName(String shortName) {
 		this.shortName = shortName;
 	}
@@ -88,7 +88,7 @@ public class CardClassInfo {
 	public final String getShortName() {
 		return shortName;
 	}
-	
+
 	public final void setShortKanaName(String shortKanaName) {
 		this.shortKanaName = shortKanaName;
 	}
@@ -97,7 +97,7 @@ public class CardClassInfo {
 	public final String getShortKanaName() {
 		return shortKanaName;
 	}
-	
+
 	public final void setCreditType(String creditType) {
 		this.creditType = creditType;
 	}
@@ -106,7 +106,7 @@ public class CardClassInfo {
 	public final String getCreditType() {
 		return creditType;
 	}
-	
+
 	public final void setMainCardDigitType(String mainCardDigitType) {
 		this.mainCardDigitType = mainCardDigitType;
 	}
@@ -115,7 +115,7 @@ public class CardClassInfo {
 	public final String getMainCardDigitType() {
 		return mainCardDigitType;
 	}
-	
+
 	public final void setRankType(String rankType) {
 		this.rankType = rankType;
 	}
@@ -127,12 +127,12 @@ public class CardClassInfo {
 
     public final void setCardStatusType(String cardStatus) {
         this.cardStatusType = cardStatus;
-        
+
     }
 
 	@ApiModelProperty(value="カード状態区分", notes="カード状態区分")
     public final String getCardStatusType() {
         return cardStatusType;
-        
+
     }
 }

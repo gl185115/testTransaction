@@ -8,12 +8,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.buyadditionalinfo.dao.IBuyadditionalInfoDAO;
 import ncr.res.mobilepos.buyadditionalinfo.model.BuyadditionalInfoList;
@@ -33,16 +32,16 @@ public class BuyadditionalInfoResource {
     private static final String PROG_NAME = "BuyadditionalInfoResource";
     @Context
     private ServletContext servletContext;
-    
+
     public BuyadditionalInfoResource() {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), 
+        this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
         		getClass());
     }
 
 	/**
 	 * Get buy additional info list
-	 * 
+	 *
 	 * @param company
 	 *            id
 	 * @param store
@@ -66,13 +65,13 @@ public class BuyadditionalInfoResource {
         	.println("companyId", companyId)
         	.println("storeId", storeId);
         BuyadditionalInfoList buyadditionalInfo = new BuyadditionalInfoList();
-        
+
         if (StringUtility.isNullOrEmpty(companyId, storeId)) {
         	buyadditionalInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
         	tp.methodExit(buyadditionalInfo.toString());
         	return buyadditionalInfo;
         }
-        
+
         try {
         	IBuyadditionalInfoDAO buyadditionalInfoDao = daoFactory.getBuyadditionalInfoDAO();
         	buyadditionalInfo.setBuyadditionalInfoList(buyadditionalInfoDao.getBuyadditionalInfo(companyId, storeId));

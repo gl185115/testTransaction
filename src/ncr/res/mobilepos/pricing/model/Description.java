@@ -4,8 +4,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Description")
@@ -13,10 +13,10 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 public class Description {
     @XmlElement(name = "en")
     private String en;
-    
+
     @XmlElement(name = "ja")
     private String ja;
-	
+
     @ApiModelProperty( value="‰pŒêŒ¾Œê", notes="‰pŒêŒ¾Œê")
     public final String getEn() {
 		return en;
@@ -25,7 +25,7 @@ public class Description {
 	public final void setEn(String en) {
 		this.en = en;
 	}
-   
+
 	@ApiModelProperty( value="“ú–{ŒêŒ¾Œê", notes="“ú–{ŒêŒ¾Œê")
 	public final String getJa() {
 		return ja;

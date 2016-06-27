@@ -5,7 +5,6 @@ package ncr.res.mobilepos.devicelog.resource;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -39,12 +38,11 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -90,25 +88,25 @@ public class DeviceLogResource {
      */
     public static final DateTimeFormatter MOBILE_DEVICE_LOG_DATEFORMAT
     						= DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-    
+
     /**
      * MobileShop Device Log file-path template.
      * "<deviceLogPath>/MobileShop_<storeId>_<termId>_<receivedTime>.log"
      */
     public static final String MOBILE_FILE_PATH_TEMPLATE = "%s" + File.separator + "MobileShop_%s_%s_%s.log";
-    
+
     /**
-     * Clock to generate current time, which is used for filename. 
+     * Clock to generate current time, which is used for filename.
      */
     private final Clock currentTimeClock;
-    
+
     /**
      * constructor.
      */
     public DeviceLogResource() {
 	this(Clock.systemDefaultZone());
     }
-    
+
     /**
      * constructor with given Clock.
      */
@@ -116,7 +114,7 @@ public class DeviceLogResource {
 	currentTimeClock = clock;
 	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
-    
+
     /**
      * Loads deviceLogPath from web.xml via InitialContext and lookup. If it
      * fails by throwing NamingException, it should be recorded in log.
@@ -136,7 +134,7 @@ public class DeviceLogResource {
 
     /**
      * uploads logs from device to server
-     * 
+     *
      * @param request - the servlet request
      * @param storeid - store id
      * @param termid - terminal id
@@ -377,7 +375,7 @@ public class DeviceLogResource {
                             fileName.append(".txt");
                             break;
                         } else if (("sign_log_file".equalsIgnoreCase(item.getFieldName()))
-                                && (seqnum != null) 
+                                && (seqnum != null)
                                 && (!"".equals(seqnum))) {
                                 logFileItem = item;
                                 fileName.append("_")

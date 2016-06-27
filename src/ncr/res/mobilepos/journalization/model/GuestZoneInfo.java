@@ -2,19 +2,20 @@ package ncr.res.mobilepos.journalization.model;
 /**
  * ‰ü’è—š—ğ
  * ƒo[ƒWƒ‡ƒ“      ‰ü’è“ú•t        ’S“–Ò–¼      ‰ü’è“à—e
- * 1.01     2014.11.19  FENGSHA   ‹q‘wî•ñæ“¾(V‹K) 
+ * 1.01     2014.11.19  FENGSHA   ‹q‘wî•ñæ“¾(V‹K)
  */
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+
 import org.jsefa.xml.annotation.XmlElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /**
- * 
- *  @author 
+ *
+ *  @author
  *  GuestZoneInfo Class is a Model representation of the GuestZone.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -48,7 +49,7 @@ public class GuestZoneInfo {
 	/* This a column of reserved */
 	@XmlElement(name = "SubCode")
 	private String subcode;
-	
+
 	/**
 	 * Gets the guest code.
 	 *
@@ -193,11 +194,11 @@ public class GuestZoneInfo {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
-		
+
 		if(null != this.guestcode){
 			sb.append("GuestCode: ").append(this.guestcode.toString());
 		}
-		
+
 		if(null != this.guestzonename){
 			sb.append(crlf).append("GuestZoneName: ").append(this.guestzonename.toString());
 		}
@@ -205,7 +206,7 @@ public class GuestZoneInfo {
 		if(null != this.guestzonekananame){
 			sb.append(crlf).append("GuestZoneKanaName: ").append(this.guestzonekananame.toString());
 		}
-		
+
 		if(null != this.guestgen){
 			sb.append(crlf).append("GuestGen: ").append(this.guestgen.toString());
 		}
@@ -217,11 +218,11 @@ public class GuestZoneInfo {
 		if(null != this.guesttype){
 			sb.append(crlf).append("GuestType: ").append(this.guesttype.toString());
 		}
-		
+
 		if(null != this.subcode){
 			sb.append(crlf).append("SubCode: ").append(this.subcode.toString());
 		}
-		
+
 		return sb.toString();
 	}
 

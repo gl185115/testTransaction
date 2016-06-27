@@ -5,9 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -17,7 +16,7 @@ import ncr.res.mobilepos.model.ResultBase;
 @XmlRootElement(name = "GetCashBalance")
 @ApiModel(value="GetCashBalance")
 public class GetCashBalance extends ResultBase {
-	
+
     /**
      * Cash Balance information
      */
@@ -33,7 +32,7 @@ public class GetCashBalance extends ResultBase {
 	public final CashBalance getCashBalance() {
 		return cashBalance;
 	}
-	
+
     /**
      * Sets the cash balance information
      *
@@ -47,11 +46,11 @@ public class GetCashBalance extends ResultBase {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("cashBalance is: " + ((cashBalance == null) ? "" : 
+		sb.append("cashBalance is: " + ((cashBalance == null) ? "" :
 			cashBalance.toString()));
 		return sb.toString();
 	}
-	
-	
+
+
 
 }

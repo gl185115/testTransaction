@@ -7,9 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -20,7 +19,7 @@ public class CardInfo extends ResultBase {
 	private CardClassInfo cardClassInfo;
 	@XmlElement(name = "CardClassInfoList")
 	private List<CardClassInfo> cardClassInfoList;
-	
+
 	public final void setCardClassInfo(CardClassInfo cardClassInfo) {
 		this.cardClassInfo = cardClassInfo;
 	}
@@ -29,7 +28,7 @@ public class CardInfo extends ResultBase {
 	public final CardClassInfo getCardClassInfo() {
 		return cardClassInfo;
 	}
-	
+
 	public final void setCardClassInfoList(List<CardClassInfo> cardClassInfoList) {
 		this.cardClassInfoList = cardClassInfoList;
 	}
@@ -38,7 +37,7 @@ public class CardInfo extends ResultBase {
 	public final List<CardClassInfo> getCardClassInfoList() {
 		return cardClassInfoList;
 	}
-	
+
 	@Override
     public final String toString() {
         StringBuilder sb = new StringBuilder();

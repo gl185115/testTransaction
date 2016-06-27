@@ -5,9 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 /**
  * ‰ü’è—š—ð
@@ -27,10 +26,10 @@ public class ReportItems extends ResultBase {
     @XmlElement(name = "ReportItemList")
     private ReportItem[] reportItemList = null;
 
-    
+
     @XmlElement(name = "tillid")
     private String tillid;
-    
+
 	/** The business day date. */
     @XmlElement(name = "BusinessDate")
     private String businessDayDate = "";
@@ -47,7 +46,7 @@ public class ReportItems extends ResultBase {
     /** The department name. */
     @XmlElement(name = "DepartmentName")
     private String departmentName = "";
-    
+
     /** The company id. */
     @XmlElement(name = "CompanyId")
     private String CompanyId = "";
@@ -55,11 +54,11 @@ public class ReportItems extends ResultBase {
     /** The store id. */
     @XmlElement(name = "StoreId")
     private String StoreId = "";
-    
+
     /** The operator id**/
     @XmlElement(name = "OperatorId")
     private String OperatorId = "";
-    
+
     /** The department id. */
     @XmlElement(name = "DepartmentId")
     private String DepartmentId = "";

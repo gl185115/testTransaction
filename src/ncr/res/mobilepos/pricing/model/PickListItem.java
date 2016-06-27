@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "PickListItem")
@@ -14,23 +14,23 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 public class PickListItem {
 
     /**
-     * a private property that holds the value of item name. 
+     * a private property that holds the value of item name.
      */
     @XmlElement(name = "ItemName")
     private String itemName;
-    
+
     /**
-     * a private property that holds the value of mdinterna/ sku/ plu. 
+     * a private property that holds the value of mdinterna/ sku/ plu.
      */
     @XmlElement(name = "MdInternal")
     private String mdInternal;
-    
+
     /**
      * a private property that holds the value of display order
      */
     @XmlElement(name = "DisplayOrder")
     private int displayOrder;
-    
+
     /**
      * a private property that holds the value of item type.
      */
@@ -102,6 +102,6 @@ public class PickListItem {
         return "ItemPickList [itemName=" + itemName + ", mdInternal=" + mdInternal + ", displayOrder=" + displayOrder
                 + ", itemType=" + itemType + "]";
     }
-    
-    
+
+
 }

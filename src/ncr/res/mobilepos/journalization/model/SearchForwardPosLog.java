@@ -14,9 +14,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -50,12 +49,12 @@ public class SearchForwardPosLog extends ResultBase {
 
 	@XmlElement(name = "posLogXml")
 	private String posLogXml;
-    
+
 	@ApiModelProperty( value="éÊà¯èÛë‘", notes="éÊà¯èÛë‘")
 	public int getStatus() {
 		return Status;
 	}
-	
+
 	public void setStatus(int status) {
 		Status = status;
 	}
@@ -79,7 +78,7 @@ public class SearchForwardPosLog extends ResultBase {
 	public SearchForwardPosLog(final PosLog posLogToSet) {
 	    setPoslog(posLogToSet);
 	}
-    
+
 	@ApiModelProperty( value="PoslogXmlèÓïÒ", notes="PoslogXmlèÓïÒ")
 	public String getPosLogXml() {
 		return posLogXml;
@@ -88,7 +87,7 @@ public class SearchForwardPosLog extends ResultBase {
 	public void setPosLogXml(String posLogXml) {
 		this.posLogXml = posLogXml;
 	}
-    
+
 	@ApiModelProperty( value="PoslogèÓïÒ", notes="PoslogèÓïÒ")
 	public PosLog getPoslog() {
 		return poslog;
@@ -100,7 +99,7 @@ public class SearchForwardPosLog extends ResultBase {
 
 	/**
 	 * Overrides the toString() method.
-	 * 
+	 *
 	 * @return The String representration of POSLog.
 	 */
 	public final String toString() {

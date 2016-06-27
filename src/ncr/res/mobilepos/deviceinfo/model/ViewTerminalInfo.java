@@ -5,9 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -16,11 +15,11 @@ import ncr.res.mobilepos.model.ResultBase;
 public class ViewTerminalInfo extends ResultBase {
 	@XmlElement(name = "TerminalInfo")
 	private TerminalInfo terminalInfo;
-	
+
     public void setTerminalInfo(TerminalInfo terminalInfo) {
     	this.terminalInfo = terminalInfo;
     }
-    
+
     @ApiModelProperty(value="í[ññèÓïÒ", notes="í[ññèÓïÒ")
     public TerminalInfo getTerminalInfo() {
     	return terminalInfo;

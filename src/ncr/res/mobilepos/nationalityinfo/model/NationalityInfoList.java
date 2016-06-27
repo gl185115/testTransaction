@@ -7,9 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -18,7 +17,7 @@ import ncr.res.mobilepos.model.ResultBase;
 public class NationalityInfoList extends ResultBase {
 	@XmlElement(name = "NationalityInfoList")
 	private List<NationalityInfo> nationalityInfoList;
-   
+
 	@ApiModelProperty( value="çëê–èÓïÒ", notes="çëê–èÓïÒ")
 	public final List<NationalityInfo> getNationalityInfoList() {
 		return nationalityInfoList;

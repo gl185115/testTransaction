@@ -13,12 +13,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -652,13 +652,13 @@ public class TillInfoResource {
      * @param processingType - The processing type: SOD or EOD.
      * @return ResultBase
      */
-	
+
     @Path("/releaseexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="権限を解除する", response=ResultBase.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),   
+    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_TILL_NOT_EXIST, message="ドロワは存在しない"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -863,17 +863,17 @@ public class TillInfoResource {
      * @param terminalId - The terminal ID of the POS where SOD/EOD is executed.
      * @return ResultBase
      */
-	
-	
+
+
     @Path("/search")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="ユーザーがドロワーを使用するかをチェックする", response=ResultBase.class)
-    @ApiResponses(value={   
+    @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")  
+    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")
     })
     public final ResultBase search(
     		@ApiParam(name="companyid",value="ドロワーコード") @FormParam("companyid") final String companyid,

@@ -8,16 +8,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
-import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscount;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -60,7 +58,7 @@ public class PromotionInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
     })
     public final JSONData getPromotionInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId,
     		@ApiParam(name="DiscountReason", value="割引理由コード") @QueryParam("DiscountReason") final String discountReason,
     		@ApiParam(name="DiscountBarcodeType", value="割引バーコード") @QueryParam("DiscountBarcodeType") final String discountBarcodeType,
     		@ApiParam(name="PartialFlag", value="割引部分フラグ") @QueryParam("PartialFlag") final String partialFlag,

@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "GroupLineInfo")
@@ -15,13 +15,13 @@ public class GroupLineInfo {
 
 	@XmlElement(name = "GroupId")
 	private String groupId;
-	
+
 	@XmlElement(name = "GroupName")
 	private String groupName;
-	
+
 	@XmlElement(name = "Line")
 	private String line;
-	
+
 	@XmlElement(name = "LineName")
 	private String lineName;
 
@@ -89,13 +89,13 @@ public class GroupLineInfo {
 	public String toString() {
 		StringBuilder str = new StringBuilder();
 		String crlf = "\r\n";
-		
+
 		str.append("GroupId : ").append(this.groupId).append(crlf)
 		   .append("GroupName : ").append(this.groupName).append(crlf)
 		   .append("Line : ").append(this.line).append(crlf)
 		   .append("LineName : ").append(this.groupName).append(crlf);
-		
+
 		return str.toString();
 	}
-	
+
 }

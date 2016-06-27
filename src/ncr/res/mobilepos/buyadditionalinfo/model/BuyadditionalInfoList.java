@@ -7,9 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlAccessorType(XmlAccessType.NONE)
@@ -18,7 +17,7 @@ import ncr.res.mobilepos.model.ResultBase;
 public class BuyadditionalInfoList extends ResultBase {
 	@XmlElement(name = "BuyadditionalInfoList")
 	private List<BuyadditionalInfo> buyadditionalInfoList;
-	
+
 	@ApiModelProperty(value="購買補助情報リスト", notes="購買補助情報リスト")
 	public final List<BuyadditionalInfo> getBuyadditionalInfoList() {
 		return buyadditionalInfoList;

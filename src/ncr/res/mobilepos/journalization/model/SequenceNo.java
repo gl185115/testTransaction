@@ -5,9 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
-
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import ncr.res.mobilepos.model.ResultBase;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name="SequenceNo")
@@ -41,7 +40,7 @@ public class SequenceNo extends ResultBase{
     /**
      * @return SequenceNo
      */
- 
+
     @ApiModelProperty(value="ëóêMä«óùèáèò", notes="ëóêMä«óùèáèò")
     public String getSequenceNo() {
         return SequenceNo;
@@ -72,23 +71,23 @@ public class SequenceNo extends ResultBase{
 
 	@Override
 	public String toString() {
-		
+
 		StringBuilder sb = new StringBuilder();
 		String crlf = "\r\n";
 		sb.append(super.toString());
-		
+
 		if(null != this.SequenceTypeId){
 			sb.append(crlf).append("SequenceTypeId: ").append(this.SequenceTypeId.toString());
 		}
-		
+
 		if(null != this.SequenceNo){
 			sb.append(crlf).append("SequenceNo: ").append(this.SequenceNo.toString());
 		}
-		
+
 		if(null != this.SequenceTypeName){
 			sb.append(crlf).append("SequenceTypeName: ").append(this.SequenceTypeName.toString());
 		}
-		
+
 		return sb.toString();
 	}
 

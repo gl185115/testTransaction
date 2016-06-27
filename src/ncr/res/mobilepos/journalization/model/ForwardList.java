@@ -8,8 +8,9 @@ import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 @XmlRootElement(name = "ForwardList")
@@ -34,7 +35,7 @@ public class ForwardList extends ResultBase {
 
         StringBuilder sb = new StringBuilder();
         String crlf = "\r\n";
-
+        
         if(null != this.ForwardListInfo){
             sb.append(crlf).append("ForwardListInfo: ").append(this.ForwardListInfo.toString());
         }

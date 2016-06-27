@@ -13,8 +13,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * Item Model Object.
@@ -33,7 +33,7 @@ public class Item {
     public static final int TAX_EXCLUDED = 0;
     public static final int TAX_INCLUDED = 1;
     public static final int TAX_FREE = 2;
-
+    
     @XmlElement(name = "ItemID")
     private String itemId;
 
@@ -69,7 +69,7 @@ public class Item {
 
     @XmlElement(name = "DiscountType")
     private int discountType = 0;
-
+    
     @XmlElement(name = "SubNum1")
     private int subNum1 = 0;
 
@@ -103,13 +103,13 @@ public class Item {
     //---- start
     @XmlElement(name = "CompanyID")
     private String companyId;
-
+    
     @XmlElement(name = "promotionNo")
     private String promotionNo;
-
+    
     @XmlElement(name = "MdType")
     private String mdType = "";
-
+    
     @ApiModelProperty(value="商品区分", notes="商品区分")
     public String getMdType() {
         return mdType;
@@ -123,79 +123,79 @@ public class Item {
     private String sku;
     @XmlElement(name = "Md02")
     private String md02 = "";
-
+    
     @XmlElement(name = "Md03")
     private String md03 = "";
-
+    
     @XmlElement(name = "Md04")
     private String md04 = "";
-
+    
     @XmlElement(name = "Md05")
     private String md05 = "";
-
+    
     @XmlElement(name = "Md06")
     private String md06 = "";
-
+    
     @XmlElement(name = "Md07")
     private String md07 = "";
-
+    
     @XmlElement(name = "Md08")
     private String md08 = "";
-
+    
     @XmlElement(name = "Md09")
     private String md09 = "";
-
+    
     @XmlElement(name = "Md10")
     private String md10 = "";
-
+    
     @XmlElement(name = "Md11")
     private String md11 = "";
-
+    
     @XmlElement(name = "Md12")
     private String md12 = "";
-
+    
     @XmlElement(name = "Md13")
     private String md13 = "";
-
+    
     @XmlElement(name = "Md14")
     private String md14 = "";
-
+    
     @XmlElement(name = "Md15")
     private String md15 = "";
-
+    
     @XmlElement(name = "Md16")
     private String md16 = "";
-
+    
     @XmlElement(name = "MdNameLocal")
     private String mdNameLocal = "";
-
+    
     @XmlElement(name = "MdKanaName")
     private String mdKanaName = "";
-
+    
     @XmlElement(name = "SalesPrice2")
     private double salesPrice2;
-
+    
     @XmlElement(name = "PaymentType")
     private int paymentType = 0;
-
+    
     @XmlElement(name ="SubCode1")
     private String subCode1 = "";
-
+    
     @XmlElement(name ="SubCode2")
     private String subCode2 = "";
-
+    
     @XmlElement(name ="SubCode3")
     private String subCode3 = "";
-
+    
     @XmlElement(name = "SubNum2")
     private int subNum2 = 0;
-
+    
     @XmlElement(name = "PromotionId")
     private String promotionId;
-
+    
     @XmlElement(name = "StoreId")
     private String storeId;
-
+    
     @ApiModelProperty(value="店舗コード", notes="店舗コード")
     public String getStoreId() {
         return storeId;
@@ -207,17 +207,17 @@ public class Item {
 
     @XmlElement(name = "DptDiscountType")
     private int dptDiscountType = 0;
-
+    
     @XmlElement(name = "DiacountRate")
     private double diacountRate = 0;
-
+    
     @XmlElement(name = "DiscountAmt")
     private int discountAmt = 0;
-
+    
     @XmlElement(name = "ReplaceSupportDiscountAmt")
     private int replaceSupportdiscountAmt = 0;
    // ReplaceSupport
-
+    
     @ApiModelProperty(value="置き換え自動値引金額", notes="置き換え自動値引金額")
     public int getReplaceSupportdiscountAmt() {
         return replaceSupportdiscountAmt;
@@ -229,100 +229,100 @@ public class Item {
 
     @XmlElement(name = "DiscountClass")
     private int discountClass = 0;
-
+    
     @XmlElement(name = "CouponNo")
     private String couponNo;
-
+    
     @XmlElement(name = "EvenetName")
     private String evenetName;
-
+    
     @XmlElement(name = "ReceiptName")
     private String receiptName;
-
+    
     @XmlElement(name = "UnitPrice")
     private double unitPrice;
-
+    
     @XmlElement(name = "IssueCount")
     private int issueCount;
-
+    
     @XmlElement(name = "IssueType")
     private String issueType;
-
+    
     @XmlElement(name = "PremiumList")
     private List<PremiumInfo> premiumList;
-
+    
     @XmlElement(name = "PremiumItemName")
     private String premiumItemName;
-
+    
     @XmlElement(name = "TargetPrice")
     private double targetPrice;
-
+    
     @XmlElement(name = "TargetCount")
     private int targetCount;
-
+    
     @XmlElement(name = "Note")
     private String note;
-
+    
     @XmlElement(name = "SalesPriceFrom")
     private String salesPriceFrom;
-
+    
     @XmlElement(name = "OldPrice")
     private double oldPrice;
-
+    
     @XmlElement(name = "CostPrice1")
     private double costPrice1;
-
+    
     @XmlElement(name = "MakerPrice")
     private double makerPrice;
-
+    
     @XmlElement(name = "Conn1")
     private String conn1 = "";
-
+    
     @XmlElement(name = "Conn2")
     private String conn2 = "";
-
+    
     @XmlElement(name = "PluPrice")
     private double pluPrice;
-
+    
     @XmlElement(name = "DptNameLocal")
     private String dptNameLocal;
-
+    
     @XmlElement(name = "ClassNameLocal")
     private String classNameLocal;
-
+    
     @XmlElement(name = "GroupName")
     private String groupName;
-
+    
     @XmlElement(name = "GroupID")
     private String groupID;
-
+    
     @XmlElement(name = "NameText")
     private String nameText;
-
+    
     @XmlElement(name = "QrPromotionId")
     private String qrPromotionId;
-
+    
     @XmlElement(name ="QrPromotionName")
     private String qrPromotionName;
-
+    
     @XmlElement(name ="QrMinimumPrice")
     private Double qrMinimumPrice;
-
+    
     @XmlElement(name ="QrOutputTargetValue")
     private String qrOutputTargetValue;
-
+    
     @XmlElement(name ="QrBmpFileName")
     private String qrBmpFileName;
-
+    
     @XmlElement(name ="Colorkananame")
     private String colorkananame;
-
+    
     @XmlElement(name ="SizeKanaName")
     private String sizeKanaName;
-
+    
     @XmlElement(name ="BrandName")
     private String brandName;
-
+    
     @ApiModelProperty(value="カラー名称(カナ)", notes="カラー名称(カナ)")
     public String getColorkananame() {
         return colorkananame;
@@ -343,7 +343,7 @@ public class Item {
 
     @XmlElement(name ="QrCodeList")
     private List<QrCodeInfo> qrCodeList;
-
+    
     @ApiModelProperty(value="QRコード管理マスタ", notes="QRコード管理マスタ")
     public List<QrCodeInfo> getQrCodeList() {
         return qrCodeList;
@@ -418,10 +418,10 @@ public class Item {
 
     @XmlElement(name ="QrBmpFileFlag")
     private String qrBmpFileFlag;
-
+    
     @XmlElement(name ="QrBmpFileCount")
     private String qrBmpFileCount;
-
+    
     @ApiModelProperty(value="グループコード", notes="グループコード")
     public String getGroupID() {
         return groupID;
@@ -433,7 +433,7 @@ public class Item {
 
     @XmlElement(name = "dptSubCode1")
     private String dptSubCode1;
-
+    
     @ApiModelProperty(value="日本語大分類名称", notes="日本語大分類名称")
     public String getDptNameLocal() {
         return dptNameLocal;
@@ -526,7 +526,7 @@ public class Item {
 
     @XmlElement(name = "MdVender")
     private String mdVender = "";
-
+    
     @ApiModelProperty(value="メーカー品番", notes="メーカー品番")
     public String getMdVender() {
         return mdVender;
@@ -677,31 +677,31 @@ public class Item {
     private int ruleQuantity2;
     @XmlElement(name = "RuleQuantity3")
     private int ruleQuantity3;
-
+    
     @XmlElement(name = "ConditionPrice1")
     private double ConditionPrice1;
-
+    
     @XmlElement(name = "ConditionPrice2")
     private double ConditionPrice2;
-
+    
     @XmlElement(name = "ConditionPrice3")
     private double ConditionPrice3;
-
+    
     @XmlElement(name = "DecisionPrice1")
     private Double DecisionPrice1 = null;
-
+    
     @XmlElement(name = "DecisionPrice2")
     private Double DecisionPrice2 = null;
-
+    
     @XmlElement(name = "DecisionPrice3")
     private Double DecisionPrice3 = null;
-
+    
     @XmlElement(name = "AveragePrice1")
     private double AveragePrice1;
-
+    
     @XmlElement(name = "AveragePrice2")
     private double AveragePrice2;
-
+    
     @ApiModelProperty(value="規定数量1", notes="規定数量1")
     public int getRuleQuantity1() {
         return ruleQuantity1;
@@ -812,7 +812,7 @@ public class Item {
 
     @XmlElement(name = "AveragePrice3")
     private double AveragePrice3;
-
+ 
     @ApiModelProperty(value="自社品番", notes="自社品番")
     public String getSku() {
         return sku;
@@ -1037,7 +1037,7 @@ public class Item {
     public void setPromotionId(String promotionId) {
         this.promotionId = promotionId;
     }
-
+    
     @ApiModelProperty(value="企画No", notes="企画No")
     public String getPromotionNo() {
         return promotionNo;
@@ -1077,10 +1077,10 @@ public class Item {
 
     @XmlElement(name = "EventName")
     private String EventName = "";
-
+    
     @XmlElement(name = "eventSalesPrice")
     private double eventSalesPrice ;
-
+    
     /* 1.02 2015.04.02 商品情報取得 ADD END*/
     /* 1.01 2014.11.19 商品情報取得 ADD START*/
     @XmlElement(name = "EmpPrice1")
@@ -1088,10 +1088,10 @@ public class Item {
 
     @XmlElement(name = "Md01")
     private String md01 = "";
-
+    
     @XmlElement(name = "PSType")
     private String pSType = "";
-
+    
     @XmlElement(name = "OrgSalesPrice1")
     private double orgSalesPrice1;
     /* 1.01 2014.11.19 商品情報取得 ADD END*/
@@ -1100,7 +1100,7 @@ public class Item {
     private String inheritFlag;
 
     private int mustBuyFlag;
-
+    
     @XmlElement(name = "mixMatchCode")
     private String mixMatchCode;
 
@@ -1199,7 +1199,7 @@ public class Item {
         setOrgSalesPrice1(orgSalesPrice1);
         /* 1.01 2014.11.19 商品情報取得 ADD END*/
     }
-
+    
     @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
         return this.companyId;
@@ -1435,24 +1435,24 @@ public class Item {
    public final void setMd01(final String md01){
        this.md01 = md01;
    }
-
+   
    @ApiModelProperty(value="セ－ル/プロパ－区分(P:プロパ－  S:セ－ル)", notes="セ－ル/プロパ－区分(P:プロパ－  S:セ－ル)")
    public final String getPSType(){
        return this.pSType;
    }
-
+   
    public final void setPSType(final String pSType){
        this.pSType = pSType;
    }
-
+   
    @ApiModelProperty(value="基本（プロパー）上代", notes="基本（プロパー）上代")
    public final double getOrgSalesPrice1(){
        return this.orgSalesPrice1;
    }
-
+   
    public final void setOrgSalesPrice1(final double orgSalesPrice1){
        this.orgSalesPrice1 = orgSalesPrice1;
-   }
+   } 
    /* 1.01 2014.11.19 商品情報取得 ADD END*/
 
    @ApiModelProperty(value="継承フラグ", notes="継承フラグ")
@@ -1463,7 +1463,7 @@ public class Item {
     public void setInheritFlag(String inheritFlag) {
         this.inheritFlag = inheritFlag;
     }
-
+    
     @ApiModelProperty(value="イベントコード", notes="イベントコード")
     public String  getEventId() {
         return EventId;
@@ -1490,7 +1490,7 @@ public class Item {
     public void setEventSalesPrice(double eventSalesPrice) {
         this.eventSalesPrice = eventSalesPrice;
     }
-
+    
     @ApiModelProperty(value="プレミアム・リスト", notes="プレミアム・リスト")
     public List<PremiumInfo> getPremiumList() {
         return premiumList;

@@ -14,8 +14,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  *
@@ -78,16 +78,16 @@ public class Store {
      */
     @XmlElement(name = "StampTaxFilePath")
     private String stampTaxFilePath;
-
+    
     private String updOpeCode;
-
+    
     private String updAppId;
-
+    
     @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
     	return companyId;
     }
-
+    
     public final void setCompanyId(String companyId) {
     	this.companyId = companyId;
     }

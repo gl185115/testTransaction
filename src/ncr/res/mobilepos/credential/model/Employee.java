@@ -5,8 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * Employee is a Model Class that represents an Operator's info It only consists
@@ -53,13 +53,13 @@ public class Employee {
      */
     @XmlElement(name = "Passcode")
     private String passcode;
-
+    
     private String updOpeCode;
-
+    
     private String updAppId;
-
+    
     private String status;
-
+    
     private String role;
 
    /**
@@ -71,8 +71,8 @@ public class Employee {
     public final String getPasscode() {
         return passcode;
     }
-
-
+    
+   
     /**
      * sets the passcode.
      *
@@ -82,7 +82,7 @@ public class Employee {
     public final void setPasscode(final String passCode) {
         this.passcode = passCode;
     }
-
+    
     @ApiModelProperty(value="最終更新ユーザーコード", notes="最終更新ユーザーコード")
     public String getUpdOpeCode() {
         return updOpeCode;

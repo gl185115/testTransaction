@@ -15,8 +15,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -36,7 +37,7 @@ public class PosLogResp extends ResultBase {
 		super();
 	}
 	/**
-	 * Constructor.
+	 * Constructor. 
 	 * @param resultCode	The error response code.
 	 * @param extendedResultCode	The extended error response code.
 	 * @param status	The status of response.
@@ -47,7 +48,7 @@ public class PosLogResp extends ResultBase {
 		super(resultCode, extendedResultCode, throwable);
 		setStatus(status);
 	}
-
+	
     /**
      * The Status of the POSLog Response.
      */

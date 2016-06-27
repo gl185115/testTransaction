@@ -8,8 +8,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -24,10 +25,10 @@ public class ViewTill extends ResultBase {
      */
     @XmlElement(name = "Till")
     private Till till;
-
+    
     @XmlElement(name = "TillList")
     private List<Till> tillList;
-
+    
     public ViewTill() {
     	tillList = new ArrayList<Till>();
     }
@@ -39,15 +40,15 @@ public class ViewTill extends ResultBase {
 	public final void setTill(Till till) {
 		this.till = till;
 	}
-
+	
 	public final void setTillList(final List<Till> tillList) {
-		this.tillList = tillList;
+		this.tillList = tillList; 
 	}
 	@ApiModelProperty(value="ドロワリスト", notes="ドロワリスト")
 	public final List<Till> getTillList() {
 		return tillList;
 	}
-
+	
     @Override
     public final String toString() {
         StringBuilder sb = new StringBuilder();

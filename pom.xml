@@ -30,11 +30,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
         </repository>
        <snapshotRepository>
-         <id>resmex-snapshots</id>
-         <name>RES MeX Snapshots</name>
-         <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
-         <uniqueVersion>false</uniqueVersion>
-       </snapshotRepository>
+	     <id>resmex-snapshots</id>
+	     <name>RES MeX Snapshots</name>
+	     <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
+	     <uniqueVersion>false</uniqueVersion>
+  	   </snapshotRepository>
     </distributionManagement>
   <dependencies>
 
@@ -179,14 +179,18 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
     </dependency>
     <!-- For API Document and API Client -->
     <dependency>
-        <groupId>io.swagger</groupId>
-        <artifactId>swagger-jersey-jaxrs</artifactId>
-        <version>1.5.0</version>
+        <groupId>com.wordnik</groupId>
+        <artifactId>swagger-jersey-jaxrs_2.10</artifactId>
+        <version>1.3.13</version>
+        <scope>system</scope>
+        <systemPath>${basedir}/external library/swagger-core_2.10-1.3.13.jar</systemPath>
     </dependency>
     <dependency>
-        <groupId>io.swagger</groupId>
+        <groupId>com.wordnik</groupId>
         <artifactId>swagger-annotations</artifactId>
-        <version>1.5.9</version>
+        <version>1.3.13</version>
+        <scope>system</scope>
+        <systemPath>${basedir}/external library/swagger-annotations-1.3.13.jar</systemPath>
     </dependency>
     <!-- For Test -->
     <dependency>
@@ -322,7 +326,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
         <artifactId>pointserver-interface-mobile</artifactId>
         <version>1.0.0</version>
         <scope>system</scope>
-        <systemPath>${basedir}/WebContent/WEB-INF/lib/pointserver-interface-mobile.jar</systemPath>
+   		<systemPath>${basedir}/WebContent/WEB-INF/lib/pointserver-interface-mobile.jar</systemPath>
     </dependency>
     <dependency>
         <groupId>net.java.dev.jna</groupId>
@@ -683,9 +687,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
             <doCheck>false</doCheck>
             <doUpdate>false</doUpdate>
              <format>{0,date,yyyy/MM/dd}</format>
-              <items>
-                <item>timestamp</item>
-              </items>
+	          <items>
+	            <item>timestamp</item>
+	          </items>
           </configuration>
         </plugin>
         <plugin>
@@ -706,125 +710,87 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
           </executions>
         </plugin>
         <plugin>
-         <artifactId>maven-deploy-plugin</artifactId>
-            <executions>
-               <execution>
-                    <id>xmlparams</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>deploy-file</goal>
-                    </goals>
-                    <configuration>
-                        <repositoryId>resmex-snapshots</repositoryId>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>xmlparams</artifactId>
-                        <version>${project.version}</version>
-                        <packaging>zip</packaging>
-                        <pomFile>pom.xml</pomFile>
-                        <file>target/XmlParams.zip</file>
-                        <uniqueVersion>false</uniqueVersion>
-                        <generatePom>true</generatePom>
-                        <url>${project.distributionManagement.snapshotRepository.url}</url>
-                    </configuration>
-                </execution>
-                <execution>
-                    <id>poslogbinding</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>deploy-file</goal>
-                    </goals>
-                    <configuration>
-                        <repositoryId>resmex-snapshots</repositoryId>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>poslog-binding</artifactId>
-                        <version>${project.version}</version>
-                        <packaging>jar</packaging>
-                        <file>target/poslog-binding.jar</file>
-                        <pomFile>pom.xml</pomFile>
-                        <generatePom>true</generatePom>
-                        <uniqueVersion>false</uniqueVersion>
-                        <url>${project.distributionManagement.snapshotRepository.url}</url>
-                    </configuration>
-                </execution>
-                  <execution>
-                    <id>resTransaction</id>
-                    <phase>deploy</phase>
-                    <goals>
-                        <goal>deploy-file</goal>
-                    </goals>
-                    <configuration>
-                        <repositoryId>resmex-snapshots</repositoryId>
-                        <groupId>${project.groupId}</groupId>
-                        <artifactId>resTransaction</artifactId>
-                        <version>${project.version}</version>
-                        <packaging>war</packaging>
-                        <file>target/resTransaction.war</file>
-                        <pomFile>pom.xml</pomFile>
-                        <generatePom>true</generatePom>
-                        <uniqueVersion>false</uniqueVersion>
-                        <url>${project.distributionManagement.snapshotRepository.url}</url>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
+	   	 <artifactId>maven-deploy-plugin</artifactId>
+		    <executions>
+		       <execution>
+		            <id>xmlparams</id>
+		            <phase>deploy</phase>
+		            <goals>
+		                <goal>deploy-file</goal>
+		            </goals>
+		            <configuration>
+		                <repositoryId>resmex-snapshots</repositoryId>
+						<groupId>${project.groupId}</groupId>
+						<artifactId>xmlparams</artifactId>
+						<version>${project.version}</version>
+						<packaging>zip</packaging>
+						<pomFile>pom.xml</pomFile>
+						<file>target/XmlParams.zip</file>
+						<uniqueVersion>false</uniqueVersion>
+						<generatePom>true</generatePom>
+						<url>${project.distributionManagement.snapshotRepository.url}</url>
+		            </configuration>
+		        </execution>
+		        <execution>
+		            <id>poslogbinding</id>
+		            <phase>deploy</phase>
+		            <goals>
+		                <goal>deploy-file</goal>
+		            </goals>
+		            <configuration>
+		                <repositoryId>resmex-snapshots</repositoryId>
+						<groupId>${project.groupId}</groupId>
+						<artifactId>poslog-binding</artifactId>
+						<version>${project.version}</version>
+						<packaging>jar</packaging>
+						<file>target/poslog-binding.jar</file>
+						<pomFile>pom.xml</pomFile>
+						<generatePom>true</generatePom>
+						<uniqueVersion>false</uniqueVersion>
+						<url>${project.distributionManagement.snapshotRepository.url}</url>
+		            </configuration>
+		        </execution>
+		          <execution>
+		            <id>resTransaction</id>
+		            <phase>deploy</phase>
+		            <goals>
+		                <goal>deploy-file</goal>
+		            </goals>
+		            <configuration>
+		                <repositoryId>resmex-snapshots</repositoryId>
+						<groupId>${project.groupId}</groupId>
+						<artifactId>resTransaction</artifactId>
+						<version>${project.version}</version>
+						<packaging>war</packaging>
+						<file>target/resTransaction.war</file>
+						<pomFile>pom.xml</pomFile>
+						<generatePom>true</generatePom>
+						<uniqueVersion>false</uniqueVersion>
+						<url>${project.distributionManagement.snapshotRepository.url}</url>
+		            </configuration>
+		        </execution>
+		    </executions>
+		</plugin>
         <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-install-plugin</artifactId>
-            <version>2.5.2</version>
-            <executions>
-                <execution>
-                    <id>install-library</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>install-file</goal>
-                    </goals>
-                    <configuration>
-                        <file>${basedir}/external library/swagger-maven-plugin_custom-3.1.2.jar</file>
-                        <groupId>com.ncr.res</groupId>
-                        <artifactId>swagger-maven-plugin_custom</artifactId>
-                        <version>3.1.2</version>
-                        <packaging>jar</packaging>
-                        <generatePom>false</generatePom>
-                    </configuration>
-                </execution>
-                <execution>
-                    <id>install-pom</id>
-                    <phase>prepare-package</phase>
-                    <goals>
-                        <goal>install-file</goal>
-                    </goals>
-                    <configuration>
-                        <file>${basedir}/external library/swagger-maven-plugin_custom-3.1.2.pom</file>
-                        <groupId>com.ncr.res</groupId>
-                        <artifactId>swagger-maven-plugin_custom</artifactId>
-                        <version>3.1.2</version>
-                        <packaging>pom</packaging>
-                        <generatePom>false</generatePom>
-                    </configuration>
-                </execution>
-            </executions>
-        </plugin>
-        <plugin>
-            <groupId>com.ncr.res</groupId>
-            <artifactId>swagger-maven-plugin_custom</artifactId>
-            <version>3.1.2</version>
+            <groupId>com.github.kongchen</groupId>
+            <artifactId>swagger-maven-plugin</artifactId>
+            <version>2.3.3</version>
             <configuration>
                 <apiSources>
                     <apiSource>
-                        <springmvc>false</springmvc>
+                        <supportSpringMvc>false</supportSpringMvc>
                         <locations>ncr.res.mobilepos</locations>
-                        <schemes>https</schemes>
-                        <info>
-                            <version>0.1</version>
+                        <apiInfo>
                             <title>RES Mex Transaction API</title>
                             <description>This is a specification for RES Mex API</description>
-                        </info>
-                        <host>localhost:8443</host>
-                        <basePath>/resTransaction/rest</basePath>
-                        <templatePath>${basedir}/resources/strapdown.html.hbs</templatePath>
-                        <outputPath>${basedir}/target/api_document.html</outputPath>
-                        <swaggerDirectory>${basedir}/target/swagger-ui_data</swaggerDirectory>
-                        <attachSwaggerArtifact>true</attachSwaggerArtifact>
+                        </apiInfo>
+                        <apiVersion>0.1</apiVersion>
+                        <basePath>https://localhost:8443/resTransaction/rest</basePath>
+                        <outputTemplate>${project.basedir}/resources/strapdown.html.mustache</outputTemplate>
+                        <mustacheFileRoot>${project.basedir}/resources/</mustacheFileRoot>
+                        <useOutputFlatStructure>false</useOutputFlatStructure>
+                        <outputPath>${project.basedir}/target/api_document.html</outputPath>
+                        <swaggerDirectory>${project.basedir}/target/swagger-ui_data</swaggerDirectory>
                     </apiSource>
                 </apiSources>
             </configuration>

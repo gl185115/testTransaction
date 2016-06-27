@@ -14,11 +14,12 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import ncr.res.mobilepos.credential.model.Employee;
+
 import org.codehaus.jackson.map.ObjectMapper;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import ncr.res.mobilepos.credential.model.Employee;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * The Model Class representation of a Transaction for QueueBuster.
@@ -38,7 +39,7 @@ public class BusteredTransaction {
     private Double total;
     @XmlElement(name = "ReceiptDateTime")
     private String receiptDateTime;
-
+    
     @ApiModelProperty(value="—Ìû‘“ú•tŠÔ", notes="—Ìû‘“ú•tŠÔ")
     public String getReceiptDateTime() {
 		return receiptDateTime;

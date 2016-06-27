@@ -10,9 +10,14 @@
 
 package ncr.res.mobilepos.systemconfiguration.resource;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.store.model.ViewStore;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
@@ -21,17 +26,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
-import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.model.ResultBase;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * SystemConfigurationResource Class is a Web Resource which support.

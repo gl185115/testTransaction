@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * PrinterInfo
@@ -50,15 +50,15 @@ public class PrinterInfo {
     /** The port num udp. */
     @XmlElement(name = "PortNumUdp")
     private String portNumUdp;
-
+    
     /** The status. */
     @XmlElement(name = "Status")
     private String status;
-
+    
     private String updAppId;
-
+    
     private String updOpeCode;
-
+    
     @ApiModelProperty(value="最終更新プログラムID", notes="最終更新プログラムID")
     public String getUpdAppId() {
         return updAppId;
@@ -205,7 +205,7 @@ public class PrinterInfo {
     public final String getPortNumUdp() {
         return portNumUdp;
     }
-
+    
     /**
      * Setter for the status.
      * @param status of printer

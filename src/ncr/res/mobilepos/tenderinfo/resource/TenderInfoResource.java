@@ -8,11 +8,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -54,7 +55,7 @@ public class TenderInfoResource {
         })
     public final JSONData getTenderInfo(
     		@ApiParam(name="CompanyId", value="âÔé–ÉRÅ[Éh")@QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="ìXï‹î‘çÜ")@QueryParam("StoreId") final String storeId,
+    		@ApiParam(name="StoreId", value="ìXï‹î‘çÜ")@QueryParam("StoreId") final String storeId, 
     		@ApiParam(name="TenderType", value="éxï•éÌï ")@QueryParam("TenderType") final String tenderType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("TenderType", tenderType);
@@ -87,7 +88,7 @@ public class TenderInfoResource {
         }
         return tender;
     }
-
+    
     /**
      * @param companyId
      * @param storeId
@@ -105,7 +106,7 @@ public class TenderInfoResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="îƒópÉGÉâÅ["),
         })
     public final JSONData getTenderInfoByType(@QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="ìXï‹î‘çÜ")@QueryParam("StoreId") final String storeId,
+    		@ApiParam(name="StoreId", value="ìXï‹î‘çÜ")@QueryParam("StoreId") final String storeId, 
     		@ApiParam(name="TenderType", value="éxï•éÌï ")@QueryParam("TenderType") final String tenderType,
     		@ApiParam(name="TenderId", value="éÌï ÉRÅ[Éh")@QueryParam("TenderId") final String tenderId) {
         String functionName = DebugLogger.getCurrentMethodName();

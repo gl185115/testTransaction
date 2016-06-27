@@ -13,18 +13,21 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import atg.taglib.json.util.JSONObject;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.report.model.DrawerFinancialReport;
+import ncr.res.mobilepos.report.model.ReportItems;
 import ncr.res.mobilepos.searchapi.constant.SearchApiConstants;
 import ncr.res.mobilepos.searchapi.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.searchapi.model.JSONData;
@@ -90,7 +93,7 @@ public class SearchApiResource {
 			JSONObject value = new JSONObject();
 			value.put("body", body);
 			value.put("header", header);
-
+			
 			JSONObject valueResult = new JSONObject();
 			valueList.add(value);
 			valueResult.put("Values", valueList);
@@ -153,7 +156,7 @@ public class SearchApiResource {
 		}
 		return jsonData;
 	}
-
+	
 	/*
 	 * ＰＯＳ先行受注データAPI
 	 */
@@ -164,7 +167,7 @@ public class SearchApiResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),	
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -181,13 +184,13 @@ public class SearchApiResource {
 			JSONObject header = new JSONObject();
 			header.put("system_id", SearchApiConstants.SYSTEM_ID);
 			header.put("webapi", SearchApiConstants.WEVAPI_ID_3);
-
+			
 			ArrayList<JSONObject> valueList = new ArrayList<JSONObject>();
 			JSONObject value = new JSONObject();
-
+			
 			value.put("body", body);
 			value.put("header", header);
-
+			
 			JSONObject valueResult = new JSONObject();
 			valueList.add(value);
 			valueResult.put("Values", valueList);
@@ -251,7 +254,7 @@ public class SearchApiResource {
 		}
 		return jsonData;
 	}
-
+	
 	/*
 	 * ＰＯＳ売り逃しデータAPI
 	 */
@@ -272,19 +275,19 @@ public class SearchApiResource {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("Body", body);
-
+		
 		JSONData jsonData = new JSONData();
 		JSONObject result = null;
 		try {
 			JSONObject header = new JSONObject();
 			header.put("system_id", SearchApiConstants.SYSTEM_ID);
 			header.put("webapi", SearchApiConstants.WEVAPI_ID_3);
-
+			
 			ArrayList<JSONObject> valueList = new ArrayList<JSONObject>();
 			JSONObject value = new JSONObject();
 			value.put("body", body);
 			value.put("header", header);
-
+			
 			JSONObject valueResult = new JSONObject();
 			valueList.add(value);
 			valueResult.put("Values", valueList);
@@ -348,7 +351,7 @@ public class SearchApiResource {
 		}
 		return jsonData;
 	}
-
+	
 	/*
 	 * ＰＯＳ発注データAPI
 	 */
@@ -377,23 +380,23 @@ public class SearchApiResource {
 			JSONObject header = new JSONObject();
 			header.put("system_id", SearchApiConstants.SYSTEM_ID);
 			header.put("webapi", SearchApiConstants.WEVAPI_ID_3);
-
+			
 			ArrayList<JSONObject> valueList = new ArrayList<JSONObject>();
 			JSONObject value = new JSONObject();
 			value.put("body", body);
 			value.put("header", header);
-
+			
 			JSONObject valueResult = new JSONObject();
 			valueList.add(value);
 			valueResult.put("Values", valueList);
-
+			
 			String json = valueResult.toString().replace("\\", "")
 					.replace("\"", "\\\"").replace(" ", "");
 			String address = context
 					.getAttribute(GlobalConstant.INVENTORYORDERSEARCHURL)
 					+ json;
 			result = UrlConnectionHelper.connectionForGet(address);
-
+			
 			// Check if error is empty.
 			if (StringUtility.isNullOrEmpty(result)) {
 				// Error occurred, Abnormal return
@@ -456,7 +459,7 @@ public class SearchApiResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="api検索失敗"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="接続するモートホスト失敗"),	
             @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -474,13 +477,13 @@ public class SearchApiResource {
 			JSONObject header = new JSONObject();
 			header.put("system_id", SearchApiConstants.SYSTEM_ID);
 			header.put("webapi", SearchApiConstants.WEVAPI_ID_3);
-
-
+			
+			
 			ArrayList<JSONObject> valueList = new ArrayList<JSONObject>();
 			JSONObject value = new JSONObject();
 			value.put("body", body);
 			value.put("header", header);
-
+			
 			JSONObject valueResult = new JSONObject();
 			valueList.add(value);
 			valueResult.put("Values", valueList);

@@ -13,11 +13,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -33,6 +34,12 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
+/**
+ * 改定履歴
+ * バージョン         改定日付       担当者名           改定内容
+ * 1.01               2014.12.11     LiQian             DIV存在チェックを対応
+ */
+import ncr.res.mobilepos.xebioapi.model.JSONData;
 
 /**
  *
@@ -68,7 +75,7 @@ public class DepartmentResource {
      * The Trace Printer.
      */
     private Trace.Printer tp;
-
+    
     private String pathName = "departmentinfo";
 
     /**
@@ -89,7 +96,7 @@ public class DepartmentResource {
     public final void setDaoFactory(final DAOFactory daofactory) {
         this.daoFactory = daofactory;
     }
-
+    
     /**
      * @param contextToSet
      *            the context to set
@@ -131,7 +138,7 @@ public class DepartmentResource {
         	department.setDepartmentID(dptid);
         	department.setUpdAppId(appId);
         	department.setUpdOpeCode(getOpeCode());
-
+        	
             IDepartmentDAO dept = daoFactory.getDepartmentDAO();
             result = dept.deleteDepartment(storeid, department);
         } catch (DaoException e) {
@@ -188,7 +195,7 @@ public class DepartmentResource {
             tp.methodExit(dptModel.toString());
             return dptModel;
         }
-
+        
         try {
             IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
             dptModel = iDptDao
@@ -324,8 +331,8 @@ public class DepartmentResource {
                     Department.class);
             String appId = pathName.concat(".create");
             department.setUpdAppId(appId);
-            department.setUpdOpeCode(getOpeCode());
-
+            department.setUpdOpeCode(getOpeCode());   
+            
             if(StringUtility.isNullOrEmpty(department.getTaxRate())){
 	            department.setTaxRate(GlobalConstant.getTaxRate());
             }
@@ -339,7 +346,7 @@ public class DepartmentResource {
              } else {
                 result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
              }
-        } catch (Exception e) {
+        } catch (Exception e) {        	
             LOGGER.logAlert(this.progname, "createDepartment",
                     Logger.RES_EXCEP_GENERAL,
                     e.getMessage());
@@ -393,7 +400,7 @@ public class DepartmentResource {
                 if(StringUtility.isNullOrEmpty(department.getTaxRate())){
                     department.setTaxRate(GlobalConstant.getTaxRate());
                 }
-
+                
                 IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
                 resultDept = iDptDao.updateDepartment(retailStoreID, departmentID, department);
             } catch (DaoException daoEx) {
@@ -455,7 +462,7 @@ public class DepartmentResource {
                 dptInfo.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return dptInfo;
             }
-
+      	  
             IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
             dptInfo = iDptDao.getDepartmentInfo(retailStoreID, departmentID);
         } catch (DaoException daoEx) {

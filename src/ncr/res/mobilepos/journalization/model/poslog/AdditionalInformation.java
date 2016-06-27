@@ -5,33 +5,34 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.journalization.model.PointPosted;
 
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "AdditionalInformation")
 @ApiModel(value="AdditionalInformation")
 public class AdditionalInformation {
-
+	
     @XmlElement(name = "Voided")
     private String voided;
-
+    
     @XmlElement(name = "Returned")
     private String returned;
-
+    
     @XmlElement(name = "Locked")
     private String locked;
 
 	@XmlElement(name = "SummaryReceipt")
     private String summaryReceipt;
-
+	
     @XmlElement(name = "receipt")
     private String[] receipt;
-
+	
     @XmlElement(name = "receiptAttributes")
     private String[] receiptAttributes;
-
+	
     @XmlElement(name = "TransactionType")
     private String transactionType;
 
@@ -43,13 +44,13 @@ public class AdditionalInformation {
 
     @XmlElement(name = "PoslogXML")
     private String poslogXML;
-
+    
     @XmlElement(name="PostPointed")
     private PointPosted postPointed;
-
+    
     @XmlElement(name="MemberId")
     private String memberId;
-
+    
     @ApiModelProperty(value="éÊè¡", notes="éÊè¡")
 	public final String getVoided() {
 		return voided;

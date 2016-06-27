@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModel;
 
 /**
  * OperatingSystemInfo Model class for application's software vesion.
@@ -28,7 +28,7 @@ public class OperatingSystemInfo extends SoftwareVersion  {
     /**
      * Constructor for Operating System version.
      */
-    public OperatingSystemInfo() {
+    public OperatingSystemInfo() {    	
         this.setName("OperatingSystem");
         this.setVersion(System.getProperty("os.name")
                         + "(" + System.getProperty("os.arch")

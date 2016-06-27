@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * 改定履歴
@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @ApiModel(value="ReportMode")
 public class ReportMode {
-
+	
 	private String type;
 	private int TrainingFlag;
     //実在高
@@ -30,7 +30,7 @@ public class ReportMode {
 	private double RealTotalAmt;
 	//差額
 	private double GapAmt;
-
+	
 	@ApiModelProperty(value="実在高", notes="実在高")
 	public double getCalculateTotalAmt() {
 		return CalculateTotalAmt;
@@ -66,7 +66,7 @@ public class ReportMode {
 	public void setTrainingFlag(int trainingFlag) {
 		TrainingFlag = trainingFlag;
 	}
-
+	
 	@ApiModelProperty(value="タイプ", notes="タイプ")
     public String getType() {
 		return type;
@@ -332,7 +332,7 @@ public class ReportMode {
     private long AdvancesSalesPoints;
     // 金 種 別 内 訳点数計
     private long goldSpeciesPoints;
-
+    
     // 買 物 券件数
     private long shoppingTicketPoints;
     // ギ フ ト 券件数
@@ -365,7 +365,7 @@ public class ReportMode {
     private long collectedfundsPoints;
     // 払戻金件数
     private long modorikinnPoints;
-
+    
     // <金 種 別 内 訳>
     // 現 金
     private String cash;
@@ -397,7 +397,7 @@ public class ReportMode {
     //前受金売上金額
     private double AdvancesSalesAmt;
     //1.05   2015.2.13   MAJINHUI   レポート出力を対応 add end
-
+    
     // 計
     private String goldSpecies;
     // 計金額
@@ -467,7 +467,7 @@ public class ReportMode {
     private String modorikinn;
     // 払戻金金額
     private double modorikinnAmt;
-
+    
     // 中 止 回 数
     private String discontinuation;
     // 中 止 回 数点数
@@ -728,7 +728,7 @@ public class ReportMode {
 			long giftCertificatesSubtotalPoints) {
 		this.giftCertificatesSubtotalPoints = giftCertificatesSubtotalPoints;
 	}
-
+    
     // 1.04 2015.1.21 MAJINHUI 点検・精算レポート出力を対応　ADD START
 	@ApiModelProperty(value="すべて引く金額", notes="すべて引く金額")
     public double getAllDrawAmount() {
@@ -738,7 +738,7 @@ public class ReportMode {
     public void setAllDrawAmount(double allDrawAmount) {
         AllDrawAmount = allDrawAmount;
     }
-
+    
     @ApiModelProperty(value="ドロワーコード", notes="ドロワーコード")
     public String getTillId() {
         return tillId;
@@ -2091,7 +2091,7 @@ public class ReportMode {
     public void setLanguage(String language) {
         this.language = language;
     }
-
+    
     @ApiModelProperty(value="予備日付ID", notes="予備日付ID")
     public String getSubdateid2() {
 		return subdateid2;
@@ -2316,7 +2316,7 @@ public class ReportMode {
     /**
      * @param allSalesAmount セットする allSalesAmount
      */
-
+    
     public void setAllSalesAmount(double allSalesAmount) {
         AllSalesAmount = allSalesAmount;
     }

@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * Transaction Model Object.
@@ -43,7 +43,7 @@ public class Transaction {
     /** The Entry Flag of transaction. */
     @XmlElement(name = "EntryFlag")
     private String entryFlag;
-
+    
     /** The Company ID. */
     @XmlElement(name = "CompanyId")
     private String companyId;

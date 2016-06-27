@@ -14,8 +14,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -122,7 +123,7 @@ public class BoInterface {
         if (resp.getNCRWSSResultCode() != ResultBase.RES_OK) {
             resp = fromStore(request);
         } else if (resp.getError() != null && resp.getError().getErrorcd() != 0) {
-            logger.write(Logger.ERROR, PROGNAME, "DC",
+            logger.write(Logger.ERROR, PROGNAME, "DC", 
                          "PointSales error from server:" + resp.getError().getErrorcd(),
                          snap.write("response", Message.marshall(resp)));
         }

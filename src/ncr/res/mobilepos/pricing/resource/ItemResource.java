@@ -29,14 +29,16 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.department.resource.DepartmentResource;
@@ -46,6 +48,7 @@ import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.helper.ItemHelper;
@@ -66,10 +69,10 @@ import ncr.res.mobilepos.store.resource.StoreResource;
 
 /**
  * ItemResource Web Resource Class
- *
+ * 
  * <P>
  * Supports MobilePOS Item Pricing/Search processes.
- *
+ * 
  */
 @Path("/pricing")
 @Api(value="/pricing", description="価格設定API")
@@ -129,7 +132,7 @@ public class ItemResource {
 
     /**
      * Sets the DaoFactory of the ItemResource to use the DAO methods.
-     *
+     * 
      * @param daoFactory
      *            The new value for the DAO Factory
      */
@@ -144,7 +147,7 @@ public class ItemResource {
      * Method called by the Web Service for retrieving the information of an
      * Item by specifying its Store ID and the Item's price Look Up.<br>
      * <br>
-     *
+     * 
      * Interface Name: Price Lookup<br>
      * Request Type: POST<br>
      * URL: {Base URI}/pricing/{storeid}/{plucode}<br>
@@ -199,7 +202,7 @@ public class ItemResource {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate);
-
+            
         } catch (DaoException daoEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_DAO,
                     "Failed to get the item details.\n" + daoEx.getMessage());
@@ -228,23 +231,23 @@ public class ItemResource {
 
         return searchedProduct;
     }
-
+    
     /**
      * Method called by the Web Service for retrieving a list of Items in a
      * particular Store. This is used by the Supervisor maintenance. *
-     *
+     * 
      * @param storeId
      *            The ID of the store which the Items are located
      * @param key
      *            The key used to search the Items by PLU
-     * @param name
+     * @param name 
      *            The name is used to search the Item by Name (En,Ja)
      * @param deviceId
      *            The device id
      * @param limit
-     *            Search Limit 0 = for SystemConfig.searchMaxResult
+     *            Search Limit 0 = for SystemConfig.searchMaxResult 
      *                        -1 = search all
-     *
+     *                         
      * @return The list of Items having Price Look Up code of same key
      */
     @Path("/list")
@@ -273,7 +276,7 @@ public class ItemResource {
             return searchproduct;
         }
 
-
+        
         List<Item> itemData = null;
         try {
             int searchLimit = (limit == 0) ? GlobalConstant
@@ -303,20 +306,20 @@ public class ItemResource {
 
         return searchproduct;
     }
-
+    
     /**
      * Method called by the Web Service for searching Items from a particular Store.
-     *
+     * 
      * @param storeId
      *            The ID of the store which the Items are located
      * @param key
      *            The key used to search the Items by PLU
-     * @param name
+     * @param name 
      *            The name is used to search the Item by Name (En,Ja)
      * @param limit
-     *            Search Limit 0 = for SystemConfig.searchMaxResult
+     *            Search Limit 0 = for SystemConfig.searchMaxResult 
      *                        -1 = search all
-     *
+     *                         
      * @return The list of Items having same key or name
      */
     @Path("/search")
@@ -330,13 +333,13 @@ public class ItemResource {
         @ApiResponse(code=ResultBase.RES_ITEM_MANUAL_SEARCH_NOTALLOWED, message="定価は正常でない")
     })
     public final SearchedProducts search(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
-    		@ApiParam(name="key", value="商品コード") @FormParam("key") final String key,
-    		@ApiParam(name="name", value="商品名") @FormParam("name") final String name,
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId, 
+    		@ApiParam(name="key", value="商品コード") @FormParam("key") final String key, 
+    		@ApiParam(name="name", value="商品名") @FormParam("name") final String name, 
     		@ApiParam(name="limit", value="制限条目") @FormParam("limit") final int limit) {
 
         String functionName = "ItemResource.search";
-
+        
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         	.println("storeid", storeId)
         	.println("key", key)
@@ -350,18 +353,18 @@ public class ItemResource {
         			ResultBase.RES_ITEM_MANUAL_SEARCH_NOTALLOWED);
             tp.println("Pricing is not normal.");
             tp.methodExit(searchedProducts);
-
+            
             return searchedProducts;
         }
-
+        
         List<Item> itemData = null;
         try {
-            int searchLimit = (limit == 0) ?
+            int searchLimit = (limit == 0) ? 
             		GlobalConstant.getMaxSearchResults() : limit;
-
+            
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
-            itemData = itemDAO.searchItems(storeId, key, name, searchLimit,
+            itemData = itemDAO.searchItems(storeId, key, name, searchLimit, 
             		Integer.valueOf(priceIncludeTax));
         } catch (DaoException daoEx) {
             LOGGER.logAlert(progname, functionName,
@@ -387,7 +390,7 @@ public class ItemResource {
 
     /**
      * The Web Method called to update Item's.
-     *
+     * 
      * @param storeId
      *            The Retail Store ID.
      * @param itemId
@@ -421,7 +424,7 @@ public class ItemResource {
         String functionname = "ItemResource.updateItem";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
                 .println("RetailStoreID", storeId).println("ItemID", itemId)
-                .println("Item", jsonItem);
+                .println("Item", jsonItem);      
 
         ItemMaintenance itemMaintenance = new ItemMaintenance();
         itemMaintenance.setStoreid(storeId);
@@ -432,7 +435,7 @@ public class ItemResource {
             tp.methodExit(itemMaintenance);
             return itemMaintenance;
         }
-
+        
         try {
             JsonMarshaller<Item> itemJsonMarshaller = new JsonMarshaller<Item>();
             Item item = itemJsonMarshaller.unMarshall(jsonItem, Item.class);
@@ -441,7 +444,7 @@ public class ItemResource {
             item.setUpdOpeCode(getOpeCode());
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String newStoreId = item.getRetailStoreId();
-
+            
             boolean  exists = itemDAO.isItemExists(storeId, itemId);
             if (!exists) {
                 Item returnItem = new Item();
@@ -449,12 +452,12 @@ public class ItemResource {
                 itemMaintenance.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 return itemMaintenance;
             }
-
+            
             if(newStoreId != null && (!storeId.equals(newStoreId) || !itemId.equals(item.getItemId()))){
                 boolean hasNoNewItem = StringUtility.isNullOrEmpty(item.getItemId());
-                String newStoreItemId = (hasNoNewItem) ? itemId: item.getItemId();
-                exists = itemDAO.isItemExists(newStoreId, newStoreItemId);
-
+                String newStoreItemId = (hasNoNewItem) ? itemId: item.getItemId();                
+                exists = itemDAO.isItemExists(newStoreId, newStoreItemId);         
+                
                 if (exists) {
                     Item  returnNewItem = new Item();
                     returnNewItem.setAgeRestrictedFlag(0);
@@ -462,8 +465,8 @@ public class ItemResource {
                     return itemMaintenance;
                 }
             }
-
-
+            
+            
             //validate item's store if exists
             if (!isEnterpriseStore(storeId) && !isEnterpriseStore(newStoreId)) {
                 StoreResource storeRes = new StoreResource();
@@ -478,8 +481,8 @@ public class ItemResource {
                     return itemMaintenance;
                 }
             }
-
-
+            
+           
 
             // validate item's store department if exists.
             if (null != item.getDepartment()) {
@@ -489,12 +492,12 @@ public class ItemResource {
                 if (viewDept.getNCRWSSResultCode() == ResultBase.RES_ERROR_DPTNOTFOUND) {
                     itemMaintenance
                             .setNCRWSSResultCode(ResultBase.RES_ITEM_DPT_NOT_EXIST);
-                    tp.println("Item's DepartmentID for Store with Store ID"
+                    tp.println("Item's DepartmentID for Store with Store ID" 
                             +  newStoreId + " does not exist.");
                     return itemMaintenance;
                 }
             }
-
+            
             Item updatedItem = itemDAO.updateItem(storeId, itemId, item);
             if (null == updatedItem) {
                 itemMaintenance
@@ -537,7 +540,7 @@ public class ItemResource {
 
     /**
      * Item Maintenance for changing the price of an item.
-     *
+     * 
      * @param storeID
      *            Store's store number
      * @param pluCode
@@ -623,7 +626,7 @@ public class ItemResource {
 
     /**
      * Deletes an item.
-     *
+     * 
      * @param storeId
      *            The storeid of an item.
      * @param itemId
@@ -654,7 +657,7 @@ public class ItemResource {
         try {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             boolean  itemExists = itemDAO.isItemExists(storeId, itemId);
-
+            
             if (!itemExists) {
                 Item returnItem = new Item();
                 returnItem.setAgeRestrictedFlag(0);
@@ -663,7 +666,7 @@ public class ItemResource {
                         .setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 return resultBase;
             }
-
+            
             resultBase = itemDAO.deleteItem(storeId, itemId);
 
         } catch (DaoException e) {
@@ -690,7 +693,7 @@ public class ItemResource {
 
     /**
      * The Web Method resource that gets the list of discount reason codes.
-     *
+     * 
      * @return The ReasonDataList object that contains the resultcode.
      */
     @Path("/getDiscountReason")
@@ -736,7 +739,7 @@ public class ItemResource {
 
     /**
      * The Web Method resource that gets the list of discount buttons.
-     *
+     * 
      * @return The ReasonDataList object that contains the resultcode.
      */
     @Path("/getDiscountButton")
@@ -782,7 +785,7 @@ public class ItemResource {
 
     /**
      * The Web Method resource for creating an item.
-     *
+     * 
      * @param storeId
      *            The Storeid intended for the item.
      * @param itemId
@@ -902,7 +905,7 @@ public class ItemResource {
         }
         return resultbase;
     }
-
+    
     /**
      * 商品検索用商品情報取得.
      *
@@ -913,7 +916,7 @@ public class ItemResource {
      * @param productNum
      * 			  品番.
      * @param color
-     *           カラー.
+     *           カラー. 
      * @param itemSize
      * 			サイズ
      * @param dpt
@@ -956,19 +959,19 @@ public class ItemResource {
 				.println("Dpt", dpt)
 				.println("VenderCode", venderCode)
 				.println("Annual", annual);
-
+		
 		SearchedProducts items = new SearchedProducts();
-
+		
 		try{
 			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 			IItemDAO iItemDAO = daoFactory.getItemDAO();
-
+			
 			//四捨五入の判断フラグ　１、大きな値（ceil）　２、小さい値（floor） 　３、四捨五入（round）
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
 
 			items = iItemDAO.getItemInfo(plu, mdName, productNum, color, itemSize,
 					dpt, venderCode, annual, priceIncludeTax);
-
+			
 		} catch (DaoException daoEx) {
 			LOGGER.logSnapException(progname, Logger.RES_EXCEP_DAO,
 					functionName
@@ -989,10 +992,10 @@ public class ItemResource {
 		}
 		return items;
     }
-
+    
     /**
 	 * ブランド商品情報取得.
-	 *
+	 * 
 	 * @param dpt
 	 *            Divコード
 	 * @param venderCode
@@ -1023,7 +1026,7 @@ public class ItemResource {
     		@ApiParam(name="VenderCode", value="メーカーコード") @QueryParam("VenderCode") final String venderCode,
     		@ApiParam(name="Annual", value="年度") @QueryParam("Annual") final String annual,
     		@ApiParam(name="Reservation", value="予約") @QueryParam("Reservation") final String reservation,
-    		@ApiParam(name="GroupId", value="グループコード") @QueryParam("GroupId") final String groupId,
+    		@ApiParam(name="GroupId", value="グループコード") @QueryParam("GroupId") final String groupId, 
     		@ApiParam(name="Line", value="ファイル行") @QueryParam("Line") final String line) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -1064,7 +1067,7 @@ public class ItemResource {
 		}
 		return brandProducts;
 	}
-
+    
     /**
      * Get The Item Price List.
      * @param transaction transaction
@@ -1079,7 +1082,7 @@ public class ItemResource {
     @ApiOperation(value="プロジェクトの価格表を獲得し", response=Item.class)
     public final List<Item> getItemsPrice(
     		@ApiParam(name="transaction", value="業務") @FormParam("transaction") String transaction,
-    		@ApiParam(name="StoreId", value="店舗コード") @FormParam("StoreId") String storeId,
+    		@ApiParam(name="StoreId", value="店舗コード") @FormParam("StoreId") String storeId, 
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String companyId ,
     		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -1120,10 +1123,10 @@ public class ItemResource {
         }
         return itemList;
     }
-
+    
     /**
 	 * グループとライン情報取得.
-	 *
+	 * 
 	 * @return GroupLines
 	 * 			     グループとライン情報
 	 */
@@ -1139,15 +1142,15 @@ public class ItemResource {
     public final GroupLines getGroupLines(){
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
-
+		
 		GroupLines groupLines = new GroupLines();
 		try {
 			DAOFactory daoFactory = DAOFactory
 					.getDAOFactory(DAOFactory.SQLSERVER);
 			IItemDAO iItemDAO = daoFactory.getItemDAO();
-
+			
 			groupLines = iItemDAO.getGroupLines();
-
+			
 		} catch (DaoException daoEx) {
 			LOGGER.logSnapException(progname, Logger.RES_EXCEP_DAO,
 					functionName + ": Failed to get Group Line　Info.", daoEx);
@@ -1168,7 +1171,7 @@ public class ItemResource {
     	return groupLines;
     }
     /**
-     *
+     * 
      * @param companyId
      * @param storeId
      * @param itemType
@@ -1204,10 +1207,10 @@ public class ItemResource {
         }
         return pickList;
     }
-
+    
     /**
      * Item entry for requesting item and promotion information.
-     *
+     * 
      * @param itemId The ItemId
      * @param companyId
      *            The companyId
@@ -1224,7 +1227,7 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
         })
     public final PromotionResponse getitementry(
-    		@ApiParam(name="itemId", value="プロジェクトコード") @FormParam("itemId") final String itemId,
+    		@ApiParam(name="itemId", value="プロジェクトコード") @FormParam("itemId") final String itemId, 
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("RetailStoreId", itemId).println("companyId", companyId);
@@ -1260,13 +1263,13 @@ public class ItemResource {
     }
     /**
      * Checks if storeid is an enterprise store(0).
-     *
+     * 
      * @param storeID
      *            to check.
      * @return true if an enterprise storeid, false if not.
      */
     private boolean isEnterpriseStore(final String storeID) {
-        return null != storeID && !storeID.isEmpty() &&
+        return null != storeID && !storeID.isEmpty() && 
         		"0".equals(storeID.trim());
     }
 
@@ -1275,7 +1278,7 @@ public class ItemResource {
 
     /**
      * Checks if is normal pricing.
-     *
+     * 
      * @return true, if is normal pricing
      */
     private boolean isNormalPricing() {

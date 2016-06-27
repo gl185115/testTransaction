@@ -25,11 +25,12 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -51,7 +52,7 @@ import ncr.res.mobilepos.store.model.Stores;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
- *
+ * 
  * @author AP185142
  * @author cc185102 - (July 10, 2012) Added List Store Web Method - (July 30,
  *         2012) Updated List Store Web Method. Added partial Search prefix when
@@ -95,7 +96,7 @@ public class StoreResource {
 
     /**
      * Service to view store details of given parameter storeid.
-     *
+     * 
      * @param retailStoreID
      *            storeid to lookup.
      * @return JSON type of Store.
@@ -150,11 +151,11 @@ public class StoreResource {
 
         return store;
     }
-
-
+    
+    
     /**
      * Service to view store details of given parameter storeid.
-     *
+     * 
      * @param retailStoreID
      *            storeid to lookup.
      * @return JSON type of Store.
@@ -213,7 +214,7 @@ public class StoreResource {
 
     /**
      * Service to create a Store for Store Table Maintenance.
-     *
+     * 
      * @param retailStoreID
      *            - Store number
      * @param store
@@ -273,7 +274,7 @@ public class StoreResource {
 
     /**
      * Service to delete store of given parameter storeid from database.
-     *
+     * 
      * @param retailStoreID
      *            storeid to lookup.
      * @return JSON type of Store.
@@ -331,7 +332,7 @@ public class StoreResource {
     }
     /**
      * Web Method called to list all stores within a company.
-     *
+     * 
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -347,7 +348,7 @@ public class StoreResource {
         })
     public final Stores searchStores(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="key", value="キー")@QueryParam("key") final String key,
+    		@ApiParam(name="key", value="キー")@QueryParam("key") final String key, 
     		@ApiParam(name="name", value="名")@QueryParam("name") final String name,
     		@ApiParam(name="limit", value="期限")@QueryParam("limit") final int searchLimit) {
     	String functionName = DebugLogger.getCurrentMethodName();
@@ -359,7 +360,7 @@ public class StoreResource {
         Stores stores = new Stores();
 
         try {
-            IStoreDAO storeDao = daoFactory.getStoreDAO();
+            IStoreDAO storeDao = daoFactory.getStoreDAO();            
             List<Store> storeList = storeDao.listStores(companyId, key, name, searchLimit);
             stores.setStorelist(storeList);
         } catch (DaoException ex) {
@@ -382,7 +383,7 @@ public class StoreResource {
 
     /**
      * Web Method called to update a store.
-     *
+     * 
      * @param storeid
      *            The retail Store id
      * @param storeJson
@@ -412,7 +413,7 @@ public class StoreResource {
 
         try {
             String appID = pathName.concat(".maintenance");
-            JsonMarshaller<Store> storeJsonMarshaller = new JsonMarshaller<Store>();
+            JsonMarshaller<Store> storeJsonMarshaller = new JsonMarshaller<Store>();             
             Store store = storeJsonMarshaller
                     .unMarshall(storeJson, Store.class);
             IStoreDAO storeDao = daoFactory.getStoreDAO();
@@ -448,7 +449,7 @@ public class StoreResource {
 
     /**
      * Web Method Called to retrieve Store Logo Information.
-     *
+     * 
      * @param retailStoreID
      *            The Retail Store ID.
      * @return The {@link ViewStore} containing the StoreLogo.
@@ -496,7 +497,7 @@ public class StoreResource {
 
             // Are there NO bytes of Store Logo Retrieved?
             // If yes, then Store Logo is invalid.
-            if (definedNVImgData == null || (definedNVImgData != null &&
+            if (definedNVImgData == null || (definedNVImgData != null && 
             		definedNVImgData.length == 0)) {
                 viewStore
                         .setNCRWSSResultCode(ResultBase.RES_STORE_LOGO_INVALID);
@@ -531,7 +532,7 @@ public class StoreResource {
 
     /**
      * RES-5500 Web Method Called to retrieve value.
-     *
+     * 
      * @param storecode
      *            The Store_Intern_Sys
      * @param usage
@@ -584,10 +585,10 @@ public class StoreResource {
         return ((context != null) && (context.getUserPrincipal()) != null) ? context
                 .getUserPrincipal().getName() : null;
     }
-
+    
     /**
      * Web Method called to list all stores within a company.
-     *
+     * 
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -601,10 +602,10 @@ public class StoreResource {
         })
     public final CMPresetInfos getCMPresetInfoList(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId, 
     		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalid") final String terminalId,
     		@ApiParam(name="businessdaydate", value="営業日")@QueryParam("businessdaydate") final String businessDayDate) {
-
+    	
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("getCMPresetInfoList")
             .println("companyid", companyId)
@@ -614,7 +615,7 @@ public class StoreResource {
         CMPresetInfos cmPresetInfos = new CMPresetInfos();
 
         try {
-            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();            
             List<CMPresetInfo> cmPresetInfoList = cmPresetDao.listCMPresetInfo(companyId, storeId, terminalId, businessDayDate);
             cmPresetInfos.setCMPresetInfoList(cmPresetInfoList);
         } catch (Exception ex) {
@@ -626,10 +627,10 @@ public class StoreResource {
         }
         return cmPresetInfos;
     }
-
+    
     /**
      * Web Method called to list all stores within a company.
-     *
+     * 
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -643,7 +644,7 @@ public class StoreResource {
         })
     public final PresetSroreInfo getCMPresetStoreInfo(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId, 
     		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalid") final String terminalId) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -653,7 +654,7 @@ public class StoreResource {
             .println("terminalid", terminalId);
         PresetSroreInfo presetsroreinfo = new PresetSroreInfo();
         try {
-            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();            
             presetsroreinfo= cmPresetDao.getPresetSroreInfo(companyId, storeId, terminalId);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -664,10 +665,10 @@ public class StoreResource {
         }
         return presetsroreinfo;
     }
-
+    
     /**
      * Web Method called to list all stores within a company.
-     *
+     * 
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -681,7 +682,7 @@ public class StoreResource {
         })
     public final JSONData getSummaryReceiptNo(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeId") final String storeId, 
     		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
 
@@ -693,7 +694,7 @@ public class StoreResource {
             .println("terminalid", terminalId)
             .println("traning", traning);
         try {
-            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();            
             json.setJsonObject(cmPresetDao.getSummaryReceiptNo(companyId, storeId, terminalId,traning));
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -706,7 +707,7 @@ public class StoreResource {
     }
     /**
      * Web Method called to list all stores within a company.
-     *
+     * 
      * @param key
      *            The key of the Store(s) to be search.
      * @return The Stores JSON Object containing the list of stores.
@@ -722,7 +723,7 @@ public class StoreResource {
     public final JSONData updateSummaryReceiptNo(
     		@ApiParam(name="SubNum1", value="予約")@QueryParam("SubNum1") final int SubNum1,
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店舗コード")@QueryParam("storeId") final String storeId, 
     		@ApiParam(name="terminalId", value="POSコード")@QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
 

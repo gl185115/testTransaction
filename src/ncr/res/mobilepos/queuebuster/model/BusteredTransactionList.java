@@ -16,8 +16,9 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -37,7 +38,7 @@ public class BusteredTransactionList extends ResultBase {
 
 	/**
 	 * Constructor.
-	 *
+	 * 
 	 * @param resultCode
 	 *            The resulting error code.
 	 * @param extendedResultCode

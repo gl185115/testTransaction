@@ -681,7 +681,7 @@ LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @CompanyId
+    AND info.CompanyId = @companyId
     AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
@@ -724,7 +724,7 @@ LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @CompanyId
+    AND info.CompanyId = @companyId
     AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))

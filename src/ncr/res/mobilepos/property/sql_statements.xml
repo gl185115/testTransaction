@@ -5956,7 +5956,7 @@ ORDER BY
     SET Skip = ?
   </entry>
   <entry key="select-date-setting">
-    SELECT
+    SELECT DISTINCT TOP 1
       CompanyId,
       StoreId,
       TodayDate,
@@ -5965,7 +5965,10 @@ ORDER BY
     FROM
       RESMaster.dbo.MST_BIZDAY
     WHERE
-      CompanyId = ? AND StoreId = ? AND DeleteFlag = 0
+      CompanyId in (?,0) AND StoreId in (?,0) AND
+      DeleteFlag = 0
+    ORDER BY
+      StoreId DESC, CompanyId DESC
   </entry>
 
   <!-- *************************  ENTRY KEY FOR DEVICE LOG TABLE ************************* -->

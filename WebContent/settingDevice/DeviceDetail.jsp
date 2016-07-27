@@ -346,6 +346,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
             sqlStr += " ,printinfo.PrinterId   AS mpi_PrinterId   ";
             sqlStr += " ,printinfo.PrinterName AS mpi_PrinterName ";
             sqlStr += " ,printinfo.IpAddress   AS mpi_IpAddress   ";
+            sqlStr += " ,printinfo.PortNumTcp  AS mpi_PortNumTcp  ";
             sqlStr += " ,printinfo.Description AS mpi_Description ";
             sqlStr += " ,printinfo.DeleteFlag  AS mpi_DeleteFlag  ";
             sqlStr += " ,printinfo.Status      AS mpi_Status      ";
@@ -479,6 +480,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                 // ～List:6
                 MstPrinterinfoList.add(rs.getString("mpi_DeleteFlag"));
                 MstPrinterinfoList.add(rs.getString("mpi_Status"));
+                MstPrinterinfoList.add(rs.getString("mpi_PortNumTcp"));
 
                 // MST_TILLIDINFO
                 ArrayList<String> MstTillidinfoList = new ArrayList<String>();
@@ -767,6 +769,12 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td><input type="text" id="pda_Attribute7" name="pda_Attribute7" value="<%=PrmDeviceAttributeLists.get(0).get(13)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_pda_Attribute7" name="tra_pda_Attribute7" value="<%=PrmDeviceAttributeLists.get(1).get(13)%>"  disabled style="width: 100%" ></td>
                 </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性８(Attribute8)</td>
+                    <td><input type="text" id="pda_Attribute8" name="pda_Attribute8" value="<%=PrmDeviceAttributeLists.get(0).get(14)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute4" name="tra_pda_Attribute4" value="<%=PrmDeviceAttributeLists.get(1).get(14)%>"  disabled style="width: 100%" ></td>
+                </tr>
+
 <!--
                 <tr>
                     <td colspan="2" class="orangetd">属性８(Attribute8)</td>
@@ -820,6 +828,11 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td colspan="2" class="orangetd">プリンターIPアドレス(PrinterIPAddress)</td>
                     <td><input type="text" id="mpi_IpAddress" name="mpi_IpAddress" value="<%= MstPrinterinfoLists.get(0).get(5)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_mpi_IpAddress" name="tra_mpi_IpAddress" value="<%= MstPrinterinfoLists.get(1).get(5)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">プリンターTCPポート番号(PortNumTcp)</td>
+                    <td><input type="text" id="mpi_PortNumTcp" name="mpi_PortNumTcp" value="<%= MstPrinterinfoLists.get(0).get(8)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_mpi_PortNumTcp" name="tra_mpi_PortNumTcp" value="<%= MstPrinterinfoLists.get(1).get(8)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
                     <td colspan="2" class="orangetd">ステータス(Status)</td>

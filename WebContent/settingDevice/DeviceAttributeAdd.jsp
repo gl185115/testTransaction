@@ -35,6 +35,8 @@ ArrayList<String> ATT6_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT6_NAME = new ArrayList<String>() {{add("精算後シャットダウンしない"); add("精算後シャットダウンする");}};
 ArrayList<String> ATT7_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しない"); add("SDMC初期化する");}};
+ArrayList<String> ATT8_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add("スワイプ式");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -62,9 +64,9 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 			sqlStr = "INSERT INTO RESMaster.dbo.PRM_DEVICE_ATTRIBUTE"
 					+ "(AttributeId, Description, Printer, Till, CreditTerminal, MSR, CashChanger, "
 					+ "Attribute1, Attribute2, Attribute3, Attribute4, Attribute5, "
-					+ "Attribute6, Attribute7)"
+					+ "Attribute6, Attribute7, Attribute8)"
 //					+ "Attribute6, Attribute7, Attribute8, Attribute9, Attribute10)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 //					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			Date nowDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -85,7 +87,7 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 			psIns.setString(12, request.getParameter("Attribute5"));
 			psIns.setString(13, request.getParameter("Attribute6"));
 			psIns.setString(14, request.getParameter("Attribute7"));
-//			psIns.setString(15, request.getParameter("Attribute8"));
+			psIns.setString(15, request.getParameter("Attribute8"));
 //			psIns.setString(16, request.getParameter("Attribute9"));
 //			psIns.setString(17, request.getParameter("Attribute10"));
 
@@ -120,7 +122,7 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 </head>
 <body class="res-maincontent">
 属性登録<br><br>
- ※下記すべて入力し、最後に登録を押下してください。　<br><br>
+ ※下記すべて入力し、最後に登録を押下してください。<br><br>
 <label class="res-err-msg"><%out.println(errString); %></label>
 <label class="res-info-msg"><%out.println(infoString); %></label>
 
@@ -290,11 +292,20 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 					</select>
 				</td>
 			</tr>
-<!--			<tr>
-				<td class="center">属性８</td>
-				<td><input maxlength="4" type="text" name="Attribute8" id="Attribute89" size=4></td>
-			</tr>
-			<tr>
+            <tr>
+                <td align="right">属性８ ： </td>
+                <td align="left">
+                    <select name="Attribute8" id="Attribute8" required>
+                    <%
+                        for (int i=0;i<ATT8_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT8_VAL.get(i) + "\"");
+                            out.println(">" + ATT8_VAL.get(i) +" : " + ATT8_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
+<!--		<tr>
 				<td class="center">属性９</td>
 				<td><input maxlength="4" type="text" name="Attribute9" id="Attribute9" size=4></td>
 			</tr>
@@ -336,6 +347,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('Attribute5').value);
         valueList.push(document.getElementById('Attribute6').value);
         valueList.push(document.getElementById('Attribute7').value);
+        valueList.push(document.getElementById('Attribute8').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

@@ -2113,14 +2113,14 @@ ORDER BY
   </entry>
 
   <entry key="get-bussiness-date">
-    SELECT DISTINCT TOP 1
-      StoreId, TodayDate
-    FROM
-      RESMaster.dbo.MST_BIZDAY
-    WHERE
-      CompanyId = ? AND StoreId in (?, '0')
-    ORDER BY
-      StoreId DESC
+      SELECT TOP 1
+          StoreId, TodayDate
+      FROM
+          RESMaster.dbo.MST_BIZDAY
+      WHERE
+          CompanyId in (?, '0') AND StoreId in (?, '0')
+      ORDER BY
+          StoreId DESC, CompanyId DESC
   </entry>
   <entry key="select-txs-by-txid">
     SELECT
@@ -10824,39 +10824,25 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       DeleteFlag = 0.0
   </entry>
   <entry key="get-buyadditional-info-all">
-    DECLARE
-      @companyId varchar(max),
-      @storeId varchar(max)
-
-    SET @companyId = ?
-    SET @storeId = ?
-
-    IF NOT EXISTS (
       SELECT
-        *
+          BASE.*
       FROM
-        RESMaster.dbo.MST_BUYADDITIONALINFO
-      WHERE
-      CompanyId = @companyId AND
-      StoreId = @storeId AND
-      DeleteFlag = 0.0
-    )
-      SET @storeId = '0'
-
-    SELECT
-      CompanyId,
-      StoreId,
-      BuyAdditionalInfoId,
-      BuyAdditionalInfoName,
-      BuyAdditionalInfoKanaName,
-      BuyAdditionalInfoShortName,
-      BuyAdditionalInfoShortKanaName
-    FROM
-      RESMaster.dbo.MST_BUYADDITIONALINFO
-    WHERE
-      CompanyId = @companyId AND
-      StoreId = @storeId AND
-      DeleteFlag = 0.0
+          RESMaster.dbo.MST_BUYADDITIONALINFO as BASE
+              INNER JOIN
+              /** SubQuery selects top-priority combination of CompanyId and StoreId regarding '0' id **/
+              (SELECT TOP 1
+                CompanyId, StoreId
+              FROM
+                RESMaster.dbo.MST_BUYADDITIONALINFO
+              WHERE
+                CompanyId in (?, 0) AND
+                StoreId in (?, 0) AND
+                DeleteFlag = 0.0
+              GROUP BY
+                CompanyId, StoreId
+              ORDER BY CompanyId desc, StoreId desc)
+                AS SHARED_ID_PRIORITY
+              ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND SHARED_ID_PRIORITY.StoreId = BASE.StoreId
   </entry>
   <entry key="get-credit-summary">
     DECLARE

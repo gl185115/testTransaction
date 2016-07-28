@@ -10672,48 +10672,32 @@ IF @TargetType &gt; '0'
 SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
   </entry>
   <entry key="get-card-class-info-all">
-    DECLARE
-      @companyId varchar(max),
-      @storeId varchar(max),
-      @cardClassId varchar(max)
-
-    SET @companyId = ?
-    SET @storeId = ?
-    SET @cardClassId = NULLIF(?, '')
-
-    IF NOT EXISTS (
       SELECT
-        CompanyId,
-        StoreId,
-        CardClassId
+          BASE.*
       FROM
-        RESMaster.dbo.MST_CARD_CLASSINFO
+          RESMaster.dbo.MST_CARD_CLASSINFO as BASE
+      INNER JOIN
+          /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+          (SELECT
+              TOP 1
+              CompanyId, StoreId
+              FROM
+              RESMaster.dbo.MST_CARD_CLASSINFO
+          WHERE
+              CompanyId in (?, 0) AND
+              StoreId in (?, 0) AND
+              CardClassId = COALESCE(?, CardClassId) AND
+              DeleteFlag = 0.0
+          GROUP BY
+              CompanyId, StoreId
+              ORDER BY CompanyId desc, StoreId desc)
+          AS SHARED_ID_PRIORITY
+          ON
+          BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+          BASE.StoreId = SHARED_ID_PRIORITY.StoreId
       WHERE
-        CompanyId = @companyId AND
-        StoreId = @storeId AND
-        CardClassId = COALESCE(@cardClassId, CardClassId) AND
-        DeleteFlag = 0.0
-    )
-      SET @storeId = '0'
-
-    SELECT
-      CompanyId,
-      StoreId,
-      CardClassId,
-      CardClassName,
-      CardClassKanaName,
-      CardClassShortName,
-      CardClassShortKanaName,
-      CreditType,
-      MaincardDigitType,
-      RankType
-    FROM
-      RESMaster.dbo.MST_CARD_CLASSINFO
-    WHERE
-      CompanyId = @companyId AND
-      StoreId = @storeId AND
-      CardClassId = COALESCE(@cardClassId, CardClassId) AND
-      DeleteFlag = 0.0
+          BASE.CardClassId = COALESCE(?, CardClassId) AND
+          BASE.DeleteFlag = 0.0
   </entry>
   <entry key="get-card-class-info-member">
     DECLARE
@@ -10842,7 +10826,10 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
                 CompanyId, StoreId
               ORDER BY CompanyId desc, StoreId desc)
                 AS SHARED_ID_PRIORITY
-              ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+              ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND
+                 SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+      WHERE
+           BASE.DeleteFlag = 0.0
   </entry>
   <entry key="get-credit-summary">
     DECLARE

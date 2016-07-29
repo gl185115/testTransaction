@@ -11419,9 +11419,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND
       DeleteFlag = 0.0
     AND(
-         (CMType ='1' AND BizCatId = '00' AND StoreId = '0000' AND TerminalId = '0000')
-        OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0000' AND TerminalId = '0000')
-        OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0000')
+         (CMType ='1' AND BizCatId = '00' AND StoreId = '0' AND TerminalId = '0')
+        OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0' AND TerminalId = '0')
+        OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0')
         OR (CMType ='4' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = @terminalId)
     )
  ORDER BY CMType DESC,UpdDate DESC

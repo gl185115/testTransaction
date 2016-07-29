@@ -2395,46 +2395,32 @@ ORDER BY
     </entry>
 
     <entry key="get-systemnames">
-      DECLARE
-        @companyId varchar(max),
-        @storeId varchar(max),
-        @nameCategory varchar(max)
-
-      SET @companyId = ?
-      SET @storeId = ?
-      SET @nameCategory = ?
-
-      IF NOT EXISTS (
         SELECT
-          CompanyId,
-          StoreId,
-          NameCategory,
-          NameId
+            BASE.*
         FROM
-          RESMaster.dbo.MST_NAME_SYSTEM
+            RESMaster.dbo.MST_NAME_SYSTEM as BASE
+        INNER JOIN
+            /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+            (SELECT TOP 1
+                CompanyId, StoreId
+            FROM
+                RESMaster.dbo.MST_NAME_SYSTEM
+            WHERE
+                CompanyId in (? , '0') AND
+                StoreId in (?, '0') AND
+                NameCategory = ? AND
+                DeleteFlag = 0.0
+            GROUP BY
+                CompanyId, StoreId
+                ORDER BY CompanyId desc, StoreId desc)
+                AS SHARED_ID_PRIORITY
+        ON
+            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
         WHERE
-          CompanyId = @companyId AND
-          StoreId = @storeId AND
-          NameCategory = @nameCategory AND
-          DeleteFlag = 0.0
-      )
-        SET @storeId = '0'
-
-      SELECT
-        CompanyId,
-        StoreId,
-        NameCategory,
-        NameId,
-        NameText,
-        NameIdName
-      FROM
-        RESMaster.dbo.MST_NAME_SYSTEM
-      WHERE
-        CompanyId = @companyId AND
-        StoreId = @storeId AND
-        NameCategory = @nameCategory AND
-        DeleteFlag = 0.0
-      ORDER BY DisplayOrder
+            BASE.NameCategory = ? AND
+            BASE.DeleteFlag = 0.0
+        ORDER BY BASE.DisplayOrder;
     </entry>
 
  <entry key="get-all-salesPerson">

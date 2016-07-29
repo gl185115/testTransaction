@@ -10723,39 +10723,27 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       typeInfo.DeleteFlag = 0.0
   </entry>
   <entry key="get-nationality-info-all">
-    DECLARE
-      @companyId varchar(max),
-      @storeId varchar(max)
-
-    SET @companyId = ?
-    SET @storeId = ?
-
-    IF NOT EXISTS (
       SELECT
-        *
+        BASE.*
       FROM
-        RESMaster.dbo.MST_NATIONALITYINFO
+          RESMaster.dbo.MST_NATIONALITYINFO as BASE
+      INNER JOIN
+      /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+          (SELECT TOP 1
+              CompanyId, StoreId
+          FROM
+              RESMaster.dbo.MST_NATIONALITYINFO
+          WHERE
+              CompanyId in (?, '0') AND
+              StoreId in (?, '0') AND
+              DeleteFlag = 0.0
+          GROUP BY
+              CompanyId, StoreId
+          ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
+          ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND
+          SHARED_ID_PRIORITY.StoreId = BASE.StoreId
       WHERE
-          CompanyId = @companyId AND
-          StoreId = @storeId AND
-          DeleteFlag = 0.0
-    )
-      SET @storeId = '0'
-
-    SELECT
-      CompanyId,
-      StoreId,
-      NationalityId,
-      NationalityName,
-      NationalityKanaName,
-      NationalityShortName,
-      NationalityShortKanaName
-    FROM
-      RESMaster.dbo.MST_NATIONALITYINFO
-    WHERE
-      CompanyId = @companyId AND
-      StoreId = @storeId AND
-      DeleteFlag = 0.0
+          BASE.DeleteFlag = 0;
   </entry>
   <entry key="get-customer-class-info-all">
       SELECT

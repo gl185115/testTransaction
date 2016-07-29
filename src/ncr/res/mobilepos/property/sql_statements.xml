@@ -10772,40 +10772,27 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       DeleteFlag = 0.0
   </entry>
   <entry key="get-customer-class-info-all">
-    DECLARE
-      @companyId varchar(max),
-      @storeId varchar(max)
-
-    SET @companyId = ?
-    SET @storeId = ?
-
-    IF NOT EXISTS (
       SELECT
-        *
+          BASE.*
       FROM
-        RESMaster.dbo.MST_CUSTOMERCLASS
+         RESMaster.dbo.MST_CUSTOMERCLASS as BASE
+              INNER JOIN
+              /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+              (SELECT TOP 1
+                CompanyId, StoreId
+              FROM
+                RESMaster.dbo.MST_CUSTOMERCLASS
+              WHERE
+                CompanyId in (?, '0') AND
+                StoreId in (?, '0') AND
+                DeleteFlag = 0.0
+              GROUP BY
+                CompanyId, StoreId
+              ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
+              ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND
+                 SHARED_ID_PRIORITY.StoreId = BASE.StoreId
       WHERE
-          CompanyId = @companyId AND
-          StoreId = @storeId AND
-          DeleteFlag = 0.0
-    )
-      SET @storeId = '0000'
-
-    SELECT
-      CompanyId,
-      StoreId,
-      CustomerClassId,
-      CustomerClassName,
-      CustomerClassKanaName,
-      GenerationType,
-      SexType,
-      OtherType
-    FROM
-      RESMaster.dbo.MST_CUSTOMERCLASS
-    WHERE
-      CompanyId = @companyId AND
-      StoreId = @storeId AND
-      DeleteFlag = 0.0
+          BASE.DeleteFlag = 0;
   </entry>
   <entry key="get-buyadditional-info-all">
       SELECT
@@ -11301,7 +11288,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
     GROUP BY
       CompanyId, StoreId
     ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
-  ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+    ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+  WHERE
+    BASE.DeleteFlag = 0.0
 </entry>
 <entry key="get-lock-status">
     DECLARE
@@ -11829,8 +11818,18 @@ insert into txl_offline_credit
     SET @trainingFlag = ?
     SET @retailstoreid = @storeId
 
-    IF NOT EXISTS(SELECT DataType FROM RESMaster.dbo.MST_NAME_DAILYREPORT WHERE StoreId = @storeId)
-      SET @storeId = '0'
+    SELECT TOP 1
+        @companyId = CompanyId,
+        @storeId = StoreId
+    FROM
+        RESMaster.dbo.MST_NAME_DAILYREPORT
+    WHERE
+        CompanyId in (@companyId, 0) AND
+        StoreId in (@storeId, 0) AND
+        DeleteFlag = 0.0
+    GROUP BY
+        CompanyId, StoreId
+    ORDER BY CompanyId desc, StoreId desc
 
     SELECT
       a.CompanyId,

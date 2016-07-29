@@ -11161,50 +11161,32 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TrainingFlag = @trainingFlag
   </entry>
 <entry key="get-card-type-info">
-        DECLARE
-          @companyId varchar(max),
-          @storeId varchar(max),
-          @cardTypeNo varchar(max)
-
-        SET @companyId = ?
-        SET @storeId = ?
-        SET @cardTypeNo = ?
-
-        SELECT
-          CompanyId,
-          StoreId,
-          CardTypeId,
-          CardTypeName,
-          CardTypeKanaName,
-          CardTypeShortName,
-          CardTypeShortKanaName,
-          TerminalCompanyId,
-          CardClassId,
-          MemberType,
-          MemberRank,
-          NewRegistFlag,
-          CardMergeFlag,
-          PointExpDatePrintFlag,
-          DisplayDigitType,
-          PrintDigitType,
-          CardCategory,
-          PointAllowanceFlag,
-          PointExpDateAddMonth,
-          SubCode1,
-          UCUseArea,
-          PrefixCode16From,
-          PrefixCode16To,
-          PrefixCode13,
-          CardStatusType,
-          MagneticDataType,
-          OwnCreditFlag
+    SELECT
+        BASE.*
+    FROM
+        RESMaster.dbo.MST_CARD_TYPEINFO as BASE
+        INNER JOIN
+        /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+        (SELECT
+            TOP 1
+            CompanyId, StoreId
         FROM
-          RESMaster.dbo.MST_CARD_TYPEINFO
+            RESMaster.dbo.MST_CARD_TYPEINFO
         WHERE
-          CompanyId = @companyId AND
-          StoreId = @storeId AND
-          CardTypeId = @cardTypeNo AND
-          DeleteFlag = 0.0
+            CompanyId in (?, '0') AND
+            StoreId in (?, '0') AND
+            CardTypeId = ? AND
+            DeleteFlag = 0.0
+            GROUP BY
+            CompanyId, StoreId
+        ORDER BY CompanyId desc, StoreId desc)
+        AS SHARED_ID_PRIORITY
+        ON
+            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+    WHERE
+        BASE.CardTypeId = ? AND
+        BASE.DeleteFlag = 0.0
   </entry>
   <entry key="get-last-pay-tx-poslog">
     DECLARE
@@ -11302,50 +11284,26 @@ SET @partialFlag = LTRIM(RTRIM(?))
   AND DeleteFlag = 0.0
 </entry>
 <entry key="get-all-card-type-info">
-        DECLARE
-          @companyId varchar(max),
-          @storeId varchar(max)
-
-        SET @companyId = ?
-        SET @storeId = ?
-
-        SELECT
-          CompanyId,
-          StoreId,
-          CardClassId,
-          CardTypeId,
-          CardTypeName,
-          CardTypeKanaName,
-          CardTypeShortName,
-          CardTypeShortKanaName,
-          TerminalCompanyId,
-          CardClassId,
-          MemberType,
-          MemberRank,
-          NewRegistFlag,
-          CardMergeFlag,
-          PointExpDatePrintFlag,
-          DisplayDigitType,
-          PrintDigitType,
-          CardCategory,
-          PointAllowanceFlag,
-          PointExpDateAddMonth,
-          SubCode1,
-          UCUseArea,
-          PrefixCode16From,
-          PrefixCode16To,
-          PrefixCode13,
-          CardStatusType,
-          MagneticDataType,
-          OwnCreditFlag
-        FROM
-          RESMaster.dbo.MST_CARD_TYPEINFO
-        WHERE
-          CompanyId = @companyId AND
-          StoreId = @storeId AND
-          DeleteFlag = 0.0
-  </entry>
-  <entry key="get-lock-status">
+  SELECT
+    BASE.*
+  FROM
+    RESMaster.dbo.MST_CARD_TYPEINFO as BASE
+    INNER JOIN
+    /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+    (SELECT TOP 1
+      CompanyId, StoreId
+    FROM
+      RESMaster.dbo.MST_CARD_TYPEINFO
+    WHERE
+      CompanyId in (?, '0') AND
+      StoreId in (?, '0') AND
+      DeleteFlag = 0.0
+    GROUP BY
+      CompanyId, StoreId
+    ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
+  ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+</entry>
+<entry key="get-lock-status">
     DECLARE
       @companyId varchar(max),
       @retailStoreId varchar(max),

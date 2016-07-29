@@ -151,6 +151,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
                 statement.setString(SQLStatement.PARAM1, companyId);
                 statement.setString(SQLStatement.PARAM2, storeId);
                 statement.setString(SQLStatement.PARAM3, cardTypeNo);
+                statement.setString(SQLStatement.PARAM4, cardTypeNo);
             }
             result = statement.executeQuery();
             while (result.next()) {

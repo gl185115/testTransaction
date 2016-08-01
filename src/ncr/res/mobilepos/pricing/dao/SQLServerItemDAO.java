@@ -414,9 +414,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     /**
      * Retrieves Department Details.
      *
-     * @param dpt
-     *            Department number
-     * @param storeID
+     * @param retailStoreID
      *            Store number
      * @throws DaoException
      *             Exception when error occurs
@@ -1193,14 +1191,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * Gets the information of a single item by specifying the Store ID and and
      * its corresponding PLU code.
      *
-     * @param storeid
-     *            The Store ID which the item is located
-     * @param pluCode
-     *            The Item's Price Look Up Code
-     * @param bussinessDate
-     *            The date 
-     * @param EventId
-     *            The EventId
+     * @param   storeid  The Store ID which the item is located
+     * @param   pluCode  The Item's Price Look Up Code
+     * @param   companyId The companyId Id
+     * @param   priceIncludeTax The Price Include Tax
+     * @param   bussinessDate The bussinessDate
      * @return The details of the particular item
      * @throws DaoException
      *             Exception thrown when getting the item information failed.
@@ -1223,8 +1218,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     *            Flag that tells that should be fixed.
     * @param bussinessDate
     *            The bussinessDate
-    * @param EventId
-    *            The EventId
     * @return The details of the particular item
     * @throws DaoException
     *             Exception thrown when getting the item information failed.
@@ -1939,7 +1932,13 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             select = connection.prepareStatement(sqlStatement.getProperty("get-picklist-items"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, storeId);
-            select.setString(SQLStatement.PARAM3, itemType);
+            if(itemType == null || itemType.isEmpty()) {
+                select.setNull(SQLStatement.PARAM3, java.sql.Types.NULL);
+                select.setNull(SQLStatement.PARAM4, java.sql.Types.NULL);
+            } else {
+                select.setString(SQLStatement.PARAM3, itemType);
+                select.setString(SQLStatement.PARAM4, itemType);
+            }
             result = select.executeQuery();
             int itemtype = 0;
             itemTypes[itemtype] = new PickListItemType();

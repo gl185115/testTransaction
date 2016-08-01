@@ -11427,41 +11427,37 @@ SET @partialFlag = LTRIM(RTRIM(?))
  ORDER BY CMType DESC,UpdDate DESC
 
   </entry>
+
   <entry key="get-picklist-items">
-    DECLARE
-      @companyId varchar(12),
-      @storeId varchar(10),
-      @itemType varchar(10)
-
-      SET @companyId = ?
-      SET @storeId = ?
-      SET @itemType = ?
-
-    IF NOT EXISTS (
-      SELECT
-        CompanyId, StoreId, RecordId
+    SELECT
+      BASE.*
+    FROM
+      RESMaster.dbo.MST_PRESET_TOUCHITEM as BASE
+    INNER JOIN
+      /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+      (SELECT TOP 1
+        CompanyId, StoreId
       FROM
         RESMaster.dbo.MST_PRESET_TOUCHITEM
       WHERE
-        CompanyId = @companyId AND
-        StoreId = @storeId AND
-        ItemType = COALESCE(@itemType, ItemType) AND
+        CompanyId in (?, 0) AND
+        StoreId in (?, 0) AND
+        ItemType = COALESCE(?, ItemType) AND
         DeleteFlag = 0.0
-    )
-     SET @storeId = '0000'
-
-    SELECT
-      CompanyId, StoreId, RecordId, ItemType, DisplayOrder, MdInternal, ItemName
-    FROM
-      RESMaster.dbo.MST_PRESET_TOUCHITEM
+      GROUP BY
+        CompanyId, StoreId
+      ORDER BY CompanyId desc, StoreId desc)
+    AS SHARED_ID_PRIORITY
+    ON
+      BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+      BASE.StoreId = SHARED_ID_PRIORITY.StoreId
     WHERE
-      CompanyId = @companyId AND
-      StoreId = @storeId AND
-      ItemType = COALESCE(@itemType, ItemType) AND
-      DeleteFlag = 0.0
+      BASE.ItemType = COALESCE(?, ItemType) AND
+      BASE.DeleteFlag = 0.0
     ORDER BY
       ItemType, DisplayOrder
   </entry>
+
   <entry key="get-preset-storeinfo">
     DECLARE @companyId VARCHAR(12),@storeId VARCHAR(10),@TerminalId VARCHAR(6)
     SET @companyId = ?

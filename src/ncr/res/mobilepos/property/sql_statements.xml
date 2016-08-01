@@ -10825,71 +10825,35 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       TrainingFlag
   </entry>
   <entry key="get-barcode-type">
-  DECLARE
-      @storeId varchar(max),
-      @companyId varchar(max),
-      @cardType varchar(max),
-      @seqNo int,
-      @discountType varchar(max)
-
-    SET @storeId = ?
-    SET @companyId = ?
-    SET @cardType = ?
-    SET @seqNo = ?
-    SET @discountType = ?
-
-    IF NOT EXISTS (
       SELECT
-        *
+          BASE.*
       FROM
-        RESMaster.dbo.MST_PRICE_DISCOUNT
+          RESMaster.dbo.MST_PRICE_DISCOUNT as BASE
+      INNER JOIN
+          /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+          (SELECT TOP 1
+              CompanyId, StoreId
+            FROM
+              RESMaster.dbo.MST_PRICE_DISCOUNT
+            WHERE
+              CompanyId in (? , '0') AND
+              StoreId in (?, '0') AND
+              CardType = ? AND
+             SeqNo = ? AND
+              DiscountType = ? AND
+              DeleteFlag = 0.0
+            GROUP BY
+              CompanyId, StoreId
+            ORDER BY CompanyId desc, StoreId desc)
+      AS SHARED_ID_PRIORITY
+      ON
+        BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+        BASE.StoreId = SHARED_ID_PRIORITY.StoreId
       WHERE
-        StoreId = @storeId  AND
-        CompanyId = @companyId AND
-        CardType = @cardType AND
-        SeqNo = @seqNo AND
-        DiscountType = @discountType AND
-        DeleteFlag = 0.0
-    )
-      SET @storeId = '0'
-
-  SELECT
-    CompanyId,
-    StoreId,
-    CardType,
-    SeqNo,
-    SubNo,
-    DiscountType,
-    DiscountClass,
-    Dpt,
-    MdInternal,
-    DiscountRefType,
-    DiscountValue,
-    StartDate,
-    EndDateRefType,
-    EndDate,
-    EntryDate,
-    DiscountName,
-    SubCode1,
-    SubCode2,
-    SubCode3,
-    SubCode4,
-    SubCode5,
-    SubNum1,
-    SubNum2,
-    SubNum3,
-    SubNum4,
-    SubNum5,
-    DeleteFlag
-  FROM
-    RESMaster.dbo.MST_PRICE_DISCOUNT
-  WHERE
-    StoreId = @storeId AND
-    CompanyId = @companyId AND
-    CardType = @cardType AND
-    SeqNo = @seqNo AND
-    DiscountType = @discountType AND
-    DeleteFlag = 0.0
+        BASE.CardType = ? AND
+        BASE.SeqNo = ? AND
+        BASE.DiscountType = ? AND
+        BASE.DeleteFlag = 0.0
   </entry>
   <entry key="get-voucher-list">
     DECLARE

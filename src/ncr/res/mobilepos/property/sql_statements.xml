@@ -10899,59 +10899,39 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
 
   </entry>
 <entry key = "get-promotioninfo-type">
-DECLARE
-    @companyId VARCHAR (MAX),
-    @storeId VARCHAR (MAX),
-    @promotionId VARCHAR (MAX),
-    @discountReason VARCHAR (MAX),
-    @discountBarcodeType VARCHAR (MAX),
-    @partialFlag VARCHAR (MAX)
-SET @companyId = LTRIM(RTRIM(?))
-SET @storeId = LTRIM(RTRIM(?))
-SET @discountReason = LTRIM(RTRIM(?))
-SET @discountBarcodeType = LTRIM(RTRIM(?))
-SET @partialFlag = LTRIM(RTRIM(?))
     SELECT
-        CompanyId,
-        StoreId,
-        PromotionId,
-        PromotionName,
-        ReceiptName,
-        DiscountReason,
-        DiscountReasonName,
-        PromotionType,
-        DiscountType,
-        InputFlag,
-        PartialFlag,
-        RateDiscountFlag,
-        PriceDiscountFlag,
-        ButtonFlag,
-        BarcodeFlag,
-        BarcodeDigit,
-        BarcodeStartCode,
-        BarcodeEndCode,
-        BarcodeIdCode1,
-        BarcodeIdStartIndex1,
-        BarcodeIdStartDigit1,
-        BarcodeIdCode2,
-        BarcodeIdStartIndex2,
-        BarcodeIdStartDigit2,
-        PointCombinationUseFlag,
-        PointAddFlag,
-        DiscountBarcodeType,
-        DeleteFlag
+        BASE.*
     FROM
-        RESMaster.dbo.MST_PRICE_PROMOTION
+        RESMaster.dbo.MST_PRICE_PROMOTION as BASE
+    INNER JOIN
+    /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+        (SELECT TOP 1
+            CompanyId, StoreId
+        FROM
+            RESMaster.dbo.MST_PRICE_PROMOTION
+        WHERE
+            CompanyId in (?, '0') AND
+            StoreId in (?, '0') AND
+            PartialFlag = ? AND
+            (
+                DiscountReason = ?
+                OR  DiscountBarcodeType = ?
+            ) AND
+            DeleteFlag = 0.0
+        GROUP BY
+            CompanyId, StoreId
+        ORDER BY CompanyId desc, StoreId desc)
+        AS SHARED_ID_PRIORITY
+        ON
+        BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+        BASE.StoreId = SHARED_ID_PRIORITY.StoreId
     WHERE
-        PartialFlag = @partialFlag
-    AND (
-        DiscountReason = @discountReason
-    OR  DiscountBarcodeType = @discountBarcodeType
-    )
-    AND CompanyId = @companyId
-    AND StoreId = @storeId
-    AND DeleteFlag = 0.0
-    </entry>
+        BASE.PartialFlag = ? AND
+        ( BASE.DiscountReason = ?
+            OR  BASE.DiscountBarcodeType = ?
+        ) AND
+        BASE.DeleteFlag = 0.0
+</entry>
     <entry key="get-company-info">
       SELECT company.CompanyId,
              company.CompanyName,

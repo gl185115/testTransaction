@@ -1244,55 +1244,37 @@ ORDER BY
 </entry>
 
 <entry key="get-tender-info">
-DECLARE
-    @companyId VARCHAR (12),
-    @storeId VARCHAR (10),
-    @tenderType VARCHAR (50),
-    @tenderId VARCHAR(20)
-SET @storeId = LTRIM(RTRIM(?))
-SET @companyId = LTRIM(RTRIM(?))
-SET @tenderType = LTRIM(RTRIM(?))
-SET @tenderId = LTRIM(RTRIM(?))
-
-IF NOT EXISTS (
-  SELECT
-    *
-  FROM
-    RESMaster.dbo.MST_TENDERINFO
-  WHERE
-    TenderType = @tenderType
-    AND DeleteFlag = 0.0
-    AND StoreId = @storeId
-    AND CompanyId = @companyId
-    AND TenderId = @tenderId
-)
-  SET @storeId = '0000'
-
-SELECT
-    CompanyId,
-    StoreId,
-    TenderType,
-    TenderId,
-    TenderName,
-    TenderKanaName,
-    StampType,
-    PointType,
-    ChangeType,
-    UnitPrice,
-    DisplayOrder
-FROM
-    RESMaster.dbo.MST_TENDERINFO
-WHERE
- TenderType = @tenderType
-AND DeleteFlag = 0.0
-AND StoreId = @storeId
-AND CompanyId = @companyId
-AND TenderId = @tenderId
-ORDER BY
-    DisplayOrder,
-    TenderType
+    SELECT
+        BASE.*
+    FROM
+        RESMaster.dbo.MST_TENDERINFO as BASE
+    INNER JOIN
+        /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+        (SELECT TOP 1
+            CompanyId, StoreId
+        FROM
+            RESMaster.dbo.MST_TENDERINFO
+        WHERE
+            CompanyId in (?, '0') AND
+            StoreId in (?, '0') AND
+            TenderType = ? AND
+            TenderId = ? AND
+            DeleteFlag = 0.0
+        GROUP BY
+            CompanyId, StoreId
+        ORDER BY CompanyId desc, StoreId desc)
+            AS SHARED_ID_PRIORITY
+        ON
+            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+    WHERE
+        BASE.TenderType = ? AND
+        BASE.TenderId = ? AND
+        BASE.DeleteFlag = 0.0
+    ORDER BY
+        BASE.DisplayOrder,
+        BASE.TenderType
 </entry>
-
 
 <entry key="get-cashAbstract-type">
 DECLARE

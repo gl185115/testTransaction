@@ -235,6 +235,8 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
             selectStmnt.setString(SQLStatement.PARAM2, companyId);
             selectStmnt.setString(SQLStatement.PARAM3, tenderType);
             selectStmnt.setString(SQLStatement.PARAM4, tenderId);
+            selectStmnt.setString(SQLStatement.PARAM5, tenderType);
+            selectStmnt.setString(SQLStatement.PARAM6, tenderId);
             resultSet = selectStmnt.executeQuery();
             if (resultSet.next()) {
                 tenderInfo = new JSONObject();

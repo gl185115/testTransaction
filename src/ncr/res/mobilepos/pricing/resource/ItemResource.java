@@ -64,6 +64,7 @@ import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
+import ncr.res.mobilepos.promotion.resource.PromotionResource;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
 
@@ -202,7 +203,10 @@ public class ItemResource {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate);
-            
+            if (null == returnItem) {
+                PromotionResource promotion = new PromotionResource();
+                returnItem = promotion.getdetailInfoData(storeID, pluCode,companyId,bussinessDate);
+               }
         } catch (DaoException daoEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_DAO,
                     "Failed to get the item details.\n" + daoEx.getMessage());

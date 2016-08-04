@@ -10808,50 +10808,35 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
         BASE.DiscountType = ? AND
         BASE.DeleteFlag = 0.0
   </entry>
-  <entry key="get-voucher-list">
-    DECLARE
-      @companyId varchar(max),
-      @storeId varchar(max),
-      @businessDayDate date,
-      @trainingFlag tinyint,
-      @origStoreId varchar(max)
 
-    SET @companyId = ?
-    SET @storeId = ?
-    SET @businessDayDate = ?
-    SET @trainingFlag = ?
-    SET @origStoreId = @storeId
-
-    IF NOT EXISTS (
+    <entry key="get-voucher-list">
       SELECT
-        *
+        BASE.*
       FROM
-        RESMaster.dbo.MST_TENDERINFO tender
+        RESMaster.dbo.MST_TENDERINFO as BASE
+      INNER JOIN
+      /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
+        (SELECT TOP 1
+          CompanyId, StoreId
+        FROM
+          RESMaster.dbo.MST_TENDERINFO
+        WHERE
+          CompanyId in (?, '0') AND
+          StoreId in (?, '0') AND
+          TenderType = '1' AND
+          DeleteFlag = 0.0
+        GROUP BY
+          CompanyId, StoreId
+        ORDER BY CompanyId desc, StoreId desc)
+        AS SHARED_ID_PRIORITY
+      ON
+        BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
+        BASE.StoreId = SHARED_ID_PRIORITY.StoreId
       WHERE
-        tender.CompanyId = @companyId AND
-        tender.StoreId = @storeId AND
-        tender.TenderType = 1 AND
-        tender.DeleteFlag = 0.0
-    )
-      SET @storeId = '0000'
-
-     SELECT
-      tender.CompanyId,
-      tender.StoreId,
-      tender.TenderId,
-      tender.TenderType,
-      tender.TenderName,
-      tender.TenderKanaName
-    FROM
-      RESMaster.dbo.MST_TENDERINFO tender
-    WHERE
-      tender.CompanyId = @companyId AND
-      tender.StoreId = @storeId AND
-      tender.TenderType = 1 AND
-      tender.DeleteFlag = 0.0
-
-  </entry>
-<entry key = "get-promotioninfo-type">
+        BASE.TenderType = '1' AND
+        BASE.DeleteFlag = 0.0
+    </entry>
+    <entry key = "get-promotioninfo-type">
     SELECT
         BASE.*
     FROM
@@ -10884,7 +10869,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
             OR  BASE.DiscountBarcodeType = ?
         ) AND
         BASE.DeleteFlag = 0.0
-</entry>
+    </entry>
     <entry key="get-company-info">
       SELECT company.CompanyId,
              company.CompanyName,

@@ -10639,41 +10639,57 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
           BASE.DeleteFlag = 0.0
   </entry>
   <entry key="get-card-class-info-member">
-    DECLARE
+      DECLARE
       @companyId varchar(12),
       @storeId varchar(6),
       @membershipId varchar(16)
 
-    SET @companyId = ?
-    SET @storeId = ?
-    SET @membershipId = ?
+      SET @companyId = ?
+      SET @storeId = ?
+      SET @membershipId = ?
 
-    SELECT
-      typeInfo.CompanyId,
-      typeInfo.StoreId,
-      typeInfo.CardClassId,
-      typeInfo.CardStatusType,
-      classInfo.CardClassName,
-      classInfo.CardClassKanaName,
-      classInfo.CardClassShortName,
-      classInfo.CardClassShortKanaName,
-      classInfo.CreditType,
-      classInfo.MaincardDigitType,
-      classInfo.RankType
-    FROM
-      RESMaster.dbo.MST_CARD_TYPEINFO typeInfo
-    LEFT JOIN RESMaster.dbo.MST_CARD_CLASSINFO classInfo
-      ON typeInfo.CompanyId = classInfo.CompanyId AND
-      typeInfo.StoreId = classInfo.StoreId AND
-      typeInfo.CardClassId = classInfo.CardClassId
-    WHERE
-      typeInfo.CompanyId = @companyId AND
-      typeInfo.StoreId = @storeId AND
-      typeInfo.CardClassId = classInfo.CardClassId AND
-      (typeInfo.PrefixCode16From = @membershipId OR
-      typeInfo.PrefixCode16To = @membershipId OR
-      typeInfo.PrefixCode13 = @membershipId) AND
-      typeInfo.DeleteFlag = 0.0
+      SELECT
+        typeInfo.CompanyId,
+        typeInfo.StoreId,
+        typeInfo.CardClassId,
+        typeInfo.CardStatusType,
+        classInfo.CardClassName,
+        classInfo.CardClassKanaName,
+        classInfo.CardClassShortName,
+        classInfo.CardClassShortKanaName,
+        classInfo.CreditType,
+        classInfo.MaincardDigitType,
+        classInfo.RankType
+      FROM
+        RESMaster.dbo.MST_CARD_TYPEINFO typeInfo
+      LEFT JOIN RESMaster.dbo.MST_CARD_CLASSINFO classInfo
+        ON
+          typeInfo.CompanyId = classInfo.CompanyId AND
+          typeInfo.StoreId = classInfo.StoreId AND
+          typeInfo.CardClassId = classInfo.CardClassId
+      INNER JOIN
+        (SELECT TOP 1
+          CompanyId, StoreId
+        FROM
+          RESMaster.dbo.MST_CARD_TYPEINFO
+        WHERE
+          CompanyId in (@companyId , '0') AND
+          StoreId in (@storeId, '0') AND
+          (PrefixCode16From = @membershipId OR
+          PrefixCode16To = @membershipId OR
+          PrefixCode13 = @membershipId) AND
+          DeleteFlag = 0.0
+        GROUP BY
+          CompanyId, StoreId
+        ORDER BY CompanyId desc, StoreId desc) sharedIdCombination
+        ON
+          typeInfo.CompanyId = sharedIdCombination.CompanyId AND
+          typeInfo.StoreId = sharedIdCombination.StoreId
+      WHERE
+        (typeInfo.PrefixCode16From = @membershipId OR
+        typeInfo.PrefixCode16To = @membershipId OR
+        typeInfo.PrefixCode13 = @membershipId) AND
+        typeInfo.DeleteFlag = 0.0
   </entry>
   <entry key="get-nationality-info-all">
       SELECT

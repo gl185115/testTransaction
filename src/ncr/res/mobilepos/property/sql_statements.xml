@@ -1248,37 +1248,61 @@ WHERE
 </entry>
 
 <entry key="get-cashAbstract-type">
-DECLARE
-    @companyId VARCHAR (12),
-    @storeId VARCHAR (10),
-    @cashFlowDirection VARCHAR (50),
-    @tenderId VARCHAR (50),
-    @tenderType VARCHAR (50)
-SET @storeId = LTRIM(RTRIM(?))
-SET @companyId = LTRIM(RTRIM(?))
-SET @cashFlowDirection = LTRIM(RTRIM(?))
-SET @tenderId = LTRIM(RTRIM(?))
-SET @tenderType = LTRIM(RTRIM(?))
-SELECT
-    a.CompanyId,
-    a.StoreId,
-    a.CashFlowDirection,
-    a.CashFlowType,
-    a.RemarksId,
-    a.RemarksCol,
-    a.RemarksKanaCol
-FROM
-    RESMaster.dbo.MST_CASHFLOW_REMARKS a,
-    RESMaster.dbo.MST_TENDERINFO b
-WHERE
-    a.StoreId = @storeId
-AND a.CompanyId = @companyId
-AND a.CashFlowDirection = @cashFlowDirection
-AND b.TenderId = @tenderId
-AND b.TenderType = @tenderType
-AND b.TenderId = a.CashFlowType
-ORDER BY
-    a.CashFlowDirection
+    DECLARE
+      @companyId VARCHAR (12),
+      @storeId VARCHAR (10),
+      @cashFlowDirection VARCHAR (50),
+      @tenderId VARCHAR (50),
+      @tenderType VARCHAR (50)
+    SET @storeId = LTRIM(RTRIM(?))
+    SET @companyId = LTRIM(RTRIM(?))
+    SET @cashFlowDirection = LTRIM(RTRIM(?))
+    SET @tenderId = LTRIM(RTRIM(?))
+    SET @tenderType = LTRIM(RTRIM(?))
+
+    SELECT
+      a.CompanyId,
+      a.StoreId,
+      a.CashFlowDirection,
+      a.CashFlowType,
+      a.RemarksId,
+      a.RemarksCol,
+      a.RemarksKanaCol
+    FROM
+    RESMaster.dbo.MST_CASHFLOW_REMARKS a
+    /** Shared Company-Store ID condition **/
+    INNER JOIN
+    (SELECT TOP 1
+      CompanyId, StoreId
+    FROM
+      RESMaster.dbo.MST_CASHFLOW_REMARKS
+    WHERE
+      CompanyId in (@companyId , '0') AND
+      StoreId in (@storeId, '0') AND
+      CashFlowDirection = @cashFlowDirection AND
+      DeleteFlag = 0.0
+    GROUP BY
+      CompanyId, StoreId
+    ORDER BY CompanyId desc, StoreId desc) sharedIdCombination
+    ON
+      a.StoreId = sharedIdCombination.StoreId AND
+      a.CompanyId = sharedIdCombination.CompanyId
+    /** Join condition **/
+    INNER JOIN
+      RESMaster.dbo.MST_TENDERINFO b
+    ON
+      b.TenderId = a.CashFlowType AND
+      b.StoreId = a.StoreId AND
+      b.CompanyId = a.CompanyId
+    /** Search condition **/
+    WHERE
+      a.CashFlowDirection = @cashFlowDirection AND
+      a.DeleteFlag = 0.0 AND
+      b.TenderId = @tenderId AND
+      b.TenderType = @tenderType AND
+      b.DeleteFlag = 0.0
+    ORDER BY
+     a.CashFlowDirection
 </entry>
    <entry key="get-event-list">
    DECLARE @eventId VARCHAR(20), @eventKbn int, @businessDateId int,

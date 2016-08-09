@@ -10239,9 +10239,9 @@ ORDER BY SalesOrPay
             ) AS ps
   </entry>
 
-    <entry key="select-line-details">
+  <entry key="select-line-details">
     SELECT
-      StoreId,
+　　  StoreId,
       Line,
       LineName,
       LineNameLocal,
@@ -10254,15 +10254,16 @@ ORDER BY SalesOrPay
       DiscountAmt,
       DiscountRate,
       AgeRestrictedFlag,
-      InheritFlag,
-      SubSmallInt5
+      InheritFlag
     FROM
       RESMaster.dbo.MST_LINEINFO
     WHERE
-      StoreId = ?
-      AND Dpt = ?
-      AND Line = ?
-    </entry>
+      CompanyId in (?, '0') AND StoreId in (?, '0') AND
+      Dpt = ? AND
+      Line = ?
+    ORDER BY
+      StoreId DESC, CompanyId DESC
+  </entry>
 
     <entry key="update-line">
       DECLARE

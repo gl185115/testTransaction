@@ -65,13 +65,14 @@ public interface ILineDAO {
     
     /**
      * Select Line.
+     * @param companyID - companyID
      * @param retailStoreID - store number
      * @param department - department number 
      * @param line - line
      * @return Line Model
      * @throws DaoException - exception
      */
-     ViewLine selectLineDetail(String retailStoreID,
+     ViewLine selectLineDetail(String companyID, String retailStoreID,
          String department, String line) throws DaoException;
      
      /**

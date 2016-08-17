@@ -1,0 +1,144 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DEVICEINFO">
+		<column>storeid</column>
+		<column>terminalid</column>
+		<column>devicename</column>
+		<column>printerid</column>
+		<column>linkposterminalid</column>
+		<column>linkqueuebuster</column>
+		<column>linkauthorization</column>
+		<column>linksignature</column>
+		<column>sendlogfile</column>
+		<column>savelogfile</column>
+		<column>autoupload</column>
+		<column>lasttxid</column>
+		<column>ejsequence</column>
+		<column>status</column>
+		<column>upddate</column>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>Device1</value>
+			<value><![CDATA[100]]></value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>000032</value>
+			<value>0001</value>
+			<value>Device2</value>
+			<value><![CDATA[100]]></value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>000035</value>
+			<value>0001</value>
+			<value>Device3</value>
+			<value><![CDATA[100]]></value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>000033</value>
+			<value>0001</value>
+			<value>Device4</value>
+			<value><![CDATA[100]]></value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+	</table>
+	
+	<table name="MST_USER_CREDENTIALS">
+        <column>storeid</column>
+        <column>operatorno</column>
+        <column>operatorname</column>
+        <column>passcode</column>
+        <column>operatortype</column>
+        <column>terminalid</column>
+        <column>role</column>     
+        <column>upddate</column>   
+        <column>status</column>
+		<row>
+			<value>000031</value>
+			<value>001</value>
+			<value>test</value>
+			<value>123</value>	
+			<value>1</value>		
+			<value></value>
+			<value>NCR</value>
+			<value><![CDATA[2012-03-06 21:35:08.497]]></value>
+			<value>Inactive</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>002</value>
+			<value>test</value>
+			<value>123</value>	
+			<value>1</value>		
+			<value></value>
+			<value>NCR</value>
+			<value><![CDATA[2012-03-06 21:35:08.497]]></value>
+			<value>Inactive</value>
+		</row>
+		<row>
+			<value>000032</value>
+			<value>003</value>
+			<value>test</value>
+			<value>123</value>	
+			<value>1</value>		
+			<value>0001</value>
+			<value>NCR</value>
+			<value><![CDATA[2012-03-06 21:35:08.497]]></value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000033</value>
+			<value>004</value>
+			<value>test</value>
+			<value>123</value>	
+			<value>1</value>		
+			<value>0001</value>
+			<value>NCR</value>
+			<value><![CDATA[2012-03-06 21:35:08.497]]></value>
+			<value>Inactive</value>
+		</row>
+    </table> 
+</dataset>

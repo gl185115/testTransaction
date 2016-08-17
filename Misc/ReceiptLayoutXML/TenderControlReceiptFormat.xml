@@ -1,0 +1,1810 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!-- receipt for barneys 2014/11/27 mlwang -->
+<Receipt type="TenderControl">
+  <ReceiptPaperWidth>40</ReceiptPaperWidth>
+  <ReceiptLanguage>jp</ReceiptLanguage>
+  <Form>
+    <!-- logo -->
+    <LineImageBmp name="logo"></LineImageBmp>
+    <!-- 店の資料：店名と電話番号とポスター -->
+    <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="trainModeFlag">
+        <eq value="true" property="">
+          <Lable property="trainModeStar5" leftMargin="0"></Lable>
+          <Lable property="trainModeTopMsg1" leftMargin="4"></Lable>
+          <Lable property="trainModeStar5" leftMargin="max"></Lable>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="trainModeFlag">
+        <eq value="true" property="">
+          <Lable property="trainModeStar2" leftMargin="0"></Lable>
+          <Lable property="trainModeTopMsg2" leftMargin="3"></Lable>
+          <Lable property="trainModeStar2" leftMargin="max"></Lable>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Condition property="trainModeFlag">
+        <eq value="true" property="">
+          <Lable property="trainModeStar5" leftMargin="0"></Lable>
+          <Lable property="trainModeTopMsg3" leftMargin="3"></Lable>
+          <Lable property="trainModeStar5" leftMargin="max"></Lable>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="1" align="center" feedNum="1">
+      <Condition property="tenderControlType">
+        <eq value="Guarantee" property="">
+          <Lable property="tenderControlGuarantee" leftMargin="0"></Lable>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="recptstorenamestr" leftMargin="10"></Lable>
+      <Item property="storeName" leftMargin="0"></Item>
+    </Line>
+    <!-- 電話番号 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="recpttelno" leftMargin="10"></Lable>
+      <Item property="telNo" leftMargin="0"></Item>
+    </Line>
+    <!-- 担当者： -->
+    <Line size="0" align="left" feedNum="1">
+      <Condition property="transactionType">
+        <ne value="Guarantee" property="">
+          <Lable property="recptoperator2" leftMargin="0"></Lable>
+          <Sign length="1" leftMargin="0" value="："></Sign>
+          <Item property="operatorName" leftMargin="0"></Item>
+        </ne>
+      </Condition>
+    </Line>
+    <!-- train mode -->
+	<!--振出 -->
+	<Line size="0" align="center" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODTopMsg1" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="center" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODTopMsg2" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEODWeather" leftMargin="0"></Lable>
+	      <Item property="weatherNameId" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEODNumCustomers" leftMargin="0"></Lable>
+	      <Item property="eODNumCustomers" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEODNumGuests" leftMargin="0"></Lable>
+	      <Item property="eODNumGuests" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderBalanceStarLeft" leftMargin="0"></Lable>
+	      <Lable property="tenderCtrlEOD" leftMargin="3"></Lable>
+	      <Lable property="tenderBalanceStarRight" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="7">
+      <Condition property="tenderControlType">
+        <eq value="Guarantee" property="">
+          <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Condition property="tenderControlType">
+        <eq value="Balancing" property="">
+          <Lable property="tenderBalanceStarLeft" leftMargin="0"></Lable>
+          <Condition property="tenderCtrlBalanceType">
+            <eq value="NonCash" property="">
+              <Lable property="tenderBalancenonCash" leftMargin="2"></Lable>
+            </eq>
+          </Condition>
+          <Condition property="tenderCtrlBalanceType">
+            <eq value="Cash" property="">
+              <Lable property="tenderBalanceCash" leftMargin="3"></Lable>
+            </eq>
+          </Condition>
+          <Lable property="tenderBalanceStarRight" leftMargin="max"></Lable>
+        </eq>
+      </Condition>
+    </Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderPayOutStar" leftMargin="0"></Lable>
+	      <Lable property="tenderPayOut" leftMargin="2"></Lable>
+	      <Lable property="tenderPayOutStar" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="PayIn" property="">
+	      <Lable property="tenderPayOutStar" leftMargin="0"></Lable>
+	      <Lable property="tenderPayIn" leftMargin="2"></Lable>
+	      <Lable property="tenderPayOutStar" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Lable property="tenderPayOutStar" leftMargin="0"></Lable>
+	      <Lable property="tenderSOD" leftMargin="2"></Lable>
+	      <Lable property="tenderPayOutStar" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<LineItems>
+	  <Line size="0" align="left" feedNum="0">
+	    <Condition property="tenderCtrlType">
+	      <eq value="Balancing" property="">
+	        <Condition property="tenderCtrlBalType">
+	          <eq value="NonCash" property="">
+	            <Item property="groupLabel" leftMargin="0"></Item>
+	          </eq>
+	        </Condition>
+	      </eq>
+	    </Condition>
+	  </Line>
+	  <Line size="0" align="left" feedNum="0">
+	    <Condition property="tenderCtrlType">
+	      <eq value="Balancing" property="">
+	        <Condition property="tenderCtrlBalType">
+	          <eq value="NonCash" property="">
+	            <Lable property="tenderBalanceRealAmt" leftMargin="13"></Lable>
+	            <Item property="realAmount" isMinus="false" leftMargin="0"></Item>
+	          </eq>
+	        </Condition>
+	      </eq>
+	    </Condition>
+	  </Line>
+	  <Line size="0" align="left" feedNum="0">
+	    <Condition property="tenderCtrlType">
+	      <eq value="Balancing" property="">
+	        <Condition property="tenderCtrlBalType">
+	          <eq value="NonCash" property="">
+	            <Lable property="tenderBalanceCalcAmt" leftMargin="13"></Lable>
+	            <Item property="calculatedAmount" isMinus="false" leftMargin="0"></Item>
+	            <Item property="calculatedAmt2" isMinus="false" leftMargin="max"></Item>
+	          </eq>
+	        </Condition>
+	      </eq>
+	    </Condition>
+	  </Line>
+	  <Line size="0" align="left" feedNum="1">
+	    <Condition property="tenderCtrlType">
+	      <eq value="Balancing" property="">
+	        <Condition property="tenderCtrlBalType">
+	          <eq value="NonCash" property="">
+	            <Lable property="tenderBalanceGap" leftMargin="11"></Lable>
+	            <Item property="gapAmount" isMinus="false" leftMargin="0"></Item>
+	          </eq>
+	        </Condition>
+	      </eq>
+	    </Condition>
+	  </Line>
+	</LineItems>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderCtrlTypePayInOut">
+	    <eq value="true" property="">
+	      <Lable property="tenderCtrlPayInOutChangeMachine" leftMargin="9"></Lable>
+	      <Lable property="tenderCtrlPayInOutDrawer" leftMargin="1"></Lable>
+	      <Lable property="tenderCtrlPayInOutAmount" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderCtrlTypePayInOut">
+	    <eq value="true" property="">
+	      <Lable property="tenderCtrlPayInOutDenomination" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Condition property="tenderCtrlBalanceType">
+	        <eq value="Cash" property="">
+	          <Lable property="tenderBalanceCashQty" leftMargin="15"></Lable>
+	          <Lable property="tenderBalanceCashAmt" leftMargin="max"></Lable>
+	        </eq>
+	      </Condition>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Condition property="tenderCtrlBalanceType">
+	        <eq value="Cash" property="">
+	          <Lable property="tenderBalanceCashDenomination" leftMargin="0"></Lable>
+	        </eq>
+	      </Condition>
+	    </eq>
+	  </Condition>
+	</Line>
+	<LineItems>
+	  <Line size="0" align="left" feedNum="0">
+	    <Condition property="tenderCtrlTypePayInOutList">
+	      <eq value="true" property="">
+	  	    <Item property="denomination" leftMargin="0"></Item>
+	        <Item property="changeMachineAmount" leftMargin="0"></Item>
+	        <Item property="cashDrawerAmount" leftMargin="0"></Item>
+	        <Item property="changeMachineDrawerTotal" leftMargin="0"></Item>
+	      </eq>
+	    </Condition>
+	  </Line>
+	</LineItems>
+	<LineItems>
+	  <Line size="0" align="left" feedNum="0">
+	    <Condition property="tenderCtrlType">
+	      <eq value="Balancing" property="">
+		    <Condition property="tenderCtrlBalType">
+		      <eq value="Cash" property="">
+		        <Item property="denomination" leftMargin="0"></Item>
+		        <Item property="denominationQty" leftMargin="0"></Item>
+		        <Item property="changeMachineDrawerTotal" leftMargin="0"></Item>
+		      </eq>
+		    </Condition>
+	      </eq>
+	    </Condition>
+	  </Line>
+	</LineItems>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlNumCases" leftMargin="21"></Lable>
+	      <Lable property="tenderCtrlAmount" leftMargin="5"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlNetSales" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSalesGenTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCash" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlMultiplication" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCredit" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlReservation" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSalesRetGood" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCashGetGoods" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlConsumptionTaxTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlConsumptionTaxRil" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlConsumptionTaxReturn" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCreditPayment" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSales" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlXebioCard" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlContractCreditPayment" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSales" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlShoppingLoan" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEdy" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSuica" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlWaon" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlGinren" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlTenantokurue" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlGiftCertPayment" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSales" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlXebioGroup" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlOtherPayment" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlOtherGiftCertificate" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlGiftCertificate" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlOtherTicket" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlTransferPayment" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlDaihi" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPurchaseTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPurchaseShio" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPurchaseConsumptionTax" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlTotalDepositMoney" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlReservPartialPayment" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlModoTotalDepositMoney" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlModoReservPartialPayment" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlOtherPayInTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlXGroupTicketSales" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlTaxfreeMiscIncomes" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlMiscIncomeTicketDiff" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCarriage" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCashonDeliverCharge" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlHakodai" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlOtherPayOutTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlTenantEntrusting" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlGCampaign" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlBankEntrustTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlMiddleCollection" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEntrustAdjust+" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEntrustAdjust-" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl01ReceivedMoney" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCashinDrawer" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlChangeReserveFund" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlReceipt" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlExchangeFreq" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlDiscontinuance" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlDutyFreeDealings" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSalesRetGoods" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSalesCancel" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSalesRetGoodsCancel" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlCancel" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlRetGoodsExchange" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPayIn" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPayInCancel" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPayOut" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPayOutCancel" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlResetCount" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlAdjustSerialNum" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlBalanceGroupTicket" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlNumPOSReg" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlNumDayRemainder" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlNumSheetsDiscountTicket" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlTEST" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPremiumTicketIssue" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlDokaBSS" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlDetDiscountTotal" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl18ChobitaguDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl19TradeinDiscountPercent" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl19TradeinDiscountAmt" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl20DetailsDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplit500" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item> 
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplit1000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplit2000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplit3000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplit4000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplit5000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlitemAmtSplitfree" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercent5" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercent10" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercent20" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercent30" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercent40" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercent50" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSpecRatePercentfree" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl21PurReplacementSupport" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlLimitedDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotalDiscount" leftMargin="0"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl11CouponDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl12SubtotalDiscountPercent" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotRatePercent5" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotRatePercent10" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotRatePercent20" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotRatePercent30" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotRateSplitOther" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl12SubtotDiscountAmt" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotAmtSplit500" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotAmtSplit1000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotAmtSplit2000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotAmtSplit3000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlSubTotAmtSplit5000" leftMargin="4"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrlPointTicketX" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl16PointAllowance" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl32GPCoupon" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl61PremierDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl71Discount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl72EmployeesTokuwariV" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl73SpecialCoupon" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl74DMDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl75CorporateDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl76DMDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl77DMDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl78DiscountCoupon" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl79DMDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl80LimitedPromotional" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl81ShareHoldersV" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl82XebioCoLtd" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl83Discount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl84StudentDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl85SpecialDiscount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl86Discount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl87Discount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl88Discount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl89Discount" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderCtrl92DiscountCoupon" leftMargin="2"></Lable>
+	      <Item property="tenderControlPayIn" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="EndOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="Guarantee" property="">
+	      <Lable property="tenderCtrlEqual" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Guarantee" property="">
+	      <Lable property="tenderCtrlGuaranteeMsg1a" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Guarantee" property="">
+	      <Lable property="tenderCtrlGuaranteeMsg1b" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Guarantee" property="">
+	      <Lable property="tenderCtrlGuaranteeMsg2a" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="Guarantee" property="">
+	      <Lable property="tenderCtrlGuaranteeMsg2b" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="Guarantee" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderCtrlTypePayInOut">
+	    <eq value="true" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Condition property="tenderCtrlBalanceType">
+	        <eq value="Cash" property="">
+	      	    <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	        </eq>
+	      </Condition>
+	    </eq>
+	  </Condition>
+	</Line>
+    <!-- 入金 -->
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="Loan" property="">
+          <Lable property="tenderLoan" leftMargin="0"></Lable>
+          <Price property="tenderControlLoan" isMinus="false" leftMargin="max"></Price>
+        </eq>
+      </Condition>
+    </Line>
+    <!-- 出金 -->
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="PickUp" property="">
+          <Lable property="tenderPickup" leftMargin="0"></Lable>
+          <Price property="tenderControlPickup" isMinus="false" leftMargin="max"></Price>
+        </eq>
+      </Condition>
+    </Line>
+    <!-- 両替 -->
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="Exchange" property="">
+          <Lable property="tenderExchange" leftMargin="0"></Lable>
+          <Price property="tenderControlExchange" isMinus="false" leftMargin="max"></Price>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="PayOut" property="">
+          <Lable property="tenderControlTotal" leftMargin="0"></Lable>
+          <Price property="tenderControlPayOut" isMinus="false" leftMargin="max"></Price>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="PayIn" property="">
+          <Lable property="tenderControlTotal" leftMargin="0"></Lable>
+          <Price property="tenderControlPayIn" isMinus="false" leftMargin="max"></Price>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="Balancing" property="">
+          <Condition property="tenderCtrlBalanceType">
+            <eq value="Cash" property="">
+              <Lable property="tenderControlTotal" leftMargin="0"></Lable>
+              <Price property="tenderBalCashCMCDTotalAmt" isMinus="false" leftMargin="max"></Price>
+            </eq>
+          </Condition>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="StartOfDay" property="">
+          <Lable property="tenderCtrlSODOperDate" leftMargin="0"></Lable>
+          <Date property="beginDateTime" formatFrom="yyyy-MM-dd'T'HH:mm:ss"
+              formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="2"></Date>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Condition property="tenderControlType">
+        <eq value="StartOfDay" property="">
+          <Lable property="tenderCtrlSODAmount" leftMargin="0"></Lable>
+          <Price property="tenderCtrlBeginningAmount" isMinus = "false" leftMargin="2"></Price>
+        </eq>
+      </Condition>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Condition property="tenderCtrlTypePayInOut">
+        <eq value="true" property="">
+          <Lable property="tenderControlDash" leftMargin="0"></Lable>
+        </eq>
+      </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+      <Condition property="tenderControlType">
+        <eq value="StartOfDay" property="">
+          <Lable property="tenderControlDash" leftMargin="0"></Lable>
+        </eq>
+      </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Condition property="tenderCtrlBalanceType">
+	        <eq value="Cash" property="">
+	          <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	        </eq>
+	      </Condition>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Lable property="tenderBalanceNetTotal" leftMargin="0"></Lable>
+	      <Item property="tenderBalNetTotal" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Lable property="tenderBalanceGrossTotal" leftMargin="0"></Lable>
+	      <Item property="tenderBalGrossTotal" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Lable property="tenderBalanceDiff" leftMargin="0"></Lable>
+	      <Item property="tenderBalDiff" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="Balancing" property="">
+	      <Lable property="tenderBalanceChangeReserve" leftMargin="0"></Lable>
+	      <Item property="tenderBalChangeReserve" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderPayInPlanStarL" leftMargin="0"></Lable>
+	      <Lable property="tenderPayInPlan" leftMargin="2"></Lable>
+	      <Lable property="tenderPayInPlanStarR" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderPayInPlanCount" leftMargin="15"></Lable>
+	      <Lable property="tenderPayInPlanAmount" leftMargin="max"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderPayInPlanDenomination" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<LineItems>
+	  <Line size="0" align="left" feedNum="0">
+	    <Condition property="tenderCtrlType">
+	      <eq value="PayInPlan" property="">
+	  	    <Item property="payInPlanDenomination" leftMargin="0"></Item>
+	        <Item property="payInPlanDenomQty" leftMargin="0"></Item>
+	        <Item property="payInPlanDrawerAmount" leftMargin="0"></Item>
+	      </eq>
+	    </Condition>
+	  </Line>
+	</LineItems>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderControlTotal" leftMargin="0"></Lable>
+	      <Item property="tenderCtrlPayInPlanDrawerAmt" leftMargin="max"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="PayOut" property="">
+	      <Lable property="tenderControlDash" leftMargin="0"></Lable>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODBottomMsg1" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODBottomMsg2" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODBottomMsg3" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODBottomMsg4" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+	  <Condition property="tenderControlType">
+	    <eq value="StartOfDay" property="">
+	      <Item property="tenderCtrlSODBottomMsg5" leftMargin="0"></Item>
+	    </eq>
+	  </Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="0">
+      <Lable property="recpttransactionidstr" leftMargin="0"></Lable>
+      <Item property="barNo" leftMargin="max"></Item>
+    </Line>
+    <Line size="0" align="left" feedNum="2">
+      <Item property="sequenceNo" leftMargin="2"></Item>
+      <Date property="beginDateTime" formatFrom="yyyy-MM-dd'T'HH:mm:ss"
+        formatTo="HH:mm" isSysDate="false" leftMargin="10"></Date>
+      <Date property="beginDateTime" formatFrom="yyyy-MM-dd'T'HH:mm:ss"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+  </Form>
+</Receipt>

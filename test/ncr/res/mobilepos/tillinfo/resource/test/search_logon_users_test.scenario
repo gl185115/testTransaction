@@ -1,0 +1,149 @@
+!-- check required parameters
+
+Scenario: Check required parameters - retailstoreid is null
+Given a {TillInfoResource} Resource
+When I perform a search request with retailstoreid:{null}, 
+    tillid:{99990001}, terminalid:{0001}
+Then ResultCode should be {154} !-- 154 = invalid parameter
+
+Scenario: Check required parameters - retailstoreid is empty
+Given a {TillInfoResource} Resource
+When I perform a search request with retailstoreid:{}, 
+    tillid:{99990001}, terminalid:{0001}
+Then ResultCode should be {154} !-- 154 = invalid parameter
+
+Scenario: Check required parameters - tillid is null
+Given a {TillInfoResource} Resource
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{null}, terminalid:{0001}
+Then ResultCode should be {154} !-- 154 = invalid parameter
+
+Scenario: Check required parameters - tillid is empty
+Given a {TillInfoResource} Resource
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{}, terminalid:{0001}
+Then ResultCode should be {154} !-- 154 = invalid parameter
+
+Scenario: Check required parameters - terminalid is null
+Given a {TillInfoResource} Resource
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99990001}, terminalid:{null}
+Then ResultCode should be {154} !-- 154 = invalid parameter
+
+Scenario: Check required parameters - terminalid is empty
+Given a {TillInfoResource} Resource
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99990001}, terminalid:{}
+Then ResultCode should be {154} !-- 154 = invalid parameter
+
+!-- check if till is existing
+
+Scenario: Till is not existing
+Given a {TillInfoResource} Resource
+Given a {RESMaster} DBInitiator
+Given a {RESMaster} {MST_TILLIDINFO_EMPTY} dataset
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99990001}, terminalid:{0001}
+Then ResultCode should be {1500} !-- 1500 = till does not exit
+
+!-- search logon users
+
+Scenario: 2 users with same till still logged on
+Given a {TillInfoResource} Resource
+Given a {RESMaster} DBInitiator
+Given a {RESMaster} {MST_DEVICEINFO} dataset
+Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
+Given a {RESTransaction} DBInitiator
+Given a {RESTransaction} {TXU_POS_CTRL_scenario1} dataset
+Then {RESMaster} {MST_DEVICEINFO} should have the following row(s): 
+|StoreId|TerminalId|TillId  |
+|9999   |5000      |99995000|
+|9999   |5001      |99995001|
+|9999   |5002      |99995000|
+|9999   |5003      |99995001|
+|9999   |5004      |99995000|
+Then {RESTransaction} {TXU_POS_CTRL} should have the following row(s): 
+|StoreId|TerminalNo|OpeCode|
+|9999   |5000      |7000   |
+|9999   |5001      |7001   |
+|9999   |5002      |7002   |
+|9999   |5003      |7003   |
+|9999   |5004      |7004   |
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99995000}, terminalid:{5000}
+Then ResultCode should be {1513} !-- 1513 = other users still logged on
+
+Scenario: 1 user with same till still logged on
+Given a {TillInfoResource} Resource
+Given a {RESMaster} DBInitiator
+Given a {RESMaster} {MST_DEVICEINFO} dataset
+Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
+Given a {RESTransaction} DBInitiator
+Given a {RESTransaction} {TXU_POS_CTRL_scenario2} dataset
+Then {RESMaster} {MST_DEVICEINFO} should have the following row(s): 
+|StoreId|TerminalId|TillId  |
+|9999   |5000      |99995000|
+|9999   |5001      |99995001|
+|9999   |5002      |99995000|
+|9999   |5003      |99995001|
+|9999   |5004      |99995000|
+Then {RESTransaction} {TXU_POS_CTRL} should have the following row(s): 
+|StoreId|TerminalNo|OpeCode|
+|9999   |5000      |7000   |
+|9999   |5001      |7001   |
+|9999   |5002      |null   |
+|9999   |5003      |7003   |
+|9999   |5004      |7004   |
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99995000}, terminalid:{5000}
+Then ResultCode should be {1513} !-- 1513 = other users still logged on
+
+Scenario: no users with same till still logged on (opecode=null)
+Given a {TillInfoResource} Resource
+Given a {RESMaster} DBInitiator
+Given a {RESMaster} {MST_DEVICEINFO} dataset
+Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
+Given a {RESTransaction} DBInitiator
+Given a {RESTransaction} {TXU_POS_CTRL_scenario3} dataset
+Then {RESMaster} {MST_DEVICEINFO} should have the following row(s): 
+|StoreId|TerminalId|TillId  |
+|9999   |5000      |99995000|
+|9999   |5001      |99995001|
+|9999   |5002      |99995000|
+|9999   |5003      |99995001|
+|9999   |5004      |99995000|
+Then {RESTransaction} {TXU_POS_CTRL} should have the following row(s): 
+|StoreId|TerminalNo|OpeCode|
+|9999   |5000      |7000   |
+|9999   |5001      |7001   |
+|9999   |5002      |null   |
+|9999   |5003      |7003   |
+|9999   |5004      |null   |
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99995000}, terminalid:{5000}
+Then ResultCode should be {0} !-- 0 = ok
+
+Scenario: no users with same till still logged on (opecode='')
+Given a {TillInfoResource} Resource
+Given a {RESMaster} DBInitiator
+Given a {RESMaster} {MST_DEVICEINFO} dataset
+Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
+Given a {RESTransaction} DBInitiator
+Given a {RESTransaction} {TXU_POS_CTRL_scenario4} dataset
+Then {RESMaster} {MST_DEVICEINFO} should have the following row(s): 
+|StoreId|TerminalId|TillId  |
+|9999   |5000      |99995000|
+|9999   |5001      |99995001|
+|9999   |5002      |99995000|
+|9999   |5003      |99995001|
+|9999   |5004      |99995000|
+Then {RESTransaction} {TXU_POS_CTRL} should have the following row(s): 
+|StoreId|TerminalNo|OpeCode|
+|9999   |5000      |7000   |
+|9999   |5001      |7001   |
+|9999   |5002      |       |
+|9999   |5003      |7003   |
+|9999   |5004      |       |
+When I perform a search request with retailstoreid:{9999}, 
+    tillid:{99995000}, terminalid:{5000}
+Then ResultCode should be {0} !-- 0 = ok

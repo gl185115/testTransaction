@@ -1,0 +1,149 @@
+Scenario: Journalize & Re-journalize SOD Transaction (Duplicate)
+Given a Journalization Resource
+Given a RESMaster DBInitiator
+Given MST_DEVICEINFO table
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 4209
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |4209          |2014-04-07     |2014-04-07 09:00:42.0|SOD   |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>
+
+!-- Re-journalize Previous Normal Transaction
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 4209
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |4209          |2014-04-07     |2014-04-07 09:00:42.0|SOD   |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>
+
+Scenario: Journalize SOD Transaction
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 4209
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |4209          |2014-04-07     |2014-04-07 09:00:42.0|SOD   |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>
+
+Scenario: Journalize SOD Transaction (5-digit Transaction Number)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>12345</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+Then txid should be 12345
+Then status should be {OK}
+Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |4567         |12345         |2014-04-07     |2014-04-07 09:00:42.0|SOD   |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>12345</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>
+
+Scenario: Journalize SOD Transaction where Business Day Date is empty
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4309</SequenceNumber><BusinessDayDate></BusinessDayDate><BeginDateTime>2014-05-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+
+Scenario: Journalize SOD Transaction where (SOD, EOD) value is (9,0)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4309</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-05-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>1</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+
+Scenario: Journalize SOD Transaction where (SOD, EOD) value is (9,9)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4309</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-05-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>2</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+
+Scenario: Journalize SOD Transaction where (SOD, EOD) value is (9,1)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4309</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-05-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>3</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {OK}
+
+Scenario: Journalize SOD Transaction where tillId doesn't exist
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4309</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-05-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0004</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {TILL_NOT_EXIST}
+
+Scenario: Journalize SOD Transaction where storeId doesn't exist in MST_TILLIDINFO
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO where storeId doesn't exist
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {TILL_NOT_EXIST}
+
+Scenario: Journalize SOD Transaction where SOD hasn't been started yet (sodFlag = 0)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO where sod and eod flags are invalid for SOD
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {TILL_NO_UPDATE}
+
+Scenario: Journalize SOD Transaction where SOD has already been performed (sodFlag = 1)
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO where sod and eod flags are invalid for SOD
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>1</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {TILL_SOD_FINISHED}
+
+Scenario: Journalize SOD Transaction but Business Day Date format is invalid
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4209</SequenceNumber><BusinessDayDate>2014/04/07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {TILL_INVALID_BIZDATE}
+
+Scenario: Journalize SOD Transaction where Business Day Date is null
+Given a Journalization Resource
+Given a RESTransaction DBInitiator
+Given TXL_SALES_JOURNAL is empty
+Given a MST_TILLIDINFO with OK data
+When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>4567</WorkstationID><SequenceNumber>4309</SequenceNumber><BeginDateTime>2014-05-07T09:00:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><TenderControlTransaction Version="2.2"><TillSettle><TenderSummary><Beginning TenderType="Cash"><Amount>200000</Amount></Beginning></TenderSummary></TillSettle></TenderControlTransaction></Transaction></POSLog>}
+	and operatorno{111}
+Then result should be {GENERAL_ERROR}
+

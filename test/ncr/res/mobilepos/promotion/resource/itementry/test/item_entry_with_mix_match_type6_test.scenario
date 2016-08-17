@@ -1,0 +1,200 @@
+Scenario: Test Item Entry with MixMatch Type 6
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mixmatch.xml}
+Given a loaded dataset {mixmatch_promotions.xml}
+
+Scenario: (Integration Test) Add Items for MustBuy by rate
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"0000000000011","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |0000000000011|EAN-13    |1       |0143      |Item F1         |アイテムのF1       |500.0                |0.0     |0.0           |500.0               |500.0         |True        |0                |0         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"0000000000021","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |0000000000021|EAN-13    |1       |0143      |Item F2         |アイテムのF2       |510.0                |0.0     |0.0           |510.0               |510.0         |True        |0                |0         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"0000000000031","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |0000000000031|EAN-13    |1       |0143      |Item F3         |アイテムのF3       |520.0                |0.0     |0.0           |520.0               |520.0         |True        |1                |1         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"0000000000041","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |0000000000041|EAN-13    |1       |0143      |Item F4         |アイテムのF4       |530.0                |0.0     |0.0           |530.0               |530.0         |True        |0                |1         |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"0000000000051","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00005      |0000000000051|EAN-13    |1       |0143      |Item F5         |アイテムのF5       |540.0                |0.0     |0.0           |540.0               |540.0         |True        |0                |null      |
+
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"0000000000031","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00006      |0000000000031|EAN-13    |1       |0143      |Item F3         |アイテムのF3       |520.0                |0.0     |0.0           |520.0               |520.0         |True        |1                |1         |
+
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |0006          |0006         |Type6				|00005      |81|
+|2       |0006          |0006         |Type6				|00004      |79|
+|3       |0006          |0006         |Type6				|00006      |78|
+|4       |0006          |0006         |Type6				|00003      |78|
+|5       |0006          |0006         |Type6				|00002      |51|
+|6       |0006          |0006         |Type6				|00001      |50|
+
+Scenario: Item Entry (same items, different item entry id, 1st step discount) 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |9965545775601|EAN-13    |1       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |null      |
+Then there should be no promotion data.
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |9965545775601|EAN-13    |1       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |null      |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00002|10|
+|2|6000|6000|Mix Match 5555 Type 6|00001|10|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775601","Department":"0143","Description":{"en":"sample product 6.1","jp":"サンプル製品6.1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00002","UnitDiscountAmt":10,"Quantity":1},{"RewardID":2,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":10,"Quantity":1}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be no revoke
+
+Scenario: Item Entry (same items, different item entry id, continue to 2nd step discount)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |9965545775601|EAN-13    |1       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |null      |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00003|20|
+|2|6000|6000|Mix Match 5555 Type 6|00002|20|
+|3|6000|6000|Mix Match 5555 Type 6|00001|20|
+Then there should be revoke
+
+Scenario: Item Entry (same items, one item entry id, 1st step discount) 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":2}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |9965545775601|EAN-13    |2       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |200.0         |True        |0                |null      |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00001|20|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775601","Department":"0143","Description":{"en":"sample product 6.1","jp":"サンプル製品6.1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":2,"ExtendedAmount":200.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":20,"Quantity":2}],"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+Then there should be no revoke
+
+Scenario: Item Entry (same items, different item entry id, continue to 2nd step discount)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"9965545775602","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |9965545775602|EAN-13    |1       |0143      |sample product 6.2|サンプル製品6.2      |80.0                 |0.0     |0.0           |80.0                |80.0          |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00001|40|
+|2|6000|6000|Mix Match 5555 Type 6|00002|16|
+Then there should be revoke
+
+Scenario: Item Entry (same items, one item entry id, direct 2nd step discount) 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"9965545775602","ItemIDType":"EAN-13","Quantity":3}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |9965545775602|EAN-13    |3       |0143      |sample product 6.2|サンプル製品6.2      |80.0                 |0.0     |0.0           |80.0                |240.0         |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00001|48|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775602","Department":"0143","Description":{"en":"sample product 6.2","jp":"サンプル製品6.2"},"RegularSalesUnitPrice":80.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":80.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":80.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":3,"ExtendedAmount":240.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":48,"Quantity":3}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be no revoke
+
+Scenario: Item Entry (same items, one item entry id, continue to 1st step discount)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":2}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |9965545775601|EAN-13    |2       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |200.0         |True        |0                |null      |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00002|40|
+|2|6000|6000|Mix Match 5555 Type 6|00001|16|
+|3|6000|6000|Mix Match 5555 Type 6|00001|16|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775601","Department":"0143","Description":{"en":"sample product 6.1","jp":"サンプル製品6.1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":2,"ExtendedAmount":200.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":2},{"RewardID":2,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":16,"Quantity":1},{"RewardID":3,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":16,"Quantity":2}],"Revoke":{"EarnedRewardID":"6000"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be revoke
+
+Scenario: Item Entry (same items, one item entry id, direct 2nd step discount, with excess) 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"9965545775602","ItemIDType":"EAN-13","Quantity":4}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |9965545775602|EAN-13    |4       |0143      |sample product 6.2|サンプル製品6.2      |80.0                 |0.0     |0.0           |80.0                |320.0         |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00001|48|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775602","Department":"0143","Description":{"en":"sample product 6.2","jp":"サンプル製品6.2"},"RegularSalesUnitPrice":80.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":80.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":80.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":4,"ExtendedAmount":320.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":48,"Quantity":3}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be no revoke
+
+Scenario: Item Entry (same items, one item entry id, continue to 1st step discount, use excess from previous)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |9965545775601|EAN-13    |1       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |100.0         |True        |0                |null      |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00002|20|
+|2|6000|6000|Mix Match 5555 Type 6|00001|32|
+|3|6000|6000|Mix Match 5555 Type 6|00001|16|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775601","Department":"0143","Description":{"en":"sample product 6.1","jp":"サンプル製品6.1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00002","UnitDiscountAmt":20,"Quantity":1},{"RewardID":2,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":32,"Quantity":2},{"RewardID":3,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":16,"Quantity":2}],"Revoke":{"EarnedRewardID":"6000"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be revoke
+
+Scenario: Item Entry (same items, one item entry id, direct 2nd step discount, with excess) 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"9965545775602","ItemIDType":"EAN-13","Quantity":4}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |9965545775602|EAN-13    |4       |0143      |sample product 6.2|サンプル製品6.2      |80.0                 |0.0     |0.0           |80.0                |320.0         |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00001|48|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775602","Department":"0143","Description":{"en":"sample product 6.2","jp":"サンプル製品6.2"},"RegularSalesUnitPrice":80.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":80.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":80.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":4,"ExtendedAmount":320.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":48,"Quantity":3}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be no revoke
+
+Scenario: Item Entry (same items, one item entry id, continue to 2nd step discount, use excess from previous)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"9965545775601","ItemIDType":"EAN-13","Quantity":2}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |9965545775601|EAN-13    |2       |0143      |sample product 6.1|サンプル製品6.1      |100.0                |0.0     |0.0           |100.0               |200.0         |True        |0                |null      |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription|ItemEntryID|UnitDiscountAmount|
+|1|6000|6000|Mix Match 5555 Type 6|00002|40|
+|2|6000|6000|Mix Match 5555 Type 6|00001|16|
+|3|6000|6000|Mix Match 5555 Type 6|00001|48|
+Then the JSON should have the following format :
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"9965545775601","Department":"0143","Description":{"en":"sample product 6.1","jp":"サンプル製品6.1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":2,"ExtendedAmount":200.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":2},{"RewardID":2,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":16,"Quantity":1},{"RewardID":3,"EarnedRewardID":"6000","PromotionCode":"6000","DiscountDescription":"Mix Match 5555 Type 6","ItemEntryID":"00001","UnitDiscountAmt":48,"Quantity":3}],"Revoke":{"EarnedRewardID":"6000"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then there should be revoke

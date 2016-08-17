@@ -1,0 +1,94 @@
+Scenario: Update Till with Empty Till Info
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update Till with Empty Till Info
+When I update a till with the following details:
+|StoreId|TillId|tilljson|
+|000031 |000031|{"StoreId":"", "TillId":"", "BusinessDayDate":"", "SodFlag":"", "EodFlag":"" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|1501         |0                 |||||||
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>1501</NCRWSSResultCode></ViewTill>
+
+
+Scenario: Update Till with Null Store Id
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update Till with Null Store Id
+When I update a till with the following details:
+|StoreId|TillId|tilljson|
+|null |000031|{"StoreId":"000031", "TillId":"000031", "BusinessDayDate":"2014-11-14 00:00:00.0", "SodFlag":"9", "EodFlag":"0" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|701         |0                 |null|null |null|null|null|null|
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>701</NCRWSSResultCode></ViewTill>
+
+Scenario: Update Till with Null Till Id
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update Till with Null Till Id
+When I update a till with the following details:
+|StoreId|TillId|tilljson|
+|000031 |null|{"StoreId":"000031", "TillId":"000031", "BusinessDayDate":"2014-11-14 00:00:00.0", "SodFlag":"9", "EodFlag":"0" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|1501         |0                 |null |null|null|null|null|null|
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>1501</NCRWSSResultCode></ViewTill>
+
+Scenario:Update Till with Empty Store Id
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update Till with Empty Store Id
+When I update a till with the following details:
+|StoreId|TillId|tilljsrygon|
+| |000031|{"StoreId":"000031", "TillId":"000031", "BusinessDayDate":"2014-11-14 00:00:00.0", "SodFlag":"9", "EodFlag":"0" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|701         |0                 |null|null |null|null|null|null|
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>701</NCRWSSResultCode></ViewTill>
+
+Scenario:  Update Till with Empty Till Id
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update Till with Empty Till Id
+When I update a till with the following details:
+|StoreId|TillId|tilljson|
+|000031 ||{"StoreId":"000031", "TillId":"000031", "BusinessDayDate":"2014-11-14 00:00:00.0", "SodFlag":"9", "EodFlag":"0" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|1501         |0                 |null|null|null|null|null|null|
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>1501</NCRWSSResultCode></ViewTill>
+
+
+
+Scenario: Successful update to Till from not finished to processing
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update SOD flag from not finished to processing
+When I update a till with the following details:
+|StoreId|TillId|tilljson|
+|000031 |000031|{"StoreId":"000031", "TillId":"000031", "BusinessDayDate":"2014-11-14", "SodFlag":"9", "EodFlag":"0" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|0         |0                 |000031 |000031 |2014-11-14|9|0|1|
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Till><StoreId>000031</StoreId><TillId>000031</TillId><BusinessDayDate>2014-11-14</BusinessDayDate><SodFlag>9</SodFlag><EodFlag>0</EodFlag><State>1</State></Till></ViewTill>
+Scenario: Successful update to Till from processing to finished
+Given I have a Till Info Resource
+Given a Till Table
+!-- Update SOD flag from processing to finished
+When I update a till with the following details:
+|StoreId|TillId|tilljson|
+|000031 |000031|{"StoreId":"000031", "TillId":"000031", "BusinessDayDate":"2014-11-14", "SodFlag":"1", "EodFlag":"0" }|
+Then I should have the following till update:
+|resultcode|extendedresultcode|StoreId|TillId   |BusinessDayDate|SodFlag|EodFlag|State|
+|0         |0                 |000031 |000031 |2014-11-14|1|0|2|
+Then I should have the following xml representation of updated till:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewTill><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Till><StoreId>000031</StoreId><TillId>000031</TillId><BusinessDayDate>2014-11-14</BusinessDayDate><SodFlag>1</SodFlag><EodFlag>0</EodFlag><State>2</State></Till></ViewTill>
+
+

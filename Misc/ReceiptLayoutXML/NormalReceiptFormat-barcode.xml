@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Receipt type="Normal">
+  <ReceiptPaperWidth>40</ReceiptPaperWidth>
+  <ReceiptLanguage>jp</ReceiptLanguage>
+  <Form>
+    <Barcode align="center" width="2" high="65" pitch="1" posit="3" type="73">
+      <Sign value="50" length="1" leftMargin="0"></Sign>
+      <Item property="storeID" leftMargin="0" fixedLength="3"></Item>
+      <Item property="workStationID" leftMargin="0" fixedLength="3"></Item>
+      <Item property="sequenceNo" leftMargin="0" fixedLength="4"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd" formatTo="yyMMdd" isSysDate="false" leftMargin="0"></Date>
+      <Price property="grandAmount" leftMargin="0" isMinus="false" fixedLength="9"></Price>
+    </Barcode>
+    <Barcode align="center" width="2" high="65" pitch="1" posit="3" type="5">
+      <Item property="workStationID" leftMargin="0" fixedLength="3"></Item>
+      <Item property="sequenceNo" leftMargin="0"  fixedLength="5"></Item>
+      <Sign value="0" length="4" leftMargin="0"></Sign>
+      <Item property="storeID" leftMargin="0" fixedLength="4"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd" formatTo="yyMMdd" isSysDate="false" leftMargin="0"></Date>
+    </Barcode>
+    <Barcode align="center" width="2" high="65" pitch="0" posit="2" type="6">
+      <Sign value="A" length="1" leftMargin="0"></Sign>
+      <Item property="storeID" leftMargin="0" fixedLength="4"></Item>
+      <Item property="workStationID" leftMargin="0" fixedLength="4"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd" formatTo="yyMMdd" isSysDate="false" leftMargin="0"></Date>
+      <Item property="sequenceNo" leftMargin="0" fixedLength="4"></Item>
+      <Sign value="A" length="1" leftMargin="0"></Sign>
+    </Barcode>
+    <Barcode align="center" width="2" high="65" pitch="0" posit="2" type="6">
+      <Sign value="D" length="1" leftMargin="0"></Sign>
+      <Item property="storeID" leftMargin="0" fixedLength="4"></Item>
+      <Item property="workStationID" leftMargin="0" fixedLength="4"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd" formatTo="yyMMdd" isSysDate="false" leftMargin="0"></Date>
+      <Item property="sequenceNo" leftMargin="0" fixedLength="4"></Item>
+      <Sign value="D" length="1" leftMargin="0"></Sign>
+    </Barcode>
+  </Form>
+</Receipt>

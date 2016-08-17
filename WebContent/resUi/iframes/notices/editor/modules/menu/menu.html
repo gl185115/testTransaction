@@ -1,0 +1,83 @@
+
+<div class="Exit">
+	<div class="resButton lower W98xH82 silver" data-ng-class="{'disabled': noticeDisableOpen}" data-res-touch="exit()">
+		<p data-ng-bind-html="'Menu.Exit' |resPhrase:context"></p>
+	</div>
+</div>
+
+<div class="File">
+	<div class="Buttons">
+		<div class="resButton lower W98xH38 silver" data-ng-click="create()" data-ng-class="{'disabled': noticeDisableOpen}">
+			<p data-ng-bind-html="'Menu.FileCreate' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH38 silver" data-ng-click="open()" data-ng-class="{'disabled': noticeDisableOpen||!(model.editor.selectedFile)}">
+			<p data-ng-bind-html="'Menu.FileOpen' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH38 red" data-ng-click="remove()" data-ng-show="model.editor.selectedFile" data-ng-class="{'disabled': pickListDisableOpen}">
+			<p data-ng-bind-html="'Menu.FileRemove' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH38 silver" data-ng-click="save()" data-ng-show="!model.editor.selectedFile" data-ng-class="{'disabled': noticeDisableClose}">
+			<p data-ng-bind-html="'Menu.FileSave' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH38 silver" data-ng-click="close()" data-ng-class="{'disabled': noticeDisableClose}">
+			<p data-ng-bind-html="'Menu.FileClose' |resPhrase:context"></p>
+		</div>
+		<div class="resButton lower W98xH38 silver" data-ng-click="attach()" data-ng-class="{'disabled': noticeDisableClose}" data-ng-init="pictureAdd=true">
+            <p data-ng-bind-html="'Menu.FileAttach' |resPhrase:context" data-ng-show="pictureAdd"></p>
+            <p data-ng-bind-html="'Menu.AttachmentDelete' |resPhrase:context" data-ng-show="!pictureAdd"></p>
+        </div>
+        <div class="resButton lower W98xH38 silver" data-ng-click="filePrint()" data-ng-class="{'disabled': noticeDisableClose}">
+			<p data-ng-bind-html="'Menu.FilePrint' |resPhrase:context"></p>
+		</div>
+        <div class="resButton lower W98xH38 silver" data-ng-click="dateClear()" data-ng-class="{'disabled': noticeDisableClose}">
+			<p data-ng-bind-html="'Menu.DateClear' |resPhrase:context"></p>
+		</div>
+	</div>
+	<div class="FileName" data-ng-show="model.editor.indexEdit == 'editItems'">
+		<div class="Label">
+			<p data-ng-bind-html="'Menu.FileName' |resPhrase:context"></p>
+		</div>
+		<input id="editorTitle" class="Value" type="text" data-res-maxlength="20" size="10" data-ng-model="model.editor.title" placeholder="{{'Menu.MaxLength10'|resPhrase:context}}">
+	</div>
+	<div class="FileName2" data-ng-show="model.editor.indexEdit == 'editItems'">
+		<div class="Label">
+			<p data-ng-bind-html="'Menu.FileName2' |resPhrase:context"></p>
+		</div>
+		<input id="editorTitle2" class="Value" type="text" data-res-maxlength="20" size="10" data-ng-model="model.editor.title2" placeholder="{{'Menu.MaxLength10'|resPhrase:context}}">
+	</div>
+	<div class="Expiry" data-ng-show="model.editor.indexEdit == 'editItems'">
+		<div class="Label">
+			<p data-ng-bind-html="'Menu.Expiry' |resPhrase:context"></p>
+		</div>
+		<div class="InputTime">
+		    <datepicker date-format="yyyyMMdd" data-ng-show="model.editor.expire!='20000101'">
+		        <input id="editorExpiry" class="Value" type="text" data-ng-readonly=true maxlength="8" size="10" placeholder="YYYYMMDD"
+		        data-ng-model="model.editor.expire" data-res-tap="selectEntry()">
+		    </datepicker>
+
+		    <datepicker date-format="yyyyMMdd" data-ng-show="model.editor.expire=='20000101'">
+			    <input id="editorExpiryTemp" class="Value" type="text" data-ng-readonly=true maxlength="8" size="10" placeholder="適用終了"
+		         data-ng-model="model.editor.expireTemp" data-res-tap="selectEntry()">
+		      </datepicker>
+		</div>
+
+	</div>
+</div>
+
+<!--
+<div class="Edit">
+	<div class="Cell" data-ng-class="{selected: indexEdit == 'editItems'}"
+		data-res-touch="edit('editItems')">
+		<p data-ng-bind-html="'Menu.EditItems' |resPhrase:context"></p>
+	</div>
+	<div class="Cell" data-ng-class="{selected: indexEdit == 'editCategories'}"
+		data-res-touch="edit('editCategories')">
+		<p data-ng-bind-html="'Menu.EditCategories' |resPhrase:context"></p>
+	</div>
+	<div class="Cell" data-ng-class="{selected: indexEdit == 'editLayout'}"
+		data-res-touch="edit('editLayout')">
+		<p data-ng-bind-html="'Menu.EditLayout' |resPhrase:context"></p>
+	</div>
+
+</div>
+ -->

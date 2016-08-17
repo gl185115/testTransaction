@@ -1,0 +1,32 @@
+@CHARSET "UTF-8";
+
+#deConfirm .Panel {
+	position: absolute; left: 52px; top: 30px;  width: 920px; height: 620px; 
+}
+#deConfirm .InnerBox {
+    position: absolute; left: 10px; top: 10px;  width: 900px; height: 600px; 
+}
+#deConfirm .Panel .InnerBox .popupStoreAdd {
+	position: absolute; left: 210px; top: 150px;  width: 480px; height: 320px; 
+}
+#deConfirm .Panel .InnerBox .Buttons .resButton:nth-child(1){
+    position: absolute;
+    right: 0px;
+	bottom: -100px;
+	
+}
+#deConfirm .Panel .InnerBox .Buttons .resButton:nth-child(2){
+   	position: absolute;
+    left: 0px;
+    bottom: -100px;
+	
+}
+
+#deConfirm .Panel .InnerBox .popupStoreAdd .Guide {
+	position: absolute; left: 0px; top: 80px; width: 100%; height: 40px; text-align: center;
+	display: table;
+}
+#deConfirm .Panel .InnerBox .Guide p { 
+	text-align: center; vertical-align: top; display: table-cell;
+	font-size: 25px;
+}

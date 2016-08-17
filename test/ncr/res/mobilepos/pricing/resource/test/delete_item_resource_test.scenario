@@ -1,0 +1,34 @@
+Scenario: Delete an item of storeid found
+Given an ItemResource
+When I delete item {8888884456992} of {000031}
+Then I should get resultCode equal to 0
+
+Scenario: Delete an already deleted item of storeid found
+Given an ItemResource
+When I delete item {8888884456992} of {000031}
+Then I should get resultCode equal to 0
+
+When I delete item {8888884456992} of {000031}
+Then I should get resultCode equal to 801
+
+
+Scenario: Delete an item that doesn't exist
+Given an ItemResource
+When I delete item {0000000000001} of {000031}
+Then I should get resultCode equal to 801
+
+
+Scenario: Delete item with null ItemID parameter value
+Given an ItemResource
+When I delete item {null} of {000031}
+Then I should get resultCode equal to 801
+
+Scenario: Delete item with null RetailStoreID parameter value
+Given an ItemResource
+When I delete item {8888884456992} of {null}
+Then I should get resultCode equal to 801
+
+Scenario: Delete item with null parameter values
+Given an ItemResource
+When I delete item {null} of {null}
+Then I should get resultCode equal to 801

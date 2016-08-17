@@ -1,0 +1,106 @@
+@CHARSET "UTF-8";
+
+#EditCategories .Layout {
+	position: absolute; left: 5px; top: 160px; width: 1014px; height: 525px;
+	background: -webkit-gradient(linear,left top,right top,
+		from(hsla(0,0%,30%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+ 	border-color: hsl(0,0%,95%);
+	border-style: solid; border-width: 5px 5px 0px 5px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	border-radius: 0px 20px 0px 0px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 10px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 10px;
+	z-index: 4;
+	-webkit-transform-origin: 0% 100%;
+}
+
+#EditCategories .Layout .Categories {
+	position: absolute; left: 10px; top: 30px; width: 160px; height: 480px;
+	z-index: 0;
+}
+#EditCategories .Categories .Category {
+	position: relative; left: 0px; width: 150px; height: 50px;
+	margin: 6px 0px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%)));
+	color: hsl(0,0%,100%);
+	border-radius: 10px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+	font-size: 18px;
+	display: table;
+}
+#EditCategories .Categories .Category .innerBox {
+	width: 150px;
+    height: 50px;
+    overflow: hidden;
+}
+#EditCategories .Categories .Category.selected {
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(112,0%,60%)),to(hsl(112,0%,50%)));
+	border-color: hsl(0, 0%, 100%);
+    border-width: 1px; box-sizing: border-box; -webkit-box-sizing: border-box;
+	box-shadow: hsl(0,0%,100%) 0px 0px 4px; -webkit-box-shadow: hsl(0,0%,100%) 0px 0px 4px;
+}
+#EditCategories .Categories .Category p {
+	padding-left: 10px;
+	vertical-align: middle;
+    display: table-cell;
+    width: 150px;
+    height: 50px;
+    font-size:16px;
+/* 	padding-right: 8px; */
+/* 	vertical-align: middle; display: table-cell; */
+/* 	word-break: break-all; */
+/* 	word-wrap: break-word; */
+}
+
+#EditCategories .Categories .Category:active { background: hsl(112,45%,50%); }
+
+#EditCategories .List {
+	position: absolute; left: 170px; top: 5px;  width: 830px; height: 510px;
+	background: -webkit-gradient(linear,0% 0%, 100% 0%, from(hsl(112,0%,60%)), to(hsl(112,0%,50%)));
+	overflow-x: hidden;
+}
+/*
+#EditCategories .wrapperPickList {
+	position: absolute; left: 0px; width: 830px; height: 515px;
+	overflow-x: hidden;
+	z-index: 0;
+	}
+#EditCategories .Layout .scroller {
+	display: -webkit-inline-box;
+}
+ */
+#EditCategories .List .Guide {
+	position: absolute; left: 40px; top: 40px;
+	color: hsl(0, 0%, 100%);
+	font-size: 25px;
+}
+#EditCategories .List .Pad {
+	position: absolute; left: 40px; top: 50px; width: 500px; height: 400px;
+	background: hsl(0, 0%, 95%);
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 5px;
+	border-radius: 10px;
+}
+#EditCategories .List .Pad .Title {
+	position: absolute; left: 20px; top: 20px; width: 460px;
+	text-align: center;
+	font-size: 30px;
+}
+#EditCategories .List .Pad .Entries { position: absolute; left: 20px; top: 80px; }
+#EditCategories .List .Pad .Entry { position: relative; width: 420px; height: 80px; }
+#EditCategories .List .Pad .Entry .Label {
+	position: absolute; left: 0px; top: 0px; height: 50px; width: 160px;
+	color: hsl(0,0%,30%);
+	font-size: 18px; line-height: 80px;
+	display: table-cell;
+}
+#EditCategories .List .Pad .Entry .Value {
+	position: absolute; left: 160px; top: 20px; width: 300px; height: 40px;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	font-size: 20px; padding-left: 10px;
+}
+
+#EditCategories .List .Buttons .resButton:nth-child(1) { position: absolute; left: 80px; bottom: 20px; }
+#EditCategories .List .Buttons .resButton:nth-child(2) { position: absolute; right: 80px; bottom: 20px; }
+
+/**** end of CSS ****/

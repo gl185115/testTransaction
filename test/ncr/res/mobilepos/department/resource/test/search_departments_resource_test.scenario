@@ -1,0 +1,320 @@
+
+Scenario: List Departments
+Given a Department Resource
+Then I should have the following departments: 
+|STOREID|DPT|STATUS	|
+|0   	|101|Active	|
+|0   	|102|Active	|
+|0   	|103|Active	|
+|0   	|104|Active	|
+|0   	|105|Active	|
+|0   	|106|Deleted|
+|0   	|107|Inactive|
+|0   	|108|		|
+|0   	|109|NULL	|
+|000031	|01234567890123456789|Active|
+|0031	|201|Active	|
+|0031	|202|Active	|
+|0031	|203|Active	|
+|0031	|204|Active	|
+|0031	|205|Active	|
+!-- Select Department by Department ID prefix.
+When I set the search limit to 3
+When I list all departments of storeid {0} with key {10} and name {null}
+Then I should get resultcode {0} and {3} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+
+!-- Change search limit.
+When I set the search limit to 4
+When I list all departments of storeid {0} with key {10} and name {null}
+Then I should get resultcode {0} and {4} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+|104|Department 104|•”–å104        |
+
+!-- Select a Single Store by Department ID prefix.
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {201} and name {null}
+Then I should get resultcode {0} and {1} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|201|Department 201|•”–å201        |
+
+!-- Change search limit.
+When I set the search limit to 4
+When I list all departments of storeid {0031} with key {null} and name {partment}
+Then I should get resultcode {0} and {4} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+|203|Department 203|•”–å203        |
+|204|Department 204|•”–å204        |
+
+!-- Select  a  Department by name.
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {null} and name {partment}
+Then I should get resultcode {0} and {3} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+|203|Department 203|•”–å203        |
+
+!-- Select  a  Department with Unknown Name.
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {null} and name {unknown}
+Then I should get resultcode {0} and {0} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+
+!-- Select  a  Department with Unknown ID.
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {99} and name {null}
+Then I should get resultcode {0} and {0} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+
+Scenario: List Departments of non-existing store/non-existing dpt
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {0032} with key {99} and name {null}
+Then I should get resultcode {0} and {0} department list
+
+Scenario: List Departments of non-existing store/existing dpt at enterprise
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {0032} with key {10} and name {null}
+Then I should get resultcode {0} and {3} department list
+Then I should get list:
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+
+Scenario: List Department from Enterprise configuration
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {10} and name {null}
+Then I should get resultcode {0} and {3} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+
+Scenario: List Department from Enterprise configuration (with empty result)
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {99} and name {null}
+Then I should get resultcode {0} and {0} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+
+Scenario: List Department from Enterprise configuration (with result)
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {0031} with key {101} and name {null}
+Then I should get resultcode {0} and {1} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+
+Scenario: List Department that exceeds maximum length of storeid and dpt
+Given a Department Resource
+When I set the search limit to 3
+!-- Dpt exceeds to 20 characters
+When I list all departments of storeid {000031} with key {012345678901234567891} and name {null}
+Then I should get resultcode {0} and {0} department list
+!-- StoreId exceeds to 6 characters
+When I list all departments of storeid {0000312} with key {01234567890123456789} and name {null}
+Then I should get resultcode {0} and {0} department list
+
+Scenario: List Department that equals to the maximum length of storeid and dpt
+Given a Department Resource
+When I set the search limit to 3
+!-- Dpt equals to 20 characters
+When I list all departments of storeid {000031} with key {01234567890123456789} and name {null}
+Then I should get resultcode {0} and {1} department list
+Then I should get list: 
+|DPT                 |DPTNAME                 |DPTNAMELOCAL           |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+!-- StoreId equals to 6 characters
+When I list all departments of storeid {000031} with key {0123456789} and name {null}
+Then I should get resultcode {0} and {1} department list
+Then I should get list: 
+|DPT                 |DPTNAME                 |DPTNAMELOCAL           |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+
+
+Scenario: List Department from Enterprise configuration
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {0} with key {null} and name {•”–å}
+Then I should get resultcode {0} and {3} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+
+
+Scenario: List Active Departments from All Stores with Key •”–å 
+Given a Department Resource
+When I set the search limit to 15
+When I list all departments of storeid {} with key {null} and name {•”–å}
+Then I should get resultcode {0} and {11} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+|104|Department 104|•”–å104        |
+|105|Department 105|•”–å105        |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+|203|Department 203|•”–å203        |
+|204|Department 204|•”–å204        |
+|205|Department 205|•”–å205        |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+
+
+Scenario: List Active Departments from All Stores with Key 20 
+Given a Department Resource
+When I set the search limit to 15
+When I list all departments of storeid {} with key {20} and name {null}
+Then I should get resultcode {0} and {5} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+|203|Department 203|•”–å203        |
+|204|Department 204|•”–å204        |
+|205|Department 205|•”–å205        |
+
+Scenario: List Active Departments from All Stores with Key Empty 
+Given a Department Resource
+When I set the search limit to 15
+When I list all departments of storeid {} with key {} and name {null}
+Then I should get resultcode {0} and {11} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+|104|Department 104|•”–å104        |
+|105|Department 105|•”–å105        |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+|203|Department 203|•”–å203        |
+|204|Department 204|•”–å204        |
+|205|Department 205|•”–å205        |
+
+
+Scenario: List Active Departments from All Stores with Key Empty and Limit 0
+Given a Department Resource
+When I set the search limit to 3
+When I list all departments of storeid {} with limit 0 and key {} and name {null}
+Then I should get resultcode {0} and {3} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+
+Scenario: List Active Departments from All Stores with Key Empty and Limit -1,  Search all
+Given a Department Resource
+When I set the search limit to 1
+When I list all departments of storeid {} with limit -1 and key {} and name {}
+Then I should get resultcode {0} and {11} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+|104|Department 104|•”–å104        |
+|105|Department 105|•”–å105        |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+|203|Department 203|•”–å203        |
+|204|Department 204|•”–å204        |
+|205|Department 205|•”–å205        |
+
+
+Scenario: List Active Departments from All Stores with Key Empty and Limit 8
+Given a Department Resource
+When I set the search limit to 1
+When I list all departments of storeid {} with limit 8 and key {} and name {}
+Then I should get resultcode {0} and {8} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|01234567890123456789|Dpt 01234567890123456789|•”–å01234567890123456789|
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+|104|Department 104|•”–å104        |
+|105|Department 105|•”–å105        |
+|201|Department 201|•”–å201        |
+|202|Department 202|•”–å202        |
+
+Scenario: List Active Departments from All Stores with Key 10 and Limit 8
+Given a Department Resource
+When I set the search limit to 1
+When I list all departments of storeid {} with limit 8 and key {10} and name {}
+Then I should get resultcode {0} and {5} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|101|Department 101|•”–å101        |
+|102|Department 102|•”–å102        |
+|103|Department 103|•”–å103        |
+|104|Department 104|•”–å104        |
+|105|Department 105|•”–å105        |
+
+Scenario: Database throw Exceptions
+Given a Department Resource
+Given that database is throwing an unexpected {DaoException}
+When I list all departments of storeid {0} with key {10} and name {null}
+Then I should get resultcode {139}
+Given that database is throwing an unexpected {SQLException}
+When I list all departments of storeid {0} with key {10} and name {null}
+Then I should get resultcode {134}
+Given that database is throwing an unexpected {SQLStatementException}
+When I list all departments of storeid {0} with key {10} and name {null}
+Then I should get resultcode {139}
+Given that database is throwing an unexpected {Exception}
+When I list all departments of storeid {0} with key {10} and name {null}
+Then I should get resultcode {133}
+|105|Department 105|•”–å105        |
+
+
+!-- Start of searching special characters
+Scenario: List Departments
+Given a Department Resource
+Given a database table with special characters
+!-- Search key with (%) and (_) and ([)
+When I list all departments of storeid {0} with key {1[%0_} and name {null}
+Then I should get resultcode {0} and {3} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|1[%0_]1|De%p_[artme]nt 101|•”–å101        |
+|1[%0_]2|Department 102|•”–å102        |
+|1[%0_]3|Depart%p_[me]nt 103|•”–å103        |
+
+
+!-- Search key with (%) and (_) and ([) and name (%) and (_) and ([)
+When I list all departments of storeid {0} with key {1[%0_} and name {%p_[}
+Then I should get resultcode {0} and {2} department list
+Then I should get list: 
+|DPT|DPTNAME       |DPTNAMELOCAL  |
+|1[%0_]1|De%p_[artme]nt 101|•”–å101        |
+|1[%0_]3|Depart%p_[me]nt 103|•”–å103        |
+

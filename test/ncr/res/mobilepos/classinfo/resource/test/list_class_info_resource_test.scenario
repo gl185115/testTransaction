@@ -1,0 +1,79 @@
+Given a ClassInfo resource
+Given a class database table classinfo
+
+Then the following classes in the database should be:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0031			|Class 1			|sample class 1		|サンプルクラス1		|Dpt-001	|Line-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 4			|class 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Class 3		|sample class 3		|サンプルクラス3		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Class 4		|test class 4		|テストクラス3		|Dpt-001	|Line-004	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+When the Search Limit is set to {10}
+!-- Test for storeID filter
+When I get the list of Classes with storeid {0032} and dpt {} and key {null} and name {null} and limit {0}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 4			|class 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Class 3		|sample class 3		|サンプルクラス3		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Class 4		|test class 4		|テストクラス3		|Dpt-001	|Line-004	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for non existing storeID
+When I get the list of Classes with storeid {9999} and dpt {} and key {null} and name {null} and limit {0}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+
+!-- Test for searching with specific limit
+When I get the list of Classes with storeid {0032} and dpt {} and key {null} and name {null} and limit {2}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 4			|class 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for listing all classes
+When I get the list of Classes with storeid {0032} and dpt {} and key {null} and name {null} and limit {-1}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 4			|class 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Class 3		|sample class 3		|サンプルクラス3		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Class 4		|test class 4		|テストクラス3		|Dpt-001	|Line-004	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+!-- Test for searching with specified key
+When I get the list of Classes with storeid {0032} and dpt {} and key {clas} and name {null} and limit {-1}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Class 4			|class 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Test for searching with specified key and name
+When I get the list of Classes with storeid {0032} and dpt {} and key {clas} and name {ple} and limit {-1}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Class 2			|sample class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+Given a class database table classinfo_with_sp_chars
+!-- Search key with (%) and (_)
+When I get the list of Classes with storeid {0032} and dpt {} and key {Cl%a_} and name {null} and limit {0}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Cl%a_[s]s 4			|cl%ass 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Cl%a_ss 2			|sam%_p[l]e class 2		|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Search key with (%) and (_) and ([)
+When I get the list of Classes with storeid {0032} and dpt {} and key {Cl%a_[} and name {null} and limit {0}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Cl%a_[s]s 4			|cl%ass 4			|local 4		|Dpt-001	|Line-003	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+!-- Search key with (%) and (_) and name (%) and (_) and ([)
+When I get the list of Classes with storeid {0032} and dpt {} and key {Cl%a_} and name {%_p[} and limit {0}
+Then the list of Classes are:
+|RetailStoreID	|Class				|DescriptionEN   	|DescriptionJP	|Department	|Line		|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0032			|Cl%a_ss 2			|sam%_p[l]e class 2	|サンプルクラス2		|Dpt-001	|Line-002	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+

@@ -1,0 +1,198 @@
+Scenario: Successful update to Store
+Given I have a Store Resource
+Given a Store Table
+
+!-- Update All Fields
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"RetailStoreID":"000032", "StoreName":"Store-new", "Address":"Ormoc City", "Tel":"123-3333", "Url":"http://www.ncr.com", "SalesSpaceName":"Mr. Tamagochi", "EventName":"5 yr. Anniversary", "Ads":"life fun.", "ElectroFilePath":"c:\\", "StampTaxFilePath":"c:\\"}|
+Then I should have the following store update:
+|resultcode|extendedresultcode|StoreId|StoreName|StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000032 |Store-new|Ormoc City|123-3333|http://www.ncr.com|Mr. Tamagochi |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000032</RetailStoreID><StoreName>Store-new</StoreName><Address>Ormoc City</Address><Tel>123-3333</Tel><Url>http://www.ncr.com</Url><SalesSpaceName>Mr. Tamagochi</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update Store ID only
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000031"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new|Ormoc City|123-3333|http://www.ncr.com|Mr. Tamagochi |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new</StoreName><Address>Ormoc City</Address><Tel>123-3333</Tel><Url>http://www.ncr.com</Url><SalesSpaceName>Mr. Tamagochi</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+
+!-- Update Store Name only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"StoreName":"Store-new2"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Ormoc City|123-3333|http://www.ncr.com|Mr. Tamagochi |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Ormoc City</Address><Tel>123-3333</Tel><Url>http://www.ncr.com</Url><SalesSpaceName>Mr. Tamagochi</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update Store Address only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"Address":"Yokohama"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-3333|http://www.ncr.com|Mr. Tamagochi |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-3333</Tel><Url>http://www.ncr.com</Url><SalesSpaceName>Mr. Tamagochi</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update Telephone only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"Tel":"123-4444"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com|Mr. Tamagochi |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com</Url><SalesSpaceName>Mr. Tamagochi</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update URL only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"Url":"http://www.ncr.com.ph"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl                  |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com.ph|Mr. Tamagochi |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com.ph</Url><SalesSpaceName>Mr. Tamagochi</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update SalesSpaceName only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"SalesSpaceName":"laNueva"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl                  |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com.ph|laNueva       |5 yr. Anniversary|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com.ph</Url><SalesSpaceName>laNueva</SalesSpaceName><EventName>5 yr. Anniversary</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update EventName only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"EventName":"Birthday Bash"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl                  |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com.ph|laNueva       |Birthday Bash|life fun.|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com.ph</Url><SalesSpaceName>laNueva</SalesSpaceName><EventName>Birthday Bash</EventName><Ads>life fun.</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update Ads only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"Ads":"Be happy!"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl                  |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com.ph|laNueva       |Birthday Bash|Be happy!|c:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com.ph</Url><SalesSpaceName>laNueva</SalesSpaceName><EventName>Birthday Bash</EventName><Ads>Be happy!</Ads><ElectroFilePath>c:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update ElectroFilePath only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"ElectroFilePath":"d:\\"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl                  |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com.ph|laNueva |Birthday Bash|Be happy!|d:\            |c:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com.ph</Url><SalesSpaceName>laNueva</SalesSpaceName><EventName>Birthday Bash</EventName><Ads>Be happy!</Ads><ElectroFilePath>d:\</ElectroFilePath><StampTaxFilePath>c:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update StampTaxFilePath only
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"StampTaxFilePath":"e:\\"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|StoreId|StoreName |StoreAddr   |StoreTel     |StoreUrl                  |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000031 |Store-new2|Yokohama  |123-4444|http://www.ncr.com.ph|laNueva |Birthday Bash|Be happy!|d:\            |e:\             |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000031</RetailStoreID><StoreName>Store-new2</StoreName><Address>Yokohama</Address><Tel>123-4444</Tel><Url>http://www.ncr.com.ph</Url><SalesSpaceName>laNueva</SalesSpaceName><EventName>Birthday Bash</EventName><Ads>Be happy!</Ads><ElectroFilePath>d:\</ElectroFilePath><StampTaxFilePath>e:\</StampTaxFilePath></Store></ViewStore>
+
+!-- Update a Non-Existing Store
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"StampTaxFilePath":"e:\\"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|store|
+|710       |0                 |null |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>710</NCRWSSResultCode><Store/></ViewStore>
+
+!-- Update to Existing Store
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"RetailStoreID":"000033"}|
+Then I should have the following store update: 
+|resultcode|extendedresultcode|store|
+|700       |0                 |null |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>700</NCRWSSResultCode><Store/></ViewStore>
+
+!-- Update All Nonrequired fields to empty
+When I update a store with the following details:
+|StoreId|storejson|
+|000031 |{"RetailStoreID":"000032", "StoreName":"Store-new", "Address":"", "Tel":"", "Url":"", "SalesSpaceName":"", "EventName":"", "Ads":"", "ElectroFilePath":"", "StampTaxFilePath":""}|
+Then I should have the following store update:
+|resultcode|extendedresultcode|StoreId|StoreName|StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000032 |Store-new|			 |			   |					   |			  |					|		  |	              |                |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000032</RetailStoreID><StoreName>Store-new</StoreName><Address></Address><Tel></Tel><Url></Url><SalesSpaceName></SalesSpaceName><EventName></EventName><Ads></Ads><ElectroFilePath></ElectroFilePath><StampTaxFilePath></StampTaxFilePath></Store></ViewStore>
+
+
+!-- Update required field StoreName to empty
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000032", "StoreName":"", "Address":"", "Tel":"", "Url":"", "SalesSpaceName":"", "EventName":"", "Ads":"", "ElectroFilePath":"", "StampTaxFilePath":""}|
+Then I should have the following store update:
+|resultcode|extendedresultcode|StoreId|StoreName|StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000032 |Store-new|			 |			   |					   |			  |					|		  |	              |                |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000032</RetailStoreID><StoreName>Store-new</StoreName><Address></Address><Tel></Tel><Url></Url><SalesSpaceName></SalesSpaceName><EventName></EventName><Ads></Ads><ElectroFilePath></ElectroFilePath><StampTaxFilePath></StampTaxFilePath></Store></ViewStore>
+
+
+!-- Update required field StoreName to empty
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000032", "StoreName":"", "Address":"", "Tel":"", "Url":"", "SalesSpaceName":"", "EventName":"", "Ads":"", "ElectroFilePath":"", "StampTaxFilePath":""}|
+Then I should have the following store update:
+|resultcode|extendedresultcode|StoreId|StoreName|StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000032 |Store-new|			 |			   |					   |			  |					|		  |	              |                |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000032</RetailStoreID><StoreName>Store-new</StoreName><Address></Address><Tel></Tel><Url></Url><SalesSpaceName></SalesSpaceName><EventName></EventName><Ads></Ads><ElectroFilePath></ElectroFilePath><StampTaxFilePath></StampTaxFilePath></Store></ViewStore>
+When I delete an existing store with storenumber {000032}
+When I update a store with the following details:
+|StoreId|storejson|
+|000033 |{"RetailStoreID":"000032", "StoreName":"", "Address":"", "Tel":"", "Url":"", "SalesSpaceName":"", "EventName":"", "Ads":"", "ElectroFilePath":"", "StampTaxFilePath":""}|
+Then I should have the following store update:
+|resultcode|extendedresultcode|StoreId|StoreName|StoreAddr   |StoreTel     |StoreUrl               |SalesSpaceName|EventName        |Ads      |ElectroFilePath|StampTaxFilePath|
+|0         |0                 |000032 |Store-new|			 |			   |					   |			  |					|		  |	              |                |
+Then I should have the following xml representation of updated store:
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><ViewStore><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Store><RetailStoreID>000032</RetailStoreID><StoreName>Store-new</StoreName><Address></Address><Tel></Tel><Url></Url><SalesSpaceName></SalesSpaceName><EventName></EventName><Ads></Ads><ElectroFilePath></ElectroFilePath><StampTaxFilePath></StampTaxFilePath></Store></ViewStore>
+
+Scenario: Database throw Exceptions
+Given I have a Store Resource
+Given that database is throwing an unexpected {DaoException}
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000031"}|
+Then the result code should be {139}
+Given that database is throwing an unexpected {SQLException}
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000031"}|
+Then the result code should be {134}
+Given that database is throwing an unexpected {SQLStatementException}
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000031"}|
+Then the result code should be {139}
+Given that database is throwing an unexpected {Exception}
+When I update a store with the following details:
+|StoreId|storejson|
+|000032 |{"RetailStoreID":"000031"}|
+Then the result code should be {133}

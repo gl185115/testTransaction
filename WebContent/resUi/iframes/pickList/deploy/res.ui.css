@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+
+
+* { margin: 0px; padding: 0px; }
+body { 
+/* 	font-family: 'Helvetica','Arial','Meiryo UI','メイリオ','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','sans-serif'; 
+	font-size: 15px; line-height: 1.1;without em for auto resize 
+	color: hsl(0,0%,0%); 
+	overflow: hidden; 
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none; */
+}
+input { -webkit-appearance: none; }
+* { margin: 0px; padding: 0px; }
+
+ /*
+  * Pop-Ups
+  */ 
+/* box layout */
+.Popup	{ 
+	position: absolute; left: 0px; top: 0px; width: 100%; height: 680px;
+	background: hsla(0, 0%, 0%, 0.5);
+	z-index: 3;
+}
+.Popup .Panel {
+	position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,90%)),to(hsl(0,0%,50%))); 
+	border-radius: 10px; 
+}
+.Popup .Panel .InnerBox {
+	position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px; 
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(0,0%,100%)),to(hsl(0,0%,80%)));
+	border-color: hsl(0,0%,30%) hsl(0,0%,50%) hsl(0,0%,90%); 
+	border-style: solid; border-width: 1px;	box-sizing: border-box; -webkit-box-sizing: border-box; 
+}
+.Popup .Panel .InnerBox .Message { position:absolute; left: 40px; top: 80px; width: 520px; }
+.Popup .Panel .InnerBox .Message p { 
+	font-size: 24px; line-height: 1.5; 
+	text-align: center;
+}
+.Popup .Panel .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+.Popup .Panel .Buttons .Button:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+.Popup .Panel .Buttons .Button:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }
+
+/*
+ * Buttons
+ */
+.Button{
+	border-radius: 5px; 
+	box-shadow: hsl(0,0%,0%) 0px 2px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 2px 4px; 
+	display: table; 	
+}
+.Button p { text-align: center; vertical-align: middle;  display: table-cell; }
+.Button.W120xH70 { width: 120px; height: 70px; font-size: 20px; }
+
+/* Button Top Colors */ 
+
+.Button.silver { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%))); }
+.Button.silver:active { background: hsl(0,0%,50%); }
+.Button.silver p { color: hsl(0,0%,0%); }
+
+.Button.gray { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,70%)),to(hsl(0,0%,40%))); }
+.Button.gray:active { background: hsl(0,0%,50%); }
+.Button.gray p { color: hsl(0,0%,100%); }
+
+.Button.red { background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,70%)),to(hsl(7,73%,40%))); }
+.Button.red:active { background: hsl(7,73%,50%); }
+.Button.red p { color: hsl(0,0%,100%); }
+
+.Button.beige { background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,70%)),to(hsl(34,30%,40%))); }
+.Button.beige:active { background: hsl(34,30%,50%); }
+.Button.beige p { color: hsl(0,0%,100%); }
+
+.Button.orange { background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,95%,70%)),to(hsl(35,95%,40%))); }
+.Button.orange:active { background: hsl(35,95%,50%); }
+.Button.orange p { color: hsl(0,0%,100%); }
+
+.Button.yellow { background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,70%)),to(hsl(41,100%,40%))); }
+.Button.yellow:active { background: hsl(41,100%,50%); }
+.Button.yellow p { color: hsl(0,0%,100%); }
+
+.Button.green { background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%))); }
+.Button.green:active { background: hsl(112,45%,50%); }
+.Button.green p { color: hsl(0,0%,100%); }
+
+.Button.blue { background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,70%)),to(hsl(212,85%,40%))); }
+.Button.blue:active { background: hsl(212,85%,50%); }
+.Button.blue p { color: hsl(0,0%,100%); }
+
+/**** end of CSS ****/

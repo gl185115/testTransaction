@@ -1,0 +1,25 @@
+
+<div class="resCasing silver"><div class="resPanel silver">
+
+	<div class="Guide">
+		<p data-ng-bind-html="'FileCreate.Guide'|resPhrase:context"></p>
+	</div>
+	<div class="Entry">
+		<input class="Value" type="text" size="25" data-ng-model="fileName" data-res-maxlength="50"
+			placeholder="{{'FileCreate.NameLength'|resPhrase:context}}"  data-ng-trim="false">
+	</div>
+	<div class="Warning" data-ng-show="model.notice.inputEmptyName">
+           <p data-ng-bind-html="'FileCreate.InputEmptyName'|resPhrase:context"></p>
+    </div>
+	<div class="Warning" data-ng-show="model.notice.inValidName">
+		 <p data-ng-bind-html="'FileCreate.InValidName'|resPhrase:context"></p>
+	</div>
+	<div class="Warning" data-ng-show="model.notice.fileNameLengthOver">
+		<p data-ng-bind-html="'FileCreate.FileNameLengthOver'|resPhrase:context"></p>
+	</div>
+	<div class="Buttons">
+		<div class="resButton raise yellow W120xH70" data-ng-click="cancel()"><p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p></div>
+		<div class="resButton raise green W120xH70" data-ng-click="submit()"><p data-ng-bind-html="'Button.Create'|resPhrase:context"></p></div>
+	</div>
+
+</div></div>

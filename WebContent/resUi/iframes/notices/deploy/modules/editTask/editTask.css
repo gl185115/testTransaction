@@ -1,0 +1,187 @@
+@CHARSET "UTF-8";
+
+#EditTask .Panel {
+	position: absolute; left: 52px; top: 30px;  width: 920px; height: 620px;
+}
+#EditTask .Panel .Buttons .Button:nth-child(1) { position: absolute; bottom: 0px; left: 270px; }
+#EditTask .Panel .Buttons .Button:nth-child(2) { position: absolute; bottom: 0px; right: 270px; }
+#EditTask .Warning {
+	position: absolute; left:0; right:0; bottom: 100px; height: 25px;
+	text-align: center;
+	font-size: 20px;
+}
+
+#EditTask .Panel .DeployOptions .Label {
+	margin: 15px 0px 5px;
+	color: hsl(0,0%,30%);
+	font-size: 20px;
+}
+#EditTask .Panel .DeployOptions .Value {
+	position: relative; left: 0px; top: 0px; width: 100%; height: 50px;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	font-size: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+#EditTask .Panel .InnerBox .DeployOptions .OptionTarget .PointLeft {
+	position: absolute; left: 255px; top: 25px; width: 20px; height: 60px; z-index: 1;
+}
+
+#EditTask .DeployOptions {
+	position: relative; left: 20px; top: 45px; width: 250px;
+}
+#EditTask .DeployOptions .OptionTarget {
+}
+#EditTask .DeployOptions .OptionTarget .PointLeft {
+	position: absolute; left: 255px; top: 25px; width: 20px; height: 60px; z-index: 1;
+}
+#EditTask .DeployOptions .StoreSelector {
+	position: absolute; left: 275px; top: -60px;
+	height: 480px;
+	display: table;
+	padding: 10px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,100%)),to(hsl(34,30%,95%)));
+	-webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+	border-radius: 5px;
+	border-style: none;
+	z-index:2;
+}
+#EditTask .DeployOptions .StoreSelector .StoreSelectorView {
+	 width: 360px;
+	 height:390px;
+	 background: -webkit-gradient(linear,left top,right bottom,from(hsl(34,30%,85%)),to(hsl(34,30%,70%)));
+}
+#wrapperStoreSelectorView {
+	position: relative; left: 0px; top: 0px; width: 360px; height: 390px; z-index: 2; overflow: hidden;
+}
+#EditTask .DeployOptions .StoreSelector .StoreSelectorView .Level1Line  {
+	position: relative;
+	left: 0px;
+	width: 360px;
+	height: 50px;
+	background: -webkit-gradient(linear, left top, right bottom, from(hsl(34, 30%, 85%)), to(hsl(34, 30%, 70%)));
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 100%) hsl(0, 0%, 70%);
+	border-style: solid;
+	border-width: 1px 0px 1px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	font-size: 20px;
+	line-height: 48px;
+}
+#EditTask .DeployOptions .StoreSelector .StoreSelectorView .Level1Line.selected {
+	background: hsl(112,0%,70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#EditTask .DeployOptions .StoreSelector .StoreSelectorView p {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#EditTask .DeployOptions .StoreSelector .StoreSelectorView .Level2Line.selected {
+	background: hsl(112,0%,70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#EditTask .DeployOptions .StoreSelector .StoreSelectorView .Level2Line {
+    position: relative;
+    left: 0px;
+    width: 360px;
+/*     height: 40px; */
+    background: -webkit-gradient(linear,left top,right bottom,from(hsl(34,30%,95%)),to(hsl(34,30%,80%)));
+    border-color: hsl(0,0%,100%) hsl(0,0%,100%) hsl(0,0%,70%);
+    border-style: solid;
+    border-width: 1px 0px 1px;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    font-size: 18px;
+    line-height: 46px;
+    padding-left: 20px;
+}
+#EditTask .DeployOptions .StoreSelector .Buttons .Button:nth-child(1) {
+	position: ralative; bottom: -5px; left: 20px; z-index:2;
+}
+#EditTask .DeployOptions .StoreSelector .Buttons .Button:nth-child(2) {
+	position: ralative; bottom: -5px; right: 20px; z-index:2;
+}
+
+#EditTask .DeployTime {
+  margin-top: 70px;
+}
+#EditTask .DeployTimeHour {
+	border-right: 0px;
+}
+#EditTask input.DeployTimeHour {
+	width: 75px;
+	height: 40px;
+	text-align: center;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	padding-left: 10px;
+	font-size: 20px;
+}
+#EditTask .DeployTimeMinute {
+	border-left: 0;
+	border-right: 0;
+}
+#EditTask input.DeployTimeMinute{
+	width: 75px;
+	height: 40px;
+	text-align: center;
+	-webkit-box-shadow: hsl(0,0%,0%) 1px 1px 5px inset;
+	border-radius: 5px; box-sizing: border-box; border-style: none;
+	padding-left: 10px;
+	font-size: 20px;
+}
+#EditTask .Panel .DeployOptions #dpTimeUp {
+  height: 15px;
+  width: 25px;
+}
+#EditTask .Panel .DeployOptions #dpTimeDown {
+  height: 15px;
+  width: 25px;
+}
+
+#EditTask .Guide {
+	position: absolute; left: 300px; top: 20px; width: 580px; height: 40px;
+	display: table;
+}
+#EditTask .Guide p {
+	text-align: center; vertical-align: top; display: table-cell;
+	font-size: 25px;
+}
+#EditTask .List {
+	position: absolute; left: 300px; top: 60px;  width: 580px; height: 400px;
+	border-color: hsl(0, 0%, 50%) hsl(0, 0%, 70%) hsl(0, 0%, 95%);
+	border-style: solid; border-width: 5px; box-sizing: content-box; -webkit-box-sizing: border-box;
+	overflow: hidden;
+}
+#wrapperFiles { position: absolute; left: 0px; top: 0px; width: 100%; height: 390px; z-index: 1; overflow: hidden; }
+
+#EditTask .List .Line {
+	position: relative; left: 0px; width: 100%; height: 50px;
+ 	background: hsl(0, 0%, 95%);
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 85%) hsl(0, 0%, 70%);
+	border-style: solid; border-width: 2px 2px 2px 0px; box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#EditTask .List .Line.selected {
+	background: hsl(112,0%,70%);
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+#EditTask .List .Line.disabled {
+	color: gray;
+}
+
+#EditTask .List .Line p {
+	margin-left: 5px;
+	font-size: 20px; line-height: 50px;
+}
+#EditTask input:focus {
+	border-radius: 5px;
+	border: 2px solid #6FA1D9 !important;
+    -webkit-box-shadow:0px 0px 5px #6FA1D9 !important;
+}

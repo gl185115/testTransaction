@@ -1,0 +1,57 @@
+Scenario: Test Item Entry with MixMatch Type 1
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mixmatch.xml}
+Given a loaded dataset {mixmatch_promotions.xml}
+
+Scenario: Item Entry (proportional distribution)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"0000000000100","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |0000000000100|EAN-13    |1       |0143      |Item C1      |アイテムのC1    |1100.0               |0.0     |0.0           |1100.0              |1100.0        |True        |1                |0         |
+Then there should be no promotion data.
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"0000000000200","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |0000000000200|EAN-13    |1       |0143      |Item C2      |アイテムのC2    |1200.0               |0.0     |0.0           |1200.0              |1200.0        |True        |0                |0         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1032          |1032         |Mix Match 1032 Type 3|00002      |157|
+|2       |1032          |1032         |Mix Match 1032 Type 3|00001      |143|
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"0000000000300","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |0000000000300|EAN-13    |1       |0143      |Item C3      |アイテムのC3    |1300.0               |0.0     |0.0           |1300.0              |1300.0        |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1032          |1032         |Mix Match 1032 Type 3|00003      |217|
+|2       |1032          |1032         |Mix Match 1032 Type 3|00002      |200|
+|3       |1032          |1032         |Mix Match 1032 Type 3|00001      |183|
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"0000000000400","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |0000000000400|EAN-13    |1       |0143      |Item C4      |アイテムのC4    |1400.0               |0.0     |0.0           |1400.0              |1400.0        |True        |1                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1032          |1032         |Mix Match 1032 Type 3|00004      |280|
+|2       |1032          |1032         |Mix Match 1032 Type 3|00003      |260|
+|3       |1032          |1032         |Mix Match 1032 Type 3|00002      |240|
+|4       |1032          |1032         |Mix Match 1032 Type 3|00001      |220|
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"0000000000500","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00005      |0000000000500|EAN-13    |1       |0143      |Item C5      |アイテムのC5    |1500.0               |0.0     |0.0           |1500.0              |1500.0        |True        |0                |0         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1032          |1032         |Mix Match 1032 Type 3|00005      |346|
+|2       |1032          |1032         |Mix Match 1032 Type 3|00004      |323|
+|3       |1032          |1032         |Mix Match 1032 Type 3|00003      |300|
+|4       |1032          |1032         |Mix Match 1032 Type 3|00002      |277|
+|5       |1032          |1032         |Mix Match 1032 Type 3|00001      |254|
+

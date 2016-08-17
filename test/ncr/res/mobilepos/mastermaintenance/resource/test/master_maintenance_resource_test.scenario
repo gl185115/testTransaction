@@ -1,0 +1,105 @@
+Scenario: Check if SpartData is Empty or null
+Given a SpartData {}
+When a SpartData is imported with TableFlag value of {0}
+Then resultBase should be {-1}
+
+Scenario: Check when SpartData contains only a single field value
+Given a SpartData {3223}
+When a SpartData is imported with TableFlag value of {0}
+Then resultBase should be {-1}
+
+Given a SpartData {NULL}
+When a SpartData is imported with TableFlag value of {0}
+Then resultBase should be {-1}
+
+Scenario: Check when SpartData contains two field values only
+Given a SpartData {3223,20120510}
+When a SpartData is imported with TableFlag value of {0}
+Then resultBase should be {-1}
+
+Scenario: Check when SpartData contains three field values only
+Given a SpartData {3223,20120510,20130131}
+When a SpartData is imported with TableFlag value of {0}
+Then resultBase should be {-1}
+
+Scenario: Check the TableFlag values
+Given a SpartData {}
+When a SpartData is imported with TableFlag value of {0}
+Then resultBase should be {-1}
+
+!--Scenario: Successful Add new row on OPE_MAST_TBL
+!--Given a SpartData {999501,501,TD$j023,10,本部管理者,ﾎﾝﾌﾞｶﾝﾘｼｬ,NULL,NULL,NULL,NULL,10,1,02371320130702,NULL,NULL,2013-07-02 17:38:00,2013-07-02 17:38:00,MMNT_OPE,501}
+!--When a SpartData is imported with TableFlag value of {0}
+!--Then resultBase should be {0}
+
+!--Scenario: Successful Update new row on OPE_MAST_TBL
+!--Given a SpartData {999501,500,TD$j023,10,本部管理者,ﾎﾝﾌﾞｶﾝﾘｼｬ,NULL,NULL,NULL,NULL,10,1,02371320130702,NULL,NULL,2013-07-02 17:38:00,2013-07-02 17:38:00,MMNT_OPE,501}
+!--When a SpartData is imported with TableFlag value of {0}
+!--Then resultBase should be {0}
+
+!--Scenario: Failure for row insert on OPE_MAST_TBL
+!--Given a SpartData {NULL,500,TD$j023,10,本部管理者,ﾎﾝﾌﾞｶﾝﾘｼｬ,NULL,NULL,NULL,NULL,10,1,02371320130702,NULL,NULL,2013-07-02 17:38:00,2013-07-02 17:38:00,MMNT_OPE,501}
+!--When a SpartData is imported with TableFlag value of {0}
+!--Then resultBase should be {-1}
+
+!--Scenario: Failure for row update on OPE_MAST_TBL
+!--Given a SpartData {NULL,500,TD$j023,10,本部管理者,ﾎﾝﾌﾞｶﾝﾘｼｬ,NULL,NULL,NULL,NULL,10,1,02371320130702,NULL,NULL,2013-07-02 17:38:00,2013-07-02 17:38:00,MMNT_OPE,501}
+!--When a SpartData is imported with TableFlag value of {0}
+!--Then resultBase should be {-1}
+
+Scenario: Successful Add new row on MST_MIXMATCH
+Given a SpartData {000031,3223,20120510,20130131,1,4,6191,6191,6191,0,NULL,NULL,NULL,NULL,NULL,UBS SET,0,0,11/15/2012 5:16,11/15/2012 5:16,sp_UpdateMMC_RN,,0}
+When the Web API Starts Up
+When a SpartData is imported with TableFlag value of {1}
+Then resultBase should be {0}
+
+Scenario: Successful Update new row on MST_MIXMATCH
+Given a SpartData {000031,3223,20120510,20130131,8,5,6563,6191,6191,0,NULL,NULL,NULL,NULL,NULL,UBS SET,0,0,11/15/2012 5:16,11/15/2012 5:16,sp_UpdateMMC_RN,,0}
+When a SpartData is imported with TableFlag value of {1}
+Then resultBase should be {0}
+
+Scenario: Failure for row update on MST_MIXMATCH
+Given a SpartData {000031,NULL,20120510,20130131,8,5,6563,6191,6191,0,NULL,NULL,NULL,NULL,NULL,UBS SET,0,0,11/15/2012 5:16,11/15/2012 5:16,sp_UpdateMMC_RN,,0}
+When a SpartData is imported with TableFlag value of {1}
+Then resultBase should be {0}
+
+Scenario: Added a new row on MST_GROUPMIXMATCH with 
+Given a SpartData {000031,9601,20120510,20130131,8,5,6563,6191,6191,0,,,,,,UBS SET,0,0,11/15/2012 5:16,11/15/2012 5:16,sp_UpdateMMC_RN,,0}
+When a SpartData is imported with TableFlag value of {1}
+Then resultBase should be {0}
+
+Scenario: Successful Update new row on MST_GROUPMIXMATCH
+Given a SpartData {000031,9601,20120510,20130131,8,5,6563,6191,6191,0,,,,,,UBS SET,0,0,11/15/2012 5:16,11/15/2012 5:16,sp_UpdateMMC_RN,,0}
+When a SpartData is imported with TableFlag value of {1}
+Then resultBase should be {0}
+
+Scenario: Failure for new row on MST_GROUPMIXMATCH
+Given a SpartData {000031,,20120510,20130131,8,5,6563,6191,6191,0,,,,,,UBS SET,0,0,11/15/2012 5:16,11/15/2012 5:16,sp_UpdateMMC_RN,,0}
+When a SpartData is imported with TableFlag value of {1}
+Then resultBase should be {0}
+
+Scenario: Added a new row on MST_PLU with 
+Given a SpartData {000034,0000000000000,0,0000000000000,03058,018,1803,1803,NULL,0000,NULL,  *,  *,18CB,NULL,NULL,NULL,NULL,NULL,NULL,NULL,XXX,XXX                      ,NULL,xxxx,xxxx,NULL,NULL,880.00,880.00,880.00,2001-12-21 00:00:00,2003-06-13 00:00:00,572.00,704.00,0.00,0.00,0.00,NULL,NULL,NULL,249.00,0.00,NULL,NULL,NULL,0.00,0,0,0,0,0,0,0,0,0,0,NULL,0,NULL,0,NULL,0,1,NULL,NULL,NULL,0,NULL,NULL,0.00,0.00,572.00,704.00,0.00,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1803030582,0,0,0,NULL,0,0,0,0,0,0,2003-06-13 00:00:00,2003-06-13 17:42:00,SOD,000000}
+When a SpartData is imported with TableFlag value of {2}
+Then resultBase should be {0}
+
+Scenario: update a new row on MST_PLU with 
+Given a SpartData {000034,0000000000000,0,0000000000000,03058-AB,018,1803,1803,NULL,0000,NULL,  *,  *,18CB,NULL,NULL,NULL,NULL,NULL,NULL,NULL,XXX,XXX                      ,NULL,xxxx,xxxx,NULL,NULL,880.00,880.00,880.00,2001-12-21 00:00:00,2003-06-13 00:00:00,572.00,704.00,0.00,0.00,0.00,NULL,NULL,NULL,249.00,0.00,NULL,NULL,NULL,0.00,0,0,0,0,0,0,0,0,0,0,NULL,0,NULL,0,NULL,0,1,NULL,NULL,NULL,0,NULL,NULL,0.00,0.00,572.00,704.00,0.00,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1803030582,0,0,0,NULL,0,0,0,0,0,0,2003-06-13 00:00:00,2003-06-13 17:42:00,SOD,000000}
+When a SpartData is imported with TableFlag value of {2}
+Then resultBase should be {0}
+
+Scenario: Failure for new row on MST_PLU with 
+Given a SpartData {000034,NULL,0,0000000000000,03058,018,1803,1803,NULL,0000,NULL,  *,  *,18CB,NULL,NULL,NULL,NULL,NULL,NULL,NULL,XXX,XXX                      ,NULL,xxxx,xxxx,NULL,NULL,880.00,880.00,880.00,2001-12-21 00:00:00,2003-06-13 00:00:00,572.00,704.00,0.00,0.00,0.00,NULL,NULL,NULL,249.00,0.00,NULL,NULL,NULL,0.00,0,0,0,0,0,0,0,0,0,0,NULL,0,NULL,0,NULL,0,1,NULL,NULL,NULL,0,NULL,NULL,0.00,0.00,572.00,704.00,0.00,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,1803030582,0,0,0,NULL,0,0,0,0,0,0,2003-06-13 00:00:00,2003-06-13 17:42:00,SOD,000000}
+When a SpartData is imported with TableFlag value of {2}
+Then resultBase should be {-1}
+
+!-- UNKNOWN Table Flag to be sent
+Scenario: Check when TableFlag is greater than 2
+Given a SpartData {}
+When a SpartData is imported with TableFlag value of {3}
+Then resultBase should be {-1}
+
+Scenario: Check when TableFlag is less than zero 
+Given a SpartData {}
+When a SpartData is imported with TableFlag value of {-1}
+Then resultBase should be {-1}

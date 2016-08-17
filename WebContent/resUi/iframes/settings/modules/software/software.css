@@ -1,0 +1,21 @@
+/*
+ * Software Configuration Section
+ */
+#Software .Logo { position: absolute; left: 40px; top: 40px; }
+#Software .Package { position: absolute; left: 200px; top: 40px; }
+#Software .Package p:nth-child(1) { font-size: 20px; }
+#Software .Package p:nth-child(2) { font-size: 44px; font-weight: bold; font-family: serif; }
+#Software .Package p:nth-child(3) { font-size: 20px; }
+
+#Software .SWConfig { position: absolute; left: 40px; top: 180px; }
+#Software .SWConfig .Title { margin-top: 10px; font-size: 15px; font-weight: bold; }
+#Software .SWConfig table { border-spacing: 2px; }
+#Software .SWConfig tr td {
+	background: hsl(0, 0%, 95%);
+	border: none; 
+	padding: 5px; 
+}
+#Software .SWConfig tr td:nth-child(1) { width: 150px; color: hsl(0, 0%, 50%); }
+#Software .SWConfig tr td:nth-child(2) { width: 400px; }
+
+/**** end of CSS ****/

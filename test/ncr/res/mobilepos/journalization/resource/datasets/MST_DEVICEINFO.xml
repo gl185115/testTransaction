@@ -1,0 +1,98 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DEVICEINFO">
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>DeviceName</column>
+		<column>PrinterId</column>
+		<column>TillId</column>
+		<column>LinkPosTerminalId</column>
+		<column>LinkQueueBuster</column>
+		<column>LinkAuthorization</column>
+		<column>LinkSignature</column>
+		<column>SendLogFile</column>
+		<column>SaveLogFile</column>
+		<column>AutoUpload</column>
+		<column>LastTxId</column>
+		<column>LastSuspendTxId</column>
+		<column>EjSequence</column>
+		<column>Status</column>
+		<column>UpdDate</column>
+		<row>
+			<value>0031</value>
+			<value>5001</value>
+			<value>Device 5001</value>
+			<value><![CDATA[101]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>5002</value>
+			<value>Device 5002</value>
+			<value><![CDATA[101]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>4567</value>
+			<value>Device 4567</value>
+			<value><![CDATA[101]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>1111</value>
+			<value>Device 1111</value>
+			<value><![CDATA[101]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+	</table>
+</dataset>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html data-ng-app="res.ui">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv ="Cache-control" content="no-cache"> 
+<meta http-equiv="Expires" content="-1">
+<script src="../../../../resLibrary/res.library.ui.js" type="text/javascript"></script>
+
+<script src="res.model.js" type="text/javascript"></script>
+<link  href="res.ui.css" rel="stylesheet" type="text/css" />
+<script src="res.ui.js" type="text/javascript"></script>
+
+<link  href="modules/menu/menu.css" rel="stylesheet" type="text/css" />
+<script src="modules/menu/menu.js" type="text/javascript"></script>
+<link  href="modules/directory/directory.css" rel="stylesheet" type="text/css" />
+<script src="modules/directory/directory.js" type="text/javascript"></script>
+<link  href="modules/tasks/tasks.css" rel="stylesheet" type="text/css" />
+<script src="modules/tasks/tasks.js" type="text/javascript"></script>
+<link  href="modules/editTask/editTask.css" rel="stylesheet" type="text/css" />
+<script src="modules/editTask/editTask.js" type="text/javascript"></script>
+<link  href="modules/editStore/editStore.css" rel="stylesheet" type="text/css" />
+<script src="modules/editStore/editStore.js" type="text/javascript"></script>
+<link href="modules/popupMessage/popupMessage.css" rel="stylesheet" type="text/css"></link>
+<script src="modules/popupMessage/popupMessage.js" type="text/javascript"></script>
+<link href="modules/deConfirm/deConfirm.css" rel="stylesheet" type="text/css"></link>
+<script src="modules/deConfirm/deConfirm.js" type="text/javascript"></script>
+<link href="modules/confirmMessage/confirmMessage.css" rel="stylesheet" type="text/css"></link>
+<script src="modules/confirmMessage/confirmMessage.js" type="text/javascript"></script>
+<link href="modules/fileExplorer/fileExplorer.css" rel="stylesheet" type="text/css"></link>
+<script src="modules/fileExplorer/fileExplorer.js" type="text/javascript"></script>
+<link href="modules/saveDetail/saveDetail.css" rel="stylesheet" type="text/css"></link>
+<script src="modules/saveDetail/saveDetail.js" type="text/javascript"></script>
+
+<link href="../../../../external/angular-datepicker-master/angular-datepicker.css" rel="stylesheet" type="text/css" />
+<script src="../../../../external/angular-datepicker-master/angular-datepicker.js" type="text/javascript"></script>
+<script src="../../../../external/angular-datepicker-master/angular-locale_ja.js" type="text/javascript"></script>
+
+<link  href="../../../../resSkin/default.css" rel="stylesheet" type="text/css" id="Skin"/>
+
+<script src="../../../../resConfig/res.config.js" type="text/javascript"></script>
+
+<title>NCR RES UI Configurator</title>
+</head>
+<body>
+
+	<div id="Menu" data-res-include="modules/menu/menu.html"
+		data-ng-controller="menu"></div>
+
+	<div id="Directory" data-res-include="modules/directory/directory.html"
+		data-ng-controller="directory"></div>
+
+	<div id="Tasks" data-res-include="modules/tasks/tasks.html"
+		data-ng-controller="tasks"></div>
+
+	<div id="EditTask" class="Popup" data-ng-show="dialog == 'editTask'"
+		data-res-include="modules/editTask/editTask.html"
+		data-ng-controller="editTask"></div>
+
+	<div id="EditStore" class="Popup" data-ng-show="dialog == 'editStore'"
+		data-res-include="modules/editStore/editStore.html"
+		data-ng-controller="editStore"></div>
+
+	<div id="PopupMessage" class="Popup"
+		data-ng-show="popupMessage == 'popupMessage'"
+		data-res-include="modules/popupMessage/popupMessage.html"
+		data-ng-controller="PopupMessage"></div>
+
+	<div id="deConfirm" class="Popup"
+		data-ng-show="deConfirm == 'deConfirm'"
+		data-res-include="modules/deConfirm/deConfirm.html"
+		data-ng-controller="deConfirm"></div>
+
+	<div id="confirmMessage" class="Popup"
+		data-ng-show="confirmMessage == 'confirmMessage'"
+		data-res-include="modules/confirmMessage/confirmMessage.html"
+		data-ng-controller="confirmMessage"></div>
+
+	<div id="FileExplorer" class="resPopup"
+		data-ng-show="dialog == 'fileExplorer'"
+		data-res-include="modules/fileExplorer/fileExplorer.html"
+		data-ng-controller="fileExplorer"></div>
+
+	<div id="SaveDetail" class="Popup"
+		data-ng-show="dialog == 'saveDetail'"
+		data-res-include="modules/saveDetail/saveDetail.html"
+		data-ng-controller="saveDetail"></div>
+
+</body>
+</html>
+

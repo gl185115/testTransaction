@@ -1,0 +1,111 @@
+Scenario: Delete Signature Link
+Given an entries from PRM_SIGNATURE_LINK database table
+Given I have DeviceInfo resource
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id				 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Active |
+|00031|posSignedLinkID220|POS Terminal Signed220|Active|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Active|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+
+!-- Delete Signature Link Success 
+When I delete a Signature Link with storeid:00031 and linkid:posSignedLinkID220 
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Active |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Active|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+
+
+When I delete a Signature Link with storeid:00031 and linkid:posSignedLinkID330 
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Active |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+
+
+!-- Delete Signature Link belonging to non-existing store
+When I delete a Signature Link with storeid:000035 and linkid:posSignedLinkID335 
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted|
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"0"}
+
+
+!-- Delete Non-existing Signature Link
+When I delete a Signature Link with storeid:00031 and linkid:SignedLinkID10000 
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"907"}
+
+!-- Delete Signature Link with Invalid parameters
+!-- Empty Store ID
+When I delete a Signature Link with storeid: and linkid:SignedLinkID10000 
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+!-- Empty Link ID
+When I delete a Signature Link with storeid:00031 and linkid:
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+!-- null Store ID
+When I delete a Signature Link with storeid:null and linkid:SignedLinkID10000 
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+!-- Empty Link ID
+When I delete a Signature Link with storeid:00031 and linkid:null
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status|
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active|
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active|
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"224"}
+
+
+!-- Delete Signature Link with Invalid Link Type
+When I delete a Signature Link with invalid Link Type
+Then the PRM_SIGNATURE_LINK database table should have the following row(s):
+|storeid|id 			 |displayname			|status |
+|000035|posSignedLinkID335|POS Terminal Signed335|Deleted |
+|00031|posSignedLinkID220|POS Terminal Signed220|Deleted|
+|00031|posSignedLinkID225|POS Terminal Signed225|Active |
+|00031|posSignedLinkID330|POS Terminal Signed330|Deleted|
+|00031|posSignedLinkID440|POS Terminal Signed440|Active |
+Then the actual ResultBase for delete would be {"NCRWSSExtendedResultCode":"0", "NCRWSSResultCode":"905"}

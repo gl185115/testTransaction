@@ -1,0 +1,167 @@
+<!-- Device Settings -->
+
+<div class="Page CompanyID" data-ng-show="page=='companyID'">
+
+	<div class="Title">
+		<div class="resButton raise gray W80xH40" data-res-tap="back()">
+			<p data-ng-bind-html="'Device.Back'|resPhrase:context"></p>		
+		</div>
+		<p data-ng-bind-html="'Device.CompanyID.Title'|resPhrase:context"></p>
+	</div>
+	<div class="Panel">
+		<div class="KeyPad">
+			<div class="resEchoback" data-ng-class="{'text gray': !resIsEntered}">
+			    <p data-ng-bind-html="companyID"></p>
+			</div>
+			<div class="TenKey" data-res-tenkey data-ng-init="echo('companyID')"></div>
+		</div>
+	</div>
+	<div class="Panel scale-in-x" data-ng-show="!tenkey">
+		<div class="Set">
+			<div class="Line" data-ng-repeat="company in companies track by $index"
+				data-res-tap="set('companyID', company.CompanyId)">
+				<div class="Label"><p>
+					<span data-ng-bind-html="company.CompanyId"></span>:&nbsp;
+					<span data-ng-bind-html="company.CompanyName"></span>
+				</p></div>
+			</div>
+			<!-- <div class="Line" data-res-touch="tenkey = true">
+				<div class="Label"><p data-ng-bind-html="'Device.OtherCompany'|resPhrase:context"></p></div>
+				<div class="ColumnArrow"></div>
+			</div> -->
+		</div>
+	</div>
+	
+</div>
+
+<div class="Page StoreID" data-ng-show="page=='storeID'">
+
+	<div class="Title">
+		<div class="resButton raise gray W80xH40" data-res-tap="back()">
+			<p data-ng-bind-html="'Device.Back'|resPhrase:context"></p>		
+		</div>
+		<p data-ng-bind-html="'Device.StoreID.Title'|resPhrase:context"></p>
+	</div>
+	<div class="Panel">
+		<div class="KeyPad">
+			<div class="resEchoback" data-ng-class="{'text gray': !resIsEntered}">
+			    <p data-ng-bind-html="storeID"></p>
+			</div>
+			<div class="TenKey" data-res-tenkey data-ng-init="echo('storeID')"></div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="Page WorkstationID" data-ng-show="page=='workstationID'">
+
+	<div class="Title">
+		<div class="resButton raise gray W80xH40" data-res-tap="back()">
+			<p data-ng-bind-html="'Device.Back'|resPhrase:context"></p>		
+		</div>
+		<p data-ng-bind-html="'Device.WorkstationID.Title'|resPhrase:context"></p>
+	</div>
+	<div class="Panel">
+		<div class="KeyPad">
+			<div class="resEchoback" data-ng-class="{'text gray': !resIsEntered}">
+			    <p data-ng-bind-html="workstationID"></p>
+			</div>
+			<div class="TenKey" data-res-tenkey data-ng-init="echo('workstationID')"></div>
+		</div>
+	</div>
+	
+</div>
+
+<div class="Page Language" data-ng-show="page=='language'">
+
+	<div class="Title">
+		<div class="resButton raise gray W80xH40" data-res-tap="back()">
+			<p data-ng-bind-html="'Device.Back'|resPhrase:context"></p>		
+		</div>
+		<p data-ng-bind-html="'Device.Language.Title'|resPhrase:context"></p>
+	</div>
+	<div class="Panel">
+		<div class="Set">
+			<div class="Line" data-res-tap="setLanguage('en')">
+				<div class="Label"><p data-ng-bind-html="'Device.Language.en'|resPhrase:context"></p></div>
+			</div>
+			<div class="Line" data-res-tap="setLanguage('ja')">
+				<div class="Label"><p data-ng-bind-html="'Device.Language.ja'|resPhrase:context"></p></div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<div class="Page companyLogon scale-in-x" data-ng-show="page=='top'">
+
+	<div class="Title">
+		<p data-ng-bind-html="'Device.Title'|resPhrase:context"></p>
+	</div>
+	<div class="Panel">
+	
+		<div class="Set">
+			<div class="Line" data-res-tap="changePage('companyID')">
+				<div class="Label"><p data-ng-bind-html="'Device.CompanyID'|resPhrase:context"></p></div>
+				<div class="Value"><p data-ng-bind-html="model.companyID"></p></div>
+				<div class="ColumnArrow"></div>
+			</div>
+			<!-- <div class="Line" data-res-tap="changePage('storeID')">
+				<div class="Label"><p data-ng-bind-html="'Device.StoreID'|resPhrase:context"></p></div>
+				<div class="Value"><p data-ng-bind-html="model.storeID"></p></div>
+				<div class="ColumnArrow"></div>
+			</div>
+			<div class="Line" data-res-tap="changePage('workstationID')">
+				<div class="Label"><p data-ng-bind-html="'Device.WorkstationID'|resPhrase:context"></p></div>
+				<div class="Value"><p data-ng-bind-html="model.workstationID"></p></div>
+				<div class="ColumnArrow"></div>
+			</div> -->
+		</div>
+<!-- 	
+		<div class="Set">
+			<div class="Line">
+				<div class="Label"><p data-ng-bind-html="'Device.CID'|resPhrase:context"></p></div>
+				<div class="Switch" data-res-click="cidToggle()">
+					<div class="On" data-ng-show="model.screen2nd"></div>
+					<div class="Off" data-ng-show="!model.screen2nd"></div>
+				</div>
+			</div>
+		</div>
+ -->	
+		<!-- <div class="Set">
+			<div class="Line" data-res-tap="changePage('language')">
+				<div class="Label"><p data-ng-bind-html="'Device.Language'|resPhrase:context"></p></div>
+				<div class="Value"><p data-ng-bind-html="'Device.Language.' + model.language |resPhrase:context"></p></div>
+				<div class="ColumnArrow"></div>
+			</div>
+		</div> -->
+		
+		<!-- <div class="Set">
+			<div class="Line">
+				<div class="Label"><p data-ng-bind-html="'Device.Cursor'|resPhrase:context"></p></div>
+				<div class="Switch" data-res-click="cursorToggle()" data-ng-init="cursorHidden=false">
+					<div class="On" data-ng-show="!cursorHidden"></div>
+					<div class="Off" data-ng-show="cursorHidden"></div>
+				</div>
+			</div>
+		</div> -->
+	
+	    <!-- <div class="Set">
+			<div class="Line">
+				<div class="Label"><p data-ng-bind-html="'Device.Volume'|resPhrase:context"></p></div>
+				<div class="resSlider">
+				    <slider floor="0" ceiling="1" precision="1" step="0.1"  ng-model="model.volume" highlight="left"></slider>
+				</div>
+			</div>
+			
+		</div> -->
+		
+		<div class="Buttons">
+			<div class="resButton raise red W120xH70" data-res-click="restart()">
+				<p data-ng-bind-html="'Device.RestartOpen'|resPhrase:context"></p>
+			</div>
+		</div>
+
+	</div>
+</div>
+		

@@ -1,0 +1,6 @@
+Scenario: Perform CurrentDateTimeTest
+When Current Date Time is retrieved
+Then Current hh:mm of computer must be same with what is retrieved
+Then Current date of computer is same with what is stored in CurrentDateTime
+Then Previous date of computer is same with what is stored in CurrentDateTime
+Then Am_Pm of computer is same with what is stored in CurrentDateTime

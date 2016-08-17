@@ -1,0 +1,10 @@
+Scenario: ################# PosLogResp model serialization and unmarshalling
+!-- Simple PosLogResp
+Given a poslogresp object
+When status is 0, txid is 1234
+Then xml should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><POSLogResp><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Status>0</Status><TxID>1234</TxID></POSLogResp>}
+
+!-- PosLogResp w/ ResultCodes
+Given a poslogresp object
+When resultcode is 301, extendedresultcode is 123, status is 0, txid is 1234
+Then xml should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><POSLogResp><NCRWSSExtendedResultCode>123</NCRWSSExtendedResultCode><NCRWSSResultCode>301</NCRWSSResultCode><Status>0</Status><TxID>1234</TxID></POSLogResp>}

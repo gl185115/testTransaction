@@ -1,0 +1,38 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_AUTHORIZATION_LINK">
+		<column>StoreId</column>
+		<column>Id</column>
+        <column>DisplayName</column>
+        <column>Status</column>    
+		<column>upddate</column>
+        <row>
+        	<value>000031</value>
+        	<value>posLinkID110</value>
+        	<value>POS Terminal 110</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>        	
+        </row>
+        <row>
+        	<value>000031</value>
+        	<value>posLinkID115</value>
+        	<value>POS Terminal 115</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>
+        <row>
+        	<value>000031</value>
+        	<value>posLinkID116</value>
+        	<null/>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>       
+        <row>
+        	<value>000035</value>
+        	<value>posLinkID335</value>
+        	<value>POS Terminal 335</value>
+        	<value>Active</value>
+     		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+        </row>        
+    </table>     
+</dataset>

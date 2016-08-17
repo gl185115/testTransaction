@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+
+#FileOpen .Guide {
+	position: absolute; left: 20px; top: 20px; width: 560px; height: 40px;
+	display: table;
+}
+#FileOpen .Guide p { 
+	text-align: center; vertical-align: top; display: table-cell;
+	font-size: 25px;
+}
+#FileOpen .List { 
+	position: absolute; left: 20px; top: 60px;  width: 560px; height: 400px;
+	border-color: hsl(0, 0%, 50%) hsl(0, 0%, 70%) hsl(0, 0%, 95%);
+	border-style: solid; border-width: 5px; box-sizing: content-box; -webkit-box-sizing: border-box; 	
+	overflow: hidden;
+}
+#wrapperFiles { position: absolute; left: 0px; top: 0px; width: 550px; height: 390px; z-index: 1; overflow: hidden; }
+
+#FileOpen .List .Line {
+	position: relative; left: 0px; width: 100%; height: 50px; 
+ 	background: hsl(0, 0%, 95%);
+	border-color: hsl(0, 0%, 100%) hsl(0, 0%, 85%) hsl(0, 0%, 70%);
+	border-style: solid; border-width: 2px 2px 2px 0px; box-sizing: border-box; -webkit-box-sizing: border-box; 	
+}
+#FileOpen .List .Line.selected { 
+	background: hsl(112,0%,70%); 
+	border-color: hsl(0, 0%, 70%) hsl(0, 0%, 70%) hsl(0, 0%, 70%);
+}
+
+#FileOpen .List .Line p {
+	margin-left: 5px; 
+	font-size: 20px; line-height: 50px;
+}

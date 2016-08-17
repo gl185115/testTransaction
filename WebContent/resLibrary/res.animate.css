@@ -1,0 +1,163 @@
+@CHARSET "UTF-8";
+/*
+ * angularJS dependent animations
+ *
+ *	You need to include NgAngular module and dependency definition like,
+ *	
+ *	<html ng-app="MyApp>
+ *		...
+ *		<script type="text/javascript" src="angular-animate.js">
+ *		<script type="text/javascript">
+ *			var myApp = angular.module('MyApp', ['ngAnimate']);
+ *		</script>
+ */
+ 
+ /*
+ *	Fade in
+ */
+.fade-in.ng-hide-add,
+.fade-in.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.fade-in.ng-hide-add.ng-hide-add-active,
+.fade-in.ng-hide-remove {
+	opacity: 0;
+}
+.fade-in.ng-hide-remove.ng-hide-remove-active,
+.fade-in.ng-hide-add {
+	opacity: 1;
+}
+
+/*
+ *	Slide in from left
+ */
+.slide-from-left.ng-hide-add,
+.slide-from-left.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.slide-from-left.ng-hide-add.ng-hide-add-active,
+.slide-from-left.ng-hide-remove {
+	-webkit-transform: translate(-100%, 0%);
+}
+.slide-from-left.ng-hide-remove.ng-hide-remove-active,
+.slide-from-left.ng-hide-add {
+	-webkit-transform: translate(0%, 0%);
+}
+
+/*
+ *	Slide in from right
+ */
+.slide-from-right.ng-hide-add,
+.slide-from-right.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.slide-from-right.ng-hide-add.ng-hide-add-active,
+.slide-from-right.ng-hide-remove {
+	-webkit-transform: translate(100%, 0%);
+}
+.slide-from-right.ng-hide-remove.ng-hide-remove-active,
+.slide-from-right.ng-hide-add {
+	-webkit-transform: translate(0%, 0%);
+}
+
+/*
+ *	Slide in from top
+ */
+.slide-from-top {
+	-webkit-transform-origin: 0% 0%;
+}
+.slide-from-top.ng-hide-add,
+.slide-from-top.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.slide-from-top.ng-hide-add.ng-hide-add-active,
+.slide-from-top.ng-hide-remove {
+	-webkit-transform: translate(0%, -100%);
+}
+.slide-from-top.ng-hide-remove.ng-hide-remove-active,
+.slide-from-top.ng-hide-add {
+	-webkit-transform: translate(0%, 0%);
+}
+
+/*
+ *	Slide in from bottom
+ */
+.slide-from-bottom.ng-hide-add,
+.slide-from-bottom.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.slide-from-bottom.ng-hide-add.ng-hide-add-active,
+.slide-from-bottom.ng-hide-remove {
+	-webkit-transform: translate(0%, 100%);
+}
+.slide-from-bottom.ng-hide-remove.ng-hide-remove-active,
+.slide-from-bottom.ng-hide-add {
+	-webkit-transform: translate(0%, 0%);
+}
+
+/*
+ *	Slide in from right bottom
+ */
+.slide-from-right-bottom {
+	-webkit-transform-origin: 100% 100%;
+}
+.slide-from-right-bottom.ng-hide-add,
+.slide-from-right-bottom.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.slide-from-right-bottom.ng-hide-add.ng-hide-add-active,
+.slide-from-right-bottom.ng-hide-remove {
+	-webkit-transform: scale(0.1, 0.1);
+}
+.slide-from-right-bottom.ng-hide-remove.ng-hide-remove-active,
+.slide-from-right-bottom.ng-hide-add {
+	-webkit-transform: scale(1.0, 1.0);
+}
+
+/*
+ *	scale in x-axis
+ */
+.scale-in-x {
+	-webkit-transform-origin: 0% 0%;
+	}
+.scale-in-x.ng-hide-add,
+.scale-in-x.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.scale-in-x.ng-hide-add.ng-hide-add-active,
+.scale-in-x.ng-hide-remove {
+	-webkit-transform: scale(0.0, 1.0);
+}
+.scale-in-x.ng-hide-remove-active,
+.scale-in-x.ng-hide-add {
+	-webkit-transform: scale(1.0, 1.0);
+}
+
+/*
+ *	scale in y-axis
+ */
+.scale-in-y {
+	-webkit-transform-origin: 0% 0%;
+}
+.scale-in-y.ng-hide-add,
+.scale-in-y.ng-hide-remove { 
+	transition: all 0.3s linear 0; -webkit-transition: all 0.3s linear 0; 
+	display:block!important; 
+}
+.scale-in-y.ng-hide-add.ng-hide-add-active,
+.scale-in-y.ng-hide-remove {
+	-webkit-transform: scale(1.0, 0.0);
+}
+.scale-in-y.ng-hide-remove-active,
+.scale-in-y.ng-hide-add {
+	-webkit-transform: scale(1.0, 1.0);
+}
+
+/**** end of css ****/

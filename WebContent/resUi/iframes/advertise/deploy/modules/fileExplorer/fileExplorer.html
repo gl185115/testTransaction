@@ -1,0 +1,56 @@
+<!-- Template: pop up to enter customer id -->
+<div class="resCasing beige">
+	<div class="resPanel beige">
+		<div class="Panel">
+			<div class="Title">
+				<p data-ng-bind-html="'FileExplorer.Title.Exmport'|resPhrase:context"></p>
+			</div>
+			<div class="FolderActions">
+				<div class="l-inline-block">
+					<div class="resButton raise gray W110xH50" data-res-tap="folderback()"
+						data-ng-class="{'disabled': model.fileExplorer.isFirstNode}">
+						<p data-ng-bind-html="'FileExplorer.Button.Back'|resPhrase: context"></p>
+					</div>
+				</div>
+				<div class="l-inline-block">
+					<div class="resButton raise green W110xH50" data-res-tap="folderOpen()"
+						data-ng-class="{'disabled': model.fileExplorer.indexSelected<0 || model.fileExplorer.isLastNode}">
+						<p data-ng-bind-html="'FileExplorer.Button.Open'|resPhrase: context"></p>
+					</div>
+				</div>
+			</div>
+			<div class="FileFilter">
+				<div id="wrapperExportDetails">
+					<div class="scroller">
+						<ul>
+							<li class="Line"
+								data-ng-repeat="file in model.fileExplorer.fileTree track by $index"
+								data-ng-class="{selected: $index==model.fileExplorer.indexSelected}"
+								data-ng-click="select($index)"
+								data-ng-dblclick="folderOpen($index)">
+								<p data-ng-bind-html="file.filename"></p>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="FileName">
+				<div class="Label">
+					<p data-ng-bind-html="'FileExplorer.FileName.Name' |resPhrase:context"></p>
+				</div>
+				<input class="Value" type="text" data-ng-model="model.fileExplorer.inputFileName"
+						data-res-maxlength="50" placeholder="{{'FileExplorer.FileName.Length'|resPhrase:context}}">
+			</div>
+			<div class=Buttons>
+				<div class="resButton raise green W120xH70" data-res-tap="lockingSave()"
+					data-ng-class="{'disabled': model.fileExplorer.isFirstNode}">
+					<p data-ng-bind-html="'FileExplorer.Button.CsvSave'|resPhrase: context"></p>
+				</div>
+				<div class="resButton raise yellow W120xH70" data-res-tap="cancel()">
+					<p data-ng-bind-html="'FileExplorer.Button.Cancel'|resPhrase: context"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

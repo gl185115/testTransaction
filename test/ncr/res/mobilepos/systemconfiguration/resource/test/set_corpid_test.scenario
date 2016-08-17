@@ -1,0 +1,57 @@
+Scenario: The Default Company ID of the WebStoreServer
+!-- Here, there are no Company ID set
+Given a {complete} batch of values for System Configuration named PRM_SYSTEM_CONFIG_SUCCESS.xml
+
+Given the WebStoreServer
+When the Web API Starts Up
+Then WebStoreServer has {} Company ID
+
+!-- Set the WebStoreServer Company ID with invalid argument
+When the WebStoreServer has been set with {} Company ID
+Then WebStoreServer has {} Company ID
+
+When the WebStoreServer has been set with {  } Company ID
+Then WebStoreServer has {} Company ID
+
+When the WebStoreServer has been set with { 12ab} Company ID
+Then WebStoreServer has {} Company ID
+
+When the WebStoreServer has been set with {wqeqeqew} Company ID
+Then WebStoreServer has {} Company ID
+
+!-- Set the WebStoreServer Company ID at First Call
+When the WebStoreServer has been set with {000000000001} Company ID
+Then WebStoreServer has {000000000001} Company ID
+
+!-- Dont allow the WebStoreServer Company ID to be set again (Second and up to next call)
+When the WebStoreServer has been set with {111111111111} Company ID
+Then WebStoreServer has {000000000001} Company ID
+
+
+Scenario: Get All Configuration {Test to Success} after WebAPI starts Up Again
+!-- After the Company ID has been set once, 
+!-- If the WebAPI Starts Up again, it is expected that  
+!-- Company ID will be automatically set
+When the Web API Starts Up
+Then the Servlet Context should have the values
+|Category|Key|Value|Description|
+|Pricing|RoundingConsumptionTax|1|The Rounding flag for computing Tax|
+|Pricing|TaxRate|5|The Tax rate|
+|Authentication|AuthExpiry|240|The expiry duration for authentication of the device (units in hours)|
+|Authentication|AdminKey|admin|The Administration key|
+|Authentication|RegistrationPasscode|123|The Registration Passcode|
+|Authentication|RegistrationPasscodeExpiry|2012-12-31 23:59:59|The Registration Passcode expiry|
+|Authentication|CookiesExpiry|264|Set expiration duration for device registration cookies in the web clients (units in hours).|
+|Credential|CredentialExpiry|120|The expiry duration for credential (units in hours).|
+|NetworkReceipt|EmailAddress|postmaster@res.ncr.local|Email Address of Sender|
+|NetworkReceipt|Port|25|Port used for communication with Mail Server|
+|NetworkReceipt|EmailSubject|Receipt of Transaction No. %s|The Subject of the Email (use to edit the Subject of the email)|
+|Journalization|BusinessDateComputeFlag|true|Flag that tells how to get the End of Day Bussiness Date. If true by Switchtime else MST_BIZDAY|
+|Journalization|SwitchTime|1:00am|The switch time needed for Bussiness Date computation|
+|Report|StoreOpenTime|10|The border line of sales reports|
+|Authentication|AllowManualRegistration|true|Flag to allow the manual registration of PCbrowser clients.|
+|Credential|MaxLengthOfOperatorNo|8|Maximum number for Operator digit|
+|Credential|NumberOfPasscodeDigits|3|Exact Passcode digits|
+|Credential|CredentialCookiesExpiry|144|Set expiration duration for the cookies used in credential|
+|Language|DefaultLanguage|en|Set the language Japanese(ja)/Englis(en)|
+|Store|CompanyID|000000000001|| !-- Description is set to empty

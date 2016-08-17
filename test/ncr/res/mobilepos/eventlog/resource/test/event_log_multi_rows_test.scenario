@@ -1,0 +1,8 @@
+Scenario: multiple rows EventLog test
+Given a EventLog Resource
+Given a RESTransaction DBInitiator
+Given TXL_OPE_EVENT continas multiple rows
+When read log with company{01} storeid{0003} workstationid{0005} sequenceNumber{10} training{0}
+Then result json should be {{"test": "yes", "product": "false", "count": 3}}
+
+

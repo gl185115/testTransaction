@@ -1,0 +1,14 @@
+Given an empty ClassInfo
+Then I should have a ClassInfo that has errors
+
+Given a ClassInfo with itemClass {Food}, retailStoreId {Store-0031}, className {Bread}, classNameLocal {Bread Local}, dpt {DPT-001}, line {Line-001}
+Then it has no error
+Then its RetailStoreId is {Store-0031}
+Then its Item Class is {Food}
+Then its Class Name is {Bread}
+Then its Class Name Local is {Bread Local}
+Then its DPT is {DPT-001}
+Then its Line is {Line-001}
+Then I should have searched classes {RetailStoreID: Store-0031; Class: Food; Description: en: Bread; jp: Bread Local; ; Department: DPT-001; Line: Line-001; TaxType: null; TaxRate: null; DiscountType: null; ExceptionFlag: null; DiscountFlag: null; DiscountAmount: 0.0; DiscountRate: 0.0; AgeRestrictedFlag: null; InheritFlag: null; SubSmallInt5: null; }
+
+

@@ -1,0 +1,18 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_STOREINFO">    	
+    	<column>StoreId</column>
+    	<column>StoreName</column>
+    	<column>StoreAddr</column>
+    	<column>StoreTel</column>
+    	<column>StoreUrl</column>
+    	<column>SalesSpaceName</column>
+    	<column>EventName</column>
+    	<column>Ads</column>
+    	<column>ElectroFilePath</column>
+    	<column>StampTaxFilePath</column>
+    	<column>InsDate</column>
+		<column>UpdDate</column>
+		<column>Status</column>
+    </table>
+</dataset>

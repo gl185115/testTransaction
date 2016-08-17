@@ -1,0 +1,65 @@
+
+<div class="resCasing silver">
+	<div class="resPanel silver">
+
+		<div class="DelConfirm"  data-ng-show="model.imageRemove.delProcess == 'exist'">
+			<div class="Guide">
+				<p data-ng-bind-html="'ImageRemove.Guide.Confirm'|resPhrase:context"></p>
+			</div>
+			<div class="DelList">
+				<div id="wrapperViewList">
+					<ul>
+						<li class="ViewLine" data-ng-repeat="delFile in model.imageRemove.delFileList"
+							data-ng-class="{selected: $index}">
+							<p data-ng-bind-html="delFile.fileName"></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="Buttons">
+				<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise red W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'Button.Delete'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="DelSuccess" data-ng-show="model.imageRemove.delProcess == 'success'">
+			<div class="Guide">
+				<p data-ng-bind-html="'ImageRemove.Guide.Success'|resPhrase:context"></p>
+			</div>
+			<div class="Buttons">
+				<div class="resButton raise green W120xH70" data-ng-click="confirm()">
+					<p data-ng-bind-html="'Button.Confirm'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+		<div class="DelFailed" data-ng-show="model.imageRemove.delProcess == 'failed'">
+			<div class="Guide">
+				<p data-ng-bind-html="'ImageRemove.Guide.Failed'|resPhrase:context"></p>
+			</div>
+			<div class="DelList">
+				<div id="wrapperViewList">
+					<ul>
+						<li class="ViewLine" data-ng-repeat="delFile in model.imageRemove.delFileList"
+							data-ng-class="{selected: $index}">
+							<p data-ng-bind-html="delFile.fileName"></p>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="Buttons">
+				<div class="resButton raise green W120xH70" data-ng-click="confirm()">
+					<p data-ng-bind-html="'Button.Confirm'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise red W120xH70" data-ng-click="okay()">
+					<p data-ng-bind-html="'Button.DeleteAgain'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>

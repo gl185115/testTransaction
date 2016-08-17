@@ -1,0 +1,40 @@
+<div class="PrintList">
+	<div id="wrapperItems">
+
+		<div class="PrintFileTitle">
+			<div class="PrintFile">
+				<p data-ng-bind-html="'FilePrint.FileName'|resPhrase:context"></p>
+			</div>
+			<div class="PrintFileName">
+				<p data-ng-bind-html="model.editor.title"></p>
+			</div>
+		</div>
+
+		<div class="PrintFileItem">
+			<table>
+				<tr class="TableHeader">
+					<th rowspan="2"><p data-ng-bind-html="'FilePrint.ItemId'|resPhrase:context"></p></th>
+					<th colspan="2"><p data-ng-bind-html="'FilePrint.ItemName'|resPhrase:context"></p></th>
+					<th rowspan="2"><p data-ng-bind-html="'FilePrint.Location'|resPhrase:context"></p></th>
+					<th rowspan="2"><p data-ng-bind-html="'FilePrint.Image'|resPhrase:context"></p></th>
+					<th rowspan="2"><p data-ng-bind-html="'FilePrint.ImageName'|resPhrase:context"></p></th>
+					<th rowspan="2"><p data-ng-bind-html="'FilePrint.BackGround'|resPhrase:context"></p></th>
+				</tr>
+				<tr class="TableHeader">
+					<th><p data-ng-bind-html="'FilePrint.ItemName1'|resPhrase:context"></p></th>
+					<th><p data-ng-bind-html="'FilePrint.ItemName2'|resPhrase:context"></p></th>
+				</tr>
+				<tr class="Line" data-ng-repeat="item in model.printList track by $index">
+					<td><p data-ng-bind-html="item.itemId |resEAN"></p></td>
+					<td><p data-ng-bind-html="item.label.line1"></p></td>
+					<td><p data-ng-bind-html="item.label.line2"></p></td>
+					<td><p data-ng-bind-html="item.locations"></p></td>
+					<td><p data-ng-bind-html="item.isImage"></p></td>
+					<td><p data-ng-bind-html="item.imageName"></p></td>
+					<td><p data-ng-bind-html="item.bgColor"></p></td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+</div>

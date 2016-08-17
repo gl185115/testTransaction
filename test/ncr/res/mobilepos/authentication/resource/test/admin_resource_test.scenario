@@ -1,0 +1,41 @@
+Scenario: setAdminKey normal
+Given an Admin Resource
+Given the adminkey is set to 123456
+When I set the adminKey to ADMINXYZ using ADMINABC
+Then the result should be 0
+
+Scenario: set passcode normal 
+Given an Admin Resource
+Given the passcode is set to 123
+When I set the passcode to PASSJKL using ADMINXYZ
+Then the result should be 0
+
+Scenario: update non-existing adminkey
+Given an Admin Resource
+Given the adminkey is set to 123456
+When I set the adminKey to ADMINXYZ using ADMIN
+Then the result should be 103
+
+Scenario: update passcode with non-existing adminkey
+Given an Admin Resource
+Given the passcode is set to 123
+When I set the passcode to PASSJKL using ADMIN
+Then the result should be 103
+
+Scenario: update passcode with non-existing expiry
+Given an Admin Resource
+Given the passcode is set to 321
+When I set the passcode to PASSJKL using ADMINXYZ
+Then the result should be 133
+
+Scenario: set passcode with non-alphanumeric characters
+Given an Admin Resource
+Given the passcode is set to 123
+When I set the passcode to 12345! using ADMINXYZ
+Then the result should be 110
+
+Scenario: set AdminKey with non-alphanumeric characters
+Given an Admin Resource
+Given the adminkey is set to 123456
+When I set the adminKey to 123456( using ADMINXYZ
+Then the result should be 109

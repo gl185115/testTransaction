@@ -1,0 +1,148 @@
+Scenario: Test delete device service 
+Given a Device service
+
+!-- Delete an existing device; resultcode 0.
+When I delete device{0001} of store{000031}
+Then I should get resultCode 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Active|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Active|
+
+
+
+!-- Delete an existing device; same device id, different store
+When I delete device{0001} of store{000035}
+Then I should get resultCode 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Active|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+!-- Delete an existing device; same device id, different store; status is Inactive in MST_USER_CREDENTIALS
+When I delete device{0001} of store{000033}
+Then I should get resultCode 0
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete a non-existing device [undefined device of store]; returns error code.
+When I delete device{0002} of store{000032}
+Then I should get resultCode 223
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete a non-existing device [undefined store]; returns error code.
+When I delete device{0001} of store{000034}
+Then I should get resultCode 223
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device invalid parameter [deviceid is null]; returns error code.
+When I delete device{null} of store{000031}
+Then I should get resultCode 224
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device invalid parameter [deviceid is empty]; returns error code.
+When I delete device{} of store{000031}
+Then I should get resultCode 224
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device invalid parameter [storeid is null]; returns error code.
+When I delete device{0001} of store{null}
+Then I should get resultCode 224
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device invalid parameter [storeid is null]; returns error code.
+When I delete device{0001} of store{}
+Then I should get resultCode 224
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device invalid parameters [storeid & deviceid is null]; returns error code.
+When I delete device{null} of store{null}
+Then I should get resultCode 224
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device invalid parameters [storeid & deviceid is empty]; returns error code.
+When I delete device{} of store{}
+Then I should get resultCode 224
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+
+!-- Delete device that is currently in use; returns error code RES_DEVICE_IS_IN_USE.
+When I delete device{0001} of store{000032}
+Then I should get resultCode 233
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+!-- Delete device that is ALREADY DELETED.
+When I delete device{0001} of store{000035}
+Then I should get resultCode 223
+Then the MST_DEVICEINFO database table should have the following row(s):
+|storeid|terminalid|devicename|printerid|linkposterminalid|sendlogfile|savelogfile|autoupload|status|
+|000031 |0001      |Device1 |100      |1234             |0          |0          |0         |Deleted|
+|000032 |0001      |Device2 |100      |1234             |0          |0          |0         |Active|
+|000033 |0001      |Device4 |100      |1234             |0          |0          |0         |Deleted|
+|000035 |0001      |Device3 |100      |1234             |0          |0          |0         |Deleted|
+
+
+

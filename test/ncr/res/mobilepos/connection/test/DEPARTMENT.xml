@@ -1,0 +1,31 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DPTINFO">
+		<column>STOREID</column>
+		<column>DPT</column>
+		<column>DPTNAME</column>
+		<column>DPTKANANAME</column>
+		<column>JIGYOBU</column>
+		<column>GYOSHU</column>
+		<column>BUMON</column>
+		<column>URIBA</column>
+		<column>CATEGORY</column>	
+		<column>INSDATE</column>
+		<column>UPDDATE</column>			
+		<row>
+            <value>0</value>
+            <value>0134</value>
+			<value>Test Department 0130</value>
+            <value>検査部0130</value>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value>2014-05-15 01:01:01.000</value>
+			<value>2014-05-15 01:01:01.000</value>
+        </row>
+    </table>
+</dataset>
+
+			

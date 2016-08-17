@@ -1,0 +1,178 @@
+Scenario: Test Item Entry No Discount with Tax Rate.
+When the Web API Starts Up with {prm_system_config_12taxrate_rounddown.xml} System Configuration 
+Given a Promotion Service
+Given a loaded dataset {items_nodiscount_for_taxrate_12taxrate.xml}
+
+Scenario: Item Entry with No begin Transaction
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}
+Then the Result Code is 1102
+
+Scenario: Item Entry with no retail store id
+When a Item Entry at promotion with parameters RetailStoreID{} WorkStationId{1111} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}
+Then the Result Code is 154
+
+Scenario: Item Entry with no workstation id
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}
+Then the Result Code is 154
+
+Scenario: Item Entry with no sequence number
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}
+Then the Result Code is 154
+
+Scenario: Item Entry with no transaction
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{}
+Then the Result Code is 154
+
+Scenario: Item Entry with Invalid Transaction 1
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{asdas}
+Then the Result Code is 154
+
+Scenario: Item Entry with Invalid Transaction 2
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+
+Scenario: Item Entry with No begin Transaction (other device)
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1112} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}
+Then the Result Code is 1102
+
+Scenario: Item Entry with Item Not Found
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 801
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry Empty ItemId
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 801
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry Empty ItemEntryId
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry No ItemEntryId
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry no ItemId
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 801
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry with Item Found but no quantity
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13"}}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry with Item Found but 0 quantity
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":0}}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry with Item Found but invalid quantity 1
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":-1}}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry with Item Found but invalid quantity 2
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":asdasd}}}
+Then the Result Code is 154
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":154}
+
+Scenario: Item Entry with Item Found
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"3365545775621","Department":"0143","Description":{"en":"Adidas","jp":"アディダス"},"RegularSalesUnitPrice":100800.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":100800.0,"Discountable":false,"TaxRate":12,"TaxType":0,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100800.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100800.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |3365545775621|EAN-13    |1       |0143      |Adidas       |アディダス                |100800.0             |0.0     |0.0           |100800.0            |100800.0      |False       |0                |null      |
+
+Scenario: Item Entry with Item Entry Id already existing
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 93
+Then the JSON should have the following format : 
+{"NCRWSSResultCode":93,"NCRWSSExtendedResultCode":0}
+
+Scenario: Item Entry with Item Entry Id different
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"3365545775621","Department":"0143","Description":{"en":"Adidas","jp":"アディダス"},"RegularSalesUnitPrice":100800.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":100800.0,"Discountable":false,"TaxRate":12,"TaxType":0,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100800.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100800.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |3365545775621|EAN-13    |1       |0143      |Adidas       |アディダス                |100800.0             |0.0     |0.0           |100800.0            |100800.0      |False       |0                |null      |
+
+Scenario: Item Entry for item with multiple quantity  
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":9}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"3365545775621","Department":"0143","Description":{"en":"Adidas","jp":"アディダス"},"RegularSalesUnitPrice":100800.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":100800.0,"Discountable":false,"TaxRate":12,"TaxType":0,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"EmpPrice1":100800.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":9,"ExtendedAmount":907200.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |3365545775621|EAN-13    |9       |0143      |Adidas       |アディダス                |100800.0             |0.0     |0.0           |100800.0            |907200.0      |False       |0                |null      |
+
+Scenario: Item Entry for Discountable item with multiple quantity but no discount is applied 
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"3365545775457","ItemIDType":"EAN-13","Quantity":6}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"3365545775457","Department":"0143","Description":{"en":"Merrel","jp":"メレル"},"RegularSalesUnitPrice":224000.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":224000.0,"Discountable":true,"TaxRate":12,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"1","EmpPrice1":224000.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00004","ItemIDType":"EAN-13","Quantity":6,"ExtendedAmount":1344000.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |3365545775457|EAN-13    |6       |0143      |Merrel       |メレル                      |224000.0             |0.0     |0.0           |224000.0            |1344000.0     |True        |1                |1         |
+
+Scenario: Item Entry with transaction already ended
+When I end the transaction at promotion with retailstoreid{0031} workstationid{1111} sequencenumber{1} and transactionJson{{"Status":"1","EndDateTime":"2012-12-20T09:30:47.00"}}
+Then the Result Code is 0
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"3365545775457","ItemIDType":"EAN-13","Quantity":6}}}
+Then the Result Code is 1102
+
+Scenario: Item Entry with Less than 4 digit workstation id
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{11} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{11} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"3365545775468","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+
+!-- ITEM ENTRY NO DISCOUNT WITH TAX RATE (ROUND UP)
+Scenario: Test Item Entry No Discount with Tax Rate.
+When the Web API Starts Up with {prm_system_config_12taxrate_roundup.xml} System Configuration 
+Given a Promotion Service
+Given a loaded dataset {items_nodiscount_for_taxrate_12taxrate.xml}
+
+Scenario: Item Entry for item with price not an integer
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"3365545775468","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"3365545775468","Department":"0143","Description":{"en":"Oakley Shades","jp":"オークリーシェード"},"RegularSalesUnitPrice":95207.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":95207.0,"Discountable":false,"TaxRate":12,"TaxType":0,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":95207.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":95207.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |3365545775468|EAN-13    |1       |0143      |Oakley Shades|オークリーシェード    |95207.0              |0.0     |0.0           |95207.0             |95207.0       |False       |0                |1         |
+
+Scenario: Item Entry with multiple quantity
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"3365545775468","ItemIDType":"EAN-13","Quantity":3}}}
+Then the Result Code is 0
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"3365545775468","Department":"0143","Description":{"en":"Oakley Shades","jp":"オークリーシェード"},"RegularSalesUnitPrice":95207.0,"Discount":0.0,"DiscountFlag":-1,"DiscountAmount":0.0,"ActualSalesUnitPrice":95207.0,"Discountable":false,"TaxRate":12,"TaxType":0,"DiscountType":1,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":95207.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":3,"ExtendedAmount":285621.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP|RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |3365545775468|EAN-13    |3       |0143      |Oakley Shades|オークリーシェード    |95207.0              |0.0     |0.0           |95207.0             |285621.0      |False       |0                |1         |

@@ -1,0 +1,20 @@
+<MobilePosPackageEditor>
+	<!-- The following are defined specifically for ResTransactionService War only -->
+	<package name="RESTransactionService" src="target/resTransaction.war" outputpath="target/ForCebu/resTransaction.war">
+		<files>
+			<!-- Defination for Context.xml-->
+			<context>
+				<!-- input the following Files to be editted -->
+				<!-- <nodename _attrIdentifier="Identity" [attr1="newvalue" attr2="newvalue" ... ] /> -->
+				<!-- <Resource _name="jdbc/ENTSVR" /> LookUp a Resource Node with name of 'jdbc/ENTSVR'  -->
+				<!-- <Realm _classname="realm100" /> Lookup a Realm Node with class name of 'realm100' -->
+				<!--  <Parameter _value="AESKey" />  Lookup a Parameter Node having value of 'AESKey' {this is example}-->
+				
+				<!-- Update the Resource property  -->
+				<Resource _name="jdbc/ENTSVR" maxIdle="100" /> <!-- maxIdle is updated to 100 -->
+				<!-- Update the Parameter property  -->
+				<Parameter _value="AESKey" override="true" /><!-- override is updated to true from a Parameter node having value of 5 -->
+			</context>				
+		</files>
+	</package>
+</MobilePosPackageEditor>

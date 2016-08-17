@@ -1,0 +1,96 @@
+@CHARSET "UTF-8";
+
+* { margin: 0px; padding: 0px; }
+body {
+/* 	font-family: 'Helvetica','Arial','Meiryo UI','メイリオ','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','sans-serif';
+	font-size: 16px; line-height: 1.1;without em for auto resize
+	color: hsl(0,0%,0%);
+	overflow: hidden;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none; */
+}
+input { -webkit-appearance: none; }
+* { margin: 0px; padding: 0px; }
+
+
+.SwitchSet {
+	position: relative; width: 200px; height: 60px;
+	font-size: 20px;
+}
+.SwitchSet .Label {
+	position: absolute; left: 10px; top: 20px;
+}
+.SwitchSet .Switch {
+	position: absolute; left: 180px; top: 15px; width: 50px; height: 30px;
+	background: -webkit-gradient(linear, left top, left bottom, from(hsl(0, 0%, 30%)), color-stop(0.99, hsl(0, 0%, 80%)), to(hsl(0, 0%, 60%)));
+	border-radius: 15px;
+}
+.SwitchSet .Switch .On {
+	position: absolute; left: 1px; top: 1px; width: 28px; height: 28px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112, 45%, 95%)),color-stop(0.4,hsl(112, 45%, 60%)),color-stop(0.7,hsl(112, 45%, 50%)),to(hsl(112, 45%, 40%)));
+	border-radius: 14px;
+}
+.SwitchSet .Switch .Off {
+	position: absolute; right: 1px; top: 1px; width: 28px; height: 28px;
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0, 0%, 95%)),color-stop(0.4,hsl(0, 0%, 60%)),color-stop(0.7,hsl(0, 0%, 50%)),to(hsl(0, 0%, 40%)));
+	border-radius: 14px;
+}
+.Failed {
+	position: absolute; left: 370px; top: 25px; width: 530px; height: 20px;
+	font-size: 20px; color: hsl(41, 100%, 70%);
+}
+.Guidance {
+	position: absolute; left: 370px; top: 50px; width: 530px; height: 20px;
+	color: hsl(0, 0%, 100%);
+	font-size: 20px;
+}
+
+ /*
+ * Buttons
+ */
+.Button{
+	border-radius: 5px;
+	box-shadow: hsl(0,0%,0%) 0px 2px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 2px 4px;
+	display: table;
+}
+.Button p { text-align: center; vertical-align: middle;  display: table-cell; }
+.Button.W120xH70 { width: 120px; height: 70px; font-size: 20px; }
+
+/* Button Top Colors */
+
+.Button.silver { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%))); }
+.Button.silver:active { background: hsl(0,0%,50%); }
+.Button.silver p { color: hsl(0,0%,0%); }
+
+.Button.gray { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,70%)),to(hsl(0,0%,40%))); }
+.Button.gray:active { background: hsl(0,0%,50%); }
+.Button.gray p { color: hsl(0,0%,100%); }
+
+.Button.red { background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,70%)),to(hsl(7,73%,40%))); }
+.Button.red:active { background: hsl(7,73%,50%); }
+.Button.red p { color: hsl(0,0%,100%); }
+
+.Button.beige { background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,70%)),to(hsl(34,30%,40%))); }
+.Button.beige:active { background: hsl(34,30%,50%); }
+.Button.beige p { color: hsl(0,0%,100%); }
+
+.Button.orange { background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,95%,70%)),to(hsl(35,95%,40%))); }
+.Button.orange:active { background: hsl(35,95%,50%); }
+.Button.orange p { color: hsl(0,0%,100%); }
+
+.Button.yellow { background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,70%)),to(hsl(41,100%,40%))); }
+.Button.yellow:active { background: hsl(41,100%,50%); }
+.Button.yellow p { color: hsl(0,0%,100%); }
+
+.Button.green { background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%))); }
+.Button.green:active { background: hsl(112,45%,50%); }
+.Button.green p { color: hsl(0,0%,100%); }
+
+.Button.blue { background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,70%)),to(hsl(212,85%,40%))); }
+.Button.blue:active { background: hsl(212,85%,50%); }
+.Button.blue p { color: hsl(0,0%,100%); }
+/**** end of CSS ****/

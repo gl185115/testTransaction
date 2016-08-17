@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+ /*
+ *	Defaults
+ */
+* { margin: 0px; padding: 0px; }
+body { 
+	font-family: 'Helvetica','Arial','Meiryo UI','メイリオ','Hiragino Kaku Gothic ProN','ヒラギノ角ゴ ProN W3','sans-serif'; 
+	font-size: 12px; line-height: 1.1;/* without em for auto resize*/ 
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;	
+	}
+body { background: hsl(208, 11%, 90%); }	/* this color used on iOS status bar when using MobileShop */
+
+h1 { font-size: 25px; color: hsl(112,45%,50%); margin: 10px; }
+h2 { font-size: 16px; margin-top: 20px; margin-bottom: 5px; }
+table { 
+	border-collapse: collapse; 
+	table-layout: fixed;
+	work-break: break-all; word-wrap: break-word; 
+}
+th, td {
+	border: solid 1px;
+	padding: 2px;
+}
+table th { background: hsl(0, 0%, 30%); color: hsl(0, 100%, 100%); text-align: left; }
+button { 
+	min-width: 80px; height: 24px; 
+	margin-right: 10px; padding: 2px; 
+}
+
+#StatusBar 	{
+	position: relative; left: 0px; top: 0px; width: 1024px; height: 20px; 
+	background: hsl(208, 11%, 40%);
+	color: hsl(0,0%,100%); font-size: 14px; 
+}
+
+#UiFrame {
+	position: absolute; left: 0px; top: 0px; width: 1024px; height: 748px;
+	background: hsl(0, 0%, 0%);
+	border: none;
+	z-index: 1;
+	overflow: hidden;
+}
+
+#Columns { position: absolute; left: 10px; top: 50px; width: 1000px; height: 100px; }
+#Controls { position: absolute; left: 0px; }
+#Status { position: absolute; left: 350px; width: 650px; }
+#Status table { position: absolute; left: 0px; top: 40px;  }
+#Status table th:nth-child(1) { width: 120px; }
+#Status table th:nth-child(2) { width: 80px; }
+#Status .userAgent { position: absolute; left: 250px; top: 40px; width: 350px; margin: 0px; }
+#Status .userAgent span:nth-child(1){ font-weight: bold; }
+
+#Log { position: absolute; left: 10px; top: 150px; width: 990px; }
+#Log .scroller { max-height: 350px; width: 100%; overflow-y: scroll;	}
+#Log table { width: 100%; }
+#Log table th:nth-child(1), #Log table td:nth-child(1) { width: 80px; work-break: keep-all; word-wrap: normal; }
+#Log table th:nth-child(2), #Log table td:nth-child(2) { width: 30px; }
+#Log table th:nth-child(3), #Log table td:nth-child(3) { width: 30px; }
+#Log table th:nth-child(4), #Log table td:nth-child(4) { width: 80px; }
+#Log table th:nth-child(5), #Log table td:nth-child(5) { width: 100px; }
+#Log table tr.forward { background: hsl(34,30%,90%); }
+#Log table tr.backward { background: hsl(112,45%,90%); }
+#Log table td { vertical-align: top; }
+#Log .Buttons { margin-top: 10px; }
+
+#ManualEntry { position: absolute; left: 10px; top: 580px; width: 990px; }
+#ManualEntry .Message { width: 99%; height: 40px; }
+#ManualEntry .Buttons { margin-top: 10px; }
+
+
+/**** end of css ****/

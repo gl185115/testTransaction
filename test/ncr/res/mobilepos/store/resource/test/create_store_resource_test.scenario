@@ -1,0 +1,59 @@
+Scenario: Add Store successfully
+Given I have a Store Resource
+Given an empty Store Table
+When I add a store with storenumber {000031} and store [{'StoreName':'Ledoir Couture', 'Address':'Cebu', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {0}
+
+Scenario: Add existing store number and the same store
+Given I have a Store Resource
+Given an empty Store Table
+When I add a store with storenumber {0021} and store [{'StoreName':'Ledoir', 'Address':'Minglanilla', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {0}
+When I add a store with storenumber {0021} and store [{'StoreName':'Ledoir', 'Address':'Minglanilla', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {700}
+
+Scenario: Add existing store number and different store
+Given I have a Store Resource
+Given an empty Store Table
+When I add a store with storenumber {0021} and store [{'StoreName':'Ledoir', 'Address':'Minglanilla', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {0}
+When I add a store with storenumber {0021} and store [{'StoreName':'Couture', 'Address':'Cebu', 'Tel':'2735986', 'Url':'Couture.com', 'SalesSpaceName':'Space Name', 'EventName':'Celebration', 'Ads':'Welcome!', 'ElectroFilePath':'D:/', 'StampTaxFilePath':'D:/'} ]
+Then the result should be {700}
+
+Scenario: Add store with empty store number
+When I add a store with storenumber {} and store [{'StoreName':'Ledoir Couture', 'Address':'Cebu', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {701}
+
+Scenario: Add store with null store number
+When I add a store with storenumber {null} and store [{'StoreName':'Ledoir Couture', 'Address':'Cebu', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {701}
+
+Scenario: Add store with null store number
+When I add a store with storenumber {    } and store [{'StoreName':'Ledoir Couture', 'Address':'Cebu', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {701}
+
+Scenario: Add existing but deleted store number and different store
+Given I have a Store Resource
+Given an empty Store Table
+When I add a store with storenumber {0021} and store [{'StoreName':'Ledoir', 'Address':'Minglanilla', 'Tel':'2399765', 'Url':'Ledoir.com', 'SalesSpaceName':'Sales Space', 'EventName':'Demo', 'Ads':'Thank you!', 'ElectroFilePath':'C:/', 'StampTaxFilePath':'C:/'} ]
+Then the result should be {0}
+When I delete a store with storenumber {0021}
+Then the result should be {0}
+When I add a store with storenumber {0021} and store [{'StoreName':'Couture', 'Address':'Cebu', 'Tel':'2735986', 'Url':'Couture.com', 'SalesSpaceName':'Space Name', 'EventName':'Celebration', 'Ads':'Welcome!', 'ElectroFilePath':'D:/', 'StampTaxFilePath':'D:/'} ]
+Then the result should be {0}
+
+
+Scenario: Database throw Exceptions
+Given I have a Store Resource
+Given that database is throwing an unexpected {DaoException}
+When I add a store with storenumber {0021} and store [{'StoreName':'Couture', 'Address':'Cebu', 'Tel':'2735986', 'Url':'Couture.com', 'SalesSpaceName':'Space Name', 'EventName':'Celebration', 'Ads':'Welcome!', 'ElectroFilePath':'D:/', 'StampTaxFilePath':'D:/'} ]
+Then the result should be {134}
+Given that database is throwing an unexpected {SQLException}
+When I add a store with storenumber {0021} and store [{'StoreName':'Couture', 'Address':'Cebu', 'Tel':'2735986', 'Url':'Couture.com', 'SalesSpaceName':'Space Name', 'EventName':'Celebration', 'Ads':'Welcome!', 'ElectroFilePath':'D:/', 'StampTaxFilePath':'D:/'} ]
+Then the result should be {134}
+Given that database is throwing an unexpected {SQLStatementException}
+When I add a store with storenumber {0021} and store [{'StoreName':'Couture', 'Address':'Cebu', 'Tel':'2735986', 'Url':'Couture.com', 'SalesSpaceName':'Space Name', 'EventName':'Celebration', 'Ads':'Welcome!', 'ElectroFilePath':'D:/', 'StampTaxFilePath':'D:/'} ]
+Then the result should be {134}
+Given that database is throwing an unexpected {Exception}
+When I add a store with storenumber {0021} and store [{'StoreName':'Couture', 'Address':'Cebu', 'Tel':'2735986', 'Url':'Couture.com', 'SalesSpaceName':'Space Name', 'EventName':'Celebration', 'Ads':'Welcome!', 'ElectroFilePath':'D:/', 'StampTaxFilePath':'D:/'} ]
+Then the result should be {133}

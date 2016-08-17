@@ -1,0 +1,8 @@
+@CHARSET "UTF-8";
+
+#Device .resSlider{
+	position: absolute;
+    right: 40px;
+    width: 340px;
+}
+/**** end of CSS ****/

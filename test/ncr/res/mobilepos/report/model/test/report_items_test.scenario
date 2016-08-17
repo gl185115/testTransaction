@@ -1,0 +1,14 @@
+Scenario: Initial data of ReportItems
+Given a ReportItems Class
+Then I should get properties' initial values
+
+Scenario: With data of ReportItems
+Given a ReportItems Class
+When I set data to properties: {customers:1,itemLabel:{code:0190,name:Dpt1},items:2,salesRevenue:1050}],businessDayDate:2012-01-01}
+Then I should get properties' values: 1, 0190, Dpt1, 2, 1050, 2012-01-01
+
+Scenario: Serialize ReportItems to XML
+Given I have an XmlSerializer for ReportItems
+Then I should get the xml format: <?xml version="1.0" encoding="UTF-8" standalone="yes"?><ReportItems><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><ReportItemList><Customers>1</Customers><ItemLabel><Code>0190</Code><Name>Dpt1</Name></ItemLabel><Items>2</Items><SalesRevenue>1050.0</SalesRevenue></ReportItemList><BusinessDate>2012-01-01</BusinessDate><StoreName></StoreName><OperatorName></OperatorName><DepartmentName></DepartmentName><StoreId></StoreId><OperatorId></OperatorId><DepartmentId></DepartmentId></ReportItems>
+When I unmarshall Xml
+Then I should get properties' values: 1, 0190, Dpt1, 2, 1050, 2012-01-01

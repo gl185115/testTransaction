@@ -1,0 +1,40 @@
+Scenario: Signature Link Item Query
+Given I have DeviceInfo resource
+!-- Known Signature Link Items
+When I get Signature Link Item with Link Type{signature} and StoreID{00031} and POSLink ID{posSignedLinkID2200}
+Then I should get POSLinkInfo model with JSON format:
+{"POSLinkInfo":{"LinkID":"posSignedLinkID2200","LinkName":"POS Terminal Signed220","RetailStoreID":"00031"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+When I get Signature Link Item with Link Type{signature} and StoreID{00031} and POSLink ID{posSignedLinkID225}
+Then I should get POSLinkInfo model with JSON format:
+{"POSLinkInfo":{"LinkID":"posSignedLinkID225","LinkName":"POS Terminal Signed225","RetailStoreID":"00031"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+!-- Signature Link Not Found
+When I get Signature Link Item with Link Type{signature} and StoreID{25031} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be null
+Then the result code should be 907
+
+!-- Empty RetailStoreID
+When I get Signature Link Item with Link Type{signature} and StoreID{} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be not null
+Then the result code should be 224
+
+!-- Empty POS Link ID
+When I get Signature Link Item with Link Type{signature} and StoreID{0031} and POSLink ID{}
+Then the POSLinkInfo model should be not null
+Then the result code should be 224
+
+!-- null RetailStoreID
+When I get Signature Link Item with Link Type{signature} and StoreID{null} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be not null
+Then the result code should be 224
+
+!-- null POS Link ID
+When I get Signature Link Item with Link Type{signature} and StoreID{0031} and POSLink ID{null}
+Then the POSLinkInfo model should be not null
+Then the result code should be 224
+
+!-- Invalid Link Type
+When I get Signature Link Item with Link Type{sign} and StoreID{0031} and POSLink ID{posLinkID115}
+Then the POSLinkInfo model should be not null
+Then the result code should be 905

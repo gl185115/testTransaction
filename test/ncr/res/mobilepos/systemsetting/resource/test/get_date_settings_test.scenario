@@ -1,0 +1,51 @@
+Scenario: Get the Date Setting 
+Given a table entry named {SYSTEM_SETTING_EMPTY.xml} in the database
+When a request to get the Date Settings
+Then resultcode should be 324
+
+Given a table entry named {SYSTEM_SETTING_COMPLETE.xml} in the database
+!-- The following are the default value
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2012-11-11|11:00|0|
+
+When a request to get the Date Settings
+Then the following Date Setting JSON object are retrieved:
+|businessdate|eod|skip|
+|2012-11-11|11:00|0|
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+
+When the following date settings are set:
+|businessdate|eod|skip|
+|2012-12-12|dontset|dontset|
+
+When a request to get the Date Settings
+Then the following Date Setting JSON object are retrieved:
+|businessdate|eod|skip|
+|2012-12-12|11:00|0|
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+
+When the following date settings are set:
+|businessdate|eod|skip|
+|dontset|11:00|dontset|
+
+When a request to get the Date Settings
+Then the following Date Setting JSON object are retrieved:
+|businessdate|eod|skip|
+|2012-12-12|11:00|0|
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+
+When the following date settings are set:
+|businessdate|eod|skip|
+|dontset|dontset|1|
+
+When a request to get the Date Settings
+Then the following Date Setting JSON object are retrieved:
+|businessdate|eod|skip|
+|2012-12-12|11:00|1|
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+Then SystemSetting xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><SystemSetting><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><DateSettings><Today>2012-12-12</Today><EndOfDay>11:00  </EndOfDay><Skips>1</Skips></DateSettings></SystemSetting>}

@@ -1,0 +1,11 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="AUT_DEVICES">
+        <column>DeviceId</column>
+        <column>Uuid</column>
+        <column>Udid</column>
+        <column>State</column>
+        <column>LastActiveTime</column>
+        <column>ActiveValidUntil</column>
+    </table>    
+</dataset>

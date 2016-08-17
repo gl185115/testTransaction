@@ -1,0 +1,77 @@
+Scenario: Initialize data
+Given existing entries in MST_SIGN_ACTIVATION_LIST
+
+Scenario: Test Get Activation Key Normal
+!-- normal operation (known storeid, terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{1234}
+Then key should be {ABC12345}
+Then the terminalId should be {XXXXX00011234}
+
+Scenario: Test Get Activation Key With Device assigned with multiple activation key
+!-- normal operation (known storeid, terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{1235}
+Then key should be {ABC12346}
+Then the terminalId should be {XXXXX00011235}
+
+Scenario: Test Get Activation Key Status 0
+!-- normal operation (known storeid, terminalid, and status = 0)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{1236}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Get Activation Key Status unknown storeid
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000031}, terminalid{1236}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Get Activation Key Status unknown terminalid
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{9999}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Get Activation Key Status different corpid
+!-- normal operation (known storeid, terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{1234}
+Then key should be {ABC12355}
+Then the terminalId should be {XXXXX00011244}
+
+Scenario: Test Get Activation Key Status different corpid same activation key and tid
+!-- normal operation (known storeid, terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000011}, terminalid{1244}
+Then key should be {ABC12345}
+Then the terminalId should be {XXXXX00011234}
+
+Scenario: Test Get Activation Key Status empty corpid
+!-- normal operation (no storeid, terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000011}, terminalid{1244}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Get Activation Key Status empty storeid
+!-- normal operation (known no storeid, terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{}, terminalid{1244}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Get Activation Key Status empty terminalid
+!-- normal operation (known storeid, no terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000011}, terminalid{}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Get Activation Key Status null values
+!-- normal operation (null null storeid, null terminalid, and status = 1)
+Given a SignActivationListDao object
+When I get ActivationKey with null values
+Then key should be {empty}
+Then the terminalId should be {empty}

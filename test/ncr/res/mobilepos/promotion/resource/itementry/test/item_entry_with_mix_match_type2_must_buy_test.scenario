@@ -1,0 +1,282 @@
+Scenario: Test Item Entry with MixMatch Type 1 for MustBuy
+When the Web API Starts Up
+Given a Promotion Service
+Given a loaded dataset {items_for_mustbuy_mixmatch.xml}
+Given a loaded dataset {mixmatch_mustbuy_promotions.xml}
+
+Scenario: UnSuccessful Must Buy MixMatch (No Must Buy Items)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775651","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |8865545775651|EAN-13    |1       |0143      |sample product 1.1|サンプル製品1.1      |130.0                |0.0     |0.0           |130.0               |130.0         |True        |1                |0         |
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"8865545775651","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |8865545775651|EAN-13    |1       |0143      |sample product 1.1|サンプル製品1.1      |130.0                |0.0     |0.0           |130.0               |130.0         |True        |1                |0         |
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"8865545775651","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |8865545775651|EAN-13    |1       |0143      |sample product 1.1|サンプル製品1.1      |130.0                |0.0     |0.0           |130.0               |130.0         |True        |1                |0         |
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"8865545775652","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00004      |8865545775652|EAN-13    |1       |0143      |sample product 2  |サンプル製品2        |140.0                |0.0     |0.0           |140.0               |140.0         |True        |1                |1         |
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"8865545775652","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00005      |8865545775652|EAN-13    |1       |0143      |sample product 2  |サンプル製品2        |140.0                |0.0     |0.0           |140.0               |140.0         |True        |1                |1         |
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"8865545775652","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00006      |8865545775652|EAN-13    |1       |0143      |sample product 2  |サンプル製品2        |140.0                |0.0     |0.0           |140.0               |140.0         |True        |1                |1         |
+
+Scenario: Successful Must Buy MixMatch (ItemEntry using a single item)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00001      |8865545775653|EAN-13    |1       |0143      |sample product 3  |サンプル製品3        |160.0                |0.0     |0.0           |160.0               |160.0         |True        |0                |1         |
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00002      |8865545775653|EAN-13    |1       |0143      |sample product 3  |サンプル製品3        |160.0                |0.0     |0.0           |160.0               |160.0         |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00002      |70|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00001      |70|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":70,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":70,"Quantity":1}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then Sale data should be :
+|ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN     |DescriptionJP     |RegularSalesUnitPrice|Discount|DiscountAmount|ActualSalesUnitPrice|ExtendedAmount|Discountable|AgeRestrictedFlag|CouponFlag|
+|00003      |8865545775653|EAN-13    |1       |0143      |sample product 3  |サンプル製品3        |160.0                |0.0     |0.0           |160.0               |160.0         |True        |0                |1         |
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00003      |77|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00002      |77|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00001      |76|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":77,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":77,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":76,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00004      |77|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00003      |77|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00002      |76|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00004","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":77,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":77,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":76,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |77|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00004      |77|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00003      |76|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00002      |70|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00001      |70|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00005","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":77,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":77,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":76,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":70,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":70,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00006      |77|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00005      |77|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00004      |76|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00003      |77|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00002      |77|
+|6       |1112          |1112         |Mix Match 1111 Type 2|00001      |76|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00006","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00006","UnitDiscountAmt":77,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":77,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":76,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":77,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":77,"Quantity":1},{"RewardID":6,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":76,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+Scenario: Item Entry (full quantity Second Step) 
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":6}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00001      |230|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00001      |230|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":6,"ExtendedAmount":960.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":230,"Quantity":3},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":230,"Quantity":3}],"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+
+Scenario: Successful Must Buy MixMatch (ItemEntry using 2 items having mustbuy flag, 2nd Item price > 1st Item price)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00002      |49|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00001      |31|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":49,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":31,"Quantity":1}],"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00002      |49|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00003      |31|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00001      |30|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":49,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":31,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":30,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00004      |65|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00002      |65|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00003      |40|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00004","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":65,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":65,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":40,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |77|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00004      |77|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00002      |76|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00003      |10|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00001      |10|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00005","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":77,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":77,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":76,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":10,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":10,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |77|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00004      |77|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00002      |76|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00006      |17|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00003      |17|
+|6       |1112          |1112         |Mix Match 1111 Type 2|00001      |16|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00006","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":77,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":77,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":76,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00006","UnitDiscountAmt":17,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":17,"Quantity":1},{"RewardID":6,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":16,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Scenario: Successful Must Buy MixMatch Combination
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775651","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775651","Department":"0143","Description":{"en":"sample product 1.1","jp":"サンプル製品1.1"},"RegularSalesUnitPrice":130.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":130.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":130.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":130.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"8865545775651","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775651","Department":"0143","Description":{"en":"sample product 1.1","jp":"サンプル製品1.1"},"RegularSalesUnitPrice":130.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":130.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":130.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":130.0,"InputType":0},"EntryFlag":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00003","ItemID":"8865545775651","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775651","Department":"0143","Description":{"en":"sample product 1.1","jp":"サンプル製品1.1"},"RegularSalesUnitPrice":130.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":130.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"0","EmpPrice1":130.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00003","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":130.0,"InputType":0},"EntryFlag":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00004","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00003      |40|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00002      |40|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00004      |30|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00004","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":40,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":30,"Quantity":1}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00005","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |65|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00003      |53|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00002      |52|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00001      |28|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00004      |22|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00005","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":65,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":53,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":52,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":28,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":22,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00006","ItemID":"8865545775652","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |67|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00006      |59|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00003      |54|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00002      |40|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00001      |40|
+|6       |1112          |1112         |Mix Match 1111 Type 2|00004      |30|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775652","Department":"0143","Description":{"en":"sample product 2","jp":"サンプル製品2"},"RegularSalesUnitPrice":140.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":140.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"1","EmpPrice1":140.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00006","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":140.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":67,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00006","UnitDiscountAmt":59,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":54,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":40,"Quantity":1},{"RewardID":6,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":30,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00007","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |67|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00006      |59|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00003      |54|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00002      |40|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00001      |40|
+|6       |1112          |1112         |Mix Match 1111 Type 2|00007      |30|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00007","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":67,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00006","UnitDiscountAmt":59,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":54,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":40,"Quantity":1},{"RewardID":6,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00007","UnitDiscountAmt":30,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00008","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |67|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00006      |59|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00003      |54|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00002      |40|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00001      |40|
+|6       |1112          |1112         |Mix Match 1111 Type 2|00008      |30|
+|7       |1112          |1112         |Mix Match 1111 Type 2|00007      |10|
+|8       |1112          |1112         |Mix Match 1111 Type 2|00004      |10|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00008","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":67,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00006","UnitDiscountAmt":59,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":54,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":40,"Quantity":1},{"RewardID":6,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00008","UnitDiscountAmt":30,"Quantity":1},{"RewardID":7,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00007","UnitDiscountAmt":10,"Quantity":1},{"RewardID":8,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":10,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00009","ItemID":"8865545775641","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00005      |67|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00006      |59|
+|3       |1112          |1112         |Mix Match 1111 Type 2|00003      |54|
+|4       |1112          |1112         |Mix Match 1111 Type 2|00002      |40|
+|5       |1112          |1112         |Mix Match 1111 Type 2|00001      |40|
+|6       |1112          |1112         |Mix Match 1111 Type 2|00009      |30|
+|7       |1112          |1112         |Mix Match 1111 Type 2|00008      |17|
+|8       |1112          |1112         |Mix Match 1111 Type 2|00007      |17|
+|9       |1112          |1112         |Mix Match 1111 Type 2|00004      |16|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775641","Department":"0143","Description":{"en":"sample product 1","jp":"サンプル製品1"},"RegularSalesUnitPrice":100.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":100.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"0","EmpPrice1":100.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00009","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":100.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00005","UnitDiscountAmt":67,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00006","UnitDiscountAmt":59,"Quantity":1},{"RewardID":3,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00003","UnitDiscountAmt":54,"Quantity":1},{"RewardID":4,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":40,"Quantity":1},{"RewardID":5,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":40,"Quantity":1},{"RewardID":6,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00009","UnitDiscountAmt":30,"Quantity":1},{"RewardID":7,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00008","UnitDiscountAmt":17,"Quantity":1},{"RewardID":8,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00007","UnitDiscountAmt":17,"Quantity":1},{"RewardID":9,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00004","UnitDiscountAmt":16,"Quantity":1}],"Revoke":{"EarnedRewardID":"1112"},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: (Integration Test) RES-3628, Test wrong distribution of discounts
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775652","ItemIDType":"EAN-13","Quantity":3}}}
+Then the Result Code is 0
+Then there should be no promotion data.
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775652","Department":"0143","Description":{"en":"sample product 2","jp":"サンプル製品2"},"RegularSalesUnitPrice":140.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":140.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":1,"CouponFlag":"1","EmpPrice1":140.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":3,"ExtendedAmount":420.0,"InputType":0},"EntryFlag":0},"NCRWSSExtendedResultCode":0,"NCRWSSResultCode":0}
+When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00002","ItemID":"8865545775653","ItemIDType":"EAN-13","Quantity":1}}}
+Then the Result Code is 0
+Then promotion should have the following data :
+|RewardID|EarnedRewardID|PromotionCode|DiscountDescription  |ItemEntryID|UnitDiscountAmount|
+|1       |1112          |1112         |Mix Match 1111 Type 2|00002      |69|
+|2       |1112          |1112         |Mix Match 1111 Type 2|00001      |121|
+Then the JSON should have the following format : 
+{"Transaction":{"TransactionMode":0,"Sale":{"ItemID":"8865545775653","Department":"0143","Description":{"en":"sample product 3","jp":"サンプル製品3"},"RegularSalesUnitPrice":160.0,"Discount":0.0,"DiscountFlag":0,"DiscountAmount":0.0,"ActualSalesUnitPrice":160.0,"Discountable":true,"TaxRate":0,"TaxType":0,"DiscountType":0,"NonSales":0,"SubInt10":0,"Line":"0143","Class":"000001","AgeRestrictedFlag":0,"CouponFlag":"1","EmpPrice1":160.0,"PSType":"","OrgSalesPrice1":0.0,"ItemEntryID":"00002","ItemIDType":"EAN-13","Quantity":1,"ExtendedAmount":160.0,"InputType":0},"EntryFlag":0},"Promotion":{"Discount":[{"RewardID":1,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00002","UnitDiscountAmt":69,"Quantity":1},{"RewardID":2,"EarnedRewardID":"1112","PromotionCode":"1112","DiscountDescription":"Mix Match 1111 Type 2","ItemEntryID":"00001","UnitDiscountAmt":121,"Quantity":2}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

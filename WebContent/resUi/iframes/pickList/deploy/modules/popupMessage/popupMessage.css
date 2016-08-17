@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+#PopupMessage .Panel {
+	position: absolute; left: 52px; top: 30px;  width: 920px; height: 620px; 
+}
+#PopupMessage .InnerBox {
+    position: absolute; left: 10px; top: 10px;  width: 900px; height: 600px; 
+}
+#PopupMessage .Panel .InnerBox .popupStoreAdd {
+	position: absolute; left: 210px; top: 150px;  width: 480px; height: 320px; 
+}
+#PopupMessage .Panel .InnerBox .popupStoreAdd .Buttons{
+	  position: absolute; left: 10px; top: 230px;
+}
+#PopupMessage .Panel .InnerBox .popupStoreAdd .Guide {
+	position: absolute; left: 0px; top: 80px; width: 100%; height: 40px; text-align: center;
+	display: table;
+}
+#PopupMessage .Panel .InnerBox .Guide p { 
+	text-align: center; vertical-align: top; display: table-cell;
+	font-size: 25px;
+}
+#PopupMessage .Panel .InnerBox .popupStoreAdd .Buttons .resButton:nth-child(1) { position: absolute; left: 180px; }

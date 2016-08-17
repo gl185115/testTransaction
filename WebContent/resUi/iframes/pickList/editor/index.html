@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html data-ng-app="res.ui">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv ="Cache-control" content="no-cache"> 
+<meta http-equiv="Expires" content="-1">
+<script src="../../../../resLibrary/res.library.ui.js" type="text/javascript"></script>
+
+<script src="res.model.js" type="text/javascript"></script>
+<link href="res.ui.css" rel="stylesheet" type="text/css" />
+<script src="res.ui.js" type="text/javascript"></script>
+
+<link href="modules/menu/menu.css" rel="stylesheet" type="text/css" />
+<script src="modules/menu/menu.js" type="text/javascript"></script>
+<link href="modules/itemList/itemList.css" rel="stylesheet" type="text/css" />
+<script src="modules/itemList/itemList.js" type="text/javascript"></script>
+<link href="modules/fileCreate/fileCreate.css" rel="stylesheet" type="text/css" />
+<script src="modules/fileCreate/fileCreate.js" type="text/javascript"></script>
+<link href="modules/fileOpen/fileOpen.css" rel="stylesheet" type="text/css" />
+<script src="modules/fileOpen/fileOpen.js" type="text/javascript"></script>
+<link href="modules/fileSave/fileSave.css" rel="stylesheet" type="text/css" />
+<script src="modules/fileSave/fileSave.js" type="text/javascript"></script>
+<link href="modules/fileClose/fileClose.css" rel="stylesheet" type="text/css" />
+<script src="modules/fileClose/fileClose.js" type="text/javascript"></script>
+<link href="modules/fileRemove/fileRemove.css" rel="stylesheet" type="text/css" />
+<script src="modules/fileRemove/fileRemove.js" type="text/javascript"></script>
+<!-- 
+<link href="modules/editItems/editItems.css" rel="stylesheet" type="text/css" />
+<script src="modules/editItems/editItems.js" type="text/javascript"></script>
+ -->
+<link href="modules/editCategories/editCategories.css" rel="stylesheet" type="text/css" />
+<script src="modules/editCategories/editCategories.js" type="text/javascript"></script>
+<link href="modules/editLayout/editLayout.css" rel="stylesheet" type="text/css" />
+<script src="modules/editLayout/editLayout.js" type="text/javascript"></script>
+<script src="modules/failure/failure.js" type="text/javascript"></script>
+<link href="modules/failure/failure.css" rel="stylesheet" type="text/css" />
+<script src="modules/filePrint/filePrint.js" type="text/javascript"></script>
+<link href="modules/filePrint/filePrint.css" rel="stylesheet" type="text/css" />
+
+<link href="../../../../resSkin/default.css" rel="stylesheet" type="text/css" id="Skin" />
+
+<script src="../../../../resConfig/res.config.js" type="text/javascript"></script>
+
+<title>NCR RES UI Configurator</title>
+</head>
+<body>
+	<div id="Menu" data-res-include="modules/menu/menu.html"
+		data-ng-controller="menu"></div>
+
+	<div id="FileCreate" class="resPopup"
+		data-ng-show="dialog == 'fileCreate'"
+		data-res-include="modules/fileCreate/fileCreate.html"
+		data-ng-controller="fileCreate"></div>
+
+	<div id="FileOpen" class="resPopup" data-ng-show="dialog == 'fileOpen'"
+		data-res-include="modules/fileOpen/fileOpen.html"
+		data-ng-controller="fileOpen"></div>
+
+	<div id="FileSave" class="resPopup" data-ng-show="dialog == 'fileSave'"
+		data-res-include="modules/fileSave/fileSave.html"
+		data-ng-controller="fileSave"></div>
+
+	<div id="FileClose" class="resPopup"
+		data-ng-show="dialog == 'fileClose'"
+		data-res-include="modules/fileClose/fileClose.html"
+		data-ng-controller="fileClose"></div>
+	<div id="FileRemove" class="resPopup"
+		data-ng-show="dialog == 'fileRemove'"
+		data-res-include="modules/fileRemove/fileRemove.html"
+		data-ng-controller="fileRemove"></div>
+
+    <!-- 
+	<div id="EditItems"
+		data-ng-show="model.editor.indexEdit == 'editItems'"
+		data-res-include="modules/editItems/editItems.html"
+		data-ng-controller="editItems"></div>
+    -->
+    
+	<div id="ItemList" data-ng-show="model.editor.indexEdit == 'itemList'"
+		data-res-include="modules/itemList/itemList.html"
+		data-ng-controller="itemList"></div>
+
+	<div id="EditCategories"
+		data-ng-show="model.editor.indexEdit == 'editCategories'"
+		data-res-include="modules/editCategories/editCategories.html"
+		data-ng-controller="editCategories"></div>
+
+	<div id="EditLayout"
+		data-ng-show="model.editor.indexEdit == 'editLayout'"
+		data-res-include="modules/editLayout/editLayout.html"
+		data-ng-controller="editLayout"></div>
+
+	<div id="Failure" class="resPopup fade-in"
+		data-ng-show="model.failure.active"
+		data-res-include="modules/failure/failure.html"
+		data-ng-controller="failure"></div>
+
+	<div id="PickUpFilePrint" class="resPopup fade-in" data-ng-show="false"
+		data-res-include="modules/filePrint/filePrint.html"
+		data-ng-controller="filePrint"></div>
+</body>
+</html>
+
+
+

@@ -1,0 +1,29 @@
+Scenario: standard EventLog test set (normal, dup, normal, read)
+Given a EventLog Resource
+Given a RESTransaction DBInitiator
+Given TXL_OPE_EVENT is empty
+
+When executing log with company{01} storeid{0003} workstationid{0005} sequenceNumber{10} businessDayDate{2015-08-15} training{0} and log{{"test": "yes"}}
+Then result should be {0}
+Then TXL_OPE_EVENT should have the following row(s):
+|CompanyId|RetailStoreId|WorkstationId|SequenceNumber|ChildNumber|BusinessDayDate|TrainingFlag|Log|
+|01       |0003         |0005         |10            |0          |2015-08-15     |0           |{"test": "yes"}|
+
+When executing log with company{01} storeid{0003} workstationid{0005} sequenceNumber{10} businessDayDate{2015-08-15} training{0} and log{{"test": "no"}}
+Then result should be {0}
+Then TXL_OPE_EVENT should have the following row(s):
+|CompanyId|RetailStoreId|WorkstationId|SequenceNumber|ChildNumber|BusinessDayDate|TrainingFlag|Log|
+|01       |0003         |0005         |10            |0          |2015-08-15     |0           |{"test": "yes"}|
+
+When executing log with company{01} storeid{0003} workstationid{0005} sequenceNumber{11} businessDayDate{2015-08-15} training{0} and log{{"test": "no"}}
+Then result should be {0}
+Then TXL_OPE_EVENT should have the following row(s):
+|CompanyId|RetailStoreId|WorkstationId|SequenceNumber|ChildNumber|BusinessDayDate|TrainingFlag|Log|
+|01       |0003         |0005         |10            |0          |2015-08-15     |0           |{"test": "yes"}|
+|01       |0003         |0005         |11            |0          |2015-08-15     |0           |{"test": "no"}|
+
+When read log with company{01} storeid{0003} workstationid{0005} sequenceNumber{10} training{0}
+Then result json should be {{"test": "yes"}}
+
+
+

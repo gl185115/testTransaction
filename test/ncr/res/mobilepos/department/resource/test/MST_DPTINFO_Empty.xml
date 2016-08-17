@@ -1,0 +1,46 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_DPTINFO">
+        <column>StoreId</column>
+        <column>Dpt</column>
+        <column>DptName</column>
+        <column>DptNameLocal</column>
+        <column>Jigyobu</column>
+        <column>Gyoshu</column>
+        <column>Bumon</column>
+        <column>Uriba</column>
+        <column>Category</column>
+        <column>InheritFlag</column>
+        <column>ExceptionFlag</column>
+        <column>SubSmallInt5</column>
+        <column>DiscountType</column>
+        <column>DiscountFlag</column>
+        <column>DiscountAmt</column>
+        <column>DiscountRate</column>
+        <column>TaxRate</column>
+        <column>TaxType</column>
+        <column>InsDate</column>
+        <column>UpdDate</column>
+    </table>  
+    <table name="MST_STOREINFO">
+        <column>StoreId</column>
+        <column>StoreName</column>
+        <column>InsDate</column>
+        <column>UpdDate</column>
+        <column>Status</column>
+        <row>
+			<value>0031</value>
+			<value>store 0031</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>		
+		</row>
+		<row>
+			<value>0032</value>	
+			<value>store 0032</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>	
+		</row>
+    </table>      
+</dataset>

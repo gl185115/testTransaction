@@ -1,0 +1,95 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	    
+	<table name="TXL_FORWARD_ITEM">		        
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>		        
+		<column>SequenceNumber</column>
+		<column>BusinessDayDate</column>
+		<column>PosTermId</column>
+		<column>Tx</column>
+		<column>Status</column>
+		<column>Queue</column>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value>2012-05-29</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0001</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:30:46</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:30:46</ReceiptDateTime><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0002</value>
+			<value>2012-05-29</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0002</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:31:11</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:31:11</ReceiptDateTime><CustomerID></CustomerID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0003</value>
+			<value>2012-05-29</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0003</SequenceNumber><BusinessDayDate>2012-05-29</BusinessDayDate><BeginDateTime>2012-05-29T18:31:44</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:31:44</ReceiptDateTime><CustomerID></CustomerID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0004</value>
+			<value>2012-05-30</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0004</SequenceNumber><BusinessDayDate>2012-05-30</BusinessDayDate><BeginDateTime>2012-05-29T18:37:53</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:37:53</ReceiptDateTime><TillID>0</TillID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0005</value>
+			<value>2012-05-30</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0005</SequenceNumber><BusinessDayDate>2012-05-30</BusinessDayDate><BeginDateTime>2012-05-29T18:38:43</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:38:43</ReceiptDateTime><CustomerID></CustomerID><TillID>0</TillID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>4</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000123973</ItemID><Description>????????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272152</ItemID><Description>BAT ?????????</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>1320</ExtendedAmount><Quantity>3</Quantity></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272202</ItemID><Description>???·????5</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>1320</ExtendedAmount><Quantity>3</Quantity></Sale></LineItem><LineItem><SequenceNumber>4</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272322</ItemID><Description>?????????????1P</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>880</ExtendedAmount><Quantity>2</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0006</value>
+			<value>2012-05-30</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0006</SequenceNumber><BusinessDayDate>2012-05-30</BusinessDayDate><BeginDateTime>2012-05-29T18:39:07</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:39:07</ReceiptDateTime><CustomerID></CustomerID><TillID>0</TillID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272322</ItemID><Description>?????????????1P</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>880</ExtendedAmount><Quantity>2</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272202</ItemID><Description>???·????5</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>880</ExtendedAmount><Quantity>2</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0007</value>
+			<value>2012-05-30</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0007</SequenceNumber><BusinessDayDate>2012-05-30</BusinessDayDate><BeginDateTime>2012-05-29T18:43:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:43:42</ReceiptDateTime><CustomerID></CustomerID><TillID>0</TillID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272322</ItemID><Description>?????????????1P</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272202</ItemID><Description>???·????5</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>0001</value>
+			<value>0008</value>
+			<value>2012-05-30</value>
+			<value>1234</value>
+			<value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>000001</RetailStoreID><WorkstationID>5006</WorkstationID><SequenceNumber>0007</SequenceNumber><BusinessDayDate>2012-05-30</BusinessDayDate><BeginDateTime>2012-05-29T18:43:42</BeginDateTime><OperatorID>111</OperatorID><ReceiptDateTime>2012-05-29T18:43:42</ReceiptDateTime><CustomerID></CustomerID><TillID>0</TillID><CustomerOrderTransaction Version="2.2" TransactionStatus="Canceled"><ItemCount>2</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272322</ItemID><Description>?????????????1P</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxableFlag="true" Department="0181" Line="0181" Class="000001"><ItemID>0000000272202</ItemID><Description>???·????5</Description><ActualSalesUnitPrice>440</ActualSalesUnitPrice><ExtendedAmount>440</ExtendedAmount><Quantity>1</Quantity></Sale></LineItem></CustomerOrderTransaction></Transaction></POSLog>]]></value>
+			<value>0</value>
+			<value>0</value>
+		</row>
+	</table>
+</dataset>

@@ -1,0 +1,59 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_PRINTERINFO">
+		<column>storeid</column>
+		<column>printerid</column>
+        <column>printername</column>
+        <column>ipaddress</column>
+        <column>portnumtcp</column>
+        <column>portnumudp</column>
+        <column>description</column>
+        <column>status</column>
+        <column>upddate</column>
+    </table>
+    <table name="MST_STOREINFO">
+    	<column>storeid</column>
+    	<column>storename</column>
+    	<column>storeaddr</column>
+    	<column>storetel</column>
+    	<column>storeurl</column>
+    	<column>salesspacename</column>
+    	<column>eventname</column>
+    	<column>ads</column>
+    	<column>electrofilepath</column>
+    	<column>stamptaxfilepath</column>
+    	<column>status</column>
+    	<column>insdate</column>
+    	<column>upddate</column>
+    	<row>
+    		<value>000031</value>
+    		<value>STORE-000031</value>
+    		<value>Cebu City</value>
+    		<value>253.2323</value>
+    		<value>http://www.ncr.com</value>
+    		<value>Mr. Tanaka</value>
+    		<value>10th yr Anniversary</value>
+    		<value>Keep Going!</value>
+    		<value>C:\</value>
+    		<value>C:\</value>
+    		<value>Active</value>
+    		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+    		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+    	</row>
+    	<row>
+    		<value>000032</value>
+    		<value>STORE-000032</value>
+    		<value>Cebu City</value>
+    		<value>253.2323</value>
+    		<value>http://www.ncr.com</value>
+    		<value>Mr. Tanaka</value>
+    		<value>10th yr Anniversary</value>
+    		<value>Keep Going!</value>
+    		<value>C:\</value>
+    		<value>C:\</value>
+    		<value>Active</value>
+    		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+    		<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+    	</row>
+    </table>
+</dataset>

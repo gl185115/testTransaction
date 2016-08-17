@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+#EditNotice .Sheet { 
+	position: absolute; left: 32px; top: 170px; width: 695px; height: 500px;
+	background: hsl(0, 0%, 100%);
+	box-shadow: hsl(0,0%,0%) 2px 2px 5px; -webkit-box-shadow: hsl(0,0%,0%) 2px 2px 5px;
+}
+
+#EditNotice .Sheet textarea {
+	resize: none;
+	position: absolute; left: 20px; top: 20px; height: 450px; width: 660px; 
+	font-size: 20px;
+	overflow-y: scroll;
+}
+
+#EditNotice .Attachments .attach {
+    position: absolute; left: 750px; top: 190px;
+}
+/**** end of CSS ****/

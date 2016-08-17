@@ -1,0 +1,51 @@
+Scenario: View detail of an existing corpstore
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {000} storeid: {000031}					
+Then I should get resultcode equal to 0					
+Then I should get corpstore details: 
+teststore1|xxx|0|000031
+Then the JSON should have the following format :
+{"Store":{"RetailStoreID":"000031","StoreName":"teststore1","Passcode":"xxx","Permission":0},"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: View detail of an another existing corpstore
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {000} storeid: {000032}					
+Then I should get resultcode equal to 0					
+Then I should get corpstore details: 
+teststore2|xxx|1|000032
+
+Scenario: View detail of non-existing store
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {111} storeid: {10000}					
+Then I should get resultcode equal to 1202
+Then I should get corpstore details:
+null|null|0|null
+
+Scenario: View null corpid
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {null} storeid: {10000}					
+Then I should get resultcode equal to 1202
+Then I should get corpstore details:
+null|null|0|null
+
+Scenario: View blank corpid
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {} storeid: {10000}					
+Then I should get resultcode equal to 1202
+Then I should get corpstore details:
+null|null|0|null
+
+Scenario: View null storeid
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {000} storeid: {null}					
+Then I should get resultcode equal to 1202
+Then I should get corpstore details:
+null|null|0|null
+
+Scenario: View blank storeid
+Given a CorpStoreResource
+When I view corpstore detail of corpid: {000} storeid: {}				
+Then I should get resultcode equal to 1202
+Then I should get corpstore details:
+null|null|0|null
+					

@@ -1,0 +1,116 @@
+Scenario: Set the Date in the System Setting
+Given a table entry named {SYSTEM_SETTING_EMPTY.xml} in the database
+
+!-- The following are the default value
+Then the following date settings follows:
+|businessdate|eod|skip|
+!-- Supply all the Date Settings
+Given a table entry named {SYSTEM_SETTING_COMPLETE.xml} in the database
+When the following date settings are set:
+|businessdate|eod|skip|
+|2012-12-12|21:00|1|
+
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2012-12-12|21:00|1|
+
+
+!-- Supply part of the Date Settings {BusinessDate only}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|dontset|dontset|
+
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2013-01-01|21:00|1|
+
+
+!-- Supply part of the Date Settings {EOD only}
+When the following date settings are set:
+|businessdate|eod|skip|
+|dontset|01:00|dontset|
+
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2013-01-01|01:00|1|
+
+!-- Supply part of the Date Settings {Skip only}
+When the following date settings are set:
+|businessdate|eod|skip|
+|dontset|dontset|5|
+
+Then resultcode should be 0
+Then returned Result Code should be {OK}
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2013-01-01|01:00|5|
+
+!-- Supply part of the Date Settings {Nothing has been Set}
+When the following date settings are set:
+|businessdate|eod|skip|
+|dontset|dontset|dontset|
+
+Then resultcode should be 320
+Then returned Result Code should be {FAILED_DATE_SETTINGS}
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2013-01-01|01:00|5|
+
+!-- Supply part of the Date Settings {invalid time 3}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|06:61|2|
+Then resultcode should be 322
+
+!-- Supply part of the Date Settings {invalid time 4}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|06pm|2|
+Then resultcode should be 322
+
+!-- Supply part of the Date Settings {invalid time 4}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|6|2|
+Then resultcode should be 322
+
+!-- Supply part of the Date Settings {invalid date}
+When the following date settings are set:
+|businessdate|eod|skip|
+|1|6:00pm|2|
+Then resultcode should be 321
+
+!-- Supply part of the Date Settings {invalid skip}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|6:00pm|-1|
+Then resultcode should be 323
+
+!-- Supply part of the Date Settings {invalid time 1}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|6:00am|2|
+Then resultcode should be 0
+
+!-- Supply part of the Date Settings {invalid time 2}
+When the following date settings are set:
+|businessdate|eod|skip|
+|2013-01-01|13:00pm|2|
+Then resultcode should be 0
+
+!-- Supply part of the Date Settings {Nothing has been Set}
+When the following date settings are set:
+|businessdate|eod|skip|
+|empty|empty|empty|
+
+Then the following date settings follows:
+|businessdate|eod|skip|
+|2013-01-01|13:00pm|2|
+Then resultcode should be 320
+Then returned Result Code should be {FAILED_DATE_SETTINGS}

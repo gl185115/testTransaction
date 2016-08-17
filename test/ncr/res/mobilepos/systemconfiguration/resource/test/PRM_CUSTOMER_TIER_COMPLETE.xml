@@ -1,0 +1,28 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="PRM_CUSTOMER_TIER">
+        <column>SeqNum</column>
+        <column>Id</column>
+        <column>DisplayName</column>
+		<row>
+			<value>1</value>
+			<value>None</value>
+			<value>Not Selected</value>
+		</row>
+		<row>
+			<value>2</value>
+			<value>Family</value>
+			<value>Family</value>
+		</row>
+		<row>
+			<value>3</value>
+			<value>Store</value>
+			<value>Cashier</value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>Store</value>
+			<value>Manager</value>
+		</row>
+    </table>  	    
+</dataset>

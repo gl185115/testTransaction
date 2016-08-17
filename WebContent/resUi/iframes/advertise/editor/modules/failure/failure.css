@@ -1,0 +1,12 @@
+@CHARSET "UTF-8";
+
+#Failure .resCasing { 
+	position: absolute; left: 107px; top: 50px; width: 820px; height: 620px; 
+}
+#Failure .Prompt p { 
+	font-size: 24px; line-height: 1.5; 
+	margin-top: 100px; text-align: center; 
+}
+
+#Failure .Buttons { position: absolute; bottom: 20px; left: 0px; right: 0px; }
+#Failure .Buttons .resButton { position: relative; margin-left: auto; margin-right: auto; }

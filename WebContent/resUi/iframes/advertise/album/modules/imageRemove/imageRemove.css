@@ -1,0 +1,81 @@
+@CHARSET "UTF-8";
+
+#ImageRemove .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+#ImageRemove .Panel { position: absolute; left: 10px; top: 10px; right: 10px; bottom: 10px; }
+
+#ImageRemove .DelConfirm .Guide {
+    position: absolute;
+    left: 10px;
+    top: 80px;
+    right: 10px;
+    text-align: center;
+    font-size: 25px;
+}
+#ImageRemove .DelList {
+    position: absolute;
+    left: 10px;
+    top: 200px;
+    right: 10px;
+    height: 252px;
+    text-align: center;
+    font-size: 25px;
+}
+#wrapperViewList {
+    position: absolute;
+    left: 40px;
+    top: 0px;
+    height: 100%;
+    width: 498px;
+    z-index: 1;
+    overflow: hidden;
+}
+#ImageRemove .DelList .ViewLine {
+	position: relative;
+	left: 0px;
+	width: 100%;
+	height: 36px;
+	background: hsl(0, 0%, 95%);
+	border-color: hsl(0, 0%, 90%) hsl(0, 0%, 85%) hsl(0, 0%, 70%);
+	border-style: solid;
+	border-width: 2px 2px 2px 2px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+}
+#ImageRemove .DelList .ViewLine p {
+	margin-left: 8px;
+	font-size: 16px;
+	line-height: 32px;
+	text-align: left;
+}
+#ImageRemove .DelConfirm .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#ImageRemove .DelConfirm .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+#ImageRemove .DelConfirm .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }
+
+#ImageRemove .DelSuccess .Guide {
+    position: absolute;
+    left: 10px;
+    top: 100px;
+    right: 10px;
+    text-align: center;
+    font-size: 25px;
+}
+#ImageRemove .DelSuccess .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#ImageRemove .DelSuccess .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 240px; }
+
+#ImageRemove .DelFailed .Guide {
+    position: absolute;
+    left: 10px;
+    top: 100px;
+    right: 10px;
+    text-align: center;
+    font-size: 25px;
+}
+#ImageRemove .DelFailed .FilePath {
+	position: relative; left: 40px; width: 520px; height: 40px;
+	margin-top: 100px;
+	text-align: center;
+	font-size: 25px;
+}
+#ImageRemove .DelFailed .Buttons { position: absolute; left: 0px; bottom: 20px; width: 100%; }
+#ImageRemove .DelFailed .Buttons .resButton:nth-child(1) { position: absolute; bottom: 0px; left: 120px; }
+#ImageRemove .DelFailed .Buttons .resButton:nth-child(2) { position: absolute; bottom: 0px; right: 120px; }

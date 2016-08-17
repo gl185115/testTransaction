@@ -1,0 +1,75 @@
+@CHARSET "UTF-8";
+#AttachFile .Images .Guide,
+#AttachFile .Background .Guide {
+    position:absolute; left: 20px;  right: 20px; top: 20px;
+    font-size: 25px;
+    text-align: center;
+}
+#AttachFile .resCasing { position: absolute; left: 202px; top: 30px;  width: 620px; height: 620px; }
+#wrapperImages {
+    position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px;
+    overflow: hidden;
+    z-index: 0;
+}
+#AttachFile .scroller {
+    display: -webkit-inline-box;
+}
+#AttachFile .Images .PickButton,
+#AttachFile .Background .PickButton {
+    position: relative;
+    display: inline-block;
+    margin: 5px;
+}
+#AttachFile .PickButton {
+    position: relative; width: 132px; height: 120px;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,50%)));
+    border-radius: 0px 0px 0px 0px;
+    border-style: none; box-sizing: border-box; -webkit-box-sizing: border-box;
+    box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+}
+#AttachFile .PickButton .InnerBox {
+    position: absolute; left: 0px; top: 0px; width: 132px; height: 120px;
+    background: hsl(0,0%,100%);
+    overflow: hidden;
+    display: table;
+}
+#AttachFile .PickButton .InnerBox .ImageBox {
+    position: absolute; left: 0px; top: 0px; width: 132px; height: 120px;
+    text-align: center;
+    overflow: hidden;
+    display: table;
+}
+#AttachFile .PickButton .InnerBox .ImageBox .ImageList {
+   max-width: 66%;
+   max-height:120px;
+   display: block;
+   margin: auto auto;
+}
+#AttachFile .Images .resCasing { position: absolute; left: 60px; top: 30px;  width: 905px; height: 620px; }
+#AttachFile .Images .Guide,
+#AttachFile .Background .Guide {
+    position:absolute; left: 20px;  right: 20px; top: 20px;
+    font-size: 25px;
+    text-align: center;
+}
+#AttachFile .Images .PickButtons {
+    position: absolute; left: 5px; right: 5px; top: 60px; height: 535px;
+    background: hsl(0, 0%, 30%);
+    border-color: hsl(0, 0%, 10%) hsl(0, 0%, 60%) hsl(0, 0%, 80%);
+    border-style: solid; border-width: 2px; box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#AttachFile .Images .resButton:nth-child(1) { position: absolute; left: 20px; top: 5px; }
+#AttachFile .Images .resButton:nth-child(2) { position: absolute; right: 20px; top: 5px; }
+#AttachFile .Images .Buttons .resButton:nth-child(2) input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    width: 110px;
+    height: 50px;
+}
+

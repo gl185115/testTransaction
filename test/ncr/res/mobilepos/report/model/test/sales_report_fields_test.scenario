@@ -1,0 +1,11 @@
+Given an uninitialized Sales Report Fields
+Then the xml of Sales Report should be : {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Fields/>}
+When I set its Sales Report Type {salesReportType}
+Then the xml of Sales Report should be : {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Fields><SalesReportType>salesReportType</SalesReportType></Fields>}
+Then its Sales Report Type is : {salesReportType}
+Given A Details Model detail
+When the details property of Sales Report Fields is set to detail
+Then the xml of Sales Report should be : {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Fields><SalesReportType>salesReportType</SalesReportType><Details/></Fields>}
+Given A Details Model detail with business date {1212} and store number {00031} and deivice number {111111}
+When the details property of Sales Report Fields is set to detail
+Then the xml of Sales Report should be : {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Fields><SalesReportType>salesReportType</SalesReportType><Details><BusinessDate>1212</BusinessDate><StoreNumber>00031</StoreNumber><DetailsDeviceNumber>111111</DetailsDeviceNumber></Details></Fields>}

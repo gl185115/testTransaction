@@ -1,0 +1,33 @@
+Scenario: Initialize data
+Given existing entries in MST_SIGN_ACTIVATION_LIST
+
+Scenario: Test Get Activation Key Normal
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{1234}
+Then key should be {ABC12345}
+Then the terminalId should be {XXXXX00011234}
+Then I delete Activation key with tid{XXXXX00011234}, activationkey{ABC12345}
+Then the result should be 0
+When I get ActivationKey for storeid{000001}, terminalid{1234}
+Then key should be {empty}
+Then the terminalId should be {empty}
+
+Scenario: Test Not Existing Data
+Given a SignActivationListDao object
+When I get ActivationKey for storeid{000001}, terminalid{1234}
+Then key should be {empty}
+Then the terminalId should be {empty}
+Then I delete Activation key with tid{XXXXX00011234}, activationkey{ABC12345}
+Then the result should be 502
+
+Scenario: No values
+Then I delete Activation key tid{XXXXX00011234}, activationkey{ABC12345}
+Then the result should be 502
+Then I delete Activation key with tid{}, activationkey{ABC12345}
+Then the result should be 502
+Then I delete Activation key with tid{XXXXX00011234}, activationkey{}
+Then the result should be 502
+
+Scenario: Null values
+Then I delete Activation key with null values
+Then the result should be 502

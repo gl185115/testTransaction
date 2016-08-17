@@ -1,0 +1,67 @@
+Scenario: Test TerminalItemsHandler's Add, Get and Delete Method
+Given an empty terminalitems
+Then I should get {0} list of terminalitems
+
+!-- Testing TerminalItemsHandler Add Method
+!-- Add TerminalItem To Empty List
+When I add retailstoreid{000031}, workstationid{1111}, sequenceno{00001}
+Then I should get {1} list of terminalitems
+Then I should get a list terminalitems of the following:
+|id        		|sequenceno|
+|000031001111	|00001     |
+!-- Add New Details To An Existing TerminalItem
+When I add retailstoreid{000031}, workstationid{1111}, sequenceno{00002}
+Then I should get {1} list of terminalitems
+Then I should get a list terminalitems of the following:
+|id        		|sequenceno|
+|000031001111	|00002     |
+!-- Add Another Non-Existing TerminalItem
+When I add retailstoreid{000031}, workstationid{2222}, sequenceno{00001}
+Then I should get {2} list of terminalitems
+Then I should get a list terminalitems of the following:
+|id        		|sequenceno|
+|000031001111	|00002     |
+|000031002222	|00001     |
+!-- Add Another Non-Existing TerminalItem With StoreId and WorkstationId in 6 Digits
+When I add retailstoreid{123456}, workstationid{123456}, sequenceno{00001}
+Then I should get {3} list of terminalitems
+Then I should get a list terminalitems of the following:
+|id        		|sequenceno|
+|000031001111	|00002     |
+|000031002222	|00001     |
+|123456123456	|00001     |
+
+!-- Testing TerminalItemsHandler Delete Method
+!-- Delete A Non-Existing TerminalItem
+When I delete retailstoreid{000031}, workstationid{3333}
+Then I should get {3} list of terminalitems
+Then I should get a list terminalitems of the following:
+|id        		|sequenceno|
+|000031001111	|00002     |
+|000031002222	|00001     |
+|123456123456	|00001     |
+!-- Delete An Existing TerminalItem
+When I delete retailstoreid{000031}, workstationid{1111}
+Then I should get {2} list of terminalitems
+Then I should get a list terminalitems of the following:
+|id        		|sequenceno|
+|000031002222	|00001     |
+|123456123456	|00001     |
+
+
+!-- Testing TerminalItemsHandler Get Method
+!-- Get A Non-Existing TerminalItem (ID Not Found)
+When I get retailstoreid{000031}, workstationid{1111}, sequenceno{00001}
+Then I should get {null} terminalitem with the following details:
+|id        |sequenceno|
+|null      |null      |
+!-- Get A Non-Existing TerminalItem (SequenceNo Not Found)
+When I get retailstoreid{000031}, workstationid{2222}, sequenceno{00002}
+Then I should get {null} terminalitem with the following details:
+|id        |sequenceno|
+|null      |null      |
+!-- Get An Existing TerminalItem
+When I get retailstoreid{000031}, workstationid{2222}, sequenceno{00001}
+Then I should get {notnull} terminalitem with the following details:
+|id        		|sequenceno|
+|000031002222	|00001     |

@@ -1,0 +1,394 @@
+Scenario: List ALL items in the database
+Given a database table prm_system_config_with_tax_rate_round_up for list of items
+Given a database table MST_PLU_forList for list of items
+When the Search Limit is set to {5}
+Then the following items in the database should be:
+|storeid|plu          |displayplu   |dpt |mdinternal   |mdname           |mdnamelocal     	|discountamount	|discount|regularprice|class |inheritflag|nonsales|subint10|
+|0      |1234000000000|1234000000000|001 |1234000000000|general product 1|一般的な製品の1   	|100           	|20      |300         |000001|0|0|0|
+|0      |1234560000000|1234560000000|001 |1234560000000|general product 2|一般的な製品の2   	|100           	|20      |300         |000001|0|0|0|
+|0      |6876000000000|6876000000000|001 |6876000000000|general product X|一般的な製品のX   	|null          	|null    |300         |000001|0|0|0|
+|0      |9876540000000|9876540000000|001 |9876540000000|general product 3|一般的な製品の3   	|100           	|20      |300         |000001|0|0|0|
+|000031 |1234000000000|1234000000000|001 |1234000000000|sample product 1 |サンプル製品1      	|100           	|20      |300         |000001|0|0|0|
+|000031 |1234567800000|1234567800000|001 |1234567800000|discount greater |割引より            |500        	|20      |300         |000001|0|0|0|
+|000031 |9876000000000|9876000000000|001 |9876000000000|sample product 2 |サンプル製品2      	|null          	|null    |300         |000001|0|0|0|
+|000032 |0000000000003|0000000000003|0101|0000000000003|null             |null            	|null          	|null    |1000        |000001|0|0|0|
+|000032 |0000000000004|0000000000004|9999|0000000000004|                 |                	|null          	|null    |1000        |000001|0|0|0|
+|000032 |0000000000005|0000000000005|0102|0000000000005|                 |                	|null          	|null    |1000        |000001|0|0|0|
+|000032 |0000000000006|0000000000006|0103|0000000000006|                 |                	|null          	|null    |1000        |000001|0|0|0|
+|000032 |0000000000007|0000000000007|0101|0000000000007|Coca Cola        |コカ・コーラ          	|null          	|null    |1000        |000001|0|0|0|
+	
+
+Scenario: Search Condition key is "1" and StoreID is "000031"  (1st Scenario from Japan)
+Given an item resource
+When I get the list of Items with storeid {000031} and key {1} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    	|RegularSalesUnitPrice|Department|Class |Line|Discount |DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1      	|315.0                |001       |000001|001 |20.0     |100.0         |300.0           |0|0|0|
+|1234567800000|discount greater |割引より           	|315.0                |001       |000001|001 |20.0     |315.0         |300.0           |0|0|0|
+
+
+Scenario: Search Condition key is "1234" and StoreID is "000031"  (2nd Scenario from Japan)
+Given an item resource
+When I get the list of Items with storeid {000031} and key {1234} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    	|RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1       	|315.0                |001       |000001|001 |20.0     |100.0         |300.0           |0|0|0|
+|1234567800000|discount greater |割引より        		|315.0                |001       |000001|001 |20.0     |315.0         |300.0           |0|0|0|
+
+
+Scenario: Search Condition key is "9876" and StoreID is "000031"  (3rd Scenario from Japan)
+Given an item resource
+When I get the list of Items with storeid {000031} and key {9876} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|9876000000000|sample product 2 |サンプル製品2       |315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+
+
+Scenario: Search Condition key is null name is "sAmpLe" and StoreID is "000031"  
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {sAmpLe}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount 	|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1       |315.0                |001       |000001|001 |20.0    	|100.0         |300.0           |0|0|0|
+|9876000000000|sample product 2 |サンプル製品2       |315.0                |001       |000001|001 |0.0    		|0.0           |300.0           |0|0|0|
+
+
+Scenario: Search Condition key is null name is "サンプル" and StoreID is "000031"  
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {サンプル}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class 	|Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1       |315.0                |001       |000001 	|001 |20.0    |100.0         |300.0           |0|0|0|
+|9876000000000|sample product 2 |サンプル製品2       |315.0                |001       |000001 	|001 |0.0     |0.0           |300.0           |0|0|0|
+
+
+Scenario: Search Condition key is null and name is "general" and StoreID is "000031". 
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {general}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+Scenario: Search Condition key is null and name is "一般的な" and StoreID is "000031". 
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {一般的な}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+
+Scenario: Search Condition key is "PRoduct" and StoreID is "000031"  
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {PRoduct}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount 	|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1       |315.0                |001       |000001|001 |20.0     	|100.0         |300.0           |0|0|0|
+|9876000000000|sample product 2 |サンプル製品2       |315.0                |001       |000001|001 |0.0     	|0.0           |300.0           |0|0|0|
+
+
+Scenario: Search Condition key is "製品" and StoreID is "000031"  
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {製品}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount 	|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1       |315.0                |001       |000001|001 |20.0     |100.0         	|300.0           |0|0|0|
+|9876000000000|sample product 2 |サンプル製品2       |315.0                |001       |000001|001 |0.0     |0.0            	|300.0           |0|0|0|
+
+
+Scenario: List items but key is unknown and StoreID is "000031"
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {unknown}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is 未知の and StoreID is "000031"
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {未知の}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is "sAmpLe" and StoreID is "99999" (StoreID not found)
+Given an item resource
+When I get the list of Items with storeid {99999} and key {null} and deviceid {0001} and name {sAmpLe}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is "サンプル" and StoreID is "99999" (StoreID not found)
+Given an item resource
+When I get the list of Items with storeid {99999} and key {null} and deviceid {0001} and name {サンプル}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is EMPTY and StoreID is "000031"
+Given an item resource
+When I get the list of Items with storeid {000031} and key {} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount 		|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|sample product 1 |サンプル製品1		  |315.0                |001       |000001	|001 	|20.0     	|100.0         	|300.0          |0|0|0|
+|1234567800000|discount greater |割引より		      |315.0                |001       |000001	|001 	|20.0     	|315.0         	|300.0          |0|0|0|
+|9876000000000|sample product 2 |サンプル製品2		  |315.0                |001       |000001	|001   	|0.0     	|0.0           	|300.0          |0|0|0|
+
+
+Scenario: List items but key is "1" and StoreID is "99999" (StoreID not found)
+Given an item resource
+When I get the list of Items with storeid {99999} and key {1} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+Scenario: List items but key is "9" and StoreID is "99999" (StoreID not found)
+Given an item resource
+When I get the list of Items with storeid {99999} and key {9} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+Scenario: List items but key is "1" and StoreID is "0"
+Given an item resource
+When I get the list of Items with storeid {0} and key {1} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       		|DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class 		|Line	  |Discount		|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000    	|general product 1|一般的な製品の1    |315         		  |001 		 |000001		|001      |20.0        	|100		   |300.0 			|0|0|0|
+|1234560000000    	|general product 2|一般的な製品の2    |315         		  |001 		 |000001		|001      |20.0        	|100		   |300.0 			|0|0|0|
+
+
+Scenario: List items but key is "8" and StoreID is "0" ( no item found (plu))
+Given an item resource
+When I get the list of Items with storeid {0} and key {8} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is null and name is "z" and StoreID is "0" ( no item found (name))
+Given an item resource
+When I get the list of Items with storeid {0} and key {null} and deviceid {0001} and name {z}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is null and key is "ざ" and StoreID is "0" (Enterprise no item found (name))
+Given an item resource
+When I get the list of Items with storeid {0} and key {null} and deviceid {0001} and name {ざ}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is null and name is "z" and StoreID is "000031" (Store no item found (name))
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {z}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is null and name is "ざ" and StoreID is "000031" (Store no item found (name))
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {ざ}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is "8" and StoreID is "000031" (Store no item found (plu))
+Given an item resource
+When I get the list of Items with storeid {000031} and key {8} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is "6" and StoreID is "000031" 
+Given an item resource
+When I get the list of Items with storeid {000031} and key {6} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+Scenario: List items but key is null and name is  "X" and StoreID is "000031"
+Given an item resource
+When I get the list of Items with storeid {000031} and key {null} and deviceid {0001} and name {X}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+Scenario: List items but key is null and name is "のX" and StoreID is "000031" 
+Given an item resource
+When I get the list of Items with storeid {000031} and key {} and deviceid {0001} and name {のX}
+Then the list of Items are:
+|ItemID		|DescriptionEN		|DescriptionJP	|RegularSalesUnitPrice	|Department		|Class 	|Line	|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+Scenario: Searching ItemID, Use Item's Dpt Description If No Item Description (RES-2996)
+Given a database table MST_PLU_forList for list of items
+Then the following items in the database should be:
+|storeid|plu          |displayplu   |dpt |mdinternal   |mdname           |mdnamelocal      	|discountamount|discount|regularprice|class |inheritflag|nonsales|subint10|
+|0      |1234000000000|1234000000000|001 |1234000000000|general product 1|一般的な製品の1    	|100           |20      |300         |000001|0|0|0|
+|0      |1234560000000|1234560000000|001 |1234560000000|general product 2|一般的な製品の2    	|100           |20      |300         |000001|0|0|0|
+|0      |6876000000000|6876000000000|001 |6876000000000|general product X|一般的な製品のX    	|null          |null    |300         |000001|0|0|0|
+|0      |9876540000000|9876540000000|001 |9876540000000|general product 3|一般的な製品の3    	|100           |20      |300         |000001|0|0|0|
+|000031 |1234000000000|1234000000000|001 |1234000000000|sample product 1 |サンプル製品1       	|100           |20      |300         |000001|0|0|0|
+|000031 |1234567800000|1234567800000|001 |1234567800000|discount greater |割引より           	|500           |20      |300         |000001|0|0|0|
+|000031 |9876000000000|9876000000000|001 |9876000000000|sample product 2 |サンプル製品2      	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000003|0000000000003|0101|0000000000003|null             |null             	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000004|0000000000004|9999|0000000000004|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000005|0000000000005|0102|0000000000005|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000006|0000000000006|0103|0000000000006|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000007|0000000000007|0101|0000000000007|Coca Cola        |コカ・コーラ          	|null          |null    |1000        |000001|0|0|0|
+
+Then the following departments in the database should be:
+|storeid|dpt |dptname   |dptnamelocal|
+|000032 |0101|Soft Drink|ソフトドリンク         |
+|000032 |0102|null      |null        |
+|000032 |0103|          |            |
+
+
+!-- Search by item id
+Given an item resource
+When I get the list of Items with storeid {000032} and key {0} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000003|null            |null            |1050.0               |0101      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000004|                |                |1050.0               |9999      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000005|                |                |1050.0               |0102      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000006|                |                |1050.0               |0103      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000007|Coca Cola       |コカ・コーラ      	|1050.0               |0101      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+
+
+Scenario: Searching Description, Use Item's Dpt Description If No Item Description (RES-2997)
+Given a database table MST_PLU_forList for list of items
+Then the following items in the database should be:
+|storeid|plu          |displayplu   |dpt |mdinternal   |mdname           |mdnamelocal      	|discountamount|discount|regularprice|class |inheritflag|nonsales|subint10|
+|0      |1234000000000|1234000000000|001 |1234000000000|general product 1|一般的な製品の1    	|100           |20      |300         |000001|0|0|0|
+|0      |1234560000000|1234560000000|001 |1234560000000|general product 2|一般的な製品の2    	|100           |20      |300         |000001|0|0|0|
+|0      |6876000000000|6876000000000|001 |6876000000000|general product X|一般的な製品のX    	|null          |null    |300         |000001|0|0|0|
+|0      |9876540000000|9876540000000|001 |9876540000000|general product 3|一般的な製品の3    	|100           |20      |300         |000001|0|0|0|
+|000031 |1234000000000|1234000000000|001 |1234000000000|sample product 1 |サンプル製品1       	|100           |20      |300         |000001|0|0|0|
+|000031 |1234567800000|1234567800000|001 |1234567800000|discount greater |割引より            |500           |20      |300         |000001|0|0|0|
+|000031 |9876000000000|9876000000000|001 |9876000000000|sample product 2 |サンプル製品2       	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000003|0000000000003|0101|0000000000003|null             |null             	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000004|0000000000004|9999|0000000000004|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000005|0000000000005|0102|0000000000005|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000006|0000000000006|0103|0000000000006|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000007|0000000000007|0101|0000000000007|Coca Cola        |コカ・コーラ          	|null          |null    |1000        |000001|0|0|0|
+
+Then the following departments in the database should be:
+|storeid|dpt |dptname   |dptnamelocal|
+|000032 |0101|Soft Drink|ソフトドリンク         |
+|000032 |0102|null      |null        |
+|000032 |0103|          |            |
+
+!-- Search by description (ItemID:0000000000007 has mdname, use mdname:Coca Cola)
+Given an item resource
+When I get the list of Items with storeid {000032} and key {null} and deviceid {0001} and name {Coca Cola}
+Then the list of Items are:
+|ItemID       |DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000007|Coca Cola       |コカ・コーラ                     |1050.0               |0101      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+
+!-- Search by description (ItemID:0000000000007 has mdname, use mdname:コカ・コーラ)
+Given an item resource
+When I get the list of Items with storeid {000032} and key {null} and deviceid {0001} and name {コカ・コーラ}
+Then the list of Items are:
+|ItemID       |DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000007|Coca Cola       |コカ・コーラ                     |1050.0               |0101      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+
+!-- Search by description (ItemID:0000000000003 has no mdname but has dptname:Soft Drink, use the dptname)
+Given an item resource
+When I get the list of Items with storeid {000032} and key {null} and deviceid {0001} and name {Soft Drink}
+Then the list of Items are:
+|ItemID       |DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+!-- Search by description (ItemID:0000000000003 has no mdname but has dptname:ソフトドリンク, use the dptname)
+Given an item resource
+When I get the list of Items with storeid {000032} and key {null} and deviceid {0001} and name {ソフトドリンク}
+Then the list of Items are:
+|ItemID       |DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+
+
+!-- Search by description (key is empty)
+Given an item resource
+When I get the list of Items with storeid {000032} and key {} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN 	| DescriptionJP   	|RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount 	|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000003|null            	|null            	|1050.0               |0101      |000001|0   |0.0     |0.0           	|1000.0          |0|0|0|
+|0000000000004|                	|                	|1050.0               |9999      |000001|0   |0.0     |0.0           	|1000.0          |0|0|0|
+|0000000000005|                	|                	|1050.0               |0102      |000001|0   |0.0     |0.0           	|1000.0          |0|0|0|
+|0000000000006|                	|                	|1050.0               |0103      |000001|0   |0.0     |0.0           	|1000.0          |0|0|0|
+|0000000000007|Coca Cola       	|コカ・コーラ        	|1050.0               |0101      |000001|0   |0.0     |0.0           	|1000.0          |0|0|0|
+
+!-- Search by description (key is null)
+Given an item resource
+When I get the list of Items with storeid {000032} and key {null} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN   |DescriptionJP   |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000003|null            |null            |1050.0               |0101      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000004|                |                |1050.0               |9999      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000005|                |                |1050.0               |0102      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000006|                |                |1050.0               |0103      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+|0000000000007|Coca Cola       |コカ・コーラ        	|1050.0               |0101      |000001|0   |0.0     |0.0           |1000.0          |0|0|0|
+
+Scenario: List ALL items in the database with DEFAULT SEARCH LIMIT
+Given a database table MST_PLU_forList_withSearchLimit for list of items
+Then the following items in the database should be:
+|storeid|plu          |displayplu   |dpt |mdinternal   |mdname           |mdnamelocal      	|discountamount|discount|regularprice|class |inheritflag|nonsales|subint10|
+|000032 |0000000000001|0000000000001|001 |0000000000001|general product 1|一般的な製品の1    	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000002|0000000000002|001 |0000000000002|general product 2|一般的な製品の2    	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000003|0000000000003|001 |0000000000003|general product 3|一般的な製品の3    	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000004|0000000000004|001 |0000000000004|sample product 1 |サンプル製品1       	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000005|0000000000005|001 |0000000000005|sample product 2 |サンプル製品2       	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000006|0000000000006|001 |0000000000006|general product X|一般的な製品のX    	|null          |null    |300         |000001|0|0|0|
+|000032 |0000000000007|0000000000007|0101|0000000000007|null             |null             	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000008|0000000000008|9999|0000000000008|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000009|0000000000009|0102|0000000000009|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000091|0000000000091|0103|0000000000091|                 |                 	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000000092|0000000000092|0101|0000000000092|Coca Cola        |コカ・コーラ          	|null          |null    |1000        |000001|0|0|0|
+|000032 |0000000099999|0000000099999|001 |0000000099999|Test product 9|一般的な製品の1    	|null          |null    |123456789012345         |000001|0|0|0|
+
+
+!-- The Default search limit is 5.
+When I get the list of Items with storeid {000032} and key {0} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP   	 |RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000001|general product 1|一般的な製品の1    	 |315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+|0000000000002|general product 2|一般的な製品の2    	 |315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+|0000000000003|general product 3|一般的な製品の3    	 |315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+|0000000000004|sample product 1 |サンプル製品1      	 |315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+|0000000000005|sample product 2 |サンプル製品2      	 |315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+
+
+Scenario: List ALL items in the database with SEARCH LIMIT Lesser than DEFAULT SEARCH LIMIT
+Given a database table MST_PLU_forList_withSearchLimit for list of items
+When the Search Limit is set to {3}
+When I get the list of Items with storeid {000032} and key {0} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    	|RegularSalesUnitPrice|Department|Class |Line|Discount|DiscountAmount|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000001|general product 1|一般的な製品の1    	|315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+|0000000000002|general product 2|一般的な製品の2    	|315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+|0000000000003|general product 3|一般的な製品の3    	|315.0                |001       |000001|001 |0.0     |0.0           |300.0           |0|0|0|
+
+Scenario: List ALL items in the database with SEARCH LIMIT Greater than DEFAULT SEARCH LIMIT
+Given a database table MST_PLU_forList_withSearchLimit for list of items
+When the Search Limit is set to {10}
+When I get the list of Items with storeid {000032} and key {0} and deviceid {0001} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    	|RegularSalesUnitPrice	|Department|Class |Line|Discount	|DiscountAmount	|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|0000000000001|general product 1|一般的な製品の1     	|315.0					|001	   |000001|001 |0.0         |0.0   			|300.0			|0|0|0|
+|0000000000002|general product 2|一般的な製品の2     	|315.0					|001	   |000001|001 |0.0         |0.0     		|300.0			|0|0|0|
+|0000000000003|general product 3|一般的な製品の3     	|315.0					|001	   |000001|001 |0.0         |0.0     		|300.0			|0|0|0|
+|0000000000004|sample product 1 |サンプル製品1       	|315.0               	|001       |000001|001 |0.0     	|0.0           	|300.0          |0|0|0|
+|0000000000005|sample product 2 |サンプル製品2       	|315.0               	|001       |000001|001 |0.0     	|0.0           	|300.0          |0|0|0|
+|0000000000006|general product X|一般的な製品のX     	|315.0               	|001       |000001|001 |0.0     	|0.0           	|300.0          |0|0|0|
+|0000000000007|null             |null             	|1050.0              	|0101      |000001|0   |0.0     	|0.0           	|1000.0         |0|0|0|
+|0000000000008|                 |                 	|1050.0              	|9999      |000001|0   |0.0    		|0.0           	|1000.0         |0|0|0|
+|0000000000009|                 |                 	|1050.0              	|0102      |000001|0   |0.0     	|0.0           	|1000.0         |0|0|0|
+|0000000000091|                 |                 	|1050.0              	|0103      |000001|0   |0.0     	|0.0           	|1000.0         |0|0|0|
+
+
+Scenario: Searching all items in the database
+Given an item resource
+Given a database table MST_PLU_forList for list of items
+When I get the list of Items with storeid {} and key {} and deviceid {} and name {null}
+Then the list of Items are:
+|ItemID       |DescriptionEN    |DescriptionJP    |RegularSalesUnitPrice|Department|Class 	|Line	|Discount	|DiscountAmount	|ActualSalesPrice|InheritFlag|NonSales|SubInt10|
+|1234000000000|general product 1|一般的な製品の1 	  |315.0				|001	   |000001	|001 	|20.0       |100.0 			|300.0			|0|0|0|
+|1234560000000|general product 2|一般的な製品の2 	  |315.0				|001	   |000001	|001 	|20.0       |100.0    		|300.0			|0|0|0|
+|6876000000000|general product X|一般的な製品のX	  |315.0                |001       |000001	|001 	|0.0     	|0.0           	|300.0          |0|0|0|
+|9876540000000|general product 3|一般的な製品の3 	  |315.0				|001	   |000001	|001 	|20.0       |100.0    		|300.0			|0|0|0|
+|1234000000000|sample product 1 |サンプル製品1		  |315.0                |001       |000001	|001 	|20.0     	|100.0         	|300.0          |0|0|0|
+|1234567800000|discount greater |割引より		      |315.0                |001       |000001	|001 	|20.0     	|315.0         	|300.0          |0|0|0|
+|9876000000000|sample product 2 |サンプル製品2		  |315.0                |001       |000001	|001   	|0.0     	|0.0           	|300.0          |0|0|0|
+|0000000000003|null             |null             |1050.0               |0101      |000001	|0   	|0.0    	|0.0           	|1000.0         |0|0|0|
+|0000000000004|                 |                 |1050.0               |9999      |000001	|0   	|0.0    	|0.0           	|1000.0         |0|0|0|
+|0000000000005|                 |                 |1050.0               |0102      |000001	|0   	|0.0     	|0.0           	|1000.0         |0|0|0|
+
+
+

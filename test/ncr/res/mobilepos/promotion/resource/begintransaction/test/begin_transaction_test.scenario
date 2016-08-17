@@ -1,0 +1,115 @@
+Scenario: Test Begin Transaction (No Terminal Items at WebAPI Starts Up).
+When the Web API Starts Up
+Given a Promotion Service
+Then the following list of TerminalItem are:
+|id|sequenceNumber|transactionMode|operatorid|beginDateTime|
+
+Scenario: Add successful TerminalItem.
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+Then the Result Code is 0
+
+Scenario: Add another successful NEW TerminalItem. (Natural Notation JSON format)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{2222} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0004",BeginDateTime:"2012-11-20T10:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+|000031002222|1             |0              |0004      |2012-11-20T10:30:47.00|
+
+Then the Result Code is 0
+
+Scenario: Add another successful TerminalItem.
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{2222} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0004",BeginDateTime:"2012-11-20T10:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+|000031002222|1             |0              |0004      |2012-11-20T10:30:47.00|
+Then the Result Code is 0
+
+
+Scenario: Added Existing TerminalItem(Existing Terminal Item Must be Updated with the latest)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{2222} SequenceNo{3} TransactionJson{{TransactionMode:0,OperatorID: "0005",BeginDateTime:"2013-11-20T10:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+|000031002222|3             |0              |0005      |2013-11-20T10:30:47.00|
+Then the Result Code is 0
+
+Scenario: Added TerminalItem with StoreID Less than 4 characters
+When a Begin Transaction at promotion with parameters RetailStoreID{31} WorkStationId{3333} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0001",BeginDateTime:"2013-11-20T10:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+|000031003333|1             |0              |0001      |2013-11-20T10:30:47.00|
+|000031002222|3             |0              |0005      |2013-11-20T10:30:47.00|
+Then the Result Code is 0
+
+Scenario: Added TerminalItem with WorkstationId Less than 4 characters
+When a Begin Transaction at promotion with parameters RetailStoreID{31} WorkStationId{44} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0001",BeginDateTime:"2013-11-20T10:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+|000031000044|1             |0              |0001      |2013-11-20T10:30:47.00|
+|000031003333|1             |0              |0001      |2013-11-20T10:30:47.00|
+|000031002222|3             |0              |0005      |2013-11-20T10:30:47.00|
+
+Scenario: Added TerminalItem of StoreId & WorkstationId in 6 digits
+When a Begin Transaction at promotion with parameters RetailStoreID{123456} WorkStationId{123456} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0001",BeginDateTime:"2013-11-20T10:30:47.00"}}
+Then the following list of TerminalItem are:
+|id      |sequenceNumber|transactionMode|operatorid|beginDateTime         |
+|000031001111|1             |0              |0003      |2012-12-20T09:30:47.00|
+|123456123456|1             |0              |0001      |2013-11-20T10:30:47.00|
+|000031000044|1             |0              |0001      |2013-11-20T10:30:47.00|
+|000031003333|1             |0              |0001      |2013-11-20T10:30:47.00|
+|000031002222|3             |0              |0005      |2013-11-20T10:30:47.00|
+Then the Result Code is 0
+
+Scenario: Add fail NEW TerminalItem.(Empty RetailStoreID)
+When a Begin Transaction at promotion with parameters RetailStoreID{} WorkStationId{1111} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0003",BeginDateTime:"2012-12-20T09:30:47.00"}}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(Empty WorkstationID)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0003",BeginDateTime:"2012-12-20T09:30:47.00"}}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(Empty SequenceNo)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{3333} SequenceNo{} TransactionJson{{TransactionMode:0,OperatorID: "0003",BeginDateTime:"2012-12-20T09:30:47.00"}}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(Empty TransactionJson)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{3333} SequenceNo{4} TransactionJson{}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(NULL RetailStoreID)
+When a Begin Transaction at promotion with parameters RetailStoreID{NULL} WorkStationId{1111} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0003",BeginDateTime:"2012-12-20T09:30:47.00"}}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(NULL WorkstationID)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{NULL} SequenceNo{1} TransactionJson{{TransactionMode:0,OperatorID: "0003",BeginDateTime:"2012-12-20T09:30:47.00"}}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(NULL SequenceNo)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{3333} SequenceNo{NULL} TransactionJson{{TransactionMode:0,OperatorID: "0003",BeginDateTime:"2012-12-20T09:30:47.00"}}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(NULL TransactionJson)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{3333} SequenceNo{4} TransactionJson{NULL}
+Then the Result Code is 154
+
+Scenario: Add fail NEW TerminalItem.(Invalid TransactionJson Format)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{3333} SequenceNo{4} TransactionJson{Transaction:{TransactionMode:0,OperatorID: "0004",BeginDateTime:"2012-11-20T10:30:47.00"}}
+Then the Result Code is 151
+
+Scenario: Add fail NEW TerminalItem.(Valid TransactionJson with Invalid Date Format)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{4444} SequenceNo{4} TransactionJson{{TransactionMode:0,OperatorID: "0004",BeginDateTime:"10:30:47.00T2012-11-20"}}
+Then the Result Code is 1101
+
+Scenario: Add fail NEW TerminalItem.(Valid TransactionJson with Invalid Date Format - Second test)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{4444} SequenceNo{4} TransactionJson{{TransactionMode:0,OperatorID: "0004",BeginDateTime:"2012-11-20X10:30:47.00"}}
+Then the Result Code is 1101
+
+Scenario: Add fail NEW TerminalItem.(Valid TransactionJson with Invalid Date Format - Third test)
+When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{4444} SequenceNo{4} TransactionJson{{TransactionMode:0,OperatorID: "0004",BeginDateTime:"2012-13-20T10:30:47.00"}}
+Then the Result Code is 1101

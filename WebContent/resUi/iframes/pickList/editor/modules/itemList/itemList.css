@@ -1,0 +1,37 @@
+@CHARSET "UTF-8";
+
+#ItemList {
+	position: absolute; left: 120px; top: 120px; right: 120px; height: 535px;
+}
+#ItemList .Caption {
+	font-size: 18px;
+	color: hsl(0, 0%, 100%);
+	margin-left: 10px;
+}
+#ItemList .List {
+	position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;
+	margin-top: 25px;
+	background: hsl(0, 0%, 95%);
+	border-style: solid;
+	border-width: 5px;
+	border-color: hsl(0, 0%, 40%) hsl(0, 0%, 80%) hsl(0, 0%, 90%) hsl(0, 0%, 60%) ;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+	overflow: hidden;
+}
+#itemListwrapperItems { position: absolute; left: 0px; top: 0px; height: 100%; width: 100%; z-index: 1; overflow: hidden; }
+#ItemList .List .Line {
+	position: relative; left: 0px; width: 100%; height: 50px;
+	background: hsl(0, 0%, 95%);
+	border-color: hsl(0, 0%, 90%) hsl(0, 0%, 85%) hsl(0, 0%, 70%);
+	border-style: solid;
+	border-width: 2px 2px 2px 2px;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+}
+#ItemList .List .Line.selected {
+	background:hsl(112,0%,75%);
+	border-color: hsl(0, 0%, 75%) hsl(0, 0%, 75%);
+}
+#ItemList .List .Line p {
+	margin-left: 5px;
+	font-size: 20px; line-height: 50px;
+}

@@ -1,0 +1,133 @@
+Scenario: Generate Today's Financial Report (No Transaction)
+Given a ReportResource
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{0}, discountSale{0}, returnSale{0}, voidSale{0}, cash{0}, creditCard{0}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{0}, discountSale{0}, returnSale{0}, voidSale{0}, cash{0}, creditCard{0}
+
+Scenario: Generate Today's Report (Cash-Only Transaction)
+Given a consolidation of cash only transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{880}, discountSale{0}, returnSale{0}, voidSale{0}, cash{880}, creditCard{0}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{880}, discountSale{0}, returnSale{0}, voidSale{0}, cash{880}, creditCard{0}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{1},itemLabel:{code:{0181},name:{たばこ}},items:{2},salesRevenue:{880}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{1},itemLabel:{code:{111},name:{Operator1}},items:{2},salesRevenue:{880}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{1},itemLabel:{code:{10:00},name:{}},items:{2},salesRevenue:{880}}
+
+Scenario: Generate Today's Report (With Change Transaction)
+Given a consolidation of cash and change transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{1760}, discountSale{0}, returnSale{0}, voidSale{0}, cash{1760}, creditCard{0}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{1760}, discountSale{0}, returnSale{0}, voidSale{0}, cash{1760}, creditCard{0}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{2},itemLabel:{code:{0181},name:{たばこ}},items:{4},salesRevenue:{1760}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{2},itemLabel:{code:{111},name:{Operator1}},items:{4},salesRevenue:{1760}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{2},itemLabel:{code:{10:00},name:{}},items:{4},salesRevenue:{1760}}
+
+Scenario: Generate Today's Report (Credit-Only Transaction)
+Given a consolidation of credit only transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{2640}, discountSale{0}, returnSale{0}, voidSale{0}, cash{1760}, creditCard{880}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{2640}, discountSale{0}, returnSale{0}, voidSale{0}, cash{1760}, creditCard{880}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{3},itemLabel:{code:{0181},name:{たばこ}},items:{6},salesRevenue:{2640}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{3},itemLabel:{code:{111},name:{Operator1}},items:{6},salesRevenue:{2640}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{3},itemLabel:{code:{10:00},name:{}},items:{6},salesRevenue:{2640}}
+
+Scenario: Generate Today's Report (With Cash and Credit Transaction)
+Given a consolidation of cash and credit transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{3520}, discountSale{0}, returnSale{0}, voidSale{0}, cash{2140}, creditCard{1380}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{3520}, discountSale{0}, returnSale{0}, voidSale{0}, cash{2140}, creditCard{1380}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{4},itemLabel:{code:{0181},name:{たばこ}},items:{8},salesRevenue:{3520}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{4},itemLabel:{code:{111},name:{Operator1}},items:{8},salesRevenue:{3520}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{4},itemLabel:{code:{10:00},name:{}},items:{8},salesRevenue:{3520}}
+
+Scenario: Generate Today's Report (With Item Discount Transaction)
+Given a consolidation of item discount transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{4400}, discountSale{44}, returnSale{0}, voidSale{0}, cash{2976}, creditCard{1380}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{4400}, discountSale{44}, returnSale{0}, voidSale{0}, cash{2976}, creditCard{1380}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{5},itemLabel:{code:{0181},name:{たばこ}},items:{10},salesRevenue:{4356}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{5},itemLabel:{code:{111},name:{Operator1}},items:{10},salesRevenue:{4356}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{5},itemLabel:{code:{10:00},name:{}},items:{10},salesRevenue:{4356}}
+
+Scenario: Generate Today's Report (With Transaction Discount)
+Given a consolidation of transaction discount
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{5280}, discountSale{132}, returnSale{0}, voidSale{0}, cash{3768}, creditCard{1380}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{5280}, discountSale{132}, returnSale{0}, voidSale{0}, cash{3768}, creditCard{1380}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{6},itemLabel:{code:{0181},name:{たばこ}},items:{12},salesRevenue:{5148}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{6},itemLabel:{code:{111},name:{Operator1}},items:{12},salesRevenue:{5148}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{6},itemLabel:{code:{10:00},name:{}},items:{12},salesRevenue:{5148}}
+
+Scenario: Generate Today's Report (Void Cash Transaction)
+Given a consolidation of void cash transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{5280}, discountSale{132}, returnSale{0}, voidSale{880}, cash{2888}, creditCard{1380}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{5280}, discountSale{132}, returnSale{0}, voidSale{880}, cash{2888}, creditCard{1380}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{5},itemLabel:{code:{0181},name:{たばこ}},items:{10},salesRevenue:{4268}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{5},itemLabel:{code:{111},name:{Operator1}},items:{10},salesRevenue:{4268}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{5},itemLabel:{code:{10:00},name:{}},items:{10},salesRevenue:{4268}}
+
+Scenario: Generate Today's Report (Void Credit Transaction)
+Given a consolidation of void credit transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{5280}, discountSale{132}, returnSale{0}, voidSale{1760}, cash{2888}, creditCard{500}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{5280}, discountSale{132}, returnSale{0}, voidSale{1760}, cash{2888}, creditCard{500}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{4},itemLabel:{code:{0181},name:{たばこ}},items:{8},salesRevenue:{3388}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{4},itemLabel:{code:{111},name:{Operator1}},items:{8},salesRevenue:{3388}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{4},itemLabel:{code:{10:00},name:{}},items:{8},salesRevenue:{3388}}
+
+Scenario: Generate Today's Report (Different DPT Item Transaction)
+Given a consolidation of different dpt item transaction
+When I request for Today's Financial Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get: grossSalesRevenue{6330}, discountSale{132}, returnSale{0}, voidSale{1760}, cash{3938}, creditCard{500}
+When I request for Today's Drawer Financial Report of printerID{1111}, storeno{000031}
+Then I should get drawer financial details: grossSalesRevenue{6330}, discountSale{132}, returnSale{0}, voidSale{1760}, cash{3938}, creditCard{500}
+When I request for Today's Department Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{4},itemLabel:{code:{0181},name:{たばこ}},items:{8},salesRevenue:{3388}}
+Then I should get {2} reportItemList with data:{customers:{1},itemLabel:{code:{0190},name:{メイクアップ化粧品}},items:{2},salesRevenue:{1050}}
+When I request for Today's SalesClerk Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {1} reportItemList with data:{customers:{5},itemLabel:{code:{111},name:{Operator1}},items:{10},salesRevenue:{4438}}
+When I request for Today's Hourly Sales Report of terminalid{1111}, operatorno{111}, storeno{000031}
+Then I should get {2} reportItemList with data:{customers:{0},itemLabel:{code:{before},name:{}},items:{0},salesRevenue:{0}}
+Then I should get {2} reportItemList with data:{customers:{5},itemLabel:{code:{10:00},name:{}},items:{10},salesRevenue:{4438}}

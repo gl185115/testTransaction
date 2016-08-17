@@ -1,0 +1,39 @@
+<!-- Software Configuration -->
+
+		<img class="Logo" src="../../../images/home/NCR-BB-Alt-128x128.jpg">
+		<div class="Package">
+			<p>Retail Enterprise Solution</p>
+			<p>MeX 1</p>
+			<p>Version 1.0</p>
+		</div>
+		<div class="SWConfig">
+			<p class="Title">Client Software Configuration</p>
+			<table>
+				<tr><td>Contents</td><td><span data-ng-bind-html="model.software.client.contents"></span></td></tr>
+				<tr><td>Container</td><td><span data-ng-bind-html="model.software.client.container"></span></td></tr>
+				<tr><td>Operating System</td><td><span data-ng-bind-html="model.software.client.operatingSystem"></span></td></tr>
+			</table>
+			<p class="Title">Server Software Configuration</p>
+			<table>
+				<tr><td>Transaction Service</td><td><span data-ng-bind-html="model.software.server.services.transaction"></span></td></tr>
+				<tr><td>Inventory Service</td><td><span data-ng-bind-html="model.software.server.services.inventory"></span></td></tr>
+				<tr><td>Consumer Service</td><td><span data-ng-bind-html="model.software.server.services.consumer"></span></td></tr>
+				<tr><td>Application Server</td><td><span data-ng-bind-html="model.software.server.applicationServer"></span></td></tr>
+				<tr><td>Java Runtime</td><td><span data-ng-bind-html="model.software.server.java"></span></td></tr>
+				<tr><td>Operating System</td><td><span data-ng-bind-html="model.software.server.operatingSystem"></span></td></tr>
+			</table>
+		</div>
+		<div class="Buttons">
+			<div class="resButton raise red W120xH70" data-res-click="restore()">
+				<p data-ng-bind-html="'Software.Restore'|resPhrase:context"></p>
+			</div>
+			<div class="resButton raise red W120xH70" data-res-click="close()">
+				<p data-ng-bind-html="'Software.Close'|resPhrase:context"></p>
+			</div>			
+<!-- 				<div class="Button red" data-res-click="restore()"><p data-ng-bind-html="'Restore'|resPhrase:'Settings.Software'"></p></div> -->
+<!-- 				<div class="Button red" data-res-click="close()"><p data-ng-bind-html="'Close'|resPhrase:'Settings.Software'"></p></div> -->
+		</div>
+
+
+
+	

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html manifest="/resTransaction/res.manifest">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" id="viewport">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+
+<script type="text/javascript">
+	function isUIManagerBuilt(){
+		return true;
+	}
+</script>
+
+<script src="../external/jquery/1.11.0/jquery-1.11.0.min.js" type="text/javascript"></script>
+
+<script src="../resLibrary/res.console.js" type="text/javascript"></script>
+<script src="../resLibrary/res.messaging.js" type="text/javascript"></script>
+
+<link  href="res.core.css" rel="stylesheet" type="text/css" />
+<script src="res.core.js" type="text/javascript"></script>
+<script src="res.core.device.js" type="text/javascript"></script>
+<script src="res.core.credential.js" type="text/javascript"></script>
+<script src="res.core.schedule.js" type="text/javascript"></script>
+<script src="res.core.file.js" type="text/javascript"></script>
+<script src="res.core.settings.js" type="text/javascript"></script>
+<script src="res.core.imagecopy.js" type="text/javascript"></script>
+<script src="res.core.deploy.js" type="text/javascript"></script>
+
+<!-- load custom configurations -->
+<script src="../resConfig/res.config.js" type="text/javascript"></script>
+<script src="../resServices/res.service.credential.js" type="text/javascript"></script>
+<script src="../resServices/res.service.schedule.js" type="text/javascript"></script>
+<script src="../resServices/res.service.file.js" type="text/javascript"></script>
+<script src="../resServices/res.table.users.js" type="text/javascript"></script>
+<script src="../resServices/res.service.imagecopy.js" type="text/javascript"></script>
+<script src="../resServices/res.service.settings.js" type="text/javascript"></script>
+<script src="../resServices/res.service.deploy.js" type="text/javascript"></script>
+<script src="../resServices/res.service.device.js" type="text/javascript"></script>
+<!-- 
+<script src="../resServices/res.service.pricing.js" type="text/javascript"></script>
+<script src="../resServices/res.service.promotion.js" type="text/javascript"></script>
+<script src="../resServices/res.service.print.js" type="text/javascript"></script>
+<script src="../resServices/res.service.queuing.js" type="text/javascript"></script>
+<script src="../resServices/res.service.journalization.js" type="text/javascript"></script>
+<script src="../resServices/res.service.merchandise.js" type="text/javascript"></script>
+<script src="../resServices/res.service.inventory.js" type="text/javascript"></script>
+<script src="../resServices/res.service.customers.js" type="text/javascript"></script>
+<script src="../resServices/res.service.cash.js" type="text/javascript"></script>
+<script src="../resServices/res.table.group.js" type="text/javascript"></script>
+<script src="../resServices/res.table.items.js" type="text/javascript"></script>
+<script src="../resServices/res.table.promotion.js" type="text/javascript"></script>
+<script src="../resServices/res.table.journal.js" type="text/javascript"></script>
+<script src="../resServices/res.table.customers.js" type="text/javascript"></script>
+ -->
+<title>NCR RES MeX</title>
+</head>
+<body>
+	<div id="StatusBar"></div>
+
+	<iframe id="UiFrame"></iframe>
+	
+	<h1>RES Mobile - Core Application</h1>
+	
+	<div id="Columns">
+		<div id="Controls">
+			<h2>UI Controls</h2>
+			<p>
+				<span>
+					<button class="Open" onclick="res.core.open()">Open</button>
+					<button class="Close" onclick="res.core.close() || res.core.close('display2')">Close</button>
+					<button class="Show" onclick="res.core.show('ui')">Back to UI</button>
+				</span>
+			</p>
+		</div>
+	
+		<div id="Status">
+			<h2>Configuration and Status</h2>
+			<table>
+				<tr>
+					<th>Target UI</th>
+					<th>Status</th>
+				</tr>
+				<tr class="Display1">
+					<td>Associate Display</td>
+					<td>Closed</td>
+				</tr>
+				<tr class="Display2">
+					<td>Consumer Display</td>
+					<td>Closed</td>
+				</tr>
+			</table>
+			<p class="userAgent"><span>window.navigator.userAgent:</span><br></p>
+		</div>
+	</div>
+	
+	<div id="Log">
+		<h2>Message Log</h2>
+		<div class="scroller">
+			<table class="Messages">
+				<tr>
+					<th>Time</th>
+					<th>From</th>
+					<th>To</th>
+					<th>context:</th>
+					<th>event:</th>
+					<th>data:</th>
+				</tr>
+			</table>
+		</div>
+		<div class="Buttons">
+			<button onclick="">Save</button>	
+			<button onclick="">Load</button>
+			<button onclick="">Rerun Core</button>
+		</div>
+	</div>
+
+	<div id="ManualEntry">
+		<h2>Manual JSON Message</h2>
+		<textarea class="Message"></textarea>
+		<div class="Buttons">
+			<button onclick="res.core.sendTo('core')">Send to Core</button>
+			<button onclick="res.core.sendTo('ui')">Send to UI</button>
+		</div>
+	</div>
+	
+</body>
+</html>

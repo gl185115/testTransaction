@@ -1,0 +1,1013 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_MIXMATCH">
+		<column>StoreId</column>			
+		<column>Code</column>				
+		<column>StartDate</column>			
+		<column>EndDate</column>			
+		<column>Name</column>				
+		<column>Type</column>				
+		<column>MustBuyFlag</column>		
+		<column>Quantity1</column>			
+		<column>DiscountPrice1</column>	
+		<column>EmpPrice11</column>		
+		<column>EmpPrice12</column>		
+		<column>EmpPrice13</column>		
+		<column>Quantity2</column>			
+		<column>DiscountPrice2</column>	
+		<column>EmpPrice21</column>		
+		<column>EmpPrice22</column>		
+		<column>EmpPrice23</column>				
+        <row>
+			<value>0031</value>			
+			<value>1111</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match 1111 Type 1</value>				
+			<value>1</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>250</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>
+			<value>1112</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>Mix Match 1111 Type 2</value>
+			<value>2</value>
+			<value>0</value>
+			<value>2</value>
+			<value>180</value>
+			<null/>
+			<null/>
+			<null/>
+			<value>3</value>
+			<value>250</value>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>
+            <value>0031</value>
+            <value>1132</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>Mix Match 1132 Type 2</value>
+            <value>2</value>
+            <value>0</value>
+            <value>2</value>
+            <value>180</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>3</value>
+            <value>300</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+        <row>
+            <value>0031</value>
+            <value>1142</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>Mix Match 1142 Type 2</value>
+            <value>2</value>
+            <value>0</value>
+            <value>2</value>
+            <value>180</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>3</value>
+            <value>410</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+		<row>
+			<value>0031</value>
+			<value>1122</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>Mix Match 1111 Type 2.1</value>
+			<value>2</value>
+			<value>0</value>
+			<value>2</value>
+			<value>21000</value>
+			<null/>
+			<null/>
+			<null/>
+			<value>4</value>
+			<value>39900</value>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>1022</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>Mix Match 1012 Type 3.x</value>
+			<value>3</value>
+			<value>0</value>
+			<value>2</value>
+			<value>21000</value>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>
+            <value>0031</value>
+            <value>1032</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>Mix Match 1032 Type 3</value>
+            <value>3</value>
+            <value>0</value>
+            <value>2</value>
+            <value>2000</value>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+		<row>
+			<value>0031</value>			
+			<value>1003</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match 1003 Type 4</value>				
+			<value>4</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>300</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<value>6</value>			
+			<value>480</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>			
+			<value>1002</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match 1002 Type 3</value>				
+			<value>3</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>300</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>			
+			<value>1012</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match 1002 Type 3B</value>				
+			<value>3</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>240</value>
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>			
+			<value>9998</value>				
+			<value><![CDATA[2020-01-01]]></value>			
+			<value><![CDATA[2021-01-01]]></value>			
+			<value>Inactive MixMatch</value>				
+			<value>1</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>300</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>
+			<value>0031</value>			
+			<value>9999</value>				
+			<value><![CDATA[1999-01-01]]></value>			
+			<value><![CDATA[2000-01-01]]></value>			
+			<value>Expired MixMatch</value>				
+			<value>1</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>300</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>6000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match 5555 Type 6</value>				
+			<value>6</value>				
+			<value>0</value>		
+			<value>2</value>			
+			<value>10</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<value>3</value>			
+			<value>20</value>
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>9876</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Proportion Distribution 1</value>				
+			<value>1</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>2500</value>
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>1007</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Mix Match 1007 Type 7</value>				
+			<value>7</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>12</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>            
+            <value>0031</value>
+            <value>1211</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>Mix Match 1211 Type 8</value>
+            <value>8</value>
+            <value>0</value>
+            <value>2</value>
+            <value>10</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>5</value>
+            <value>15</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>		
+		<row>            
+            <value>0031</value>
+            <value>1212</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>Mix Match 1212 Type 8.1</value>
+            <value>8</value>
+            <value>0</value>
+            <value>3</value>
+            <value>10</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>7</value>
+            <value>15</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+        <row>            
+            <value>0031</value>
+            <value>1213</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>Mix Match 1213 Type 8.2</value>
+            <value>8</value>
+            <value>0</value>
+            <value>3</value>
+            <value>10</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>5</value>
+            <value>15</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+		<row>						
+			<value>0031</value>			
+			<value>9886</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Proportion Distribution 4</value>				
+			<value>4</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>2500</value>
+			<null/>
+			<null/>
+			<null/>
+			<value>4</value>
+			<value>4000</value>
+			<null/>
+			<null/>
+			<null/>	
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>9896</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Proportion Distribution 3</value>				
+			<value>3</value>				
+			<value>0</value>		
+			<value>3</value>			
+			<value>2500</value>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>	
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>0006</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Type6</value>				
+			<value>6</value>                
+            <value>0</value>        
+            <value>2</value>            
+            <value>10</value>   
+            <null/> 
+            <null/>     
+            <null/>     
+            <value>4</value>            
+            <value>15</value>   
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>
+			<value>2000</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>Jess MM</value>
+			<value>2</value>
+			<value>0</value>
+			<value>2</value>
+			<value>180</value>
+			<null/>
+			<null/>
+			<null/>
+			<value>3</value>
+			<value>250</value>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>			
+			<value>0031</value>
+			<value>9000</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>1StepRepByAmount MM</value>
+			<value>9</value>
+			<value>0</value>
+			<value>3</value>
+			<value>50</value>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>			
+			<value>0031</value>
+			<value>9001</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>1StepRepByAmount MM</value>
+			<value>9</value>
+			<value>1</value>
+			<value>3</value>
+			<value>50</value>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>			
+			<value>0031</value>
+			<value>1100</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>1StepUniByAmount MM</value>
+			<value>11</value>
+			<value>0</value>
+			<value>3</value>
+			<value>30</value>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+			<null/>
+		</row>
+		<row>            
+            <value>0031</value>
+            <value>1101</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>1StepUniByAmount MM</value>
+            <value>11</value>
+            <value>1</value>
+            <value>3</value>
+            <value>30</value>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+        <row>			
+			<value>0031</value>
+			<value>1001</value>
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>
+			<value>Mix Match 1001 Type 10</value>
+			<value>10</value>			
+			<value>0</value>	
+			<value>2</value>		
+			<value>30</value>
+			<null/>	
+			<null/>		
+			<null/>	
+			<value>3</value>		
+			<value>40</value>
+			<null/>			
+			<null/>	
+			<null/>	
+		</row>
+        <row>            
+            <value>0031</value>
+            <value>1200</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>2StepUniByAmount MM</value>
+            <value>12</value>
+            <value>0</value>
+            <value>3</value>
+            <value>2830</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>6</value>
+            <value>3000</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+        <row>            
+            <value>0031</value>
+            <value>2200</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>2StepUniByAmount MM B</value>
+            <value>12</value>
+            <value>0</value>
+            <value>3</value>
+            <value>150</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>6</value>
+            <value>440</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+         <row>            
+            <value>0031</value>
+            <value>2201</value>
+            <value><![CDATA[2012-01-01 21:35:08.497]]></value>
+            <value><![CDATA[2014-01-01 21:35:08.497]]></value>
+            <value>2StepUniByAmount MM</value>
+            <value>12</value>
+            <value>1</value>
+            <value>3</value>
+            <value>150</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>6</value>
+            <value>440</value>
+            <null/>
+            <null/>
+            <null/>
+        </row>
+        <row>						
+			<value>0031</value>			
+			<value>30001000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price 1</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>30002000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price 2</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>1700</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>						
+			<value>0031</value>			
+			<value>30011000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price 2.1</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>		
+			<value>0031</value>			
+			<value>30012000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Price 2.1</value>				
+			<value>16</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>1700</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>		
+			<value>0031</value>			
+			<value>30021000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price 3.1</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>30022000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Rate 3.1</value>				
+			<value>17</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>20</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>30031000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Amount 4.1</value>				
+			<value>15</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>200</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>30032000</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Rate 4.1</value>				
+			<value>17</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>20</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40000013</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001301</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price : 900</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40011301</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price : 900</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001302</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Price : 1700</value>				
+			<value>13</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>1700</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001401</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Rate : 20%</value>				
+			<value>14</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>20</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001402</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Rate : 30%</value>				
+			<value>14</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>30</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001501</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Amount : 200</value>				
+			<value>15</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>200</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001502</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Repetition - Amount : 300</value>				
+			<value>15</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>300</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001601</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Price : 900</value>				
+			<value>16</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>900</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001602</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Price : 1700</value>				
+			<value>16</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>1700</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001701</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Rate : 20</value>				
+			<value>17</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>20</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001702</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Rate : 30</value>				
+			<value>17</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>30</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001801</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Amount : 200</value>				
+			<value>18</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>200</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+		<row>			
+			<value>0031</value>			
+			<value>40001802</value>				
+			<value><![CDATA[2012-01-01 21:35:08.497]]></value>			
+			<value><![CDATA[2014-01-01 21:35:08.497]]></value>			
+			<value>Group MixMatch Uniformity - Amount : 300</value>				
+			<value>18</value>				
+			<value>0</value>		
+			<value>1</value>			
+			<value>300</value>	
+			<null/>	
+			<null/>		
+			<null/>		
+			<null/>			
+			<null/>	
+			<null/>	
+			<null/>		
+			<null/>		
+		</row>
+	</table>
+</dataset>
+
+
+			

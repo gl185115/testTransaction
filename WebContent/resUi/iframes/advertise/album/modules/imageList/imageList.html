@@ -1,0 +1,34 @@
+<div class="Images">
+
+	<div class="Guide">
+		<p data-ng-bind-html="'ImageList.Guide.Images'|resPhrase:context"></p>
+	</div>
+
+	<div class="PickButtons">
+		<div id="wrapperImages">
+			<div class="scroller">
+				<div class="PickButton"
+					data-ng-repeat="picture in model.imageCopy.pictures track by $index"
+					data-ng-class="{selected: $index==model.imageCopy.indexImage}"
+					data-res-click="setImage($index)">
+					<div class="InnerBox" data-ng-show="!picture">
+						<div class="ImageBox">
+							<p data-ng-bind-html="'ImageList.ComingSoon'|resPhrase:context"></p>
+						</div>
+						<div class="LabelBox">
+							<p data-ng-bind-html=""></p>
+						</div>
+					</div>
+					<div class="InnerBox" data-ng-show="picture">
+						<div class="ImageBox">
+							<img data-ng-src="{{picture?model.imageCopy.imageURL + picture + '?' + random:''}}" />
+						</div>
+						<div class="LabelBox">
+							<p data-ng-bind-html="picture"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

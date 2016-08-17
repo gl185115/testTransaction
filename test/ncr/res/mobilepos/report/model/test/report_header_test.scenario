@@ -1,0 +1,6 @@
+Scenario: Report Header
+!-- Report Header
+Given I have a report header {headerName} {headerValue} {1}
+Then its name is {headerName}
+Then its value is {headerValue}
+Then its position is {1}

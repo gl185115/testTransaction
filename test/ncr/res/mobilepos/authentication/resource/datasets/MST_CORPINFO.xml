@@ -1,0 +1,19 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_CORPINFO">
+       
+        <column>CorpName</column>
+        <row>
+         
+            <value>TestCorp</value>
+        </row>
+        <row>
+           
+            <value>TestCorp1</value>
+        </row>
+        <row>
+           
+            <value>DemoTestCorp</value>
+        </row>
+    </table>
+</dataset>

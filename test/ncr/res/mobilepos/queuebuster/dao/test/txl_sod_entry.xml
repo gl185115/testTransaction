@@ -1,0 +1,25 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="TXL_SOD">
+        <column>CompanyId</column>
+        <column>StoreId</column>
+        <column>TerminalId</column>
+        <column>OperatorId</column>
+        <column>Amount</column>
+        <column>BusinessDate</column>
+        <column>CreatedDate</column>
+        <column>UpdDate</column>
+        <column>TillId</column>
+		<row>
+            <value>01</value>
+            <value>0031</value>
+            <value>0001</value>
+            <value>0009999</value>
+            <value>275000</value>
+            <value>2015-07-14</value>
+            <value>2015-07-14</value>
+            <value>2015-08-22</value>
+            <value>00310001</value>
+        </row>
+    </table>     	       		
+</dataset>

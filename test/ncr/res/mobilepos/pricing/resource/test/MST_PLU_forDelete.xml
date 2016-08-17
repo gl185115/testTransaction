@@ -1,0 +1,65 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+ 	<table name="MST_PLU">
+        <column>STOREID</column>
+        <column>PLU</column>
+        <column>DISPLAYPLU</column>
+        <column>MDINTERNAL</column> 
+        <column>MDTYPE</column>
+		<column>HOSTFLAG</column>
+		<column>MDVENDER</column>
+		<column>DPT</column>
+		<column>LINE</column>
+		<column>CLASS</column>
+		<column>SKU</column>
+		<column>ITEMSIZE</column>
+		<column>PACKAGE</column>
+		<column>KEYPLU</column>
+		<column>MDNAME</column>
+		<column>SALESPRICE1</column>
+		<column>INSDATE</column>
+		<column>UPDDATE</column>
+		<row>
+            <value>000031</value>
+            <value>8888884456992</value>
+            <value>8888884456992</value>
+            <value>8888884456992</value> 
+            <value>00</value>
+			<value>1</value>
+			<null/>
+			<value>0130</value>
+			<value>0130</value>
+			<value>000004</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 1</value>
+			<value><![CDATA[4000]]></value>
+			<value>2014-04-29 08:55:00.000</value>
+			<value>2014-04-29 08:55:00.000</value>
+        </row> 	
+		<row>
+            <value>0</value>
+            <value>0000000000001</value>
+            <value>0000000000001</value>
+            <value>0000000000001</value> 
+            <value>00</value>
+			<value>1</value>
+			<null/>
+			<value>0130</value>
+			<value>0130</value>
+			<value>000004</value>
+			<null/>
+			<null/>
+			<value>0</value>
+			<null/>
+			<value>sample product 1</value>
+			<value><![CDATA[4000]]></value>
+			<value>2014-04-29 08:55:00.000</value>
+			<value>2014-04-29 08:55:00.000</value>
+        </row> 
+    </table>
+</dataset>
+
+			

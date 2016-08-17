@@ -1,0 +1,158 @@
+Scenario: Create an item successfully.
+Given an empty table for line 
+Given a line resource
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000031", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate":0}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+
+!-- Adding a line to a non empty database 
+Given an empty table for line
+Given a line table
+Given a line resource
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000031", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate":0}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|0031			|Line-001			|sample line 1		|サンプルライン1		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Adding a the same line but in different store 
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000032", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate":0}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|0031			|Line-001			|sample line 1		|サンプルライン1		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Adding the line in  Enterprise Store
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "0", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"101", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate":0}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0				|Line-001			|sample line 1		|サンプルライン1		|101		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|0031			|Line-001			|sample line 1		|サンプルライン1		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Adding the line with no description
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000032", "Line": "Line-002", "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1, "TaxRate":0}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0				|Line-001			|sample line 1		|サンプルライン1		|101		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-002			|					|				|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|0031			|Line-001			|sample line 1		|サンプルライン1		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+!-- Adding the line with AgeRestrictedFlag 1, DiscountFlag: 1, InheritFlag: 1, SubSmallInt5: 1
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000032", "Line": "Line-003", "Department":"201", "DiscountRate":25, "DiscountType":1, "ExceptionFlag": 1, "DiscountFlag":1, "TaxType":1, "AgeRestrictedFlag": 1, "DiscountFlag": 1, "InheritFlag": 1, "SubSmallInt5": 1, "TaxRate":0}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0				|Line-001			|sample line 1		|サンプルライン1		|101		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-002			|					|				|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-003			|					|				|201		|1		|0		|1				|1				|1				|0.0				|25.0			|1					|1				|1			|
+|0031			|Line-001			|sample line 1		|サンプルライン1		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+!-- Adding the line with Default TaxRate
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000032", "Line": "Line-007", "Department":"201", "DiscountRate":25, "DiscountType":1, "ExceptionFlag": 1, "DiscountFlag":1, "TaxType":1, "AgeRestrictedFlag": 1, "DiscountFlag": 1, "InheritFlag": 1, "SubSmallInt5": 1}|
+Then the result code should be {0}
+Then the following lines in the database should be:
+|RetailStoreID	|Line				|DescriptionEN   	|DescriptionJP	|Department	|TaxType|TaxRate|DiscountType	|ExceptionFlag	|DiscountFlag 	|DiscountAmount		|DiscountRate	|AgeRestrictedFlag	|InheritFlag	|SubSmallInt5|
+|0				|Line-001			|sample line 1		|サンプルライン1		|101		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000031			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-001			|sample line 1		|サンプルライン1		|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-002			|					|				|201		|1		|0		|1				|null			|1				|0.0				|25.0			|null				|null			|null		|
+|000032			|Line-003			|					|				|201		|1		|0		|1				|1				|1				|0.0				|25.0			|1					|1				|1			|
+|000032			|Line-007			|					|				|201		|1		|8		|1				|1				|1				|0.0				|25.0			|1					|1				|1			|
+|0031			|Line-001			|sample line 1		|サンプルライン1		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-002			|sample line 2		|サンプルライン2		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Line-004			|line 4				|local 4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 3		|sample line 3		|サンプルライン3		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+|0032			|Test Line 4		|test line 4		|テストライン4		|Dpt-001	|0		|0		|1				|0				|null			|20.0				|10.0			|0					|0				|0			|
+
+
+
+!-- Adding a duplicate line
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000031", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {1401}
+
+!-- Adding a line without storeid
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Adding a line without Line id
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000031", "Line": "", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Adding a line without department
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000031", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {154}
+
+!-- Adding a line with a non existing store id
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "9999", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"201", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {1403}
+
+!-- Adding a line with a non existing department
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000031", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"99999", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {1404}
+
+!-- Adding a line with an existing department but not under the same store
+When the following line is added:
+|linejson|
+|{"RetailStoreID": "000032", "Line": "Line-001", "Description":{en:"sample line 1", jp:"サンプルライン1"}, "Department":"310", "DiscountRate":25, "DiscountType":1, "DiscountFlag":1, "TaxType":1}|
+Then the result code should be {1404}
+

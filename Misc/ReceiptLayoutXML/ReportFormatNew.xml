@@ -1,0 +1,2255 @@
+<Reports>
+  <!-- 部門別売上表 -->
+  <Report pagerWidth="40" type="Department">
+    <LineImageBmp name="logo"></LineImageBmp>
+     <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- div -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="divStr" leftMargin="0"></Lable>
+      <Item property="div" leftMargin="1"></Item>
+      <Item property="divName" leftMargin="3"></Item>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="2"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***部門別売上表**** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="divlableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="divNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="11"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- 時間帯別売上表 -->
+  <Report pagerWidth="40" type="Hourly">
+    <LineImageBmp name="logo"></LineImageBmp>
+     <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="1"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- **時間帯別売上表** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="hourlylableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="hourlyNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="13"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- グループ別売上 -->
+  <Report pagerWidth="40" type="group">
+    <LineImageBmp name="logo"></LineImageBmp>
+    <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="1"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***グループ別売上*** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="grouplableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="groupNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="11"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- 販売員別売上 -->
+  <Report pagerWidth="40" type="SalesMan">
+    <LineImageBmp name="logo"></LineImageBmp>
+     <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="1"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***販売員別売上*** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="salesmanlableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="salesmanNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="13"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- 客層別売上 -->
+  <Report pagerWidth="40" type="TargetMarket">
+    <LineImageBmp name="logo"></LineImageBmp>
+     <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="2"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***客層別売上**** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="targetmarketlableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="targetNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="15"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- 店舗別売上 -->
+  <Report pagerWidth="40" type="Store">
+  <LineImageBmp name="logo"></LineImageBmp>
+    <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max-1"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="2"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***店舗別売上**** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="storelableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="storeNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="15"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- アイテム別売上 -->
+  <Report pagerWidth="40" type="Item">
+  <LineImageBmp name="logo"></LineImageBmp>
+     <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- div -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="divStr" leftMargin="0"></Lable>
+      <Item property="div" leftMargin="1"></Item>
+      <Item property="divName" leftMargin="3"></Item>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="1"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***アイテム別売上*** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="itemlableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="itemNameStr" leftMargin="0"></Lable>
+      <Lable property="guestCntStr" leftMargin="11"></Lable>
+      <Lable property="itemCntStr" leftMargin="2"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemName" fixedLength="18" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+        <!-- 客数 -->
+        <Price property="GuestCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="1" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="18" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total客数 -->
+      <Price property="AllGuestCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="0" isMinus="false"></Price>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- 販売員・単品別売上表 -->
+  <Report pagerWidth="40" type="ClerkProduct">
+  <LineImageBmp name="logo"></LineImageBmp>
+     <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- 販売員 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="salesmanStr" leftMargin="0"></Lable>
+      <Item property="salesManNo" leftMargin="1"></Item>
+      <Item property="salesManName" leftMargin="1"></Item>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="1"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- ***販売員・単品別売上表**** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="salesmanitemlableStr" leftMargin="0"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <!-- itemName、点数、金額のlable -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="salesmanitemNameStr" leftMargin="0"></Lable>
+      <Lable property="itemCntStr" leftMargin="21"></Lable>
+      <Lable property="salesAmtStr" leftMargin="max"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+         <Item property="ItemName" fixedLength="40" appendSign=" "
+          appendWay="right" leftMargin="0"></Item>
+      </Line>
+      <Line size="0" align="left" feedNum="0">
+        <Item property="ItemCode" fixedLength="23" appendSign=" "
+          appendWay="right" leftMargin="1"></Item>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="5" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="totalStr" fixedLength="23" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+      <!-- total点数 -->
+      <Price property="AllItemCount" fixedLength="5" appendSign=" "
+        appendWay="left" leftMargin="1" isMinus="false"></Price>
+      <!-- total金額 -->
+      <Price property="AllSalesAmount" fixedLength="11"
+        appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <Line size="0" align="left" feedNum="1">
+      <Sign leftMargin="0" length="40" value="-"></Sign>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+
+  <!-- 部門別時間帯別売上 -->
+  <Report pagerWidth="40" type="Department_Hourly">
+    <LineImageBmp name="logo"></LineImageBmp>
+    <!-- 店名 -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="reportStoreNameStr" leftMargin="0"></Lable>
+       <Condition property="storeidSearch">
+          <ne value="0000" property="">
+            <Condition property="storeidSearch">
+              <ne value="0002" property="">
+                <Condition property="storeidSearch">
+                  <ne value="0001" property="">
+                    <Item property="storeidSearch" leftMargin="1"></Item>
+                    <Item property="storeName" leftMargin="1"></Item>
+                  </ne>
+                </Condition>
+              </ne>
+            </Condition>
+          </ne>
+        </Condition>
+        <Condition property="storeidSearch">
+          <eq value="0000" property="">
+            <Item property="storeName" leftMargin="6"></Item>
+          </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0002" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+        <Condition property="storeidSearch">
+           <eq value="0001" property="">
+                <Item property="storeName" leftMargin="6"></Item>
+           </eq>
+        </Condition>
+    </Line>
+    <!-- div -->
+    <Line size="0" align="left" feedNum="0">
+      <Lable property="divStr" leftMargin="0"></Lable>
+      <Item property="div" leftMargin="1"></Item>
+      <Item property="divName" leftMargin="3"></Item>
+    </Line>
+    <!-- 担当者 -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="operatorStr" leftMargin="0"></Lable>
+      <Item property="operaterNo" leftMargin="1"></Item>
+      <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニング -->
+    <Line size="0" align="left" feedNum="1">
+    <Condition property="IsTraining">
+     <eq value="true" property="">
+      <Sign leftMargin="0" length="6" value="＊"></Sign>
+      <Lable property="receiptTrainMode" leftMargin="1"></Lable>
+      <Sign leftMargin="1" length="5" value="＊"></Sign>
+      <Sign leftMargin="0" length="1" value="＊"> </Sign>
+     </eq>
+    </Condition>
+    </Line>
+    <!-- **部門別時間帯別売上** -->
+    <Line size="0" align="left" feedNum="1">
+      <Lable property="divhourlylableStr" leftMargin="0"></Lable>
+    </Line>
+    <LineItems>
+      <Line size="0" align="left" feedNum="0">
+        <Condition property="isHeaderFlag">
+          <eq value="True" property="">
+            <Sign leftMargin="0" length="40" value="-"></Sign>
+          </eq>
+        </Condition>
+      </Line>
+      <!-- Division設定 -->
+      <Line size="0" align="left" feedNum="0">
+        <Condition property="isHeaderFlag">
+          <eq value="True" property="">
+            <Lable property="divNameStr" leftMargin="0"></Lable>
+            <Item property="divisionName" fixedLength="32" appendSign=" "
+              appendWay="left"  leftMargin="max"></Item>
+          </eq>
+        </Condition>
+      </Line>
+      <Line size="0" align="left" feedNum="0">
+        <Condition property="isHeaderFlag">
+          <eq value="True" property="">
+            <Sign leftMargin="0" length="40" value="-"></Sign>
+          </eq>
+        </Condition>
+      </Line>
+      <!-- 客数、点数、売上金額lable設定 -->
+      <Line size="0" align="left" feedNum="1">
+        <Condition property="isHeaderFlag">
+          <eq value="True">
+            <Lable property="hourlyNameStr" leftMargin="0"></Lable>
+            <Lable property="guestCntStr" leftMargin="13"></Lable>
+            <Lable property="itemCntStr" leftMargin="2"></Lable>
+            <Lable property="salesAmtStr" leftMargin="max"></Lable>
+          </eq>
+        </Condition>
+      </Line>
+       <!-- 客数、点数、売上金額の値設定 -->
+      <Line size="0" align="left" feedNum="0">
+        <Condition property="isBodyFlag">
+          <eq value="True">
+            <Item property="ItemName" fixedLength="18" appendSign=" "
+              appendWay="right" leftMargin="0"></Item>
+            <!-- 客数 -->
+            <Price property="GuestCnt" fixedLength="5" appendSign=" "
+              appendWay="left" leftMargin="0" isMinus="false"></Price>
+            <!-- 点数 -->
+            <Price property="ItemCnt" fixedLength="5" appendSign=" "
+              appendWay="left" leftMargin="1" isMinus="false"></Price>
+            <!-- 金額 -->
+            <Price property="SalesAmt" fixedLength="11"
+              appendSign=" " appendWay="left" isMinus="false"
+              leftMargin="max"></Price>
+          </eq>
+        </Condition>
+      </Line>
+      <Line size="0" align="left" feedNum="0">
+        <Condition property="isFooterFlag">
+          <eq value="True" property="">
+            <Sign leftMargin="0" length="40" value="-"></Sign>
+          </eq>
+        </Condition>
+      </Line>
+      <Line size="0" align="left" feedNum="1">
+        <Condition property="isFooterFlag">
+          <eq value="True" property="">
+            <Lable property="totalStr" fixedLength="18"
+              appendSign=" " appendWay="right" leftMargin="0"></Lable>
+            <!-- 客数合計 -->
+            <Price property="GuestCntSum" fixedLength="5"
+              appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+            <!-- 点数合計 -->
+            <Price property="ItemCntSum" fixedLength="5"
+              appendSign=" " appendWay="left" leftMargin="1" isMinus="false"></Price>
+            <!-- 金額合計 -->
+            <Price property="SalesAmtSum" fixedLength="11"
+              appendSign=" " appendWay="left" isMinus="false"
+              leftMargin="max"></Price>
+          </eq>
+        </Condition>
+      </Line>
+    </LineItems>
+    <Line size="0" align="left" feedNum="0">
+    	<Sign leftMargin="0" length="1" value=" " />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+  <!--会計-->
+ <Report pagerWidth="40" type="Accountancy">
+     <LineImageBmp name="logo"></LineImageBmp>
+     <!--店名-->
+     <Line size="0" align="left" feedNum="0">
+        <Lable property="reportStoreNameStr" leftMargin="8"></Lable>
+        <Item property="storeName" leftMargin="1"></Item>
+     </Line>
+     <!--TEL-->
+     <Line size="0" align="left" feedNum="1">
+         <Lable property="ATYReportTel" leftMargin="8"></Lable>
+         <Item property="Telephone" leftMargin="1"></Item>
+     </Line>
+     <!--Div-->
+     <Line size="0" align="center" feedNum="1">
+	    <Condition property="TillId">
+		  <ne value="" property="">
+		    <Lable property="ATYReportDrawer" leftMargin="0"></Lable>
+		  </ne>
+		</Condition>
+     </Line>
+     <Line size="0" align="center" feedNum="1">
+		<Condition property="TillId">
+		  <eq value="" property="">
+		    <Lable property="ATYReportStoreTotal" leftMargin="0"></Lable>
+		  </eq>
+		</Condition>
+     </Line>
+     <Line size="0" align="left" feedNum="0">
+	  <Condition property="TillId">
+		  <ne value="" property="">
+		    <Lable property="ATYReportDrawerLable" leftMargin="0"></Lable>
+			 <Item property="TillId" leftMargin="1"></Item>     
+          </ne>
+      </Condition>
+     </Line>
+     <!--担当者-->
+     <Line size="0" align="left" feedNum="1">
+        <Lable property="operatorStr" leftMargin="0"></Lable>
+        <Item property="OperaterNo" leftMargin="1"></Item>
+        <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+        formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+     </Line>
+     <!-- トレーニンク゛ -->
+     <Line size="0" align="left" feedNum="1">
+         <Condition property="IsTraining">
+          <eq value="True" property="">
+           <Sign length="5" leftMargin="0" value="* "></Sign>
+           <Sign length="1" leftMargin="0" value="*"></Sign>
+           <Lable property="receiptTrainMode" leftMargin="2"></Lable>
+           <Sign length="5" leftMargin="2" value="* "></Sign>
+           <Sign length="1" leftMargin="0" value="*"></Sign>
+          </eq>
+         </Condition>
+     </Line>
+     <!-- ***会計レポート**** -->
+	 
+    <!-- Line size="0" align="center" feedNum="1">
+	    <Condition property="Type">
+		  <eq value="Accountancy" property="">
+		    <Lable property="ATYReportTitle" leftMargin="0"></Lable>
+		  </eq>
+		</Condition>
+	</Line -->
+	<Line size="0" align="left" feedNum="1">
+		<Condition property="Type">
+		  <eq value="Settlement" property="">
+		    <Sign leftMargin="0" length="1" value="Z" />
+			<Lable property="ATYReportTitle" leftMargin="1"></Lable>
+		  </eq>
+		</Condition>
+	</Line>
+	<Line size="0" align="left" feedNum="1">
+		<Condition property="Type">
+		  <ne value="Settlement" property="">
+		    <Sign leftMargin="0" length="1" value="X" />
+			<Lable property="ATYReportTitle" leftMargin="1"></Lable>
+		  </ne>
+		</Condition>
+    </Line>
+	<!--売上-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportSalesTitle" leftMargin="0"></Lable>
+    </Line>
+    <!-- itemName、客数、点数、金額のlable -->
+    <!--売上-->
+    <Line size="0" align="left" feedNum="0">
+       <Item property="Sales" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="SalesPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--売上値引-->
+     <Line size="0" align="left" feedNum="0">
+        <Item property="SalesDiscount" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="SalesDiscountPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+         <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SalesDiscountAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--取消-->
+     <Line size="0" align="left" feedNum="0">
+        <Item property="Cancel" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="CancelPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+         <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="CancelAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--小計-->
+     <Line size="0" align="left" feedNum="1">
+         <Item property="SalesSubTotal" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="SalesTotalPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+         <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SalesTotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--返品売上-->
+     <Line size="0" align="left" feedNum="0">
+        <Item property="ReturnSales" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="ReturnSalesPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="ReturnSalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--返品値引-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="ReturnDiscount" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="ReturnDiscountPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="ReturnDiscountAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--返品取消-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="ReturnCancel" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="ReturnCancelPoint" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="ReturnCancelAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--小計-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="ReturnSubTotal" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="ReturnTotalPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="ReturnTotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--純売上-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="NetSales" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="NetSalesPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="NetSalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--純売上(税抜)-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="TaxNetSales" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="TaxNetSalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--総売上-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="TotalSales" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+       <Price property="TotalSalesPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="TotalSalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--総売上(税抜)-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="TaxTotalSales" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="TaxTotalSalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+     <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--客数-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="customers" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="CustomersNo" fixedLength="12" appendSign=" "
+          appendWay="left" leftMargin="max" isMinus="false"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--＜税別内訳＞-->
+     <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportTaxTitle" leftMargin="0"></Lable>
+    </Line>
+    <!--課税(税抜)-->
+    <Line size="0" align="left" feedNum="0">
+         <Item property="Taxation" fixedLength="１8" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="TaxationPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="TaxationAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--税-->
+    <Line size="0" align="left" feedNum="0">
+         <Item property="Tax" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="TaxAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--非課税-->
+    <Line size="0" align="left" feedNum="0">
+         <Item property="TaxExemption" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="TaxExemptionPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="TaxExemptionAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--計-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="TaxSubtotal" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="TaxSubtotalPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="TaxSubtotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--＜値引内訳＞-->
+     <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportDiscountTitle" leftMargin="0"></Lable>
+    </Line>
+    <!-- 明細割引-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="ItemDiscounts" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="ItemDiscountsPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="ItemDiscountsAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--明細値引-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="ItemNebiki" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="ItemNebikiPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="ItemNebikiAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--イベント-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="EventsName" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="EventsPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="EventsAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--社員販売-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="EmployeeSales" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="EmployeeSalesPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="EmployeeSalesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--小計割引-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="SubtotalDiscounts" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="SubtotalDiscountsPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SubtotalDiscountsAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--小計値引-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="SubtotalNebiki" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="SubtotalNebikiPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SubtotalNebikiAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--計-->
+    <Line size="0" align="left" feedNum="0">
+         <Item property="DiscountsSubtotal" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="DiscountSubtotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="2">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--星線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportLine" leftMargin="0"></Lable>
+    </Line>
+    <!--＜ギフトカード販売>-->
+     <Line size="0" align="left" feedNum="0">
+         <Lable property="ATYReportGiftCardTitle" leftMargin="0"></Lable>
+    </Line>
+    <!--販売-->
+    <Line size="0" align="left" feedNum="0">
+         <Item property="Sell" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="SellPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SellAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--販売取消-->
+    <Line size="0" align="left" feedNum="0">
+         <Item property="SellCancel" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+         <Price property="SellCancelPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SellCancelAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--計-->
+    <Line size="0" align="left" feedNum="1">
+        <Item property="SellSubtotal" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="SellSubtotalPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="SellSubtotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--星線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportLine" leftMargin="0"></Lable>
+    </Line>
+    <!--＜前受金＞-->
+     <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportAdvanceTitle" leftMargin="0"></Lable>
+    </Line>
+    <!--前受金-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="Advances" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="AdvancesPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="AdvancesAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--前受金取消-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="AdvancesCancel" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="AdvancesCancelPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="AdvancesCancelAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--計-->
+    <Line size="0" align="left" feedNum="1">
+        <Item property="AdvancesSubtotal" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="AdvancesSubtotalPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+          <Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+        <Price property="AdvancesSubtotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--星線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportLine" leftMargin="0"></Lable>
+    </Line>
+    <!--＜金種別内訳＞-->
+     <Line size="0" align="left" feedNum="0">
+       <Lable property="ATYReportDenominationTitle" leftMargin="0"></Lable>
+    </Line>
+	<!--現金 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Cash" fixedLength="18" appendSign=" " appendWay="right"
+			leftMargin="0" isMinus="false"></Item>
+
+		<Price property="CashPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+
+		<Price property="CashAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--クレジット -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Credit" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="CreditPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="CreditAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--銀聯 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="UnionPay" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="UnionPayPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="UnionPayAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--ギフトカード -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="GiftCard" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="GiftCardPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="GiftCardAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--商品券 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="GiftCertificates" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="GiftCertificatesPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="GiftCertificatesAmt" fixedLength="12"
+			appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--振込入金 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="TransferPayment" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="TransferPaymentPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="TransferPaymentAmt" fixedLength="12"
+			appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--前受金売上 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="AdvancesSales" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="AdvancesSalesPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="AdvancesSalesAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!-- 横線 -->
+	<Line size="0" align="left" feedNum="0">
+		<Lable property="recptline" leftMargin="0"></Lable>
+	</Line>
+	<!--計 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="GoldSpecies" fixedLength="28" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="GoldSpeciesSubtotal" fixedLength="12"
+			appendSign=" " appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!-- 横線 -->
+	<Line size="0" align="left" feedNum="0">
+		<Lable property="recptline" leftMargin="0"></Lable>
+	</Line>
+	<!--＜商品券内訳＞ -->
+	<Line size="0" align="left" feedNum="0">
+		<Lable property="ATYReportGiftCertificatesTitle" leftMargin="0"></Lable>
+	</Line>
+	<!--買物券 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="ShoppingTicket" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="ShoppingTicketPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="ShoppingTicketAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--ギフト券 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="GiftVoucher" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="GiftVoucherPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="GiftVoucherAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--伊勢丹 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Isetan" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="IsetanPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="IsetanAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--DC -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="DCLable" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="DCLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="DCAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--AMEX -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="AMEXLable" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="AMEXLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="AMEXAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--JCB -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="JCBLable" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="JCBLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="JCBAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--Diners -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="DinersLable" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="DinersLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="DinersAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+    <!--Iカード>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="ICard" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="ICardAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <三井 -->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="MitsuiLable" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="MitsuiLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="MitsuiAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	<!--軽井沢 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Karuizawa" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="KaruizawaPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="KaruizawaAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--Chel 2000 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Chel2000" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="Chel2000Points" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="Chel2000Amt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--Chel 1000 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Chel1000" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="Chel1000Points" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="Chel1000Amt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--その他 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="sonota" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="SonotaPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="sonotaAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+     <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+    <!--計-->
+    <Line size="0" align="left" feedNum="0">
+        <Item property="GiftCertificatesSubtotal" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="GiftCertificatesSubtotalAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="0">
+     <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+	<!--回収金 -->
+	<Line size="0" align="left" feedNum="0">
+		<Item property="Collectedfunds" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="CollectedfundsPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="CollectedfundAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!--払戻金 -->
+	<Line size="0" align="left" feedNum="1">
+		<Item property="modorikinn" fixedLength="18" appendSign=" "
+			appendWay="right" leftMargin="0" isMinus="false"></Item>
+		<Price property="ModorikinnPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="modorikinnAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+    <!--星線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportLine" leftMargin="0"></Lable>
+    </Line>
+    <!--中止回数-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Discontinuation" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="DiscontinuationPoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+    </Line>
+    <!--両替回数-->
+        <Line size="0" align="left" feedNum="1">
+        <Item property="Exchange" fixedLength="18" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="ExchangePoints" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <Lable property="ATYReportPoint" fixedLength="2" appendSign=" "
+        appendWay="right" leftMargin="0"></Lable>
+    </Line>
+    <!--星線-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportLine" leftMargin="0"></Lable>
+    </Line>
+    <!--＜収入印紙＞-->
+     <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportPrintedPaperTitle" leftMargin="0"></Lable>
+    </Line>
+    <!--印紙200-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Stamp200" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="Stamp200Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--印紙400-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Stamp400" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="Stamp400Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--印紙600-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Stamp600" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="Stamp600Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--印紙1,000-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Stamp1000" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="Stamp1000Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--印紙2,000-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Stamp2000" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="Stamp2000Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--印紙4,000-->
+        <Line size="0" align="left" feedNum="0">
+        <Item property="Stamp4000" fixedLength="28" appendSign=" "
+             appendWay="right" leftMargin="0" isMinus="false"></Item>
+        <Price property="Stamp4000Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- 横線-->
+    <Line size="0" align="left" feedNum="1">
+         <Lable property="recptline" leftMargin="1"></Lable>
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+    </Report>
+<!-- 精算・点検　レポート-->
+  <Report pagerWidth="40" type="cashInDrawer">
+	<LineImageBmp name="logo"></LineImageBmp>
+	<!--店名-->
+	<Line size="0" align="left" feedNum="0">
+        <Lable property="reportStoreNameStr" leftMargin="8"></Lable>
+        <Item property="storeName" leftMargin="1"></Item>
+    </Line>
+	<!--TEL-->
+    <Line size="0" align="left" feedNum="1">
+        <Lable property="ATYReportTel" leftMargin="8"></Lable>
+         <Item property="Telephone" leftMargin="1"></Item>
+    </Line>
+    <!-- ドロア -->
+    <Line size="0" align="left" feedNum="0">
+	  <Condition property="TillId">
+		  <ne value="" property="">
+		    <Lable property="ATYReportDrawerLable" leftMargin="0"></Lable>
+			<Item property="TillId" leftMargin="1"></Item>     
+          </ne>
+      </Condition>
+     </Line>
+    <!--担当者-->
+    <Line size="0" align="left" feedNum="1">
+       <Lable property="operatorStr" leftMargin="0"></Lable>
+       <Item property="OperaterNo" leftMargin="1"></Item>
+       <Date property="businessDayDate" formatFrom="yyyy-MM-dd"
+       formatTo="yyyy/MM/dd" isSysDate="false" leftMargin="max"></Date>
+    </Line>
+    <!-- トレーニンク゛ -->
+    <Line size="0" align="left" feedNum="1">
+         <Condition property="IsTraining">
+          <eq value="True" property="">
+           <Sign length="5" leftMargin="0" value="* "></Sign>
+           <Sign length="1" leftMargin="0" value="*"></Sign>
+           <Lable property="receiptTrainMode" leftMargin="2"></Lable>
+           <Sign length="5" leftMargin="2" value="* "></Sign>
+           <Sign length="1" leftMargin="0" value="*"></Sign>
+          </eq>
+         </Condition>
+     </Line>
+	<Line size="0" align="left" feedNum="1">
+	    <Lable property="CIDReportTitle" leftMargin="1"></Lable>
+	</Line>
+	<!--現金-->
+	<Line size="0" align="left" feedNum="0">
+        <Lable property="CIDReportCash" leftMargin="0"></Lable>
+    </Line>
+	<LineItems>
+      <Line size="0" align="left" feedNum="0">
+		<Sign leftMargin="0" length="1" value="￥"></Sign>
+		<Price property="ItemName" fixedLength="17" appendSign=" "
+          appendWay="right" leftMargin="0" isMinus="false"></Price>
+        <!-- 点数 -->
+        <Price property="ItemCnt" fixedLength="7" appendSign=" "
+          appendWay="left" leftMargin="0" isMinus="false"></Price>
+        <!-- 金額 -->
+        <Price property="SalesAmt" fixedLength="11" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+      </Line>
+    </LineItems>
+	 <!-- 横線-->
+	<Line size="0" align="left" feedNum="0">
+         <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>	
+　　　<!--合計-->
+	<Line size="0" align="left" feedNum="0">
+         <Lable property="CIDReportAllTotal" leftMargin="0"></Lable>
+		 <Price property="AllDrawAmount" fixedLength="25" appendSign=" "
+          appendWay="left" leftMargin="max" isMinus="false"></Price>
+    </Line>-->
+	 <!-- 横線-->
+	<Line size="0" align="left" feedNum="0">
+         <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>	
+　　　<!--＜金種別内訳＞-->
+	 <Line size="0" align="left" feedNum="0">
+       <Lable property="ATYReportDenominationTitle" leftMargin="0"></Lable>
+    </Line>
+    <!--クレジット-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportCredit" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="CreditPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="CreditAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--銀聯 -->
+	<Line size="0" align="left" feedNum="0">
+		<Lable property="ATYReportUnionPay" leftMargin="0" 
+		    fixedLength="18" appendSign=" " appendWay="right"></Lable>
+		<Price property="UnionPayPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+		<Price property="UnionPayAmt" fixedLength="12" appendSign=" "
+			appendWay="left" isMinus="false" leftMargin="max"></Price>
+	</Line>
+	<!-- GiftCard -->
+	<Line size="0" align="left" feedNum="0">
+      　		<Lable property="ATYReportGiftCard" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="GiftCardPoints" fixedLength="7" appendSign=" "
+			appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="GiftCardAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+
+	 <!-- 横線-->
+	<Line size="0" align="left" feedNum="0">
+         <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+	<!--合計-->
+	 <Line size="0" align="left" feedNum="0">
+       <Lable property="ATYReportGoldSpeciesSubtotal" leftMargin="0"></Lable>
+        <Price property="GoldSpeciesSubtotal" fixedLength="25" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	 <!-- 横線-->
+	<Line size="0" align="left" feedNum="0">
+         <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+	<!--＜商品券内訳＞-->
+	<Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportGiftCertificatesTitle" leftMargin="0"></Lable>
+     </Line>
+	   <!--買物券-->
+    <Line size="0" align="left" feedNum="0">
+       <Lable property="ATYReportBarneysVoucher" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+       <Price property="ShoppingTicketPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+	　　 <Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+       　　　<Price property="ShoppingTicketAmt" fixedLength="12" appendSign=" "
+            appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--ギフト券-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportBarneysGift" leftMargin="0"
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="GiftVoucherPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="GiftVoucherAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--伊勢丹-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportIsetanGift" leftMargin="0" 
+        	fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="IsetanPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="IsetanAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--DC-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportDC" leftMargin="0"
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="DCLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="DCAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--AMEX-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportAMEX" leftMargin="0"
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="AMEXLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="AMEXAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--JCB-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportJCB" leftMargin="0"
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="JCBLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="JCBAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--Diners-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportDiners" leftMargin="0"
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="DinersLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="DinersAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--Iカード-->
+    <!-- <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportICard" leftMargin="0"></Lable>
+        <Price property="ICardAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line> --> 
+    <!--三井-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportMitsui" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="MitsuiLablePoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="MitsuiAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--軽井沢-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportPrince" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="KaruizawaPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="KaruizawaAmt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--Chel　2000-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportChel2000" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="Chel2000Points" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="Chel2000Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!--Chel　1000-->
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportChel1000" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+        <Price property="Chel1000Points" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		<Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+        <Price property="Chel1000Amt" fixedLength="12" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+    <!-- その他 -->
+    <Line size="0" align="left" feedNum="0">
+         <Lable property="ATYReportSonota" leftMargin="0" 
+            fixedLength="18" appendSign=" " appendWay="right"></Lable>
+         <Price property="SonotaPoints" fixedLength="7"
+			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
+		 <Lable property="ATYReportNumber" fixedLength="2" appendSign=" "
+			appendWay="right" leftMargin="0"></Lable>
+	     <Price property="sonotaAmt" fixedLength="12" appendSign=" "
+	       appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	 <!-- 横線-->
+	<Line size="0" align="left" feedNum="0">
+         <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+	<Line size="0" align="left" feedNum="0">
+       <Lable property="ATYReportGiftCertificatesSubtotal" leftMargin="0"></Lable>
+        <Price property="GiftCertificatesSubtotalAmt" fixedLength="25" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	 <!-- 横線-->
+	<Line size="0" align="left" feedNum="1">
+         <Lable property="recptline" leftMargin="0"></Lable>
+    </Line>
+	
+	<Line size="0" align="left" feedNum="0">
+        <Lable property="ATYReportRealTotal" leftMargin="0"></Lable>
+        <Price property="RealTotalAmt" fixedLength="25" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	<Line size="0" align="left" feedNum="0">
+       <Lable property="ATYReportCalculateTotal" leftMargin="0"></Lable>
+        <Price property="CalculateTotalAmt" fixedLength="25" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	<Line size="0" align="left" feedNum="1">
+       <Lable property="ATYReportGap" leftMargin="0"></Lable>
+       <Price property="GapAmt" fixedLength="25" appendSign=" "
+          appendWay="left" isMinus="false" leftMargin="max"></Price>
+    </Line>
+	
+    <Line size="0" align="left" feedNum="0">
+        <Lable property="recpttransactionidstr" leftMargin="0" />
+        <Item property="storeID" leftMargin="max-5" />
+        <Sign leftMargin="0" length="1" value="/" />
+        <Item property="workStationID" leftMargin="max" />
+    </Line>
+    <Line size="0" align="left" feedNum="0">
+        <Item property="sequenceNo" leftMargin="2" />
+        <Date property="subdateid2" formatFrom="yyyy-MM-dd'T'HH:mm:ss" formatTo="HH:mm"
+            isSysDate="false" leftMargin="10" />
+        <Date property="subdateid1" formatFrom="yyyy-MM-dd" formatTo="yyyy/MM/dd"
+            isSysDate="false" leftMargin="max" />
+    </Line>
+  </Report>
+</Reports>

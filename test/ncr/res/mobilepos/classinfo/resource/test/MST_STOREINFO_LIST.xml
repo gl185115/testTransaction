@@ -1,0 +1,198 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_STOREINFO">
+		<column>StoreId</column>
+		<column>StoreName</column>
+		<column>StoreAddr</column>
+		<column>StoreTel</column>
+		<column>StoreUrl</column>
+		<column>SalesSpaceName</column>
+		<column>EventName</column>
+		<column>Ads</column>
+		<column>ElectroFilePath</column>
+		<column>StampTaxFilePath</column>
+		<column>UpdDate</column>
+		<column>InsDate</column>
+		<column>Status</column>
+		<row>
+			<value>000031</value>
+			<value>STORE-000031</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000032</value>
+			<value>STORE-000032</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000033</value>
+			<value>STORE-000033</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000034</value>
+			<value>STORE-000034</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000035</value>
+			<value>STORE-000035</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000036</value>
+			<value>STORE-000036</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000037</value>
+			<value>STORE-000037</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000038</value>
+			<value>STORE-000038</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000039</value>
+			<value>STORE-000039</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01</value>
+			<value>2014-01-01 00:00:01</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000040</value>
+			<value>STORE-000040</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000041</value>
+			<value>STORE-000041</value>
+			<value>Cebu City</value>
+			<value>253.2323</value>
+			<value>http://www.ncr.com</value>
+			<value>Mr. Tanaka</value>
+			<value>10th yr Anniversary</value>
+			<value>Keep Going!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000042</value>
+			<value>STORE-000042</value>
+			<value>Cebu City</value>
+			<value>490.7317</value>
+			<value>http://www.ytk.com</value>
+			<value>Mr.Yataki Tumbi</value>
+			<value>Clearance</value>
+			<value>Aja!</value>
+			<value>C:\</value>
+			<value>C:\</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>2014-01-01 00:00:01.000</value>
+			<value>Deleted</value>
+		</row>		
+	</table>
+</dataset>

@@ -1,0 +1,32 @@
+Scenario: View detail of an existing till
+Given a TillResource
+When I view till detail of storeid: {es185} and tillid:	{es134}				
+Then I should get resultcode equal to 0					
+Then I should get till details: 
+|storeid |tillid |businessdaydate|sodflag|eodflag|
+|es185   |es134  |1989-03-02|9      |9      |
+
+Scenario: View detail of non-existing till
+Given a TillResource
+When I view till detail of storeid: {10000} and tillid: {es134}				
+Then I should get resultcode equal to 1500
+Then I should get till details:
+|storeid |tillid |businessdaydate|sodflag|eodflag|
+|10000   |es134  |null           |null      |null      |
+
+Scenario: View detail with null parameters
+Given a TillResource
+When I view till detail of storeid: {null} and tillid:	{null}				
+Then I should get resultcode equal to 1500					
+Then I should get till details: 
+|storeid |tillid |businessdaydate|sodflag|eodflag|
+|null   |null  |null     |null      |null      |
+
+Scenario: View detail with empty parameters
+Given a TillResource
+When I view till detail of storeid: {} and tillid:	{}				
+Then I should get resultcode equal to 1500					
+Then I should get till details: 
+|storeid |tillid |businessdaydate|sodflag|eodflag|
+|   |  |null    |null      |null      |
+

@@ -1,0 +1,48 @@
+
+<div class="Layout">
+
+	<div class="Categories">
+		<div class="Category" data-ng-repeat="category in model.advertise.categories track by $index"
+			data-ng-class="{selected:indexCategory==$index}"
+			data-res-touch="selectList($index)">
+			<div class="innerBox">
+				<p data-ng-bind-html="category |resPhraseInLine | resConvertLF"></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="List">
+		<div class="Guide" data-ng-show="indexCategory==undefined">
+			<p data-ng-bind-html="'EditCategories.Guide'|resPhrase:context"></p>
+		</div>
+		<div class="Pad" data-ng-show="indexCategory>=0">
+			<div class="Title">
+				<p>
+					<span data-ng-bind-html="'EditCategories.Category'|resPhrase:context"></span>
+					<span data-ng-bind-html="(indexCategory+1) |resNumber"></span>
+				</p>
+			</div>
+			<div class="Entries">
+				<div class="Entry">
+					<p class="Label" data-ng-bind-html="'EditCategories.Name.Line1'|resPhrase:context"></p>
+					<input class="Value" type="text" data-res-maxlength="14" data-ng-model="categoryLabel.line1"
+						placeholder="{{'EditItems.MaxLength7'|resPhrase:context}}">
+				</div>
+				<div class="Entry">
+					<p class="Label" data-ng-bind-html="'EditCategories.Name.Line2'|resPhrase:context"></p>
+					<input class="Value" type="text" data-res-maxlength="14" data-ng-model="categoryLabel.line2"
+						placeholder="{{'EditItems.MaxLength7'|resPhrase:context}}">
+				</div>
+			</div>
+			<div class="Buttons">
+				<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-ng-click="apply()">
+					<p data-ng-bind-html="'Apply'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>

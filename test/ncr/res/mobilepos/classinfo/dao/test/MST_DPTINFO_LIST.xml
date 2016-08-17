@@ -1,0 +1,287 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_DPTINFO">
+        <column>StoreId</column>
+        <column>Dpt</column>
+        <column>DptName</column>
+        <column>DptNameLocal</column>
+        <column>Jigyobu</column>
+        <column>Gyoshu</column>
+        <column>Bumon</column>
+        <column>Uriba</column>
+        <column>Category</column>
+        <column>InsDate</column>
+        <column>UpdDate</column>
+        <column>Status</column>
+		<row>
+			<value>0</value>
+			<value>101</value>
+			<value>Department 101</value>
+			<value>部門101</value>
+			<value>101</value>		
+			<value>101</value>
+			<value>101</value>
+			<value>101</value>
+			<value>101</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0</value>
+			<value>102</value>
+			<value>Department 102</value>
+			<value>部門102</value>
+			<value>102</value>		
+			<value>102</value>
+			<value>102</value>
+			<value>102</value>
+			<value>102</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0</value>
+			<value>103</value>
+			<value>Department 103</value>
+			<value>部門103</value>
+			<value>103</value>		
+			<value>103</value>
+			<value>103</value>
+			<value>103</value>
+			<value>103</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0</value>
+			<value>104</value>
+			<value>Department 104</value>
+			<value>部門104</value>
+			<value>104</value>		
+			<value>104</value>
+			<value>104</value>
+			<value>104</value>
+			<value>104</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>0</value>
+			<value>105</value>
+			<value>Department 105</value>
+			<value>部門105</value>
+			<value>105</value>		
+			<value>105</value>
+			<value>105</value>
+			<value>105</value>
+			<value>105</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>201</value>
+			<value>Department 201</value>
+			<value>部門201</value>
+			<value>201</value>		
+			<value>201</value>
+			<value>201</value>
+			<value>201</value>
+			<value>201</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>202</value>
+			<value>Department 202</value>
+			<value>部門202</value>
+			<value>202</value>		
+			<value>202</value>
+			<value>202</value>
+			<value>202</value>
+			<value>202</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>203</value>
+			<value>Department 203</value>
+			<value>部門203</value>
+			<value>203</value>		
+			<value>203</value>
+			<value>203</value>
+			<value>203</value>
+			<value>203</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>204</value>
+			<value>Department 204</value>
+			<value>部門204</value>
+			<value>204</value>		
+			<value>204</value>
+			<value>204</value>
+			<value>204</value>
+			<value>204</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>205</value>
+			<value>Department 205</value>
+			<value>部門205</value>
+			<value>205</value>		
+			<value>205</value>
+			<value>205</value>
+			<value>205</value>
+			<value>205</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>306</value>
+			<value>Department 306</value>
+			<value>部門306</value>
+			<value>306</value>		
+			<value>306</value>
+			<value>306</value>
+			<value>306</value>
+			<value>306</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Deleted</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>307</value>
+			<value>Department 307</value>
+			<value>部門307</value>
+			<value>307</value>		
+			<value>307</value>
+			<value>307</value>
+			<value>307</value>
+			<value>307</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>308</value>
+			<value>Department 308</value>
+			<value>部門308</value>
+			<value>308</value>		
+			<value>308</value>
+			<value>308</value>
+			<value>308</value>
+			<value>308</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>309</value>
+			<value>Department 309</value>
+			<value>部門309</value>
+			<value>309</value>		
+			<value>309</value>
+			<value>309</value>
+			<value>309</value>
+			<value>309</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>310</value>
+			<value>Department 310</value>
+			<value>310</value>		
+			<value>310</value>
+			<value>310</value>
+			<value>310</value>
+			<value>310</value>
+			<value>310</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Deleted</value>
+		</row>
+		
+		<row>
+			<value>000032</value>
+			<value>342</value>
+			<value>Department 342</value>
+			<value>342</value>		
+			<value>342</value>
+			<value>342</value>
+			<value>342</value>
+			<value>342</value>
+			<value>342</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		<row>
+			<value>000032</value>
+			<value>201</value>
+			<value>Department 201</value>
+			<value>部門201</value>
+			<value>201</value>		
+			<value>201</value>
+			<value>201</value>
+			<value>201</value>
+			<value>201</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		
+		<row>
+			<value>000033</value>
+			<value>201</value>
+			<value>Department 201</value>
+			<value>部門201</value>
+			<value>202</value>		
+			<value>202</value>
+			<value>202</value>
+			<value>202</value>
+			<value>202</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		
+		<row>
+			<value>0</value>
+			<value>201</value>
+			<value>Department 201</value>
+			<value>部門201</value>
+			<value>202</value>		
+			<value>202</value>
+			<value>202</value>
+			<value>202</value>
+			<value>202</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>2014-04-16 12:30:00</value>
+			<value>Active</value>
+		</row>
+		
+    </table>
+</dataset>

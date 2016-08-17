@@ -1,0 +1,100 @@
+
+#ImageList .PickButton {
+	position: relative; width: 132px; height: 120px;
+	background: hsl(0,0%,100%);
+	border-style: none; box-sizing: border-box; -webkit-box-sizing: border-box;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+}
+#ImageList .PickButton .InnerBox {
+	position: absolute;
+	left: 4px;
+	top: 4px;
+	width: 124px;
+	height: 110px;
+	display: table;
+}
+#ImageList .PickButton.selected {background: -webkit-gradient(linear,left top,left bottom,from(hsl(0, 89%, 56%)),to(hsl(0, 93%, 46%)));}
+#ImageList .PickButton .InnerBox > p { display: table-cell; vertical-align: middle; text-align: center; }
+#ImageList .PickButton .InnerBox.silver { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(0,0%,95%)),to(hsl(0,0%,90%)));}
+#ImageList .PickButton .InnerBox.red { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(7,73%,90%)),to(hsl(7,73%,80%)));}
+#ImageList .PickButton .InnerBox.orange { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(20,90%,90%)),to(hsl(20,90%,80%)));}
+#ImageList .PickButton .InnerBox.beige { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(34,30%,90%)),to(hsl(34,30%,80%)));}
+#ImageList .PickButton .InnerBox.yellow { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(41,100%,90%)),to(hsl(41,100%,80%)));}
+#ImageList .PickButton .InnerBox.green { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(112,45%,90%)),to(hsl(112,45%,80%)));}
+#ImageList .PickButton .InnerBox.blue { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(212,85%,90%)),to(hsl(212,85%,80%)));}
+#ImageList .PickButton .InnerBox.purple { background: -webkit-gradient(linear,0% 0%,100% 100%,from(hsl(300,85%,90%)),to(hsl(300,85%,80%)));}
+#ImageList .PickButton .InnerBox .ImageBox {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 124px;
+	height: 76px;
+	text-align: center;
+	overflow: hidden;
+	display: table;
+}
+#ImageList .PickButton .InnerBox .ImageBox  p { display: table-cell; vertical-align: middle; }
+#ImageList .PickButton .InnerBox .LabelBox {
+	position: absolute;
+	left: -2px;
+	top: 78px;
+	width: 128px;
+	height:36px;
+	background: hsl(0,0%,95%);
+	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,100%);
+	border-style: solid;
+	border-width: 1px;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	text-align: center;
+	font-size: 15px;
+	line-height: 15px;
+	overflow: hidden;
+	word-break: break-all;
+	word-wrap: break-word;
+}
+#ImageList .PickButton .LabelBox p { margin-top: 2px; }
+#wrapperImages {
+	position: absolute; left: 5px; right: 0px; top: 5px; bottom: 5px;
+	overflow: hidden;
+	z-index: 0;
+}
+#wrapperImages .scroller {
+	display: -webkit-inline-box;
+}
+#ImageList .Images {
+	position: absolute; left: 10px; top: 110px; right: 10px; bottom: 20px;
+}
+#ImageList .Images .Guide {
+	position:absolute; left: 0;  right: 0; top: 0;
+	height: 30px;
+	background: hsl(0, 0%, 30%);
+	color: hsl(0, 0%, 100%);
+	font-size: 20px;
+	line-height: 30px;
+	text-align: center;
+}
+#ImageList .Images .PickButtons {
+	position: absolute; left: 0px; right: 0px; top: 30px; bottom: 0px;
+	background: hsl(0, 0%, 30%);
+	border-style: solid;
+	border-width: 5px;
+	border-color: hsl(0, 0%, 40%) hsl(0, 0%, 80%) hsl(0, 0%, 90%) hsl(0, 0%, 60%) ;
+	box-sizing: border-box; -webkit-box-sizing: border-box;
+	overflow: hidden;
+}
+#ImageList .Images .PickButton {
+	position: relative;
+	display: inline-block;
+	margin: 3px;
+}
+
+#ImageList .Images .resButton { position: absolute; left: 20px; top: 5px; }
+#ImageList .PickButton .InnerBox .ImageBox img {
+	display: block;
+	margin: auto auto;
+	max-width:114px;
+	max-height:76px;
+}
+
+/**** end of CSS ****/

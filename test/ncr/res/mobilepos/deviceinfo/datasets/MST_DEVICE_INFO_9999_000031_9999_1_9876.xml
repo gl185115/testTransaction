@@ -1,0 +1,152 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DEVICEINFO">
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>DeviceName</column>
+		<column>PrinterId</column>
+		 <column>TillId</column>
+		<column>LinkPosTerminalId</column>
+		<column>SendLogFile</column>
+		<column>SaveLogFile</column>
+		<column>AutoUpload</column>
+		<column>LinkQueueBuster</column>
+		<column>LinkAuthorization</column>
+		<column>LinkSignature</column>
+		<column>Status</column>
+		<column>UpdDate</column>
+		<row>
+			<value>000031</value>
+			<value>9999</value>
+			<null/>
+			<value><![CDATA[102]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>1</value>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+
+		<row>
+			<value>000031</value>
+			<value>9990</value>
+			<value>DeviceName</value>
+			<value><![CDATA[999]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>2</value>
+			<value>2</value>
+			<value>2</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+
+		<row>
+			<value>000031</value>
+			<value>9998</value>
+			<value>DeviceName</value>
+			<value><![CDATA[0]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>3</value>
+			<value>3</value>
+			<value>3</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>000032</value>
+			<value>9998</value>
+			<value>DeviceName</value>
+			<value><![CDATA[0]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>4</value>
+			<value>4</value>
+			<value>4</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>000031</value>
+			<value>9997</value>
+			<value>DeviceName</value>
+			<value><![CDATA[0]]></value>
+			<value>123</value>
+			<value>1234</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+	</table>
+
+	<table name="AUT_DEVICES">
+    	<column>storeid</column>
+        <column>terminalid</column>       
+        <column>state</column>
+        <column>lastactivetime</column>  
+        <row>
+        	<value>000031</value>
+            <value>1111</value>            
+            <value>0</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>           
+                  
+        </row>  
+        <row>
+        	<value>000031</value>
+            <value>2222</value>           
+            <value>0</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>            
+                   
+        </row>
+        <row>
+        	<value>000001</value>
+            <value>1234</value>            
+            <value>0</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>            
+                 
+        </row>        
+    </table>
+    
+	<table name="MST_STOREINFO">
+		<column>StoreId</column>
+		<column>StoreName</column>
+		<column>Status</column>
+		<column>InsDate</column>
+		<column>UpdDate</column>
+		<row>
+			<value>000031</value>
+			<value>store 1</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+		<row>
+			<value>000032</value>
+			<value>store 2</value>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+	</table>
+
+</dataset>

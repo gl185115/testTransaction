@@ -1,0 +1,249 @@
+Scenario:  Set the System Configurations
+Given a {complete} batch of values for System Configuration named PRM_SYSTEM_CONFIG_SUCCESS.xml
+Given an CustomerTier Table {PRM_CUSTOMER_TIER_EMPTY.xml}
+When the Web API Starts Up
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the following values for WebUI should be returned
+|Key|Value|
+|RoundingConsumptionTax|1|
+|TaxRate|5|
+|CredentialExpiry|120|
+|StoreOpenTime|10|
+|MaxLengthOfOperatorNo|8|
+|NumberOfPasscodeDigits|3|
+|CredentialCookiesExpiry|144|
+|DefaultLanguage|en|
+|MaxTransactionCount|99999|
+|MerchantPassword|1234567890|
+|MerchatnId|2S699920000000|
+|PassPhrase|passphrase|
+|SecurityPhrase|security|
+|SignlessThreshold|10000|
+|DiscountInputMethod|PRM_DISCOUNT_BUTTONS|
+|InStoreParam1|02,10|
+|InStoreParam2|20,10|
+|InStoreParam3|21,10|
+|InStoreParam4|22,10|
+|InStoreParam5|23,10|
+|InStoreParam6|24,10|
+|InStoreParam7|25,10|
+|InStoreParam8|26,10|
+|InStoreParam9|27,10|
+|InStoreParam10|28,6|
+|InStoreParam11|29,5|
+|Flag|true|
+|KeyValue|11111111111111111111111111111111|
+|BadgeCountType|1|
+|DisableItemConsolidation|true|
+|MaxSearchResults|10|
+|CustomerTier|Disabled|
+|LoginBehavior|1|
+|CredentialDayLeftWarning|7|
+|PricingType|0|
+|Method|Cash|
+|Category|fantamiliar|
+|Range1|50000,1000000,200|
+|Range2|1000001,2000000,400|
+|Range3|2000001,3000000,600|
+|Range4|3000001,5000000,1000|
+|Range5|5000001,10000000,2000|
+|Range6|10000001,20000000,4000|
+|Range7|20000001,30000000,6000|
+|Range8|30000001,50000000,10000|
+|Range9|50000001,100000000,20000|
+|Range10|100000001,UNLIMITED,40000|
+|Drawer|0|
+|Synchronization|enabled|
+|TimeDifference|60|
+|DrawerAutoOpen|true|
+|OpenDrawer|Credit,GiftCard,GiftCertificate|
+|CompanyId|01|
+
+Scenario: Set MaxSearchResults only (Formal Json)
+When the Web API Starts Up
+When the Web UI invoke to set System Configuration from the WebStoreServer with the following fields:
+{"MaxSearchResults":"15"}
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the following values for WebUI should be returned
+|Key|Value|
+|RoundingConsumptionTax|1|
+|TaxRate|5|
+|CredentialExpiry|120|
+|StoreOpenTime|10|
+|MaxLengthOfOperatorNo|8|
+|NumberOfPasscodeDigits|3|
+|CredentialCookiesExpiry|144|
+|DefaultLanguage|en|
+|MaxTransactionCount|99999|
+|MerchantPassword|1234567890|
+|MerchatnId|2S699920000000|
+|PassPhrase|passphrase|
+|SecurityPhrase|security|
+|SignlessThreshold|10000|
+|DiscountInputMethod|PRM_DISCOUNT_BUTTONS|
+|InStoreParam1|02,10|
+|InStoreParam2|20,10|
+|InStoreParam3|21,10|
+|InStoreParam4|22,10|
+|InStoreParam5|23,10|
+|InStoreParam6|24,10|
+|InStoreParam7|25,10|
+|InStoreParam8|26,10|
+|InStoreParam9|27,10|
+|InStoreParam10|28,6|
+|InStoreParam11|29,5|
+|Flag|true|
+|KeyValue|11111111111111111111111111111111|
+|BadgeCountType|1|
+|DisableItemConsolidation|true|
+|MaxSearchResults|15|
+|CustomerTier|Disabled|
+|LoginBehavior|0|
+|CredentialDayLeftWarning|0|
+|PricingType|0|
+|Method|Cash|
+|Category|fantamiliar|
+|Range1|50000,1000000,200|
+|Range2|1000001,2000000,400|
+|Range3|2000001,3000000,600|
+|Range4|3000001,5000000,1000|
+|Range5|5000001,10000000,2000|
+|Range6|10000001,20000000,4000|
+|Range7|20000001,30000000,6000|
+|Range8|30000001,50000000,10000|
+|Range9|50000001,100000000,20000|
+|Range10|100000001,UNLIMITED,40000|
+|Drawer|0|
+|Synchronization|enabled|
+|TimeDifference|60|
+|DrawerAutoOpen|true|
+|OpenDrawer|Credit,GiftCard,GiftCertificate|
+|CompanyId|01|
+
+Scenario: Set MaxSearchResults only (natural JSON Notation)
+When the Web API Starts Up
+When the Web UI invoke to set System Configuration from the WebStoreServer with the following fields:
+{"MaxSearchResults":20}
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the following values for WebUI should be returned
+|Key|Value|
+|RoundingConsumptionTax|1|
+|TaxRate|5|
+|CredentialExpiry|120|
+|StoreOpenTime|10|
+|MaxLengthOfOperatorNo|8|
+|NumberOfPasscodeDigits|3|
+|CredentialCookiesExpiry|144|
+|DefaultLanguage|en|
+|MaxTransactionCount|99999|
+|MerchantPassword|1234567890|
+|MerchatnId|2S699920000000|
+|PassPhrase|passphrase|
+|SecurityPhrase|security|
+|SignlessThreshold|10000|
+|DiscountInputMethod|PRM_DISCOUNT_BUTTONS|
+|InStoreParam1|02,10|
+|InStoreParam2|20,10|
+|InStoreParam3|21,10|
+|InStoreParam4|22,10|
+|InStoreParam5|23,10|
+|InStoreParam6|24,10|
+|InStoreParam7|25,10|
+|InStoreParam8|26,10|
+|InStoreParam9|27,10|
+|InStoreParam10|28,6|
+|InStoreParam11|29,5|
+|Flag|true|
+|KeyValue|11111111111111111111111111111111|
+|BadgeCountType|1|
+|DisableItemConsolidation|true|
+|MaxSearchResults|20|
+|CustomerTier|Disabled|
+|LoginBehavior|0|
+|CredentialDayLeftWarning|0|
+|PricingType|0|
+|Method|Cash|
+|Category|fantamiliar|
+|Range1|50000,1000000,200|
+|Range2|1000001,2000000,400|
+|Range3|2000001,3000000,600|
+|Range4|3000001,5000000,1000|
+|Range5|5000001,10000000,2000|
+|Range6|10000001,20000000,4000|
+|Range7|20000001,30000000,6000|
+|Range8|30000001,50000000,10000|
+|Range9|50000001,100000000,20000|
+|Range10|100000001,UNLIMITED,40000|
+|Drawer|0|
+|Synchronization|enabled|
+|TimeDifference|60|
+|DrawerAutoOpen|true|
+|OpenDrawer|Credit,GiftCard,GiftCertificate|
+|CompanyId|01|
+
+Scenario: SetAll System Configuration
+When the Web API Starts Up
+When the Web UI invoke to set System Configuration from the WebStoreServer with the following fields:
+{"TaxRounding":"2", "CredentialExpiry":"160", "TaxRate":"10", "CredentialCookiesExpiry": "180", "NumberOfPasscodeDigits": "16",
+ "MaxLengthOfOperatorNo" : "23", "DefaultLanguage": "ja", "StoreOpenTime": "12", "MaxTransactionCount":"88888",
+"MerchantPassword":"0987654321", "MerchatnId":"2S699921111111", "PassPhrase":"phrasepass", "SecurityPhrase":"security123",
+ "SignlessThreshold":"90000","DiscountInputMethod":"PRM_DISCOUNT_BUTTONS","InStoreParam1":"03,11", "InStoreParam2":"30,11", "InStoreParam3":"31,11", "InStoreParam4":"32,11",
+ "InStoreParam5":"33,11", "InStoreParam6":"34,11", "InStoreParam7":"35,11", "InStoreParam8":"36,11", "InStoreParam9":"37,11",
+ "InStoreParam10":"38,11", "InStoreParam11":"39,11", "Flag":"false", "KeyValue":"333333333333333333333333333333", "BadgeCountType": "7", "DisableItemConsolidation":"false",
+ "CustomerTier":"Enabled","LoginBehavior":3,"CredentialDayLeftWarning":6, "Drawer":0,"Synchronization":"enabled","DrawerAutoOpen":"true","OpenDrawer":"Credit,GiftCard,GiftCertificate","CompanyId":"01"}
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the following values for WebUI should be returned
+|Key|Value|
+|RoundingConsumptionTax|2|
+|TaxRate|10|
+|CredentialExpiry|160|
+|StoreOpenTime|12|
+|MaxLengthOfOperatorNo|23|
+|NumberOfPasscodeDigits|16|
+|CredentialCookiesExpiry|180|
+|DefaultLanguage|ja|
+|MaxTransactionCount|88888|
+|MerchantPassword|0987654321|
+|MerchatnId|2S699921111111|
+|PassPhrase|phrasepass|
+|SecurityPhrase|security123|
+|SignlessThreshold|90000|
+|DiscountInputMethod|PRM_DISCOUNT_BUTTONS|
+|InStoreParam1|03,11|
+|InStoreParam2|30,11|
+|InStoreParam3|31,11|
+|InStoreParam4|32,11|
+|InStoreParam5|33,11|
+|InStoreParam6|34,11|
+|InStoreParam7|35,11|
+|InStoreParam8|36,11|
+|InStoreParam9|37,11|
+|InStoreParam10|38,11|
+|InStoreParam11|39,11|
+|Flag|false|
+|KeyValue|333333333333333333333333333333|
+|BadgeCountType|7|
+|DisableItemConsolidation|false|
+|MaxSearchResults|20|
+|CustomerTier|Enabled|
+|LoginBehavior|3|
+|CredentialDayLeftWarning|6|
+|PricingType|0|
+|Method|Cash|
+|Category|fantamiliar|
+|Range1|50000,1000000,200|
+|Range2|1000001,2000000,400|
+|Range3|2000001,3000000,600|
+|Range4|3000001,5000000,1000|
+|Range5|5000001,10000000,2000|
+|Range6|10000001,20000000,4000|
+|Range7|20000001,30000000,6000|
+|Range8|30000001,50000000,10000|
+|Range9|50000001,100000000,20000|
+|Range10|100000001,UNLIMITED,40000|
+|Drawer|0|
+|Synchronization|enabled|
+|TimeDifference|60|
+|DrawerAutoOpen|true|
+|OpenDrawer|Credit,GiftCard,GiftCertificate|
+|CompanyId|01|

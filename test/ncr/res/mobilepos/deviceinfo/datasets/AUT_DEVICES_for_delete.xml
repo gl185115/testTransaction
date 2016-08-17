@@ -1,0 +1,30 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="AUT_DEVICES">
+    	<column>storeid</column>
+        <column>terminalid</column>       
+        <column>state</column>
+        <column>lastactivetime</column>  
+        <row>
+        	<value>000031</value>
+            <value>1111</value>            
+            <value>0</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>           
+                  
+        </row>  
+        <row>
+        	<value>000031</value>
+            <value>2222</value>           
+            <value>0</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>            
+                   
+        </row>
+        <row>
+        	<value>000001</value>
+            <value>1234</value>            
+            <value>0</value>
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>            
+                 
+        </row>        
+    </table>    
+</dataset>

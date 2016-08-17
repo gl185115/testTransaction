@@ -1,0 +1,55 @@
+Scenario: Get a specific Signature Request transaction (CAInfo json with natural notation)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I get a signature request data with storeid{000031}, queue{4321}, workstationid{1234}, sequencenumber{9876}, businessdate{2012-12-12}
+Then resultcode should be {0}
+Then workstationID should be {1234}
+Then retailStoreId should be {000031}
+Then sequenceNumber should be {9876}
+Then queueId should be {4321}
+Then CAInfo should be:
+|ApprovalNo	|TimeOfUse		|ShopName		|SlipNo	|CardNo				|ExpireDate	|BusinessDivision	|MerchandiseCode|CardCompanyCode|CardCompanyName|PaymentDivision|InstallmentAmount	|NumberOfBonuses|Sum		|TaxAndPostage	|RomanName		|Sign|
+|1234567	|20120308083359	|testshopname	|12345	|999999XXXXXX9999	|1213		|1					|1234			|1234567890a	|JCB			|10				|1.0				|0				|123456.0	|5.0			|test roman name|S|
+
+Scenario: Get a specific Signature Request transaction (CAInfo json with mapped notation)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I get a signature request data with storeid{000031}, queue{4321}, workstationid{1234}, sequencenumber{9877}, businessdate{2012-12-12}
+Then resultcode should be {0}
+Then workstationID should be {1234}
+Then retailStoreId should be {000031}
+Then sequenceNumber should be {9877}
+Then queueId should be {4321}
+Then CAInfo should be:
+|ApprovalNo	|TimeOfUse		|ShopName		|SlipNo	|CardNo				|ExpireDate	|BusinessDivision	|MerchandiseCode|CardCompanyCode|CardCompanyName|PaymentDivision|InstallmentAmount	|NumberOfBonuses|Sum		|TaxAndPostage	|RomanName		|Sign|
+|1234568	|20120308083359	|testshopname	|12346	|999999XXXXXX9999	|1213		|1					|1234			|1234567890a	|JCB			|10				|1.0				|0				|123456.0	|5.0			|test roman name|S|
+
+Scenario: Get a specific Signature Request transaction (CAInfo already processed)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I get a signature request data with storeid{000031}, queue{4321}, workstationid{1236}, sequencenumber{9801}, businessdate{2012-12-12}
+Then resultcode should be {202}
+
+Scenario: Get a specific Signature Request transaction (different transaction date)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I get a signature request data with storeid{000031}, queue{4321}, workstationid{1235}, sequencenumber{9878}, businessdate{2012-12-12}
+Then resultcode should be {200}
+
+Scenario: Get a specific Signature Request transaction (transaction in progress)
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I get a signature request data with storeid{000031}, queue{4321}, workstationid{1235}, sequencenumber{9879}, businessdate{2012-12-12}
+Then resultcode should be {201}
+
+Scenario: Invalid BusinessDate
+Given sample data {TXL_EXTERNAL_CA_REQ_Master} data in database Master
+Given sample data {TXL_EXTERNAL_CA_REQ_Transaction} data in database Transaction
+Given a QueueSignature resource
+When I get a signature request data with storeid{000031}, queue{4321}, workstationid{1235}, sequencenumber{9879}, businessdate{2012-13-13}
+Then resultcode should be {206}

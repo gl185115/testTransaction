@@ -1,0 +1,268 @@
+Scenario: Get All Configuration with empty CustomerTier in the database {Test to Success}
+Given a {complete} batch of values for System Configuration named PRM_SYSTEM_CONFIG_SUCCESS.xml
+Given an CustomerTier Table {PRM_CUSTOMER_TIER_EMPTY.xml}
+When the Web API Starts Up
+Then the Servlet Context should have the values
+|Category        |Key                    |Value                                                |Description|
+|Pricing         |RoundingConsumptionTax |1                                                    |The Rounding flag for computing Tax|
+|Pricing         |TaxRate                |5                                                    |The Tax rate|
+|Credential      |CredentialExpiry       |120                                                  |The expiry duration for credential (units in hours).|
+|NetworkReceipt  |EmailAddress           |postmaster@res.ncr.local                             |Email Address of Sender|
+|NetworkReceipt  |Port                   |25                                                   |Port used for communication with Mail Server|
+|NetworkReceipt  |EmailSubject           |Receipt of Transaction No. %s                        |The Subject of the Email (use to edit the Subject of the email)|
+|Journalization  |BusinessDateComputeFlag|true                                                 |Flag that tells how to get the End of Day Bussiness Date. If true by Switchtime else MST_BIZDAY|
+|Journalization  |SwitchTime             |1:00am                                               |The switch time needed for Bussiness Date computation|
+|Report          |StoreOpenTime          |10                                                   |The border line of sales reports|
+|Credential      |MaxLengthOfOperatorNo  |8                                                    |Maximum number for Operator digit|
+|Credential      |NumberOfPasscodeDigits |3                                                    |Exact Passcode digits|
+|Credential      |CredentialCookiesExpiry|144                                                  |Set expiration duration for the cookies used in credential|
+|Credential      |LoginBehavior          |1                                                    |The flag which tells the login behavior operation for MobilePOS(0:General Version / 1:Spart Compatible)|
+|Credential      |CredentialDayLeftWarning|7                                                   |The day which starts the display of a login warning message. (The days to the expiration date are set.|
+|Language        |DefaultLanguage        |en                                                   |Set the language Japanese(ja)/Englis(en)|
+|SignatureCapture|SecurityPhrase         |security                                             |SecurityPhrase|
+|SignatureCapture|MerchantPassword       |1234567890                                           |Password for Merchant in NTTD|
+|SignatureCapture|MerchatnId             |2S699920000000                                       |ID for Merchant in NTTD|
+|SignatureCapture|PassPhrase             |passphrase                                           |Passphrase|
+|Pricing         |DiscountInputMethod    |PRM_DISCOUNT_BUTTONS                                 |Table name which contains discount button parameters|
+|Pricing         |InStoreParam1          |02,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam2          |20,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam3          |21,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam4          |22,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam5          |23,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam6          |24,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam7          |25,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam8          |26,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam9          |27,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam10         |28,6                                                 |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam11         |29,5                                                 |Prefix, SKU-Digits; The parameter of in-store label|
+|AESKey          |Flag                   |true                                                 |a flag to determine where to get the AESKey Value|
+|AESKey          |KeyValue               |11111111111111111111111111111111                     |a value for the AESKey|
+|Cart            |BadgeCountType         |1                                                    |Configuration for badge count.|
+|Pricing         |PricingType            |0                                                    |Pricing type 0, 1, 2          |
+|Payment         |Method                 |Cash                                                 |The payment method to be used in set.|
+|point           |Category               |fantamiliar                                          |Point Category|
+|DocumentaryTax	 |Range1	             |50000,1000000,200										|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range2				 |1000001,2000000,400									|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range3				 |2000001,3000000,600									|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range4				 |3000001,5000000,1000									|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range5				 |5000001,10000000,2000									|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range6				 |10000001,20000000,4000								|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range7				 |20000001,30000000,6000								|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range8				 |30000001,50000000,10000								|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range9				 |50000001,100000000,20000								|From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax	 |Range10				 |100000001,UNLIMITED,40000								|From, To, Tax-amount; The target is the net sales total without tax|
+|Till        	 |Drawer				 |0    							                        |The option of opening Drawer (NULL,0=enabled/1-disabled)			|
+|TOD        	 |Synchronization		 |enabled  						                        |The value whether to perform "TOD" (Enabled/Disabled)				|
+|TOD        	 |TimeDifference		 |60    						                        |The threshold value(second) of the difference of time with the server which takes out warning to a screen|
+|Payment       	 |DrawerAutoOpen		 |true 							                        |"TRUE" ... A drawer is opened automatically "FALSE" ... A drawer is opened manually|
+|Payment       	 |OpenDrawer			 |Credit,GiftCard,GiftCertificate                       |Credit,GiftCard,GiftCertificate|
+|UrlConfig		 |TransactionSearch	 	 |http://transactionsearch.com							|Transaction Search URL|
+|UrlConfig		 |Report				 |http://report.com										|Report URL|
+|UrlConfig		 |TransactionQueue		 |http://transactionqueue.com							|Transaction Queue URL|
+|UrlConfig		 |Layaway				 |http://layaway.com									|Layaway URL|
+|UrlConfig		 |GiftInterface		 	 |http://giftinterface.com								|Gift Interface URL|
+|UrlConfig		 |CatalogImage		 	 |http://catalogimage.com								|Catalog Image URL|
+|UrlConfig		 |TransactionSearch_Training	|http://transactionsearchtraining.com			|Transaction Search Training URL|
+|UrlConfig		 |Report_Training		 |http://reporttraining.com								|Report Training URL|
+|UrlConfig		 |TransactionQueue_Training 	|http://transactionqueuetraining.com			|Transaction Queue Training URL|
+|UrlConfig		 |Layaway_Training		 |http://layawaytraining.com							|Layaway Training URL|
+|UrlConfig		 |GiftInterface_Training		|http://giftinterfacetraining.com				|Gift Interface Training URL|
+|UrlConfig		 |CatalogImage_Training	 |http://catalogimagetraining.com						|Catalog Image Training URL|
+|Store       	 |CompanyId				 |01							                        |01: Xebio, 02: Victoria|
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the following values for WebUI should be returned
+|Key            |Value  |
+|RoundingConsumptionTax   |1    |
+|TaxRate          |5    |
+|CredentialExpiry     |120  |
+|StoreOpenTime        |10   |
+|MaxLengthOfOperatorNo    |8    |
+|NumberOfPasscodeDigits   |3    |
+|CredentialCookiesExpiry  |144  |
+|DefaultLanguage      |en   |
+|MaxTransactionCount    |99999  |
+|MerchantPassword     |1234567890|
+|MerchatnId         |2S699920000000|
+|PassPhrase         |passphrase|
+|SecurityPhrase       |security|
+|SignlessThreshold          |10000|
+|DiscountInputMethod    |PRM_DISCOUNT_BUTTONS|
+|InStoreParam1        |02,10|
+|InStoreParam2        |20,10|
+|InStoreParam3        |21,10|
+|InStoreParam4        |22,10|
+|InStoreParam5        |23,10|
+|InStoreParam6        |24,10|
+|InStoreParam7        |25,10|
+|InStoreParam8        |26,10|
+|InStoreParam9        |27,10|
+|InStoreParam10       |28,6|
+|InStoreParam11       |29,5|
+|Flag           |true|
+|KeyValue         |11111111111111111111111111111111|
+|BadgeCountType       |1|
+|DisableItemConsolidation |true|
+|MaxSearchResults     |10|
+|CustomerTier       |Disabled|
+|LoginBehavior        |1|
+|CredentialDayLeftWarning |7|
+|PricingType        |0|
+|Category         |fantamiliar|
+|Method           |Cash|
+|Range1           |50000,1000000,200|
+|Range2           |1000001,2000000,400|
+|Range3           |2000001,3000000,600|
+|Range4           |3000001,5000000,1000|
+|Range5           |5000001,10000000,2000|
+|Range6           |10000001,20000000,4000|
+|Range7           |20000001,30000000,6000|
+|Range8           |30000001,50000000,10000|
+|Range9           |50000001,100000000,20000|
+|Range10          |100000001,UNLIMITED,40000|
+|Drawer           |0|
+|Synchronization      |enabled|
+|TimeDifference       |60|
+|DrawerAutoOpen       |true|
+|OpenDrawer         |Credit,GiftCard,GiftCertificate|
+|CompanyId          |01                         |
+Then the following UrlConfig values for UI should be returned:
+|Key            |Value                  |
+|TransactionSearch      |http://transactionsearch.com     |
+|Report           |http://report.com            |
+|TransactionQueue     |http://transactionqueue.com      |
+|Layaway          |http://layaway.com           |
+|GiftInterface        |http://giftinterface.com       |
+|TransactionSearch_Training |http://transactionsearchtraining.com |
+|Report_Training      |http://reporttraining.com        |
+|TransactionQueue_Training  |http://transactionqueuetraining.com  |
+|Layaway_Training     |http://layawaytraining.com       |
+|GiftInterface_Training   |http://giftinterfacetraining.com   |
+|CatalogImage       |http://catalogimage.com        |
+|CatalogImage_Training    |http://catalogimagetraining.com    |
+Then the WebServerGlobals Should have the following JSON Format:
+{"message":null,"numberOfPasscodeDigits":"3","maxLengthOfOperatorNo":"8","defaultLanguage":"en","storeOpenTime":"10","inStoreParam1":"02,10","inStoreParam2":"20,10","inStoreParam3":"21,10","inStoreParam4":"22,10","inStoreParam5":"23,10","inStoreParam6":"24,10","inStoreParam7":"25,10","inStoreParam8":"26,10","inStoreParam9":"27,10","inStoreParam10":"28,6","inStoreParam11":"29,5","flag":"true","keyValue":"11111111111111111111111111111111","badgeCountType":1,"customerTierList":[],"disableItemConsolidation":true,"maxSearchResults":10,"priceIncludeTax":null,"loginBehavior":1,"credentialDayLeftWarning":7,"discountInputMethod":"PRM_DISCOUNT_BUTTONS","pricingType":0,"memberInfoConfig":{"serverUri":"null","corpId":null},"urlConfig":{"transactionSearch":"http://transactionsearch.com","report":"http://report.com","transactionQueue":"http://transactionqueue.com","layaway":"http://layaway.com","giftInterface":"http://giftinterface.com","transactionSearch_Training":"http://transactionsearchtraining.com","report_Training":"http://reporttraining.com","transactionQueue_Training":"http://transactionqueuetraining.com","layaway_Training":"http://layawaytraining.com","giftInterface_Training":"http://giftinterfacetraining.com","catalogImage":"http://catalogimage.com","catalogImage_Training":"http://catalogimagetraining.com"},"drawer":"0","drawerAutoOpen":"true","openDrawer":"Credit,GiftCard,GiftCertificate","maxSuspendable":"20","companyId":"01","todUri":null,"todConnectionTimeout":1000,"todReadTimeout":1000,"threshold":"10000","todSynchronization":"enabled","todTimeDifference":"60","securityphrase":"security","merchantpassword":"1234567890","maxtransactioncount":"99999","numberofpasscodedigits":"3","maxlengthofoperatorno":"8","credentialexpiry":"120","credentialcookiesexpiry":"144","docTaxRange2":"1000001,2000000,400","docTaxRange3":"2000001,3000000,600","docTaxRange4":"3000001,5000000,1000","docTaxRange5":"5000001,10000000,2000","docTaxRange6":"10000001,20000000,4000","docTaxRange7":"20000001,30000000,6000","docTaxRange8":"30000001,50000000,10000","docTaxRange9":"50000001,100000000,20000","docTaxRange10":"100000001,UNLIMITED,40000","passphrase":"passphrase","merchatnid":"2S699920000000","taxrate":"5","taxrounding":"1","customertier":"Disabled","docTaxRange1":"50000,1000000,200","paymentMethod":"Cash","ncrwssresultCode":0,"ncrwssextendedResultCode":0}
+
+Scenario: Get All Configuration having CustomerTier values in the database {Test to Success}
+Given an CustomerTier Table {PRM_CUSTOMER_TIER_COMPLETE.xml}
+When the Web API Starts Up
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the WebServerGlobals Should have the following JSON Format:
+{"message":null,"numberOfPasscodeDigits":"3","maxLengthOfOperatorNo":"8","defaultLanguage":"en","storeOpenTime":"10","inStoreParam1":"02,10","inStoreParam2":"20,10","inStoreParam3":"21,10","inStoreParam4":"22,10","inStoreParam5":"23,10","inStoreParam6":"24,10","inStoreParam7":"25,10","inStoreParam8":"26,10","inStoreParam9":"27,10","inStoreParam10":"28,6","inStoreParam11":"29,5","flag":"true","keyValue":"11111111111111111111111111111111","badgeCountType":1,"customerTierList":[{"id":"None","displayName":"Not Selected"},{"id":"Family","displayName":"Family"},{"id":"Store","displayName":"Cashier"},{"id":"Store","displayName":"Manager"}],"disableItemConsolidation":true,"maxSearchResults":10,"priceIncludeTax":null,"loginBehavior":1,"credentialDayLeftWarning":7,"discountInputMethod":"PRM_DISCOUNT_BUTTONS","pricingType":0,"memberInfoConfig":{"serverUri":"null","corpId":null},"urlConfig":{"transactionSearch":"http://transactionsearch.com","report":"http://report.com","transactionQueue":"http://transactionqueue.com","layaway":"http://layaway.com","giftInterface":"http://giftinterface.com","transactionSearch_Training":"http://transactionsearchtraining.com","report_Training":"http://reporttraining.com","transactionQueue_Training":"http://transactionqueuetraining.com","layaway_Training":"http://layawaytraining.com","giftInterface_Training":"http://giftinterfacetraining.com","catalogImage":"http://catalogimage.com","catalogImage_Training":"http://catalogimagetraining.com"},"drawer":"0","drawerAutoOpen":"true","openDrawer":"Credit,GiftCard,GiftCertificate","maxSuspendable":"20","companyId":"01","todUri":null,"todConnectionTimeout":1000,"todReadTimeout":1000,"threshold":"10000","passphrase":"passphrase","merchatnid":"2S699920000000","taxrate":"5","taxrounding":"1","customertier":"Disabled","docTaxRange1":"50000,1000000,200","paymentMethod":"Cash","todSynchronization":"enabled","todTimeDifference":"60","securityphrase":"security","merchantpassword":"1234567890","maxtransactioncount":"99999","numberofpasscodedigits":"3","maxlengthofoperatorno":"8","credentialexpiry":"120","credentialcookiesexpiry":"144","docTaxRange2":"1000001,2000000,400","docTaxRange3":"2000001,3000000,600","docTaxRange4":"3000001,5000000,1000","docTaxRange5":"5000001,10000000,2000","docTaxRange6":"10000001,20000000,4000","docTaxRange7":"20000001,30000000,6000","docTaxRange8":"30000001,50000000,10000","docTaxRange9":"50000001,100000000,20000","docTaxRange10":"100000001,UNLIMITED,40000","ncrwssresultCode":0,"ncrwssextendedResultCode":0}
+
+Scenario: Get All Configuration Having NULL Values
+Given a {complete} batch of values for System Configuration named PRM_SYSTEM_CONFIG_SUCCESS.xml
+Given a null values of {PRM_SYSTEM_CONFIG_NULLS.xml}
+When the Web API Starts Up
+Then the Servlet Context should have the values
+|Category        |Key                    |Value                                                |Description|
+|Pricing         |RoundingConsumptionTax |1                                                    |The Rounding flag for computing Tax|
+|Pricing         |TaxRate                |5                                                    |The Tax rate|
+|Credential      |CredentialExpiry       |120                                                  |The expiry duration for credential (units in hours).|
+|NetworkReceipt  |EmailAddress           |postmaster@res.ncr.local                             |Email Address of Sender|
+|NetworkReceipt  |Port                   |25                                                   |Port used for communication with Mail Server|
+|NetworkReceipt  |EmailSubject           |Receipt of Transaction No. %s                        |The Subject of the Email (use to edit the Subject of the email)|
+|Journalization  |BusinessDateComputeFlag|true                                                 |Flag that tells how to get the End of Day Bussiness Date. If true by Switchtime else MST_BIZDAY|
+|Journalization  |SwitchTime             |1:00am                                               |The switch time needed for Bussiness Date computation|
+|Report          |StoreOpenTime          |10                                                   |The border line of sales reports|
+|Credential      |MaxLengthOfOperatorNo  |8                                                    |Maximum number for Operator digit|
+|Credential      |NumberOfPasscodeDigits |3                                                    |Exact Passcode digits|
+|Credential      |CredentialCookiesExpiry|144                                                  |Set expiration duration for the cookies used in credential|
+|Credential      |LoginBehavior          |1                                                    |The flag which tells the login behavior operation for MobilePOS(0:General Version / 1:Spart Compatible)|
+|Credential      |CredentialDayLeftWarning|7                                                   |The day which starts the display of a login warning message. (The days to the expiration date are set.|
+|Language        |DefaultLanguage        |en                                                   |Set the language Japanese(ja)/Englis(en)|
+|SignatureCapture|SecurityPhrase         |security                                             |SecurityPhrase|
+|SignatureCapture|MerchantPassword       |1234567890                                           |Password for Merchant in NTTD|
+|SignatureCapture|MerchatnId             |2S699920000000                                       |ID for Merchant in NTTD|
+|SignatureCapture|PassPhrase             |passphrase                                           |Passphrase|
+|Pricing         |DiscountInputMethod    |PRM_DISCOUNT_BUTTONS                                 |Table name which contains discount button parameters|
+|Pricing         |InStoreParam1          |02,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam2          |20,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam3          |21,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam4          |22,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam5          |23,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam6          |24,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam7          |25,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam8          |26,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam9          |27,10                                                |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam10         |28,6                                                 |Prefix, SKU-Digits; The parameter of in-store label|
+|Pricing         |InStoreParam11         |29,5                                                 |Prefix, SKU-Digits; The parameter of in-store label|
+|AESKey          |Flag                   |true                                                 |a flag to determine where to get the AESKey Value|
+|AESKey          |KeyValue               |11111111111111111111111111111111                     |a value for the AESKey|
+|Cart            |BadgeCountType         |1                                                    |Configuration for badge count.|
+|Pricing         |PricingType            |0                                                    |Pricing type 0, 1, 2          |
+|Payment         |Method                 |Cash                                                 |The payment method to be used in set.|
+|point           |Category               |fantamiliar                                          |Point Category|
+|DocumentaryTax  |Range1               |50000,1000000,200                   |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range2         |1000001,2000000,400                 |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range3         |2000001,3000000,600                 |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range4         |3000001,5000000,1000                  |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range5         |5000001,10000000,2000                 |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range6         |10000001,20000000,4000                |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range7         |20000001,30000000,6000                |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range8         |30000001,50000000,10000               |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range9         |50000001,100000000,20000                |From, To, Tax-amount; The target is the net sales total without tax|
+|DocumentaryTax  |Range10        |100000001,UNLIMITED,40000               |From, To, Tax-amount; The target is the net sales total without tax|
+|Till          |Drawer         |0                                       |The option of opening Drawer (NULL,0=enabled/1-disabled)     |
+|TOD           |Synchronization    |null                                      |The value whether to perform "TOD" (Enabled/Disabled)        |
+|TOD           |TimeDifference     |null                                        |The threshold value(second) of the difference of time with the server which takes out warning to a screen|
+|Payment         |DrawerAutoOpen     |true                                      |"TRUE" ... A drawer is opened automatically "FALSE" ... A drawer is opened manually|
+|Payment         |OpenDrawer       |Credit,GiftCard,GiftCertificate                       |Credit,GiftCard,GiftCertificate|
+|Store         |CompanyId        |01                                      |01: Xebio, 02: Victoria|
+When the Web UI invoke to get System Configuration from the WebStoreServer
+Then the following values for WebUI should be returned
+|Key|Value|
+|RoundingConsumptionTax|1|
+|TaxRate|5|
+|CredentialExpiry|120|
+|StoreOpenTime|10|
+|MaxLengthOfOperatorNo|8|
+|NumberOfPasscodeDigits|3|
+|CredentialCookiesExpiry|144|
+|DefaultLanguage|en|
+|MaxTransactionCount|99999|
+|MerchantPassword|1234567890|
+|MerchatnId|2S699920000000|
+|PassPhrase|passphrase|
+|SecurityPhrase|security|
+|SignlessThreshold|10000|
+|DiscountInputMethod|PRM_DISCOUNT_BUTTONS|
+|InStoreParam1|02,10|
+|InStoreParam2|20,10|
+|InStoreParam3|21,10|
+|InStoreParam4|22,10|
+|InStoreParam5|23,10|
+|InStoreParam6|24,10|
+|InStoreParam7|25,10|
+|InStoreParam8|26,10|
+|InStoreParam9|27,10|
+|InStoreParam10|28,6|
+|InStoreParam11|29,5|
+|Flag|true|
+|KeyValue|11111111111111111111111111111111|
+|BadgeCountType|1|
+|DisableItemConsolidation|true|
+|MaxSearchResults|10|
+|CustomerTier|Disabled|
+|LoginBehavior|1|
+|CredentialDayLeftWarning|7|
+|PricingType|0|
+|Method|Cash|
+|Category|fantamiliar|
+|Range1|50000,1000000,200|
+|Range2|1000001,2000000,400|
+|Range3|2000001,3000000,600|
+|Range4|3000001,5000000,1000|
+|Range5|5000001,10000000,2000|
+|Range6|10000001,20000000,4000|
+|Range7|20000001,30000000,6000|
+|Range8|30000001,50000000,10000|
+|Range9|50000001,100000000,20000|
+|Range10|100000001,UNLIMITED,40000|
+|Drawer|0|
+|Synchronization|null|
+|TimeDifference|null|
+|DrawerAutoOpen|true|
+|OpenDrawer|Credit,GiftCard,GiftCertificate|
+|CompanyId|01|
+Then the WebServerGlobals Should have the following JSON Format:
+{"message":null,"numberOfPasscodeDigits":"3","maxLengthOfOperatorNo":"8","defaultLanguage":"en","storeOpenTime":"10","inStoreParam1":"02,10","inStoreParam2":"20,10","inStoreParam3":"21,10","inStoreParam4":"22,10","inStoreParam5":"23,10","inStoreParam6":"24,10","inStoreParam7":"25,10","inStoreParam8":"26,10","inStoreParam9":"27,10","inStoreParam10":"28,6","inStoreParam11":"29,5","flag":"true","keyValue":"11111111111111111111111111111111","badgeCountType":1,"customerTierList":[{"id":"None","displayName":"Not Selected"},{"id":"Family","displayName":"Family"},{"id":"Store","displayName":"Cashier"},{"id":"Store","displayName":"Manager"}],"disableItemConsolidation":true,"maxSearchResults":10,"priceIncludeTax":null,"loginBehavior":1,"credentialDayLeftWarning":7,"discountInputMethod":"PRM_DISCOUNT_BUTTONS","pricingType":0,"memberInfoConfig":{"serverUri":"null","corpId":null},"urlConfig":{"transactionSearch":"http://transactionsearch.com","report":"http://report.com","transactionQueue":"http://transactionqueue.com","layaway":"http://layaway.com","giftInterface":"http://giftinterface.com","transactionSearch_Training":"http://transactionsearchtraining.com","report_Training":"http://reporttraining.com","transactionQueue_Training":"http://transactionqueuetraining.com","layaway_Training":"http://layawaytraining.com","giftInterface_Training":"http://giftinterfacetraining.com","catalogImage":"http://catalogimage.com","catalogImage_Training":"http://catalogimagetraining.com"},"drawer":"0","drawerAutoOpen":"true","openDrawer":"Credit,GiftCard,GiftCertificate","maxSuspendable":"20","companyId":"01","todUri":null,"todConnectionTimeout":1000,"todReadTimeout":1000,"threshold":"10000","docTaxRange2":"1000001,2000000,400","docTaxRange3":"2000001,3000000,600","docTaxRange4":"3000001,5000000,1000","docTaxRange5":"5000001,10000000,2000","docTaxRange6":"10000001,20000000,4000","docTaxRange7":"20000001,30000000,6000","docTaxRange8":"30000001,50000000,10000","docTaxRange9":"50000001,100000000,20000","docTaxRange10":"100000001,UNLIMITED,40000","passphrase":"passphrase","merchatnid":"2S699920000000","taxrate":"5","taxrounding":"1","customertier":"Disabled","docTaxRange1":"50000,1000000,200","paymentMethod":"Cash","todSynchronization":null,"todTimeDifference":null,"securityphrase":"security","merchantpassword":"1234567890","maxtransactioncount":"99999","numberofpasscodedigits":"3","maxlengthofoperatorno":"8","credentialexpiry":"120","credentialcookiesexpiry":"144","ncrwssresultCode":0,"ncrwssextendedResultCode":0}

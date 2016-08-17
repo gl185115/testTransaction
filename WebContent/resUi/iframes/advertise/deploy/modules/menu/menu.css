@@ -1,0 +1,35 @@
+@CHARSET "UTF-8";
+
+#Menu .TopBar {
+	position: absolute; left: 10px; top: 10px;
+	font-size: 18px;
+}
+
+#Menu .TopBar .Buttons {
+	float: left;
+	margin-right: 20px;
+}
+#Menu .TopBar .Buttons.CollectLogs {
+    position: absolute;
+    left: 904px;
+}
+
+#Menu .TopBar .resButton {
+	float: left;
+	border-radius: 4px;
+	margin: 0px 2px;
+}
+
+#Menu .resCasing { position: absolute; left: 107px; top: 50px; width: 820px; height: 620px; }
+#Menu .resPanel .Message { position: absolute; left: 20px; right: 20px; top: 100px; }
+#Menu .resPanel .Message p {
+	font-size: 24px; line-height: 1.5;
+	text-align: center;
+}
+#Menu .resPanel .BottomLine { position: absolute; bottom: 20px; width: 100%; }
+#Menu .Feedback .resPanel .resButton { position: relative; margin-left: auto; margin-right: auto; }
+#Menu .Question .Buttons { position: relative; margin-left: auto; margin-right: auto; width: 300px; }
+#Menu .Question .Buttons .resButton:nth-child(1) { position: absolute; left: 0px; bottom: 0px; }
+#Menu .Question .Buttons .resButton:nth-child(2) { position: absolute; right: 0px; bottom: 0px; }
+
+/**** end of CSS ****/

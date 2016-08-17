@@ -1,0 +1,92 @@
+Scenario: Successful Import of OPE_MAST_TBL from SPART to WSS
+Given a database table {OPE_MAST_TBL_EMPTY.xml}
+Then OPE_MAST_TBL should have the following rows:
+|empCode|opeCode|password|opeType|opeName|opeKanaName|zipCode|address|telNo|faxNo|secLevel1|secLevel2|subChar1|subChar2|subChar3|insDate|updDate|updAppId|updOpeCode|
+
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   |updappid|updopecode|
+|admin  |111    |111     |1      |Administrator|sample     |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07|19:05:00|          |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   		   |updappid|updopecode|
+|admin  |111    |111     |1      |Administrator|sample     |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {0}
+
+Scenario: Add new row
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   |updappid|updopecode|
+|admin1 |222    |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07|19:05:00|          |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   		   |updappid|updopecode|
+|admin  |111    |111     |1      |Administrator|sample     |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222    |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {0}
+
+Scenario: Update first row
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   |updappid|updopecode|
+|admin  |333    |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07|19:05:00|          |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   		   |updappid|updopecode|
+|admin  |333    |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222    |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {0}
+
+Scenario: Add new row with NULL PK
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   |updappid|updopecode|
+|NULL   |333    |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07|19:05:00|          |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   		   |updappid|updopecode|
+|admin  |333    |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222    |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {-1}
+
+Scenario: Add new row with NULL values except for PK
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   |updappid|updopecode|
+|4444   |NULL   |NULL    |NULL   |NULL         |NULL       |NULL   |NULL   |NULL |NULL |NULL     |NULL          |NULL    |NULL    |NULL    |NULL               |NULL      |NULL    |NULL      |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate   		   |updappid|updopecode|
+|admin  |333    |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222    |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {-1}
+
+Scenario: Add new row with opecode of length 21
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode              |password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate            |updappid|updopecode|
+|4445   |123456789012345678901|        |       |             |           |       |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:11|2013-05-08 01:00:00|        |          |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode              |password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate    	     |updappid|updopecode|
+|admin  |333                  |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222                  |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {-1}
+
+Scenario: Update the last row with ope code of length 21
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode              |password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate            |updappid|updopecode|
+|admin1 |123456789012345678901|        |       |             |           |       |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:11|2013-05-08 01:00:00|        |          |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode              |password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate    	     |updappid|updopecode|
+|admin  |333                  |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222                  |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {-1}
+
+
+Scenario: Successful update of last row
+Given the following data from SPART for OPE_MAST_TBL:
+|empcode|opecode|password|opetype|opename      |opekananame|zipcode|address  |telno  |faxno|seclevel1|seclevel2|subchar1           |subchar2           |subchar3           |insdate            |upddate            |updappid|updopecode|
+|admin1 |123    |123     |0      |Luffy        |Luffy      |1234   |Address 1|009-987|00912|0634     |20531    |2013-05-07 19:05:00|2013-05-07 19:05:00|2013-05-07 19:05:00|2013-05-07 19:05:11|2013-05-08 01:00:00|19:05:00|3333333   |
+When a DB trigger from SPART
+Then OPE_MAST_TBL should have the following rows:
+|empcode|opecode              |password|opetype|opename      |opekananame|zipcode|address|telno|faxno|seclevel1|seclevel2     |subchar1|subchar2|subchar3|insdate            |upddate    	     |updappid|updopecode|
+|admin  |333                  |333     |2      |Guest        |sample4    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+|admin1 |222                  |222     |1      |Administrator|sample2    |9000   |       |     |     |06061    |20131         |        |        |        |2013-05-07 19:05:00|2013-05-07 00:00:00|19:05:00|          |
+Then the resultbase should be {-1}
+

@@ -1,0 +1,53 @@
+Scenario: Email Validates Success (Valid Emails)
+Given an EmailValidator class
+When I validate email address {jd185128@ncr.com}
+Then It should be {valid}
+When I validate email address {jd185128@yahoo.com}
+Then It should be {valid}
+When I validate email address {jd185128-100@yahoo.com}
+Then It should be {valid}
+When I validate email address {jd185128.100@yahoo.com}
+Then It should be {valid}
+When I validate email address {jd185128111@jd185128.com}
+Then It should be {valid}
+When I validate email address {jd185128-100@jd185128.net}
+Then It should be {valid}
+When I validate email address {jd185128.100@jd185128.com.au}
+Then It should be {valid}
+When I validate email address {jd185128@1.com}
+Then It should be {valid}
+When I validate email address {jd185128@gmail.com.com}
+Then It should be {valid}
+When I validate email address {jd185128+100@gmail.com}
+Then It should be {valid}
+When I validate email address {jd185128-100@yahoo-test.com}
+Then It should be {valid}
+
+Scenario: Email Validates Error (Invalid Emails)
+Given an EmailValidator class
+When I validate email address {jd185128}
+Then It should be {invalid}
+When I validate email address {jd185128@.com.my}
+Then It should be {invalid}
+When I validate email address {jd185128123@gmail.a}
+Then It should be {invalid}
+When I validate email address {jd185128123@.com}
+Then It should be {invalid}
+When I validate email address {jd185128123@.com.com}
+Then It should be {invalid}
+When I validate email address {.jd185128@jd185128.com}
+Then It should be {invalid}
+When I validate email address {jd185128()*@gmail.com}
+Then It should be {invalid}
+When I validate email address {jd185128@%*.com}
+Then It should be {invalid}
+When I validate email address {jd185128..2002@gmail.com}
+Then It should be {invalid}
+When I validate email address {jd185128.@gmail.com}
+Then It should be {invalid}
+When I validate email address {jd185128@jd185128@gmail.com}
+Then It should be {invalid}
+When I validate email address {jd185128@gmail.com.1a}
+Then It should be {invalid}
+When I validate email address {}
+Then It should be {invalid}

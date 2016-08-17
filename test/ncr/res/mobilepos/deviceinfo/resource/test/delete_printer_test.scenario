@@ -1,0 +1,59 @@
+Scenario: Test delete printer service 
+Given a Device service
+
+!-- Delete an existing printer; resultcode 0.
+When I delete printer{101} of store{000031}
+Then I should get resultCode 0
+Then the MST_PRINTERINFO database table should have the following row(s):
+  |storeid|printerid|printername       |description			|ipaddress|portnumtcp|portnumudp|status|
+  |000031 |101      |Test Printer 1    |Unit test printer 1|localhost  |0		  |0		|Deleted|
+  |000035 |103      |Test Printer 3    |Unit test printer 3|localhost  |0		  |0		|Active|
+
+!-- Delete a non-existing printer[undefined printer of store]; returns error code.
+When I delete printer{123} of store{000031}
+Then I should get resultCode 222
+Then the MST_PRINTERINFO database table should have the following row(s):
+  |storeid|printerid|printername       |description			|ipaddress|portnumtcp|portnumudp|status|
+  |000031 |101      |Test Printer 1    |Unit test printer 1|localhost  |0		  |0		|Deleted|
+  |000035 |103      |Test Printer 3    |Unit test printer 3|localhost  |0		  |0		|Active|
+
+!-- Delete a non-existing printer [undefined store]; returns error code.
+When I delete printer{123} of store{000033}
+Then I should get resultCode 222
+Then the MST_PRINTERINFO database table should have the following row(s):
+  |storeid|printerid|printername       |description			|ipaddress|portnumtcp|portnumudp|status|
+  |000031 |101      |Test Printer 1    |Unit test printer 1|localhost  |0		  |0		|Deleted|
+  |000035 |103      |Test Printer 3    |Unit test printer 3|localhost  |0		  |0		|Active|
+
+!-- Delete printer invalid parameter printer is null]; returns error code.
+When I delete printer{null} of store{000031}
+Then I should get resultCode 224
+
+!-- Delete printer invalid parameter [printerid is empty]; returns error code.
+When I delete printer{} of store{000031}
+Then I should get resultCode 224
+
+!-- Delete printer invalid parameter [storeid is null]; returns error code.
+When I delete printer{0001} of store{null}
+Then I should get resultCode 224
+
+!-- Delete printer invalid parameter [storeid is empty; returns error code.
+When I delete printer{0001} of store{}
+Then I should get resultCode 224
+
+!-- Delete printer belonging to deleted store; returns 0.  [RES-7161]
+When I delete printer{103} of store{000035}
+Then I should get resultCode 0
+Then the MST_PRINTERINFO database table should have the following row(s):
+  |storeid|printerid|printername       |description			|ipaddress|portnumtcp|portnumudp|status|
+  |000031 |101      |Test Printer 1    |Unit test printer 1|localhost  |0		  |0		|Deleted|
+  |000035 |103      |Test Printer 3    |Unit test printer 3|localhost  |0		  |0		|Deleted|
+
+!-- Delete printer that is already deleted; returns error 222 [RES-6460]
+When I delete printer{101} of store{000031}
+Then I should get resultCode 222
+Then the MST_PRINTERINFO database table should have the following row(s):
+  |storeid|printerid|printername       |description			|ipaddress|portnumtcp|portnumudp|status|
+  |000031 |101      |Test Printer 1    |Unit test printer 1|localhost  |0		  |0		|Deleted|
+  |000035 |103      |Test Printer 3    |Unit test printer 3|localhost  |0		  |0		|Deleted|
+

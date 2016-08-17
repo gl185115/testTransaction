@@ -1,0 +1,214 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="TXU_TOTAL_GUESTDPTDAY">
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>terminalid</column>
+        <column>Operatorcode</column> 
+        <column>summarydateid</column>
+        <column>dpt</column>
+        <column>timezonecode</column>
+        <column>SalesGuestCnt</column>
+        <column>ReturnGuestCnt</column>
+        <column>VoidGuestCnt</column> 
+        <row>
+            <value>000000000000</value>
+            <value>000031</value>
+            <value>0020</value>
+			<value>999</value>
+            <value><![CDATA[2011-08-08]]></value>
+            <value>0161</value>
+            <value><![CDATA[10]]></value> 
+            <value><![CDATA[5]]></value>
+            <value><![CDATA[5]]></value>
+            <value><![CDATA[5]]></value>
+        </row> 
+        <row>
+            <value>000000000000</value>
+            <value>000031</value>
+            <value>0020</value>
+			<value>999</value>
+            <value><![CDATA[2011-08-08]]></value>
+            <value>0191</value>
+            <value><![CDATA[10]]></value> 
+            <value><![CDATA[2]]></value>
+            <value><![CDATA[4]]></value>
+            <value><![CDATA[1]]></value>
+        </row> 
+    </table> 
+	<table name="TXU_TOTAL_ACNTDAY">
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>terminalid</column>
+        <column>summarydateid</column>
+        <column>timezonecode</column>
+        <column>dpt</column>
+        <column>line</column>
+        <column>class</column>
+        <column>Operatorcode</column> 
+        <column>SalesItemCnt</column>
+        <column>SalesCostAmt</column>
+        <column>SalesSalesAmt</column>
+        <column>ReturnItemCnt</column>
+        <column>ReturnCostAmt</column>
+        <column>ReturnSalesAmt</column>
+        <column>VoidItemCnt</column> 
+        <column>VoidCostAmt</column>
+        <column>VoidSalesAmt</column>  
+        <column>DcItemCnt</column> 
+        <column>DcCostAmt</column> 
+        <column>DcSalesAmt</column> 
+        <row>
+            <value>000000000000</value>
+            <value>000031</value>
+            <value>0020</value>
+            <value><![CDATA[2011-08-08]]></value>
+            <value><![CDATA[10]]></value> 
+            <value>0161</value>
+            <value>0161</value>
+            <value>000004</value>
+            <value>999</value>
+            <value><![CDATA[8]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[999]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+            <value><![CDATA[0]]></value>
+        </row> 
+    </table> 
+	<table name="TXU_TOTAL_FINANCIAL">
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>terminalid</column>
+        <column>accountcode</column>
+        <column>accountsubcode</column>
+        <column>summarydateid</column>
+        <column>debtor</column>
+        <column>creditor</column>
+        <row>
+            <value>000000000000</value>
+            <value>000031</value>
+            <value>0020</value>
+            <value>0013</value>
+            <value>NR</value>
+            <value><![CDATA[2011-08-08]]></value>
+            <value><![CDATA[1111]]></value>
+            <value><![CDATA[888]]></value>
+        </row> 
+    </table>
+	<table name="TXU_TOTAL_DRAWER_FINANCIAL">
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>printerid</column>
+        <column>accountcode</column>
+        <column>accountsubcode</column>
+        <column>summarydateid</column>
+        <column>debtor</column>
+        <column>creditor</column>
+        <row>
+            <value>000000000000</value>
+            <value>000031</value>
+            <value>1111</value>
+            <value>0013</value>
+            <value>NR</value>
+            <value><![CDATA[2011-08-08]]></value>
+            <value><![CDATA[1111]]></value>
+            <value><![CDATA[888]]></value>
+        </row> 
+    </table>
+	<table name="MST_USER_CREDENTIALS">
+        <column>operatorno</column>
+        <column>passcode</column>
+		<column>role</column>
+        <column>operatorname</column>
+        <column>operatortype</column> 
+        <column>lastactivetime</column>
+        <column>terminalid</column>
+        <column>upddate</column>
+        <row>
+            <value>111</value>
+            <value>111</value>
+			<value>NCR</value>
+            <value>Operator1</value>
+            <value><![CDATA[1]]></value> 
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+            <value>1111</value>
+            <value><![CDATA[2011-04-06 21:35:08.497]]></value>
+        </row> 
+        <row>
+            <value>222</value>
+            <value>222</value>
+			<value>NCR</value>
+            <value>Operator2</value>
+            <value><![CDATA[1]]></value> 
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+            <value>1111</value>
+            <value><![CDATA[2011-04-06 21:35:08.497]]></value>
+        </row> 
+        <row>
+            <value>999</value>
+            <value>999</value>
+			<value>NCR</value>
+            <value>Tester</value>
+            <value><![CDATA[1]]></value> 
+            <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+            <value>1111</value>
+            <value><![CDATA[2011-04-06 21:35:08.497]]></value>
+        </row> 
+    </table> 
+	<table name="AUT_DEVICES">
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>terminalid</column>
+        <column>uuid</column>
+        <column>udid</column>     
+        <column>state</column>   
+        <row>
+            <value>0002</value>
+            <value>0002</value>
+            <value>1111</value>
+            <value>aaaaaaaaa</value>
+            <value>aaaaaaaaa</value>
+            <value><![CDATA[1]]></value>        
+        </row>
+    </table> 
+    <table name="MST_STOREINFO">
+        <column>corpid</column>
+        <column>storeid</column>
+        <column>storename</column>
+        <column>address</column>
+        <column>tel</column>
+        <column>url</column>
+        <column>salesspacename</column>
+        <column>eventname</column>
+        <column>ads</column>
+        <row>
+            <value>0002</value>
+            <value>000031</value>
+            <value>NCR Plaza</value>
+            <value>000-0000 City Street 00-00</value>
+            <value>00-0000-0000</value>
+            <value>http://www.ncr.co.jp</value>
+            <value>Sales Space Name</value>
+            <value>Event Name</value>
+            <value>sentence1|sentence2|sentence3</value>
+        </row>
+        <row>
+            <value>0002</value>
+            <value>0001</value>
+            <value>NCR Plaza2</value>
+            <value>111-1111 City Street 11-11</value>
+            <value>11-1111-1111</value>
+            <value>http://www.ncr.co.jp</value>
+            <value>Sales Space Name</value>
+            <value>Event Name</value>
+            <value>sentence1|sentence2|sentence3</value>
+        </row>
+    </table>
+</dataset>

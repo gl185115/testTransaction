@@ -1,0 +1,368 @@
+
+<!-- <div class="TabButton" data-ng-show="isShowAllClearBtn"> -->
+<!-- <div class="TabButton">
+	<div class="resButton lower W98xH38 silver ClearTabItems"
+		data-ng-click="clearTabAllItems()">
+		<p data-ng-bind-html="'EditLayout.ClearTabItems' |resPhrase:context"></p>
+	</div>
+</div> -->
+
+<div class="Layout">
+
+	<div class="Categories">
+		<div class="Category"
+			data-ng-repeat="category in model.pickList.categories track by $index"
+			data-ng-class="{selected:indexCategory == $index}"
+			data-res-touch="selectList($index)">
+			<div class="innerBox">
+				<p data-ng-bind-html="category | resPhraseInLine | resConvertLF "></p>
+			</div>
+		</div>
+	</div>
+	<div class="Categories" data-ng-swipe-right="minimize()">
+		<div class="Category"
+			data-ng-repeat="category in model.pickList.categories track by $index"
+			data-ng-class="{selected: indexCategory == $index}"
+			data-res-touch="selectCategory($index)">
+			<div class="innerBox">
+				<p data-ng-bind-html="category | resPhraseInLine  | resConvertLF"></p>
+			</div>
+		</div>
+	</div>
+
+	<div class="List"
+		data-ng-repeat="list in model.pickList.layout track by $index"
+		data-ng-show="indexCategory == $index">
+		<div id="wrapperPickList{{$index}}" class="wrapperPickList">
+			<div class="scroller">
+				<div class="Column" data-ng-repeat="column in list track by $index">
+					<div class="PickButton" data-ng-repeat="item in column track by $index"
+						data-res-click="selectPosition($parent.$parent.$index, $parent.$index, $index)">
+						<div class="InnerBox" data-ng-show="item.background == 'image' && item.picture">
+							<div class="ImageBox">
+								<img data-ng-src="{{item.picture?folder + item.picture+'?'+model.editor.Random:''}}" />
+							</div>
+							<div class="LabelBox">
+								<p data-ng-bind-html="item.description | resPhraseInLine | resConvertLF| resFormatStripTxt : 12"></p>
+							</div>
+						</div>
+						<div class="InnerBox" data-ng-show="item.background == 'image' && !item.picture">
+							<div class="ImageBox">
+								<p data-ng-bind-html="(item.itemId)?'EditLayout.ComingSoon':'EditLayout.Unused' |resPhrase:context"></p>
+							</div>
+							<div class="LabelBox">
+								<p data-ng-bind-html="item.description | resPhraseInLine| resConvertLF"></p>
+							</div>
+						</div>
+						<div class="InnerBox" data-ng-show="item.background != 'image'" data-ng-class="item.background">
+							<p data-ng-bind-html="item.description | resPhraseInLine | resConvertLF"></p>
+						</div>
+						<div class="Badge" data-ng-show="item.count" data-ng-class="{ plural:item.count > 1 }">
+							<p data-ng-bind-html-="item.count | resNumber"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- <div class="MountItem resPopup" data-ng-show="dialog == 'mountItem'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+
+			<div class="Guide">
+				<p data-ng-bind-html="'EditLayout.Guide'|resPhrase:context"></p>
+			</div>
+
+			<div class="List">
+				<div id="wrapperMount">
+					<div class="scroller">
+						<table>
+							<tr class="Line" data-ng-repeat="item in items track by $index"
+								data-ng-class="{selected: $index == indexItem}"
+								data-ng-click="selectItem($index)">
+
+								<td data-ng-show="item.itemId"><p data-ng-bind-html="item.itemId | resEAN"></p></td>
+								<td data-ng-show="item.itemId"><p data-ng-bind-html="item.description | resPhraseInLine| resConvertLF"></p></td>
+								<td data-ng-show="item.itemId"><p data-ng-bind-html="item.locations| resConvertLF"></p></td>
+
+								<td data-ng-show="!item.itemId && $index == 0"><p data-ng-bind-html="'EditLayout.Unused'|resPhrase:context"></p></td>
+								<td data-ng-show="!item.itemId && $index == 0"><p data-ng-bind-html=""></p></td>
+								<td data-ng-show="!item.itemId && $index == 0"><p data-ng-bind-html=""></p></td>
+
+								<td data-ng-show="!item.itemId && $index != 0"><p data-ng-bind-html="'EditLayout.Blank'|resPhrase:context"></p></td>
+								<td data-ng-show="!item.itemId && $index != 0"><p data-ng-bind-html="'EditLayout.Blank'|resPhrase:context"></p></td>
+								<td data-ng-show="!item.itemId && $index != 0"><p data-ng-bind-html=""></p></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</div>
+
+			<div class="Buttons">
+				<div class="resButton raise red W120xH70" data-res-tap="remove()" data-ng-class="{disabled:indexItem==0}">
+					<p data-ng-bind-html="'Delete'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise yellow W120xH70" data-res-tap="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-res-tap="submit()">
+					<p data-ng-bind-html="'Submit'|resPhrase:context"></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div> -->
+
+
+<!-- <div class="Confirm resPopup" data-ng-show="dialog == 'confirmRemove'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+
+			<div class="Guide">
+				<p data-ng-bind-html="'EditLayout.ConfirmMessage'|resPhrase:context"></p>
+			</div>
+
+			<div class="DeleteItem">
+				<div class="Switch" data-res-touch="doDelete = !doDelete">
+					<div class="Off" data-ng-show="!doDelete"></div>
+					<div class="On" data-ng-show="doDelete"></div>
+				</div>
+				<p class="Label" data-ng-bind-html="'EditLayout.ConfirmDelete'|resPhrase:context"></p>
+			</div>
+
+			<div class="Buttons">
+				<div class="resButton raise yellow W120xH70" data-res-tap="back()">
+					<p data-ng-bind-html="'Button.No'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise green W120xH70" data-res-tap="delItem()">
+					<p data-ng-bind-html="'Button.Yes'|resPhrase:context"></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div> -->
+
+<!-- <div class="Confirm resPopup" data-ng-show="dialog == 'clearTabAllItems'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+
+			<div class="Guide">
+				<p data-ng-bind-html="'EditLayout.ClearGuide'|resPhrase:context"></p>
+			</div>
+
+			<div class="Buttons">
+				<div class="resButton raise yellow W120xH70" data-res-tap="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise red W120xH70" data-res-tap="clearItems(model.pickList.selectedCategory)">
+					<p data-ng-bind-html="'Button.Delete'|resPhrase:context"></p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div> -->
+
+<div class="Details resPopup" data-ng-show="dialog == 'details'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+			<div class="Pad">
+				<div class="PickButton">
+					<div class="InnerBox"
+						data-ng-show="itemSelected.background=='image' && itemSelected.picture">
+						<div class="ImageBox">
+							<img data-ng-src="{{itemSelected.picture?folder + itemSelected.picture+ '?'+ model.editor.Random:''}}" />
+						</div>
+						<div class="LabelBox">
+							<!-- <p
+								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p> -->
+							<p
+								data-ng-bind-html="itemSelected.inputLabel.line1 + '<br>' + itemSelected.inputLabel.line2 | resConvertLF"></p>
+						</div>
+					</div>
+					<div class="InnerBox"
+						data-ng-show="itemSelected.background=='image' && !itemSelected.picture">
+						<div class="ImageBox">
+							<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
+						</div>
+						<div class="LabelBox">
+							<!-- <p
+								data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p> -->
+							<p
+								data-ng-bind-html="itemSelected.inputLabel.line1 + '<br>' + itemSelected.inputLabel.line2 | resConvertLF"></p>
+						</div>
+					</div>
+					<div class="InnerBox" data-ng-show="itemSelected.background!='image'"
+						data-ng-class="itemSelected.background">
+						<!-- <p
+							data-ng-bind-html="itemSelected.label.line1 + '<br>' + itemSelected.label.line2 | resConvertLF"></p> -->
+						<p
+							data-ng-bind-html="itemSelected.inputLabel.line1 + '<br>' + itemSelected.inputLabel.line2 | resConvertLF"></p>
+					</div>
+				</div>
+				<div class="ImageFile">
+					<div class="Buttons Top">
+						<div class="resButton raise blue" data-res-click="popup('images')"
+							data-ng-class="{'disabled': !itemSelected}">
+							<p data-ng-bind-html="'EditItems.SelectImage'|resPhrase:context"></p>
+						</div>
+						<div class="resButton raise gray" data-res-click="popup('background')"
+							data-ng-class="{'disabled': !itemSelected}">
+							<p data-ng-bind-html="'EditItems.NoImage'|resPhrase:context"></p>
+						</div>
+					</div>
+					<div data-ng-show="itemSelected.background=='image'">
+						<p class="Label" data-ng-bind-html="'EditItems.ImageFile'|resPhrase:context"></p>
+						<p class="Value" data-ng-bind-html="itemSelected.picture"></p>
+					</div>
+				</div>
+				<div class="Entries">
+					<div class="Entry">
+						<p class="Label" data-ng-bind-html="'EditItems.ItemId'|resPhrase:context"></p>
+						<input class="Value" type="text" data-res-maxlength="13"
+							data-ng-model="itemSelected.itemId" data-ng-disabled="!itemSelected"
+							placeholder="{{'EditItems.MaxLength13'|resPhrase:context}}">
+					</div>
+					<div class="Entry">
+						<p class="Label" data-ng-bind-html="'EditItems.ItemName.Line1'|resPhrase:context"></p>
+						<input class="Value" type="text" maxlength="8"
+							data-ng-model="itemSelected.inputLabel.line1" data-ng-disabled="!itemSelected"
+							placeholder="{{'EditItems.MaxLength8'|resPhrase:context}}">
+					</div>
+					<div class="Entry">
+						<p class="Label" data-ng-bind-html="'EditItems.ItemName.Line2'|resPhrase:context"></p>
+						<input class="Value" type="text" maxlength="8"
+							data-ng-model="itemSelected.inputLabel.line2" data-ng-disabled="!itemSelected"
+							placeholder="{{'EditItems.MaxLength8'|resPhrase:context}}">
+					</div>
+				</div>
+				<div class="Buttons Bottom">
+					<div class="resButton raise orange W120xH70 " data-res-click="detailsCancel()">
+						<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+					</div>
+					<div class="resButton raise orange W120xH70 " data-res-click="clear()"
+						data-ng-class="{'disabled': !itemSelected}">
+						<p data-ng-bind-html="'Void'|resPhrase:context"></p>
+					</div>
+					<div class="resButton raise orange W120xH70" data-res-click="popup('remove')"
+					data-ng-class="{'disabled': !itemSelected}">
+						<p data-ng-bind-html="'Delete'|resPhrase:context"></p>
+					</div>
+					<div class="resButton raise green W120xH70" data-ng-click="submit()"
+						data-ng-class="{'disabled': !itemSelected}">
+						<p data-ng-bind-html="'Apply'|resPhrase:context"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="resPopup Remove" data-ng-show="dialog == 'remove'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+			<div data-ng-show="!model.pickList.items[indexItem].locations">
+				<div class="Message">
+					<p data-ng-bind-html="'EditItems.ToRemove'|resPhrase:context"></p>
+				</div>
+				<div class="Buttons Bottom">
+					<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+						<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+					</div>
+					<div class="resButton raise green W120xH70" data-ng-click="delItem()">
+						<p data-ng-bind-html="'Button.Delete'|resPhrase:context"></p>
+					</div>
+				</div>
+			</div>
+			<div data-ng-show="model.pickList.items[indexItem].locations">
+				<div class="Message">
+					<p data-ng-bind-html="'EditItems.ToNotRemove'|resPhrase:context"></p>
+					<br>
+					<p data-ng-bind-html="model.pickList.items[indexItem].locations+'<br>'"></p>
+				</div>
+				<div class="Buttons Bottom">
+					<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+						<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+					</div>
+					<div class="resButton raise green W120xH70" data-ng-click="delItem()">
+						<p data-ng-bind-html="'Button.Delete'|resPhrase:context"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="resPopup Images" data-ng-show="dialog == 'images'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+			<div class="Guide">
+				<p data-ng-bind-html="'EditItems.Guide.Images'|resPhrase:context"></p>
+			</div>
+
+			<div class="PickButtons">
+				<div id="wrapperPictures">
+					<div class="scroller">
+						<div class="PickButton" data-ng-repeat="picture in model.editor.pictures track by $index"
+							data-res-click="setImage(picture)">
+							<div class="InnerBox" data-ng-show="!picture">
+								<div class="ImageBox">
+									<p data-ng-bind-html="'EditItems.ComingSoon'|resPhrase:context"></p>
+								</div>
+								<div class="LabelBox">
+									<p data-ng-bind-html=""></p>
+								</div>
+							</div>
+							<div class="InnerBox" data-ng-show="picture">
+								<div class="ImageBox">
+									<img data-ng-src="{{picture?folder + picture+ '?'+ model.editor.Random :''}}" />
+								</div>
+								<div class="LabelBox">
+									<p data-ng-bind-html="picture"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="Buttons Top">
+				<div class="resButton raise yellow W110xH50" data-ng-click="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+				<div class="resButton raise blue W110xH50">
+					<p data-ng-bind-html="'Button.Import'|resPhrase:context"></p>
+					<input type="file" accept="image/*" id="imagefileInput" class="upload">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="resPopup Background" data-ng-show="dialog == 'background'">
+	<div class="resCasing silver">
+		<div class="resPanel silver">
+			<div class="Guide">
+				<p data-ng-bind-html="'EditItems.Guide.Background'|resPhrase:context"></p>
+			</div>
+
+			<div class="PickButtons">
+				<div class="PickButton" data-ng-repeat="buttonColor in buttonColors track by $index"
+					data-res-click="setBackground(buttonColor)">
+					<div class="InnerBox" data-ng-class="buttonColor"></div>
+				</div>
+			</div>
+
+			<div class="Buttons Bottom">
+				<div class="resButton raise yellow W120xH70" data-ng-click="cancel()">
+					<p data-ng-bind-html="'Button.Cancel'|resPhrase:context"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

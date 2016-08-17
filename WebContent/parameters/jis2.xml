@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Jis2Param>
+    <Jis2>
+	    <companyinfo>JCB</companyinfo>
+	    <idmark>a</idmark>
+	    <categorycode>9</categorycode>
+	    <corpcode>9660</corpcode>
+	    <position>0</position>
+	    <digits>0</digits>
+	    <companycode>0</companycode>
+	    <accountnumberdigits>14</accountnumberdigits>
+	    <position1>13</position1>
+        <digits1>14</digits1>
+        <expirationposition>40</expirationposition>
+        <crcompanycode>16</crcompanycode>
+    </Jis2>
+    <Jis2>
+        <companyinfo>SMBC_OMC</companyinfo>
+        <idmark>s</idmark>
+        <categorycode>6</categorycode>
+        <corpcode>3070</corpcode>
+        <position>11</position>
+        <digits>5</digits>
+        <companycode>490120</companycode>
+        <accountnumberdigits>16</accountnumberdigits>
+        <position1>11</position1>
+        <digits1>16</digits1>
+        <expirationposition>40</expirationposition>
+        <crcompanycode>12</crcompanycode>
+    </Jis2>
+</Jis2Param>

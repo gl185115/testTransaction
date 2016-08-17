@@ -1,0 +1,17 @@
+<!-- Error Popup -->
+
+<div class="resCasing beige">
+	<div class="resPanel beige">
+
+		<div class="Prompt" data-ng-show="model.failure.active">
+			<p data-ng-bind-html="'Failure.' +  ((model.failure.service)? model.failure.service + '.' : '') +  model.failure.cause |resPhrase: context"></p>
+			<p data-ng-bind-html="model.failure.description"></p>
+		</div>
+		<div class="Buttons">
+			<div class="resButton raise green W120xH70" data-res-tap="recover()">
+				<p data-ng-bind-html="'Popup.OK'|resPhrase: context"></p>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html data-ng-app="res.ui" manifest="/resTransaction/res.manifest">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv ="Cache-control" content="no-cache"> 
+<meta http-equiv="Expires" content="-1">
+<script type="text/javascript">
+	function isUIManagerBuilt(){
+		return true;
+	}
+</script>
+
+<script src="../resLibrary/res.library.ui.js" type="text/javascript"></script>
+
+<script src="../resLibrary/res.messaging.js" type="text/javascript"></script>
+<script src="../resLibrary/res.audio.js" type="text/javascript"></script>
+<script src="../external/spin.min.js" type="text/javascript"></script>
+
+<script src="res.model.js" type="text/javascript"></script>
+<link  href="res.main.css" rel="stylesheet" type="text/css" />
+<script src="res.main.js" type="text/javascript"></script>
+<script src="res.main.controllers.js" type="text/javascript"></script>
+
+<link  href="hiddenTool/hiddenTool.css" rel="stylesheet" type="text/css" />
+<script src="hiddenTool/hiddenTool.js" type="text/javascript"></script>
+
+<link  href="../resSkin/default.css" rel="stylesheet" type="text/css" id="resSkin"/>
+
+<script src="../resConfig/res.config.js" type="text/javascript"></script>
+
+<title>NCR RES UI Configurator</title>
+</head>
+<body>
+
+	<div id="StatusBar" data-ng-controller="statusBar">
+		<div class="version"><div class="Value">{{version}}</div></div>
+		<div class="clock"><div class="Value">{{model.date | date:"HH:mm"}}</div></div>
+		<div class="battery"><div class="Value">{{battery}}</div></div>
+	</div>
+
+	<div id="ViewingArea">
+
+		<div id="NavigationBar" data-ng-controller="navigationBar" >
+<!-- 			<div class="Button left" data-res-touch="menu()" data-ng-class="{disabled:$eval(model.buttonLeft)}"> -->
+<!-- 				<div class="IconMenu"></div> -->
+<!-- 			</div> -->
+
+			<div class="title">
+				<p class="Value" data-ng-bind-html="subject | resPhrase:'NavigationBar.Title'"></p>
+			</div>
+
+			<div class="DateTime">
+				<table>
+				<tr>
+					<td><p class="Value" data-ng-bind-html="model.date | resDate"></p></td>
+				</tr>
+				<tr>
+					<td><p class="Value">{{model.date | date:"HH:mm"}}</p></td>
+				</tr>
+				</table>
+			</div>
+
+			<div class="Button right" data-res-touch="back('home')" data-ng-show="false" data-ng-class="{disabled:$eval(model.buttonRight)}">
+				<div class="IconBack"></div>
+			</div>
+
+		</div>
+
+		<div id="ChildPage" data-ng-controller="childPage">
+			<div class="Board">
+
+				<iframe data-ng-repeat="page in pages" data-ng-src="{{page.src}}" name="{{page.name}}" width="1024" height="698"
+					data-ng-show="pageOnBoard=='{{page.name}}'"></iframe>
+
+			</div>
+			<div class="HangOver"
+				data-ng-mouseover="hiddenToolOpen()"
+				data-res-click="hiddenToolOpen()">
+			</div>
+		</div>
+
+		<div id="PageIndicators"
+				data-ng-mouseover="$rootScope.hiddenTool.enabled = 'true'"
+				data-res-click="$rootScope.hiddenTool.enabled = 'true'">
+<!-- 			<div class="PageIndicator"><div class="LED"></div><div class="Label">printer</div></div>
+				<div class="PageIndicator"><div class="LED"></div><div class="Label">drawer</div></div>
+				<div class="PageIndicator"><div class="LED"></div><div class="Label">network</div></div>
+				<div class="PageIndicator In"><div class="LED"></div><div class="Label">in</div>
+					<input type="text" size="50" value="" placeholder="waiting" autofocus>
+					<input type="text" readonly maxlength="5" value="" autofocus>
+		 		<div class="Value"></div>
+			</div>
+ -->
+ 		</div>
+
+		<div id="SidePanel" data-ng-controller="sidePanel">
+			<div class="TouchOut" data-res-touch="touchOut()" data-ng-show="dialog=='sidePanel'"></div>
+			<div class="Panel slide-from-left" data-ng-show="dialog=='sidePanel'">
+				<ul>
+					<li data-ng-repeat="item in items" data-res-touch="select(item.page)">
+						<p data-ng-bind-html="item.label |resPhrase:'SidePanel'"></p>
+					</li>
+				</ul>
+				<div class="resButton raise gray W120xH70" data-res-click="select('lock')" data-ng-hide="autoLoginPasscode||true">
+					<p>{{"Lock"|resPhrase:"SidePanel"}}</p>
+				</div>
+				<div class="resButton raise gray W120xH70" data-res-click="select('logOut')">
+					<p>{{"LogOut"|resPhrase:"SidePanel"}}</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="HiddenTool" data-ng-show="hiddenToolOpened"
+			data-ng-mouseleave="close()"
+			data-res-include="hiddenTool/hiddenTool.html"
+			data-ng-controller="hiddenTool">
+
+		</div>
+
+        <!-- 集配信処理が必要ないので、コメントにする
+		<div id="MainPopup" data-ng-controller="mainPopup" data-ng-show="model.popup">
+			<div id="Spinner"></div>
+			<p class="Message" data-ng-bind-html="model.popup |resPhrase:'Popup'"></p>
+		</div>
+		-->
+	</div>
+
+</body>
+</html>

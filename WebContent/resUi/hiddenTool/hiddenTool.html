@@ -1,0 +1,197 @@
+
+<div class="Level1">
+	<div class="Button Close" 
+		data-ng-click="close()" >
+		<p data-ng-bind-html="'Close'| resPhrase:'HiddenTool'"></p>
+	</div>
+	
+	<div class="Button"
+		data-res-touch = "level2 = 'maintenance';"
+		data-ng-click = "level2 = 'maintenance';"
+		data-ng-class="{'Selected': level2 == 'maintenance'}" >
+		<p data-ng-bind-html="'Maintenance'| resPhrase:'HiddenTool'"></p>
+	</div>
+
+	<div class="Button"
+		data-res-touch = "level2 = 'barCode';"
+		data-ng-click = "level2 = 'barCode';"
+		data-ng-class="{'Selected': level2 == 'barCode'}" >
+		<p data-ng-bind-html="'BarCode'| resPhrase:'HiddenTool'"></p>
+	</div>
+
+	<div class="Button"
+		data-res-touch = "level2 = 'eMoney';"
+		data-ng-click = "level2 = 'eMoney';"
+		data-ng-class="{'Selected': level2 == 'eMoney'}" >
+		<p data-ng-bind-html="'EMoney'| resPhrase:'HiddenTool'"></p>
+	</div>
+
+	<div class="Button"
+		data-res-touch = "level2 = 'magneticCard';"
+		data-ng-click = "level2 = 'magneticCard';"
+		data-ng-class="{'Selected': level2 == 'magneticCard'}" >
+		<p data-ng-bind-html="'MagneticCard'| resPhrase:'HiddenTool'"></p>
+	</div>
+	
+	<div class="Button"
+		data-res-touch = "level2 = 'dispenser';"
+		data-ng-click = "level2 = 'dispenser';"
+		data-ng-class="{'Selected': level2 == 'dispenser'}" >
+		<p data-ng-bind-html="'BillDispenser'| resPhrase:'HiddenTool'"></p>
+	</div>
+
+	<div class="Button" 
+		data-res-touch = "level2 = 'test';"
+		data-ng-click = "level2 = 'test';"
+		data-ng-class="{'Selected': level2 == 'test'}" >
+		<p data-ng-bind-html="'Test'| resPhrase:'HiddenTool'"></p>
+	</div>
+</div>
+
+<div class="Level2 Maintenance"
+	data-ng-show="level2 == 'maintenance'" >
+	<div class="Button" data-res-touch="reload()">
+		<p data-ng-bind-html="'Reload'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="terminate()">
+		<p data-ng-bind-html="'Terminate'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="messageLog()">
+		<p data-ng-bind-html="'MessageLog'| resPhrase:'HiddenTool'"></p>
+	</div>
+</div>
+
+<div class="Level2 MagneticCard"
+	data-ng-show="level2 == 'magneticCard'" >
+	<div class="Button" data-res-touch="scanId()">
+		<p data-ng-bind-html="'ScanID'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="ownersCard()">
+		<p data-ng-bind-html="'Membership'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="swipeCredit()">
+		<p data-ng-bind-html="'SwipeCredit'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="giftCard()">
+		<p data-ng-bind-html="'GiftCard'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="Custanet()">
+		<p data-ng-bind-html="'Custanet'| resPhrase:'HiddenTool'"></p>
+	</div>
+</div>
+
+<div class="Level2 BarCode"
+	data-ng-show="level2 == 'barCode'">
+	<div class="Button" data-res-touch="scanItem()">
+		<p data-ng-bind-html="'ScanItem'| resPhrase:'HiddenTool'"></p>
+	</div>	
+	<div class="Button" data-res-touch="scanVoucher()">
+		<p data-ng-bind-html="'Voucher'| resPhrase:'HiddenTool'"></p>
+	</div>	
+	<div class="Button" data-res-touch="scanCertificate()">
+		<p data-ng-bind-html="'GiftCertificate'| resPhrase:'HiddenTool'"></p>
+	</div>	
+	<div class="Button" data-res-touch="scanCatalina()">
+		<p data-ng-bind-html="'CatalinaCoupon'| resPhrase:'HiddenTool'"></p>
+	</div>	
+	<div class="Button" data-res-touch="scanMomCoupon()">
+		<p data-ng-bind-html="'MomCoupon'| resPhrase:'HiddenTool'"></p>
+	</div>	
+	<div class="Button" data-res-touch="scanReceipt()">
+		<p data-ng-bind-html="'Receipt'| resPhrase:'HiddenTool'"></p>
+	</div>
+</div>
+
+<div class="Level2 EMoney"
+	data-ng-show="level2 == 'eMoney'">
+	<div class="Button" data-res-touch="swipeWaon()">
+		<p data-ng-bind-html="'Waon'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="swipeId()">
+		<p data-ng-bind-html="'Id'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="Button" data-res-touch="swipeSuica()">
+		<p data-ng-bind-html="'Suica'| resPhrase:'HiddenTool'"></p>
+	</div>
+</div>
+
+<div class="Level2 Test"
+	data-ng-show="level2 == 'test'">
+	<div class="Button" data-res-touch="waitPage(waitDisp)">
+		<p data-ng-bind-html="'WaitPage'| resPhrase:'HiddenTool'"></p>
+	</div>
+</div>
+
+<div class="ToolDispenser" data-ng-show="level2 == 'dispenser'">
+
+ 	<div class="Power">
+		<div class="ButtonSet Left" data-ng-click="switchPower('on')" data-ng-class="{red: power=='on'}">
+			<p>On</p>
+		</div>
+		<div class="ButtonSet Right" data-ng-click="switchPower('off')" data-ng-class="{gray: power!='on'}">
+			<p>Off</p>
+		</div>
+ 	</div>
+ 	<div class="DepositUnits">
+		<div class="ButtonSet Left" data-ng-click="setMultiplier(1)" data-ng-class="{blue: multiplier==1}">
+			<p data-ng-bind-html="'Multiple1'| resPhrase:'HiddenTool'"></p>
+		</div>
+		<div class="ButtonSet Right" data-ng-click="setMultiplier(10)" data-ng-class="{orange: multiplier==10}">
+			<p data-ng-bind-html="'Multiple10'| resPhrase:'HiddenTool'"></p>
+		</div>
+ 	</div>
+
+	<div class="CashInside">
+		<div class="Title">
+			<p>Cash in Dispenser</p>
+		</div>
+		<table class="CashTable">
+			<tr data-ng-repeat="denomination in denominations">
+				<td><p data-ng-bind-html="denomination.name |resPhraseInLine"></p></td>
+				<td><p data-ng-bind-html="denomination.count |resNumber"></p></td>
+			</tr>
+		</table>
+	</div>
+	
+	<div class="Deposit">
+		<div class="Title">
+			<p>Deposit Bills/Coins</p>
+		</div>
+		<div class="Buttons">
+			<div class="Button" data-ng-repeat="denomination in denominations"
+				data-ng-click="deposit($index)">
+			<p data-ng-bind-html="denomination.name |resPhraseInLine"></p>			
+			</div>
+		</div>
+	</div>
+<!-- 	
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'bill10k')">
+		<p data-ng-bind-html="'Bills10k'| resPhrase:'HiddenTool'"></p>
+	</div> 
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'bill5k')">
+		<p data-ng-bind-html="'Bills5k'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'bill1k')">
+		<p data-ng-bind-html="'Bills1k'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'coin500')">
+		<p data-ng-bind-html="'Coins500'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'coin100')">
+		<p data-ng-bind-html="'Coins100'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'coin50')">
+		<p data-ng-bind-html="'Coins50'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'coin10')">
+		<p data-ng-bind-html="'Coins10'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'coin5')">
+		<p data-ng-bind-html="'Coins5'| resPhrase:'HiddenTool'"></p>
+	</div>
+	<div class="ButtonM" data-ng-click="countDeposit(subject,'coin1')">
+		<p data-ng-bind-html="'Coins1'| resPhrase:'HiddenTool'"></p>
+	</div>
+ -->
+
+</div>

@@ -1,0 +1,1021 @@
+Scenario: Perform ReceiptFormatterTest
+When asked to retrieve amount {1234567} with currency symbol
+Then value should be {￥1,234,567}
+When asked to retrieve amount {-1234567} with currency symbol
+Then value should be {-￥1,234,567}
+When asked to retrieve amount {999999999} with currency symbol
+Then value should be {￥999,999,999}
+When asked to retrieve amount {-999999999} with currency symbol
+Then value should be {-￥999,999,999}
+When asked to retrieve amount {9876543} with comma
+Then value should be {9,876,543}
+When asked to retrieve amount {-9876543} with comma
+Then value should be {-9,876,543}
+When asked to retrieve amount {999999999} with comma
+Then value should be {999,999,999}
+When asked to retrieve amount {-999999999} with comma
+Then value should be {-999,999,999}
+When asked to make receipt using PosLog:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+<Transaction>
+	<RetailStoreID>0031</RetailStoreID>
+	<WorkstationID>5001</WorkstationID>
+	<SequenceNumber>4209</SequenceNumber>
+	<BusinessDayDate>2014-04-07</BusinessDayDate>
+	<BeginDateTime>2014-04-07T16:05:42</BeginDateTime>
+	<OperatorID>111</OperatorID>
+	<ReceiptDateTime>2014-4-07T16:05:42</ReceiptDateTime>
+	<TillID>0</TillID>
+	<RetailTransaction>
+		<PriceDerivationResult MethodCode="Promotion">
+			<SequenceNumber>1</SequenceNumber>
+			<Amount Action="Subtract">101</Amount>
+			<PreviousPrice>1101</PreviousPrice>
+			<PriceDerivationRule>
+				<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+				<Description>Type2</Description>
+				<ReasonCode>0002</ReasonCode>
+			</PriceDerivationRule>
+		</PriceDerivationResult>
+		<Customer>
+			<CustomerDemographic>02</CustomerDemographic>
+		</Customer>
+		<ItemCount>6</ItemCount>
+		<LineItem>
+			<SequenceNumber>1</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000050</ItemID>
+				<Description>Item B5</Description>
+				<RegularSalesUnitPrice>556</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>556</ActualSalesUnitPrice>
+				<ExtendedAmount>556</ExtendedAmount>
+				<ExtendedDiscountAmount>101</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">51</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">422</TaxableAmount>
+				</Tax>
+				<Tax TaxType="Sales" NormalTaxType="Exceptional">
+					<Amount>1</Amount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>2</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000040</ItemID>
+				<Description>Item B4</Description>
+				<RegularSalesUnitPrice>545</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>545</ActualSalesUnitPrice>
+				<ExtendedAmount>545</ExtendedAmount>
+				<ExtendedDiscountAmount>99</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">49</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">413</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>3</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000400</ItemID>
+				<Description>Item C4</Description>
+				<RegularSalesUnitPrice>1440</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>1440</ActualSalesUnitPrice>
+				<ExtendedAmount>1440</ExtendedAmount>
+				<ExtendedDiscountAmount>793</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Percent Action="Subtract">50</Percent>
+					<Amount Action="Subtract">720</Amount>
+					<PriceDerivationRule ApplicationType="Item">
+						<PriceDerivationRuleID>0001</PriceDerivationRuleID>
+						<ReasonCode>01</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">73</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>47</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">600</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>4</SequenceNumber>
+			<Discount>
+				<Percentage>10</Percentage>
+				<Amount>172</Amount>
+				<PriceDerivationRule ApplicationType="Total">	
+					<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+					<ReasonCode>02</ReasonCode>
+				</PriceDerivationRule>
+			</Discount>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>5</SequenceNumber>
+			<Tender TenderType="Cash" TypeCode="Sale">
+				<Amount>2000</Amount>
+				<TenderChange>
+					<Amount>452</Amount>
+				</TenderChange>
+			</Tender>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>6</SequenceNumber>
+			<Tax TaxType="Sales">
+				<Amount>114</Amount>
+				<Percent>8</Percent>
+				<TaxableAmount TaxIncludedInTaxableAmountFlag="false">1434</TaxableAmount>
+			</Tax>
+		</LineItem>
+		<Total TotalType="TransactionSubtotal">1720</Total>
+		<Total TotalType="TransactionGrandAmount">1548</Total>
+	</RetailTransaction>
+</Transaction>
+</POSLog>
+
+Then receipt should be:
+
+<html>
+<head></head>
+<body>
+<table style='font-size:10px;'>
+<tbody>
+<tr><td>Dev#: 5001<td><td>Tx#: 4209<td><tr>
+<tr><td>Date:<td><td>2014/04/07 16:05:42<td><tr>
+</tbody>
+</table>
+<p style='border-top:none; border-right:none; border-left:none; border-bottom: 1px solid #000; width: 200px;' /></p><br />
+<table style='padding-top:10px; font-size:10px;'>
+<tbody><tr><td colspan='3' style='width:inherit;text-align:left;'>Item B5</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥556</td></tr>
+<tr><td colspan='3' style='width:inherit;text-align:left;'>Item B4</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥545</td></tr>
+<tr><td colspan='3' style='width:inherit;text-align:left;'>Item C4</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥1,440</td></tr>
+</tbody></table>
+<p style='border-top:none; border-right:none; border-left:none; border-bottom: 1px solid #000; width: 200px;' /></p>
+<table style='font-size:10px;'>
+<tr><td style='width:90px;'>Sub total</td><td style='width:110px;text-align:right;'>￥2,541</td></tr>
+<tr><td style='width:90px;'>Discount</td><td style='width:110px;text-align:right;'>￥172</td></tr>
+<tr><td style='width:90px;'>Total Amount</td><td style='width:110px;text-align:right;'>￥2,369</td></tr>
+<tr><td style='width:90px;text-align:right;'>(Tax</td><td style='width:110px;text-align:right;'>￥114)</td></tr>
+<tr><td style='width:90px;'>Cash</td><td style='width:110px;text-align:right;'>￥2,000</td></tr>
+<tr><td style='width:90px;'>Change</td><td style='width:110px;text-align:right;'>￥452</td></tr>
+</table>
+</table></body>
+</html>
+
+When asked to make receipt in English with credit number: 1111111111111111 and using PosLog:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+<Transaction>
+	<RetailStoreID>0031</RetailStoreID>
+	<WorkstationID>5001</WorkstationID>
+	<SequenceNumber>4209</SequenceNumber>
+	<BusinessDayDate>2014-04-07</BusinessDayDate>
+	<BeginDateTime>2014-04-07T16:05:42</BeginDateTime>
+	<OperatorID>111</OperatorID>
+	<ReceiptDateTime>2014-4-07T16:05:42</ReceiptDateTime>
+	<TillID>0</TillID>
+	<RetailTransaction>
+		<PriceDerivationResult MethodCode="Promotion">
+			<SequenceNumber>1</SequenceNumber>
+			<Amount Action="Subtract">101</Amount>
+			<PreviousPrice>1101</PreviousPrice>
+			<PriceDerivationRule>
+				<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+				<Description>Type2</Description>
+				<ReasonCode>0002</ReasonCode>
+			</PriceDerivationRule>
+		</PriceDerivationResult>
+		<Customer>
+			<CustomerDemographic>02</CustomerDemographic>
+		</Customer>
+		<ItemCount>6</ItemCount>
+		<LineItem>
+			<SequenceNumber>1</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000050</ItemID>
+				<Description>Item B5</Description>
+				<RegularSalesUnitPrice>556</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>556</ActualSalesUnitPrice>
+				<ExtendedAmount>556</ExtendedAmount>
+				<ExtendedDiscountAmount>101</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">51</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">422</TaxableAmount>
+				</Tax>
+				<Tax TaxType="Sales" NormalTaxType="Exceptional">
+					<Amount>1</Amount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>2</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000040</ItemID>
+				<Description>Item B4</Description>
+				<RegularSalesUnitPrice>545</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>545</ActualSalesUnitPrice>
+				<ExtendedAmount>545</ExtendedAmount>
+				<ExtendedDiscountAmount>99</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">49</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">413</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>3</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000400</ItemID>
+				<Description>Item C4</Description>
+				<RegularSalesUnitPrice>1440</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>1440</ActualSalesUnitPrice>
+				<ExtendedAmount>1440</ExtendedAmount>
+				<ExtendedDiscountAmount>793</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Percent Action="Subtract">50</Percent>
+					<Amount Action="Subtract">720</Amount>
+					<PriceDerivationRule ApplicationType="Item">
+						<PriceDerivationRuleID>0001</PriceDerivationRuleID>
+						<ReasonCode>01</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">73</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>47</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">600</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>4</SequenceNumber>
+			<Discount>
+				<Percentage>10</Percentage>
+				<Amount>172</Amount>
+				<PriceDerivationRule ApplicationType="Total">	
+					<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+					<ReasonCode>02</ReasonCode>
+				</PriceDerivationRule>
+			</Discount>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>5</SequenceNumber>
+			<Tender TenderType="Cash" TypeCode="Sale">
+				<Amount>2000</Amount>
+				<TenderChange>
+					<Amount>452</Amount>
+				</TenderChange>
+			</Tender>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>6</SequenceNumber>
+			<Tax TaxType="Sales">
+				<Amount>114</Amount>
+				<Percent>8</Percent>
+				<TaxableAmount TaxIncludedInTaxableAmountFlag="false">1434</TaxableAmount>
+			</Tax>
+		</LineItem>
+		<Total TotalType="TransactionSubtotal">1720</Total>
+		<Total TotalType="TransactionGrandAmount">1548</Total>
+	</RetailTransaction>
+</Transaction>
+</POSLog>
+
+Then receipt should be:
+
+
+<html>
+<head></head>
+<body>
+<table style='font-size:10px;'>
+<tbody>
+<tr><td>Dev#: 5001<td><td>Tx#: 4209<td><tr>
+<tr><td>Date:<td><td>2014/04/07 16:05:42<td><tr>
+</tbody>
+</table>
+<p style='border-top:none; border-right:none; border-left:none; border-bottom: 1px solid #000; width: 200px;' /></p><br />
+<table style='padding-top:10px; font-size:10px;'>
+<tbody><tr><td colspan='3' style='width:inherit;text-align:left;'>Item B5</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥556</td></tr>
+<tr><td colspan='3' style='width:inherit;text-align:left;'>Item B4</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥545</td></tr>
+<tr><td colspan='3' style='width:inherit;text-align:left;'>Item C4</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥1,440</td></tr>
+</tbody></table>
+<p style='border-top:none; border-right:none; border-left:none; border-bottom: 1px solid #000; width: 200px;' /></p>
+<table style='font-size:10px;'>
+<tr><td style='width:90px;'>Sub Total</td><td style='width:110px;text-align:right;'>￥2,541</td></tr>
+<tr><td style='width:90px;'>Discount</td><td style='width:110px;text-align:right;'>￥172</td></tr>
+<tr><td style='width:90px;'>Total Amount</td><td style='width:110px;text-align:right;'>￥2,369</td></tr>
+<tr><td style='width:90px;text-align:right;'>(Tax</td><td style='width:110px;text-align:right;'>￥114)</td></tr>
+<tr><td style='width:90px;'>Cash</td><td style='width:110px;text-align:right;'>￥2,000</td></tr>
+<tr><td style='width:90px;'>Change</td><td style='width:110px;text-align:right;'>￥452</td></tr>
+</table>
+</table></body>
+</html>
+
+When asked to make receipt in Japanese with credit number: 1111111111111111 and using PosLog:
+
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+<Transaction>
+	<RetailStoreID>0031</RetailStoreID>
+	<WorkstationID>5001</WorkstationID>
+	<SequenceNumber>4209</SequenceNumber>
+	<BusinessDayDate>2014-04-07</BusinessDayDate>
+	<BeginDateTime>2014-04-07T16:05:42</BeginDateTime>
+	<OperatorID>111</OperatorID>
+	<ReceiptDateTime>2014-4-07T16:05:42</ReceiptDateTime>
+	<TillID>0</TillID>
+	<RetailTransaction>
+		<PriceDerivationResult MethodCode="Promotion">
+			<SequenceNumber>1</SequenceNumber>
+			<Amount Action="Subtract">101</Amount>
+			<PreviousPrice>1101</PreviousPrice>
+			<PriceDerivationRule>
+				<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+				<Description>Type2</Description>
+				<ReasonCode>0002</ReasonCode>
+			</PriceDerivationRule>
+		</PriceDerivationResult>
+		<Customer>
+			<CustomerDemographic>02</CustomerDemographic>
+		</Customer>
+		<ItemCount>6</ItemCount>
+		<LineItem>
+			<SequenceNumber>1</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000050</ItemID>
+				<Description>Item B5</Description>
+				<RegularSalesUnitPrice>556</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>556</ActualSalesUnitPrice>
+				<ExtendedAmount>556</ExtendedAmount>
+				<ExtendedDiscountAmount>101</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">51</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">422</TaxableAmount>
+				</Tax>
+				<Tax TaxType="Sales" NormalTaxType="Exceptional">
+					<Amount>1</Amount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>2</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000040</ItemID>
+				<Description>Item B4</Description>
+				<RegularSalesUnitPrice>545</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>545</ActualSalesUnitPrice>
+				<ExtendedAmount>545</ExtendedAmount>
+				<ExtendedDiscountAmount>99</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">49</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">413</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>3</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000400</ItemID>
+				<Description>Item C4</Description>
+				<RegularSalesUnitPrice>1440</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>1440</ActualSalesUnitPrice>
+				<ExtendedAmount>1440</ExtendedAmount>
+				<ExtendedDiscountAmount>793</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Percent Action="Subtract">50</Percent>
+					<Amount Action="Subtract">720</Amount>
+					<PriceDerivationRule ApplicationType="Item">
+						<PriceDerivationRuleID>0001</PriceDerivationRuleID>
+						<ReasonCode>01</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">73</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>47</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">600</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>4</SequenceNumber>
+			<Discount>
+				<Percentage>10</Percentage>
+				<Amount>172</Amount>
+				<PriceDerivationRule ApplicationType="Total">	
+					<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+					<ReasonCode>02</ReasonCode>
+				</PriceDerivationRule>
+			</Discount>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>5</SequenceNumber>
+			<Tender TenderType="Cash" TypeCode="Sale">
+				<Amount>2000</Amount>
+				<TenderChange>
+					<Amount>452</Amount>
+				</TenderChange>
+			</Tender>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>6</SequenceNumber>
+			<Tax TaxType="Sales">
+				<Amount>114</Amount>
+				<Percent>8</Percent>
+				<TaxableAmount TaxIncludedInTaxableAmountFlag="false">1434</TaxableAmount>
+			</Tax>
+		</LineItem>
+		<Total TotalType="TransactionSubtotal">1720</Total>
+		<Total TotalType="TransactionGrandAmount">1548</Total>
+	</RetailTransaction>
+</Transaction>
+</POSLog>
+
+Then receipt should be:
+
+
+<html>
+<head></head>
+<body>
+<table style='font-size:10px;'>
+<tbody>
+<tr><td>デバイス番号: 5001<td><td>取引番号: 4209<td><tr>
+<tr><td>取引日時:<td><td>2014/04/07 16:05:42<td><tr>
+</tbody>
+</table>
+<p style='border-top:none; border-right:none; border-left:none; border-bottom: 1px solid #000; width: 200px;' /></p><br />
+<table style='padding-top:10px; font-size:10px;'>
+<tbody><tr><td colspan='3' style='width:inherit;text-align:left;'>Item B5</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥556</td></tr>
+<tr><td colspan='3' style='width:inherit;text-align:left;'>Item B4</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥545</td></tr>
+<tr><td colspan='3' style='width:inherit;text-align:left;'>Item C4</td></tr><tr><td style='width:140px;text-align:center;'></td><td style='width:60px;text-align:right;'>￥1,440</td></tr>
+</tbody></table>
+<p style='border-top:none; border-right:none; border-left:none; border-bottom: 1px solid #000; width: 200px;' /></p>
+<table style='font-size:10px;'>
+<tr><td style='width:90px;'>小 計</td><td style='width:110px;text-align:right;'>￥2,541</td></tr>
+<tr><td style='width:90px;'>割 引</td><td style='width:110px;text-align:right;'>￥172</td></tr>
+<tr><td style='width:90px;'>合 計</td><td style='width:110px;text-align:right;'>￥2,369</td></tr>
+<tr><td style='width:90px;text-align:right;'>(内税</td><td style='width:110px;text-align:right;'>￥114)</td></tr>
+<tr><td style='width:90px;'>お 預</td><td style='width:110px;text-align:right;'>￥2,000</td></tr>
+<tr><td style='width:90px;'>お 釣</td><td style='width:110px;text-align:right;'>￥452</td></tr>
+</table>
+</table></body>
+</html>
+
+When asked to make paper receipt with credit number: 1111111111111111 and using PosLog:
+
+
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+<Transaction>
+	<RetailStoreID>0031</RetailStoreID>
+	<WorkstationID>5001</WorkstationID>
+	<SequenceNumber>4209</SequenceNumber>
+	<BusinessDayDate>2014-04-07</BusinessDayDate>
+	<BeginDateTime>2014-04-07T16:05:42</BeginDateTime>
+	<OperatorID>111</OperatorID>
+	<ReceiptDateTime>2014-4-07T16:05:42</ReceiptDateTime>
+	<TillID>0</TillID>
+	<RetailTransaction>
+		<PriceDerivationResult MethodCode="Promotion">
+			<SequenceNumber>1</SequenceNumber>
+			<Amount Action="Subtract">101</Amount>
+			<PreviousPrice>1101</PreviousPrice>
+			<PriceDerivationRule>
+				<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+				<Description>Type2</Description>
+				<ReasonCode>0002</ReasonCode>
+			</PriceDerivationRule>
+		</PriceDerivationResult>
+		<Customer>
+			<CustomerDemographic>02</CustomerDemographic>
+		</Customer>
+		<ItemCount>6</ItemCount>
+		<LineItem>
+			<SequenceNumber>1</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000050</ItemID>
+				<Description>Item B5</Description>
+				<RegularSalesUnitPrice>556</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>556</ActualSalesUnitPrice>
+				<ExtendedAmount>556</ExtendedAmount>
+				<ExtendedDiscountAmount>101</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">51</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">422</TaxableAmount>
+				</Tax>
+				<Tax TaxType="Sales" NormalTaxType="Exceptional">
+					<Amount>1</Amount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>2</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000040</ItemID>
+				<Description>Item B4</Description>
+				<RegularSalesUnitPrice>545</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>545</ActualSalesUnitPrice>
+				<ExtendedAmount>545</ExtendedAmount>
+				<ExtendedDiscountAmount>99</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">49</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">413</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>3</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000400</ItemID>
+				<Description>Item C4</Description>
+				<RegularSalesUnitPrice>1440</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>1440</ActualSalesUnitPrice>
+				<ExtendedAmount>1440</ExtendedAmount>
+				<ExtendedDiscountAmount>793</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Percent Action="Subtract">50</Percent>
+					<Amount Action="Subtract">720</Amount>
+					<PriceDerivationRule ApplicationType="Item">
+						<PriceDerivationRuleID>0001</PriceDerivationRuleID>
+						<ReasonCode>01</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">73</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>47</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">600</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>4</SequenceNumber>
+			<Discount>
+				<Percentage>10</Percentage>
+				<Amount>172</Amount>
+				<PriceDerivationRule ApplicationType="Total">	
+					<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+					<ReasonCode>02</ReasonCode>
+				</PriceDerivationRule>
+			</Discount>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>5</SequenceNumber>
+			<Tender TenderType="Cash" TypeCode="Sale">
+				<Amount>2000</Amount>
+				<TenderChange>
+					<Amount>452</Amount>
+				</TenderChange>
+			</Tender>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>6</SequenceNumber>
+			<Tax TaxType="Sales">
+				<Amount>114</Amount>
+				<Percent>8</Percent>
+				<TaxableAmount TaxIncludedInTaxableAmountFlag="false">1434</TaxableAmount>
+			</Tax>
+		</LineItem>
+		<Total TotalType="TransactionSubtotal">1720</Total>
+		<Total TotalType="TransactionGrandAmount">1548</Total>
+	</RetailTransaction>
+</Transaction>
+</POSLog>
+
+Then paper receipt should be:
+
+Dev#:5001                  Tx#:4209
+Date:           2014/04/07 16:05:42
+ 
+--------------------------------
+ 
+Item B5
+                              ￥556
+Item B4
+                              ￥545
+Item C4
+                            ￥1,440
+ 
+--------------------------------
+ 
+Sub total:                  ￥2,541
+Discount:                     ￥172
+Total Amount:               ￥2,369
+        (Tax                 ￥114)
+Cash:                       ￥2,000
+Change:                       ￥452
+
+
+When asked to make mail receipt using PosLog:
+<?xml version="1.0" encoding="shift_jis"?>
+<POSLog>
+<Transaction>
+	<RetailStoreID>0031</RetailStoreID>
+	<WorkstationID>5001</WorkstationID>
+	<SequenceNumber>4209</SequenceNumber>
+	<BusinessDayDate>2014-04-07</BusinessDayDate>
+	<BeginDateTime>2014-04-07T16:05:42</BeginDateTime>
+	<OperatorID>111</OperatorID>
+	<ReceiptDateTime>2014-4-07T16:05:42</ReceiptDateTime>
+	<TillID>0</TillID>
+	<RetailTransaction>
+		<PriceDerivationResult MethodCode="Promotion">
+			<SequenceNumber>1</SequenceNumber>
+			<Amount Action="Subtract">101</Amount>
+			<PreviousPrice>1101</PreviousPrice>
+			<PriceDerivationRule>
+				<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+				<Description>Type2</Description>
+				<ReasonCode>0002</ReasonCode>
+			</PriceDerivationRule>
+		</PriceDerivationResult>
+		<Customer>
+			<CustomerDemographic>02</CustomerDemographic>
+		</Customer>
+		<ItemCount>6</ItemCount>
+		<LineItem>
+			<SequenceNumber>1</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000050</ItemID>
+				<Description>Item B5</Description>
+				<RegularSalesUnitPrice>556</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>556</ActualSalesUnitPrice>
+				<ExtendedAmount>556</ExtendedAmount>
+				<ExtendedDiscountAmount>101</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">51</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">422</TaxableAmount>
+				</Tax>
+				<Tax TaxType="Sales" NormalTaxType="Exceptional">
+					<Amount>1</Amount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>2</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000040</ItemID>
+				<Description>Item B4</Description>
+				<RegularSalesUnitPrice>545</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>545</ActualSalesUnitPrice>
+				<ExtendedAmount>545</ExtendedAmount>
+				<ExtendedDiscountAmount>99</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Amount Action="Subtract">50</Amount>
+					<PriceDerivationRule ApplicationType="MixMatch">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<MMQuantity>1</MMQuantity>
+						<ReasonCode>0002</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">49</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>33</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">413</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>3</SequenceNumber>
+			<Sale TaxableFlag="True" Department="9999" Line="0" Class="0">
+				<ItemID Type="Code128">0000000000400</ItemID>
+				<Description>Item C4</Description>
+				<RegularSalesUnitPrice>1440</RegularSalesUnitPrice>
+				<ActualSalesUnitPrice>1440</ActualSalesUnitPrice>
+				<ExtendedAmount>1440</ExtendedAmount>
+				<ExtendedDiscountAmount>793</ExtendedDiscountAmount>
+				<ItemSellingRule />
+				<Quantity>1</Quantity>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>1</SequenceNumber>
+					<Percent Action="Subtract">50</Percent>
+					<Amount Action="Subtract">720</Amount>
+					<PriceDerivationRule ApplicationType="Item">
+						<PriceDerivationRuleID>0001</PriceDerivationRuleID>
+						<ReasonCode>01</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<RetailPriceModifier MethodCode="Markdown">
+					<SequenceNumber>2</SequenceNumber>
+					<Percent Action="Subtract">10</Percent>
+					<Amount Action="Subtract">73</Amount>
+					<PriceDerivationRule ApplicationType="Total">
+						<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+						<ReasonCode>02</ReasonCode>
+					</PriceDerivationRule>
+				</RetailPriceModifier>
+				<Tax TaxType="Sales">
+					<Amount>47</Amount>
+					<Percent>8</Percent>
+					<TaxableAmount TaxIncludedInTaxableAmountFlag="false">600</TaxableAmount>
+				</Tax>
+			</Sale>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>4</SequenceNumber>
+			<Discount>
+				<Percentage>10</Percentage>
+				<Amount>172</Amount>
+				<PriceDerivationRule ApplicationType="Total">	
+					<PriceDerivationRuleID>0002</PriceDerivationRuleID>
+					<ReasonCode>02</ReasonCode>
+				</PriceDerivationRule>
+			</Discount>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>5</SequenceNumber>
+			<Tender TenderType="Cash" TypeCode="Sale">
+				<Amount>2000</Amount>
+				<TenderChange>
+					<Amount>452</Amount>
+				</TenderChange>
+			</Tender>
+		</LineItem>
+		<LineItem>
+			<SequenceNumber>6</SequenceNumber>
+			<Tax TaxType="Sales">
+				<Amount>114</Amount>
+				<Percent>8</Percent>
+				<TaxableAmount TaxIncludedInTaxableAmountFlag="false">1434</TaxableAmount>
+			</Tax>
+		</LineItem>
+		<Total TotalType="TransactionSubtotal">1720</Total>
+		<Total TotalType="TransactionGrandAmount">1548</Total>
+	</RetailTransaction>
+</Transaction>
+</POSLog>
+
+Then receipt should be:
+
+<html>
+<body>
+<table>
+<tbody>
+<tr><td>Dev#: <td><td>Tx#: 4209<td><tr>
+<tr><td>Date:<td><td>2014/04/07 16:05:42<td><tr>
+</tbody>
+</table>
+<table'>
+<tbody><tr><td colspan='3''>Item B5</td></tr><tr><td></td><td>￥556</td></tr>
+<tr><td colspan='3''>Item B4</td></tr><tr><td></td><td>￥545</td></tr>
+<tr><td colspan='3''>Item C4</td></tr><tr><td></td><td>￥1,440</td></tr>
+</tbody></table>
+<table>
+<tr><td>Sub total</td><td>￥2,541</td></tr>
+<tr><td>Discount</td><td>￥172</td></tr>
+<tr><td>Total Amount</td><td>￥2,369</td></tr>
+<tr><td>(Tax</td><td>￥114)</td></tr>
+<tr><td>Cash</td><td>￥2,000</td></tr>
+<tr><td>Change</td><td>￥452</td></tr>
+</table>
+</table></body>
+</html>
+
+When asked to make receipt using null PosLog
+Then receipt should be empty

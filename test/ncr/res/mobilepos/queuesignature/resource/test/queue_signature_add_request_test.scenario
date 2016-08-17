@@ -1,0 +1,34 @@
+Scenario: Add a signature request into the queue {mapped json notation}
+Given a QueueSignature resource
+When I add the signature request with storeid{000031}, queueid{4321}, posterminalid{1234}, txid{9876}, cainfo{{"ApprovalNo":"1234567","TimeOfUse":"20120308083359","ShopName":"testshopname","SlipNo":"12345","CardNo":"999999XXXXXX9999","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","Sum":"123456","TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}}
+Then result shoud be {0}
+!-- utilize json data in cainforaw to populate fields
+!-- make sure that table values are the following:
+Then TXL_EXTERNAL_CA_REQ table values should be:
+|RetailStoreId	|WorkstationId|BusinessDayDate		|SequenceNumber	|Type     |TermId 	|SlipNumber	|Status	|Pan				|ExpDate	|Amount		|PaymentMethod	|CreditCompanyCode	|RecvCompanyCode	|CreditCompanyName	|OperatorCode	|ApprovalCode	|CreditStatus	|CafisTraceNum	|CaInfoRaw|
+|000031			|1234		  |2012-03-08			|9876			|3        |4321		|NA			|3		|999999XXXXXX9999	|NA			|123456		|NA				|NA					|NA					|NA					|NA				|NA				|NA				|0				|{"ApprovalNo":"1234567","TimeOfUse":"20120308083359","ShopName":"testshopname","SlipNo":"12345","CardNo":"999999XXXXXX9999","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","Sum":"123456","TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}|
+
+Scenario: Add a signature request into the queue {natural json notation}
+Given a QueueSignature resource
+When I add the signature request with storeid{000031}, queueid{4321}, posterminalid{1234}, txid{9876}, cainfo{{"ApprovalNo":"1234567","TimeOfUse":"20120308083359","ShopName":"testshopname","SlipNo":"12345","CardNo":"999999XXXXXX9999","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","Sum":123456,"TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}}
+Then result shoud be {0}
+!-- utilize json data in cainforaw to populate fields
+!-- make sure that table values are the following:
+Then TXL_EXTERNAL_CA_REQ table values should be:
+|RetailStoreId	|WorkstationId|BusinessDayDate		|SequenceNumber	|Type     |TermId 	|SlipNumber	|Status	|Pan				|ExpDate	|Amount		|PaymentMethod	|CreditCompanyCode	|RecvCompanyCode	|CreditCompanyName	|OperatorCode	|ApprovalCode	|CreditStatus	|CafisTraceNum	|CaInfoRaw|
+|000031			|1234		  |2012-03-08			|9876			|3        |4321		|NA			|3		|999999XXXXXX9999	|NA			|123456		|NA				|NA					|NA					|NA					|NA				|NA				|NA				|0				|{"ApprovalNo":"1234567","TimeOfUse":"20120308083359","ShopName":"testshopname","SlipNo":"12345","CardNo":"999999XXXXXX9999","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","Sum":123456,"TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}|
+
+Scenario: Add a signature request into the queue {no cardno}
+Given a QueueSignature resource
+When I add the signature request with storeid{000031}, queueid{4321}, posterminalid{1234}, txdate{2012-03-08}, txid{9876}, cainfo{{"ApprovalNo":"1234567","TimeOfUse":"20120308083359","ShopName":"testshopname","SlipNo":"12345","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","Sum":123456,"TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}}
+Then result shoud be {5}
+
+Scenario: Add a signature request into the queue {no amount/sum}
+Given a QueueSignature resource
+When I add the signature request with storeid{000031}, queueid{4321}, posterminalid{1234}, txdate{2012-03-08}, txid{9876}, cainfo{{"ApprovalNo":"1234567","TimeOfUse":"20120308083359","ShopName":"testshopname","SlipNo":"12345","CardNo":"999999XXXXXX9999","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}}
+Then result shoud be {5}
+
+Scenario: Add a signature request into the queue {no timeofuse}
+Given a QueueSignature resource
+When I add the signature request with storeid{000031}, queueid{4321}, posterminalid{1234}, txid{9876}, cainfo{{"ApprovalNo":"1234567","ShopName":"testshopname","SlipNo":"12345","CardNo":"999999XXXXXX9999","ExpireDate":"1213","BusinessDivision":"1","MerchandiseCode":"1234","CardCompanyCode":"1234567890a","CardCompanyName":"JCB","PaymentDivision":"10","InstallmentAmount":"1","NumberOfBonuses":"0","Sum":123456,"TaxAndPostage":"5","RomanName":"test roman name","Sign":"S"}}
+Then result shoud be {5}

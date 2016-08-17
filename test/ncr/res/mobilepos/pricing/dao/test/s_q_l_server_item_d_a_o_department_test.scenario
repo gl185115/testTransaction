@@ -1,0 +1,28 @@
+Scenario: Perform SQLServerItemDAOController
+Given I have an Item DAO Controller
+Given entries for {departments} in database
+!-- Known department 
+When I get department details for DPT{0134} in STOREID{000031}
+Then I should get department model with properties: 
+|Dpt	|DptName	|DptKanaName	|Category	|
+|0134	|Test Department 0130	|åüç∏ïî0130		|0001	|
+!-- Unknown store id 
+When I get department details for DPT{0130} in STOREID{999931}
+Then the department model should be not null
+Then the resultcode should be 180
+
+!-- Unknown department 
+When I get department details for DPT{9999} in STOREID{000031}
+Then the department model should be not null
+Then the resultcode should be 180
+
+!-- Unknown store id and Unknown department 
+When I get department details for DPT{9999} in STOREID{999931}
+Then the department model should be not null
+Then the resultcode should be 180
+
+!-- Known department but with empty department name
+When I get department details for DPT{0222} in STOREID{000031}
+Then I should get department model with properties:
+|Dpt	|DptName	|DptKanaName	|Category	|
+|0222	|			|				|0001		|

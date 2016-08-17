@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+  <table name="TXU_TOTAL_CREDITSTORE_SUMDAY">
+    <column>CompanyId</column>
+    <column>RetailStoreId</column>
+    <column>CreditCompanyId</column>
+    <column>PaymentMethod</column>
+    <column>BusinessDayDate</column>
+    <column>TrainingFlag</column>
+    <column>TxType</column>
+    <column>SalesItemCnt</column>
+    <column>SalesItemAmt</column>
+    <column>InsDate</column>
+    <column>InsAppId</column>
+    <column>InsOpeCode</column>
+    <column>UpdDate</column>
+    <column>UpdAppId</column>
+    <column>UpdOpeCode</column>
+    <row>
+      <value>01</value>
+      <value>0031</value>
+      <value>01</value>
+      <value>Once</value>
+      <value>2015-08-24</value>
+      <value>0</value>
+      <value>Sale</value>
+      <value>1</value>
+      <value>500</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+    </row>
+    <row>
+      <value>01</value>
+      <value>0031</value>
+      <value>01</value>
+      <value>Twice</value>
+      <value>2015-08-24</value>
+      <value>0</value>
+      <value>Sale</value>
+      <value>5</value>
+      <value>1500</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+    </row>
+    <row>
+      <value>01</value>
+      <value>0031</value>
+      <value>01</value>
+      <value>Revolving</value>
+      <value>2015-08-25</value>
+      <value>0</value>
+      <value>Sale</value>
+      <value>10</value>
+      <value>2500</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+    </row>
+    <row>
+      <value>01</value>
+      <value>0031</value>
+      <value>01</value>
+      <value>Revolving</value>
+      <value>2015-08-25</value>
+      <value>1</value>
+      <value>Sale</value>
+      <value>1</value>
+      <value>1</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+      <value>2015-08-24 16:11:00.000000</value>
+      <value>settlement.getcreditsummary</value>
+      <value>00009999</value>
+    </row>
+  </table>
+</dataset>

@@ -1,0 +1,28 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="STORE_INTER_SYS">
+    	<column>storecode</column>
+    	<column>usage</column>
+    	<column>value</column>
+    	<row>
+    		<value>9019</value>
+    		<value>1</value>
+    		<value>0</value>
+    	</row>
+    	<row>
+    		<value>9019</value>
+    		<value>1001</value>
+    		<value>1</value>
+    	</row>
+        <row>
+    		<value>9019</value>
+    		<value>1002</value>
+    		<value>2</value>
+    	</row>
+    	<row>
+    		<value>9019</value>
+    		<value>1003</value>
+    		<value>3</value>
+    	</row>
+    </table>
+</dataset>

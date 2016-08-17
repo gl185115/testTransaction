@@ -1,0 +1,402 @@
+@CHARSET "UTF-8";
+ /*
+ *	Display Skin - Green
+ */
+/*
+ *	Main Frame
+ */
+#StatusBar 	{ 
+	background: hsl(208, 11%, 40%); 
+	color: hsl(0,0%,100%); 
+}
+#NavigationBar 	{ 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,60%)),to(hsl(112,45%,40%)));
+	border-color: hsl(112,45%,80%) hsl(112,45%,40%) hsl(112,45%,30%); 
+	color: hsl(112,45%,100%);
+}
+#NavigationBar .Button {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,80%)),to(hsl(112,45%,50%)));
+	border-color: hsl(112,45%,40%) hsl(112,45%,50%) hsl(112,45%,80%);
+}
+#NavigationBar .Button .Badge {
+ 	background: -webkit-gradient(radial, 25% 25%, 2, 25% 25%, 12, from(hsl(7,73%,80%)), to(hsl(7,73%,50%)));
+	color: hsl(0, 0%, 100%);
+	border-color: hsl(0, 0%, 100%);
+}
+#NavigationBar .title { 
+	text-shadow: 2px 2px 1px hsl(0,0%,0%);
+}
+#ChildPage { 
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(hsl(208, 11%, 60%)), to(hsl(208, 11%, 40%)));
+}
+#SidePanel .TouchOut {
+	background: hsla(0, 0%, 0%, 0.5);
+}
+#SidePanel .Panel { 
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(112,45%,60%)),to(hsl(112,45%,30%)));
+}
+#SidePanel .Panel ul li { 
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(112,45%,50%)),to(hsl(112,45%,40%)));
+	color: hsl(112,45%,95%); font-size: 22px; padding-left: 10px; padding-top:15px;
+	border-color: hsl(112,45%,70%) hsl(112,45%,50%) hsl(112,45%,30%);
+}
+#SidePanel .Panel ul li.disabled { color: hsl(112,45%,60%); }
+#SidePanel .Panel .ButtonM { 
+	box-shadow: hsl(0,0%,0%) 0px 2px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 2px 4px;
+}
+.ButtonGray { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,70%)),to(hsl(0,0%,40%))); }
+.ButtonGray:active { background: hsl(0,0%,50%); }
+.ButtonGray p { color: hsl(0,0%,100%); }
+
+#PageIndicators { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(208, 11%, 50%)),color-stop(0.5,hsl(208, 11%, 70%)),to(hsl(208, 11%, 90%))); 
+}
+#PageIndicators .PageIndicator:nth-child(1) .LED { background: -webkit-gradient(linear,left top,left bottom,from(hsl(7, 73%, 95%)),color-stop(0.4,hsl(7, 73%, 60%)),color-stop(0.7,hsl(7, 73%, 50%)),to(hsl(7, 73%, 40%))); }
+#PageIndicators .PageIndicator:nth-child(2) .LED { background: -webkit-gradient(linear,left top,left bottom,from(hsl(7, 73%, 95%)),color-stop(0.4,hsl(7, 73%, 60%)),color-stop(0.7,hsl(7, 73%, 50%)),to(hsl(7, 73%, 40%))); }
+#PageIndicators .PageIndicator:nth-child(3) .LED { background: -webkit-gradient(linear,left top,left bottom,from(hsl(112, 45%, 95%)),color-stop(0.4,hsl(112, 45%, 60%)),color-stop(0.7,hsl(112, 45%, 50%)),to(hsl(112, 45%, 40%))); }
+#PageIndicators .PageIndicator:nth-child(4) .LED { background: -webkit-gradient(linear,left top,left bottom,from(hsl(112, 45%, 95%)),color-stop(0.4,hsl(112, 45%, 60%)),color-stop(0.7,hsl(112, 45%, 50%)),to(hsl(112, 45%, 40%))); }
+#PageIndicators .PageIndicator .Value { 
+	background: hsla(208, 11%, 90%, 0.7); color: hsla(0,0%,0%, 0.7);
+} 
+#PageIndicators .PageIndicator input { 
+	background: hsla(0,0%,50%, 0.1); color: hsla(0,0%,100%, 0.2); 
+}
+
+/*
+ *	Home Page
+ */
+#Home .Message { 
+	color: hsl(0, 0%, 100%);
+}
+#Home .Buttons .ButtonLarge { 
+	background: -webkit-gradient(linear,left top,left bottom, from(hsl(112, 45%, 41%)), to(hsl(112, 45%, 61%))); 
+	border-color: hsl(112, 45%, 80%) hsl(112, 45%, 40%) hsl(112, 45%, 30%);
+	box-shadow: hsl(112, 45%, 40%) 0px 5px 10px; -webkit-box-shadow: hsl(112, 45%, 40%) 0px 5px 10px;
+}
+#Home .Buttons .ButtonLarge:active { 
+	background: -webkit-gradient(linear,left top,left bottom, from(hsl(112, 45%, 70%)), to(hsl(112, 45%, 90%))); 
+	border-color: hsl(112, 45%, 90%) hsl(112, 45%, 80%) hsl(112, 45%, 70%);
+	box-shadow: hsl(112, 45%, 51%) 0px 5px 10px; -webkit-box-shadow: hsl(112, 45%, 51%) 0px 5px 10px; 
+}
+#Home .Buttons .ButtonLarge .Label { 
+	color: hsl(0,0%,100%); text-shadow: 1px 1px 2px hsl(112,45%,20%); 
+}
+
+/*
+ *	Sales Transaction Page
+ */
+#CustomerInfo { 
+	background: hsl(112,45%,90%); border-color: hsl(112,45%,95%) hsl(112,45%,70%) hsl(112,45%,60%);
+}
+#CustomerInfo td:nth-child(odd) p { color: hsl(0,0%,50%); }
+#Details .Scroller .Button {
+	background: -webkit-gradient(linear,0% 0%, 0% 100%, from(hsl(0,0%,75%)),color-stop(0.2, hsl(0,0%,80%)),to(hsl(0,0%,60%)));
+	border-color: hsl(0,0%,80%) hsl(0,0%,70%) hsl(0,0%,50%);
+}
+#Details .Scroller .Button:active { background: hsl(0,0%,95%); }
+#Details .Scroller .Button .ScrollUp { position: absolute; left: 5px; top: 20px; }
+#Details .Scroller .Button .ScrollDown { position: absolute; left: 5px; top: 25px; }
+#Details .Item,
+#Details .Tender { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(58,100%,90%)),color-stop(0.2, hsl(58,100%,90%)),to(hsl(58,100%,100%)));
+}
+#Details .Info .Message { 
+	border-color: hsl(58,100%,90%);
+}
+#Details .Info .TableLeft td:nth-child(1) { 
+	color: hsl(0,0%, 50%);
+}
+#Details .Info .TableRight td:nth-child(1) { 
+	color: hsl(0,0%, 50%); 
+}
+#Details .Modifiers .Button.white { background: -webkit-gradient(radial,100% 100%,20,100% 100%,80,from(hsl(0,0%,100%)),to(hsl(0,0%,90%))); }
+#Details .Modifiers .Button.silver { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%))); }
+#Details .Modifiers .Button.gray { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,70%)),to(hsl(0,0%,40%))); }
+#Details .Modifiers .Button.red { background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,70%)),to(hsl(7,73%,40%))); }
+#Details .Modifiers .Button.orange { background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,95%,70%)),to(hsl(35,95%,40%))); }
+#Details .Modifiers .Button.beige { background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,70%)),to(hsl(34,30%,40%))); }
+#Details .Modifiers .Button.yellow { background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,70%)),to(hsl(41,100%,40%))); }
+#Details .Modifiers .Button.green { background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%))); }
+#Details .Modifiers .Button.blue { background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,70%)),to(hsl(212,85%,40%))); }
+#Details .Modifiers .Button:active { background: hsl(0, 0%,95%); }
+#Details .Modifiers .Button p { color: hsl(0,0%,100%); }
+#Details .Bubble { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,90%)),to(hsl(34,30%,50%)));
+}
+#Details .Bubble .InnerBox { 
+	background: hsl(34,30%,80%); 
+	border-color: hsl(34,30%,30%) hsl(34,30%,50%) hsl(34,30%,90%);
+}
+#Details .Bubble .InnerBox .Echoback { 
+	background: hsl(0,0%,100%); 
+}
+#Details .Bubble .Button.white { background: -webkit-gradient(radial,100% 100%,20,100% 100%,80,from(hsl(0,0%,100%)),to(hsl(0,0%,90%))); }
+#Details .Bubble .Button.silver { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%))); }
+#Details .Bubble .Button.gray { background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,70%)),to(hsl(0,0%,40%))); }
+#Details .Bubble .Button.red { background: -webkit-gradient(linear,left top,left bottom,from(hsl(7,73%,70%)),to(hsl(7,73%,40%))); }
+#Details .Bubble .Button.orange { background: -webkit-gradient(linear,left top,left bottom,from(hsl(35,95%,70%)),to(hsl(35,95%,40%))); }
+#Details .Bubble .Button.beige { background: -webkit-gradient(linear,left top,left bottom,from(hsl(34,30%,70%)),to(hsl(34,30%,40%))); }
+#Details .Bubble .Button.yellow { background: -webkit-gradient(linear,left top,left bottom,from(hsl(41,100%,70%)),to(hsl(41,100%,40%))); }
+#Details .Bubble .Button.green { background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%))); }
+#Details .Bubble .Button.blue { background: -webkit-gradient(linear,left top,left bottom,from(hsl(212,85%,70%)),to(hsl(212,85%,40%))); }
+#Details .Bubble .Button:active { background: hsl(0, 0%,95%); }
+#Details .Bubble .Button p { color: hsl(0,0%,100%); }
+#EntryItem .Button:nth-child(1) { 
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(112,45%,80%)),to(hsl(112,45%,60%))); 
+	border-color: hsl(112,45%,95%) hsl(112,45%,70%) hsl(112,45%,50%);
+}
+#EntryItem .Button:nth-child(2) { 
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(112,45%,80%)),to(hsl(112,45%,60%))); 
+	border-color: hsl(112,45%,95%) hsl(112,45%,70%) hsl(112,45%,50%);
+}
+#EntryItem .Button:nth-child(3) { 
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%, from(hsl(112,45%,80%)),to(hsl(112,45%,60%))); 
+	border-color: hsl(112,45%,95%) hsl(112,45%,70%) hsl(112,45%,50%);
+}
+#EntryItem .Button:nth-child(4) { 
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%,from(hsl(34,30%,80%)),to(hsl(34,30%,60%))); 
+	border-color: hsl(34,30%,95%) hsl(34,30%,70%) hsl(34,30%,50%);
+}
+#EntryItem .Button:active { background: hsl(0,0%,90%); }
+#EntryTender .Buttons {	position: absolute; left: 0px; top: 10px; }
+#EntryTender .Buttons .Button {
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%,from(hsl(34,30%,80%)),to(hsl(34,30%,60%))); 
+	border-color: hsl(34,30%,95%) hsl(34,30%,70%) hsl(34,30%,50%);
+}
+#EntryTender .Buttons .Button.Calculator { 
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%,from(hsl(0,0%,70%)),to(hsl(0,0%,50%))); 
+	border-color: hsl(0,0%,85%) hsl(0,0%,70%) hsl(0,0%,55%);
+}
+#EntryTender .Buttons .Button:active { background: hsl(0,0%,90%); }
+#EntryTender .Echoback {
+	background: hsl(0,0%,100%); 
+}
+#EntryTender .Button.Next {
+	background: -webkit-gradient(linear, 0% 0%, 100% 100%,from(hsl(0,0%,70%)),to(hsl(0,0%,50%))); 
+	border-color: hsl(0,0%,95%) hsl(0,0%,70%) hsl(0,0%,50%);
+	color: hsl(0, 0%, 100%);
+}
+#ItemList { 
+	background: hsl(0,0%,100%); 
+}
+#ItemList .Bundle .Caption {
+	background: hsl(212, 86%, 63%);
+	color: hsl(0, 0%, 100%);
+}
+#ItemList .Bundle .Discount {
+	background: hsl(0, 0%, 80%);
+ 	border-color: hsl(0,0%,80%) hsl(0,0%,80%) hsl(0,0%,80%);
+}
+#ItemList .Line { 
+	border-color: hsl(0,0%,90%) hsl(0,0%,70%) hsl(0,0%,50%);
+}
+#ItemList .Line p { display: inline; }
+#ItemList .Line.Silver {
+	background: hsl(0,0%,90%);
+}
+#ItemList .Line.Selected { background: hsl(58,100%,90%); }
+#ItemList .Line .Check {
+	background: hsl(0, 0%, 95%);
+	border-color: hsl(0,0%,50%); 
+}
+#ItemList .Line .Check.returned {
+ 	background: -webkit-gradient(radial, 25% 25%, 2, 25% 25%, 14, from(hsl(7,73%,80%)), to(hsl(7,73%,40%)));
+}
+#ItemList .Line .Row1Left.returned { 
+	color: hsl(0,0%,50%);
+}
+#ItemList .Line .Row1Right.returned { 
+	color: hsl(0,0%,50%);
+}
+#ItemList .Line .Row2Left { 
+	color: hsl(0,0%, 50%);
+}
+#ItemList .Line .Button { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,50%)),to(hsl(0,0%,30%)));
+	border-color: hsl(0,0%,90%) hsl(0,0%,60%) hsl(0,0%,30%); 
+}
+#ItemList .Line .Button .Label { 
+	color: hsl(0,0%,90%);
+}
+#ItemList p.disabled { color: hsl(0, 0%, 50%); }
+#KeyPad .Restored { 
+	background: -webkit-gradient(linear,left top,right top,
+		from(hsla(0,0%,20%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+ 	border-color: hsl(0,0%,95%);
+}
+#KeyPad .Restored .Button.Resize {
+	background: -webkit-gradient(linear,left top,right top,from(hsl(0,0%,60%)),color-stop(0.2, hsl(0,0%,80%)), to(hsl(0,0%,95%)));
+}
+#KeyPad .Restored .InnerBox .Echoback {
+	background: hsl(0,0%,100%); -webkit-box-shadow: hsl(0,0%,0%) 2px 2px 4px inset;
+}
+#Notes .Minimized .Button.Resize { 
+	position: absolute; right: 0px; top: 300px; width: 50px; height: 80px;
+	background: -webkit-gradient(linear,left top,right top,from(hsl(0,0%,95%)),color-stop(0.6, hsl(0,0%,80%)), to(hsl(0,0%,60%)));
+	border-radius: 10px 0px 0px 10px;
+	box-shadow: hsl(0,0%,0%) 0px 1px 4px; -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 4px;
+}
+
+#Notes .Restored  { 
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%,
+		from(hsla(0,0%,20%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+ 	border-color: hsl(0,0%,95%);
+}
+#Notes .Restored .Button.Resize {
+	background: -webkit-gradient(linear,0% 0%, 0% 100%,from(hsl(0,0%,60%)),color-stop(0.2, hsl(0,0%,80%)), to(hsl(0,0%,95%)));
+}
+#Notes .Restored .Note .Tab { 
+	background: hsl(112,45%,70%);
+	color: hsl(0,0%,100%);
+}
+#Notes .Restored .Note .Tab.Selected {
+	background: hsl(112,45%,50%);
+}
+#Notes .Restored .Note .Pad { 
+	background: hsl(112,45%,90%);
+}
+#Notes .Restored .Note .Pad.CustomerInfo .Profile td:nth-child(odd) { color: hsl(0, 0%, 50%); }
+#Notes .Restored .Note .Pad.CustomerInfo .PurchaseHistory { 
+	background: hsl(112,45%,95%);
+}
+#Notes .Restored .Note .Pad.CustomerInfo .PurchaseHistory tr:nth-child(odd) { background: hsl(112,45%,98%); }
+#Notes .Restored .Note .Pad.CustomerInfo .PurchaseHistory tr:nth-child(even) { background: hsl(112,45%,95%); }
+#Notes .Restored .Note .Pad.CustomerInfo .PurchaseHistory td p:nth-child(2) { color: hsl(0, 0%, 50%); } 
+#Notes .Restored .Note .Pad.Log .TransactionList { 
+	background: hsl(112,45%,95%);
+}
+#Notes .Restored .Note .Pad.Log .TransactionList tr:nth-child(odd) { background: hsl(112,45%,98%); }
+#Notes .Restored .Note .Pad.Log .TransactionList tr:nth-child(even) { background: hsl(112,45%,95%); }
+#PickList .Minimized .SwipeArea .Button.Resize { 
+	background: -webkit-gradient(linear,left top,right top,from(hsl(0,0%,95%)),color-stop(0.6, hsl(0,0%,80%)), to(hsl(0,0%,60%)));
+}
+#PickList .Restored {
+	background: -webkit-gradient(linear,left top,right top,
+		from(hsla(0,0%,20%, 0.5)),
+		color-stop(0.99, hsla(0,0%,30%, 0.5)),
+		to(hsla(0,0%,20%, 0.8)));
+ 	border-color: hsl(0,0%,95%);
+}
+#PickList .Restored .Categories .Button.Resize {
+	background: -webkit-gradient(linear,left top,right top,from(hsl(0,0%,60%)),color-stop(0.2, hsl(0,0%,80%)), to(hsl(0,0%,95%)));
+}
+#PickList .Restored .Categories .Category {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%)));
+	color: hsl(0,0%,100%);
+}
+#PickList .Categories .Category.selected { 
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(112,0%,80%)),to(hsl(112,0%,70%))); 
+}
+#PickList .Restored .Categories .Category:active { background: hsl(112,45%,50%); }
+#PickList .Restored .List .Button {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,50%)));
+}
+#PickList .Restored .List .Button .InnerBox {
+	background: hsl(0,0%,100%);
+}
+#PickList .Restored .List .Button .InnerBox .ImageBox {
+ 	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,95%);
+}
+#PickList .Restored .List .Button .InnerBox .LabelBox {
+	background: hsl(0,0%,90%);
+ 	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,100%);
+}
+#PickList .Restored .List .Button .Badge {
+ 	background: -webkit-gradient(radial, 25% 25%, 2, 25% 25%, 14, from(hsl(7,73%,80%)), to(hsl(7,73%,50%)));
+	color: hsl(0, 0%, 100%);
+	border-color: hsl(0, 0%, 100%);
+}
+#PopupCustomer .CustomerForm { 
+	background: hsl(34,30%,85%);
+}
+#PopupCustomer .CustomerForm .Entry { 
+	background: -webkit-gradient(linear,left top,left bottom,from( hsl(34,30%,95%)),to(hsl(34,30%,90%)));
+	border-color: hsl(34,30%,100%) hsl(34,30%,70%) hsl(34,30%,50%);
+}
+#PopupCustomer .CustomerForm .Entry .Line .Label { 
+	color: hsl(0,0%,50%);
+}
+#PopupCustomer .CustomerForm .Entry .Line .Inset { 
+	background: hsl(0,0%,100%);	
+}
+#PopupCustomer .Entry .Bubble { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,100%)),to(hsl(0,0%,90%)));
+}
+#PopupOtherItems .ItemForm { 
+	background: hsl(34,30%,85%);
+}
+#PopupOtherItems .ItemForm .Entry { 
+	background: -webkit-gradient(linear,left top,left bottom,from( hsl(34,30%,95%)),to(hsl(34,30%,90%)));
+	border-color: hsl(34,30%,100%) hsl(34,30%,70%) hsl(34,30%,50%);
+}
+#PopupOtherItems .ItemForm .Entry .Line .Label { 
+	color: hsl(0,0%,50%);
+}
+#PopupOtherItems .ItemForm .Entry .Line .Inset { 
+	background: hsl(0,0%,100%);	
+}
+#PopupOtherItems .ItemForm .Entry .Bubble { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,100%)),to(hsl(0,0%,90%)));
+}
+#PopupOtherItems .ItemForm .Entry.DepartmentName .Bubble .Outline .Level1 {
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(34,30%,80%)),to(hsl(34,30%,60%))); 
+	border-color: hsl(0,0%,100%) hsl(0,0%,100%) hsl(0,0%,70%);
+}
+#PopupOtherItems .ItemForm .Entry.DepartmentName .Bubble .Outline .Level2 {
+	background: -webkit-gradient(linear,left top,right bottom,from(hsl(34,30%,90%)),to(hsl(34,30%,70%))); 
+	border-color: hsl(0,0%,100%) hsl(0,0%,100%) hsl(0,0%,70%);
+}
+#PopupOtherTenders .TenderForm { 
+	background: hsl(34,30%,85%);
+}
+#PopupOtherTenders .TenderForm .Entry { 
+	background: -webkit-gradient(linear,left top,left bottom,from( hsl(34,30%,95%)),to(hsl(34,30%,90%)));
+	border-color: hsl(34,30%,100%) hsl(34,30%,70%) hsl(34,30%,50%);
+ }
+#PopupOtherTenders .TenderForm .Entry .Line .Label { 
+	color: hsl(0,0%,50%);
+}
+#PopupOtherTenders .TenderForm .Entry .Line .Inset { 
+	background: hsl(0,0%,100%);	
+}
+#PopupOtherTenders .TenderForm .CardData td:nth-child(2) {
+	background: -webkit-gradient(linear,left top,left bottom,from( hsl(0,0%,80%)),to(hsl(0,0%,95%)));
+}
+#PopupOtherTenders .TenderForm .MissingCard { 
+	color: hsl(112,45%,50%);
+}
+#PopupOtherTenders .Entry .Bubble { 
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,100%)),to(hsl(0,0%,90%)));
+}
+#PopupOtherTenders .Entry.CardBrand .Bubble .Buttons .Button {
+	background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,50%)));
+}
+#PopupOtherTenders .Entry.CardBrand .Bubble .Buttons .Button .InnerBox {
+	background: hsl(0,0%,100%);
+}
+#PopupOtherTenders .Entry.CardBrand .Bubble .Buttons .Button .InnerBox .ImageBox {
+ 	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,95%);
+}
+#PopupOtherTenders .Entry.CardBrand .Bubble .Buttons .Button .InnerBox .LabelBox {
+	background: hsl(0,0%,90%);
+ 	border-color: hsl(0,0%,50%) hsl(0,0%,70%) hsl(0,0%,100%);
+}
+#QuickReturn { 
+	background: -webkit-gradient(linear, left top, right bottom,from(hsl(35,95%,60%)),to(hsl(35,95%,40%))); 
+	border-color: hsl(35,95%,95%) hsl(35,95%,80%) hsl(35,95%,70%);
+}
+#ToolBar { 
+	background: -webkit-gradient(linear,left top,left bottom,
+		from(hsl(208, 11%, 30%)),color-stop(0.3,hsl(208, 11%, 50%)),to(hsl(208, 11%, 90%)));
+}
+#ToolBar .ButtonTool {
+	background: -webkit-gradient(linear,left top,left bottom,
+		from(hsl(0,0%,90%)),color-stop(0.1,hsl(0,0%,100%)),color-stop(0.6,hsl(0,0%,90%)),to(hsl(0,0%,70%)));	 
+} 
+#ToolBar .ButtonTool:active { background: hsl(0,0%,50%); }
+
+/*** end of CSS ***/

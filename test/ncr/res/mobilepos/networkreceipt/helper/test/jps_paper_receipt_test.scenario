@@ -1,0 +1,5 @@
+Scenario: Jps Paper Receipt Constructor Testing
+Given I create a JPS PaperReceipt without a name
+Then I should have a JPS PaperReceipt
+Given I create a JPS PaperReceipt using papername
+Then I should have a JPS PaperReceipt

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Toppan Giftcard Request test tool</title>
+  <style type="text/css">
+.result {
+  margin-left: 8px;
+}
+  </style>
+</head>
+
+<body>
+<div>
+  <label>店番号
+    <input type="text" id="storeid" size="6" value="0031"/>
+  </label>
+  <label>ワークステーションID
+    <input type="text" id="workstationid" size="6" value="0002"/>
+  </label>
+  <label>取引番号
+    <input type="text" id="transactionid" size="6" value="0031"/>
+  </label>
+  <label>テスト取引
+    <input type="checkbox" id="test"/>
+  </label>
+  <div>
+    <label>JIS1トラック
+      <input type="text" id="jis1" size="80" value=";3542808299111075=18111010000002500000?"/>
+    </label>
+    <label>取引額
+      <input type="text" id="amt" size="8"/>
+    </label>
+    <label>取消取引番号
+      <input type="text" id="oTransactionid" size="6" value="0030"/>
+    </label>
+  </div>
+  <input type="button" id="query" value="照会"/>
+  <input type="button" id="sales" value="売上"/>
+  <input type="button" id="cancel" value="取消"/>
+</div>
+<hr>
+<div id="dispa">
+</div>
+<hr>
+<address></address>
+<!-- hhmts start --> Last modified: Thu Feb 26 10:25:10 +0900 2015 <!-- hhmts end -->
+</body>
+<script type="text/javascript">
+(function() {
+  var keys = ['storeid', 'workstationid', 'transactionid'];
+  var createData = function(cancel) {
+    var data = {};
+    data['JIS1'] = document.getElementById('jis1').value;
+    data['Amount'] = document.getElementById('amt').value;
+    if (cancel) {
+      data['TransactionId'] = document.getElementById('oTransactionid').value;
+    }
+    var jsdata = JSON.stringify(data);
+    data = '';
+    for (var i = 0; i < keys.length; i++) {
+      data += keys[i] + '=' + document.getElementById(keys[i]).value + '&';
+    }
+    data += 'test=' + (document.getElementById('test').checked) ? 'true&' : 'false&';
+    data += 'giftcard=' + encodeURIComponent(jsdata);
+    return data;
+  };
+  var send = function(uri, data) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', uri);
+    xhr.onload = function() {
+      if (xhr.responseText[0] == '<') {
+        alert(xhr.responseText);
+      } else {
+        var ret = JSON.parse(xhr.responseText);
+        var s = '';
+        for (var k in ret) {
+          s += '<div><span class="result">' + k + '</span><span class="result">' + ret[k] + '</span></div>';
+        }
+        document.getElementById('dispa').innerHTML = s;
+      }
+    };
+    xhr.onerror = function(e) {
+      alert(e);
+    };
+    xhr.send(data);
+  };
+  document.getElementById('query').addEventListener('click', function() {
+    send('rest/giftcard/query', createData(false));
+  });
+  document.getElementById('sales').addEventListener('click', function() {
+    send('rest/giftcard/sales', createData(false));
+  });
+  document.getElementById('cancel').addEventListener('click', function() {
+    send('rest/giftcard/cancel', createData(true));
+  });
+})();
+</script>
+</html>

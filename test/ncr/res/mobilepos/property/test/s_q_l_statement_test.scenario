@@ -1,0 +1,9 @@
+Scenario: Perform SQLStatementTest Usual
+Given an SQL Statement Listing from {test/ncr/res/mobilepos/property/test/sql_statements.xml}
+When I get an Item from Listing with key {select-table1}
+Then I should get the value {SELECT * FROM TABLE1}
+When I get an Item from Listing with key {delete-table1}
+Then I should get the value {DELETE FROM TABLE1 WHERE COL_ID = 1}
+When I get an Item from Listing with key {update-table1}
+Then I should get the value {UPDATE TABLE1 SET COL1 = 1 WHERE COL_ID = 1}
+Given an SQL Statement Listing from {sql_statements.xml}

@@ -1,0 +1,43 @@
+Scenario: Successfully get a store
+Given a table entry named {MST_STOREINFO.xml} in the database
+Given a StoreResource
+When a request to list all stores
+Then the following stores are retrieved:
+|ResultCode|ExtendedResultCode|RetailStoreID|StoreName   |StoreAddr  |StoreTel|
+|0         |0                 |000031       |STORE-000031|Cebu City|253.2323|
+|0         |0                 |000033       |STORE-000031|Cebu City|253.2323|
+Then the result should be {RES_OK}
+
+Scenario: Successfully get a list of stores
+Given a table entry named {MST_STOREINFO_LIST.xml} in the database
+Given a StoreResource
+When a request to list all stores
+Then the following stores are retrieved:
+|ResultCode|ExtendedResultCode|RetailStoreID|StoreName   |StoreAddr  |StoreTel     |
+|0         |0                 |000031       |STORE-000031|Cebu City |253.2323|
+|0         |0                 |000032       |STORE-000032|Cebu City |253.2323|
+|0         |0                 |000033       |STORE-000033|Cebu City |253.2323|
+|0         |0                 |000034       |STORE-000034|Cebu City |253.2323|
+|0         |0                 |000035       |STORE-000035|Cebu City |253.2323|
+|0         |0                 |000036       |STORE-000036|Cebu City |253.2323|
+|0         |0                 |000037       |STORE-000037|Cebu City |253.2323|
+|0         |0                 |000038       |STORE-000038|Cebu City |253.2323|
+|0         |0                 |000039       |STORE-000039|Cebu City |253.2323|
+|0         |0                 |000040       |STORE-000040|Cebu City |253.2323|
+|0         |0                 |000041       |STORE-000041|Cebu City |253.2323|
+Then the result should be {RES_OK}
+
+Scenario: Database throw Exceptions
+Given a StoreResource
+Given that database is throwing an unexpected {DaoException}
+When a request to list all stores
+Then the result should be {RES_ERROR_DAO}
+Given that database is throwing an unexpected {SQLException}
+When a request to list all stores
+Then the result should be {RES_ERROR_DB}
+Given that database is throwing an unexpected {SQLStatementException}
+When a request to list all stores
+Then the result should be {RES_ERROR_DAO}
+Given that database is throwing an unexpected {Exception}
+When a request to list all stores
+Then the result should be {RES_ERROR_GENERAL}

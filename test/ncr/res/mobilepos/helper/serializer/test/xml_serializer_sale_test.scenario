@@ -1,0 +1,12 @@
+Scenario: Serialize Credit Authorization XML
+Given I have a XmlSerializer for Sale
+When I have an Sale xml:
+<Sale TaxableFlag="true">
+　　　　　　<ItemID>0000000012345</ItemID>
+　　　　　　<Description>Milk</Description>
+　　　　　　<ExtendedAmount>200</ExtendedAmount>
+　　　　　　<Quantity>1</Quantity>
+</Sale>
+Then I should get Sale:
+|ItemID|Description|ExtendedAmount|Quantity|TaxableFlag|
+|0000000012345|Milk|200|1|true|

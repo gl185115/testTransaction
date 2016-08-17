@@ -1,0 +1,114 @@
+
+<div class="Panel"><div class="InnerBox">
+
+	<!-- <div class="SwitchSet">
+	        <p class="Label Left" data-ng-bind-html="'EditTask.ToDeploy'|resPhrase:context"></p>
+	        <div class="Switch" data-res-touch="effective = !effective" data-ng-init="effective=false">
+	                <div class="On" data-ng-show="effective"></div>
+	                <div class="Off" data-ng-show="!effective"></div>
+	        </div>
+	        <p class="Label Right" data-ng-bind-html="'EditTask.Draft'|resPhrase:context"></p>
+	</div> -->
+
+	<div class="DeployOptions">
+
+	    <div class="OptionTarget">
+	        <p class="Label" data-ng-bind-html="'EditTask.Target'|resPhrase:context"></p>
+	        <input class="Value" type="text" size="30" id="deployStoreValue" data-ng-readonly=true
+	               data-ng-model="editTargetName" data-res-tap="selectEditInput(0)">
+	        <div class="PointLeft" data-ng-show="model.indexEntry == 0"></div>
+	        <div class="StoreSelector" data-ng-show="model.indexEntry == 0">
+	        	<div class="StoreSelectorView">
+		        	<div id="wrapperStoreSelectorView">
+		        		<div class="scroller">
+		        			<div class="StoreSelectorViewTree" data-ng-repeat="level1 in model.editTask.deployCategories track by $index">
+			        			<div class="Level1Line" data-ng-class="{selected: $index == indexLevel1 && indexLevel2 == -1}" data-res-touch="selectLevel1($index)">
+		        					<p data-ng-bind-html="level1.category"></p>
+			        			</div>
+	      						<div data-ng-repeat="level2 in level1.storeEntries" data-ng-show="indexLevel1 == $parent.$index">
+		        					<div class="Level2Line" data-ng-show="indexLevel1 != 0 && doShowDetail == true"
+		        						data-res-tap="selectLevel2($index)" data-ng-class="{selected: $index == indexLevel2}">
+			        					<p data-ng-bind-html="level2.entryNameJa"></p>
+		        					</div>
+		        				</div>
+		        			</div>
+		        		</div>
+		        	</div>
+	        	</div>
+	        	<div class="Buttons">
+	                    <div class="Button W120xH70 gray" data-res-tap="StoreCancel()">
+	                        <p data-ng-bind-html="'Cancel'|resPhrase:context"></p>
+	                    </div>
+	                    <div class="Button W120xH70 green" data-res-tap="StoreOkay()">
+	                        <p data-ng-bind-html="'Okay'|resPhrase:context"></p>
+	                    </div>
+	                </div>
+	        </div>
+	    </div>
+
+            <div class="DeployDate">
+                <p class="Label" data-ng-bind-html="'EditTask.Date'|resPhrase:context"></p>
+                <datepicker date-format="yyyyMMdd">
+	                <input id ="DeployDateValue" class="Value" type="text" data-ng-readonly=true maxlength="8" size="10" data-ng-model="editDate" data-ng-click="selectEditInput(1)"
+	                       placeholder="{{'EditTask.YYYYMMDD'|resPhrase:context}}">
+                </datepicker>
+            </div>
+            <div class="DeployTime">
+                <p class="Label" data-ng-bind-html="'EditTask.Time'|resPhrase:context"></p>
+<!--                 <input id ="DeployTimeValue" class="Value" maxlength="4" type="text" size="10" data-ng-model="editTime" data-res-tap="selectEntry(2)" -->
+<!--                        placeholder="{{'EditTask.HHMM'|resPhrase:context}}"> -->
+                <table>
+					<tbody>
+						<tr>
+							<td rowspan="2">
+								<input type="text" class="DeployTimeHour" maxlength="2" data-ng-model="deployTimeHour" id="deployTimeHour" data-res-click="editDeployTime('deployTimeHour')" data-res-tap="selectDeployTime(1)">
+								<span data-ng-bind-html="'EditTask.DeployTimeHour'|resPhrase:context"></span>&nbsp;&nbsp;
+								<input type="text" class="DeployTimeMinute" maxlength="2" data-ng-model="deployTimeMinute" id="deployTimeMinute" data-res-click="editDeployTime('deployTimeMinute')" data-res-tap="selectDeployTime(2)">
+								<span data-ng-bind-html="'EditTask.DeployTimeMinute'|resPhrase:context"></span>&nbsp;&nbsp;
+							</td>
+							<td>
+								<div class="resButton silver" id="dpTimeUp" data-res-tap="editTimeUp()">
+									<p data-ng-bind-html="'EditTask.DeployTimeUp'|resPhrase:context"></p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<div class="resButton silver" id="dpTimeUp" data-res-tap="editTimeDown()">
+									<p data-ng-bind-html="'EditTask.DeployTimeDown'|resPhrase:context"></p>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+            </div>
+        </div>
+        <div class="Guide">
+            <p data-ng-bind-html="'EditTask.Guide'|resPhrase:context"></p>
+        </div>
+        <div class="List">
+            <div id="wrapperFiles"><div class="scroller">
+                    <ul>
+                        <li class="Line" data-ng-repeat="file in model.editor.fileList"
+                            data-ng-class="{selected: file.filename == taskFilename,'disabled': !file.effective}"
+                            data-res-click="selectTaskFile(file.filename)">
+                            <p data-ng-bind-html="file.filename"></p>
+                        </li>
+<!--                         <li class="Line" data-ng-repeat="file in model.editor.files track by $index" -->
+<!--                             data-ng-class="{selected: file == taskFilename} | {disabled: !model.editor.filesList[$index].effective}" -->
+<!--                             data-res-click="selectTaskFile(file)"> -->
+<!--                             <p data-ng-bind-html="file"></p> -->
+<!--                         </li> -->
+                    </ul>
+                </div></div>
+        </div>
+
+        <div class="Warning" data-ng-show="warning">
+            <p class="text red" data-ng-bind-html="'Warning.' + warning|resPhrase:context"></p>
+        </div>
+        <div class="Buttons">
+            <div class="Button W120xH70 yellow" data-res-tap="cancel()"><p data-ng-bind-html="'Cancel'|resPhrase:context"></p></div>
+            <div class="Button W120xH70 green" data-res-tap="submit()"><p data-ng-bind-html="'Okay'|resPhrase:context"></p></div>
+        </div>
+
+    </div></div>

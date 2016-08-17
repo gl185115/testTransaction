@@ -1,0 +1,27 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_DEVICEINFO">
+        <column>StoreId</column>
+		<column>TerminalId</column>
+        <column>DeviceName</column>
+		<column>SendLogFile</column>
+		<column>SaveLogFile</column>
+		<column>AutoUpload</column>
+		<column>LastTxId</column>
+		<column>LastSuspendTxId</column>
+		<column>Status</column>
+		<column>UpdDate</column>
+		<row>
+			<value>0031</value>
+			<value>1111</value>
+			<value>Tablet Device 1111</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null/>
+			<null/>
+			<value>Active</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+		</row>
+	</table>     	       		
+</dataset>

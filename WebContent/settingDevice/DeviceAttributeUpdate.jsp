@@ -14,7 +14,7 @@ ArrayList<String> TILL_VAL = new ArrayList<String>() {{add("Manual"); add("Auto"
 ArrayList<String> CREDIT_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CREDIT_NAME = new ArrayList<String>() {{add("クレジット処理不可"); add("クレジット処理可");}};
 ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2");}};
-ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMR");}};
+ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP");}};
 ArrayList<String> CASH_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("なし"); add("あり");}};
 ArrayList<String> ATT1_VAL = new ArrayList<String>() {{add("1"); add("2"); add("3");}};
@@ -31,6 +31,8 @@ ArrayList<String> ATT6_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT6_NAME = new ArrayList<String>() {{add("精算後シャットダウンしない"); add("精算後シャットダウンする");}};
 ArrayList<String> ATT7_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しない"); add("SDMC初期化する");}};
+ArrayList<String> ATT8_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add("スワイプ式");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -65,7 +67,7 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 	// ATTAttribute7
 	String ATTAttribute7 = request.getParameter("ATTAttribute7");
 	// ATTAttribute8
-//	String ATTAttribute8 = request.getParameter("Attribute8");
+	String ATTAttribute8 = request.getParameter("ATTAttribute8");
 	// ATTAttribute9
 //	String ATTAttribute9 = request.getParameter("Attribute9");
 	// ATTAttribute10
@@ -91,8 +93,8 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
                 + " Attribute4=?,"
                 + " Attribute5=?,"
                 + " Attribute6=?,"
-                + " Attribute7=?"
-//              + ", Attribute8=?"
+                + " Attribute7=?,"
+                + " Attribute8=?"
 //              + ", Attribute9=?"
 //              + ", Attribute10=?"
                 + " WHERE AttributeId=?; "
@@ -112,10 +114,10 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
         psIns.setString(11, ATTAttribute5);
         psIns.setString(12, ATTAttribute6);
         psIns.setString(13, ATTAttribute7);
-//      psIns.setString(14, ATTAttribute8);
+        psIns.setString(14, ATTAttribute8);
 //      psIns.setString(15, ATTAttribute9);
 //      psIns.setString(16, ATTAttribute10);
-        psIns.setString(14, ATTAttributeId);
+        psIns.setString(15, ATTAttributeId);
         
         try {
             int rsIns = psIns.executeUpdate();
@@ -239,7 +241,8 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 					<th>属性５(Attribute5)</th>
 					<th>属性６(Attribute6)</th>
 					<th>属性７(Attribute7)</th>
-<!--					<th>属性８(Attribute8)</th>
+					<th>属性８(Attribute8)</th>
+<!--					
 	                <th>属性９(Attribute9)</th>
                     <th>属性１０(Attribute10)</th>
 -->
@@ -424,6 +427,18 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 					</select>
 				</td>
 			</tr>
+			<tr>
+				<td align="right">属性８(Attribute8) ：</td>
+				<td align="left"><select name="ATTAttribute8"
+					id="ATTAttribute8" required>
+						<%
+						    for (int i = 0; i < ATT8_VAL.size(); i++) {
+						        out.print("<option value=\"" + ATT8_VAL.get(i) + "\"");
+						        out.println(">" + ATT8_VAL.get(i) + " : " + ATT8_NAME.get(i) + "</option>");
+						    }
+						%>
+				</select></td>
+			</tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>
@@ -493,10 +508,10 @@ ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しな
 		// ATTATTAttribute7
 		StrId = 'attribute7' + InValue;
 		document.getElementById('ATTAttribute7').value = document.getElementById(StrId).value || false;
-
 		// ATTATTAttribute8
-//		StrId = 'attribute8' + InValue;
-//		document.getElementById('ATTAttribute8').value = document.getElementById(StrId).value || false;
+		StrId = 'attribute8' + InValue;
+		document.getElementById('ATTAttribute8').value = document.getElementById(StrId).value || false;
+
 		// ATTATTAttribute9
 //		StrId = 'attribute9' + InValue;
 //		document.getElementById('ATTAttribute9').value = document.getElementById(StrId).value || false;
@@ -529,6 +544,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute5').value);
         valueList.push(document.getElementById('ATTAttribute6').value);
         valueList.push(document.getElementById('ATTAttribute7').value);
+        valueList.push(document.getElementById('ATTAttribute8').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(
@@ -610,10 +626,9 @@ jQuery(function ($) {
 				log += '<td><input type="text" id="attribute7' + i
 						+ '" name="attribute7' + i + '" disabled value="'
 						+ (currentLog[i].Attribute7 || '&nbsp;') + '"></td>';
-
-//				log += '<td><input type="text" id="attribute8' + i
-//						+ '" name="attribute8' + i + '" disabled value="'
-//						+ (currentLog[i].Attribute8 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute8' + i
+						+ '" name="attribute8' + i + '" disabled value="'
+						+ (currentLog[i].Attribute8 || '&nbsp;') + '"></td>';
 //				log += '<td><input type="text" id="attribute9' + i
 //						+ '" name="attribute9' + i + '" disabled value="'
 //						+ (currentLog[i].Attribute9 || '&nbsp;' ) + '"></td>';

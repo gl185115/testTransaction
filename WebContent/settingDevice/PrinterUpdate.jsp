@@ -21,6 +21,10 @@
     final String CONFIRM_03_REUSE = "プリンター情報を再利用してよろしいですか。";
 
     ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンター"); add("ネットワークプリンター");}};
+
+    final static int USB_PRINTER_PORT = 8080;
+    final static int NETWORK_PRINTER_PORT = 9100;
+    int defaultPrinterPort = USB_PRINTER_PORT;
 %>
 <%
     request.setCharacterEncoding("UTF-8");
@@ -52,8 +56,8 @@
           + " ,printerinfo.DeleteFlag AS PrinterDeleteFlag"
           + " FROM RESMaster.dbo.MST_PRINTERINFO printerinfo"
           + " WHERE printerinfo.CompanyId=? AND printerinfo.StoreId=?"
-          + ";"
-        ;
+          + ";";
+
         PreparedStatement ps = connection.prepareStatement(sqlStr);
         ps.setString(1, request.getParameter("r1").toString());
         ps.setString(2, request.getParameter("s1").toString());
@@ -96,7 +100,7 @@
                     Connection connection = dbManager.getConnection();
 
                     String sqlStr = "UPDATE RESMaster.dbo.MST_PRINTERINFO"
-                                   + " SET PrinterName=?,Description=?,IpAddress=?,"
+                                   + " SET PrinterName=?,Description=?,IpAddress=?,PortNumTcp=?,"
                                    + " UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice',UpdOpeCode=?"
                                    + " WHERE CompanyId=? and StoreId=? and PrinterId=?";
                     PreparedStatement psUpd = connection.prepareStatement(sqlStr);
@@ -104,13 +108,16 @@
                     psUpd.setString(2, request.getParameter("CheckedPrinterDescription"));
                     if (request.getParameter("CheckedIpAddress") == null) {
                         psUpd.setString(3, "");
+                        defaultPrinterPort = USB_PRINTER_PORT;
                     } else {
                         psUpd.setString(3, request.getParameter("CheckedIpAddress"));
+                        defaultPrinterPort = NETWORK_PRINTER_PORT;
                     }
-                    psUpd.setString(4, user);
-                    psUpd.setString(5, request.getParameter("companyID"));
-                    psUpd.setString(6, request.getParameter("storeID"));
-                    psUpd.setString(7, request.getParameter("printerID"));
+                    psUpd.setInt(4, defaultPrinterPort);
+                    psUpd.setString(5, user);
+                    psUpd.setString(6, request.getParameter("companyID"));
+                    psUpd.setString(7, request.getParameter("storeID"));
+                    psUpd.setString(8, request.getParameter("printerID"));
 
                     try {
                         int rsUpd = psUpd.executeUpdate();

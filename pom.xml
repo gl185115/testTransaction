@@ -14,7 +14,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <properties>
     <project.build.sourceEncoding>MS932</project.build.sourceEncoding>
     <project.reporting.outputEncoding>MS932</project.reporting.outputEncoding>
-    <maven.test.skip>true</maven.test.skip>
+    <maven.test.skip>false</maven.test.skip>
     <version.snapshot>-SNAPSHOT</version.snapshot>
     <build.number>0</build.number>
     <svn.revision>0</svn.revision>

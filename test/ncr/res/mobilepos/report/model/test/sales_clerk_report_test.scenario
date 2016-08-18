@@ -1,7 +1,0 @@
-Given A Sales Clerk Report Model {Res1} {000}
-When I test adding data to Operator Number {Opr1}
-When I test adding data to Name {Erica}
-When I test adding data to Sales Customers {Sales Customer}
-When I test adding data to Sales Items {Sales Item}
-When I test adding data to Sales Amount {Sales Amount}
-Then data should be added sucessfully

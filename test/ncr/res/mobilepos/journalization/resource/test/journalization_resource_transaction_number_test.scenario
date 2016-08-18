@@ -1,8 +1,0 @@
-Scenario: ####Get Transaction Number
-Given a Journalization Resource
-When I request for new transaction number
-Then transaction number is generated
-
-Scenario: ####Get Another Transaction Number
-When I request another new transaction number
-Then new transaction number is increase by 1

@@ -1,5 +1,0 @@
-Given a Report Column {Report Column}
-When I add data {data}
-I should have a data {$data}
-Then its Name is {Report Column}
-Then its Width is {50}

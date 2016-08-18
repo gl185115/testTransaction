@@ -1,9 +1,0 @@
-Given A Detail Report {bizDate} {storeNo} {dpt} {deviceNo}
-When I test adding data to timezone {Timezone data}
-Then data should be added sucessfully
-When I test adding data to Customers {Customer data}
-Then data should be added sucessfully
-When I test adding data to Items {Item data}
-Then data should be added sucessfully
-When I test adding data to Amount {Amountdata}
-Then data should be added sucessfully

@@ -1,5 +1,0 @@
-Scenario : Test QueueBusterLink Information
-Given A POSLinkInfo model
-Then its RetailStoreID is {retailStoreID}
-Then its POSLink ID is {posLinkID}
-Then its Link Name is {linkName}

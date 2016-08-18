@@ -1,8 +1,0 @@
-Scenario: Test Scenario Of Item Entry With No BusinessDate is Set
-When the Web API Starts Up
-Given a Promotion Service
-Given a loaded dataset {items_for_mixmatch.xml}
-Given a loaded dataset {mst_bizday_nodata.xml}
-When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}}
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"8865545775637","ItemIDType":"EAN-13","Quantity":1}}}
-Then the Result Code is 801

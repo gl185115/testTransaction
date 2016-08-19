@@ -833,6 +833,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
       </plugin>
     </plugins>
   </reporting>
-  <groupId>base</groupId>
+  <groupId>${myGroupID}</groupId>
   <version>${myVersion}</version>
 </project>

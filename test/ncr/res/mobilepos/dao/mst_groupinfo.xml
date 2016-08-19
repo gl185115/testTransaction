@@ -1,0 +1,98 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_GROUPINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>GroupId</column>
+		<column>GroupName</column>
+		<column>GroupKanaName</column>
+		<column>GroupShortName</column>
+		<column>GroupShortKanaName</column>
+		<column>DisplayOrder</column>
+
+		<column>DeleteFlag</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+	    <row>
+			<value>0</value>
+			<value>0</value>
+			<value>00</value>
+			<value>name00</value>
+			<value>kana00</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	    <row>
+			<value>1</value>
+			<value>0</value>
+			<value>10</value>
+			<value>name10</value>
+			<value>kana10</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	    <row>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<value>name01</value>
+			<value>kana01</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	    <row>
+			<value>1</value>
+			<value>1</value>
+			<value>11</value>
+			<value>name11</value>
+			<value>kana11</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	</table> 
+</dataset>

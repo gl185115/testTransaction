@@ -7,8 +7,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
   <url>http://maven.apache.org</url>
   <scm>
     <connection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</connection>
-    <developerConnection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</developerConnection>Apache /  Maven /  Plugins /  Apache Maven Compiler Plugin /  Plugin Documentation | Last Published: 2016-02-06 Version: 3.5.1
-OVERVIEW
+    <developerConnection>scm:svn:http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</developerConnection>
     <tag>HEAD</tag>
     <url>http://subversion.sweng.ncr.com/svn/repos/pa/res/RES3.3/RESTransactionService/trunk/</url>
   </scm>
@@ -31,11 +30,11 @@ OVERVIEW
             <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
         </repository>
        <snapshotRepository>
-	     <id>resmex-snapshots</id>
-	     <name>RES MeX Snapshots</name>
-	     <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
-	     <uniqueVersion>false</uniqueVersion>
-  	   </snapshotRepository>
+       <id>resmex-snapshots</id>
+       <name>RES MeX Snapshots</name>
+       <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
+       <uniqueVersion>false</uniqueVersion>
+       </snapshotRepository>
     </distributionManagement>
   <dependencies>
 
@@ -327,7 +326,7 @@ OVERVIEW
         <artifactId>pointserver-interface-mobile</artifactId>
         <version>1.0.0</version>
         <scope>system</scope>
-   		<systemPath>${basedir}/WebContent/WEB-INF/lib/pointserver-interface-mobile.jar</systemPath>
+      <systemPath>${basedir}/WebContent/WEB-INF/lib/pointserver-interface-mobile.jar</systemPath>
     </dependency>
     <dependency>
         <groupId>net.java.dev.jna</groupId>
@@ -688,9 +687,9 @@ OVERVIEW
             <doCheck>false</doCheck>
             <doUpdate>false</doUpdate>
              <format>{0,date,yyyy/MM/dd}</format>
-	          <items>
-	            <item>timestamp</item>
-	          </items>
+            <items>
+              <item>timestamp</item>
+            </items>
           </configuration>
         </plugin>
         <plugin>
@@ -711,67 +710,67 @@ OVERVIEW
           </executions>
         </plugin>
         <plugin>
-	   	 <artifactId>maven-deploy-plugin</artifactId>
-		    <executions>
-		       <execution>
-		            <id>xmlparams</id>
-		            <phase>deploy</phase>
-		            <goals>
-		                <goal>deploy-file</goal>
-		            </goals>
-		            <configuration>
-		                <repositoryId>resmex-snapshots</repositoryId>
-						<groupId>${project.groupId}</groupId>
-						<artifactId>xmlparams</artifactId>
-						<version>${project.version}</version>
-						<packaging>zip</packaging>
-						<pomFile>pom.xml</pomFile>
-						<file>target/XmlParams.zip</file>
-						<uniqueVersion>false</uniqueVersion>
-						<generatePom>true</generatePom>
-						<url>${project.distributionManagement.snapshotRepository.url}</url>
-		            </configuration>
-		        </execution>
-		        <execution>
-		            <id>poslogbinding</id>
-		            <phase>deploy</phase>
-		            <goals>
-		                <goal>deploy-file</goal>
-		            </goals>
-		            <configuration>
-		                <repositoryId>resmex-snapshots</repositoryId>
-						<groupId>${project.groupId}</groupId>
-						<artifactId>poslog-binding</artifactId>
-						<version>${project.version}</version>
-						<packaging>jar</packaging>
-						<file>target/poslog-binding.jar</file>
-						<pomFile>pom.xml</pomFile>
-						<generatePom>true</generatePom>
-						<uniqueVersion>false</uniqueVersion>
-						<url>${project.distributionManagement.snapshotRepository.url}</url>
-		            </configuration>
-		        </execution>
-		          <execution>
-		            <id>resTransaction</id>
-		            <phase>deploy</phase>
-		            <goals>
-		                <goal>deploy-file</goal>
-		            </goals>
-		            <configuration>
-		                <repositoryId>resmex-snapshots</repositoryId>
-						<groupId>${project.groupId}</groupId>
-						<artifactId>resTransaction</artifactId>
-						<version>${project.version}</version>
-						<packaging>war</packaging>
-						<file>target/resTransaction.war</file>
-						<pomFile>pom.xml</pomFile>
-						<generatePom>true</generatePom>
-						<uniqueVersion>false</uniqueVersion>
-						<url>${project.distributionManagement.snapshotRepository.url}</url>
-		            </configuration>
-		        </execution>
-		    </executions>
-		</plugin>
+       <artifactId>maven-deploy-plugin</artifactId>
+        <executions>
+           <execution>
+                <id>xmlparams</id>
+                <phase>deploy</phase>
+                <goals>
+                    <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                    <repositoryId>resmex-snapshots</repositoryId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>xmlparams</artifactId>
+            <version>${project.version}</version>
+            <packaging>zip</packaging>
+            <pomFile>pom.xml</pomFile>
+            <file>target/XmlParams.zip</file>
+            <uniqueVersion>false</uniqueVersion>
+            <generatePom>true</generatePom>
+            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                </configuration>
+            </execution>
+            <execution>
+                <id>poslogbinding</id>
+                <phase>deploy</phase>
+                <goals>
+                    <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                    <repositoryId>resmex-snapshots</repositoryId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>poslog-binding</artifactId>
+            <version>${project.version}</version>
+            <packaging>jar</packaging>
+            <file>target/poslog-binding.jar</file>
+            <pomFile>pom.xml</pomFile>
+            <generatePom>true</generatePom>
+            <uniqueVersion>false</uniqueVersion>
+            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                </configuration>
+            </execution>
+              <execution>
+                <id>resTransaction</id>
+                <phase>deploy</phase>
+                <goals>
+                    <goal>deploy-file</goal>
+                </goals>
+                <configuration>
+                    <repositoryId>resmex-snapshots</repositoryId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>resTransaction</artifactId>
+            <version>${project.version}</version>
+            <packaging>war</packaging>
+            <file>target/resTransaction.war</file>
+            <pomFile>pom.xml</pomFile>
+            <generatePom>true</generatePom>
+            <uniqueVersion>false</uniqueVersion>
+            <url>${project.distributionManagement.snapshotRepository.url}</url>
+                </configuration>
+            </execution>
+        </executions>
+    </plugin>
         <plugin>
             <groupId>com.github.kongchen</groupId>
             <artifactId>swagger-maven-plugin</artifactId>

@@ -12771,4 +12771,55 @@ insert into txl_offline_credit
             DI.Training = 0
     </entry>
 
+    <entry key = "select-mst-plu-store">
+        SELECT * FROM  RESMaster.dbo.MST_PLU_STORE WHERE CompanyId = ? AND
+        StoreId = ? AND
+        MdInternal = ? AND
+        DeleteFlag = '0'
+    </entry>
+    <entry key = "select-mst-dptinfo">
+        SELECT * FROM  RESMaster.dbo.MST_DPTINFO WHERE CompanyId = ? AND
+        StoreId = ? AND
+        Dpt = ? AND
+        DeleteFlag = '0'
+    </entry>
+    <entry key = "select-mst-groupinfo">
+        SELECT * FROM  RESMaster.dbo.MST_GROUPINFO WHERE CompanyId = ? AND
+        StoreId = ? AND
+        GroupId = ? AND
+        DeleteFlag = '0'
+    </entry>
+    <entry key = "select-mst-classinfo">
+        SELECT * FROM RESMaster.dbo.MST_CLASSINFO WHERE CompanyId = ? AND
+        StoreId = ? AND
+        Class = ? AND
+        Dpt = ? AND
+        Line = ? AND
+        DeleteFlag = '0'
+    </entry>
+    <entry key = "select-mst-name-system">
+        SELECT * FROM  RESMaster.dbo.MST_NAME_SYSTEM WHERE CompanyId = ? AND
+        StoreId = ? AND
+        NameId = ? AND
+        NameCategory = ? AND
+        DeleteFlag = '0'
+    </entry>
+    <entry key = "select-mst-colorinfo">
+        SELECT * FROM  RESMaster.dbo.MST_COLORINFO WHERE CompanyId = ? AND
+        StoreId = ? AND
+        ColorId = ? AND
+        DeleteFlag = '0'
+    </entry>
+    <entry key = "select-mst-sizeinfo">
+        SELECT * FROM  RESMaster.dbo.MST_SIZEINFO WHERE CompanyId = ? AND
+        StoreId = ? AND
+        SizeId = ?
+    </entry>
+    <entry key = "select-mst-brandinfo">
+        SELECT * FROM  RESMaster.dbo.MST_BRANDINFO WHERE CompanyId = ? AND
+        StoreId = ? AND
+        BrandId = ? AND
+        DeleteFlag = '0'
+    </entry>
+
 </properties>

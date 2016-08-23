@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+
+<dataset>
+<table name="MST_PRICE_URGENT_INFO_FORSTORE">
+		<column>DataSource</column>
+		<column>CompanyId</column>
+		<column>RecordId</column>
+		<column>Sku</column>
+		<column>ColorId</column>
+		<column>NewPrice</column>
+		<column>OldPrice</column>
+
+		<column>DeleteFlag</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+
+	<row>
+		<value>2</value>
+		<value>1</value>
+		<value>AAA1234567890</value>
+		<value>sku1</value>
+		<value>color1</value>
+		<value>980</value>
+		<value>1000</value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+    <row>
+		<value>2</value>
+		<value>1</value>
+		<value>AAA12345678901</value>
+		<value>sku2</value>
+		<value>color2</value>
+		<value>1980</value>
+		<value>2000</value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+    </row>
+
+	<row>
+		<value>2</value>
+		<value>3</value>
+		<value>AAA12345678903</value>
+		<value>sku3</value>
+		<value>color3</value>
+		<value>2980</value>
+		<value>3000</value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+	<row>
+		<value>2</value>
+		<value>3</value>
+		<value>AAA12345678904</value>
+		<value>sku3</value>
+		<value>color3</value>
+		<value>2000</value>
+		<value>3000</value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+</table> 
+
+<table name="MST_PRICE_URGENT_STORE_FORSTORE">
+	<column>DataSource</column>
+	<column>CompanyId</column>
+	<column>RecordId</column>
+	<column>StoreId</column>
+	<column>TargetStoreType</column>
+	<column>StartDate</column>
+	<column>EndDate</column>
+
+	<column>DeleteFlag</column>
+	<column>InsDate</column>
+	<column>InsAppId</column>
+	<column>InsOpeCode</column>
+	<column>UpdCount</column>
+	<column>UpdDate</column>
+	<column>UpdAppId</column>
+	<column>UpdOpeCode</column>
+
+	<row>
+		<value>2</value>
+		<value>1</value>
+		<value>AAA1234567890</value>
+		<value>1</value>
+		<value>1</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value><![CDATA[2016-12-31]]></value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+	<row>
+		<value>2</value>
+		<value>1</value>
+		<value>AAA12345678901</value>
+		<value>2</value>
+		<value>2</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value><![CDATA[2016-12-31]]></value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+	<row>
+		<value>2</value>
+		<value>3</value>
+		<value>AAA12345678903</value>
+		<value>1</value>
+		<value>1</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value><![CDATA[2016-12-31]]></value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+	<row>
+		<value>2</value>
+		<value>3</value>
+		<value>AAA12345678904</value>
+		<value>4</value>
+		<value>2</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value><![CDATA[2016-12-31]]></value>
+
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+		<value>0</value>
+		<value><![CDATA[2016-01-01]]></value>
+		<value>0</value>
+		<value>0</value>
+	</row>
+
+</table>
+
+</dataset>

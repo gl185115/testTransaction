@@ -12822,4 +12822,29 @@ insert into txl_offline_credit
         DeleteFlag = '0'
     </entry>
 
+    <entry key = "select-price-urgent-forstore">
+        SELECT TOP 1
+            info.SequenceNo,
+            info.CompanyId,
+            info.RecordId,
+            info.Sku,
+            info.ColorId,
+            info.NewPrice,
+            info.OldPrice,
+            store.TargetStoreType,
+            store.StoreId
+        FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
+        INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
+            ON info.CompanyId  = store.CompanyId
+            AND info.RecordId = store.RecordId
+            AND info.Sku = ?
+            AND info.ColorId = ?
+        WHERE
+            store.DeleteFlag = 0.0 AND info.DeleteFlag = 0.0
+            AND CONVERT(DATE, ?) BETWEEN store.StartDate AND store.EndDate
+            AND (store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = ?))
+            AND store.CompanyId = ?
+        ORDER BY info.sequenceNo DESC
+    </entry>
+
 </properties>

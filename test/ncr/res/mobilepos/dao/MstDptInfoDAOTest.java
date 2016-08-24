@@ -48,7 +48,7 @@ public class MstDptInfoDAOTest {
 
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
-        MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(dbManager.getConnection());
+        MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(this.connection);
         MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("1","1","11");
 
         assertNotNull(selected);

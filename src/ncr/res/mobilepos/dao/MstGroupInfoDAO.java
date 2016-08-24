@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.dao.model.MstBrandInfo;
 import ncr.res.mobilepos.dao.model.MstGroupInfo;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -35,11 +34,10 @@ public class MstGroupInfoDAO {
      * @param storeId
      * @param groupId
      * @return
-     * @throws SQLStatementException
      * @throws SQLException
      */
     public MstGroupInfo selectWithDefaultId(final String companyId, final String storeId, final String groupId)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         MstGroupInfo selectedRecord;
         // First attempt, selects with given ids.
         selectedRecord = selectOne(companyId, storeId, groupId);
@@ -61,11 +59,10 @@ public class MstGroupInfoDAO {
      * @param storeId
      * @param groupId
      * @return
-     * @throws SQLStatementException
      * @throws SQLException
      */
     public MstGroupInfo selectOne(final String companyId, final String storeId, final String groupId)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
                 .println("CompanyId", companyId)
                 .println("StoreId", storeId)

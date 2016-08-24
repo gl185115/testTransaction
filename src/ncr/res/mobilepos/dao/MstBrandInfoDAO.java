@@ -31,7 +31,7 @@ public class MstBrandInfoDAO {
      * Selects MST_BRANDINFO considering default companyId and storeId.
      */
     public MstBrandInfo selectWithDefaultId(final String companyId, final String storeId, final String brandId)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         MstBrandInfo selectedRecord;
         // First attempt, selects with given ids.
         selectedRecord = selectOne(companyId, storeId, brandId);

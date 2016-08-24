@@ -48,7 +48,7 @@ public class MstPluStoreDAOTest {
 
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
-        MstPluStoreDAO mstPluStoreDAO = new MstPluStoreDAO(dbManager.getConnection());
+        MstPluStoreDAO mstPluStoreDAO = new MstPluStoreDAO(this.connection);
         MstPluStore selected = mstPluStoreDAO.selectWithDefaultId("1","1","123456789012345678");
 
         assertNotNull(selected);

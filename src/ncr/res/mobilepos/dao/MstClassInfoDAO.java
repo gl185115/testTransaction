@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.dao.model.MstClassInfo;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.property.SQLStatement;
 

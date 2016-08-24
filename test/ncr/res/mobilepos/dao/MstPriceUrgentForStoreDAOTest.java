@@ -48,7 +48,7 @@ public class MstPriceUrgentForStoreDAOTest {
     @Test
     public void priceChangeSpecificStoreType() throws SQLException {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
-                new MstPriceUrgentForStoreDAO(dbManager.getConnection());
+                new MstPriceUrgentForStoreDAO(this.connection);
         MstPriceUrgentForStore selected =
                 mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku1", "color1", "2016-09-01");
 
@@ -66,7 +66,7 @@ public class MstPriceUrgentForStoreDAOTest {
     @Test
     public void priceChangeAllStoreType() throws SQLException {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
-                new MstPriceUrgentForStoreDAO(dbManager.getConnection());
+                new MstPriceUrgentForStoreDAO(this.connection);
         MstPriceUrgentForStore selected =
                 mstPriceUrgentForStoreDAO.selectOne("1", "2", "sku2", "color2", "2016-09-01");
 
@@ -84,7 +84,7 @@ public class MstPriceUrgentForStoreDAOTest {
     @Test
     public void priceChangeOutDated() throws SQLException {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
-                new MstPriceUrgentForStoreDAO(dbManager.getConnection());
+                new MstPriceUrgentForStoreDAO(this.connection);
 
         MstPriceUrgentForStore selected =
                 mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku1", "color1", "2016-03-01");
@@ -98,7 +98,7 @@ public class MstPriceUrgentForStoreDAOTest {
     @Test
     public void priceChangeForMultipleResult() throws SQLException {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
-                new MstPriceUrgentForStoreDAO(dbManager.getConnection());
+                new MstPriceUrgentForStoreDAO(this.connection);
         MstPriceUrgentForStore selected =
                 mstPriceUrgentForStoreDAO.selectOne("3", "1", "sku3", "color3", "2016-09-01");
 

@@ -50,7 +50,7 @@ public class MstBrandInfoDAOTest {
 
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
-        MstBrandInfoDAO mstBrandInfoDAO = new MstBrandInfoDAO(dbManager.getConnection());
+        MstBrandInfoDAO mstBrandInfoDAO = new MstBrandInfoDAO(this.connection);
         MstBrandInfo selected = mstBrandInfoDAO.selectWithDefaultId("1","1","11");
 
         assertNotNull(selected);

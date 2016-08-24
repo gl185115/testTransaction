@@ -28,20 +28,20 @@ public class MstPluStoreDAO {
      * Selects MST_PLU_STORE considering default companyId and storeId.
      */
     public MstPluStore selectWithDefaultId(final String companyId, final String storeId, final String mdInternal)
-            throws SQLStatementException, SQLException {
-        MstPluStore mstClassInfo;
+            throws SQLException {
+        MstPluStore selected;
         // First attempt, selects with given ids.
-        mstClassInfo = selectOne(companyId, storeId, mdInternal);
-        if (mstClassInfo != null) return mstClassInfo;
+        selected = selectOne(companyId, storeId, mdInternal);
+        if (selected != null) return selected;
         // Second attempt, selects with default storeId.
-        mstClassInfo = selectOne(companyId, DEFAULT_STOREID, mdInternal);
-        if (mstClassInfo != null) return mstClassInfo;
+        selected = selectOne(companyId, DEFAULT_STOREID, mdInternal);
+        if (selected != null) return selected;
         // Third attempt, selects with default storeId.
-        mstClassInfo = selectOne(DEFAULT_COMPANYID, storeId, mdInternal);
-        if (mstClassInfo != null) return mstClassInfo;
+        selected = selectOne(DEFAULT_COMPANYID, storeId, mdInternal);
+        if (selected != null) return selected;
         // Fourth attempt with default company and store.
-        mstClassInfo = selectOne(DEFAULT_COMPANYID, DEFAULT_STOREID, mdInternal);
-        return mstClassInfo;
+        selected = selectOne(DEFAULT_COMPANYID, DEFAULT_STOREID, mdInternal);
+        return selected;
     }
 
     /**

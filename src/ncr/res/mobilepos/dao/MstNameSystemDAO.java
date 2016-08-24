@@ -6,9 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.dao.model.MstBrandInfo;
 import ncr.res.mobilepos.dao.model.MstNameSystem;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.property.SQLStatement;
 
@@ -68,7 +66,7 @@ public class MstNameSystemDAO {
      */
     public MstNameSystem selectOne(final String companyId, final String storeId,
                                              final String nameId, final String nameCategory)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         tp.methodEnter(
                 DebugLogger.getCurrentMethodName())
                 .println("CompanyId", companyId)

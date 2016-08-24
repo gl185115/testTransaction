@@ -7,7 +7,6 @@ import java.sql.SQLException;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.dao.model.MstDptInfo;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.property.SQLStatement;
 
@@ -32,7 +31,7 @@ public class MstDptInfoDAO {
      * Selects MST_DPTINFO considering default companyId and storeId.
      */
     public MstDptInfo selectWithDefaultId(final String companyId, final String storeId, final String dptCode)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         MstDptInfo selectedRecord;
         // First attempt, selects with given ids.
         selectedRecord = selectOne(companyId, storeId, dptCode);

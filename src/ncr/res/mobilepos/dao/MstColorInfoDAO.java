@@ -32,7 +32,7 @@ public class MstColorInfoDAO {
      * Selects MST_COLORINFO considering default companyId and storeId.
      */
     public MstColorInfo selectWithDefaultId(final String companyId, final String storeId, final String colorId)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         MstColorInfo selectedRecord;
         // First attempt, selects with given ids.
         selectedRecord = selectOne(companyId, storeId, colorId);
@@ -52,7 +52,7 @@ public class MstColorInfoDAO {
      * Selects MST_COLORINFO by unique key
      */
     public MstColorInfo selectOne(final String companyId, final String storeId, final String colorId)
-            throws SQLStatementException, SQLException {
+            throws SQLException {
         tp.methodEnter(
                 DebugLogger.getCurrentMethodName())
                 .println("CompanyId", companyId)

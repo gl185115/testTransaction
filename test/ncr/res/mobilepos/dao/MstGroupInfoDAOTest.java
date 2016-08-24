@@ -48,7 +48,7 @@ public class MstGroupInfoDAOTest {
 
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
-        MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(dbManager.getConnection());
+        MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(this.connection);
         MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("1","1","11");
 
         assertNotNull(selected);

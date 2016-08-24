@@ -48,7 +48,7 @@ public class MstColorInfoDAOTest {
 
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
-        MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(dbManager.getConnection());
+        MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(this.connection);
         MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("1","1","11");
 
         assertNotNull(selected);

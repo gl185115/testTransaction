@@ -12847,4 +12847,15 @@ insert into txl_offline_credit
         ORDER BY info.sequenceNo DESC
     </entry>
 
+    <entry key = "select-mst-plu">
+        SELECT
+          *
+        FROM
+          MST_PLU
+        WHERE
+          CompanyId = ?
+        AND StoreId = ?
+        AND MdInternal = ?
+    </entry>
+
 </properties>

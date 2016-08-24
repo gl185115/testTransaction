@@ -49,7 +49,7 @@ public class MstNameSystemDAOTest {
 
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
-        MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(dbManager.getConnection());
+        MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(this.connection);
         MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("1","1","11","cat11");
 
         assertNotNull(selected);

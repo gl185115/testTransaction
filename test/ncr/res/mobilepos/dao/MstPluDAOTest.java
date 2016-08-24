@@ -60,15 +60,15 @@ public class MstPluDAOTest {
         assertEquals(selected.getDpt(), "dpt11");
         assertEquals(selected.getLine(), "line11");
         assertEquals(selected.getClassCode(), "class11");
-        assertEquals(selected.getSku(), "sku011");
+        assertEquals(selected.getSku(), "sku11");
 
-        assertEquals(selected.getMd01(), "md0111");
+        assertEquals(selected.getMd01(), "color11");
         assertEquals(selected.getMd02(), "md0211");
         assertEquals(selected.getMd03(), "md0311");
         assertEquals(selected.getMd04(), "md0411");
-        assertEquals(selected.getMd05(), "md0511");
+        assertEquals(selected.getMd05(), "size11");
         assertEquals(selected.getMd06(), "md0611");
-        assertEquals(selected.getMd07(), "md0711");
+        assertEquals(selected.getMd07(), "brand11");
         assertEquals(selected.getMd08(), "md0811");
         assertEquals(selected.getMd09(), "md0911");
         assertEquals(selected.getMd10(), "md1011");
@@ -89,14 +89,14 @@ public class MstPluDAOTest {
 
         assertEquals(selected.getCostPrice1(), 800, 0);
         assertEquals(selected.getMakerPrice(), 1500);
-        assertEquals(selected.getTaxType(), 0);
+        assertEquals(selected.getTaxType(), 3);
         assertEquals(selected.getTaxRate(), 8);
         assertEquals(selected.getPaymentType(), 0);
 
         assertEquals(selected.getConn1(), "con111");
         assertEquals(selected.getConn2(), "con211");
 
-        assertEquals(selected.getSubCode1(), "sub111");
+        assertEquals(selected.getSubCode1(), "grp11");
         assertEquals(selected.getSubCode2(), "sub211");
         assertEquals(selected.getSubCode3(), "sub311");
 
@@ -120,15 +120,15 @@ public class MstPluDAOTest {
         assertEquals(selected.getDpt(), "dpt10");
         assertEquals(selected.getLine(), "line10");
         assertEquals(selected.getClassCode(), "class10");
-        assertEquals(selected.getSku(), "sku010");
+        assertEquals(selected.getSku(), "sku10");
 
-        assertEquals(selected.getMd01(), "md0110");
+        assertEquals(selected.getMd01(), "color10");
         assertEquals(selected.getMd02(), "md0210");
         assertEquals(selected.getMd03(), "md0310");
         assertEquals(selected.getMd04(), "md0410");
-        assertEquals(selected.getMd05(), "md0510");
+        assertEquals(selected.getMd05(), "size10");
         assertEquals(selected.getMd06(), "md0610");
-        assertEquals(selected.getMd07(), "md0710");
+        assertEquals(selected.getMd07(), "brand10");
         assertEquals(selected.getMd08(), "md0810");
         assertEquals(selected.getMd09(), "md0910");
         assertEquals(selected.getMd10(), "md1010");
@@ -149,14 +149,14 @@ public class MstPluDAOTest {
 
         assertEquals(selected.getCostPrice1(), 800, 0);
         assertEquals(selected.getMakerPrice(), 1500);
-        assertEquals(selected.getTaxType(), 0);
+        assertEquals(selected.getTaxType(), 2);
         assertEquals(selected.getTaxRate(), 8);
         assertEquals(selected.getPaymentType(), 0);
 
         assertEquals(selected.getConn1(), "con110");
         assertEquals(selected.getConn2(), "con210");
 
-        assertEquals(selected.getSubCode1(), "sub110");
+        assertEquals(selected.getSubCode1(), "grp10");
         assertEquals(selected.getSubCode2(), "sub210");
         assertEquals(selected.getSubCode3(), "sub310");
 
@@ -182,13 +182,13 @@ public class MstPluDAOTest {
         assertEquals(selected.getClassCode(), "class01");
         assertEquals(selected.getSku(), "sku01");
 
-        assertEquals(selected.getMd01(), "md0101");
+        assertEquals(selected.getMd01(), "color01");
         assertEquals(selected.getMd02(), "md0201");
         assertEquals(selected.getMd03(), "md0301");
         assertEquals(selected.getMd04(), "md0401");
-        assertEquals(selected.getMd05(), "md0501");
+        assertEquals(selected.getMd05(), "size01");
         assertEquals(selected.getMd06(), "md0601");
-        assertEquals(selected.getMd07(), "md0701");
+        assertEquals(selected.getMd07(), "brand01");
         assertEquals(selected.getMd08(), "md0801");
         assertEquals(selected.getMd09(), "md0901");
         assertEquals(selected.getMd10(), "md1001");
@@ -209,14 +209,14 @@ public class MstPluDAOTest {
 
         assertEquals(selected.getCostPrice1(), 800, 0);
         assertEquals(selected.getMakerPrice(), 1500);
-        assertEquals(selected.getTaxType(), 0);
+        assertEquals(selected.getTaxType(), 1);
         assertEquals(selected.getTaxRate(), 8);
         assertEquals(selected.getPaymentType(), 0);
 
         assertEquals(selected.getConn1(), "con101");
         assertEquals(selected.getConn2(), "con201");
 
-        assertEquals(selected.getSubCode1(), "sub101");
+        assertEquals(selected.getSubCode1(), "grp01");
         assertEquals(selected.getSubCode2(), "sub201");
         assertEquals(selected.getSubCode3(), "sub301");
 
@@ -242,13 +242,13 @@ public class MstPluDAOTest {
         assertEquals(selected.getClassCode(), "class00");
         assertEquals(selected.getSku(), "sku00");
 
-        assertEquals(selected.getMd01(), "md0100");
+        assertEquals(selected.getMd01(), "color00");
         assertEquals(selected.getMd02(), "md0200");
         assertEquals(selected.getMd03(), "md0300");
         assertEquals(selected.getMd04(), "md0400");
-        assertEquals(selected.getMd05(), "md0500");
+        assertEquals(selected.getMd05(), "size00");
         assertEquals(selected.getMd06(), "md0600");
-        assertEquals(selected.getMd07(), "md0700");
+        assertEquals(selected.getMd07(), "brand00");
         assertEquals(selected.getMd08(), "md0800");
         assertEquals(selected.getMd09(), "md0900");
         assertEquals(selected.getMd10(), "md1000");
@@ -276,7 +276,7 @@ public class MstPluDAOTest {
         assertEquals(selected.getConn1(), "con100");
         assertEquals(selected.getConn2(), "con200");
 
-        assertEquals(selected.getSubCode1(), "sub100");
+        assertEquals(selected.getSubCode1(), "grp00");
         assertEquals(selected.getSubCode2(), "sub200");
         assertEquals(selected.getSubCode3(), "sub300");
 

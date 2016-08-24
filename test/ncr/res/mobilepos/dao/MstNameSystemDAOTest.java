@@ -50,13 +50,13 @@ public class MstNameSystemDAOTest {
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
         MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(this.connection);
-        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("1","1","11","cat11");
+        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("1","1","3","0060");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getNameId(), "11");
-        assertEquals(selected.getNameCategory(), "cat11");
+        assertEquals(selected.getNameId(), "3");
+        assertEquals(selected.getNameCategory(), "0060");
         assertEquals(selected.getNameIdName(), "nameid11");
         assertEquals(selected.getNameText(), "name11");
         connection.close();
@@ -65,13 +65,13 @@ public class MstNameSystemDAOTest {
     @Test
     public void selectWithDefaultStoreId() throws Exception {
         MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(connection);
-        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("1","2","10","cat10");
+        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("1","2","1","0060");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getNameId(), "10");
-        assertEquals(selected.getNameCategory(), "cat10");
+        assertEquals(selected.getNameId(), "1");
+        assertEquals(selected.getNameCategory(), "0060");
         assertEquals(selected.getNameIdName(), "nameid10");
         assertEquals(selected.getNameText(), "name10");
     }
@@ -79,13 +79,13 @@ public class MstNameSystemDAOTest {
     @Test
     public void selectWithDefaultCompanyId() throws DaoException, SQLException {
         MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(connection);
-        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("2","1","01","cat01");
+        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("2","1","2","0060");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getNameId(), "01");
-        assertEquals(selected.getNameCategory(), "cat01");
+        assertEquals(selected.getNameId(), "2");
+        assertEquals(selected.getNameCategory(), "0060");
         assertEquals(selected.getNameIdName(), "nameid01");
         assertEquals(selected.getNameText(), "name01");
     }
@@ -93,13 +93,13 @@ public class MstNameSystemDAOTest {
     @Test
     public void selectWithDefaultIds() throws DaoException, SQLException {
         MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(connection);
-        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("2","2","00","cat00");
+        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("2","2","0","0060");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getNameId(), "00");
-        assertEquals(selected.getNameCategory(), "cat00");
+        assertEquals(selected.getNameId(), "0");
+        assertEquals(selected.getNameCategory(), "0060");
         assertEquals(selected.getNameIdName(), "nameid00");
         assertEquals(selected.getNameText(), "name00");
     }
@@ -107,7 +107,7 @@ public class MstNameSystemDAOTest {
     @Test
     public void selectNotMatched() throws DaoException, SQLException {
         MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(connection);
-        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("0","0","44","cat44");
+        MstNameSystem selected = mstNameSystemDAO.selectWithDefaultId("0","0","44","0060");
         assertNull(selected);
     }
 

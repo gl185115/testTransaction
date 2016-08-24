@@ -49,12 +49,12 @@ public class MstSizeInfoDAOTest {
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
         MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(this.connection);
-        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("1","1","11");
+        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("1","1","size11");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getSizeId(), "11");
+        assertEquals(selected.getSizeId(), "size11");
         assertEquals(selected.getSizeName(), "name11");
         assertEquals(selected.getSizeKanaName(), "kana11");
         assertEquals(selected.getSizeShortName(), "sname11");
@@ -65,12 +65,12 @@ public class MstSizeInfoDAOTest {
     @Test
     public void selectWithDefaultStoreId() throws Exception {
         MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(connection);
-        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("1","2","10");
+        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("1","2","size10");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getSizeId(), "10");
+        assertEquals(selected.getSizeId(), "size10");
         assertEquals(selected.getSizeName(), "name10");
         assertEquals(selected.getSizeKanaName(), "kana10");
         assertEquals(selected.getSizeShortName(), "sname10");
@@ -80,12 +80,12 @@ public class MstSizeInfoDAOTest {
     @Test
     public void selectWithDefaultCompanyId() throws DaoException, SQLException {
         MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(connection);
-        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("2","1","01");
+        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("2","1","size01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getSizeId(), "01");
+        assertEquals(selected.getSizeId(), "size01");
         assertEquals(selected.getSizeName(), "name01");
         assertEquals(selected.getSizeKanaName(), "kana01");
         assertEquals(selected.getSizeShortName(), "sname01");
@@ -95,12 +95,12 @@ public class MstSizeInfoDAOTest {
     @Test
     public void selectWithDefaultIds() throws DaoException, SQLException {
         MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(connection);
-        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("2","1","01");
+        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("2","1","size01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getSizeId(), "01");
+        assertEquals(selected.getSizeId(), "size01");
         assertEquals(selected.getSizeName(), "name01");
         assertEquals(selected.getSizeKanaName(), "kana01");
         assertEquals(selected.getSizeShortName(), "sname01");
@@ -110,7 +110,7 @@ public class MstSizeInfoDAOTest {
     @Test
     public void selectNotMatched() throws DaoException, SQLException {
         MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(connection);
-        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("4","4","44");
+        MstSizeInfo selected = mstSizeInfoDAO.selectWithDefaultId("4","4","size44");
         assertNull(selected);
     }
 

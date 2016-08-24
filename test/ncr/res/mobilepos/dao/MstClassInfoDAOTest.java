@@ -50,14 +50,14 @@ public class MstClassInfoDAOTest {
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
         MstClassInfoDAO classInfoDAO = new MstClassInfoDAO(connection);
-        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("1","1","11","22","33");
+        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("1","1","class11","dpt11","line11");
 
         assertNotNull(mstClassInfo);
         assertEquals(mstClassInfo.getCompanyId(), "1");
         assertEquals(mstClassInfo.getStoreId(), "1");
-        assertEquals(mstClassInfo.getClassCode(), "11");
-        assertEquals(mstClassInfo.getDptCode(), "22");
-        assertEquals(mstClassInfo.getLineCode(), "33");
+        assertEquals(mstClassInfo.getClassCode(), "class11");
+        assertEquals(mstClassInfo.getDptCode(), "dpt11");
+        assertEquals(mstClassInfo.getLineCode(), "line11");
         assertEquals(mstClassInfo.getClassKanaName(), null);
         assertEquals(mstClassInfo.getClassName(), null);
         assertEquals(mstClassInfo.getClassNameLocal(), null);
@@ -68,14 +68,14 @@ public class MstClassInfoDAOTest {
     @Test
     public void selectWithDefaultStoreId() throws Exception {
         MstClassInfoDAO classInfoDAO = new MstClassInfoDAO(connection);
-        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("1","2","11","22","33");
+        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("1","2","class10","dpt10","line10");
 
         assertNotNull(mstClassInfo);
         assertEquals(mstClassInfo.getCompanyId(), "1");
         assertEquals(mstClassInfo.getStoreId(), "0");
-        assertEquals(mstClassInfo.getClassCode(), "11");
-        assertEquals(mstClassInfo.getDptCode(), "22");
-        assertEquals(mstClassInfo.getLineCode(), "33");
+        assertEquals(mstClassInfo.getClassCode(), "class10");
+        assertEquals(mstClassInfo.getDptCode(), "dpt10");
+        assertEquals(mstClassInfo.getLineCode(), "line10");
         assertEquals(mstClassInfo.getClassKanaName(), null);
         assertEquals(mstClassInfo.getClassName(), null);
         assertEquals(mstClassInfo.getClassNameLocal(), null);
@@ -86,14 +86,14 @@ public class MstClassInfoDAOTest {
     @Test
     public void selectWithDefaultCompanyId() throws DaoException, SQLException {
         MstClassInfoDAO classInfoDAO = new MstClassInfoDAO(connection);
-        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("2","1","11","22","33");
+        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("2","1","class01","dpt01","line01");
 
         assertNotNull(mstClassInfo);
         assertEquals(mstClassInfo.getCompanyId(), "0");
         assertEquals(mstClassInfo.getStoreId(), "1");
-        assertEquals(mstClassInfo.getClassCode(), "11");
-        assertEquals(mstClassInfo.getDptCode(), "22");
-        assertEquals(mstClassInfo.getLineCode(), "33");
+        assertEquals(mstClassInfo.getClassCode(), "class01");
+        assertEquals(mstClassInfo.getDptCode(), "dpt01");
+        assertEquals(mstClassInfo.getLineCode(), "line01");
         assertEquals(mstClassInfo.getClassKanaName(), null);
         assertEquals(mstClassInfo.getClassName(), null);
         assertEquals(mstClassInfo.getClassNameLocal(), null);
@@ -104,14 +104,14 @@ public class MstClassInfoDAOTest {
     @Test
     public void selectWithDefaultIds() throws DaoException, SQLException {
         MstClassInfoDAO classInfoDAO = new MstClassInfoDAO(connection);
-        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("2","2","11","22","33");
+        MstClassInfo mstClassInfo = classInfoDAO.selectWithDefaultId("2","2","class00","dpt00","line00");
 
         assertNotNull(mstClassInfo);
         assertEquals(mstClassInfo.getCompanyId(), "0");
         assertEquals(mstClassInfo.getStoreId(), "0");
-        assertEquals(mstClassInfo.getClassCode(), "11");
-        assertEquals(mstClassInfo.getDptCode(), "22");
-        assertEquals(mstClassInfo.getLineCode(), "33");
+        assertEquals(mstClassInfo.getClassCode(), "class00");
+        assertEquals(mstClassInfo.getDptCode(), "dpt00");
+        assertEquals(mstClassInfo.getLineCode(), "line00");
         assertEquals(mstClassInfo.getClassKanaName(), null);
         assertEquals(mstClassInfo.getClassName(), null);
         assertEquals(mstClassInfo.getClassNameLocal(), null);

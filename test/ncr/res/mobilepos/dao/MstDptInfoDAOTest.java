@@ -49,14 +49,14 @@ public class MstDptInfoDAOTest {
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
         MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(this.connection);
-        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("1","1","11");
+        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("1","1","dpt11");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getDpt(), "11");
-        assertEquals(selected.getDptName(), "dpt11");
-        assertEquals(selected.getDptNameLocal(), "dptl11");
+        assertEquals(selected.getDpt(), "dpt11");
+        assertEquals(selected.getDptName(), "dptn11");
+        assertEquals(selected.getDptNameLocal(), "dptnl11");
         assertEquals(selected.getDptKanaName(), "dptkn11");
         connection.close();
     }
@@ -64,49 +64,49 @@ public class MstDptInfoDAOTest {
     @Test
     public void selectWithDefaultStoreId() throws Exception {
         MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(connection);
-        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("1","2","10");
+        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("1","2","dpt10");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getDpt(), "10");
-        assertEquals(selected.getDptName(), "dpt10");
-        assertEquals(selected.getDptNameLocal(), "dptl10");
+        assertEquals(selected.getDpt(), "dpt10");
+        assertEquals(selected.getDptName(), "dptn10");
+        assertEquals(selected.getDptNameLocal(), "dptnl10");
         assertEquals(selected.getDptKanaName(), "dptkn10");
     }
 
     @Test
     public void selectWithDefaultCompanyId() throws DaoException, SQLException {
         MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(connection);
-        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("2","1","01");
+        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("2","1","dpt01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getDpt(), "01");
-        assertEquals(selected.getDptName(), "dpt01");
-        assertEquals(selected.getDptNameLocal(), "dptl01");
+        assertEquals(selected.getDpt(), "dpt01");
+        assertEquals(selected.getDptName(), "dptn01");
+        assertEquals(selected.getDptNameLocal(), "dptnl01");
         assertEquals(selected.getDptKanaName(), "dptkn01");
     }
 
     @Test
     public void selectWithDefaultIds() throws DaoException, SQLException {
         MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(connection);
-        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("2","2","00");
+        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("2","2","dpt00");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getDpt(), "00");
-        assertEquals(selected.getDptName(), "dpt00");
-        assertEquals(selected.getDptNameLocal(), "dptl00");
+        assertEquals(selected.getDpt(), "dpt00");
+        assertEquals(selected.getDptName(), "dptn00");
+        assertEquals(selected.getDptNameLocal(), "dptnl00");
         assertEquals(selected.getDptKanaName(), "dptkn00");
     }
 
     @Test
     public void selectNotMatched() throws DaoException, SQLException {
         MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(connection);
-        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("0","0","44");
+        MstDptInfo selected = mstDptInfoDAO.selectWithDefaultId("0","0","dpt44");
         assertNull(selected);
     }
 

@@ -49,12 +49,12 @@ public class MstGroupInfoDAOTest {
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
         MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(this.connection);
-        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("1","1","11");
+        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("1","1","grp11");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getGroupId(), "11");
+        assertEquals(selected.getGroupId(), "grp11");
         assertEquals(selected.getGroupName(), "name11");
         assertEquals(selected.getGroupKanaName(), "kana11");
         connection.close();
@@ -63,12 +63,12 @@ public class MstGroupInfoDAOTest {
     @Test
     public void selectWithDefaultStoreId() throws Exception {
         MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(connection);
-        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("1","2","10");
+        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("1","2","grp10");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getGroupId(), "10");
+        assertEquals(selected.getGroupId(), "grp10");
         assertEquals(selected.getGroupName(), "name10");
         assertEquals(selected.getGroupKanaName(), "kana10");
     }
@@ -76,12 +76,12 @@ public class MstGroupInfoDAOTest {
     @Test
     public void selectWithDefaultCompanyId() throws DaoException, SQLException {
         MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(connection);
-        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("2","1","01");
+        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("2","1","grp01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getGroupId(), "01");
+        assertEquals(selected.getGroupId(), "grp01");
         assertEquals(selected.getGroupName(), "name01");
         assertEquals(selected.getGroupKanaName(), "kana01");
     }
@@ -89,12 +89,12 @@ public class MstGroupInfoDAOTest {
     @Test
     public void selectWithDefaultIds() throws DaoException, SQLException {
         MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(connection);
-        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("2","2","00");
+        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("2","2","grp00");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getGroupId(), "00");
+        assertEquals(selected.getGroupId(), "grp00");
         assertEquals(selected.getGroupName(), "name00");
         assertEquals(selected.getGroupKanaName(), "kana00");
     }
@@ -102,7 +102,7 @@ public class MstGroupInfoDAOTest {
     @Test
     public void selectNotMatched() throws DaoException, SQLException {
         MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(connection);
-        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("0","0","44");
+        MstGroupInfo selected = mstGroupInfoDAO.selectWithDefaultId("0","0","grp44");
         assertNull(selected);
     }
 

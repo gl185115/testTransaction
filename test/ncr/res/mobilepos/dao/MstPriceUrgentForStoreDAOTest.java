@@ -50,13 +50,13 @@ public class MstPriceUrgentForStoreDAOTest {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
                 new MstPriceUrgentForStoreDAO(this.connection);
         MstPriceUrgentForStore selected =
-                mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku1", "color1", "2016-09-01");
+                mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku11", "color11", "2016-09-01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getSku(), "sku1");
-        assertEquals(selected.getColorId(), "color1");
+        assertEquals(selected.getSku(), "sku11");
+        assertEquals(selected.getColorId(), "color11");
         assertEquals(selected.getRecordId(), "AAA1234567890");
         assertEquals(selected.getNewPrice(), 980);
         assertEquals(selected.getOldPrice(), 1000);
@@ -68,13 +68,13 @@ public class MstPriceUrgentForStoreDAOTest {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
                 new MstPriceUrgentForStoreDAO(this.connection);
         MstPriceUrgentForStore selected =
-                mstPriceUrgentForStoreDAO.selectOne("1", "2", "sku2", "color2", "2016-09-01");
+                mstPriceUrgentForStoreDAO.selectOne("1", "2", "sku11", "color11", "2016-09-01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "2");
-        assertEquals(selected.getSku(), "sku2");
-        assertEquals(selected.getColorId(), "color2");
+        assertEquals(selected.getSku(), "sku11");
+        assertEquals(selected.getColorId(), "color11");
         assertEquals(selected.getRecordId(), "AAA12345678901");
         assertEquals(selected.getNewPrice(), 1980);
         assertEquals(selected.getOldPrice(), 2000);
@@ -87,11 +87,11 @@ public class MstPriceUrgentForStoreDAOTest {
                 new MstPriceUrgentForStoreDAO(this.connection);
 
         MstPriceUrgentForStore selected =
-                mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku1", "color1", "2016-03-01");
+                mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku11", "color11", "2016-03-01");
         assertNotNull(selected);
 
         selected =
-                mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku1", "color1", "2017-03-01");
+                mstPriceUrgentForStoreDAO.selectOne("1", "1", "sku11", "color11", "2017-03-01");
         assertNull(selected);
     }
 
@@ -100,13 +100,13 @@ public class MstPriceUrgentForStoreDAOTest {
         MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO =
                 new MstPriceUrgentForStoreDAO(this.connection);
         MstPriceUrgentForStore selected =
-                mstPriceUrgentForStoreDAO.selectOne("3", "1", "sku3", "color3", "2016-09-01");
+                mstPriceUrgentForStoreDAO.selectOne("3", "1", "sku11", "color11", "2016-09-01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "3");
         assertEquals(selected.getStoreId(), "4");
-        assertEquals(selected.getSku(), "sku3");
-        assertEquals(selected.getColorId(), "color3");
+        assertEquals(selected.getSku(), "sku11");
+        assertEquals(selected.getColorId(), "color11");
         assertEquals(selected.getRecordId(), "AAA12345678904");
         assertEquals(selected.getNewPrice(), 2000);
         assertEquals(selected.getOldPrice(), 3000);

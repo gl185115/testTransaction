@@ -24,9 +24,9 @@
 	    <row>
 			<value>0</value>
 			<value>0</value>
-			<value>00</value>
 			<value>dpt00</value>
-			<value>dptl00</value>
+			<value>dptn00</value>
+			<value>dptnl00</value>
 			<value>dptkn00</value>
 			<value>jg00</value>
 			<value>gs00</value>
@@ -46,9 +46,9 @@
 	    <row>
 			<value>1</value>
 			<value>0</value>
-			<value>10</value>
 			<value>dpt10</value>
-			<value>dptl10</value>
+			<value>dptn10</value>
+			<value>dptnl10</value>
 			<value>dptkn10</value>
 			<value>jg10</value>
 			<value>gs10</value>
@@ -68,9 +68,9 @@
 	    <row>
 			<value>0</value>
 			<value>1</value>
-			<value>01</value>
 			<value>dpt01</value>
-			<value>dptl01</value>
+			<value>dptn01</value>
+			<value>dptnl01</value>
 			<value>dptkn01</value>
 			<value>jg01</value>
 			<value>gs01</value>
@@ -90,9 +90,9 @@
 	    <row>
 			<value>1</value>
 			<value>1</value>
-			<value>11</value>
 			<value>dpt11</value>
-			<value>dptl11</value>
+			<value>dptn11</value>
+			<value>dptnl11</value>
 			<value>dptkn11</value>
 			<value>jg11</value>
 			<value>gs11</value>

@@ -49,12 +49,12 @@ public class MstColorInfoDAOTest {
     @Test
     public void selectWithGivenId() throws DaoException, SQLException {
         MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(this.connection);
-        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("1","1","11");
+        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("1","1","color11");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getColorId(), "11");
+        assertEquals(selected.getColorId(), "color11");
         assertEquals(selected.getColorName(), "name11");
         assertEquals(selected.getColorKanaName(), "kana11");
         connection.close();
@@ -63,12 +63,12 @@ public class MstColorInfoDAOTest {
     @Test
     public void selectWithDefaultStoreId() throws Exception {
         MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(connection);
-        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("1","2","10");
+        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("1","2","color10");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "1");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getColorId(), "10");
+        assertEquals(selected.getColorId(), "color10");
         assertEquals(selected.getColorName(), "name10");
         assertEquals(selected.getColorKanaName(), "kana10");
     }
@@ -76,12 +76,12 @@ public class MstColorInfoDAOTest {
     @Test
     public void selectWithDefaultCompanyId() throws DaoException, SQLException {
         MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(connection);
-        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("2","1","01");
+        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("2","1","color01");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "1");
-        assertEquals(selected.getColorId(), "01");
+        assertEquals(selected.getColorId(), "color01");
         assertEquals(selected.getColorName(), "name01");
         assertEquals(selected.getColorKanaName(), "kana01");
     }
@@ -89,12 +89,12 @@ public class MstColorInfoDAOTest {
     @Test
     public void selectWithDefaultIds() throws DaoException, SQLException {
         MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(connection);
-        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("2","2","00");
+        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("2","2","color00");
 
         assertNotNull(selected);
         assertEquals(selected.getCompanyId(), "0");
         assertEquals(selected.getStoreId(), "0");
-        assertEquals(selected.getColorId(), "00");
+        assertEquals(selected.getColorId(), "color00");
         assertEquals(selected.getColorName(), "name00");
         assertEquals(selected.getColorKanaName(), "kana00");
     }
@@ -102,7 +102,7 @@ public class MstColorInfoDAOTest {
     @Test
     public void selectNotMatched() throws DaoException, SQLException {
         MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(connection);
-        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("0","0","44");
+        MstColorInfo selected = mstColorInfoDAO.selectWithDefaultId("0","0","color44");
         assertNull(selected);
     }
 

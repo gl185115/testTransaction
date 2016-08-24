@@ -76,13 +76,13 @@
 	<value>class00</value>
 	<value>sku00</value>
 
-	<value>md0100</value>
+	<value>color00</value>
 	<value>md0200</value>
 	<value>md0300</value>
 	<value>md0400</value>
-	<value>md0500</value>
+	<value>size00</value>
 	<value>md0600</value>
-	<value>md0700</value>
+	<value>brand00</value>
 	<value>md0800</value>
 	<value>md0900</value>
 	<value>md1000</value>
@@ -110,7 +110,7 @@
 	<value>con100</value>
 	<value>con200</value>
 
-	<value>sub100</value>
+	<value>grp00</value>
 	<value>sub200</value>
 	<value>sub300</value>
 
@@ -139,13 +139,13 @@
 	<value>class01</value>
 	<value>sku01</value>
 
-	<value>md0101</value>
+	<value>color01</value>
 	<value>md0201</value>
 	<value>md0301</value>
 	<value>md0401</value>
-	<value>md0501</value>
+	<value>size01</value>
 	<value>md0601</value>
-	<value>md0701</value>
+	<value>brand01</value>
 	<value>md0801</value>
 	<value>md0901</value>
 	<value>md1001</value>
@@ -166,14 +166,14 @@
 	<value>800</value>
 	<value>1500</value>
 
-	<value>0</value>
+	<value>1</value>
 	<value>8.000</value>
 	<value>0</value>
 
 	<value>con101</value>
 	<value>con201</value>
 
-	<value>sub101</value>
+	<value>grp01</value>
 	<value>sub201</value>
 	<value>sub301</value>
 
@@ -200,15 +200,15 @@
 	<value>dpt10</value>
 	<value>line10</value>
 	<value>class10</value>
-	<value>sku010</value>
+	<value>sku10</value>
 
-	<value>md0110</value>
+	<value>color10</value>
 	<value>md0210</value>
 	<value>md0310</value>
 	<value>md0410</value>
-	<value>md0510</value>
+	<value>size10</value>
 	<value>md0610</value>
-	<value>md0710</value>
+	<value>brand10</value>
 	<value>md0810</value>
 	<value>md0910</value>
 	<value>md1010</value>
@@ -229,14 +229,14 @@
 	<value>800</value>
 	<value>1500</value>
 
-	<value>0</value>
+	<value>2</value>
 	<value>8.000</value>
 	<value>0</value>
 
 	<value>con110</value>
 	<value>con210</value>
 
-	<value>sub110</value>
+	<value>grp10</value>
 	<value>sub210</value>
 	<value>sub310</value>
 
@@ -263,15 +263,15 @@
 	<value>dpt11</value>
 	<value>line11</value>
 	<value>class11</value>
-	<value>sku011</value>
+	<value>sku11</value>
 
-	<value>md0111</value>
+	<value>color11</value>
 	<value>md0211</value>
 	<value>md0311</value>
 	<value>md0411</value>
-	<value>md0511</value>
+	<value>size11</value>
 	<value>md0611</value>
-	<value>md0711</value>
+	<value>brand11</value>
 	<value>md0811</value>
 	<value>md0911</value>
 	<value>md1011</value>
@@ -292,14 +292,14 @@
 	<value>800</value>
 	<value>1500</value>
 
-	<value>0</value>
+	<value>3</value>
 	<value>8.000</value>
 	<value>0</value>
 
 	<value>con111</value>
 	<value>con211</value>
 
-	<value>sub111</value>
+	<value>grp11</value>
 	<value>sub211</value>
 	<value>sub311</value>
 

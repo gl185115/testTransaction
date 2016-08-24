@@ -1,11 +1,5 @@
 package ncr.res.mobilepos.helper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.sql.SQLException;
-import java.util.Map;
-
 import org.dbunit.DBTestCase;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
@@ -23,8 +17,28 @@ import org.dbunit.ext.mssql.InsertIdentityOperation;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.SQLException;
+import java.util.Map;
+
 
 public class DBInitiator  extends DBTestCase {
+
+    private static final String DBUNIT_SERVER_IP = "149.25.136.82";
+//    private static final String DBUNIT_SERVER_IP = "127.0.0.1";
+
+    private static final String DBUNIT_DRIVER_CLASS_SQLS =
+                        "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String DBUNIT_CONNECTION_URL_SQLS =
+                        "jdbc:sqlserver://" + DBUNIT_SERVER_IP + ":1433;databaseName=";
+
+    private static final String DBUNIT_DRIVER_CLASS_HSQLDB = "org.hsqldb.jdbcDriver";
+    private static final String DBUNIT_CONNECTION_URL_HSQLDB =
+                        "jdbc:hsqldb:file:testdb/testdb;shutdown=true";
+
+
     private IDataSet dataset;
     public enum DATABASE { RESMaster, RESTransaction }
     public DBInitiator(final String name, DATABASE dbName)
@@ -32,16 +46,18 @@ public class DBInitiator  extends DBTestCase {
         super(name);
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
-                "com.microsoft.sqlserver.jdbc.SQLServerDriver" );
+                DBUNIT_DRIVER_CLASS_SQLS );
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
-                "jdbc:sqlserver://149.25.136.82:1433;databaseName=" + dbName.toString());
+                DBUNIT_CONNECTION_URL_SQLS + dbName.name());
+
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,
                 "entsvr");
+
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
-                "ncrsa_ora" );            
+                "ncrsa_ora" );
     }
     public DBInitiator(final String name, final String dataSetXml, final DATABASE dbName)
     {
@@ -71,9 +87,8 @@ public class DBInitiator  extends DBTestCase {
     }
     public final void ExecuteOperation(final DatabaseOperation operation,
             final String dataSetXml)
-    throws DatabaseUnitException, SQLException, Exception
+    throws Exception
     {               
-        System.out.println("DataSet:" + dataSetXml);   
         IDatabaseConnection connection = getConnection();
         connection
             .getConfig()
@@ -85,7 +100,7 @@ public class DBInitiator  extends DBTestCase {
     
     public final void ExecuteOperationNoKey(final DatabaseOperation operation,
             final String primaryKey, final String dataSetXml)
-    throws DatabaseUnitException, SQLException, Exception
+    throws Exception
     {               
         System.out.println("NoKey DataSet:" + dataSetXml);   
         IDatabaseConnection connection = getConnection();
@@ -104,7 +119,7 @@ public class DBInitiator  extends DBTestCase {
     public final void ExecuteIdentityInsertOperation(
             final DatabaseOperation operation,
             final String dataSetXml)
-    throws DatabaseUnitException, SQLException, Exception
+    throws Exception
     {               
         System.out.println("IdentityInsert DataSet:" + dataSetXml);
         IDataSet datasetOperation =

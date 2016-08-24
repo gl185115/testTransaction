@@ -95,6 +95,9 @@ public class MstPluDAO {
             selectedRecord.setMd15(result.getInt("Md15"));
             selectedRecord.setMd16(result.getInt("Md16"));
 
+            selectedRecord.setMdNameLocal(result.getString("MdNameLocal"));
+            selectedRecord.setMdKanaName(result.getString("MdKanaName"));
+
             selectedRecord.setOrgSalesPrice1(result.getLong("OrgSalesPrice1"));
             selectedRecord.setSalesPrice1(result.getLong("SalesPrice1"));
             selectedRecord.setSalesPrice2(result.getLong("SalesPrice2"));

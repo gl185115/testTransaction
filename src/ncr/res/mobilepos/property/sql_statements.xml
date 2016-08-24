@@ -12851,11 +12851,12 @@ insert into txl_offline_credit
         SELECT
           *
         FROM
-          MST_PLU
+        RESMaster.dbo.MST_PLU
         WHERE
           CompanyId = ?
         AND StoreId = ?
         AND MdInternal = ?
+        AND DeleteFlag = 0
     </entry>
 
 </properties>

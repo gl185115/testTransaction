@@ -22,6 +22,26 @@ import java.util.List;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.dao.MstBrandInfoDAO;
+import ncr.res.mobilepos.dao.MstClassInfoDAO;
+import ncr.res.mobilepos.dao.MstColorInfoDAO;
+import ncr.res.mobilepos.dao.MstDptInfoDAO;
+import ncr.res.mobilepos.dao.MstGroupInfoDAO;
+import ncr.res.mobilepos.dao.MstNameSystemDAO;
+import ncr.res.mobilepos.dao.MstPluDAO;
+import ncr.res.mobilepos.dao.MstPluStoreDAO;
+import ncr.res.mobilepos.dao.MstPriceUrgentForStoreDAO;
+import ncr.res.mobilepos.dao.MstSizeInfoDAO;
+import ncr.res.mobilepos.dao.model.MstBrandInfo;
+import ncr.res.mobilepos.dao.model.MstClassInfo;
+import ncr.res.mobilepos.dao.model.MstColorInfo;
+import ncr.res.mobilepos.dao.model.MstDptInfo;
+import ncr.res.mobilepos.dao.model.MstGroupInfo;
+import ncr.res.mobilepos.dao.model.MstNameSystem;
+import ncr.res.mobilepos.dao.model.MstPlu;
+import ncr.res.mobilepos.dao.model.MstPluStore;
+import ncr.res.mobilepos.dao.model.MstPriceUrgentForStore;
+import ncr.res.mobilepos.dao.model.MstSizeInfo;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
@@ -1206,7 +1226,294 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate);
     }
 
-    
+    private static final String NAME_CATEGORY_MAGICNUMBER = "0060";
+
+    /**
+     * Gets Item by PLU.
+     * @param storeId
+     * @param pluCode
+     * @param companyId
+     * @param businessDate
+     * @return
+     * @throws DaoException
+     */
+    public Item getItemByPLU(String storeId, String pluCode, String companyId, String businessDate)
+            throws DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName())
+                .println("StoreID", storeId)
+                .println("PLU", pluCode)
+                .println("CompanyId", companyId)
+                .println("BusinessDate", businessDate);
+        final String functionName = "SQLServerItemDAO.getItemByPLU";
+        Item returnItem = null;
+
+        try(Connection connection = dbManager.getConnection();) {
+
+            MstPluDAO mstPluDAO = new MstPluDAO(connection);
+            MstPlu mstPlu = mstPluDAO.selectWithDefaultId(companyId, storeId, pluCode);
+            if(mstPlu != null) {
+                // Gathers dao-models.
+                MstPluStoreDAO mstPluStoreDAO = new MstPluStoreDAO(connection);
+                MstPluStore mstPluStore =
+                        mstPluStoreDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMdInternal());
+
+                MstDptInfoDAO mstDptInfoDAO = new MstDptInfoDAO(connection);
+                MstDptInfo mstDptInfo = mstDptInfoDAO.selectWithDefaultId(companyId, storeId, mstPlu.getDpt());
+
+                MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(connection);
+                MstGroupInfo mstGroupInfo = mstGroupInfoDAO.selectWithDefaultId(
+                        companyId, storeId, mstPlu.getSubCode1());
+
+                MstClassInfoDAO mstClassInfoDAO = new MstClassInfoDAO(connection);
+                MstClassInfo mstClassInfo = mstClassInfoDAO.selectWithDefaultId(
+                                companyId, storeId, mstPlu.getClassCode(), mstPlu.getDpt(), mstPlu.getLine());
+
+                MstNameSystemDAO mstNameSystemDAO = new MstNameSystemDAO(connection);
+                MstNameSystem mstNameSystem = mstNameSystemDAO.selectWithDefaultId(
+                                companyId, storeId, String.valueOf(mstPlu.getTaxType()), NAME_CATEGORY_MAGICNUMBER);
+
+                MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(connection);
+                MstColorInfo mstColorInfo = mstColorInfoDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMd01());
+
+                MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(connection);
+                MstSizeInfo mstSizeInfo = mstSizeInfoDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMd05());
+
+                MstBrandInfoDAO mstBrandInfoDAO = new MstBrandInfoDAO(connection);
+                MstBrandInfo mstBrandInfo = mstBrandInfoDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMd07());
+
+                MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO = new MstPriceUrgentForStoreDAO(connection);
+                MstPriceUrgentForStore mstPriceUrgentForStore = mstPriceUrgentForStoreDAO.selectOne(
+                        companyId, storeId, mstPlu.getSku(), mstPlu.getMd01(), businessDate);
+
+                // Sets regular unit price from regional information,
+                // such as Urgent-Price-Change, Store-Price, and Plu-itself.
+                returnItem = new Item();
+                returnItem = setRegionalRegularSalesUnitPrice(returnItem, mstPlu, mstPluStore, mstPriceUrgentForStore);
+                returnItem.setActualSalesUnitPrice(returnItem.getRegularSalesUnitPrice());
+
+                // Populates item values by dao-models.
+                returnItem = populateItem(
+                        companyId, storeId, businessDate,
+                        returnItem,
+                        mstPlu, mstPluStore, mstDptInfo, mstGroupInfo, mstClassInfo, mstNameSystem,
+                        mstColorInfo, mstSizeInfo, mstBrandInfo, mstPriceUrgentForStore);
+
+                // Sets promotional discount price into Item, such as Bargain, Bundling and trade-in replacement.
+                returnItem = setPromotionalDiscount(storeId, companyId, businessDate, returnItem);
+
+                // Sets additional information into Item, such as Coupon, Premium and QRCode.
+                returnItem = setAdditionalItemInformation(storeId, companyId, businessDate, returnItem);
+
+            } else {
+                tp.println("Item not found.");
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to get the item information.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @getItemByPLUWithStoreFixation ", sqlEx);
+        } catch (Exception e) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to get the item information.\n" + e.getMessage());
+            throw new DaoException("Exception: @getItemByPLUWithStoreFixation ", e);
+        } finally {
+            tp.methodExit(returnItem);
+        }
+        return returnItem;
+    }
+
+    private static final String PRICE_FROM_URGENT_INFO_FORSTORE = "2";
+    private static final String PRICE_FROM_PLU_STORE = "1";
+    private static final String PRICE_FROM_PLU = "0";
+
+    /**
+     * Sets RegularSalesUnitPrice from URGENT, STORE and PLU.
+     * @param returnItem
+     * @param mstPlu
+     * @param mstPluStore
+     * @param mstPriceUrgentForStore
+     * @return
+     */
+    private Item setRegionalRegularSalesUnitPrice(Item returnItem,
+                                                  MstPlu mstPlu, MstPluStore mstPluStore, MstPriceUrgentForStore mstPriceUrgentForStore) {
+        // Top Priority: Price from MST_PRICE_URGENT_INFO_FORSTORE.NewPrice
+        if(mstPriceUrgentForStore != null) {
+            returnItem.setRegularSalesUnitPrice(mstPriceUrgentForStore.getNewPrice());
+            returnItem.setOldPrice(mstPriceUrgentForStore.getOldPrice());
+            returnItem.setSalesPriceFrom(PRICE_FROM_URGENT_INFO_FORSTORE);
+            return returnItem;
+        }
+        // 2nd Priority: MST_PLU_STORE.SalesPrice
+        if(mstPluStore != null) {
+            returnItem.setRegularSalesUnitPrice(mstPluStore.getSalesPrice());
+            returnItem.setSalesPriceFrom(PRICE_FROM_PLU_STORE);
+            return returnItem;
+        }
+        // Lowest Priority: MST_PLU.SalesPrice1
+        returnItem.setRegularSalesUnitPrice(mstPlu.getSalesPrice1());
+        returnItem.setSalesPriceFrom(PRICE_FROM_PLU);
+        return returnItem;
+    }
+
+    /**
+     * Populates Item values.
+     * @param storeId
+     * @param companyId
+     * @param businessDate
+     * @param item
+     * @param mstPlu
+     * @param mstPluStore
+     * @param mstDptInfo
+     * @param mstGroupInfo
+     * @param mstClassInfo
+     * @param mstNameSystem
+     * @param mstColorInfo
+     * @param mstSizeInfo
+     * @param mstBrandInfo
+     * @param mstPriceUrgentForStore
+     * @return
+     * @throws DaoException
+     */
+    private Item populateItem(final String storeId, final String companyId, final String  businessDate,
+                              Item item, MstPlu mstPlu, MstPluStore mstPluStore,
+                              MstDptInfo mstDptInfo, MstGroupInfo mstGroupInfo, MstClassInfo mstClassInfo,
+                              MstNameSystem mstNameSystem, MstColorInfo mstColorInfo,
+                              MstSizeInfo mstSizeInfo, MstBrandInfo mstBrandInfo,
+                              MstPriceUrgentForStore mstPriceUrgentForStore) throws DaoException {
+        // PK MST_PLU.MdInternal -> ItemId.
+        item.setItemId(mstPlu.getMdInternal());
+
+        // MST_PLU.MdNameLocal -> Description.
+        Description description = new Description();
+        description.setJa(mstPlu.getMdNameLocal());
+        item.setDescription(description);
+
+        // MST_PLU.
+        item.setLine(mstPlu.getLine());
+        item.setItemClass(mstPlu.getClassCode());
+        item.setTaxType(mstPlu.getTaxType());
+        item.setTaxRate(mstPlu.getTaxRate());
+        item.setSubNum1(mstPlu.getSubNum1());
+        item.setSubNum2(mstPlu.getSubNum2());
+        item.setPluPrice(mstPlu.getSalesPrice1());
+        item.setMd01(mstPlu.getMd01());
+        item.setOrgSalesPrice1(mstPlu.getOrgSalesPrice1());
+        item.setDepartment(mstPlu.getDpt());
+        item.setDiscountType(mstPlu.getDiscountType());
+        item.setMd02(mstPlu.getMd02());
+        item.setMd03(mstPlu.getMd02());
+        item.setMd04(mstPlu.getMd02());
+        item.setMd05(mstPlu.getMd02());
+        item.setMd06(mstPlu.getMd02());
+        item.setMd07(mstPlu.getMd02());
+        item.setMd08(mstPlu.getMd02());
+        item.setMd09(mstPlu.getMd02());
+        item.setMd10(mstPlu.getMd02());
+        item.setMd11(mstPlu.getMd02());
+        item.setMd12(mstPlu.getMd02());
+        item.setMd13(mstPlu.getMd02());
+        item.setMd14(mstPlu.getMd02());
+        item.setMd15(mstPlu.getMd02());
+        item.setMd16(mstPlu.getMd02());
+        item.setMdType(mstPlu.getMdType());
+        item.setSku(mstPlu.getSku());
+        item.setMdNameLocal(mstPlu.getMdNameLocal());
+        item.setMdKanaName(mstPlu.getMdKanaName());
+        item.setSalesPrice2(mstPlu.getSalesPrice2());
+        item.setPaymentType(mstPlu.getPaymentType());
+        item.setSubCode1(mstPlu.getSubCode1());
+        item.setSubCode2(mstPlu.getSubCode2());
+        item.setSubCode3(mstPlu.getSubCode3());
+        item.setMdVender(mstPlu.getMdVender());
+        item.setCostPrice1(mstPlu.getCostPrice1());
+        item.setMakerPrice(mstPlu.getMakerPrice());
+        item.setConn1(mstPlu.getConn1());
+        item.setConn2(mstPlu.getConn2());
+
+        // MST_DPTINFO
+        if(mstDptInfo != null) {
+            item.setDptDiscountType(mstDptInfo.getDiscountType());
+            item.setDptNameLocal(mstDptInfo.getDptNameLocal());
+            item.setDptSubCode1(mstDptInfo.getSubCode1());
+        }
+
+        // MST_CLASSINFO
+        if(mstClassInfo != null) {
+            item.setClassNameLocal(mstClassInfo.getClassNameLocal());
+        }
+
+        // MST_GROUPINFO
+        if(mstGroupInfo != null) {
+            item.setGroupName(mstGroupInfo.getGroupName());
+            item.setGroupID(mstGroupInfo.getGroupId());
+        }
+
+        // MST_NAME_SYSTEM
+        if(mstNameSystem != null) {
+            item.setNameText(mstNameSystem.getNameText());
+        }
+
+        // MST_COLORINFO
+        if(mstColorInfo != null) {
+            item.setColorkananame(mstColorInfo.getColorKanaName());
+        }
+
+        // MST_SIZEINFO
+        if(mstSizeInfo != null) {
+            item.setSizeKanaName(mstSizeInfo.getSizeKanaName());
+        }
+
+        // MST_BRANDINFO
+        if(mstBrandInfo != null) {
+            item.setBrandName(mstBrandInfo.getBrandName());
+        }
+
+        return item;
+    }
+
+    /**
+     *
+     * @param storeId
+     * @param companyId
+     * @param businessDate
+     * @param item
+     * @return
+     * @throws DaoException
+     */
+    private Item setPromotionalDiscount(String storeId, String companyId, String businessDate, Item item)
+            throws DaoException {
+        // Top Priority: TOKUBAI, Bargain.
+        if (hasPromDetailInfo(storeId, item, companyId, businessDate)) {
+            return item;
+        }
+        // 2nd: Mix-Match bundle discount.
+        if (hasPriceMMInfo(storeId, item, companyId, businessDate)) {
+            return item;
+        }
+        // 3rd: SHITADORI, Trade-in and replacement support discount.
+        hasReplaceSupportDetailInfo(storeId, item, companyId, businessDate);
+        return item;
+    }
+
+    /**
+     *
+     * @param storeId
+     * @param companyId
+     * @param businessDate
+     * @param item
+     * @return
+     * @throws DaoException
+     */
+    private Item setAdditionalItemInformation(String storeId, String companyId, String businessDate, Item item) throws DaoException {
+        // 割引券発行管理
+        getCouponInfo(storeId, item, companyId, businessDate);
+        // プレミアム商品
+        getPremiumitemInfo(storeId, item, companyId, businessDate);
+        //QRcode
+        getQrCodeInfo(storeId, item, companyId, businessDate);
+        return item;
+    }
+
+
     /** Gets the information of a single item by specifying the Store ID and and
     * its corresponding PLU code.
     *
@@ -1336,22 +1643,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     // Compute the Actual Sales Price
                     searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 }
-                
-                // 特売管理
-                if (!isHasPromDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate)) {
-                    // バンドルミックス
-                    if (!isHasPriceMMInfo(actualStoreid, searchedItem, companyId, bussinessDate)) {
-                        // 買替サポート
-                        isHasReplaceSupportDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                    }
-                }
-                // 割引券発行管理
-                getCouponInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                // プレミアム商品
-                getPremiumitemInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                //QRcode
-                getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
 
+                // 特売管理,バンドルミックス,買替サポート
+                searchedItem = setPromotionalDiscount(actualStoreid, companyId, bussinessDate, searchedItem);
+                // 割引券発行管理,プレミアム商品,QRcode
+                searchedItem = setAdditionalItemInformation(actualStoreid, companyId, bussinessDate, searchedItem);
             } else {
                 tp.println("Item not found.");
             }
@@ -1389,8 +1685,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param bussinessDate the bussinessDate
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private boolean isHasPromDetailInfo(final String storeid, final Item searchedItem, final String companyId,
-            final String bussinessDate) throws DaoException {
+    private boolean hasPromDetailInfo(final String storeid, final Item searchedItem, final String companyId,
+                                      final String bussinessDate) throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
         .println("searchedItem", searchedItem)
@@ -1400,7 +1696,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         PreparedStatement select = null;
         ResultSet result = null;
         boolean isHaveValue = false;
-        String functionName = "SQLServerItemDAO.isHasPromDetailInfo";
+        String functionName = "SQLServerItemDAO.hasPromDetailInfo";
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1415,7 +1711,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             result = select.executeQuery();
             if(result.next()){
                 isHaveValue = true;
-              searchedItem.setPromotionNo(result.getString(result.findColumn("promotionNo")));
+              searchedItem.setPromotionNo(result.getString(result.findColumn("PromotionNo")));
               searchedItem.setDiscountClass(result.getInt(result.findColumn("DiscountClass")));
               searchedItem.setDiacountRate(result.getDouble(result.findColumn("DiacountRate")));
               searchedItem.setDiscountAmt(result.getInt(result.findColumn("DiscountAmt")));
@@ -1423,16 +1719,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @isHasPromDetailInfo ", sqlEx);
+            throw new DaoException("SQLException: @hasPromDetailInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @isHasPromDetailInfo ", nuEx);
+            throw new DaoException("NumberFormatException: @hasPromDetailInfo ", nuEx);
         } catch (Exception e) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @isHasPromDetailInfo ", e);
+            throw new DaoException("Exception: @hasPromDetailInfo ", e);
         } finally {
             closeConnectionObjects(connection, select, result);
 
@@ -1449,8 +1745,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param bussinessDate the bussinessDate
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private boolean isHasPriceMMInfo(final String storeid, final Item searchedItem, final String companyId,
-            final String bussinessDate) throws DaoException {
+    private boolean hasPriceMMInfo(final String storeid, final Item searchedItem, final String companyId,
+                                   final String bussinessDate) throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
         .println("searchedItem", searchedItem)
@@ -1460,7 +1756,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         PreparedStatement select = null;
         ResultSet result = null;
         boolean isHaveValue = false;
-        String functionName = "SQLServerItemDAO.isHasPriceMMInfo";
+        String functionName = "SQLServerItemDAO.hasPriceMMInfo";
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1502,16 +1798,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @isHasPriceMMInfo ", sqlEx);
+            throw new DaoException("SQLException: @hasPriceMMInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @isHasPriceMMInfo ", nuEx);
+            throw new DaoException("NumberFormatException: @hasPriceMMInfo ", nuEx);
         } catch (Exception e) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @isHasPriceMMInfo ", e);
+            throw new DaoException("Exception: @hasPriceMMInfo ", e);
         } finally {
             closeConnectionObjects(connection, select, result);
 
@@ -1528,8 +1824,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param bussinessDate the bussinessDate
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private boolean isHasReplaceSupportDetailInfo(final String storeid, final Item searchedItem, final String companyId,
-            final String bussinessDate) throws DaoException {
+    private boolean hasReplaceSupportDetailInfo(final String storeid, final Item searchedItem, final String companyId,
+                                                final String bussinessDate) throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
         .println("searchedItem", searchedItem)
@@ -1539,7 +1835,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         PreparedStatement select = null;
         ResultSet result = null;
         boolean isHaveValue = false;
-        String functionName = "SQLServerItemDAO.isHasReplaceSupportDetailInfo";
+        String functionName = "SQLServerItemDAO.hasReplaceSupportDetailInfo";
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1557,16 +1853,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @isHasReplaceSupportDetailInfo ", sqlEx);
+            throw new DaoException("SQLException: @hasReplaceSupportDetailInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @isHasReplaceSupportDetailInfo ", nuEx);
+            throw new DaoException("NumberFormatException: @hasReplaceSupportDetailInfo ", nuEx);
         } catch (Exception e) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @isHasReplaceSupportDetailInfo ", e);
+            throw new DaoException("Exception: @hasReplaceSupportDetailInfo ", e);
         } finally {
             closeConnectionObjects(connection, select, result);
 
@@ -1769,7 +2065,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet result = null;
-        String functionName = "SQLServerItemDAO.isHasPriceMMInfo";
+        String functionName = "SQLServerItemDAO.hasPriceMMInfo";
         Item searchedItem = null;
         try {
             connection = dbManager.getConnection();
@@ -1816,16 +2112,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @isHasPriceMMInfo ", sqlEx);
+            throw new DaoException("SQLException: @hasPriceMMInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @isHasPriceMMInfo ", nuEx);
+            throw new DaoException("NumberFormatException: @hasPriceMMInfo ", nuEx);
         } catch (Exception e) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @isHasPriceMMInfo ", e);
+            throw new DaoException("Exception: @hasPriceMMInfo ", e);
         } finally {
             closeConnectionObjects(connection, select, result);
 
@@ -2063,13 +2359,13 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
 
                 // // 特売管理
-                // if (!isHasPromDetailInfo(actualStoreid, searchedItem,
+                // if (!hasPromDetailInfo(actualStoreid, searchedItem,
                 // companyId, bussinessDate)) {
                 // // バンドルミックス
-                // if (!isHasPriceMMInfo(actualStoreid, searchedItem, companyId,
+                // if (!hasPriceMMInfo(actualStoreid, searchedItem, companyId,
                 // bussinessDate)) {
                 // // 買替サポート
-                // isHasReplaceSupportDetailInfo(actualStoreid, searchedItem,
+                // hasReplaceSupportDetailInfo(actualStoreid, searchedItem,
                 // companyId, bussinessDate);
                 // }
                 // }

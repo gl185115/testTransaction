@@ -100,6 +100,7 @@ SELECT TOP 1
        plu.SubCode3,
        plu.SubNum1,
        plu.SubNum2,
+
        plu.DeleteFlag,
        plu.DelDate,
        plu.DelAppId,
@@ -188,7 +189,7 @@ plu.CompanyId  = urgent.CompanyId
 AND plu.Sku  = urgent.Sku
 AND plu.Md01 = urgent.ColorId
 
-WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
+WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 ORDER BY urgent.SequenceNo DESC
 
 </entry>

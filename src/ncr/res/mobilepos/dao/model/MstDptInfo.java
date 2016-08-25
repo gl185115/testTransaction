@@ -14,6 +14,8 @@ public class MstDptInfo {
     private int discountType;
     private int exceptionFlag;
 
+    private String subCode1;
+
     private int subNum1;
     private int subNum2;
     private int subNum3;
@@ -99,6 +101,14 @@ public class MstDptInfo {
 
     public void setExceptionFlag(int exceptionFlag) {
         this.exceptionFlag = exceptionFlag;
+    }
+
+    public String getSubCode1() {
+        return subCode1;
+    }
+
+    public void setSubCode1(String subCode1) {
+        this.subCode1 = subCode1;
     }
 
     public int getSubNum1() {

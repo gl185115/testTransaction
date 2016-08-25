@@ -13,6 +13,20 @@
 		<column>Uriba</column>
 		<column>Category</column>
 
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>ExceptionFlag</column>
+
+		<column>SubCode1</column>
+
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+
+		<column>Status</column>
+
 		<column>DeleteFlag</column>
 		<column>InsDate</column>
 		<column>InsAppId</column>
@@ -33,6 +47,20 @@
 			<value>bm00</value>
 			<value>ub00</value>
 			<value>cat00</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>group00</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
 
 			<value>0</value>
 			<value><![CDATA[2016-01-01]]></value>
@@ -57,6 +85,20 @@
 			<value>cat10</value>
 
 			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>group10</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
+
+			<value>0</value>
 			<value><![CDATA[2016-01-01]]></value>
 			<value>0</value>
 			<value>0</value>
@@ -79,6 +121,20 @@
 			<value>cat01</value>
 
 			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>group01</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
+
+			<value>0</value>
 			<value><![CDATA[2016-01-01]]></value>
 			<value>0</value>
 			<value>0</value>
@@ -99,6 +155,20 @@
 			<value>bm00</value>
 			<value>ub11</value>
 			<value>cat11</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>group11</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
 
 			<value>0</value>
 			<value><![CDATA[2016-01-01]]></value>

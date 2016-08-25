@@ -77,6 +77,8 @@ public class MstDptInfoDAO {
                 selectedRecord.setDiscountType(result.getInt("DiscountType"));
                 selectedRecord.setExceptionFlag(result.getInt("ExceptionFlag"));
 
+                selectedRecord.setSubCode1(result.getString("SubCode1"));
+
                 selectedRecord.setSubNum1(result.getInt("SubNum1"));
                 selectedRecord.setSubNum2(result.getInt("SubNum2"));
                 selectedRecord.setSubNum3(result.getInt("SubNum3"));

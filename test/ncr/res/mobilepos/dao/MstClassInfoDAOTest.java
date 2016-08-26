@@ -58,11 +58,11 @@ public class MstClassInfoDAOTest {
         assertEquals(mstClassInfo.getClassCode(), "class11");
         assertEquals(mstClassInfo.getDptCode(), "dpt11");
         assertEquals(mstClassInfo.getLineCode(), "line11");
-        assertEquals(mstClassInfo.getClassKanaName(), null);
-        assertEquals(mstClassInfo.getClassName(), null);
-        assertEquals(mstClassInfo.getClassNameLocal(), null);
-        assertEquals(mstClassInfo.getSubCode1(), null);
-        assertEquals(mstClassInfo.getSubCode2(), null);
+        assertEquals(mstClassInfo.getClassKanaName(), "0");
+        assertEquals(mstClassInfo.getClassName(), "0");
+        assertEquals(mstClassInfo.getClassNameLocal(), "0");
+        assertEquals(mstClassInfo.getSubCode1(), "0");
+        assertEquals(mstClassInfo.getSubCode2(), "0");
     }
 
     @Test
@@ -76,11 +76,11 @@ public class MstClassInfoDAOTest {
         assertEquals(mstClassInfo.getClassCode(), "class10");
         assertEquals(mstClassInfo.getDptCode(), "dpt10");
         assertEquals(mstClassInfo.getLineCode(), "line10");
-        assertEquals(mstClassInfo.getClassKanaName(), null);
-        assertEquals(mstClassInfo.getClassName(), null);
-        assertEquals(mstClassInfo.getClassNameLocal(), null);
-        assertEquals(mstClassInfo.getSubCode1(), null);
-        assertEquals(mstClassInfo.getSubCode2(), null);
+        assertEquals(mstClassInfo.getClassKanaName(), "0");
+        assertEquals(mstClassInfo.getClassName(), "0");
+        assertEquals(mstClassInfo.getClassNameLocal(), "0");
+        assertEquals(mstClassInfo.getSubCode1(), "0");
+        assertEquals(mstClassInfo.getSubCode2(), "0");
     }
 
     @Test
@@ -94,11 +94,11 @@ public class MstClassInfoDAOTest {
         assertEquals(mstClassInfo.getClassCode(), "class01");
         assertEquals(mstClassInfo.getDptCode(), "dpt01");
         assertEquals(mstClassInfo.getLineCode(), "line01");
-        assertEquals(mstClassInfo.getClassKanaName(), null);
-        assertEquals(mstClassInfo.getClassName(), null);
-        assertEquals(mstClassInfo.getClassNameLocal(), null);
-        assertEquals(mstClassInfo.getSubCode1(), null);
-        assertEquals(mstClassInfo.getSubCode2(), null);
+        assertEquals(mstClassInfo.getClassKanaName(), "0");
+        assertEquals(mstClassInfo.getClassName(), "0");
+        assertEquals(mstClassInfo.getClassNameLocal(), "0");
+        assertEquals(mstClassInfo.getSubCode1(), "0");
+        assertEquals(mstClassInfo.getSubCode2(), "0");
     }
 
     @Test
@@ -112,11 +112,11 @@ public class MstClassInfoDAOTest {
         assertEquals(mstClassInfo.getClassCode(), "class00");
         assertEquals(mstClassInfo.getDptCode(), "dpt00");
         assertEquals(mstClassInfo.getLineCode(), "line00");
-        assertEquals(mstClassInfo.getClassKanaName(), null);
-        assertEquals(mstClassInfo.getClassName(), null);
-        assertEquals(mstClassInfo.getClassNameLocal(), null);
-        assertEquals(mstClassInfo.getSubCode1(), null);
-        assertEquals(mstClassInfo.getSubCode2(), null);
+        assertEquals(mstClassInfo.getClassKanaName(), "0");
+        assertEquals(mstClassInfo.getClassName(), "0");
+        assertEquals(mstClassInfo.getClassNameLocal(), "0");
+        assertEquals(mstClassInfo.getSubCode1(), "0");
+        assertEquals(mstClassInfo.getSubCode2(), "0");
     }
 
     @Test

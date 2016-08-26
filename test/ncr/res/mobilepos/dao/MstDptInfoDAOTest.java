@@ -58,7 +58,7 @@ public class MstDptInfoDAOTest {
         assertEquals(selected.getDptName(), "dptn11");
         assertEquals(selected.getDptNameLocal(), "dptnl11");
         assertEquals(selected.getDptKanaName(), "dptkn11");
-        assertEquals(selected.getSubCode1(), "group11");
+        assertEquals(selected.getSubCode1(), "grp11");
         connection.close();
     }
 
@@ -74,7 +74,7 @@ public class MstDptInfoDAOTest {
         assertEquals(selected.getDptName(), "dptn10");
         assertEquals(selected.getDptNameLocal(), "dptnl10");
         assertEquals(selected.getDptKanaName(), "dptkn10");
-        assertEquals(selected.getSubCode1(), "group10");
+        assertEquals(selected.getSubCode1(), "grp10");
     }
 
     @Test
@@ -89,7 +89,7 @@ public class MstDptInfoDAOTest {
         assertEquals(selected.getDptName(), "dptn01");
         assertEquals(selected.getDptNameLocal(), "dptnl01");
         assertEquals(selected.getDptKanaName(), "dptkn01");
-        assertEquals(selected.getSubCode1(), "group01");
+        assertEquals(selected.getSubCode1(), "grp01");
     }
 
     @Test
@@ -104,7 +104,7 @@ public class MstDptInfoDAOTest {
         assertEquals(selected.getDptName(), "dptn00");
         assertEquals(selected.getDptNameLocal(), "dptnl00");
         assertEquals(selected.getDptKanaName(), "dptkn00");
-        assertEquals(selected.getSubCode1(), "group00");
+        assertEquals(selected.getSubCode1(), "grp00");
     }
 
     @Test

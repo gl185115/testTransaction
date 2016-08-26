@@ -96,7 +96,7 @@ public class MstPluDAOTest {
         assertEquals(selected.getConn1(), "con111");
         assertEquals(selected.getConn2(), "con211");
 
-        assertEquals(selected.getSubCode1(), "grp11");
+        assertEquals(selected.getSubCode1(), "sub111");
         assertEquals(selected.getSubCode2(), "sub211");
         assertEquals(selected.getSubCode3(), "sub311");
 
@@ -156,7 +156,7 @@ public class MstPluDAOTest {
         assertEquals(selected.getConn1(), "con110");
         assertEquals(selected.getConn2(), "con210");
 
-        assertEquals(selected.getSubCode1(), "grp10");
+        assertEquals(selected.getSubCode1(), "sub110");
         assertEquals(selected.getSubCode2(), "sub210");
         assertEquals(selected.getSubCode3(), "sub310");
 
@@ -216,7 +216,7 @@ public class MstPluDAOTest {
         assertEquals(selected.getConn1(), "con101");
         assertEquals(selected.getConn2(), "con201");
 
-        assertEquals(selected.getSubCode1(), "grp01");
+        assertEquals(selected.getSubCode1(), "sub101");
         assertEquals(selected.getSubCode2(), "sub201");
         assertEquals(selected.getSubCode3(), "sub301");
 
@@ -276,7 +276,7 @@ public class MstPluDAOTest {
         assertEquals(selected.getConn1(), "con100");
         assertEquals(selected.getConn2(), "con200");
 
-        assertEquals(selected.getSubCode1(), "grp00");
+        assertEquals(selected.getSubCode1(), "sub100");
         assertEquals(selected.getSubCode2(), "sub200");
         assertEquals(selected.getSubCode3(), "sub300");
 

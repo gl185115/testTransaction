@@ -110,7 +110,7 @@
 	<value>con100</value>
 	<value>con200</value>
 
-	<value>grp00</value>
+	<value>sub100</value>
 	<value>sub200</value>
 	<value>sub300</value>
 
@@ -173,7 +173,7 @@
 	<value>con101</value>
 	<value>con201</value>
 
-	<value>grp01</value>
+	<value>sub101</value>
 	<value>sub201</value>
 	<value>sub301</value>
 
@@ -236,7 +236,7 @@
 	<value>con110</value>
 	<value>con210</value>
 
-	<value>grp10</value>
+	<value>sub110</value>
 	<value>sub210</value>
 	<value>sub310</value>
 
@@ -299,7 +299,7 @@
 	<value>con111</value>
 	<value>con211</value>
 
-	<value>grp11</value>
+	<value>sub111</value>
 	<value>sub211</value>
 	<value>sub311</value>
 

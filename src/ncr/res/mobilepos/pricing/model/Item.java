@@ -6,15 +6,16 @@ package ncr.res.mobilepos.pricing.model;
  */
 
 
+import com.wordnik.swagger.annotations.ApiModel;
+import com.wordnik.swagger.annotations.ApiModelProperty;
+
 import java.util.List;
+import java.util.StringJoiner;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-
-import com.wordnik.swagger.annotations.ApiModel;
-import com.wordnik.swagger.annotations.ApiModelProperty;
 
 /**
  * Item Model Object.
@@ -1094,7 +1095,6 @@ public class Item {
     
     @XmlElement(name = "OrgSalesPrice1")
     private double orgSalesPrice1;
-    /* 1.01 2014.11.19 商品情報取得 ADD END*/
 
     @XmlElement(name = "InheritFlag")
     private String inheritFlag;
@@ -1138,16 +1138,13 @@ public class Item {
         this.discountFlag = item.getDiscountFlag();
         this.mustBuyFlag = item.getMustBuyFlag();
         this.mixMatchCode = item.getMixMatchCode();
-        /* 1.01 2014.11.19 商品情報取得 ADD START*/
         this.md01 =  item.getMd01();
         this.empPrice1 = item.getEmpPrice1();
         this.pSType = item.getPSType();
         this.orgSalesPrice1 = item.getOrgSalesPrice1();
         this.promotionNo = item.getPromotionNo();
         this.premiumItemNo = item.getPremiumItemNo();
-        /* 1.01 2014.11.19 商品情報取得 ADD END*/
         this.inheritFlag = item.getInheritFlag();
-        // add 20150827
         this.mdType = item.getMdType();
         this.sku = item.getSku();
         this.md02 = item.getMd02();
@@ -1173,15 +1170,12 @@ public class Item {
         this.subCode2 = item.getSubCode2();
         this.subCode3 = item.getSubCode3();
         this.subNum2 = item.getSubNum2();
-        //end
     }
 
     public Item(final String itemId, final Description description,
             final double regularSalesUnitPrice, final String department,
-        /* 1.01 2014.11.19 商品情報取得 ADD START*/
             final String line, final String classValue,final double empPrice1,
             final String md01,final String pSType,final double orgSalesPrice1,final String mixMatchCode) {
-        /* 1.01 2014.11.19 商品情報取得 ADD END*/
         setItemId(itemId);
         setDepartment(department);
         setDescription(description);
@@ -1192,12 +1186,10 @@ public class Item {
         setLine(line);
         setItemClass(classValue);
         setMixMatchCode(mixMatchCode);
-        /* 1.01 2014.11.19 商品情報取得 ADD START*/
         setEmpPrice1(empPrice1);
         setMd01(md01);
         setPSType(pSType);
         setOrgSalesPrice1(orgSalesPrice1);
-        /* 1.01 2014.11.19 商品情報取得 ADD END*/
     }
     
     @ApiModelProperty(value="会社コード", notes="会社コード")
@@ -1417,7 +1409,6 @@ public class Item {
     public final void setUpdOpeCode(String updOpeCode) {
         this.updOpeCode = updOpeCode;
     }
-    /* 1.01 2014.11.19 商品情報取得 ADD START*/
     @ApiModelProperty(value="社員購入売単価１", notes="社員購入売単価１")
    public final double getEmpPrice1() {
        return this.empPrice1;
@@ -1453,7 +1444,6 @@ public class Item {
    public final void setOrgSalesPrice1(final double orgSalesPrice1){
        this.orgSalesPrice1 = orgSalesPrice1;
    } 
-   /* 1.01 2014.11.19 商品情報取得 ADD END*/
 
    @ApiModelProperty(value="継承フラグ", notes="継承フラグ")
     public String getInheritFlag() {
@@ -1509,29 +1499,115 @@ public class Item {
 		this.brandName = brandName;
 	}
 
-	@Override
+    @Override
     public final String toString() {
-      StringBuilder str = new StringBuilder();
-      String clrf = "; ";
-      str.append("ItemID: ").append(itemId).append(clrf)
-         .append("Description: ").append(description != null ?
-                 description.toString() : "").append(clrf)
-         .append("RegularSalesUnitPrice: ").append(regularSalesUnitPrice)
-         .append(clrf)
-         .append("ActualSalesPrice: ").append(actualSalesUnitPrice).append(clrf)
-         .append("Department: ").append(department).append(clrf)
-         .append("Discount: ").append(discount).append(clrf)
-         .append("Discount Amount: ").append(discountAmount).append(clrf)
-         .append("SubInt10: ").append(subInt10).append(clrf)
-         .append("Line: ").append(line).append(clrf)
-          /* 1.01 2014.11.19 商品情報取得 ADD START*/
-         .append("EmpPrice1: ").append(empPrice1).append(clrf)
-         .append("Md01:").append(md01).append(clrf)
-         .append("PSType").append(pSType).append(clrf)
-         .append("OrgSalesPrice1").append(orgSalesPrice1).append(clrf)
-         /* 1.01 2014.11.19 商品情報取得 ADD END*/
-         .append("Class: ").append(itemClass);
-      return str.toString();
+        StringJoiner joiner = new StringJoiner("; ");
+        joiner.add("CompanyId : " + companyId);
+        joiner.add("StoreId : " + storeId);
+
+        joiner.add("ItemId : " + itemId );
+        joiner.add("Description : " + (description != null ? description.toString() : ""));
+
+        joiner.add("Line : " + line );
+        joiner.add("Class: " + itemClass);
+
+        joiner.add("TaxType : " + taxType );
+        joiner.add("TaxRate : " + taxRate );
+
+        joiner.add("SubNum1 : " + subNum1 );
+        joiner.add("SubNum2 : " + subNum2 );
+
+        joiner.add("PluPrice" + pluPrice);
+
+        joiner.add("OrgSalesPrice1 : " + orgSalesPrice1 );
+
+        joiner.add("Department : " + department );
+
+        joiner.add("DiscountType : " + discountType );
+        joiner.add("Discount : " + discount );
+        joiner.add("DiscountAmount : " + discountAmount );
+        joiner.add("Discountable : " + discountable );
+        joiner.add("DiscountFlag : " + discountFlag );
+        joiner.add("DiscountAmt : " + discountAmt);
+        joiner.add("DiscountRate : " + diacountRate);
+
+        joiner.add("RegularSalesUnitPrice: " + regularSalesUnitPrice);
+        joiner.add("ActualSalesUnitPrice : " + actualSalesUnitPrice );
+
+        joiner.add("Md01 : " + md01 );
+        joiner.add("Md02 : " + md02 );
+        joiner.add("Md03 : " + md03 );
+        joiner.add("Md04 : " + md04 );
+        joiner.add("Md05 : " + md05 );
+        joiner.add("Md06 : " + md06 );
+        joiner.add("Md07 : " + md07 );
+        joiner.add("Md08 : " + md08 );
+        joiner.add("Md09 : " + md09 );
+        joiner.add("Md10 : " + md10 );
+        joiner.add("Md11 : " + md11 );
+        joiner.add("Md12 : " + md12 );
+        joiner.add("Md13 : " + md13 );
+        joiner.add("Md14 : " + md14 );
+        joiner.add("Md15 : " + md15 );
+        joiner.add("Md16 : " + md16 );
+        joiner.add("MdType : " + mdType );
+        joiner.add("Sku : " + sku );
+        joiner.add("MdNameLocal : " + mdNameLocal );
+        joiner.add("MdKanaName : " + mdKanaName );
+
+        joiner.add("SalesPrice2 : " + salesPrice2 );
+        joiner.add("PaymentType : " + paymentType );
+
+        joiner.add("SubCode1 : " + subCode1 );
+        joiner.add("SubCode2 : " + subCode2 );
+        joiner.add("SubCode3 : " + subCode3 );
+
+        joiner.add("MdVendor : " + mdVender);
+        joiner.add("CostPrice1 : " + costPrice1);
+        joiner.add("MakerPrice : " + makerPrice);
+
+        joiner.add("Conn1 : " + conn1 );
+        joiner.add("Conn2 : " + conn2 );
+
+        joiner.add("DptNameLocal : " + dptNameLocal );
+        joiner.add("DptSubCode1 : " + dptSubCode1);
+
+        joiner.add("ClassNameLocal : " + classNameLocal);
+
+        joiner.add("GroupName : " + groupName);
+        joiner.add("GroupId : " + groupID);
+
+        joiner.add("NameText : " + nameText);
+
+        joiner.add("ColorKananame : " + colorkananame);
+
+        joiner.add("SizeKanaName : " + sizeKanaName);
+
+        joiner.add("BrandName : " + brandName);
+
+        joiner.add("PromotionNo : " + promotionNo);
+
+        joiner.add("MixMatchCode : " + mixMatchCode );
+
+        joiner.add("PromotionId : " + promotionId);
+        joiner.add("ReplaceSupportDiscountAmt : " + replaceSupportdiscountAmt);
+
+        joiner.add("CouponNo : " + couponNo);
+
+        joiner.add("PremiumItemNo : " + premiumItemNo );
+
+        joiner.add("SubNum2 : " + subNum2 );
+        joiner.add("NonSales : " + nonSales );
+        joiner.add("SubInt10 : " + subInt10 );
+        joiner.add("ItemClass : " + itemClass );
+        joiner.add("AgeRestrictedFlag : " + ageRestrictedFlag );
+        joiner.add("CouponFlag : " + couponFlag );
+        joiner.add("MustBuyFlag : " + mustBuyFlag );
+        joiner.add("EmpPrice1 : " + empPrice1 );
+        joiner.add("PSType : " + pSType );
+        joiner.add("InheritFlag : " + inheritFlag );
+
+        return joiner.toString();
     }
 
 }

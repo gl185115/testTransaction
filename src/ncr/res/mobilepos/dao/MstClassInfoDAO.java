@@ -88,6 +88,12 @@ public class MstClassInfoDAO {
                 selectedRecord.setClassCode(result.getString("Class"));
                 selectedRecord.setDptCode(result.getString("Dpt"));
                 selectedRecord.setLineCode(result.getString("Line"));
+                selectedRecord.setClassNameLocal(result.getString("ClassNameLocal"));
+                selectedRecord.setClassName(result.getString("ClassName"));
+                selectedRecord.setClassKanaName(result.getString("ClassKanaName"));
+                selectedRecord.setSubCode1(result.getString("SubCode1"));
+                selectedRecord.setSubCode2(result.getString("SubCode2"));
+
             } else {
                 tp.println("MstClassInfo not matched.");
             }

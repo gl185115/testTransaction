@@ -1281,7 +1281,58 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getItemByPLUWithStoreFixation ", sqlEx);
+            throw new DaoException("SQLException: @getItemByPLU ", sqlEx);
+        } finally {
+            tp.methodExit(returnItem);
+        }
+        return returnItem;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Item getItemPriceByPLU(String storeId, String pluCode, String companyId, String businessDate)
+            throws DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName())
+                .println("StoreID", storeId)
+                .println("PLU", pluCode)
+                .println("CompanyId", companyId)
+                .println("BusinessDate", businessDate);
+        final String functionName = "SQLServerItemDAO.getItemByPLU";
+        Item returnItem = null;
+
+        try(Connection connection = dbManager.getConnection();) {
+
+            MstPluDAO mstPluDAO = new MstPluDAO(connection);
+            MstPlu mstPlu = mstPluDAO.selectWithDefaultId(companyId, storeId, pluCode);
+            if(mstPlu != null) {
+                // Gets related dao-models.
+                MstPluStoreDAO mstPluStoreDAO = new MstPluStoreDAO(connection);
+                MstPluStore mstPluStore =
+                        mstPluStoreDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMdInternal());
+
+                MstPriceUrgentForStoreDAO mstPriceUrgentForStoreDAO = new MstPriceUrgentForStoreDAO(connection);
+                MstPriceUrgentForStore mstPriceUrgentForStore = mstPriceUrgentForStoreDAO.selectOne(
+                        companyId, storeId, mstPlu.getSku(), mstPlu.getMd01(), businessDate);
+
+                returnItem = new Item();
+
+                // Populates item values by dao-models.
+                returnItem.setItemId(mstPlu.getMdInternal());
+                returnItem.setCompanyId(mstPlu.getCompanyId());
+                returnItem.setStoreId(mstPlu.getStoreId());
+
+                // Sets regular unit price from regional information,
+                // such as Urgent-Price-Change, Store-Price, and Plu-itself.
+                returnItem = populateRegionalRegularSalesUnitPrice(returnItem, mstPlu, mstPluStore, mstPriceUrgentForStore);
+            } else {
+                tp.println("Item not found.");
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to get the item information.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @getItemPriceByPLU ", sqlEx);
         } finally {
             tp.methodExit(returnItem);
         }
@@ -1920,82 +1971,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
             tp.methodExit(searchedItem);
         }
-        return searchedItem;
-    }
-
-    /**
-     * get the item price.
-     * @param storeId 店舗コード
-     * @param companyId 会社コード
-     * @return object itemInfo
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    public Item getItemPriceByPlu(String storeId, String plucode, String companyId, String businessDate)
-            throws DaoException {
-        tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeId).println("PLU", plucode)
-        .println("CompanyId", companyId);
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        Item searchedItem = null;
-        String functionName = "SQLServerItemDAO.getItemPriceByPlu";
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-item-price"));
-            select.setString(SQLStatement.PARAM1, storeId);
-            select.setString(SQLStatement.PARAM2, companyId);
-            select.setString(SQLStatement.PARAM3, plucode);
-            select.setString(SQLStatement.PARAM4, businessDate);
-            result = select.executeQuery();
-            if (result.next()) {
-                searchedItem = new Item();
-                searchedItem.setItemId(result.getString(result.findColumn("MdInternal"))); // PK
-                searchedItem.setCompanyId(result.getString(result.findColumn("CompanyId")));
-                searchedItem.setStoreId(result.getString(result.findColumn("StoreId")));
-
-                if (result.getObject(result.findColumn("NewPrice")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("NewPrice")));
-                    searchedItem.setOldPrice(result.getDouble(result.findColumn("OldPrice")));
-                    searchedItem.setSalesPriceFrom("2");
-                } else if (result.getObject(result.findColumn("NewPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice")));
-                    searchedItem.setSalesPriceFrom("1");
-                } else if (result.getObject(result.findColumn("NewPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice1")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice1")));
-                    searchedItem.setSalesPriceFrom("0");
-                } else {
-                    searchedItem.setRegularSalesUnitPrice(0);
-                }
-            } else {
-                tp.println("Item not found.");
-            }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemPriceByPlu ", sqlStmtEx);
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the item information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getItemPriceByPlu ", sqlEx);
-        } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the item information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getItemPriceByPlu ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the item information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getItemPriceByPlu ", e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-
-            tp.methodExit(searchedItem);
-        }
-
         return searchedItem;
     }
 

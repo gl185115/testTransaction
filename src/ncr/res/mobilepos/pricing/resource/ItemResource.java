@@ -1103,7 +1103,7 @@ public class ItemResource {
             IItemDAO iItemDAO = daoFactory.getItemDAO();
             for (Sale saleIn : sales) {
                 Item item = new Item();
-                item = iItemDAO.getItemPriceByPlu(storeId, saleIn.getItemId(), companyId,businessDate);
+                item = iItemDAO.getItemPriceByPLU(storeId, saleIn.getItemId(), companyId,businessDate);
                 if (null != item) {
                     itemList.add(item);
                 }

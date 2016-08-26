@@ -220,7 +220,7 @@ public interface IItemDAO {
      * @return object itemInfo
      * @throws DaoException The exception thrown when error occurred.
      */
-    Item getItemPriceByPlu(String storeId, String plucode, String companyId, String businessDate) throws DaoException;
+    Item getItemPriceByPLU(String storeId, String plucode, String companyId, String businessDate) throws DaoException;
 
     /**
      * get the items for pick list.

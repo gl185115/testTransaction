@@ -1531,6 +1531,7 @@ public class Item {
         joiner.add("DiscountAmt : " + discountAmt);
         joiner.add("DiscountRate : " + diacountRate);
 
+        joiner.add("SalesPriceFrom : " + salesPriceFrom);
         joiner.add("RegularSalesUnitPrice: " + regularSalesUnitPrice);
         joiner.add("ActualSalesUnitPrice : " + actualSalesUnitPrice );
 

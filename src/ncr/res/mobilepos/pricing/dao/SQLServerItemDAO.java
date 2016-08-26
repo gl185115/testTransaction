@@ -1201,14 +1201,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     private static final String NAME_CATEGORY_MAGICNUMBER = "0060";
 
     /**
-     * Gets the information of a single item by specifying the Store ID and and
-     * its corresponding PLU code.
-     * @param storeId
-     * @param pluCode
-     * @param companyId
-     * @param businessDate
-     * @return
-     * @throws DaoException
+     * {@inheritDoc}
      */
     @Override
     public Item getItemByPLU(String storeId, String pluCode, String companyId, String businessDate)
@@ -2035,147 +2028,51 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         return items;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public Item getItemByApiData(String plucode, String companyId) throws DaoException {
-        tp.methodEnter(DebugLogger.getCurrentMethodName()).println("PLU", plucode).println("CompanyId", companyId);
+    public Item getItemAttributeByPLU(String storeId, String pluCode, String companyId)
+            throws DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName())
+                .println("StoreID", storeId)
+                .println("PLU", pluCode)
+                .println("CompanyId", companyId);
+        final String functionName = "SQLServerItemDAO.getItemAttributeByPLU";
+        Item returnItem = null;
 
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        Item searchedItem = null;
-        String functionName = "SQLServerItemDAO.getItemByApiData";
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-item-byapidata"));
-            select.setString(SQLStatement.PARAM1, companyId);
-            select.setString(SQLStatement.PARAM2, plucode);
+        try(Connection connection = dbManager.getConnection();) {
 
-            result = select.executeQuery();
+            MstPluDAO mstPluDAO = new MstPluDAO(connection);
+            MstPlu mstPlu = mstPluDAO.selectWithDefaultId(companyId, storeId, pluCode);
+            if(mstPlu != null) {
+                // Gets related dao-models.
+                MstColorInfoDAO mstColorInfoDAO = new MstColorInfoDAO(connection);
+                MstColorInfo mstColorInfo = mstColorInfoDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMd01());
 
-            if (result.next()) {
-                searchedItem = new Item();
-                searchedItem.setItemId(result.getString(result.findColumn("MdInternal"))); // PK
+                MstSizeInfoDAO mstSizeInfoDAO = new MstSizeInfoDAO(connection);
+                MstSizeInfo mstSizeInfo = mstSizeInfoDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMd05());
 
-                // get item description
-                Description description = new Description();
-                description.setJa(result.getString(result.findColumn("MdNameLocal")));
-                searchedItem.setDescription(description);
+                // Sets regular unit price from regional information,
+                // such as Urgent-Price-Change, Store-Price, and Plu-itself.
+                returnItem = new Item();
+                returnItem = populateRegionalRegularSalesUnitPrice(returnItem, mstPlu, null, null);
+                returnItem.setActualSalesUnitPrice(returnItem.getRegularSalesUnitPrice());
 
-                searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
-                searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
-                searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
-                searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));
-
-                if (result.getObject(result.findColumn("SalesPrice1")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice1")));
-                    searchedItem.setSalesPriceFrom("0");
-                } else {
-                    searchedItem.setRegularSalesUnitPrice(0);
-                }
-                
-                if (result.getObject(result.findColumn("SalesPrice1")) != null) {
-                    searchedItem.setPluPrice(result.getDouble(result.findColumn("SalesPrice1")));
-                } else {
-                    searchedItem.setPluPrice(0);
-                }
-                searchedItem.setMd01(result.getString(result.findColumn("Md01")));
-                if (result.getObject(result.findColumn("OrgSalesPrice1")) == null) {
-                    searchedItem.setOrgSalesPrice1(0);
-                } else {
-                    searchedItem.setOrgSalesPrice1(result.getDouble(result.findColumn("OrgSalesPrice1")));
-                }
-                searchedItem.setDepartment(result.getString(result.findColumn("Dpt")));
-                searchedItem.setDiscountType(result.getInt(result.findColumn("DiscountType")));
-                searchedItem.setMd02(result.getString(result.findColumn("Md02")));
-                searchedItem.setMd03(result.getString(result.findColumn("Md03")));
-                searchedItem.setMd04(result.getString(result.findColumn("Md04")));
-                searchedItem.setMd05(result.getString(result.findColumn("Md05")));
-                searchedItem.setMd06(result.getString(result.findColumn("Md06")));
-                searchedItem.setMd07(result.getString(result.findColumn("Md07")));
-                searchedItem.setMd08(result.getString(result.findColumn("Md08")));
-                searchedItem.setMd09(result.getString(result.findColumn("Md09")));
-                searchedItem.setMd10(result.getString(result.findColumn("Md10")));
-                searchedItem.setMd11(result.getString(result.findColumn("Md11")));
-                searchedItem.setMd12(result.getString(result.findColumn("Md12")));
-                searchedItem.setMd13(result.getString(result.findColumn("Md13")));
-                searchedItem.setMd14(result.getString(result.findColumn("Md14")));
-                searchedItem.setMd15(result.getString(result.findColumn("Md15")));
-                searchedItem.setMd16(result.getString(result.findColumn("Md16")));
-                searchedItem.setMdType(result.getString(result.findColumn("MdType")));
-                searchedItem.setSku(result.getString(result.findColumn("Sku")));
-                searchedItem.setMdNameLocal(result.getString(result.findColumn("MdNameLocal")));
-                searchedItem.setMdKanaName(result.getString(result.findColumn("MdKanaName")));
-                searchedItem.setSalesPrice2(result.getLong(result.findColumn("SalesPrice2")));
-                searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
-                searchedItem.setSubCode1(result.getString(result.findColumn("SubCode1")));
-                searchedItem.setSubCode2(result.getString(result.findColumn("SubCode2")));
-                searchedItem.setSubCode3(result.getString(result.findColumn("SubCode3")));
-                searchedItem.setMdVender(result.getString(result.findColumn("MdVender")));
-                searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
-
-                searchedItem.setCostPrice1(result.getLong(result.findColumn("CostPrice1")));
-                searchedItem.setMakerPrice(result.getLong(result.findColumn("MakerPrice")));
-                searchedItem.setConn1(result.getString(result.findColumn("Conn1")));
-                searchedItem.setConn2(result.getString(result.findColumn("Conn2")));
-
-                searchedItem.setLine(result.getString(result.findColumn("Line")));
-                searchedItem.setItemClass(result.getString(result.findColumn("Class")));
-                // Compute the Actual Sales Price
-                searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
-                searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
-                searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
-                searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
-
-                // // 特売管理
-                // if (!hasPromDetailInfo(actualStoreid, searchedItem,
-                // companyId, bussinessDate)) {
-                // // バンドルミックス
-                // if (!hasPriceMMInfo(actualStoreid, searchedItem, companyId,
-                // bussinessDate)) {
-                // // 買替サポート
-                // hasReplaceSupportDetailInfo(actualStoreid, searchedItem,
-                // companyId, bussinessDate);
-                // }
-                // }
-                // // 割引券発行管理
-                // getCouponInfo(actualStoreid, searchedItem, companyId,
-                // bussinessDate);
-                // // プレミアム商品
-                // getPremiumitemInfo(actualStoreid, searchedItem, companyId,
-                // bussinessDate);
-                // //QRcode
-                // getQrCodeInfo(actualStoreid, searchedItem, companyId,
-                // bussinessDate);
-
+                // Populates item values by dao-models.
+                returnItem = populateItemInfo(returnItem, mstPlu, null, null, null, null,
+                        mstColorInfo, mstSizeInfo, null);
             } else {
                 tp.println("Item not found.");
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemByApiData ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getItemByApiData ", sqlEx);
-        } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the item information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getItemByApiData ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the item information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getItemByApiData ", e);
+            throw new DaoException("SQLException: @getItemAttributeByPLU ", sqlEx);
         } finally {
-            closeConnectionObjects(connection, select, result);
-
-            tp.methodExit(searchedItem);
+            tp.methodExit(returnItem);
         }
-
-        return searchedItem;
+        return returnItem;
     }
-    
-    
     
 }

@@ -212,15 +212,17 @@ public interface IItemDAO {
 	GroupLines getGroupLines()throws DaoException;
 
 
-    /**
-     * get the item by param
-     * @param storeId 店舗コード
-     * @param plucode = sku 自社品番
-     * @param companyId 会社コード
-     * @return object itemInfo
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    Item getItemPriceByPLU(String storeId, String plucode, String companyId, String businessDate) throws DaoException;
+	/**
+	 * Gets the information of a single item by specifying the Store ID and and
+	 * its corresponding PLU code.
+	 * @param storeId
+	 * @param pluCode
+	 * @param companyId
+	 * @param businessDate
+	 * @return
+	 * @throws DaoException
+	 */
+    Item getItemPriceByPLU(String storeId, String pluCode, String companyId, String businessDate) throws DaoException;
 
     /**
      * get the items for pick list.
@@ -231,17 +233,6 @@ public interface IItemDAO {
      * @throws DaoException
      */
     List<PickListItemType> getPickListItems(String companyId, String storeId, String itemType) throws DaoException;
-    
-    
-    /**
-     * get the item by param
-     * @param companyId 会社コード
-     * @param plucode itemId
-     * @return object itemInfo
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    Item getItemByApiData(String plucode,String companyId) throws DaoException;
-
 
 	/**
 	 * Gets Item information.
@@ -253,4 +244,15 @@ public interface IItemDAO {
 	 */
 	Item getItemByPLU(String storeId, String pluCode, String companyId, String businessDate)
 			throws DaoException;
+
+	/**
+	 * get Item attributes, such as color and size by PLU.
+	 * @param storeId 店舗コード
+	 * @param companyId 会社コード
+	 * @param pluCode itemId
+	 * @return object itemInfo
+	 * @throws DaoException The exception thrown when error occurred.
+	 */
+	Item getItemAttributeByPLU(String storeId, String pluCode, String companyId)
+            throws DaoException;
 }

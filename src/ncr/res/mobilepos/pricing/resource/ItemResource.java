@@ -1229,6 +1229,7 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
         })
     public final PromotionResponse getitementry(
+            @ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
     		@ApiParam(name="itemId", value="プロジェクトコード") @FormParam("itemId") final String itemId, 
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -1243,7 +1244,7 @@ public class ItemResource {
             }
 
             IItemDAO itemDao = new SQLServerItemDAO();
-            Item item = itemDao.getItemByApiData(itemId, companyId);
+            Item item = itemDao.getItemAttributeByPLU(storeId, itemId, companyId);
 
             if (item == null) {
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);

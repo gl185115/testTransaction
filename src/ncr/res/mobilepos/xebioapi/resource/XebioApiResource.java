@@ -746,6 +746,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             JSONData jsonData = new JSONData();
             JSONObject result = null;
             String companyCode = "";
+            String storeCode = "";
             try {
                 int timeOut = GlobalConstant.getApiServerTimeout();
 
@@ -769,9 +770,12 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                         JSONArray newJsonArray = new JSONArray();
                         // Get The CompanyId from Para
                         if (!StringUtility.isNullOrEmpty(param)) {
-                            for (String companyId : param.split("&")) {
-                                if (companyId.startsWith("CompanyId")) {
-                                    companyCode = companyId.split("=").length > 0 ? companyId.split("=")[1] : "";
+                            for (String eachParam : param.split("&")) {
+                                if (eachParam.startsWith("CompanyId")) {
+                                    companyCode = eachParam.split("=").length > 0 ? eachParam.split("=")[1] : "";
+                                }
+                                if (eachParam.startsWith("StoreCode")) {
+                                    storeCode = companyCode.split("=").length > 0 ? eachParam.split("=")[1] : "";
                                 }
                             }
                         }
@@ -784,7 +788,8 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                             if("1".equals(json.getString("SetType"))){
                                 removeArray.add(json);
                             }
-                            Item item = itemDao.getItemByApiData(json.getString("MdInternal"), companyCode);
+                            Item item = itemDao.getItemAttributeByPLU(
+                                    storeCode, json.getString("MdInternal"), companyCode);
                             if (null != item) {
                                 newJsonArray.add(addJson(json, item));
                             }else{

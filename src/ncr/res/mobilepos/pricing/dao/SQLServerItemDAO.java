@@ -2041,6 +2041,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         final String functionName = "SQLServerItemDAO.getItemAttributeByPLU";
         Item returnItem = null;
 
+        // Default value of storeId.
+        if(storeId == null) {
+            storeId = "0";
+        }
+
         try(Connection connection = dbManager.getConnection();) {
 
             MstPluDAO mstPluDAO = new MstPluDAO(connection);

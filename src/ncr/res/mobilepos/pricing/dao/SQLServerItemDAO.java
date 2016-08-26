@@ -78,17 +78,17 @@ import ncr.res.mobilepos.property.SQLStatement;
 
 public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     /**
+     * The Program name.
+     */
+    private static final String CLASS_NAME = SQLServerItemDAO.class.getSimpleName();
+
+    /** A private member variable used for logging the class implementations. */
+    private static final Logger LOGGER = (Logger) Logger.getInstance();
+
+    /**
      * The Database Manager of the class.
      */
     private DBManager dbManager;
-    /** A private member variable used for logging the class implementations. */
-    private static final Logger LOGGER = (Logger) Logger.getInstance(); // Get
-                                                                        // the
-                                                                        // Logger
-    /**
-     * The Program name.
-     */
-    private String progname = "ItemDAO";
     /**
      * The Trace Printer.
      */
@@ -106,15 +106,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     public SQLServerItemDAO() throws DaoException {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
-    }
-
-    /**
-     * Gets the Database Manager for SQLServerItemDAO.
-     *
-     * @return Returns a DBManager Instance.
-     */
-    public final DBManager getDbManager() {
-        return dbManager;
     }
 
     /**
@@ -147,11 +138,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 tp.println("Item not found.");
             }
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.isItemExists()", Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.isItemExists()", Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to get the item information.\n" + sqlStmtEx.getMessage());
             throw new DaoException("SQLStatementException: @isItemExists ", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.isItemExists()", Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.isItemExists()", Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @isItemExists ", sqlEx);
         } finally {
@@ -215,19 +206,19 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
             connection.commit();
         } catch (NumberFormatException nfe) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to parse new price. \n" + nfe.getMessage());
             throw new DaoException("NumberFormatException: @setItemUnitPrice ", nfe);
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to change item price.\n" + sqlStmtEx.getMessage());
             throw new DaoException("SQLStatementException: @setItemUnitPrice ", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to change item price.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @setItemUnitPrice ", sqlEx);
         } catch (Exception ex) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to change item price.\n" + ex.getMessage());
             throw new DaoException("Exception: @setItemUnitPrice ", ex);
         } finally {
@@ -326,11 +317,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
 
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.listItems()", Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.listItems()", Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to get the items.\n" + sqlStmtEx.getMessage());
             throw new DaoException("SQLStatementException: @listItems ", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.listItems()", Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.listItems()", Logger.RES_EXCEP_SQL,
                     "Failed to get the items.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @listItems ", sqlEx);
         } finally {
@@ -415,11 +406,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
 
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.searcItems()", Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.searcItems()", Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to get the items.\n" + sqlStmtEx.getMessage());
             throw new DaoException("SQLStatementException: @searcItems ", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.searcItems()", Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.searcItems()", Logger.RES_EXCEP_SQL,
                     "Failed to get the items.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @searcItems ", sqlEx);
         } finally {
@@ -470,17 +461,17 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
         } catch (SQLStatementException e) {
             rollBack(connection, "SQLStatementException:@SQLServerItemDAO.deleteItem", e);
-            LOGGER.logAlert(progname, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to delete item\n " + e.getMessage());
             throw new DaoException("SQLServerItemDAO: @deleteItem ", e);
         } catch (SQLException e) {
             rollBack(connection, "SQLException:@SQLServerItemDAO.deleteItem", e);
-            LOGGER.logAlert(progname, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_SQL,
                     "Failed to delete item\n " + e.getMessage());
             throw new DaoException("SQLException: @SQLServerItemDAO.deleteItem ", e);
         } catch (Exception e) {
             rollBack(connection, "Exception:@SQLServerItemDAO.deleteItem", e);
-            LOGGER.logAlert(progname, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_GENERAL,
                     "Failed to delete item\n " + e.getMessage());
             throw new DaoException("SQLException: @SQLServerItemDAO.deleteItem ", e);
         } finally {
@@ -568,18 +559,18 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             connection.commit();
         } catch (SQLStatementException e) {
             rollBack(connection, "SQLStatementException:@" + functionName, e);
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to create item\n " + e.getMessage());
             throw new DaoException(functionName, e);
         } catch (SQLException e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL, "Failed to create item\n " + e.getMessage());
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL, "Failed to create item\n " + e.getMessage());
             if (Math.abs(SQLResultsConstants.ROW_DUPLICATE) != e.getErrorCode()) {
                 rollBack(connection, "SQLException:@" + functionName, e);
             }
             throw new DaoException("SQLException: @" + functionName, e);
         } catch (Exception e) {
             rollBack(connection, "Exception:@" + functionName, e);
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to create item\n " + e.getMessage());
             throw new DaoException("SQLException: @" + functionName, e);
         } finally {
@@ -702,7 +693,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             connection.commit();
         } catch (SQLStatementException e) {
             rollBack(connection, "SQLStatementException:@" + functionName, e);
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to update item\n " + e.getMessage());
             throw new DaoException(functionName, e);
         } catch (SQLException e) {
@@ -712,11 +703,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 rollBack(connection, "SQLException:@" + functionName, e);
             }
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL, "Failed to update item\n " + e.getMessage());
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL, "Failed to update item\n " + e.getMessage());
             throw new DaoException("SQLException: @" + functionName, e);
         } catch (Exception e) {
             rollBack(connection, "Exception:@" + functionName, e);
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to update item\n " + e.getMessage());
             throw new DaoException("SQLException: @" + functionName, e);
         } finally {
@@ -871,17 +862,17 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
 
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get ItemInfo.",
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get ItemInfo.",
                     sqlStmtEx);
             throw new DaoException("SQLStatementException:@" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQL, functionName + ": Failed to get ItemInfo.", sqlEx);
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get ItemInfo.", sqlEx);
             throw new DaoException("SQLException:@" + functionName, sqlEx);
         } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_PARSE, functionName + ": Failed to get ItemInfo.", nuEx);
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to get ItemInfo.", nuEx);
             throw new DaoException("NumberFormatException:@" + functionName, nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get ItemInfo.", e);
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get ItemInfo.", e);
             throw new DaoException("Exception:@" + functionName, e);
         } finally {
             closeConnectionObjects(connection, selectStmt, result);
@@ -1054,19 +1045,19 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
 
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
                     functionName + ": Failed to get Brand　Product　Info.", sqlStmtEx);
             throw new DaoException("SQLStatementException:@" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Brand　Product　Info.",
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Brand　Product　Info.",
                     sqlEx);
             throw new DaoException("SQLException:@" + functionName, sqlEx);
         } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_PARSE, functionName + ": Failed to get Brand　Product　Info.",
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to get Brand　Product　Info.",
                     nuEx);
             throw new DaoException("NumberFormatException:@" + functionName, nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get Brand　Product　Info.",
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get Brand　Product　Info.",
                     e);
             throw new DaoException("Exception:@" + functionName, e);
         } finally {
@@ -1126,14 +1117,14 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
 
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get Group Line　Info.",
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get Group Line　Info.",
                     sqlStmtEx);
             throw new DaoException("SQLStatementException:@" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Group Line　Info.", sqlEx);
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Group Line　Info.", sqlEx);
             throw new DaoException("SQLException:@" + functionName, sqlEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get Group Line　Info.", e);
+            LOGGER.logAlert(CLASS_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get Group Line　Info.", e);
             throw new DaoException("Exception:@" + functionName, e);
         } finally {
             closeConnectionObjects(connection, selectStmt, result);
@@ -1207,29 +1198,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         return discountDataList;
     }
 
-    /**
-     * Gets the information of a single item by specifying the Store ID and and
-     * its corresponding PLU code.
-     *
-     * @param   storeid  The Store ID which the item is located
-     * @param   pluCode  The Item's Price Look Up Code
-     * @param   companyId The companyId Id
-     * @param   priceIncludeTax The Price Include Tax
-     * @param   bussinessDate The bussinessDate
-     * @return The details of the particular item
-     * @throws DaoException
-     *             Exception thrown when getting the item information failed.
-     */
-    @Override
-    public Item getItemByPLU(String storeid, String pluCode, String companyId, int priceIncludeTax, String bussinessDate)
-            throws DaoException {
-        return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate);
-    }
-
     private static final String NAME_CATEGORY_MAGICNUMBER = "0060";
 
     /**
-     * Gets Item by PLU.
+     * Gets the information of a single item by specifying the Store ID and and
+     * its corresponding PLU code.
      * @param storeId
      * @param pluCode
      * @param companyId
@@ -1237,6 +1210,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @return
      * @throws DaoException
      */
+    @Override
     public Item getItemByPLU(String storeId, String pluCode, String companyId, String businessDate)
             throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -1252,7 +1226,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             MstPluDAO mstPluDAO = new MstPluDAO(connection);
             MstPlu mstPlu = mstPluDAO.selectWithDefaultId(companyId, storeId, pluCode);
             if(mstPlu != null) {
-                // Gathers dao-models.
+                // Gets related dao-models.
                 MstPluStoreDAO mstPluStoreDAO = new MstPluStoreDAO(connection);
                 MstPluStore mstPluStore =
                         mstPluStoreDAO.selectWithDefaultId(companyId, storeId, mstPlu.getMdInternal());
@@ -1262,7 +1236,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
                 MstGroupInfoDAO mstGroupInfoDAO = new MstGroupInfoDAO(connection);
                 MstGroupInfo mstGroupInfo = mstGroupInfoDAO.selectWithDefaultId(
-                        companyId, storeId, mstPlu.getSubCode1());
+                        companyId, storeId, mstDptInfo.getSubCode1());
 
                 MstClassInfoDAO mstClassInfoDAO = new MstClassInfoDAO(connection);
                 MstClassInfo mstClassInfo = mstClassInfoDAO.selectWithDefaultId(
@@ -1288,39 +1262,33 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 // Sets regular unit price from regional information,
                 // such as Urgent-Price-Change, Store-Price, and Plu-itself.
                 returnItem = new Item();
-                returnItem = setRegionalRegularSalesUnitPrice(returnItem, mstPlu, mstPluStore, mstPriceUrgentForStore);
+                returnItem = populateRegionalRegularSalesUnitPrice(returnItem, mstPlu, mstPluStore, mstPriceUrgentForStore);
                 returnItem.setActualSalesUnitPrice(returnItem.getRegularSalesUnitPrice());
 
                 // Populates item values by dao-models.
-                returnItem = populateItem(
-                        companyId, storeId, businessDate,
-                        returnItem,
-                        mstPlu, mstPluStore, mstDptInfo, mstGroupInfo, mstClassInfo, mstNameSystem,
-                        mstColorInfo, mstSizeInfo, mstBrandInfo, mstPriceUrgentForStore);
+                returnItem = populateItemInfo(returnItem, mstPlu, mstDptInfo, mstGroupInfo, mstClassInfo,
+                        mstNameSystem, mstColorInfo, mstSizeInfo, mstBrandInfo);
 
                 // Sets promotional discount price into Item, such as Bargain, Bundling and trade-in replacement.
-                returnItem = setPromotionalDiscount(storeId, companyId, businessDate, returnItem);
+                returnItem = populatePromotionalDiscountInfo(storeId, companyId, businessDate, returnItem);
 
                 // Sets additional information into Item, such as Coupon, Premium and QRCode.
-                returnItem = setAdditionalItemInformation(storeId, companyId, businessDate, returnItem);
+                returnItem = populateAdditionalItemInfo(storeId, companyId, businessDate, returnItem);
 
             } else {
                 tp.println("Item not found.");
             }
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getItemByPLUWithStoreFixation ", sqlEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the item information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getItemByPLUWithStoreFixation ", e);
         } finally {
             tp.methodExit(returnItem);
         }
         return returnItem;
     }
 
+    // Params for SalesPriceFrom.
     private static final String PRICE_FROM_URGENT_INFO_FORSTORE = "2";
     private static final String PRICE_FROM_PLU_STORE = "1";
     private static final String PRICE_FROM_PLU = "0";
@@ -1333,8 +1301,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param mstPriceUrgentForStore
      * @return
      */
-    private Item setRegionalRegularSalesUnitPrice(Item returnItem,
-                                                  MstPlu mstPlu, MstPluStore mstPluStore, MstPriceUrgentForStore mstPriceUrgentForStore) {
+    private Item populateRegionalRegularSalesUnitPrice(Item returnItem, MstPlu mstPlu, MstPluStore mstPluStore,
+                                                       MstPriceUrgentForStore mstPriceUrgentForStore) {
         // Top Priority: Price from MST_PRICE_URGENT_INFO_FORSTORE.NewPrice
         if(mstPriceUrgentForStore != null) {
             returnItem.setRegularSalesUnitPrice(mstPriceUrgentForStore.getNewPrice());
@@ -1355,13 +1323,9 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
 
     /**
-     * Populates Item values.
-     * @param storeId
-     * @param companyId
-     * @param businessDate
-     * @param item
+     * Populates Item values by dao-models.
+     * @param item Item object to populate values.
      * @param mstPlu
-     * @param mstPluStore
      * @param mstDptInfo
      * @param mstGroupInfo
      * @param mstClassInfo
@@ -1369,16 +1333,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param mstColorInfo
      * @param mstSizeInfo
      * @param mstBrandInfo
-     * @param mstPriceUrgentForStore
-     * @return
+     * @return Item
      * @throws DaoException
      */
-    private Item populateItem(final String storeId, final String companyId, final String  businessDate,
-                              Item item, MstPlu mstPlu, MstPluStore mstPluStore,
-                              MstDptInfo mstDptInfo, MstGroupInfo mstGroupInfo, MstClassInfo mstClassInfo,
-                              MstNameSystem mstNameSystem, MstColorInfo mstColorInfo,
-                              MstSizeInfo mstSizeInfo, MstBrandInfo mstBrandInfo,
-                              MstPriceUrgentForStore mstPriceUrgentForStore) throws DaoException {
+    private Item populateItemInfo(Item item, MstPlu mstPlu, MstDptInfo mstDptInfo, MstGroupInfo mstGroupInfo,
+                                  MstClassInfo mstClassInfo, MstNameSystem mstNameSystem, MstColorInfo mstColorInfo,
+                                  MstSizeInfo mstSizeInfo, MstBrandInfo mstBrandInfo) throws DaoException {
         // PK MST_PLU.MdInternal -> ItemId.
         item.setItemId(mstPlu.getMdInternal());
 
@@ -1400,20 +1360,20 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         item.setDepartment(mstPlu.getDpt());
         item.setDiscountType(mstPlu.getDiscountType());
         item.setMd02(mstPlu.getMd02());
-        item.setMd03(mstPlu.getMd02());
-        item.setMd04(mstPlu.getMd02());
-        item.setMd05(mstPlu.getMd02());
-        item.setMd06(mstPlu.getMd02());
-        item.setMd07(mstPlu.getMd02());
-        item.setMd08(mstPlu.getMd02());
-        item.setMd09(mstPlu.getMd02());
-        item.setMd10(mstPlu.getMd02());
-        item.setMd11(mstPlu.getMd02());
-        item.setMd12(mstPlu.getMd02());
-        item.setMd13(mstPlu.getMd02());
-        item.setMd14(mstPlu.getMd02());
-        item.setMd15(mstPlu.getMd02());
-        item.setMd16(mstPlu.getMd02());
+        item.setMd03(mstPlu.getMd03());
+        item.setMd04(mstPlu.getMd04());
+        item.setMd05(mstPlu.getMd05());
+        item.setMd06(mstPlu.getMd06());
+        item.setMd07(mstPlu.getMd07());
+        item.setMd08(mstPlu.getMd08());
+        item.setMd09(mstPlu.getMd09());
+        item.setMd10(mstPlu.getMd10());
+        item.setMd11(String.valueOf(mstPlu.getMd11()));
+        item.setMd12(String.valueOf(mstPlu.getMd12()));
+        item.setMd13(String.valueOf(mstPlu.getMd13()));
+        item.setMd14(String.valueOf(mstPlu.getMd14()));
+        item.setMd15(String.valueOf(mstPlu.getMd15()));
+        item.setMd16(String.valueOf(mstPlu.getMd16()));
         item.setMdType(mstPlu.getMdType());
         item.setSku(mstPlu.getSku());
         item.setMdNameLocal(mstPlu.getMdNameLocal());
@@ -1471,15 +1431,15 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
 
     /**
-     *
+     * Populates PromotionalDiscount information on Item.
      * @param storeId
      * @param companyId
      * @param businessDate
-     * @param item
+     * @param item Item to set values.
      * @return
      * @throws DaoException
      */
-    private Item setPromotionalDiscount(String storeId, String companyId, String businessDate, Item item)
+    private Item populatePromotionalDiscountInfo(String storeId, String companyId, String businessDate, Item item)
             throws DaoException {
         // Top Priority: TOKUBAI, Bargain.
         if (hasPromDetailInfo(storeId, item, companyId, businessDate)) {
@@ -1495,15 +1455,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
 
     /**
-     *
+     * Populates additional item information, such as Coupon, Premium and QrCode.
      * @param storeId
      * @param companyId
      * @param businessDate
-     * @param item
+     * @param item Item to set values.
      * @return
      * @throws DaoException
      */
-    private Item setAdditionalItemInformation(String storeId, String companyId, String businessDate, Item item) throws DaoException {
+    private Item populateAdditionalItemInfo(String storeId, String companyId, String businessDate, Item item)
+            throws DaoException {
         // 割引券発行管理
         getCouponInfo(storeId, item, companyId, businessDate);
         // プレミアム商品
@@ -1512,170 +1473,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         getQrCodeInfo(storeId, item, companyId, businessDate);
         return item;
     }
-
-
-    /** Gets the information of a single item by specifying the Store ID and and
-    * its corresponding PLU code.
-    *
-    * @param storeid
-    *            The Store ID which the item is located
-    * @param pluCode
-    *            The Item's Price Look Up Code
-    * @param storeFixation
-    *            Flag that tells that should be fixed.
-    * @param bussinessDate
-    *            The bussinessDate
-    * @return The details of the particular item
-    * @throws DaoException
-    *             Exception thrown when getting the item information failed.
-    */
-    private Item getItemByPLUWithStoreFixation(final String storeid, final String pluCode, final boolean storeFixation,
-            final String companyId, final int priceIncludeTax, final String bussinessDate) throws DaoException {
-
-        tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeid).println("PLU", pluCode)
-                .println("IsStoreFixation", storeFixation).println("CompanyId", companyId);
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        Item searchedItem = null;
-        String functionName = "SQLServerItemDAO.getItemByPLUWithStoreFixation";
-        String actualStoreid = storeid;
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-item"));
-            select.setString(SQLStatement.PARAM1, actualStoreid);
-            select.setString(SQLStatement.PARAM2, companyId);
-            select.setString(SQLStatement.PARAM3, pluCode);
-            select.setString(SQLStatement.PARAM4, bussinessDate);
-
-            result = select.executeQuery();
-
-            if (result.next()) {
-                searchedItem = new Item();
-                searchedItem.setItemId(result.getString(result.findColumn("MdInternal"))); // PK
-
-                // get item description
-                Description description = new Description();
-                description.setJa(result.getString(result.findColumn("MdNameLocal")));
-                searchedItem.setDescription(description);
-
-                searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
-                searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
-                searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
-                searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));
-
-                if (result.getObject(result.findColumn("NewPrice")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("NewPrice")));
-                    searchedItem.setOldPrice(result.getDouble(result.findColumn("OldPrice")));
-                    searchedItem.setSalesPriceFrom("2");
-                } else if (result.getObject(result.findColumn("NewPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice")));
-                    searchedItem.setSalesPriceFrom("1");
-                } else if (result.getObject(result.findColumn("NewPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice1")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice1")));
-                    searchedItem.setSalesPriceFrom("0");
-                } else {
-                    searchedItem.setRegularSalesUnitPrice(0);
-                }
-                if(result.getObject(result.findColumn("SalesPrice1")) != null){
-                    searchedItem.setPluPrice(result.getDouble(result.findColumn("SalesPrice1")));
-                }else{
-                    searchedItem.setPluPrice(0);
-                }
-                searchedItem.setMd01(result.getString(result.findColumn("Md01")));
-                if (result.getObject(result.findColumn("OrgSalesPrice1")) == null) {
-                    searchedItem.setOrgSalesPrice1(0);
-                } else {
-                    searchedItem.setOrgSalesPrice1(result.getDouble(result.findColumn("OrgSalesPrice1")));
-                }
-                searchedItem.setDepartment(result.getString(result.findColumn("Dpt")));
-                searchedItem.setDiscountType(result.getInt(result.findColumn("DiscountType")));
-                searchedItem.setDptDiscountType(result.getInt(result.findColumn("dptDiscountType")));
-                searchedItem.setMd02(result.getString(result.findColumn("Md02")));
-                searchedItem.setMd03(result.getString(result.findColumn("Md03")));
-                searchedItem.setMd04(result.getString(result.findColumn("Md04")));
-                searchedItem.setMd05(result.getString(result.findColumn("Md05")));
-                searchedItem.setMd06(result.getString(result.findColumn("Md06")));
-                searchedItem.setMd07(result.getString(result.findColumn("Md07")));
-                searchedItem.setMd08(result.getString(result.findColumn("Md08")));
-                searchedItem.setMd09(result.getString(result.findColumn("Md09")));
-                searchedItem.setMd10(result.getString(result.findColumn("Md10")));
-                searchedItem.setMd11(result.getString(result.findColumn("Md11")));
-                searchedItem.setMd12(result.getString(result.findColumn("Md12")));
-                searchedItem.setMd13(result.getString(result.findColumn("Md13")));
-                searchedItem.setMd14(result.getString(result.findColumn("Md14")));
-                searchedItem.setMd15(result.getString(result.findColumn("Md15")));
-                searchedItem.setMd16(result.getString(result.findColumn("Md16")));
-                searchedItem.setMdType(result.getString(result.findColumn("MdType")));
-                searchedItem.setSku(result.getString(result.findColumn("Sku")));
-                searchedItem.setMdNameLocal(result.getString(result.findColumn("MdNameLocal")));
-                searchedItem.setMdKanaName(result.getString(result.findColumn("MdKanaName")));
-                searchedItem.setSalesPrice2(result.getLong(result.findColumn("SalesPrice2")));
-                searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
-                searchedItem.setSubCode1(result.getString(result.findColumn("SubCode1")));
-                searchedItem.setSubCode2(result.getString(result.findColumn("SubCode2")));
-                searchedItem.setSubCode3(result.getString(result.findColumn("SubCode3")));
-                searchedItem.setMdVender(result.getString(result.findColumn("MdVender")));
-                searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
-                
-                searchedItem.setCostPrice1(result.getLong(result.findColumn("CostPrice1")));
-                searchedItem.setMakerPrice(result.getLong(result.findColumn("MakerPrice")));
-                searchedItem.setConn1(result.getString(result.findColumn("Conn1")));
-                searchedItem.setConn2(result.getString(result.findColumn("Conn2")));
-                
-                searchedItem.setDptNameLocal(result.getString(result.findColumn("DptNameLocal")));
-                searchedItem.setClassNameLocal(result.getString(result.findColumn("ClassNameLocal")));
-                searchedItem.setGroupName(result.getString(result.findColumn("GroupName")));
-                searchedItem.setNameText(result.getString(result.findColumn("NameText")));
-                searchedItem.setDptSubCode1(result.getString(result.findColumn("dptSubCode1")));
-                searchedItem.setGroupID(result.getString(result.findColumn("GroupId")));
-                searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
-                searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
-                searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
-                if (storeFixation) {
-                    searchedItem.setLine(result.getString(result.findColumn("Line")));
-                    searchedItem.setItemClass(result.getString(result.findColumn("Class")));
-                    // Compute the Actual Sales Price
-                    searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
-                }
-
-                // 特売管理,バンドルミックス,買替サポート
-                searchedItem = setPromotionalDiscount(actualStoreid, companyId, bussinessDate, searchedItem);
-                // 割引券発行管理,プレミアム商品,QRcode
-                searchedItem = setAdditionalItemInformation(actualStoreid, companyId, bussinessDate, searchedItem);
-            } else {
-                tp.println("Item not found.");
-            }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemByPLUWithStoreFixation ", sqlStmtEx);
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the item information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getItemByPLUWithStoreFixation ", sqlEx);
-        } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the item information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getItemByPLUWithStoreFixation ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the item information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getItemByPLUWithStoreFixation ", e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-
-            tp.methodExit(searchedItem);
-        }
-
-        return searchedItem;
-    }
-    
 
     /**
      * 特売管理マスタ 情報取得
@@ -1717,16 +1514,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
               searchedItem.setDiscountAmt(result.getInt(result.findColumn("DiscountAmt")));
             }
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @hasPromDetailInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @hasPromDetailInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @hasPromDetailInfo ", e);
         } finally {
@@ -1796,16 +1593,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setNote(result.getString(result.findColumn("Note")));
             }
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @hasPriceMMInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @hasPriceMMInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @hasPriceMMInfo ", e);
         } finally {
@@ -1851,16 +1648,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setReplaceSupportdiscountAmt(result.getInt(result.findColumn("DiscountAmt")));
             }
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @hasReplaceSupportDetailInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @hasReplaceSupportDetailInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @hasReplaceSupportDetailInfo ", e);
         } finally {
@@ -1911,16 +1708,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setUnitPrice(result.getDouble(result.findColumn("UnitPrice")));
             }
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getCouponInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @getCouponInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @getCouponInfo ", e);
         } finally {
@@ -1972,16 +1769,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
             searchedItem.setPremiumList(list);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getPremiumitemInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @getPremiumitemInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @getPremiumitemInfo ", e);
         } finally {
@@ -2036,16 +1833,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
             searchedItem.setQrCodeList(list);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the qrcode information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getQrCodeInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the qrcode information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @getQrCodeInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the qrcode information.\n" + e.getMessage());
             throw new DaoException("Exception: @getQrCodeInfo ", e);
         } finally {
@@ -2088,10 +1885,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setConditionPrice2(result.getDouble(result.findColumn("ConditionPrice2")));
                 searchedItem.setConditionPrice3(result.getDouble(result.findColumn("ConditionPrice3")));
 
-//                searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
-//                searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
-//                searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
-                
                 if(result.getObject(result.findColumn("DecisionPrice1")) != null ){
                     searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
                 }
@@ -2110,16 +1903,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setNote(result.getString(result.findColumn("Note")));
             }
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the prom information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @hasPriceMMInfo ", sqlEx);
         }
         catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the prom information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @hasPriceMMInfo ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @hasPriceMMInfo ", e);
         } finally {
@@ -2131,13 +1924,14 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
 
     /**
-     * get the item by param
+     * get the item price.
      * @param storeId 店舗コード
      * @param companyId 会社コード
      * @return object itemInfo
      * @throws DaoException The exception thrown when error occurred.
      */
-    public Item getItemBypluCode(String storeId, String plucode, String companyId,String businessDate) throws DaoException {
+    public Item getItemPriceByPlu(String storeId, String plucode, String companyId, String businessDate)
+            throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeId).println("PLU", plucode)
         .println("CompanyId", companyId);
 
@@ -2145,7 +1939,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         PreparedStatement select = null;
         ResultSet result = null;
         Item searchedItem = null;
-        String functionName = "SQLServerItemDAO.getItemBypluCode";
+        String functionName = "SQLServerItemDAO.getItemPriceByPlu";
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -2181,21 +1975,21 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 tp.println("Item not found.");
             }
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemBypluCode ", sqlStmtEx);
+            throw new DaoException("SQLStatementException: @getItemPriceByPlu ", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getItemBypluCode ", sqlEx);
+            throw new DaoException("SQLException: @getItemPriceByPlu ", sqlEx);
         } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the item information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getItemBypluCode ", nuEx);
+            throw new DaoException("NumberFormatException: @getItemPriceByPlu ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the item information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getItemBypluCode ", e);
+            throw new DaoException("Exception: @getItemPriceByPlu ", e);
         } finally {
             closeConnectionObjects(connection, select, result);
 
@@ -2256,7 +2050,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             }
             items = new ArrayList<PickListItemType>(Arrays.asList(itemTypes));
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the item information.\n" + e.getMessage());
             throw new DaoException("Exception: @getPickListItems ", e);
         } finally {
@@ -2383,19 +2177,19 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 tp.println("Item not found.");
             }
         } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to get the item information.\n" + sqlStmtEx.getMessage());
             throw new DaoException("SQLStatementException: @getItemByApiData ", sqlStmtEx);
         } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getItemByApiData ", sqlEx);
         } catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the item information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @getItemByApiData ", nuEx);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(CLASS_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the item information.\n" + e.getMessage());
             throw new DaoException("Exception: @getItemByApiData ", e);
         } finally {

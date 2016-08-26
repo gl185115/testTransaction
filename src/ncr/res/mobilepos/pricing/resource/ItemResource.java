@@ -38,7 +38,6 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.department.resource.DepartmentResource;
@@ -48,7 +47,6 @@ import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.helper.ItemHelper;
@@ -202,7 +200,7 @@ public class ItemResource {
         try {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
-            returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate);
+            returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId, bussinessDate);
             if (null == returnItem) {
                 PromotionResource promotion = new PromotionResource();
                 returnItem = promotion.getdetailInfoData(storeID, pluCode,companyId,bussinessDate);
@@ -1105,7 +1103,7 @@ public class ItemResource {
             IItemDAO iItemDAO = daoFactory.getItemDAO();
             for (Sale saleIn : sales) {
                 Item item = new Item();
-                item = iItemDAO.getItemBypluCode(storeId, saleIn.getItemId(), companyId,businessDate);
+                item = iItemDAO.getItemPriceByPlu(storeId, saleIn.getItemId(), companyId,businessDate);
                 if (null != item) {
                     itemList.add(item);
                 }

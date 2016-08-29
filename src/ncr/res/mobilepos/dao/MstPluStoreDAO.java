@@ -62,17 +62,17 @@ public class MstPluStoreDAO {
 
         MstPluStore selectedRecord = null;
 
-        PreparedStatement statement = createSelectOneStatement(companyId, storeId, mdInternal);
-
-        ResultSet result = statement.executeQuery();
-        if (result.next()) {
-            selectedRecord = new MstPluStore();
-            selectedRecord.setCompanyId(result.getString("CompanyId"));
-            selectedRecord.setStoreId(result.getString("StoreId"));
-            selectedRecord.setMdInternal(result.getString("MdInternal"));
-            selectedRecord.setSalesPrice(result.getLong("SalesPrice"));
-        } else {
-            tp.println("MstPluStore not matched.");
+        try(PreparedStatement statement = createSelectOneStatement(companyId, storeId, mdInternal);
+            ResultSet result = statement.executeQuery();) {
+            if (result.next()) {
+                selectedRecord = new MstPluStore();
+                selectedRecord.setCompanyId(result.getString("CompanyId"));
+                selectedRecord.setStoreId(result.getString("StoreId"));
+                selectedRecord.setMdInternal(result.getString("MdInternal"));
+                selectedRecord.setSalesPrice(result.getLong("SalesPrice"));
+            } else {
+                tp.println("MstPluStore not matched.");
+            }
         }
 
         tp.methodExit(selectedRecord);

@@ -76,20 +76,21 @@ public class MstNameSystemDAO {
 
         MstNameSystem selectedRecord = null;
 
-        PreparedStatement statement = createSelectOneStatement(companyId, storeId, nameId, nameCategory);
+        try(PreparedStatement statement = createSelectOneStatement(companyId, storeId, nameId, nameCategory);
+            ResultSet result = statement.executeQuery();) {
 
-        ResultSet result = statement.executeQuery();
-        if (result.next()) {
-            selectedRecord = new MstNameSystem();
-            selectedRecord.setCompanyId(result.getString("CompanyId"));
-            selectedRecord.setStoreId(result.getString("StoreId"));
-            selectedRecord.setNameId(result.getString("NameId"));
-            selectedRecord.setNameCategory(result.getString("NameCategory"));
-            selectedRecord.setNameText(result.getString("NameText"));
-            selectedRecord.setDisplayOrder(result.getInt("DisplayOrder"));
-            selectedRecord.setNameIdName(result.getString("NameIdName"));
-        } else {
-            tp.println("MstNameSystem not matched.");
+            if (result.next()) {
+                selectedRecord = new MstNameSystem();
+                selectedRecord.setCompanyId(result.getString("CompanyId"));
+                selectedRecord.setStoreId(result.getString("StoreId"));
+                selectedRecord.setNameId(result.getString("NameId"));
+                selectedRecord.setNameCategory(result.getString("NameCategory"));
+                selectedRecord.setNameText(result.getString("NameText"));
+                selectedRecord.setDisplayOrder(result.getInt("DisplayOrder"));
+                selectedRecord.setNameIdName(result.getString("NameIdName"));
+            } else {
+                tp.println("MstNameSystem not matched.");
+            }
         }
 
         tp.methodExit(selectedRecord);

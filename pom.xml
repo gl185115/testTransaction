@@ -803,7 +803,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/ma
                             <title>RES Mex Transaction API</title>
                             <description>This is a specification for RES Mex API</description>
                         </apiInfo>
-                        <apiVersion>0.1</apiVersion>
+                        <apiVersion>${project.version}(${buildNumber})</apiVersion>
                         <basePath>https://localhost:8443/resTransaction/rest</basePath>
                         <outputTemplate>${project.basedir}/resources/strapdown.html.mustache</outputTemplate>
                         <mustacheFileRoot>${project.basedir}/resources/</mustacheFileRoot>

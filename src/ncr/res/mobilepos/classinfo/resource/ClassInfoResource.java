@@ -305,6 +305,7 @@ public class ClassInfoResource {
             }             
             LineResource lineRes = new LineResource();
             ViewLine viewLine = lineRes.selectLineDetail(
+                    classInfo.getCompanyId(),
                     classInfo.getRetailStoreId(), classInfo.getDepartment(), classInfo.getLine());
             
             if (viewLine.getNCRWSSResultCode() != ResultBase.RES_OK) {
@@ -450,6 +451,7 @@ public class ClassInfoResource {
             }                
             LineResource lineRes = new LineResource();
             ViewLine viewLine = lineRes.selectLineDetail(
+                    classInfo.getCompanyId(),
                     classInfo.getRetailStoreId(), classInfo.getDepartment(), classInfo.getLine());            
             
             if (viewLine.getNCRWSSResultCode() != ResultBase.RES_OK) {

@@ -358,22 +358,24 @@ public class LineResource {
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     public final ViewLine selectLineDetail(
+            @QueryParam("companyid") final String companyID,
             @QueryParam("retailstoreid") final String retailStoreID,
             @QueryParam("departmentid") final String departmentid,
             @QueryParam("lineid") final String lineid) {
 
     	String functionName = "LineResource.selectLineDetail";
         tp.methodEnter(functionName);
-        tp.println("retailstoreid", retailStoreID)
-        		.println("departmentid", departmentid)
+        tp.println("companyid", companyID)
+                .println("retailstoreid", retailStoreID)
+                .println("departmentid", departmentid)
                 .println("lineid", lineid);
-                
+
         ViewLine lineModel = new ViewLine();
         setDaoFactory(DAOFactory.getDAOFactory(DAOFactory.SQLSERVER));
 
 		try {
             ILineDAO iLineDAO = sqlServerDAO.getLineDAO();
-            lineModel = iLineDAO.selectLineDetail(retailStoreID, departmentid, lineid);
+            lineModel = iLineDAO.selectLineDetail(companyID, retailStoreID, departmentid, lineid);
         } catch (DaoException daoEx) {         
             LOGGER.logAlert(
                     PROG_NAME,
@@ -402,7 +404,8 @@ public class LineResource {
     
     /**
      * The Web Method called to update Line.
-     * 
+     * @param companyId
+     *           The Company ID.
      * @param retailStoreId
      *            The Retail Store ID.
      * @param departmentid
@@ -417,6 +420,7 @@ public class LineResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public final ViewLine updateLine(
+            @FormParam("companyid") final String companyId,
             @FormParam("retailstoreid") final String retailStoreId,
             @FormParam("departmentid") final String departmentid,
             @FormParam("lineid") final String lineid,
@@ -454,7 +458,7 @@ public class LineResource {
                 return viewLine;
             }			
 			
-			ViewLine viewLineTemp = this.selectLineDetail(retailStoreId, departmentid, lineid);           
+			ViewLine viewLineTemp = this.selectLineDetail(companyId, retailStoreId, departmentid, lineid);
 			if( viewLineTemp == null || viewLineTemp.getNCRWSSResultCode() == ResultBase.RES_LINE_INFO_NOT_EXIST){
             	viewLine.setNCRWSSResultCode(ResultBase.RES_LINE_INFO_NOT_EXIST);
                 tp.println("Line not exist.");
@@ -462,7 +466,7 @@ public class LineResource {
             }
             if(!retailStoreId.equals(line.getRetailStoreId()) || !lineid.equals(line.getLine()) || !departmentid.equals(line.getDepartment())){
             	viewLineTemp = new ViewLine();
-            	viewLineTemp = this.selectLineDetail(line.getRetailStoreId(), line.getDepartment(), line.getLine());
+            	viewLineTemp = this.selectLineDetail(line.getCompanyId(), line.getRetailStoreId(), line.getDepartment(), line.getLine());
                 if (viewLineTemp != null && viewLineTemp.getNCRWSSResultCode() == ResultBase.RES_LINE_INFO_ALREADY_EXIST) {
                     viewLine.setNCRWSSResultCode(ResultBase.RES_LINE_INFO_ALREADY_EXIST);
                     return viewLine;

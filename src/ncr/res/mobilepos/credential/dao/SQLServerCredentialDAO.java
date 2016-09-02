@@ -602,6 +602,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, StoreId);
             select.setString(SQLStatement.PARAM3, nameCategory);
+            select.setString(SQLStatement.PARAM4, nameCategory);
             result = select.executeQuery();
             while (result.next()) {
                 NameMasterInfo namemasterinfo = new NameMasterInfo();

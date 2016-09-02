@@ -1,0 +1,183 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_DPTINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>Dpt</column>
+		<column>DptName</column>
+		<column>DptNameLocal</column>
+		<column>DptKanaName</column>
+		<column>Jigyobu</column>
+		<column>Gyoshu</column>
+		<column>Bumon</column>
+		<column>Uriba</column>
+		<column>Category</column>
+
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>ExceptionFlag</column>
+
+		<column>SubCode1</column>
+
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+
+		<column>Status</column>
+
+		<column>DeleteFlag</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+	    <row>
+			<value>0</value>
+			<value>0</value>
+			<value>dpt00</value>
+			<value>dptn00</value>
+			<value>dptnl00</value>
+			<value>dptkn00</value>
+			<value>jg00</value>
+			<value>gs00</value>
+			<value>bm00</value>
+			<value>ub00</value>
+			<value>cat00</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>grp00</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	    <row>
+			<value>1</value>
+			<value>0</value>
+			<value>dpt10</value>
+			<value>dptn10</value>
+			<value>dptnl10</value>
+			<value>dptkn10</value>
+			<value>jg10</value>
+			<value>gs10</value>
+			<value>bm10</value>
+			<value>ub10</value>
+			<value>cat10</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>grp10</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	    <row>
+			<value>0</value>
+			<value>1</value>
+			<value>dpt01</value>
+			<value>dptn01</value>
+			<value>dptnl01</value>
+			<value>dptkn01</value>
+			<value>jg01</value>
+			<value>gs01</value>
+			<value>bm01</value>
+			<value>ub01</value>
+			<value>cat01</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>grp01</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	    <row>
+			<value>1</value>
+			<value>1</value>
+			<value>dpt11</value>
+			<value>dptn11</value>
+			<value>dptnl11</value>
+			<value>dptkn11</value>
+			<value>jg11</value>
+			<value>gs11</value>
+			<value>bm00</value>
+			<value>ub11</value>
+			<value>cat11</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>grp11</value>
+
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+
+			<value>Active</value>
+
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value><![CDATA[2016-01-01]]></value>
+			<value>0</value>
+			<value>0</value>
+	    </row>
+	</table> 
+</dataset>

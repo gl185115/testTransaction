@@ -11,12 +11,8 @@
 
 package ncr.res.mobilepos.property;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 import ncr.res.mobilepos.exception.SQLStatementException;
@@ -33,17 +29,9 @@ public class SQLStatement {
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     /**
-     * The Instance of the class.
-     */
-    private static volatile SQLStatement instance;
-    /**
      * The file path of the Sql Statements.
      */
-    private static  String filePath = "sql_statements.xml";
-    /**
-     * The InputStream of the class.
-     */
-    private static InputStream inputStream;
+    private static final String STATEMENT_FILE_PATH = "sql_statements.xml";
     /**
      * The Properties of the class.
      */
@@ -446,47 +434,18 @@ public class SQLStatement {
     // RES 3.1 ‘Î‰ž END
 
     /**
+     * Bill Pugh Singleton pattern.
+     */
+    private static class SingletonHelper {
+        private static final SQLStatement INSTANCE = new SQLStatement();
+    }
+
+    /**
      * The Default Constructor.
      * @throws SQLStatementException  Exception thrown when instantiation fails.
      */
-    protected SQLStatement() throws SQLStatementException {
-    	properties = new Properties();
+    private SQLStatement() {
         readFile();
-    }
-
-     /**
-     * Set the InputStream for the class.
-     * @param inputstream the new InputStream for the class
-     */
-    public static void setInputStream(final InputStream inputstream) {
-        SQLStatement.instance = null;
-        SQLStatement.inputStream = inputstream;
-    }
-
-    /**
-     * Setter for the filePath of the SQL Statements.
-     * @param filepath  Path of file
-     */
-    public static void setFilepath(final String filepath) {
-        //when filePath has been re-set it is expected
-        //that this class InputStream and Instance would be Renewed
-        //afterwards
-        SQLStatement.instance = null;
-        SQLStatement.filePath = filepath;
-    }
-
-
-    /**
-     * Creates a SQLStatement instance.
-     * @return SQLStatement instance.
-     * @throws SQLStatementException    Exception when error occurs.
-     */
-    private static synchronized SQLStatement tryCreateInstance()
-            throws SQLStatementException {
-        if (instance == null) {
-            instance = new SQLStatement();
-        }
-        return instance;
     }
 
     /**
@@ -494,12 +453,8 @@ public class SQLStatement {
       * @return SQLStatement instance
       * @throws SQLStatementException   Exception when error occurs.
       */
-    public static SQLStatement getInstance() throws SQLStatementException {
-        SQLStatement sqlStatement = instance;
-        if (sqlStatement == null) {
-            sqlStatement = tryCreateInstance();
-        }
-        return sqlStatement;
+    public static SQLStatement getInstance() {
+        return SingletonHelper.INSTANCE;
     }
 
     /**
@@ -507,55 +462,14 @@ public class SQLStatement {
       * @throws SQLStatementException   Exception when error occurs.
       */
     private void readFile() throws SQLStatementException {
-
-        //Is the InputStream empty?
-        //If yes, try to set the InputStream
-        if (null == inputStream) {
-            File file = new File(filePath);
-            if (filePath.equals(file.getName())) {
-                setInputStream(SQLStatement.class
-                        .getResourceAsStream(filePath));
-            } else {
-                try {
-                    setInputStream(new FileInputStream(file));
-                } catch (FileNotFoundException e) {
-                    throw
-                    new SQLStatementException("File not found!=" + filePath, e);
-                }
-            }
-        }
-
-        //Is the InputStream still empty?
-        //If yes, then throw an error stating that
-        //the filePath was unknown.
-        if (null == inputStream) {
-            throw new SQLStatementException("custom_exception:"
-                    + " filePath not found "
-                    + filePath, new Exception());
-        }
-
-        try {
-            properties.loadFromXML(inputStream);
-        } catch (InvalidPropertiesFormatException e) {
+        try(InputStream stream = SQLStatement.class.getResourceAsStream(STATEMENT_FILE_PATH)) {
+            properties = new Properties();
+            properties.loadFromXML(stream);
+        } catch (IOException | NullPointerException ex) {
             throw new SQLStatementException(
-                    "InvalidPropertiesFormatException: cannot load " + filePath,
-                    e);
-        } catch (IOException e) {
-            throw new SQLStatementException("IOException: cannot load "
-                    + filePath, e);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                	this.LOGGER.logAlert("SQLStm", "SQLStatement.readFile", 
-                			Logger.RES_EXCEP_IO, 
-                			"IOException: Error in closing InputStream "
-                			+ "object.\n" + e.getMessage());
-                }
-            }
+                    "Failed to load SQL statement file in its class path."
+                            + STATEMENT_FILE_PATH, ex);
         }
-
     }
 
     /**

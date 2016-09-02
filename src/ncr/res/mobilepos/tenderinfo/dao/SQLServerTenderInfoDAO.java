@@ -120,6 +120,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
             selectStmnt.setString(SQLStatement.PARAM1, storeId);
             selectStmnt.setString(SQLStatement.PARAM2, companyId);
             selectStmnt.setString(SQLStatement.PARAM3, exceptTIAfterTrim.toString());
+            selectStmnt.setString(SQLStatement.PARAM4, exceptTIAfterTrim.toString());
             resultSet = selectStmnt.executeQuery();
 
             JSONObject tenderInfo = null;
@@ -235,6 +236,8 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
             selectStmnt.setString(SQLStatement.PARAM2, companyId);
             selectStmnt.setString(SQLStatement.PARAM3, tenderType);
             selectStmnt.setString(SQLStatement.PARAM4, tenderId);
+            selectStmnt.setString(SQLStatement.PARAM5, tenderType);
+            selectStmnt.setString(SQLStatement.PARAM6, tenderId);
             resultSet = selectStmnt.executeQuery();
             if (resultSet.next()) {
                 tenderInfo = new JSONObject();

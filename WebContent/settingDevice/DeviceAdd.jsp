@@ -10,17 +10,22 @@ final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>シ�
 final String INFO_01_INSERT = "端末の新規登録に成功しました。";
 final String CONFIRM_01_INSERT = "端末を登録してよろしいですか。";
 
+final static int USB_PRINTER_PORT = 8080;
+final static int NETWORK_PRINTER_PORT = 9100;
+int defaultPrinterPort = USB_PRINTER_PORT;
+
 ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンター"); add("ネットワークプリンター");}};
 %>
 <%
     request.setCharacterEncoding("UTF-8");
     response.setContentType("text/html;charset=UTF-8");
 
-String sqlStr = "";
+    String sqlStr = "";
     String errString = "";
     String infoString = "";
     Boolean isUpdateAreaHide = true;
     String user = ""; //ログインユーザー名
+    
     //ログインユーザー名取得
 	try {
 	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
@@ -34,6 +39,21 @@ String sqlStr = "";
     // queue
     ArrayList<String> queueIdList = new ArrayList<String>();
     ArrayList<String> queueNameList = new ArrayList<String>();
+
+    // プリンタータイプの値をとる
+    String formPrinterType = request.getParameter("printerType");
+    if(PRINTER_TYPE.contains(formPrinterType)){
+        switch(formPrinterType){
+        case "USBプリンター":
+            defaultPrinterPort = USB_PRINTER_PORT;
+            break;
+        case "ネットワークプリンター":
+            defaultPrinterPort = NETWORK_PRINTER_PORT;
+            break;
+        default:
+            defaultPrinterPort = USB_PRINTER_PORT;
+        }
+    }
 
     if (request.getParameter("searchCompanyID") != null && request.getParameter("searchCompanyID").length() != 0) {
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
@@ -116,13 +136,13 @@ String sqlStr = "";
                         + "  END"
                         /* MST_PRINTERINFO */
                         + " UPDATE RESMaster.dbo.MST_PRINTERINFO"
-                        + "  SET PrinterName=?, Description=?, IpAddress=?, PortNumTcp='8080', PortNumUdp='0', UpdCount=UpdCount+1, UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice', UpdOpeCode=?"
+                        + "  SET PrinterName=?, Description=?, IpAddress=?, PortNumTcp=?, PortNumUdp='0', UpdCount=UpdCount+1, UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice', UpdOpeCode=?"
                         + "  WHERE CompanyId=? AND StoreId=? AND PrinterId=?"
                         + "  IF @@ROWCOUNT = 0"
                         + "  BEGIN"
                         + "  INSERT INTO RESMaster.dbo.MST_PRINTERINFO"
                         + "  (CompanyId, StoreId, PrinterId, PrinterName, Description, IpAddress, PortNumTcp, PortNumUdp, Status, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + "  VALUES (?, ?, ?, ?, ?, ?, 8080, 0, 'Active', 0, CURRENT_TIMESTAMP,  'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
+                        + "  VALUES (?, ?, ?, ?, ?, ?, ?, 0, 'Active', 0, CURRENT_TIMESTAMP,  'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
                         + "  END"
                         /* MST_TILLIDINFO */
                         + " UPDATE RESMaster.dbo.MST_TILLIDINFO"
@@ -194,38 +214,43 @@ String sqlStr = "";
                 } else {
                     psIns.setString(50, request.getParameter("ipAddressPrint"));
                 }
-                psIns.setString(51, user);
-                psIns.setString(52, request.getParameter("addCompanyID"));
-                psIns.setString(53, request.getParameter("addStoreID"));
-                psIns.setString(54, request.getParameter("terminalID")); // printerid
+                psIns.setInt(51, defaultPrinterPort);
+
+                psIns.setString(52, user);
+                psIns.setString(53, request.getParameter("addCompanyID"));
+                psIns.setString(54, request.getParameter("addStoreID"));
+                psIns.setString(55, request.getParameter("terminalID")); // printerid
                 // MST_PRINTERINFO(insert)
-                psIns.setString(55, request.getParameter("addCompanyID"));
-                psIns.setString(56, request.getParameter("addStoreID"));
-                psIns.setString(57, request.getParameter("terminalID")); // printerid
-                psIns.setString(58, request.getParameter("printerName"));
-                psIns.setString(59, request.getParameter("printerDescription"));
+                psIns.setString(56, request.getParameter("addCompanyID"));
+                psIns.setString(57, request.getParameter("addStoreID"));
+                psIns.setString(58, request.getParameter("terminalID")); // printerid
+                psIns.setString(59, request.getParameter("printerName"));
+                psIns.setString(60, request.getParameter("printerDescription"));
                 if (request.getParameter("ipAddressPrint") == null) {
-                    psIns.setString(60, "");
+                    psIns.setString(61, "");
                 } else {
-                    psIns.setString(60, request.getParameter("ipAddressPrint"));
+                    psIns.setString(61, request.getParameter("ipAddressPrint"));
                 }
-                psIns.setString(61, user);
-                psIns.setString(62, user);
+                
+                psIns.setInt(62, defaultPrinterPort);
+                
+                psIns.setString(63, user);
+                psIns.setString(64, user);
                 // MST_TILLIDINFO(update)
-                psIns.setString(63, request.getParameter("terminalID"));
-                psIns.setString(64, today);
-                psIns.setString(65, user);
-                psIns.setString(66, request.getParameter("addCompanyID"));
-                psIns.setString(67, request.getParameter("addStoreID"));
-                psIns.setString(68, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(65, request.getParameter("terminalID"));
+                psIns.setString(66, today);
+                psIns.setString(67, user);
+                psIns.setString(68, request.getParameter("addCompanyID"));
+                psIns.setString(69, request.getParameter("addStoreID"));
+                psIns.setString(70, request.getParameter("addStoreID") + request.getParameter("terminalID"));
                 // MST_TILLIDINFO(insert)
-                psIns.setString(69, request.getParameter("addCompanyID"));
-                psIns.setString(70, request.getParameter("addStoreID"));
-                psIns.setString(71, request.getParameter("addStoreID") + request.getParameter("terminalID"));
-                psIns.setString(72, request.getParameter("terminalID"));
-                psIns.setString(73, today);
-                psIns.setString(74, user);
-                psIns.setString(75, user);
+                psIns.setString(71, request.getParameter("addCompanyID"));
+                psIns.setString(72, request.getParameter("addStoreID"));
+                psIns.setString(73, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(74, request.getParameter("terminalID"));
+                psIns.setString(75, today);
+                psIns.setString(76, user);
+                psIns.setString(77, user);
 
                 try {
                     int rsIns = psIns.executeUpdate();
@@ -432,6 +457,8 @@ window.onload = function() {
     </div>
     <button id="fakeButton" style="display:none"></button>
   </form>
+
+  
 </body>
 <script type="text/javascript">
 function changePrinterType(obj) {

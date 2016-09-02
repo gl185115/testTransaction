@@ -4,15 +4,32 @@
 
 Terms of Service: [{{termsOfServiceUrl}}]({{termsOfServiceUrl}})
 
-Contact: [{{contact}}](mailto:{{contact}})
-
-License: [{{license}}]({{licenseUrl}})
-
 {{/apiInfo}}
 
 BasePath: {{basePath}}
 
 Api Version: {{apiVersion}}
+
+## API List
+<table border="1">
+    <tr>
+        <th>URL</th>
+        <th>Description</th>
+    </tr>
+{{#apiDocuments}}
+    <tr>
+        <th colspan="2">{{resourcePath}}</th>
+    </tr>
+{{#apis}}
+{{#operations}}
+    <tr>
+        <td>{{url}}</td>
+        <td>{{summary}}{{{notes}}}</td>
+    </tr>
+{{/operations}}
+{{/apis}}
+{{/apiDocuments}}
+</table>
 
 ## APIs
 {{#apiDocuments}}

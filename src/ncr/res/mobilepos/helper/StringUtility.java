@@ -243,27 +243,33 @@ public final class StringUtility {
 
     /**
      * Checks values if null or empty.
-     *
+     * This accepts multiple args and requires at least one arg.
+     * @oaram value1
      * @param values
      *            optional variables.
-     * @return true if null/empty, false if not null/empty.
+     * @return true if one of the args is null/empty, false if all the args are not null/empty.
      */
-    public static boolean isNullOrEmpty(final Object... values) {
-        boolean isNullEmpty = false;
+    public static boolean isNullOrEmpty(final Object value1, final Object... values) {
+        if(isNullOrEmpty((String)value1)) {
+            return true;
+        }
+        // values can be null, when 2nd arg is just null.
+        if(values == null) {
+            return true;
+        }
         for (int i = 0; i < values.length; i++) {
-            if (values[i] == null || "".equals(values[i])) {
-                isNullEmpty = true;
-                break;
+            if(isNullOrEmpty((String)values[i])) {
+                return true;
             }
         }
-        return isNullEmpty;
+        return false;
     }
-    
-    /**
-     * Check string is null or empty
-     * @param str
-     * @return
-     */
+
+        /**
+         * Check string is null or empty
+         * @param str
+         * @return
+         */
     public static boolean isNullOrEmpty(final String str) {
         boolean isNullEmpty = false;
         if (str == null || "".equals(str)) {

@@ -165,12 +165,12 @@ public class WebContextListener implements ServletContextListener {
 
         GlobalConstant.setApiServerUrl(sysParams.get(GlobalConstant.API_SERVER_URL));
         String apiServerTimeout = sysParams.get(GlobalConstant.API_SERVER_TIMEOUT);
-        if(!StringUtility.isNullOrEmpty()) {
+        if(!StringUtility.isNullOrEmpty(apiServerTimeout)) {
             GlobalConstant.setApiServerTimeout(Integer.parseInt(apiServerTimeout));
         }
 
         String priceIncludeTax = sysParams.get(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
-        if(StringUtility.isNullOrEmpty()) {
+        if(StringUtility.isNullOrEmpty(priceIncludeTax)) {
             priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
         }
         GlobalConstant.setPriceIncludeTaxKey(priceIncludeTax);

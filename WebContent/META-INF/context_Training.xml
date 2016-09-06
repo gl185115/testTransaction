@@ -7,7 +7,7 @@
 	<Realm className="org.apache.catalina.realm.JDBCRealm"
 		  connectionName="entsvr"
           connectionPassword="ncrsa_ora"
-          connectionURL="jdbc:sqlserver://localhost:1433;databaseName=ResMaster;selectMethod=cursor;sendStringParametersAsUnicode=false"
+          connectionURL="jdbc:sqlserver://localhost:1433;databaseName=RESMaster;selectMethod=cursor;sendStringParametersAsUnicode=false"
           driverName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
           userTable="MST_USER_CREDENTIALS"
 			userCredCol="PassCode"

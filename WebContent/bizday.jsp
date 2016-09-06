@@ -2,7 +2,7 @@
     StringBuilder sb = new StringBuilder();
     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer)JndiDBManagerMSSqlServer.getInstance();
     try (Connection conn = dbManager.getConnection()) {
-        try (PreparedStatement ps = conn.prepareStatement("select TodayDate from resMaster.dbo.MST_BizDay "
+        try (PreparedStatement ps = conn.prepareStatement("select TodayDate from RESMaster.dbo.MST_BIZDAY "
                                                         + "where companyId=? and storeId=?")) {
             ps.setString(1, "0");
             ps.setString(2, "0");

@@ -316,13 +316,12 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
      * {@inheritDoc}
      */
     public final ViewLine selectLineDetail(
-            final String companyID, final String retailStoreID, final String department, final String line)
+            final String retailStoreID, final String department, final String line)
             throws DaoException {
     	
     	String functionName = "SQLServerLineDAO.selectLineDetail()";
         tp.methodEnter(functionName);
-        tp.println("CompanyID", companyID)
-                .println("RetailStoreID", retailStoreID)
+        tp.println("RetailStoreID", retailStoreID)
         		.println("Department",department)
         		.println("line",line);
 
@@ -337,10 +336,9 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(sqlStatement
                     .getProperty("select-line-details"));
-            select.setString(SQLStatement.PARAM1, companyID);
-            select.setString(SQLStatement.PARAM2, retailStoreID);
-            select.setString(SQLStatement.PARAM3, department);
-            select.setString(SQLStatement.PARAM4, line);
+            select.setString(SQLStatement.PARAM1, retailStoreID);
+            select.setString(SQLStatement.PARAM2, department);
+            select.setString(SQLStatement.PARAM3, line);
 
             result = select.executeQuery();
             if (result.next()) {
@@ -375,6 +373,8 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
                 		findColumn("AgeRestrictedFlag")));                
                 lineFound.setInheritFlag(result.getString(result.
                 		findColumn("InheritFlag")));
+                lineFound.setSubSmallInt5(result.getString(result.
+                		findColumn("SubSmallInt5")));  
             	lineModel.setLine(lineFound);
             } else {
                 lineModel.setNCRWSSResultCode(ResultBase.RES_LINE_INFO_NOT_EXIST);

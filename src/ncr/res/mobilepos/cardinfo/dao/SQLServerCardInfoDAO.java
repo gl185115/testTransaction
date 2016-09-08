@@ -78,13 +78,7 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
 
             if (membershipId == null) {
                 statement = connection.prepareStatement(sqlStatement.getProperty("get-card-class-info-all"));
-                if(cardClassId == null || cardClassId.isEmpty()) {
-                    statement.setNull(SQLStatement.PARAM3, java.sql.Types.NULL);
-                    statement.setNull(SQLStatement.PARAM4, java.sql.Types.NULL);
-                } else {
-                    statement.setString(SQLStatement.PARAM3, cardClassId);
-                    statement.setString(SQLStatement.PARAM4, cardClassId);
-                }
+                statement.setString(SQLStatement.PARAM3, cardClassId);
             } else {
                 statement = connection.prepareStatement(sqlStatement.getProperty("get-card-class-info-member"));
                 statement.setString(SQLStatement.PARAM3, membershipId);
@@ -151,7 +145,6 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
                 statement.setString(SQLStatement.PARAM1, companyId);
                 statement.setString(SQLStatement.PARAM2, storeId);
                 statement.setString(SQLStatement.PARAM3, cardTypeNo);
-                statement.setString(SQLStatement.PARAM4, cardTypeNo);
             }
             result = statement.executeQuery();
             while (result.next()) {

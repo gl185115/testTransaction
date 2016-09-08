@@ -79,7 +79,6 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
                 .println("CardType", cardType).println("SeqNo", seqNo).println("DiscountType", discountType);
 
         PreparedStatement selectStmnt = null;
-
         ResultSet resultSet = null;
         Connection connection = null;
 
@@ -90,17 +89,11 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
 
             SQLStatement sqlStatement = SQLStatement.getInstance();
             selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-barcode-type"));
-            selectStmnt.setString(SQLStatement.PARAM1, companyId);
-            selectStmnt.setString(SQLStatement.PARAM2, storeId);
-
+            selectStmnt.setString(SQLStatement.PARAM1, storeId);
+            selectStmnt.setString(SQLStatement.PARAM2, companyId);
             selectStmnt.setString(SQLStatement.PARAM3, cardType);
             selectStmnt.setString(SQLStatement.PARAM4, seqNo);
             selectStmnt.setString(SQLStatement.PARAM5, discountType);
-
-            selectStmnt.setString(SQLStatement.PARAM6, cardType);
-            selectStmnt.setString(SQLStatement.PARAM7, seqNo);
-            selectStmnt.setString(SQLStatement.PARAM8, discountType);
-
             resultSet = selectStmnt.executeQuery();
 
             while (resultSet.next()) {

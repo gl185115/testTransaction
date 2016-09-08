@@ -134,6 +134,8 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             		sqlStatement.getProperty("get-voucher-list"));
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDayDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
             result = statement.executeQuery();
             while (result.next()) {
             	VoucherInfo voucherInfo = new VoucherInfo();
@@ -173,13 +175,13 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     		.println("storeId", storeId)
     		.println("businessDayDate", businessDayDate)
     		.println("trainingFlag", trainingFlag);
-
+    
     	Connection connection = null;
     	PreparedStatement statement = null;
     	ResultSet result = null;
     	SettlementInfo settlement = new SettlementInfo();
     	List<VoucherInfo> voucherList = new ArrayList<VoucherInfo>();
-        
+    	
     	try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -187,6 +189,8 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             		sqlStatement.getProperty("get-voucher-list"));
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDayDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
             result = statement.executeQuery();
             while (result.next()) {
             	VoucherInfo voucherInfo = new VoucherInfo();

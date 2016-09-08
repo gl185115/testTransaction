@@ -38,6 +38,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.department.resource.DepartmentResource;
@@ -47,6 +48,7 @@ import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.helper.ItemHelper;
@@ -62,7 +64,6 @@ import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
-import ncr.res.mobilepos.promotion.resource.PromotionResource;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
 
@@ -200,11 +201,8 @@ public class ItemResource {
         try {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
-            returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId, bussinessDate);
-            if (null == returnItem) {
-                PromotionResource promotion = new PromotionResource();
-                returnItem = promotion.getdetailInfoData(storeID, pluCode,companyId,bussinessDate);
-               }
+            returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate);
+            
         } catch (DaoException daoEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_DAO,
                     "Failed to get the item details.\n" + daoEx.getMessage());
@@ -1103,7 +1101,7 @@ public class ItemResource {
             IItemDAO iItemDAO = daoFactory.getItemDAO();
             for (Sale saleIn : sales) {
                 Item item = new Item();
-                item = iItemDAO.getItemPriceByPLU(storeId, saleIn.getItemId(), companyId,businessDate);
+                item = iItemDAO.getItemBypluCode(storeId, saleIn.getItemId(), companyId,businessDate);
                 if (null != item) {
                     itemList.add(item);
                 }
@@ -1229,7 +1227,6 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
         })
     public final PromotionResponse getitementry(
-            @ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
     		@ApiParam(name="itemId", value="プロジェクトコード") @FormParam("itemId") final String itemId, 
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -1244,7 +1241,7 @@ public class ItemResource {
             }
 
             IItemDAO itemDao = new SQLServerItemDAO();
-            Item item = itemDao.getItemAttributeByPLU(storeId, itemId, companyId);
+            Item item = itemDao.getItemByApiData(itemId, companyId);
 
             if (item == null) {
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);

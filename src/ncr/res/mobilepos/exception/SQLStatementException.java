@@ -11,11 +11,11 @@
 package ncr.res.mobilepos.exception;
 
 /**
- * A Custom Exception dedicated for SQL Prepared Statement of any type.
- * This is RuntimeException, because it is thrown during SQLStatement initialization, loading and caching.
- * The situation is unrecoverable and there is no way to continue the application after this Exception.
+ * A Custom Exception dedicated for SQL Prepared Statement
+ * of any type.
+ *
  */
-public class SQLStatementException extends RuntimeException {
+public class SQLStatementException extends Exception {
 
     /**
      * The Servial Version Unique ID.

@@ -91,15 +91,11 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
             selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-promotioninfo-type"));
             selectStmnt.setString(SQLStatement.PARAM1, companyId);
             selectStmnt.setString(SQLStatement.PARAM2, storeId);
-
-            selectStmnt.setString(SQLStatement.PARAM3, partialFlag);
-            selectStmnt.setString(SQLStatement.PARAM4, discountReason);
-            selectStmnt.setString(SQLStatement.PARAM5, discountBarcodeType);
-
-            selectStmnt.setString(SQLStatement.PARAM6, partialFlag);
-            selectStmnt.setString(SQLStatement.PARAM7, discountReason);
-            selectStmnt.setString(SQLStatement.PARAM8, discountBarcodeType);
+            selectStmnt.setString(SQLStatement.PARAM3, discountReason);
+            selectStmnt.setString(SQLStatement.PARAM4, discountBarcodeType);
+            selectStmnt.setString(SQLStatement.PARAM5, partialFlag);
             resultSet = selectStmnt.executeQuery();
+
             while (resultSet.next()) {
                 if ((priceDiscountFlag.indexOf(resultSet.getString("PriceDiscountFlag")) > -1)
                         && (rateDiscountFlag.indexOf(resultSet.getString("RateDiscountFlag")) > -1)) {

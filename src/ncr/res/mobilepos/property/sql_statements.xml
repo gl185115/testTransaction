@@ -43,6 +43,155 @@
                 WHERE  seq.SequenceTypeId = @typeId
             END
   </entry>
+ <entry key="get-item">
+
+DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32)
+    SET        @storeId = LTRIM(RTRIM(?))
+    SET        @companyId = LTRIM(RTRIM(?))
+    SET        @MdInternal = LTRIM(RTRIM(?))
+     SET       @businessDate = LTRIM(RTRIM(?))
+SELECT TOP 1
+       plu.CompanyId,
+       plu.StoreId,
+       plu.MdInternal,
+       plu.MdType,
+       plu.MdVender,
+       plu.Dpt,
+       plu.Line,
+       plu.Class,
+       plu.Sku,
+       plu.Md01,
+       plu.Md02,
+       plu.Md03,
+       plu.Md04,
+       plu.Md05,
+       plu.Md06,
+       plu.Md07,
+       plu.Md08,
+       plu.Md09,
+       plu.Md10,
+       plu.Md11,
+       plu.Md12,
+       plu.Md13,
+       plu.Md14,
+       plu.Md15,
+       plu.Md16,
+       plu.MdNameLocal,
+       plu.MdKanaName,
+       plu.OrgSalesPrice1,
+       urgent.NewPrice,
+       urgent.OldPrice,
+       plustore.SalesPrice,
+       plu.SalesPrice1,
+       plu.SalesPrice2,
+       plu.CostPrice1,
+       plu.SalesDate,
+       plu.MakerPrice,
+       plu.TaxType,
+       plu.TaxRate,
+       plu.DiscountType,
+       plu.PaymentType,
+       plu.Conn1,
+       plu.ConnType1,
+       plu.Conn2,
+       plu.DiscountFlag,
+       plu.SubCode1,
+       plu.SubCode2,
+       plu.SubCode3,
+       plu.SubNum1,
+       plu.SubNum2,
+       plu.DeleteFlag,
+       plu.DelDate,
+       plu.DelAppId,
+       plu.DelOpeCode,
+       plu.InsDate,
+       plu.InsAppId,
+       plu.InsOpeCode,
+       plu.UpdCount,
+       plu.UpdDate,
+       plu.UpdAppId,
+       plu.UpdOpeCode,
+       classInfo.ClassNameLocal,
+       dpt.DiscountType dptDiscountType,
+       dpt.DptNameLocal,
+       dpt.SubCode1 dptSubCode1,
+       groupInfo.GroupName,
+       groupInfo.GroupId,
+       system.NameText,
+       plu.DiscountType DiscountType,
+       colorInfo.Colorkananame,
+       sizeInfo.SizeKanaName,
+       brandInfo.BrandName
+FROM
+  RESMaster.dbo.MST_PLU plu
+LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
+    ON plu.CompanyId = plustore.CompanyId
+    AND plustore.StoreId = @storeId
+    AND plustore.MdInternal = plu.MdInternal
+    AND plustore.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_DPTINFO dpt
+ON plu.CompanyId = dpt.CompanyId
+AND  dpt.StoreId = plu.StoreId
+AND plu.Dpt = dpt.Dpt
+AND dpt.DeleteFlag =0.0
+LEFT JOIN RESMaster.dbo.MST_GROUPINFO groupInfo
+ON   plu.CompanyId = groupInfo.CompanyId
+AND  plu.StoreId = groupInfo.StoreId
+AND  dpt.SubCode1 = groupInfo.GroupId
+AND groupInfo.DeleteFlag =0.0
+LEFT JOIN RESMaster.dbo.MST_CLASSINFO classInfo
+ON plu.Class = classInfo.Class
+AND plu.CompanyId = classInfo.CompanyId
+AND plu.StoreId = classInfo.StoreId
+AND plu.dpt = classInfo.dpt
+AND plu.line = classInfo.line
+AND classInfo.DeleteFlag =0.0
+LEFT JOIN RESMaster.dbo.MST_NAME_SYSTEM system
+ON plu.CompanyId = system.CompanyId
+AND plu.StoreId = system.StoreId
+AND system.NameId = plu.TaxType
+AND system.NameCategory = '0060'
+AND system.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo
+ON plu.CompanyId = colorInfo.CompanyId
+AND plu.StoreId = colorInfo.StoreId
+AND plu.Md01 = colorInfo.ColorId
+AND colorInfo.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_SIZEINFO sizeInfo
+ON plu.CompanyId = sizeInfo.CompanyId
+AND plu.StoreId = sizeInfo.StoreId
+AND plu.Md05 = sizeInfo.SizeId
+LEFT JOIN RESMaster.dbo.MST_BRANDINFO brandInfo
+ON plu.CompanyId = brandInfo.CompanyId
+AND plu.StoreId = brandInfo.StoreId
+AND plu.Md07 = brandInfo.BrandId
+
+LEFT JOIN  (
+    SELECT
+        info.CompanyId,
+        info.Sku,
+        info.SequenceNo,
+        info.ColorId,
+        info.NewPrice,
+        info.OldPrice
+    FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
+    ON info.CompanyId  = store.CompanyId
+    AND info.RecordId = store.RecordId
+    AND store.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
+    AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @storeId)
+    AND info.DeleteFlag = 0.0
+
+) urgent ON
+plu.CompanyId  = urgent.CompanyId
+AND plu.Sku  = urgent.Sku
+AND plu.Md01 = urgent.ColorId
+
+WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
+ORDER BY urgent.SequenceNo DESC
+
+</entry>
 
 <entry key="get-price-ReplaceSupport-info">
 
@@ -532,7 +681,7 @@ LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @companyId
+    AND info.CompanyId = @CompanyId
     AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
@@ -575,7 +724,7 @@ LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @companyId
+    AND info.CompanyId = @CompanyId
     AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
@@ -1035,125 +1184,148 @@ WHERE
         WHERE CrCompCat= LTRIM(RTRIM(?))
    </entry>
 <entry key="get-tenderinfo-type">
-    SELECT
-        BASE.*
-    FROM
-        RESMaster.dbo.MST_TENDERINFO as BASE
-    INNER JOIN
-        /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-        (SELECT TOP 1
-            CompanyId, StoreId
+DECLARE
+    @companyId VARCHAR (12),
+    @storeId VARCHAR (10),
+    @tenderType VARCHAR (50)
+SET @storeId = LTRIM(RTRIM(?))
+SET @companyId = LTRIM(RTRIM(?))
+SET @tenderType = LTRIM(RTRIM(?))
+
+IF NOT EXISTS (
+  SELECT
+    *
+  FROM
+    RESMaster.dbo.MST_TENDERINFO
+  WHERE
+    TenderType IN (
+        SELECT
+            TenderType
         FROM
             RESMaster.dbo.MST_TENDERINFO
         WHERE
-            CompanyId in (? , '0') AND
-            StoreId in (?, '0') AND
-            CHARINDEX(TenderType, ?) > 0 AND
-            DeleteFlag = 0.0
-        GROUP BY
-            CompanyId, StoreId
-        ORDER BY CompanyId desc, StoreId desc)
-            AS SHARED_ID_PRIORITY
-        ON
-            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
-    WHERE
-        BASE.DeleteFlag = 0.0 AND
-        CHARINDEX(BASE.TenderType, ?) > 0
-    ORDER BY
-        BASE.DisplayOrder,
-        BASE.TenderType
+            CHARINDEX(TenderType,@tenderType) &gt; 0
+    )
+    AND DeleteFlag = 0.0
+    AND StoreId = @storeId
+    AND CompanyId = @companyId
+)
+  SET @storeId = '0000'
+
+SELECT
+    CompanyId,
+    StoreId,
+    TenderType,
+    TenderId,
+    TenderName,
+    TenderKanaName,
+    StampType,
+    PointType,
+    ChangeType,
+    UnitPrice,
+    DisplayOrder
+FROM
+    RESMaster.dbo.MST_TENDERINFO
+WHERE
+    TenderType IN (
+        SELECT
+            TenderType
+        FROM
+            RESMaster.dbo.MST_TENDERINFO
+        WHERE
+            CHARINDEX(TenderType,@tenderType) &gt; 0
+    )
+AND DeleteFlag = 0.0
+AND StoreId = @storeId
+AND CompanyId = @companyId
+ORDER BY
+    DisplayOrder,
+    TenderType
 </entry>
 
 <entry key="get-tender-info">
-    SELECT
-        BASE.*
-    FROM
-        RESMaster.dbo.MST_TENDERINFO as BASE
-    INNER JOIN
-        /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-        (SELECT TOP 1
-            CompanyId, StoreId
-        FROM
-            RESMaster.dbo.MST_TENDERINFO
-        WHERE
-            CompanyId in (?, '0') AND
-            StoreId in (?, '0') AND
-            TenderType = ? AND
-            TenderId = ? AND
-            DeleteFlag = 0.0
-        GROUP BY
-            CompanyId, StoreId
-        ORDER BY CompanyId desc, StoreId desc)
-            AS SHARED_ID_PRIORITY
-        ON
-            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
-    WHERE
-        BASE.TenderType = ? AND
-        BASE.TenderId = ? AND
-        BASE.DeleteFlag = 0.0
-    ORDER BY
-        BASE.DisplayOrder,
-        BASE.TenderType
+DECLARE
+    @companyId VARCHAR (12),
+    @storeId VARCHAR (10),
+    @tenderType VARCHAR (50),
+    @tenderId VARCHAR(20)
+SET @storeId = LTRIM(RTRIM(?))
+SET @companyId = LTRIM(RTRIM(?))
+SET @tenderType = LTRIM(RTRIM(?))
+SET @tenderId = LTRIM(RTRIM(?))
+
+IF NOT EXISTS (
+  SELECT
+    *
+  FROM
+    RESMaster.dbo.MST_TENDERINFO
+  WHERE
+    TenderType = @tenderType
+    AND DeleteFlag = 0.0
+    AND StoreId = @storeId
+    AND CompanyId = @companyId
+    AND TenderId = @tenderId
+)
+  SET @storeId = '0000'
+
+SELECT
+    CompanyId,
+    StoreId,
+    TenderType,
+    TenderId,
+    TenderName,
+    TenderKanaName,
+    StampType,
+    PointType,
+    ChangeType,
+    UnitPrice,
+    DisplayOrder
+FROM
+    RESMaster.dbo.MST_TENDERINFO
+WHERE
+ TenderType = @tenderType
+AND DeleteFlag = 0.0
+AND StoreId = @storeId
+AND CompanyId = @companyId
+AND TenderId = @tenderId
+ORDER BY
+    DisplayOrder,
+    TenderType
 </entry>
 
-<entry key="get-cashAbstract-type">
-    DECLARE
-      @companyId VARCHAR (12),
-      @storeId VARCHAR (10),
-      @cashFlowDirection VARCHAR (50),
-      @tenderId VARCHAR (50),
-      @tenderType VARCHAR (50)
-    SET @storeId = LTRIM(RTRIM(?))
-    SET @companyId = LTRIM(RTRIM(?))
-    SET @cashFlowDirection = LTRIM(RTRIM(?))
-    SET @tenderId = LTRIM(RTRIM(?))
-    SET @tenderType = LTRIM(RTRIM(?))
 
-    SELECT
-      a.CompanyId,
-      a.StoreId,
-      a.CashFlowDirection,
-      a.CashFlowType,
-      a.RemarksId,
-      a.RemarksCol,
-      a.RemarksKanaCol
-    FROM
-    RESMaster.dbo.MST_CASHFLOW_REMARKS a
-    /** Shared Company-Store ID condition **/
-    INNER JOIN
-    (SELECT TOP 1
-      CompanyId, StoreId
-    FROM
-      RESMaster.dbo.MST_CASHFLOW_REMARKS
-    WHERE
-      CompanyId in (@companyId , '0') AND
-      StoreId in (@storeId, '0') AND
-      CashFlowDirection = @cashFlowDirection AND
-      DeleteFlag = 0.0
-    GROUP BY
-      CompanyId, StoreId
-    ORDER BY CompanyId desc, StoreId desc) sharedIdCombination
-    ON
-      a.StoreId = sharedIdCombination.StoreId AND
-      a.CompanyId = sharedIdCombination.CompanyId
-    /** Join condition **/
-    INNER JOIN
-      RESMaster.dbo.MST_TENDERINFO b
-    ON
-      b.TenderId = a.CashFlowType AND
-      b.StoreId = a.StoreId AND
-      b.CompanyId = a.CompanyId
-    /** Search condition **/
-    WHERE
-      a.CashFlowDirection = @cashFlowDirection AND
-      a.DeleteFlag = 0.0 AND
-      b.TenderId = @tenderId AND
-      b.TenderType = @tenderType AND
-      b.DeleteFlag = 0.0
-    ORDER BY
-     a.CashFlowDirection
+<entry key="get-cashAbstract-type">
+DECLARE
+    @companyId VARCHAR (12),
+    @storeId VARCHAR (10),
+    @cashFlowDirection VARCHAR (50),
+    @tenderId VARCHAR (50),
+    @tenderType VARCHAR (50)
+SET @storeId = LTRIM(RTRIM(?))
+SET @companyId = LTRIM(RTRIM(?))
+SET @cashFlowDirection = LTRIM(RTRIM(?))
+SET @tenderId = LTRIM(RTRIM(?))
+SET @tenderType = LTRIM(RTRIM(?))
+SELECT
+    a.CompanyId,
+    a.StoreId,
+    a.CashFlowDirection,
+    a.CashFlowType,
+    a.RemarksId,
+    a.RemarksCol,
+    a.RemarksKanaCol
+FROM
+    RESMaster.dbo.MST_CASHFLOW_REMARKS a,
+    RESMaster.dbo.MST_TENDERINFO b
+WHERE
+    a.StoreId = @storeId
+AND a.CompanyId = @companyId
+AND a.CashFlowDirection = @cashFlowDirection
+AND b.TenderId = @tenderId
+AND b.TenderType = @tenderType
+AND b.TenderId = a.CashFlowType
+ORDER BY
+    a.CashFlowDirection
 </entry>
    <entry key="get-event-list">
    DECLARE @eventId VARCHAR(20), @eventKbn int, @businessDateId int,
@@ -1941,14 +2113,14 @@ WHERE
   </entry>
 
   <entry key="get-bussiness-date">
-      SELECT TOP 1
-          StoreId, TodayDate
-      FROM
-          RESMaster.dbo.MST_BIZDAY
-      WHERE
-          CompanyId in (?, '0') AND StoreId in (?, '0')
-      ORDER BY
-          StoreId DESC, CompanyId DESC
+    SELECT DISTINCT TOP 1
+      StoreId, TodayDate
+    FROM
+      RESMaster.dbo.MST_BIZDAY
+    WHERE
+      CompanyId = ? AND StoreId in (?, '0')
+    ORDER BY
+      StoreId DESC
   </entry>
   <entry key="select-txs-by-txid">
     SELECT
@@ -2223,32 +2395,46 @@ WHERE
     </entry>
 
     <entry key="get-systemnames">
+      DECLARE
+        @companyId varchar(max),
+        @storeId varchar(max),
+        @nameCategory varchar(max)
+
+      SET @companyId = ?
+      SET @storeId = ?
+      SET @nameCategory = ?
+
+      IF NOT EXISTS (
         SELECT
-            BASE.*
+          CompanyId,
+          StoreId,
+          NameCategory,
+          NameId
         FROM
-            RESMaster.dbo.MST_NAME_SYSTEM as BASE
-        INNER JOIN
-            /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-            (SELECT TOP 1
-                CompanyId, StoreId
-            FROM
-                RESMaster.dbo.MST_NAME_SYSTEM
-            WHERE
-                CompanyId in (? , '0') AND
-                StoreId in (?, '0') AND
-                NameCategory = ? AND
-                DeleteFlag = 0.0
-            GROUP BY
-                CompanyId, StoreId
-                ORDER BY CompanyId desc, StoreId desc)
-                AS SHARED_ID_PRIORITY
-        ON
-            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+          RESMaster.dbo.MST_NAME_SYSTEM
         WHERE
-            BASE.NameCategory = ? AND
-            BASE.DeleteFlag = 0.0
-        ORDER BY BASE.DisplayOrder;
+          CompanyId = @companyId AND
+          StoreId = @storeId AND
+          NameCategory = @nameCategory AND
+          DeleteFlag = 0.0
+      )
+        SET @storeId = '0'
+
+      SELECT
+        CompanyId,
+        StoreId,
+        NameCategory,
+        NameId,
+        NameText,
+        NameIdName
+      FROM
+        RESMaster.dbo.MST_NAME_SYSTEM
+      WHERE
+        CompanyId = @companyId AND
+        StoreId = @storeId AND
+        NameCategory = @nameCategory AND
+        DeleteFlag = 0.0
+      ORDER BY DisplayOrder
     </entry>
 
  <entry key="get-all-salesPerson">
@@ -5770,7 +5956,7 @@ WHERE
     SET Skip = ?
   </entry>
   <entry key="select-date-setting">
-    SELECT DISTINCT TOP 1
+    SELECT
       CompanyId,
       StoreId,
       TodayDate,
@@ -5779,10 +5965,7 @@ WHERE
     FROM
       RESMaster.dbo.MST_BIZDAY
     WHERE
-      CompanyId in (?,0) AND StoreId in (?,0) AND
-      DeleteFlag = 0
-    ORDER BY
-      StoreId DESC, CompanyId DESC
+      CompanyId = ? AND StoreId = ? AND DeleteFlag = 0
   </entry>
 
   <!-- *************************  ENTRY KEY FOR DEVICE LOG TABLE ************************* -->
@@ -10090,9 +10273,9 @@ ORDER BY SalesOrPay
             ) AS ps
   </entry>
 
-  <entry key="select-line-details">
+    <entry key="select-line-details">
     SELECT
-　　  StoreId,
+      StoreId,
       Line,
       LineName,
       LineNameLocal,
@@ -10105,16 +10288,15 @@ ORDER BY SalesOrPay
       DiscountAmt,
       DiscountRate,
       AgeRestrictedFlag,
-      InheritFlag
+      InheritFlag,
+      SubSmallInt5
     FROM
       RESMaster.dbo.MST_LINEINFO
     WHERE
-      CompanyId in (?, '0') AND StoreId in (?, '0') AND
-      Dpt = ? AND
-      Line = ?
-    ORDER BY
-      StoreId DESC, CompanyId DESC
-  </entry>
+      StoreId = ?
+      AND Dpt = ?
+      AND Line = ?
+    </entry>
 
     <entry key="update-line">
       DECLARE
@@ -10487,155 +10669,191 @@ IF @TargetType &gt; '0'
 SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
   </entry>
   <entry key="get-card-class-info-all">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @cardClassId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @cardClassId = NULLIF(?, '')
+
+    IF NOT EXISTS (
       SELECT
-          BASE.*
+        CompanyId,
+        StoreId,
+        CardClassId
       FROM
-          RESMaster.dbo.MST_CARD_CLASSINFO as BASE
-      INNER JOIN
-          /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-          (SELECT
-              TOP 1
-              CompanyId, StoreId
-              FROM
-              RESMaster.dbo.MST_CARD_CLASSINFO
-          WHERE
-              CompanyId in (?, 0) AND
-              StoreId in (?, 0) AND
-              CardClassId = COALESCE(?, CardClassId) AND
-              DeleteFlag = 0.0
-          GROUP BY
-              CompanyId, StoreId
-              ORDER BY CompanyId desc, StoreId desc)
-          AS SHARED_ID_PRIORITY
-          ON
-          BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-          BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+        RESMaster.dbo.MST_CARD_CLASSINFO
       WHERE
-          BASE.CardClassId = COALESCE(?, CardClassId) AND
-          BASE.DeleteFlag = 0.0
+        CompanyId = @companyId AND
+        StoreId = @storeId AND
+        CardClassId = COALESCE(@cardClassId, CardClassId) AND
+        DeleteFlag = 0.0
+    )
+      SET @storeId = '0'
+
+    SELECT
+      CompanyId,
+      StoreId,
+      CardClassId,
+      CardClassName,
+      CardClassKanaName,
+      CardClassShortName,
+      CardClassShortKanaName,
+      CreditType,
+      MaincardDigitType,
+      RankType
+    FROM
+      RESMaster.dbo.MST_CARD_CLASSINFO
+    WHERE
+      CompanyId = @companyId AND
+      StoreId = @storeId AND
+      CardClassId = COALESCE(@cardClassId, CardClassId) AND
+      DeleteFlag = 0.0
   </entry>
   <entry key="get-card-class-info-member">
-      DECLARE
+    DECLARE
       @companyId varchar(12),
       @storeId varchar(6),
       @membershipId varchar(16)
 
-      SET @companyId = ?
-      SET @storeId = ?
-      SET @membershipId = ?
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @membershipId = ?
 
-      SELECT
-        typeInfo.CompanyId,
-        typeInfo.StoreId,
-        typeInfo.CardClassId,
-        typeInfo.CardStatusType,
-        classInfo.CardClassName,
-        classInfo.CardClassKanaName,
-        classInfo.CardClassShortName,
-        classInfo.CardClassShortKanaName,
-        classInfo.CreditType,
-        classInfo.MaincardDigitType,
-        classInfo.RankType
-      FROM
-        RESMaster.dbo.MST_CARD_TYPEINFO typeInfo
-      LEFT JOIN RESMaster.dbo.MST_CARD_CLASSINFO classInfo
-        ON
-          typeInfo.CompanyId = classInfo.CompanyId AND
-          typeInfo.StoreId = classInfo.StoreId AND
-          typeInfo.CardClassId = classInfo.CardClassId
-      INNER JOIN
-        (SELECT TOP 1
-          CompanyId, StoreId
-        FROM
-          RESMaster.dbo.MST_CARD_TYPEINFO
-        WHERE
-          CompanyId in (@companyId , '0') AND
-          StoreId in (@storeId, '0') AND
-          (PrefixCode16From = @membershipId OR
-          PrefixCode16To = @membershipId OR
-          PrefixCode13 = @membershipId) AND
-          DeleteFlag = 0.0
-        GROUP BY
-          CompanyId, StoreId
-        ORDER BY CompanyId desc, StoreId desc) sharedIdCombination
-        ON
-          typeInfo.CompanyId = sharedIdCombination.CompanyId AND
-          typeInfo.StoreId = sharedIdCombination.StoreId
-      WHERE
-        (typeInfo.PrefixCode16From = @membershipId OR
-        typeInfo.PrefixCode16To = @membershipId OR
-        typeInfo.PrefixCode13 = @membershipId) AND
-        typeInfo.DeleteFlag = 0.0
+    SELECT
+      typeInfo.CompanyId,
+      typeInfo.StoreId,
+      typeInfo.CardClassId,
+      typeInfo.CardStatusType,
+      classInfo.CardClassName,
+      classInfo.CardClassKanaName,
+      classInfo.CardClassShortName,
+      classInfo.CardClassShortKanaName,
+      classInfo.CreditType,
+      classInfo.MaincardDigitType,
+      classInfo.RankType
+    FROM
+      RESMaster.dbo.MST_CARD_TYPEINFO typeInfo
+    LEFT JOIN RESMaster.dbo.MST_CARD_CLASSINFO classInfo
+      ON typeInfo.CompanyId = classInfo.CompanyId AND
+      typeInfo.StoreId = classInfo.StoreId AND
+      typeInfo.CardClassId = classInfo.CardClassId
+    WHERE
+      typeInfo.CompanyId = @companyId AND
+      typeInfo.StoreId = @storeId AND
+      typeInfo.CardClassId = classInfo.CardClassId AND
+      (typeInfo.PrefixCode16From = @membershipId OR
+      typeInfo.PrefixCode16To = @membershipId OR
+      typeInfo.PrefixCode13 = @membershipId) AND
+      typeInfo.DeleteFlag = 0.0
   </entry>
   <entry key="get-nationality-info-all">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+
+    IF NOT EXISTS (
       SELECT
-        BASE.*
+        *
       FROM
-          RESMaster.dbo.MST_NATIONALITYINFO as BASE
-      INNER JOIN
-      /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-          (SELECT TOP 1
-              CompanyId, StoreId
-          FROM
-              RESMaster.dbo.MST_NATIONALITYINFO
-          WHERE
-              CompanyId in (?, '0') AND
-              StoreId in (?, '0') AND
-              DeleteFlag = 0.0
-          GROUP BY
-              CompanyId, StoreId
-          ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
-          ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND
-          SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+        RESMaster.dbo.MST_NATIONALITYINFO
       WHERE
-          BASE.DeleteFlag = 0;
+          CompanyId = @companyId AND
+          StoreId = @storeId AND
+          DeleteFlag = 0.0
+    )
+      SET @storeId = '0'
+
+    SELECT
+      CompanyId,
+      StoreId,
+      NationalityId,
+      NationalityName,
+      NationalityKanaName,
+      NationalityShortName,
+      NationalityShortKanaName
+    FROM
+      RESMaster.dbo.MST_NATIONALITYINFO
+    WHERE
+      CompanyId = @companyId AND
+      StoreId = @storeId AND
+      DeleteFlag = 0.0
   </entry>
   <entry key="get-customer-class-info-all">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+
+    IF NOT EXISTS (
       SELECT
-          BASE.*
+        *
       FROM
-         RESMaster.dbo.MST_CUSTOMERCLASS as BASE
-              INNER JOIN
-              /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-              (SELECT TOP 1
-                CompanyId, StoreId
-              FROM
-                RESMaster.dbo.MST_CUSTOMERCLASS
-              WHERE
-                CompanyId in (?, '0') AND
-                StoreId in (?, '0') AND
-                DeleteFlag = 0.0
-              GROUP BY
-                CompanyId, StoreId
-              ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
-              ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND
-                 SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+        RESMaster.dbo.MST_CUSTOMERCLASS
       WHERE
-          BASE.DeleteFlag = 0;
+          CompanyId = @companyId AND
+          StoreId = @storeId AND
+          DeleteFlag = 0.0
+    )
+      SET @storeId = '0000'
+
+    SELECT
+      CompanyId,
+      StoreId,
+      CustomerClassId,
+      CustomerClassName,
+      CustomerClassKanaName,
+      GenerationType,
+      SexType,
+      OtherType
+    FROM
+      RESMaster.dbo.MST_CUSTOMERCLASS
+    WHERE
+      CompanyId = @companyId AND
+      StoreId = @storeId AND
+      DeleteFlag = 0.0
   </entry>
   <entry key="get-buyadditional-info-all">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+
+    IF NOT EXISTS (
       SELECT
-          BASE.*
+        *
       FROM
-          RESMaster.dbo.MST_BUYADDITIONALINFO as BASE
-              INNER JOIN
-              /** SubQuery selects top-priority combination of CompanyId and StoreId regarding '0' id **/
-              (SELECT TOP 1
-                CompanyId, StoreId
-              FROM
-                RESMaster.dbo.MST_BUYADDITIONALINFO
-              WHERE
-                CompanyId in (?, 0) AND
-                StoreId in (?, 0) AND
-                DeleteFlag = 0.0
-              GROUP BY
-                CompanyId, StoreId
-              ORDER BY CompanyId desc, StoreId desc)
-                AS SHARED_ID_PRIORITY
-              ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND
-                 SHARED_ID_PRIORITY.StoreId = BASE.StoreId
+        RESMaster.dbo.MST_BUYADDITIONALINFO
       WHERE
-           BASE.DeleteFlag = 0.0
+      CompanyId = @companyId AND
+      StoreId = @storeId AND
+      DeleteFlag = 0.0
+    )
+      SET @storeId = '0'
+
+    SELECT
+      CompanyId,
+      StoreId,
+      BuyAdditionalInfoId,
+      BuyAdditionalInfoName,
+      BuyAdditionalInfoKanaName,
+      BuyAdditionalInfoShortName,
+      BuyAdditionalInfoShortKanaName
+    FROM
+      RESMaster.dbo.MST_BUYADDITIONALINFO
+    WHERE
+      CompanyId = @companyId AND
+      StoreId = @storeId AND
+      DeleteFlag = 0.0
   </entry>
   <entry key="get-credit-summary">
     DECLARE
@@ -10670,97 +10888,168 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       TrainingFlag
   </entry>
   <entry key="get-barcode-type">
-      SELECT
-          BASE.*
-      FROM
-          RESMaster.dbo.MST_PRICE_DISCOUNT as BASE
-      INNER JOIN
-          /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-          (SELECT TOP 1
-              CompanyId, StoreId
-            FROM
-              RESMaster.dbo.MST_PRICE_DISCOUNT
-            WHERE
-              CompanyId in (? , '0') AND
-              StoreId in (?, '0') AND
-              CardType = ? AND
-             SeqNo = ? AND
-              DiscountType = ? AND
-              DeleteFlag = 0.0
-            GROUP BY
-              CompanyId, StoreId
-            ORDER BY CompanyId desc, StoreId desc)
-      AS SHARED_ID_PRIORITY
-      ON
-        BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-        BASE.StoreId = SHARED_ID_PRIORITY.StoreId
-      WHERE
-        BASE.CardType = ? AND
-        BASE.SeqNo = ? AND
-        BASE.DiscountType = ? AND
-        BASE.DeleteFlag = 0.0
-  </entry>
+  DECLARE
+      @storeId varchar(max),
+      @companyId varchar(max),
+      @cardType varchar(max),
+      @seqNo int,
+      @discountType varchar(max)
 
-    <entry key="get-voucher-list">
+    SET @storeId = ?
+    SET @companyId = ?
+    SET @cardType = ?
+    SET @seqNo = ?
+    SET @discountType = ?
+
+    IF NOT EXISTS (
       SELECT
-        BASE.*
+        *
       FROM
-        RESMaster.dbo.MST_TENDERINFO as BASE
-      INNER JOIN
-      /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-        (SELECT TOP 1
-          CompanyId, StoreId
-        FROM
-          RESMaster.dbo.MST_TENDERINFO
-        WHERE
-          CompanyId in (?, '0') AND
-          StoreId in (?, '0') AND
-          TenderType = '1' AND
-          DeleteFlag = 0.0
-        GROUP BY
-          CompanyId, StoreId
-        ORDER BY CompanyId desc, StoreId desc)
-        AS SHARED_ID_PRIORITY
-      ON
-        BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-        BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+        RESMaster.dbo.MST_PRICE_DISCOUNT
       WHERE
-        BASE.TenderType = '1' AND
-        BASE.DeleteFlag = 0.0
-    </entry>
-    <entry key = "get-promotioninfo-type">
-    SELECT
-        BASE.*
+        StoreId = @storeId  AND
+        CompanyId = @companyId AND
+        CardType = @cardType AND
+        SeqNo = @seqNo AND
+        DiscountType = @discountType AND
+        DeleteFlag = 0.0
+    )
+      SET @storeId = '0'
+
+  SELECT
+    CompanyId,
+    StoreId,
+    CardType,
+    SeqNo,
+    SubNo,
+    DiscountType,
+    DiscountClass,
+    Dpt,
+    MdInternal,
+    DiscountRefType,
+    DiscountValue,
+    StartDate,
+    EndDateRefType,
+    EndDate,
+    EntryDate,
+    DiscountName,
+    SubCode1,
+    SubCode2,
+    SubCode3,
+    SubCode4,
+    SubCode5,
+    SubNum1,
+    SubNum2,
+    SubNum3,
+    SubNum4,
+    SubNum5,
+    DeleteFlag
+  FROM
+    RESMaster.dbo.MST_PRICE_DISCOUNT
+  WHERE
+    StoreId = @storeId AND
+    CompanyId = @companyId AND
+    CardType = @cardType AND
+    SeqNo = @seqNo AND
+    DiscountType = @discountType AND
+    DeleteFlag = 0.0
+  </entry>
+  <entry key="get-voucher-list">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @businessDayDate date,
+      @trainingFlag tinyint,
+      @origStoreId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @businessDayDate = ?
+    SET @trainingFlag = ?
+    SET @origStoreId = @storeId
+
+    IF NOT EXISTS (
+      SELECT
+        *
+      FROM
+        RESMaster.dbo.MST_TENDERINFO tender
+      WHERE
+        tender.CompanyId = @companyId AND
+        tender.StoreId = @storeId AND
+        tender.TenderType = 1 AND
+        tender.DeleteFlag = 0.0
+    )
+      SET @storeId = '0000'
+
+     SELECT
+      tender.CompanyId,
+      tender.StoreId,
+      tender.TenderId,
+      tender.TenderType,
+      tender.TenderName,
+      tender.TenderKanaName
     FROM
-        RESMaster.dbo.MST_PRICE_PROMOTION as BASE
-    INNER JOIN
-    /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-        (SELECT TOP 1
-            CompanyId, StoreId
-        FROM
-            RESMaster.dbo.MST_PRICE_PROMOTION
-        WHERE
-            CompanyId in (?, '0') AND
-            StoreId in (?, '0') AND
-            PartialFlag = ? AND
-            (
-                DiscountReason = ?
-                OR  DiscountBarcodeType = ?
-            ) AND
-            DeleteFlag = 0.0
-        GROUP BY
-            CompanyId, StoreId
-        ORDER BY CompanyId desc, StoreId desc)
-        AS SHARED_ID_PRIORITY
-        ON
-        BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-        BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+      RESMaster.dbo.MST_TENDERINFO tender
     WHERE
-        BASE.PartialFlag = ? AND
-        ( BASE.DiscountReason = ?
-            OR  BASE.DiscountBarcodeType = ?
-        ) AND
-        BASE.DeleteFlag = 0.0
+      tender.CompanyId = @companyId AND
+      tender.StoreId = @storeId AND
+      tender.TenderType = 1 AND
+      tender.DeleteFlag = 0.0
+
+  </entry>
+<entry key = "get-promotioninfo-type">
+DECLARE
+    @companyId VARCHAR (MAX),
+    @storeId VARCHAR (MAX),
+    @promotionId VARCHAR (MAX),
+    @discountReason VARCHAR (MAX),
+    @discountBarcodeType VARCHAR (MAX),
+    @partialFlag VARCHAR (MAX)
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
+SET @discountReason = LTRIM(RTRIM(?))
+SET @discountBarcodeType = LTRIM(RTRIM(?))
+SET @partialFlag = LTRIM(RTRIM(?))
+    SELECT
+        CompanyId,
+        StoreId,
+        PromotionId,
+        PromotionName,
+        ReceiptName,
+        DiscountReason,
+        DiscountReasonName,
+        PromotionType,
+        DiscountType,
+        InputFlag,
+        PartialFlag,
+        RateDiscountFlag,
+        PriceDiscountFlag,
+        ButtonFlag,
+        BarcodeFlag,
+        BarcodeDigit,
+        BarcodeStartCode,
+        BarcodeEndCode,
+        BarcodeIdCode1,
+        BarcodeIdStartIndex1,
+        BarcodeIdStartDigit1,
+        BarcodeIdCode2,
+        BarcodeIdStartIndex2,
+        BarcodeIdStartDigit2,
+        PointCombinationUseFlag,
+        PointAddFlag,
+        DiscountBarcodeType,
+        DeleteFlag
+    FROM
+        RESMaster.dbo.MST_PRICE_PROMOTION
+    WHERE
+        PartialFlag = @partialFlag
+    AND (
+        DiscountReason = @discountReason
+    OR  DiscountBarcodeType = @discountBarcodeType
+    )
+    AND CompanyId = @companyId
+    AND StoreId = @storeId
+    AND DeleteFlag = 0.0
     </entry>
     <entry key="get-company-info">
       SELECT company.CompanyId,
@@ -10896,32 +11185,50 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       TrainingFlag = @trainingFlag
   </entry>
 <entry key="get-card-type-info">
-    SELECT
-        BASE.*
-    FROM
-        RESMaster.dbo.MST_CARD_TYPEINFO as BASE
-        INNER JOIN
-        /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-        (SELECT
-            TOP 1
-            CompanyId, StoreId
+        DECLARE
+          @companyId varchar(max),
+          @storeId varchar(max),
+          @cardTypeNo varchar(max)
+
+        SET @companyId = ?
+        SET @storeId = ?
+        SET @cardTypeNo = ?
+
+        SELECT
+          CompanyId,
+          StoreId,
+          CardTypeId,
+          CardTypeName,
+          CardTypeKanaName,
+          CardTypeShortName,
+          CardTypeShortKanaName,
+          TerminalCompanyId,
+          CardClassId,
+          MemberType,
+          MemberRank,
+          NewRegistFlag,
+          CardMergeFlag,
+          PointExpDatePrintFlag,
+          DisplayDigitType,
+          PrintDigitType,
+          CardCategory,
+          PointAllowanceFlag,
+          PointExpDateAddMonth,
+          SubCode1,
+          UCUseArea,
+          PrefixCode16From,
+          PrefixCode16To,
+          PrefixCode13,
+          CardStatusType,
+          MagneticDataType,
+          OwnCreditFlag
         FROM
-            RESMaster.dbo.MST_CARD_TYPEINFO
+          RESMaster.dbo.MST_CARD_TYPEINFO
         WHERE
-            CompanyId in (?, '0') AND
-            StoreId in (?, '0') AND
-            CardTypeId = ? AND
-            DeleteFlag = 0.0
-            GROUP BY
-            CompanyId, StoreId
-        ORDER BY CompanyId desc, StoreId desc)
-        AS SHARED_ID_PRIORITY
-        ON
-            BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-            BASE.StoreId = SHARED_ID_PRIORITY.StoreId
-    WHERE
-        BASE.CardTypeId = ? AND
-        BASE.DeleteFlag = 0.0
+          CompanyId = @companyId AND
+          StoreId = @storeId AND
+          CardTypeId = @cardTypeNo AND
+          DeleteFlag = 0.0
   </entry>
   <entry key="get-last-pay-tx-poslog">
     DECLARE
@@ -11019,28 +11326,50 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
   AND DeleteFlag = 0.0
 </entry>
 <entry key="get-all-card-type-info">
-  SELECT
-    BASE.*
-  FROM
-    RESMaster.dbo.MST_CARD_TYPEINFO as BASE
-    INNER JOIN
-    /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-    (SELECT TOP 1
-      CompanyId, StoreId
-    FROM
-      RESMaster.dbo.MST_CARD_TYPEINFO
-    WHERE
-      CompanyId in (?, '0') AND
-      StoreId in (?, '0') AND
-      DeleteFlag = 0.0
-    GROUP BY
-      CompanyId, StoreId
-    ORDER BY CompanyId desc, StoreId desc) AS SHARED_ID_PRIORITY
-    ON SHARED_ID_PRIORITY.CompanyId = BASE.CompanyId AND SHARED_ID_PRIORITY.StoreId = BASE.StoreId
-  WHERE
-    BASE.DeleteFlag = 0.0
-</entry>
-<entry key="get-lock-status">
+        DECLARE
+          @companyId varchar(max),
+          @storeId varchar(max)
+
+        SET @companyId = ?
+        SET @storeId = ?
+
+        SELECT
+          CompanyId,
+          StoreId,
+          CardClassId,
+          CardTypeId,
+          CardTypeName,
+          CardTypeKanaName,
+          CardTypeShortName,
+          CardTypeShortKanaName,
+          TerminalCompanyId,
+          CardClassId,
+          MemberType,
+          MemberRank,
+          NewRegistFlag,
+          CardMergeFlag,
+          PointExpDatePrintFlag,
+          DisplayDigitType,
+          PrintDigitType,
+          CardCategory,
+          PointAllowanceFlag,
+          PointExpDateAddMonth,
+          SubCode1,
+          UCUseArea,
+          PrefixCode16From,
+          PrefixCode16To,
+          PrefixCode13,
+          CardStatusType,
+          MagneticDataType,
+          OwnCreditFlag
+        FROM
+          RESMaster.dbo.MST_CARD_TYPEINFO
+        WHERE
+          CompanyId = @companyId AND
+          StoreId = @storeId AND
+          DeleteFlag = 0.0
+  </entry>
+  <entry key="get-lock-status">
     DECLARE
       @companyId varchar(max),
       @retailStoreId varchar(max),
@@ -11193,45 +11522,49 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     AND
       DeleteFlag = 0.0
     AND(
-         (CMType ='1' AND BizCatId = '00' AND StoreId = '0' AND TerminalId = '0')
-        OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0' AND TerminalId = '0')
-        OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0')
+         (CMType ='1' AND BizCatId = '00' AND StoreId = '0000' AND TerminalId = '0000')
+        OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0000' AND TerminalId = '0000')
+        OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0000')
         OR (CMType ='4' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = @terminalId)
     )
  ORDER BY CMType DESC,UpdDate DESC
 
   </entry>
-
   <entry key="get-picklist-items">
-    SELECT
-      BASE.*
-    FROM
-      RESMaster.dbo.MST_PRESET_TOUCHITEM as BASE
-    INNER JOIN
-      /** SubQuery selects top priority combination of CompanyId and StoreId regarding '0' id **/
-      (SELECT TOP 1
-        CompanyId, StoreId
+    DECLARE
+      @companyId varchar(12),
+      @storeId varchar(10),
+      @itemType varchar(10)
+
+      SET @companyId = ?
+      SET @storeId = ?
+      SET @itemType = ?
+
+    IF NOT EXISTS (
+      SELECT
+        CompanyId, StoreId, RecordId
       FROM
         RESMaster.dbo.MST_PRESET_TOUCHITEM
       WHERE
-        CompanyId in (?, 0) AND
-        StoreId in (?, 0) AND
-        ItemType = COALESCE(?, ItemType) AND
+        CompanyId = @companyId AND
+        StoreId = @storeId AND
+        ItemType = COALESCE(@itemType, ItemType) AND
         DeleteFlag = 0.0
-      GROUP BY
-        CompanyId, StoreId
-      ORDER BY CompanyId desc, StoreId desc)
-    AS SHARED_ID_PRIORITY
-    ON
-      BASE.CompanyId = SHARED_ID_PRIORITY.CompanyId AND
-      BASE.StoreId = SHARED_ID_PRIORITY.StoreId
+    )
+     SET @storeId = '0000'
+
+    SELECT
+      CompanyId, StoreId, RecordId, ItemType, DisplayOrder, MdInternal, ItemName
+    FROM
+      RESMaster.dbo.MST_PRESET_TOUCHITEM
     WHERE
-      BASE.ItemType = COALESCE(?, ItemType) AND
-      BASE.DeleteFlag = 0.0
+      CompanyId = @companyId AND
+      StoreId = @storeId AND
+      ItemType = COALESCE(@itemType, ItemType) AND
+      DeleteFlag = 0.0
     ORDER BY
       ItemType, DisplayOrder
   </entry>
-
   <entry key="get-preset-storeinfo">
     DECLARE @companyId VARCHAR(12),@storeId VARCHAR(10),@TerminalId VARCHAR(6)
     SET @companyId = ?
@@ -11338,6 +11671,89 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       Training = ? AND
       Status = 'Active'
 </entry>
+<entry key="get-item-byapidata">
+DECLARE    @companyId VARCHAR(12), @MdInternal VARCHAR(32)
+    SET        @companyId = LTRIM(RTRIM(?))
+    SET        @MdInternal = LTRIM(RTRIM(?))
+SELECT
+       plu.CompanyId,
+       plu.StoreId,
+       plu.MdInternal,
+       plu.MdType,
+       plu.MdVender,
+       plu.Dpt,
+       plu.Line,
+       plu.Class,
+       plu.Sku,
+       plu.Md01,
+       plu.Md02,
+       plu.Md03,
+       plu.Md04,
+       plu.Md05,
+       plu.Md06,
+       plu.Md07,
+       plu.Md08,
+       plu.Md09,
+       plu.Md10,
+       plu.Md11,
+       plu.Md12,
+       plu.Md13,
+       plu.Md14,
+       plu.Md15,
+       plu.Md16,
+       plu.MdNameLocal,
+       plu.MdKanaName,
+       plu.OrgSalesPrice1,
+       plu.SalesPrice1,
+       plu.SalesPrice2,
+       plu.CostPrice1,
+       plu.SalesDate,
+       plu.MakerPrice,
+       plu.TaxType,
+       plu.TaxRate,
+       plu.DiscountType,
+       plu.PaymentType,
+       plu.Conn1,
+       plu.ConnType1,
+       plu.Conn2,
+       plu.DiscountFlag,
+       plu.SubCode1,
+       plu.SubCode2,
+       plu.SubCode3,
+       plu.SubNum1,
+       plu.SubNum2,
+       plu.DeleteFlag,
+       plu.DelDate,
+       plu.DelAppId,
+       plu.DelOpeCode,
+       plu.InsDate,
+       plu.InsAppId,
+       plu.InsOpeCode,
+       plu.UpdCount,
+       plu.UpdDate,
+       plu.UpdAppId,
+       plu.UpdOpeCode,
+       plu.DiscountType,
+       colorInfo.Colorkananame,
+       sizeInfo.SizeKanaName
+FROM
+  RESMaster.dbo.MST_PLU plu
+
+LEFT JOIN RESMaster.dbo.MST_COLORINFO colorInfo
+ON plu.CompanyId = colorInfo.CompanyId
+AND plu.StoreId = colorInfo.StoreId
+AND plu.Md01 = colorInfo.ColorId
+AND colorInfo.DeleteFlag = 0.0
+LEFT JOIN RESMaster.dbo.MST_SIZEINFO sizeInfo
+ON plu.CompanyId = sizeInfo.CompanyId
+AND plu.StoreId = sizeInfo.StoreId
+AND plu.Md05 = sizeInfo.SizeId
+
+WHERE plu.companyId = @companyId
+AND plu.MdInternal = @MdInternal
+AND plu.StoreId = '0'
+AND plu.DeleteFlag = 0.0
+</entry>
 <entry key="get-isMemberCard-info">
 DECLARE  @MdInternal VARCHAR(32)
 SET        @MdInternal = LTRIM(RTRIM(?))
@@ -11355,6 +11771,95 @@ SET        @MdInternal = LTRIM(RTRIM(?))
     WHERE
     DeleteFlag = 0.0
 
+</entry>
+<entry key="get-item-price">
+DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32)
+    SET        @storeId = LTRIM(RTRIM(?))
+    SET        @companyId = LTRIM(RTRIM(?))
+    SET        @MdInternal = LTRIM(RTRIM(?))
+    SET        @businessDate = LTRIM(RTRIM(?))
+    SELECT TOP 1
+       plu.CompanyId,
+       plu.StoreId,
+       plu.MdInternal,
+       plu.MdType,
+       plu.MdVender,
+       plu.Dpt,
+       plu.Line,
+       plu.Class,
+       plu.Sku,
+       plu.Md01,
+       plu.Md02,
+       plu.Md03,
+       plu.Md04,
+       plu.Md05,
+       plu.Md06,
+       plu.Md07,
+       plu.Md08,
+       plu.Md09,
+       plu.Md10,
+       plu.Md11,
+       plu.Md12,
+       plu.Md13,
+       plu.Md14,
+       plu.Md15,
+       plu.Md16,
+       plu.MdNameLocal,
+       plu.MdKanaName,
+       plu.OrgSalesPrice1,
+       urgent.NewPrice,
+       urgent.OldPrice,
+       plustore.SalesPrice,
+       plu.SalesPrice1,
+       plu.SalesPrice2,
+       plu.CostPrice1,
+       plu.SalesDate,
+       plu.MakerPrice,
+       plu.TaxType,
+       plu.TaxRate,
+       plu.DiscountType,
+       plu.PaymentType,
+       plu.Conn1,
+       plu.ConnType1,
+       plu.Conn2,
+       plu.DiscountFlag,
+       plu.SubCode1,
+       plu.SubCode2,
+       plu.SubCode3,
+       plu.SubNum1,
+       plu.SubNum2
+FROM
+  RESMaster.dbo.MST_PLU plu
+LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
+    ON plu.CompanyId = plustore.CompanyId
+    AND plustore.StoreId = @storeId
+    AND plustore.MdInternal = plu.MdInternal
+    AND plustore.DeleteFlag = 0.0
+LEFT JOIN  (
+    SELECT
+        info.CompanyId,
+        info.Sku,
+        info.SequenceNo,
+        info.ColorId,
+        info.NewPrice,
+        info.OldPrice
+    FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
+    ON info.CompanyId  = store.CompanyId
+    AND info.RecordId = store.RecordId
+    AND store.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
+    AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @storeId)
+    AND info.DeleteFlag = 0
+
+) urgent
+ON
+plu.CompanyId  = urgent.CompanyId
+AND plu.Sku  = urgent.Sku
+AND plu.Md01 = urgent.ColorId
+
+WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
+ORDER BY urgent.SequenceNo DESC
 </entry>
 <entry key="insert-offline-credit">
 insert into txl_offline_credit
@@ -11390,18 +11895,8 @@ insert into txl_offline_credit
     SET @trainingFlag = ?
     SET @retailstoreid = @storeId
 
-    SELECT TOP 1
-        @companyId = CompanyId,
-        @storeId = StoreId
-    FROM
-        RESMaster.dbo.MST_NAME_DAILYREPORT
-    WHERE
-        CompanyId in (@companyId, 0) AND
-        StoreId in (@storeId, 0) AND
-        DeleteFlag = 0.0
-    GROUP BY
-        CompanyId, StoreId
-    ORDER BY CompanyId desc, StoreId desc
+    IF NOT EXISTS(SELECT DataType FROM RESMaster.dbo.MST_NAME_DAILYREPORT WHERE StoreId = @storeId)
+      SET @storeId = '0'
 
     SELECT
       a.CompanyId,
@@ -12448,94 +12943,6 @@ insert into txl_offline_credit
             AD.StoreId = DI.StoreId AND
             AD.TerminalId = DI.TerminalId AND
             DI.Training = 0
-    </entry>
-
-    <entry key = "select-mst-plu-store">
-        SELECT * FROM  RESMaster.dbo.MST_PLU_STORE WHERE CompanyId = ? AND
-        StoreId = ? AND
-        MdInternal = ? AND
-        DeleteFlag = '0'
-    </entry>
-    <entry key = "select-mst-dptinfo">
-        SELECT * FROM  RESMaster.dbo.MST_DPTINFO WHERE CompanyId = ? AND
-        StoreId = ? AND
-        Dpt = ? AND
-        DeleteFlag = '0'
-    </entry>
-    <entry key = "select-mst-groupinfo">
-        SELECT * FROM  RESMaster.dbo.MST_GROUPINFO WHERE CompanyId = ? AND
-        StoreId = ? AND
-        GroupId = ? AND
-        DeleteFlag = '0'
-    </entry>
-    <entry key = "select-mst-classinfo">
-        SELECT * FROM RESMaster.dbo.MST_CLASSINFO WHERE CompanyId = ? AND
-        StoreId = ? AND
-        Class = ? AND
-        Dpt = ? AND
-        Line = ? AND
-        DeleteFlag = '0'
-    </entry>
-    <entry key = "select-mst-name-system">
-        SELECT * FROM  RESMaster.dbo.MST_NAME_SYSTEM WHERE CompanyId = ? AND
-        StoreId = ? AND
-        NameId = ? AND
-        NameCategory = ? AND
-        DeleteFlag = '0'
-    </entry>
-    <entry key = "select-mst-colorinfo">
-        SELECT * FROM  RESMaster.dbo.MST_COLORINFO WHERE CompanyId = ? AND
-        StoreId = ? AND
-        ColorId = ? AND
-        DeleteFlag = '0'
-    </entry>
-    <entry key = "select-mst-sizeinfo">
-        SELECT * FROM  RESMaster.dbo.MST_SIZEINFO WHERE CompanyId = ? AND
-        StoreId = ? AND
-        SizeId = ?
-    </entry>
-    <entry key = "select-mst-brandinfo">
-        SELECT * FROM  RESMaster.dbo.MST_BRANDINFO WHERE CompanyId = ? AND
-        StoreId = ? AND
-        BrandId = ? AND
-        DeleteFlag = '0'
-    </entry>
-
-    <entry key = "select-price-urgent-forstore">
-        SELECT TOP 1
-            info.SequenceNo,
-            info.CompanyId,
-            info.RecordId,
-            info.Sku,
-            info.ColorId,
-            info.NewPrice,
-            info.OldPrice,
-            store.TargetStoreType,
-            store.StoreId
-        FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
-        INNER  JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
-            ON info.CompanyId  = store.CompanyId
-            AND info.RecordId = store.RecordId
-            AND info.Sku = ?
-            AND info.ColorId = ?
-        WHERE
-            store.DeleteFlag = 0.0 AND info.DeleteFlag = 0.0
-            AND CONVERT(DATE, ?) BETWEEN store.StartDate AND store.EndDate
-            AND (store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = ?))
-            AND store.CompanyId = ?
-        ORDER BY info.sequenceNo DESC
-    </entry>
-
-    <entry key = "select-mst-plu">
-        SELECT
-          *
-        FROM
-        RESMaster.dbo.MST_PLU
-        WHERE
-          CompanyId = ?
-        AND StoreId = ?
-        AND MdInternal = ?
-        AND DeleteFlag = 0
     </entry>
 
 </properties>

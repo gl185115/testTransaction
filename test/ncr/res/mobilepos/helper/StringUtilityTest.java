@@ -2,8 +2,13 @@ package ncr.res.mobilepos.helper;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class StringUtilityTest {
     @Test
@@ -56,6 +61,35 @@ public class StringUtilityTest {
 
         // two with "a", "b"
         assertFalse(StringUtility.isNullOrEmpty("a", "b"));
+    }
+
+    @Test
+    public void isNullOrEmptyNonStringArgs() throws Exception {
+        List list = null;
+        assertTrue(StringUtility.isNullOrEmpty(list));
+
+        // This is empty list, but returns false.(non empty)
+        list = new ArrayList();
+        assertFalse(StringUtility.isNullOrEmpty(list));
+
+        Object sb = null;
+        assertTrue(StringUtility.isNullOrEmpty(sb));
+
+        // StringBuffer can not cast to String, but it has toString.
+        sb = new StringBuffer();
+
+        try {
+            // Tries String cast.
+            String sbString = (String)sb;
+            fail("StringBuffer can not cast to String.");
+        } catch (ClassCastException cce) {
+        }
+        assertTrue(StringUtility.isNullOrEmpty(sb));
+
+        // Non Empty StringBuffer.
+        ((StringBuffer)sb).append("a");
+        // Not empty.
+        assertFalse(StringUtility.isNullOrEmpty(sb));
     }
 
 }

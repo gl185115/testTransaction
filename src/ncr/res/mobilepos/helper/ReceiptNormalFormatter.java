@@ -325,7 +325,7 @@ public class ReceiptNormalFormatter extends Formatter {
 
             // Add total discount
             sb.setLength(0);
-            if (!StringUtility.isNullOrEmpty(this.receipt.getTotalPercent())) {
+            if (this.receipt.getTotalPercent() != 0) {
                 sb.append(this.receipt.getTotalPercent());
                 sb.append("%");
                 if ("en".equals(this.rb.getLocale().getLanguage())) {

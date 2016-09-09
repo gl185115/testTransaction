@@ -1074,7 +1074,7 @@ public class CredentialResource {
     @Path("/groups/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ResultBase createGroup(@FormParam("groupcode") final int groupCode,
+    public final ResultBase createGroup(@FormParam("groupcode") final Integer groupCode,
             @FormParam("group") final String jsonGroup) {
 
         tp.methodEnter("createGroup");
@@ -1082,7 +1082,7 @@ public class CredentialResource {
 
         ResultBase resultBase = new ResultBase();
 
-        if (StringUtility.isNullOrEmpty(jsonGroup, groupCode)) {
+        if (StringUtility.isNullOrEmpty(jsonGroup) || groupCode == null) {
             resultBase.setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_INVALID_PARAM);
             resultBase.setMessage("groupcode:" + groupCode + " group string:" + jsonGroup);
             tp.methodExit("Parameter is null or empty.");

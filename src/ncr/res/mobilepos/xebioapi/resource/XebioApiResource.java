@@ -98,7 +98,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             String apiUrl = GlobalConstant.getApiServerUrl();
             address = apiUrl + XebioApiConstants.SALESCHARGEAPI_UPDATE_URL;
             result = UrlConnectionHelper.connectionForPost(address,value, timeOut);
-            if (StringUtility.isNullOrEmpty(result)) {
+            if (result == null) {
                 salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 salesCharge.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -174,7 +174,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             String apiUrl = GlobalConstant.getApiServerUrl();
             address = apiUrl + XebioApiConstants.SALESCHARGEAPI_SEACHER_URL + value;
             result = UrlConnectionHelper.connectionForGet(address, timeOut);
-            if (StringUtility.isNullOrEmpty(result)) {
+            if (result == null) {
                 salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 salesCharge.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -264,7 +264,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 }
                 int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -335,7 +335,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 address = GlobalConstant.getApiServerUrl() + XebioApiConstants.CASHINOUT_REPORT_URL + apiData;
                 int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -419,7 +419,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 }
                 int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -493,7 +493,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 address = GlobalConstant.getApiServerUrl() + XebioApiConstants.OPERATION_REPORT_URL + apiData;
                 int timeOut = GlobalConstant.getApiServerTimeout();
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -583,7 +583,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                     address = apiUrl + XebioApiConstants.JOURNALLIST_URL + JournalData;
                     result = UrlConnectionHelper.connectionForGet(address, timeOut);
                 }
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -670,7 +670,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 String address = apiUrl + XebioApiConstants.PROCESSINGTRAN_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
                 
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -752,7 +752,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 String apiUrl = GlobalConstant.getApiServerUrl();
                 String address = apiUrl + XebioApiConstants.PROCESSINGTRAN_URL + param;
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -938,7 +938,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                  address = apiUrl + XebioApiConstants.PENDINGTRANAPI_SEACHER_URL;
                  result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
           
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1018,7 +1018,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                  address = apiUrl + XebioApiConstants.ITEMPRICEAPI_SEACHER_URL;
                  result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
           
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1096,7 +1096,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 String apiUrl = GlobalConstant.getApiServerUrl();
                 address = apiUrl + XebioApiConstants.PENDINGTRANAPI_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1174,7 +1174,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 address = apiUrl + XebioApiConstants.PREMIUMITEMSTOREAPI_SEACHER_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1250,7 +1250,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 address = apiUrl + XebioApiConstants.PREMIUMITEMSTOREAPI_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1331,7 +1331,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 address = apiUrl + XebioApiConstants.SLIPNOAPI_SEACHER_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1408,7 +1408,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
                 address = apiUrl + XebioApiConstants.SLIPNOAPI_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
 
-                if (StringUtility.isNullOrEmpty(result)) {
+                if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);

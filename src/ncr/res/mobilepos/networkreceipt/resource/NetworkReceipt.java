@@ -407,7 +407,7 @@ public class NetworkReceipt {
             }
 
             ReceiptMode receiptMode = this.resolvePoslog(poslog);
-            if(StringUtility.isNullOrEmpty(receiptMode)){
+            if(receiptMode == null){
                 String errorMessage = "poslog resolve by resolvePoslog method error.";
                 tp.println(errorMessage);
                 resultBase = new ResultBase(ResultBase.RES_ERROR_INVALIDPARAMETER,
@@ -622,7 +622,7 @@ public class NetworkReceipt {
             }
 
             ReceiptMode receiptMode = this.resolvePoslog(poslog);
-            if(StringUtility.isNullOrEmpty(receiptMode)){
+            if(receiptMode == null){
                 String errorMessage = "poslog resolve by resolvePoslog method error.";
                 tp.println(errorMessage);
                 resultBase = new ResultBase(ResultBase.RES_ERROR_INVALIDPARAMETER,
@@ -1992,7 +1992,7 @@ public class NetworkReceipt {
 	            		
 	            		setLanguage(language, receiptMode);
 	            		
-	            		if (!StringUtility.isNullOrEmpty(viewStore)) {
+	            		if (viewStore != null) {
 	            			receiptMode.setStoreName(viewStore.getStore().getStoreName());
 	            			receiptMode.setTelNo(viewStore.getStore().getTel());
 	            		}
@@ -2022,7 +2022,7 @@ public class NetworkReceipt {
                 opeId = trans.getOperatorID().getValue();
                 opeName = iReceiptDAO.getOperatorName(opeId);
                 receiptMode.setOperatorName(opeName);
-                if (!StringUtility.isNullOrEmpty(viewStore)) {
+                if (viewStore != null) {
         			receiptMode.setStoreName(viewStore.getStore().getStoreName());
         			receiptMode.setTelNo(viewStore.getStore().getTel());
         		}
@@ -2179,8 +2179,8 @@ public class NetworkReceipt {
                 poslog.toString());
         
         // get the store information
-        ReceiptMode receipt = null;
-        if(StringUtility.isNullOrEmpty((receipt = this.setStoreInfo(poslog)))){
+        ReceiptMode receipt = this.setStoreInfo(poslog);
+        if(receipt == null){
         	return receipt;
         }
         
@@ -2192,33 +2192,33 @@ public class NetworkReceipt {
         
         tp.println("Receipt type: " + receipt.getReceiptType());
         // set transaction information
-        if(!StringUtility.isNullOrEmpty(poslog.getTransaction())){
+        if(poslog.getTransaction() != null){
         	this.setTranasctionInfo(poslog.getTransaction(), receipt);
         }
         RetailTransaction cot = poslog.getTransaction()
                 .getRetailTransaction();
         // set customer information
-        if(!StringUtility.isNullOrEmpty(cot.getCustomer())){
+        if(cot.getCustomer() != null){
         	this.setCustomerInfo(cot.getCustomer(), receipt);
         }
-        if(!StringUtility.isNullOrEmpty(cot.getBarEmployee())){
+        if(cot.getBarEmployee() != null){
         	receipt.setBarEmployeeFlag(ResultBase.TRUE);
         }
         // set promotion information
-        if(!StringUtility.isNullOrEmpty(cot.getBarLoyaltyReward())){
+        if(cot.getBarLoyaltyReward() != null){
         	this.setPromotionInfo(cot.getBarLoyaltyReward(), receipt);
         }
         // set transactionLink information
-        if(!StringUtility.isNullOrEmpty(cot.getTransactionLink())){
+        if(cot.getTransactionLink() != null){
         	this.setTransactinLinkInfo(cot.getTransactionLink(), receipt);
         }
         // set total information
-        if(!StringUtility.isNullOrEmpty(cot.getTotal())){
+        if(cot.getTotal() != null){
         	this.setTotalInfo(cot.getTotal(), receipt);
         }
         
         List<PriceDerivationResult> pdrList = cot.getPriceDerivationResult();
-        if (StringUtility.isNullOrEmpty(pdrList)) {
+        if (pdrList == null) {
             pdrList = new ArrayList<PriceDerivationResult>();
         }
 
@@ -2271,7 +2271,7 @@ public class NetworkReceipt {
             }
             item = new ItemMode();
             ItemMode mmItem = new ItemMode();
-            if (!StringUtility.isNullOrEmpty(sale)) {
+            if (sale != null) {
             	item.setInventoryReservationID(sale.getInventoryReservationID());
                 if("true".equalsIgnoreCase(Integer.toString(sale.getTaxType()))){
                     item.setShowTaxKanji("nai");
@@ -2279,7 +2279,7 @@ public class NetworkReceipt {
                     item.setShowTaxKanji("hi");
                 }
                 //BëŒè€
-                if(!StringUtility.isNullOrEmpty(sale.getPoints())){
+                if(sale.getPoints() != null){
                     item.setItemPoints(StringUtility.convNullToDoubleZero(
                             sale.getPoints().getCorrectionPoints()));
                 }
@@ -2298,7 +2298,7 @@ public class NetworkReceipt {
                     TransactionVariable.SALEMARK.equalsIgnoreCase(sale.getBarPSType())
                     && receipt.getStoreType() != 3));
 
-                if (!StringUtility.isNullOrEmpty(sale.getItemSellingRule())) {
+                if (sale.getItemSellingRule() != null) {
                     // get non sales flag
                     item.setNonSalesFlag(sale.getItemSellingRule()
                             .getNonSalesFlag());
@@ -2320,14 +2320,14 @@ public class NetworkReceipt {
                     for(Tax taxTag : sale.getTax()){
                         if(!StringUtility.isNullOrEmpty(taxTag.getTaxType())
                                         && "VAT".equals(taxTag.getTaxType())){
-                            if(!StringUtility.isNullOrEmpty(taxTag.getTaxExempt())){
+                            if(taxTag.getTaxExempt() != null){
                                 item.setExemptTaxAmount(Double.parseDouble(taxTag.getTaxExempt().getAmount()));
                             }
                         }
                     }
                 }
 
-                if (StringUtility.isNullOrEmpty(sale.getRetailPriceModifier())) {
+                if (sale.getRetailPriceModifier() == null) {
                     itemList.add(item);
                     continue;
                 }
@@ -2369,7 +2369,7 @@ public class NetworkReceipt {
                         // get amount
                         item.setDiscountAmount(modifier.getAmount().getAmount());
                         // get percent
-                        if (!StringUtility.isNullOrEmpty(modifier.getPercent())) {
+                        if (modifier.getPercent() != null) {
                             item.setPercent(Double.valueOf(modifier.getPercent().getPercent()));
                         }
                         // get reason code
@@ -2412,7 +2412,7 @@ public class NetworkReceipt {
                     itemList.add(item);
                 }
 
-            }else if(!StringUtility.isNullOrEmpty(layaway)){
+            }else if(layaway != null){
                 advanceJudge = TransactionVariable.LAYAWAY;
                 item.setInventoryReservationID(layaway.getInventoryReservationID());
                 item.setIsAdvancedFlag("True");
@@ -2422,7 +2422,7 @@ public class NetworkReceipt {
                     item.setShowTaxKanji("hi");
                 }
                 //BëŒè€
-                if(!StringUtility.isNullOrEmpty(layaway.getBarPoints())){
+                if(layaway.getBarPoints() != null){
                     item.setItemPoints(StringUtility.convNullToDoubleZero(
                             layaway.getBarPoints().getBarCorrectionPoints()));
                 }
@@ -2441,7 +2441,7 @@ public class NetworkReceipt {
                     TransactionVariable.SALEMARK.equalsIgnoreCase(layaway.getBarPSType())
                     && receipt.getStoreType() != 3));
 
-                if (!StringUtility.isNullOrEmpty(layaway.getItemSellingRule())) {
+                if (layaway.getItemSellingRule() != null) {
                     item.setNonSalesFlag(layaway.getItemSellingRule()
                             .getNonSalesFlag());
                     item.setDiscountableFlag(layaway.getItemSellingRule()
@@ -2456,7 +2456,7 @@ public class NetworkReceipt {
                     }
                 }
 
-                if (StringUtility.isNullOrEmpty(layaway.getRetailPriceModifier())) {
+                if (layaway.getRetailPriceModifier() == null) {
                     itemList.add(item);
                     continue;
                 }
@@ -2496,7 +2496,7 @@ public class NetworkReceipt {
                             .getApplicationType())) {
 
                         item.setDiscountAmount(modifier.getAmount().getAmount());
-                        if (!StringUtility.isNullOrEmpty(modifier.getPercent())) {
+                        if (modifier.getPercent() != null) {
                             item.setPercent(Double.valueOf(modifier.getPercent().getPercent()));
                         }
                         item.setReasonCode(modifier.getPriceDerivationRule()
@@ -2535,7 +2535,7 @@ public class NetworkReceipt {
                 if (StringUtility.isNullOrEmpty(item.getMmID())) {
                     itemList.add(item);
                 }
-            }else if(!StringUtility.isNullOrEmpty(previousLayaway)){
+            }else if(previousLayaway != null){
                 advanceJudge = TransactionVariable.PREVIOUSLAYAWAY;
                 item.setInventoryReservationID(previousLayaway.getInventoryReservationID());
                 if("true".equalsIgnoreCase(previousLayaway.getTaxableFlag())){
@@ -2544,7 +2544,7 @@ public class NetworkReceipt {
                     item.setShowTaxKanji("hi");
                 }
                 //BëŒè€
-                if(!StringUtility.isNullOrEmpty(previousLayaway.getBarPoints())){
+                if(previousLayaway.getBarPoints() != null){
                     item.setItemPoints(StringUtility.convNullToDoubleZero(
                             previousLayaway.getBarPoints().getBarCorrectionPoints()));
                 }
@@ -2564,7 +2564,7 @@ public class NetworkReceipt {
                                            previousLayaway.getBarPSType())
                          && receipt.getStoreType() != 3));
 
-                if (!StringUtility.isNullOrEmpty(previousLayaway.getItemSellingRule())) {
+                if (previousLayaway.getItemSellingRule() != null) {
                     // get non sales flag
                     item.setNonSalesFlag(previousLayaway.getItemSellingRule()
                             .getNonSalesFlag());
@@ -2584,14 +2584,14 @@ public class NetworkReceipt {
                     for(Tax taxTag: previousLayaway.getTax()){
                         if(!StringUtility.isNullOrEmpty(taxTag.getTaxType())
                                         && "VAT".equals(taxTag.getTaxType())){
-                            if(!StringUtility.isNullOrEmpty(taxTag.getTaxExempt())){
+                            if(taxTag.getTaxExempt() != null){
                                 item.setExemptTaxAmount(Double.parseDouble(taxTag.getTaxExempt().getAmount()));
                             }
                         }
                     }
                 }
 
-                if (StringUtility.isNullOrEmpty(previousLayaway.getRetailPriceModifier())) {
+                if (previousLayaway.getRetailPriceModifier() == null) {
                     itemList.add(item);
                     continue;
                 }
@@ -2631,7 +2631,7 @@ public class NetworkReceipt {
                             .getApplicationType())) {
 
                         item.setDiscountAmount(modifier.getAmount().getAmount());
-                        if (!StringUtility.isNullOrEmpty(modifier.getPercent())) {
+                        if (modifier.getPercent() != null) {
                             item.setPercent(Double.valueOf(modifier.getPercent().getPercent()));
                         }
                         item.setReasonCode(modifier.getPriceDerivationRule()
@@ -2670,7 +2670,7 @@ public class NetworkReceipt {
                 if (StringUtility.isNullOrEmpty(item.getMmID())) {
                     itemList.add(item);
                 }
-            }else if(!StringUtility.isNullOrEmpty(retrn)){
+            }else if(retrn != null){
                 if("Voided".equals(cot.getTransactionStatus())){
                     item.setVoidreturnFlag(ResultBase.TRUE);
                 }
@@ -2679,7 +2679,7 @@ public class NetworkReceipt {
                 }else{
                     item.setShowTaxKanji("hi");
                 }
-                if(!StringUtility.isNullOrEmpty(retrn.getBarPoints())){
+                if(retrn.getBarPoints() != null){
                     item.setItemPoints(StringUtility.convNullToDoubleZero(
                             retrn.getBarPoints().getBarCorrectionPoints()));
                 }
@@ -2698,7 +2698,7 @@ public class NetworkReceipt {
                                                retrn.getBarPSType())
                      && receipt.getStoreType() != 3));
 
-                if (!StringUtility.isNullOrEmpty(retrn.getItemSellingRule())) {
+                if (retrn.getItemSellingRule() != null) {
                     item.setNonSalesFlag(retrn.getItemSellingRule()
                             .getNonSalesFlag());
                     item.setDiscountableFlag(retrn.getItemSellingRule()
@@ -2717,14 +2717,14 @@ public class NetworkReceipt {
                     for(Tax taxTag:retrn.getTax()){
                         if(!StringUtility.isNullOrEmpty(taxTag.getTaxType())
                                         && "VAT".equals(taxTag.getTaxType())){
-                            if(!StringUtility.isNullOrEmpty(taxTag.getTaxExempt())){
+                            if(taxTag.getTaxExempt() != null){
                                 item.setExemptTaxAmount(Double.parseDouble(taxTag.getTaxExempt().getAmount()));
                             }
                         }
                     }
                 }
 
-                if (StringUtility.isNullOrEmpty(retrn.getRetailPriceModifier())) {
+                if (retrn.getRetailPriceModifier() == null) {
                     itemList.add(item);
                     continue;
                 }
@@ -2768,7 +2768,7 @@ public class NetworkReceipt {
                         item.setItemMark(ResultBase.toString(
                              "S".equalsIgnoreCase(retrn.getBarPSType()) &&
                                  receipt.getStoreType() != 3));
-                        if (!StringUtility.isNullOrEmpty(modifier.getPercent())) {
+                        if (modifier.getPercent() != null) {
                             item.setPercent(Double.valueOf(modifier.getPercent().getPercent()));
                         }
                         item.setReasonCode(modifier.getPriceDerivationRule()
@@ -2807,10 +2807,10 @@ public class NetworkReceipt {
                 if (StringUtility.isNullOrEmpty(item.getMmID())) {
                     itemList.add(item);
                 }
-            }else if(!StringUtility.isNullOrEmpty(rainCheck)){
+            }else if(rainCheck != null){
             	advanceJudge = TransactionVariable.RAINCHECK;
             	item.setInventoryReservationID(rainCheck.getInventoryReservationID());
-            	if(!StringUtility.isNullOrEmpty(rainCheck.getBarReservationType())){
+            	if(rainCheck.getBarReservationType() != null){
             		item.setBarReservationStatus(rainCheck.getBarReservationType().getBarReservationStatus());
             		item.setBarReservationTypeReasonCode(rainCheck.getBarReservationType().getReasonCode());
             	}
@@ -2826,7 +2826,7 @@ public class NetworkReceipt {
                     item.setShowTaxKanji("hi");
                 }
                 //BëŒè€
-                if(!StringUtility.isNullOrEmpty(rainCheck.getBarPoints())){
+                if(rainCheck.getBarPoints() != null){
                     item.setItemPoints(StringUtility.convNullToDoubleZero(
                     		rainCheck.getBarPoints().getBarCorrectionPoints()));
                 }
@@ -2845,7 +2845,7 @@ public class NetworkReceipt {
                     TransactionVariable.SALEMARK.equalsIgnoreCase(rainCheck.getBarPSType())
                     && receipt.getStoreType() != 3));
 
-                if (!StringUtility.isNullOrEmpty(rainCheck.getItemSellingRule())) {
+                if (rainCheck.getItemSellingRule() != null) {
                     // get non sales flag
                     item.setNonSalesFlag(rainCheck.getItemSellingRule()
                             .getNonSalesFlag());
@@ -2867,14 +2867,14 @@ public class NetworkReceipt {
                     for(Tax taxTag : rainCheck.getTax()){
                         if(!StringUtility.isNullOrEmpty(taxTag.getTaxType())
                                         && "VAT".equals(taxTag.getTaxType())){
-                            if(!StringUtility.isNullOrEmpty(taxTag.getTaxExempt())){
+                            if(taxTag.getTaxExempt() != null){
                                 item.setExemptTaxAmount(Double.parseDouble(taxTag.getTaxExempt().getAmount()));
                             }
                         }
                     }
                 }
 
-                if (StringUtility.isNullOrEmpty(rainCheck.getRetailPriceModifier())) {
+                if (rainCheck.getRetailPriceModifier() == null) {
                     itemList.add(item);
                     continue;
                 }
@@ -2916,7 +2916,7 @@ public class NetworkReceipt {
                         // get amount
                         item.setDiscountAmount(modifier.getAmount().getAmount());
                         // get percent
-                        if (!StringUtility.isNullOrEmpty(modifier.getPercent())) {
+                        if (modifier.getPercent() != null) {
                             item.setPercent(Double.valueOf(modifier.getPercent().getPercent()));
                         }
                         // get reason code
@@ -2958,15 +2958,15 @@ public class NetworkReceipt {
                 if (StringUtility.isNullOrEmpty(item.getMmID())) {
                     itemList.add(item);
                 }
-            }else if (!StringUtility.isNullOrEmpty(discount)) {
+            }else if (discount != null) {
                 receipt.setTotalPercent(StringUtility.convNullToZero(Integer.toString(discount.getPercentage())));
                 receipt.setTotalDiscount(StringUtility.convNullToDoubleZero(discount
                         .getAmount()));
-                if(!StringUtility.isNullOrEmpty(discount.getPriceDerivationRule())){
+                if(discount.getPriceDerivationRule() != null){
                     receipt.setTotalReasonCode(discount.getPriceDerivationRule()
                             .getReasonCode());
                 }
-            } else if (!StringUtility.isNullOrEmpty(tender)) {
+            } else if (tender != null) {
                 if (TransactionVariable.CREDITDEBIT.equalsIgnoreCase(
                         tender.getTenderType())) {
                     receipt.setCreditPament(StringUtility.convNullToDoubleZero(tender
@@ -2984,7 +2984,7 @@ public class NetworkReceipt {
                             .getPaymentMethod().getPaymentMethodCode());
                     receipt.setIssueSequence(tender.getCreditDebit()
                             .getIssueSequence());
-                    if(!StringUtility.isNullOrEmpty(tender.getAuthorization())){
+                    if(tender.getAuthorization() != null){
                         receipt.setApprovalNo(tender.getAuthorization()
                                 .getAuthorizationCode());
                         receipt.setCreditTerminalID(tender.getAuthorization()
@@ -3001,7 +3001,7 @@ public class NetworkReceipt {
                                 .getChinaUnionPayNumber());
                     }
                     receipt.setSignatureFlag("false");
-                    if (!StringUtility.isNullOrEmpty(tender.getAuthorization())
+                    if (tender.getAuthorization() != null
                             && !StringUtility.isNullOrEmpty(tender
                                     .getAuthorization()
                                     .getSignatureRequiredFlag())) {
@@ -3022,14 +3022,14 @@ public class NetworkReceipt {
                         tender.getTenderType())) {
                     receipt.setCashPament(StringUtility.convNullToDoubleZero(tender
                             .getAmount()));
-                    if (!StringUtility.isNullOrEmpty(tender.getTenderChange())) {
+                    if (tender.getTenderChange() != null) {
                         receipt.setTenderChange(receipt.getTenderChange() + 
                                 tender.getTenderChange().getAmount());
                     }
 
                 } else if (TransactionVariable.VOUCHER.equalsIgnoreCase(
                         tender.getTenderType())) {
-                    if(!StringUtility.isNullOrEmpty(tender.getVoucher())){
+                    if(tender.getVoucher() != null){
                         item = new ItemMode();
                         if("True".equalsIgnoreCase(receipt.getVoidreturnFlag())){
                         	item.setVoidreturnFlag("True");
@@ -3097,17 +3097,17 @@ public class NetworkReceipt {
                         tender.getTenderType())){
                     receipt.setBankTransferAmount(StringUtility.convNullToDoubleZero(
                             tender.getAmount()));
-                    if (!StringUtility.isNullOrEmpty(tender.getTenderChange())) {
+                    if (tender.getTenderChange() != null) {
                         receipt.setTenderChange(receipt.getTenderChange() + 
                                 tender.getTenderChange().getAmount());
                     }
                 }
-            }else if(!StringUtility.isNullOrEmpty(payment)){
+            }else if(payment != null){
             	switch (advanceJudge){
             	case TransactionVariable.LAYAWAY:
             		List<LineItem> layawayList = poslog.getTransaction().
                     getRetailTransaction().getLineItems();
-            		if(!StringUtility.isNullOrEmpty(layawayList) && layawayList.size() > 0){
+            		if(layawayList != null && layawayList.size() > 0){
             			receipt.setInventoryReservationID(layawayList.get(0).
                         getLayaway().getInventoryReservationID());
             		}
@@ -3125,18 +3125,18 @@ public class NetworkReceipt {
                     item.setPaymentReservationID(payment.getInventoryReservationID());
                     item.setPaymentCode(payment.getAccountCode());
                     item.setPaymentAmount(payment.getAmount());
-                    if(!StringUtility.isNullOrEmpty(payment.getTenderChange())){
+                    if(payment.getTenderChange() != null){
                         item.setPaymentChange(payment.getTenderChange().getAmount());
                     }
                     itemList.add(item);
                     break;
             	}
-            }else if (!StringUtility.isNullOrEmpty(tax) && null != tax.get(0) 
+            }else if (tax != null && null != tax.get(0)
                     && null !=tax.get(0).getTaxType() 
                     && "VAT".equals(tax.get(0).getTaxType())) {
                 receipt.setTaxAmount(StringUtility.convNullToDoubleZero(tax.get(0).getAmount()));
                 receipt.setTaxPercent(tax.get(0).getPercent());
-                if(!StringUtility.isNullOrEmpty(tax.get(0).getTaxExempt())){
+                if(tax.get(0).getTaxExempt() != null){
                     receipt.setExemptTaxAmount(Double.parseDouble(tax.get(0).getTaxExempt().getAmount()));
                 }
                 if(!StringUtility.isNullOrEmpty(tax.get(0).getNote()) && "1".equals(tax.get(0).getNote().trim())){
@@ -3144,13 +3144,13 @@ public class NetworkReceipt {
                 }else{
                 	receipt.setOldTaxRate("False");
                 }
-            }else if(!StringUtility.isNullOrEmpty(barpoint)){
+            }else if(barpoint != null){
                 receipt.setCustomerPoints(barpoint.getBarCorrectionPoints());
-            }else if (!StringUtility.isNullOrEmpty(tax) && null != tax.get(0)
+            }else if (tax != null && null != tax.get(0)
                     && null != tax.get(0).getTaxType() 
                     && "Documentary".equals(tax.get(0).getTaxType())) {
                 receipt.setHaveDocTax("true");
-            } else if (!StringUtility.isNullOrEmpty(postPt)) {
+            } else if (postPt != null) {
             	String txType, txId, basicpts, ptsgentot, ptthistime, company, companyId;
             	String ptcarddiv, ptcardno, prepttotal, cumulativepttotal;
             	String opeId, opeName;
@@ -3204,7 +3204,7 @@ public class NetworkReceipt {
             	receipt.setPtCardNo(ptcardno);
             	receipt.setPrePtTotal(prepttotal);
             	receipt.setCumulativePtTotal(cumulativepttotal);
-            } else if (!StringUtility.isNullOrEmpty(ptTicketIssue)) {
+            } else if (ptTicketIssue != null) {
             	IStoreDAO iStoreDAO = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER).getStoreDAO();
                 ViewStore viewStore = null;
                 IReceiptDAO iReceiptDAO = DAOFactory.getDAOFactory(
@@ -3265,9 +3265,9 @@ public class NetworkReceipt {
                 .getTenderControlTransaction();
         List<ReceiptMode> receiptResult = new ArrayList<ReceiptMode>();
 
-        if(StringUtility.isNullOrEmpty(receipt)){
+        if(receipt == null){
             return null;
-        }else if(StringUtility.isNullOrEmpty(tenderControl)){
+        }else if(tenderControl == null){
             return null;
         }
         
@@ -3439,7 +3439,7 @@ public class NetworkReceipt {
         		    nameCategory = "0004",
         		    weather, weatherName = "", customers, guests;
         	        	
-        	if (!StringUtility.isNullOrEmpty(txPrintTypes) && txPrintTypes.getPrintNonCashReceipt().equals("true")) {
+        	if (txPrintTypes != null && txPrintTypes.getPrintNonCashReceipt().equals("true")) {
         		String regCnt, calcAmt, calcAmt2, gap, regAmt;
             	List<ItemMode> nonCashAmountList = new ArrayList<ItemMode>();
             	ItemMode item = null;
@@ -3551,7 +3551,7 @@ public class NetworkReceipt {
             	receiptResult.add(receipt);
         	}
         	
-        	if (!StringUtility.isNullOrEmpty(txPrintTypes) && txPrintTypes.getPrintCashReceipt().equals("true")) {
+        	if (txPrintTypes != null && txPrintTypes.getPrintCashReceipt().equals("true")) {
         		Long totalAmt;
         		
         		receipt = new ReceiptMode();
@@ -3585,7 +3585,7 @@ public class NetworkReceipt {
             	receiptResult.add(receipt);
         	}
         	
-        	if (!StringUtility.isNullOrEmpty(txPrintTypes) && txPrintTypes.getPrintStoreReceipt().equals("true")) {
+        	if (txPrintTypes != null && txPrintTypes.getPrintStoreReceipt().equals("true")) {
 	        	guests = ": ";
 	        	weather = transactionLink.getWeather().getCode();
 	        	weatherName = transactionLink.getWeather().getElementValue();
@@ -3627,9 +3627,9 @@ public class NetworkReceipt {
         TenderControlTransaction tenderControl = poslog.getTransaction()
                 .getTenderControlTransaction();
 
-        if(StringUtility.isNullOrEmpty(receipt)){
+        if(receipt == null){
             return null;
-        }else if(StringUtility.isNullOrEmpty(tenderControl)){
+        }else if(tenderControl == null){
             return null;
         }
         receipt.setTrainModeFlag(poslog.getTransaction().getTrainingModeFlag());
@@ -3649,7 +3649,7 @@ public class NetworkReceipt {
         PayOut payout = null;
         PayIn payin = null;
         PayInPlan payinplan = null;
-        if (!StringUtility.isNullOrEmpty(tillSettle)) {
+        if (tillSettle != null) {
         	payout = tillSettle.getPayOut();
             payin = tillSettle.getPayIn();
             payinplan = tillSettle.getPayInPlan();
@@ -3660,17 +3660,17 @@ public class NetworkReceipt {
         Tender tender = null;
         String dayPart = tenderControl.getDayPart();
         
-        if (!StringUtility.isNullOrEmpty(loan)){
+        if (loan != null){
             receipt.setTenderControlType(TransactionVariable.LOAN);
             receipt.setTenderControlLoan(StringUtility.convNullToDoubleZero(loan.getAmount()));
-        } else if (!StringUtility.isNullOrEmpty(pickup)){
+        } else if (pickup != null){
             receipt.setTenderControlType(TransactionVariable.PICKUP);
             receipt.setTenderControlPickup(StringUtility.convNullToDoubleZero(pickup.getAmount()));
-        } else if (!StringUtility.isNullOrEmpty(exchange)){
+        } else if (exchange != null){
             receipt.setTenderControlType(TransactionVariable.EXCHANGE);
             receipt.setTenderControlExchange(StringUtility.convNullToDoubleZero(
                     exchange.getExchangeDetail().getTenderTotal().getTotal()));
-        } else if (!StringUtility.isNullOrEmpty(payout)){
+        } else if (payout != null){
         	String total;
         	receipt.setTenderCtrlTypePayInOut("true");
         	receipt.setTenderControlType(TransactionVariable.PAYOUT);
@@ -3686,7 +3686,7 @@ public class NetworkReceipt {
         	receipt.setItemList(cashMachineList);
         	
         	
-        } else if (!StringUtility.isNullOrEmpty(payin)){
+        } else if (payin != null){
         	receipt.setTenderCtrlTypePayInOut("true");
         	receipt.setTenderControlType(TransactionVariable.PAYIN);
         	
@@ -3699,15 +3699,15 @@ public class NetworkReceipt {
         	List<ItemMode> cashMachineList = new ArrayList<ItemMode>();
         	cashMachineList = SetChangerDrawerValues(cashMachineList, payin.getDevices(), tenderControl.getDayPart());
         	receipt.setItemList(cashMachineList);
-        } else if (!StringUtility.isNullOrEmpty(guarantee)) {
+        } else if (guarantee != null) {
         	receipt.setTenderControlType(TransactionVariable.GUARANTEE);
         } else if (dayPart.equals("SOD")) {
         	String beginAmount = "0",
         			storeId, compId, terminalId, businessDayDate;
         	
-            if (!StringUtility.isNullOrEmpty(tillSettle)) {
+            if (tillSettle != null) {
             	tender = tillSettle.getTender();
-            	if (!StringUtility.isNullOrEmpty(tender)) {
+            	if (tender != null) {
             		beginAmount = tender.getAmount();
             	}
             }
@@ -4098,7 +4098,7 @@ public class NetworkReceipt {
         receipt.setBusinessDayDate(tran.getBusinessDayDate());
         receipt.setSequenceNo(tran.getSequenceNo());
         receipt.setWorkStationID(tran.getWorkStationID().getValue());
-        if(!StringUtility.isNullOrEmpty(tran.getOperatorID())){
+        if(tran.getOperatorID() != null){
         	receipt.setOperatorID(tran.getOperatorID().getValue());
         }
         receipt.setStoreID(tran.getRetailStoreID());

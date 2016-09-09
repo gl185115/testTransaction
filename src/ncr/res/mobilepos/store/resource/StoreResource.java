@@ -544,7 +544,7 @@ public class StoreResource {
     @Produces({ MediaType.APPLICATION_JSON })
     public final StoreInternSys spartStore(
             @FormParam("storecode") final String storecode,
-            @FormParam("usage") final int usage) {
+            @FormParam("usage") final Integer usage) {
         tp.methodEnter("spartStore").println("storecode", storecode)
                 .println("usage", usage);
 
@@ -552,7 +552,7 @@ public class StoreResource {
 
         IStoreDAO storeDao;
         if (StringUtility.isNullOrEmpty(storecode)
-                || StringUtility.isNullOrEmpty(usage)) {
+                || usage == null) {
             storeInSys
                     .setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
             tp.println("Parameter[s] is empty or null.");

@@ -201,7 +201,7 @@ public class UiConfigMaintenanceResource {
 			companyInfo = new CompanyInfoList();
 			IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
 			cmpList = icmyInfoDao.getCompanyInfo();
-			if(StringUtility.isNullOrEmpty(cmpList)) {
+			if(cmpList == null) {
 				tp.println("Failed to No Data Found.");
 				LOGGER.logAlert(PROG_NAME,
 						functionName,
@@ -510,7 +510,7 @@ public class UiConfigMaintenanceResource {
 			result = new TableStoreList();
 			IUiConfigCommonDAO icmyInfoDao = new SQLServerUiConfigCommonDAO();
 			List<StoreEntry> storeEntryList = icmyInfoDao.getStoreEntryList(companyID);
-			if(StringUtility.isNullOrEmpty(storeEntryList)) {
+			if(storeEntryList == null) {
 				tp.println("Failed to No Data Found.");
 				LOGGER.logAlert(PROG_NAME,
 						functionName,
@@ -934,12 +934,12 @@ public class UiConfigMaintenanceResource {
 			deploy = ScheduleXmlUtil.getDeploy(schedule, companyID);
 			config = ScheduleXmlUtil.getConfig(deploy, pResource);
 
-			if (StringUtility.isNullOrEmpty(config)) {
+			if (config == null) {
 				tp.println("Can not find the file in Schedule Xml : " + pFileName);
 				return;
 			}
 			taskList = config.getTask();
-			if (StringUtility.isNullOrEmpty(taskList)) {
+			if (taskList == null) {
 				tp.println("Can not find the task in Schedule Xml");
 				return;
 			}

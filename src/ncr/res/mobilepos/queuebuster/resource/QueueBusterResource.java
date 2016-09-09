@@ -270,7 +270,7 @@ public class QueueBusterResource {
     		@ApiParam(name="workstationid", value="POSコード") @QueryParam("workstationid") final String workstationId,
     		@ApiParam(name="sequencenumber", value="取引番号") @QueryParam("sequencenumber") final String sequenceNumber,
     		@ApiParam(name="businessdaydate", value="POS業務日付") @QueryParam("businessdaydate") final String businessDayDate,
-    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final Integer trainingFlag) {
         SearchedPosLog poslog = new SearchedPosLog();
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -290,7 +290,7 @@ public class QueueBusterResource {
 
         try {
         	if (StringUtility.isNullOrEmpty(companyId, retailStoreId, queue,
-        	        workstationId, sequenceNumber, businessDayDate, trainingFlag)) {
+        	        workstationId, sequenceNumber, businessDayDate) || trainingFlag == null  ) {
         		tp.println("Some of the parameters are null or empty.");
         		poslog.setNCRWSSResultCode(
         				ResultBase.RESSYS_ERROR_QB_INVLDPRM);

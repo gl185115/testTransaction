@@ -111,7 +111,7 @@ public class CustomerSearchResource {
             Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
                     CustomerSearchConstants.CATEGORY);
 
-			if (StringUtility.isNullOrEmpty(mapReturn)
+			if (mapReturn == null
 					|| StringUtility
 							.isNullOrEmpty(mapReturn
 									.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))
@@ -312,7 +312,7 @@ public class CustomerSearchResource {
             Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
                     CustomerSearchConstants.CATEGORY);
 
-			if (StringUtility.isNullOrEmpty(mapReturn)
+			if (mapReturn == null
 					|| StringUtility
 							.isNullOrEmpty(mapReturn
 									.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))

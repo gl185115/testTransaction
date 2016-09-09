@@ -601,7 +601,7 @@ public class JournalizationResource {
                 result = UrlConnectionHelper.connectionForGet(address, timeOut);
             }
 
-            if (StringUtility.isNullOrEmpty(result)) {
+            if (result == null) {
                 jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                 jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
@@ -1149,7 +1149,7 @@ public class JournalizationResource {
 		            IBarneysCommonDAO iBarneysCommenDAO = sqlServer
 		                    .getBarneysCommonDAO();
 		            EventDetail eventDetail = iBarneysCommenDAO.getEventLoginResultSet(eventId,storeId);
-		            if(!StringUtility.isNullOrEmpty(eventDetail)){
+		            if(eventDetail != null){
 		            	if(businessDateId >= eventDetail.getStartDateId()
 		            			&& businessDateId <= eventDetail.getEndDateId()){
 		            		if(eventKbn == eventDetail.getEventKbn()){

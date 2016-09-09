@@ -105,7 +105,7 @@ public class SearchApiResource {
 			result = UrlConnectionHelper.connectionForGet(address);
 
 			// Check if error is empty.
-			if (StringUtility.isNullOrEmpty(result)) {
+			if (result == null) {
 				// Error occurred, Abnormal return
 				jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
 				jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -203,7 +203,7 @@ public class SearchApiResource {
 			result = UrlConnectionHelper.connectionForGet(address);
 
 			// Check if error is empty.
-			if (StringUtility.isNullOrEmpty(result)) {
+			if (result == null) {
 				// Error occurred, Abnormal return
 				jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
 				jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -300,7 +300,7 @@ public class SearchApiResource {
 			result = UrlConnectionHelper.connectionForGet(address);
 
 			// Check if error is empty.
-			if (StringUtility.isNullOrEmpty(result)) {
+			if (result == null) {
 				// Error occurred, Abnormal return
 				jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
 				jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -398,7 +398,7 @@ public class SearchApiResource {
 			result = UrlConnectionHelper.connectionForGet(address);
 			
 			// Check if error is empty.
-			if (StringUtility.isNullOrEmpty(result)) {
+			if (result == null) {
 				// Error occurred, Abnormal return
 				jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
 				jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -496,7 +496,7 @@ public class SearchApiResource {
 			result = UrlConnectionHelper.connectionForGet(address);
 
 			// Check if error is empty.
-			if (StringUtility.isNullOrEmpty(result)) {
+			if (result == null) {
 				// Error occurred, Abnormal return
 				jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
 				jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);

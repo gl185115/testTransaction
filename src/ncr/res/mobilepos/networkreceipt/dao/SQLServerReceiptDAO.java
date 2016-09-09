@@ -878,7 +878,7 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         String clerkName = this.getOperatorName(operatorNo);
         receipt.setClerkName(StringUtility.convNullToEmpty(clerkName));
         Transaction tran = poslog.getTransaction();
-        if (!StringUtility.isNullOrEmpty(tran.getRetailTransaction()) &&
+        if (tran.getRetailTransaction() != null &&
                 !StringUtility.isNullOrEmpty(tran.getRetailTransaction().getVoidOperatorID())) {
             String voidClerkName = this.getOperatorName(tran.getRetailTransaction()
                     .getVoidOperatorID());

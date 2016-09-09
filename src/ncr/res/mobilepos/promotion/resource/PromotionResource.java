@@ -572,7 +572,7 @@ public class PromotionResource {
             String url = GlobalConstant.getEnterpriseServerUri() + REMOTE_UTL;
             result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
-            if (!StringUtility.isNullOrEmpty(result)) {
+            if (result != null) {
                 sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
             }
         } catch(Exception e){

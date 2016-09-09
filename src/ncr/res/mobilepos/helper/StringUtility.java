@@ -244,13 +244,12 @@ public final class StringUtility {
     /**
      * Checks values if null or empty.
      * This accepts multiple args and requires at least one arg.
-     * @oaram value1
-     * @param values
-     *            optional variables.
+     * @oaram value1 String to check.
+     * @param values (optional) String variables.
      * @return true if one of the args is null/empty, false if all the args are not null/empty.
      */
-    public static boolean isNullOrEmpty(final Object value1, final Object... values) {
-        if(isNullOrEmpty(value1)) {
+    public static boolean isNullOrEmpty(final String value1, final String... values) {
+        if(isNullOrEmptySingleValue(value1)) {
             return true;
         }
         // values can be null, when 2nd arg is just null.
@@ -258,39 +257,23 @@ public final class StringUtility {
             return true;
         }
         for (int i = 0; i < values.length; i++) {
-            if(isNullOrEmpty(values[i])) {
+            if(isNullOrEmptySingleValue(values[i])) {
                 return true;
             }
         }
         return false;
     }
 
-    /**
-     * Checks if arg is null or empty.
-     * @param str
-     * @return
-     */
-    public static boolean isNullOrEmpty(final Object str) {
-        if(str == null) {
+        /**
+         * Check string is null or empty
+         * @param str String to check.
+         * @return true: if the arg is null or empty, false: otherwise.
+         */
+    private static boolean isNullOrEmptySingleValue(final String str) {
+        if (str == null || "".equals(str)) {
             return true;
         }
-        if(str instanceof String) {
-            return isStringNullOrEmpty((String)str);
-        }
-        return isStringNullOrEmpty(str.toString());
-    }
-
-    /**
-     *
-     * @param str
-     * @return
-     */
-    private static boolean isStringNullOrEmpty(final String str) {
-        boolean isNullEmpty = false;
-        if (str == null || "".equals(str)) {
-            isNullEmpty = true;
-        }
-        return isNullEmpty;
+        return false;
     }
 
     /**
@@ -356,7 +339,7 @@ public final class StringUtility {
      * @param param
      * @return parameter or empty
      */
-    public static String convNullToEmpty(Object param) {
+    public static String convNullToEmpty(String param) {
         if (isNullOrEmpty(param)) {
             return "";
         } else {
@@ -370,7 +353,7 @@ public final class StringUtility {
      * @param param
      * @return parameter or "null" String.
      */
-    public static String convNullToString(Object param) {
+    public static String convNullToString(String param) {
         if (isNullOrEmpty(param)) {
             return "null";
         } else {
@@ -405,7 +388,7 @@ public final class StringUtility {
      */
     public static String escapeCharatersForSQLqueries(final String strQuery){
     	String strNewQuery = strQuery;
-    	if(!isNullOrEmpty(strQuery)){  
+    	if(!isNullOrEmpty(strQuery)){
     		strNewQuery = strQuery.replaceAll("%", "\\\\%").replaceAll("_", "\\\\_").replaceAll("\\[", "\\\\[");    		
     	}    	
     	return strNewQuery;

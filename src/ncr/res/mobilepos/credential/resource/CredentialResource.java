@@ -272,8 +272,15 @@ public class CredentialResource {
     @Path("/createoperator/{operatorno}")
     @POST
     @Produces({ MediaType.TEXT_PLAIN })
-    public final ResultBase createOperator(@PathParam("operatorno") final String operatorNumber,
-            @FormParam("passcode") final String passCode) {
+    @ApiOperation(value="担当者登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESCREDL_ZERO_RESULTSET, message="結果無し")
+    })
+    public final ResultBase createOperator(
+            @ApiParam(name="operatorno", value="担当者コード") @PathParam("operatorno") final String operatorNumber,
+            @ApiParam(name="passcode", value="パスコード") @FormParam("passcode") final String passCode) {
 
         tp.methodEnter("createOperator");
         tp.println("operatorNumber", operatorNumber).println("passCode", passCode);
@@ -334,10 +341,19 @@ public class CredentialResource {
     @Path("/createoperatorguest/{operatorno}/{deviceid}")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final Operator createOperatorGuest(@PathParam("operatorno") final String operatorNumber,
-            @PathParam("corpid") final String corpid, @PathParam("storeid") final String storeid,
-            @PathParam("terminalid") final String terminalid, @FormParam("udid") final String udid,
-            @FormParam("uuid") final String uuid) {
+    @ApiOperation(value="ゲスト担当者登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESAUTH_INVALIDPARAMETER, message="引数無効")
+    })
+    public final Operator createOperatorGuest(
+            @ApiParam(name="operatorno", value="担当者コード") @PathParam("operatorno") final String operatorNumber,
+            @ApiParam(name="corpid", value="企業コード") @PathParam("corpid") final String corpid,
+            @ApiParam(name="storeid", value="店舗コード") @PathParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalid,
+            @ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
+            @ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid) {
         Operator result = new Operator();
 
         tp.methodEnter("createOperatorGuest");
@@ -597,7 +613,15 @@ public class CredentialResource {
     @Path("/getoperatorstatus/{operatorno}")
     @GET
     @Produces({ MediaType.TEXT_PLAIN })
-    public final ResultBase getOperatorStatus(@PathParam("operatorno") final String operatorNo) {
+    @ApiOperation(value="担当者状態取得", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RESCREDL_OPERATOR_OFFLINE, message="担当者オフライン"),
+            @ApiResponse(code=ResultBase.RESCREDL_OPERATOR_ONLINE, message="担当者"),
+            @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="担当者無効"),
+            @ApiResponse(code=ResultBase.RESCREDL_ERROR_NG, message="エラー")
+    })
+    public final ResultBase getOperatorStatus(
+            @ApiParam(name="operatorno", value="担当者コード") @PathParam("operatorno") final String operatorNo) {
 
         tp.methodEnter("getOperatorStatus");
         tp.println("operatorNo", operatorNo);
@@ -1027,7 +1051,8 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_PASSCODE_INVALID, message="パスワード無効"),
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE, message="ユーザー(従業員)オンライン")
     })
-    public final ResultBase changePasscode(@ApiParam(name="operatorid", value="従業員番号") @PathParam("operatorid") final String operatorID,
+    public final ResultBase changePasscode(
+            @ApiParam(name="operatorid", value="従業員番号") @PathParam("operatorid") final String operatorID,
     		@ApiParam(name="old", value="旧いパスワード") @FormParam("old") final String oldPasscode,
     		@ApiParam(name="new", value="新しいパスワード") @FormParam("new") final String newPasscode) {
 
@@ -1074,9 +1099,15 @@ public class CredentialResource {
     @Path("/groups/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ResultBase createGroup(@FormParam("groupcode") final Integer groupCode,
-            @FormParam("group") final String jsonGroup) {
-
+    @ApiOperation(value="グループ登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RESCREDL_ERROR_NG, message="エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="引数無効")
+    })
+    public final ResultBase createGroup(
+            @ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final Integer groupCode,
+            @ApiParam(name="group", value="グループ情報") @FormParam("group") final String jsonGroup) {
         tp.methodEnter("createGroup");
         tp.println("groupCode", groupCode).println("jsonGroup", jsonGroup);
 
@@ -1125,7 +1156,13 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/groups/delete")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final ResultBase deleteGroup(@FormParam("groupcode") final int groupCode) {
+    @ApiOperation(value="グループ削除", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    })
+    public final ResultBase deleteGroup(
+            @ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode) {
         tp.methodEnter("deleteGroup");
         tp.println("GroupCode", groupCode);
 
@@ -1157,7 +1194,13 @@ public class CredentialResource {
     @Path("groups/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final ViewUserGroup viewGroupDetail(@QueryParam("code") final int groupCode) {
+    @ApiOperation(value="グループ詳細取得", response=ViewUserGroup.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
+    public final ViewUserGroup viewGroupDetail(
+            @ApiParam(name="code", value="グループコード") @QueryParam("code") final int groupCode) {
 
         tp.methodEnter("viewGroupDetail");
         tp.println("GroupCode", groupCode);
@@ -1197,7 +1240,14 @@ public class CredentialResource {
     @Path("/groups/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    public final UserGroupList listGroups(@QueryParam("key") final String key) {
+    @ApiOperation(value="グループ検索", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="グループマッチせず"),
+    })
+    public final UserGroupList listGroups(
+            @ApiParam(name="key", value="検索キー") @QueryParam("key") final String key) {
 
         String functioname = className + ".listGroups";
         tp.methodEnter("listGroups").println("key", key);
@@ -1247,8 +1297,15 @@ public class CredentialResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/groups/maintenance")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final ViewUserGroup updateGroup(@FormParam("groupcode") final int groupCode,
-            @FormParam("group") final String jsonGroup) {
+    @ApiOperation(value="グループ更新", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    })
+    public final ViewUserGroup updateGroup(
+            @ApiParam(name="groupcode", value="グループコード") @FormParam("groupcode") final int groupCode,
+            @ApiParam(name="group", value="グループ情報") @FormParam("group") final String jsonGroup) {
 
         String functionName = "updateGroup";
         tp.methodEnter(functionName);

@@ -152,9 +152,6 @@ public class AuthenticationResource {
         return result;
     }
 
-    // Terminal/device deauthentication with terminal id represented in path
-    // example: http://localhost/ncr.res.mobilepos.resauthentication
-    //                /rest/authentication/TERMINALNO/deauth
     /**
      * Deauthenticates the device.
      * @method POST
@@ -170,12 +167,18 @@ public class AuthenticationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス認証クリア", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスコード無効")
+    })
     public final ResultBase deauthenticateDevice(
-            @FormParam("corpid") final String corpid,
-            @FormParam("storeid") final String storeid,
-            @PathParam("terminalid") final String terminalid,
-            @FormParam("udid") final String udid,
-            @FormParam("uuid") final String uuid) {
+            @ApiParam(name="companyid", value="会社コード") @FormParam("corpid") final String corpid,
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalid,
+            @ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
+            @ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid) {
 
         tp.methodEnter("deauthenticateDevice");
         tp.println("corpid", corpid).println("storeid", storeid)
@@ -219,11 +222,6 @@ public class AuthenticationResource {
         return result;
     }
 
-    // Terminal/device status with terminal id represented
-    // in path via GET request
-    // example: http://localhost
-    //          /ncr.res.mobilepos.resauthentication/rest
-    //          /authentication/TERMINALNO
     /**
      * Gets the status of the device.
      * @method GET
@@ -237,11 +235,16 @@ public class AuthenticationResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス認証情報取得", response=DeviceStatus.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスコード無効")
+    })
     public final DeviceStatus getDeviceStatus(
-    		@QueryParam("corpid") final String corpid,
-            @QueryParam("storeid") final String storeid,
-            @PathParam("terminalid") final String terminalid) {
-
+            @ApiParam(name="corpid", value="会社コード") @FormParam("corpid") final String corpid,
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalid) {
         tp.methodEnter("getDeviceStatus");
         tp.println("corpid", corpid).println("storeid", storeid)
             .println("terminalid", terminalid);
@@ -290,9 +293,14 @@ public class AuthenticationResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス認証情報取得", response=DeviceStatus.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスコード無効")
+    })
     public final DeviceStatus getDeviceStatus(
-            @PathParam("terminalid") final String terminalid) {
-
+        @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalid) {
         tp.methodEnter("getDeviceStatus");
         tp.println("terminalid", terminalid);
 
@@ -352,9 +360,10 @@ public class AuthenticationResource {
     @Path("/info")
     @POST
     @Produces({MediaType.TEXT_PLAIN })
+    @ApiOperation(value="担当者状態取得", response=String.class)
     public final String getRestrictionCode(
-            @FormParam("deviceno") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo) {
+            @ApiParam(name="deviceno", value="デバイスコード") @FormParam("deviceno") final String deviceNo,
+            @ApiParam(name="operatorno", value="担当者コード") @FormParam("operatorno") final String operatorNo) {
         return String.valueOf(ApiRestriction
                     .getRestriction(deviceNo, operatorNo));
     }

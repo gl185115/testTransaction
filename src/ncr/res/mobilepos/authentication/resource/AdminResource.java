@@ -1,5 +1,11 @@
 package ncr.res.mobilepos.authentication.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
@@ -13,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.authentication.dao.IAuthAdminDao;
+import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.constant.ResultCodeConstants;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -26,6 +33,7 @@ import ncr.res.mobilepos.model.ResultBase;
  *
  */
 @Path("/authentication/admin")
+@Api(value="/admin", description="管理者API")
 public class AdminResource {
     /**
      * the class instance of the logger.
@@ -61,10 +69,16 @@ public class AdminResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="パスコード更新", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_NEWPASSCODE, message="パスコード無効")
+    })
     public final ResultBase setPasscode(
-            @FormParam("passcode") final String passcode,
-            @FormParam("expiry") final String expiry,
-            @FormParam("key") final String key) {
+            @ApiParam(name="passcode", value="パスコード") @FormParam("passcode") final String passcode,
+            @ApiParam(name="expiry", value="有効期限(hour)") @FormParam("expiry") final String expiry,
+            @ApiParam(name="key", value="管理者キー") @FormParam("key") final String key) {
         ResultBase result = new ResultBase(ResultBase.RESREG_OK, "");
 
 
@@ -128,9 +142,15 @@ public class AdminResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="管理者キー更新", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_NEWADMINKEY, message="管理者キー無効")
+    })
     public final ResultBase setAdminKey(
-            @FormParam("currentkey") final String currentkey,
-            @FormParam("newkey") final String newkey) {
+            @ApiParam(name="currentkey", value="現管理者キー") @FormParam("currentkey") final String currentkey,
+            @ApiParam(name="newkey", value="新管理者キー") @FormParam("newkey") final String newkey) {
 
         tp = DebugLogger.getDbgPrinter(
                 Thread.currentThread().getId(), getClass());
@@ -193,9 +213,14 @@ public class AdminResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス登録削除(管理者権限)", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    })
     public final ResultBase removeDevice(
-            @FormParam("deviceid") final String deviceID,
-            @FormParam("adminkey") final String adminKey) {
+            @ApiParam(name="deviceid", value="デバイスID") @FormParam("deviceid") final String deviceID,
+            @ApiParam(name="adminkey", value="管理者キー") @FormParam("adminkey") final String adminKey) {
 
         tp = DebugLogger.getDbgPrinter(
                 Thread.currentThread().getId(), getClass());

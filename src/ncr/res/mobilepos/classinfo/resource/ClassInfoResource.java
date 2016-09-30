@@ -10,6 +10,12 @@
 
 package ncr.res.mobilepos.classinfo.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -25,6 +31,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.classinfo.dao.IClassInfoDAO;
 import ncr.res.mobilepos.classinfo.model.ClassInfo;
 import ncr.res.mobilepos.classinfo.model.SearchedClassInfo;
@@ -53,6 +60,7 @@ import ncr.res.mobilepos.store.resource.StoreResource;
  * 
  */
 @Path("/class")
+@Api(value="/class", description="クラス関連API")
 public class ClassInfoResource {
 
     /**
@@ -140,12 +148,17 @@ public class ClassInfoResource {
     @Path("/list")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="クラス一覧検索", response=SearchedClassInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final SearchedClassInfo list(
-            @FormParam("retailstoreid") final String retailstoreid,
-            @FormParam("departmentid") final String departmentid,
-            @FormParam("key") final String key,
-            @FormParam("name") final String name,
-            @FormParam("limit") final int limit) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
+            @ApiParam(name="departmentid", value="部署コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="key", value="検索キー") @FormParam("key") final String key,
+            @ApiParam(name="name", value="名前検索値") @FormParam("name") final String name,
+            @ApiParam(name="limit", value="結果取得限度") @FormParam("limit") final int limit) {
 
         String functionName = "ClassInfoResource.list";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -197,11 +210,16 @@ public class ClassInfoResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="クラス情報削除", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    })
     public final ResultBase deleteClass(
-            @FormParam("retailstoreid") final String retailstoreid,
-            @FormParam("departmentid") final String departmentid,
-            @FormParam("lineid") final String lineid,
-            @FormParam("classid") final String classid) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
+            @ApiParam(name="departmentid", value="部署コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="ラインコード") @FormParam("lineid") final String lineid,
+            @ApiParam(name="classid", value="クラス") @FormParam("classid") final String classid) {
 
         String functionName = "ClassInfoResource.deleteClass";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -248,8 +266,18 @@ public class ClassInfoResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="クラス情報設定", response=DeviceStatus.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_STORE_NOT_EXIST, message="店舗無しエラー"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_DPT_NOT_EXIST, message="部署無しエラー"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_LINE_NOT_EXIST, message="ライン無しエラー"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_ALREADY_EXIST, message="重複エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="引数無効")
+    })
     public final ResultBase createClassInfo(
-    		@FormParam("class") final String jsonClass) {
+            @ApiParam(name="class", value="クラス") @FormParam("class") final String jsonClass) {
 
         String functionname = "ClassInfoResource.createClassInfo";
         tp.methodEnter(DebugLogger.getCurrentMethodName())              
@@ -371,12 +399,24 @@ public class ClassInfoResource {
     @Path("/maintenance")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="クラス情報更新", response=DeviceStatus.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="引数無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_NOT_EXIST, message="クラス無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_ALREADY_EXIST, message="クラス重複"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_STORE_NOT_EXIST, message="店舗コード無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_DPT_NOT_EXIST, message="部署コード無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_LINE_NOT_EXIST, message="ラインコード無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_NOT_UPDATED, message="更新失敗")
+    })
     public final ViewClassInfo updateClassInfo(
-            @FormParam("retailstoreid") final String retailStoreId,
-            @FormParam("departmentid") final String departmentid,
-            @FormParam("lineid") final String lineid,
-            @FormParam("classid") final String classid,
-            @FormParam("class") final String jsonClass) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
+            @ApiParam(name="departmentid", value="部署コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="ラインコード") @FormParam("lineid") final String lineid,
+            @ApiParam(name="classid", value="クラスコード") @FormParam("classid") final String classid,
+            @ApiParam(name="class", value="クラス情報") @FormParam("class") final String jsonClass) {
 
         String functionname = "ClassInfoResource.updateClass";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -522,15 +562,19 @@ public class ClassInfoResource {
      *            - Path parameter for department identifier
      * @return a JSON string of the Department Details.
      */
-
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="クラス情報取得", response=ViewClassInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ViewClassInfo selectClassInfoDetail(
-            @QueryParam("retailstoreid") final String retailStoreID,
-            @QueryParam("departmentid") final String departmentid,
-            @QueryParam("lineid") final String lineid,
-            @QueryParam("classid") final String classid) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="departmentid", value="部署コード") @QueryParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="ラインコード") @QueryParam("lineid") final String lineid,
+            @ApiParam(name="classid", value="クラスコード") @QueryParam("classid") final String classid) {
 
         tp.methodEnter("selectClassInfoDetail");
         tp.println("retailStoreID", retailStoreID)

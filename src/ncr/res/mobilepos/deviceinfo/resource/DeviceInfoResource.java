@@ -378,11 +378,18 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/{companyid}/{retailstoreid}/{deviceid}/{trainingmode}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス情報取得", response=ViewDeviceInfo.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="引数無効"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="デバイス情報無し")
+    })
     public final ViewDeviceInfo getDeviceInfo(
-		@PathParam("companyid") final String companyId,
-		@PathParam("retailstoreid") final String retailStoreID,
-		@PathParam("deviceid") final String deviceID,
-        @PathParam("trainingmode") final int trainingMode) {
+            @ApiParam(name="companyid", value="企業コード") @PathParam("companyid") final String companyId,
+            @ApiParam(name="retailstoreid", value="店舗コード") @PathParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="deviceid", value="デバイスコード") @PathParam("deviceid") final String deviceID,
+            @ApiParam(name="trainingmode", value="トレーニングモード") @PathParam("trainingmode") final int trainingMode) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)

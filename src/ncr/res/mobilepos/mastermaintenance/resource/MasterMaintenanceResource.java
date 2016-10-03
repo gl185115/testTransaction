@@ -10,6 +10,12 @@
 
 package ncr.res.mobilepos.mastermaintenance.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -37,6 +43,7 @@ import javax.ws.rs.core.MediaType;
  * Web Store Server.
  */
 @Path("/mastermaintenance")
+@Api(value="/mastermaintenance", description="マスターメンテナンスAPI")
 public class MasterMaintenanceResource {
     /** The Flag value that refer to MD_MM_MAST_TBL. */
     private static final int MD_MM_MAST_TBL = 1;
@@ -120,9 +127,14 @@ public class MasterMaintenanceResource {
     @Path("/import/row")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="SPART情報インポート", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_MAINTENACE_IMPORT_ERROR, message="引数無効"),
+    })
     public final ResultBase spartImport(
-       @FormParam("row") final String fieldValues,
-       @FormParam("targettable") final int tableFlag) {
+            @ApiParam(name="row", value="CSV値") @FormParam("row") final String fieldValues,
+            @ApiParam(name="targettable", value="テーブル更新フラグ") @FormParam("targettable") final int tableFlag) {
     	String functionName = "MasterMaintenanceResource.spartImport";
     tp.methodEnter(functionName)
       .println("row", fieldValues)

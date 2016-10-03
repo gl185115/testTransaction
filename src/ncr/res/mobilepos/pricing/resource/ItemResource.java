@@ -1133,7 +1133,7 @@ public class ItemResource {
     @Path("/getGroupLineInfo")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="グループとライン情報取得", response=GroupLines.class)
+    @ApiOperation(value="グループと品種情報取得", response=GroupLines.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),

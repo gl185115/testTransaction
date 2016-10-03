@@ -208,10 +208,16 @@ public class LineResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="品種情報削除", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase deleteLine(
-            @FormParam("retailstoreid") final String retailstoreid,
-            @FormParam("departmentid") final String departmentid,
-            @FormParam("lineid") final String lineid) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
+            @ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="品種コード") @FormParam("lineid") final String lineid) {
 
         String functionName = "LineResource.deleteLine";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -257,8 +263,18 @@ public class LineResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="品種情報登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="パラメータ無効"),
+            @ApiResponse(code=ResultBase.RES_LINE_INFO_STORE_NOT_EXIST, message="ストア無しエラー"),
+            @ApiResponse(code=ResultBase.RES_LINE_INFO_DPT_NOT_EXIST, message="部門無しエラー"),
+            @ApiResponse(code=ResultBase.RES_LINE_INFO_ALREADY_EXIST, message="重複エラー"),
+    })
     public final ResultBase createLine(
-    		@FormParam("line") final String jsonLine) {
+            @ApiParam(name="line", value="品種コード") @FormParam("line") final String jsonLine) {
 
         String functionname = "LineResource.createLine";
         tp.methodEnter(DebugLogger.getCurrentMethodName())              
@@ -357,10 +373,16 @@ public class LineResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="品種情報登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ViewLine selectLineDetail(
-            @QueryParam("retailstoreid") final String retailStoreID,
-            @QueryParam("departmentid") final String departmentid,
-            @QueryParam("lineid") final String lineid) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="品種コード") @QueryParam("lineid") final String lineid) {
 
     	String functionName = "LineResource.selectLineDetail";
         tp.methodEnter(functionName);
@@ -416,11 +438,21 @@ public class LineResource {
     @Path("/maintenance")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="品種情報更新", response=ViewLine.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="パラメータ無効"),
+            @ApiResponse(code=ResultBase.RES_LINE_INFO_STORE_NOT_EXIST, message="ストア無しエラー"),
+            @ApiResponse(code=ResultBase.RES_LINE_INFO_DPT_NOT_EXIST, message="部門無しエラー"),
+            @ApiResponse(code=ResultBase.RES_LINE_INFO_ALREADY_EXIST, message="重複エラー"),
+    })
     public final ViewLine updateLine(
-            @FormParam("retailstoreid") final String retailStoreId,
-            @FormParam("departmentid") final String departmentid,
-            @FormParam("lineid") final String lineid,
-            @FormParam("line") final String jsonLine) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
+            @ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="品種コード") @FormParam("lineid") final String lineid,
+            @ApiParam(name="line", value="品種情報") @FormParam("line") final String jsonLine) {
 
         String functionname = "LineResource.updateLine";
         tp.methodEnter(functionname)

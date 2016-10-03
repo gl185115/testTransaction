@@ -162,9 +162,13 @@ public class ForwardItemListResource {
     @Path("/getCount")
     @GET
     @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
-    public final String getCount(@QueryParam("storeid") final String storeid,
-            @QueryParam("terminalid") final String terminalid,
-            @QueryParam("txdate") final String txdate) {
+    @ApiOperation(value="前捌きデータ数カウント", response=String.class)
+    @ApiResponses(value={
+    })
+    public final String getCount(
+            @ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="端末コード") @QueryParam("terminalid") final String terminalid,
+            @ApiParam(name="txdate", value="営業日") @QueryParam("txdate") final String txdate) {
 
         tp.methodEnter("getCount");
         tp.println("StoreID", storeid).println("TerminalID", terminalid).

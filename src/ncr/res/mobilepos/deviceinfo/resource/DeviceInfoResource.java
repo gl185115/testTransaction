@@ -170,10 +170,15 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/setlinkposterminalid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="端末接続先の設定", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase setLinkPosTerminalId(
-    		@FormParam("storeid") final String storeid,
-    		@FormParam("terminalid") final String terminalid,
-    		@FormParam("linkposterminalid") final String linkposterminalid) {
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="ターゲット端末ID") @FormParam("terminalid") final String terminalid,
+            @ApiParam(name="linkposterminalid", value="リンク先端末ID") @FormParam("linkposterminalid") final String linkposterminalid) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeid", storeid)
@@ -467,7 +472,7 @@ public class DeviceInfoResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/delete")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末を消却する", response=ResultBase.class)
+    @ApiOperation(value="デバイス情報の論理削除", response=ResultBase.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -742,9 +747,16 @@ public class DeviceInfoResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/delete/registration")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="端末の登録削除", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+    })
 	public final ResultBase deleteRegisteredDevice(
-			@FormParam("deviceid") final String deviceID,
-			@FormParam("retailstoreid") final String storeID) {
+            @ApiParam(name="deviceid", value="端末id") @FormParam("deviceid") final String deviceID,
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeID) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("deviceid", deviceID)

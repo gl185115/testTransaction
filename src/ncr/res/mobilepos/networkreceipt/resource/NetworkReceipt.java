@@ -1087,15 +1087,21 @@ public class NetworkReceipt {
     @Path("/printcreditslip/{txid}")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=utf-8"})
+    @ApiOperation(value="返品伝票印刷", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="OK"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="エラー"),
+    })
     public final ResultBase printCreditSlip(
-            @PathParam("txid") final String txid,
-            @FormParam("storeid") final String storeNo,
-            @FormParam("deviceid") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("language") final String language,
-            @FormParam("businessdate") final String businessDate,
-            @FormParam("poslog") final String poslogxml,
-            @FormParam("trainingflag") final int trainingFlag) {
+            @ApiParam(name="txid", value="取引番号") @PathParam("txid") final String txid,
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeNo,
+            @ApiParam(name="deviceid", value="デバイスID") @FormParam("deviceid") final String deviceNo,
+            @ApiParam(name="operatorno", value="従業員コード") @FormParam("operatorno") final String operatorNo,
+            @ApiParam(name="language", value="言語") @FormParam("language") final String language,
+            @ApiParam(name="businessdate", value="営業日") @FormParam("businessdate") final String businessDate,
+            @ApiParam(name="poslog", value="poslog情報") @FormParam("poslog") final String poslogxml,
+            @ApiParam(name="trainingflag", value="トレーニングフラグ") @FormParam("trainingflag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         boolean isPoslogPara = false;

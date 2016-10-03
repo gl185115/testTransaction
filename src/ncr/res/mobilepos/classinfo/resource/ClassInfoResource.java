@@ -155,7 +155,7 @@ public class ClassInfoResource {
     })
     public final SearchedClassInfo list(
             @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
-            @ApiParam(name="departmentid", value="部署コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String departmentid,
             @ApiParam(name="key", value="検索キー") @FormParam("key") final String key,
             @ApiParam(name="name", value="名前検索値") @FormParam("name") final String name,
             @ApiParam(name="limit", value="結果取得限度") @FormParam("limit") final int limit) {
@@ -217,8 +217,8 @@ public class ClassInfoResource {
     })
     public final ResultBase deleteClass(
             @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailstoreid,
-            @ApiParam(name="departmentid", value="部署コード") @FormParam("departmentid") final String departmentid,
-            @ApiParam(name="lineid", value="ラインコード") @FormParam("lineid") final String lineid,
+            @ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="品種コード") @FormParam("lineid") final String lineid,
             @ApiParam(name="classid", value="クラス") @FormParam("classid") final String classid) {
 
         String functionName = "ClassInfoResource.deleteClass";
@@ -271,8 +271,8 @@ public class ClassInfoResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_CLASS_INFO_STORE_NOT_EXIST, message="店舗無しエラー"),
-            @ApiResponse(code=ResultBase.RES_CLASS_INFO_DPT_NOT_EXIST, message="部署無しエラー"),
-            @ApiResponse(code=ResultBase.RES_CLASS_INFO_LINE_NOT_EXIST, message="ライン無しエラー"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_DPT_NOT_EXIST, message="部門無しエラー"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_LINE_NOT_EXIST, message="品種無しエラー"),
             @ApiResponse(code=ResultBase.RES_CLASS_INFO_ALREADY_EXIST, message="重複エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="引数無効")
     })
@@ -407,14 +407,14 @@ public class ClassInfoResource {
             @ApiResponse(code=ResultBase.RES_CLASS_INFO_NOT_EXIST, message="クラス無効"),
             @ApiResponse(code=ResultBase.RES_CLASS_INFO_ALREADY_EXIST, message="クラス重複"),
             @ApiResponse(code=ResultBase.RES_CLASS_INFO_STORE_NOT_EXIST, message="店舗コード無効"),
-            @ApiResponse(code=ResultBase.RES_CLASS_INFO_DPT_NOT_EXIST, message="部署コード無効"),
-            @ApiResponse(code=ResultBase.RES_CLASS_INFO_LINE_NOT_EXIST, message="ラインコード無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_DPT_NOT_EXIST, message="部門コード無効"),
+            @ApiResponse(code=ResultBase.RES_CLASS_INFO_LINE_NOT_EXIST, message="品種コード無効"),
             @ApiResponse(code=ResultBase.RES_CLASS_INFO_NOT_UPDATED, message="更新失敗")
     })
     public final ViewClassInfo updateClassInfo(
             @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
-            @ApiParam(name="departmentid", value="部署コード") @FormParam("departmentid") final String departmentid,
-            @ApiParam(name="lineid", value="ラインコード") @FormParam("lineid") final String lineid,
+            @ApiParam(name="departmentid", value="部門コード") @FormParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="品種コード") @FormParam("lineid") final String lineid,
             @ApiParam(name="classid", value="クラスコード") @FormParam("classid") final String classid,
             @ApiParam(name="class", value="クラス情報") @FormParam("class") final String jsonClass) {
 
@@ -572,8 +572,8 @@ public class ClassInfoResource {
     })
     public final ViewClassInfo selectClassInfoDetail(
             @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
-            @ApiParam(name="departmentid", value="部署コード") @QueryParam("departmentid") final String departmentid,
-            @ApiParam(name="lineid", value="ラインコード") @QueryParam("lineid") final String lineid,
+            @ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentid,
+            @ApiParam(name="lineid", value="品種コード") @QueryParam("lineid") final String lineid,
             @ApiParam(name="classid", value="クラスコード") @QueryParam("classid") final String classid) {
 
         tp.methodEnter("selectClassInfoDetail");

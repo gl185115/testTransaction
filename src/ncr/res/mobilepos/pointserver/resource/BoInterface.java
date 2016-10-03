@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -256,6 +258,10 @@ public class BoInterface {
     @Path("/store")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="ポイントシステムオフラインデータ登録", response=Message.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データーベースエラー"),
+    })
     public Message fromStore(PosSales request) {
         assert(config != null);
         SQLServerPointRequest spr = new SQLServerPointRequest(config);

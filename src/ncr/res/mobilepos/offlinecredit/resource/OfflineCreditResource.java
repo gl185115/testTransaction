@@ -1,6 +1,11 @@
 // Copyright (c) 2015 NCR Japan Ltd.
 package ncr.res.mobilepos.offlinecredit.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.sql.SQLException;
 import java.util.Base64;
 import javax.servlet.ServletContext;
@@ -29,6 +34,7 @@ import ncr.res.mobilepos.offlinecredit.model.OfflineData;
  * Web service for storing offline credit transaction
  */
 @Path("/offlinecredit")
+@Api(value="/offlinecredit", description="オフラインクレジットAPI")
 public class OfflineCreditResource {
     static final String PROGNAME = "OFFCREDIT";
 
@@ -62,6 +68,10 @@ public class OfflineCreditResource {
     @POST
     @Consumes("application/json")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="オフラインクレジット取引情報保存", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    })
     public ResultBase log(OfflineData data) {
         tp.methodEnter("log")
             .println("companyId", data.getCompanyId())

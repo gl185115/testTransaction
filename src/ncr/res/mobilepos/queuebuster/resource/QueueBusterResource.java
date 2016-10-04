@@ -424,8 +424,15 @@ public class QueueBusterResource {
     @POST
     @Path("/uploadforward")
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="保留取引アップロード", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXALREADY, message="取引重複エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
+    })
     public final PosLogResp suspendTransactionToQueue(
-                    @FormParam("poslogxml") final String poslogxml) {
+            @ApiParam(name="poslogxml", value="POSLOG情報") @FormParam("poslogxml") final String poslogxml) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("poslogxml", poslogxml);
 

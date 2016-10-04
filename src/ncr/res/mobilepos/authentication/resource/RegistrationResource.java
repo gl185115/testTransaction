@@ -94,7 +94,7 @@ public class RegistrationResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
         @ApiResponse(code=ResultBase.RESREG_DEVICEEXIST, message="既に存在する"),
-        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="設備の標識は無効にする"),
+        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスID不正文字エラー"),
         @ApiResponse(code=ResultBase.RESAUTH_PASSCODE_INVALID, message="パスコードはCORP証明書が一致しない"),
         @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="データベース中で企業コードと店舗コードがない"),
     })
@@ -196,10 +196,16 @@ public class RegistrationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス登録削除", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスID不正文字エラー"),
+    })
     public final ResultBase unregisterDevice(
-            @FormParam("companyid") final String companyId,
-            @FormParam("storeid") final String storeId,
-            @PathParam("terminalid") final String terminalId) {
+            @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
+            @ApiParam(name="storeid", value="企業コード") @FormParam("storeid") final String storeId,
+            @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalId) {
 		tp.methodEnter("unregisterDevice")
 		        .println("companyid", companyId)
 		        .println("storeid", storeId)
@@ -240,12 +246,18 @@ public class RegistrationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="デバイス登録削除", response=DeviceStatus.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスID不正文字エラー"),
+            @ApiResponse(code=ResultBase.RESREG_DEVICENOTEXIST, message="デバイス未存在エラー"),
+    })
     public ResultBase unregisterOtherDevice(
-            @PathParam("deviceid") final String deviceid,
-            @FormParam("corpid") final String corpid,
-            @FormParam("storeid") final String storeid,
-            @FormParam("udid") final String udid,
-            @FormParam("uuid") final String uuid){
+            @ApiParam(name="deviceid", value="デバイスID") @PathParam("deviceid") final String deviceid,
+            @ApiParam(name="corpid", value="企業コード") @FormParam("corpid") final String corpid,
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid,
+            @ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
+            @ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid){
         tp.methodEnter("unregisterDevice");
         tp.println("corpid", corpid).println("storeid", storeid)
             .println("deviceid", deviceid).println("udid", udid)

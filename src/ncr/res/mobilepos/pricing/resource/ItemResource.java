@@ -253,12 +253,19 @@ public class ItemResource {
     @Path("/list")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="商品情報検索", response=SearchedProducts.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ITEM_MANUAL_SEARCH_NOTALLOWED, message="手動検索未許可")
+    })
     public final SearchedProducts list(
-            @FormParam("storeid") final String storeId,
-            @FormParam("key") final String key,
-            @FormParam("deviceid") final String deviceId,
-            @FormParam("limit") final int limit,
-            @FormParam("name") final String name) {
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+            @ApiParam(name="key", value="商品検索キー") @FormParam("key") final String key,
+            @ApiParam(name="deviceid", value="デバイスID") @FormParam("deviceid") final String deviceId,
+            @ApiParam(name="limit", value="検索結果数上限") @FormParam("limit") final int limit,
+            @ApiParam(name="name", value="商品検索名称") @FormParam("name") final String name) {
 
         String functionName = "ItemResource.list";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -552,10 +559,17 @@ public class ItemResource {
     @Path("maintenance/{storeid}/{plucode}")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="商品価格変更", response=ItemMaintenance.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_PRICECHANGE, message="価格変更失敗")
+    })
     public final ItemMaintenance changePrice(
-            @PathParam("storeid") final String storeID,
-            @PathParam("plucode") final String pluCode,
-            @FormParam("regularsalesunitprice") final String salesUnitPrice) {
+            @ApiParam(name="storeid", value="店舗コード") @PathParam("storeid") final String storeID,
+            @ApiParam(name="plucode", value="PLUコード") @PathParam("plucode") final String pluCode,
+            @ApiParam(name="regularsalesunitprice", value="標準売上単価") @FormParam("regularsalesunitprice") final String salesUnitPrice) {
 
         String functionName = "ItemResource.changePrice";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -699,6 +713,12 @@ public class ItemResource {
     @Path("/getDiscountReason")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="値引理由情報取得", response=ReasonDataList.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ReasonDataList getDiscountReason() {
         String functionName = "ItemResource.getDiscountReason";
         tp.methodEnter(DebugLogger.getCurrentMethodName());
@@ -745,6 +765,12 @@ public class ItemResource {
     @Path("/getDiscountButton")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="割引ボタン取得", response=ReasonDataList.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ReasonDataList getDiscountButton() {
         String functionName = "ItemResource.getDiscountButton";
         tp.methodEnter(DebugLogger.getCurrentMethodName());

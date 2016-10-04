@@ -1,5 +1,11 @@
 package ncr.res.mobilepos.queuesignature.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -32,7 +38,8 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
  * QueueSignatureResource is a Web Resource that supports for queuing Signature.
  */
 @Path("/QueueSignature")
-    public class QueueSignatureResource {
+@Api(value="/QueueSignature", description="外部CAリクエストAPI")
+public class QueueSignatureResource {
     /**
      * The IOWriter for the log.
      */
@@ -61,12 +68,16 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes("application/x-www-form-urlencoded")
+    @ApiOperation(value="外部CAリクエスト追加", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase addSignatureRequest(
-            @PathParam("retailstoreid") final String storeid,
-            @PathParam("queue") final String queue,
-            @PathParam("workstationid") final String workstationid,
-            @PathParam("sequencenumber") final String sequenceno,
-            @FormParam("cainfo") final String cainfo) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @PathParam("retailstoreid") final String storeid,
+            @ApiParam(name="queue", value="キュー") @PathParam("queue") final String queue,
+            @ApiParam(name="workstationid", value="端末コード") @PathParam("workstationid") final String workstationid,
+            @ApiParam(name="sequencenumber", value="連番") @PathParam("sequencenumber") final String sequenceno,
+            @ApiParam(name="cainfo", value="CaInfo") @FormParam("cainfo") final String cainfo) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("RetailStoreID", storeid)
           .println("Queue", queue)
@@ -121,10 +132,20 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="外部CAリクエストステータス検索", response=SignatureRequestBill.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESEXTCA_OK, message="取引売上処理保留"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="営業日無効"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NORMEND, message="取引処理済"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_INPROG, message="取引処理中"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="取引未存在"),
+    })
     public final SignatureRequestList getSignatureRequestList(
-                 @QueryParam("retailstoreid") final String storeID,
-                 @QueryParam("queue") final String queue,
-                 @QueryParam("txdate")final String txDate) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String storeID,
+            @ApiParam(name="queue", value="キューID") @QueryParam("queue") final String queue,
+            @ApiParam(name="txdate", value="取引営業日") @QueryParam("txdate")final String txDate) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("retailstoreid", storeID)
@@ -204,12 +225,21 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes("application/x-www-form-urlencoded")
+    @ApiOperation(value="外部CAリクエストステータス取得", response=SignatureRequestBill.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESEXTCA_OK, message="取引処理保留"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="営業日無効"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NORMEND, message="取引処理済"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_INPROG, message="取引処理中"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="取引未存在"),
+    })
     public final SignatureRequestBill getSignatureRequest(
-                    @QueryParam("retailstoreid") final String storeid,
-                    @QueryParam("queue") final String queue,
-                    @QueryParam("workstationid") final String posterminalid,
-                    @QueryParam("sequencenumber") final String seqnum,
-                    @QueryParam("txdate") final String businessdate) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String storeid,
+            @ApiParam(name="queue", value="キューID") @QueryParam("queue") final String queue,
+            @ApiParam(name="workstationid", value="端末コード") @QueryParam("workstationid") final String posterminalid,
+            @ApiParam(name="sequencenumber", value="連番") @QueryParam("sequencenumber") final String seqnum,
+            @ApiParam(name="txdate", value="取引営業日") @QueryParam("txdate") final String businessdate) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("RetailStoreID", storeid)
           .println("Queue", queue)
@@ -299,13 +329,19 @@ import ncr.res.mobilepos.queuesignature.model.Transaction;
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
     @Consumes("application/x-www-form-urlencoded")
+    @ApiOperation(value="外部CAリクエストステータス更新", response=SignatureRequestBill.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_DATEINVALID, message="営業日無効"),
+            @ApiResponse(code=ResultBase.RESEXTCA_ERROR_NOTFOUND, message="売上未存在"),
+    })
     public final ResultBase updateSignatureRequestStatus(
-            @FormParam("retailstoreid") final String storeid,
-            @FormParam("queue") final String queue,
-            @FormParam("workstationid") final String posterminalid,
-            @FormParam("sequencenumber") final String seqnum,
-            @FormParam("txdate") final String businessdate,
-            @FormParam("status") final String status) {
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+            @ApiParam(name="queue", value="キューID") @FormParam("queue") final String queue,
+            @ApiParam(name="workstationid", value="端末ID") @FormParam("workstationid") final String posterminalid,
+            @ApiParam(name="sequencenumber", value="連番") @FormParam("sequencenumber") final String seqnum,
+            @ApiParam(name="txdate", value="取引営業日") @FormParam("txdate") final String businessdate,
+            @ApiParam(name="status", value="ステータス") @FormParam("status") final String status) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("RetailStoreID", storeid)
           .println("Queue", queue)

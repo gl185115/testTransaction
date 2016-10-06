@@ -23,6 +23,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.model.DateTime;
@@ -222,8 +223,9 @@ public class SystemSettingResource {
     @GET
     @Path("/DebugLogLevel/change/{level}")
     @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="ログレベル設定", response=ResultBase.class)
     public final ResultBase changeDebugLevel(
-            @PathParam("level") final int level) {
+            @ApiParam(name="level", value="ログレベル") @PathParam("level") final int level) {
         ResultBase result = new ResultBase();
 
         DebugLogger.setDebugLevel(level);

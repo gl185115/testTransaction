@@ -1,5 +1,10 @@
 package ncr.res.mobilepos.promotion.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -17,6 +22,7 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
@@ -31,6 +37,7 @@ import ncr.res.mobilepos.promotion.model.Transaction;
  */
 
 @Path("/remoteitem")
+@Api(value="/remoteitem", description="è§ïièÓïÒAPI")
 public class RemoteItemResource {
     /**
     /** A private member variable used for logging the class implementations. */
@@ -70,6 +77,7 @@ public class RemoteItemResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @Path("/item_getremoteinfo")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="è§ïièÓïÒéÊìæ", response=Void.class)
     public final void itemEntry(@Context HttpServletRequest request,@Context HttpServletResponse response) {
         String functionName = DebugLogger.getCurrentMethodName();
         String retailStoreId = request.getParameter("storeId");

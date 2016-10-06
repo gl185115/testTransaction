@@ -105,6 +105,7 @@ import ncr.res.mobilepos.journalization.model.SequenceNo;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
 /**
@@ -1362,10 +1363,20 @@ public class JournalizationResource {
     @Path("/getforwarditems")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    public final SearchForwardPosLog getForwardItems(@FormParam("CompanyId") String CompanyId,
-            @FormParam("RetailStoreId") String RetailStoreId, @FormParam("WorkstationId") String WorkstationId,
-            @FormParam("SequenceNumber") String SequenceNumber, @FormParam("Queue") String Queue,
-            @FormParam("BusinessDayDate") String BusinessDayDate, @FormParam("TrainingFlag") String TrainingFlag) {
+    @ApiOperation(value="前捌き取引情報取得", response=SearchForwardPosLog.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="POSLOG無効"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    })
+    public final SearchForwardPosLog getForwardItems(
+            @ApiParam(name="CompanyId", value="企業コード") @FormParam("CompanyId") String CompanyId,
+            @ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
+            @ApiParam(name="WorkstationId", value="端末コード") @FormParam("WorkstationId") String WorkstationId,
+            @ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") String SequenceNumber,
+            @ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
+            @ApiParam(name="BusinessDayDate", value="営業日") @FormParam("BusinessDayDate") String BusinessDayDate,
+            @ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag) {
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);
         tp.println("WorkstationId", WorkstationId);
@@ -1414,15 +1425,20 @@ public class JournalizationResource {
     @Path("/forwardupdate")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="前捌き取引情報更新", response=ViewStore.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase updateForwardStatus(
-            @FormParam("CompanyId") String CompanyId,
-            @FormParam("RetailStoreId") String RetailStoreId,
-            @FormParam("WorkstationId") String WorkstationId,
-            @FormParam("SequenceNumber") String SequenceNumber,
-            @FormParam("Queue") String Queue,
-            @FormParam("BusinessDayDate") String BusinessDayDate,
-            @FormParam("TrainingFlag") String TrainingFlag,
-            @FormParam("Status") int Status) {
+            @ApiParam(name="CompanyId", value="企業コード") @FormParam("CompanyId") String CompanyId,
+            @ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
+            @ApiParam(name="WorkstationId", value="端末コード") @FormParam("WorkstationId") String WorkstationId,
+            @ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") String SequenceNumber,
+            @ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
+            @ApiParam(name="BusinessDayDate", value="営業日") @FormParam("BusinessDayDate") String BusinessDayDate,
+            @ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag,
+            @ApiParam(name="Status", value="ステータス") @FormParam("Status") int Status) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);

@@ -542,9 +542,15 @@ public class StoreResource {
     @Path("/spartinternalsystem")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="SPARTシステムインターフェース値取得", response=StoreInternSys.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final StoreInternSys spartStore(
-            @FormParam("storecode") final String storecode,
-            @FormParam("usage") final Integer usage) {
+            @ApiParam(name="storecode", value="店舗コード") @FormParam("storecode") final String storecode,
+            @ApiParam(name="usage", value="使用方法") @FormParam("usage") final Integer usage) {
         tp.methodEnter("spartStore").println("storecode", storecode)
                 .println("usage", usage);
 

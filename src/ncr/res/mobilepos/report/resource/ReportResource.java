@@ -72,6 +72,7 @@ import ncr.res.mobilepos.report.model.ReportMode;
 import ncr.res.mobilepos.report.model.ReportModes;
 import ncr.res.mobilepos.report.model.TotalAmount;
 import ncr.res.mobilepos.simpleprinterdriver.NetPrinterInfo;
+import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
 
@@ -674,12 +675,20 @@ public class ReportResource {
     @Path("/printfinancialreport2")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="財務報告印刷", response=ViewStore.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RESNETRECPT_OK, message="OK"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="財務報告無効"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NG, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR, message="印刷エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase printFinancialReport2(
-            @FormParam("companyid") final String companyId,
-            @FormParam("deviceno") final String deviceNo,
-            @FormParam("operatorno") final String operatorNo,
-            @FormParam("storeno") final String storeNo,
-            @FormParam("language") final String language) {
+            @ApiParam(name="companyid", value="企業コード") @FormParam("companyid") final String companyId,
+            @ApiParam(name="deviceno", value="デバイスコード") @FormParam("deviceno") final String deviceNo,
+            @ApiParam(name="operatorno", value="従業員コード") @FormParam("operatorno") final String operatorNo,
+            @ApiParam(name="storeno", value="店舗コード") @FormParam("storeno") final String storeNo,
+            @ApiParam(name="language", value="言語") @FormParam("language") final String language) {
 
         tp.methodEnter("printFinancialReport2");
         tp.println("companyId", companyId)

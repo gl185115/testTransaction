@@ -336,10 +336,17 @@ public class TillInfoResource {
 	@Path("/fetchone")
 	@GET
 	@Produces({MediaType.APPLICATION_JSON})
+	@ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+			@ApiResponse(code=ResultBase.RES_TILL_NOT_EXIST, message="ドロワーコード無効"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+	})
 	public final ViewTill fetchOne(
-			@QueryParam("companyid") final String companyId,
-			@QueryParam("storeid") final String storeId,
-			@QueryParam("tillid") final String tillId) {
+			@ApiParam(name="companyid", value="企業コード") @QueryParam("companyid") final String companyId,
+			@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+			@ApiParam(name="tillid", value="ドロワーコード") @QueryParam("tillid") final String tillId) {
 		String functionName = "TillInfoResource.fetchOne";
 		tp.methodEnter("viewTill");
 		tp.println("companyId", companyId);

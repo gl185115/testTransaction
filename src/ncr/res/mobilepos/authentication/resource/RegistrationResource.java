@@ -400,9 +400,17 @@ public class RegistrationResource {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="店舗パスコード名称取得", response=DeviceStatus.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESAUTH_CORPID_NOTEXIST, message="企業コード無効"),
+            @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="店舗コード無効"),
+            @ApiResponse(code=ResultBase.RESAUTH_OK, message="OK"),
+    })
     public final DeviceStatus getCorpStoreNames(
-            @FormParam("corpid") final String corpid,
-            @FormParam("storeid") final String storeid)
+            @ApiParam(name="corpid", value="会社コード") @FormParam("corpid") final String corpid,
+            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid)
             throws DaoException {
         tp.methodEnter("getCorpStoreNames");
         tp.println("corpid", corpid).println("storeid", storeid);

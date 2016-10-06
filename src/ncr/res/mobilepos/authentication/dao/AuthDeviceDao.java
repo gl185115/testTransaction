@@ -912,8 +912,7 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             selectStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("select-storename-"
-                            + "by-corpid-storeid"));
+                    sqlStatement.getProperty("select-storename-by-corpid-storeid"));
             selectStmt.setString(1, storeid);
 
             resultSet = selectStmt.executeQuery();

@@ -44,6 +44,11 @@ import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.util.Streams;
 
 import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import atg.taglib.json.util.JSONArray;
 import ncr.realgate.util.Trace;
@@ -87,6 +92,7 @@ import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
  *
  */
 @Path("/uiconfigMaintenance")
+@Api(value="/uiconfigMaintenance", description="カスタムメンテナンスリソースAPI")
 public class UiConfigMaintenanceResource {
     // Extensions for custom images.
     private static final String EXTENSION_CUSTOM_IMAGE_JPG = ".jpg";
@@ -131,10 +137,11 @@ public class UiConfigMaintenanceResource {
     @Path("/custom/{companyID}/{typeParam}/images/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
-    public final Response requestCustomImage(
-    		@PathParam("companyID") final String companyID,
-    		@PathParam("typeParam") final String typeParam,
-    		@PathParam("filename") final String filenameParam) {
+	@ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
+	public final Response requestCustomImage(
+			@ApiParam(name="companyID", value="企業コード") @PathParam("companyID") final String companyID,
+			@ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+			@ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfigMaintenance/custom/" + companyID + "/" + typeParam + "/images/" + filenameParam);
@@ -241,11 +248,11 @@ public class UiConfigMaintenanceResource {
     @POST
     @Produces({"application/json;charset=UTF-8"})
 	public final ResultBase requestFileUpload(@FormParam("folder") final String folder,
-			@FormParam("contents") final String contents, 
+			@FormParam("contents") final String contents,
 			@FormParam("desfilename") final String desfilename,
-			@FormParam("overwrite") final String overwrite, 
+			@FormParam("overwrite") final String overwrite,
 			@FormParam("picturename") final String picturename,
-			@FormParam("expire") final String expire, 
+			@FormParam("expire") final String expire,
 			@FormParam("title") final String title,
 			@FormParam("title2") final String title2,
 			@FormParam("companyID") final String companyID) {
@@ -365,9 +372,14 @@ public class UiConfigMaintenanceResource {
 	@Path("/fileList")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
+	@ApiOperation(value="カスタムファイルリスト取得", response=FileInfoList.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="ファイル未検出エラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
 	public final FileInfoList requestConfigFileList(
-			@FormParam("companyID") final String companyID,
-			@FormParam("folder") final String folder){
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID,
+			@ApiParam(name="folder", value="フォルダ") @FormParam("folder") final String folder){
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileList");
@@ -437,10 +449,15 @@ public class UiConfigMaintenanceResource {
 	@Path("/fileDownload")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
+	@ApiOperation(value="リソースファイルダウンロード", response=FileDownLoadInfo.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_FILENOTFOUND, message="ファイル未検出エラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
 	public final FileDownLoadInfo requestConfigFileDownload(
-			@FormParam("folder") final String folder,
-			@FormParam("filename") final String filename,
-			@FormParam("companyID") final String companyID){
+			@ApiParam(name="folder", value="フォルダ") @FormParam("folder") final String folder,
+			@ApiParam(name="filename", value="ファイル名") @FormParam("filename") final String filename,
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID){
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileDownload");
@@ -809,12 +826,13 @@ public class UiConfigMaintenanceResource {
 	@Path("/fileRemove")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
+	@ApiOperation(value="カスタムファイル削除", response=FileRemoveInfo.class)
 	public final FileRemoveInfo requestConfigFileRemove(
-			@FormParam("companyID") final String companyID,
-			@FormParam("folder") final String folder,
-			@FormParam("filename") final String filename,
-			@FormParam("confirmDel") final String confirmDel,
-			@FormParam("delFileList") final String delFileList){
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID,
+			@ApiParam(name="folder", value="フォルダ") @FormParam("folder") final String folder,
+			@ApiParam(name="filename", value="ファイル名") @FormParam("filename") final String filename,
+			@ApiParam(name="confirmDel", value="利用中確認フラグ") @FormParam("confirmDel") final String confirmDel,
+			@ApiParam(name="delFileList", value="削除失敗ファイルリスト") @FormParam("delFileList") final String delFileList){
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileRemove");
 		tp.println("companyID",companyID)

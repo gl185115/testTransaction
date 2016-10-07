@@ -1,10 +1,17 @@
 package ncr.res.mobilepos.uiconfig.resource;
 
 import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
@@ -27,6 +34,7 @@ import java.net.URLDecoder;
 import java.util.List;
 
 @Path("/uiconfig")
+@Api(value="/uiconfig", description="カスタムリソースAPI")
 public class UiConfigResource {
     // Extensions for custom images.
     private static final String EXTENSION_CUSTOM_IMAGE_JPG = ".jpg";
@@ -56,14 +64,15 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}")
     @GET
     @Produces({"application/javascript;charset=UTF-8"})
+    @ApiOperation(value="リソースファイル取得", response=Response.class)
     /**
      * Finds appropriate config file and returns the content as String.
      */
     public final Response requestConfigFile(
-            @PathParam("typeParam") final String typeParam,
-            @QueryParam("companyID") final String companyID,
-            @QueryParam("storeID") final String storeID,
-            @QueryParam("workstationID") final String workstationID) {
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="companyID", value="企業コード") @QueryParam("companyID") final String companyID,
+            @ApiParam(name="storeID", value="店舗コード") @QueryParam("storeID") final String storeID,
+            @ApiParam(name="workstationID", value="端末ID") @QueryParam("workstationID") final String workstationID) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/custom/" + typeParam);
@@ -253,9 +262,10 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}/images/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
+    @ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
     public final Response requestTypeParamCustomImage(
-    		@PathParam("typeParam") final String typeParam,
-    		@PathParam("filename") final String filenameParam) {
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/custom/" + typeParam + "/images/" + filenameParam);
@@ -313,9 +323,10 @@ public class UiConfigResource {
     @Path("/custom/images/{typeParam}/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
+    @ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
     public final Response requestCustomTypeParamImage(
-    		@PathParam("typeParam") final String typeParam,
-    		@PathParam("filename") final String filenameParam) {
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/custom/images/" + typeParam + "/" + filenameParam);

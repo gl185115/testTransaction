@@ -474,6 +474,7 @@ public class JournalizationResource {
     @GET
     @Path("/gettxnumber")
     @Produces({ MediaType.TEXT_PLAIN + ";charset=UTF-8" })
+    @ApiOperation(value="取引番号更新", response=String.class)
     public final String getTransactionNumber() {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -578,9 +579,19 @@ public class JournalizationResource {
     @Path("/list")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="ジャーナルAPI呼出", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESRPT_OK, message="OK"),
+            @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="API検索エラー"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="APIURL無効"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="ホスト無効"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO例外発生"),
+    })
     public final JSONData getTransactionReport(
-            @FormParam("APIType") String APIType,
-            @FormParam("JournalData") String JournalData) {
+            @ApiParam(name="APIType", value="APIタイプ") @FormParam("APIType") String APIType,
+            @ApiParam(name="JournalData", value="ジャーナルデータ") @FormParam("JournalData") String JournalData) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -1264,12 +1275,19 @@ public class JournalizationResource {
     @POST
     @Path("/saveforwardposlog")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="取引保存", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="DBエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXB例外"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="営業日無効"),
+    })
     public final ResultBase saveForwardPosLog(
-            @FormParam("poslogxml") final String poslogxml,
-            @FormParam("queue") final String queue,
-            @FormParam("workstationid") final String workstationid,
-            @FormParam("trainingmode") final String trainingmode,
-            @FormParam("total") final String total) {
+            @ApiParam(name="poslogxml", value="POSLOG XML") @FormParam("poslogxml") final String poslogxml,
+            @ApiParam(name="queue", value="キューコード") @FormParam("queue") final String queue,
+            @ApiParam(name="workstationid", value="端末コード") @FormParam("workstationid") final String workstationid,
+            @ApiParam(name="trainingmode", value="トレーニングモード") @FormParam("trainingmode") final String trainingmode,
+            @ApiParam(name="total", value="トータル") @FormParam("total") final String total) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("poslogxml", poslogxml);

@@ -197,6 +197,12 @@ public class UiConfigMaintenanceResource {
     @Path("/getcompanyinfo")
     @POST
     @Produces({"application/json;charset=UTF-8"})
+	@ApiOperation(value="会社情報取得", response=CompanyInfoList.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="ファイル未検出エラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データーベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
 	public final CompanyInfoList getCompanyInfo() {
 
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -247,15 +253,23 @@ public class UiConfigMaintenanceResource {
     @Path("/fileUpload")
     @POST
     @Produces({"application/json;charset=UTF-8"})
-	public final ResultBase requestFileUpload(@FormParam("folder") final String folder,
-			@FormParam("contents") final String contents,
-			@FormParam("desfilename") final String desfilename,
-			@FormParam("overwrite") final String overwrite,
-			@FormParam("picturename") final String picturename,
-			@FormParam("expire") final String expire,
-			@FormParam("title") final String title,
-			@FormParam("title2") final String title2,
-			@FormParam("companyID") final String companyID) {
+	@ApiOperation(value="カスタムファイルアップロード", response=ResultBase.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="ディレクトリ未検出エラー"),
+			@ApiResponse(code=ResultBase.RES_FILE_ALREADY_EXIST, message="ファイル重複エラー"),
+			@ApiResponse(code=ResultBase.RESRPT_OK, message="成功"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
+	public final ResultBase requestFileUpload(
+			@ApiParam(name="folder", value="フォルダ") @FormParam("folder") final String folder,
+		    @ApiParam(name="contents", value="ファイル内容") @FormParam("contents") final String contents,
+		    @ApiParam(name="desfilename", value="保存先ファイル名") @FormParam("desfilename") final String desfilename,
+		    @ApiParam(name="overwrite", value="上書き許可フラグ") @FormParam("overwrite") final String overwrite,
+		    @ApiParam(name="picturename", value="画像名") @FormParam("picturename") final String picturename,
+		    @ApiParam(name="expire", value="有効期限") @FormParam("expire") final String expire,
+		    @ApiParam(name="title", value="タイトル") @FormParam("title") final String title,
+		    @ApiParam(name="title2", value="タイトル2") @FormParam("title2") final String title2,
+		    @ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/fileUpload");
@@ -516,7 +530,14 @@ public class UiConfigMaintenanceResource {
     @Path("/getDeployStoreAndGroup")
     @POST
     @Produces({"application/json;charset=UTF-8"})
-	public final TableStoreList getDeployStoreAndGroup(@FormParam("companyID") final String companyID) {
+	@ApiOperation(value="カスタムファイルリスト取得", response=TableStoreList.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出エラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データーベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
+	public final TableStoreList getDeployStoreAndGroup(
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/getDeployStoreAndGroup/");
@@ -601,10 +622,15 @@ public class UiConfigMaintenanceResource {
 	@Path("/pictureList")
 	@POST
 	@Produces({ "application/json;charset=UTF-8" })
+	@ApiOperation(value="画像ファイルパスリスト取得", response=PictureInfoList.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="ディレクトリ未検出エラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
 	public final PictureInfoList PictureListServlet(
-			@FormParam("folder") final String folder,
-			@FormParam("sizeType") final int sizeType,
-			@FormParam("companyID") final String companyID) {
+			@ApiParam(name="folder", value="フォルダ") @FormParam("folder") final String folder,
+			@ApiParam(name="sizeType", value="サイズタイプ") @FormParam("sizeType") final int sizeType,
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID) {
 		// Logs given parameters.
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/pictureList");
@@ -722,8 +748,14 @@ public class UiConfigMaintenanceResource {
 	@Path("/getSchedule")
 	@POST
 	@Produces({"application/json;charset=UTF-8"})
-	public final GetScheduleInfo getSchedule (@FormParam("resource") final String resource,
-			@FormParam("companyID") final String companyID){
+	@ApiOperation(value="スケジュールファイル読込", response=GetScheduleInfo.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="引数無効"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
+	public final GetScheduleInfo getSchedule (
+			@ApiParam(name="resource", value="リソースタイプ") @FormParam("resource") final String resource,
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID){
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/getSchedule");
 		tp.println("resource", resource).
@@ -769,10 +801,17 @@ public class UiConfigMaintenanceResource {
 	@Path("/setSchedule")
     @POST
     @Produces({"application/json;charset=UTF-8"})
-	public final ResultBase requestSetSchedule(@FormParam("filename") final String filename,
-			@FormParam("schedulejson") final String schedulejson, 
-			@FormParam("resource") final String resource,
-			@FormParam("companyID") final String companyID) {
+	@ApiOperation(value="カスタムファイルリスト取得", response=FileInfoList.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RESRPT_OK, message=""),
+			@ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="OKIO例外発生"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
+	public final ResultBase requestSetSchedule(
+			@ApiParam(name="filename", value="ファイル名") @FormParam("filename") final String filename,
+			@ApiParam(name="schedulejson", value="スケジュールデータ") @FormParam("schedulejson") final String schedulejson,
+			@ApiParam(name="resource", value="リソースタイプ") @FormParam("resource") final String resource,
+			@ApiParam(name="companyID", value="企業コード") @FormParam("companyID") final String companyID) {
     	
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter("/setSchedule");
@@ -1222,6 +1261,11 @@ public class UiConfigMaintenanceResource {
 	@POST
     @Produces({"application/json;charset=UTF-8"})
     @Consumes({"multipart/form-data"})
+	@ApiOperation(value="画像ファイルアップロード", response=PictureInfoUpload.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO例外発生"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+	})
 	public final PictureInfoUpload requestConfigPictureUpload(
 			@Context final HttpServletRequest request){
 

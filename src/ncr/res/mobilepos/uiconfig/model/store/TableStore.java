@@ -30,7 +30,7 @@ public class TableStore {
         return storeEntries;
 	}
 	/**
-	 * @param tableStore ã‚»ãƒƒãƒˆã™ã‚‹ tableStore
+	 * @param tableStore ƒZƒbƒg‚·‚é tableStore
 	 */
 	public void setStoreEntries(List<StoreEntry> storeEntries) {
 		this.storeEntries = storeEntries;

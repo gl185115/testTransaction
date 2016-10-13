@@ -57,7 +57,7 @@ import ncr.res.mobilepos.queuesignature.model.SignatureRequestBill;
  *
  */
 @Path("/QueueSuspend")
-@Api(value="/QueueSuspend", description="Bluetooth機器接続情報API")
+@Api(value="/QueueSuspend", description="保留API")
 public class QueueBusterResource {
     /**
      * The IOWriter for Log.
@@ -115,11 +115,11 @@ public class QueueBusterResource {
     @POST
     @Path("/suspend")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="機械の接続情報取り引き過程", response=ResultBase.class)
+    @ApiOperation(value="TXL_INPROGRESS_ITEM", response=ResultBase.class)
     @ApiResponses(value={
     	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="取引の期日を無効にする"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="日付無効"),
             @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
         })
     public final ResultBase suspend(
@@ -253,14 +253,14 @@ public class QueueBusterResource {
     @GET
     @Path("/resume")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="機械の接続情報回復の取引", response=SearchedPosLog.class)
+    @ApiOperation(value="保留取引の再開", response=SearchedPosLog.class)
     @ApiResponses(value={
         	@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_TXINVALID, message="無効な事務タイプ"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="既に取引を再開した"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="キューバスターパラメータが見つかりませんでした"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXINVALID, message="無効な取引"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="再開済み取引"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクション未検出"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="無効な要求"),
             @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
         })
     public final SearchedPosLog resume(
@@ -349,7 +349,7 @@ public class QueueBusterResource {
     @GET
     @Path("/list")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="取引リストを得る", response=BusteredTransactionList.class)
+    @ApiOperation(value="　取引リストを得る", response=BusteredTransactionList.class)
     @ApiResponses(value={
     	@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -501,10 +501,10 @@ public class QueueBusterResource {
     @GET
     @Path("/request")
     @Produces({ MediaType.APPLICATION_XML })
-    @ApiOperation(value="Web方法の呼び出し要求、取り消し、機器接続情報過程で完成取引", response=SuspendData.class)
+    @ApiOperation(value="取引の取得・取消・完了要求", response=SuspendData.class)
     @ApiResponses(value={
-    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
-        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="キューバスタートランザクション要求が無効です")
+    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="取引未検出"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="無効な要求")
     })
     public final SuspendData requestToQueue(
     		@ApiParam(name="method", value="方法") @QueryParam("method") final String method,
@@ -590,7 +590,7 @@ public class QueueBusterResource {
     @GET
     @Path("/deleteforwarditem")
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="プロジェクト前のネットワークの方法を削除する", response=ResultBase.class)
+    @ApiOperation(value="前捌き商品削除", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
@@ -633,7 +633,7 @@ public class QueueBusterResource {
     @Path("/getpreviousamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="検索前の金額", response=CashDrawer.class)
+    @ApiOperation(value="SOD前金額取得", response=CashDrawer.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")

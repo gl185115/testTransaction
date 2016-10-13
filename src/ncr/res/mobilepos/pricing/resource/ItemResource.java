@@ -164,7 +164,7 @@ public class ItemResource {
     @Path("/{storeid}/{plucode}")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="同店舗の同商品の値段が上がる", response=SearchedProduct.class)
+    @ApiOperation(value="商品情報取得", response=SearchedProduct.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -1206,7 +1206,7 @@ public class ItemResource {
     @Path("/getpicklistitems")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="選択リスト", response=PickList.class)
+    @ApiOperation(value="ピックリスト商品取得", response=PickList.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })

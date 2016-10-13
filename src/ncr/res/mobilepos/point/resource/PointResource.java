@@ -52,7 +52,7 @@ public class PointResource {
     @Path("/getitempointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="プロジェクトポイントの速度", response=PointRateResponse.class)
+    @ApiOperation(value="商品ポイント情報取得", response=PointRateResponse.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -119,7 +119,7 @@ public class PointResource {
     @Path("/gettranpointrate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="伝送ポイントの速度", response=PointRateResponse.class)
+    @ApiOperation(value="取引ポイント情報取得", response=PointRateResponse.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),

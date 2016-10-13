@@ -49,7 +49,7 @@ public class PremiumFlagResource {
     @Path("/getPremiumFlag")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="費用フラグ", response=JSONData.class)
+    @ApiOperation(value="プレミアムフラグ部門取得", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),

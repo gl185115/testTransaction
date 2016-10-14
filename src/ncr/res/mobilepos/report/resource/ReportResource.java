@@ -3023,11 +3023,11 @@ public class ReportResource {
     @Path("/opendrawer")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="開いた引き出し", response=ResultBase.class)
+    @ApiOperation(value="ドロワーオープン", response=ResultBase.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_NOTFOUND, message="トランザクションプリンタが見ない"),
-            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_DRAWER, message="オープンする引き出し失敗"),
+            @ApiResponse(code=ResultBase.RESNETRECPT_ERROR_DRAWER, message="ドロワーオープン失敗"),
         })
     public final ResultBase openDrawer(
     		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeid,

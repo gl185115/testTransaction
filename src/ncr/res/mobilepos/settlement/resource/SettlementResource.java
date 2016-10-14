@@ -106,7 +106,7 @@ public class SettlementResource {
     @Path("/getvoucherlist")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="商品券リストを取得する", response=SettlementInfo.class)
+    @ApiOperation(value="商品券リスト取得", response=SettlementInfo.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -180,7 +180,7 @@ public class SettlementResource {
     @Path("/gettransactioncount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="トランザクションの数を得る", response=SettlementInfo.class)
+    @ApiOperation(value="トランザクション数取得", response=SettlementInfo.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -237,7 +237,7 @@ public class SettlementResource {
     @Path("/getcredit")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="クレジット", response=SettlementInfo.class)
+    @ApiOperation(value="クレジット情報取得", response=SettlementInfo.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),

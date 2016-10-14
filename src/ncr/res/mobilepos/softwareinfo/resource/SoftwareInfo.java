@@ -226,7 +226,7 @@ public class SoftwareInfo {
     @Path("/getallsoftwareinfo")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="すべてソフト情報を取得する", response=SoftwareComponents.class)
+    @ApiOperation(value="全ソフトウェア情報取得", response=SoftwareComponents.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })

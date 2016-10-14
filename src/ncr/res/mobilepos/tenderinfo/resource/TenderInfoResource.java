@@ -46,7 +46,7 @@ public class TenderInfoResource {
     @Path("/getTenderInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="差し出す情報を得る", response=JSONData.class)
+    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -98,7 +98,7 @@ public class TenderInfoResource {
     @Path("/gettenderinfobytype")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="タイプによって差し出す情報を得る", response=JSONData.class)
+    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),

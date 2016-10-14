@@ -154,7 +154,7 @@ public class SystemSettingResource {
     @POST
     @Path("/DateSettings/get")
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="日付の設定を得る", response=SystemSetting.class)
+    @ApiOperation(value="日付設定取得", response=SystemSetting.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RESSYS_ERROR_NO_SETTINGS_FOUND, message="システム設定データが見つからない"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -242,7 +242,7 @@ public class SystemSettingResource {
     @GET
     @Path("/DateSettings/getcurrentdatetime")
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="汎用日付を得る", response=DateTime.class)
+    @ApiOperation(value="現在日時取得", response=DateTime.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })

@@ -99,7 +99,7 @@ public class TillInfoResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ドロワ明細を得る", response=ViewTill.class)
+    @ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -404,7 +404,7 @@ public class TillInfoResource {
     @Path("/getexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="実行権限を取得する", response=ResultBase.class)
+    @ApiOperation(value="実行権限取得", response=ResultBase.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
@@ -663,7 +663,7 @@ public class TillInfoResource {
     @Path("/releaseexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="権限を解除する", response=ResultBase.class)
+    @ApiOperation(value="実行権限破棄", response=ResultBase.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),   
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),

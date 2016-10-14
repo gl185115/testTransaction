@@ -41,7 +41,7 @@ import java.util.Map.Entry;
  *
  */
 @Path("/systemconfiguration")
-@Api(value="/SystemConfiguration", description="システム配置API")
+@Api(value="/SystemConfiguration", description="システム設定取得")
 public class SystemConfigurationResource {
     /**
      * Servlet Context.
@@ -95,7 +95,7 @@ public class SystemConfigurationResource {
     @GET
     @Produces ({MediaType.APPLICATION_JSON })
     @Path("")
-    @ApiOperation(value="システムの設定を取得する", response=Map.class)
+    @ApiOperation(value="システム設定取得", response=Map.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })

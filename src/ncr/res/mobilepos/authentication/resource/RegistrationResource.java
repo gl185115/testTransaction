@@ -88,7 +88,7 @@ public class RegistrationResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="新しい端末を登録する", response=DeviceStatus.class)
+    @ApiOperation(value="新規端末登録", response=DeviceStatus.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),

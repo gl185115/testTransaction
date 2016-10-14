@@ -163,7 +163,7 @@ public class StoreResource {
     @Path("/getstoredetailinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="店の詳細情報を取得する", response=ViewStore.class)
+    @ApiOperation(value="店舗情報取得", response=ViewStore.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -340,7 +340,7 @@ public class StoreResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="検索するストア", response=Stores.class)
+    @ApiOperation(value="店舗情報検索", response=Stores.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -602,7 +602,7 @@ public class StoreResource {
     @Path("/presetcminfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="CMプリセットするストアリスト情報を得る", response=CMPresetInfos.class)
+    @ApiOperation(value="レシート広告情報取得", response=CMPresetInfos.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -644,7 +644,7 @@ public class StoreResource {
     @Path("/getcmpresetstoreinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="CMプリセットするストア情報を得る", response=PresetSroreInfo.class)
+    @ApiOperation(value="プリセットストア情報取得", response=PresetSroreInfo.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -682,7 +682,7 @@ public class StoreResource {
     @Path("/getsummaryreceiptno")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="摘要レシートNoを得る", response=JSONData.class)
+    @ApiOperation(value="領収証No取得", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -721,7 +721,7 @@ public class StoreResource {
     @Path("/updatesummaryreceiptno")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="摘要レシートNoを更新する", response=JSONData.class)
+    @ApiOperation(value="領収証No更新", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_QUEUEFULL, message="各商店の列がいっぱいになっている"),

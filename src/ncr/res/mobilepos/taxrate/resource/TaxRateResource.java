@@ -69,7 +69,7 @@ public class TaxRateResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/gettaxrate")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="自社品番によって商品混合情報を得る", response=Map.class)
+    @ApiOperation(value="消費税率取得", response=Map.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),

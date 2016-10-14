@@ -115,7 +115,7 @@ import ncr.res.mobilepos.tillinfo.model.ViewTill;
  *
  */
 @Path("/transaction")
-@Api(value="/transaction", description="“ú‘Œ¹API")
+@Api(value="/transaction", description="æˆøî•ñAPI")
 public class JournalizationResource {
     /** A private member variable used for the servlet context. */
     @Context

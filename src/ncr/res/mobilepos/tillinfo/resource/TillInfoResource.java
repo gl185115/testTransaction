@@ -404,7 +404,7 @@ public class TillInfoResource {
     @Path("/getexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="実行権限取得", response=ResultBase.class)
+    @ApiOperation(value="SOD/EOD実行権限取得", response=ResultBase.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
@@ -663,7 +663,7 @@ public class TillInfoResource {
     @Path("/releaseexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="実行権限破棄", response=ResultBase.class)
+    @ApiOperation(value="SOD/EOD実行権限破棄", response=ResultBase.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),   
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),

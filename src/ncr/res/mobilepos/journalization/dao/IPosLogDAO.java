@@ -14,8 +14,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.JournalizationException;
 import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.journalization.model.PointPosted;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
@@ -37,7 +41,9 @@ public interface IPosLogDAO {
      * @throws Exception     The exception thrown when the process fail.
      */
 	void savePOSLog(PosLog posLog, String posLogXml, int trainingMode) 
-			throws Exception;
+			throws DaoException, JournalizationException, TillException, SQLStatementException,
+					ParseException, NamingException;
+
 	/**
      * Get the transaction POSLog XML in the TXL_POSLOG table.
      * by specifying the company id, trainingmode, transaction number.

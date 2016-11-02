@@ -27,11 +27,11 @@ public final class PosLogRespConstants {
      */
     public static final String NORMAL_END     = "0";
     /**
-     * The Error End.
+     * The Error End, (No Retry)
      */
     public static final String ERROR_END_1     = "1";
     /**
-     * The Status for Busy.
+     * The Status for Busy, (Needs Retry)
      */
     public static final String ERROR_END_2     = "6";
 }

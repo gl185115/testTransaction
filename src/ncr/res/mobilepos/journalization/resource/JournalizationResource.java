@@ -10,11 +10,25 @@
 
 package ncr.res.mobilepos.journalization.resource;
 
+import atg.taglib.json.util.JSONObject;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,11 +36,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 import javax.annotation.PostConstruct;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -51,13 +60,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-
-import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -106,7 +108,6 @@ import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
 /**
  * Journalization Web Resource Class.
@@ -282,6 +283,36 @@ public class JournalizationResource {
  					"Output error transaction data to snap file", infos);
  			posLogResponse = new PosLogResp(e.getErrorCode(), e.getErrorCode(),
  					PosLogRespConstants.ERROR_END_1, e);
+        } catch (ParseException e) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] {
+                    snap.write("Pos log xml data in journalize", posLogXml),
+                    snap.write("Exception", e) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName,
+                    "Output error transaction data to snap file", infos);
+            posLogResponse = new PosLogResp(
+                    ResultBase.RES_ERROR_PARSE,
+                    ResultBase.RES_ERROR_PARSE,
+                    PosLogRespConstants.ERROR_END_1, e);
+        } catch (NamingException e) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] {
+                    snap.write("Pos log xml data in journalize", posLogXml),
+                    snap.write("Exception", e) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_NAMINGEXC, functionName,
+                    "Failed to lookup 'ServerID' in Context", infos);
+            posLogResponse = new PosLogResp(
+                    ResultBase.RES_ERROR_NAMINGEXCEPTION,
+                    ResultBase.RES_ERROR_NAMINGEXCEPTION,
+                    PosLogRespConstants.ERROR_END_1, e);
+        } catch (SQLStatementException e) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] {
+                    snap.write("Pos log xml data in journalize", posLogXml),
+                    snap.write("Exception", e) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName,
+                    "Failed to read 'sql_statements.xml'", infos);
+            posLogResponse = new PosLogResp(
+                    ResultBase.RES_ERROR_SQLSTATEMENT,
+                    ResultBase.RES_ERROR_SQLSTATEMENT,
+                    PosLogRespConstants.ERROR_END_1, e);
         } catch (Exception e) {
             Snap.SnapInfo[] infos = {
 					snap.write("Pos log xml data in journalize", posLogXml),

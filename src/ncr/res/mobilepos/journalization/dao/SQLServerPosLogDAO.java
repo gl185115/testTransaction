@@ -711,19 +711,11 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @throws DaoException
      *             The Exception thrown when the process fails
      */
-    private String getServerType() throws DaoException {
-        String serverType = "";
-        try {
-            // check value for environment variable SERVERTYPE
-            serverType = System.getenv("SERVERTYPE");
-            if (StringUtility.isNullOrEmpty(serverType)) {
-                serverType = DEFAULT_SERVERTYPE;
-            }
-        } catch (SecurityException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,
-                    "getServerType" + ": Failed to get SERVERTYPE system property.", e);
-            throw new DaoException("DaoException: @SQLServerPosLogDAO." + "getServerType:"
-                    + " Failed to get SERVERTYPE system property.", e, ResultBase.RES_SYSTEM_PROP_ERROR);
+    private String getServerType()  {
+        // check value for environment variable SERVERTYPE
+        String serverType = System.getenv("SERVERTYPE");
+        if (StringUtility.isNullOrEmpty(serverType)) {
+            serverType = DEFAULT_SERVERTYPE;
         }
         return serverType;
     }
@@ -781,18 +773,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      * @return true/false.
      */
     private boolean isServerType(String serverType) {
-        boolean isServer = false;
-        String server = "";
-        try {
-            server = this.getServerType();
-        } catch (DaoException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, "isServerType" + ": Failed to validate servertype.", e);
-        } finally {
-            if (server.equalsIgnoreCase(serverType)) {
-                isServer = true;
-            }
-        }
-        return isServer;
+        return this.getServerType().equalsIgnoreCase(serverType);
     }
 
     /**
@@ -1205,7 +1186,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      *             The exception thrown when the process fail.
      */
     public final void savePOSLog(final PosLog posLog, final String posLogXml, final int trainingMode)
-            throws DaoException, JournalizationException, TillException {
+            throws DaoException, JournalizationException, TillException,
+            ParseException,SQLStatementException, NamingException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("poslogxml", posLogXml);
 
@@ -1366,20 +1348,19 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlStmtEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to save transaction.",
                     sqlStmtEx);
-            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " + sqlStmtEx.getMessage(),
-                    sqlStmtEx);
+            throw sqlStmtEx;
         } catch (SQLException sqlEx) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to save transaction.", sqlEx);
             throw new DaoException("SQLException: @doPOSLogJournalization - " + sqlEx.getMessage(), sqlEx);
         } catch (NamingException e) {
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to save transaction.", e);
-            throw new DaoException("Unable to find serverID from context parameters.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_NAMINGEXC, functionName + ": Unable to find serverID from context parameters.", e);
+            throw e;
         } catch (TillException tEx) {
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", tEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName + ": Failed to update Till.", tEx);
-            throw new TillException("Failed to update Till. - " + tEx.getMessage(), tEx, tEx.getErrorCode());
+            throw tEx;
         } catch (DaoException e) {
             if (e.getErrorCode() == ResultBase.RES_SYSTEM_PROP_ERROR) {
                 rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
@@ -1390,7 +1371,11 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             // Failed by ParseException thrown by invalid format of BusinessDayDate or BeginDateTime .
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", parseEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to update PosCtrl.", parseEx);
-            throw new TillException("Failed to update PosCtrl. - " + parseEx.getMessage(), parseEx);
+            throw parseEx;
+        } catch (JournalizationException je) {
+            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", je);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_JOURNAL, functionName + ": Failed to update PosCtrl.", je);
+            throw je;
         } finally {
             closeConnectionObjects(null, savePOSLogStmt, null);
             closeConnectionObjects(null, saveSummaryReceiptDetailsStmt, null);

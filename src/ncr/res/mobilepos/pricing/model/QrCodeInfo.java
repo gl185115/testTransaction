@@ -13,28 +13,28 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 @ApiModel(value="QrCodeInfo")
 public class QrCodeInfo {
 
-    @XmlElement(name = "PromotionId")
+    @XmlElement(name = "promotionId")
     private String promotionId;
     
-    @XmlElement(name = "PromotionName")
+    @XmlElement(name = "promotionName")
     private String promotionName;
     
-    @XmlElement(name = "MinimumPrice")
+    @XmlElement(name = "minimumPrice")
     private Double minimumPrice;
     
-    @XmlElement(name = "OutputTargetValue")
+    @XmlElement(name = "outputTargetValue")
     private String outputTargetValue;
     
-    @XmlElement(name = "BMPFileName")
+    @XmlElement(name = "bmpFileName")
     private String bmpFileName;
     
-    @XmlElement(name = "BMPFileFlag")
+    @XmlElement(name = "bmpFileFlag")
     private String bmpFileFlag;
     
-    @XmlElement(name = "BMPFileCount")
+    @XmlElement(name = "bmpFileCount")
     private String bmpFileCount;
     
-    @XmlElement(name = "OutputType")
+    @XmlElement(name = "outputType")
     private String outputType;
 
     @ApiModelProperty(value="出力タイプ", notes="出力タイプ")

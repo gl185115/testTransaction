@@ -499,6 +499,24 @@ public final class Logger extends IoWriter {
             // ignore logger exception
         }
     }
+
+    /**
+     * Output to Snap file as given log level.
+     * @param level log level
+     * @param progname - the current progress name
+     * @param functionName - the current method name
+     * @param message - comment message
+     * @param info - Snap information
+     */
+    public void logSnap(char level, final String progname, final String functionName, final String message,
+                        final Snap.SnapInfo info) {
+        try {
+            this.write(level, progname, RES_EXCEP_GENERAL, functionName + ":" + message, info);
+        } catch (Exception e) {
+            // ignore logger exception
+        }
+    }
+
     /**
      * Output to Snap file.
      * @param progname - the current progress name

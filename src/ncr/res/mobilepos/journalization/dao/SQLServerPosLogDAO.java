@@ -34,6 +34,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import ncr.realgate.util.Guid;
+import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
@@ -1342,7 +1343,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
                         "Duplicate POSLog Transaction");
                 Snap.SnapInfo duplicatePOSLog = snap.write("Duplicate POSLog Transaction", posLogXml);
-                LOGGER.logSnap(PROG_NAME, functionName, "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
+                LOGGER.logSnap(IoWriter.WARNING, PROG_NAME, functionName,
+                        "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
             }
         } catch (SQLStatementException sqlStmtEx) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlStmtEx);

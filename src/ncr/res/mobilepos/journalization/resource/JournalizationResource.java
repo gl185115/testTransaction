@@ -257,8 +257,7 @@ public class JournalizationResource {
             LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_JAXB, functionName,
                     "Output error transaction data to snap file", infos);
             posLogResponse = new PosLogResp(ResultBase.RES_ERROR_JAXB,
-                    ResultBase.RES_ERROR_JAXB, PosLogRespConstants.ERROR_END_1,
-                    e);
+                    ResultBase.RES_ERROR_JAXB, PosLogRespConstants.ERROR_END_1, e);
         } catch (DaoException e) {
             Snap.SnapInfo[] infos = new Snap.SnapInfo[]{
                     snap.write("Pos log xml data in journalize", posLogXml),
@@ -289,9 +288,7 @@ public class JournalizationResource {
                     snap.write("Exception", e) };
             LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName,
                     "Output error transaction data to snap file", infos);
-            posLogResponse = new PosLogResp(
-                    ResultBase.RES_ERROR_PARSE,
-                    ResultBase.RES_ERROR_PARSE,
+            posLogResponse = new PosLogResp(ResultBase.RES_ERROR_PARSE, ResultBase.RES_ERROR_PARSE,
                     PosLogRespConstants.ERROR_END_1, e);
         } catch (NamingException e) {
             Snap.SnapInfo[] infos = new Snap.SnapInfo[] {
@@ -300,8 +297,7 @@ public class JournalizationResource {
             LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_NAMINGEXC, functionName,
                     "Failed to lookup 'ServerID' in Context", infos);
             posLogResponse = new PosLogResp(
-                    ResultBase.RES_ERROR_NAMINGEXCEPTION,
-                    ResultBase.RES_ERROR_NAMINGEXCEPTION,
+                    ResultBase.RES_ERROR_NAMINGEXCEPTION, ResultBase.RES_ERROR_NAMINGEXCEPTION,
                     PosLogRespConstants.ERROR_END_1, e);
         } catch (SQLStatementException e) {
             Snap.SnapInfo[] infos = new Snap.SnapInfo[] {
@@ -310,8 +306,7 @@ public class JournalizationResource {
             LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName,
                     "Failed to read 'sql_statements.xml'", infos);
             posLogResponse = new PosLogResp(
-                    ResultBase.RES_ERROR_SQLSTATEMENT,
-                    ResultBase.RES_ERROR_SQLSTATEMENT,
+                    ResultBase.RES_ERROR_SQLSTATEMENT, ResultBase.RES_ERROR_SQLSTATEMENT,
                     PosLogRespConstants.ERROR_END_1, e);
         } catch (Exception e) {
             Snap.SnapInfo[] infos = {
@@ -319,8 +314,8 @@ public class JournalizationResource {
 					snap.write("Exception", e) };
 			LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName,
 					"Output error transaction data to snap file", infos);
-			posLogResponse = new PosLogResp(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL,
+			posLogResponse = new PosLogResp(
+			        ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL,
 					PosLogRespConstants.ERROR_END_1, e);
         }
 
@@ -335,9 +330,13 @@ public class JournalizationResource {
     /**
      * The method called by the Web Service to retrieve the
      * POSLog of a transaction in JSON format.
-     * @param terminalid    The Terminal ID
+     * @param companyid
      * @param storeid        The StoreID
+     * @param workstationid    The Terminal ID
+     * @param businessdate
      * @param txid            The Transaction Number
+     * @param trainingflag
+     * @param txtype
      * @return                The POSLog Object of a given transaction
      */
     @Path("/gettransactionposlog")
@@ -694,9 +693,6 @@ public class JournalizationResource {
     }
     /**
      * Search guestzone.
-     *
-     * @param null
-     *
      * @return the list of josn with resultcode. 0 for success.
      *
      */
@@ -1064,12 +1060,13 @@ public class JournalizationResource {
 		}
 		return (GoldCertificate)tp.methodExit(goldCertificate);
 	}
-	 /**
-     * @param EventId
-     * @param EventKbn
-     * @param BusinessDateId
-     * @param StoreId
-     * @param PluCode
+    /**
+     * Returns event list.
+     * @param eventId
+     * @param eventKbn
+     * @param businessDateId
+     * @param storeId
+     * @param pluCode
      * @return the list of event information.
      */
 	 @Path("/getEventList")
@@ -1144,13 +1141,14 @@ public class JournalizationResource {
 	        return (EventList)tp.methodExit(result);
 	    }
 
-	 /**
-	     * @param EventId
-	     * @param StoreId
-	     * @param BusinessDateId
-	     * @param EventKbn
-	     * @return the event login check code.
-	     */
+        /**
+         * Returns event login check code.
+         * @param eventId
+         * @param storeId
+         * @param businessDateId
+         * @param eventKbn
+         * @return the event login check code.
+         */
 		 @Path("/getEventLoginCheckCode")
 		 @GET
 		 @Produces({ MediaType.APPLICATION_JSON })

@@ -5,25 +5,21 @@ package ncr.res.mobilepos.helper;
  * 1.01    2014.12.26      LiQian    PosLog“o˜^
  */
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.journalization.model.poslog.ControlTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.Discount;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.journalization.model.poslog.Sale;
-import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.TenderSummary;
-import ncr.res.mobilepos.journalization.model.poslog.TillSettle;
-import ncr.res.mobilepos.journalization.model.poslog.Transaction;
-import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
+import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
 import ncr.res.mobilepos.journalization.model.poslog.StoredValueFund;
-import ncr.res.mobilepos.journalization.model.poslog.Tender;
+import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
+import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
+import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 
 /**
  * A Helper Class that handles the information of a given POSLog.
@@ -31,61 +27,16 @@ import ncr.res.mobilepos.journalization.model.poslog.Tender;
 public final class POSLogHandler {
 
     public final static String TRANSACTION_STATUS_VOIDED = "Voided";
-    // 1.01    2014.12.26      LiQian    PosLog“o˜^  Start
 	public final static String LAYAWAY_ITEMTYPE_STOCK = "Stock";
 	public final static String PREVIOUSLAYAWAY_ACTION_COMPLETED = "Completed";
-	// 1.01    2014.12.26      LiQian    PosLog“o˜^  End
+
+    // For Date format validation
+    private static final SimpleDateFormat BUSINESS_DAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat
+            BEGIN_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /** Default Constructor. */
     private POSLogHandler() {
-    }
-
-    /**
-     * Get the SalesTotal from a given POSLog.
-     * @param poslog    The POSLog object
-     * @return            The SalesTotal
-     */
-    public static double calculateSaleTotal(final PosLog poslog) {
-        double saletotal = 0;
-
-        if (!POSLogHandler.isValid(poslog)) {
-            return saletotal;
-        }
-
-        List<LineItem> lineItems = poslog
-                                    .getTransaction()
-                                    .getRetailTransaction()
-                                    .getLineItems();
-
-        if (null == lineItems) {
-            return saletotal;
-        }
-
-        for (LineItem lineItem : lineItems) {
-            Sale sale = lineItem.getSale();
-            Discount discount  = lineItem.getDiscount();
-            double amount = 0;
-
-            //Computation for Sale
-            if (null != sale) {
-                amount = sale.getExtendedDiscountAmount();
-
-                //Is there Extended Amount from Discount?
-                //If no, then the amount should be from the Extended Amount only
-                if (0 == amount) {
-                    amount = sale.getExtendedAmt();
-                }
-            }
-
-            //Computation for Discount
-            if (null != discount) {
-                amount -= Double.valueOf(discount.getAmount());
-            }
-
-            saletotal += amount;
-        }
-
-        return saletotal;
     }
 
     /**
@@ -109,27 +60,32 @@ public final class POSLogHandler {
      *
      * @return            TRUE, when POSLog is correct, else FALSE
      */
-    public static boolean isValid(final PosLog poslog) {
+    public static boolean isValid(final PosLog poslog) throws ParseException {
         if (poslog == null) {
             return false;
         }
 
-        boolean result = true;
         Transaction transaction = poslog.getTransaction();
         if (transaction == null) {
-            result = false;
+            return false;
+        }
 
         // check for required elements
         // elements will be used in saving of poslog to db
-        } else if (transaction.getRetailStoreID() == null ||
-                transaction.getWorkStationID() == null ||
-                transaction.getSequenceNo() == null ||
-                transaction.getBusinessDayDate() == null ||
-                transaction.getBeginDateTime() == null) {
-            result = false;
+        if (transaction.getRetailStoreID() == null ||
+            transaction.getWorkStationID() == null ||
+            transaction.getSequenceNo() == null ||
+            transaction.getBusinessDayDate() == null ||
+            transaction.getBeginDateTime() == null) {
+            return false;
         }
 
-        return result;
+        // Format check for required dates. If either date is not parsable, throws ParseException.
+        BUSINESS_DAY_FORMAT.parse(transaction.getBusinessDayDate());
+        BEGIN_DATE_TIME_FORMAT.parse(transaction.getBeginDateTime());
+
+        // Successfully goes through the validation.
+        return true;
     }
 
     /**
@@ -191,8 +147,7 @@ public final class POSLogHandler {
 
         return false;
     }
-    // 1.01    2014.12.26      LiQian    PosLog“o˜^  Start
-    
+
     /**
      * Checks whether a POSLog transaction is a Layaway or not
      *

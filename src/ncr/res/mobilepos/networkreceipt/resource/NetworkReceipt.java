@@ -262,6 +262,11 @@ public class NetworkReceipt {
                     functionName + ": Failed to get printer info.", e);
             resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
                     ResultBase.RES_ERROR_UNSUPPORTEDENCODING, e);
+        } catch (ParseException e) {
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_PARSE,
+                    functionName + ": Failed to parse date.", e);
+            resultBase = new ResultBase(ResultBase.RESNETRECPT_ERROR_NG,
+                    ResultBase.RES_ERROR_PARSE, e);
         } finally {
             tp.methodExit(resultBase.toString());
         }

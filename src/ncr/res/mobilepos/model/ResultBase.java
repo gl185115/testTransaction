@@ -347,6 +347,16 @@ public class ResultBase {
      * Event Check failed because EventKbn not equals to resultset's EventKbn.
      */
     public static final int RES_ERROR_EVENTKBNCHECKFAILED = 161;
+    /**
+     * Value : {@value}<br>
+     * InitializationStatus found resTransaction was initialized successfully.
+     */
+    public static final int RES_OK_INITIALIZATION = 0;
+    /**
+     * Value : {@value}<br>
+     * InitializationStatus found resTransaction was failed to initialize.
+     */
+    public static final int RES_ERROR_INITIALIZATION = 162;
     /**************** Start: Generic Client Error Messages ****************/
     /**
      * Value : {@value}<br>

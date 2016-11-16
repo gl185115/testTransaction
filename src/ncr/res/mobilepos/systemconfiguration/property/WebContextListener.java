@@ -10,6 +10,7 @@
 package ncr.res.mobilepos.systemconfiguration.property;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -71,14 +72,16 @@ public class WebContextListener implements ServletContextListener {
     @SuppressWarnings("unchecked")
     @Override
     public final void contextInitialized(final ServletContextEvent event) {
-        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
-                getClass());
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName);
-        tp.println(" - The WebAPI StartApp called. ");
-        tp.println("Preparing to retrieve the System Parameters");
-
+        String functionName = "";
         try {
+            EnvironmentEntries.initInstance();
+
+            tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+            functionName = DebugLogger.getCurrentMethodName();
+            tp.methodEnter(functionName);
+            tp.println(" - The WebAPI StartApp called. ");
+            tp.println("Preparing to retrieve the System Parameters");
+
             //Instantiate the DAO Factory for System Configuration
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 

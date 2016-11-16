@@ -54,6 +54,7 @@
         ncr.res.mobilepos.point.resource,
         ncr.res.mobilepos.uiconfig.resource,
         ncr.res.mobilepos.creditcard.resource
+        ncr.res.mobilepos.initialization.resource
     </param-value>
     </init-param>
     <init-param>

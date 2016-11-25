@@ -20,6 +20,8 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.SnapLogger;
+import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -34,8 +36,6 @@ public class InitializationStatusResource {
      * The program name.
      */
     private static final String PROG_NAME = "InitializationStatus";
-    /** The Trace Printer. */
-    private Trace.Printer tp = null;
 
     /**
      * Default Constructor for JournalizationResource.
@@ -43,7 +43,6 @@ public class InitializationStatusResource {
      * <P>Initializes the logger object.
      */
     public InitializationStatusResource() {
-        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
 
     /**
@@ -72,13 +71,19 @@ public class InitializationStatusResource {
     public final ResultBase getInitializationStatus() {
 
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("POSLog xml");
-
+        Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        if(tp != null) {
+            tp.methodEnter(functionName).println("POSLog xml");
+        }
         ResultBase result = new ResultBase();
 
-        boolean initFailed = false;
         // Failed to read parameters from web.xml.
+        boolean initFailed = false;
         initFailed |= EnvironmentEntries.getInstance() == null;
+        initFailed |= Logger.getInstance() == null;
+        initFailed |= SnapLogger.getInstance() == null;
+        initFailed |= DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass()) == null;
+        initFailed |= SpmFileWriter.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);
@@ -89,7 +94,10 @@ public class InitializationStatusResource {
             result.setNCRWSSExtendedResultCode(ResultBase.RES_OK_INITIALIZATION);
             result.setMessage(ResultBase.RES_SUCCESS_MSG);
         }
-        return (ResultBase) tp.methodExit(result);
+        if(tp != null) {
+            tp.methodExit(result);
+        }
+        return result;
     }
 
 }

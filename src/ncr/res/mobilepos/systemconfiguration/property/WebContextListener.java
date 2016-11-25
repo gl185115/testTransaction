@@ -9,18 +9,22 @@
 */
 package ncr.res.mobilepos.systemconfiguration.property;
 
+import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
+import javax.naming.InitialContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
@@ -31,15 +35,6 @@ import java.util.Map;
  * StartUp/Restart of the Web API.
  */
 public class WebContextListener implements ServletContextListener {
-    /**
-     * Logger.
-     */
-    private static final Logger LOGGER = (Logger) Logger.getInstance();
-
-    /**
-     * The Trace Printer for Debug.
-     */
-    private Trace.Printer tp;
 	/**
 	 * Abbreviation program name of the class.
 	 */
@@ -51,18 +46,16 @@ public class WebContextListener implements ServletContextListener {
      */
     @Override
 	public void contextDestroyed(final ServletContextEvent servletContext) {
-		Object spmFw = servletContext.getServletContext().getAttribute(
-				GlobalConstant.SPM_FW);
-		if (spmFw != null) {
 			try {
-				((SpmFileWriter) spmFw).close();
+                SnapLogger.closeInstance();
+                DebugLogger.closeAllDbgPrinter();
+                SpmFileWriter.closeInstance();
 			} catch (IOException e) {
-				LOGGER.logWarning("SysCnfg",
+                Logger.getInstance().logWarning("SysCnfg",
 						"WebContextListener.contextDestroyed",
 						Logger.RES_EXCEP_IO,
 						"SPM file close error.\n" + StringUtility.printStackTrace(e));
 			}
-		}
 	}
 
     /**
@@ -73,8 +66,23 @@ public class WebContextListener implements ServletContextListener {
     @Override
     public final void contextInitialized(final ServletContextEvent event) {
         String functionName = "";
+        Trace.Printer tp = null;
+        EnvironmentEntries environmentEntries = null;
+
         try {
-            EnvironmentEntries.initInstance();
+            // Loads from web.xml.
+            environmentEntries = EnvironmentEntries.initInstance(new InitialContext());
+            // Initializes IowLogger.
+            Logger.initInstance(environmentEntries.getIowPath(), environmentEntries.getServerId());
+            // Initializes SnapLogger.
+            SnapLogger.initInstance(environmentEntries.getSnapPath());
+
+            // Initializes DebugLogger.
+            DebugLogger.initInstance(environmentEntries.getTracePath(), environmentEntries.getDebugLevel());
+            // Initializes SpmFileWriter and writes a header line.
+            SpmFileWriter spmFileWriter = SpmFileWriter.initInstance(environmentEntries.getSpmPath(),
+                    environmentEntries.getServerId(), true);
+            spmFileWriter.write(JrnSpm.HEADER);
 
             tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
             functionName = DebugLogger.getCurrentMethodName();
@@ -96,14 +104,15 @@ public class WebContextListener implements ServletContextListener {
             copySystemConfigToGlobalConstant(systemConfig);
 
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
-		} catch (DaoException e) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to context initialized.", e);
 		} catch (Exception e) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to context initialized.", e);
+            if(Logger.getInstance() != null) {
+                Logger.getInstance().logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+                        functionName + ": Failed to context initialized.", e);
+            }
 		} finally {
-            tp.methodExit();
+            if(tp != null) {
+                tp.methodExit();
+            }
         }
     }
 

@@ -5,6 +5,8 @@
  *
  * An IoWriter that handles the log messages and sends
  *  output to the specified file.
+ * IoWriter provides thread-safe write.
+ * Every time write occurs, this opens and closes the file exclusively.
  *
  * Dela Cerna, Jessel (jd185128)
  *
@@ -19,27 +21,19 @@
 package ncr.res.mobilepos.helper;
 
 import java.io.File;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import java.io.IOException;
 
 import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Snap;
 
 /**
  * Inherit from an IoWriter class.
- * @author jessel
- *
  */
 public final class Logger extends IoWriter {
     /**
-     * the class instance of the iowriter. (volatile)
-     */
-    private static volatile IoWriter iowriter;
-    /**
      * the class instance of Logger
      */
-    private static volatile Logger instance;
+    private static Logger instance;
 
     /**
      * The message id of General message log.
@@ -141,56 +135,42 @@ public final class Logger extends IoWriter {
      * Removed the schedule task
      */
     public static final String RES_EXCEP_REMOVEDTASK = "107";
+
     /**
-     * Constructor of the Logger.
+     * Constructor.
+     * @param path Path.
+     * @param serverId Server ID.
      */
-    private Logger()  {
-        String path = null;
-        String serverid = null;
-        try {
-            //Get environment data
-            Context env =
-                (Context) new InitialContext().lookup("java:comp/env");
-            path = (String) env.lookup("iowPath");
-            serverid = (String) env.lookup("serverID");
-            iowriter = new IoWriter(path, serverid);
-        } catch (Exception e) {
-            // ignore logger exception
-        } finally {
-            if (path != null) {
-                File directory  = new File(path);
-                //Is the cause of the exception was due
-                //to log Directory Path still not existing?
-                //If yes, create the Log Directory path
-                //and Re-initialize the IoWriter
-                if (!directory.exists() && directory.mkdirs()) {
-                    iowriter = new IoWriter(path, serverid);
-                }
-            }
-        }
+    private Logger(String path, String serverId) {
+        super(path, serverId);
     }
 
     /**
-     * Private method that creates an instance of the Logger.
-     * @return IoWriter Base class of the Logger object.
+     * Returns single instance of Logger object.
+     * @return Single instance of Logger.
      */
-    private static Logger tryCreateInstance()  {
-        if (instance == null) {
-            instance = new Logger();
-        }
+    public static Logger getInstance() {
         return instance;
     }
 
     /**
-     * Public method that creates an instance of the Logger.
-     * @return IoWriter Base class of the Logger object.
+     * Initializes IowLogger with Path and ServerId
+     * @param path Path to SPM file.
+     * @param serverId ServerId
+     * @return IowLogger
+     * @throws IOException
      */
-    public static synchronized Logger getInstance()  {
-        Logger ioWriterinstance = instance;
-        if (ioWriterinstance == null) {
-            ioWriterinstance = tryCreateInstance();
+    public static Logger initInstance(String path, String serverId) {
+        instance = null;
+        // Creats parent directory if necessary.
+        File directory = new File(path);
+        if(!directory.isDirectory()  && !directory.mkdirs() ) {
+            // If directory doesn't exist and mkdirs fails.
+            // Throws Exception.
+            throw new IllegalStateException("Failed to create directory for IOWLOG Path:" + path);
         }
-        return ioWriterinstance;
+        instance = new Logger(path, serverId);
+        return instance;
     }
 
     /**
@@ -204,7 +184,7 @@ public final class Logger extends IoWriter {
     public void write(final char level, final String progname,
             final int id, final CharSequence message) {
         try {
-            iowriter.write(level, progname, Integer.toHexString(id), message);
+            this.write(level, progname, Integer.toHexString(id), message);
         } catch (Exception e) {
             // ignore logger exception
         }
@@ -218,11 +198,12 @@ public final class Logger extends IoWriter {
      * @param id - message id
      * @param message - the message to log
      */
+    @Override
     public void write(final char level,
             final String progname, final String id,
             final CharSequence message) {
         try {
-            iowriter.write(level, progname, id, message);
+            super.write(level, progname, id, message);
         } catch (Exception e) {
             // ignore logger exception
         }
@@ -236,15 +217,17 @@ public final class Logger extends IoWriter {
      * @param message - the message to log
      * @param infos - SnapInfo array
      */
+    @Override
     public void write(final char level, final String progname,
             final String id, final CharSequence message,
             final Snap.SnapInfo[] infos) {
         try {
-            iowriter.write(level, progname, id, message, infos);
+            super.write(level, progname, id, message, infos);
         } catch (Exception e) {
             // ignore logger exception
         }
     }
+
     /**
      * Write SnapInfo array.
      * @param level - level of the log
@@ -257,7 +240,7 @@ public final class Logger extends IoWriter {
             final String id, final CharSequence message,
             final Snap.SnapInfo info) {
         try {
-            iowriter.write(level, progname, id, message, 
+            this.write(level, progname, id, message,
                            new Snap.SnapInfo[] {info});
         } catch (Exception e) {
             // ignore logger exception
@@ -270,6 +253,7 @@ public final class Logger extends IoWriter {
      * @throws CloneNotSupportedException Exception thrown when a
      *                                     cloning of the object took place.
      */
+    @Override
     public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException();
     }
@@ -388,8 +372,6 @@ public final class Logger extends IoWriter {
      *
      * @param progName
      *            - the current class body name
-     * @param functionName
-     *            - the current function body name
      * @param code
      *            error code to include in the log
      * @param logMessage
@@ -572,7 +554,7 @@ public final class Logger extends IoWriter {
     public void logTransaction(final String progname, final String code, 
                                final String message, final String bigdata) {
         try {
-            write(IoWriter.LOG, progname, code, message,
+            this.write(IoWriter.LOG, progname, code, message,
                   SnapLogger.getInstance().write("transaction", bigdata));
         } catch (Exception e) {
             // ignore logger exception
@@ -584,7 +566,7 @@ public final class Logger extends IoWriter {
      * @param progName - the current class body name
      * @param code - error code to include in the log
      * @param logMessage - message to include in the log entry
-     * @param throwable - exception object
+     * @param t throwable - exception object
      */
     public void logAlert(	final String progName,
     						final String code,
@@ -598,7 +580,7 @@ public final class Logger extends IoWriter {
      * @param progName - the current class body name
      * @param code - error code to include in the log
      * @param logMessage - message to include in the log entry
-     * @param throwable - exception object
+     * @param t throwable - exception object
      */
     public void logAlert(final String progName, final String code,
                          String funcName,
@@ -612,7 +594,7 @@ public final class Logger extends IoWriter {
     /**
      * Log bytes with error flag.
      *
-     * @param progName
+     * @param progname
      *            - the current class body name
      * @param code
      *            - error code to include in the log
@@ -624,7 +606,7 @@ public final class Logger extends IoWriter {
     public void logBytes(final String progname, final String code, 
                          final String message, byte[] data) {
         try {
-            write(IoWriter.ERROR, progname, code, message,
+            this.write(IoWriter.ERROR, progname, code, message,
                   SnapLogger.getInstance().write("dump", data));
         } catch (Exception e) {
             // ignore logger exception

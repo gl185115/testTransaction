@@ -17,6 +17,8 @@ public class EnvironmentEntries {
     private static final String KEY_IOW_PATH = "iowPath";
     private static final String KEY_TRACE_PATH = "tracePath";
     private static final String KEY_DEBUG_LEVEL = "debugLevel";
+    private static final String KEY_SNAP_PATH = "snapPath";
+    private static final String KEY_SPM_PATH = "Journalization/spmPath";
 
     // ServerId for Logger.
     private String serverId;
@@ -24,29 +26,38 @@ public class EnvironmentEntries {
     private String iowPath;
     // TracePath for DebugLogger.
     private String tracePath;
-
     // DebugLevel for DebugLogger.
     private int debugLevel;
+    // SnapPath for SnapLogger.
+    private String snapPath;
+
+    // Spm path for Spm logger.
+    private String spmPath;
 
     /**
      * Constructor.
      * @throws NamingException Throws if initialization fails.
      */
-    private EnvironmentEntries() throws NamingException {
-        loadEnvironmentEntries();
+    private EnvironmentEntries(Context initialContext) throws NamingException {
+        loadEnvironmentEntries(initialContext);
     }
 
     /**
      * Loading.
      * @throws NamingException Throws if initialization fails.
      */
-    private void loadEnvironmentEntries() throws NamingException {
-        Context context = (Context) new InitialContext().lookup("java:comp/env");
+    private void loadEnvironmentEntries(Context initialContext) throws NamingException {
+        Context context = (Context)initialContext.lookup("java:comp/env");
+
         serverId = (String)loadProperty(KEY_SERVER_ID, context);
         iowPath = (String)loadProperty(KEY_IOW_PATH, context);
 
         tracePath = (String)loadProperty(KEY_TRACE_PATH, context);
         debugLevel = (int)loadProperty(KEY_DEBUG_LEVEL, context);
+
+        snapPath = (String)loadProperty(KEY_SNAP_PATH, context);
+
+        spmPath = (String)loadProperty(KEY_SPM_PATH, context);
     }
 
     /**
@@ -71,8 +82,11 @@ public class EnvironmentEntries {
      * Initializes the instance.
      * @throws NamingException throws if initialization fails.
      */
-    public static void initInstance() throws NamingException {
-        instance = new EnvironmentEntries();
+    public static EnvironmentEntries initInstance(Context initialContext) throws NamingException {
+        // Resets instance as null.
+        instance = null;
+        instance = new EnvironmentEntries(initialContext);
+        return instance;
     }
 
     /**
@@ -105,6 +119,22 @@ public class EnvironmentEntries {
      */
     public int getDebugLevel() {
         return debugLevel;
+    }
+
+    /**
+     * Returns snap path for SnapLog.
+     * @return snapPath.
+     */
+    public String getSnapPath() {
+        return snapPath;
+    }
+
+    /**
+     * Returns SPM path.
+     * @return spmPath.
+     */
+    public String getSpmPath() {
+        return spmPath;
     }
 
 }

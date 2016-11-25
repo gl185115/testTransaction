@@ -1,9 +1,7 @@
 package ncr.res.mobilepos.helper;
 
 import java.io.File;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
+import java.io.IOException;
 
 import ncr.realgate.util.MultiSnap;
 import ncr.realgate.util.Snap;
@@ -11,71 +9,80 @@ import ncr.realgate.util.Snap;
 /**
  * Class that handles Snap logs.
  */
-public final class SnapLogger {
+public final class SnapLogger extends MultiSnap {
     /**
-     * The path of snap log file output.
+     * Instance of SnapLogger.
      */
-    private static String path;
-    /**
-     * Instance of MultiSnap for output.
-     */
-    private static MultiSnap snap;
-    /**
-     * Instance of MultiSnap (volatile).
-     */
-    private static volatile SnapLogger instance;
-    /**
-     * Logging handler.
-     */
-    private static final Logger LOGGER = (Logger) Logger.getInstance(); //Get the Logger
+    private static SnapLogger instance;
 
+    /**
+     * Class name for
+     */
     private static final String PROG_NAME = "SnapLogger";
-    
+
     /**
-     * Constructor of SnapLogger.
+     * Snap log file.
      */
-    private SnapLogger() {
-        try {
-            if (path == null || "".equals(path)) {
-                Context env =
-                        (Context) new InitialContext().lookup("java:comp/env");
-                    path = (String) env.lookup("snapPath");
-            }
-            File directory  = new File(path);
-            if (!directory.exists()) {
-                directory.mkdirs();               
-            }
-            snap = new MultiSnap(path, "SNAP");
-        } catch (Exception e) {
-        	LOGGER.logAlert(PROG_NAME, "Constructor", Logger.RES_EXCEP_GENERAL , e);
-        } finally {
-            File directory  = new File(path);
-            if (!directory.exists() && directory.mkdirs()) {
-                snap = new MultiSnap(path, "SNAP");
-            }
-        }
-    }
+    private static final String SNAP_NAME = "SNAP";
+
     /**
-     * Creates single instance.
-     * @return snap.
+     * Constructor.
+     * @param path path for snap files.
      */
-    private static SnapLogger tryCreateInstance() {
-        if (instance == null) {
-            instance = new SnapLogger();
-        }
-        return instance;
+    private SnapLogger(String path) {
+        super(path , SNAP_NAME);
     }
+
     /**
      * Get the Instance of snap logger.
-     * @return instance of snap logger.
+     * @return instance of multi snap.
      */
     public static synchronized SnapLogger getInstance() {
-        SnapLogger snapInstance = instance;
-        if (snapInstance == null) {
-            snapInstance = tryCreateInstance();
-        }
-        return snapInstance;
+        return instance;
     }
+
+    /**
+     * Initializes SnapLogger instance with given snapPath.
+     * @param snapPath snapPath to write snap log.
+     * @return SnapLogger instance.
+     */
+    public static SnapLogger initInstance(String snapPath) {
+        instance = null;
+        // Creats parent directory if necessary.
+        File directory = new File(snapPath);
+        if(!directory.isDirectory() &&  !directory.mkdirs() ) {
+            // If directory doesn't exist and mkdirs fails.
+            throw new IllegalStateException("Failed to create directory for SnapLogger Path:" + snapPath);
+        }
+        instance = new SnapLogger(snapPath);
+        return instance;
+    }
+
+    @Override
+    public final void close() {
+        throw new UnsupportedOperationException(
+                "Don't close SnapLogger directly, call SnapLogger.closeInstance() instead.");
+    }
+
+    /**
+     * Closes this singleton instance. Only allows private access.
+     * @throws IOException
+     */
+    private void closeInternally() throws IOException {
+        super.close();
+    }
+
+    /**
+     * Closes the file stream.
+     * @throws IOException if file stream was closed or null.
+     */
+    public static void closeInstance() throws IOException{
+        if(instance != null){
+            instance.closeInternally();
+            instance = null;
+        }
+    }
+
     /**
      * Write message to Snap file.
      * @param comment Output max 16 bytes comment.
@@ -83,25 +90,20 @@ public final class SnapLogger {
      * @param data output data.
      * @return SnapInfo
      */
+    @Override
     public Snap.SnapInfo write(final CharSequence comment, final CharSequence data) {
-		Snap.SnapInfo snapInfo = null;
-		try {
-			snapInfo = snap.write(comment, data);
-		} catch (Exception e) {
-			LOGGER.logAlert(PROG_NAME, "SnapLogger.write", Logger.RES_EXCEP_GENERAL , e);
-		}
-		return snapInfo;
+        return super.write(comment, data);
     }
 
-    /*******************************************************/
     /**
      * Snap throwable with its stack trace.
      * @param comment max 16 chars comment.
      * @param data throwable which was caught.
      * @return the filename and offset pair to be logged.
      */
+    @Override
     public Snap.SnapInfo write(final CharSequence comment, final Throwable data) {
-        return snap.write(comment, data);
+        return super.write(comment, data);
     }
 
     /**
@@ -111,7 +113,7 @@ public final class SnapLogger {
      * @return the filename and offset pair to be logged.
      */
     public Snap.SnapInfo write(final CharSequence comment, final byte[] data) {
-        return snap.write(comment, data, 0, data.length);
+        return this.write(comment, data, 0, data.length);
     }
 
     /**
@@ -122,14 +124,9 @@ public final class SnapLogger {
      * @param length to from + length
      * @return the filename and offset pair to be logged.
      */
+    @Override
     public Snap.SnapInfo write(final CharSequence comment, final byte[] data, final int offset, final int length) {
-        return snap.write(comment, data, offset, length);
+        return super.write(comment, data, offset, length);
     }
 
-    /**
-     * return Snap itself.
-     */
-    public Snap getSnap() {
-        return snap;
-    }
 }

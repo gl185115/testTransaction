@@ -37,7 +37,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -71,7 +70,6 @@ import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.FileHandler;
 import ncr.res.mobilepos.helper.FileParser;
 import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
@@ -123,16 +121,11 @@ public class JournalizationResource {
     private ServletContext context; //to access the web.xml
     /** A private member variable used for logging the class implementations. */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
-    /** A private member variable used for accessing the transaction file. */
-    private FileParser fileParser = null;
     /** The Trace Printer. */
     private Trace.Printer tp = null;
     /** Snap Logger. */
     private SnapLogger snap;
-    /** SPM Logger. */
-    private SpmFileWriter spmFw;
-    /** SPM filename. */
-    public final static String SPM_FILENAME = "SPM_JOURNALIZATION";
+
     /**
      * The program name.
      */
@@ -145,7 +138,7 @@ public class JournalizationResource {
     public JournalizationResource() {
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
-        snap = (SnapLogger) SnapLogger.getInstance();
+        snap = SnapLogger.getInstance();
     }
 
     /**
@@ -156,10 +149,8 @@ public class JournalizationResource {
      * @param contextToSet The context of the servlet.
      */
     public JournalizationResource(final ServletContext contextToSet) {
+        this();
         this.context = contextToSet;
-        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
-                getClass());
-        snap = (SnapLogger) SnapLogger.getInstance();
     }
 
     /**
@@ -169,32 +160,6 @@ public class JournalizationResource {
      */
     @PostConstruct
     public void init(){
-    	try {
-			javax.naming.Context env = (javax.naming.Context) new InitialContext().lookup("java:comp/env");
-			String spmPath = (String) (env).lookup("Journalization/spmPath");
-			String serverID = (String) (env).lookup("serverID");
-
-			FileHandler.createDirectory(spmPath);
-
-			if(spmPath!=null){
-				File file = new File(spmPath + "/" + SPM_FILENAME + "_" + serverID);
-				if(spmFw == null){
-					try {
-						spmFw = ncr.res.mobilepos.helper.SpmFileWriter.getInstance(file, true);
-						spmFw.write(JrnSpm.HEADER);
-					} catch (IOException e) {
-						LOGGER.logWarning("Jrnalztn", "Init",
-								Logger.RES_EXCEP_IO, e.getMessage());
-					} finally {
-						if (context.getAttribute(GlobalConstant.SPM_FW) == null) {
-							context.setAttribute(GlobalConstant.SPM_FW, spmFw);
-						}
-					}
-				}
-			}
-		} catch (NamingException e) {
-			LOGGER.logWarning(PROG_NAME, "init", Logger.RES_EXCEP_PARSE, e);
-		}
     }
 
     /**
@@ -216,16 +181,11 @@ public class JournalizationResource {
     public final PosLogResp journalize(//poslogxml？
     		@ApiParam(name="poslogxml", value="poslogのxml")  @FormParam("poslogxml") final String posLogXml,
     		@ApiParam(name="trainingmode", value="トレーニングモード")  @FormParam("trainingmode") final int trainingMode) {
-    	JrnSpm jrnlSpm = null;
-		if (spmFw != null) {
-			jrnlSpm = JrnSpm.startSpm(spmFw);
-		}
+        SpmFileWriter spmFw = SpmFileWriter.getInstance();
+        JrnSpm jrnlSpm = JrnSpm.startSpm(spmFw);
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("POSLog xml", posLogXml);
-        if (snap == null) {
-            snap = (SnapLogger) SnapLogger.getInstance();
-        }
 
         PosLogResp posLogResponse = null;
         PosLogLogger posLogger = new PosLogLogger();
@@ -508,9 +468,7 @@ public class JournalizationResource {
     public final String getTransactionNumber() {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        if (fileParser == null) {
-            fileParser = new FileParser("c:\\temp\\transaction.xml");
-        }
+        FileParser fileParser = new FileParser("c:\\temp\\transaction.xml");
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder;

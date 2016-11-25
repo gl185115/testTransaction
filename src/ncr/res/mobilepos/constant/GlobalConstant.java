@@ -88,10 +88,6 @@ public final class GlobalConstant {
      */
     public static final String THRESHOLD = "SignlessThreshold";
     /**
-     * The Key of SPM file writer.
-     */
-    public static final String SPM_FW = "SPMFile";
-    /**
      * Key for Multiple SOD on the businessdaydate.
      */
     public static final String MULTIPLE_SOD = "MultiSOD";

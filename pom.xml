@@ -127,7 +127,7 @@
             <artifactId>com.springsource.com.lowagie.text</artifactId>
             <version>2.0.8</version>
             <scope>system</scope>
-            <systemPath>${basedir}/external library/com.springsource.com.lowagie.text-2.0.8.jar</systemPath>
+            <systemPath>${basedir}/WebContent/WEB-INF/lib/com.springsource.com.lowagie.text-2.0.8.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>RXTXcomm</groupId>
@@ -170,6 +170,7 @@
             <groupId>javax.websocket</groupId>
             <artifactId>javax.websocket-api</artifactId>
             <version>1.1</version>
+            <!-- this can be system as the other jars -->
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
@@ -186,17 +187,10 @@
         <!-- For API Document and API Client -->
         <dependency>
             <groupId>com.wordnik</groupId>
-            <artifactId>swagger-jersey-jaxrs_2.10</artifactId>
-            <version>1.3.13</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/external library/swagger-core_2.10-1.3.13.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.wordnik</groupId>
             <artifactId>swagger-annotations</artifactId>
             <version>1.3.13</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/external library/swagger-annotations-1.3.13.jar</systemPath>
+            <scope>provided</scope>
+            <optional>true</optional>
         </dependency>
         <!-- For Test -->
         <dependency>
@@ -209,11 +203,13 @@
             <groupId>org.json</groupId>
             <artifactId>java-json</artifactId>
             <version>1.0.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.skyscreamer</groupId>
             <artifactId>jsonassert</artifactId>
             <version>1.2.0</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -329,7 +325,7 @@
         <testSourceDirectory>test</testSourceDirectory>
         <resources>
             <resource>
-                <directory>${build.sourceDirectory}</directory>
+                <directory>${project.build.sourceDirectory}</directory>
                 <includes>
                     <include>ncr/res/mobilepos/property/sql_statements.xml</include>
                     <include>ncr/res/mobilepos/report/model/financialRpt.html</include>
@@ -345,6 +341,38 @@
         <!-- no additional test resources -->
 
         <plugins>
+
+            <!-- build number -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
+                    <format>{0,date,yyyy/MM/dd}</format>
+                    <items>
+                        <item>timestamp</item>
+                    </items>
+                </configuration>
+            </plugin>
+
+            <!-- Build plan list (optional) -->
+            <plugin>
+                <groupId>fr.jcgay.maven.plugins</groupId>
+                <artifactId>buildplan-maven-plugin</artifactId>
+                <version>1.2</version>
+            </plugin>
+
+            <!-- Compile in compile and testCompile -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -359,6 +387,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Test in test -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -368,6 +397,7 @@
                 </configuration>
             </plugin>
 
+            <!-- native2ascii in compile -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>native2ascii-maven-plugin</artifactId>
@@ -391,7 +421,7 @@
                 </executions>
             </plugin>
 
-            <!-- Coverage Check -->
+            <!-- Cobertura coverage in verify -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>cobertura-maven-plugin</artifactId>
@@ -422,16 +452,17 @@
                 </executions>
             </plugin>
 
-            <!-- Coverage Check Alternative since Cobertura doesn't support JDK1.8 -->
+            <!-- Jacoco coverage in verify. Since Cobertura doesn't support JDK1.8 -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.7.201606060606</version>
                 <executions>
-                    <!-- Default phase is verify -->
                     <execution>
                         <goals>
+                            <!-- bound phase, initialize -->
                             <goal>prepare-agent</goal>
+                            <!-- bound phase, verify -->
                             <goal>check</goal>
                         </goals>
                         <configuration>
@@ -464,7 +495,7 @@
                 </executions>
             </plugin>
 
-            <!-- CheckStyle plugin gets active only with the specific goal, checkstyle:check, no phase binding -->
+            <!-- CheckStyle in checkstyle:check (optional) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
@@ -475,11 +506,11 @@
                 </configuration>
             </plugin>
 
-
+            <!-- jar for poslog-binding -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.5</version>
+                <version>2.6</version>
                 <executions>
                     <execution>
                         <id>library</id>
@@ -489,7 +520,7 @@
                         </goals>
                         <configuration>
                             <finalName>poslog-binding</finalName>
-                            <outputDirectory>${project.basedir}/WebContent/Web-inf/lib</outputDirectory>
+                            <outputDirectory>${project.basedir}/WebContent/WEB-INF/lib</outputDirectory>
                             <includes>
                                 <include>**/ncr/res/mobilepos/helper/XmlSerializer.class</include>
                                 <include>**/ncr/res/mobilepos/journalization/model/poslog/*.class</include>
@@ -512,6 +543,7 @@
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -671,9 +703,7 @@
                                 <include>sharedlib/*</include>
                             </includes>
                             <excludes>
-                                <exclude>WEB-INF/lib/mail-*.jar</exclude>
-                                <exclude>WEB-INF/lib/sqljdbc*.jar</exclude>
-                                <exclude>test/*</exclude>
+                                <exclude>WEB-INF/lib/sqljdbc42.jar</exclude>
                             </excludes>
                         </resource>
                     </webResources>
@@ -689,27 +719,9 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <version>1.1</version>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <doCheck>false</doCheck>
-                    <doUpdate>false</doUpdate>
-                    <format>{0,date,yyyy/MM/dd}</format>
-                    <items>
-                        <item>timestamp</item>
-                    </items>
-                </configuration>
-            </plugin>
+
+
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>

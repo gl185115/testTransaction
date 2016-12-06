@@ -538,12 +538,17 @@
                 </executions>
             </plugin>
 
-            <!-- war in package-->
+            <!-- war in package -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
+                    <!-- Excludes classes in poslog-binding.jar -->
+                    <packagingExcludes>
+                        **/ncr/res/mobilepos/helper/XmlSerializer.class,
+                        **/ncr/res/mobilepos/journalization/model/poslog/*.class
+                    </packagingExcludes>
                     <webXml>WebContent\WEB-INF\web.xml</webXml>
                     <webResources>
                         <resource>

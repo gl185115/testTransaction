@@ -551,7 +551,7 @@
                             <directory>WebContent</directory>
                             <!-- Excludes some files -->
                             <excludes>
-                                <exclide>res.manifest</exclide>
+                                <exclude>res.manifest</exclude>
                                 <exclude>META-INF/**.*</exclude>
                                 <exclude>WEB-INF/lib/sqljdbc42.jar</exclude>
                             </excludes>

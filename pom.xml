@@ -500,7 +500,7 @@
                 </configuration>
             </plugin>
 
-            <!-- jar for poslog-binding -->
+            <!-- jar for poslog-binding in compile and package -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -538,6 +538,7 @@
                 </executions>
             </plugin>
 
+            <!-- war in package-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
@@ -546,157 +547,12 @@
                     <webXml>WebContent\WEB-INF\web.xml</webXml>
                     <webResources>
                         <resource>
+                            <!-- Copies All the files under WebContent -->
                             <directory>WebContent</directory>
-                            <includes>
-                                <include>*.jsp</include>
-                                <include>*.html</include>
-                                <include>external/*</include>
-                                <include>external/angular-datepicker-master/*</include>
-                                <include>external/angularjs/1.2.10/*</include>
-                                <include>external/angularjs/1.2.16/*</include>
-                                <include>external/angularjs/1.2.25/*</include>
-                                <include>external/iscroll/iscroll-5/*</include>
-                                <include>external/jquery/1.11.0/*</include>
-                                <include>external/jquery/1.11.1/*</include>
-                                <include>external/jquery-barcode/2.0.3/*</include>
-                                <include>images/*</include>
-                                <include>images/home/*</include>
-                                <include>parameters/*</include>
-                                <include>resConfig/*</include>
-                                <include>resCore/*</include>
-                                <include>resLibrary/*</include>
-                                <include>resServices/*</include>
-                                <include>resSkin/*</include>
-                                <include>resUi/*</include>
-                                <include>resUi/hiddenTool/*</include>
-                                <include>resUi/iframes/*</include>
-                                <include>resUi/iframes/advertise/*</include>
-                                <include>resUi/iframes/advertise/album/*</include>
-                                <include>resUi/iframes/advertise/album/modules/*</include>
-                                <include>resUi/iframes/advertise/album/modules/imageImport/*</include>
-                                <include>resUi/iframes/advertise/album/modules/imageList/*</include>
-                                <include>resUi/iframes/advertise/album/modules/imageRemove/*</include>
-                                <include>resUi/iframes/advertise/album/modules/menu/*</include>
-                                <include>resUi/iframes/advertise/deploy/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/confirmMessage/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/deConfirm/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/directory/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/editStore/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/editTask/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/fileExplorer/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/menu/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/popupMessage/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/saveDetail/*</include>
-                                <include>resUi/iframes/advertise/deploy/modules/tasks/*</include>
-                                <include>resUi/iframes/advertise/editor/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/editCategories/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/editItems/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/editLayout/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/failure/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/fileClose/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/fileCreate/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/fileOpen/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/filePrint/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/fileRemove/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/fileSave/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/itemList/*</include>
-                                <include>resUi/iframes/advertise/editor/modules/menu/*</include>
-                                <include>resUi/iframes/credential/*</include>
-                                <include>resUi/iframes/home/*</include>
-                                <include>resUi/iframes/home/modules/*</include>
-                                <include>resUi/iframes/home/modules/menu/*</include>
-                                <include>resUi/iframes/home/modules/popupMessage/*</include>
-                                <include>resUi/iframes/notices/*</include>
-                                <include>resUi/iframes/notices/album/*</include>
-                                <include>resUi/iframes/notices/album/modules/*</include>
-                                <include>resUi/iframes/notices/album/modules/imageImport/*</include>
-                                <include>resUi/iframes/notices/album/modules/imageList/*</include>
-                                <include>resUi/iframes/notices/album/modules/imageRemove/*</include>
-                                <include>resUi/iframes/notices/album/modules/menu/*</include>
-                                <include>resUi/iframes/notices/deploy/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/confirmMessage/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/deConfirm/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/directory/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/editStore/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/editTask/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/fileExplorer/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/menu/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/popupMessage/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/saveDetail/*</include>
-                                <include>resUi/iframes/notices/deploy/modules/tasks/*</include>
-                                <include>resUi/iframes/notices/editor/*</include>
-                                <include>resUi/iframes/notices/editor/modules/*</include>
-                                <include>resUi/iframes/notices/editor/modules/attachFile/*</include>
-                                <include>resUi/iframes/notices/editor/modules/editNotice/*</include>
-                                <include>resUi/iframes/notices/editor/modules/failure/*</include>
-                                <include>resUi/iframes/notices/editor/modules/fileClose/*</include>
-                                <include>resUi/iframes/notices/editor/modules/fileCreate/*</include>
-                                <include>resUi/iframes/notices/editor/modules/fileOpen/*</include>
-                                <include>resUi/iframes/notices/editor/modules/filePrint/*</include>
-                                <include>resUi/iframes/notices/editor/modules/fileRemove/*</include>
-                                <include>resUi/iframes/notices/editor/modules/fileSave/*</include>
-                                <include>resUi/iframes/notices/editor/modules/itemList/*</include>
-                                <include>resUi/iframes/notices/editor/modules/menu/*</include>
-                                <include>resUi/iframes/notices/editor/modules/popupMessage/*</include>
-                                <include>resUi/iframes/options/*</include>
-                                <include>resUi/iframes/pickList/*</include>
-                                <include>resUi/iframes/pickList/album/*</include>
-                                <include>resUi/iframes/pickList/album/modules/*</include>
-                                <include>resUi/iframes/pickList/album/modules/imageImport/*</include>
-                                <include>resUi/iframes/pickList/album/modules/imageList/*</include>
-                                <include>resUi/iframes/pickList/album/modules/imageRemove/*</include>
-                                <include>resUi/iframes/pickList/album/modules/menu/*</include>
-                                <include>resUi/iframes/pickList/deploy/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/confirmMessage/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/deConfirm/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/directory/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/editStore/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/editTask/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/fileExplorer/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/menu/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/popupMessage/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/saveDetail/*</include>
-                                <include>resUi/iframes/pickList/deploy/modules/tasks/*</include>
-                                <include>resUi/iframes/pickList/editor/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/editCategories/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/editItems/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/editLayout/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/failure/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/fileClose/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/fileCreate/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/fileOpen/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/filePrint/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/fileRemove/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/fileSave/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/itemList/*</include>
-                                <include>resUi/iframes/pickList/editor/modules/menu/*</include>
-                                <include>resUi/iframes/settings/*</include>
-                                <include>resUi/iframes/settings/modules/*</include>
-                                <include>resUi/iframes/settings/modules/companyLogon/*</include>
-                                <include>resUi/iframes/settings/modules/device/*</include>
-                                <include>resUi/iframes/settings/modules/personal/*</include>
-                                <include>resUi/iframes/settings/modules/printers/*</include>
-                                <include>resUi/iframes/settings/modules/queues/*</include>
-                                <include>resUi/iframes/settings/modules/software/*</include>
-                                <include>resUi/iframes/usability/*</include>
-                                <include>settingAds/*</include>
-                                <include>settingAds/css/*</include>
-                                <include>settingAds/css/images/*</include>
-                                <include>settingAds/fonts/*</include>
-                                <include>settingAds/js/*</include>
-                                <include>settingDevice/*</include>
-                                <include>settingDevice/css/*</include>
-                                <include>settingDevice/css/images/*</include>
-                                <include>settingDevice/js/*</include>
-                                <include>WEB-INF/lib/*.jar</include>
-                                <include>sharedlib/*</include>
-                            </includes>
+                            <!-- Excludes some files -->
                             <excludes>
+                                <exclide>res.manifest</exclide>
+                                <exclude>META-INF/**.*</exclude>
                                 <exclude>WEB-INF/lib/sqljdbc42.jar</exclude>
                             </excludes>
                         </resource>
@@ -712,9 +568,6 @@
                     <containerConfigXML>WebContent\META-INF\context.xml</containerConfigXML>
                 </configuration>
             </plugin>
-
-
-
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

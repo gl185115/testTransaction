@@ -23,6 +23,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!-- These values are overwritten by Jenkins. -->
         <maven.test.skip>false</maven.test.skip>
+        <maven.install.skip>false</maven.install.skip>
         <build.number>0</build.number>
         <svn.revision>0</svn.revision>
         <myGroupId>temp</myGroupId>
@@ -595,9 +596,25 @@
                 </executions>
             </plugin>
 
+            <!-- Install in install -->
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <skip>${maven.install.skip}</skip>
+                </configuration>
+            </plugin>
+
+            <!-- deploy in deploy -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.7</version>
                 <executions>
+                    <execution>
+                        <!-- default-deploy goal is bound to deploy, so unbinds it. -->
+                        <id>default-deploy</id>
+                        <phase>none</phase>
+                    </execution>
                     <execution>
                         <id>xmlparams</id>
                         <phase>deploy</phase>

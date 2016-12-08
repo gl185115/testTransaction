@@ -96,7 +96,7 @@ public class Requirements {
                 initContext.bind("java:comp/env/snapPath",
                         "c:/ncr/res/log/snap_dir");
                 BasicDataSource dsMsSqlServer = new BasicDataSource();
-                dsMsSqlServer.setUrl("jdbc:sqlserver://149.25.136.82:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");
+                dsMsSqlServer.setUrl("jdbc:sqlserver://localhost:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");
                 dsMsSqlServer.setUsername("entsvr");
                 dsMsSqlServer.setPassword("ncrsa_ora");
                 initContext.bind("java:comp/env/jdbc/MSSQLSERVER", dsMsSqlServer);

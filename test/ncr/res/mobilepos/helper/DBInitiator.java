@@ -26,8 +26,8 @@ import java.util.Map;
 
 public class DBInitiator  extends DBTestCase {
 
-    private static final String DBUNIT_SERVER_IP = "149.25.136.82";
-//    private static final String DBUNIT_SERVER_IP = "127.0.0.1";
+    private static final String DBUNIT_SERVER_IP = "153.59.128.97";
+//	private static final String DBUNIT_SERVER_IP = "127.0.0.1";
 
     private static final String DBUNIT_DRIVER_CLASS_SQLS =
                         "com.microsoft.sqlserver.jdbc.SQLServerDriver";

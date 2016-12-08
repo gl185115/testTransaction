@@ -406,7 +406,7 @@
                         </goals>
                         <configuration>
                             <encoding>${project.build.sourceEncoding}</encoding>
-                            <workDir>${project.build.outputDirectory}</workDir>-->
+                            <workDir>${project.build.outputDirectory}</workDir>
                             <includes>
                                 <include>receiptlabel_ja.properties</include>
                                 <include>label_ja.properties</include>
@@ -515,21 +515,7 @@
                         </goals>
                         <configuration>
                             <finalName>poslog-binding</finalName>
-                            <outputDirectory>${project.basedir}/WebContent/WEB-INF/lib</outputDirectory>
-                            <includes>
-                                <include>**/ncr/res/mobilepos/helper/XmlSerializer.class</include>
-                                <include>**/ncr/res/mobilepos/journalization/model/poslog/*.class</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>package</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>poslog-binding</finalName>
+                            <outputDirectory>${project.build.directory}/resTransaction/WEB-INF/lib</outputDirectory>
                             <includes>
                                 <include>**/ncr/res/mobilepos/helper/XmlSerializer.class</include>
                                 <include>**/ncr/res/mobilepos/journalization/model/poslog/*.class</include>
@@ -628,7 +614,7 @@
                             <version>${project.version}</version>
                             <packaging>zip</packaging>
                             <pomFile>pom.xml</pomFile>
-                            <file>target/XmlParams.zip</file>
+                            <file>${project.build.directory}/XmlParams.zip</file>
                             <uniqueVersion>false</uniqueVersion>
                             <generatePom>true</generatePom>
                             <url>${project.distributionManagement.snapshotRepository.url}</url>
@@ -646,7 +632,7 @@
                             <artifactId>poslog-binding</artifactId>
                             <version>${project.version}</version>
                             <packaging>jar</packaging>
-                            <file>target/poslog-binding.jar</file>
+                            <file>${project.build.directory}/resTransaction/WEB-INF/lib/poslog-binding.jar</file>
                             <pomFile>pom.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>
@@ -665,7 +651,7 @@
                             <artifactId>resTransaction</artifactId>
                             <version>${project.version}</version>
                             <packaging>war</packaging>
-                            <file>target/resTransaction.war</file>
+                            <file>${project.build.directory}/resTransaction.war</file>
                             <pomFile>pom.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>
@@ -685,7 +671,7 @@
                             <version>${project.version}</version>
                             <packaging>html</packaging>
                             <pomFile>pom.xml</pomFile>
-                            <file>target/api_document.html</file>
+                            <file>${project.build.directory}/api_document.html</file>
                             <uniqueVersion>false</uniqueVersion>
                             <generatePom>true</generatePom>
                             <url>${project.distributionManagement.snapshotRepository.url}</url>
@@ -694,6 +680,7 @@
                 </executions>
             </plugin>
 
+            <!-- Generates API document in package -->
             <plugin>
                 <groupId>com.github.kongchen</groupId>
                 <artifactId>swagger-maven-plugin</artifactId>
@@ -712,8 +699,8 @@
                             <outputTemplate>${project.basedir}/resources/strapdown.html.mustache</outputTemplate>
                             <mustacheFileRoot>${project.basedir}/resources/</mustacheFileRoot>
                             <useOutputFlatStructure>false</useOutputFlatStructure>
-                            <outputPath>${project.basedir}/target/api_document.html</outputPath>
-                            <swaggerDirectory>${project.basedir}/target/swagger-ui_data</swaggerDirectory>
+                            <outputPath>${project.build.directory}/api_document.html</outputPath>
+                            <swaggerDirectory>${project.build.directory}/swagger-ui_data</swaggerDirectory>
                         </apiSource>
                     </apiSources>
                 </configuration>

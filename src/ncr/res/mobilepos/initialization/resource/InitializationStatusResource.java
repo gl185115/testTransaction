@@ -61,7 +61,7 @@ public class InitializationStatusResource {
      */
     @Path("/status")
     @GET
-    @Produces({MediaType.APPLICATION_XML + ";charset=UTF-8"})
+    @Produces({MediaType.APPLICATION_JSON })
     @ApiOperation(value="resTransaction‰Šú‰»ó‘Ôæ“¾", response=String.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_OK_INITIALIZATION, message="‰Šú‰»¬Œ÷"),

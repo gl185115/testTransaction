@@ -105,12 +105,6 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>sqljdbc42</groupId>
-            <artifactId>sqljdbc42</artifactId>
-            <version>4.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.47</version>
@@ -192,13 +186,6 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <!-- For Test -->
-        <dependency>
-            <groupId>commons-collections</groupId>
-            <artifactId>commons-collections</artifactId>
-            <version>3.2</version>
-            <scope>test</scope>
-        </dependency>
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>java-json</artifactId>
@@ -210,6 +197,46 @@
             <artifactId>jsonassert</artifactId>
             <version>1.2.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>3.3.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>ncr.res.pointserver</groupId>
+            <artifactId>pointserver-interface-mobile</artifactId>
+            <version>1.0.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/WebContent/WEB-INF/lib/pointserver-interface-mobile.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>platform</artifactId>
+            <version>3.4.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>1.9.13</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- For Test -->
+        <dependency>
+            <groupId>sqljdbc42</groupId>
+            <artifactId>sqljdbc42</artifactId>
+            <version>4.2</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/WebContent/WEB-INF/lib/sqljdbc42.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <version>3.2</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-lang</groupId>
@@ -288,29 +315,6 @@
             <artifactId>tomcat-dbcp</artifactId>
             <version>8.0.24</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>jna</artifactId>
-            <version>3.3.0</version>
-        </dependency>
-        <dependency>
-            <groupId>ncr.res.pointserver</groupId>
-            <artifactId>pointserver-interface-mobile</artifactId>
-            <version>1.0.0</version>
-            <scope>system</scope>
-            <systemPath>${basedir}/WebContent/WEB-INF/lib/pointserver-interface-mobile.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>net.java.dev.jna</groupId>
-            <artifactId>platform</artifactId>
-            <version>3.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 

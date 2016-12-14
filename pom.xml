@@ -46,39 +46,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>1.3.RC2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-		    <groupId>xml-apis</groupId>
-		    <artifactId>xml-apis</artifactId>
-		    <version>1.4.01</version>
-		</dependency>
-        <dependency>
             <groupId>realgate-common</groupId>
             <artifactId>realgate-common</artifactId>
             <version>2.1.6</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>annotations-api</groupId>
-            <artifactId>annotations-api</artifactId>
-            <version>6.0</version>
-            <scope>test</scope>
+            <scope>system</scope>
+            <systemPath>${basedir}/WebContent/WEB-INF/lib/realgate-common.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>jsr311-api</groupId>
@@ -231,6 +203,30 @@
             <version>4.2</version>
             <scope>system</scope>
             <systemPath>${basedir}/WebContent/WEB-INF/lib/sqljdbc42.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-library</artifactId>
+            <version>1.3.RC2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>annotations-api</groupId>
+            <artifactId>annotations-api</artifactId>
+            <version>6.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>commons-collections</groupId>

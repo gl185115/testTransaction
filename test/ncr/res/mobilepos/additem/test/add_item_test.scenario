@@ -1,0 +1,28 @@
+Scenario: Add Item Test (AutoDiscount, NonDiscountable, NonDiscountable) (500.0)
+Given the Web API Starts Up with {test/ncr/res/mobilepos/additem/test/prm_system_config_12taxrate_roundup.xml} System Configuration
+Given an items{test/ncr/res/mobilepos/additem/test/data_items.xml} in database
+Given a companyid{01} storeid{0247} workstationid{0004} businessdate{2016-07-21} seqno{1553}
+
+!-- Add Auto Discount Amount (500.0) Item
+When I add an item {4957669206754}
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
+|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R		|7398.0					|4957669206754	|1			|0.0			|500		|397		|‚kƒoƒ‰ƒEƒbƒh		|
+
+!-- Add Auto Discount Rate (30%) Item
+When I add an item {4957669622196}
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
+|‚l‚i‚q‚n‚x‚`‚k ‚a‚j‚S‚U‚T	|120000.0				|4957669622196	|1			|30.0			|0			|393		|‚lƒoƒ‰ƒEƒEƒbƒh		|
+
+!-- Add NonDiscountable Item
+When I add an item {0000906404728}
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
+|ƒu[ƒc				|23000.0				|0000906404728	|1			|0.0			|0			|811		|‚lƒJƒWƒ…ƒAƒ‹ƒVƒ…[ƒY	|
+
+!-- Add Discountable Item
+When I add an item {4908094832094}
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
+|‚v‚‚‚Œ ‚a‚’‚‚‚„ ‚a‚‚‚	|4900.0					|4908094832094	|1			|0.0			|0			|570		|ƒgƒŒƒbƒLƒ“ƒO¬•¨		|

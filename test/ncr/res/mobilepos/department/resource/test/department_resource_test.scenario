@@ -1,0 +1,85 @@
+Scenario: Invalid Parameters
+Given I have Department Resource
+!-- Unknown store id 
+When I get Department with companyid{01} companyid{01} storeid{0032} dptid{001}
+Then The DepartmentModel should not be null
+Then the resultcode should be 180 and extendedResultCode should be 133
+
+!-- Unknown department 
+When I get Department with companyid{01} storeid{0031} and dptid{040}
+Then The DepartmentModel should not be null
+Then the resultcode should be 180 and extendedResultCode should be 133
+
+!-- Unknown store id and Unknown department 
+When I get Department with companyid{01} storeid{0032} and dptid{040}
+Then The DepartmentModel should not be null
+Then the resultcode should be 180 and extendedResultCode should be 133
+
+!-- DepartmentId exceeds to 20 characters
+When I get Department with companyid{01} storeid{000031} and dptid{012345678901234567899}
+Then the resultcode should be 180 and extendedResultCode should be 133
+
+!-- StoreId exceeds to 6 characters
+When I get Department with companyid{01} storeid{0000311} and dptid{01234567890123456789}
+Then the resultcode should be 180 and extendedResultCode should be 133
+
+Scenario: Department Query
+Given entries for {department} in database
+Given I have Department Resource
+When I get Department with companyid{01} storeid{0031} and dptid{001}
+Then I should get department model with properties:
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|
+|0031	        |001	|dpttest1	|部門テスト1	 |5			|5				|5.0			|5		|5		|
+Then the resultcode should be 0 and extendedResultCode should be 0
+
+!-- Department exist in the Enterprise Store
+When I get Department with companyid{01} storeid{0031} and dptid{004}
+Then I should get department model with properties:
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|
+|0		        |004	|dpttest4	|部門テスト4	 |5			|5				|5.0			|5		|5		|
+Then the resultcode should be 0 and extendedResultCode should be 0
+
+!-- Department exist both in Store and Enterprise Store
+When I get Department with companyid{01} storeid{0031} and dptid{003}
+Then I should get department model with properties:
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|
+|0031	        |003	|dpttest3	|部門テスト3	 |5			|5				|5.0			|5		|5		|
+Then the resultcode should be 0 and extendedResultCode should be 0
+
+!-- StoreId and DepartmentId equals in the Store and Enterprise Store
+When I get Department with companyid{01} storeid{000031} and dptid{01234567890123456789}
+Then I should get department model with properties:
+|RETAILSTOREID	|DPT					|DPTNAME					|DPTNAMELOCAL				|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|
+|000031	        |01234567890123456789	|Dpt 01234567890123456789	|部門01234567890123456789	|5			|5				|5.0			|5		|5		|
+Then the resultcode should be 0 and extendedResultCode should be 0
+
+Scenario: Not Active Departments Should Not Be Viewed
+Given entries for {department} in database
+Given I have Department Resource
+!-- Deleted Status 
+When I get Department with companyid{01} storeid{0031} and dptid{100}
+Then the resultcode should be 180 and extendedResultCode should be 133
+!-- Neither Deleted or Active Status 
+When I get Department with companyid{01} storeid{0031} and dptid{101}
+Then the resultcode should be 180 and extendedResultCode should be 133
+!-- Empty Status
+When I get Department with companyid{01} storeid{0031} and dptid{102}
+Then the resultcode should be 180 and extendedResultCode should be 133
+!-- NULL Status
+When I get Department with companyid{01} storeid{0031} and dptid{103}
+Then the resultcode should be 180 and extendedResultCode should be 133
+
+Scenario: Database throw Exceptions
+Given I have Department Resource
+Given that database is throwing an unexpected {DaoException}
+When I get Department with companyid{01} storeid{0031} and dptid{102}
+Then the resultcode should be 139 and extendedResultCode should be 0
+Given that database is throwing an unexpected {SQLException}
+When I get Department with companyid{01} storeid{0031} and dptid{102}
+Then the resultcode should be 134 and extendedResultCode should be 0
+Given that database is throwing an unexpected {SQLStatementException}
+When I get Department with companyid{01} storeid{0031} and dptid{102}
+Then the resultcode should be 139 and extendedResultCode should be 0
+Given that database is throwing an unexpected {Exception}
+When I get Department with companyid{01} storeid{0031} and dptid{102}
+Then the resultcode should be 133 and extendedResultCode should be 0

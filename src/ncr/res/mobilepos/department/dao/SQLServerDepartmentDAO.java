@@ -4,11 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.department.model.Department;
+import ncr.res.mobilepos.department.model.DepartmentList;
 import ncr.res.mobilepos.department.model.DepartmentName;
 import ncr.res.mobilepos.department.model.DptConst;
 import ncr.res.mobilepos.department.model.ViewDepartment;
@@ -16,6 +21,7 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 /**
@@ -137,4 +143,94 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 		return dptModel;
 	}
     
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public final DepartmentList listDepartments(final String storeId,
+			final String key, final String name, final int limit)
+			throws DaoException {
+		String functionName = "SQLServerDepartmentDAO.listDepartments";
+		tp.methodEnter(DebugLogger.getCurrentMethodName())
+				.println("RetailStoreID", storeId).println("Key", key)
+				.println("Limit", limit);
+
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet resultSet = null;
+		DepartmentList dptList = new DepartmentList();
+		List<Department> departments = new ArrayList<Department>();
+
+		try {
+
+			String strStmnt = "get-departments";
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			selectStmt = connection.prepareStatement(sqlStatement
+					.getProperty(strStmnt));
+
+			tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
+			int searchLimit = (limit == 0) ? GlobalConstant
+					.getMaxSearchResults() : limit;
+
+			selectStmt.setInt(SQLStatement.PARAM1, searchLimit);
+			selectStmt.setString(SQLStatement.PARAM2, storeId);
+
+			String keyId = StringUtility.isNullOrEmpty(key) ? null : StringUtility.escapeCharatersForSQLqueries(key) + "%";
+			String nameTemp = StringUtility.isNullOrEmpty(name) ? null : "%"
+					+ StringUtility.escapeCharatersForSQLqueries(name) + "%";
+
+			selectStmt.setString(SQLStatement.PARAM3, keyId);
+			selectStmt.setString(SQLStatement.PARAM4, nameTemp);
+			resultSet = selectStmt.executeQuery();
+			while (resultSet.next()) {
+				Department department = new Department();
+				department
+						.setDepartmentID(resultSet.getString(DptConst.COL_DPT));
+				department.setRetailStoreID(resultSet
+						.getString(DptConst.COL_STORE_ID));
+				DepartmentName departmentName = new DepartmentName();
+				departmentName.setEn(resultSet.getString(DptConst.COL_DPT_NAME));
+				departmentName.setJa(resultSet
+						.getString(DptConst.COL_DPT_NAME_LOCAL));
+				department.setDepartmentName(departmentName);
+				department.setInheritFlag(resultSet.getString(DptConst.COL_INHERIT_FLAG));
+				department.setNonSales(resultSet.getInt(DptConst.COL_EXCEPTION_FLAG));
+				department.setDiscountType(resultSet.getString(DptConst.COL_DISCOUNT_TYPE));
+				department.setDiscountFlag(resultSet.getString(DptConst.COL_DISCOUNT_FLAG));
+				department.setDiscountAmt(resultSet.getDouble(DptConst.COL_DISCOUNT_AMT));
+				department.setDiscounRate(resultSet.getDouble(DptConst.COL_DISCOUNT_RATE));
+				department.setTaxRate(resultSet.getString(DptConst.COL_TAX_RATE));
+				department.setTaxType(resultSet.getString(DptConst.COL_TAX_TYPE));
+				departments.add(department);
+			}
+
+			dptList.setRetailStoreID(storeId);
+			dptList.setDepartments(departments);
+
+		} catch (SQLStatementException sqlStmtEx) {
+			LOGGER.logAlert(progName, functionName,
+					Logger.RES_EXCEP_SQLSTATEMENT,
+					"Failed to list Departments\n " + sqlStmtEx.getMessage());
+			throw new DaoException("SQLServerDepartmentDAO: @listDepartments",
+					sqlStmtEx);
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
+					"Failed to list Departments\n " + sqlEx.getMessage());
+			throw new DaoException("SQLException:"
+					+ "@SQLServerDepartmentDAO.listDepartments", sqlEx);
+		} catch (Exception e) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to list Departments\n " + e.getMessage());
+			throw new DaoException("SQLException:"
+					+ "@SQLServerDepartmentDAO.listDepartments ", e);
+		} finally {
+			closeConnectionObjects(connection, selectStmt, resultSet);
+
+			tp.methodExit(dptList);
+		}
+
+		return dptList;
+	}
 }

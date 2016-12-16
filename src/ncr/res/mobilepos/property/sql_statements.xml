@@ -6642,6 +6642,68 @@ ORDER BY
     WHERE
       CompanyId = @companyid AND StoreId = @storeid AND Dpt = @dpt AND DeleteFlag = 0.0
   </entry>
+  <entry key="get-departments">
+  DECLARE @key varchar(max),
+    @storeid varchar(max),
+    @limit int,
+    @name varchar(max)
+
+    SET @limit=?
+    SET @storeid=?
+    SET @key=?
+    SET @name=?
+
+    SET @storeid = (CASE
+               WHEN (len(@key) = 0 OR (@key IS NULL))
+                  THEN @storeid
+               WHEN ((len(@storeid) =0 OR @storeid IS NULL))
+                   THEN @storeid
+               WHEN NOT EXISTS(SELECT Dpt, DptName FROM RESMaster.dbo.MST_DPTINFO WHERE StoreId= @storeid AND Dpt like @key {ESCAPE '\'} )
+                  THEN '0'
+                   ELSE @storeid
+             END)
+    SET @limit = (CASE
+           WHEN(@limit > -1)
+               THEN @limit
+               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_DPTINFO)
+           END)
+
+    SELECT TOP(@limit)
+      Dpt,
+      DptName,
+      DptNameLocal,
+      StoreId,
+      InheritFlag,
+      ExceptionFlag,
+      
+      DiscountType,
+      DiscountFlag,
+      DiscountAmt,
+      DiscountRate,
+      TaxRate,
+      TaxType
+
+
+    FROM RESMaster.dbo.MST_DPTINFO
+    WHERE
+      ((@storeid IS NULL OR LEN(@storeid) = 0) OR (
+            StoreId = @storeid
+          )) AND
+      ((@key IS NULL OR LEN(@key) = 0) OR (
+            Dpt LIKE @key  {ESCAPE '\'}
+          )) AND
+      ((@name IS NULL) OR (
+            ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
+            (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
+          ))) AND
+      Status = 'Active'
+    ORDER BY
+         CASE
+        WHEN (len(@name) &gt; 0 AND (@key IS NULL OR len(@key) &lt;= 0))
+          THEN DptName
+           END,
+      Dpt
+  	</entry>
     <!-- *************************  ENTRY KEY FOR ITEM TABLE MAINTENANCE ************************* -->
     <entry key="delete-item">
       DECLARE

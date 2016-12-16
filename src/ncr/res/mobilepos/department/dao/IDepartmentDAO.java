@@ -1,5 +1,6 @@
 package ncr.res.mobilepos.department.dao;
 
+import ncr.res.mobilepos.department.model.DepartmentList;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.exception.DaoException;
 /**
@@ -24,4 +25,21 @@ public interface IDepartmentDAO {
     */
     ViewDepartment selectDepartmentDetail(String companyID, String retailStoreID,
         String departmentID) throws DaoException;
+    /**
+     * Gets the list of active departments of a store.
+     *
+     * @param retailStoreID store to which the department belongs.
+     * @param key           search key. if null, list all departments of the store.
+     * 						if numeric, list all departments prefix with department id.
+     * 						if non-numeric, list all departments containing the department name.
+     * @param name          search Department using name
+     * @param searchLimit limit, if 0, use the systemConfig defined limit
+     *                           if -1, no limit
+     *                           if any int value, search limit
+     * @return a list of department
+     * @throws DaoException
+     *             if error exists.
+     */
+    DepartmentList listDepartments(String retailStoreID, String key, String name, int searchLimit)
+    throws DaoException;
 }

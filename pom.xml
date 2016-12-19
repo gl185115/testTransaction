@@ -49,6 +49,7 @@
 		    <groupId>xml-apis</groupId>
 		    <artifactId>xml-apis</artifactId>
 		    <version>1.4.01</version>
+            <scope>test</scope>
 		</dependency>
         <dependency>
             <groupId>realgate-common</groupId>
@@ -402,7 +403,7 @@
                 <version>2.19.1</version>
                 <configuration>
                     <skip>${maven.test.skip}</skip>
-                    <argLine>-Dfile.encoding=${project.build.sourceEncoding}</argLine>
+                    <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine}</argLine>
                 </configuration>
             </plugin>
 

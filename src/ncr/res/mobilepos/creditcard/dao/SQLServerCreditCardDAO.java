@@ -128,10 +128,6 @@ public class SQLServerCreditCardDAO extends AbstractDao implements ICreditCardAb
                 cardcompanies.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 cardcompanies.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-		}catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get credit card company infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerCreditCardDAO.getCreditCardCompayInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get credit card company infomation.",
                     sqlEx);

@@ -145,12 +145,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerStoreDAO"
                     + ".viewStore - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View Store#"
-                            + retailStoreID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     progName,
@@ -216,13 +210,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerStoreDAO"
                     + ".viewStore - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Failed to get value for " + storecode + " And "
-                            + usage + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get Value for " + storecode + " And " + usage
@@ -311,12 +298,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             rollBack(connection, "@SQLServerStoreDAO.createStore ", e);
             throw new DaoException("SQLException:"
                     + "@SQLServerStoreDAO.createStore ", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to add Store\n " + e.getMessage());
-            rollBack(connection, "SQLServerStoreDAO: @createStore ", e);
-            throw new DaoException("SQLServerStoreDAO: @createStore ", e);
         } catch (Exception e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to add Store\n " + e.getMessage());
@@ -378,13 +359,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             rollBack(connection, "@SQLServerStoreDAO:deleteStore", sqlEx);
             throw new DaoException("SQLException: @SQLServerStoreDAO"
                     + ".deleteStore - Error delete store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to Delete Store#"
-                            + retailStoreID + " : " + sqlStmtEx.getMessage());
-            rollBack(connection, "@SQLServerStoreDAO:deleteStore", sqlStmtEx);
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".deleteStore - Error delete store", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     progName,
@@ -449,12 +423,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to List Stores" + " : " + ex.getMessage());
             throw new DaoException("SQLException: @" + functionName
-                    + " - Error list store", ex);
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to List Stores " + GlobalConstant.getCorpid()
-                    + " : " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
                     + " - Error list store", ex);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -591,14 +559,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                 throw new DaoException("SQLException: @" + functionName
                         + " - Error update store", ex);
             }
-        } catch (SQLStatementException ex) {
-            rollBack(conn, functionName, ex);
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Update Store with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + " - Error update store", ex);
         } catch (Exception ex) {
             rollBack(conn, functionName, ex);
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -658,15 +618,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             }
 
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to check Status of Store" + storeId + ": "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".getDepartmentStatus", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to check Status of Department" + storeId + ": "
@@ -968,12 +919,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerStoreDAO"
                     + ".getStoreDetaiInfo - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View Store#"
-                            + retailStoreID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".getStoreDetaiInfo - Error view store", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     progName,

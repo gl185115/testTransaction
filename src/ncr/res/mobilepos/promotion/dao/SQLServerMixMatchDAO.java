@@ -168,15 +168,6 @@ public class SQLServerMixMatchDAO extends AbstractDao implements IMixMatchDAO {
                     "Failed to get the Mix Match Data.\n"
                             + e.getMessage());
             throw new DaoException("SQLException: @getMixMatch ", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(
-                    progname,
-                    "SQLServerMixMatchDAO.getMixMatchData()",
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the Mix Match Data.\n"
-                            + e.getMessage());
-            throw new DaoException("SQLStatementException: @getMixMatchData ",
-                    e);
         } catch (ParseException e) {
         	LOGGER.logAlert(
                     progname,
@@ -267,15 +258,6 @@ public class SQLServerMixMatchDAO extends AbstractDao implements IMixMatchDAO {
                     "Failed to get the Group Mix Match Data.\n"
                             + e.getMessage());
             throw new DaoException("SQLException: @getGroupMixMatch ", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(
-                    progname,
-                    "SQLServerMixMatchDAO.getGroupMixMatchData()",
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the Group Mix Match Dat.\n"
-                            + e.getMessage());
-            throw new DaoException("SQLStatementException: @getGroupMixMatchData ",
-                    e);
         } catch (ParseException e) {
         	LOGGER.logAlert(
                     progname,

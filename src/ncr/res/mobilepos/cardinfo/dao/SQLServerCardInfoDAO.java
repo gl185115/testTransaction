@@ -109,10 +109,6 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get card class info.", e);
             throw new Exception("SQLException: @SQLServerCardInfoDAO." + functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get card class info.",
-                    e);
-            throw new Exception("SQLStatementException: @SQLServerCardInfoDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(cardClassInfoList);

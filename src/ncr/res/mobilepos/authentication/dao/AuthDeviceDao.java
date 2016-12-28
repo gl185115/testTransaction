@@ -106,10 +106,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
         	LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to save device.\n" + ex.getMessage());
             throw new DaoException("SQLException: @" + functionName, ex);
-        } catch (SQLStatementException ex) {
-        	LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to save device.\n" + ex.getMessage());
-            throw new DaoException("SQLStatementException: @" + functionName, ex);
         } catch (Exception ex) {
         	LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to save device.\n" + ex.getMessage());
@@ -651,12 +647,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
                     Logger.RES_EXCEP_SQL, "SQLException:" + e.getMessage());
             tp.methodExit("SQLException occurred.");
             throw new DaoException("SQLException", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName, "AuthDeviceDao.isDeviceExisting()",
-                    Logger.RES_EXCEP_SQL,
-                    "SQLStatementException:" + e.getMessage());
-            tp.methodExit("SQLStatementException occurred.");
-            throw new DaoException("SQLStatementException", e);
         } finally {
             closeConnectionObjects(connection, selectStmt, resultSet);
 
@@ -1098,13 +1088,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 				corpStore.setStorename(resultSet.getString("StoreName"));
 				result.setCorpstore(corpStore);
 			}
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(progName, functionName,
-					Logger.RES_EXCEP_SQLSTATEMENT,
-					"Failed to validate corp-store.\n " + e.getMessage());
-			throw new DaoException(
-					"SQLStatementException: @AuthDeviceDao.validateCorpStore ",
-					e);
         } catch (SQLException e) {
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
 					"Failed to validate corp-store.\n " + e.getMessage());

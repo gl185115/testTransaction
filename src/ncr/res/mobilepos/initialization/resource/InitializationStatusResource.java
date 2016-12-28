@@ -23,6 +23,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.property.SQLStatement;
 
 /**
  * InitializationStatus Web Resource Class.
@@ -84,6 +85,7 @@ public class InitializationStatusResource {
         initFailed |= SnapLogger.getInstance() == null;
         initFailed |= DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass()) == null;
         initFailed |= SpmFileWriter.getInstance() == null;
+        initFailed |= SQLStatement.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

@@ -75,15 +75,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     public SQLDeviceInfoDAO() throws DaoException {
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(
-                Thread.currentThread().getId(), getClass());
-		try {
-			// Gets Singleton reference from the factory.
-			this.sqlStatement = SQLStatement.getInstance();
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, "SQLDeviceInfoDAO.SQLDeviceInfoDAO",
-					Logger.RES_EXCEP_SQLSTATEMENT, "Failed to instantiate SQLStatement:" + e.getMessage());
-			throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO.SQLDeviceInfoDAO", e);
-		}
+            Thread.currentThread().getId(), getClass());
+        // Gets Singleton reference from the factory.
+        this.sqlStatement = SQLStatement.getInstance();
 	}
 
 	/**
@@ -134,10 +128,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 						result);
 			}
 
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set linkposterminalid.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set linkposterminalid.", ex);
@@ -205,10 +195,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 tp.println("Unknown error occured in setting the"
                         + "Printer.", result);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set PrinterId.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set PrinterId.", ex);
@@ -306,10 +292,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 tp.println("Failed to create peripheral device"
                         + "information.");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to create Peripheral Info.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to create Peripheral Info.", ex);
@@ -405,10 +387,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 printerInfo = null;
                 tp.println("Failed to find printer information.");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get Printer Info.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get Printer Info.", ex);
@@ -486,10 +464,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 
                 allprintinfo.add(printinfo);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get all printers.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get all printers.", ex);
@@ -590,10 +564,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 devInfo.setLinkPOSTerminalId("");               
             }
             devInfo.setPrinterInfo(printerInfo);
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to retrieve DeviceInfo.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to retrieve DeviceInfo.", ex);
@@ -636,11 +606,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             deleteDeviceStmt.executeUpdate();
             connection.commit();
 
-		} catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete device.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			rollBack(connection, functionName, ex);
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
@@ -702,10 +667,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 device.setStatus(resultSet.getString("Status"));
                 devices.add(device);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get devices.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get devices.", ex);
@@ -754,11 +715,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             } else {
                 connection.commit();
             }
-		} catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete registered device.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			rollBack(connection, functionName, ex);
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
@@ -906,10 +862,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             devInfoToReturn.setPrinterInfo(printerInfo);
             viewInfo.setDeviceInfo(devInfoToReturn);
             connection.commit();
-        } catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to update device.", ex);
-            throw new DaoException(ex);
         } catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update device.", ex);
@@ -1059,10 +1011,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			}
 			connection.commit();
 			
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to activate device.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to activate device.", ex);
@@ -1181,11 +1129,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
          viewInfo.setPrinterInfo(printerInfoToReturn);
          connection.commit();
 	
-        } catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to update printer info.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update printer info.", ex);
@@ -1262,11 +1205,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         	}else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_ACTIVE){//duplicate
         		resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
         	}
-     	} catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to create printer.", ex);
-			throw new DaoException(functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to create printer.", ex);
@@ -1325,10 +1263,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 tp.println("no device found");
             }
 
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set queuebusterlink.", ex);
-			throw new DaoException(functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set queuebusterlink.", ex);
@@ -1394,10 +1328,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	            }
         	}
             	
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete printer.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to delete printer.", ex);
@@ -1450,10 +1380,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 tp.println("No device found.");
             }
 
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set signaturelink.", ex);
-			throw new DaoException(functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set signaturelink.", ex);
@@ -1505,10 +1431,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 tp.println("No device found.");
             }
 
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set authorizationlink.", ex);
-			throw new DaoException(functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set authorizationlink.", ex);
@@ -1648,11 +1570,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 					+ ": Failed to update last transaction number.", e);
 			throw new DaoException(e);
 	
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName
-							+ ": Failed to update last transaction number.", e);
-			throw new DaoException(e);
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update last transaction number.", e);
@@ -1697,11 +1614,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 					+ ": Failed to update last suspend transaction number.", e);
 			throw new DaoException(e);
 	
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName 
-					+ ": Failed to update last suspend transaction number.", e);
-			throw new DaoException(e);
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update last suspend transaction number.", e);
@@ -1755,11 +1667,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
             }
                         
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to check if printer is existing.",
-					ex);
-			throw new DaoException(ex);
 		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to check if printer is existing.", ex);
@@ -1838,11 +1745,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 
                 tillList.add(aTill);
             }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to retrieve tills.", ex);
-            throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to retrieve tills.", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to retrieve tills.", ex);
@@ -1906,11 +1808,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 tp.println("Unknown error occured in setting the"
                         + "TillId.", result);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set TillId.", ex);
-			 throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-					+ "." + functionName + " - Failed to set TillId.", ex);
 		} catch (SQLException ex) {
 			rollBack(connection, functionName, ex);
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
@@ -2058,11 +1955,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	deviceAttributeInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	deviceAttributeInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to Get the Device attribute Info.", sqlStmtEx);
-            throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to  Get the Device attribute Info.", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to Get the Device attribute Info.", sqlEx);

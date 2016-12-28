@@ -93,11 +93,6 @@ public class SQLServerBuyadditionalInfoDAO extends AbstractDao implements IBuyad
 				buyadditionalInfo.setShortKanaName(result.getString("BuyAdditionalInfoShortKanaName"));
 				buyadditionalInfoList.add(buyadditionalInfo);
 			}
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get buyadditional info.", sqlStmtEx);
-			throw new DaoException("SQLStatementException: @SQLServerBuyadditionalInfoDAO.getBuyadditionalInfo",
-					sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get buyadditional info.",
 					sqlEx);

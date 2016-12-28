@@ -89,11 +89,6 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
             } else {
                 tp.println("Failed to retrieve Signature Link.");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get signature link.", ex);
-			throw new DaoException("SQLStatementException: @"
-					+ "SQLSignatureLinkDAO." + functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get signature link.", ex);
@@ -154,11 +149,6 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
                 resultBase.setMessage("Failed to create Signature link");
                 tp.println("Failed to create Signature link");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to create signature link.", ex);
-			throw new DaoException("SQLStatementException:"
-					+ " @SQLSignatureLinkDAO." + functionName, ex);
 		} catch (SQLException ex) {
 			if (ex.getErrorCode() != Math
 					.abs(SQLResultsConstants.ROW_DUPLICATE)) {
@@ -230,12 +220,6 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
 
             connection.commit();
 
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to update signature link.", ex);
-			throw new DaoException(
-					"SQLStatementException: @SQLSignatureLinkDAO."
-							+ functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update signature link.", ex);
@@ -306,13 +290,6 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
                 }
                 links.add(posLinkInfo);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get list of signature links.",
-					ex);
-			throw new DaoException(
-					"SQLStatementException: @SQLSignatureLinkDAO."
-							+ functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get list of signature links.", ex);
@@ -369,11 +346,6 @@ public class SQLSignatureLinkDAO extends AbstractDao implements ILinkDAO {
                         "Failed to delete Signature Link");
                 tp.println("Failed to delete Signature Link");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete signature link.", ex);
-			throw new DaoException("SQLStatementException:"
-					+ " @SQLSignatureLinkDAO." + functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to delete signature link.", ex);

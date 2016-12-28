@@ -150,12 +150,6 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 classInfoList.add(classInfo);
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerClassInfoDAO.listClasses()",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get the classes.\n"
-                            + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @listClasses ",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, "SQLServerClassInfoDAO.listClasses()",
                     Logger.RES_EXCEP_SQL,
@@ -202,13 +196,6 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 tp.println("No class info was deleted.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection,
-                    "SQLStatementException:@SQLServerClassInfoDAO.deleteClass", e);
-            LOGGER.logAlert(progname, "SQLServerClassInfoDAO.deleteClass",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to delete class info\n "
-                            + e.getMessage());
-            throw new DaoException("SQLServerClassInfoDAO: @deleteClass ", e);
         } catch (SQLException e) {
             rollBack(connection, "SQLException:@SQLServerClassInfoDAO.deleteClass", e);
             LOGGER.logAlert(progname, "SSQLServerClassInfoDAO.deleteClass",
@@ -290,13 +277,6 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             insertStmt.executeUpdate();
             
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@" + functionName, e);
-            
-            LOGGER.logAlert(progname, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to create classInfo\n "
-                            + e.getMessage());
-            throw new DaoException(functionName, e);
         } catch (SQLException e) {
             
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
@@ -389,13 +369,6 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 classInfoModel.setNCRWSSResultCode(ResultBase.RES_CLASS_INFO_NOT_EXIST);
                 tp.println("Class not updated.");                
             }  
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname,
-                    "SQLServerClassInfoDAO.selectClassInfoDetail()",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get the "
-                            + "ClassInfo Details.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException:"
-                    + " @selectClassInfoDetail ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname,
                     "SQLServerClassInfoDAO.selectClassInfoDetail()",
@@ -512,13 +485,7 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 tp.println("Class not updated.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@" + functionName, e);            
-            LOGGER.logAlert(progname, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to update classinfo\n "
-                            + e.getMessage());
-            throw new DaoException(functionName, e);
-        } catch (SQLException e) {            
+        } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 rollBack(connection, "SQLException:@" + functionName, e);
             }           

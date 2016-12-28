@@ -94,10 +94,6 @@ public class SQLServerCustomerClassInfoDAO extends AbstractDao implements ICusto
 				customeClassInfo.setOtherType(result.getString("OtherType"));
 				customerClassInfoList.add(customeClassInfo);
 			}
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get customer class info.", sqlStmtEx);
-			throw new DaoException("SQLStatementException: @SQLServerCustomerInfoDAO.getCustomerClassInfo", sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get customer class info.",
 					sqlEx);

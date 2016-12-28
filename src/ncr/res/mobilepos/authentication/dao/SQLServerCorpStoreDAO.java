@@ -115,12 +115,6 @@ public class SQLServerCorpStoreDAO extends AbstractDao implements ICorpStoreDAO 
             rollBack(connection, "@SQLServerCorpStoreDAO.createCorpStore ", e);
             throw new DaoException("SQLException:"
                     + "@SQLServerCorpStoreDAO.createCorpStore ", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to add CorpStore\n "
-                            + e.getMessage());
-            rollBack(connection, "@SQLServerCorpStoreDAO.createCorpStore ", e);
-            throw new DaoException("@SQLServerCorpStoreDAO.createCorpStore ", e);
         } catch (Exception e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to add CorpStore\n " + e.getMessage());
@@ -186,14 +180,6 @@ public class SQLServerCorpStoreDAO extends AbstractDao implements ICorpStoreDAO 
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerCorpStoreDAO"
                     + ".viewCorpStore - Error view corpstore", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View CorpStore#"
-                            + storeId + " : " + sqlStmtEx.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCorpStoreDAO"
-                            + ".viewCorpStore - Error view corpstore",
-                    sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     progName,
@@ -255,19 +241,6 @@ public class SQLServerCorpStoreDAO extends AbstractDao implements ICorpStoreDAO 
                     sqlEx);
             throw new DaoException("SQLException: @SQLServerCorpStoreDAO"
                     + ".deleteCorpStore - Error delete corpstore", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Delete CorpStore#" + storeId + " : "
-                            + sqlStmtEx.getMessage());
-            rollBack(connection, "@SQLServerCorpStoreDAO:deleteCorpStore",
-                    sqlStmtEx);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCorpStoreDAO"
-                            + ".deleteCorpStore - Error delete corpstore",
-                    sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     progName,
@@ -357,14 +330,6 @@ public class SQLServerCorpStoreDAO extends AbstractDao implements ICorpStoreDAO 
                 throw new DaoException("SQLException: @" + functionName
                         + " - Error update store", ex);
             }
-        } catch (SQLStatementException ex) {
-            rollBack(conn, functionName, ex);
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Update CorpStore with StoreID#" + storeId
-                            + " : " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + " - Error update corpstore", ex);
         } catch (Exception ex) {
             rollBack(conn, functionName, ex);
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,

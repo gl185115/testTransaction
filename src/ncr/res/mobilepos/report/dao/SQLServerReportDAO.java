@@ -1590,14 +1590,6 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
                 }
             }
 
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to generate financial report.\n" + e.getMessage());
-            throw new DaoException("Exception: @"
-                    + "SqlServerReportDAO:financialReport "
-                    + "- Error generating financial report", e);
         } finally {
             closeConnectionObjects(connection, selectStmnt, resultSet);
         }
@@ -1700,14 +1692,6 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
                 }
             }
 
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to generate financial report.\n" + e.getMessage());
-            throw new DaoException("Exception: @"
-                    + "SqlServerReportDAO:financialReport"
-                    + " - Error generating financial report", e);
         } finally {
             closeConnectionObjects(connection, selectStmnt, resultSet);
 
@@ -1761,10 +1745,6 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
             LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_SQL, "SQL Exception Error occured. \n"
                             + sqlEx.getMessage());
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "SQL Statement Error occured. \n" + sqlStmtEx.getMessage());
         } finally {
             closeConnectionObjects(connection, getnetPrinterInfoStmt, rs);
 
@@ -1880,14 +1860,6 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
                 }
             }
 
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to generate financial report.\n" + e.getMessage());
-            throw new DaoException("Exception:"
-                    + " @SqlServerReportDAO:financialReport"
-                    + " - Error generating financial report", e);
         }  finally {
             closeConnectionObjects(null, getStoreName, null);
             closeConnectionObjects(connection, selectStmnt, resultSet);
@@ -1976,11 +1948,6 @@ public class SQLServerReportDAO extends AbstractDao implements IReportDAO {
                     Logger.RES_EXCEP_SQL, "Failed to execute query.\n"
                             + sqlExcp.getMessage());
             throw new DaoException("There is an Error in the SQL", sqlExcp);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to execute query.\n"
-                            + sqlStmtEx.getMessage());
-            throw new DaoException("Error in SQL statement", sqlStmtEx);
         } finally {
             tp.methodExit(retVal);
         }

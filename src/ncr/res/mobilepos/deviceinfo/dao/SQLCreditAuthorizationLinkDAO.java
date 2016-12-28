@@ -92,12 +92,6 @@ public class SQLCreditAuthorizationLinkDAO
                         "Failed to create authorization link");
                 tp.println("Failed to create authorization link");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName
-							+ ": Failed to create credit authorization link.",
-					ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to create credit authorization link.", ex);
@@ -156,13 +150,6 @@ public class SQLCreditAuthorizationLinkDAO
             } else {
                 tp.println("Failed to retrieve Authorization Link.");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(
-					PROG_NAME,
-					Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get credit authorization link.",
-					ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get credit authorization link.", ex);
@@ -231,12 +218,6 @@ public class SQLCreditAuthorizationLinkDAO
 
             connection.commit();
 
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName
-							+ ": Failed to update credit authorization link.",
-					ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update credit authorization link.", ex);
@@ -303,11 +284,6 @@ public class SQLCreditAuthorizationLinkDAO
                 }
                 links.add(posLinkInfo);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName
-							+ ": Failed to get credit authorization links.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get credit authorization links.", ex);
@@ -362,12 +338,6 @@ public class SQLCreditAuthorizationLinkDAO
                         "Failed to delete credit authorization link");
                 tp.println("Failed to delete credit authorization link");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName
-							+ ": Failed to delete credit authorization link.",
-					ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to delete credit authorization link.", ex);

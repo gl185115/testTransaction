@@ -68,14 +68,8 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     public SQLServerTillInfoDAO() throws DaoException {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
-        try {
-            // Gets Singleton reference from the factory.
-            this.sqlStatement = SQLStatement.getInstance();
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, "SQLServerTillInfoDAO.SQLServerTillInfoDAO",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to instantiate SQLStatement:" + e.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerTillInfoDAO.SQLServerTillInfoDAO", e);
-        }
+        // Gets Singleton reference from the factory.
+        this.sqlStatement = SQLStatement.getInstance();
     }
 
     /**
@@ -208,12 +202,6 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerTillInfoDAO"
                     + ".viewTill - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View Till#"
-                            + storeID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".viewTill - Error view till", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     PROG_NAME,
@@ -282,12 +270,6 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                         + "@SQLServerTillInfoDAO.createTill ", e);
             }
                       
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to add Till\n " + e.getMessage());
-            rollBack(connection, "SQLServerTillInfoDAO: @createTill ", e);
-            throw new DaoException("SQLServerTillInfoDAO: @createTill ", e);
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to add Store\n " + e.getMessage());
@@ -371,14 +353,6 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                     "Failed to Update Till with TillID#" + tillId + " : "
                             + ex.getMessage());
             
-        } catch (SQLStatementException ex) {
-            rollBack(conn, functionName, ex);
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Update Store with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + " - Error update store", ex);
         } catch (Exception ex) {
             rollBack(conn, functionName, ex);
             
@@ -564,11 +538,6 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                     + ": Failed to search for logon users.", e);
             throw new DaoException("SQLException: @SQLServerTillInfoDAO."
             		+ functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to search for logon users.", e);
-            throw new DaoException("SQLStatementException: "
-            		+ "@SQLServerTillInfoDAO." + functionName, e);
         } finally {
         	closeConnectionObjects(connection, statement, result);
         	tp.methodExit(resultBase);
@@ -617,11 +586,6 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 				tillInfoList.add(till);
 			}
 			
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get till infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerTillInfoDAO.getTillInformation", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get till infomation.", sqlEx);

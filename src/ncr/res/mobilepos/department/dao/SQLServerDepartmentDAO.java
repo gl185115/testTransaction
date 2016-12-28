@@ -120,13 +120,6 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				tp.println("Department not found.");
 				dptModel.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
 			}
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(progName,
-					"SQLServerDepartmentDAO.selectDepartmentDetail()",
-					Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get the "
-							+ "Department Details.\n" + sqlStmtEx.getMessage());
-			throw new DaoException("SQLStatementException:"
-					+ " @selectDepartmentDetail ", sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(progName,
 					"SQLServerDepartmentDAO.selectDepartmentDetail()",
@@ -209,12 +202,6 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 			dptList.setRetailStoreID(storeId);
 			dptList.setDepartments(departments);
 
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(progName, functionName,
-					Logger.RES_EXCEP_SQLSTATEMENT,
-					"Failed to list Departments\n " + sqlStmtEx.getMessage());
-			throw new DaoException("SQLServerDepartmentDAO: @listDepartments",
-					sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
 					"Failed to list Departments\n " + sqlEx.getMessage());

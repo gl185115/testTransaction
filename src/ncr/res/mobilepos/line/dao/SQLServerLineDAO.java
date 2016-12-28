@@ -143,12 +143,6 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
                 
                 lineList.add(line);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get the lines.\n"
-                            + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @listLines ",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, functionName,
                     Logger.RES_EXCEP_SQL,
@@ -196,13 +190,6 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
                 tp.println("No line was deleted.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection,
-                    "SQLStatementException:@"+functionName, e);          
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to delete line\n "
-                            + e.getMessage());
-            throw new DaoException("SQLServerLineDAO: @deleteLine ", e);
         } catch (SQLException e) {
             rollBack(connection, "SQLException:@"+functionName, e);           
             LOGGER.logAlert(PROG_NAME, functionName,
@@ -284,13 +271,7 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
             insertStmt.executeUpdate();
             
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@" + functionName, e);           
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to create line\n "
-                            + e.getMessage());
-            throw new DaoException(functionName, e);
-        } catch (SQLException e) {          
+        } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to create line\n " + e.getMessage());
             if (Math.abs(SQLResultsConstants.ROW_DUPLICATE) != e.getErrorCode()) {
@@ -380,13 +361,6 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
                 lineModel.setNCRWSSResultCode(ResultBase.RES_LINE_INFO_NOT_EXIST);
                 tp.println("Line not found.");                
             }  
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get the "
-                            + "LIne Details.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException:"
-                    + " @selectLineDetail ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME,
                     functionName,
@@ -498,13 +472,7 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
                 tp.println("Line not updated.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@" + functionName, e);            
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to update line\n "
-                            + e.getMessage());
-            throw new DaoException(functionName, e);
-        } catch (SQLException e) {            
+        } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 rollBack(connection, "SQLException:@" + functionName, e);
             }           

@@ -23,7 +23,6 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
@@ -89,12 +88,6 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 						: result.getString("Value").trim();
 				sysParams.put(key.trim(), value);
 			}
-        } catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get the System Configuration.",
-					e);
-			throw new DaoException("SQLStatementException:"
-					+ " @SQLServerSystemConfigDAO." + functionName, e);
         } catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get the System Configuration.", e);
@@ -138,12 +131,6 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
             if (result.next()) {
                 value = result.getString(result.findColumn("Value"));
             }
-        } catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get the System parameter of "
-							+ key, e);
-			throw new DaoException("SQLStatementException:@"
-					+ "SQLServerSystemConfigDAO." + functionName, e);
         } catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get the System parameter of " + key, e);
@@ -216,12 +203,6 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 
             result = select.executeUpdate();
             connection.commit();
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set the System Parameters.", e);
-			throw new DaoException(
-					"SQLStatementException: @SQLServerSystemConfigDAO."
-							+ functionName, e);
 		} catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set the System Parameters.", e);
@@ -269,10 +250,6 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 
             result = addStmnt.executeUpdate();
             connection.commit();
-        } catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to add the System Parameter.", e);
-			throw new DaoException("SQLStatementException:@SQLServerSystemConfigDAO." + functionName, e);
         } catch (SQLException e) {
         	LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
 					functionName + ": Failed to add the System Parameter.", e);
@@ -327,12 +304,6 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 
             connection.commit();
             
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set the System Parameters.", e);
-			throw new DaoException(
-					"SQLStatementException: @SQLServerSystemConfigDAO."
-							+ functionName, e);
 		} catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set the System Parameters.", e);

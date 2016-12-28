@@ -134,13 +134,6 @@ extends AbstractDao implements ICustomerDAO {
             } else {
                 tp.println("Customer not found.");
             }
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert("CustAcnt",
-                    "SQLServerCustomerInfo.getCustomerByID",
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed getting customer information " + e.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @getCustomerByID ", e);
         } catch (SQLException e) {
             LOGGER.logAlert("CustAcnt",
                     "SQLServerCustomerInfo.getCustomerByID",

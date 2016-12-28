@@ -395,9 +395,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get store info.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get store info.", sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getHeaderStmt, rs);
 
@@ -497,10 +494,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get credit company info.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get credit company info.",
-                    sqlStmtEx);
         } finally {
             closeConnectionObjects(null, getPaymentStmt, rs);
             closeConnectionObjects(connection, getCreditCompanyName, rs1);
@@ -555,9 +548,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get store info.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get store info.", sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getFooterStmt, rs);
 
@@ -598,9 +588,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get printer name.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get printer name.", sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getPrinterNameStmt, rs);
 
@@ -645,9 +632,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get printer info.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get printer info.", sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getnetPrinterInfoStmt, rs);
 
@@ -685,10 +669,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get documentary tax path.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get documentary tax path.",
-                    sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getDocTaxStampPathStmt, rs);
 
@@ -725,9 +705,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get logo path.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get logo path.", sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getLogoPathStmt, rs);
 
@@ -794,9 +771,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get credit info.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get credit info.", sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, getCreditStmnt, rs);
 
@@ -838,12 +812,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
                     + ": Failed to get operator.", e);
             throw new DaoException("SQLException:" + " @SQLServerReceiptDAO."
                     + functionName + " - Error get operator name", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get operator.", e);
-            throw new DaoException("SQLStatementException: "
-                    + "@SQLServerReceiptDAO." + functionName
-                    + " - Error get operator name", e);
         } finally {
             closeConnectionObjects(connection, prepdStatement, result);
 
@@ -906,11 +874,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get store or customer tier info.", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName
-                            + ": Failed to get store or customer tier info.",
-                    sqlStmtEx);
         } finally {
             closeConnectionObjects(connection, selectStmt, rs);
 

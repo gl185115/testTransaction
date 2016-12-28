@@ -76,10 +76,6 @@ public class SQLServerPastelPortLogDAO extends AbstractDao implements IPastelPor
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert("RecptDAO", Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get pastelport log data.", sqlEx);
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert("RecptDAO", Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get pastelport log data.",
-					sqlStmtEx);
 		}
 		return rs;
 	}

@@ -81,13 +81,6 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
 
                 subtotalDiscountInfo.add(subtotalDiscountList);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get subtotalDiscountList.",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerDiscountPlanInfoCommonDAO.getSubtotalDiscount",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get subtotalDiscountList.", sqlEx);

@@ -176,16 +176,6 @@ extends AbstractDao implements ISystemSettingDAO {
             throw new DaoException("SQLStatementException: @"
                     + functionName + " - Error update Business Date process",
                     ex);
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to set the Date Settings -  "
-                    + "Having statement of " + stmnt
-                    + "with value of " + value
-                    + " : " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + functionName + " - Error update Business Date process",
-                    ex);
         } catch (Exception ex) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to set the Date Settings -  "
@@ -230,17 +220,6 @@ extends AbstractDao implements ISystemSettingDAO {
             result = updateBizDayPrpStmnt.executeUpdate();
         } catch (SQLException ex) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to set the Date Settings -  "
-                    + "BusinessDate " + params[0]
-                    + "EOD " + params[1]
-                    + "Skips " + params[2]
-                    + " : "  + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + functionName + " - Error update Business Date process",
-                    ex);
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to set the Date Settings -  "
                     + "BusinessDate " + params[0]
                     + "EOD " + params[1]
@@ -303,13 +282,6 @@ extends AbstractDao implements ISystemSettingDAO {
             }
         } catch (SQLException ex) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the Date Settings: " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + functionName + " - Error update Business Date process",
-                    ex);
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
                     "Failed to get the Date Settings: " + ex.getMessage());
             throw new DaoException("SQLStatementException: @"
                     + functionName + " - Error update Business Date process",

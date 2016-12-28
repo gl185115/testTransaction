@@ -126,10 +126,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             } else {
                 tp.println("Item not found.");
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.isItemExists()", Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @isItemExists ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, "SQLServerItemDAO.isItemExists()", Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
@@ -198,10 +194,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to parse new price. \n" + nfe.getMessage());
             throw new DaoException("NumberFormatException: @setItemUnitPrice ", nfe);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to change item price.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @setItemUnitPrice ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to change item price.\n" + sqlEx.getMessage());
@@ -305,10 +297,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchList.add(searchedItem);
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.listItems()", Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the items.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @listItems ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, "SQLServerItemDAO.listItems()", Logger.RES_EXCEP_SQL,
                     "Failed to get the items.\n" + sqlEx.getMessage());
@@ -394,10 +382,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchList.add(searchedItem);
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, "SQLServerItemDAO.searcItems()", Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the items.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @searcItems ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, "SQLServerItemDAO.searcItems()", Logger.RES_EXCEP_SQL,
                     "Failed to get the items.\n" + sqlEx.getMessage());
@@ -450,11 +434,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
             connection.commit();
 
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@SQLServerItemDAO.deleteItem", e);
-            LOGGER.logAlert(progname, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to delete item\n " + e.getMessage());
-            throw new DaoException("SQLServerItemDAO: @deleteItem ", e);
         } catch (SQLException e) {
             rollBack(connection, "SQLException:@SQLServerItemDAO.deleteItem", e);
             LOGGER.logAlert(progname, "SQLServerItemDAO.deleteItem", Logger.RES_EXCEP_SQL,
@@ -548,11 +527,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
             insertStmt.executeUpdate();
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@" + functionName, e);
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to create item\n " + e.getMessage());
-            throw new DaoException(functionName, e);
         } catch (SQLException e) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL, "Failed to create item\n " + e.getMessage());
             if (Math.abs(SQLResultsConstants.ROW_DUPLICATE) != e.getErrorCode()) {
@@ -682,11 +656,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 tp.println("Item not found.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            rollBack(connection, "SQLStatementException:@" + functionName, e);
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to update item\n " + e.getMessage());
-            throw new DaoException(functionName, e);
         } catch (SQLException e) {
             // Dont call rollback when Row Duplicate occur.
             // It is not necessary.And also, Rollback will throw exception
@@ -852,10 +821,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItems.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get ItemInfo.",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:@" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, Logger.RES_EXCEP_SQL, functionName + ": Failed to get ItemInfo.", sqlEx);
             throw new DaoException("SQLException:@" + functionName, sqlEx);
@@ -1035,10 +1000,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 brandProducts.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get Brand　Product　Info.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:@" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Brand　Product　Info.",
                     sqlEx);
@@ -1107,10 +1068,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 groupLines.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get Group Line　Info.",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:@" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Group Line　Info.", sqlEx);
             throw new DaoException("SQLException:@" + functionName, sqlEx);
@@ -1362,10 +1319,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             } else {
                 tp.println("Item not found.");
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemByPLUWithStoreFixation ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
@@ -1891,10 +1844,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             } else {
                 tp.println("Item not found.");
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemBypluCode ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());
@@ -2087,10 +2036,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             } else {
                 tp.println("Item not found.");
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the item information.\n" + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @getItemByApiData ", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the item information.\n" + sqlEx.getMessage());

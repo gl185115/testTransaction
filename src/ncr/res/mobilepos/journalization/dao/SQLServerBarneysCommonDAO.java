@@ -101,11 +101,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 guestzoneInfo.setSubcode(result.getString("SubCode"));
                 allguestzonelist.add(guestzoneInfo);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get guestzone list.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.getGuestZoneList", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get guestzone list.", sqlEx);
@@ -266,12 +261,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                         .setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 searchGuestOrder.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to search guest order.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.searchGuestOrderInfo",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to search guest order.", sqlEx);
@@ -324,13 +313,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
 
                 allSalesPersoninfo.add(personSalesinfo);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get all sales person.",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.SearchSalesPerson",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get all sales person.", sqlEx);
@@ -386,15 +368,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 tp.println("sequence number not found.");
             }
             connection.commit();
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName+ ": Failed to get the sequence number",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.getNextSequenceNo",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(
                     PROG_NAME,
@@ -476,12 +449,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
             searchGuestOrder.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             searchGuestOrder.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             searchGuestOrder.setMessage(ResultBase.RES_SUCCESS_MSG);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to search guest order By SequenceNo.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.searchGuestOrderInfoBySequenceNo",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to search guest order By SequenceNo.", sqlEx);
@@ -554,11 +521,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 goldCertificate.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 goldCertificate.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get gold certificate type.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.getGoldCertificateType", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get gold certificate type.", sqlEx);
@@ -628,11 +590,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 eventDetail.setSalesPrice(result.getInt("SalesPrice"));
                 eventList.add(eventDetail);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get event list.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.getEventList", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get event list.", sqlEx);
@@ -688,11 +645,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 eventDetail.setSalesPrice(resultSet.getInt("SalesPrice"));
             }
 
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get event login result set", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.getEventLoginResultSet", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get event login result set.", sqlEx);
@@ -863,12 +815,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                         .setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             	reservation.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to search reservation information.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerBarneysCommenDAO.searchReservationInfo",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to search reservation information.", sqlEx);
@@ -934,10 +880,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 forwardListInfo.setSalesTotalAmt(result.getString("SalesTotalAmt"));
                 forwardList.add(forwardListInfo);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get forward list.",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get forward list.", sqlEx);
             throw new DaoException("SQLException:" + functionName, sqlEx);
@@ -987,11 +929,6 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
             }
             connection.commit();
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to update forward status.", sqlStmtEx);
-            connection.rollback();
-            throw new DaoException("SQLStatementException:" + functionName, sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to update forward status.",
                     sqlEx);

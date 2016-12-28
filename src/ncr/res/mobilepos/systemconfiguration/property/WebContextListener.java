@@ -9,12 +9,17 @@
 */
 package ncr.res.mobilepos.systemconfiguration.property;
 
-import ncr.realgate.util.Snap;
+import java.io.IOException;
+import java.util.Map;
+
+import javax.naming.InitialContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
@@ -22,13 +27,8 @@ import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Item;
+import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
-
-import javax.naming.InitialContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import java.io.IOException;
-import java.util.Map;
 
 /**
  * WebContextListener is a Listener class that listens each
@@ -92,6 +92,9 @@ public class WebContextListener implements ServletContextListener {
 
             //Instantiate the DAO Factory for System Configuration
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+
+            // Initializes SQLStatement.
+            SQLStatement.initInstance();
 
             //Get the System parameters from PRM_SYSTEM_CONFIG
             SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();

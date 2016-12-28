@@ -105,10 +105,6 @@ public class SQLServerPremiumFlagDAO extends AbstractDao implements IPremiumFlag
                 premiumFlag.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 premiumFlag.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get premium flag.",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerPremiumFlagDAO.getPremiumFlag", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get premium flag.", sqlEx);
             throw new DaoException("SQLException:" + " @SQLServerPremiumFlagDAO.getPremiumFlag", sqlEx);

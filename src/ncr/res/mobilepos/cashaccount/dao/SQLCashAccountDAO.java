@@ -93,12 +93,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
     				"Failed to get cash balance.\n" + e.getMessage());
     		throw new DaoException("SQLException: "
     				+ "@SQLCashAccountDAO.getCashBalance() - " + e.getMessage(), e);
-    	} catch (SQLStatementException e) {
-    		LOGGER.logAlert(progName, "SQLCashAccountDAO.getCashBalance()", 
-    				Logger.RES_EXCEP_SQLSTATEMENT, 
-    				"Failed to get cash balance.\n" + e.getMessage());
-    		throw new DaoException("SQLStatementException: "
-    				+ "@SQLCashAccountDAO.getCashBalance() - " + e.getMessage(), e);
     	} finally {
             closeConnectionObjects(connection, statement, result);
             

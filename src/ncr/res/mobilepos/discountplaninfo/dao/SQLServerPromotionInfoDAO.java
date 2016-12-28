@@ -140,10 +140,6 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
             promotion.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             promotion.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             promotion.setMessage(ResultBase.RES_SUCCESS_MSG);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get promotion infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerPromotionDAO.getpromotionInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get promotion infomation.",
                     sqlEx);

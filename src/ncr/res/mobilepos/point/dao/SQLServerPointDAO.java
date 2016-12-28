@@ -119,11 +119,6 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                     + ": Failed to get item point rate.", e);
             throw new Exception("SQLException: @SQLServerPointDAO."
             		+ functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get card class info.", e);
-            throw new Exception("SQLStatementException: @SQLServerPointDAO."
-            		+ functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(itemPointRateList);
@@ -172,11 +167,6 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get item point rate2.", e);
             throw new Exception("SQLException: @SQLServerPointDAO."
-            		+ functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get card class info.", e);
-            throw new Exception("SQLStatementException: @SQLServerPointDAO."
             		+ functionName, e);
         } finally {
             closeConnectionObjects(connection2, statement2, result2);
@@ -236,11 +226,6 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get item point rate3.", e);
             throw new Exception("SQLException: @SQLServerPointDAO."
-            		+ functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get card class info.", e);
-            throw new Exception("SQLStatementException: @SQLServerPointDAO."
             		+ functionName, e);
         } finally {
             closeConnectionObjects(connection3, statement3, result3);

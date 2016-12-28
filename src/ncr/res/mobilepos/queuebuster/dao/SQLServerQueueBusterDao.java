@@ -131,12 +131,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
             }
 			connection.commit();
-        } catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functioName + ": Failed to save transaction to Queue.", e);
-			rollBack(connection, functioName, e);
-			throw new DaoException("SQLStatementException: @" + functioName, e);
-		} catch (SQLException e) {
+        } catch (SQLException e) {
 			if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
 				LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName
 						+ ": Failed to save transaction to Queue.", e);
@@ -288,14 +283,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             	// transaction does not exist
             	resumedTransaction.setNCRWSSResultCode(ResultBase.RESSYS_ERROR_QB_TXNOTFOUND);
             }
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    functioName
-                            + ": Failed to select suspended transaction from queue.",
-                    e);
-            throw new DaoException("SQLStatementException: @" + functioName, e);
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName
                     + ": Failed to select suspended transaction from queue.", e);
@@ -371,14 +358,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                         workstationid, businessdate, sequencenumber, status);
             }
 
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(
-					PROG_NAME,
-					Logger.RES_EXCEP_SQLSTATEMENT,
-					functioName
-							+ ": Failed to select oldest transaction from queue.",
-					e);
-			throw new DaoException("SQLStatementException: @" + functioName, e);
 		} catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName
 					+ ": Failed to select oldest transaction from queue.", e);
@@ -496,10 +475,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 				bustList.add(bustTransaction);
 			}
 
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functioName + ": Failed to list suspended transactions.", e);
-			throw new DaoException("SQLStatementException: @" + functioName, e);
 		} catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName
 					+ ": Failed to list suspended transactions.", e);
@@ -640,12 +615,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
             result = saveTransToQuePrepStmnt.executeUpdate();
             connection.commit();
 
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functioName + ": Failed to forward transaction to Queue.",
-                    e);
-            rollBack(connection, functioName, e);
-            throw new DaoException("SQLStatementException: @" + functioName, e);
         } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
@@ -716,16 +685,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 
             connection.commit();
 
-        } catch (SQLStatementException e) {
-			LOGGER.logAlert(
-					PROG_NAME,
-					Logger.RES_EXCEP_SQLSTATEMENT,
-					functioName
-							+ ": Failed to update status of suspended transaction.",
-					e);
-			rollBack(connection, functioName, e);
-			throw new DaoException("SQLStatementException: @" + functioName, e);
-		} catch (SQLException e) {
+        } catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName
 					+ ": Failed to update status of suspended transaction.", e);
 			rollBack(connection, functioName, e);
@@ -809,17 +769,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                  .setErrormessage("No Transaction found in the queue.");
                 tp.println("No transaction found in the queue.");
             }
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(
-					PROG_NAME,
-					Logger.RES_EXCEP_SQLSTATEMENT,
-					functioName
-							+ ": Failed to select suspended transaction from queue.",
-					e);
-			throw new DaoException("SQLStatementException: @" + functioName
-					+ "- An exception on the"
-					+ " SQL prepared statement occured during retrieval of"
-					+ " suspended data.", e);
 		} catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName
 					+ ": Failed to select suspended transaction from queue.", e);
@@ -898,13 +847,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
                 validity = ResultBase.RESSYS_ERROR_QB_TXNOTFOUND;
             }
 
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to validate the request to queue.",
-                    e);
-            throw new DaoException("SQLStatementException: @" + functionName, e);
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to validate the request to queue.", e);
@@ -959,12 +901,6 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 				result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
 				result.setMessage(ResultBase.RES_SUCCESS_MSG);
 			}
-		} catch (SQLStatementException stmntEx) {
-			rollBack(connection, functionName, stmntEx);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to Delete Forward Item.", stmntEx);
-			throw new DaoException("SQLStatementException: @" + functionName,
-					stmntEx);
 		} catch (SQLException sqlEx) {
 			rollBack(connection, functionName, sqlEx);
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName

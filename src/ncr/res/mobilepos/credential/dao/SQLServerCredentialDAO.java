@@ -225,17 +225,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 tp.println("Operator not found");
             }
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign on Operator#" + operatorNumber + " : "
-                            + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".signOnOperator - Error SignOn process", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     progName,
@@ -374,16 +363,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             // commit codes here!
             connection.commit();
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign off Operator#" + operatorNumber + ": "
-                            + ex.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".signOffOperator - Error Sign Off process", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     progName,
@@ -463,14 +442,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             }
 
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to check Status of Operator#" + operatorNumber
-                            + ": " + ex.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".checkOperatorStatus", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to check Status of Operator#" + operatorNumber
@@ -545,13 +516,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 operator.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 operator.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get Status of Operator.",
-                    sqlStmtEx);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO.getStatusOfOperator",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progName, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to to get Status of Operator.", sqlEx);
@@ -613,14 +577,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 namemasterinfo.setNameIdName(result.getString("NameIdName"));
                 nmMstInfoLst.add(namemasterinfo);
             }
-        }catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get system name list.",
-                    sqlStmtEx);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO.getSystemNameMaster",
-                    sqlStmtEx);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             LOGGER.logAlert(progName, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get system name list.", sqlEx);
             throw new DaoException(
@@ -728,15 +685,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             operator.setOperatorType(operatorType);
             operator.setPermissions(permission);
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign on Guest Operator#" + operatorNumber
-                            + " : " + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".signOnOperator - Error SignOn process", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to Sign on Guest Operator#" + operatorNumber
@@ -830,12 +778,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 // Add the operator in the list
                 operators.add(operator);
             }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "List Operators: " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @" + functionName,
-                    ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "List Operators: " + ex.getMessage());
@@ -879,13 +821,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
             connection.commit();
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Resetting Operator Failed: " + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException("SQLStatementException: @" + functionName,
-                    ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Resetting Operator Failed: " + ex.getMessage());
@@ -950,13 +885,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                             + operatorID + " : " + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerCredentialDAO"
                     + ".viewEmployee - Error view employee", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, "SQLServerCredentialDAO.viewEmployee",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to view employee#"
-                            + operatorID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".viewEmployee - Error view employee", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, "SQLServerCredentialDAO.viewEmployee",
                     Logger.RES_EXCEP_GENERAL, "Failed to view employee#"
@@ -1110,14 +1038,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 tp.println("Operator not found.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName,
-                    "SQLServerCredentialDAO.deleteEmployee",
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to delete employee\n " + e.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO.deleteEmployee", e);
-            throw new DaoException("SQLServerCredentialDAO: @deleteEmployee ",
-                    e);
         } catch (SQLException e) {
             LOGGER.logAlert(progName,
                     "SQLServerCredentialDAO.deleteEmployee",
@@ -1243,13 +1163,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 connection.commit();
             }
             newEmpInfo.setEmployee(newEmp);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, sqlStmtEx.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:updateEmployee",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException: @updateEmployee ",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     sqlEx.getMessage());
@@ -1339,12 +1252,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 }
             }
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, ex.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:changePasscode", ex);
-            throw new DaoException("SQLStatementException:"
-                    + " @changePasscode", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     ex.getMessage());
@@ -1407,11 +1314,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                         "No User Group Permission with GroupCode of "
                                 + groupcode);
             }
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to retrieve User Group Permission"
-                            + " with GroupCode of " + groupcode);
         } catch (SQLException e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to retrieve User Group Permission"
@@ -1581,18 +1483,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 }
             }
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign on Operator#" + empCode + " : "
-                            + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".credentialSpartLogin - Error SignOn process",
-                    ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     progName,
@@ -1655,11 +1545,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
             }
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get employee details\n "
-                            + ex.getMessage());
-            throw new DaoException(functionName, ex);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get employee details: " + ex.getMessage());

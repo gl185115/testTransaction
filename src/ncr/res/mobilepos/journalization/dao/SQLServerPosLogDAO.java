@@ -174,9 +174,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get poslog type.", e);
             throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get poslog type.", e);
-            throw e;
         } finally {
             closeConnectionObjects(null, selectPosLogTxType, resultTxType);
         }
@@ -585,10 +582,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             }
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "chkPOSLogDuplicate: Failed to check duplication.", e);
-            throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "chkPOSLogDuplicate: Failed to check duplication.", e);
             throw e;
         } finally {
             closeConnectionObjects(null, statement, resultSet);
@@ -1545,12 +1538,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "isTransactionVoidedOrReturned: Error in checking if "
                     + "transaction was already voided or returned.", e);
             throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "isTransactionVoidedOrReturned: Error in checking if "
-                            + "transaction was already voided or returned.",
-                    e);
-            throw e;
         } finally {
             closeConnectionObjects(null, statement, resultSet);
         }
@@ -2071,10 +2058,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
                 "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
             throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
-            throw e;
         } finally {
             closeConnectionObjects(connection, statement, resultSet);
         }
@@ -2156,11 +2139,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functioName + ": Failed to save forward poslog",
-                    e);
-            rollBack(connection, functioName, e);
-            throw new DaoException("SQLStatementException: @" + functioName, e);
         } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName + ": Failed to save forward poslog.", e);
@@ -2267,10 +2245,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get last pay tx poslog.", e);
             throw new Exception("SQLException: @SQLServerPosLogDAO." + functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get last pay tx poslog.", e);
-            throw new Exception("SQLStatementException: @SQLServerPosLogDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(poslog);
@@ -2411,11 +2385,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get or update lock status.",
                     sqlE);
             throw new DaoException("SQLException: @doPOSLogJournalization - " + sqlE.getMessage(), sqlE);
-        } catch (SQLStatementException sqlsE) {
-            rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlsE);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get or update lock status.", sqlsE);
-            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " + sqlsE.getMessage(), sqlsE);
         } catch (Exception e) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", e);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,

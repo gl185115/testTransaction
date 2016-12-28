@@ -116,12 +116,6 @@ public class SQLServerGroupDAO extends AbstractDao implements
                         "Failed to create group");
                 tp.println("Failed to create group");
             }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to create Group: " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + functionName, ex);
         } catch (SQLException ex) {
             // Duplication of insertion
             if (ex.getErrorCode()
@@ -185,15 +179,6 @@ public class SQLServerGroupDAO extends AbstractDao implements
                 userGroupLbl.setGroupName(result.getString("groupname").trim());
                 groups.add(userGroupLbl);
             }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to retrieve Group List: "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + functionName, ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     progName,
@@ -273,12 +258,6 @@ public class SQLServerGroupDAO extends AbstractDao implements
               "Failed to retrieve Group Detail: " + sqlEx.getMessage());
              throw new DaoException("SQLException: @"
                           + "SQLServerGroupDAO.viewGroupDetail", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-              Logger.RES_EXCEP_SQLSTATEMENT,
-              "Failed to retrieve Group Detail: " + sqlStmtEx.getMessage());
-                  throw new DaoException("SQLStatementException: @"
-              + "SQLServerGroupDAO.viewGroupDetail", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                   "Failed to retrieve Group Detail: " + ex.getMessage());
@@ -367,13 +346,6 @@ public class SQLServerGroupDAO extends AbstractDao implements
             rollBack(connection, functionName, e);
                 throw new DaoException("SQLException:"
                         + " @SQLServerGroupDAO.updateGroup", e);
-        } catch (SQLStatementException e) {
-            rollBack(connection, functionName, e);
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to update Group: "
-                            + e.getMessage());
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerGroupDAO.updateGroup", e);
         } catch (Exception e) {
             rollBack(connection, functionName, e);
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
@@ -415,14 +387,6 @@ public class SQLServerGroupDAO extends AbstractDao implements
             } else  {
                 connection.commit();
             }
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName,
-                    "SQLServerCredentialDAO.deleteGroup",
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to delete user group\n " + e.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO.deleteGroup", e);
-            throw new DaoException("SQLServerCredentialDAO: @deleteGroup ",
-                    e);
         } catch (SQLException e) {
             LOGGER.logAlert(progName,
                     "SQLServerCredentialDAO.deleteGroup",

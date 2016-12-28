@@ -11,39 +11,27 @@
 
 package ncr.res.mobilepos.property;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 import ncr.res.mobilepos.exception.SQLStatementException;
-import ncr.res.mobilepos.helper.Logger;
 
 /**
  * SQLStatement is the class which handles the reading of sql statements
  *     from the file(.xml format) by mapping the key-value.
  *
  */
-public class SQLStatement {	
-	/**
-     * logger.
-     */
-    private static final Logger LOGGER = (Logger) Logger.getInstance();
+public class SQLStatement {
     /**
      * The Instance of the class.
      */
-    private static volatile SQLStatement instance;
+    private static SQLStatement instance ;
     /**
      * The file path of the Sql Statements.
      */
-    private static  String filePath = "sql_statements.xml";
-    /**
-     * The InputStream of the class.
-     */
-    private static InputStream inputStream;
+    private static final String DEFAULT_SQL_STATEMENT_FILENAME = "sql_statements.xml";
     /**
      * The Properties of the class.
      */
@@ -442,129 +430,79 @@ public class SQLStatement {
      * The 97 index parameter in the prepared Statement.
      */
     public static final int PARAM97 = 97;
-    
-    // RES 3.1 ‘Î‰ž END
 
     /**
      * The Default Constructor.
      * @throws SQLStatementException  Exception thrown when instantiation fails.
      */
-    protected SQLStatement() throws SQLStatementException {
+    public SQLStatement(final String filePath) throws SQLStatementException {
     	properties = new Properties();
-        readFile();
-    }
-
-     /**
-     * Set the InputStream for the class.
-     * @param inputstream the new InputStream for the class
-     */
-    public static void setInputStream(final InputStream inputstream) {
-        SQLStatement.instance = null;
-        SQLStatement.inputStream = inputstream;
+        readFile(filePath);
     }
 
     /**
-     * Setter for the filePath of the SQL Statements.
-     * @param filepath  Path of file
+     * Constructor.
+     * @throws SQLStatementException Exception thrown when instantiation fails.
      */
-    public static void setFilepath(final String filepath) {
-        //when filePath has been re-set it is expected
-        //that this class InputStream and Instance would be Renewed
-        //afterwards
-        SQLStatement.instance = null;
-        SQLStatement.filePath = filepath;
+    public SQLStatement() throws SQLStatementException {
+        this(DEFAULT_SQL_STATEMENT_FILENAME);
     }
 
-
     /**
-     * Creates a SQLStatement instance.
+     * Initializes SQLStatement.
+     * @param path to sql_statement.xml
      * @return SQLStatement instance.
-     * @throws SQLStatementException    Exception when error occurs.
+     * @throws SQLStatementException Exception thrown when instantiation fails.
      */
-    private static synchronized SQLStatement tryCreateInstance()
-            throws SQLStatementException {
-        if (instance == null) {
-            instance = new SQLStatement();
-        }
+    public static SQLStatement initInstance(String path) throws SQLStatementException {
+        instance = new SQLStatement(path);
         return instance;
+    }
+
+    /**
+     * Initializes SQLStatement.
+     * @return SQLStatement instance.
+     * @throws SQLStatementException Exception thrown when instantiation fails.
+     */
+    public static SQLStatement initInstance() throws SQLStatementException {
+        return initInstance(DEFAULT_SQL_STATEMENT_FILENAME);
     }
 
     /**
       * Retrieves SQLStatement instance.
       * @return SQLStatement instance
-      * @throws SQLStatementException   Exception when error occurs.
       */
-    public static SQLStatement getInstance() throws SQLStatementException {
-        SQLStatement sqlStatement = instance;
-        if (sqlStatement == null) {
-            sqlStatement = tryCreateInstance();
-        }
-        return sqlStatement;
+    public static SQLStatement getInstance() {
+        return instance;
     }
 
     /**
       * Reads the properties represented by the XML document.
       * @throws SQLStatementException   Exception when error occurs.
       */
-    private void readFile() throws SQLStatementException {
-
-        //Is the InputStream empty?
-        //If yes, try to set the InputStream
-        if (null == inputStream) {
-            File file = new File(filePath);
-            if (filePath.equals(file.getName())) {
-                setInputStream(SQLStatement.class
-                        .getResourceAsStream(filePath));
-            } else {
-                try {
-                    setInputStream(new FileInputStream(file));
-                } catch (FileNotFoundException e) {
-                    throw
-                    new SQLStatementException("File not found!=" + filePath, e);
-                }
+    private void readFile(final String filePath) throws SQLStatementException {
+        try(InputStream inputStream = SQLStatement.class.getResourceAsStream(filePath)) {
+            //Is the InputStream still empty?
+            //If yes, then throw an error stating that the filePath was unknown.
+            if (inputStream == null) {
+                throw new SQLStatementException("custom_exception: filePath not found "
+                        + filePath, new Exception());
             }
-        }
-
-        //Is the InputStream still empty?
-        //If yes, then throw an error stating that
-        //the filePath was unknown.
-        if (null == inputStream) {
-            throw new SQLStatementException("custom_exception:"
-                    + " filePath not found "
-                    + filePath, new Exception());
-        }
-
-        try {
             properties.loadFromXML(inputStream);
         } catch (InvalidPropertiesFormatException e) {
             throw new SQLStatementException(
-                    "InvalidPropertiesFormatException: cannot load " + filePath,
-                    e);
+                    "InvalidPropertiesFormatException: cannot load " + filePath, e);
         } catch (IOException e) {
-            throw new SQLStatementException("IOException: cannot load "
-                    + filePath, e);
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                	this.LOGGER.logAlert("SQLStm", "SQLStatement.readFile", 
-                			Logger.RES_EXCEP_IO, 
-                			"IOException: Error in closing InputStream "
-                			+ "object.\n" + e.getMessage());
-                }
-            }
+            throw new SQLStatementException("IOException: cannot load " + filePath, e);
         }
-
     }
 
     /**
       * Retrieves property value.
       * @param property name
-      * @throws SQLStatementException
       * @return property value
       */
-    public final String getProperty(final String property) {
+    public String getProperty(final String property) {
         return properties.getProperty(property);
     }
 }

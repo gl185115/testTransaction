@@ -1,0 +1,7 @@
+Scenario: Register device
+Given the Web API Starts Up with {test/ncr/res/mobilepos/authentication/test/prm_system_config_12taxrate_roundup.xml} System Configuration
+Given a deviceinfo{test/ncr/res/mobilepos/authentication/test/data_devices.xml} in database
+
+!-- Failed device registration
+When register companyid{01} storeid{0001} terminalid{0001}
+Then I should get the resultcode resultCode{157}

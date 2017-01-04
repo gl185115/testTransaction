@@ -94,14 +94,14 @@ public class AuthenticationSteps extends Steps {
 		}
 	}
 			
-	//Authentication
+
 	@When("I authenticate device companyid{$companyid} storeid{$storeid} deviceid{$terminalid} training{$training} udid{$udid} uuid{$uuid}")
-	public final void whenAuthenticateDeviceFailed(String companyId, String storeId, String deviceId, String training, String udid, String uuid){
+	public final void whenAuthenticateDeviceFailed(String companyId, String storeId , String deviceId, String training, String udid, String uuid){
 		int trainingMode = Integer.parseInt(training);
 	
 		viewInfo = deviceInfoResource.getDeviceInfo(companyId, storeId, deviceId, trainingMode);	
 		deviceStatus = authenticationResource.authenticateDevice(companyId, storeId, deviceId, udid, uuid);
-		resultbase = deviceInfoResource.getAttribute(storeId, uuid, companyId, training);
+		resultbase = deviceInfoResource.getAttribute(storeId, deviceId,  companyId, training);
 		
 	}
 	
@@ -110,25 +110,41 @@ public class AuthenticationSteps extends Steps {
 		int result = Integer.parseInt(resultCode);
 		Assert.assertEquals(result, deviceStatus.getNCRWSSResultCode());
 		
-//		int i = 0;
-//		
-//		for(Map<String, String> data : table.getRows()){
-//			Assert.assertNull(viewInfo.getDeviceInfo().getCompanyId());
-//			Assert.assertNull(viewInfo.getDeviceInfo().getRetailStoreId());
-//			Assert.assertNull(viewInfo.getDeviceInfo().getDeviceId());
-//			Assert.assertNull(viewInfo.getDeviceInfo().getDeviceName());
-//			Assert.assertEquals(0,viewInfo.getNCRWSSExtendedResultCode());
-//			Assert.assertEquals(data.get("NCRWSSResultCode"), String.valueOf(viewInfo.getNCRWSSResultCode()));
-//			Assert.assertNull(viewInfo.getDeviceInfo().getTillId());
-//			Assert.assertNull(viewInfo.getDeviceInfo().getPrinterInfo());
-//			
-//			Assert.assertEquals(data.get("NCRWSSResultCode2"),String.valueOf(deviceStatus.getNCRWSSResultCode()));
-//			Assert.assertEquals(data.get("resultCode"), String.valueOf(resultbase.getNCRWSSResultCode()));
-//		
-//		}
 	}
 	
+	
+	@Then("I should get the following: $data")
+	public final void thenAuthenticateDeviceSuccess(ExamplesTable expectedTable){
+		for(Map<String, String> data: expectedTable.getRows()){
+			Assert.assertEquals(data.get("Message").trim(), deviceStatus.getMessage());
+			Assert.assertEquals(data.get("StoreID").trim(), deviceStatus.getStoreID());
+			Assert.assertEquals(data.get("TerminalId").trim(), deviceStatus.getTerminalID());
+			Assert.assertEquals(data.get("signStatus").trim(), String.valueOf(deviceStatus.getSignStatus()));
+			Assert.assertEquals(data.get("NCRWSSResultCode").trim(), String.valueOf(deviceStatus.getNCRWSSResultCode()));		
+		}
+	}
 
+	@Then("I should get the device info: $data")
+	public final void thenIshouldGetDeviceInfo(ExamplesTable expectedTable){
+		for(Map<String, String> data: expectedTable.getRows()){
+			Assert.assertEquals(data.get("CompanyId").trim(), viewInfo.getDeviceInfo().getCompanyId());
+			Assert.assertEquals(data.get("RetailStoreID").trim(), viewInfo.getDeviceInfo().getRetailStoreId());
+			Assert.assertEquals(data.get("DeviceID").trim(), viewInfo.getDeviceInfo().getDeviceId());
+			Assert.assertEquals(data.get("Name").trim(), String.valueOf(viewInfo.getDeviceInfo().getDeviceName()));
+			Assert.assertEquals(data.get("NCRWSSResultCode").trim(), String.valueOf(viewInfo.getNCRWSSResultCode()));
+		}
+	}
+	
+	@Then("I should get attributes: $data")
+	public final void thenIshouldGetAttribute(ExamplesTable expectedTable){
+		for(Map<String, String> data: expectedTable.getRows()){
+			
+		Assert.assertEquals(data.get("message").trim(), resultbase.getMessage());
+		Assert.assertEquals(data.get("NCRWSSResultCode").trim(), String.valueOf(resultbase.getNCRWSSResultCode()));
+	
+		}
+
+	}
 	
 	
     

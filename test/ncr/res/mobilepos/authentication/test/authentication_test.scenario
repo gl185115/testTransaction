@@ -2,11 +2,26 @@ Scenario: Device Authentication
 Given the Web API Starts Up with {test/ncr/res/mobilepos/authentication/test/prm_system_config_12taxrate_roundup.xml} System Configuration
 Given a deviceinfo{test/ncr/res/mobilepos/authentication/test/data_devices.xml} in database
 
-Scenario: Authenticate device (Before registration)
+Scenario: Authenticate device (Before registration - failed)
 When I authenticate device companyid{} storeid{} deviceid{} training{0} udid{0} uuid{0}
 Then I should get the NCRWSSResultCode{102}
 
 !-- Failed device authentication
-Scenario: Authenticate device (post-registration/reload)
+Scenario: Authenticate device (post-registration/reload - failed)
 When I authenticate device companyid{01} storeid{0247} deviceid{0003} training{0} udid{0000000000000000000000000000000000000000} uuid{3248bf2c-17ff-4481-8270-aadf0b766934}
 Then I should get the NCRWSSResultCode{102}
+
+
+Scenario: Authenticate device (Successful authentication)
+When I authenticate device companyid{01} storeid{0247} deviceid{0004} training{0} udid{0000000000000000000000000000000000000000} uuid{3248bf2c-17ff-4481-8270-aadf0b766934}
+Then I should get the following:
+|Message	                    |StoreID	|CorpID  |TerminalId	|signStatus |NCRWSSResultCode |
+|Device authentication result	|0247       |01	     |0004			|1		    |0		          |
+
+Then I should get the device info:
+|CompanyId |RetailStoreID |DeviceID |Name  |NCRWSSResultCode |
+|01 	   |0247 		  |0004 	|POS#4 |0                |
+
+Then I should get attributes:
+|message |NCRWSSResultCode |
+|Success |0 			   |

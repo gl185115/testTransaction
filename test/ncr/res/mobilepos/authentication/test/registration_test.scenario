@@ -17,3 +17,9 @@ When I register device companyid{01} storeid{0247} terminalid{0003} devicename{}
 Then I should get the following registration response:
 |Message	            |StoreID	|CorpID  |TerminalId	|NCRWSSResultCode |
 |Registration Success	|0247       |01	     |0003			|0		          |
+
+Then I should get the following attribute message{Success}
+Then I should get the following terminal info response{0}
+
+
+

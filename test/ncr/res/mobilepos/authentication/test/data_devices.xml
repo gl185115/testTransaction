@@ -291,6 +291,108 @@
 			<value>SYSTEM</value>
 			<value>SYSTEM</value>
 		</row>
-
+	</table>
+	<table name="MST_TERMINALINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>FloorId</column>
+		<column>TerminalName</column>
+		<column>IPAddress</column>
+		<column>StoreClass</column>
+		<column>TerminalType</column>
+		<column>TillType</column>
+		<column>RelationType</column>
+		<column>ConnectionFlag1</column>
+		<column>ConnectionFlag2</column>
+		<column>ConnectionFlag3</column>
+		<column>ConnectionFlag4</column>
+		<column>ConnectionFlag5</column>
+		<column>ConnectionFlag6</column>
+		<column>ConnectionFlag7</column>
+		<column>ConnectionFlag8</column>
+		<column>ConnectionFlag9</column>
+		<column>ConnectionFlag10</column>
+		<column>ConnectionFlag11</column>
+		<column>ConnectionFlag12</column>
+		<column>ConnectionFlag13</column>
+		<column>ConnectionFlag14</column>
+		<column>ConnectionFlag15</column>
+		<column>LogoFileName</column>
+		<column>InshiFileName</column>
+		<column>Note</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0003</value>
+			<value>03</value>
+			<value>POS#3</value>
+			<value>
+			</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\logo\\01_Xebio\\B.bmp</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\Stamp\\Stamp01.bmp</value>
+			<value></value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+			<value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\XSE”Å.bmp</value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-28 14:59:44.3970000</value>
+			<value>manual</value>
+			<value>manual</value>
+			<value>0</value>
+			<value>2016-01-28 14:59:44.3970000</value>
+			<value>manual</value>
+			<value>manual</value>
+		</row>
 	</table>
 </dataset>

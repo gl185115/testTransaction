@@ -18,7 +18,6 @@ import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
-import ncr.res.mobilepos.store.resource.StoreResource;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.scenario.annotations.AfterScenario;
@@ -44,7 +43,6 @@ public class RegistrationSteps extends Steps {
 	private DeviceStatus deviceStatus = null;
 	private ResultBase resultbase = null;
 	private RegistrationResource registerResource = null;
-	private StoreResource storeResource = null;
 	private PresetSroreInfo presetStoreInfo = null;
 	private ViewTerminalInfo viewTerminalInfo = null;
 	
@@ -78,7 +76,6 @@ public class RegistrationSteps extends Steps {
 			deviceInfoResource = new DeviceInfoResource();
 			authenticationResource = new AuthenticationResource();
 			registerResource = new RegistrationResource();
-			storeResource = new StoreResource();
 			
 			Field deviceContext;
 			try {

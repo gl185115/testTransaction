@@ -1,4 +1,3 @@
-<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
 <dataset>
 	<!-- ITEMS -->
 	<table name="AUT_DEVICES">

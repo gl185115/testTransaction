@@ -6,13 +6,12 @@ Scenario: Authenticate device (Before registration - failed)
 When I authenticate device companyid{} storeid{} deviceid{} training{0} udid{0} uuid{0}
 Then I should get the NCRWSSResultCode{102}
 
-!-- Failed device authentication
-Scenario: Authenticate device (post-registration/reload - failed)
+Scenario: Authenticate device (post-registration/reload - failed scenario)
 When I authenticate device companyid{01} storeid{0247} deviceid{0003} training{0} udid{0000000000000000000000000000000000000000} uuid{3248bf2c-17ff-4481-8270-aadf0b766934}
 Then I should get the NCRWSSResultCode{102}
 
 
-Scenario: Authenticate device (Successful authentication)
+Scenario: Authenticate Unregistered device (Successful authentication)
 When I authenticate device companyid{01} storeid{0247} deviceid{0004} training{0} udid{0000000000000000000000000000000000000000} uuid{3248bf2c-17ff-4481-8270-aadf0b766934}
 Then I should get the following:
 |Message	                    |StoreID	|CorpID  |TerminalId	|signStatus |NCRWSSResultCode |

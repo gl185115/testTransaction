@@ -118,48 +118,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
         return result;
     }
 
-    @Override
-	public final int deregisterTerminal(final String storeid,
-			final String terminalid) throws DaoException {
-        String functionName = className + "deregisterUser";
-        tp.methodEnter("deregisterUser");
-        tp.println("storeid", storeid)
-            .println("terminalid", terminalid);
-
-        Connection connection = null;
-        PreparedStatement deleteStmt = null;
-        int result = 0;
-        int ret = ResultBase.RESREG_OK;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            deleteStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("delete-device"));
-            deleteStmt.setString(SQLStatement.PARAM1, storeid);
-            deleteStmt.setString(SQLStatement.PARAM2, terminalid);
-
-            result = deleteStmt.executeUpdate();
-
-            if (SQLResultsConstants.ONE_ROW_AFFECTED == result) {
-                ret = ResultBase.RESREG_OK;
-            } else {
-                ret = ResultBase.RESREG_DEVICENOTEXIST;
-                tp.println("The device does not exist.");
-            }
-            connection.commit();
-        } catch (Exception e) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    e.getMessage());
-            throw new DaoException("Failed to delete device.", e);
-        } finally {
-            closeConnectionObjects(connection, deleteStmt);
-
-            tp.methodExit(ret);
-        }
-        return ret;
-    }
-
     /**
      * Deletes the user with the given udid.
      * @param udid - the unique device number of the device
@@ -245,51 +203,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             tp.methodExit(ret);
         }
 
-        return ret;
-    }
-
-    @Override
-    public final int deauthenticateUser(
-            final String storeid, final String terminalid, final String uuid,
-            final String udid) throws DaoException {
-
-        String functionName = className + "deauthenticateUser";
-
-        tp.methodEnter("deauthenticateUser");
-        tp.println("storeid", storeid)
-            .println("terminalid", terminalid).println("uuid", uuid)
-            .println("udid", udid);
-
-        int ret = ResultBase.RESAUTH_OK;
-        try {
-            ret = validateDevice(storeid,
-                    terminalid);
-            if (ResultBase.RESAUTH_OK != ret) {
-                return ret;
-            }
-
-            int userState = getUserStatus(storeid, terminalid);
-
-            if (DeviceStatus.STATUS_DEVICENOTFOUND == userState) {
-                tp.println("Device was not found.");
-                ret = userState;
-            } else if (DeviceStatus.STATUS_DEVICEOFFLINE == userState) {
-                tp.println("Device was already offline.");
-                ret = DeviceStatus.STATUS_DEVICESTATUSNOCHANGE;
-            } else {
-                if (SQLResultsConstants.ONE_ROW_AFFECTED
-                        != setState(storeid, terminalid, 0)) {
-                    tp.println("An error occured in setting the status.");
-                    ret = ResultBase.RES_ERROR_GENERAL;
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    e.getMessage());
-            throw new DaoException("Abnormal operation!", e);
-        } finally {
-            tp.methodExit(ret);
-        }
         return ret;
     }
 
@@ -420,29 +333,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
             		getUserStatusFromDB(storeid, terminalid);
 
             status = deviceStatus.getTerminalStatus();
-        } catch (Exception e) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    e.getMessage());
-            throw new DaoException("Abnormal operation!", e);
-        } finally {
-            tp.methodExit(status);
-        }
-        return status;
-    }
-
-    @Override
-    public final int getUserStatus(final String terminalid)
-    throws DaoException {
-
-        String functionName = className + "getUserStatus";
-
-        tp.methodEnter("getUserStatus");
-        tp.println("terminalid", terminalid);
-
-        int status = ResultBase.RESREG_OK;
-        try {
-            DeviceStatus stat = getUserStatusFromDB(terminalid);
-            status = stat.getTerminalStatus();
         } catch (Exception e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     e.getMessage());
@@ -619,41 +509,6 @@ public class AuthDeviceDao extends AuthDBManager implements IAuthDeviceDao {
 		}
 		return ret;
 	}
-    @Override
-    public final boolean isDeviceExisting(final String uuid,
-            final String udid) throws DaoException {
-        tp.methodEnter("isDeviceExisting");
-        tp.println("uuid", uuid).println("udid", udid);
-
-        Connection connection = null;
-        PreparedStatement selectStmt = null;
-        ResultSet resultSet = null;
-        boolean ret = false;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            selectStmt = connection.prepareStatement(
-                    sqlStatement.getProperty(
-                            "select-device-by-uuid-udid"));
-            selectStmt.setString(SQLStatement.PARAM1, uuid);
-            selectStmt.setString(SQLStatement.PARAM2, udid);
-            resultSet = selectStmt.executeQuery();
-            if (resultSet.next()) {
-                ret = true;
-            }
-        } catch (SQLException e) {
-            LOGGER.logAlert(progName, "AuthDeviceDao.isDeviceExisting()",
-                    Logger.RES_EXCEP_SQL, "SQLException:" + e.getMessage());
-            tp.methodExit("SQLException occurred.");
-            throw new DaoException("SQLException", e);
-        } finally {
-            closeConnectionObjects(connection, selectStmt, resultSet);
-
-            tp.methodExit(ret);
-        }
-        return ret;
-    }
 
     @Override
     public final boolean updateExistingDeviceToken(

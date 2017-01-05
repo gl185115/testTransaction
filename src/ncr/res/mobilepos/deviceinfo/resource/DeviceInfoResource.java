@@ -731,68 +731,7 @@ public class DeviceInfoResource {
 		}
         return resultBase;
     }
-
-  
-    /**
-     * Deletes registered device from AUT_DEVICES table.
-     *
-     * @param deviceID
-     *            the deviceid to delete.
-     * @param storeID
-     *            the store where the device belongs.
-     * @return ResultBase object with resultcode that determines if request is
-     *         successful. 0 for success.
-     */
-    @POST
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Path("/delete/registration")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末の登録削除", response=ResultBase.class)
-    @ApiResponses(value={
-            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
-    })
-	public final ResultBase deleteRegisteredDevice(
-            @ApiParam(name="deviceid", value="端末id") @FormParam("deviceid") final String deviceID,
-            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeID) {
-    	
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("deviceid", deviceID)
-				.println("retailstoreid", storeID);
-
-        ResultBase resultBase = new ResultBase();
-        if (null == deviceID || null == storeID
-                || deviceID.isEmpty() || storeID.isEmpty()) {
-            resultBase
-                    .setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
-            tp.println("retailstoreid/deviceid/corpid is null or empty.");
-            tp.methodExit(resultBase);
-            return resultBase;
-        }
-
-        try {
-            IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-            resultBase = iPerCtrlDao.deleteRegisteredDevice(deviceID, storeID);
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to delete registered device.", ex);
-			resultBase = new ResultBase(
-					(ex.getCause() instanceof SQLException) ? ResultBase.RES_ERROR_DB
-							: ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DAO, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to delete registered device.", ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-
+    
     /**
      * Updates device entry in MST_DEVICEINFO.
      *

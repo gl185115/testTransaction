@@ -125,20 +125,6 @@ public interface IDeviceInfoDAO {
     List<DeviceInfo> listDevices(String storeId, String key, String name, int limit) throws DaoException;
     
     /**
-     * Deletes registered device from AUT_DEVICES.
-     *
-     * @param deviceID
-     *            the deviceid to delete.
-     * @param retailStoreID
-     *            the storeid where the device belongs.
-     * @return ResultBase object with resultcode.
-     * @throws DaoException
-     *             thrown when error occurs.
-     */
-    ResultBase deleteRegisteredDevice(String deviceID, String retailStoreID
-    		) throws DaoException;
-
-    /**
      * Update device.
      * @param companyid  - company identifier
      * @param storeid    - store identifier

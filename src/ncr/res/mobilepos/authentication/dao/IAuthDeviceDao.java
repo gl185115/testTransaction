@@ -26,14 +26,7 @@ public interface IAuthDeviceDao {
 	int registerTerminal(String companyid, String storeid, String terminalid, String devicename, 
 	        String udid, String uuid, int signstatus, String signtid, String signactivationkey)
 			throws DaoException;
-    /**
-     * deregisters a terminal.
-     * @param storeid - the store id
-     * @param terminalid - the terminal id of the device
-     * @return int - the resultcode of the request
-     * @throws DaoException - holds the exception that was thrown
-     */
-	int deregisterTerminal(String storeid, String terminalid) throws DaoException;
+
     /**
      * authenticates a device.
      * 
@@ -46,19 +39,7 @@ public interface IAuthDeviceDao {
      */
     int authenticateUser(String storeid, String terminalid) 
     		throws DaoException;
-    /**
-     * deauthenticates a device.
-     * @param corpid - the company id
-     * @param storeid - the store id
-     * @param terminalid - the terminal id of the device
-     * @param uuid - the random generated string attributed
-     * to the device
-     * @param udid - the unique device id of the device
-     * @return int - the resultcode of the request
-     * @throws DaoException - holds the exception that was thrown
-     */
-    int deauthenticateUser(String storeid,
-            String terminalid, String uuid, String udid) throws DaoException;
+
     /**
      * gets the users status.
      * @param corpid - the company id
@@ -69,13 +50,7 @@ public interface IAuthDeviceDao {
      */
     int getUserStatus(String storeid, String terminalid)
     throws DaoException;
-    /**
-     * gets the users status.
-     * @param terminalid - the terminal id of the device
-     * @return int - status of the user
-     * @throws DaoException - holds the exception that was thrown
-     */
-    int getUserStatus(String terminalid) throws DaoException;
+
     /**
      * Checks device existence.
      * @param storeid - the store id
@@ -87,15 +62,7 @@ public interface IAuthDeviceDao {
      */
 	boolean isDeviceExisting(String companyid, String storeid, String terminalid, boolean matchall)
 			throws DaoException;
-    /**
-     * Checks if the device is existing in AUT_DEVICES by uuid and udid.
-     * @param uuid
-     * @param udid
-     * @return
-     * @throws DaoException
-     */
-    boolean isDeviceExisting(final String uuid,
-            final String udid) throws DaoException;
+
     /**
      * updates the existing device's token.
      * @param corpid - the company id

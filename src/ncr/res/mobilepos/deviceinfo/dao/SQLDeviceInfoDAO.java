@@ -688,52 +688,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     }
     
     @Override
-	public final ResultBase deleteRegisteredDevice(final String deviceID,
-			final String retailStoreID) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("deviceid", deviceID)
-            .println("retailstoreid", retailStoreID);
-            
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement deleteAutDeviceStmt = null;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            deleteAutDeviceStmt = connection
-                .prepareStatement(sqlStatement.getProperty("delete-autdevice"));
-            deleteAutDeviceStmt.setString(SQLStatement.PARAM1, retailStoreID);
-            deleteAutDeviceStmt.setString(SQLStatement.PARAM2, deviceID);
-
-            int noOfAffectedRows = deleteAutDeviceStmt.executeUpdate();
-
-            if (noOfAffectedRows == SQLResultsConstants.NO_ROW_AFFECTED) {
-                resultBase
-                        .setNCRWSSResultCode(ResultBase.RESREG_DEVICENOTEXIST);
-                tp.println("No registered device was deleted.");
-            } else {
-                connection.commit();
-            }
-		} catch (SQLException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to delete registered device.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to delete registered device.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, deleteAutDeviceStmt);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-
-    @Override
 	public final ViewDeviceInfo updateDevice(final String companyID, final String retailStoreID,
 			final String deviceID, final DeviceInfo deviceInfoToSet, 
 			final int trainingMode, Connection connection) throws DaoException{

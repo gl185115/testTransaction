@@ -50,7 +50,7 @@ public class RegistrationSteps extends Steps {
 	
 	@BeforeScenario
 	public final void SetUpClass() {
-		dbInit = new DBInitiator("SQLServerItemDAOSteps", DATABASE.RESMaster);
+		dbInit = new DBInitiator("RegistrationSteps", DATABASE.RESMaster);
 		Requirements.SetUp();
 	}
 
@@ -98,7 +98,7 @@ public class RegistrationSteps extends Steps {
 				dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 						systemConDataSet);
 			} catch (Exception ex) {
-				Assert.fail("Can't Retrieve Servlet context from promotion.");
+				Assert.fail("Can't Retrieve Servlet context from deviceinfo.");
 			}
 		} catch (/* RuntimeError */Exception ex) {
 			Assert.fail("Can't Start Up WebStoreServer");

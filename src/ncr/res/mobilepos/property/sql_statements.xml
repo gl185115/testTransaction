@@ -2371,20 +2371,6 @@ ORDER BY
   </entry>
 
 <!-- *************************  ENTRY KEY FOR CREDENTIAL SERVICE      ************************* -->
-  <!--  CREDENTIAL SPART LOG IN-->
-  <entry key="get-operator-from-spart">
-    SELECT
-      ope.EmpCode, ope.Password, ope.OpeType, ope.OpeName, ope.SubChar1, ope.SubChar2, ope.SecLevel1, ope.SecLevel2
-    FROM
-      RESMaster.dbo.MST_USER_CREDENTIALS users
-    LEFT JOIN
-      RESMaster.dbo.MST_EMPINFO ope
-    ON
-      ope.Password = users.PassCode
-    WHERE
-      users.OperatorNo = ? AND ope.EmpCode = users.OperatorNo;
-  </entry>
-
     <entry key="get-status-of-operator">
         SELECT    users.OperatorName, ope.OpeKanaName, ope.SecLevel2, ope.OpeType
         FROM      RESMaster.dbo.MST_EMPINFO ope,
@@ -2393,7 +2379,6 @@ ORDER BY
                   ope.CompanyId = LTRIM(RTRIM(?)) AND
                   ope.EmpCode = LTRIM(RTRIM(?))
     </entry>
-
     <entry key="get-systemnames">
       DECLARE
         @companyId varchar(max),
@@ -2757,21 +2742,6 @@ ORDER BY
     WHERE
       OperatorNo = ? and (Status='Active' OR Status='Inactive');
   </entry>
-
-  <entry key="create-operator">
-    INSERT INTO RESMaster.dbo.MST_USER_CREDENTIALS
-           (OperatorNo,
-           PassCode,
-           Role,
-           UpdDate,
-           OperatorType,
-           Status,
-           UpdAppId,
-           UpdOpeCode)
-       VALUES
-         (?,?,?,GETDATE(),0,'Inactive',?,?);
-  </entry>
-
   <entry key="sign-off-operator">
     UPDATE
       RESMaster.dbo.MST_USER_CREDENTIALS
@@ -2850,24 +2820,6 @@ ORDER BY
       StoreId = ? AND UPPER(OperatorName) LIKE UPPER(?) AND (Status='Active' OR Status='Inactive')
     ORDER BY OperatorName ASC
   </entry>
-  <entry key="reset-operator-passcode">
-    UPDATE RESMaster.dbo.MST_USER_CREDENTIALS
-       SET
-          PassCode = ''
-     WHERE
-       StoreId = ? AND
-       OperatorNo = ? AND
-       (Status='Active' OR Status='Inactive')
-  </entry>
-
-  <entry key="delete-user-group">
-    DELETE FROM
-      RESMaster.dbo.PRM_GROUP_FUNCTION
-    WHERE
-      GroupCode = ?
-  </entry>
-
-
   <entry key="create-update-pos-opecode">
         DECLARE
           @companyid varchar(max),
@@ -6720,42 +6672,6 @@ ORDER BY
         MdInternal = @plu;
     </entry>
     <!-- *************************  ENTRY KEY FOR EMPLOYEE TABLE MAINTENANCE ************************* -->
-    <entry key="update-store-operator-passcode">
-      DECLARE @operatorno char(20), @oldpasscode varchar(30), @newpasscode varchar(max), @updappid varchar(max), @updopecode varchar(max)
-      SET @operatorno=?
-    SET @oldpasscode=?
-    SET @newpasscode=?
-    SET @updappid =?
-    SET @updopecode =?
-
-      IF EXISTS (SELECT OperatorNo FROM RESMaster.dbo.MST_USER_CREDENTIALS WHERE OperatorNo = @operatorno AND (PassCode = @oldpasscode))
-        UPDATE
-          RESMaster.dbo.MST_USER_CREDENTIALS
-        SET
-        PassCode = @newpasscode,
-        UpdDate = GETDATE(),
-        UpdAppId = @updappid,
-        UpdOpeCode = @updopecode
-
-      OUTPUT INSERTED.PassCode
-      WHERE
-        OperatorNo = @operatorno AND (Status='Active' OR Status='Inactive')
-    ELSE
-      SELECT PassCode FROM RESMaster.dbo.MST_USER_CREDENTIALS
-        WHERE OperatorNo = @operatorno  AND (Status='Active' OR Status='Inactive')
-    </entry>
-    <entry key="get-employee">
-      SELECT
-      OperatorName,
-      OperatorType,
-      TerminalId,
-      PassCode,
-      Status
-    FROM
-      RESMaster.dbo.MST_USER_CREDENTIALS
-    WHERE
-      StoreId=? AND OperatorNo=? AND (Status='Active' OR Status='Inactive');
-    </entry>
     <entry key="create-employee">
     DECLARE
     @storeid      varchar(MAX),
@@ -7224,49 +7140,6 @@ ORDER BY
     SELECT GroupName,Transactions,Reports,Settings,Merchandise,Administration,Drawer
     FROM RESMaster.dbo.PRM_GROUP_FUNCTION
     WHERE GroupCode = ?
-  </entry>
-  <entry key="create-Group">
-    INSERT INTO RESMaster.dbo.PRM_GROUP_FUNCTION
-      (GroupCode,GroupName,Transactions,Reports,Settings,Merchandise,Administration,Drawer)
-    VALUES (?,?,?,?,?,?,?,?)
-  </entry>
-  <entry key="get-GroupListWithKey">
-    SELECT TOP(?) GroupCode,GroupName
-    FROM RESMaster.dbo.PRM_GROUP_FUNCTION
-    WHERE LOWER(GroupName) LIKE LOWER(?)
-  </entry>
-  <entry key="get-GroupList">
-    SELECT GroupCode,GroupName
-    FROM RESMaster.dbo.PRM_GROUP_FUNCTION
-  </entry>
-  <entry key="update-Group">
-  DECLARE @groupname varchar(max), @transactions bit, @reports bit, @settings bit, @merchandise bit, @administration bit, @drawer bit
-      SET @groupname = ?
-      SET @transactions = ?
-      SET @reports = ?
-      SET @settings = ?
-      SET @merchandise = ?
-      SET @administration = ?
-      SET @drawer = ?
-
-      UPDATE
-        RESMaster.dbo.PRM_GROUP_FUNCTION
-      SET
-        GroupName =
-          CASE
-            WHEN LEN(@groupname) > 0 THEN @groupname
-            ELSE GroupName
-          END,
-        Transactions =(@transactions),
-        Reports = @reports,
-        Settings = @settings,
-        Merchandise = @merchandise,
-        Administration = @administration,
-        Drawer = @drawer
-
-        OUTPUT INSERTED.GroupName, INSERTED.Transactions, INSERTED.Reports, INSERTED.Settings, INSERTED.Merchandise,
-                 INSERTED.Administration, INSERTED.Drawer
-      WHERE GroupCode = ?
   </entry>
   <entry key="view-authorization">
     SELECT SecLevel1, SecLevel2, SecLevel3, SecLevel4, SecLevel5, SecLevel6, SecLevel7, SecLevel8, SecLevel9,

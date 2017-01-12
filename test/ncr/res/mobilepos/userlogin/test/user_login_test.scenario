@@ -1,17 +1,3 @@
-Scenario: SignOn Failed [Wrong Password]
-Given a companyid{01} storeid{0247} terminalid{0001}
-When I login with operator{9011011} passcode{1} demo{false}
-Then I should get the following operator details:
-|ncrwssresultcode	|
-|306				|
-
-Scenario: SignOn Failed [User Not Found]
-Given a companyid{01} storeid{0247} terminalid{0001}
-When I login with operator{1} passcode{9011011} demo{false}
-Then I should get the following operator details:
-|ncrwssresultcode	|
-|305				|
-
 Scenario: SignOn Success [Before SOD]
 Given an initial data from {data_users.xml}
 Given a companyid{01} storeid{0247} terminalid{0001}
@@ -40,3 +26,16 @@ Then I should get the following till details:
 |ncrwssresultcode	|businessdaydate	|sodflag	|eodflag	|
 |0					|2016-07-28			|1			|0			|
 
+Scenario: SignOn Failed [Wrong Password]
+Given a companyid{01} storeid{0247} terminalid{0001}
+When I login with operator{9011011} passcode{1} demo{false}
+Then I should get the following operator details:
+|ncrwssresultcode	|
+|306				|
+
+Scenario: SignOn Failed [User Not Found]
+Given a companyid{01} storeid{0247} terminalid{0001}
+When I login with operator{1} passcode{9011011} demo{false}
+Then I should get the following operator details:
+|ncrwssresultcode	|
+|305				|

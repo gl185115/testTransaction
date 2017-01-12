@@ -669,6 +669,13 @@
                 </executions>
             </plugin>
 
+            <!-- Analysis can be sent to Sonar by sonar:sonar -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.2</version>
+            </plugin>
+
         </plugins>
     </build>
 
@@ -683,6 +690,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.7.201606060606</version>
                 <reportSets>
                     <reportSet>
                         <reports>

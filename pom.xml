@@ -394,10 +394,10 @@
                 <executions>
                     <execution>
                         <!-- Default phase is verify -->
-                        <!-- <goals>
+                        <goals>
                             <goal>clean</goal>
                             <goal>check</goal>
-                        </goals> -->
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

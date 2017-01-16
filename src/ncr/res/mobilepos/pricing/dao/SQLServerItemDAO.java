@@ -26,7 +26,6 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;

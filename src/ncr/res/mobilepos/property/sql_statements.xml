@@ -119,7 +119,7 @@ SELECT TOP 1
        groupInfo.GroupId,
        system.NameText,
        plu.DiscountType DiscountType,
-       colorInfo.Colorkananame,
+       colorInfo.ColorKanaName,
        sizeInfo.SizeKanaName,
        brandInfo.BrandName
 FROM
@@ -143,8 +143,8 @@ LEFT JOIN RESMaster.dbo.MST_CLASSINFO classInfo
 ON plu.Class = classInfo.Class
 AND plu.CompanyId = classInfo.CompanyId
 AND plu.StoreId = classInfo.StoreId
-AND plu.dpt = classInfo.dpt
-AND plu.line = classInfo.line
+AND plu.Dpt = classInfo.Dpt
+AND plu.Line = classInfo.Line
 AND classInfo.DeleteFlag =0.0
 LEFT JOIN RESMaster.dbo.MST_NAME_SYSTEM system
 ON plu.CompanyId = system.CompanyId
@@ -188,14 +188,12 @@ plu.CompanyId  = urgent.CompanyId
 AND plu.Sku  = urgent.Sku
 AND plu.Md01 = urgent.ColorId
 
-WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
+WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
 ORDER BY urgent.SequenceNo DESC
 
 </entry>
 
 <entry key="get-price-ReplaceSupport-info">
-
-
 DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @sku VARCHAR(32), @businessDate VARCHAR(32)
     SET        @storeId = LTRIM(RTRIM(?))
     SET        @companyId = LTRIM(RTRIM(?))
@@ -208,12 +206,12 @@ IF NOT EXISTS (
         info.PromotionId
     FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info
     INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.PromotionId = detail.PromotionId
         AND detail.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0 AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId =  @companyId
-        AND detail.sku = @sku
+        AND info.CompanyId =  @companyId
+        AND detail.Sku = @sku
         AND info.TargetStoreType = '1'
         ORDER BY info.UpdDate DESC)
 
@@ -226,14 +224,14 @@ IF NOT EXISTS (
         info.PromotionId
     FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info
     INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.PromotionId = detail.PromotionId
         AND detail.DeleteFlag = 0.0
     WHERE
         info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId =  @companyId
-        AND detail.sku = @sku
+        AND info.CompanyId =  @companyId
+        AND detail.Sku = @sku
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
         ORDER BY info.UpdDate DESC
 
@@ -247,22 +245,20 @@ ELSE
         info.PromotionId
      FROM  RESMaster.dbo.MST_REPLACESUPPORT_INFO info
      INNER  JOIN RESMaster.dbo.MST_REPLACESUPPORT_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.PromotionId = detail.PromotionId
         AND detail.DeleteFlag = 0.0
      INNER JOIN RESMaster.dbo.MST_REPLACESUPPORT_STORE store
-        ON info.companyId = store.companyId
+        ON info.CompanyId = store.CompanyId
         AND info.PromotionId = store.PromotionId
         AND store.StoreId = @storeId AND store.DeleteFlag = 0.0
     WHERE
         info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId = @companyId
-        AND detail.sku = @sku
+        AND info.CompanyId = @companyId
+        AND detail.Sku = @sku
         AND info.TargetStoreType = '1'
         ORDER BY info.UpdDate DESC
-
-
 </entry>
 
 <entry key="get-price-prom-info">
@@ -288,16 +284,16 @@ SELECT
     info.PromotionNo
 FROM RESMaster.dbo.MST_PRICE_PROM_INFO info
 INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
-    ON info.companyId = detail.companyId AND info.PromotionNo = detail.PromotionNo
+    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
     AND detail.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-    AND info.companyId = @companyId
+    AND info.CompanyId = @companyId
     AND info.TargetStoreType = '1'
     AND ((PromotionType ='1' AND detail.Dpt = @dpt )
         OR (PromotionType ='2' AND  detail.Class = @class)
-        OR (PromotionType ='3' AND detail.sku = @sku ))
+        OR (PromotionType ='3' AND detail.Sku = @sku ))
         AND ((BrandFlag = '1' AND (detail.BrandId = @BrandId OR detail.BrandId IS NULL)) OR BrandFlag = '0')
         ORDER BY info.UpdDate DESC)
 
@@ -314,16 +310,16 @@ SELECT
     detail.DiscountClass
  FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
  INNER  JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
-    ON info.companyId = detail.companyId AND info.PromotionNo = detail.PromotionNo
+    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
     AND detail.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-    AND info.companyId = @companyId
+    AND info.CompanyId = @companyId
     AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
     AND ((PromotionType ='1' AND detail.Dpt = @dpt )
         OR (PromotionType ='2' AND  detail.Class = @class)
-    OR (PromotionType ='3' AND detail.sku = @sku ))
+    OR (PromotionType ='3' AND detail.Sku = @sku ))
    AND ((BrandFlag = '1' AND (detail.BrandId = @BrandId OR detail.BrandId IS NULL)) OR BrandFlag = '0')
     ORDER BY info.UpdDate DESC
 
@@ -342,21 +338,21 @@ SELECT
 
 FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
 INNER  JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
-    ON info.companyId = detail.companyId AND info.PromotionNo = detail.PromotionNo
+    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
     AND detail.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
 INNER JOIN RESMaster.dbo.MST_PRICE_PROM_STORE store
-   ON info.companyId = store.companyId
+   ON info.CompanyId = store.CompanyId
    AND info.PromotionNo = store.PromotionNo
    AND store.StoreId = @storeId
    AND store.DeleteFlag = 0.0
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-    AND info.companyId = @companyId
+    AND info.CompanyId = @companyId
     AND info.TargetStoreType = '1'
     AND ((PromotionType ='1' AND detail.Dpt = @dpt )
         OR (PromotionType ='2'  AND  detail.Class = @class)
-    OR (PromotionType ='3'  AND detail.sku = @sku ))
+    OR (PromotionType ='3'  AND detail.Sku = @sku ))
     AND ((BrandFlag = '1' AND (detail.BrandId = @BrandId OR detail.BrandId IS NULL)) OR BrandFlag = '0')
         ORDER BY info.UpdDate DESC
 
@@ -374,14 +370,14 @@ IF NOT EXISTS (
         info.MMNo
     FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
     INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.MMNo = detail.MMNo
         AND detail.DeleteFlag = 0.0
     WHERE
         info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId =  @companyId
-        AND detail.sku = @sku
+        AND info.CompanyId =  @companyId
+        AND detail.Sku = @sku
         AND info.TargetStoreType = '1')
 
     SELECT
@@ -403,14 +399,14 @@ IF NOT EXISTS (
         info.MMNo
     FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
     INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.MMNo = detail.MMNo
         AND detail.DeleteFlag = 0.0
     WHERE
         info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId =  @companyId
-        AND detail.sku = @sku
+        AND info.CompanyId =  @companyId
+        AND detail.Sku = @sku
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
 
 
@@ -435,22 +431,20 @@ ELSE
         info.MMNo
     FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
     INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.MMNo = detail.MMNo
         AND detail.DeleteFlag = 0.0
     INNER JOIN RESMaster.dbo.MST_PRICE_MM_STORE store
-        ON info.companyId = store.companyId
+        ON info.CompanyId = store.CompanyId
         AND info.MMNo = store.MMNo
         AND store.StoreId = @storeId
         AND store.DeleteFlag = 0.0
     WHERE
         info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId =  @companyId
-        AND detail.sku = @sku
+        AND info.CompanyId =  @companyId
+        AND detail.Sku = @sku
         AND info.TargetStoreType = '1'
-
-
 </entry>
 
 <entry key="get-coupon-info">
@@ -473,16 +467,16 @@ IF NOT EXISTS (
         info.CouponNo
     FROM  RESMaster.dbo.MST_COUPON_INFO info
     INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.CouponNo = detail.CouponNo
         AND detail.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
      AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
 
-     AND info.companyId = @companyId
+     AND info.CompanyId = @companyId
      AND info.TargetStoreType = '1'
          AND ((CouponType = '1' AND detail.Dpt = @dpt AND (detail.BrandId = @BrandId OR detail.BrandId IS null)) OR
-          (CouponType = '2' AND detail.sku = @sku ))
+          (CouponType = '2' AND detail.Sku = @sku ))
          ORDER BY info.UpdDate DESC)
 
     SELECT
@@ -499,15 +493,15 @@ IF NOT EXISTS (
         detail.BrandId
     FROM  RESMaster.dbo.MST_COUPON_INFO info
     INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.CouponNo = detail.CouponNo
         AND detail.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId = @companyId
+        AND info.CompanyId = @companyId
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
          AND ((CouponType = '1' AND detail.Dpt = @dpt AND (detail.BrandId = @BrandId OR detail.BrandId IS null)) OR
-          (CouponType = '2' AND detail.sku = @sku ))
+          (CouponType = '2' AND detail.Sku = @sku ))
          ORDER BY info.UpdDate DESC
 ELSE
 
@@ -523,22 +517,21 @@ ELSE
         detail.Dpt,detail.Sku,detail.BrandId
      FROM  RESMaster.dbo.MST_COUPON_INFO info
      INNER  JOIN RESMaster.dbo.MST_COUPON_DETAIL detail
-        ON info.companyId = detail.companyId
+        ON info.CompanyId = detail.CompanyId
         AND info.CouponNo = detail.CouponNo
         AND detail.DeleteFlag = 0.0
     INNER JOIN RESMaster.dbo.MST_COUPON_STORE store
-        ON info.companyId = store.companyId
+        ON info.CompanyId = store.CompanyId
         AND info.CouponNo = store.CouponNo
         AND store.StoreId = @storeId
         AND store.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId = @companyId
+        AND info.CompanyId = @companyId
         AND info.TargetStoreType = '1'
         AND ((CouponType = '1' AND detail.Dpt = @dpt AND (detail.BrandId = @BrandId OR detail.BrandId IS null)) OR
-          (CouponType = '2' AND detail.sku = @sku ))
+          (CouponType = '2' AND detail.Sku = @sku ))
             ORDER BY info.UpdDate DESC
-
 </entry>
 
 <entry key="get-premiumitem-info">
@@ -571,16 +564,16 @@ SELECT * FROM (
        info.TargetCount
    FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info
    INNER  JOIN RESMaster.dbo.MST_PREMIUMITEM_DETAIL detail
-       ON info.companyId = detail.companyId
+       ON info.CompanyId = detail.CompanyId
        AND info.PremiumItemNo = detail.PremiumItemNo
        AND detail.DeleteFlag = 0.0
    WHERE info.DeleteFlag = 0.0
        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-       AND info.companyId = @companyId
+       AND info.CompanyId = @companyId
        AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
        AND ((detail.PreminumItemType = '1' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
              OR (detail.PreminumItemType = '2' AND detail.Dpt = @dpt  AND( detail.BrandId = @brandId OR  detail.BrandId IS NULL))
-             OR(detail.PreminumItemType = '3'  AND detail.sku = @sku  ))
+             OR(detail.PreminumItemType = '3'  AND detail.Sku = @sku  ))
 
 UNION
      SELECT
@@ -596,21 +589,21 @@ UNION
 
      FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info
      INNER  JOIN RESMaster.dbo.MST_PREMIUMITEM_DETAIL detail
-         ON info.companyId = detail.companyId
+         ON info.CompanyId = detail.CompanyId
         AND info.PremiumItemNo = detail.PremiumItemNo
         AND detail.DeleteFlag = 0.0
     INNER JOIN RESMaster.dbo.MST_PREMIUMITEM_STORE store
-        ON info.companyId = store.companyId
+        ON info.CompanyId = store.CompanyId
         AND info.PremiumItemNo = store.PremiumItemNo
         AND store.StoreId = @storeId
         AND store.DeleteFlag = 0.0
     WHERE info.DeleteFlag = 0.0
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-        AND info.companyId = @companyId
+        AND info.CompanyId = @companyId
         AND info.TargetStoreType = '1'
         AND ((detail.PreminumItemType = '1' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
              OR (detail.PreminumItemType = '2' AND detail.Dpt = @dpt  AND( detail.BrandId = @brandId OR  detail.BrandId IS NULL))
-             OR(detail.PreminumItemType = '3'  AND detail.sku = @sku  ))
+             OR(detail.PreminumItemType = '3'  AND detail.Sku = @sku  ))
 ) PREMIUMITEM   ORDER BY PREMIUMITEM.UpdDate DESC
 </entry>
 
@@ -635,7 +628,6 @@ UNION
 </entry>
 
 <entry key="get-qrcode-info">
-
 DECLARE @companyId VARCHAR(32),
         @dpt VARCHAR(32),
         @brandId VARCHAR(32),
@@ -681,7 +673,7 @@ LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @CompanyId
+    AND info.CompanyId = @companyId
     AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
@@ -724,7 +716,7 @@ LEFT JOIN RESMaster.dbo.MST_QRCODE_EXCLSION exclsion
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @CompanyId
+    AND info.CompanyId = @companyId
     AND (detail.PromotionType = '1'
              OR (detail.PromotionType = '2' AND detail.Dpt = @dpt )
              OR (detail.PromotionType = '3' AND detail.Dpt = @dpt  AND (detail.ConnCode = @conn OR detail.ConnCode IS NULL))
@@ -734,7 +726,6 @@ WHERE
     )
 
 ) A ORDER BY DisplayOrder
-
 </entry>
 
 <entry key="get-guest-order-info">
@@ -4242,7 +4233,7 @@ ORDER BY
     ISNULL(printinfo.Description, '') AS PrintDes,
     ISNULL(tillidinfo.TillId, '') DrawerId,
     ISNULL(queuebustr_link.DisplayName, '') AS DisplayName,
-    ISNULL(device_attribute.DESCRIPTION, '') AS AttributeDes
+    ISNULL(device_attribute.Description, '') AS AttributeDes
   FROM      RESMaster.dbo.MST_DEVICEINFO deviceinfo
     LEFT JOIN RESMaster.dbo.MST_PRINTERINFO printinfo
         ON  deviceinfo.CompanyId = printinfo.CompanyId AND
@@ -4313,7 +4304,7 @@ ORDER BY
     ON
       syscon.KeyId = 'PricingType'
     WHERE
-      devInfo.CompanyId = ? AND
+      devinfo.CompanyId = ? AND
       devinfo.StoreId = ? AND
       devinfo.TerminalId = ? AND
       devinfo.Training = ?

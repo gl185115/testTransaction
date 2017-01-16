@@ -30,7 +30,6 @@ import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;

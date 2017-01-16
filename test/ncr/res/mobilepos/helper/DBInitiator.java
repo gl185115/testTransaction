@@ -38,9 +38,11 @@ public class DBInitiator  extends DBTestCase {
     private static final String DBUNIT_CONNECTION_URL_HSQLDB =
                         "jdbc:hsqldb:file:testdb/testdb;shutdown=true";
 
-
     private IDataSet dataset;
     public enum DATABASE { RESMaster, RESTransaction }
+    public DBInitiator(String name) {
+		super(name);
+	}
     public DBInitiator(final String name, DATABASE dbName)
     {
         super(name);

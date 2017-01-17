@@ -6,6 +6,7 @@
  */
 package ncr.res.mobilepos.initialization.resource;
 
+import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
@@ -31,6 +32,7 @@ import ncr.res.mobilepos.property.SQLStatement;
  * Actual initialization is done by WebContextListener.
  */
 @Path("/initialization")
+@Api(value="/initialization", description="システム初期化")
 public class InitializationStatusResource {
 
     /**
@@ -63,11 +65,10 @@ public class InitializationStatusResource {
     @Path("/status")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="resTransaction初期化状態取得", response=String.class)
+    @ApiOperation(value="システム初期化状態取得", response=String.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_OK_INITIALIZATION, message="初期化成功"),
             @ApiResponse(code=ResultBase.RES_ERROR_INITIALIZATION, message="初期化失敗"),
-            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })
     public final ResultBase getInitializationStatus() {
 

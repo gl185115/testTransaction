@@ -1,0 +1,41 @@
+Scenario: Start Of Day Has Not Been Started
+Given a RESMaster initial data from {data_sod.xml}
+Given a RESTransaction initial data from {data_journal.xml}
+Given a companyid{01} storeid{0247} terminalid{0001}
+When operator{9011011} starts SOD at till{02470001}
+Then it should be authorized{0} 
+Then it should get cashonhand{0}
+Then MST_TILLIDINFO should have the following:
+|CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|UpdOpeCode	|
+|01			|0247		|02470001	|0001		|2016-08-16			|9			|1			|9011011	|
+
+Scenario: Repeat SOD of Same Terminal But Different Operator
+When operator{9022022} starts SOD at till{02470001}
+Then it should be authorized{0} 
+Then it should get cashonhand{0}
+
+Scenario: Repeat SOD From Different Terminal
+Given a companyid{01} storeid{0247} terminalid{0002}
+When operator{9011011} starts SOD at till{02470001}
+Then it should be authorized{1504}
+
+Scenario: Successful SOD
+Given a companyid{01} storeid{0247} terminalid{0001}
+When operator{9011011} starts SOD at till{02470001}
+Then it should be authorized{0} 
+Then it should get cashonhand{0}
+!-- Successful SOD
+When completed SOD with poslog [
+<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction TrainingModeFlag="false"><TransactionType>SOD</TransactionType><OrganizationHierarchy Level="ƒ[ƒrƒIŠ”®‰ïĞ" ID="01" /><RetailStoreID>0247</RetailStoreID><WorkstationID TerminalType="1">0001</WorkstationID><SequenceNumber>0945</SequenceNumber><BusinessDayDate>2016-08-16</BusinessDayDate><BeginDateTime>2017-01-17T16:28:32</BeginDateTime><OperatorID OperatorName="”Ä—p”Ì”„ˆõ3" OperatorNameKana="ÊİÖ³ÊİÊŞ²²İ3">9011011</OperatorID><ReceiptDateTime>2017-01-17T16:28:32</ReceiptDateTime><BusinessUnit Name="Šê’¬“X" VoucherName="Šê’¬“X"><Telephone><FullTelephoneNumber>000-1111-2222</FullTelephoneNumber><VoucherTelephoneNumber>000-1111-2222</VoucherTelephoneNumber></Telephone><Address>“Œ‹“s’†‰›‹æVì 0-0-0</Address></BusinessUnit><TillID>02470001</TillID><TenderControlTransaction Version="2.2"><DayPart>SOD</DayPart><Associate><AssociateID>9011011</AssociateID><AssociateName>”Ä—p”Ì”„ˆõ3</AssociateName><AssociateKanaName></AssociateKanaName></Associate><TillSettle><Tender TenderType="Cash"><Amount>0</Amount><Devices><CashChanger><Amount>0</Amount><MonetaryKind><Kind>10000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>5000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>2000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>1000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>500</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>100</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>50</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>10</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>5</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>1</Kind><Quantity>0</Quantity></MonetaryKind></CashChanger><CashDrawer><Amount>0</Amount><MonetaryKind><Kind>10000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>5000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>2000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>1000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>500</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>100</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>50</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>10</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>5</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>1</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind></CashDrawer></Devices></Tender></TillSettle></TenderControlTransaction></Transaction></POSLog>
+]
+Then it should get journal response{0}
+Then MST_TILLIDINFO should have the following:
+|CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|UpdOpeCode	|
+|01			|0247		|02470001	|0001		|2016-08-16			|1			|0			|9011011	|
+Then TXL_SALES_JOURNAL should have the following:
+|CompanyId  |RetailStoreId 	|WorkstationId  |SequenceNumber  	|BusinessDayDate 	|TrainingFlag 	|TxType  	|Status  	|SendStatus1 	|SendStatus2  	|Tx  						
+|01			|0247			|0001			|945				|2016-08-16			|0				|SOD		|0			|0				|0				|<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction TrainingModeFlag="false"><TransactionType>SOD</TransactionType><OrganizationHierarchy Level="ƒ[ƒrƒIŠ”®‰ïĞ" ID="01" /><RetailStoreID>0247</RetailStoreID><WorkstationID TerminalType="1">0001</WorkstationID><SequenceNumber>0945</SequenceNumber><BusinessDayDate>2016-08-16</BusinessDayDate><BeginDateTime>2017-01-17T16:28:32</BeginDateTime><OperatorID OperatorName="”Ä—p”Ì”„ˆõ3" OperatorNameKana="ÊİÖ³ÊİÊŞ²²İ3">9011011</OperatorID><ReceiptDateTime>2017-01-17T16:28:32</ReceiptDateTime><BusinessUnit Name="Šê’¬“X" VoucherName="Šê’¬“X"><Telephone><FullTelephoneNumber>000-1111-2222</FullTelephoneNumber><VoucherTelephoneNumber>000-1111-2222</VoucherTelephoneNumber></Telephone><Address>“Œ‹“s’†‰›‹æVì 0-0-0</Address></BusinessUnit><TillID>02470001</TillID><TenderControlTransaction Version="2.2"><DayPart>SOD</DayPart><Associate><AssociateID>9011011</AssociateID><AssociateName>”Ä—p”Ì”„ˆõ3</AssociateName><AssociateKanaName></AssociateKanaName></Associate><TillSettle><Tender TenderType="Cash"><Amount>0</Amount><Devices><CashChanger><Amount>0</Amount><MonetaryKind><Kind>10000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>5000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>2000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>1000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>500</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>100</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>50</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>10</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>5</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>1</Kind><Quantity>0</Quantity></MonetaryKind></CashChanger><CashDrawer><Amount>0</Amount><MonetaryKind><Kind>10000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>5000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>2000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>1000</Kind><Quantity>0</Quantity></MonetaryKind><MonetaryKind><Kind>500</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>100</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>50</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>10</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>5</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind><MonetaryKind><Kind>1</Kind><Quantity>0</Quantity><Rolls>0</Rolls></MonetaryKind></CashDrawer></Devices></Tender></TillSettle></TenderControlTransaction></Transaction></POSLog>
+
+Scenario: SOD Already Been Done
+When operator{9011011} starts SOD at till{02470001}
+Then it should be authorized{1505}

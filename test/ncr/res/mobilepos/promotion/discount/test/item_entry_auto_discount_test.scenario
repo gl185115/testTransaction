@@ -38,17 +38,17 @@ Scenario: Item Entry with No begin Transaction (other device)
 When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1112} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}} CompanyId{01} Businessdate{2016-08-16}
 Then the Result Code is 1102
 
-Scenario: Item Entry with Item Not Found
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
-Then the Result Code is 801
-Then the JSON should have the following format : 
-{"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
+!-- Scenario: Item Entry with Item Not Found
+!-- When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+!-- Then the Result Code is 801
+!-- Then the JSON should have the following format : 
+!-- {"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
 
-Scenario: Item Entry Empty ItemId
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
-Then the Result Code is 801
-Then the JSON should have the following format : 
-{"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
+!-- Scenario: Item Entry Empty ItemId
+!-- When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+!-- Then the Result Code is 801
+!-- Then the JSON should have the following format : 
+!-- {"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
 
 Scenario: Item Entry Empty ItemEntryId
 When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
@@ -63,10 +63,10 @@ Then the JSON should have the following format :
 {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
 
 Scenario: Item Entry no ItemId
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
-Then the Result Code is 801
-Then the JSON should have the following format : 
-{"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
+!-- When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+!-- Then the Result Code is 801
+!-- Then the JSON should have the following format : 
+!-- {"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
 
 !-- ITEM ENTRIES WITH DISCOUNT AMOUNT  
 Scenario: Item Entry with Auto Discount amount

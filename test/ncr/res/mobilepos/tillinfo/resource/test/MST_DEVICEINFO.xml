@@ -1,0 +1,117 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DEVICEINFO">
+		<column>StoreId</column>
+		<column>TerminalId</column>
+        <column>TillId</column>
+        <column>SendLogFile</column>
+        <column>SaveLogFile</column>
+        <column>AutoUpload</column>
+        <column>UpdDate</column>
+        <column>UpdOpeCode</column>
+        
+        <column>CompanyId</column>
+        <column>Training</column>
+        <column>DeleteFlag</column>
+        <column>InsDate</column>
+        <column>InsAppId</column>
+        <column>InsOpeCode</column>
+        <column>UpdCount</column>
+        <column>UpdAppId</column>
+        <row>
+            <value>9999</value>
+            <value>5000</value>
+            <value>99995000</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>2015-02-05</value>
+            <value>0</value>
+            
+            <value>01</value>
+            <value>0</value>
+            <value>0</value>
+            <value>2015-02-05</value>
+            <value>System</value>
+            <value>0</value>
+            <value>0</value>
+            <value>System</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5001</value>
+            <value>99995001</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>2015-02-05</value>
+            <value>0</value>
+            
+            <value>01</value>
+            <value>0</value>
+            <value>0</value>
+            <value>2015-02-05</value>
+            <value>System</value>
+            <value>0</value>
+            <value>0</value>
+            <value>System</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5002</value>
+            <value>99995000</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>2015-02-05</value>
+            <value>0</value>
+            
+            <value>01</value>
+            <value>0</value>
+            <value>0</value>
+            <value>2015-02-05</value>
+            <value>System</value>
+            <value>0</value>
+            <value>0</value>
+            <value>System</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5003</value>
+            <value>99995001</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>2015-02-05</value>
+            <value>0</value>
+            
+            <value>01</value>
+            <value>0</value>
+            <value>0</value>
+            <value>2015-02-05</value>
+            <value>System</value>
+            <value>0</value>
+            <value>0</value>
+            <value>System</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5004</value>
+            <value>99995000</value>
+            <value>1</value>
+            <value>1</value>
+            <value>1</value>
+            <value>2015-02-05</value>
+            <value>0</value>
+            
+            <value>01</value>
+            <value>0</value>
+            <value>0</value>
+            <value>2015-02-05</value>
+            <value>System</value>
+            <value>0</value>
+            <value>0</value>
+            <value>System</value>
+        </row>
+	</table>
+</dataset>

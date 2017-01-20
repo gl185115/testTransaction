@@ -1,0 +1,19 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+    <table name="MST_BIZDAY">
+		<column>today</column>
+		<column>switchtime</column>
+		<column>skip</column>
+		
+		<column>CompanyId</column>
+         <column>StoreId</column>
+         <column>DeleteFlag</column>
+         <column>InsDate</column>
+         <column>InsAppId</column>
+         <column>InsOpeCode</column>
+         <column>UpdCount</column>
+         <column>UpdDate</column>
+         <column>UpdAppId</column>
+         <column>UpdOpeCode</column>
+	</table> 
+</dataset>

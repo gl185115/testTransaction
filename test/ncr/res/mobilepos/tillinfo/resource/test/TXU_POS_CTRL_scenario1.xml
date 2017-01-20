@@ -1,0 +1,45 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXU_POS_CTRL">
+		<column>StoreId</column>
+		<column>TerminalNo</column>
+        <column>OpeCode</column>
+        
+        <column>CompanyId</column>
+        <row>
+            <value>9999</value>
+            <value>5000</value>
+            <value>7000</value>
+            
+            <value>01</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5001</value>
+            <value>7001</value>
+            
+            <value>01</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5002</value>
+            <value>7002</value>
+            
+            <value>01</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5003</value>
+            <value>7003</value>
+            
+            <value>01</value>
+        </row>
+        <row>
+            <value>9999</value>
+            <value>5004</value>
+            <value>7004</value>
+            
+            <value>01</value>
+        </row>
+	</table>
+</dataset>

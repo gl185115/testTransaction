@@ -36,18 +36,6 @@ public interface ITillInfoDAO {
     ResultBase createTill(String storeId, String tillId, Till till)
              throws DaoException;    
     /**
-     * Updates Till.
-     *
-     * @param storeID - Store number
-     * @param tillID - till number
-     * @param till - Till
-     * @throws DaoException if error occurred
-     * @return ResultBase
-     */
-    ViewTill updateTill(String storeId, String tillId, Till till)
-             throws DaoException;   
-    
-    /**
      * Updates specific fields of Till after successful SOD/EOD.
      * @param connection db connection
      * @param currentTill Till with original data

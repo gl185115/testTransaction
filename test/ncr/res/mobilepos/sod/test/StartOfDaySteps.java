@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.ServletContext;
 
 import junit.framework.Assert;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
@@ -118,6 +119,15 @@ public class StartOfDaySteps extends Steps {
     	this.storeId = storeId;
     	this.terminalId = terminalId;
     }
+    
+    @Given("that multiple SOD is {$isMultiSOD}")
+    public final void givenThatMultiSOD(final String isMultiSODTemp) {
+    	boolean isMultiSOD = false;
+    	if(null != isMultiSODTemp) {
+    		isMultiSOD = (isMultiSODTemp.equals("allowed")) ? true: false;
+    	}
+    	GlobalConstant.setMultiSOD(isMultiSOD);
+    }
 
     @When("operator{$operatorid} starts SOD at till{$tillid}")
     public final void whenOperatorStartSOD(final String operatorNo, final String tillId) {
@@ -137,7 +147,7 @@ public class StartOfDaySteps extends Steps {
     	Assert.assertEquals("Compare journalize resultcode.", resultCode, poslogResp.getNCRWSSResultCode());
     }
     
-    @Then("it should be authorized{$resultcode}")
+    @Then("it should have an authorized code {$resultcode}")
     public final void thenItShouldBeAuthorized(final int resultCode) {
     	Assert.assertEquals("Compare getexecuteauthority resultcode.", resultCode, resultBase.getNCRWSSResultCode());
     }

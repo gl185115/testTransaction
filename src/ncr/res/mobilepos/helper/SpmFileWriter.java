@@ -108,7 +108,7 @@ public class SpmFileWriter extends FileWriter {
 	 * @throws IOException
 	 *             if file stream was closed or null.
 	 */
-	public void write(String filedata) throws IOException {
+	public synchronized void write(String filedata) throws IOException {
 		if (filedata.equals(JrnSpm.HEADER)) {
 			if (hasHeader) {
 				// Skips if it attempts to write header again.

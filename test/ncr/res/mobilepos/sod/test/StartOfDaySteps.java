@@ -147,7 +147,7 @@ public class StartOfDaySteps extends Steps {
     	Assert.assertEquals("Compare journalize resultcode.", resultCode, poslogResp.getNCRWSSResultCode());
     }
     
-    @Then("it should have an authorized code {$resultcode}")
+    @Then("it should have an authorized code{$resultcode}")
     public final void thenItShouldBeAuthorized(final int resultCode) {
     	Assert.assertEquals("Compare getexecuteauthority resultcode.", resultCode, resultBase.getNCRWSSResultCode());
     }

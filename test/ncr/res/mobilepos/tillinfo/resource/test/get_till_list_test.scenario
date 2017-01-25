@@ -28,7 +28,6 @@ When I get list of tills with retailstoreid:{9999}
 Then ResultCode should be {0} 
 Then I should get the following tills: 
 |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|9999		|99995000	|5000		|2014-12-01		|0		|1		|
 |9999		|99995001	|5001		|2014-11-14		|1		|9		|
 
 

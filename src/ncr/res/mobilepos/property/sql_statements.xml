@@ -898,7 +898,7 @@ WHERE
              SodFlag,
              EodFlag
     FROM RESMaster.dbo.MST_TILLIDINFO
-    WHERE StoreId = @storeId
+    WHERE StoreId = @storeId  AND DeleteFlag = 0 
     ORDER BY StoreId
   </entry>
 

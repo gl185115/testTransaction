@@ -3,46 +3,6 @@
 <properties>
   <!-- start item sqlstatements block -->
     <!-- 前受金番号 -->
-    <entry key="get-advance-payment">
-        DECLARE
-            @typeId VARCHAR(4),@typeNo VARCHAR(9),
-            @typeNoNextValue INT,@typeNoMaxLength INT,
-      @typeNoMaxValue INT
-        SET @typeId = ?
-
-    IF @typeId = '0001'
-      SET @typeNoMaxLength = 8
-    ELSE IF @typeId = '0002' OR @typeId = '0003' OR @typeId = '0004'
-      SET @typeNoMaxLength = 9
-    ELSE
-      SET @typeNoMaxLength = 9
-
-    SET @typeNoMaxValue = CONVERT(INT,REPLICATE('9', @typeNoMaxLength))
-        SET @typeNo = ( SELECT seq.SequenceNo FROM   RESMaster.dbo.MST_SEQUENCE seq
-                        WHERE  seq.SequenceTypeId = @typeId)
-        SET @typeNoNextValue = CONVERT(INT,@typeNo) + 1
-
-        IF @typeNoNextValue &lt;= @typeNoMaxValue AND @typeNoNextValue > 0
-            BEGIN
-                SET @typeNo = RIGHT( REPLICATE('0', @typeNoMaxLength) + CONVERT(VARCHAR,@typeNoNextValue), @typeNoMaxLength)
-                UPDATE RESMaster.dbo.MST_SEQUENCE SET SequenceNo = @typeNo
-                OUTPUT INSERTED.SequenceTypeId,INSERTED.SequenceNo,INSERTED.SequenceTypeName
-                WHERE SequenceTypeId = @typeId
-            END
-        ELSE IF @typeNoNextValue > @typeNoMaxValue
-            BEGIN
-        SET @typeNo = REPLICATE('0', @typeNoMaxLength - 1) + '1'
-        UPDATE RESMaster.dbo.MST_SEQUENCE SET SequenceNo = @typeNo
-        OUTPUT INSERTED.SequenceTypeId,INSERTED.SequenceNo,INSERTED.SequenceTypeName
-        WHERE SequenceTypeId = @typeId
-            END
-        ElSE
-            BEGIN
-        SELECT seq.SequenceTypeId,seq.SequenceNo,seq.SequenceTypeName
-                FROM   RESMaster.dbo.MST_SEQUENCE seq
-                WHERE  seq.SequenceTypeId = @typeId
-            END
-  </entry>
  <entry key="get-item">
 
 DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32)
@@ -726,168 +686,7 @@ WHERE
     )
 
 ) A ORDER BY DisplayOrder
-</entry>
-
-<entry key="get-guest-order-info">
-  SELECT pos.GuestNo ,
-  pos.Line ,
-  pos.RetailStoreId ,
-  pos.BusinessDate ,
-  pos.BusinessDateTime ,
-  pos.TranNo ,
-  pos.TerminalNo ,
-  pos.OpeCode ,
-  pos.OpeName ,
-  pos.KaiinNo ,
-  pos.KaiinNoSeiSan ,
-  pos.OrderKbn ,
-  pos.MdInternal ,
-  pos.Md1 ,
-  pos.Md2 ,
-  pos.Md3 ,
-  pos.Md4 ,
-  pos.Md5 ,
-  pos.Md6 ,
-  pos.Md7 ,
-  pos.Md8 ,
-  pos.Md9 ,
-  pos.Md10 ,
-  pos.MdName ,
-  pos.SalesCnt ,
-  pos.SalesPrice ,
-  pos.SalesAmt ,
-  pos.DepositAmt ,
-  pos.TelKakuninFlag ,
-  pos.SeisanDate ,
-  pos.SeisanDateTime ,
-  pos.CommitSalesAmt ,
-  pos.RepayAmt ,
-  pos.BalanceAmt ,
-  pos.StatusCode ,
-  pos.POSFlag ,
-  pos.PluFlag ,
-  pos.Memo ,
-  pos.MerchandiseHierarchy1 ,
-  pos.MerchandiseHierarchy2 ,
-  pos.MerchandiseHierarchy3 ,
-  pos.MerchandiseHierarchy4 ,
-  pos.MerchandiseHierarchy5 ,
-  pos.TaxType ,
-  pos.PosMdType ,
-  pos.TagType ,
-  pos.KeyPlu ,
-  pos.MdType ,
-  pos.Plu ,
-  pos.Flag1 ,
-  pos.Flag2 ,
-  pos.Type1 ,
-  pos.Type2 ,
-  pos.InsDate ,
-  pos.UpdDate ,
-  pos.UpdAppId ,
-  pos.UpdOpeCode,
-  COALESCE(dpt.DptName, '') DptName,
-  COALESCE(dpt.DptNameLocal, '') DptNameLocal
-  FROM TXL_POS_GUEST_ORDER pos
-  LEFT JOIN
-  RESMaster.dbo.MST_DPTINFO dpt ON dpt.StoreId = CASE WHEN EXISTS ( SELECT Dpt
-                                    FROM RESMaster.dbo.MST_DPTINFO
-                                    WHERE Dpt = pos.MerchandiseHierarchy1
-                                      AND StoreId = pos.RetailStoreId )
-                                THEN pos.RetailStoreId
-                            ELSE '0'
-                           END
-  AND pos.MerchandiseHierarchy1 = dpt.Dpt
-  WHERE pos.GuestNo = LTRIM(RTRIM(?))
-  AND pos.StatusCode = '0'
-  ORDER BY Line
-  </entry>
-
-  <entry key="get-reservation-info">
-    SELECT      res.GuestNo,
-                res.Line,
-                res.RetailStoreId,
-                res.BusinessDate,
-                res.BusinessDateTime,
-                res.TranNo,
-                res.TerminalNo,
-                res.OpeCode,
-                res.OpeName,
-                res.KaiinNo,
-                res.KaiinNoSeiSan,
-                res.OrderKbn,
-                res.MdInternal,
-                res.Md1,
-                res.Md2,
-                res.Md3,
-                res.Md4,
-                res.Md5,
-                res.Md6,
-                res.Md7,
-                res.Md8,
-                res.Md9,
-                res.Md10,
-                res.MdName,
-                res.SalesCnt,
-                res.SalesPrice,
-                res.SalesAmt,
-                res.DepositAmt,
-                res.TelKakuninFlag,
-                res.SeisanDate,
-                res.SeisanDateTime,
-                res.CommitSalesAmt,
-                res.RepayAmt,
-                res.BalanceAmt,
-                res.StatusCode,
-                res.POSFlag,
-                res.PluFlag,
-                res.Memo,
-                res.MerchandiseHierarchy1,
-                res.MerchandiseHierarchy2,
-                res.MerchandiseHierarchy3,
-                res.MerchandiseHierarchy4,
-                res.MerchandiseHierarchy5,
-                res.TaxType,
-                res.PosMdType,
-                res.TagType,
-                res.KeyPlu,
-                res.MdType,
-                res.Plu,
-                res.Flag1,
-                res.Flag2,
-                res.Flag3,
-                res.Flag4,
-                res.Flag5,
-                res.Type1,
-                res.Type2,
-                res.InsDate,
-                res.UpdDate,
-                res.UpdAppId,
-                res.UpdOpeCode,
-                COALESCE(dpt.DptName, '') DptName,
-                COALESCE(dpt.DptNameLocal, '') DptNameLocal
-    FROM        TXL_POS_GUEST_RESERVATION res
-                LEFT JOIN
-                RESMaster.dbo.MST_DPTINFO dpt ON dpt.StoreId = CASE WHEN EXISTS (
-                                                                                    SELECT  Dpt
-                                                                                    FROM    RESMaster.dbo.MST_DPTINFO
-                                                                                    WHERE   Dpt = res.MerchandiseHierarchy1
-                                                                                    AND     StoreId = res.RetailStoreId
-                                                                                ) THEN res.RetailStoreId
-                                                                    ELSE '0'
-                                                               END
-                AND res.MerchandiseHierarchy1 = dpt.Dpt
-    WHERE       res.GuestNo = LTRIM(RTRIM(?))
-    AND         res.StatusCode = '0'
-    ORDER BY    Line
-  </entry>
-
-  <entry key="get-reservation-max-line">
-   SELECT  MAX(Line)  AS maxLine
-   FROM    TXL_POS_GUEST_RESERVATION
-   WHERE   GuestNo = ?
-  </entry>
-
+</entry>  
   <entry key="get-till-information-list">
   DECLARE    @storeId VARCHAR(6)
   SET        @storeId = LTRIM(RTRIM(?))
@@ -1153,27 +952,6 @@ WHERE
         ORDER BY item.StoreId ASC, MdInternal ASC
 
   </entry>
-
-  <entry key="get-all-guestzone">
-        SELECT GuestCode,
-               GuestZoneName,
-               GuestZoneKanaName,
-               GuestGen,
-               GuestSex,
-               GuestType,
-               SubCode
-        FROM
-               RESMaster.dbo.PRM_GUEST;
-   </entry>
-
-   <entry key="get-goldcertificate-type">
-        SELECT  CrCompCode ,
-                CrCompName ,
-                CrCompKanaName ,
-                Subcode1
-        FROM    RESMaster.dbo.MST_COMPINFO
-        WHERE CrCompCat= LTRIM(RTRIM(?))
-   </entry>
 <entry key="get-tenderinfo-type">
 DECLARE
     @companyId VARCHAR (12),
@@ -1318,66 +1096,7 @@ AND b.TenderId = a.CashFlowType
 ORDER BY
     a.CashFlowDirection
 </entry>
-   <entry key="get-event-list">
-   DECLARE @eventId VARCHAR(20), @eventKbn int, @businessDateId int,
-           @storeId VARCHAR(6), @pluCode VARCHAR(32)
-   SET @eventId = LTRIM(RTRIM(?))
-   SET @eventKbn = LTRIM(RTRIM(?))
-   SET @businessDateId = LTRIM(RTRIM(?))
-   SET @storeId = LTRIM(RTRIM(?))
-   SET @pluCode = LTRIM(RTRIM(?))
-   IF NOT EXISTS(
-                     SELECT EventId,
-                    COALESCE(EventName, '') EventName,
-                    StartDateId,
-                    EndDateId,
-                    MdInternal,
-                    SalesPrice
-                     FROM   RESMaster.dbo.MST_EVENT_PRICE
-                     WHERE  @businessDateId &lt;= EndDateId
-           AND    EventId = CASE WHEN @eventId &lt;&gt; '' THEN @eventId ELSE EventId END
-           AND    StoreId = @storeId
-           AND    MdInternal = CASE WHEN @pluCode &lt;&gt; '' THEN @pluCode ELSE MdInternal END
-           AND    COALESCE(DelFlag, '0')! = '1'
-        )
-  SET @storeId = '0'
-  SELECT   EventId,
-         COALESCE(EventName, '') EventName,
-         StartDateId,
-         EndDateId,
-         MdInternal,
-         SalesPrice
-  FROM     RESMaster.dbo.MST_EVENT_PRICE
-  WHERE    @businessDateId &lt;= EndDateId
-  AND      EventId = CASE WHEN @eventId &lt;&gt; '' THEN @eventId ELSE EventId END
-  AND      EventKbn = @eventKbn
-  AND      StoreId = @storeId
-  AND      MdInternal = CASE WHEN @pluCode &lt;&gt; '' THEN @pluCode ELSE MdInternal END
-  AND      COALESCE(DelFlag, '0') != '1'
-  ORDER BY StartDateId, EndDateId
-   </entry>
-
-  <entry key="get-event-for-eventcheck">
-    DECLARE   @eventId VARCHAR(20),
-              @storeId VARCHAR(6)
-
-    SET @eventId = LTRIM(RTRIM(?))
-    SET @storeId = LTRIM(RTRIM(?))
-    IF NOT EXISTS(SELECT TOP 1*
-                  FROM   RESMaster.dbo.MST_EVENT_PRICE
-                  WHERE  EventId =  @eventId
-          AND    StoreId = @storeId
-          AND    COALESCE(DelFlag, '0')! = '1')
-        SET @storeId = '0'
-
-    SELECT Top 1*
-    FROM   RESMaster.dbo.MST_EVENT_PRICE
-    WHERE  EventId =  @eventId
-  AND    StoreId = @storeId
-    AND    COALESCE(DelFlag, '0')! = '1'
-  </entry>
-
-  <entry key="get-items-by-plu-prefix">
+<entry key="get-items-by-plu-prefix">
     DECLARE @plu varchar(max), @storeid varchar(max)
     SET @plu = ?
     SET @storeid = ?
@@ -2085,24 +1804,6 @@ ORDER BY
       TrainingFlag = ?
     ORDER BY JournalLine DESC;
   </entry>
-
-  <entry key="get-last-transaction-poslog">
-    SELECT
-      Tx
-    FROM
-      TXL_SALES_JOURNAL
-    WHERE
-      JournalLine = (
-        SELECT
-          MAX(JournalLine)
-        FROM
-          TXL_SALES_JOURNAL
-        WHERE
-          RetailStoreId = ? AND
-          WorkstationId = ? AND
-          TxType = 'Sale')
-  </entry>
-
   <entry key="get-bussiness-date">
     SELECT DISTINCT TOP 1
       StoreId, TodayDate
@@ -2412,17 +2113,6 @@ ORDER BY
         DeleteFlag = 0.0
       ORDER BY DisplayOrder
     </entry>
-
- <entry key="get-all-salesPerson">
-       SELECT
-             OpeKanaName,
-             EmpCode,
-             OpeName
-       FROM RESMaster.dbo.MST_EMPINFO
-       WHERE OpeKanaName LIKE  ? + '%' COLLATE Japanese_CI_AS
-       ORDER BY OpeKanaName;
-</entry>
-
 <entry key="get-subtotalDiscount">
        SELECT
            DiscountReason,

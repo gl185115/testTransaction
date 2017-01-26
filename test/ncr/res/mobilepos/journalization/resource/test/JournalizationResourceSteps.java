@@ -302,15 +302,6 @@ public class JournalizationResourceSteps extends Steps{
         result = poslog;
     }
 
-    @When("a request for last transaction to a storeid{$storeid}"
-            + " and terminalid{$terminald}")
-    public final void getLastTransaction(final String storeid,
-            final String terminalid) {
-        poslog = journalizationResource
-                    .getLastNormalTransaction(terminalid, storeid);
-        result = poslog;
-    }
-
     @When("executing journal log with xml{$poslogxml}"
             + " and trainingmode{$trainingmode}")
     public final void executeJournalLog(final String poslogXml, final int trainingMode) {
@@ -321,18 +312,6 @@ public class JournalizationResourceSteps extends Steps{
     @When("business date is retrieved")
     public final void getBusinessDate(String companyid, String storeid) {
         businessDate = journalizationResource.getBussinessDate(companyid, storeid);
-    }
-
-    String transactionNum = "";
-    @When("I request for new transaction number")
-    public final void getTransactionNumber() {
-        transactionNum = journalizationResource.getTransactionNumber();
-    }
-
-    String transactionNumTemp2 = "";
-    @When("I request another new transaction number")
-    public final void getAnotherTransactionNumber(){
-        transactionNumTemp2 = journalizationResource.getTransactionNumber();
     }
 
     /*
@@ -470,19 +449,6 @@ public class JournalizationResourceSteps extends Steps{
     @Then("I should have an empty business date")
     public final void emptyBizDate() {
     	assertThat("Bussiness date should be empty ", businessDate, is(equalTo(null)));       
-    }
-
-    @Then("transaction number is generated")
-    public final void validateTransactionNumber() {
-        Assert.assertTrue("Transaction number is not empty", !transactionNum.isEmpty());
-    }
-
-    @Then("new transaction number is increase by 1")
-    public final void validateAnotherTransactionNumber() {
-        int transactionNumTemp = Integer.valueOf(transactionNum);
-        transactionNumTemp++;
-        Assert.assertTrue("The new transaction number is increase by 1",
-                Integer.valueOf(transactionNumTemp2)== transactionNumTemp);
     }
 
     @Then("the $dbTableName database table should have the following row(s): "

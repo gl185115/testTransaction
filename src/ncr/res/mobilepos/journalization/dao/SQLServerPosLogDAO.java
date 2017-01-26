@@ -1752,51 +1752,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
         return tp.methodExit(strResult);
     }
-
-    /**
-     * Get the latest available Normal POSlog Transaction.
-     *
-     * @param terminalid
-     *            The terminal ID for the transaction
-     * @param storeid
-     *            The store ID for the transaction
-     * @return Returns a POSLog Xml of the latest available POSLog
-     * @throws DaoException
-     *             The exception thrown when getting the last Transaction
-     *             Information fails
-     */
-    @Override
-    public final String getLastNormalTransaction(final String terminalid, final String storeid) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("Terminal ID", terminalid).println("Store ID", storeid);
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        String posLogXML = "";
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-last-transaction-poslog"));
-
-            select.setString(SQLStatement.PARAM1, storeid);
-            select.setString(SQLStatement.PARAM2, terminalid);
-            result = select.executeQuery();
-            if (result.next()) {
-                posLogXML = result.getString(result.findColumn("tx"));
-            } else {
-                tp.println("No last normal transaction found.");
-            }
-        } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to get last normal transaction.", ex);
-            throw new DaoException("Exception: @getLastNormalTransaction - " + ex.getMessage(), ex);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-        }
-        return tp.methodExit(posLogXML);
-    }
-
+    
     @Override
     public final List<TransactionSearch> searchTransactions(final String limit, final String from, final String line,
             final String storeId, final String deviceId, final String itemName, final String subCode4,

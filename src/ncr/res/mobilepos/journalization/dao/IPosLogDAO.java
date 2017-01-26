@@ -83,18 +83,6 @@ public interface IPosLogDAO {
 	String getBussinessDate(String companyId, String storeId, String switchTime) throws DaoException;
 	
 	/**
-     * Get the most latest available Normal POSlog Transaction.
-     * @param terminalid      The terminal ID for the transaction
-     * @param storeid         The store ID for the transaction
-     * @return                Returns a POSLog Xml of the
-     *                            latest available POSLog
-     * @throws DaoException   The exception thrown when getting
-     *                            the last Transaction Information fails
-     */
-	String getLastNormalTransaction(String terminalid, String storeid) 
-			throws DaoException;
-	
-	/**
      * Search transactions.
      *
      * @param limit					search results limit

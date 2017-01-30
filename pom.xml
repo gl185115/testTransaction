@@ -30,17 +30,6 @@
         <myVersion>temp</myVersion>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>jahia</id>
-            <name>jahia</name>
-            <url>http://maven.jahia.org/maven2</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <distributionManagement>
         <repository>
             <id>resmex-releases</id>
@@ -85,7 +74,8 @@
             <groupId>atg.taglib.json</groupId>
             <artifactId>json-taglib</artifactId>
             <version>0.4.1</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${basedir}/WebContent/WEB-INF/lib/json-taglib-0.4.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>dom4j</groupId>

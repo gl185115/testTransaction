@@ -124,12 +124,12 @@ public class JournalizationResourceSteps extends Steps{
 
     @Given("a RESMaster DBInitiator")
     public final void createDBInitiatorRESMaster() {
-        dbInitMaster = new DBInitiator("RESMaster", DATABASE.RESMaster);
+        dbInitMaster = new DBInitiator("JournalizationResourceSteps", DATABASE.RESMaster);
     }
 
     @Given("a RESTransaction DBInitiator")
     public final void createDBInitiatorRESTransaction() {
-        dbInitTransaction = new DBInitiator("RESTransaction", DATABASE.RESTransaction);
+        dbInitTransaction = new DBInitiator("JournalizationResourceSteps", DATABASE.RESTransaction);
     }
 
     @Given("a corpid{$corpid}")
@@ -571,6 +571,39 @@ public class JournalizationResourceSteps extends Steps{
             				.trim());
             		i++;
             	}
+            } else if (dbTableName.equals("TXU_SOFTWARE_VERSION")) {
+            	int i  = 0;
+            	// |CompanyId|StoreId|TerminalId|Container|MobileShop|RESTransaction|RESTabletUI|RESUiConfig|
+            	for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+            		assertEquals("Compare CompanyId in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("CompanyId"), 
+            				String.valueOf(actualDataTable.getValue(i, "CompanyId"))
+            				.trim());
+            		assertEquals("Compare StoreId in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("StoreId"), 
+            				String.valueOf(actualDataTable.getValue(i, "StoreId"))
+            				.trim());
+            		assertEquals("Compare TerminalId in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("TerminalId"), 
+            				String.valueOf(actualDataTable.getValue(i, "TerminalId"))
+            				.trim());
+            		assertEquals("Compare Container in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("Container"), 
+            				String.valueOf(actualDataTable.getValue(i, "Container")).trim());
+            		assertEquals("Compare MobileShop in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("MobileShop"), 
+            				String.valueOf(actualDataTable.getValue(i, "MobileShop")).trim());
+            		assertEquals("Compare RESTransaction in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("RESTransaction"), 
+            				String.valueOf(actualDataTable.getValue(i, "RESTransaction")).trim());
+            		assertEquals("Compare RESTabletUI in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("RESTabletUI"), 
+            				String.valueOf(actualDataTable.getValue(i, "RESTabletUI")).trim());
+            		assertEquals("Compare RESUiConfig in TXU_SOFTWARE_VERSION row " + i, 
+            				expectedInfo.get("RESUiConfig"), 
+            				String.valueOf(actualDataTable.getValue(i, "RESTabletUI")).trim());
+            		i++;
+            	}
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -578,6 +611,49 @@ public class JournalizationResourceSteps extends Steps{
         }
     }
 
+    @Then("RESMaster {$dbTableName} database table should have the following row(s): $expected")
+    public final void testPOSLogs(String dbTableName, ExamplesTable expectedDataTable) throws IOException {
+        try {
+        	ITable actualDataTable = dbInitMaster.getTableSnapshot(dbTableName);
+        	//|StoreId|TerminalId|CompanyId||LastTxId|Training|Status|
+            assertEquals("Compare the number of rows in " + dbTableName, 
+            		expectedDataTable.getRowCount(),
+                    actualDataTable.getRowCount());
+
+            int i = 0;
+            for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+        		assertEquals("Compare StoreId in MST_DEVICEINFO row " + i, 
+        				expectedInfo.get("StoreId"), 
+        				String.valueOf(actualDataTable.getValue(i, "StoreId"))
+        				.trim());
+        		assertEquals("Compare TerminalId in MST_DEVICEINFO row " + i, 
+        				expectedInfo.get("TerminalId"), 
+        				String.valueOf(actualDataTable.getValue(i, "TerminalId"))
+        				.trim());
+        		assertEquals("Compare CompanyId in MST_DEVICEINFO row " + i, 
+        				expectedInfo.get("CompanyId"), 
+        				String.valueOf(actualDataTable.getValue(i, "CompanyId"))
+        				.trim());        		
+        		assertEquals("Compare LastTxId in MST_DEVICEINFO row " + i, 
+        				expectedInfo.get("LastTxId"), 
+        				String.valueOf(actualDataTable.getValue(i, "LastTxId"))
+        				.trim());
+        		assertEquals("Compare Training in MST_DEVICEINFO row " + i, 
+        				expectedInfo.get("Training"), 
+        				String.valueOf(actualDataTable.getValue(i, "Training"))
+        				.trim());
+        		assertEquals("Compare Status in MST_DEVICEINFO row " + i, 
+        				expectedInfo.get("Status"), 
+        				String.valueOf(actualDataTable.getValue(i, "Status"))
+        				.trim());
+        		i++;
+        	}
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Assert.fail("Fail to test the entry in TXL_SALES_JOURNAL.");
+        }
+    }
+    
     @Then("I should get the following: $expected")
     public final void testPOSLogs(ExamplesTable expectedDataTable) throws IOException {
         try {

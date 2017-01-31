@@ -1669,29 +1669,29 @@ ORDER BY
     set @resTabletUi=?
     set @resUiConfig=?
 
-    IF EXISTS (select container from txu_software_version
-               where storeId=@storeId and terminalId=@terminalId and companyId=@companyId)
-      UPDATE txu_software_version
+    IF EXISTS (select Container from TXU_SOFTWARE_VERSION
+               where StoreId=@storeId and TerminalId=@terminalId and CompanyId=@companyId)
+      UPDATE TXU_SOFTWARE_VERSION
        SET
-       companyId = @companyId
-       ,storeId = @storeId
-       ,terminalId = @terminalId
-       ,container = @container
-       ,mobileShop = @mobileShop
-       ,resTransaction = @resTransaction
-       ,resTabletUi = @resTabletUi
-       ,resUiConfig = @resUiConfig
-      WHERE storeId=@storeId and terminalId=@terminalId and companyId=@companyId
+       CompanyId = @companyId
+       ,StoreId = @storeId
+       ,TerminalId = @terminalId
+       ,Container = @container
+       ,MobileShop = @mobileShop
+       ,RESTransaction = @resTransaction
+       ,RESTabletUI = @resTabletUi
+       ,RESUiConfig = @resUiConfig
+      WHERE StoreId=@storeId and TerminalId=@terminalId and CompanyId=@companyId
     ELSE
-      INSERT INTO txu_software_version (
-        companyId
-       ,storeId
-       ,terminalId
-       ,container
-       ,mobileShop
-       ,resTransaction
-       ,resTabletUi
-       ,resUiConfig
+      INSERT INTO TXU_SOFTWARE_VERSION(
+        CompanyId
+       ,StoreId
+       ,TerminalId
+       ,Container
+       ,MobileShop
+       ,RESTransaction
+       ,RESTabletUI
+       ,RESUiConfig
       ) VALUES (
         @companyId
        ,@storeId

@@ -1,0 +1,21 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DEVICEINFO">
+		<column>StoreId</column>
+		<column>TerminalId</column>
+        <column>TillId</column>
+        <column>SendLogFile</column>
+        <column>SaveLogFile</column>
+        <column>AutoUpload</column>
+        <column>UpdDate</column>
+        <column>UpdOpeCode</column>
+        <column>CompanyId</column>
+        <column>Training</column>
+        <column>DeleteFlag</column>
+        <column>InsDate</column>
+        <column>InsAppId</column>
+        <column>InsOpeCode</column>
+        <column>UpdCount</column>
+        <column>UpdAppId</column>
+	</table>
+</dataset>

@@ -42,9 +42,6 @@ public class AuthenticationResourceActivationKeySteps extends Steps{
         new DBInitiator("AuthenticationResource",
                 "test/ncr/res/mobilepos/authentication/resource/test/"
                 + "insertAuthResourceDevices.xml", DATABASE.RESMaster);
-        new DBInitiator("SignActivationList",
-                "test/ncr/res/mobilepos/authentication/resource/datasets/"
-                + "MST_SIGN_ACTIVATION_LIST.xml", DATABASE.RESMaster);
         authresource.setContext(servletContext);
     }
     

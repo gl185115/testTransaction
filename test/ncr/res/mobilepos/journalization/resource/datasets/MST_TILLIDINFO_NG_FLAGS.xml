@@ -1,0 +1,51 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_TILLIDINFO">
+		<column>StoreId</column>
+		<column>TillId</column>
+		<column>BusinessDayDate</column>
+		<column>SodFlag</column>
+		<column>EodFlag</column>
+		<column>InsDate</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<column>CompanyId</column>
+		<column>DeleteFlag</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<row>
+			<value>0031</value>
+			<value>0</value>
+			<value>2014-11-14</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2014-11-14 00:00:00</value>
+			<value>2014-11-14 00:00:00</value>
+			<value>1</value>
+			<value>2</value>
+			<value>01</value>
+			<value>0</value>
+			<value>System</value>
+			<value>9011011</value>
+			<value>0</value>
+		</row>
+		<row>
+			<value>0031</value>
+			<value>1</value>
+			<value>2014-11-14</value>
+			<value>1</value>
+			<value>0</value>
+			<value>2014-11-14 00:00:00</value>
+			<value>2014-11-14 00:00:00</value>
+			<value>1</value>
+			<value>2</value>
+			<value>01</value>
+			<value>0</value>
+			<value>System</value>
+			<value>9011011</value>
+			<value>0</value>
+		</row>
+	</table>
+</dataset>

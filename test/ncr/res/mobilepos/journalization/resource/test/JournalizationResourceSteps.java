@@ -99,6 +99,8 @@ public class JournalizationResourceSteps extends Steps{
         	res = ResultBase.RES_TILL_SOD_FINISHED;
         } else if ("TILL_EOD_FINISHED".equals(condition)) {
         	res = ResultBase.RES_TILL_EOD_FINISHED;
+        } else if ("PARSE_ERROR".equals(condition)) {
+        	res = ResultBase.RES_ERROR_PARSE;
         }
         return res;
     }

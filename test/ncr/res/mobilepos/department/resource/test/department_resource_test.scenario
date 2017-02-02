@@ -1,18 +1,15 @@
 Scenario: Invalid Parameters
 Given I have Department Resource
 !-- Unknown store id 
-When I get Department with companyid{01} companyid{01} storeid{0032} dptid{001}
-Then The DepartmentModel should not be null
+When I get Department with companyid{01} storeid{0032} and dptid{001}
 Then the resultcode should be 180 and extendedResultCode should be 133
 
 !-- Unknown department 
 When I get Department with companyid{01} storeid{0031} and dptid{040}
-Then The DepartmentModel should not be null
 Then the resultcode should be 180 and extendedResultCode should be 133
 
 !-- Unknown store id and Unknown department 
 When I get Department with companyid{01} storeid{0032} and dptid{040}
-Then The DepartmentModel should not be null
 Then the resultcode should be 180 and extendedResultCode should be 133
 
 !-- DepartmentId exceeds to 20 characters

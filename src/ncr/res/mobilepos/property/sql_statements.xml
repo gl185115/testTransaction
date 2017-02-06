@@ -3932,7 +3932,7 @@ ORDER BY
     LEFT JOIN RESMaster.dbo.MST_TILLIDINFO tillidinfo
         ON  deviceinfo.CompanyId = tillidinfo.CompanyId AND
             deviceinfo.StoreId = tillidinfo.StoreId AND
-            deviceinfo.TillId = tillidinfo.TillId
+            deviceinfo.TillId = tillidinfo.TillId AND tillidinfo.DeleteFlag=0
     LEFT JOIN RESMaster.dbo.PRM_QUEUEBUSTER_LINK queuebustr_link
         ON  deviceinfo.StoreId = queuebustr_link.StoreId AND
           deviceinfo.LinkQueueBuster = queuebustr_link.Id
@@ -5888,12 +5888,12 @@ ORDER BY
   </entry>
 
     <entry key="get-till-info">
-      SELECT
-      StoreId, TillId, BusinessDayDate, SodFlag, EodFlag
-    FROM
-      RESMaster.dbo.MST_TILLIDINFO
-    WHERE
-      StoreId=? AND TillId=?
+      	SELECT
+      		StoreId, TillId, BusinessDayDate, SodFlag, EodFlag
+    	FROM
+      		RESMaster.dbo.MST_TILLIDINFO
+    	WHERE
+      		StoreId=? AND TillId=? AND DeleteFlag=0
     </entry>
 
     <entry key="create-till-info">
@@ -5906,8 +5906,9 @@ ORDER BY
          InsDate,
          UpdDate,
          UpdAppId,
-         UpdOpeCode)
-     VALUES(?,?,?,?,?,GETDATE(),GETDATE(),?,?);
+         UpdOpeCode,
+         DeleteFlag)
+     VALUES(?,?,?,?,?,GETDATE(),GETDATE(),?,?,0);
     </entry>
 
   <entry key="select-till-updlock">
@@ -5938,22 +5939,21 @@ ORDER BY
        StoreId = @storeid AND
        TillId = @tillid AND
        BusinessDayDate = @businessdaydate AND
-       EodFlag = @eodflag
-
+       EodFlag = @eodflag AND
+       DeleteFlag=0
+       
     COMMIT TRAN
   </entry>
 
   <entry key="fetch-one-till">
     SELECT
-    CompanyId, StoreId, TillId, TerminalId,
-    BusinessDayDate, SodFlag, EodFlag,
-    DeleteFlag, DelDate, DelAppId, DelOpeCode,
-    InsDate, InsAppId, InsOpeCode,
-    UpdCount, UpdDate, UpdAppId, UpdOpeCode
+    	CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SodFlag, EodFlag,
+    	DeleteFlag, DelDate, DelAppId, DelOpeCode, InsDate, InsAppId, InsOpeCode,
+    	UpdCount, UpdDate, UpdAppId, UpdOpeCode
     FROM
-    RESMaster.dbo.MST_TILLIDINFO
+    	RESMaster.dbo.MST_TILLIDINFO
     WHERE
-    CompanyId = ? AND StoreId= ? AND TillId = ?
+    	CompanyId = ? AND StoreId= ? AND TillId = ? AND DeleteFlag = 0
   </entry>
 
   <entry key="update-till-operation-flag">
@@ -5972,7 +5972,8 @@ ORDER BY
       StoreId = ? AND
       TillId = ? AND
       SodFlag = ? AND
-      EodFlag = ?
+      EodFlag = ? AND 
+      DeleteFlag = 0
   </entry>
 
   <entry key="update-sod-till-updlock">
@@ -6003,7 +6004,8 @@ ORDER BY
     WHERE
       StoreId = @storeid AND
        TillId = @tillid AND
-       SodFlag = @sodflagtochange
+       SodFlag = @sodflagtochange AND
+       DeleteFlag=0
 
     UPDATE
       RESMaster.dbo.MST_TILLIDINFO
@@ -6016,7 +6018,8 @@ ORDER BY
     WHERE
        StoreId = @storeid AND
        TillId = @tillid AND
-       SodFlag = @sodflagtochange
+       SodFlag = @sodflagtochange AND
+       DeleteFlag=0
     COMMIT TRAN
   </entry>
 
@@ -6048,8 +6051,8 @@ ORDER BY
         WHERE
             StoreId = @storeid AND
             TillId = @tillid AND
-            EodFlag = @eodflagtochange
-
+            EodFlag = @eodflagtochange AND
+            DeleteFlag = 0
         UPDATE
             RESMaster.dbo.MST_TILLIDINFO
         SET
@@ -6061,7 +6064,8 @@ ORDER BY
         WHERE
             StoreId = @storeid AND
             TillId = @tillid AND
-            EodFlag = @eodflagtochange
+            EodFlag = @eodflagtochange AND
+            DeleteFlag = 0
         COMMIT TRAN
     </entry>
   <entry key="update-previous-amount">
@@ -6136,7 +6140,8 @@ ORDER BY
        StoreId = @storeid AND
        TillId = @tillid AND
        SodFlag = @sodflagtochange AND
-       EodFlag = @eodflagtochange
+       EodFlag = @eodflagtochange AND 
+       DeleteFlag = 0
 
     UPDATE
       RESMaster.dbo.MST_TILLIDINFO
@@ -6150,7 +6155,8 @@ ORDER BY
        StoreId = @storeid AND
        TillId = @tillid AND
        SodFlag = @sodflagtochange AND
-       EodFlag = @eodflagtochange
+       EodFlag = @eodflagtochange AND 
+       DeleteFlag = 0
     COMMIT TRAN
   </entry>
 
@@ -6186,7 +6192,8 @@ ORDER BY
     WHERE
       CompanyId = @companyid AND
       StoreId = @storeid AND
-      TillId = @tillid
+      TillId = @tillid AND
+      DeleteFlag = 0
 
     UPDATE
       RESMaster.dbo.MST_TILLIDINFO
@@ -6198,7 +6205,8 @@ ORDER BY
     WHERE
        CompanyId = @companyid AND
        StoreId = @storeid AND
-       TillId = @tillid
+       TillId = @tillid AND
+       DeleteFlag = 0
     COMMIT TRAN
   </entry>
 
@@ -6213,7 +6221,7 @@ ORDER BY
         SET @limit = (CASE
                      WHEN(@limit > -1)
                         THEN @limit
-                        ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_TILLIDINFO)
+                        ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_TILLIDINFO WHERE DeleteFlag=0)
                      END)
         SELECT TOP(@limit)
             StoreId,
@@ -6226,6 +6234,7 @@ ORDER BY
         FROM RESMaster.dbo.MST_TILLIDINFO
         WHERE (@storeid IS NULL OR len(@storeid) = 0 OR StoreId like @storeid)
         AND (@tillid IS NULL OR len(@tillid) = 0 OR TillId like @tillid)
+        AND DeleteFlag=0
         ORDER BY TillId;
     </entry>
 

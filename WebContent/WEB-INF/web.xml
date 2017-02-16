@@ -373,26 +373,26 @@
 	<filter-class>ncr.realgate.servlet.filter.CompressionFilter</filter-class>
   </filter>
   <filter>
-    <filter-name>CORS</filter-name>
-    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+    <filter-name>CorsFilter</filter-name>
+    <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
     <init-param>
-      <param-name>cors.supportedHeaders</param-name>
+      <param-name>cors.allowed.headers</param-name>
       <param-value>Authorization, Origin, Accept, Content-Type</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.supportedMethods</param-name>
+      <param-name>cors.allowed.methods</param-name>
       <param-value>GET, POST, PUT, DELETE, OPTIONS</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.exposedHeaders</param-name>
+      <param-name>cors.exposed.headers</param-name>
       <param-value>Authorization, Accept, Content-Type</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.supportsCredentials</param-name>
+      <param-name>cors.support.credentials</param-name>
       <param-value>true</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.maxAge</param-name>
+      <param-name>cors.preflight.maxage</param-name>
       <param-value>3600</param-value>
     </init-param>
   </filter>
@@ -401,7 +401,7 @@
     <servlet-name>resTransaction</servlet-name>
   </filter-mapping>
   <filter-mapping>
-    <filter-name>CORS</filter-name>
+    <filter-name>CorsFilter</filter-name>
     <servlet-name>resTransaction</servlet-name>
   </filter-mapping>
 </web-app>

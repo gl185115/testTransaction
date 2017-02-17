@@ -73,31 +73,31 @@ public class TillInfoResourceSteps extends Steps {
         if ("OK".equals(condition)){
             res = 0;
         } else if ("STORE_INVALID_PARAMS".equals(condition)){
-            res = ResultBase.RES_STORE_INVALIDPARAMS;
+            res = ResultBase.RES_STORE_INVALIDPARAMS; // 701
         } else if ("TILL_NOT_EXIST".equals(condition)){
-            res = ResultBase.RES_TILL_NOT_EXIST;
+            res = ResultBase.RES_TILL_NOT_EXIST; // 1500
         } else if ("TILL_INVALID_PARAMS".equals(condition)){
-            res = ResultBase.RES_TILL_INVALIDPARAMS;
+            res = ResultBase.RES_TILL_INVALIDPARAMS; // 1501
         } else if ("SOD_PROCESSING".equals(condition)){
-            res = ResultBase.RES_TILL_SOD_PROCESSING;
+            res = ResultBase.RES_TILL_SOD_PROCESSING; // 1504
         } else if ("SOD_FINISHED".equals(condition)){
-            res = ResultBase.RES_TILL_SOD_FINISHED;
+            res = ResultBase.RES_TILL_SOD_FINISHED; // 1505
         } else if ("SOD_UNFINISHED".equals(condition)){
-            res = ResultBase.RES_TILL_SOD_UNFINISHED;
+            res = ResultBase.RES_TILL_SOD_UNFINISHED; // 1508
         } else if ("INVALID_SOD_FLAG".equals(condition)){
-            res = ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL;
+            res = ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL; // 1506
         } else if ("INVALID_BIZDATE".equals(condition)){
-            res = ResultBase.RES_TILL_INVALID_BIZDATE;
+            res = ResultBase.RES_TILL_INVALID_BIZDATE; // 1507
         } else if ("DATABASE_ERROR".equals(condition)){
-            res = ResultBase.RES_ERROR_DB;
+            res = ResultBase.RES_ERROR_DB; // 134
         } else if ("DAO_ERROR".equals(condition)) {
-        	res = ResultBase.RES_ERROR_DAO;
+        	res = ResultBase.RES_ERROR_DAO; // 139
         } else if ("GENERAL_ERROR".equals(condition)){
-            res = ResultBase.RES_ERROR_GENERAL;
+            res = ResultBase.RES_ERROR_GENERAL; // 133
         } else if ("RES_ERROR_INVALIDPARAMETER".equals(condition)){
-            res = ResultBase.RES_ERROR_INVALIDPARAMETER;
+            res = ResultBase.RES_ERROR_INVALIDPARAMETER; // 154
         } else if ("RES_ERROR_NO_BIZDATE".equals(condition)){
-            res = ResultBase.RES_NO_BIZDATE;
+            res = ResultBase.RES_NO_BIZDATE;  // 1518
         }  
         
         return res;

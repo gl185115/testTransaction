@@ -7,7 +7,7 @@ package ncr.res.mobilepos.test;
 import org.jbehave.core.configuration.Configuration;
 import org.jbehave.core.configuration.MostUsefulConfiguration;
 import org.jbehave.core.failures.FailingUponPendingStep;
-import org.jbehave.core.failures.FailureStrategy;
+import org.jbehave.core.failures.PendingStepStrategy;
 import org.jbehave.core.io.LoadFromClasspath;
 import org.jbehave.core.io.StoryLoader;
 import org.jbehave.core.io.StoryPathResolver;
@@ -26,6 +26,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.jbehave.core.reporters.Format.CONSOLE;
+import static org.jbehave.core.reporters.Format.TXT;
+import static org.jbehave.core.reporters.Format.XML;
+import static org.jbehave.core.reporters.Format.HTML;
 
 @Ignore
 public class TestRunnerScenario extends JUnitStory {
@@ -53,20 +56,17 @@ public class TestRunnerScenario extends JUnitStory {
         config.useStoryLoader(storyLoader);
 
         // FailureStrategy
-        FailureStrategy failureStrategy = new FailingUponPendingStep();
-        config.useFailureStrategy(failureStrategy);
+        PendingStepStrategy failureStrategy = new FailingUponPendingStep();
+        config.usePendingStepStrategy(new FailingUponPendingStep());
 
         // StoryReporterBuilder
         StoryReporterBuilder reporterBuilder = new StoryReporterBuilder();
-//        reporterBuilder.withDefaultFormats();
+        reporterBuilder.withDefaultFormats();
         reporterBuilder.withFormats(
-                CONSOLE);
-
- //        reporterBuilder.withFormats(
-//                CONSOLE,
-//                TXT,
-//                HTML,
-//                XML);
+                CONSOLE,
+                TXT,
+                HTML,
+                XML);
         config.useStoryReporterBuilder(reporterBuilder);
 
         // ParameterConverters - Adds EmptryStringConverter

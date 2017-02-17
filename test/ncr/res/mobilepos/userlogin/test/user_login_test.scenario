@@ -4,7 +4,7 @@ Given a companyid 01 storeid 0247 terminalid 0001
 When I login with operator 9011011 passcode 9011011 demo false
 Then I should get the following operator details:
 |ncrwssresultcode	|operatorname	|operatorkananame	|operatortype	|isTransactions	|isReports	|isSettings	|isMerchandise	|isAdministration	|isDrawer	|
-|0					|æ±ç”¨è²©å£²å“¡3		|ï¾Šï¾ï¾–ï½³ï¾Šï¾ï¾Šï¾ï½²ï½²ï¾3		|1				|false			|false		|false 		|false			|false				|false		|
+|0					|”Ä—p”Ì”„ˆõ3		|ÊİÖ³ÊİÊŞ²²İ3		|1				|false			|false		|false 		|false			|false				|false		|
 Then I should get the following operator security status:
 |ncrwssresultcode	|securitylevel	|isSecLevel1	|isSecLevel2	|isSecLevel3	|isSecLevel4	|isSecLevel5	|isSecLevel6	|isSecLevel7	|isSecLevel8	|isSecLevel9	|isSecLevel10	|
 |0					|1				|true			|true			|true			|true			|true			|true			|true			|false			|false			|false			|
@@ -18,7 +18,7 @@ Given a companyid 01 storeid 0247 terminalid 0001
 When I login with operator 9011011 passcode 9011011 demo false
 Then I should get the following operator details:
 |ncrwssresultcode	|operatorname	|operatorkananame	|operatortype	|isTransactions	|isReports	|isSettings	|isMerchandise	|isAdministration	|isDrawer	|
-|0					|æ±ç”¨è²©å£²å“¡3		|ï¾Šï¾ï¾–ï½³ï¾Šï¾ï¾Šï¾ï½²ï½²ï¾3		|1				|false			|false		|false 		|false			|false				|false		|
+|0					|”Ä—p”Ì”„ˆõ3		|ÊİÖ³ÊİÊŞ²²İ3		|1				|false			|false		|false 		|false			|false				|false		|
 Then I should get the following operator security status:
 |ncrwssresultcode	|securitylevel	|isSecLevel1	|isSecLevel2	|isSecLevel3	|isSecLevel4	|isSecLevel5	|isSecLevel6	|isSecLevel7	|isSecLevel8	|isSecLevel9	|isSecLevel10	|
 |0					|1				|true			|true			|true			|true			|true			|true			|true			|false			|false			|false			|

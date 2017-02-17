@@ -18,13 +18,13 @@ import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 import static org.mockito.Mockito.*;
 
@@ -80,7 +80,7 @@ public class UserLoginSteps extends Steps {
      *
      * @param filename the xml file.
      */
-    @Given("an initial data from {$filename}")
+    @Given("an initial data from $filename")
     public final void givenInitialData(final String filename) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
@@ -106,7 +106,7 @@ public class UserLoginSteps extends Steps {
      * @param storeId
      * @param terminalId
      */
-    @Given("a companyid{$companyid} storeid{$storeid} terminalid{$terminalid}")
+    @Given("a companyid $companyid storeid $storeid terminalid $terminalid")
     public final void givenTheFollowing(final String companyId, final String storeId, final String terminalId){
     	this.companyId = companyId;
     	this.storeId = storeId;
@@ -117,7 +117,7 @@ public class UserLoginSteps extends Steps {
      * Start SOD.
      * @param filename
      */
-    @Given("that SOD has started {$filename}")
+    @Given("that SOD has started $filename")
     public final void givenSOD(final String filename) {
     	try {
 			dbinit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
@@ -137,7 +137,7 @@ public class UserLoginSteps extends Steps {
      * @param terminal
      *            The terminal id
      */
-	@When("I login with operator{$operatorNo} passcode{$passcode} demo{$isDemoParam}")
+	@When("I login with operator $operatorNo passcode $passcode demo $isDemoParam")
 	public final void signOn(final String operatorNo, final String passcode, final String isDemoParam) {
 		try {
 			boolean isDemo = isDemoParam.equals("true") ? true: false;

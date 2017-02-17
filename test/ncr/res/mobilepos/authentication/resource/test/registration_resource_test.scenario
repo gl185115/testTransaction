@@ -1,10 +1,10 @@
 Scenario: Initialization Common
 Given AUT_DEVICES is empty
-Given dataset {MST_CORP_URL.xml} is loaded
+Given dataset MST_CORP_URL.xml is loaded
 
 Scenario: Device Registration invalid passcode
 Given a Registration Resource
-When I register a device of companyid{01} storeid{0001} deviceid{1111} devicename{Firefox} passcode{124} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 0001 deviceid 1111 devicename Firefox passcode 124 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 13
 Then the device data returned should be:
 |corpid|corpname|storeid|storename|deviceid|devicename|
@@ -12,7 +12,7 @@ Then the device data returned should be:
 
 Scenario: Device Registration unknown storeid in CORPSTORE
 Given a Registration Resource
-When I register a device of companyid{01} storeid{000001} deviceid{1111} devicename{Firefox} passcode{999} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 000001 deviceid 1111 devicename Firefox passcode 999 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 11
 Then the device data returned should be:
 |corpid|corpname|storeid|storename|deviceid|devicename|
@@ -20,7 +20,7 @@ Then the device data returned should be:
 
 Scenario: Device Registration Permission denied
 Given a Registration Resource
-When I register a device of companyid{01} storeid{000033} deviceid{1111} devicename{Firefox} passcode{999} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 000033 deviceid 1111 devicename Firefox passcode 999 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 14
 Then the device data returned should be:
 |corpid|corpname|storeid|storename|deviceid|devicename|
@@ -28,7 +28,7 @@ Then the device data returned should be:
 
 Scenario: Device Registration success
 Given a Registration Resource
-When I register a device of companyid{01} storeid{000031} deviceid{1111} devicename{device 1111} passcode{999} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 000031 deviceid 1111 devicename device 1111 passcode 999 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 0
 Then the device data returned should be:
 |storeid	|storename	|deviceid	|devicename		|
@@ -36,12 +36,12 @@ Then the device data returned should be:
 
 Scenario: Device Registration duplicate storeid, terminalid
 Given a Registration Resource
-When I register a device of companyid{01} storeid{000031} deviceid{1111} devicename{device1111@888} passcode{999} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 000031 deviceid 1111 devicename device1111@888 passcode 999 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 101
 
 Scenario: Device Registration success
 Given a Registration Resource
-When I register a device of companyid{01} storeid{000031} deviceid{2222} devicename{device's 2222} passcode{999} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 000031 deviceid 2222 devicename device's 2222 passcode 999 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 0
 Then the device data returned should be:
 |storeid	|storename	|deviceid	|devicename		|
@@ -49,7 +49,7 @@ Then the device data returned should be:
 
 Scenario: Device Registration duplicate terminalid but in different store
 Given a Registration Resource
-When I register a device of companyid{01} storeid{000032} deviceid{1111} devicename{device1111@999-000032} passcode{999} udid{0000000000000000000000000000000000000000} uuid{eb7068c3-9412-4024-86a9-c42ff5c908f1} signstatus{1} signtid{} signactivationkey{}
+When I register a device of companyid 01 storeid 000032 deviceid 1111 devicename device1111@999-000032 passcode 999 udid 0000000000000000000000000000000000000000 uuid eb7068c3-9412-4024-86a9-c42ff5c908f1 signstatus 1 signtid {} signactivationkey {}
 Then result should be 0
 Then the device data returned should be:
 |corpid|corpname|storeid|storename|deviceid|devicename|

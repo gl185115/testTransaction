@@ -20,13 +20,13 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 public class RegistrationSteps extends Steps {
 	private DBInitiator dbInit = null;
@@ -57,7 +57,7 @@ public class RegistrationSteps extends Steps {
 		Requirements.TearDown();
 	}
 
-	@Given("a deviceinfo{$dataset} in database")
+	@Given("a deviceinfo $dataset in database")
 	public final void initdatasetsDpt(final String dataset) {
 		try {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, dataset);
@@ -66,7 +66,7 @@ public class RegistrationSteps extends Steps {
 		}
 	}
 
-	@Given("the Web API Starts Up with {$systemConDataSet} System Configuration")
+	@Given("the Web API Starts Up with $systemConDataSet System Configuration")
 	public final void GivenThatTheWebAPIStartsUpSytstemConfiguration(
 			String systemConDataSet) {
 		servletContext = null;
@@ -102,12 +102,12 @@ public class RegistrationSteps extends Steps {
 		}
 	}
 	
-	@When("I get device attribute companyid{$companyid} storeid{$storeid} terminalid{$terminalid}")
+	@When("I get device attribute companyid $companyid storeid $storeid terminalid $terminalid")
 	public final void whenIRegisterDevice(String companyId, String storeId, String terminalId){
 		deviceAttribute = deviceInfoResource.getDeviceAttribute(companyId, storeId, terminalId);
 	}
 	
-	@Then("I should get the resultcode resultCode{$resultCode}")
+	@Then("I should get the resultcode resultCode $resultCode")
 	public final void registerDeviceFailed(String resultCode){
 		int result = Integer.parseInt(resultCode);
 		Assert.assertEquals(result, deviceAttribute.getNCRWSSResultCode());
@@ -126,7 +126,7 @@ public class RegistrationSteps extends Steps {
 		}
 	}
 	
-	@When("I register device companyid{$companyid} storeid{$storeid} terminalid{$terminalid} devicename{$devicename} passcode{$passcode} uuid{$uuid} udid{$udid} signstatus{$signstatus}")
+	@When("I register device companyid $companyid storeid $storeid terminalid $terminalid devicename $devicename passcode $passcode uuid $uuid udid $udid signstatus $signstatus")
 	public final void whenIRegisterDevice(String companyId, String storeId, String terminalId, String deviceName, String passCode, String uuid, String udid, String signstatus){
 		int signin = Integer.parseInt(signstatus);
 		deviceStatus = registerResource.registerDevice(companyId, storeId, terminalId, deviceName, passCode, udid, uuid, signin, "", "");
@@ -146,12 +146,12 @@ public class RegistrationSteps extends Steps {
 		}
 	}
 	
-	@Then("I should get the following attribute message{$message}")
+	@Then("I should get the following attribute message $message")
 	public final void thenIshouldgetAttributeMessage(String message){
 		Assert.assertEquals(message, resultbase.getMessage());
 	}
 	
-	@Then("I should get the following terminal info response{$response}")
+	@Then("I should get the following terminal info response $response")
 	public final void thenIshouldgetTermninalInfoResponse(String response){
 		Assert.assertEquals(response, String.valueOf(viewTerminalInfo.getNCRWSSResultCode()));
 	}

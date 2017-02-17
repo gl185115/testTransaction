@@ -1,20 +1,30 @@
 package ncr.res.mobilepos.promotion.discount.test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import junit.framework.Assert;
+
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import javax.servlet.ServletContext;
-import junit.framework.Assert;
+
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
@@ -25,16 +35,10 @@ import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
-import org.skyscreamer.jsonassert.JSONAssert;
-import org.skyscreamer.jsonassert.JSONCompareMode;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 @SuppressWarnings("deprecation")
 public class PromotionResourceTestSteps extends Steps {
@@ -77,7 +81,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 	}
 
-	@Given("a businessdate {$file}")
+	@Given("a businessdate $file")
 	public final void noBusinessdateSet(String fileName) {
 		try {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
@@ -99,7 +103,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 	}
 
-	@When("the Web API Starts Up with {$systemConDataSet} System Configuration")
+	@When("the Web API Starts Up with $systemConDataSet System Configuration")
 	public final void theWebAPIStartsUpSytstemConfiguration(
 			String systemConDataSet) {
 		servletContext = null;
@@ -112,7 +116,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 	}
 
-	@When("a Begin Transaction at promotion with parameters RetailStoreID{$retailStoreID} WorkStationId{$workStationID} SequenceNo{$seqNo} TransactionJson{$transactionJson} CompanyId{$companyId}")
+	@When("a Begin Transaction at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId")
 	public final void aBeginTransactionAtPromotionWithParameters(
 			String retailStoreId, String workStationId, String sequenceNo,
 			String transactionJson, String companyId) {
@@ -134,7 +138,7 @@ public class PromotionResourceTestSteps extends Steps {
 				transactionJson);
 	}
 
-	@When("a Item Entry at promotion with parameters RetailStoreID{$retailStoreID} WorkStationId{$workStationID} SequenceNo{$seqNo} TransactionJson{$transactionJson} CompanyId{$companyId} Businessdate{$businessDate}")
+	@When("a Item Entry at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId Businessdate $businessDate")
 	public final void aItemEntryAtPromotionWithParameters(String retailStoreId,
 			String workStationId, String sequenceNo, String transactionJson,
 			String companyId, String businessDate) {
@@ -156,7 +160,7 @@ public class PromotionResourceTestSteps extends Steps {
 				businessDate);
 	}
 
-	@When("I request to update Item Quantity at promotion with parameters RetailStoreID{$retailStoreID} WorkStationID{$workStationID} SequenceNo{$sequenceNumber} and TransactionJson{$transactionJson}")
+	@When("I request to update Item Quantity at promotion with parameters RetailStoreID $retailStoreID WorkStationID $workStationID SequenceNo $sequenceNumber and TransactionJson $transactionJson")
 	public final void itemQuantityAtPromotionWithParameters(
 			final String retailStoreId, final String workStationId,
 			final String sequenceNumber, final String transactionJson,
@@ -173,7 +177,7 @@ public class PromotionResourceTestSteps extends Steps {
 				workStationIdTemp, sequenceNumberTemp, transactionJsonTemp);
 	}
 
-	@When("I request to update Item at promotion with parameters RetailStoreID{$retailStoreID} WorkStationID{$workStationID} SequenceNo{$sequenceNumber} and TransactionJson{$transactionJson}")
+	@When("I request to update Item at promotion with parameters RetailStoreID $retailStoreID WorkStationID $workStationID SequenceNo $sequenceNumber and TransactionJson $transactionJson")
 	public final void itemUpdateAtPromotionWithParameters(
 			final String retailStoreId, final String workStationId,
 			final String sequenceNumber, final String transactionJson,
@@ -190,7 +194,7 @@ public class PromotionResourceTestSteps extends Steps {
 				workStationIdTemp, sequenceNumberTemp, transactionJsonTemp);
 	}
 
-	@When("I end the transaction at promotion with retailstoreid{$retailstoreid} workstationid{$workstationid} sequencenumber{$sequencenumber} and transactionJson{$transactionJson}")
+	@When("I end the transaction at promotion with retailstoreid $retailstoreid workstationid $workstationid sequencenumber $sequencenumber and transactionJson $transactionJson")
 	public void iEndTheTransaction(final String retailstoreid,
 			final String workstationid, final String sequencenumber,
 			final String transactionJson) {
@@ -198,7 +202,7 @@ public class PromotionResourceTestSteps extends Steps {
 				workstationid, sequencenumber, transactionJson);
 	}
 
-	@SuppressWarnings({ "unchecked" })
+	@SuppressWarnings( "unchecked" )
 	@Then("the following list of TerminalItem are: $expectedTerminalItems")
 	public final void theFollowingListOfTerminalItemAre(
 			ExamplesTable expectedTerminalItems) {
@@ -264,7 +268,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 	}
 
-	@Given("a loaded dataset {$dataset}")
+	@Given("a loaded dataset $dataset")
 	public final void initdatasetsDpt(final String dataset) {
 		try {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, dataset);
@@ -436,7 +440,7 @@ public class PromotionResourceTestSteps extends Steps {
 
 	}
 
-	@When("{$value} PromotionTerminalItems in the context")
+	@When("$value PromotionTerminalItems in the context")
 	public final void setPromotionTermItemsContext(String value) {
 		String valueTemp = value.equalsIgnoreCase("null") ? null : value;
 		servletContext.setAttribute(GlobalConstant.PROMOTION_TERMINAL_ITEMS,
@@ -444,7 +448,7 @@ public class PromotionResourceTestSteps extends Steps {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Then("the following item quantity for Sale(s) in general promotion mix match with TerminalItem{$termitem}: $expectedSales")
+	@Then("the following item quantity for Sale(s) in general promotion mix match with TerminalItem $termitem: $expectedSales")
 	public final void theFollowingItemQuantityForSaleInGeneralPromotionMixMatch(
 			final String termitem, final ExamplesTable expectedSales) {
 		actualTerminalItems = (Map<String, TerminalItem>) servletContext

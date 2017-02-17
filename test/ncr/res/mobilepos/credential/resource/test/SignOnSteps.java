@@ -22,13 +22,13 @@ import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 import static org.mockito.Mockito.*;
 
@@ -93,7 +93,7 @@ public class SignOnSteps extends Steps {
      * @param filename
      *            the filename
      */
-    @Given("an initial data from {$filename}")
+    @Given("an initial data from $filename")
     public final void emptyTable(final String filename) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
@@ -126,7 +126,7 @@ public class SignOnSteps extends Steps {
      *            The terminal id
      */
         
-    @When("signing on companyid{$companyId} operator{$operatorNo} passcode{$passcode} terminal{$terminalId} isdemo{$isDemoParam}")
+    @When("signing on companyid $companyId operator $operatorNo passcode $passcode terminal $terminalId isdemo $isDemoParam")
 	public final void signOn(final String companyId, final String operatorNo, final String passcode, final String terminalId, final String isDemoParam) {
 		boolean isDemo = isDemoParam.equals("true") ? true : false;
 		try {
@@ -144,7 +144,7 @@ public class SignOnSteps extends Steps {
      * @param result
      *            The expected result code.
      */
-    @Then("I should get resultcode {$Result}")
+    @Then("I should get resultcode $Result")
     public final void checkResult(final int result) {
         assertThat(resultBase.getNCRWSSResultCode(), is(equalTo(result)));
     }

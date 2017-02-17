@@ -1,28 +1,29 @@
 package ncr.res.mobilepos.tillinfo.resource.test;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.Assert;
+
+import org.dbunit.dataset.ITable;
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import junit.framework.Assert;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
-import org.dbunit.dataset.ITable;
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import static org.junit.Assert.assertEquals;
 
 public class EODGetExecuteAuthoritySteps extends Steps {
 	
@@ -41,7 +42,7 @@ public class EODGetExecuteAuthoritySteps extends Steps {
         Requirements.TearDown();
     }
     
-    @Given("a {$resource} Resource")
+    @Given("a $resource Resource")
     public final void createResource(String resource) {
     	ServletContext context = Requirements.getMockServletContext();
         if ("TillInfoResource".equalsIgnoreCase(resource)) {
@@ -57,7 +58,7 @@ public class EODGetExecuteAuthoritySteps extends Steps {
         } 
     }
 
-    @Given("a {$databaseName} DBInitiator")
+    @Given("a $databaseName DBInitiator")
     public final void createDBInitiator(String databaseName) {
         if ("RESMaster".equalsIgnoreCase(databaseName)) {
         	dbInitMaster = new DBInitiator("RESMaster", DATABASE.RESMaster);
@@ -67,7 +68,7 @@ public class EODGetExecuteAuthoritySteps extends Steps {
         }
     }
 
-    @Given("a {$databaseName} {$dataset} dataset")
+    @Given("a $databaseName $dataset dataset")
     public final void insertDatabase(String databaseName, String dataset) {
     	try {
 	    	if ("RESMaster".equalsIgnoreCase(databaseName)) {
@@ -85,13 +86,13 @@ public class EODGetExecuteAuthoritySteps extends Steps {
     	}
     }
     
-    @When("I perform a getExecuteAuthotity request with companyid:{$companyId} "
-    		+ "retailstoreid:{$retailStoreId}, "
-    		+ "tillid:{$tillId}, "
-    		+ "terminalid:{$terminalId}, "
-    		+ "operatorno:{$operatorNo}, "
-    		+ "processing:{$processing}, "
-    		+ "compulsoryflag:{$compulsoryFlag}")
+    @When("I perform a getExecuteAuthotity request with companyid:$companyId "
+    		+ "retailstoreid:$retailStoreId, "
+    		+ "tillid:$tillId, "
+    		+ "terminalid:$terminalId, "
+    		+ "operatorno:$operatorNo, "
+    		+ "processing:$processing, "
+    		+ "compulsoryflag:$compulsoryFlag")
     public final void getExecuteAuthority(String companyId, String retailStoreId, String tillId, 
     		String terminalId, String operatorNo, String processing, 
     		String compulsoryFlag) {
@@ -118,12 +119,12 @@ public class EODGetExecuteAuthoritySteps extends Steps {
     			tillId, terminalId, operatorNo, processing, compulsoryFlag);
     }
     
-    @When("I perform a releaseExecuteAuthotity request with companyid:{$companyId} "
-    		+ "retailstoreid:{$retailStoreId}, "
-    		+ "tillid:{$tillId}, "
-    		+ "terminalid:{$terminalId}, "
-    		+ "operatorno:{$operatorNo}, "
-    		+ "processing:{$processing}")
+    @When("I perform a releaseExecuteAuthotity request with companyid:$companyId "
+    		+ "retailstoreid:$retailStoreId, "
+    		+ "tillid:$tillId, "
+    		+ "terminalid:$terminalId, "
+    		+ "operatorno:$operatorNo, "
+    		+ "processing:$processing")
     public final void releaseExecuteAuthority(String companyId, String retailStoreId, String tillId, 
     		String terminalId, String operatorNo, String processing) {
     	if ("null".equalsIgnoreCase(retailStoreId)) {
@@ -147,9 +148,9 @@ public class EODGetExecuteAuthoritySteps extends Steps {
     }
     
     @When("I perform a search request with "
-    		+ "retailstoreid:{$retailStoreId}, "
-    		+ "tillid:{$tillId}, "
-    		+ "terminalid:{$terminalId}")
+    		+ "retailstoreid:$retailStoreId, "
+    		+ "tillid:$tillId, "
+    		+ "terminalid:$terminalId")
     public final void search(String retailStoreId, String tillId, 
     		String terminalId) {
     	if ("null".equalsIgnoreCase(retailStoreId)) {
@@ -166,13 +167,13 @@ public class EODGetExecuteAuthoritySteps extends Steps {
     	resultBase = tillInfoResource.search("01", retailStoreId, tillId, terminalId);
     }
     
-    @Then("ResultCode should be {$resultCode}")
+    @Then("ResultCode should be $resultCode")
     public final void validateResult(String resultCode) {
         assertEquals("Assert that ResultCode equals " + resultCode, 
         		resultCode, String.valueOf(resultBase.getNCRWSSResultCode()));
     }
     
-    @Then("{$databaseName} {$table} should have the following row(s): $rows")
+    @Then("$databaseName $table should have the following row(s): $rows")
     public final void validateDatabase(String databaseName, String table, 
     		ExamplesTable rows) {
     	ITable actualTable = null;

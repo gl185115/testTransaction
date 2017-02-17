@@ -17,12 +17,12 @@ import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
 import org.mockito.Mockito;
 
 import com.sun.jersey.spi.container.ContainerRequest;
@@ -138,7 +138,7 @@ public class CreateTillInfoResourceSteps extends Steps {
      * @param till - Till
      */
 
-    @When("I add a till with storeid {$storeID} and tillid {$tillID} and  till [$till]")
+    @When("I add a till with storeid $storeID and tillid $tillID and  till [$till]")
       public final void createTill(String storeID, String tillID,
         final String store) {
 
@@ -155,7 +155,7 @@ public class CreateTillInfoResourceSteps extends Steps {
      * Shows the result code.
      * @param result - Result Code
      */
-    @Then("the result should be {$Result}")
+    @Then("the result should be $Result")
      public final void resultShouldBe(final int result) {
         assertThat(resultBase.getNCRWSSResultCode(), is(equalTo(result)));
      }

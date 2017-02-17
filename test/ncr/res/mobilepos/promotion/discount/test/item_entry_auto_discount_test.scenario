@@ -1,101 +1,85 @@
 Scenario: Test Item Entry with Automatic Discount with Tax Rate.
-When the Web API Starts Up with {test/ncr/res/mobilepos/promotion/discount/test/prm_system_config_12taxrate_roundup.xml} System Configuration
+When the Web API Starts Up with test/ncr/res/mobilepos/promotion/discount/test/prm_system_config_12taxrate_roundup.xml System Configuration
 Given a Promotion Service
-Given a loaded dataset {test/ncr/res/mobilepos/promotion/discount/test/data_items.xml}
+Given a loaded dataset test/ncr/res/mobilepos/promotion/discount/test/data_items.xml
 
 Scenario: Item Entry with No begin Transaction
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson {"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 1102
 
 Scenario: Item Entry with no retail store id
-When a Item Entry at promotion with parameters RetailStoreID{} WorkStationId{1111} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID {} WorkStationId 1111 SequenceNo 1 TransactionJson {"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 
 Scenario: Item Entry with no workstation id
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId {} SequenceNo 1 TransactionJson {"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 
 Scenario: Item Entry with no sequence number
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo {} TransactionJson {"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 
 Scenario: Item Entry with no transaction
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson {} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 
 Scenario: Item Entry with Invalid Transaction 1
-When a Begin Transaction at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"}} CompanyId{01}
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{asdas} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson {"TransactionMode":"0","OperatorID": "0003","BeginDateTime":"2012-12-20T09:30:47.00"} CompanyId 01
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson asdas CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 
 Scenario: Item Entry with Invalid Transaction 2
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson {} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 Then the JSON should have the following format : 
 {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
 
 Scenario: Item Entry with No begin Transaction (other device)
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1112} SequenceNo{1} TransactionJson{{"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1112 SequenceNo 1 TransactionJson {"ItemEntryID":"00001","ItemID":"3365545775621","ItemIDType":"EAN-13","Quantity":1} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 1102
 
-!-- Scenario: Item Entry with Item Not Found
-!-- When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
-!-- Then the Result Code is 801
-!-- Then the JSON should have the following format : 
-!-- {"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
-
-!-- Scenario: Item Entry Empty ItemId
-!-- When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemID":"","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
-!-- Then the Result Code is 801
-!-- Then the JSON should have the following format : 
-!-- {"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
 
 Scenario: Item Entry Empty ItemEntryId
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson {"Sale":{"ItemEntryID":"","ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 Then the JSON should have the following format : 
 {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
 
 Scenario: Item Entry No ItemEntryId
-When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+When a Item Entry at promotion with parameters RetailStoreID 0031 WorkStationId 1111 SequenceNo 1 TransactionJson {"Sale":{"ItemID":"4900000000153","ItemIDType":"EAN-13","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 154
 Then the JSON should have the following format : 
 {"NCRWSSResultCode":154,"NCRWSSExtendedResultCode":0}
 
-Scenario: Item Entry no ItemId
-!-- When a Item Entry at promotion with parameters RetailStoreID{0031} WorkStationId{1111} SequenceNo{1} TransactionJson{{"Sale":{"ItemEntryID":"00001","ItemIDType":"EAN-13","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
-!-- Then the Result Code is 801
-!-- Then the JSON should have the following format : 
-!-- {"NCRWSSResultCode":801,"NCRWSSExtendedResultCode":0}
 
 !-- ITEM ENTRIES WITH DISCOUNT AMOUNT  
 Scenario: Item Entry with Auto Discount amount
-When a Begin Transaction at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"}} CompanyId{01} Businessdate{2016-08-16}
-When a Item Entry at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669206754","ItemIDType":"EAN13","Department":"","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669206754","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount	|
 |1          |4957669206754|EAN-13    |1       |397       |null         |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR	|7398.0    				|1				|0.0     		|500         	|7398.0              |7398.0			|
 
 Scenario: Item Entry with Auto Discount amount (multiple quantity)
-When a Begin Transaction at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"}} CompanyId{01} Businessdate{2016-08-16}
-When a Item Entry at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669206754","ItemIDType":"EAN13","Department":"","Quantity":3}}} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669206754","ItemIDType":"EAN13","Department":"","Quantity":3}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount|
 |1          |4957669206754|EAN-13    |3       |397       |null         |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR	|7398.0    				|1				|0.0     		|500         	|7398.0              |22194.0		|
 
 Scenario: Item Entry with auto discount amount (single quantity, but not discountable)
-When a Begin Transaction at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"}} CompanyId{01} Businessdate{2016-08-16}
-When a Item Entry at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4765545775555","ItemIDType":"EAN13","Department":"","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4765545775555","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice |ExtendedAmount	|
 |1          |4765545775555|EAN-13    |1       |0143      |null	       |ÉAÉCÉçÉ{ÉbÉg			|54000.0    			|0				|0.0     		|500         	|54000.0              |54000.0			|
 
 Scenario: Item Entry with auto discount amount (multiple quantity, but not discountable)
-When a Begin Transaction at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"}} CompanyId{01} Businessdate{2016-08-16}
-When a Item Entry at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4765545775555","ItemIDType":"EAN13","Department":"","Quantity":2}}} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4765545775555","ItemIDType":"EAN13","Department":"","Quantity":2}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice |ExtendedAmount	|
@@ -103,16 +87,16 @@ Then Sale data should be :
 
 !-- ITEM ENTRIES WITH AUTO DISCOUNT RATE 
 Scenario: Item Entry with Auto Discount Rate
-When a Begin Transaction at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"}} CompanyId{01} Businessdate{2016-08-16}
-When a Item Entry at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669622196","ItemIDType":"EAN13","Department":"","Quantity":1}}} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669622196","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount	|
 |1          |4957669622196|EAN-13    |1       |393       |null         |ÇlÇiÇqÇnÇxÇ`Çk ÇaÇjÇSÇUÇT|120000.0  				|1				|30.0     		|0	         	|120000.0            |120000.0			|
 
 Scenario: Item Entry with Auto Discount Rate (multiple quantity)
-When a Begin Transaction at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"}} CompanyId{01} Businessdate{2016-08-16}
-When a Item Entry at promotion with parameters RetailStoreID{0247} WorkStationId{0004} SequenceNo{0101} TransactionJson{{"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669622196","ItemIDType":"EAN13","Department":"","Quantity":2}}} CompanyId{01} Businessdate{2016-08-16}
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"4957669622196","ItemIDType":"EAN13","Department":"","Quantity":2}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount	|

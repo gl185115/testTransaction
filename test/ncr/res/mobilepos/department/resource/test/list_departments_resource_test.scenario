@@ -17,8 +17,8 @@ Then I should have the following departments:
 |0031	|308|Active |
 |0031	|309|Active	|
 |0031	|310|Deleted|
-When I list all departments of storeid {0031}
-Then I should get resultcode {0} and {8} department list
+When I list all departments of storeid 0031
+Then I should get resultcode 0 and 8 department list
 Then I should get list: 
 |DPT|DPTNAME       |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|
 |201|Department 201|•”–å201        |0		|0				|0			|1			|null			|0			|0			|8		|1		|
@@ -32,13 +32,13 @@ Then I should get list:
 
 Scenario: List Departments of non-existing store
 Given a Department Resource
-When I list all departments of storeid {0032}
-Then I should get resultcode {0} and {0} department list
+When I list all departments of storeid 0032
+Then I should get resultcode 0 and 0 department list
 
 Scenario: List Departments from all stores
 Give a Department Resource
 When I list all departments of storeid {}
-Then I should get resultcode {0} and {13} department list
+Then I should get resultcode 0 and 13 department list
 Then I should get list: 
 |DPT|DPTNAME       |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|
 |101|Department 101|•”–å101       |5		|5				|1			|null			|0			|0			|8		|1		|
@@ -57,15 +57,15 @@ Then I should get list:
 
 Scenario: Database throw Exceptions
 Given a Department Resource
-Given that database is throwing an unexpected {DaoException}
-When I list all departments of storeid {0031}
-Then I should get resultcode {139}
-Given that database is throwing an unexpected {SQLException}
-When I list all departments of storeid {0031}
-Then I should get resultcode {134}
-Given that database is throwing an unexpected {SQLStatementException}
-When I list all departments of storeid {0031}
-Then I should get resultcode {139}
-Given that database is throwing an unexpected {Exception}
-When I list all departments of storeid {0031}
-Then I should get resultcode {133}
+Given that database is throwing an unexpected DaoException
+When I list all departments of storeid 0031
+Then I should get resultcode 139
+Given that database is throwing an unexpected SQLException
+When I list all departments of storeid 0031
+Then I should get resultcode 134
+Given that database is throwing an unexpected SQLStatementException
+When I list all departments of storeid 0031
+Then I should get resultcode 139
+Given that database is throwing an unexpected Exception
+When I list all departments of storeid 0031
+Then I should get resultcode 133

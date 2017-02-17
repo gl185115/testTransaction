@@ -1,22 +1,23 @@
 package ncr.res.mobilepos.authentication.resource.test;
 
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
+
 import javax.servlet.ServletContext;
 
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import ncr.res.mobilepos.authentication.model.DeviceStatus;
+import ncr.res.mobilepos.authentication.resource.AuthenticationResource;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import ncr.res.mobilepos.authentication.model.DeviceStatus;
-import ncr.res.mobilepos.authentication.resource.AuthenticationResource;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 
 public class AuthenticationResourceSteps extends Steps {
     private AuthenticationResource authresource;

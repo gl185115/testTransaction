@@ -21,13 +21,13 @@ import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 import static org.mockito.Mockito.*;
 
@@ -80,7 +80,7 @@ public class StartOfDaySteps extends Steps {
      *
      * @param filename the xml file.
      */
-	@Given("a RESMaster initial data from {$filename}")
+	@Given("a RESMaster initial data from $filename")
 	public final void givenInitialDataForRESMaster(final String fileName) {
 		dbinitRESMaster = new DBInitiator("TillInfoResourceSteps", DATABASE.RESMaster);
 		try {
@@ -96,7 +96,7 @@ public class StartOfDaySteps extends Steps {
      *
      * @param filename the xml file.
      */
-	@Given("a RESTransaction initial data from {$filename}")
+	@Given("a RESTransaction initial data from $filename")
 	public final void givenInitialDataForRESTransaction(final String fileName) {
 		dbinitRESTransaction = new DBInitiator("TillInfoResourceSteps", DATABASE.RESTransaction);
 		try {
@@ -113,14 +113,14 @@ public class StartOfDaySteps extends Steps {
      * @param storeId
      * @param terminalId
      */
-    @Given("a companyid{$companyid} storeid{$storeid} terminalid{$terminalid}")
+    @Given("a companyid $companyid storeid $storeid terminalid $terminalid")
     public final void givenTheFollowing(final String companyId, final String storeId, final String terminalId){
     	this.companyId = companyId;
     	this.storeId = storeId;
     	this.terminalId = terminalId;
     }
     
-    @Given("that multiple SOD is {$isMultiSOD}")
+    @Given("that multiple SOD is $isMultiSOD")
     public final void givenThatMultiSOD(final String isMultiSODTemp) {
     	boolean isMultiSOD = false;
     	if(null != isMultiSODTemp) {
@@ -129,7 +129,7 @@ public class StartOfDaySteps extends Steps {
     	GlobalConstant.setMultiSOD(isMultiSOD);
     }
 
-    @When("operator{$operatorid} starts SOD at till{$tillid}")
+    @When("operator $operatorid starts SOD at till $tillid")
     public final void whenOperatorStartSOD(final String operatorNo, final String tillId) {
     	resultBase = tillInfoResource.getExecuteAuthority(companyId, storeId, tillId, terminalId, operatorNo, "SOD", "false");  
     	QueueBusterResource queueBusterResource = new QueueBusterResource();
@@ -142,17 +142,17 @@ public class StartOfDaySteps extends Steps {
     	poslogResp = journalizationResource.journalize(poslogXml.trim(), 0);
     }
     
-    @Then("it should get journal response{$ncrwssresultcode}")
+    @Then("it should get journal response $ncrwssresultcode")
     public final void thenShouldGetResultCode(final int resultCode) {
     	Assert.assertEquals("Compare journalize resultcode.", resultCode, poslogResp.getNCRWSSResultCode());
     }
     
-    @Then("it should have an authorized code{$resultcode}")
+    @Then("it should have an authorized code $resultcode")
     public final void thenItShouldBeAuthorized(final int resultCode) {
     	Assert.assertEquals("Compare getexecuteauthority resultcode.", resultCode, resultBase.getNCRWSSResultCode());
     }
     
-    @Then("it should get cashonhand{$cashonhand}")
+    @Then("it should get cashonhand $cashonhand")
     public final void thenItShouldGetCashOnHand(final String cashOnHand) {
     	Assert.assertEquals("Compare cashonhand.", cashOnHand.trim(), cashOnDrawer.getCashOnHand().trim());
     }

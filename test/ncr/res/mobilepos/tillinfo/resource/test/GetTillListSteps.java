@@ -1,28 +1,29 @@
 package ncr.res.mobilepos.tillinfo.resource.test;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.Assert;
+
+import org.dbunit.dataset.ITable;
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import junit.framework.Assert;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
-import org.dbunit.dataset.ITable;
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import static org.junit.Assert.assertEquals;
 
 @SuppressWarnings("deprecation")
 public class GetTillListSteps extends Steps {
@@ -58,7 +59,7 @@ public class GetTillListSteps extends Steps {
         dbInitMaster = new DBInitiator("GetTillListSteps", DATABASE.RESMaster);
     }
 
-    @Given("a {$dataset} dataset")
+    @Given("a $dataset dataset")
     public final void insertDatabase(final String dataset) {
     	try {
 	    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
@@ -70,7 +71,7 @@ public class GetTillListSteps extends Steps {
     	}
     }
     
-    @When("I get list of tills with retailstoreid:{$storeid}")
+    @When("I get list of tills with retailstoreid:$storeid")
     public final void getExecuteAuthority(String storeId) {
     	if ("null".equalsIgnoreCase(storeId)) {
     		storeId = null;
@@ -78,7 +79,7 @@ public class GetTillListSteps extends Steps {
     	list = tillInfoResource.getTillList(storeId);
     }
     
-    @Then("ResultCode should be {$resultCode}")
+    @Then("ResultCode should be $resultCode")
     public final void validateResult(final String resultCode) {
         assertEquals("Assert that ResultCode equals " + resultCode, 
         		resultCode, String.valueOf(list.getNCRWSSResultCode()));

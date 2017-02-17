@@ -14,13 +14,13 @@ import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -69,7 +69,7 @@ public class DepartmentResourceSteps extends Steps {
      * @param department - name of the xml file
      * @throws Exception - Exception
      */
-    @Given("entries for {$department} in database")
+    @Given("entries for $department in database")
    public final void initDptDatasets(final String department) throws Exception {
       dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
         "test/ncr/res/mobilepos/department/resource/test/"
@@ -99,7 +99,7 @@ public class DepartmentResourceSteps extends Steps {
      * @param storeid - store number
      * @param dptid - departmentnumber
      */
-    @When("I get Department with companyid{$companyid} storeid{$storeid} and dptid{$dptid}")
+    @When("I get Department with companyid $companyid storeid $storeid and dptid $dptid")
     public final void selectDepartmentDetail(final String companyId, final String storeId,
          final String dptId) {
         dptModel = new ViewDepartment();
@@ -150,7 +150,7 @@ public class DepartmentResourceSteps extends Steps {
               is(equalTo(extendedResCode)));
      }
      
-     @Given("that database is throwing an unexpected {$exception}")
+     @Given("that database is throwing an unexpected $exception")
      public final void givenThrownException(String exception) {
     	 MockitoAnnotations.initMocks(this);
     	 Exception ex = new Exception();
@@ -170,7 +170,7 @@ public class DepartmentResourceSteps extends Steps {
     	 }
      }
      
-     @Then("the result should be {$Result}")
+     @Then("the result should be $Result")
      public final void checkResult(final int Result){
          assertThat(dptModel.getNCRWSSResultCode(), is(equalTo(Result)));
      }

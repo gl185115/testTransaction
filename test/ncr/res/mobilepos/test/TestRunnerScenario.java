@@ -1,73 +1,91 @@
 package ncr.res.mobilepos.test;
-/*
-* Copyright (c) 2011 NCR/JAPAN Corporation SW-R&D
-*
-* TestRunnerScenario
-*
-* TestRunnerScenario is an abstract which handles the test in general.
-*
-* Campos, Carlos
-*/
+/**
+ * Copyright (c) 2016 NCR/JAPAN Corporation SW-R&D
+ * TestRunnerScenario revised for jbehave v3 or above.
+ */
 
-
-
-import static org.jbehave.scenario.reporters
-.ScenarioReporterBuilder.Format.CONSOLE;
-import static org.jbehave.scenario.reporters
-.ScenarioReporterBuilder.Format.HTML;
-import static org.jbehave.scenario.reporters.ScenarioReporterBuilder.Format.TXT;
-import static org.jbehave.scenario.reporters.ScenarioReporterBuilder.Format.XML;
-
-import org.jbehave.scenario.JUnitScenario;
-import org.jbehave.scenario.MostUsefulConfiguration;
-import org.jbehave.scenario.parser.ClasspathScenarioDefiner;
-import org.jbehave.scenario.parser.PatternScenarioParser;
-import org.jbehave.scenario.parser.ScenarioDefiner;
-import org.jbehave.scenario.parser.ScenarioNameResolver;
-import org.jbehave.scenario.parser.UnderscoredCamelCaseResolver;
-import org.jbehave.scenario.reporters.FilePrintStreamFactory;
-import org.jbehave.scenario.reporters.ScenarioReporter;
-import org.jbehave.scenario.reporters.ScenarioReporterBuilder;
-import org.jbehave.scenario.steps.Steps;
-import org.jbehave.scenario.steps.StepsConfiguration;
-import org.jbehave.scenario.steps.StepsFactory;
+import org.jbehave.core.configuration.Configuration;
+import org.jbehave.core.configuration.MostUsefulConfiguration;
+import org.jbehave.core.failures.FailingUponPendingStep;
+import org.jbehave.core.failures.FailureStrategy;
+import org.jbehave.core.io.LoadFromClasspath;
+import org.jbehave.core.io.StoryLoader;
+import org.jbehave.core.io.StoryPathResolver;
+import org.jbehave.core.io.UnderscoredCamelCaseResolver;
+import org.jbehave.core.junit.JUnitStory;
+import org.jbehave.core.reporters.StoryReporterBuilder;
+import org.jbehave.core.steps.InjectableStepsFactory;
+import org.jbehave.core.steps.InstanceStepsFactory;
+import org.jbehave.core.steps.ParameterConverters;
+import org.jbehave.core.steps.ParameterConverters.ParameterConverter;
+import org.jbehave.core.steps.Steps;
 import org.junit.Ignore;
 
+import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.jbehave.core.reporters.Format.CONSOLE;
+
 @Ignore
-public class TestRunnerScenario extends JUnitScenario{
-    
-    protected static final ScenarioNameResolver resolver =
-        new UnderscoredCamelCaseResolver(".scenario");
-    
-    public TestRunnerScenario(){
-    }
- 
+public class TestRunnerScenario extends JUnitStory {
+
+    private final Steps scenarioSteps;
+
+    /**
+     * Constructor.
+     * @param testRunnerScenarioSteps
+     */
     public TestRunnerScenario(final Steps testRunnerScenarioSteps) {
-         useConfiguration(new MostUsefulConfiguration() {
-             
-                   public ScenarioDefiner forDefiningScenarios() {
-                       return new ClasspathScenarioDefiner(resolver,
-                               new PatternScenarioParser(keywords()));
-                }
-                
-                @Override
-                public ScenarioReporter forReportingScenarios() {
-                    return new ScenarioReporterBuilder(
-                            new FilePrintStreamFactory(
-                                    TestRunnerScenario.class, resolver))
-                            .outputTo("target/jbehave-reports")
-                            .outputAsAbsolute(true)
-                            .withDefaultFormats()
-                            .with(CONSOLE)
-                            .with(TXT)
-                            .with(HTML)
-                            .with(XML)
-                            .build();
-                    }
-                });       
-    
-            StepsConfiguration configuration = new StepsConfiguration();
-            addSteps(new StepsFactory(configuration)
-                .createCandidateSteps(testRunnerScenarioSteps));
-     }
+        this.scenarioSteps = testRunnerScenarioSteps;
+    }
+
+    @Override
+    public Configuration configuration() {
+        Configuration config = new MostUsefulConfiguration();
+
+        // StoryPathResolver, Story file is given with the extension.
+        StoryPathResolver storyPathResolver = new UnderscoredCamelCaseResolver(".scenario");
+        config.useStoryPathResolver(storyPathResolver);
+
+        // StoryLoader, scenario files are written in SJIS.
+        StoryLoader storyLoader = new LoadFromClasspath(Charset.forName("MS932"));
+        config.useStoryLoader(storyLoader);
+
+        // FailureStrategy
+        FailureStrategy failureStrategy = new FailingUponPendingStep();
+        config.useFailureStrategy(failureStrategy);
+
+        // StoryReporterBuilder
+        StoryReporterBuilder reporterBuilder = new StoryReporterBuilder();
+//        reporterBuilder.withDefaultFormats();
+        reporterBuilder.withFormats(
+                CONSOLE);
+
+ //        reporterBuilder.withFormats(
+//                CONSOLE,
+//                TXT,
+//                HTML,
+//                XML);
+        config.useStoryReporterBuilder(reporterBuilder);
+
+        // ParameterConverters - Adds EmptryStringConverter
+        ParameterConverters parameterConverters = new ParameterConverters();
+        parameterConverters.addConverters(customConverters());
+        config.useParameterConverters(parameterConverters);
+
+        return config;
+    }
+
+    private ParameterConverter[] customConverters() {
+        List<ParameterConverter> converters = new ArrayList<ParameterConverter>();
+        converters.add(new EmptyStringConverter());
+        return converters.toArray(new ParameterConverter[converters.size()]);
+    }
+
+    @Override
+    public InjectableStepsFactory stepsFactory() {
+        return new InstanceStepsFactory(configuration(), this.scenarioSteps);
+    }
+
 }

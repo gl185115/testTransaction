@@ -1,14 +1,23 @@
 package ncr.res.mobilepos.authentication.test;
 
+import junit.framework.Assert;
+
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+
 import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import junit.framework.Assert;
 import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.authentication.resource.AuthenticationResource;
-import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
@@ -16,16 +25,6 @@ import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.promotion.resource.PromotionResource;
-
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
 
 public class AuthenticationSteps extends Steps {
 	private DBInitiator dbInit = null;
@@ -54,7 +53,7 @@ public class AuthenticationSteps extends Steps {
 	}
 	
 	
-	@Given("a deviceinfo{$dataset} in database")
+	@Given("a deviceinfo $dataset in database")
 	public final void initdatasetsDpt(final String dataset) {
 		try {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, dataset);
@@ -63,7 +62,7 @@ public class AuthenticationSteps extends Steps {
 		}
 	}
 
-	@Given("the Web API Starts Up with {$systemConDataSet} System Configuration")
+	@Given("the Web API Starts Up with $systemConDataSet System Configuration")
 	public final void GivenThatTheWebAPIStartsUpSytstemConfiguration(
 			String systemConDataSet) {
 		servletContext = null;
@@ -95,7 +94,7 @@ public class AuthenticationSteps extends Steps {
 	}
 			
 
-	@When("I authenticate device companyid{$companyid} storeid{$storeid} deviceid{$terminalid} training{$training} udid{$udid} uuid{$uuid}")
+	@When("I authenticate device companyid $companyid storeid $storeid deviceid $terminalid training $training udid $udid uuid $uuid")
 	public final void whenAuthenticateDeviceFailed(String companyId, String storeId , String deviceId, String training, String udid, String uuid){
 		int trainingMode = Integer.parseInt(training);
 	
@@ -105,7 +104,7 @@ public class AuthenticationSteps extends Steps {
 		
 	}
 	
-	@Then("I should get the NCRWSSResultCode{$resultCode}")
+	@Then("I should get the NCRWSSResultCode $resultCode")
 	public final void thenAuthenticateDeviceFailed(String resultCode){
 		int result = Integer.parseInt(resultCode);
 		Assert.assertEquals(result, deviceStatus.getNCRWSSResultCode());

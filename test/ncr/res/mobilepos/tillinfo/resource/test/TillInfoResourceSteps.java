@@ -1,5 +1,16 @@
 package ncr.res.mobilepos.tillinfo.resource.test;
 
+import org.dbunit.dataset.ITable;
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+import org.junit.Assert;
+
 import java.lang.reflect.Field;
 import java.util.Map;
 
@@ -7,21 +18,10 @@ import javax.servlet.ServletContext;
 
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
-
-import org.dbunit.dataset.ITable;
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
-import org.junit.Assert;
 
 
 public class TillInfoResourceSteps extends Steps {
@@ -82,6 +82,8 @@ public class TillInfoResourceSteps extends Steps {
             res = ResultBase.RES_TILL_SOD_PROCESSING;
         } else if ("SOD_FINISHED".equals(condition)){
             res = ResultBase.RES_TILL_SOD_FINISHED;
+        } else if ("SOD_UNFINISHED".equals(condition)){
+            res = ResultBase.RES_TILL_SOD_UNFINISHED;
         } else if ("INVALID_SOD_FLAG".equals(condition)){
             res = ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL;
         } else if ("INVALID_BIZDATE".equals(condition)){
@@ -266,7 +268,7 @@ public class TillInfoResourceSteps extends Steps {
     	}
     }
     
-	@Then("the result should be {$result}")
+	@Then("the result should be $result")
     public final void testResultCode(String result) {
     	 Assert.assertEquals(getResult(result), resultBase.getNCRWSSResultCode());
     }

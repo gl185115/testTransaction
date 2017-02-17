@@ -1,32 +1,33 @@
 package ncr.res.mobilepos.authentication.resource.test;
 
+import junit.framework.Assert;
+
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.ITable;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import junit.framework.Assert;
-
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.ITable;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import ncr.res.mobilepos.authentication.model.DeviceStatus;
+import ncr.res.mobilepos.authentication.resource.RegistrationResource;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.model.ResultBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import ncr.res.mobilepos.authentication.model.DeviceStatus;
-import ncr.res.mobilepos.authentication.resource.RegistrationResource;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.model.ResultBase;
 
 @SuppressWarnings("deprecation")
 public class RegistrationResourceSteps extends Steps {
@@ -53,7 +54,7 @@ public class RegistrationResourceSteps extends Steps {
         registrationresource.setContext(servletContext);
     }
 
-    @Given("dataset {$xml} is loaded")
+    @Given("dataset $xml is loaded")
     public final void loadXml(final String xml) throws Exception {
 		db = new DBInitiator("DeviceReg",
 				"test/ncr/res/mobilepos/authentication/resource/datasets/"
@@ -67,7 +68,7 @@ public class RegistrationResourceSteps extends Steps {
 				DATABASE.RESMaster);
 	}
 
-	@When("I register a device of companyid{$companyid} storeid{$storeid} deviceid{$deviceid} devicename{$devicename} passcode{$passcode} udid{$udid} uuid{$uuid} signstatus{$signstatus} signtid{$signtid} signactivationkey{$signactivationkey}")
+	@When("I register a device of companyid $companyid storeid $storeid deviceid $deviceid devicename $devicename passcode $passcode udid $udid uuid $uuid signstatus $signstatus signtid $signtid signactivationkey $signactivationkey")
 	public final void registerDevice(final String companyid,
 			final String storeid, final String deviceid,
 			final String devicename, final String passcode, final String udid,

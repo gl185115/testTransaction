@@ -1,9 +1,11 @@
 package ncr.res.mobilepos.authentication.resource.test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
 
 import javax.servlet.ServletContext;
 
@@ -14,12 +16,10 @@ import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.XmlSerializer;
 
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
 public class AuthenticationResourceActivationKeySteps extends Steps{
     private AuthenticationResource authresource;
@@ -45,7 +45,7 @@ public class AuthenticationResourceActivationKeySteps extends Steps{
         authresource.setContext(servletContext);
     }
     
-    @When("I authenticate the device: corpid{$corpid}, storeid{$storeid}, terminalid{$terminalid}, uuid{$uuid}, udid{$udid}")
+    @When("I authenticate the device: corpid $corpid, storeid $storeid, terminalid $terminalid, uuid $uuid, udid $udid")
     public final void authenticateDevice(final String corpid, final String storeid, String terminalid, String uuid, String udid) {
         if(terminalid.equals("null")) {
             terminalid = null;
@@ -70,7 +70,7 @@ public class AuthenticationResourceActivationKeySteps extends Steps{
         assertThat(result.getSignStatus(),is(equalTo(expected)));
     }
 
-    @Then("the activationKey.signActivationKey should be {$expected}")
+    @Then("the activationKey.signActivationKey should be $expected")
     public final void checkSignActivationKey(String expected) {
     	if (expected.equals("empty")) {
 			expected = null;
@@ -79,7 +79,7 @@ public class AuthenticationResourceActivationKeySteps extends Steps{
         	result.getActivationKey().getActivationKey(), is(equalTo(expected)));
     }
     
-    @Then ("the activationKey.signTid should be {$expected}")
+    @Then ("the activationKey.signTid should be $expected")
     public final void checkSignTid(String expected) {
         if(expected.equals("empty")){
             expected = null;
@@ -88,7 +88,7 @@ public class AuthenticationResourceActivationKeySteps extends Steps{
         	result.getActivationKey().getSignatureTid(), is(equalTo(expected)));
     }
     
-    @Then("xml string should be {$xml}")
+    @Then("xml string should be $xml")
     public final void seriallize(final String xml) throws Exception {
         XmlSerializer<DeviceStatus> posLogRespSrlzr =
             new XmlSerializer<DeviceStatus>();

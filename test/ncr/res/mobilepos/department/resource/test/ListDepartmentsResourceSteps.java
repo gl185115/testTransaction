@@ -1,15 +1,26 @@
 package ncr.res.mobilepos.department.resource.test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import junit.framework.Assert;
+
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.ITable;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
-import junit.framework.Assert;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.model.Department;
@@ -18,22 +29,12 @@ import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.ITable;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 /**
  * Test for list departments service in DepartmentResource class.
@@ -91,7 +92,7 @@ public class ListDepartmentsResourceSteps extends Steps {
      * @param retailStoreID The Retail Store ID.
      * @param key The Department Key to be search.
      */
-    @When("I list all departments of storeid {$retailStoreID} with key {$key}")
+    @When("I list all departments of storeid $retailStoreID with key $key")
     public final void listDepartmentOfStoreIDWithKey(final String retailStoreID,
             String key, String name) {
         if (key.equals("null")) {
@@ -108,7 +109,7 @@ public class ListDepartmentsResourceSteps extends Steps {
      *
      * @param retailStoreID The Retail Store ID.
      */
-    @When("I list all departments of storeid {$retailStoreID}")
+    @When("I list all departments of storeid $retailStoreID")
     public final void listDepartmentOfStoreID(final String retailStoreID) {
     	dptList = departmentResource.listDepartments(retailStoreID, null, null, 0);
     }
@@ -121,13 +122,13 @@ public class ListDepartmentsResourceSteps extends Steps {
      * @param length
      *            size of list.
      */
-    @Then("I should get resultcode {$resultCode} and {$length} department list")
+    @Then("I should get resultcode $resultCode and $length department list")
     public final void shouldGetResults(final int resultCode,
             final int length) {
         Assert.assertEquals(resultCode, dptList.getNCRWSSResultCode());
         Assert.assertEquals(length, dptList.getDepartments().size());        
     }
-    @Then("I should get resultcode {$resultCode}")
+    @Then("I should get resultcode $resultCode")
     public final void shouldGetResultCode(final int resultCode) {
         Assert.assertEquals(resultCode, dptList.getNCRWSSResultCode());
     }
@@ -238,7 +239,7 @@ public class ListDepartmentsResourceSteps extends Steps {
         }
     }
     
-    @Given("that database is throwing an unexpected {$exception}")
+    @Given("that database is throwing an unexpected $exception")
 	public final void givenThrownException(String exception) {
 		MockitoAnnotations.initMocks(this);
 		Exception ex = new Exception();

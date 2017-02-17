@@ -1,4 +1,4 @@
-!-- Test scenarios for single SOD (MultiSOD is 0 {false} in PRM_SYSTEM_CONFIG)
+!-- Test scenarios for single SOD (MultiSOD is 0 false in PRM_SYSTEM_CONFIG)
 Scenario: Perform SOD where processingType is "SOD"
 Given I have a Till Info Resource and other resources
 Given a MST_TILLIDINFO with data
@@ -10,7 +10,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000031|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where processingType is "sod"
 When I request to perform SOD with the following data:
@@ -19,7 +19,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000032|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where MST_TILLIDINFO.BusinessDayDate is null
 When I request to perform SOD with the following data:
@@ -28,25 +28,25 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000039|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where other device is already processing SOD for the given Till
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000036|1111      |2222		 |SOD			|false		   |
-Then the result should be {SOD_PROCESSING}
+Then the result should be SOD_PROCESSING
 
 Scenario: Perform SOD where other device already performed SOD for the given Till
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000034|1111      |2222		 |SOD			|false		   |
-Then the result should be {SOD_FINISHED}
+Then the result should be SOD_FINISHED
 
 Scenario: Perform SOD where till has invalid sod flag value in the db
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000035|1111      |2222		 |SOD			|false		   |
-Then the result should be {INVALID_SOD_FLAG}
+Then the result should be INVALID_SOD_FLAG
 
 
 
@@ -55,7 +55,7 @@ Given an empty MST_BIZDAY
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000033|1111      |2222		 |SOD			|false		   |
-Then the result should be {RES_ERROR_NO_BIZDATE}
+Then the result should be RES_ERROR_NO_BIZDATE
 
 Scenario: Perform SOD where MST_TILLIDINFO is empty
 Given an empty MST_TILLIDINFO
@@ -63,7 +63,7 @@ Given a MST_BIZDAY with data
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000033|1111      |2222		 |SOD			|false		   |
-Then the result should be {TILL_NOT_EXIST}
+Then the result should be TILL_NOT_EXIST
 
 Scenario: Perform SOD where storeId and tillId do not exist
 Given a MST_TILLIDINFO with data
@@ -71,43 +71,43 @@ Given a MST_BIZDAY with data
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000001 |000002|1111      |2222		 |SOD			|false		   |
-Then the result should be {TILL_NOT_EXIST}
+Then the result should be TILL_NOT_EXIST
 
 Scenario: Perform SOD where storeId does not exist
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000001 |000033|1111      |2222		 |SOD			|false		   |
-Then the result should be {TILL_NOT_EXIST}
+Then the result should be TILL_NOT_EXIST
 
 Scenario: Perform SOD where tillId does not exist
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000002|1111      |2222		 |SOD			|false		   |
-Then the result should be {TILL_NOT_EXIST}
+Then the result should be TILL_NOT_EXIST
 
 Scenario: Perform SOD where storeId is null
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |null   |000033|1111      |2222		 |SOD			|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER
 
 Scenario: Perform SOD where storeId is empty
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |		|000033|1111      |2222		 |SOD			|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER
 
 Scenario: Perform SOD where tillId is null
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |null  |1111      |2222		 |SOD			|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER
 
 Scenario: Perform SOD where tillId is empty
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |      |1111      |2222		 |SOD			|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER
 
 
 !-- Test scenarios involving variations of compulsoryFlag value. Default is false.
@@ -123,7 +123,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000031|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where other device is already processing SOD for the Till
 When I request to perform SOD with the following data:
@@ -132,7 +132,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000036|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where SOD for the Till haven't performed yet
 When I request to perform SOD with the following data:
@@ -141,7 +141,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000032|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where MST_TILLIDINFO.BusinessDayDate is null
 When I request to perform SOD with the following data:
@@ -150,7 +150,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000039|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 
 !-- Test scenarios for compulsory SOD where compulsoryFlag is empty. 
@@ -165,7 +165,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000031|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where MST_TILLIDINFO.BusinessDayDate is null
 When I request to perform SOD with the following data:
@@ -174,13 +174,13 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000039|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where other device is already processing SOD for the given Till
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000036|1111      |2222		 |SOD			|			   |
-Then the result should be {SOD_PROCESSING}
+Then the result should be SOD_PROCESSING
 
 
 !-- Test scenarios for compulsory SOD where compulsoryFlag is null. 
@@ -195,7 +195,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000031|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where MST_TILLIDINFO.BusinessDayDate is null
 When I request to perform SOD with the following data:
@@ -204,13 +204,13 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000039|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where other device is already processing SOD for the given Till
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000036|1111      |2222		 |SOD			|null		   |
-Then the result should be {SOD_PROCESSING}
+Then the result should be SOD_PROCESSING
 
 
 !-- Test scenarios for compulsory SOD where compulsoryFlag has value other than true or false.
@@ -225,7 +225,7 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000031|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where MST_TILLIDINFO.BusinessDayDate is null
 When I request to perform SOD with the following data:
@@ -234,13 +234,13 @@ When I request to perform SOD with the following data:
 Then I should have the following sod till info data:
 |storeId|tillId|terminalId|sodFlag|updAppId				   |updOpeCode|
 |000031 |000039|1111      |9	  |till.getexecuteauthority|1111	  |
-Then the result should be {OK}
+Then the result should be OK
 
 Scenario: Perform SOD where other device is already processing SOD for the given Till
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000036|1111      |2222		 |SOD			|compulsoryFlag|
-Then the result should be {SOD_PROCESSING}
+Then the result should be SOD_PROCESSING
 
 
 
@@ -252,16 +252,16 @@ Given a MST_BIZDAY with data
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000031|1111      |1111		 |null			|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER
 
 Scenario: Perform SOD where processingType is empty
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000031|1111      |1111		 |				|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER
 
 Scenario: Perform SOD where processingType is not "SOD" or "EOD"
 When I request to perform SOD with the following data:
 |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
 |000031 |000031|1111      |1111		 |OOD			|false		   |
-Then the result should be {RES_ERROR_INVALIDPARAMETER}
+Then the result should be RES_ERROR_INVALIDPARAMETER

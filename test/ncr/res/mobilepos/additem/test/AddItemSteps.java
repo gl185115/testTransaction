@@ -15,13 +15,13 @@ import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 @SuppressWarnings("deprecation")
 public class AddItemSteps extends Steps {
@@ -49,7 +49,7 @@ public class AddItemSteps extends Steps {
 		Requirements.TearDown();
 	}
 
-	@Given("an items{$dataset} in database")
+	@Given("an items $dataset in database")
 	public final void initdatasetsDpt(final String dataset) {
 		try {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, dataset);
@@ -58,7 +58,7 @@ public class AddItemSteps extends Steps {
 		}
 	}
 
-	@Given("a companyid{$companyid} storeid{$storeid} workstationid{$terminalid} businessdate{$businessdate} seqno{$seqno}")
+	@Given("a companyid $companyid storeid $storeid workstationid $terminalid businessdate $businessdate seqno $seqno")
 	public final void givenParameters(String companyId, String storeId,
 			String terminalId, String businessDate, String seqNo) {
 		this.companyId = companyId;
@@ -68,7 +68,7 @@ public class AddItemSteps extends Steps {
 		this.seqNo = seqNo;
 	}
 
-	@Given("the Web API Starts Up with {$systemConDataSet} System Configuration")
+	@Given("the Web API Starts Up with $systemConDataSet System Configuration")
 	public final void GivenThatTheWebAPIStartsUpSytstemConfiguration(
 			String systemConDataSet) {
 		servletContext = null;
@@ -101,7 +101,7 @@ public class AddItemSteps extends Steps {
 		}
 	}
 
-	@When("a Begin Transaction at promotion with parameters RetailStoreID{$retailStoreID} WorkStationId{$workStationID} SequenceNo{$seqNo} TransactionJson{$transactionJson} CompanyId{$companyId}")
+	@When("a Begin Transaction at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId")
 	public final void aBeginTransactionAtPromotionWithParameters(
 			String retailStoreId, String workStationId, String sequenceNo,
 			String transactionJson, String companyId) {
@@ -127,7 +127,7 @@ public class AddItemSteps extends Steps {
 	 * https://localhost:8443/resTransaction/rest/departmentinfo/detail?companyid=01&retailstoreid=0247&departmentid=397
 	 * https://localhost:8443/resTransaction/rest/point/getitempointrate?companyId=01&storeId=0247&terminalId=0004&businessDate=2016-07-21&deptCode=397&groupCode=21111&brandId=004099&sku=04208711
 	 */
-	@When("I add an item {$itemcode}")
+	@When("I add an item $itemcode")
 	public final void whenIAddItem(String itemCode) {
 		String beginTxJson = "{\"TransactionMode\":\"0\",\"OperatorID\":\"9011011\",\"BeginDateTime\":\"2016-12-13T13:31:56.0Z\"}";
 		testpromotionResource.beginTransaction(this.storeId, this.terminalId,

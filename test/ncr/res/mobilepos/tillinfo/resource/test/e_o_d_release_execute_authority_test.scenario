@@ -1,86 +1,99 @@
 !-- check required parameters
 
 Scenario: Check required parameters - retailstoreid is null
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_BIZDAY_2014-11-14} dataset
-Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{null}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_BIZDAY_2014-11-14 dataset
+Given a RESMaster MST_TILLIDINFO_EOD dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:null,
+    tillid:99990001, terminalid:0001, operatorno:9999, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - retailstoreid is empty
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:{},
+    tillid:99990001, terminalid:0001, operatorno:9999, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - tillid is null
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{null}, terminalid:{0001}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:null, terminalid:0001, operatorno:9999, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - tillid is empty
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{}, terminalid:{0001}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:{}, terminalid:0001, operatorno:9999, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - terminalid is null
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{null}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:null, operatorno:9999, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - terminalid is empty
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:{}, operatorno:9999, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - operatorno is null
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{null}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:0001, operatorno:null, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - operatorno is empty
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{}, processing:{EOD}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:0001, operatorno:{}, processing:EOD
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - processing is null
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{9999}, processing:{null}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:0001, operatorno:9999, processing:null
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 Scenario: Check required parameters - processing is empty
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{9999}, processing:{}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:0001, operatorno:9999, processing:{}
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 !-- check for valid value of processing parameter
 
 Scenario: Check required parameters - processing is "xxx"
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{9999}, processing:{xxx}
-Then ResultCode should be {154} !-- 154 = invalid parameter
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:0001, operatorno:9999, processing:xxx
+Then ResultCode should be 154
+!-- 154 = invalid parameter
 
 !-- check if till is existing
 
 Scenario: Till is not existing
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_TILLIDINFO_EMPTY} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99990001}, terminalid:{0001}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {1500} !-- 1500 = till does not exit
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_TILLIDINFO_EMPTY dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99990001, terminalid:0001, operatorno:9999, processing:EOD
+Then ResultCode should be 1500
+!-- 1500 = till does not exit
 
 !-- check if eod is not yet started
 
 Scenario: EOD not yet started
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99995000}, terminalid:{5000}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {1512} !-- 1512 = EOD is not yet started
-Then {RESMaster} {MST_TILLIDINFO} should have the following row(s): 
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_TILLIDINFO_EOD dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99995000, terminalid:5000, operatorno:9999, processing:EOD
+Then ResultCode should be 1512
+!-- 1512 = EOD is not yet started
+Then RESMaster MST_TILLIDINFO should have the following row(s): 
 |StoreId|TillId  |TerminalId|BusinessDayDate|SodFlag|EodFlag|UpdOpeCode|
 |9999   |99995000|5000      |2014-12-01     |1      |0      |9999      |
 |9999   |99995001|5001      |2014-12-01     |0      |1      |9999      |
@@ -91,13 +104,14 @@ Then {RESMaster} {MST_TILLIDINFO} should have the following row(s):
 !-- check if eod is already finished
 
 Scenario: EOD already finished
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99995001}, terminalid:{5001}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {1509} !-- 1509 = EOD already finished
-Then {RESMaster} {MST_TILLIDINFO} should have the following row(s): 
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_TILLIDINFO_EOD dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99995001, terminalid:5001, operatorno:9999, processing:EOD
+Then ResultCode should be 1509
+!-- 1509 = EOD already finished
+Then RESMaster MST_TILLIDINFO should have the following row(s): 
 |StoreId|TillId  |TerminalId|BusinessDayDate|SodFlag|EodFlag|UpdOpeCode|
 |9999   |99995000|5000      |2014-12-01     |1      |0      |9999      |
 |9999   |99995001|5001      |2014-12-01     |0      |1      |9999      |
@@ -108,14 +122,15 @@ Then {RESMaster} {MST_TILLIDINFO} should have the following row(s):
 !-- business date test
 
 Scenario: MST_TILLIDINFO.BusinessDayDate is null
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_BIZDAY_2014-11-14} dataset
-Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99995002}, terminalid:{5002}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {0} !-- 1507 = invalid business date
-Then {RESMaster} {MST_TILLIDINFO} should have the following row(s): 
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_BIZDAY_2014-11-14 dataset
+Given a RESMaster MST_TILLIDINFO_EOD dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99995002, terminalid:5002, operatorno:9999, processing:EOD
+Then ResultCode should be 0
+!-- 1507 = invalid business date
+Then RESMaster MST_TILLIDINFO should have the following row(s): 
 |StoreId|TillId  |TerminalId|BusinessDayDate|SodFlag|EodFlag|UpdOpeCode|
 |9999   |99995000|5000      |2014-12-01     |1      |0      |9999      |
 |9999   |99995001|5001      |2014-12-01     |0      |1      |9999      |
@@ -124,14 +139,15 @@ Then {RESMaster} {MST_TILLIDINFO} should have the following row(s):
 |9999   |99995004|5004      |2014-11-14     |1      |9      |9999      |
 
 Scenario: MST_BIZDAY.TodayDate not equal to MST_TILLIDINFO.BusinessDayDate
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_BIZDAY_2014-11-14} dataset
-Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99995003}, terminalid:{5003}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {0} !-- 1507 = invalid business date
-Then {RESMaster} {MST_TILLIDINFO} should have the following row(s): 
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_BIZDAY_2014-11-14 dataset
+Given a RESMaster MST_TILLIDINFO_EOD dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99995003, terminalid:5003, operatorno:9999, processing:EOD
+Then ResultCode should be 0
+!-- 1507 = invalid business date
+Then RESMaster MST_TILLIDINFO should have the following row(s): 
 |StoreId|TillId  |TerminalId|BusinessDayDate|SodFlag|EodFlag|UpdOpeCode|
 |9999   |99995000|5000      |2014-12-01     |1      |0      |9999      |
 |9999   |99995001|5001      |2014-12-01     |0      |1      |9999      |
@@ -142,14 +158,15 @@ Then {RESMaster} {MST_TILLIDINFO} should have the following row(s):
 !-- success
 
 Scenario: Success scenario
-Given a {TillInfoResource} Resource
-Given a {RESMaster} DBInitiator
-Given a {RESMaster} {MST_BIZDAY_2014-11-14} dataset
-Given a {RESMaster} {MST_TILLIDINFO_EOD} dataset
-When I perform a releaseExecuteAuthotity request with companyid:{01} retailstoreid:{9999}, 
-    tillid:{99995004}, terminalid:{5004}, operatorno:{9999}, processing:{EOD}
-Then ResultCode should be {0} !-- 0 = OK
-Then {RESMaster} {MST_TILLIDINFO} should have the following row(s): 
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a RESMaster MST_BIZDAY_2014-11-14 dataset
+Given a RESMaster MST_TILLIDINFO_EOD dataset
+When I perform a releaseExecuteAuthotity request with companyid:01 retailstoreid:9999,
+    tillid:99995004, terminalid:5004, operatorno:9999, processing:EOD
+Then ResultCode should be 0
+!-- 0 = OK
+Then RESMaster MST_TILLIDINFO should have the following row(s): 
 |StoreId|TillId  |TerminalId|BusinessDayDate|SodFlag|EodFlag|UpdOpeCode|
 |9999   |99995000|5000      |2014-12-01     |1      |0      |9999      |
 |9999   |99995001|5001      |2014-12-01     |0      |1      |9999      |

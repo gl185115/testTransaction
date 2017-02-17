@@ -18,13 +18,13 @@ import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 public class ViewTillInfoResourceSteps extends Steps{
 	
@@ -87,7 +87,7 @@ public class ViewTillInfoResourceSteps extends Steps{
      * @param tillID
      *            tillid to lookup.
      */
-    @When("I view till detail of storeid: {$storeID} and tillid: {$tillID}")
+    @When("I view till detail of storeid: $storeID and tillid: $tillID")
     public final void viewStore(String storeID, String tillID) {
     	if(storeID.equalsIgnoreCase("null")){
     		storeID = null;

@@ -28,12 +28,17 @@ Then I should have the following sod till info data:
 |000031 |000039|1111      |9	  |till.getexecuteauthority|1111	  |
 Then the result should be OK
 
-!-- TODO failing test
-!-- Scenario: Test RES_TILL_SOD_PROCESSING response, other device is already processing SOD for the given Till
-!-- When I request to perform SOD with the following data:
-!-- |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
-!-- |000031 |000032|1111      |2222		 |SOD			|false		   |
-!-- Then the result should be RES_TILL_SOD_PROCESSING
+Scenario: Test RES_OK response, a same terminal perform getExecuteAuthority twice in a business day
+When I request to perform SOD with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
+|000031 |000032|1111      |2222		 |SOD			|false		   |
+Then the result should be OK
+
+Scenario: Test RES_TILL_SOD_PROCESSING response, other device is already processing SOD for the given Till
+When I request to perform SOD with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
+|000031 |000032|1112      |2222		 |SOD			|false		   |
+Then the result should be SOD_PROCESSING
 
 Scenario: Test RES_TILL_SOD_FINISHED response, other device already performed SOD for the given Till
 When I request to perform SOD with the following data:
@@ -47,31 +52,12 @@ When I request to perform SOD with the following data:
 |000031 |000035|1111      |2222		 |SOD			|false		   |
 Then the result should be INVALID_SOD_FLAG
 
-!--  TODO failing
-!-- Scenario: Test RES_TILL_INVALID_BIZDATE response from getExecuteAuthority for SOD
-!-- 		  where MST_BIZDAY.TodayDate = MST_TILLIDINFO.BusinessDayDate
-!-- Given a MST_BIZDAY.TodayDate equal to MST_TILLIDINFO.BusinessDayDate
-!-- When I request to perform SOD with the following data:
-!-- |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
-!-- |000031 |000031|1111      |2222		 |SOD			|false		   |
-!-- Then the result should be INVALID_BIZDATE
-
-!--  TODO failing
-!-- Scenario: Test RES_TILL_INVALID_BIZDATE response from getExecuteAuthority for SOD
-!-- 		  where MST_BIZDAY.TodayDate < MST_TILLIDINFO.BusinessDayDate
-!-- Given a MST_BIZDAY.TodayDate less than MST_TILLIDINFO.BusinessDayDate
-!-- When I request to perform SOD with the following data:
-!-- |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
-!-- |000031 |000031|1111      |2222		 |SOD			|false		   |
-!-- Then the result should be INVALID_BIZDATE
-
-!--  TODO failing
-!-- Scenario: Test NG response from getExecuteAuthority for SOD where MST_BIZDAY is empty
-!-- Given an empty MST_BIZDAY
-!-- When I request to perform SOD with the following data:
-!-- |storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
-!-- |000031 |000031|1111      |2222		 |SOD			|false		   |
-!-- Then the result should be RES_ERROR_GENERAL
+Scenario: Test NG response from getExecuteAuthority for SOD where MST_BIZDAY is empty
+Given an empty MST_BIZDAY
+When I request to perform SOD with the following data:
+|storeId|tillId|terminalId|operatorNo|processingType|compulsoryFlag|
+|000031 |000031|1111      |2222		 |SOD			|false		   |
+Then the result should be RES_ERROR_NO_BIZDATE
 
 Scenario: Test NG response from getExecuteAuthority for SOD where MST_TILLIDINFO is empty
 Given an empty MST_TILLIDINFO

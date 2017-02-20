@@ -30,11 +30,22 @@
 //
 package ncr.realgate.servlet.filter;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FilterInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Enumeration;
-import java.util.zip.*;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -123,7 +134,7 @@ public class CompressionFilter implements Filter {
      * 圧縮するかしないかの判断を行うthresholdパラメータの値を取得する。
      * 未設定時のデフォルトは{@link #DEFAULTTHRESHOLD}バイトである。
      *
-     * @param filterConfig フィルター構成オブジェクト。
+     * @param initFilterConfig フィルター構成オブジェクト。
      */
     @Override
     public void init(FilterConfig initFilterConfig) throws ServletException {
@@ -282,7 +293,7 @@ public class CompressionFilter implements Filter {
 
             @Override
             public void setReadListener(ReadListener readListener) {
-                throw new NotImplementedException();
+                throw new UnsupportedOperationException("Not Implemented.");
             }
 
             @Override
@@ -488,7 +499,7 @@ public class CompressionFilter implements Filter {
 
             @Override
             public void setWriteListener(WriteListener writeListener) {
-                throw new NotImplementedException();
+                throw new UnsupportedOperationException();
             }
 
             @Override

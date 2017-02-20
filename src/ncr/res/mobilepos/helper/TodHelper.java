@@ -1,20 +1,18 @@
 // Copyright (c) 2015 NCR Japan Ltd.
 package ncr.res.mobilepos.helper;
 
-import java.io.File;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jdk.nashorn.internal.runtime.GlobalConstants;
-import ncr.realgate.util.IoWriter;
 import ncr.res.mobilepos.constant.GlobalConstant;
+
 
 /**
  * Time of day service.
@@ -77,7 +75,7 @@ public class TodHelper {
             Matcher m = TOD_PATTERN.matcher(new String(bao.toByteArray(), "UTF-8"));
             if (m.find()) {
                 if (execBatch(m.group(1), m.group(2))) {
-                    logger.write(IoWriter.LOG, PROGNAME, 80, "TOD reset by EnterpriseServer, " 
+                    logger.write(Logger.LOG, PROGNAME, 80, "TOD reset by EnterpriseServer, "
                                  + m.group(1) + " " + m.group(2));
                     return true;
                 }

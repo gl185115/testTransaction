@@ -1,0 +1,469 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DPTINFO">
+		<column>StoreId</column>
+		<column>Dpt</column>
+		<column>DptName</column>
+		<column>DptNameLocal</column>
+		<column>Jigyobu</column>
+		<column>Gyoshu</column>
+		<column>Bumon</column>
+		<column>Uriba</column>
+		<column>Category</column>
+		<column>InsDate</column>
+		<column>UpdDate</column>
+		<column>CompanyId</column>
+		<column>StockType</column>
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>ExceptionFlag</column>
+		<column>CostRateFlag</column>
+		<column>CostRate</column>
+		<column>DiscountFlag</column>
+		<column>DiscountAmt</column>
+		<column>DiscountRate</column>
+		<column>AgeRestrictedFlag</column>
+		<column>InheritFlag</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>Status</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+        <row>
+            <value>000031</value>
+            <value>0130</value>
+            <value>Test Department 0130</value>
+            <value>検査部0130</value> 
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row> 
+
+		<row>
+            <value>000031</value>
+            <value>0143</value>
+            <value>Test Department 0143</value>
+            <value>検査部0143</value> 
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row> 
+
+		<row>
+            <value>000031</value>
+            <value>0211</value>
+            <value>Test Department 0211</value>
+            <value>検査部0211</value> 
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row>
+
+		<row>
+            <value>000031</value>
+            <value>0222</value>
+			<value></value>
+			<value></value>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row> 
+
+		<row>
+            <value>000031</value>
+            <value>0134</value>
+			<value>Test Department 0130</value>
+            <value>検査部0130</value>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row>
+		<row>
+            <value>0</value>
+            <value>0135</value>
+			<value>General Department 0135</value>
+            <value>検査部0135</value>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row>
+		<row>
+            <value>000032</value>
+            <value>0101</value>
+			<value>Soft Drink</value>
+            <value>ソフトドリンク</value>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row>
+		<row>
+            <value>000032</value>
+            <value>0102</value>
+			<null/>
+            <null/>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row>
+		<row>
+            <value>000032</value>
+            <value>0103</value>
+			<value></value>
+            <value></value>
+            <value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>01</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+        </row>
+    </table>
+</dataset>
+
+			

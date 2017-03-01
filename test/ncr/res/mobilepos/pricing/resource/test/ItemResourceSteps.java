@@ -90,7 +90,6 @@ public class ItemResourceSteps extends Steps {
         if (pluCode.equals("null")) {
             pluCode = null;
         }
-
         actualProduct = itemres.getItemByPLUcode(storeid, pluCode, companyId, businessDay);
         expctdResultCode = actualProduct.getNCRWSSResultCode();
     }
@@ -107,22 +106,6 @@ public class ItemResourceSteps extends Steps {
         assertThat(actualProduct.getItem().getNonSales(), is(equalTo(salesitemflag)));
     }
 
-    @When("I get the list of items using $storeid $key $deviceid $name")
-    public final void getListOfItems(final String storeid,final String key,final String deviceid,final String name) {
-        String storeidTemp = storeid.equals("null") ? null : storeid;
-        String keyTemp = key.equals("null") ? null : key;
-        String nameTemp = name.equals("null") ? null : name;      
-        searchedprod = itemres.list(storeidTemp, keyTemp, deviceid, 0, nameTemp); 
-        expctdResultCode = searchedprod.getNCRWSSResultCode();
-    }
-
-    @When("I change the price of item $storeid $pluCode to $unitPrice")
-    public final void IChangeThePrice(final String storeid,
-            final String pluCode, final String unitPrice) {
-        itemmaintenance = itemres.changePrice(storeid, pluCode, unitPrice);
-        expctdResultCode = itemmaintenance.getNCRWSSResultCode();
-    }
-
     @Then("I should have $count items")
     public final void IHaveItemsof(final int count) {
 
@@ -134,9 +117,7 @@ public class ItemResourceSteps extends Steps {
         try {
             StringWriter writer = new StringWriter();
             JAXBContext jaxbcontext;
-
             jaxbcontext = JAXBContext.newInstance(SearchedProducts.class);
-
             Marshaller m = jaxbcontext.createMarshaller();
             m.marshal(searchedprod, writer);
             Assert.assertEquals("Assert the xml String",

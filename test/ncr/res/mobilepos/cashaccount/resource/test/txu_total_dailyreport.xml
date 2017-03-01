@@ -1,0 +1,43 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXU_TOTAL_DAILYREPORT">
+		<column>CompanyId</column>
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>BusinessDayDate</column>
+		<column>ItemType</column>
+		<column>ItemLevel1</column>
+		<column>ItemLevel2</column>
+		<column>ItemLevel3</column>
+		<column>ItemLevel4</column>
+		<column>TrainingFlag</column>
+		<column>ItemCnt</column>
+		<column>ItemAmt</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0001</value>
+			<value>2016-06-29</value>
+			<value>3</value>
+			<value>07</value>
+			<value>06</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>20000</value>
+			<value>2016-06-29 17:14:17.7150440</value>
+			<value>usp_UpdateDailyReport</value>
+			<value></value>
+			<value>2016-06-29 17:15:58.0777844</value>
+			<value>usp_UpdateDailyReport</value>
+			<value></value>
+		</row>
+	</table>
+</dataset>

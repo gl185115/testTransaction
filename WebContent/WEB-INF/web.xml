@@ -176,18 +176,6 @@
     <env-entry-value>/schedule.xml</env-entry-value>
   </env-entry>
   <env-entry>
-    <description>Relative path to stores.csv from custom base.</description>
-    <env-entry-name>storesCsvFilePath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>/stores.csv</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <description>Relative path to deployStatus.xml.</description>
-    <env-entry-name>deployStatusFilePath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>/deployStatus.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
     <description>Logger output file</description>
     <env-entry-name>iowPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
@@ -212,12 +200,6 @@
     <env-entry-value>A010</env-entry-value>
   </env-entry>
   <env-entry>
-    <description>Device Number</description>
-    <env-entry-name>devicenoxml</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\tmp\\deviceno.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
     <env-entry-name>tracePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>c:\software\ncr\res\dbg</env-entry-value>
@@ -238,114 +220,17 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>c:\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <env-entry>
-    <env-entry-name>reportFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReportFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>ReportForZPFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReportForZPFormat.xml</env-entry-value>
-  </env-entry>
   <!-- 売上表レポート利用のファーマットXMLファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>c:\software\ncr\res\custom\ReportFormatNew.xml</env-entry-value>
   </env-entry>
-  <!-- クレジットカード会社控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>creditSlipRcptCardCompFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\CreditSlipReceiptCardCompFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- クレジット商品控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>creditSlipRcptShopFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\CreditSlipReceiptShopFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- クレジット商品控レシート利用のファーマットXMLファイル 2-->
-  <env-entry>
-    <env-entry-name>creditSlipRcptShopFormatPath2</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\CreditSlipReceiptShopFormat2.xml</env-entry-value>
-  </env-entry>
-  <!-- 前受金商品貼付レシート利用のファーマットXMLファイル  -->
-  <env-entry>
-    <env-entry-name>advRcptCommodityFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\AdvanceReceiptCommodityFormat.xml</env-entry-value>
-  </env-entry>
   <!-- 通常買上レシート利用のファーマットXMLファイル -->
   <env-entry>
     <env-entry-name>nrRcptFormatPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>c:\software\ncr\res\custom\NormalReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 一括取消レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>vdRcptFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\VoidReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- BARNEYS_前受金一括取消レシート利用のファーマットXMLファイル -->
-   <env-entry>
-    <env-entry-name>advanceVoidRcptFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\AdvanceVoidReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品顧客控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForCustFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptCustFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品商店控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForShopFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptShopFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品商店控レシート利用のファーマットXMLファイル 2-->
-  <env-entry>
-    <env-entry-name>rnRcptForShopFormatPath2</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptShopFormat2.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品カード会社控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForCardCompanyFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptCardCompFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 領収証利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForSummaryFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\SummaryReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-	<env-entry-name>rnRcptForSummaryForShopFormatPath</env-entry-name>
-	<env-entry-type>java.lang.String</env-entry-type>
-	<env-entry-value>c:\software\ncr\res\custom\SummaryReceiptForShopFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>rnRcptForPointTicketFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\PointTicketReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>rnRcptForPointTicketBarcodeFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\PointTicketBarcodeReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 出金と入金と両替利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>tcRcptFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\TenderControlReceiptFormat.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Default Printer Setting</description>
@@ -361,12 +246,6 @@
     <env-entry-name>Printpaperlength</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>2</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <description>Summary Receipt Misc File Path</description>
-    <env-entry-name>SummaryReceiptMiscFilePath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\para\images\Misc.bmp</env-entry-value>
   </env-entry>
   <filter>
 	<filter-name>compression</filter-name>

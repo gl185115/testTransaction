@@ -54,7 +54,7 @@ public interface IBarneysCommonDAO {
     * @return　一覧リスト
     * @throws DaoException
     */
-   public List<ForwardListInfo> getForwardList (String CompanyId, String RetailStoreId, String TrainingFlag, String LayawayFlag, String Queue) throws DaoException;
+   public List<ForwardListInfo> getForwardList (String CompanyId, String RetailStoreId, String TrainingFlag, String LayawayFlag, String Queue, String TxType) throws DaoException;
 
    /**
     * 前捌レコード　ステータスの更新

@@ -131,7 +131,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
      */
     @Override
     public List<ForwardListInfo> getForwardList(String CompanyId, String RetailStoreId,
-            String TrainingFlag, String LayawayFlag, String Queue) throws DaoException {
+            String TrainingFlag, String LayawayFlag, String Queue, String TxType) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId)
@@ -154,6 +154,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
             select.setString(SQLStatement.PARAM3, TrainingFlag);
             select.setString(SQLStatement.PARAM4, LayawayFlag);
             select.setString(SQLStatement.PARAM5, Queue);
+            select.setString(SQLStatement.PARAM6, TxType);
             result = select.executeQuery();
             while (result.next()) {
                 if (forwardList == null) {

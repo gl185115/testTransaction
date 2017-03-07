@@ -4604,7 +4604,8 @@ ORDER BY
       @PosTermId varchar(MAX),
       @Status varchar(MAX),
       @Tx varchar(MAX),
-      @LayawayFlag NUMERIC(1,0)
+      @LayawayFlag NUMERIC(1,0),
+      @TxType varchar(50)
 
     SET @CompanyId = ?
     SET @RetailStoreId = ?
@@ -4620,6 +4621,7 @@ ORDER BY
     SET @Status = ?
     SET @Tx = ?
     SET @LayawayFlag = ?
+    SET @TxType = ?
         INSERT INTO TXL_FORWARD_ITEM
            (CompanyId
            ,RetailStoreId
@@ -4634,7 +4636,8 @@ ORDER BY
            ,PosTermId
            ,Status
            ,Tx
-           ,LayawayFlag)
+           ,LayawayFlag
+           ,TxType)
          VALUES
            (@CompanyId
            ,@RetailStoreId
@@ -4649,7 +4652,8 @@ ORDER BY
            ,@PosTermId
            ,@Status
            ,@Tx
-           ,@LayawayFlag)
+           ,@LayawayFlag
+           ,@TxType)
   </entry>
   <entry key="get-forward-list">
     DECLARE
@@ -4657,12 +4661,14 @@ ORDER BY
         @RetailStoreId VARCHAR (MAX),
         @TrainingFlag VARCHAR (MAX),
         @LayawayFlag VARCHAR (MAX),
-        @Queue VARCHAR (MAX)
+        @Queue VARCHAR (MAX),
+        @TxType VARCHAR (50)
     SET @CompanyId = ?
     SET @RetailStoreId = ?
     SET @TrainingFlag = ?
     SET @LayawayFlag = ?
     SET @Queue = ?
+    SET @TxType = ?
     SELECT
         A.CompanyId,
         A.RetailStoreId,
@@ -4687,6 +4693,7 @@ ORDER BY
     AND A.TrainingFlag = @TrainingFlag
     AND A.Status = 0
     AND A.LayawayFlag = @LayawayFlag
+    AND A.TxType = ISNULL(@Txtype,A.TxType)
     ORDER BY A.BusinessDayDate DESC, A.BusinessDateTime DESC
   </entry>
   <entry key="get-forward-items-posLog">

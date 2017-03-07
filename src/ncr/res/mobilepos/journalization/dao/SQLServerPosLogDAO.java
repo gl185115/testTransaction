@@ -2090,6 +2090,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM13, posLogXml);
             saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM14,
                     "true".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 1 : 0);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM15, transaction.getTransactionType());
 
             if (saveForwardPosLogPrepStmnt.executeUpdate() != 1) {
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;

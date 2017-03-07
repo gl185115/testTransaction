@@ -452,13 +452,15 @@ public class ForwardItemListResource {
     		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
     		@ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag,
     		@ApiParam(name="LayawayFlag", value="予約フラグ") @FormParam("LayawayFlag") String LayawayFlag,
-    		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue) {
+    		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
+            @ApiParam(name="TxType", value="取引タイプ") @FormParam("TxType") String TxType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("StoreCode", RetailStoreId);
         tp.println("Training", TrainingFlag);
         tp.println("LayawayFlag", LayawayFlag);
         tp.println("Queue", Queue);
+        tp.println("TxType", TxType);
 
         ForwardList result = new ForwardList();
         try {
@@ -473,7 +475,7 @@ public class ForwardItemListResource {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
             List<ForwardListInfo> forwardList = iBarneysCommenDAO.getForwardList(CompanyId, RetailStoreId,
-                    TrainingFlag, LayawayFlag, Queue);
+                    TrainingFlag, LayawayFlag, Queue, TxType);
             result.setForwardListInfo(forwardList);
             result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);

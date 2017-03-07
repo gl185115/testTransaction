@@ -12,11 +12,9 @@ package ncr.res.mobilepos.store.dao;
 import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
-import ncr.res.mobilepos.store.model.StoreInternSys;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
@@ -43,17 +41,6 @@ public interface IStoreDAO {
     ViewStore getStoreDetaiInfo(String retailStoreID,String companyId) throws DaoException;
 
     /**
-     * Delete Store.
-     *
-     * @param retailStoreID Store's id
-     * @param updAppId application ID
-     * @param updOpeCode operator Code
-     * @throws DaoException if error occurred.
-     * @return Result of the request.
-     */
-    ResultBase deleteStore(String retailStoreID, String updAppId, String updOpeCode) throws DaoException;
-   
-    /**
      * List all stores details.
      *
      * @param companyId The company id of the store to be search and listed.
@@ -66,37 +53,6 @@ public interface IStoreDAO {
     List<Store> listStores(String companyId, String key, String name, 
     		int limit) throws DaoException;
 
-    /**
-     * Creates Store.
-     *
-     * @param retailStoreID - Store number
-     * @param store - Store
-     * @throws DaoException if error occurred
-     * @return ResultBase
-     */
-    ResultBase createStore(String retailStoreID, Store store)
-              throws DaoException;
-
-    /**
-     * Update Store.
-     *
-     * @param storeid The retail storeid
-     * @param store The updates for store.
-     * @return The updated instance of Store.
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    ViewStore updateStore(String storeid, Store store) throws DaoException;
-    
-    /**
-     * Update Store.
-     *
-     * @param storecode The field of Store_Inter_Sys.
-     * @param usage The  field of Store_Inter_Sys.
-     * @return The updated instance of StoreInternSys.
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    StoreInternSys getStoreInterSys(String storecode, int usage) throws DaoException;
-    
     /**
      * List all CM preset info.
      *

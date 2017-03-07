@@ -4948,21 +4948,7 @@ ORDER BY
        (TodayDate, SwitchTime, Skip)
        VALUES (?, ?, ?)
   </entry>
-
-  <entry key="update-todaydate-setting">
-    UPDATE RESMaster.dbo.MST_BIZDAY
-    SET TodayDate = ?
-  </entry>
-
-  <entry key="update-switchtime-setting">
-    UPDATE RESMaster.dbo.MST_BIZDAY
-    SET SwitchTime = ?
-  </entry>
-
-  <entry key="update-skips-setting">
-    UPDATE RESMaster.dbo.MST_BIZDAY
-    SET Skip = ?
-  </entry>
+  
   <entry key="select-date-setting">
     SELECT
       CompanyId,
@@ -5058,40 +5044,6 @@ ORDER BY
       StoreId=? and Status = 'Active'
     </entry>
 
-    <entry key="create-store">
-     INSERT INTO RESMaster.dbo.MST_STOREINFO(
-       StoreId,
-       StoreName,
-       StoreAddr,
-       StoreTel,
-       StoreUrl,
-       SalesSpaceName,
-       EventName,
-       Ads,
-       ElectroFilePath,
-       StampTaxFilePath,
-       InsDate,
-       UpdDate,
-       Status,
-       UpdAppId,
-       UpdOpeCode)
-   OUTPUT INSERTED.StoreId, INSERTED.StoreName
-   VALUES(?,?,?,?,?,?,?,?,?,?,GETDATE(),GETDATE(),'Active',?,?);
-
-    </entry>
-
-    <entry key="delete-store">
-    UPDATE
-      RESMaster.dbo.MST_STOREINFO
-    SET
-      UpdAppId=?,
-      UpdOpeCode=?,
-      UpdDate=GETDATE(),
-      Status = 'Deleted'
-    WHERE
-      StoreId = ?
-  </entry>
-
     <entry key="get-store-list">
       SELECT
         StoreId, StoreName, StoreAddr, StoreTel
@@ -5167,100 +5119,7 @@ ORDER BY
       LOWER(StoreName) = LOWER(COALESCE(@storeName, StoreName)) AND
       Status = 'Active'
       ORDER BY StoreName ASC
-  </entry>
-
-  <entry key="update-store">
-    DECLARE @storeid varchar(MAX),
-        @storename varchar(MAX),
-        @storeaddr varchar(MAX),
-        @storetel varchar(MAX),
-        @storeurl varchar(MAX),
-        @salesspacename varchar(MAX),
-        @eventname varchar(MAX),
-        @ads varchar(MAX),
-        @electrofilepath varchar(MAX),
-        @stamptaxfilepath varchar(MAX),
-        @upddate datetime,
-        @updappid varchar(MAX),
-        @updopecode varchar(MAX)
-
-    SET @storeid = ?
-    SET @storename = ?
-    SET @storeaddr = ?
-    SET @storetel = ?
-    SET @storeurl = ?
-    SET @salesspacename = ?
-    SET @eventname = ?
-    SET @ads = ?
-    SET @electrofilepath = ?
-    SET @stamptaxfilepath = ?
-    SET @upddate = GETDATE()
-    SET @updappid = ?
-    SET @updopecode = ?
-
-    UPDATE RESMaster.dbo.MST_STOREINFO
-      SET StoreId=
-        CASE
-          WHEN len(@storeid) > 0 THEN @storeid
-          ELSE StoreId
-        END,
-        StoreName=
-        CASE
-          WHEN len(@storename) > 0 THEN @storename
-          ELSE StoreName
-        END,
-        StoreAddr=
-        CASE
-          WHEN (len(@storeaddr) > 0 OR @storeaddr='') THEN @storeaddr
-          ELSE StoreAddr
-        END,
-        StoreTel=
-        CASE
-          WHEN (len(@storetel) > 0 OR @storetel='')THEN @storetel
-          ELSE StoreTel
-        END,
-        StoreUrl=
-        CASE
-          WHEN (len(@storeurl) > 0 OR @storeurl='')THEN @storeurl
-          ELSE StoreUrl
-        END,
-        SalesSpaceName=
-        CASE
-          WHEN (len(@salesspacename) > 0 OR @salesspacename='')THEN @salesspacename
-          ELSE SalesSpaceName
-        END,
-        EventName=
-        CASE
-          WHEN (len(@eventname) > 0 OR @eventname='')THEN @eventname
-          ELSE EventName
-        END,
-        Ads=
-        CASE
-          WHEN (len(@ads) > 0 OR @ads='')THEN @ads
-          ELSE Ads
-        END,
-        ElectroFilePath=
-        CASE
-          WHEN (len(@electrofilepath) > 0 OR @electrofilepath='')THEN @electrofilepath
-          ELSE ElectroFilePath
-        END,
-        StampTaxFilePath=
-        CASE
-          WHEN (len(@stamptaxfilepath) > 0 OR @stamptaxfilepath='')THEN @stamptaxfilepath
-          ELSE StampTaxFilePath
-        END,
-        UpdDate = @upddate,
-        UpdAppId = @updappid,
-        UpdOpeCode = @updopecode,
-        Status = 'Active'
-
-          OUTPUT INSERTED.StoreId, INSERTED.StoreName, INSERTED.StoreAddr,
-             INSERTED.StoreTel, INSERTED.StoreUrl, INSERTED.SalesSpaceName,
-             INSERTED.EventName, INSERTED.Ads, INSERTED.ElectroFilePath,
-             INSERTED.StampTaxFilePath, INSERTED.UpdDate
-       WHERE
-           StoreId=?
-  </entry>
+  </entry>  
 
     <entry key="get-till-info">
       	SELECT
@@ -6784,20 +6643,7 @@ ORDER BY
             (@STOREID, @PLU, @MDINTERNAL, @MDTYPE, @MDVENDER, @DPT, @LINE, @CLASS, @SKU, @ITEMSIZE, @KEYPLU, @MD01, @MD02, @MD03, @MD04, @MD05, @MD06, @MD07, @MD08, @MD09, @MD10, @MDNAME, @MDNAME1, @MDNAME2, @MDKANANAME, @MDKANANAME1, @MDKANANAME2, @ORGSALESPRICE1, @SALESPRICE1, @SALESPRICE2, @EMPPRICE1, @EMPPRICE2, @EMPPRICE3, @PUPRICE1, @PUPRICE2, @PUPRICECHGDATE1, @PUPRICECHGDATE2, @ORGCOSTPRICE1, @COSTPRICE1, @COSTPRICE2, @COSTPRICECHGDATE1, @COSTPRICECHGDATE2, @SALESDATE, @MAKERPRICE, @TAXTYPE, @DISCOUNTTYPE, @SEASONTYPE, @PAYMENTTYPE, @ORDERTYPE, @POSMDTYPE, @CATTYPE, @ORDERUNIT, @ORDERPOINT, @BASESTOCKCNT, @CONN1, @CONNTYPE1, @CONN2, @CONNTYPE2, @VENDERCODE, @VENDERTYPE, @TAGCODE1, @TAGCODE2, @TAGCODE3, @POINTRATE, @SUBMONEY1, @SUBMONEY2, @SUBMONEY3, @SUBMONEY4, @SUBMONEY5, @SUBCODE1, @SUBCODE2, @SUBCODE3, @SUBCODE4, @SUBCODE5, @SUBCODE6, @SUBCODE7, @SUBCODE8, @SUBCODE9, @SUBCODE10, @SUBTINYINT1, @SUBTINYINT2, @SUBTINYINT3, @SUBTINYINT4, @SUBTINYINT5, @SUBTINYINT6, @SUBTINYINT7, @SUBTINYINT8, @SUBTINYINT9, @SUBINT10, @INSDATE, @UPDDATE, @UPDAPPID, @UPDOPECODE, @DISPLAYPLU, @STOCKTYPE)
 
   </entry>
-
-    <entry key="get-storeInternalSystem">
-     DECLARE
-          @StoreCode char(8),
-          @Usage int
-
-        SET @StoreCode = ?
-        SET @Usage = ?
-
-      SELECT value
-    FROM STORE_INTER_SYS
-    WHERE STORECODE = @StoreCode AND USAGE = @Usage
-    </entry>
-
+  
     <entry key="get-cash-balance">
     SELECT
       SUM(Debit) - SUM(Credit) +

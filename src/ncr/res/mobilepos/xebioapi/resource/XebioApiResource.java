@@ -32,7 +32,6 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.Item;
-import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.xebioapi.constants.XebioApiConstants;
 import ncr.res.mobilepos.xebioapi.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.xebioapi.model.JSONData;
@@ -61,83 +60,7 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
         public XebioApiResource() {
             tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                     getClass());
-        }
-
-    @Path("/updateSalesCharge")
-    @POST
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="売掛情報更新", response=JSONData.class)
-    @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
-    @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
-    @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-    @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-    
-    })
-    public final JSONData salesChargeUpdateAPI(@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
-
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName);
-        tp.println("Data", Data);
-
-        JSONData salesCharge = new JSONData();
-        JSONObject result = null;
-        String address = "";
-        try {
-            if (StringUtility.isNullOrEmpty(Data)) {
-                salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                salesCharge.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-                tp.methodExit(salesCharge.toString());
-                return salesCharge;
-            }
-            String value = Data;
-            int timeOut = GlobalConstant.getApiServerTimeout();
-            String apiUrl = GlobalConstant.getApiServerUrl();
-            address = apiUrl + XebioApiConstants.SALESCHARGEAPI_UPDATE_URL;
-            result = UrlConnectionHelper.connectionForPost(address,value, timeOut);
-            if (result == null) {
-                salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
-                salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
-                salesCharge.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
-            } else {
-                salesCharge.setJsonObject(result.toString());
-                salesCharge.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-                salesCharge.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-                salesCharge.setMessage(ResultBase.RES_SUCCESS_MSG);
-            }
-        } catch (MalformedURLException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + "Failed to update SalesCharge data.\n", e);
-            salesCharge.setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
-            salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
-            salesCharge.setMessage(e.getMessage());
-        } catch (IOException e) {
-            if (e instanceof UnknownHostException) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + "Failed to update SalesCharge data.\n",
-                        e);
-                salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-                salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-                salesCharge.setMessage(e.getMessage());
-            } else {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + "Failed to update SalesCharge data.\n",
-                        e);
-                salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-                salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-                salesCharge.setMessage(e.getMessage());
-            }
-        } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + "Failed to update SalesCharge data.\n",
-                    e);
-            salesCharge.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-            salesCharge.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-            salesCharge.setMessage(e.getMessage());
-        } finally {
-            tp.methodExit(salesCharge);
-        }
-        return salesCharge;
-    }
+        }    
         
     @Path("/getSalesCharge")
     @POST
@@ -1282,84 +1205,6 @@ import ncr.res.mobilepos.xebioapi.model.JSONData;
             } catch (Exception e) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
                         functionName + "Failed to getPremiumItemStoreUpdate data.\n", e);
-                jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-                jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-                jsonData.setMessage(e.getMessage());
-            } finally {
-                tp.methodExit(jsonData);
-            }
-            return jsonData;
-        }
-        
-        
-        /**
-         * get the PremiumItemStoreUpdate info
-         * @param apiData The request Data
-         * @return  The SlipNo Data
-         */
-        @Path("/getslipno")
-        @POST
-        @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-        @ApiOperation(value="高級プロジェクト記憶情報", response=JSONData.class)
-        @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),        
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
-        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-        
-        })
-        public final JSONData getSlipNo(
-        		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
-            String functionName = DebugLogger.getCurrentMethodName();
-            tp.methodEnter(functionName)
-            .println("apiData",apiData);
-            JSONData jsonData = new JSONData();
-            JSONObject result = null;
-            String address = "";
-            try {
-                if (StringUtility.isNullOrEmpty(apiData)) {
-                    jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                    jsonData.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-                    tp.methodExit(jsonData.toString());
-                    return jsonData;
-                }
-                int timeOut = GlobalConstant.getApiServerTimeout();
-                String apiUrl = GlobalConstant.getApiServerUrl();
-                address = apiUrl + XebioApiConstants.SLIPNOAPI_SEACHER_URL;
-                result = UrlConnectionHelper.connectionForPost(address,apiData,timeOut);
-
-                if (result == null) {
-                    jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
-                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
-                    jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
-                } else {
-                    jsonData.setJsonObject(result.toString());
-                    jsonData.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-                    jsonData.setMessage(ResultBase.RES_SUCCESS_MSG);
-                }
-            } catch (MalformedURLException e) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + "Failed to getSlipNo.\n", e);
-                jsonData.setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
-                jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
-                jsonData.setMessage(e.getMessage());
-            } catch (IOException e) {
-                if (e instanceof UnknownHostException) {
-                    LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + "Failed to getSlipNo data.\n", e);
-                    jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-                    jsonData.setMessage(e.getMessage());
-                } else {
-                    LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + "Failed to getSlipNo data.\n", e);
-                    jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-                    jsonData.setMessage(e.getMessage());
-                }
-            } catch (Exception e) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + "Failed to getSlipNo data.\n", e);
                 jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
                 jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
                 jsonData.setMessage(e.getMessage());

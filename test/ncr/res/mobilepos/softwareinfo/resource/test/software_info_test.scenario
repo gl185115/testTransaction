@@ -1,0 +1,7 @@
+!-- Gets All software Information
+Scenario:  Gets All software Information
+Given Web API Service SofwareInfo
+Given the MANIFEST_VALID_NAME_VERSION.MF file
+When I get all Software Information
+Then I should get all other Software Information
+

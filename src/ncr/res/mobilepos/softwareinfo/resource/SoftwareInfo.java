@@ -30,7 +30,6 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.settlement.model.SettlementInfo;
 import ncr.res.mobilepos.softwareinfo.model.OperatingSystemInfo;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareComponents;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareVersion;
@@ -187,37 +186,6 @@ public class SoftwareInfo {
         }
         return (OperatingSystemInfo)tp.methodExit(operatingSystemInfo);
 	}
-    
-    
-    /**
-     * Web service for getting the Software information of the application
-     * software.
-     * @param softwareName  Application's software name
-     * @return              Software information
-     */
-    @Path("/getsoftwareinfo/{softwareName}")
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="ソフトウェアの情報を取得する", response=SoftwareVersion.class)
-    @ApiResponses(value={})
-    public final SoftwareVersion getSoftwareInfo(final String softwareName) {
-
-        tp.methodEnter("getSoftwareInfo");
-        tp.println("softwareName", softwareName);
-
-        if ("Tomcat".equalsIgnoreCase(softwareName)) {
-            software = this.getTomCatVersion();
-        } else if ("Web Store Server".equalsIgnoreCase(softwareName)) {
-            software = this.getWebAPIVersion();
-        } else if ("J2EE".equalsIgnoreCase(softwareName)) {
-            software  = this.getJavaVersion();            
-        } else if ("OperatingSystem".equalsIgnoreCase(softwareName)) {
-            software  = this.getOperatingSystemInfo();
-        }  else {
-            software = new SoftwareVersion();
-        }
-        return (SoftwareVersion)tp.methodExit(software);
-    }
     
     /**
      * Web service for getting all Server components version of the application software.

@@ -68,6 +68,21 @@ public class CMPresetInfo {
     @XmlElement(name = "Top5Message")
     private String top5Message;
     
+    @XmlElement(name = "Top6Message")
+    private String top6Message;
+    
+    @XmlElement(name = "Top7Message")
+    private String top7Message;
+    
+    @XmlElement(name = "Top8Message")
+    private String top8Message;
+    
+    @XmlElement(name = "Top9Message")
+    private String top9Message;
+    
+    @XmlElement(name = "Top10Message")
+    private String top10Message;
+    
     @XmlElement(name = "Bottom1Message")
     private String bottom1Message;
 
@@ -82,6 +97,21 @@ public class CMPresetInfo {
     
     @XmlElement(name = "Bottom5Message")
     private String bottom5Message;
+    
+    @XmlElement(name = "Bottom6Message")
+    private String bottom6Message;
+    
+    @XmlElement(name = "Bottom7Message")
+    private String bottom7Message;
+    
+    @XmlElement(name = "Bottom8Message")
+    private String bottom8Message;
+    
+    @XmlElement(name = "Bottom9Message")
+    private String bottom9Message;
+    
+    @XmlElement(name = "Bottom10Message")
+    private String bottom10Message;
 
     @ApiModelProperty(value="会社コード", notes="会社コード")
     public final String getCompanyId() {
@@ -209,6 +239,51 @@ public class CMPresetInfo {
         this.top5Message = top5Message;
     }
     
+    @ApiModelProperty(value="上段6行目", notes="上段6行目")
+    public final String getTop6Message() {
+		return top6Message;
+	}
+
+    public final void setTop6Message(final String top6Message) {
+        this.top6Message = top6Message;
+    }
+    
+    @ApiModelProperty(value="上段7行目", notes="上段7行目")
+    public final String getTop7Message() {
+        return top7Message;
+    }
+
+    public final void setTop7Message(final String top7Message) {
+        this.top7Message = top7Message;
+    }
+    
+    @ApiModelProperty(value="上段8行目", notes="上段8行目")
+    public final String getTop8Message() {  
+        return top8Message;
+    }
+
+    public final void setTop8Message(final String top8Message) {
+        this.top8Message = top8Message;
+    }
+    
+    @ApiModelProperty(value="上段9行目", notes="上段9行目")
+    public final String getTop9Message() {
+        return top9Message;
+    }
+
+    public final void setTop9Message(final String top9Message) {
+        this.top9Message = top9Message;
+    }
+    
+    @ApiModelProperty(value="上段10行目", notes="上段10行目")
+    public final String getTop10Message() {
+        return top10Message;
+    }
+
+    public final void setTop10Message(final String top10Message) {
+        this.top10Message = top10Message;
+    }
+    
     @ApiModelProperty(value="下段1行目", notes="下段1行目")
     public final String getBottom1Message() {
         return bottom1Message;
@@ -252,5 +327,50 @@ public class CMPresetInfo {
 
     public final void setBottom5Message(final String bottom5Message) {
         this.bottom5Message = bottom5Message;
+    }
+
+    @ApiModelProperty(value="下段6行目", notes="下段6行目")
+	public final String getBottom6Message() {
+		return bottom6Message;
+	}
+
+    public final void setBottom6Message(final String bottom6Message) {
+        this.bottom6Message = bottom6Message;
+    }
+    
+    @ApiModelProperty(value="下段7行目", notes="下段7行目")
+    public final String getBottom7Message() {
+        return bottom7Message;
+    }
+
+    public final void setBottom7Message(final String bottom7Message) {
+        this.bottom7Message = bottom7Message;
+    }
+    
+    @ApiModelProperty(value="下段8行目", notes="下段8行目")
+    public final String getBottom8Message() {
+        return bottom8Message;
+    }
+
+    public final void setBottom8Message(final String bottom8Message) {
+        this.bottom8Message = bottom8Message;
+    }
+    
+    @ApiModelProperty(value="下段9行目", notes="下段9行目")
+    public final String getBottom9Message() {
+        return bottom9Message;
+    }
+
+    public final void setBottom9Message(final String bottom9Message) {
+        this.bottom9Message = bottom9Message;
+    }
+    
+    @ApiModelProperty(value="下段10行目", notes="下段10行目")
+    public final String getBottom10Message() {
+        return bottom10Message;
+    }
+
+    public final void setBottom10Message(final String bottom10Message) {
+        this.bottom10Message = bottom10Message;
     }
 }

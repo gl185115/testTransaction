@@ -71,6 +71,16 @@ String message7 = request.getParameter("message7");
 String message8 = request.getParameter("message8");
 String message9 = request.getParameter("message9");
 String message10 = request.getParameter("message10");
+String message11 = request.getParameter("message11");
+String message12 = request.getParameter("message12");
+String message13 = request.getParameter("message13");
+String message14 = request.getParameter("message14");
+String message15 = request.getParameter("message15");
+String message16 = request.getParameter("message16");
+String message17 = request.getParameter("message17");
+String message18 = request.getParameter("message18");
+String message19 = request.getParameter("message19");
+String message20 = request.getParameter("message20");
 String startDate = request.getParameter("startDate");
 String endDate = request.getParameter("endDate");
 
@@ -85,6 +95,16 @@ String previousMessage7 = message7;
 String previousMessage8 = message8;
 String previousMessage9 = message9;
 String previousMessage10 = message10;
+String previousMessage11 = message11;
+String previousMessage12 = message12;
+String previousMessage13 = message13;
+String previousMessage14 = message14;
+String previousMessage15 = message15;
+String previousMessage16 = message16;
+String previousMessage17 = message17;
+String previousMessage18 = message18;
+String previousMessage19 = message19;
+String previousMessage20 = message20;
 String previousStartDate = startDate;
 String previousEndDate = endDate;
 
@@ -181,7 +201,9 @@ try{
     java.sql.Date sqlEndDate = null;
     sql = "SELECT CompanyId, CMId, StoreId, BizCatId, TerminalId" +
         ", Top1Message, Top2Message, Top3Message, Top4Message, Top5Message" +
+    	", Top6Message, Top7Message, Top8Message, Top9Message, Top10Message" +
         ", Bottom1Message, Bottom2Message, Bottom3Message, Bottom4Message, Bottom5Message" +
+      	", Bottom6Message, Bottom7Message, Bottom8Message, Bottom9Message, Bottom10Message" +
         ", StartDate, EndDate" +
         " FROM RESMaster.dbo.MST_PRESET_CMINFO" +
         " WHERE CompanyId = ? and StoreId = ? and BizCatId = ? and TerminalId = ?" +
@@ -291,7 +313,9 @@ try{
             //登録失敗の場合、元の広告文を再取得
             sql = "SELECT CompanyId, CMId, CMName, StoreId, BizCatId, TerminalId" +
                 ", Top1Message, Top2Message, Top3Message, Top4Message, Top5Message" +
+                ", Top6Message, Top7Message, Top8Message, Top9Message, Top10Message" +
                 ", Bottom1Message, Bottom2Message, Bottom3Message, Bottom4Message, Bottom5Message" +
+                ", Bottom6Message, Bottom7Message, Bottom8Message, Bottom9Message, Bottom10Message" +
                 ", StartDate, EndDate " +
                 "FROM RESMaster.dbo.MST_PRESET_CMINFO " +
                 "WHERE CompanyId = ? and CMId = ? and DeleteFlag = 0";
@@ -302,18 +326,128 @@ try{
 
             if (rs.next()) {
                 previousCmName = rs.getString("CMName");
-                previousMessage1 = rs.getString("Top1Message");
-                previousMessage2 = rs.getString("Top2Message");
+                if(rs.getString("Top1Message") == null){
+                	previousMessage1 = "";
+                }else{
+                    previousMessage1 = rs.getString("Top1Message");
+                }
+                if(rs.getString("Top2Message") == null){
+                	previousMessage2 = "";
+                }else{
+                    previousMessage2 = rs.getString("Top2Message");
+                }
+                if(rs.getString("Top3Message") == null){
+                	previousMessage3 = "";
+                }else{
+                    previousMessage3 = rs.getString("Top3Message");
+                }
+                if(rs.getString("Top4Message") == null){
+                	previousMessage4 = "";
+                }else{
+                    previousMessage4 = rs.getString("Top4Message");
+                }
+                if(rs.getString("Top5Message") == null){
+                	previousMessage5 = "";
+                }else{
+                    previousMessage5 = rs.getString("Top5Message");
+                }
+                if(rs.getString("Top6Message") == null){
+                	previousMessage6 = "";
+                }else{
+                    previousMessage6 = rs.getString("Top6Message");
+                }
+                if(rs.getString("Top7Message") == null){
+                	previousMessage7 = "";
+                }else{
+                    previousMessage7 = rs.getString("Top7Message");
+                }
+                if(rs.getString("Top8Message") == null){
+                	previousMessage8 = "";
+                }else{
+                    previousMessage8 = rs.getString("Top8Message");
+                }
+                if(rs.getString("Top9Message") == null){
+                	previousMessage9 = "";
+                }else{
+                    previousMessage9 = rs.getString("Top9Message");
+                }
+                if(rs.getString("Top10Message") == null){
+                	previousMessage10 = "";
+                }else{
+                    previousMessage10 = rs.getString("Top10Message");
+                }
+                if(rs.getString("Bottom1Message") == null){
+                	previousMessage11 = "";
+                }else{
+                    previousMessage11 = rs.getString("Bottom1Message");
+                }
+                if(rs.getString("Bottom2Message") == null){
+                	previousMessage12 = "";
+                }else{
+                    previousMessage12 = rs.getString("Bottom2Message");
+                }
+                if(rs.getString("Bottom3Message") == null){
+                	previousMessage13 = "";
+                }else{
+                    previousMessage13 = rs.getString("Bottom3Message");
+                }
+                if(rs.getString("Bottom4Message") == null){
+                	previousMessage14 = "";
+                }else{
+                    previousMessage14 = rs.getString("Bottom4Message");
+                }
+                if(rs.getString("Bottom5Message") == null){
+                	previousMessage15 = "";
+                }else{
+                    previousMessage15 = rs.getString("Bottom5Message");
+                }
+                if(rs.getString("Bottom6Message") == null){
+                	previousMessage16 = "";
+                }else{
+                    previousMessage16 = rs.getString("Bottom6Message");
+                }
+                if(rs.getString("Bottom7Message") == null){
+                	previousMessage17 = "";
+                }else{
+                    previousMessage17 = rs.getString("Bottom7Message");
+                }
+                if(rs.getString("Bottom8Message") == null){
+                	previousMessage18 = "";
+                }else{
+                    previousMessage18 = rs.getString("Bottom8Message");
+                }
+                if(rs.getString("Bottom9Message") == null){
+                	previousMessage19 = "";
+                }else{
+                    previousMessage19 = rs.getString("Bottom9Message");
+                }
+                if(rs.getString("Bottom10Message") == null){
+                	previousMessage20 = "";
+                }else{
+                    previousMessage20 = rs.getString("Bottom10Message");
+                }
+                
+/*                 previousMessage2 = rs.getString("Top2Message");
                 previousMessage3 = rs.getString("Top3Message");
                 previousMessage4 = rs.getString("Top4Message");
                 previousMessage5 = rs.getString("Top5Message");
-                previousMessage6 = rs.getString("Bottom1Message");
-                previousMessage7 = rs.getString("Bottom2Message");
-                previousMessage8 = rs.getString("Bottom3Message");
-                previousMessage9 = rs.getString("Bottom4Message");
-                previousMessage10 = rs.getString("Bottom5Message");
+                previousMessage6 = rs.getString("Top6Message");
+                previousMessage7 = rs.getString("Top7Message");
+                previousMessage8 = rs.getString("Top8Message");
+                previousMessage9 = rs.getString("Top9Message");
+                previousMessage10 = rs.getString("Top10Message");
+                previousMessage11 = rs.getString("Bottom1Message");
+                previousMessage12 = rs.getString("Bottom2Message");
+                previousMessage13 = rs.getString("Bottom3Message");
+                previousMessage14 = rs.getString("Bottom4Message");
+                previousMessage15 = rs.getString("Bottom5Message");
+                previousMessage16 = rs.getString("Bottom6Message");
+                previousMessage17 = rs.getString("Bottom7Message");
+                previousMessage18 = rs.getString("Bottom8Message");
+                previousMessage19 = rs.getString("Bottom9Message");
+                previousMessage20 = rs.getString("Bottom10Message");
                 previousStartDate = rs.getString("StartDate");
-                previousEndDate = rs.getString("EndDate");
+                previousEndDate = rs.getString("EndDate"); */
             }
             rs.close();
             ps.close();
@@ -710,12 +844,22 @@ $(document).ready(function() {
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage2)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage3)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage4)) %>" class="form-control" readonly="readonly">
-                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage5)) %>" class="form-control" readonly="readonly" style="margin-bottom: 5px;">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage5)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage6)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage7)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage8)) %>" class="form-control" readonly="readonly">
                 <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage9)) %>" class="form-control" readonly="readonly">
-                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage10)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage10)) %>" class="form-control" readonly="readonly" style="margin-bottom: 5px;">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage11)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage12)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage13)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage14)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage15)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage16)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage17)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage18)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage19)) %>" class="form-control" readonly="readonly">
+                <input type="text" value="<%= escapeHtml(trimToEmpty(previousMessage20)) %>" class="form-control" readonly="readonly">
               </div>
             </div>
             <div id="inputform" align="center">
@@ -728,44 +872,84 @@ $(document).ready(function() {
                   <input type="text" name="cmName" maxlength="40" value="<%= escapeHtml(trimToEmpty(cmName)) %>" class="form-control" aria-describedby="basic-addon-cmName">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon1">上段1行目</span>
+                  <span class="input-group-addon" id="basic-addon1">上段 1行目</span>
                   <input type="text" name="ads1" maxlength="40" value="<%= escapeHtml(trimToEmpty(message1)) %>" class="form-control" aria-describedby="basic-addon1">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon2">上段2行目</span>
+                  <span class="input-group-addon" id="basic-addon2">上段 2行目</span>
                   <input type="text" name="ads2" maxlength="40" value="<%= escapeHtml(trimToEmpty(message2)) %>" class="form-control" aria-describedby="basic-addon2">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon3">上段3行目</span>
+                  <span class="input-group-addon" id="basic-addon3">上段 3行目</span>
                   <input type="text" name="ads3" maxlength="40" value="<%= escapeHtml(trimToEmpty(message3)) %>" class="form-control" aria-describedby="basic-addon3">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon4">上段4行目</span>
+                  <span class="input-group-addon" id="basic-addon4">上段 4行目</span>
                   <input type="text" name="ads4" maxlength="40" value="<%= escapeHtml(trimToEmpty(message4)) %>" class="form-control" aria-describedby="basic-addon4">
                 </div>
-                <div class="input-group" style="margin-bottom: 5px;">
-                  <span class="input-group-addon" id="basic-addon5">上段5行目</span>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon5">上段 5行目</span>
                   <input type="text" name="ads5" maxlength="40" value="<%= escapeHtml(trimToEmpty(message5)) %>" class="form-control" aria-describedby="basic-addon5">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon6">下段1行目</span>
+                  <span class="input-group-addon" id="basic-addon6">上段 6行目</span>
                   <input type="text" name="ads6" maxlength="40" value="<%= escapeHtml(trimToEmpty(message6)) %>" class="form-control" aria-describedby="basic-addon6">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon7">下段2行目</span>
+                  <span class="input-group-addon" id="basic-addon7">上段 7行目</span>
                   <input type="text" name="ads7" maxlength="40" value="<%= escapeHtml(trimToEmpty(message7)) %>" class="form-control" aria-describedby="basic-addon7">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon8">下段3行目</span>
+                  <span class="input-group-addon" id="basic-addon8">上段 8行目</span>
                   <input type="text" name="ads8" maxlength="40" value="<%= escapeHtml(trimToEmpty(message8)) %>" class="form-control" aria-describedby="basic-addon8">
                 </div>
                 <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon9">下段4行目</span>
+                  <span class="input-group-addon" id="basic-addon9">上段 9行目</span>
                   <input type="text" name="ads9" maxlength="40" value="<%= escapeHtml(trimToEmpty(message9)) %>" class="form-control" aria-describedby="basic-addon9">
                 </div>
-                <div class="input-group">
-                  <span class="input-group-addon" id="basic-addon10">下段5行目</span>
+                <div class="input-group" style="margin-bottom: 5px;">
+                  <span class="input-group-addon" id="basic-addon10">上段10行目</span>
                   <input type="text" name="ads10" maxlength="40" value="<%= escapeHtml(trimToEmpty(message10)) %>" class="form-control" aria-describedby="basic-addon10">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon11">下段 1行目</span>
+                  <input type="text" name="ads11" maxlength="40" value="<%= escapeHtml(trimToEmpty(message11)) %>" class="form-control" aria-describedby="basic-addon11">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon12">下段 2行目</span>
+                  <input type="text" name="ads12" maxlength="40" value="<%= escapeHtml(trimToEmpty(message12)) %>" class="form-control" aria-describedby="basic-addon12">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon13">下段 3行目</span>
+                  <input type="text" name="ads13" maxlength="40" value="<%= escapeHtml(trimToEmpty(message13)) %>" class="form-control" aria-describedby="basic-addon13">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon14">下段 4行目</span>
+                  <input type="text" name="ads14" maxlength="40" value="<%= escapeHtml(trimToEmpty(message14)) %>" class="form-control" aria-describedby="basic-addon14">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon15">下段 5行目</span>
+                  <input type="text" name="ads15" maxlength="40" value="<%= escapeHtml(trimToEmpty(message15)) %>" class="form-control" aria-describedby="basic-addon15">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon16">下段 6行目</span>
+                  <input type="text" name="ads16" maxlength="40" value="<%= escapeHtml(trimToEmpty(message16)) %>" class="form-control" aria-describedby="basic-addon16">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon17">下段 7行目</span>
+                  <input type="text" name="ads17" maxlength="40" value="<%= escapeHtml(trimToEmpty(message17)) %>" class="form-control" aria-describedby="basic-addon17">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon18">下段 8行目</span>
+                  <input type="text" name="ads18" maxlength="40" value="<%= escapeHtml(trimToEmpty(message18)) %>" class="form-control" aria-describedby="basic-addon18">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon19">下段 9行目</span>
+                  <input type="text" name="ads19" maxlength="40" value="<%= escapeHtml(trimToEmpty(message19)) %>" class="form-control" aria-describedby="basic-addon19">
+                </div>
+                <div class="input-group">
+                  <span class="input-group-addon" id="basic-addon20">下段10行目</span>
+                  <input type="text" name="ads20" maxlength="40" value="<%= escapeHtml(trimToEmpty(message20)) %>" class="form-control" aria-describedby="basic-addon20">
                 </div>
               </div>
               <br>

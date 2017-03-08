@@ -267,8 +267,8 @@ public class StoreResource {
         })
     public final CMPresetInfos getCMPresetInfoList(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId, 
-    		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalid") final String terminalId,
+    		@ApiParam(name="storeid", value="店舗コード")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalid") final String terminalId,
     		@ApiParam(name="businessdaydate", value="営業日")@QueryParam("businessdaydate") final String businessDayDate) {
     	
         String functionName = DebugLogger.getCurrentMethodName();

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+  <table name="MST_TERMINALINFO">
+    <column>CompanyId</column>
+    <column>StoreId</column>
+    <column>TerminalId</column>
+    <column>FloorId</column>
+    <column>TerminalName</column>
+    <column>IPAddress</column>
+    <column>StoreClass</column>
+    <column>TerminalType</column>
+    <column>TillType</column>
+    <column>RelationType</column>
+    <column>ConnectionFlag1</column>
+    <column>ConnectionFlag2</column>
+    <column>ConnectionFlag3</column>
+    <column>ConnectionFlag4</column>
+    <column>ConnectionFlag5</column>
+    <column>ConnectionFlag6</column>
+    <column>ConnectionFlag7</column>
+    <column>ConnectionFlag8</column>
+    <column>ConnectionFlag9</column>
+    <column>ConnectionFlag10</column>
+    <column>ConnectionFlag11</column>
+    <column>ConnectionFlag12</column>
+    <column>ConnectionFlag13</column>
+    <column>ConnectionFlag14</column>
+    <column>ConnectionFlag15</column>
+    <column>LogoFileName</column>
+    <column>InshiFileName</column>
+    <column>Note</column>
+    <column>SubCode1</column>
+    <column>SubCode2</column>
+    <column>SubCode3</column>
+    <column>SubCode4</column>
+    <column>SubCode5</column>
+    <column>SubNum1</column>
+    <column>SubNum2</column>
+    <column>SubNum3</column>
+    <column>SubNum4</column>
+    <column>SubNum5</column>
+    <column>DeleteFlag</column>
+    <column>DelDate</column>
+    <column>DelAppId</column>
+    <column>DelOpeCode</column>
+    <column>InsDate</column>
+    <column>InsAppId</column>
+    <column>InsOpeCode</column>
+    <column>UpdCount</column>
+    <column>UpdDate</column>
+    <column>UpdAppId</column>
+    <column>UpdOpeCode</column>
+    <row>
+      <value>01</value>
+      <value>0031</value>
+      <value>0001</value>
+      <value>0001</value>
+      <value>Terminal1</value>
+      <value>127.0.0.1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>1</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>0</value>
+      <value>logofile</value>
+      <value>inshifile</value>
+      <value>note</value>
+      <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+      <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+      <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+      <null />
+      <null />
+      <null />
+      <null />
+      <null />
+      <null />
+      <null />
+      <value>0</value>
+      <null />
+      <value></value>
+	  <value></value>
+      <value>2015-09-30 00:00:00.000</value>
+      <value>deviceinfo.getterminalinfo</value>
+      <value>00009999</value>
+      <value>0</value>
+      <value>2015-09-30 00:00:00.000</value>
+      <value>deviceinfo.getterminalinfo</value>
+      <value>00009999</value>
+    </row>
+  </table>
+</dataset>

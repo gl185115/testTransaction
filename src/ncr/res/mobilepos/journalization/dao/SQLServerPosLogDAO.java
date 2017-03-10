@@ -1752,7 +1752,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
         return tp.methodExit(strResult);
     }
-    
+
     @Override
     public final List<TransactionSearch> searchTransactions(final String limit, final String from, final String line,
             final String storeId, final String deviceId, final String itemName, final String subCode4,
@@ -2201,6 +2201,42 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             }
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get last pay tx poslog.", e);
+            throw new Exception("SQLException: @SQLServerPosLogDAO." + functionName, e);
+        } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(poslog);
+        }
+        return poslog;
+    }
+
+    public String getLastBalancingTxPoslog(String companyId, String storeId, String terminalId, String businessDate,
+            int trainingFlag) throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("companyid", companyId).println("storeId", storeId)
+                .println("terminalId", terminalId).println("businessDate", businessDate)
+                .println("trainingFlag", trainingFlag);
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        String poslog = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(sqlStatement.getProperty("get-last-balancing-tx-poslog"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, terminalId);
+            statement.setString(SQLStatement.PARAM4, businessDate);
+            statement.setInt(SQLStatement.PARAM5, trainingFlag);
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                poslog = result.getString("Tx");
+            }
+        } catch (SQLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get last balancing tx poslog.", e);
             throw new Exception("SQLException: @SQLServerPosLogDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);

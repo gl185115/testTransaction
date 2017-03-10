@@ -686,7 +686,7 @@ WHERE
     )
 
 ) A ORDER BY DisplayOrder
-</entry>  
+</entry>
   <entry key="get-till-information-list">
   DECLARE    @storeId VARCHAR(6)
   SET        @storeId = LTRIM(RTRIM(?))
@@ -697,7 +697,7 @@ WHERE
              SodFlag,
              EodFlag
     FROM RESMaster.dbo.MST_TILLIDINFO
-    WHERE StoreId = @storeId  AND DeleteFlag = 0 
+    WHERE StoreId = @storeId  AND DeleteFlag = 0
     ORDER BY StoreId
   </entry>
 
@@ -986,7 +986,7 @@ ORDER BY
       ORDER BY
         MdName ASC;
   </entry>
-	
+
 	<entry key="get-items-paging">
     SELECT * FROM (
       SELECT top ? * FROM (
@@ -4948,7 +4948,7 @@ ORDER BY
        (TodayDate, SwitchTime, Skip)
        VALUES (?, ?, ?)
   </entry>
-  
+
   <entry key="select-date-setting">
     SELECT
       CompanyId,
@@ -5119,7 +5119,7 @@ ORDER BY
       LOWER(StoreName) = LOWER(COALESCE(@storeName, StoreName)) AND
       Status = 'Active'
       ORDER BY StoreName ASC
-  </entry>  
+  </entry>
 
     <entry key="get-till-info">
       	SELECT
@@ -5175,7 +5175,7 @@ ORDER BY
        BusinessDayDate = @businessdaydate AND
        EodFlag = @eodflag AND
        DeleteFlag=0
-       
+
     COMMIT TRAN
   </entry>
 
@@ -5206,7 +5206,7 @@ ORDER BY
       StoreId = ? AND
       TillId = ? AND
       SodFlag = ? AND
-      EodFlag = ? AND 
+      EodFlag = ? AND
       DeleteFlag = 0
   </entry>
 
@@ -5374,7 +5374,7 @@ ORDER BY
        StoreId = @storeid AND
        TillId = @tillid AND
        SodFlag = @sodflagtochange AND
-       EodFlag = @eodflagtochange AND 
+       EodFlag = @eodflagtochange AND
        DeleteFlag = 0
 
     UPDATE
@@ -5389,7 +5389,7 @@ ORDER BY
        StoreId = @storeid AND
        TillId = @tillid AND
        SodFlag = @sodflagtochange AND
-       EodFlag = @eodflagtochange AND 
+       EodFlag = @eodflagtochange AND
        DeleteFlag = 0
     COMMIT TRAN
   </entry>
@@ -5551,7 +5551,7 @@ ORDER BY
       StoreId,
       InheritFlag,
       ExceptionFlag,
-      
+
       DiscountType,
       DiscountFlag,
       DiscountAmt,
@@ -6643,7 +6643,7 @@ ORDER BY
             (@STOREID, @PLU, @MDINTERNAL, @MDTYPE, @MDVENDER, @DPT, @LINE, @CLASS, @SKU, @ITEMSIZE, @KEYPLU, @MD01, @MD02, @MD03, @MD04, @MD05, @MD06, @MD07, @MD08, @MD09, @MD10, @MDNAME, @MDNAME1, @MDNAME2, @MDKANANAME, @MDKANANAME1, @MDKANANAME2, @ORGSALESPRICE1, @SALESPRICE1, @SALESPRICE2, @EMPPRICE1, @EMPPRICE2, @EMPPRICE3, @PUPRICE1, @PUPRICE2, @PUPRICECHGDATE1, @PUPRICECHGDATE2, @ORGCOSTPRICE1, @COSTPRICE1, @COSTPRICE2, @COSTPRICECHGDATE1, @COSTPRICECHGDATE2, @SALESDATE, @MAKERPRICE, @TAXTYPE, @DISCOUNTTYPE, @SEASONTYPE, @PAYMENTTYPE, @ORDERTYPE, @POSMDTYPE, @CATTYPE, @ORDERUNIT, @ORDERPOINT, @BASESTOCKCNT, @CONN1, @CONNTYPE1, @CONN2, @CONNTYPE2, @VENDERCODE, @VENDERTYPE, @TAGCODE1, @TAGCODE2, @TAGCODE3, @POINTRATE, @SUBMONEY1, @SUBMONEY2, @SUBMONEY3, @SUBMONEY4, @SUBMONEY5, @SUBCODE1, @SUBCODE2, @SUBCODE3, @SUBCODE4, @SUBCODE5, @SUBCODE6, @SUBCODE7, @SUBCODE8, @SUBCODE9, @SUBCODE10, @SUBTINYINT1, @SUBTINYINT2, @SUBTINYINT3, @SUBTINYINT4, @SUBTINYINT5, @SUBTINYINT6, @SUBTINYINT7, @SUBTINYINT8, @SUBTINYINT9, @SUBINT10, @INSDATE, @UPDDATE, @UPDAPPID, @UPDOPECODE, @DISPLAYPLU, @STOCKTYPE)
 
   </entry>
-  
+
     <entry key="get-cash-balance">
     SELECT
       SUM(Debit) - SUM(Credit) +
@@ -9678,6 +9678,35 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TrainingFlag = @trainingFlag AND
       (LOWER(TxType) = 'payin' OR
       LOWER(TxType) = 'payout')
+    ORDER BY
+      InsDateTime DESC
+  </entry>
+  <entry key="get-last-balancing-tx-poslog">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @terminalId varchar(max),
+      @businessDate varchar(max),
+      @trainingFlag tinyint
+
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @terminalId = ?
+    SET @businessDate = ?
+    SET @trainingFlag = ?
+
+    SELECT TOP 1
+      Tx,
+      InsDateTime
+    FROM
+      RESTransaction.dbo.TXL_SALES_JOURNAL
+    WHERE
+      CompanyId = @companyId AND
+      RetailStoreId = @storeId AND
+      WorkStationId = @terminalId AND
+      BusinessDayDate = @businessDate AND
+      TrainingFlag = @trainingFlag AND
+      LOWER(TxType) = 'balancing'
     ORDER BY
       InsDateTime DESC
   </entry>

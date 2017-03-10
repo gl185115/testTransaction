@@ -60,6 +60,6 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-util-scan/8.0.24/tomcat-util-scan-8.0.24.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-dbcp/8.0.24/tomcat-dbcp-8.0.24.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sqljdbc42.jar"/>
-	<classpathentry kind="var" path="M2_REPO/sqljdc42/sqljdc42/4.2/sqljdc42-4.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/sqljdbc42/sqljdbc42/4.2/sqljdbc42-4.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

@@ -10,19 +10,12 @@
 
 package ncr.res.mobilepos.journalization.resource;
 
-import atg.taglib.json.util.JSONObject;
-
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
+
 import javax.annotation.PostConstruct;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
@@ -36,6 +29,14 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.xml.bind.JAXBException;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
+import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -134,7 +135,7 @@ public class JournalizationResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
-    @ApiOperation(value="通常の取引を記録する", response=PosLogResp.class)
+    @ApiOperation(value="通常取引登録", response=PosLogResp.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
@@ -263,18 +264,18 @@ public class JournalizationResource {
     @Path("/gettransactionposlog")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="取引のposlogを得る", response=SearchedPosLog.class)
+    @ApiOperation(value="取引poslog取得", response=SearchedPosLog.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引のデータが見つからない"),
-    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="無効のパラメータ"),
+    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final SearchedPosLog getPOSLogTransactionByNumber(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyid") final String companyid,
     		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
-    		@ApiParam(name="deviceid", value="設備コード") @QueryParam("deviceid") final String workstationid,
+    		@ApiParam(name="deviceid", value="ターミナル番号") @QueryParam("deviceid") final String workstationid,
     		@ApiParam(name="businessdate", value="営業日") @QueryParam("businessdate") final String businessdate,
-    		@ApiParam(name="txid", value="取引コード") @QueryParam("txid") final String txid,
+    		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txid,
     		@ApiParam(name="trainingmode", value="トレーニングモード") @QueryParam("trainingmode") final int trainingflag,
     		@ApiParam(name="txtype", value="取引種別") @QueryParam("txtype") final String txtype) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -342,7 +343,7 @@ public class JournalizationResource {
     @GET
     @Path("/businessdate")
     @Produces({ MediaType.TEXT_PLAIN + ";charset=UTF-8" })
-    @ApiOperation(value="営業日を得る", response=String.class)
+    @ApiOperation(value="営業日取得", response=String.class)
     @ApiResponses(value={})
     public final String getBussinessDate(
     	@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
@@ -363,7 +364,7 @@ public class JournalizationResource {
         }
         return tp.methodExit(businessDate);
     }
-    
+
     /**
      * Gets the journal info.
      *
@@ -458,7 +459,7 @@ public class JournalizationResource {
         }
         return jsonData;
     }
-    
+
     /**
      * @param storeId
      *            the store Id
@@ -477,7 +478,7 @@ public class JournalizationResource {
     @Path("/getAdvancedInfoBySequenceNo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="序列号によって情報を得る", response=SearchGuestOrder.class)
+    @ApiOperation(value="取引番号により前受金番号取得", response=SearchGuestOrder.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
@@ -486,9 +487,9 @@ public class JournalizationResource {
 
     })
     public final SearchGuestOrder getAdvancedInfoBySequenceNo(
-    		@ApiParam(name="storeId", value="会社コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="deviceId", value="端末コード") @QueryParam("deviceId") final String deviceId,
-    		@ApiParam(name="sequenceNo", value="送信管理順序") @QueryParam("sequenceNo") final String sequenceNo,
+    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="deviceId", value="ターミナル番号") @QueryParam("deviceId") final String deviceId,
+    		@ApiParam(name="sequenceNo", value="取引番号") @QueryParam("sequenceNo") final String sequenceNo,
     		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
@@ -539,11 +540,11 @@ public class JournalizationResource {
         }
         return (SearchGuestOrder)tp.methodExit(searchGuestOrder);
     }
-    
+
      @GET
 	 @Path("/getlastpaytransactionposlog")
 	 @Produces({ MediaType.APPLICATION_JSON })
-	 @ApiOperation(value="検索最後賃金取引のposLog情報", response=SearchedPosLog.class)
+	 @ApiOperation(value="最新入出金poslog取得", response=SearchedPosLog.class)
 	    @ApiResponses(value={
 	    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
 	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
@@ -553,7 +554,7 @@ public class JournalizationResource {
 	 public final SearchedPosLog getLastPayTxPoslog(
 			 @ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") String companyId,
 			 @ApiParam(name="storeId", value="店番コード") @QueryParam("storeId") String storeId,
-			 @ApiParam(name="terminalId", value="端末コード") @QueryParam("terminalId") String terminalId,
+			 @ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") String terminalId,
 			 @ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") String businessDate,
 			 @ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") int trainingFlag) {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -613,7 +614,81 @@ public class JournalizationResource {
 		 }
 		 return poslog;
 	 }
-	 /**
+     @GET
+	 @Path("/getlastbalancingtransactionposlog")
+	 @Produces({ MediaType.APPLICATION_JSON })
+	 @ApiOperation(value="最新在高poslog取得", response=SearchedPosLog.class)
+	    @ApiResponses(value={
+	    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+	    @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+	    })
+	 public final SearchedPosLog getLastBalancingTxPoslog(
+			 @ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") String companyId,
+			 @ApiParam(name="storeId", value="店番コード") @QueryParam("storeId") String storeId,
+			 @ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") String terminalId,
+			 @ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") String businessDate,
+			 @ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") int trainingFlag) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+     		.println("companyid", companyId)
+         	.println("storeId", storeId)
+         	.println("terminalId", terminalId)
+         	.println("businessDate", businessDate)
+         	.println("trainingFlag", trainingFlag);
+
+		SearchedPosLog poslog = new SearchedPosLog();
+		String poslogString = null;
+
+		if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, businessDate)) {
+			tp.println("A required parameter is null or empty.");
+			poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			poslog.setMessage("A required parameter is null or empty.");
+			tp.methodExit(poslog.toString());
+			return poslog;
+        }
+
+		try {
+			DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+			IPosLogDAO poslogDao = sqlServer.getPOSLogDAO();
+			poslogString = poslogDao.getLastBalancingTxPoslog(companyId, storeId,
+					terminalId, businessDate, trainingFlag);
+			if (poslogString == null) {
+				poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+				poslog.setMessage("Last balancing tx poslog not found.");
+			} else {
+				XmlSerializer<SearchedPosLog>
+						poslogSerializer = new XmlSerializer<SearchedPosLog>();
+				poslog = poslogSerializer.unMarshallXml(
+						poslogString, SearchedPosLog.class);
+			 }
+		} catch (Exception e) {
+			String loggerErrorCode = null;
+			int resultBaseErrorCode = 0;
+			if (e.getCause() instanceof SQLException) {
+				loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DB;
+            } else if (e.getCause() instanceof SQLStatementException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DAO;
+            } else {
+                loggerErrorCode = Logger.RES_EXCEP_GENERAL;
+                resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
+            }
+            poslog.setNCRWSSResultCode(resultBaseErrorCode);
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
+                    "Failed to get last balancing transaction poslog for "
+                    + "companyId#" + companyId + ", storeId#" + storeId + ", "
+                    + "terminalId#" + terminalId + ", businessDate" + businessDate + ", "
+                    + "and trainingFlag" + trainingFlag + ": " + e.getMessage());
+		 } finally {
+			 tp.methodExit(poslog.toString());
+		 }
+		 return poslog;
+	 }
+
+     /**
      * 取引ロックステータスの更新とチエック
      *
      * @param Type
@@ -628,7 +703,7 @@ public class JournalizationResource {
      @Path("/updatelockstatus")
      @POST
      @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-     @ApiOperation(value="ロックの状態を更新", response=ResultBase.class)
+     @ApiOperation(value="ロック状態更新", response=ResultBase.class)
      @ApiResponses(value={
      @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
      @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
@@ -637,9 +712,9 @@ public class JournalizationResource {
     		 @ApiParam(name="Type", value="種別") @FormParam("Type") String Type,
     		 @ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
     		 @ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
-    		 @ApiParam(name="WorkstationId", value="ターミナルID") @FormParam("WorkstationId") String WorkstationId,
+    		 @ApiParam(name="WorkstationId", value="ターミナル番号") @FormParam("WorkstationId") String WorkstationId,
     		 @ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") int SequenceNumber,
-    		 @ApiParam(name="BusinessDayDate", value="POS業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
+    		 @ApiParam(name="BusinessDayDate", value="営業日") @FormParam("BusinessDayDate") String BusinessDayDate,
     		 @ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") int TrainingFlag,
     		 @ApiParam(name="CallType", value="呼出し種別") @FormParam("CallType") String CallType,
     		 @ApiParam(name="AppId", value="プログラムID") @FormParam("AppId") String AppId,

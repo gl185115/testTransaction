@@ -79,7 +79,7 @@ public class GetTerminalInfoSteps extends Steps {
 				fieldContext.set(deviceInfo, servletContext);
 				
 				dbInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-		    			"test/resource/test/MST_TERMINALINFO.xml");
+		    			"test/ncr/res/mobilepos/device/resource/test/MST_TERMINALINFO.xml");
 			} catch (Exception ex) {
 				ex.printStackTrace();
 				Assert.fail("Can't Retrieve Servlet context from promotion.");
@@ -105,6 +105,7 @@ public class GetTerminalInfoSteps extends Steps {
     	companyId = StringUtility.convNullStringToNull(companyId);
     	storeId = StringUtility.convNullStringToNull(storeId);
     	terminalId = StringUtility.convNullStringToNull(terminalId);
+    	terminalId = terminalId.equalsIgnoreCase("empty") ? "": terminalId;
     	viewTerminalInfo = deviceInfo.getTerminalInfo(companyId, storeId, terminalId);
     	terminalInfo = viewTerminalInfo.getTerminalInfo();
     }

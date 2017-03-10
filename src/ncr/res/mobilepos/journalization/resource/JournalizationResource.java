@@ -646,6 +646,11 @@ public class JournalizationResource {
 			poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 			poslog.setMessage("A required parameter is null or empty.");
 			tp.methodExit(poslog.toString());
+
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "リクエスト パラメータエラー" + 
+					"クエリーパラメータが不足しています。");
+					
 			return poslog;
         }
 

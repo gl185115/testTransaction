@@ -36,6 +36,16 @@ public static java.sql.Date toDate(String value) {
         return null;
     }
 }
+public static void setNullToTailEmpty(String[] array){
+
+	for(int i = array.length - 1; 0 <= i; i--){
+		if(array[i] == null || array[i].isEmpty()){
+			array[i] = null;
+		}else{
+			break;
+		}
+	}
+}
 %>
 <%
 String resCommit = "0"; //1:成功, 2:失敗
@@ -200,50 +210,32 @@ try{
                   "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             
-            String[] messages = new String[20];
-            messages[0] = ads1;
-            messages[1] = ads2;
-            messages[2] = ads3;
-            messages[3] = ads4;
-            messages[4] = ads5;
-            messages[5] = ads6;
-            messages[6] = ads7;
-            messages[7] = ads8;
-            messages[8] = ads9;
-            messages[9] = ads10;
-            messages[10] = ads11;
-            messages[11] = ads12;
-            messages[12] = ads13;
-            messages[13] = ads14;
-            messages[14] = ads15;
-            messages[15] = ads16;
-            messages[16] = ads17;
-            messages[17] = ads18;
-            messages[18] = ads19;
-            messages[19] = ads20;
+            String[] topMessages = new String[10];
+            String[] bottomMessages = new String[10];
             
-            for(int i = 1; i < 9; i++){
-            	if(messages[i].equals("") && ((messages[i-1] == null || messages[i-1].equals("")) || (messages[i+1] == null || messages[i+1].equals("")))){
-            		messages[i] = null;
-            	}
-            }
-            for(int i = 11; i < 19; i++){
-            	if(messages[i].equals("") && ((messages[i-1] == null || messages[i-1].equals("")) || (messages[i+1] == null || messages[i+1].equals("")))){
-            		messages[i] = null;
-            	}
-            }
-            if(messages[19].equals("")){
-            	messages[19] = null;
-            }
-            if(messages[0].equals("")){
-            	messages[0] = null;
-            }
-            if(messages[10].equals("")){
-            	messages[10] = null;
-            }
-            if(messages[9].equals("")){
-            	messages[9] = null;
-            }
+            topMessages[0] = ads1;
+            topMessages[1] = ads2;
+            topMessages[2] = ads3;
+            topMessages[3] = ads4;
+            topMessages[4] = ads5;
+            topMessages[5] = ads6;
+            topMessages[6] = ads7;
+            topMessages[7] = ads8;
+            topMessages[8] = ads9;
+            topMessages[9] = ads10;
+            bottomMessages[0] = ads11;
+            bottomMessages[1] = ads12;
+            bottomMessages[2] = ads13;
+            bottomMessages[3] = ads14;
+            bottomMessages[4] = ads15;
+            bottomMessages[5] = ads16;
+            bottomMessages[6] = ads17;
+            bottomMessages[7] = ads18;
+            bottomMessages[8] = ads19;
+            bottomMessages[9] = ads20;
+            
+            setNullToTailEmpty(topMessages);
+            setNullToTailEmpty(bottomMessages);
             
             ps.setString(1, companyId);
             ps.setString(2, cmName);
@@ -253,26 +245,26 @@ try{
             ps.setString(6, terminalId);
             ps.setDate(7, sqlStartDate);
             ps.setDate(8, sqlEndDate);
-            ps.setString(9, messages[0]);
-            ps.setString(10, messages[1]);
-            ps.setString(11, messages[2]);
-            ps.setString(12, messages[3]);
-            ps.setString(13, messages[4]);
-            ps.setString(14, messages[5]);
-            ps.setString(15, messages[6]);
-            ps.setString(16, messages[7]);
-            ps.setString(17, messages[8]);
-            ps.setString(18, messages[9]);
-            ps.setString(19, messages[10]);
-            ps.setString(20, messages[11]);
-            ps.setString(21, messages[12]);
-            ps.setString(22, messages[13]);
-            ps.setString(23, messages[14]);
-            ps.setString(24, messages[15]);
-            ps.setString(25, messages[16]);
-            ps.setString(26, messages[17]);
-            ps.setString(27, messages[18]);
-            ps.setString(28, messages[19]);
+            ps.setString(9, topMessages[0]);
+            ps.setString(10, topMessages[1]);
+            ps.setString(11, topMessages[2]);
+            ps.setString(12, topMessages[3]);
+            ps.setString(13, topMessages[4]);
+            ps.setString(14, topMessages[5]);
+            ps.setString(15, topMessages[6]);
+            ps.setString(16, topMessages[7]);
+            ps.setString(17, topMessages[8]);
+            ps.setString(18, topMessages[9]);
+            ps.setString(19, bottomMessages[0]);
+            ps.setString(20, bottomMessages[1]);
+            ps.setString(21, bottomMessages[2]);
+            ps.setString(22, bottomMessages[3]);
+            ps.setString(23, bottomMessages[4]);
+            ps.setString(24, bottomMessages[5]);
+            ps.setString(25, bottomMessages[6]);
+            ps.setString(26, bottomMessages[7]);
+            ps.setString(27, bottomMessages[8]);
+            ps.setString(28, bottomMessages[9]);
             ps.setInt(29, 0);
             ps.setDate(30, currentDate);
             ps.setString(31, "settingAds");
@@ -343,74 +335,56 @@ try{
                             " WHERE CompanyID = ? and CMId = ?";
                 ps = conn.prepareStatement(sql);
                 
-                String[] messages = new String[20];
-                messages[0] = ads1;
-                messages[1] = ads2;
-                messages[2] = ads3;
-                messages[3] = ads4;
-                messages[4] = ads5;
-                messages[5] = ads6;
-                messages[6] = ads7;
-                messages[7] = ads8;
-                messages[8] = ads9;
-                messages[9] = ads10;
-                messages[10] = ads11;
-                messages[11] = ads12;
-                messages[12] = ads13;
-                messages[13] = ads14;
-                messages[14] = ads15;
-                messages[15] = ads16;
-                messages[16] = ads17;
-                messages[17] = ads18;
-                messages[18] = ads19;
-                messages[19] = ads20;
+                String[] topMessages = new String[10];
+                String[] bottomMessages = new String[10];
                 
-                for(int i = 1; i < 9; i++){
-                	if(messages[i].equals("") && ((messages[i-1] == null || messages[i-1].equals("")) || (messages[i+1] == null || messages[i+1].equals("")))){
-                		messages[i] = null;
-                	}
-                }
-                for(int i = 11; i < 19; i++){
-                	if(messages[i].equals("") && ((messages[i-1] == null || messages[i-1].equals("")) || (messages[i+1] == null || messages[i+1].equals("")))){
-                		messages[i] = null;
-                	}
-                }
-                if(messages[19].equals("")){
-                	messages[19] = null;
-                }
-                if(messages[0].equals("")){
-                	messages[0] = null;
-                }
-                if(messages[10].equals("")){
-                	messages[10] = null;
-                }
-                if(messages[9].equals("")){
-                	messages[9] = null;
-                }
+                topMessages[0] = ads1;
+                topMessages[1] = ads2;
+                topMessages[2] = ads3;
+                topMessages[3] = ads4;
+                topMessages[4] = ads5;
+                topMessages[5] = ads6;
+                topMessages[6] = ads7;
+                topMessages[7] = ads8;
+                topMessages[8] = ads9;
+                topMessages[9] = ads10;
+                bottomMessages[0] = ads11;
+                bottomMessages[1] = ads12;
+                bottomMessages[2] = ads13;
+                bottomMessages[3] = ads14;
+                bottomMessages[4] = ads15;
+                bottomMessages[5] = ads16;
+                bottomMessages[6] = ads17;
+                bottomMessages[7] = ads18;
+                bottomMessages[8] = ads19;
+                bottomMessages[9] = ads20;
+                
+                setNullToTailEmpty(topMessages);
+                setNullToTailEmpty(bottomMessages);
                 
                 ps.setString(1, cmName);
                 ps.setDate(2, sqlStartDate);
                 ps.setDate(3, sqlEndDate);
-                ps.setString(4, messages[0]);
-                ps.setString(5, messages[1]);
-                ps.setString(6, messages[2]);
-                ps.setString(7, messages[3]);
-                ps.setString(8, messages[4]);
-                ps.setString(9, messages[5]);
-                ps.setString(10, messages[6]);
-                ps.setString(11, messages[7]);
-                ps.setString(12, messages[8]);
-                ps.setString(13, messages[9]);
-                ps.setString(14, messages[10]);
-                ps.setString(15, messages[11]);
-                ps.setString(16, messages[12]);
-                ps.setString(17, messages[13]);
-                ps.setString(18, messages[14]);
-                ps.setString(19, messages[15]);
-                ps.setString(20, messages[16]);
-                ps.setString(21, messages[17]);
-                ps.setString(22, messages[18]);
-                ps.setString(23, messages[19]);
+                ps.setString(4, topMessages[0]);
+                ps.setString(5, topMessages[1]);
+                ps.setString(6, topMessages[2]);
+                ps.setString(7, topMessages[3]);
+                ps.setString(8, topMessages[4]);
+                ps.setString(9, topMessages[5]);
+                ps.setString(10, topMessages[6]);
+                ps.setString(11, topMessages[7]);
+                ps.setString(12, topMessages[8]);
+                ps.setString(13, topMessages[9]);
+                ps.setString(14, bottomMessages[0]);
+                ps.setString(15, bottomMessages[1]);
+                ps.setString(16, bottomMessages[2]);
+                ps.setString(17, bottomMessages[3]);
+                ps.setString(18, bottomMessages[4]);
+                ps.setString(19, bottomMessages[5]);
+                ps.setString(20, bottomMessages[6]);
+                ps.setString(21, bottomMessages[7]);
+                ps.setString(22, bottomMessages[8]);
+                ps.setString(23, bottomMessages[9]);
                 ps.setInt(24, updCount + 1);
                 ps.setDate(25, currentDate);
                 ps.setString(26, "settingAds");
@@ -450,74 +424,56 @@ try{
                             " WHERE CompanyID = ? and CMId = ?";
                 ps = conn.prepareStatement(sql);
                 
-                String[] messages = new String[20];
-                messages[0] = ads1;
-                messages[1] = ads2;
-                messages[2] = ads3;
-                messages[3] = ads4;
-                messages[4] = ads5;
-                messages[5] = ads6;
-                messages[6] = ads7;
-                messages[7] = ads8;
-                messages[8] = ads9;
-                messages[9] = ads10;
-                messages[10] = ads11;
-                messages[11] = ads12;
-                messages[12] = ads13;
-                messages[13] = ads14;
-                messages[14] = ads15;
-                messages[15] = ads16;
-                messages[16] = ads17;
-                messages[17] = ads18;
-                messages[18] = ads19;
-                messages[19] = ads20;
+                String[] topMessages = new String[10];
+                String[] bottomMessages = new String[10];
                 
-                for(int i = 1; i < 9; i++){
-                	if(messages[i].equals("") && ((messages[i-1] == null || messages[i-1].equals("")) || (messages[i+1] == null || messages[i+1].equals("")))){
-                		messages[i] = null;
-                	}
-                }
-                for(int i = 11; i < 19; i++){
-                	if(messages[i].equals("") && ((messages[i-1] == null || messages[i-1].equals("")) || (messages[i+1] == null || messages[i+1].equals("")))){
-                		messages[i] = null;
-                	}
-                }
-                if(messages[19].equals("")){
-                	messages[19] = null;
-                }
-                if(messages[0].equals("")){
-                	messages[0] = null;
-                }
-                if(messages[10].equals("")){
-                	messages[10] = null;
-                }
-                if(messages[9].equals("")){
-                	messages[9] = null;
-                }
+                topMessages[0] = ads1;
+                topMessages[1] = ads2;
+                topMessages[2] = ads3;
+                topMessages[3] = ads4;
+                topMessages[4] = ads5;
+                topMessages[5] = ads6;
+                topMessages[6] = ads7;
+                topMessages[7] = ads8;
+                topMessages[8] = ads9;
+                topMessages[9] = ads10;
+                bottomMessages[0] = ads11;
+                bottomMessages[1] = ads12;
+                bottomMessages[2] = ads13;
+                bottomMessages[3] = ads14;
+                bottomMessages[4] = ads15;
+                bottomMessages[5] = ads16;
+                bottomMessages[6] = ads17;
+                bottomMessages[7] = ads18;
+                bottomMessages[8] = ads19;
+                bottomMessages[9] = ads20;
+                
+                setNullToTailEmpty(topMessages);
+                setNullToTailEmpty(bottomMessages);
                 
                 ps.setString(1, cmName);
                 ps.setDate(2, sqlStartDate);
                 ps.setDate(3, sqlEndDate);
-                ps.setString(4, messages[0]);
-                ps.setString(5, messages[1]);
-                ps.setString(6, messages[2]);
-                ps.setString(7, messages[3]);
-                ps.setString(8, messages[4]);
-                ps.setString(9, messages[5]);
-                ps.setString(10, messages[6]);
-                ps.setString(11, messages[7]);
-                ps.setString(12, messages[8]);
-                ps.setString(13, messages[9]);
-                ps.setString(14, messages[10]);
-                ps.setString(15, messages[11]);
-                ps.setString(16, messages[12]);
-                ps.setString(17, messages[13]);
-                ps.setString(18, messages[14]);
-                ps.setString(19, messages[15]);
-                ps.setString(20, messages[16]);
-                ps.setString(21, messages[17]);
-                ps.setString(22, messages[18]);
-                ps.setString(23, messages[19]);
+                ps.setString(4, topMessages[0]);
+                ps.setString(5, topMessages[1]);
+                ps.setString(6, topMessages[2]);
+                ps.setString(7, topMessages[3]);
+                ps.setString(8, topMessages[4]);
+                ps.setString(9, topMessages[5]);
+                ps.setString(10, topMessages[6]);
+                ps.setString(11, topMessages[7]);
+                ps.setString(12, topMessages[8]);
+                ps.setString(13, topMessages[9]);
+                ps.setString(14, bottomMessages[0]);
+                ps.setString(15, bottomMessages[1]);
+                ps.setString(16, bottomMessages[2]);
+                ps.setString(17, bottomMessages[3]);
+                ps.setString(18, bottomMessages[4]);
+                ps.setString(19, bottomMessages[5]);
+                ps.setString(20, bottomMessages[6]);
+                ps.setString(21, bottomMessages[7]);
+                ps.setString(22, bottomMessages[8]);
+                ps.setString(23, bottomMessages[9]);
                 ps.setInt(24, 1);
                 ps.setDate(25, currentDate);
                 ps.setString(26, "settingAds");

@@ -37,6 +37,9 @@ public static String escapeHtml(String pData){
    }
    return s;
 }
+public static String nullToEmpty(String str) {
+    return str == null ? "" : str;
+}
 %>
 <%
 request.setCharacterEncoding("UTF-8");
@@ -326,128 +329,28 @@ try{
 
             if (rs.next()) {
                 previousCmName = rs.getString("CMName");
-                if(rs.getString("Top1Message") == null){
-                	previousMessage1 = "";
-                }else{
-                    previousMessage1 = rs.getString("Top1Message");
-                }
-                if(rs.getString("Top2Message") == null){
-                	previousMessage2 = "";
-                }else{
-                    previousMessage2 = rs.getString("Top2Message");
-                }
-                if(rs.getString("Top3Message") == null){
-                	previousMessage3 = "";
-                }else{
-                    previousMessage3 = rs.getString("Top3Message");
-                }
-                if(rs.getString("Top4Message") == null){
-                	previousMessage4 = "";
-                }else{
-                    previousMessage4 = rs.getString("Top4Message");
-                }
-                if(rs.getString("Top5Message") == null){
-                	previousMessage5 = "";
-                }else{
-                    previousMessage5 = rs.getString("Top5Message");
-                }
-                if(rs.getString("Top6Message") == null){
-                	previousMessage6 = "";
-                }else{
-                    previousMessage6 = rs.getString("Top6Message");
-                }
-                if(rs.getString("Top7Message") == null){
-                	previousMessage7 = "";
-                }else{
-                    previousMessage7 = rs.getString("Top7Message");
-                }
-                if(rs.getString("Top8Message") == null){
-                	previousMessage8 = "";
-                }else{
-                    previousMessage8 = rs.getString("Top8Message");
-                }
-                if(rs.getString("Top9Message") == null){
-                	previousMessage9 = "";
-                }else{
-                    previousMessage9 = rs.getString("Top9Message");
-                }
-                if(rs.getString("Top10Message") == null){
-                	previousMessage10 = "";
-                }else{
-                    previousMessage10 = rs.getString("Top10Message");
-                }
-                if(rs.getString("Bottom1Message") == null){
-                	previousMessage11 = "";
-                }else{
-                    previousMessage11 = rs.getString("Bottom1Message");
-                }
-                if(rs.getString("Bottom2Message") == null){
-                	previousMessage12 = "";
-                }else{
-                    previousMessage12 = rs.getString("Bottom2Message");
-                }
-                if(rs.getString("Bottom3Message") == null){
-                	previousMessage13 = "";
-                }else{
-                    previousMessage13 = rs.getString("Bottom3Message");
-                }
-                if(rs.getString("Bottom4Message") == null){
-                	previousMessage14 = "";
-                }else{
-                    previousMessage14 = rs.getString("Bottom4Message");
-                }
-                if(rs.getString("Bottom5Message") == null){
-                	previousMessage15 = "";
-                }else{
-                    previousMessage15 = rs.getString("Bottom5Message");
-                }
-                if(rs.getString("Bottom6Message") == null){
-                	previousMessage16 = "";
-                }else{
-                    previousMessage16 = rs.getString("Bottom6Message");
-                }
-                if(rs.getString("Bottom7Message") == null){
-                	previousMessage17 = "";
-                }else{
-                    previousMessage17 = rs.getString("Bottom7Message");
-                }
-                if(rs.getString("Bottom8Message") == null){
-                	previousMessage18 = "";
-                }else{
-                    previousMessage18 = rs.getString("Bottom8Message");
-                }
-                if(rs.getString("Bottom9Message") == null){
-                	previousMessage19 = "";
-                }else{
-                    previousMessage19 = rs.getString("Bottom9Message");
-                }
-                if(rs.getString("Bottom10Message") == null){
-                	previousMessage20 = "";
-                }else{
-                    previousMessage20 = rs.getString("Bottom10Message");
-                }
-                
-/*                 previousMessage2 = rs.getString("Top2Message");
-                previousMessage3 = rs.getString("Top3Message");
-                previousMessage4 = rs.getString("Top4Message");
-                previousMessage5 = rs.getString("Top5Message");
-                previousMessage6 = rs.getString("Top6Message");
-                previousMessage7 = rs.getString("Top7Message");
-                previousMessage8 = rs.getString("Top8Message");
-                previousMessage9 = rs.getString("Top9Message");
-                previousMessage10 = rs.getString("Top10Message");
-                previousMessage11 = rs.getString("Bottom1Message");
-                previousMessage12 = rs.getString("Bottom2Message");
-                previousMessage13 = rs.getString("Bottom3Message");
-                previousMessage14 = rs.getString("Bottom4Message");
-                previousMessage15 = rs.getString("Bottom5Message");
-                previousMessage16 = rs.getString("Bottom6Message");
-                previousMessage17 = rs.getString("Bottom7Message");
-                previousMessage18 = rs.getString("Bottom8Message");
-                previousMessage19 = rs.getString("Bottom9Message");
-                previousMessage20 = rs.getString("Bottom10Message");
+                previousMessage1 = nullToEmpty(rs.getString("Top1Message"));
+                previousMessage2 = nullToEmpty(rs.getString("Top2Message"));
+                previousMessage3 = nullToEmpty(rs.getString("Top3Message"));
+                previousMessage4 = nullToEmpty(rs.getString("Top4Message"));
+                previousMessage5 = nullToEmpty(rs.getString("Top5Message"));
+                previousMessage6 = nullToEmpty(rs.getString("Top6Message"));
+                previousMessage7 = nullToEmpty(rs.getString("Top7Message"));
+                previousMessage8 = nullToEmpty(rs.getString("Top8Message"));
+                previousMessage9 = nullToEmpty(rs.getString("Top9Message"));
+                previousMessage10 = nullToEmpty(rs.getString("Top10Message"));
+                previousMessage11 = nullToEmpty(rs.getString("Bottom1Message"));
+                previousMessage12 = nullToEmpty(rs.getString("Bottom2Message"));
+                previousMessage13 = nullToEmpty(rs.getString("Bottom3Message"));
+                previousMessage14 = nullToEmpty(rs.getString("Bottom4Message"));
+                previousMessage15 = nullToEmpty(rs.getString("Bottom5Message"));
+                previousMessage16 = nullToEmpty(rs.getString("Bottom6Message"));
+                previousMessage17 = nullToEmpty(rs.getString("Bottom7Message"));
+                previousMessage18 = nullToEmpty(rs.getString("Bottom8Message"));
+                previousMessage19 = nullToEmpty(rs.getString("Bottom9Message"));
+                previousMessage20 = nullToEmpty(rs.getString("Bottom10Message"));
                 previousStartDate = rs.getString("StartDate");
-                previousEndDate = rs.getString("EndDate"); */
+                previousEndDate = rs.getString("EndDate");
             }
             rs.close();
             ps.close();

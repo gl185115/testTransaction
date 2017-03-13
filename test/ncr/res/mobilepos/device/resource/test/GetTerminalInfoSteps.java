@@ -1,25 +1,6 @@
 package ncr.res.mobilepos.device.resource.test;
 
-import static org.junit.Assert.*;
-
-import java.lang.reflect.Field;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
-import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.department.resource.DepartmentResource;
-import ncr.res.mobilepos.deviceinfo.model.TerminalInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
-import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.ExceptionHelper;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.ResultBaseHelper;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.pricing.resource.ItemResource;
-import ncr.res.mobilepos.promotion.resource.PromotionResource;
-import ncr.res.mobilepos.helper.StringUtility;
+import junit.framework.Assert;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -34,7 +15,24 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import junit.framework.Assert;
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.deviceinfo.model.TerminalInfo;
+import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
+import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.ExceptionHelper;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.ResultBaseHelper;
+import ncr.res.mobilepos.helper.StringUtility;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class GetTerminalInfoSteps extends Steps {
 	private DBInitiator dbInitiator;
@@ -104,8 +102,8 @@ public class GetTerminalInfoSteps extends Steps {
     public final void whenIGetTerminalInfo(String companyId, String storeId, String terminalId) {
     	companyId = StringUtility.convNullStringToNull(companyId);
     	storeId = StringUtility.convNullStringToNull(storeId);
+		terminalId = terminalId.equalsIgnoreCase("empty") ? "": terminalId;
     	terminalId = StringUtility.convNullStringToNull(terminalId);
-    	terminalId = terminalId.equalsIgnoreCase("empty") ? "": terminalId;
     	viewTerminalInfo = deviceInfo.getTerminalInfo(companyId, storeId, terminalId);
     	terminalInfo = viewTerminalInfo.getTerminalInfo();
     }

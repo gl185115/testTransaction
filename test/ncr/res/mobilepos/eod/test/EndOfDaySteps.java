@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import ncr.res.mobilepos.deviceinfo.model.PosControlOpenCloseStatus;
 import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
 import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
 import ncr.res.mobilepos.forwarditemlist.resource.ForwardItemListResource;
@@ -15,6 +16,7 @@ import ncr.res.mobilepos.journalization.model.ForwardList;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 import org.dbunit.operation.DatabaseOperation;
@@ -32,7 +34,7 @@ public class EndOfDaySteps extends Steps {
 	private JournalizationResource journalizationResource;
 	private DBInitiator dbRESTransactionInitiator;
 	private DBInitiator dbRESMasterInitiator;
-	public enum Operation { GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES };
+	public enum Operation { GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS};
 	Operation operation = Operation.GETLASTPAYINPAYOUT;
 	private SearchedPosLog payinoutPoslog = null;
 	private ForwardItemListResource forwardItemResource = null;
@@ -41,6 +43,9 @@ public class EndOfDaySteps extends Steps {
 	private ResultBase executeResult = null;
 	private DeviceInfoResource deviceInfoResource = null;
 	private WorkingDevices workingDevices = null;
+	private ViewTill till = null;
+	private ResultBase releaseExecAuthResult = null;
+	private PosControlOpenCloseStatus deviceStatResult = null;
 	
 	@BeforeScenario
 	public final void setUp(){
@@ -153,7 +158,20 @@ public class EndOfDaySteps extends Steps {
 			case GETEXECUTEAUTHORITY: {
 				Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSResultCode")), executeResult.getNCRWSSResultCode());
 				Assert.assertEquals("Compare NCRWSSExtendedResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSExtendedResultCode")), executeResult.getNCRWSSExtendedResultCode());
-			}
+			}break;
+			case GETTILLINFO: {
+				Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSResultCode")), till.getNCRWSSResultCode());
+				Assert.assertEquals("Compare StoreId", expectedTable.getRow(0).get("StoreId"), till.getTill().getStoreId());
+				Assert.assertEquals("Compare TillId", expectedTable.getRow(0).get("TillId"), till.getTill().getTillId());
+				Assert.assertEquals("Compare BusinessDayDate", expectedTable.getRow(0).get("BusinessDayDate"), till.getTill().getBusinessDayDate());
+				Assert.assertEquals("Compare SodFlag", expectedTable.getRow(0).get("SodFlag"), till.getTill().getSodFlag());
+				Assert.assertEquals("Compare EodFlag", expectedTable.getRow(0).get("EodFlag"), till.getTill().getEodFlag());
+			}break;
+			case GETDEVICESTATUS: {
+				Assert.assertEquals("Compare OpenCloseStatus", Short.parseShort(expectedTable.getRow(0).get("OpenCloseStatus")), deviceStatResult.getOpenCloseStat());
+				Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSResultCode")), deviceStatResult.getNCRWSSResultCode());
+				Assert.assertEquals("Compare NCRWSSExtendedResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSExtendedResultCode")), deviceStatResult.getNCRWSSExtendedResultCode());
+			}break;
 			default: break;
 		}
 	}
@@ -192,7 +210,16 @@ public class EndOfDaySteps extends Steps {
 	}
 	@Then("it should get the NCRWSSResultCode:$1")
 	public final void getResultCode(final String resultCode){
-		Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(resultCode), workingDevices.getNCRWSSResultCode());
+		switch (operation) {
+			case GETWORKINGDEVICES: {
+				Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(resultCode), workingDevices.getNCRWSSResultCode());
+			} break;
+			case RELEASEEXECAUTHORITY: {
+				Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(resultCode), releaseExecAuthResult.getNCRWSSResultCode());
+			}
+		default:
+			break;
+		}
 	}
 	@Then("it should get the following group.terminals:$expected")
 	public final void getGroupTillId(ExamplesTable expectedTable){
@@ -201,5 +228,23 @@ public class EndOfDaySteps extends Steps {
 			Assert.assertEquals("Compare terminalName", expected.get("terminalName"), workingDevices.getOwnTillGroup().getTerminals().get(i).getTerminalName());
 			Assert.assertEquals("Compare terminalid", expected.get("terminalid"), workingDevices.getOwnTillGroup().getTerminals().get(i).getTerminalId());
 		}
-	}	
+	}
+	@When("getting till information of storeid:$1 tillid:$2")
+	public final void getTillInfo(final String storeId, final String tillId){
+		operation = Operation.GETTILLINFO;
+		till = tillInfoResource.viewTill(storeId, tillId);
+	}
+	@When("releasing execute authority for EOD companyid:$1 retailstoreid:$2 tillid:$3 terminalid:$4 operatorno:$5 processing:$6")
+	public final void releaseExecuteAuthority(final String companyId,
+			final String storeId, final String tillId, final String terminalId,
+			final String operatorNo, final String processingType) {
+		operation = Operation.RELEASEEXECAUTHORITY;
+		releaseExecAuthResult = tillInfoResource.releaseExecuteAuthority(companyId, storeId, tillId,
+				terminalId, operatorNo, processingType);
+	}
+	@When("getting the device status of companyId:$1 storeId:$2 terminalId:$3")
+	public final void getDeviceStatus(final String companyId, final String storeId, final String terminalId) {
+		operation = Operation.GETDEVICESTATUS;
+		deviceStatResult = (PosControlOpenCloseStatus)deviceInfoResource.getDeviceStatus(companyId, storeId, terminalId);
+	}
 }

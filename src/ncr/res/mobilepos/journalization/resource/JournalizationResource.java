@@ -638,7 +638,7 @@ public class JournalizationResource {
          	.println("businessDate", businessDate)
          	.println("trainingFlag", trainingFlag);
 
-		SearchedPosLog poslog = new SearchedPosLog();
+		SearchedPosLog poslog = new SearchedPosLog(null);
 		String poslogString = null;
 
 		if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, businessDate)) {

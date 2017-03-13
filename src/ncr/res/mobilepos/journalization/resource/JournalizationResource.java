@@ -37,7 +37,6 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import atg.taglib.json.util.JSONObject;
-import ncr.realgate.util.HexDump;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -649,7 +648,7 @@ public class JournalizationResource {
 			tp.methodExit(poslog.toString());
 
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-                    "リクエスト パラメータエラー" + HexDump.EOL +
+                    "リクエスト パラメータエラー\r\n" +
 					"クエリーパラメータが不足しています。");
 
 			return poslog;

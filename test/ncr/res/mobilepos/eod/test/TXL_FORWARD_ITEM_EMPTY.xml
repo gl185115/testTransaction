@@ -1,0 +1,20 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXL_FORWARD_ITEM">
+		<column>CompanyId</column>
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>SequenceNumber</column>
+		<column>Queue</column>
+		<column>BusinessDayDate</column>
+		<column>TrainingFlag</column>
+		<column>BusinessDateTime</column>
+		<column>OperatorId</column>
+		<column>LayawayFlag</column>
+		<column>SalesTotalAmt</column>
+		<column>PosTermId</column>
+		<column>Status</column>
+		<column>Tx</column>
+		<column>TxType</column>
+	</table>
+</dataset>

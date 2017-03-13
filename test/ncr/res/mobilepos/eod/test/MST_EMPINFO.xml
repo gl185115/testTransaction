@@ -1,0 +1,63 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_EMPINFO">
+		<column>CompanyId</column>
+		<column>EmpCode</column>
+		<column>OpeCode</column>
+		<column>Password</column>
+		<column>StoreId</column>
+		<column>OpeType</column>
+		<column>OpeName</column>
+		<column>OpeKanaName</column>
+		<column>ZipCode</column>
+		<column>Address</column>
+		<column>TelNo</column>
+		<column>FaxNo</column>
+		<column>SecLevel1</column>
+		<column>SecLevel2</column>
+		<column>SecLevel3</column>
+		<column>SubChar1</column>
+		<column>SubChar2</column>
+		<column>SubChar3</column>
+		<column>UpdPwDateId</column>
+		<column>SubSmallInt1</column>
+		<column>SubSmallInt2</column>
+		<column>SubSmallInt3</column>
+		<column>SubSmallInt4</column>
+		<column>SubSmallInt5</column>
+		<column>InsDate</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>9011011</value>
+			<value>9011011</value>
+			<value>9011011</value>
+			<value>0912</value>
+			<null />
+			<value>汎用販売員3</value>
+			<value>ﾊﾝﾖｳﾊﾝﾊﾞｲｲﾝ3</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 20:02:08.7630989</value>
+			<value>2016-03-11 20:02:08.7630989</value>
+			<value>usp_MakeCommonEmp</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

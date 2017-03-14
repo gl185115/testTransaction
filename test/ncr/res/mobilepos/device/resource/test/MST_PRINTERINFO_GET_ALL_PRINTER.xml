@@ -1,0 +1,355 @@
+<!DOCTYPE dataset SYSTEM "test/resource/test/dataset.dtd">
+<dataset>
+	<table name="MST_PRINTERINFO">
+	    <column>companyid</column>
+		<column>storeid</column>
+		<column>printerid</column>
+		<column>printername</column>
+		<column>description</column>
+		<column>ipAddress</column>
+		<column>portnumtcp</column>
+		<column>portnumudp</column>
+		<column>status</column>
+	    <column>subcode1</column>
+        <column>subcode2</column>
+        <column>subcode3</column>
+        <column>subcode4</column>
+        <column>subcode5</column>
+        <column>subnum1</column>
+        <column>subnum2</column>
+        <column>subnum3</column>
+        <column>subnum4</column>
+        <column>subnum5</column>
+        <column>deleteflag</column>
+        <column>deldate</column>
+        <column>delappid</column>
+        <column>delopecode</column>
+        <column>insdate</column>
+        <column>insappId</column>
+        <column>insopecode</column>
+        <column>updcount</column>
+		<column>upddate</column>
+		<column>updappId</column>
+		<column>updopecode</column>
+		<row>
+		    <value>01</value>
+			<value>000031</value>
+			<value>101</value>
+			<value>Test Printer 1</value>
+			<value>Unit test printer 1</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000031</value>
+			<value>110</value>
+			<value>Test Printer Deleted</value>
+			<value>Unit test printer Deleted</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Deleted</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000031</value>
+			<value>102</value>
+			<value>Test Printer 2</value>
+			<value>Unit test printer 2</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000031</value>
+			<value>105</value>
+			<value>Test Printer 5</value>
+			<value>Unit test printer 5</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000032</value>
+			<value>103</value>
+			<value>Test Printer 3</value>
+			<value>Unit test printer 3</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000032</value>
+			<value>104</value>
+			<value>Test Printer 4</value>
+			<value>Unit test printer 4</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+             <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000032</value>
+			<value>105</value>
+			<value>Alt Test Printer 5</value>
+			<value>Alt Unit test printer 5</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000032</value>
+			<value>106</value>
+			<value>Alt Test Printer Deleted</value>
+			<value>Alt Unit test printer Deleted</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Deleted</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000031</value>
+			<value>123</value>
+			<value>Print here</value>
+			<value>Sample print here</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+		    <value>01</value>
+			<value>000031</value>
+			<value>234</value>
+			<value>Dummy printer</value>
+			<value>Dummy printing here</value>
+			<value>localhost</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+            <value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+            <value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\BMP01??????????.bmp</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+	        <value></value>
+            <value>2015-09-30 00:00:00.000</value>
+            <value>deviceinfo.getterminalinfo</value>
+            <value>00009999</value>
+            <value>0</value>
+			<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+  <table name="MST_TERMINALINFO">
+    <column>CompanyId</column>
+    <column>StoreId</column>
+    <column>TerminalId</column>
+    <column>FloorId</column>
+    <column>TerminalName</column>
+    <column>IPAddress</column>
+    <column>StoreClass</column>
+    <column>TerminalType</column>
+    <column>TillType</column>
+    <column>RelationType</column>
+    <column>ConnectionFlag1</column>
+    <column>ConnectionFlag2</column>
+    <column>ConnectionFlag3</column>
+    <column>ConnectionFlag4</column>
+    <column>ConnectionFlag5</column>
+    <column>ConnectionFlag6</column>
+    <column>ConnectionFlag7</column>
+    <column>ConnectionFlag8</column>
+    <column>ConnectionFlag9</column>
+    <column>ConnectionFlag10</column>
+    <column>ConnectionFlag11</column>
+    <column>ConnectionFlag12</column>
+    <column>ConnectionFlag13</column>
+    <column>ConnectionFlag14</column>
+    <column>ConnectionFlag15</column>
+    <column>LogoFileName</column>
+    <column>InshiFileName</column>
+    <column>Note</column>
+    <column>SubCode1</column>
+    <column>SubCode2</column>
+    <column>SubCode3</column>
+    <column>SubCode4</column>
+    <column>SubCode5</column>
+    <column>SubNum1</column>
+    <column>SubNum2</column>
+    <column>SubNum3</column>
+    <column>SubNum4</column>
+    <column>SubNum5</column>
+    <column>DeleteFlag</column>
+    <column>DelDate</column>
+    <column>DelAppId</column>
+    <column>DelOpeCode</column>
+    <column>InsDate</column>
+    <column>InsAppId</column>
+    <column>InsOpeCode</column>
+    <column>UpdCount</column>
+    <column>UpdDate</column>
+    <column>UpdAppId</column>
+    <column>UpdOpeCode</column>
+    <row>
+      
+<value>01</value>
+<value>000032</value>
+<value>STORE-000032</value>
+<value>ST-32</value>
+<null />
+<value>TINYINT(3)</value>
+<value>111-1111</value>
+<value>Cebu City</value>
+<value></value>
+<value></value>
+<value>000-1111-2222</value>
+<value>000-1111-3333</value>
+<null />
+<null />
+<null />
+<null />
+<null />
+<null />
+<null />
+<null />
+<value>01</value>
+<value>1102</value>
+<value></value>
+<value>062</value>
+<value>0053</value>
+<value>茅場町店</value>
+<value>000-1111-2222</value>
+<value>990</value>
+<value>【店舗控え】</value>
+<value>【商品添付】</value>
+<value></value>
+<value></value>
+<value>19991111</value>
+<value>0700</value>
+<value>茅場町店</value>
+<value>東京都中央区新川</value>
+<value>0-0-0</value>
+<null />
+<null />        
+<null />      
+<null />          
+<null />            
+<null />               
+<null />         
+<null />          
+<value>2</value>
+<null />
+<null />
+<null />
+<null />
+<null />
+<null />
+<null />
+<value>2</value>
+<null />
+<null />
+<null />
+<null />
+<null />
+<null />
+<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+<value>Active</value>
+<value>0</value>
+<null />
+<null />
+<null />
+<value><![CDATA[2012-04-06 21:35:08.497]]></value>
+<value>usp_IF_MaintStoreInfo</value>
+<value>system</value>
+<value>2015-11-12 07:31:37.280</value>
+<value>0</value>
+<value></value>
+<value>usp_IF_MaintStoreInfo</value>
+<value>system</value>
+    </row>
+  </table>
+</dataset>

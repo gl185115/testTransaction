@@ -1,0 +1,32 @@
+Scenario: No Pay POSLog
+Given that has no last payout transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0004 businessdate:2016-08-16 trainingflag:0
+Then it should get the NCRWSSResultCode:157
+
+Scenario: With (1) PayOut POSLog
+Given that has last payout transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0004 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|RetailStoreId				|WorkstationId	|SequenceNumber|BusinessDayDate	|TxType		|Amount		|
+|0					|0247         				|0004         	|1556          |2016-08-16     	|PayOut 	|10000.00	|
+
+Scenario: With (2) PayOut POSLogs
+Given that has 2 last payout transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0004 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|RetailStoreId				|WorkstationId	|SequenceNumber|BusinessDayDate	|TxType		|Amount		|
+|0					|0247         				|0004         	|1555          |2016-08-16     	|PayOut 	|20000.00	|
+
+Scenario: With (1) PayIn POSLogs
+Given that has 1 last payin transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0004 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|RetailStoreId				|WorkstationId	|SequenceNumber|BusinessDayDate	|TxType		|Amount		|
+|0					|0247         				|0004         	|1000          |2016-08-16     	|PayIn	 	|10000.00	|
+
+Scenario: With PayIn and PayOut POSLogs
+Given that has payin and payout transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0004 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|RetailStoreId				|WorkstationId	|SequenceNumber|BusinessDayDate	|TxType		|Amount		|
+|0					|0247         				|0004         	|1000          |2016-08-16     	|PayIn	 	|10000.00	|

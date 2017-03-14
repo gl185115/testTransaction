@@ -1,0 +1,29 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="AUT_DEVICES">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Uuid</column>
+		<column>Udid</column>
+		<column>State</column>
+		<column>LastActiveTime</column>
+		<column>ActiveValidUntil</column>
+		<column>SignStatus</column>
+		<column>SignTid</column>
+		<column>SignActivationKey</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<value>2d557f24-1de8-4573-887f-56bde0dbdd9f</value>
+			<value>0000000000000000000000000000000000000000</value>
+			<value>1</value>
+			<value>2017-03-10 16:11:44.963</value>
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+		</row>
+	</table>
+</dataset>

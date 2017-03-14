@@ -1,0 +1,143 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXU_POS_CTRL">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalNo</column>
+		<column>ComputerName</column>
+		<column>IpAddress</column>
+		<column>TerminalType</column>
+		<column>FloorNo</column>
+		<column>TelNo</column>
+		<column>OpeCode</column>
+		<column>CounterName</column>
+		<column>OnOffStat</column>
+		<column>OpenCloseStat</column>
+		<column>SodTime</column>
+		<column>SodTranNo</column>
+		<column>ClosingTime</column>
+		<column>ClosingTranNo</column>
+		<column>ChgSub</column>
+		<column>CashTranTotal</column>
+		<column>ChgCollection</column>
+		<column>CasyTotal</column>
+		<column>CashBalance</column>
+		<column>EodTime</column>
+		<column>EodTranNo</column>
+		<column>SubCode</column>
+		<column>SubSmallInt</column>
+		<column>SubDateTime</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<value>2016-08-16 15:55:39.000</value>
+			<value>7981</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0002</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>9199991</value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>2016-08-16 02:52:24.000</value>
+			<value>4368</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0003</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>9199991</value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>2016-08-16 13:56:40.000</value>
+			<value>0707</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>9199991</value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>2016-08-16 16:42:09.000</value>
+			<value>1488</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+		</row>
+	</table>
+</dataset>

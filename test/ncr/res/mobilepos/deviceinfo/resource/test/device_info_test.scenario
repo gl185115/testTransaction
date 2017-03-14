@@ -1,0 +1,125 @@
+Scenario: Test Get Peripheral Device Info from PeripheralDeviceControl service for an existing device with printer already set and existing (Get also printer information)
+Given an initial deviceinfo entry in database 
+Given entries in MST_PRINTERINFO database table 
+Given a PeripheralDeviceControl service
+When I get PeripheralDeviceInfo for companyid 01, storeid 000031, deviceid 9999 and trainingmode 0 
+Then ResultCode should be 0 
+Then printer should be not null 
+Then printerid should be 102 
+Then printername should be Test Printer 2 
+Then description should be Unit test printer 2 
+Then linkposterminalid should be 1234 
+
+
+Scenario: Test Get Peripheral Device Info from PeripheralDeviceControl service for an existing device with printer already set and not existing 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 01, storeid 000031, deviceid 9990 and trainingmode 0 
+Then ResultCode should be 0 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty  
+Then description should be empty 
+Then linkposterminalid should be 1234 
+
+Scenario: Test Get Peripheral Device Info from PeripheralDeviceControl service for an existing device with printer not yet set for storeid 000031 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 01, storeid 000031, deviceid 9998 and trainingmode 0 
+Then ResultCode should be 0 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty 
+Then description should be empty 
+Then linkposterminalid should be 1234 
+
+Scenario: Test Get Peripheral Device Info from PeripheralDeviceControl service for an existing device with printer not yet set for storeid 000032 (Set the printer to first printer in corp&&store if printerid is zero) 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 01, storeid 000032, deviceid 9998 and trainingmode 0 
+Then ResultCode should be 0 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty 
+Then description should be empty 
+Then linkposterminalid should be 1234 
+
+
+Scenario: Test Get Peripheral Device Info from PeripheralDeviceControl service for a non-existing device 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 01, storeid 000031, deviceid 6547 and trainingmode 0 
+Then ResultCode should be 223 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty 
+Then description should be empty 
+Then linkposterminalid should be empty 
+
+Scenario: Test SetPOSTerminalLink Device Info from PeripheralDeviceControl service for an existing device 
+Given a PeripheralDeviceControl service 
+When I set posterminal link of storeid 000031 and deviceid 9999 to linkposterminalid 9876 
+Then the result base should be 0 
+When I get PeripheralDeviceInfo for companyid 01, storeid 000031, deviceid 9999 and trainingmode 0 
+Then ResultCode should be 0 
+Then printer should be not null 
+Then printerid should be 102 
+Then printername should be Test Printer 2 
+Then description should be Unit test printer 2 
+Then linkposterminalid should be 9876 
+
+
+Scenario: Test SetPOSTerminalLink Device Info from PeripheralDeviceControl service for a non-existing device 
+Given a PeripheralDeviceControl service  
+When I set posterminal link of storeid 000031 and deviceid 6457 to linkposterminalid 9876 
+Then the result base should be 139 
+When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid 6457 and trainingmode 0  
+Then ResultCode should be 223 
+
+Scenario: Test Get Peripheral Device Info from PeripheralDeviceControl service for an existing device with printer not yet set for storeid 000031 and no printer can be found 
+Given an initial deviceinfo entry in database 
+Given an empty MST_PRINTERINFO database table 
+Given a PeripheralDeviceControl service
+When I get PeripheralDeviceInfo for companyid 01, storeid 000031, deviceid 9997 and trainingmode 0 
+Then ResultCode should be 0 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty 
+Then description should be empty 
+Then linkposterminalid should be 1234 
+
+Scenario: Test SetPOSTerminalLink Device Info where linkposterminalid is empty 
+Given a PeripheralDeviceControl service 
+When I set posterminal link of storeid 000031 and deviceid 9999 to linkposterminalid  empty
+Then the result base should be 0 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty 
+Then description should be empty 
+Then linkposterminalid should be 1234 
+
+Scenario: Test SetPOSTerminalLink Device Info where linkposterminalid is null 
+Given a PeripheralDeviceControl service
+When I set posterminal link of storeid 000031 and deviceid 9999 to linkposterminalid null
+Then the result base should be 0 
+Then printer should be not null 
+Then printerid should be null 
+Then printername should be empty 
+Then description should be empty 
+Then linkposterminalid should be 1234 
+
+Scenario: Test SetPOSTerminalLink Device Info where storeid is null 
+Given a PeripheralDeviceControl service
+When I set posterminal link of storeid null and deviceid 9999 to linkposterminalid 9876 
+Then the result base should be 139 
+
+Scenario: Test SetPOSTerminalLink Device Info where storeid is empty 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid 9999 to 9876 and trainingmode 0
+Then the result base should be 139 
+
+Scenario: Test SetPOSTerminalLink Device Info where deviceid is null 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid null to 9876 and trainingmode 0
+Then the result base should be 139 
+
+Scenario: Test SetPOSTerminalLink Device Info where deviceid is empty 
+Given a PeripheralDeviceControl service 
+When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid   to 9876 and trainingmode 0
+Then the result base should be 139 

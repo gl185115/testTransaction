@@ -1,0 +1,543 @@
+<!DOCTYPE dataset SYSTEM "/test/resource/test/dataset.dtd">
+<dataset>
+  <table name="MST_DEVICEINFO">
+                  <column>companyId</column>
+                  <column>storeid</column>
+                  <column>terminalid</column>
+                  <column>training</column>
+                  <column>devicename</column>
+                  <column>attributeid</column>
+                  <column>printerid</column>
+                  <column>tillid</column>
+                  <column>linkposterminalid</column>
+                  <column>linkqueuebuster</column>
+                  <column>linkauthorization</column>
+                  <column>linksignature</column>
+                  <column>sendlogfile</column>
+                  <column>savelogfile</column>
+                  <column>autoupload</column>
+                  <column>lasttxid</column>
+                  <column>lastsuspendtxid</column>
+                  <column>ejsequence</column>
+                  <column>status</column>
+                  <column>subcode1</column>
+                  <column>subcode2</column>
+                  <column>subcode3</column>
+                  <column>subcode4</column>
+                  <column>subcode5</column>
+                  <column>subnum1</column>
+                  <column>subnum2</column>
+                  <column>subnum3</column>
+                  <column>subnum4</column>
+                  <column>subnum5</column>
+                  <column>deleteflag</column>
+                  <column>deldate</column>
+                  <column>delappId</column>
+                  <column>delOpeCode</column>
+                  <column>Insdate</column>
+                  <column>insappId</column>
+                  <column>insopeCode</column>
+                  <column>updcount</column>
+                  <column>upddate</column>
+                  <column>updappId</column>
+                  <column>updopecode</column>
+       <row>
+                  <value>01</value>  
+                  <value>000031</value>   
+                  <value>9999</value>   
+                  <value>0</value>  
+                  <null />   
+                  <value>1</value>  
+                  <value><![CDATA[102]]></value>   
+                  <value>123</value>   
+                  <value>1234</value>   
+                  <value>1</value>   
+                  <value>1</value>   
+                  <value>1</value>   
+                  <value>1</value>   
+                  <value>2</value>   
+                  <value>1</value>   
+                  <value>7979</value>   
+                  <value>0</value>   
+                  <value>0</value>  
+                  <value>Active</value>   
+                  <null />   
+                  <null />   
+                  <null />   
+                  <null />         
+                  <null />        
+                  <value>0</value>     
+                  <null />        
+                  <null />       
+                  <null />      
+                  <null />       
+                  <value>0</value>    
+                  <null />      
+                  <null />      
+                  <null />      
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>    
+                  <value>system</value> 
+                  <value>system</value> 
+                  <value>0</value> 
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>    
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>   
+                  <value>system</value> 
+       </row>
+
+        <row>
+                  <value>01</value>   
+                  <value>000031</value>   
+                  <value>9990</value>   
+                  <value>0</value>   
+                  <value>DeviceName</value>   
+                  <value>1</value>  
+                  <value><![CDATA[999]]></value> 
+                  <value>123</value> 
+                  <value>1234</value> 
+                  <value>2</value> 
+                  <value>2</value> 
+                  <value>2</value> 
+                  <value>0</value> 
+                  <value>0</value> 
+                  <value>0</value>  
+                  <value>7979</value>  
+                  <value>0</value> 
+                  <value>0</value> 
+                  <value>Active</value>   
+                  <null />   
+                  <null />  
+                  <null />  
+                  <null />  
+                  <null />   
+                  <value>0</value> 
+                  <null />   
+                  <null />   
+                  <null />   
+                  <null />  
+                  <value>0</value> 
+                  <null />   
+                  <null />   
+                  <null />   
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value> 
+                  <value>system</value> 
+                  <value>0</value> 
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>   
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value> 
+         </row>
+
+         <row>
+                  <value>01</value>     
+                  <value>000031</value>      
+                  <value>9998</value>      
+                  <value>0</value>      
+                  <value>DeviceName</value>     
+                  <value>1</value>    
+                  <value><![CDATA[0]]></value>    
+                  <value>123</value>     
+                  <value>1234</value>    
+                  <value>3</value>      
+                  <value>3</value>     
+                  <value>3</value>     
+                  <value>0</value>      
+                  <value>0</value>     
+                  <value>0</value>      
+                  <value>7979</value>      
+                  <value>0</value>     
+                  <value>0</value>     
+                  <value>Active</value>      
+                  <null />       
+                  <null />       
+                  <null />       
+                  <null />       
+                  <null />      
+                  <value>0</value>    
+                  <null />     
+                  <null />      
+                  <null />      
+                  <null />      
+                  <value>0</value>    
+                  <null />    
+                  <null />    
+                  <null />  
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value> 
+                  <value>system</value> 
+                  <value>0</value> 
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>      
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value>
+       </row> 
+
+       <row>
+                  <value>01</value>     
+                  <value>000032</value>     
+                  <value>9998</value>     
+                  <value>0</value>    
+                  <value>DeviceName</value>     
+                  <value>1</value>    
+                  <value><![CDATA[0]]></value>    
+                  <value>123</value>   
+                  <value>1234</value>   
+                  <value>4</value>   
+                  <value>4</value>   
+                  <value>4</value>   
+                  <value>0</value>  
+                  <value>0</value>  
+                  <value>0</value>  
+                  <value>7979</value>   
+                  <value>0</value>    
+                  <value>0</value>    
+                  <value>Active</value>    
+                  <null />     
+                  <null />     
+                  <null />     
+                  <null />    
+                  <null />    
+                  <value>0</value>  
+                  <null />    
+                  <null />    
+                  <null />    
+                  <null />    
+                  <value>0</value>  
+                  <null />   
+                  <null />   
+                  <null />   
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value> 
+                  <value>system</value> 
+                  <value>0</value> 
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>    
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value>   
+                  <value>system</value> 
+        </row>
+
+        <row>
+                  <value>01</value> 
+                  <value>000031</value> 
+                  <value>9997 </value> 
+                  <value>0</value> 
+                  <value>DeviceName</value> 
+                  <value>1</value> 
+                  <value><![CDATA[0]]></value> 
+                  <value>123</value> 
+                  <value>1234</value> 
+                  <value>5</value> 
+                  <value>5</value> 
+                  <value>5</value> 
+                  <value>0</value> 
+                  <value>0</value> 
+                  <value>0</value> 
+                  <value>7979</value> 
+                  <value>0</value> 
+                  <value>0</value> 
+                  <value>Active</value> 
+                  <null />   
+                  <null />   
+                  <null />   
+                  <null />   
+                  <null />  
+                  <value>0</value> 
+                  <null />   
+                  <null />   
+                  <null />   
+                  <null />   
+                  <value>0</value> 
+                  <null />   
+                  <null />   
+                  <null />   
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value> 
+                  <value>system</value> 
+                  <value>0</value> 
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                  <value>system</value>
+        </row>
+ </table>
+         <table name="AUT_DEVICES">
+                <column>companyid</column>
+                <column>storeid</column>
+                <column>terminalid</column>
+                <column>uuid</column>
+                <column>udid</column>
+                <column>state</column>
+                <column>lastactivetime</column>
+                <column>activevaliduntil</column>
+                <column>signstatus</column>
+                <column>signtid</column>
+                <column>signactivationkey</column>
+
+        <row>
+                <value>01</value>                                            
+                <value>000031</value>                                        
+                <value>1111</value>                                          
+                <value>2c15dd87-e576-461a-bc1f-6f62be7b57a9</value>       
+                <value>0000000000000000000000000000000000000000</value>   
+                <value>0</value>                                             
+                <value><![CDATA[2012-04-06 21:35:08.497]]></value>             
+                <null />                                   
+                <value>1</value>                                          
+                <null />                                  
+                <null />                                                     
+        </row> 
+
+        <row>
+                <value>01</value>                                
+                <value>000031</value>                            
+                <value>2222</value>                              
+                <value>2c15dd87-e576-461a-bc1f-6f62be7b57a9</value>                                  
+                <value>0000000000000000000000000000000000000000</value>                                  
+                <value>0</value>                                 
+                <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                <null />                                   
+                <value>1</value>                                  
+                <null />                                  
+                <null />               
+                   
+        </row>
+
+        <row>
+                <value>01</value>                                
+                <value>000001</value>                            
+                <value>1111</value>                              
+                <value>2c15dd87-e576-461a-bc1f-6f62be7b57a9</value>                                  
+                <value>0000000000000000000000000000000000000000</value>                                  
+                <value>0</value>                                 
+                <value><![CDATA[2012-04-06 21:35:08.497]]></value> 
+                <null />                                   
+                <value>1</value>                                  
+                <null />                                   
+                <null />               
+                 
+          </row>        
+    </table>
+    
+          <table name="MST_STOREINFO">
+                <column>companyid</column>
+                <column>storeid</column>
+                <column>storename</column>
+                <column>storeshortname</column>
+                <column>storetype</column>
+                <column>storekubun</column>
+                <column>storezip</column>
+                <column>storeaddr</column>
+                <column>storeaddr1</column>
+                <column>storeaddr2</column>
+                <column>storetel</column>
+                <column>storefax</column>
+                <column>storeurl</column>
+                <column>salesspacename</column>
+                <column>eventname</column>
+                <column>ads</column>
+                <column>cdmsg</column>
+                <column>electrofilepath</column>
+                <column>stamptaxfilepath</column>
+                <column>storecompcode</column>
+                <column>subcode1</column>
+                <column>subcode2</column>
+                <column>subcode3</column>
+                <column>subcode4</column>
+                <column>subcode5</column>
+                <column>subcode6</column>
+                <column>subcode7</column>
+                <column>subcode8</column>
+                <column>subcode9</column>
+                <column>subcode10</column>
+                <column>subcode11</column>
+                <column>subcode12</column>
+                <column>subcode13</column>
+                <column>subcode14</column>
+                <column>subcode15</column>
+                <column>subcode16</column>
+                <column>subcode17</column>
+                <column>subcode18</column>
+                <column>subcode19</column>
+                <column>subcode20</column>
+                <column>subcode21</column>
+                <column>subcode22</column>
+                <column>subcode23</column>
+                <column>subcode24</column>
+                <column>subcode25</column>
+                <column>subnum1</column>
+                <column>subnum2</column>
+                <column>subnum3</column>
+                <column>subnum4</column>
+                <column>subnum5</column>
+                <column>subnum6</column>
+                <column>subnum7</column>
+                <column>subnum8</column>
+                <column>subnum9</column>
+                <column>subnum10</column>
+                <column>subnum11</column>
+                <column>subnum12</column>
+                <column>subnum13</column>
+                <column>subnum14</column>
+                <column>subnum15</column>
+                <column>hostupddate</column>
+                <column>status</column>
+                <column>deleteflag</column>
+                <column>deldate</column>
+                <column>delappid</column>
+                <column>delopecode</column>
+                <column>insdate</column>
+                <column>insappid</column>
+                <column>insopecode</column>
+                <column>updcount</column>
+                <column>upddate</column>
+                <column>updappId</column>
+                <column>updopecode</column>
+      <row>
+                <value>01</value>                                         
+                <value>000031</value>                                      
+                <value>store 1</value>                                     
+                <value>カヤバチョウ</value>                                   
+                <null />                                                     
+                <value>3</value>                                           
+                <value>111-1111</value>                                    
+                <value>Cebu City</value>                                   
+                <value></value>                                            
+                <value></value>                                            
+                <value>000-1111-2222</value>                               
+                <value>000-1111-3333</value>                               
+                <value>http://www.ncr.com</value>                          
+                <value>Mr. Tanaka</value>                                  
+                <value>10th yr Anniversary</value>                         
+                <value>Keep Going!</value>                                 
+                <null />                                                     
+                <value>C:\</value>                                         
+                <value>C:\</value>                                         
+                <null />                                                    
+                <value>01</value>                                          
+                <value>1102</value>                                        
+                <value></value>                                            
+                <value>062</value>                                         
+                <value>0053</value>                                        
+                <value>茅場町店</value>                                    
+                <value>000-1111-2222</value>                               
+                <value>990</value>                                         
+                <value>【店舗控え】</value>                                   
+                <value>【商品添付】</value>                                  
+                <value></value>                                            
+                <value></value>                                            
+                <value>19991111</value>                                    
+                <value>0700</value>                                        
+                <value>茅場町店</value>
+                <value>東京都中央区新川</value>                                   
+                <value>0-0-0</value>                                       
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                    
+                <value>2</value>                                           
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <value>2015-11-12 07:31:37.280</value>                     
+                <value>Active</value>                                      
+                <value>0</value>                                           
+                <null />                                                     
+                <null />                                                     
+                <null />                                                     
+                <value><![CDATA[2012-04-06 21:35:08.497]]></value>         
+                <value>usp_IF_MaintStoreInfo</value>                       
+                <value>system</value>                                      
+                <value>0</value>                                           
+                <value><![CDATA[2016-08-16 09:56:46.797]]></value>         
+                <value>usp_IF_MaintStoreInfo</value>                       
+                <value>system</value> 
+   </row>
+
+   <row>
+                <value>01</value>                                   
+                <value>000032</value>                               
+                <value>store 1</value>                              
+                <value>カヤバチョウ</value>                             
+                <null />                                              
+                <value>3</value>                                    
+                <value>111-1111</value>                             
+                <value>Cebu City</value>                            
+                <value></value>                                     
+                <value></value>                                     
+                <value>000-1111-2222</value>                        
+                <value>000-1111-3333</value>                        
+                <value>http://www.ncr.com</value>                   
+                <value>Mr. Tanaka</value>                           
+                <value>10th yr Anniversary</value>                  
+                <value>Keep Going!</value>                          
+                <null />                                              
+                <value>C:\</value>                                  
+                <value>C:\</value>                                  
+                <null />                                              
+                <value>01</value>                                   
+                <value>1102</value>                                 
+                <value></value>                                     
+                <value>062</value>                                  
+                <value>0053</value>                                 
+                <value>茅場町店</value>                              
+                <value>000-1111-2222</value>                        
+                <value>990</value>                                  
+                <value>【店舗控え】</value>                            
+                <value>【商品添付】</value>                            
+                <value></value>                                     
+                <value></value>                                     
+                <value>19991111</value>                             
+                <value>0700</value>                                 
+                <value>茅場町店</value>                              
+                <value>東京都中央区新川</value>                      
+                <value>0-0-0</value>                                
+                <null />                                              
+                <null />                                              
+                <null />                                              
+                <null />                                              
+                <null />                                              
+                <null />                                              
+                <null />                                              
+                <null />                                              
+                <value>2</value>                                    
+                <null />                                              
+                <null />                                              
+                <null />                           
+                <null />                           
+                <null />                           
+                <null />                           
+                <null />                           
+                <null />                           
+                <null />                           
+                <null />                                              
+                <null />                           
+                <null />                           
+                <null />                           
+                <null />                           
+                <value>2015-11-12 07:31:37.280</value>              
+                <value>Active</value>                               
+                <value>0</value>                                    
+                <null />                           
+                <null />                           
+                <null />                           
+                <value><![CDATA[2012-04-06 21:35:08.497]]></value>  
+                <value>usp_IF_MaintStoreInfo</value>                
+                <value>system</value>                               
+                <value>0</value>                                    
+                <value><![CDATA[2016-08-16 09:56:46.797]]></value>  
+                <value>usp_IF_MaintStoreInfo</value>                
+                <value>system</value> 
+           </row>
+      </table>
+</dataset>

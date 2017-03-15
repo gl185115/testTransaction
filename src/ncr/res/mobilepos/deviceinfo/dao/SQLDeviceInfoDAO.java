@@ -20,7 +20,6 @@ import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
@@ -79,71 +78,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         // Gets Singleton reference from the factory.
         this.sqlStatement = SQLStatement.getInstance();
 	}
-
-	/**
-	 * Set the Pos Terminal Link association for a device.
-	 * @param storeid - store identifier
-	 * @param terminalid - terminal identifier
-	 * @param linkposterminalid - pos terminal identifier to associate to device
-	 * @return ResultBase
-	 * @throws DaoException
-     */
-	public final ResultBase setLinkPosTerminalId(final String storeid,
-			final String terminalid, final String linkposterminalid)
-			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeid", storeid)
-				.println("terminalid", terminalid)
-				.println("linkposterminalid", linkposterminalid);
-
-		ResultBase resultBase = new ResultBase();
-		int result = 0;
-		Connection connection = null;
-		PreparedStatement update = null;
-
-		try {
-			connection = dbManager.getConnection();
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			update = connection.prepareStatement(sqlStatement
-					.getProperty("set-LinkPosTerminalId"));
-			update.setString(SQLStatement.PARAM1, linkposterminalid);
-			update.setString(SQLStatement.PARAM2, storeid);
-			update.setString(SQLStatement.PARAM3, terminalid);
-
-			result = update.executeUpdate();
-
-			if (1 == result) {
-				resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-				resultBase.setMessage("Success");
-				connection.commit();
-			} else if (1 < result) {
-				resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-				resultBase.setMessage("An error has occurred");
-				tp.println("Failed to set the POS Terminal Link.");
-			} else {
-				resultBase
-						.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPOSTERMINALLINK);
-				resultBase.setMessage("Does not exist");
-				tp.println("Unknown error in updating POS Terminal Link.",
-						result);
-			}
-
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set linkposterminalid.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set linkposterminalid.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, update);
-			
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
-	}
+	
     /**
      * Set the Printer Id association for a device.
      * @param storeid     store identifier
@@ -622,72 +557,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			tp.methodExit(resultBase);
 		}
 		return resultBase;
-	}
-
-	@Override
-	public final List<DeviceInfo> listDevices(final String storeId,
-			final String key, final String name, final int limit)
-			throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("key", key)
-				.println("storeId", storeId).println("name", name)
-				.println("limit", limit);
-        
-		List<DeviceInfo> devices = new ArrayList<DeviceInfo>();
-        ResultSet resultSet = null;
-        Connection connection = null;
-        PreparedStatement select = null;
-        try {
-			connection = dbManager.getConnection();
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			select = connection.prepareStatement(sqlStatement
-					.getProperty("get-all-devices"));
-			select.setInt(SQLStatement.PARAM1, (limit < 0) ? 10000 : limit);
-			select.setString(SQLStatement.PARAM2, getStoreIdToSet(storeId));
-			select.setString(
-					SQLStatement.PARAM3,
-					StringUtility.isNullOrEmpty(key) ? "%" : StringUtility
-							.escapeCharatersForSQLqueries(key.trim()) + "%");
-			select.setString(
-					SQLStatement.PARAM4,
-					StringUtility.isNullOrEmpty(name) ? "%" : "%"
-							+ StringUtility.escapeCharatersForSQLqueries(name
-									.trim()) + "%");
-
-            resultSet = select.executeQuery();
-            while (resultSet.next()) {
-                DeviceInfo device = new DeviceInfo();
-                device.setDeviceId(resultSet.getString("TerminalId"));
-                device.setDeviceName(resultSet.getString("DevName"));
-                device.setPrinterId(resultSet.getString("PrinterId"));
-                device.setTillId(resultSet.getString("TillId"));
-                device.setQueuebusterlink(resultSet.getString("LinkQueuebuster"));
-                device.setSignaturelink(resultSet.getString("LinkSignature"));
-                device.setRetailStoreId(resultSet.getString("StoreId"));
-                device.setStatus(resultSet.getString("Status"));
-                devices.add(device);
-            }
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to get devices.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to get devices.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, select, resultSet);
-			
-			tp.methodExit(devices.size());
-		}
-		return devices;
-	}
+	}	
 	
-	private String getStoreIdToSet(final String storeId) {
-        return (StringUtility.isNullOrEmpty(storeId)) ? "%" : storeId;
-    }
-    
-    @Override
+	@Override
 	public final ViewDeviceInfo updateDevice(final String companyID, final String retailStoreID,
 			final String deviceID, final DeviceInfo deviceInfoToSet, 
 			final int trainingMode, Connection connection) throws DaoException{
@@ -1299,58 +1171,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		return resultBase;
 	}
 	
-    @Override
-	public final ResultBase setSignatureLink(final String retailStoreID,
-			final String terminalID, final String signatureLink,
-			final String appId, final String opeCode) throws DaoException {
-        
-    	String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("RetailStoreID", retailStoreID)
-				.println("TerminalID", terminalID)
-				.println("SignatureLink", signatureLink)
-				.println("UpdAppId", appId).println("UpdOpeCode", opeCode);
-
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement setSignatureLink = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            setSignatureLink = connection.prepareStatement(
-                    sqlStatement.getProperty("set-signaturelink"));
-            setSignatureLink.setString(SQLStatement.PARAM1, signatureLink);
-            setSignatureLink.setString(SQLStatement.PARAM2, retailStoreID);
-            setSignatureLink.setString(SQLStatement.PARAM3, terminalID);
-            setSignatureLink.setString(SQLStatement.PARAM4, appId);
-            setSignatureLink.setString(SQLStatement.PARAM5, opeCode);
-
-            int result = setSignatureLink.executeUpdate();
-            connection.commit();
-
-            if (result == 0) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-                tp.println("No device found.");
-            }
-
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set signaturelink.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set signaturelink.", ex);
-			throw new DaoException(functionName, ex);
-		} finally {
-			closeConnectionObjects(connection, setSignatureLink);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-
-    @Override
+	@Override
 	public final ResultBase setAuthorizationLink(final String retailStoreID,
 			final String terminalID, final String authorizationLink,
 			final String appId, final String opeCode) throws DaoException {
@@ -1797,10 +1618,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 .println("terminalId", terminalId)
                 .println("companyId", companyId)
                 .println("training", training);
-
         ResultBase returnData = null;
-        SQLStatement sqlStatement;
-
         try (Connection con = dbManager.getConnection();
              PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-attribute-info"))) {
             ps.setString(SQLStatement.PARAM1, storeId);
@@ -2094,4 +1912,5 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		return terminals;
 	}
 
+	
 }

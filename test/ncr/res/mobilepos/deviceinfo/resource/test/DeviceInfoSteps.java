@@ -118,28 +118,6 @@ public class DeviceInfoSteps extends Steps {
         Assert.assertEquals(result, resPDI.getLinkPOSTerminalId());
     }
     
-    @When ("I set posterminal link of storeid $storeid and deviceid $deviceid to linkposterminalid $linkposterminalid")
-    public final void setposterminalid(String storeid, String deviceid, String linkposterminalid) {
-           if(pdc == null) {
-            pdc = new DeviceInfoResource();
-               }
-        
-        storeid = "null".equals(storeid) ? null : storeid;
-        deviceid = "null".equals(deviceid) ? null : deviceid;
-        linkposterminalid = "null".equals(linkposterminalid) ? null : linkposterminalid;
-//        if(linkposterminalid == null){
-//        	
-//        }
-//        else if(linkposterminalid.equals("")){
-//        	linkposterminalid = "";
-//   	   linkposterminalid = "".equals(linkposterminalid) ? "" : linkposterminalid;
-//       }
-        
-        
-        resBase = pdc.setLinkPosTerminalId(storeid,
-                deviceid, linkposterminalid);
-    }
-    
     @Then ("the result base should be $result")
     public final void checkResultBase(final int result)
     {

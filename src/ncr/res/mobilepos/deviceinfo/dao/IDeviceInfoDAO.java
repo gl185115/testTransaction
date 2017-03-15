@@ -23,18 +23,6 @@ import java.util.List;
  */
 public interface IDeviceInfoDAO {
     /**
-     * Set the Pos Terminal Link association for a device.
-     * @param corpid - corp identifier
-     * @param storeid - store identifier
-     * @param terminalid - terminal identifier
-     * @param linkposterminalid - pos terminal identifier to associate to device
-     * @return ResultBase
-     * @throws SQLException - sql
-     * @throws DaoException - dao
-     */
-    ResultBase setLinkPosTerminalId(String storeid, String terminalid,
-            String linkposterminalid) throws Exception;
-    /**
      * Set the Printer Id association for a device.
      * @param storeid  store identifier
      * @param terminalid terminal identifier
@@ -113,18 +101,6 @@ public interface IDeviceInfoDAO {
             throws DaoException;
 
     /**
-     * List devices.
-     *
-     * @param key The key to search. Either a device ID or Name.
-     * @param storeId The storeid.
-     * @param limit 
-     * @param name 
-     * @return the list of device.
-     * @throws DaoException thrown when error occurs.
-     */
-    List<DeviceInfo> listDevices(String storeId, String key, String name, int limit) throws DaoException;
-    
-    /**
      * Update device.
      * @param companyid  - company identifier
      * @param storeid    - store identifier
@@ -170,18 +146,6 @@ public interface IDeviceInfoDAO {
      */
     ResultBase deletePrinter(String storeId, String printerId, String updAppId, String updOpeCode) throws DaoException;
     
-    /**
-     * Set the Signature Link for the device.
-     * @param retailStoreID     The Retail Store ID.
-     * @param terminalID        The Device ID.
-     * @param signatureLink     The POS Link ID for Signature.
-     * @param signatureLink     The POS Link ID for Signature.
-     * @param appId - application identifier
-     * @return ResultBase object with result code.
-     * @throws DaoException     Thrown when exception occurs.
-     */
-    ResultBase setSignatureLink(String retailStoreID, String terminalID,
-            String signatureLink, String appId, String opeCode) throws DaoException;
     /**
      * Set the Signature Link for the device.
      * @param retailStoreID     The Retail Store ID.

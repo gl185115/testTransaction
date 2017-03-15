@@ -3226,16 +3226,6 @@ ORDER BY
   </entry>
 
   <!--For Peripheral Control -->
-  <entry key="get-all-devices">
-    SELECT TOP (?) TerminalId, StoreId, COALESCE(DeviceName, '') as DevName, PrinterId, TillId, LinkQueueBuster, LinkSignature, Status FROM
-    RESMaster.dbo.MST_DEVICEINFO
-    WHERE
-      StoreId like ? AND
-      (TerminalId like ?  {ESCAPE '\'}  ) AND (DeviceName IS NULL OR (LOWER(DeviceName) like LOWER(?)  {ESCAPE '\'} ) ) AND
-      Status = 'Active'
-    ORDER BY StoreId ASC, TerminalId ASC
-  </entry>
-
   <entry key="delete-deviceinfo">
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO
@@ -3739,11 +3729,6 @@ ORDER BY
       UpdOpeCode = ?,
       UpdDate = GETDATE()
     WHERE StoreId = ? AND TerminalId = ? AND Status = 'Active';
-  </entry>
-
-  <entry key="set-LinkPosTerminalId">
-    UPDATE RESMaster.dbo.MST_DEVICEINFO SET LinkPosTerminalId = ? WHERE
-    StoreId = ? AND TerminalId = ?;
   </entry>
 
   <entry key="set-tillid">
@@ -5983,33 +5968,6 @@ ORDER BY
       VALUES
     (@storeid,@termid,@queuelink,3,40,0,@upddate,@updappid,@updopecode)
     </entry>
-
-  <entry key="set-signaturelink">
-    DECLARE @storeid varchar(MAX), @termid varchar(MAX), @linksignature varchar(MAX), @upddate datetime, @updappid varchar(MAX), @updopecode varchar(MAX)
-    SET @linksignature=?
-    SET @storeid=?
-    SET @termid=?
-    SET @upddate=GETDATE()
-    SET @updappid=?
-    SET @updopecode=?
-
-    UPDATE
-      RESMaster.dbo.MST_DEVICEINFO
-    SET
-      LinkSignature = @linksignature,
-      UpdDate = @upddate,
-      UpdAppId = @updappid,
-      UpdOpeCode = @updopecode
-
-    WHERE
-      StoreId = @storeid AND TerminalId = @termid
-
-    IF(@@ROWCOUNT = 0)
-      INSERT INTO RESMaster.dbo.MST_DEVICEINFO
-    (StoreId,TerminalId,LinkSignature,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode)
-      VALUES
-    (@storeid,@termid,@linksignature,3,40,0,@upddate,@updappid,@updopecode)
-  </entry>
 
   <entry key="set-authorizationlink">
     DECLARE @storeid varchar(MAX), @termid varchar(MAX),

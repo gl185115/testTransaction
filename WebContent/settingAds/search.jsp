@@ -23,8 +23,8 @@ String selectStoreId = storeId;
 String selectBizCatId = bizCatId;
 String selectTerminalId = terminalId;
 String cmName = "";
-String[] messages = new String[20];
-for (int i=0; i<20; i++) {
+String[] messages = new String[10];
+for (int i=0; i<10; i++) {
     messages[i] = "";
 }
 String startDate = "";
@@ -51,9 +51,7 @@ if (companyId != null) {
             //広告文を取得
             sql = "SELECT CompanyId, CMId, CMName, StoreId, BizCatId, TerminalId" +
                 ", Top1Message, Top2Message, Top3Message, Top4Message, Top5Message" +
-                ", Top6Message, Top7Message, Top8Message, Top9Message, Top10Message" +
                 ", Bottom1Message, Bottom2Message, Bottom3Message, Bottom4Message, Bottom5Message" +
-                ", Bottom6Message, Bottom7Message, Bottom8Message, Bottom9Message, Bottom10Message" +
                 ", StartDate, EndDate " +
                 "FROM RESMaster.dbo.MST_PRESET_CMINFO " +
                 "WHERE CompanyId = ? and CMId = ? and DeleteFlag = 0";
@@ -67,33 +65,17 @@ if (companyId != null) {
                 cmName = rs.getString("CMName");
                 sqlStartDate = rs.getDate("StartDate");
                 sqlEndDate = rs.getDate("EndDate");
-                messages = new String[20];
+                messages = new String[10];
                 messages[0] = rs.getString("Top1Message");
                 messages[1] = rs.getString("Top2Message");
                 messages[2] = rs.getString("Top3Message");
                 messages[3] = rs.getString("Top4Message");
                 messages[4] = rs.getString("Top5Message");
-                messages[5] = rs.getString("Top6Message");
-                messages[6] = rs.getString("Top7Message");
-                messages[7] = rs.getString("Top8Message");
-                messages[8] = rs.getString("Top9Message");
-                messages[9] = rs.getString("Top10Message");
-                messages[10] = rs.getString("Bottom1Message");
-                messages[11] = rs.getString("Bottom2Message");
-                messages[12] = rs.getString("Bottom3Message");
-                messages[13] = rs.getString("Bottom4Message");
-                messages[14] = rs.getString("Bottom5Message");
-                messages[15] = rs.getString("Bottom6Message");
-                messages[16] = rs.getString("Bottom7Message");
-                messages[17] = rs.getString("Bottom8Message");
-                messages[18] = rs.getString("Bottom9Message");
-                messages[19] = rs.getString("Bottom10Message");
-                
-                for(int i = 0; i < 20; i++){
-                	if(messages[i] == null){
-                		messages[i] = "";
-                	}
-                }
+                messages[5] = rs.getString("Bottom1Message");
+                messages[6] = rs.getString("Bottom2Message");
+                messages[7] = rs.getString("Bottom3Message");
+                messages[8] = rs.getString("Bottom4Message");
+                messages[9] = rs.getString("Bottom5Message");
             }
             rs.close();
             ps.close();
@@ -160,16 +142,6 @@ if (companyId != null) {
   <jsp:param name="message8" value="<%= messages[7] %>" />
   <jsp:param name="message9" value="<%= messages[8] %>" />
   <jsp:param name="message10" value="<%= messages[9] %>" />
-  <jsp:param name="message11" value="<%= messages[10] %>" />
-  <jsp:param name="message12" value="<%= messages[11] %>" />
-  <jsp:param name="message13" value="<%= messages[12] %>" />
-  <jsp:param name="message14" value="<%= messages[13] %>" />
-  <jsp:param name="message15" value="<%= messages[14] %>" />
-  <jsp:param name="message16" value="<%= messages[15] %>" />
-  <jsp:param name="message17" value="<%= messages[16] %>" />
-  <jsp:param name="message18" value="<%= messages[17] %>" />
-  <jsp:param name="message19" value="<%= messages[18] %>" />
-  <jsp:param name="message20" value="<%= messages[19] %>" />
   <jsp:param name="startDate" value="<%= startDate %>" />
   <jsp:param name="endDate" value="<%= endDate %>" />
 </jsp:forward>

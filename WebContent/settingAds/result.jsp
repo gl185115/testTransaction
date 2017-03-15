@@ -36,16 +36,6 @@ public static java.sql.Date toDate(String value) {
         return null;
     }
 }
-public static void setNullToTailEmpty(String[] array){
-
-	for(int i = array.length - 1; 0 <= i; i--){
-		if(array[i] == null || array[i].isEmpty()){
-			array[i] = null;
-		}else{
-			break;
-		}
-	}
-}
 %>
 <%
 String resCommit = "0"; //1:成功, 2:失敗
@@ -74,16 +64,6 @@ String ads7 = request.getParameter("ads7");
 String ads8 = request.getParameter("ads8");
 String ads9 = request.getParameter("ads9");
 String ads10 = request.getParameter("ads10");
-String ads11 = request.getParameter("ads11");
-String ads12 = request.getParameter("ads12");
-String ads13 = request.getParameter("ads13");
-String ads14 = request.getParameter("ads14");
-String ads15 = request.getParameter("ads15");
-String ads16 = request.getParameter("ads16");
-String ads17 = request.getParameter("ads17");
-String ads18 = request.getParameter("ads18");
-String ads19 = request.getParameter("ads19");
-String ads20 = request.getParameter("ads20");
 String startDate = request.getParameter("startDate");
 String endDate = request.getParameter("endDate");
 String deleteFlag = request.getParameter("deleteFlag");
@@ -182,21 +162,11 @@ try{
                   ", Top3Message" +
                   ", Top4Message" +
                   ", Top5Message" +
-                  ", Top6Message" +
-            	  ", Top7Message" +
-                  ", Top8Message" +
-                  ", Top9Message" +
-                  ", Top10Message" +
                   ", Bottom1Message" +
                   ", Bottom2Message" +
                   ", Bottom3Message" +
                   ", Bottom4Message" +
                   ", Bottom5Message" +
-                  ", Bottom6Message" +
-                  ", Bottom7Message" +
-                  ", Bottom8Message" +
-                  ", Bottom9Message" +
-                  ", Bottom10Message" +
                   ", DeleteFlag" +
                   ", InsDate" +
                   ", InsAppId" +
@@ -207,36 +177,8 @@ try{
                   ", UpdOpeCode" +
                   ") " +
                   " VALUES " +
-                  "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                  "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
-            
-            String[] topMessages = new String[10];
-            String[] bottomMessages = new String[10];
-            
-            topMessages[0] = ads1;
-            topMessages[1] = ads2;
-            topMessages[2] = ads3;
-            topMessages[3] = ads4;
-            topMessages[4] = ads5;
-            topMessages[5] = ads6;
-            topMessages[6] = ads7;
-            topMessages[7] = ads8;
-            topMessages[8] = ads9;
-            topMessages[9] = ads10;
-            bottomMessages[0] = ads11;
-            bottomMessages[1] = ads12;
-            bottomMessages[2] = ads13;
-            bottomMessages[3] = ads14;
-            bottomMessages[4] = ads15;
-            bottomMessages[5] = ads16;
-            bottomMessages[6] = ads17;
-            bottomMessages[7] = ads18;
-            bottomMessages[8] = ads19;
-            bottomMessages[9] = ads20;
-            
-            setNullToTailEmpty(topMessages);
-            setNullToTailEmpty(bottomMessages);
-            
             ps.setString(1, companyId);
             ps.setString(2, cmName);
             ps.setString(3, cmType);
@@ -245,34 +187,24 @@ try{
             ps.setString(6, terminalId);
             ps.setDate(7, sqlStartDate);
             ps.setDate(8, sqlEndDate);
-            ps.setString(9, topMessages[0]);
-            ps.setString(10, topMessages[1]);
-            ps.setString(11, topMessages[2]);
-            ps.setString(12, topMessages[3]);
-            ps.setString(13, topMessages[4]);
-            ps.setString(14, topMessages[5]);
-            ps.setString(15, topMessages[6]);
-            ps.setString(16, topMessages[7]);
-            ps.setString(17, topMessages[8]);
-            ps.setString(18, topMessages[9]);
-            ps.setString(19, bottomMessages[0]);
-            ps.setString(20, bottomMessages[1]);
-            ps.setString(21, bottomMessages[2]);
-            ps.setString(22, bottomMessages[3]);
-            ps.setString(23, bottomMessages[4]);
-            ps.setString(24, bottomMessages[5]);
-            ps.setString(25, bottomMessages[6]);
-            ps.setString(26, bottomMessages[7]);
-            ps.setString(27, bottomMessages[8]);
-            ps.setString(28, bottomMessages[9]);
-            ps.setInt(29, 0);
-            ps.setDate(30, currentDate);
-            ps.setString(31, "settingAds");
-            ps.setString(32, user);
-            ps.setInt(33, 0);
-            ps.setDate(34, currentDate);
-            ps.setString(35, "settingAds");
-            ps.setString(36, user);
+            ps.setString(9, ads1);
+            ps.setString(10, ads2);
+            ps.setString(11, ads3);
+            ps.setString(12, ads4);
+            ps.setString(13, ads5);
+            ps.setString(14, ads6);
+            ps.setString(15, ads7);
+            ps.setString(16, ads8);
+            ps.setString(17, ads9);
+            ps.setString(18, ads10);
+            ps.setInt(19, 0);
+            ps.setDate(20, currentDate);
+            ps.setString(21, "settingAds");
+            ps.setString(22, user);
+            ps.setInt(23, 0);
+            ps.setDate(24, currentDate);
+            ps.setString(25, "settingAds");
+            ps.setString(26, user);
             int num = ps.executeUpdate();
             rs = ps.getGeneratedKeys();
             if (rs != null && rs.next()) {
@@ -313,84 +245,36 @@ try{
                             ", Top3Message = ?" +
                             ", Top4Message = ?" +
                             ", Top5Message = ?" +
-                            ", Top6Message = ?" +
-                            ", Top7Message = ?" +
-                            ", Top8Message = ?" +
-                            ", Top9Message = ?" +
-                            ", Top10Message = ?" +
                             ", Bottom1Message = ?" +
                             ", Bottom2Message = ?" +
                             ", Bottom3Message = ?" +
                             ", Bottom4Message = ?" +
                             ", Bottom5Message = ?" +
-                            ", Bottom6Message = ?" +
-                            ", Bottom7Message = ?" +
-                            ", Bottom8Message = ?" +
-                            ", Bottom9Message = ?" +
-                            ", Bottom10Message = ?" +
                             ", UpdCount = ?" +
                             ", UpdDate = ?" +
                             ", UpdAppId = ?" +
                             ", UpdOpeCode = ?" +
                             " WHERE CompanyID = ? and CMId = ?";
                 ps = conn.prepareStatement(sql);
-                
-                String[] topMessages = new String[10];
-                String[] bottomMessages = new String[10];
-                
-                topMessages[0] = ads1;
-                topMessages[1] = ads2;
-                topMessages[2] = ads3;
-                topMessages[3] = ads4;
-                topMessages[4] = ads5;
-                topMessages[5] = ads6;
-                topMessages[6] = ads7;
-                topMessages[7] = ads8;
-                topMessages[8] = ads9;
-                topMessages[9] = ads10;
-                bottomMessages[0] = ads11;
-                bottomMessages[1] = ads12;
-                bottomMessages[2] = ads13;
-                bottomMessages[3] = ads14;
-                bottomMessages[4] = ads15;
-                bottomMessages[5] = ads16;
-                bottomMessages[6] = ads17;
-                bottomMessages[7] = ads18;
-                bottomMessages[8] = ads19;
-                bottomMessages[9] = ads20;
-                
-                setNullToTailEmpty(topMessages);
-                setNullToTailEmpty(bottomMessages);
-                
                 ps.setString(1, cmName);
                 ps.setDate(2, sqlStartDate);
                 ps.setDate(3, sqlEndDate);
-                ps.setString(4, topMessages[0]);
-                ps.setString(5, topMessages[1]);
-                ps.setString(6, topMessages[2]);
-                ps.setString(7, topMessages[3]);
-                ps.setString(8, topMessages[4]);
-                ps.setString(9, topMessages[5]);
-                ps.setString(10, topMessages[6]);
-                ps.setString(11, topMessages[7]);
-                ps.setString(12, topMessages[8]);
-                ps.setString(13, topMessages[9]);
-                ps.setString(14, bottomMessages[0]);
-                ps.setString(15, bottomMessages[1]);
-                ps.setString(16, bottomMessages[2]);
-                ps.setString(17, bottomMessages[3]);
-                ps.setString(18, bottomMessages[4]);
-                ps.setString(19, bottomMessages[5]);
-                ps.setString(20, bottomMessages[6]);
-                ps.setString(21, bottomMessages[7]);
-                ps.setString(22, bottomMessages[8]);
-                ps.setString(23, bottomMessages[9]);
-                ps.setInt(24, updCount + 1);
-                ps.setDate(25, currentDate);
-                ps.setString(26, "settingAds");
-                ps.setString(27, user);
-                ps.setString(28, companyId);
-                ps.setString(29, cmId);
+                ps.setString(4, ads1);
+                ps.setString(5, ads2);
+                ps.setString(6, ads3);
+                ps.setString(7, ads4);
+                ps.setString(8, ads5);
+                ps.setString(9, ads6);
+                ps.setString(10, ads7);
+                ps.setString(11, ads8);
+                ps.setString(12, ads9);
+                ps.setString(13, ads10);
+                ps.setInt(14, updCount + 1);
+                ps.setDate(15, currentDate);
+                ps.setString(16, "settingAds");
+                ps.setString(17, user);
+                ps.setString(18, companyId);
+                ps.setString(19, cmId);
             } else {
                 //削除
                 sql = "UPDATE RESMaster.dbo.MST_PRESET_CMINFO SET " +
@@ -402,84 +286,36 @@ try{
                             ", Top3Message = ?" +
                             ", Top4Message = ?" +
                             ", Top5Message = ?" +
-                            ", Top6Message = ?" +
-                            ", Top7Message = ?" +
-                            ", Top8Message = ?" +
-                            ", Top9Message = ?" +
-                            ", Top10Message = ?" +
                             ", Bottom1Message = ?" +
                             ", Bottom2Message = ?" +
                             ", Bottom3Message = ?" +
                             ", Bottom4Message = ?" +
                             ", Bottom5Message = ?" +
-                            ", Bottom6Message = ?" +
-                            ", Bottom7Message = ?" +
-                            ", Bottom8Message = ?" +
-                            ", Bottom9Message = ?" +
-                            ", Bottom10Message = ?" +
                             ", DeleteFlag = ?" +
                             ", DelDate = ?" +
                             ", DelAppId = ?" +
                             ", DelOpeCode = ?" +
                             " WHERE CompanyID = ? and CMId = ?";
                 ps = conn.prepareStatement(sql);
-                
-                String[] topMessages = new String[10];
-                String[] bottomMessages = new String[10];
-                
-                topMessages[0] = ads1;
-                topMessages[1] = ads2;
-                topMessages[2] = ads3;
-                topMessages[3] = ads4;
-                topMessages[4] = ads5;
-                topMessages[5] = ads6;
-                topMessages[6] = ads7;
-                topMessages[7] = ads8;
-                topMessages[8] = ads9;
-                topMessages[9] = ads10;
-                bottomMessages[0] = ads11;
-                bottomMessages[1] = ads12;
-                bottomMessages[2] = ads13;
-                bottomMessages[3] = ads14;
-                bottomMessages[4] = ads15;
-                bottomMessages[5] = ads16;
-                bottomMessages[6] = ads17;
-                bottomMessages[7] = ads18;
-                bottomMessages[8] = ads19;
-                bottomMessages[9] = ads20;
-                
-                setNullToTailEmpty(topMessages);
-                setNullToTailEmpty(bottomMessages);
-                
                 ps.setString(1, cmName);
                 ps.setDate(2, sqlStartDate);
                 ps.setDate(3, sqlEndDate);
-                ps.setString(4, topMessages[0]);
-                ps.setString(5, topMessages[1]);
-                ps.setString(6, topMessages[2]);
-                ps.setString(7, topMessages[3]);
-                ps.setString(8, topMessages[4]);
-                ps.setString(9, topMessages[5]);
-                ps.setString(10, topMessages[6]);
-                ps.setString(11, topMessages[7]);
-                ps.setString(12, topMessages[8]);
-                ps.setString(13, topMessages[9]);
-                ps.setString(14, bottomMessages[0]);
-                ps.setString(15, bottomMessages[1]);
-                ps.setString(16, bottomMessages[2]);
-                ps.setString(17, bottomMessages[3]);
-                ps.setString(18, bottomMessages[4]);
-                ps.setString(19, bottomMessages[5]);
-                ps.setString(20, bottomMessages[6]);
-                ps.setString(21, bottomMessages[7]);
-                ps.setString(22, bottomMessages[8]);
-                ps.setString(23, bottomMessages[9]);
-                ps.setInt(24, 1);
-                ps.setDate(25, currentDate);
-                ps.setString(26, "settingAds");
-                ps.setString(27, user);
-                ps.setString(28, companyId);
-                ps.setString(29, cmId);
+                ps.setString(4, ads1);
+                ps.setString(5, ads2);
+                ps.setString(6, ads3);
+                ps.setString(7, ads4);
+                ps.setString(8, ads5);
+                ps.setString(9, ads6);
+                ps.setString(10, ads7);
+                ps.setString(11, ads8);
+                ps.setString(12, ads9);
+                ps.setString(13, ads10);
+                ps.setInt(14, 1);
+                ps.setDate(15, currentDate);
+                ps.setString(16, "settingAds");
+                ps.setString(17, user);
+                ps.setString(18, companyId);
+                ps.setString(19, cmId);
 
                 cmId = null;
             }
@@ -493,9 +329,7 @@ try{
             //登録後の最新の広告文を取得
             sql = "SELECT CompanyId, CMId, CmName, StoreId, BizCatId, TerminalId" +
                     ", Top1Message, Top2Message, Top3Message, Top4Message, Top5Message" +
-                   	", Top6Message, Top7Message, Top8Message, Top9Message, Top10Message" +
                     ", Bottom1Message, Bottom2Message, Bottom3Message, Bottom4Message, Bottom5Message" +
-                    ", Bottom6Message, Bottom7Message, Bottom8Message, Bottom9Message, Bottom10Message" +
                     ", StartDate, EndDate" +
                     " FROM RESMaster.dbo.MST_PRESET_CMINFO" +
                     " WHERE CompanyId = ? and CMId = ?";
@@ -511,21 +345,11 @@ try{
                 ads3 = rs.getString("Top3Message");
                 ads4 = rs.getString("Top4Message");
                 ads5 = rs.getString("Top5Message");
-                ads6 = rs.getString("Top6Message");
-                ads7 = rs.getString("Top7Message");
-                ads8 = rs.getString("Top8Message");
-                ads9 = rs.getString("Top9Message");
-                ads10 = rs.getString("Top10Message");
-                ads11 = rs.getString("Bottom1Message");
-                ads12 = rs.getString("Bottom2Message");
-                ads13 = rs.getString("Bottom3Message");
-                ads14 = rs.getString("Bottom4Message");
-                ads15 = rs.getString("Bottom5Message");
-                ads16 = rs.getString("Bottom6Message");
-                ads17 = rs.getString("Bottom7Message");
-                ads18 = rs.getString("Bottom8Message");
-                ads19 = rs.getString("Bottom9Message");
-                ads20 = rs.getString("Bottom10Message");
+                ads6 = rs.getString("Bottom1Message");
+                ads7 = rs.getString("Bottom2Message");
+                ads8 = rs.getString("Bottom3Message");
+                ads9 = rs.getString("Bottom4Message");
+                ads10 = rs.getString("Bottom5Message");
             }
             rs.close();
             ps.close();
@@ -590,16 +414,6 @@ try{
   <jsp:param name="message8" value="<%= trimToEmpty(ads8) %>" />
   <jsp:param name="message9" value="<%= trimToEmpty(ads9) %>" />
   <jsp:param name="message10" value="<%= trimToEmpty(ads10) %>" />
-  <jsp:param name="message11" value="<%= trimToEmpty(ads11) %>" />
-  <jsp:param name="message12" value="<%= trimToEmpty(ads12) %>" />
-  <jsp:param name="message13" value="<%= trimToEmpty(ads13) %>" />
-  <jsp:param name="message14" value="<%= trimToEmpty(ads14) %>" />
-  <jsp:param name="message15" value="<%= trimToEmpty(ads15) %>" />
-  <jsp:param name="message16" value="<%= trimToEmpty(ads16) %>" />
-  <jsp:param name="message17" value="<%= trimToEmpty(ads17) %>" />
-  <jsp:param name="message18" value="<%= trimToEmpty(ads18) %>" />
-  <jsp:param name="message19" value="<%= trimToEmpty(ads19) %>" />
-  <jsp:param name="message20" value="<%= trimToEmpty(ads20) %>" />
   <jsp:param name="startDate" value="<%= trimToEmpty(startDate) %>" />
   <jsp:param name="endDate" value="<%= trimToEmpty(endDate) %>" />
 </jsp:forward>

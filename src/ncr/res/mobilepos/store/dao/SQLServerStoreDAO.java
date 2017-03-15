@@ -329,21 +329,11 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                 cmPresetInfo.setTop3Message(resultSet.getString("Top3Message"));
                 cmPresetInfo.setTop4Message(resultSet.getString("Top4Message"));
                 cmPresetInfo.setTop5Message(resultSet.getString("Top5Message"));
-                cmPresetInfo.setTop6Message(resultSet.getString("Top6Message"));
-                cmPresetInfo.setTop7Message(resultSet.getString("Top7Message"));
-                cmPresetInfo.setTop8Message(resultSet.getString("Top8Message"));
-                cmPresetInfo.setTop9Message(resultSet.getString("Top9Message"));
-                cmPresetInfo.setTop10Message(resultSet.getString("Top10Message"));
                 cmPresetInfo.setBottom1Message(resultSet.getString("Bottom1Message"));
                 cmPresetInfo.setBottom2Message(resultSet.getString("Bottom2Message"));
                 cmPresetInfo.setBottom3Message(resultSet.getString("Bottom3Message"));
                 cmPresetInfo.setBottom4Message(resultSet.getString("Bottom4Message"));
                 cmPresetInfo.setBottom5Message(resultSet.getString("Bottom5Message"));
-                cmPresetInfo.setBottom6Message(resultSet.getString("Bottom6Message"));
-                cmPresetInfo.setBottom7Message(resultSet.getString("Bottom7Message"));
-                cmPresetInfo.setBottom8Message(resultSet.getString("Bottom8Message"));
-                cmPresetInfo.setBottom9Message(resultSet.getString("Bottom9Message"));
-                cmPresetInfo.setBottom10Message(resultSet.getString("Bottom10Message"));
 
                 cmPresetInfoList.add(cmPresetInfo);
             }

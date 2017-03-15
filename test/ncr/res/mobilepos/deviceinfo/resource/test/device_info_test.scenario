@@ -62,17 +62,3 @@ Then printername should be empty
 Then description should be empty 
 Then linkposterminalid should be 1234 
 
-Scenario: Test SetPOSTerminalLink Device Info where storeid is empty 
-Given a PeripheralDeviceControl service 
-When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid 9999 to 9876 and trainingmode 0
-Then the result base should be 139 
-
-Scenario: Test SetPOSTerminalLink Device Info where deviceid is null 
-Given a PeripheralDeviceControl service 
-When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid null to 9876 and trainingmode 0
-Then the result base should be 139 
-
-Scenario: Test SetPOSTerminalLink Device Info where deviceid is empty 
-Given a PeripheralDeviceControl service 
-When I get PeripheralDeviceInfo for companyid 9999, storeid 000031, deviceid   to 9876 and trainingmode 0
-Then the result base should be 139 

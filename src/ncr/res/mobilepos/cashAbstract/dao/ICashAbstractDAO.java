@@ -9,7 +9,7 @@ package ncr.res.mobilepos.cashAbstract.dao;
 
 
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 public interface ICashAbstractDAO {
     /**

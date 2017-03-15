@@ -22,7 +22,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 @Path("/tenderinfo")
 @Api(value="/tenderinfo", description="ç∑ÇµèoÇ∑èÓïÒAPI")

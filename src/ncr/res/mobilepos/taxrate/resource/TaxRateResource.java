@@ -26,7 +26,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.taxrate.dao.ITaxRateDao;
 import ncr.res.mobilepos.taxrate.dao.SQLServerTaxRateDao;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 /**
  * PromotionResource Class is a Web Resource which support MobilePOS Promotion

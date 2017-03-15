@@ -48,7 +48,7 @@ import ncr.res.mobilepos.line.model.ViewLine;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 /**
  * LineResource Web Resource Line

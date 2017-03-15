@@ -308,8 +308,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -396,8 +396,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -484,8 +484,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -572,8 +572,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -660,8 +660,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -748,8 +748,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -836,8 +836,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -924,8 +924,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -1012,8 +1012,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -1100,8 +1100,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー6601"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -1188,8 +1188,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー5501"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -1265,7 +1265,7 @@
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ゼビオ　太郎"
 ,"KAIIN_NM_KANA": "ｾﾞﾋﾞｵ ﾀﾛｳ"
-,"KAIIN_NM_EN": "XEBIO TARO"
+,"KAIIN_NM_EN": "SAMPLE TARO"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -1276,8 +1276,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー5501"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -1969,7 +1969,7 @@
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ゼビオ　次郎"
 ,"KAIIN_NM_KANA": "ｾﾞﾋﾞｵ ｼﾞﾛｳ"
-,"KAIIN_NM_EN": "XEBIO JIRO"
+,"KAIIN_NM_EN": "SAMPLE JIRO"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -1980,8 +1980,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー5501"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -2057,7 +2057,7 @@
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ゼビオ　ネクスト"
 ,"KAIIN_NM_KANA": "ｾﾞﾋﾞｵ ﾈｸｽﾄ"
-,"KAIIN_NM_EN": "XEBIO NEXT"
+,"KAIIN_NM_EN": "SAMPLE NEXT"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -2068,8 +2068,8 @@
 ,"JYUSYO4": "茅場町レジデンスタワー5501"
 ,"TEL1": "03-6759-6000"
 ,"TEL2": "090-8888-9999"
-,"PCMAIL": "xebio@ncr.com"
-,"MBMAIL": "xebio@docomo.ne.jp"
+,"PCMAIL": "sample@ncr.com"
+,"MBMAIL": "sample@docomo.ne.jp"
 ,"UPD_DATE": 20150226
 ,"UPD_TIME": 161812
 ,"SCHOOL_NM": null
@@ -2260,7 +2260,7 @@
 {"BODY":{ "MEISAI_RIREKI":[
 {
   "KAISYA_CD": "190203484"
-  ,"MEISYO_EN": "XEBIO"
+  ,"MEISYO_EN": "SAMPLE"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0460"
@@ -2300,7 +2300,7 @@
 }
 ,{
   "KAISYA_CD": "190203484"
-  ,"MEISYO_EN": "XEBIO"
+  ,"MEISYO_EN": "SAMPLE"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0460"
@@ -2340,7 +2340,7 @@
 }
 ,{
   "KAISYA_CD": "190203484"
-  ,"MEISYO_EN": "XEBIO"
+  ,"MEISYO_EN": "SAMPLE"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0266"
@@ -2380,7 +2380,7 @@
 }
 ,{
   "KAISYA_CD": "190203484"
-  ,"MEISYO_EN": "XEBIO"
+  ,"MEISYO_EN": "SAMPLE"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0266"
@@ -2429,7 +2429,7 @@
 {"BODY":{ "MEISAI_TORIHIKI":[
 {
   "KAISYA_CD": "190203484"
-  ,"MEISYO_EN": "XEBIO"
+  ,"MEISYO_EN": "SAMPLE"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0460"
@@ -2472,7 +2472,7 @@
     ,"BMNCD": null
     ,"BURANDO_CD": null
     ,"SKU": null
-    ,"XEBIO_CD": null
+    ,"SAMPLE_CD": null
     ,"SYONM": "セット"
     ,"IRO_NM": null
     ,"SIZE_MEI": null
@@ -2484,7 +2484,7 @@
     ,"BMNCD": "566"
     ,"BURANDO_CD": "004569"
     ,"SKU": "2600116309134"
-    ,"XEBIO_CD": "0000000000"
+    ,"SAMPLE_CD": "0000000000"
     ,"SYONM": "Ｃ１＿０２Ｓ　ＢＲＮ"
     ,"IRO_NM": "BRN"
     ,"SIZE_MEI": "28.0"
@@ -2496,7 +2496,7 @@
     ,"BMNCD": "820"
     ,"BURANDO_CD": "006055"
     ,"SKU": "2600112137656"
-    ,"XEBIO_CD": "0000000000"
+    ,"SAMPLE_CD": "0000000000"
     ,"SYONM": "インソール"
     ,"IRO_NM": "BEG"
     ,"SIZE_MEI": "L"
@@ -2549,7 +2549,7 @@
   ,"BMNCD": "841"
   ,"BURANDO_CD": "006324"
   ,"SKU": "2600110996941"
-  ,"XEBIO_CD": "0000000000"
+  ,"SAMPLE_CD": "0000000000"
   ,"SYONM": "ﾖｶﾞﾏｯﾄ4mm SAX"
   ,"IRO_NM": "SAX"
   ,"SIZE_MEI": "FF"
@@ -2559,7 +2559,7 @@
 }
 ,{
   "KAISYA_CD": "190203484"
-  ,"MEISYO_EN": "XEBIO"
+  ,"MEISYO_EN": "SAMPLE"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0453"
@@ -2602,7 +2602,7 @@
   ,"BMNCD": "407"
   ,"BURANDO_CD": "008703"
   ,"SKU": "4580382252298"
-  ,"XEBIO_CD": "0000000000"
+  ,"SAMPLE_CD": "0000000000"
   ,"SYONM": "ネップカノコポロ"
   ,"IRO_NM": "NVY"
   ,"SIZE_MEI": "L"

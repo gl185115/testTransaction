@@ -23,7 +23,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.point.model.PointRateResponse;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 @Path("/premiumInfo")
 @Api(value="/premiumInfo", description="îÔópèÓïÒAPI")

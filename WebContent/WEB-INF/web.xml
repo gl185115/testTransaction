@@ -50,7 +50,7 @@
         ncr.res.mobilepos.tenderinfo.resource,
         ncr.res.mobilepos.test.resource,
         ncr.res.mobilepos.tillinfo.resource,
-        ncr.res.mobilepos.xebioapi.resource,
+        ncr.res.mobilepos.webserviceif.resource,
         ncr.res.mobilepos.point.resource,
         ncr.res.mobilepos.uiconfig.resource,
         ncr.res.mobilepos.creditcard.resource
@@ -124,7 +124,7 @@
       <url-pattern>/rest/test/*</url-pattern>
       <url-pattern>/rest/till/*</url-pattern>
       <url-pattern>/rest/transaction/*</url-pattern>
-      <url-pattern>/rest/xebioapi/*</url-pattern>
+      <url-pattern>/rest/WebServiceIf/*</url-pattern>
       <url-pattern>/rest/ItemForward/*</url-pattern>
       <url-pattern>/rest/creditcard/*</url-pattern>
       <http-method>GET</http-method>

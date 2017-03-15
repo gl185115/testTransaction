@@ -56,23 +56,4 @@ Scenario: Get terminal info where terminalId is empty
 Given I have a DeviceInfo resource and other resources
 When I request to get terminal info of companyId 01, storeId 0031 and terminalId empty 
 Then TerminalInfo should be null
-Then the result should be RES_ERROR_INVALIDPARAMETER 
-
-!-- (Database throw Exceptions)
-!-- Given I have a DeviceInfo resource and other resources
-!-- Given that database is throwing an unexpected DaoException 
-!-- When I request to get terminal info of companyId 01, storeId 0031 and terminalId 0001  
-!-- Then TerminalInfo should be null
-!-- Then the result should be RES_ERROR_GENERAL 
-!-- Given that database is throwing an unexpected Exception 
-!-- When I request to get terminal info of companyId 01, storeId 0031 and terminalId 0001  
-!-- Then TerminalInfo should be null
-!-- Then the result should be RES_ERROR_GENERAL 
-!-- Given that database is throwing an unexpected SQLException 
-!-- When I request to get terminal info of companyId 01, storeId 0031 and terminalId 0001  
-!-- Then TerminalInfo should be null
-!-- Then the result should be RES_ERROR_DB 
-!-- Given that database is throwing an unexpected SQLStatementException 
-!-- When I request to get terminal info of companyId 01, storeId 0031 and terminalId 0001  
-!-- Then TerminalInfo should be null
-!-- Then the result should be RES_ERROR_DAO  
+Then the result should be RES_ERROR_INVALIDPARAMETER

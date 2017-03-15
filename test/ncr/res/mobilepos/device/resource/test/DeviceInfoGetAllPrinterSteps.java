@@ -51,17 +51,17 @@ public class DeviceInfoGetAllPrinterSteps extends Steps {
     
     @Given("an empty MST_PRINTERINFO database table")
     public final void emptyPrinterInfoDB() throws Exception{
-        new DBInitiator("Mst_PrinterInfo", "test/resource/test/MST_PRINTERINFO_EMPTY.xml", DATABASE.RESMaster);
+        new DBInitiator("Mst_PrinterInfo", "test/ncr/res/mobilepos/device/resource/test/MST_PRINTERINFO_EMPTY.xml", DATABASE.RESMaster);
     }
     
     @Given("entries in MST_PRINTERINFO_GET_ALL_PRINTER database table")
     public final void entriesPrinterInfoDB() throws Exception{
-        new DBInitiator("Mst_PrinterInfo", "test/resource/test/MST_PRINTERINFO_GET_ALL_PRINTER.xml", DATABASE.RESMaster);
+        new DBInitiator("Mst_PrinterInfo", "test/ncr/res/mobilepos/device/resource/test/MST_PRINTERINFO_GET_ALL_PRINTER.xml", DATABASE.RESMaster);
     }
          // entries in printers database table with special characters
     @Given("entries in printers database table with special characters")
     public final void entriesPrinterInfoSpCharsDB() throws Exception{
-        new DBInitiator("Mst_PrinterInfo", "test/resource/test/MST_PRINTERINFO_withSpChars.xml", DATABASE.RESMaster);
+        new DBInitiator("Mst_PrinterInfo", "test/ncr/res/mobilepos/device/resource/test/MST_PRINTERINFO_withSpChars.xml", DATABASE.RESMaster);
     }
     
     

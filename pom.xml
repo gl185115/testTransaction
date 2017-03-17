@@ -30,6 +30,19 @@
         <myVersion>temp</myVersion>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>resmex-releases</id>
+            <name>RES MeX Releases</name>
+            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
+        </repository>
+        <repository>
+            <id>resmex-snapshots</id>
+            <name>RES MeX SnapShots</name>
+            <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
+        </repository>
+    </repositories>
+
     <distributionManagement>
         <repository>
             <id>resmex-releases</id>
@@ -45,6 +58,12 @@
     </distributionManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>ncr.res.base</groupId>
+            <artifactId>mex-common</artifactId>
+            <version>1.0.1.1</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>jsr311-api</artifactId>

@@ -16,6 +16,8 @@ import ncr.res.mobilepos.journalization.model.ForwardList;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.settlement.model.SettlementInfo;
+import ncr.res.mobilepos.settlement.resource.SettlementResource;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
@@ -34,7 +36,7 @@ public class EndOfDaySteps extends Steps {
 	private JournalizationResource journalizationResource;
 	private DBInitiator dbRESTransactionInitiator;
 	private DBInitiator dbRESMasterInitiator;
-	public enum Operation { GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS};
+	public enum Operation { GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT};
 	Operation operation = Operation.GETLASTPAYINPAYOUT;
 	private SearchedPosLog payinoutPoslog = null;
 	private ForwardItemListResource forwardItemResource = null;
@@ -46,6 +48,8 @@ public class EndOfDaySteps extends Steps {
 	private ViewTill till = null;
 	private ResultBase releaseExecAuthResult = null;
 	private PosControlOpenCloseStatus deviceStatResult = null;
+	private SettlementResource settlementResource = null;
+	private SettlementInfo settlementInfo = null;
 	
 	@BeforeScenario
 	public final void setUp(){
@@ -55,6 +59,7 @@ public class EndOfDaySteps extends Steps {
 		forwardItemResource = new ForwardItemListResource();
 		tillInfoResource = new TillInfoResource();
 		deviceInfoResource = new DeviceInfoResource();
+		settlementResource = new SettlementResource();
 		try {
 			Field journalizationContext = journalizationResource.getClass()
 					.getDeclaredField("context");
@@ -72,6 +77,10 @@ public class EndOfDaySteps extends Steps {
 					.getDeclaredField("context");
 			deviceInfoContext.setAccessible(true);
 			deviceInfoContext.set(deviceInfoResource, mockContext);
+			Field setttlementInfoContext = settlementResource.getClass()
+					.getDeclaredField("servletContext");
+			setttlementInfoContext.setAccessible(true);
+			setttlementInfoContext.set(settlementResource, mockContext);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -109,6 +118,15 @@ public class EndOfDaySteps extends Steps {
 			ex.printStackTrace();
 		}
 	}
+	@Given("that has credit payments")
+	public final void givenHasCreditPayments(){
+		try{
+			dbRESTransactionInitiator = new DBInitiator("EndOfDaySteps", DATABASE.RESTransaction);
+			dbRESTransactionInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, "test/ncr/res/mobilepos/eod/test/TXU_TOTAL_DAILYREPORT_(Credit).xml");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
+	}	
 	@When("getting last payin/payout transactions companyid:$1 storeid:$2 terminalid:$3 businessdate:$4 trainingflag:$5")
 	public final void whenGettingLastPayTxs(final String companyId, final String storeId, final String terminalId, final String businessDate, final String trainingFlag){
 		operation = Operation.GETLASTPAYINPAYOUT;
@@ -171,6 +189,16 @@ public class EndOfDaySteps extends Steps {
 				Assert.assertEquals("Compare OpenCloseStatus", Short.parseShort(expectedTable.getRow(0).get("OpenCloseStatus")), deviceStatResult.getOpenCloseStat());
 				Assert.assertEquals("Compare NCRWSSResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSResultCode")), deviceStatResult.getNCRWSSResultCode());
 				Assert.assertEquals("Compare NCRWSSExtendedResultCode", Integer.parseInt(expectedTable.getRow(0).get("NCRWSSExtendedResultCode")), deviceStatResult.getNCRWSSExtendedResultCode());
+			}break;
+			case GETCREDIT: {
+				Assert.assertEquals("Compare CompanyId", expectedTable.getRow(0).get("CompanyId"), settlementInfo.getCreditInfo().getCompanyId());
+				Assert.assertEquals("Compare RetailStoreId", expectedTable.getRow(0).get("RetailStoreId"), settlementInfo.getCreditInfo().getStoreId());
+				Assert.assertEquals("Compare BusinessDayDate", expectedTable.getRow(0).get("BusinessDayDate"), settlementInfo.getCreditInfo().getBusinessDayDate());
+				Assert.assertEquals("Compare TrainingFlag", Integer.parseInt(expectedTable.getRow(0).get("TrainingFlag")), settlementInfo.getCreditInfo().getTrainingFlag());
+				Assert.assertEquals("Compare SalesCntSum", Integer.parseInt(expectedTable.getRow(0).get("SalesCntSum")), settlementInfo.getCreditInfo().getSalesCntSum());
+				Assert.assertEquals("Compare SalesItemAmt", expectedTable.getRow(0).get("SalesItemAmt"), String.valueOf(settlementInfo.getCreditInfo().getSalesItemAmt()));
+				Assert.assertEquals("Compare SalesItemCnt", Integer.parseInt(expectedTable.getRow(0).get("SalesItemCnt")), settlementInfo.getCreditInfo().getSalesItemCnt());
+				Assert.assertEquals("Compare SalesAmtSum", expectedTable.getRow(0).get("SalesAmtSum"), String.valueOf(settlementInfo.getCreditInfo().getSalesAmtSum()));
 			}break;
 			default: break;
 		}
@@ -246,5 +274,16 @@ public class EndOfDaySteps extends Steps {
 	public final void getDeviceStatus(final String companyId, final String storeId, final String terminalId) {
 		operation = Operation.GETDEVICESTATUS;
 		deviceStatResult = (PosControlOpenCloseStatus)deviceInfoResource.getDeviceStatus(companyId, storeId, terminalId);
+	}
+	@When("getting credit companyId:$1 storeId:$2 businessDate:$3 trainingFlag:$4 dataType:$5 itemLevel1:$6 itemLevel2:$7 tillId:$8 terminalId:$9")
+	public final void getCredit(final String companyId, final String storeId,
+			final String businessDate, final int trainingFlag,
+			final String dataType, final String itemLevel1,
+			final String itemLevel2, final String tillId,
+			final String terminalIdParam) {
+		operation = Operation.GETCREDIT;
+		String terminalId = terminalIdParam.equalsIgnoreCase("null") ? null: terminalIdParam;
+		settlementInfo = settlementResource.getCredit(companyId, storeId, tillId, terminalId, businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+		System.out.println(settlementInfo);
 	}
 }

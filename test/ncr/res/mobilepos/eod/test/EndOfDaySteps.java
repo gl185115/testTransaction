@@ -36,7 +36,9 @@ public class EndOfDaySteps extends Steps {
 	private JournalizationResource journalizationResource;
 	private DBInitiator dbRESTransactionInitiator;
 	private DBInitiator dbRESMasterInitiator;
-	public enum Operation { GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT};
+	public enum Operation {
+		GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT, GETVOUCHERLIST
+	};
 	Operation operation = Operation.GETLASTPAYINPAYOUT;
 	private SearchedPosLog payinoutPoslog = null;
 	private ForwardItemListResource forwardItemResource = null;
@@ -50,6 +52,7 @@ public class EndOfDaySteps extends Steps {
 	private PosControlOpenCloseStatus deviceStatResult = null;
 	private SettlementResource settlementResource = null;
 	private SettlementInfo settlementInfo = null;
+	private SettlementInfo voucherList = null;
 	
 	@BeforeScenario
 	public final void setUp(){
@@ -88,6 +91,15 @@ public class EndOfDaySteps extends Steps {
 	@AfterScenario
 	public final void tearDown(){
 		Requirements.TearDown();
+	}
+	@Given("that has payments type")
+	public final void givenHasPaymentTypes() {
+		try{
+			dbRESMasterInitiator = new DBInitiator("EndOfDaySteps2", DATABASE.RESMaster);
+			dbRESMasterInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, "test/ncr/res/mobilepos/eod/test/MST_TENDERINFO.xml");
+		}catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 	@Given("that has no last payin/payout transactions")
 	public final void givenLastPayTransactions(){
@@ -200,6 +212,22 @@ public class EndOfDaySteps extends Steps {
 				Assert.assertEquals("Compare SalesItemCnt", Integer.parseInt(expectedTable.getRow(0).get("SalesItemCnt")), settlementInfo.getCreditInfo().getSalesItemCnt());
 				Assert.assertEquals("Compare SalesAmtSum", expectedTable.getRow(0).get("SalesAmtSum"), String.valueOf(settlementInfo.getCreditInfo().getSalesAmtSum()));
 			}break;
+			case GETVOUCHERLIST: {
+				//|CompanyId	|StoreId	|VoucherCompanyId	|VoucherType	|TrainingFlag	|SalesItemCnt	|SalesItemAmt	|VoucherName|VoucherKanaName	|
+				int i = 0;
+				for (Map<String, String> expected: expectedTable.getRows()) {
+					Assert.assertEquals("Compare CompanyId", expected.get("CompanyId"), voucherList.getVoucherList().get(i).getCompanyId());
+					Assert.assertEquals("Compare StoreId", expected.get("StoreId"), voucherList.getVoucherList().get(i).getStoreId());
+					Assert.assertEquals("Compare VoucherCompanyId", expected.get("VoucherCompanyId"), voucherList.getVoucherList().get(i).getVoucherCompanyId());
+					Assert.assertEquals("Compare VoucherType", expected.get("VoucherType"), voucherList.getVoucherList().get(i).getVoucherType());
+					Assert.assertEquals("Compare TrainingFlag", Integer.parseInt(expected.get("TrainingFlag")), voucherList.getVoucherList().get(i).getTrainingFlag());
+					Assert.assertEquals("Compare SalesItemCnt", Integer.parseInt(expected.get("SalesItemCnt")), voucherList.getVoucherList().get(i).getSalesItemCnt());
+					Assert.assertEquals("Compare SalesItemAmt", expected.get("SalesItemAmt"), String.valueOf(voucherList.getVoucherList().get(i).getSalesItemAmt()));
+					Assert.assertEquals("Compare VoucherName", expected.get("VoucherName"), voucherList.getVoucherList().get(i).getVoucherName());
+					Assert.assertEquals("Compare VoucherKanaName", expected.get("VoucherKanaName"), voucherList.getVoucherList().get(i).getVoucherKanaName());
+					i++;
+				}
+			}break;
 			default: break;
 		}
 	}
@@ -231,6 +259,24 @@ public class EndOfDaySteps extends Steps {
 		executeResult = tillInfoResource.getExecuteAuthority(companyId, storeId, tillId,
 				terminalId, operatorNo, processingType, compulsoryFlag);
 	}
+	@Given("that execute authority is done for companyid:$1 retailstoreid:$2 tillid:$3 terminalid:$4 operatorno:$5 processing:$6 compulsoryflag:$7")
+	public final void executeAuthorityIsDone(final String companyId,
+			final String storeId, final String tillId, final String terminalId,
+			final String operatorNo, final String processingType,
+			final String compulsoryFlag) {
+		executeResult = tillInfoResource.getExecuteAuthority(companyId, storeId, tillId,
+				terminalId, operatorNo, processingType, compulsoryFlag);
+		Assert.assertEquals("Success Execute Authority", executeResult.getNCRWSSResultCode(), 0);
+	}
+	@When("getting the voucher list companyId:$1 storeId:$2 businessDayDate:$3 trainingFlag:$4 tillId:$5 terminalId:$6")
+	public final void getVoucherList(final String companyId,
+			final String storeId, final String businessDayDate,
+			final int trainingFlag, final String tillId,
+			final String terminalIdParam) {
+		operation = Operation.GETVOUCHERLIST;
+		String terminalId = terminalIdParam.equalsIgnoreCase("Empty") ? "": terminalIdParam;
+		voucherList = settlementResource.getVoucherList(companyId, storeId, tillId, terminalId, businessDayDate, trainingFlag);	
+	}	
 	@When("getting working devices companyId:$1 storeId:$2 terminalId:$2")
 	public final void getWorkingDevices(final String companyId, final String storeId, final String terminalId){
 		operation = Operation.GETWORKINGDEVICES;

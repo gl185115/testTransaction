@@ -1,0 +1,31 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXU_POS_CTRL">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalNo</column>
+		<column>ComputerName</column>
+		<column>IpAddress</column>
+		<column>TerminalType</column>
+		<column>FloorNo</column>
+		<column>TelNo</column>
+		<column>OpeCode</column>
+		<column>CounterName</column>
+		<column>OnOffStat</column>
+		<column>OpenCloseStat</column>
+		<column>SodTime</column>
+		<column>SodTranNo</column>
+		<column>ClosingTime</column>
+		<column>ClosingTranNo</column>
+		<column>ChgSub</column>
+		<column>CashTranTotal</column>
+		<column>ChgCollection</column>
+		<column>CasyTotal</column>
+		<column>CashBalance</column>
+		<column>EodTime</column>
+		<column>EodTranNo</column>
+		<column>SubCode</column>
+		<column>SubSmallInt</column>
+		<column>SubDateTime</column>
+	</table>
+</dataset>

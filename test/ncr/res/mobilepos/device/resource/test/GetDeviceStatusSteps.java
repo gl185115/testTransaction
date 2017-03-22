@@ -114,7 +114,7 @@ public class GetDeviceStatusSteps extends Steps {
 	public final void hasDataInTxuPosCtrl(){
 		DBInitiator resTransactionDbInitiator = new DBInitiator("GetDeviceStatusSteps", DATABASE.RESTransaction);
 		try {
-			resTransactionDbInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, "test/ncr/res/mobilepos/device/resource/test/TXU_POS_CTRL.xml");
+			resTransactionDbInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, "test/ncr/res/mobilepos/device/resource/test/TXU_POS_CTRL_1.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

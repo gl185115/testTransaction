@@ -1,6 +1,7 @@
-<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 	<table name="TXU_POS_CTRL">
+
 		<column>CompanyId</column>
 		<column>StoreId</column>
 		<column>TerminalNo</column>
@@ -27,6 +28,34 @@
 		<column>SubCode</column>
 		<column>SubSmallInt</column>
 		<column>SubDateTime</column>
+		<row>
+			<value>01</value>
+			<value>000031</value>
+			<value>9990</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>9199991</value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>2016-07-21 17:42:39.000</value>
+			<value>3301</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+		</row>
 		<row>
 			<value>01</value>
 			<value>0247</value>
@@ -67,7 +96,7 @@
 			<value>9199991</value>
 			<null />
 			<null />
-			<value>1</value>
+			<value>2</value>
 			<value>2016-08-16 02:52:24.000</value>
 			<value>4368</value>
 			<null />
@@ -95,7 +124,7 @@
 			<value>9199991</value>
 			<null />
 			<null />
-			<value>1</value>
+			<value>3</value>
 			<value>2016-08-16 13:56:40.000</value>
 			<value>0707</value>
 			<null />
@@ -123,9 +152,37 @@
 			<value>9199991</value>
 			<null />
 			<null />
-			<value>1</value>
+			<value>4</value>
 			<value>2016-08-16 16:42:09.000</value>
 			<value>1488</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0012</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>9199991</value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>2016-08-15 15:49:02.000</value>
+			<value>0003</value>
 			<null />
 			<null />
 			<null />

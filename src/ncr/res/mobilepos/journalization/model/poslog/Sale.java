@@ -418,6 +418,12 @@ public class Sale {
     private String taxableFlag;
 
     /**
+     * CustomerOrderFlag ãqíç
+     */
+    @XmlElement(name = "CustomerOrderFlag")
+    private int customerOrderFlag;
+
+    /**
      * @return the barReservationType
      */
     public BarReservationType getBarReservationType() {
@@ -1336,4 +1342,11 @@ public class Sale {
 	public final void setDptNameLocal(String dptNameLocal) {
 		this.dptNameLocal = dptNameLocal;
 	}
+	public int getCustomerOrderFlag() {
+		return customerOrderFlag;
+	}
+	public void setCustomerOrderFlag(int customerOrderFlag) {
+		this.customerOrderFlag = customerOrderFlag;
+	}
+	
 }

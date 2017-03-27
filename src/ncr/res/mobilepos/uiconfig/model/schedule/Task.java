@@ -78,8 +78,6 @@ public class Task {
         return ret;
     }
 
-    private static final SimpleDateFormat EFFECTIVE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
-
     /**
      * Returns effective in Date.
      *
@@ -90,7 +88,7 @@ public class Task {
             return null;
         }
         try {
-            return EFFECTIVE_DATE_FORMAT.parse(this.effective);
+            return new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(this.effective);
         } catch (ParseException e) {
             // Effective date has invalid format, then falls through and returns null.
         }

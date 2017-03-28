@@ -190,6 +190,12 @@
             <version>8.0.24</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>ncr.res.giftcard.toppan</groupId>
+            <artifactId>toppan-giftcard-mobile</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- For Test -->
         <dependency>

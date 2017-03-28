@@ -49,6 +49,7 @@
         ncr.res.mobilepos.taxrate.resource,
         ncr.res.mobilepos.tenderinfo.resource,
         ncr.res.mobilepos.test.resource,
+        ncr.res.mobilepos.giftcard.resource,
         ncr.res.mobilepos.tillinfo.resource,
         ncr.res.mobilepos.webserviceif.resource,
         ncr.res.mobilepos.point.resource,

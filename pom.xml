@@ -195,6 +195,7 @@
             <artifactId>toppan-giftcard-mobile</artifactId>
             <version>1.0.0</version>
             <scope>system</scope>
+            <systemPath>${basedir}/WebContent/WEB-INF/lib/toppan-giftcard-mobile.jar</systemPath>
         </dependency>
 
         <!-- For Test -->

@@ -2,9 +2,9 @@ package ncr.res.mobilepos.eod.test;
 
 import ncr.res.mobilepos.test.TestRunnerScenario;
 
-public class EndOfDayTest extends TestRunnerScenario {
+public class EodStartTest extends TestRunnerScenario {
 
-	public EndOfDayTest() {
+	public EodStartTest() {
 		super(new EndOfDaySteps());
 	}
 

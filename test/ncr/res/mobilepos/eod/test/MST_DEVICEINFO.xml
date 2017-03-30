@@ -44,37 +44,37 @@
 		<row>
 			<value>01</value>
 			<value>0247</value>
-			<value>0004</value>
-			<value>0</value>
-			<value>POS#4テスト</value>
-			<value>2</value>
 			<value>0001</value>
-			<value>02470004</value>
 			<value>0</value>
+			<value>POS#0001テスト</value>
+			<value>4</value>
 			<value>0001</value>
-			<null />
-			<null />
+			<value>02470001</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value></value>
 			<value>3</value>
 			<value>40</value>
 			<value>0</value>
-			<value>1540</value>
-			<value>64</value>
+			<value>1335</value>
+			<value>2</value>
 			<value>0</value>
 			<value>Active</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
 			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<value>1</value>
 			<null />
 			<null />
 			<null />
 			<null />
 			<value>0</value>
 			<null />
-			<null />
-			<null />
+			<value></value>
+			<value></value>
 			<value>2016-03-14 13:54:24.6462188</value>
 			<value>system</value>
 			<value>system</value>

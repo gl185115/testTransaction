@@ -1,0 +1,16 @@
+!-- Note: No confirmation because UI does not have API calls to resTransaction
+Scenario: Cancelled EOD during Gift Entry
+Given that EOD has started
+When getting till information of storeid:0247 tillid:02470001
+Then it should get the following:
+|NCRWSSResultCode	|StoreId	|TillId		|BusinessDayDate	|SodFlag	|EodFlag	|
+|0					|0247		|02470001	|2016-08-16			|1			|9			|
+When releasing execute authority for EOD companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD
+Then it should get the NCRWSSResultCode:0
+Then MST_TILLIDINFO table should have:
+|CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|
+|01			|0247		|02470001	|0001		|2016-08-16			|1			|0			|
+When getting the device status of companyId:01 storeId:0247 terminalId:0001
+Then it should get the following:
+|OpenCloseStatus	|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|1					|0					|0							|

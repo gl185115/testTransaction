@@ -31,6 +31,8 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.credential.model.Operator;
+import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
@@ -637,5 +639,35 @@ public class ForwardItemListResource {
             tp.methodExit(resultBase.toString());
         }
         return resultBase;
+    }
+    
+    /**
+     * 前捌き ユーザーの権限を取得
+     *
+     * @param CompanyId
+     * @param RetailStoreId
+     * @param WorkstationId
+     * @param OperatorId
+     */
+    @POST
+    @Path("/userPermission")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="前捌き ユーザーの権限を取得", response=Operator.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    })
+    public final Operator UserPermission(
+    		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
+    		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
+    		@ApiParam(name="WorkstationId", value="レジ番号") @FormParam("WorkstationId") String WorkstationId,
+    		@ApiParam(name="OperatorId", value="ユーザーID") @FormParam("OperatorId") String OperatorId) {
+    	
+    	CredentialResource CredenRou = new CredentialResource();
+    	Operator operator = CredenRou.getStatusOfOperator(CompanyId,OperatorId);
+    	operator.setOperatorNo(OperatorId);
+    	
+        return operator;
     }
 }

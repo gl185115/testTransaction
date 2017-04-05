@@ -456,6 +456,9 @@ public class EndOfDaySteps extends Steps {
 			dbRESMasterInitiator.ExecuteOperation(
 					DatabaseOperation.CLEAN_INSERT,
 					"test/ncr/res/mobilepos/eod/test/MST_TILLIDINFO_(Started).xml");
+			dbRESMasterInitiator.ExecuteOperation(
+					DatabaseOperation.CLEAN_INSERT,
+					"test/ncr/res/mobilepos/eod/test/MST_BIZDAY.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,4 +1,8 @@
+!-- Note: No confirmation because UI does not have API calls to resTransaction
+
 Scenario: Cancelled EOD @EOD Credit Screen (without Credit transaction within the business day)
+!-- Expected: EodFlag becomes 0 from 9
+Given that has no other working devices
 Given that execute authority is done for companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD compulsoryflag:false
 When getting till information of storeid:0247 tillid:02470001
 Then it should get the following:
@@ -12,7 +16,7 @@ Then it should get the following:
 |1					|0					|0							|
 
 Scenario: Continue EOD @EOD Credit Screen (without Credit transaction within the business day)
-Given that has credit payments
+Given that has payments type
 When getting the voucher list companyId:01 storeId:0247 businessDayDate:2016-08-16 trainingFlag:0 tillId:02470001 terminalId:empty
 Then it should get the following:
 |CompanyId	|StoreId	|VoucherCompanyId	|VoucherType	|TrainingFlag	|SalesItemCnt	|SalesItemAmt	|VoucherName|VoucherKanaName	|

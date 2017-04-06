@@ -13,6 +13,7 @@ package ncr.res.mobilepos.journalization.model.poslog;
 
 import java.util.Collections;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -46,12 +47,26 @@ public class RetailTransaction {
     private String transactionStatus;
 
     /**
+     * The private member variable that holds the OutsideSales Flag
+     * of the customer.
+     */
+    @XmlAttribute(name = "OutsideSalesFlag")
+    private Boolean outsideSalesFlag;
+
+    /**
+     * The private member variable that holds the Type Code
+     * of the customer.
+     */
+    @XmlAttribute(name = "TypeCode")
+    private String typeCode;
+
+    /**
      * The private member variable that holds the layaway flag
      * of the customer.
      */
     @XmlElement(name = "LayawayFlag")
     private String layawayFlag;
-    
+
     /**
      * The private member variable that holds the voider retail store ID
      * of the customer.
@@ -155,73 +170,73 @@ public class RetailTransaction {
      */
     @XmlElement(name = "ReturnFlag")
     private String returnFlag;
-    
+
     /**
      * The private member variable that holds the AutoGenerationFlag
      */
     @XmlElement(name = "AutoGenerationFlag")
     private String autoGenerationFlag;
-    
+
     /**
      * The private member variable that holds the AutoGenerationSequenceNumber
      */
     @XmlElement(name = "AutoGenerationSequenceNumber")
     private String autoGenerationSequenceNumber;
-    
+
     /**
      * The private member variable that holds the PointsLater
      */
     @XmlElement(name = "PointsLater")
     private int pointsLater;
-    
+
     /**
      * The private member variable that holds the Associate
      */
     @XmlElement(name = "Associate")
     private Associate associate;
-    
+
     /**
      * The private member variable that holds the ChargeSales
      */
     @XmlElement(name = "ChargeSales")
     private ChargeSales chargeSales;
-    
+
     /**
      * The private member variable that holds the TeamOrder
      */
     @XmlElement(name = "TeamOrder")
     private String teamOrder;
-    
+
     /**
      * The private member variable that holds the PurSubsidy
      */
     @XmlElement(name = "PurSubsidy")
     private int purSubsidy;
-    
+
     /**
      * The private member variable that holds the AllPointExp
      */
     @XmlElement(name = "AllPointExp")
     private String allPointExp;
-    
+
     /**
      * The private member variable that holds the Nationality
      */
     @XmlElement(name = "Nationality")
     private String nationality;
-    
+
     /**
      * The private member variable that holds the tax free mode
      */
     @XmlElement(name = "TaxFreeMode")
     private String taxFreeMode;
-    
+
     /**
      * The private member variable that holds the taxRate type
      */
     @XmlElement(name = "TaxRateType")
     private String taxRateType;
-    
+
     /**
      * The private member variable that holds the Total
      * information.
@@ -433,6 +448,46 @@ public class RetailTransaction {
      */
     public final String getTransactionStatus() {
         return transactionStatus;
+    }
+
+    /**
+     * Sets the transaction status of the customer order transaction.
+     *
+     * @param transactionStatusToSet   The new value for transaction status in
+     *                                 customer order transaction.
+     */
+    public final void setOutsideSalesFlag(
+            final Boolean outsideSalesFlagToSet) {
+        this.outsideSalesFlag = outsideSalesFlagToSet;
+    }
+
+    /**
+     * Gets the transaction status of a customer order transaction.
+     *
+     * @return        The transaction status of customer order transaction.
+     */
+    public final Boolean getOutsideSalesFlag() {
+        return outsideSalesFlag;
+    }
+
+    /**
+     * Sets the transaction status of the customer order transaction.
+     *
+     * @param transactionStatusToSet   The new value for transaction status in
+     *                                 customer order transaction.
+     */
+    public final void setTypeCode(
+            final String typeCodeToSet) {
+        this.typeCode = typeCodeToSet;
+    }
+
+    /**
+     * Gets the transaction status of a customer order transaction.
+     *
+     * @return        The transaction status of customer order transaction.
+     */
+    public final String getTypeCode() {
+        return typeCode;
     }
 
     /**

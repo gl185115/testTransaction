@@ -1,0 +1,65 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_PRESET_CMINFO">
+		<column>CompanyId</column>
+		<column>CMName</column>
+		<column>CMType</column>
+		<column>BizCatId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>StartDate</column>
+		<column>EndDate</column>
+		<column>Top1Message</column>
+		<column>Top2Message</column>
+		<column>Top3Message</column>
+		<column>Top4Message</column>
+		<column>Top5Message</column>
+		<column>Bottom1Message</column>
+		<column>Bottom2Message</column>
+		<column>Bottom3Message</column>
+		<column>Bottom4Message</column>
+		<column>Bottom5Message</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>CM4</value>
+			<value>3</value>
+			<value>01</value>
+			<value>0247</value>
+			<value>0000</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>上段１行目</value>
+			<value>上段２行目</value>
+			<value>インテグレーションテスト3</value>
+			<value>残り5日間</value>
+			<value>不具合ゼロを目指します</value>
+			<value>MeXプロジェクト</value>
+			<value>開始しています。</value>
+			<value>協力者募集中</value>
+			<value>下段４行目</value>
+			<value>下段５行目</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+</dataset>

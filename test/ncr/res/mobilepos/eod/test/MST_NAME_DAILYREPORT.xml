@@ -1,0 +1,99 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_NAME_DAILYREPORT">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>DataType</column>
+		<column>ItemLevel1</column>
+		<column>ItemLevel2</column>
+		<column>ItemLevel3</column>
+		<column>ItemLevel4</column>
+		<column>ItemName</column>
+		<column>DisplayOrder</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>3</value>
+			<value>07</value>
+			<value>05</value>
+			<value> </value>
+			<value> </value>
+			<value>●現金在高</value>
+			<value>2390</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-06 20:02:15.9500000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-01-06 20:02:15.9500000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>2</value>
+			<value>01</value>
+			<value>01</value>
+			<value> </value>
+			<value> </value>
+			<value>◆クレジット支払</value>
+			<value>170</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-06 20:02:15.9500000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-01-06 20:02:15.9500000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+</dataset>

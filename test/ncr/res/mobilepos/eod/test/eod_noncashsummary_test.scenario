@@ -15,8 +15,8 @@ Then it should get the following:
 
 Scenario: Continue EOD @Noncash summary report screen (without non-cash transaction within the business day)
 !-- ItemType3 - Purchase, Deposit / Withdrawal, Others
-Given that has itemtype3 data found in TXU_TOTAL_DAILYREPORT
-When getting daily sales report for itemtype3 of companyId:01 storeId:0247 tillId:02470001 terminalId:empty businessDate:2016-08-09 trainingFlag:0 dataType:3 itemLevel1:07 itemLevel2:05
+Given that has cashbalance data in TXU_TOTAL_DAILYREPORT
+When getting daily sales report for companyId:01 storeId:0247 tillId:02470001 terminalId:empty businessDate:2016-08-09 trainingFlag:0 dataType:3 itemLevel1:07 itemLevel2:05
 Then it should get the following:
 |NCRWSSResultCode	|CashOnHand	|
 |0					|203321		|

@@ -114,7 +114,9 @@
       <url-pattern>/rest/eventlog/*</url-pattern>
       <url-pattern>/rest/line/*</url-pattern>
       <url-pattern>/rest/networkreceipt/*</url-pattern>
-      <url-pattern>/rest/pricing/*</url-pattern>
+      <url-pattern>/rest/pricing/getpicklistitems</url-pattern>
+      <url-pattern>/rest/pricing/getItemPrice</url-pattern>
+      <url-pattern>/rest/pricing/*/*</url-pattern>
       <url-pattern>/rest/promotion/*</url-pattern>
       <url-pattern>/rest/report/*</url-pattern>
       <url-pattern>/rest/searchapi/*</url-pattern>

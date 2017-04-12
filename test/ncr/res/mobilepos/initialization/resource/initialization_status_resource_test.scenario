@@ -1,0 +1,43 @@
+Scenario: Successful Test Initialization Status
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG
+
+Scenario: Initialization Status returns Error with EnvironmentEntries failure
+Given EnvironmentEntries failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with Logger failure
+Given Logger failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with SnapLogger failure
+Given SnapLogger failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with DebugLogger failure
+Given DebugLogger failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with SpmFileWriter failure
+Given SpmFileWriter failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with SQLStatement failure
+Given SQLStatement failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with JndiDBManagerMSSqlServer failure
+Given JndiDBManagerMSSqlServer failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+
+
+
+

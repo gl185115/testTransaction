@@ -20,6 +20,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
@@ -90,6 +91,9 @@ public class WebContextListener implements ServletContextListener {
             tp.println(" - The WebAPI StartApp called. ");
             tp.println("Preparing to retrieve the System Parameters");
 
+            // Checks if DataSource is present in context.xml, if it fails with invalid config, DaoException is thrown.
+            JndiDBManagerMSSqlServer.initialize();
+
             //Instantiate the DAO Factory for System Configuration
             DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 
@@ -108,6 +112,9 @@ public class WebContextListener implements ServletContextListener {
 
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
 		} catch (Exception e) {
+            // In case Logger is failed to initialize.
+            System.out.println("resTransaction failed to initialize caused by:" + e.getMessage());
+            e.printStackTrace();
             if(Logger.getInstance() != null) {
                 Logger.getInstance().logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
                         functionName + ": Failed to context initialized.", e);

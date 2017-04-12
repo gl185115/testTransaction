@@ -1,0 +1,7 @@
+Scenario: JndiDBManagerMSSqlServer instantiates successfully with found DataSource in JNDI
+When DataSource is properly bound to InitialContext
+Then DBManager doesn't throw DaoException
+
+Scenario: JndiDBManagerMSSqlServer is not able to find DataSource in JNDI, then it fails with DaoException
+When DataSource is not bound
+Then DBManager throws DaoException caused by NamingException

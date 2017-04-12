@@ -10,7 +10,7 @@ import ncr.res.mobilepos.exception.DaoException;
 public final class JndiDBManagerMSSqlServer extends JndiDBManager  {
 
 	private static volatile DBManager instance;
-    
+
     private JndiDBManagerMSSqlServer() throws DaoException  {
     	super();
         try {
@@ -21,11 +21,14 @@ public final class JndiDBManagerMSSqlServer extends JndiDBManager  {
             throw new DaoException("NamingException: Unable to find datasource", e);
         }
     }
-    
-    public static DBManager getInstance() throws DaoException {
-    	if (instance == null) {
-            instance = new JndiDBManagerMSSqlServer();
-        }
+
+    public static DBManager initialize() throws DaoException {
+        instance = null;
+        instance = new JndiDBManagerMSSqlServer();
+        return instance;
+    }
+
+    public static DBManager getInstance() {
         return instance;
     }
 }

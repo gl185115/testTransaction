@@ -19,6 +19,7 @@ import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
@@ -75,7 +76,7 @@ public class InitializationStatusResource {
         String functionName = DebugLogger.getCurrentMethodName();
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         if(tp != null) {
-            tp.methodEnter(functionName).println("POSLog xml");
+            tp.methodEnter(functionName);
         }
         ResultBase result = new ResultBase();
 
@@ -87,6 +88,7 @@ public class InitializationStatusResource {
         initFailed |= DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass()) == null;
         initFailed |= SpmFileWriter.getInstance() == null;
         initFailed |= SQLStatement.getInstance() == null;
+        initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

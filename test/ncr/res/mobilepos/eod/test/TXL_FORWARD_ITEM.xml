@@ -12,6 +12,7 @@
 		<column>OperatorId</column>
 		<column>LayawayFlag</column>
 		<column>SalesTotalAmt</column>
+		<column>SalesTotalQty</column>
 		<column>PosTermId</column>
 		<column>Status</column>
 		<column>Tx</column>
@@ -28,6 +29,7 @@
 			<value>9011011</value>
 			<value>0</value>
 			<value>6292</value>
+			<value>1</value>
 			<value>0001</value>
 			<value>0</value>
 			<value><![CDATA[<?xml version="1.0" encoding="UTF-8"?>

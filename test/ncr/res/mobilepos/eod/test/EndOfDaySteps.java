@@ -1,5 +1,17 @@
 package ncr.res.mobilepos.eod.test;
 
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.ITable;
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+import org.junit.Assert;
+
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -14,8 +26,8 @@ import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
 import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
 import ncr.res.mobilepos.forwarditemlist.resource.ForwardItemListResource;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.journalization.model.ForwardList;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
@@ -29,18 +41,6 @@ import ncr.res.mobilepos.store.model.CMPresetInfos;
 import ncr.res.mobilepos.store.resource.StoreResource;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
-
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.ITable;
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.core.annotations.AfterScenario;
-import org.jbehave.core.annotations.BeforeScenario;
-import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Then;
-import org.jbehave.core.annotations.When;
-import org.jbehave.core.model.ExamplesTable;
-import org.jbehave.core.steps.Steps;
-import org.junit.Assert;
 
 public class EndOfDaySteps extends Steps {
 
@@ -421,6 +421,9 @@ public class EndOfDaySteps extends Steps {
 				Assert.assertEquals("Compare SalesTotalAmt",
 						expected.get("SalesTotalAmt"), suspendeTxs
 								.getForwardListInfo().get(i).getSalesTotalAmt());
+				Assert.assertEquals("Compare SalesTotalQty",
+						expected.get("SalesTotalQty"), suspendeTxs
+								.getForwardListInfo().get(i).getSalesTotalQty());
 				Assert.assertEquals("Compare Status", expected.get("Status"),
 						suspendeTxs.getForwardListInfo().get(i).getStatus());
 				i++;

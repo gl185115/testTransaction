@@ -4586,6 +4586,7 @@ ORDER BY
       @BusinessDateTime varchar(MAX),
       @OperatorId varchar(MAX),
       @SalesTotalAmt NUMERIC(15,0),
+      @SalesTotalQty NUMERIC(15,0),
       @PosTermId varchar(MAX),
       @Status varchar(MAX),
       @Tx varchar(MAX),
@@ -4607,6 +4608,7 @@ ORDER BY
     SET @Tx = ?
     SET @LayawayFlag = ?
     SET @TxType = ?
+    SET @SalesTotalQty = ?
         INSERT INTO TXL_FORWARD_ITEM
            (CompanyId
            ,RetailStoreId
@@ -4618,6 +4620,7 @@ ORDER BY
            ,BusinessDateTime
            ,OperatorId
            ,SalesTotalAmt
+           ,SalesTotalQty
            ,PosTermId
            ,Status
            ,Tx
@@ -4634,6 +4637,7 @@ ORDER BY
            ,@BusinessDateTime
            ,@OperatorId
            ,@SalesTotalAmt
+           ,@SalesTotalQty
            ,@PosTermId
            ,@Status
            ,@Tx
@@ -4666,6 +4670,7 @@ ORDER BY
         A.OperatorId,
         ISNULL(B.OpeName, B.OpeKanaName) AS OperatorName,
         A.SalesTotalAmt,
+        A.SalesTotalQty,
         A.Status
     FROM
         RESTransaction.dbo.TXL_FORWARD_ITEM A

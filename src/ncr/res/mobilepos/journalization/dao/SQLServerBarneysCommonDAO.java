@@ -173,6 +173,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
                 forwardListInfo.setOperatorName(result.getString("OperatorName"));
                 forwardListInfo.setStatus(result.getString("Status"));
                 forwardListInfo.setSalesTotalAmt(result.getString("SalesTotalAmt"));
+                forwardListInfo.setSalesTotalQty(result.getString("SalesTotalQty"));
                 forwardList.add(forwardListInfo);
             }
         } catch (SQLException sqlEx) {

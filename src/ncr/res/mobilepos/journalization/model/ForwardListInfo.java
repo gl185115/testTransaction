@@ -45,6 +45,9 @@ public class ForwardListInfo {
     @XmlElement(name = "SalesTotalAmt")
     private String SalesTotalAmt;
 
+    @XmlElement(name = "SalesTotalQty")
+    private String SalesTotalQty;
+
     @XmlElement(name = "Status")
     private String Status;
     @ApiModelProperty(value="会社コード", notes="会社コード")
@@ -134,6 +137,14 @@ public class ForwardListInfo {
 
     public void setSalesTotalAmt(String salesTotalAmt) {
         SalesTotalAmt = salesTotalAmt;
+    }
+    @ApiModelProperty(value="取引合計点数", notes="取引合計点数")
+    public String getSalesTotalQty() {
+        return SalesTotalQty;
+    }
+
+    public void setSalesTotalQty(String salesTotalQty) {
+        SalesTotalQty = salesTotalQty;
     }
     @ApiModelProperty(value="取引状態", notes="取引状態")
     public String getStatus() {

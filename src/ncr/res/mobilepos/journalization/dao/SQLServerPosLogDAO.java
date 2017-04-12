@@ -63,6 +63,7 @@ import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
+import ncr.res.mobilepos.journalization.model.poslog.Total;
 import ncr.res.mobilepos.journalization.model.poslog.Tender;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
@@ -257,7 +258,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         long ReturnGuestCnt = 0;
         long VoidGuestCnt = 0;
 
-        // 前受金、Hold、客注のいずれかが訂正の場合、客数は計上しない
+        // 窶楼ﾅｽﾃｳ窶ｹﾃﾂ、Holdﾂ、窶ｹq窶卍坂堙娯堋｢窶堋ｸ窶堙ｪ窶堋ｩ窶堋ｪ窶凖ｹﾂ青ｳ窶堙個湘ｪﾂ坂｡ﾂ、窶ｹqﾂ絶昶堙最致ﾂ湘｣窶堋ｵ窶堙遺堋｢
         if (null != transaction.getRetailTransaction()) {
             if (null != transaction.getRetailTransaction().getTransactionLink()) {
                 TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
@@ -270,22 +271,22 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         if (!returnFlag) {
-            // 売上の場合
+            // 窶昶楪湘｣窶堙個湘ｪﾂ坂｡
             if (txType.equalsIgnoreCase(TxTypes.SALES)) {
                 SalesGuestCnt = 1;
-                // 返品の場合
+                // 窶｢ﾃ披｢i窶堙個湘ｪﾂ坂｡
             } else if (txType.equalsIgnoreCase(TxTypes.RETURN)) {
                 ReturnGuestCnt = 1;
-                // 取消の場合
+                // ﾅｽﾃｦﾂ湘≫堙個湘ｪﾂ坂｡
             } else {
-                // 通常売上が取消の場合
+                // 窶凖環湘ｭ窶昶楪湘｣窶堋ｪﾅｽﾃｦﾂ湘≫堙個湘ｪﾂ坂｡
                 if (null != transaction.getRetailTransaction()) {
                     if (null != transaction.getRetailTransaction().getLineItems()) {
                         List<LineItem> lineItems = transaction.getRetailTransaction().getLineItems();
 
                         for (LineItem lineItem : lineItems) {
                             if (lineItem.getRetrn() != null) {
-                                // 通常売上が取消返品の場合
+                                // 窶凖環湘ｭ窶昶楪湘｣窶堋ｪﾅｽﾃｦﾂ湘≫｢ﾃ披｢i窶堙個湘ｪﾂ坂｡
                                 isVoidReturnFlag = true;
                                 break;
                             }
@@ -2055,7 +2056,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
-     * 前捌のPosLogの保存
+     * 窶楼ﾅｽJ窶堙訓osLog窶堙娯｢ﾃ帚伉ｶ
      */
     @Override
     public int saveForwardPosLog(PosLog posLog, String posLogXml, String queue, String total) throws DaoException {
@@ -2072,6 +2073,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
             SQLStatement sqlStatement = SQLStatement.getInstance();
             Transaction transaction = posLog.getTransaction();
+            Double amount = null;
+
+            for(Total totalType : transaction.getRetailTransaction().getTotal()){
+                if (("TransactionPurchaseQuantity").equals(totalType.getTotalType())) {
+                    amount = new Double(totalType.getAmount());
+                }
+            }
 
             saveForwardPosLogPrepStmnt = connection.prepareStatement(sqlStatement.getProperty("save-forward-poslog"));
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
@@ -2091,6 +2099,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM14,
                     "true".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 1 : 0);
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM15, transaction.getTransactionType());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM16, amount.intValue());
 
             if (saveForwardPosLogPrepStmnt.executeUpdate() != 1) {
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
@@ -2119,7 +2128,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
-     * 前捌PosLog の取得
+     * 窶楼ﾅｽJPosLog 窶堙固ｽﾃｦ窶慊ｾ
      */
     @Override
     public SearchForwardPosLog getForwardItemsPosLog(String CompanyId, String RetailStoreId, String WorkstationId,

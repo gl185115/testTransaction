@@ -114,22 +114,7 @@ public class InitializationStatusResourceSteps extends Steps {
                                         final String message) {
         assertEquals(ResultBaseHelper.getErrorCode(resultCode), resultBase.getNCRWSSResultCode());
         assertEquals(ResultBaseHelper.getErrorCode(extendedResultCode), resultBase.getNCRWSSExtendedResultCode());
-        assertEquals(getErrorMessage(message), resultBase.getMessage());
-    }
-
-    private static String getErrorMessage(String error) {
-        String res = null;
-
-        try {
-            for (Field f : ResultBase.class.getDeclaredFields()) {
-                if (error.equalsIgnoreCase(f.getName())) {
-                    res = (String)f.get(f);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return res;
+        assertEquals(ResultBaseHelper.getErrorMessage(message), resultBase.getMessage());
     }
 
 }

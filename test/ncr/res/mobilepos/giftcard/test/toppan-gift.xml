@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Config>
+  <serverAddress>127.0.0.1</serverAddress>
+  <myServer>A010</myServer>
+  <companyCode>must set !</companyCode>
+  <driver>com.microsoft.sqlserver.jdbc.SQLServerDriver</driver>
+  <jdbc>jdbc:sqlserver://localhost:1433;databaseName=ResTransaction;selectMethod=cursor;sendStringParametersAsUnicode=false</jdbc>
+  <user>entsvr</user>
+  <password>ncrsa_ora</password>
+  <iowpath>d:\software\ncr\res\log</iowpath>
+  <snappath>d:\software\ncr\res\log\snap_dir</snappath>
+  <tracepath>d:\software\ncr\dbg</tracepath>
+  <spampath>d:\software\ncr\log\spm_dir</spampath>
+</Config>

@@ -47,6 +47,9 @@ public class Transaction {
     /** The Company ID. */
     @XmlElement(name = "CompanyId")
     private String companyId;
+    /** The Item ID. */
+    @XmlElement(name = "ItemId")
+    private String itemId;
 
     /**
      * @return the  companyId
@@ -169,4 +172,18 @@ public class Transaction {
     public final String getEntryFlag() {
         return entryFlag;
     }
+    /**
+     * Get Item Id.
+     * @return  Item Id.
+     */
+	public String getItemId() {
+		return itemId;
+	}
+	/**
+     * Set Item Id.
+     * @param Item Id to set
+     */
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
 }

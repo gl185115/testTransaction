@@ -46,6 +46,9 @@ public class Sale extends Item {
     
     @XmlElement(name = "ColorCode")
     private String colorCode;
+
+    @XmlElement(name = "ItemForm")
+    private String itemForm;
     
     private boolean isPriceOverride;
     
@@ -173,6 +176,14 @@ public class Sale extends Item {
      public final void setColorCode(final String colorCode) {
          this.colorCode = colorCode;
      }
+
+    @ApiModelProperty(value="çÄñ⁄å`éÆ", notes="çÄñ⁄å`éÆ")
+    public String getItemForm() {
+		return itemForm;
+	}
+	public void setItemForm(String itemForm) {
+		this.itemForm = itemForm;
+	}
     //-----
     @Override
     public final Object clone() {

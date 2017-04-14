@@ -47,6 +47,7 @@ import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
 import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
@@ -200,7 +201,7 @@ public abstract class DAOFactory {
      * @see SQLServerSystemConfigDAO
      */
     public abstract SQLServerSystemConfigDAO getSystemConfigDAO() throws DaoException;
-
+    
     /**
      * Gets the DAO object for performing operations on Store.
      * 
@@ -339,6 +340,15 @@ public abstract class DAOFactory {
      *             exception
      */
     public abstract IMasterMaintenanceDAO getMasterMaintenanceDAO() throws DaoException;
+    
+    /**
+     * Gets the DAO Object for Code Convert.
+     * 
+     * @return ICodeConvertDAO
+     * @throws DaoException
+     *             exception
+     */
+    public abstract ICodeConvertDAO getCodeConvertDAO() throws DaoException;
 
     public abstract ICashAccountDAO getCashAccountDAO() throws DaoException;
 

@@ -64,7 +64,9 @@ import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.point.dao.SQLServerPointDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
+import ncr.res.mobilepos.promotion.dao.SQLServerCodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerMixMatchDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuebuster.dao.SQLServerQueueBusterDao;
@@ -156,7 +158,7 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final SQLServerSystemConfigDAO getSystemConfigDAO() throws DaoException {
         return new SQLServerSystemConfigDAO();
     }
-
+    
     @Override
     public final IReceiptDAO getReceiptDAO() throws DaoException {
         return new SQLServerReceiptDAO();
@@ -225,6 +227,11 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public final IMixMatchDAO getMixMatchDAO() throws DaoException {
         return new SQLServerMixMatchDAO();
+    }
+    
+    @Override
+    public final ICodeConvertDAO getCodeConvertDAO() throws DaoException {
+        return new SQLServerCodeConvertDAO();
     }
 
     @Override

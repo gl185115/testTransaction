@@ -37,10 +37,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.department.model.ViewDepartment;
-import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JsonMarshaller;
@@ -48,22 +45,12 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
-import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
-import ncr.res.mobilepos.pricing.helper.ItemHelper;
-import ncr.res.mobilepos.pricing.model.BrandProducts;
-import ncr.res.mobilepos.pricing.model.GroupLines;
 import ncr.res.mobilepos.pricing.model.Item;
-import ncr.res.mobilepos.pricing.model.ItemMaintenance;
 import ncr.res.mobilepos.pricing.model.PickList;
-import ncr.res.mobilepos.pricing.model.ReasonDataList;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
-import ncr.res.mobilepos.pricing.model.SearchedProducts;
-import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
-import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
-import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.store.resource.StoreResource;
+import ncr.res.mobilepos.systemconfiguration.model.BarCode;
 
 /**
  * ItemResource Web Resource Class
@@ -323,6 +310,46 @@ public class ItemResource {
         }
         return pickList;
     }
+    
+    /**
+     * 
+     * @return towStep and deptEntry is true items
+     */
+    @Path("/getBarcodeInfo")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="バーコード情報取得", response=BarCode.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+	public final BarCode getBarcodeInfo() {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+
+		BarCode barCode = null;
+		try {
+			barCode = GlobalConstant.getBarCode();
+			if(barCode == null){
+				barCode = new BarCode();
+				barCode.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
+				barCode.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
+				barCode.setMessage("xml file information get failed");
+				tp.println("xml file no information");
+				
+				return barCode;
+			}
+			
+			barCode.setNCRWSSResultCode(ResultBase.RES_OK);
+			barCode.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
+			barCode.setMessage("xml file information get success");
+			tp.println("xml file information get success");
+		} catch (Exception ex) {
+			LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL, ex.getMessage());
+		} finally {
+			tp.methodExit(barCode);
+		}
+		return barCode;
+	}
     
     /**
      * Checks if storeid is an enterprise store(0).

@@ -47,6 +47,13 @@ public class PromotionResponse extends ResultBase {
      */
     @XmlElement(name = "Promotion")
     private Promotion promotion;
+    
+    /** The Department. */
+    @XmlElement(name = "Department")
+    private String department;
+    /** The DepartmentName. */
+    @XmlElement(name = "DepartmentName")
+    private String departmentName;
 
     /**
      * Transaction setter.
@@ -82,7 +89,37 @@ public class PromotionResponse extends ResultBase {
         return promotion;
     }
 
-    @Override
+    /**
+     * Get Department Id.
+     * @return  Department Id.
+     */
+	public String getDepartment() {
+		return department;
+	}
+	/**
+     * Set Department Id.
+     * @param Department Id to set
+     */
+	public void setDepartment(String department) {
+		this.department = department;
+	}
+	
+	/**
+     * Get Department Name.
+     * @return  Department Name.
+     */
+	public String getDepartmentName() {
+		return departmentName;
+	}
+	/**
+     * Set Department Name.
+     * @param Department Name to set
+     */
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
+	}
+	
+	@Override
     public final String toString() {
         ObjectMapper mapper = new ObjectMapper();
         String ret = "";

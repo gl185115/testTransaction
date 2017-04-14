@@ -10,7 +10,6 @@
  */
 package ncr.res.mobilepos.pricing.dao;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,33 +19,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.pricing.helper.ItemHelper;
-import ncr.res.mobilepos.pricing.model.BrandProductInfo;
-import ncr.res.mobilepos.pricing.model.BrandProducts;
 import ncr.res.mobilepos.pricing.model.Description;
-import ncr.res.mobilepos.pricing.model.GroupLineInfo;
-import ncr.res.mobilepos.pricing.model.GroupLines;
 import ncr.res.mobilepos.pricing.model.Item;
-import ncr.res.mobilepos.pricing.model.ItemReasonDataList;
-import ncr.res.mobilepos.pricing.model.OverrideReasonDataList;
 import ncr.res.mobilepos.pricing.model.PickListItem;
 import ncr.res.mobilepos.pricing.model.PickListItemType;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
-import ncr.res.mobilepos.pricing.model.ReasonData;
-import ncr.res.mobilepos.pricing.model.ReasonDataList;
-import ncr.res.mobilepos.pricing.model.SearchedProducts;
-import ncr.res.mobilepos.pricing.model.TransactionReasonDataList;
 import ncr.res.mobilepos.property.SQLStatement;
 
 /**
@@ -180,7 +164,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 description.setJa(result.getString(result.findColumn("MdNameLocal")));
                 searchedItem.setDescription(description);
 
-                searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
+                if (result.getObject(result.findColumn("TaxType")) != null && 
+                		result.getDouble(result.findColumn("SalesPrice1")) != 0) {
+                	searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
+                } else {
+                	searchedItem.setTaxType(result.getInt(result.findColumn("dptTaxType")));
+                }
                 searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
                 searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
                 searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));
@@ -190,11 +179,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setOldPrice(result.getDouble(result.findColumn("OldPrice")));
                     searchedItem.setSalesPriceFrom("2");
                 } else if (result.getObject(result.findColumn("NewPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice")) != null) {
-                    searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice")));
-                    searchedItem.setSalesPriceFrom("1");
-                } else if (result.getObject(result.findColumn("NewPrice")) == null
-                        && result.getObject(result.findColumn("SalesPrice")) == null
                         && result.getObject(result.findColumn("SalesPrice1")) != null) {
                     searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice1")));
                     searchedItem.setSalesPriceFrom("0");
@@ -232,7 +216,13 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setMd16(result.getString(result.findColumn("Md16")));
                 searchedItem.setMdType(result.getString(result.findColumn("MdType")));
                 searchedItem.setSku(result.getString(result.findColumn("Sku")));
-                searchedItem.setMdNameLocal(result.getString(result.findColumn("MdNameLocal")));
+                if (result.getObject(result.findColumn("MdName")) != null){
+                	searchedItem.setMdNameLocal(result.getString(result.findColumn("MdName")));
+                } else if (result.getObject(result.findColumn("MdNameLocal")) != null){
+                	searchedItem.setMdNameLocal(result.getString(result.findColumn("MdNameLocal")));
+                } else {
+                	searchedItem.setMdNameLocal(result.getString(result.findColumn("DptNameLocal")));
+                }
                 searchedItem.setMdKanaName(result.getString(result.findColumn("MdKanaName")));
                 searchedItem.setSalesPrice2(result.getLong(result.findColumn("SalesPrice2")));
                 searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
@@ -263,19 +253,19 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 }
                 
-                // 特売管理
+                // 特売管理(PROM_INFO 自動割引)
                 if (!isHasPromDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate)) {
-                    // バンドルミックス
+                    // バンドルミックス(PRICE_MM_INFO mixmatch)
                     if (!isHasPriceMMInfo(actualStoreid, searchedItem, companyId, bussinessDate)) {
-                        // 買替サポート
+                        // 買替サポート（REPLACESUPPORT_INFO）
                         isHasReplaceSupportDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate);
                     }
                 }
-                // 割引券発行管理
+                // 割引券発行管理（COUPON_INFO）
                 getCouponInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                // プレミアム商品
+                // プレミアム商品（PREMIUMITEM_INFO）
                 getPremiumitemInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                //QRcode
+                //QRcode（QRCODE_INFO）
                 getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
 
             } else {
@@ -972,7 +962,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
                 searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
-                searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
+                
+                //searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
 
                 // // 特売管理
                 // if (!isHasPromDetailInfo(actualStoreid, searchedItem,

@@ -9,12 +9,14 @@
 */
 package ncr.res.mobilepos.systemconfiguration.property;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
 import javax.naming.InitialContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+import javax.xml.bind.JAXBException;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
@@ -24,12 +26,14 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
+import ncr.res.mobilepos.systemconfiguration.model.BarCode;
 
 /**
  * WebContextListener is a Listener class that listens each
@@ -69,6 +73,7 @@ public class WebContextListener implements ServletContextListener {
         String functionName = "";
         Trace.Printer tp = null;
         EnvironmentEntries environmentEntries = null;
+        BarCode barCode = null;
 
         try {
             // Loads from web.xml.
@@ -110,6 +115,9 @@ public class WebContextListener implements ServletContextListener {
             // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
             copySystemConfigToGlobalConstant(systemConfig);
 
+            barCode = itemCodeXMLConstant();
+            GlobalConstant.setBarCode(barCode);
+            
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
 		} catch (Exception e) {
             // In case Logger is failed to initialize.
@@ -203,4 +211,31 @@ public class WebContextListener implements ServletContextListener {
         GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
     }
 
+    private BarCode itemCodeXMLConstant(){
+    	
+    	BarCode barCode = null;
+    	try {
+    		
+        	XmlSerializer<BarCode> conSerializer = new XmlSerializer<BarCode>();
+            File conFileXml = new File(GlobalConstant.ITEMCODE_XML_PATH + File.separator + GlobalConstant.ITEMCODE_FILENAME);
+            if(!conFileXml.exists()){
+            	Logger.getInstance().logWarning("ItemCode",
+						"File Not Found!",
+						Logger.RES_EXCEP_FILENOTFOUND,
+						"File Not Found.\n");
+            	return barCode;
+            }
+            
+            barCode = conSerializer.unMarshallXml(conFileXml, BarCode.class);
+    	} catch (JAXBException e) {
+        	Logger.getInstance().logWarning("ItemCode",
+					"XML analysis fail!",
+					Logger.RES_EXCEP_JAXB,
+					"XML analysis fail.\n");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return barCode;
+    }
+    
 }

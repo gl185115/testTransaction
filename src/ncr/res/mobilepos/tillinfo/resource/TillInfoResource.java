@@ -1,6 +1,13 @@
 package ncr.res.mobilepos.tillinfo.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -13,11 +20,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -848,5 +850,142 @@ public class TillInfoResource {
         return result;
     }
 
+	/**
+	 * API to return all the activated tills on the business day.
+	 * @param companyId
+	 * @param storeId
+	 * @param businessDate yyyy-MM-dd
+	 * @return ViewTill
+	 */
+	@Path("/alltillinfo")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なパラメータ"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+	})
+	public final ViewTill getActivatedTillsOnBusinessDay(
+			@ApiParam(name="companyId", value="企業コード") @QueryParam("companyId") final String companyId,
+			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
+		// Trace Logging
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+		tp.println("companyId", companyId);
+		tp.println("storeId", storeId);
+		tp.println("businessDate", businessDate);
+
+		// Initializes response holder
+		ViewTill result = new ViewTill();
+		result.setTillList(Collections.emptyList());
+
+		// Checks if required fields are present.
+		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate)) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Required fields are missing.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+		// Checks if businessDate has valid date format
+		if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Invalid BusinessDayDate format.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+
+		try {
+			// Selects from DB.
+			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
+			List<Till> activatedTills = tillInfoDAO.getActivatedTillsOnBusinessDay(companyId, storeId, businessDate);
+			result.setTillList(activatedTills);
+		} catch (DaoException ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			result.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(ex.getMessage());
+		}
+		return (ViewTill)tp.methodExit(result);
+	}
+
+	/**
+	 * API to return unclosed tills on the business day.
+	 * @param companyId
+	 * @param storeId
+	 * @param businessDate yyyy-MM-dd
+	 * @return ViewTill
+	 */
+	@Path("/unfinishedeodinfo")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なパラメータ"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+	})
+	public final ViewTill getUnclosedTillsOnBusinessDay(
+			@ApiParam(name="companyId", value="企業コード") @QueryParam("companyId") final String companyId,
+			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
+		// Trace Logging
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+		tp.println("companyId", companyId);
+		tp.println("storeId", storeId);
+		tp.println("businessDate", businessDate);
+
+		// Initializes response holder
+		ViewTill result = new ViewTill();
+		result.setTillList(Collections.emptyList());
+
+		// Checks if required fields are present.
+		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate)) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Required fields are missing.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+		// Checks if businessDate has valid date format
+		if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Invalid BusinessDayDate format.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+
+		try {
+			// Selects from DB.
+			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
+			List<Till> unclosedTills = tillInfoDAO.getUnclosedTillsOnBusinessDay(companyId, storeId, businessDate);
+			result.setTillList(unclosedTills);
+		} catch (DaoException ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			result.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(ex.getMessage());
+		}
+		return (ViewTill)tp.methodExit(result);
+	}
 
 }

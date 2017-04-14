@@ -423,4 +423,21 @@ public final class StringUtility {
     	}
     	return value;
     }
+
+    /**
+     * Converts the 'empty' String literal to null String
+     * @param value the 'empty' String literal
+     * @return null if satisfies the condition, returns the original value otherwise
+     */
+    public static String convEmptyStringToEmpty(String value) {
+        return "empty".equalsIgnoreCase(value) ? "" : value;
+    }
+
+    /**
+     * Converts "null" or "emptry" to null or "".
+     */
+    public static String convNullOrEmptryString(String value) {
+        return convNullStringToNull(convEmptyStringToEmpty(value));
+    }
+
 }

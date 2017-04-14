@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ncr.realgate.util.Trace;
@@ -16,11 +13,9 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.tillinfo.model.Till;
@@ -506,5 +501,111 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
         }
         return tillInfoList;
     }
-    
+
+    /**
+     * Populates a list of Tills from ResultSet
+     * @param resultSet
+     * @return List of Tills
+     */
+    protected List<Till> populateResultTillList(ResultSet resultSet) throws SQLException {
+        List resultList = new ArrayList<Till>();
+        while(resultSet.next()){
+            Till till = new Till();
+            till.setStoreId(resultSet.getString("StoreId"));
+            till.setTillId(resultSet.getString("TillId"));
+            till.setTerminalId(resultSet.getString("TerminalId"));
+            till.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
+            till.setSodFlag(resultSet.getString("SodFlag"));
+            till.setEodFlag(resultSet.getString("EodFlag"));
+            resultList.add(till);
+        }
+        return resultList;
+    }
+
+    /**
+     * Populates PreparedStatement with given SQL name.
+     * @param connection DB-connection
+     * @param sqlName SQL name in sql_statement.xml.
+     * @param storeId
+     * @param companyId
+     * @param businessDate with yyyy-MM-dd format.
+     * @return
+     * @throws SQLException
+     */
+    protected PreparedStatement prepareStatementTillsOnBusinessDay(
+                                                            Connection connection,
+                                                            String sqlName,
+                                                            String storeId,
+                                                            String companyId,
+                                                            String businessDate) throws SQLException {
+        // Creates PreparedStatement from SQL name.
+        PreparedStatement statement = connection.prepareStatement(sqlStatement.getProperty(sqlName));
+        statement.setString(SQLStatement.PARAM1, storeId);
+        statement.setString(SQLStatement.PARAM2, companyId);
+        statement.setString(SQLStatement.PARAM3, businessDate);
+        return statement;
+    }
+
+    /**
+     * Returns activated (done SOD) tills on the given business day regardless it is still open or closed.
+     * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#getActivatedTillsOnBusinessDay(String, String, String)
+     */
+    @Override
+    public  List<Till> getActivatedTillsOnBusinessDay(String companyId, String storeId, String businessDate)
+            throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("StoreId", storeId);
+        tp.println("CompanyId", companyId);
+        tp.println("BusinessDate", businessDate);
+
+        List<Till> tillInfoList = null;
+        try(Connection connection = dbManager.getConnection();
+            PreparedStatement statement = prepareStatementTillsOnBusinessDay(connection,
+                    "get-activated-tills-on-businessday", storeId, companyId, businessDate);
+            ResultSet result = statement.executeQuery();){
+            tillInfoList = populateResultTillList(result);
+        } catch (SQLException sqlEx) {
+            // From SQLException to DaoException.
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to get till infomation.", sqlEx);
+            throw new DaoException("SQLException:"
+                    + " @SQLServerTillInfoDAO.getTillInformation", sqlEx);
+        } finally {
+            tp.methodExit(tillInfoList);
+        }
+        return tillInfoList;
+    }
+
+    /*
+     * Select unclosed (before EOD) tills on a given businessDate.
+     * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#getUnclosedTillsOnBusinessDay(String, String, String)
+     */
+    @Override
+    public List<Till> getUnclosedTillsOnBusinessDay(String companyId, String storeId, String businessDate)
+            throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("StoreId", storeId);
+        tp.println("CompanyId", companyId);
+        tp.println("BusinessDate", businessDate);
+
+        List<Till> tillInfoList = null;
+        try(Connection connection = dbManager.getConnection();
+            PreparedStatement statement = prepareStatementTillsOnBusinessDay(connection,
+                    "get-unclosed-tills-on-businessday", storeId, companyId, businessDate);
+            ResultSet result = statement.executeQuery();){
+            tillInfoList = populateResultTillList(result);
+        } catch (SQLException sqlEx) {
+            // From SQLException to DaoException.
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to get till infomation.", sqlEx);
+            throw new DaoException("SQLException:"
+                    + " @SQLServerTillInfoDAO.getTillInformation", sqlEx);
+        } finally {
+            tp.methodExit(tillInfoList);
+        }
+        return tillInfoList;
+    }
+
 }

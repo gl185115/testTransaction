@@ -5462,6 +5462,41 @@ ORDER BY
         ORDER BY TillId;
     </entry>
 
+    <entry key="get-activated-tills-on-businessday">
+        SELECT
+            StoreId,
+            TillId,
+            TerminalId,
+            BusinessDayDate,
+            SodFlag,
+            EodFlag
+        FROM RESMaster.dbo.MST_TILLIDINFO
+        WHERE
+            StoreId = ? AND
+            CompanyId = ? AND
+            BusinessDayDate = ? AND
+            DeleteFlag = 0
+        ORDER BY TillId, TerminalId
+    </entry>
+
+    <entry key="get-unclosed-tills-on-businessday">
+        SELECT
+            StoreId,
+            TillId,
+            TerminalId,
+            BusinessDayDate,
+            SodFlag,
+            EodFlag
+        FROM RESMaster.dbo.MST_TILLIDINFO
+        WHERE
+            StoreId = ? AND
+            CompanyId = ? AND
+            BusinessDayDate = ? AND
+            EodFlag = 0 AND
+            DeleteFlag = 0
+        ORDER BY TillId, TerminalId
+    </entry>
+
     <entry key="search-logon-users">
         DECLARE
           @companyid varchar(max),

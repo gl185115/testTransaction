@@ -2,7 +2,10 @@ package ncr.res.mobilepos.helper;
 
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 public class StringUtilityTest {
@@ -52,6 +55,34 @@ public class StringUtilityTest {
 
         // two with "a", String[]{"null"}
         assertFalse(StringUtility.isNullOrEmpty("a", new String[] {"a"} ));
+    }
+
+    @Test
+    public void convEmptyStringToEmptyTest() {
+        assertEquals("", StringUtility.convEmptyStringToEmpty("empty"));
+        assertEquals("", StringUtility.convEmptyStringToEmpty("Empty"));
+        assertEquals("", StringUtility.convEmptyStringToEmpty("empTy"));
+        assertEquals("", StringUtility.convEmptyStringToEmpty(""));
+        assertEquals(null, StringUtility.convEmptyStringToEmpty(null));
+        assertFalse("".equals(StringUtility.convEmptyStringToEmpty("empty ")));
+        assertFalse("".equals(StringUtility.convEmptyStringToEmpty(" empty")));
+    }
+
+    @Test
+    public void convNullStringToStringTest() {
+        assertNull(StringUtility.convNullStringToNull("null"));
+        assertNull(StringUtility.convNullStringToNull("nUll"));
+        assertNull(StringUtility.convNullStringToNull("Null"));
+        assertNull(StringUtility.convNullStringToNull(null));
+        assertNotNull(StringUtility.convNullStringToNull("null "));
+        assertNotNull(StringUtility.convNullStringToNull(" null"));
+        assertNotNull(StringUtility.convNullStringToNull(""));
+    }
+
+    @Test
+    public void convNullOrEmptyStringTest() {
+        assertNull(StringUtility.convNullOrEmptryString("null"));
+        assertEquals("", StringUtility.convEmptyStringToEmpty("empty"));
     }
 
 }

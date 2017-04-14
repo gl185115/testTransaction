@@ -76,4 +76,22 @@ public interface ITillInfoDAO {
      */
     ResultBase updateTillDailyOperation(Till currentTill, Till updatingTill) throws DaoException;
 
+    /**
+     * Returns activated (done SOD) tills on the given business day regardless it is still open or closed.
+     * @param companyId
+     * @param storeId
+     * @param businessDate yyyy-MM-dd format
+     * @return
+     */
+    List<Till> getActivatedTillsOnBusinessDay(String companyId, String storeId, String businessDate)  throws DaoException;
+
+    /**
+     * Returns unclosed (before EOD) tills on the given business day. It is activated on the day and still open.
+     * @param companyId
+     * @param storeId
+     * @param businessDate yyyy-MM-dd format
+     * @return
+     */
+    List<Till> getUnclosedTillsOnBusinessDay(String companyId, String storeId, String businessDate)  throws DaoException;
+
 }

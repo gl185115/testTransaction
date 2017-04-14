@@ -32,9 +32,9 @@ Given a MST_TILLIDINFO dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-14
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|9999		|99995002	|5002		|2014-11-14		|1		|0		|
-|9999		|99995003	|5003		|2014-11-14		|1		|0		|
+|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999		|99995002	|5002		|2014-11-14		|1		|0		|
+|01         |9999		|99995003	|5003		|2014-11-14		|1		|0		|
 
 Scenario: Different business day.
 Given a TillInfoResource Resource
@@ -43,8 +43,8 @@ Given a MST_TILLIDINFO dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-13
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|9999		|99995004	|5004		|2014-11-13		|1		|0		|
+|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999		|99995004	|5004		|2014-11-13		|1		|0		|
 
 Scenario: Ignore deleted tills.
 Given a TillInfoResource Resource
@@ -53,7 +53,7 @@ Given a MST_TILLIDINFO_DELETED dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-14
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
 
 Scenario: Different store.
 Given a TillInfoResource Resource
@@ -62,8 +62,8 @@ Given a MST_TILLIDINFO dataset
 When I get unclosed tills with companyId:01 storeId:000031 businessDate:2014-11-14
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|000031		|000031	|000031		|2014-11-14		|0		|0		|
+|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |000031		|000031	|000031		|2014-11-14		|0		|0		|
 
 Scenario: Different company.
 Given a TillInfoResource Resource
@@ -72,7 +72,7 @@ Given a MST_TILLIDINFO dataset
 When I get unclosed tills with companyId:02 storeId:9999 businessDate:2014-11-14
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
 
 Scenario: Don't get tills which has done EOD.
 Given a TillInfoResource Resource
@@ -81,8 +81,8 @@ Given a MST_TILLIDINFO_EOD dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-12-01
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|9999   	|99995000   |5000       |2014-12-01 	|1  	|0  |
+|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999   	|99995000   |5000       |2014-12-01 	|1  	|0  |
 
 Scenario: Get till against broken db connection, DaoException
 Given a TillInfoResource Resource

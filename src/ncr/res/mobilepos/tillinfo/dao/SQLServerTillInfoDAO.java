@@ -508,9 +508,10 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
      * @return List of Tills
      */
     protected List<Till> populateResultTillList(ResultSet resultSet) throws SQLException {
-        List resultList = new ArrayList<Till>();
+        List<Till> resultList = new ArrayList<Till>();
         while(resultSet.next()){
             Till till = new Till();
+            till.setCompanyId(resultSet.getString("CompanyId"));
             till.setStoreId(resultSet.getString("StoreId"));
             till.setTillId(resultSet.getString("TillId"));
             till.setTerminalId(resultSet.getString("TerminalId"));
@@ -526,8 +527,8 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
      * Populates PreparedStatement with given SQL name.
      * @param connection DB-connection
      * @param sqlName SQL name in sql_statement.xml.
-     * @param storeId
      * @param companyId
+     * @param storeId
      * @param businessDate with yyyy-MM-dd format.
      * @return
      * @throws SQLException
@@ -535,13 +536,13 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     protected PreparedStatement prepareStatementTillsOnBusinessDay(
                                                             Connection connection,
                                                             String sqlName,
-                                                            String storeId,
                                                             String companyId,
+                                                            String storeId,
                                                             String businessDate) throws SQLException {
         // Creates PreparedStatement from SQL name.
         PreparedStatement statement = connection.prepareStatement(sqlStatement.getProperty(sqlName));
-        statement.setString(SQLStatement.PARAM1, storeId);
-        statement.setString(SQLStatement.PARAM2, companyId);
+        statement.setString(SQLStatement.PARAM1, companyId);
+        statement.setString(SQLStatement.PARAM2, storeId);
         statement.setString(SQLStatement.PARAM3, businessDate);
         return statement;
     }
@@ -555,15 +556,15 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("StoreId", storeId);
         tp.println("CompanyId", companyId);
+        tp.println("StoreId", storeId);
         tp.println("BusinessDate", businessDate);
 
         List<Till> tillInfoList = null;
         try(Connection connection = dbManager.getConnection();
             PreparedStatement statement = prepareStatementTillsOnBusinessDay(connection,
-                    "get-activated-tills-on-businessday", storeId, companyId, businessDate);
-            ResultSet result = statement.executeQuery();){
+                    "get-activated-tills-on-businessday", companyId, storeId, businessDate);
+            ResultSet result = statement.executeQuery()){
             tillInfoList = populateResultTillList(result);
         } catch (SQLException sqlEx) {
             // From SQLException to DaoException.
@@ -586,15 +587,15 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("StoreId", storeId);
         tp.println("CompanyId", companyId);
+        tp.println("StoreId", storeId);
         tp.println("BusinessDate", businessDate);
 
         List<Till> tillInfoList = null;
         try(Connection connection = dbManager.getConnection();
             PreparedStatement statement = prepareStatementTillsOnBusinessDay(connection,
-                    "get-unclosed-tills-on-businessday", storeId, companyId, businessDate);
-            ResultSet result = statement.executeQuery();){
+                    "get-unclosed-tills-on-businessday", companyId, storeId, businessDate);
+            ResultSet result = statement.executeQuery()){
             tillInfoList = populateResultTillList(result);
         } catch (SQLException sqlEx) {
             // From SQLException to DaoException.

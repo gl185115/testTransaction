@@ -871,7 +871,7 @@ public class TillInfoResource {
 			@ApiParam(name="storeId", value="ìXï‹ÉRÅ[Éh") @QueryParam("storeId") final String storeId,
 			@ApiParam(name="businessDate", value="âcã∆ì˙") @QueryParam("businessDate") final String businessDate) {
 		// Trace Logging
-		String functionName = DebugLogger.getCurrentMethodName();
+		final String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId);
 		tp.println("storeId", storeId);
@@ -940,7 +940,7 @@ public class TillInfoResource {
 			@ApiParam(name="storeId", value="ìXï‹ÉRÅ[Éh") @QueryParam("storeId") final String storeId,
 			@ApiParam(name="businessDate", value="âcã∆ì˙") @QueryParam("businessDate") final String businessDate) {
 		// Trace Logging
-		String functionName = DebugLogger.getCurrentMethodName();
+		final String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId);
 		tp.println("storeId", storeId);

@@ -5464,6 +5464,7 @@ ORDER BY
 
     <entry key="get-activated-tills-on-businessday">
         SELECT
+            CompanyId,
             StoreId,
             TillId,
             TerminalId,
@@ -5472,8 +5473,8 @@ ORDER BY
             EodFlag
         FROM RESMaster.dbo.MST_TILLIDINFO
         WHERE
-            StoreId = ? AND
             CompanyId = ? AND
+            StoreId = ? AND
             BusinessDayDate = ? AND
             DeleteFlag = 0
         ORDER BY TillId, TerminalId
@@ -5481,6 +5482,7 @@ ORDER BY
 
     <entry key="get-unclosed-tills-on-businessday">
         SELECT
+            CompanyId,
             StoreId,
             TillId,
             TerminalId,
@@ -5489,8 +5491,8 @@ ORDER BY
             EodFlag
         FROM RESMaster.dbo.MST_TILLIDINFO
         WHERE
-            StoreId = ? AND
             CompanyId = ? AND
+            StoreId = ? AND
             BusinessDayDate = ? AND
             EodFlag = 0 AND
             DeleteFlag = 0

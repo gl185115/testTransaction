@@ -38,13 +38,6 @@ public class GiftCardSteps extends Steps {
     private void initResources() {
 		ServletContext context = Requirements.getMockServletContext();
 		try {
-			File configFile = new File("test\\ncr\\res\\mobilepos\\giftcard\\test" + File.separator + Config.FILENAME);
-			XmlSerializer<Config> serializer = new XmlSerializer<Config>();
-			Config config = serializer.unMarshallXml(configFile, Config.class);
-			Field staticField_Config = ToppanGiftcardResource.class.getDeclaredField("config");
-			staticField_Config.setAccessible(true);
-			staticField_Config.set(toppanGiftcardResource, config);
-			
 			toppanGiftcardResource = new ToppanGiftcardResource();
 			Field contextField = toppanGiftcardResource.getClass().getDeclaredField("context");
 			contextField.setAccessible(true);

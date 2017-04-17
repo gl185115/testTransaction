@@ -1,11 +1,11 @@
 Scenario: GiftCard test (QueryMember).
 When I test QueryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard 123456
-Then I should get the result: 138
+Then I should get the result: 150
 
 Scenario: GiftCard test (sales).
 When I test sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard 123456
-Then I should get the result: 138
+Then I should get the result: 150
 
 Scenario: GiftCard test (cancel).
 When I test cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard 123456
-Then I should get the result: 138
+Then I should get the result: 150

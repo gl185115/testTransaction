@@ -11,6 +11,7 @@
 
 package ncr.res.mobilepos.daofactory;
 
+import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
 import ncr.res.mobilepos.authentication.dao.IAuthAdminDao;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.dao.ICorpStoreDAO;
@@ -251,6 +252,16 @@ public abstract class DAOFactory {
      */
     public abstract IForwardItemListDAO getForwardItemListDAO() throws DaoException;
 
+    /**
+     * Gets the DAO object for Transfer transactions between smart phone and
+     * POS.
+     * 
+     * @return ITxlCardFailureDAO The DAO object
+     * @throws DaoException
+     *             Exception thrown when getting the DAO object fails.
+     */
+    public abstract ITxlCardFailureDAO getTxlCardFailureDAO() throws DaoException;
+    
     /**
      * Gets the DAO object for Peripheral Controls.
      * 

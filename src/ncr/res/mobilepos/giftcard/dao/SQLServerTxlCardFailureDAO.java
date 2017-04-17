@@ -4,11 +4,8 @@
 package ncr.res.mobilepos.giftcard.dao;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 
 import ncr.res.mobilepos.daofactory.AbstractDao;
@@ -29,72 +26,152 @@ import ncr.res.giftcard.toppan.model.Message;
  */
 public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardFailureDAO {
 
-    static final String PROGNAME = "CARDFDAO";
+    /**
+     * The Program Name.
+     */
+    private static final String PROG_NAME = "CARDFDAO";
+    
+    /** 
+     * The database manager. 
+     */
+    private DBManager dbManager = null;
+    
+    /** 
+     * A private member variable used for logging the class implementations.
+     */
+    private static final Logger LOGGER = (Logger) Logger.getInstance();
+    
+    /** 
+     * The instance of the trace debug printer. 
+     */
+    private Trace.Printer tp = null;
 
+    /** 
+     * The instance of the SnapLogger. 
+     */
+    private SnapLogger snap = null;
+
+    /**
+     * The Constructor of the Class.
+     *
+     * @throws DaoException
+     *             thrown when process fails.
+     */
     public SQLServerTxlCardFailureDAO() throws DaoException {
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         snap = (SnapLogger)SnapLogger.getInstance();
-        logger = (Logger) Logger.getInstance();
     }
 
     /**
-     * Gets the Database Manager.
-     * this method is overridable for testing.
-     * @return instance of DBManager
+     * Gets the Database Manager for the Class.
+     *
+     * @return The Database Manager Object
      */
     public DBManager getDbManager() {
         return dbManager;
     }
 
     public void storeRequest(Message request) throws SQLException {
-        Connection c = getDbManager().getConnection();
-        try (DataBaseConnection dbc = new DataBaseConnection(c)) {
-            BatchTxlCardFailureDAO dao = new BatchTxlCardFailureDAO(dbc, logger, snap);
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("Message", request.toString());
+        
+        Connection conn = null;
+        try {
+        	conn = this.getDbManager().getConnection();
+        	DataBaseConnection dbc = new DataBaseConnection(conn);
+            BatchTxlCardFailureDAO dao = new BatchTxlCardFailureDAO(dbc, LOGGER, snap);
             dao.storeRequest(request);
-            c.commit();
+            conn.commit();
         } catch (SQLException e) {
-            c.rollback();
+        	conn.rollback();
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to storeRequest.\n" + e.getMessage());
             throw e;
         } catch (Exception e) {
-            logger.logSnapException(PROGNAME, Logger.RES_EXCEP_GENERAL,
-                                    "error on storeRequest", e);
-            c.rollback();
+        	conn.rollback();
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    e.getMessage());
+        } finally {
+        	if (conn != null) {
+                try {
+                	conn.close();
+                } catch (SQLException e) {
+                	throw e;
+                } finally {
+                	conn = null;
+                }
+            }
+            tp.methodExit();
         }
     }
 
     public void updateStore(int id, int status, Message response) throws SQLException {
-        Connection c = getDbManager().getConnection();
-        try (DataBaseConnection dbc = new DataBaseConnection(c)) {
-            BatchTxlCardFailureDAO dao = new BatchTxlCardFailureDAO(dbc, logger, snap);
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("id", String.valueOf(id));
+        tp.println("status", String.valueOf(status));
+        tp.println("response", response.toString());
+        
+        Connection conn = null;
+        try {
+        	conn = this.getDbManager().getConnection();
+        	DataBaseConnection dbc = new DataBaseConnection(conn);
+            BatchTxlCardFailureDAO dao = new BatchTxlCardFailureDAO(dbc, LOGGER, snap);
             dao.updateStore(id, status, response);
-            c.commit();
+            conn.commit();
         } catch (SQLException e) {
-            c.rollback();
+        	conn.rollback();
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to updateStore.\n" + e.getMessage());
             throw e;
         } catch (Exception e) {
-            logger.logSnapException(PROGNAME, Logger.RES_EXCEP_GENERAL,
-                                    "error on storeRequest", e);
-            c.rollback();
+        	conn.rollback();
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    e.getMessage());
+        } finally {
+        	if (conn != null) {
+                try {
+                	conn.close();
+                } catch (SQLException e) {
+                	throw e;
+                } finally {
+                	conn = null;
+                }
+            }
+            tp.methodExit();
         }
     }
 
     public int readUnsent(Message message) throws SQLException {
-        Connection c = getDbManager().getConnection();
-        try (DataBaseConnection dbc = new DataBaseConnection(c)) {
-            BatchTxlCardFailureDAO dao = new BatchTxlCardFailureDAO(dbc, logger, snap);
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("Message", message.toString());
+        
+        Connection conn = null;
+        try {
+        	conn = this.getDbManager().getConnection();
+        	DataBaseConnection dbc = new DataBaseConnection(conn);
+            BatchTxlCardFailureDAO dao = new BatchTxlCardFailureDAO(dbc, LOGGER, snap);
             return dao.readUnsent(message);
         } catch (Exception e) {
-            logger.logSnapException(PROGNAME, Logger.RES_EXCEP_GENERAL, 
-                                    "error on storeRequest", e);
-            c.rollback();
+        	conn.rollback();
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    e.getMessage());
+        } finally {
+        	if (conn != null) {
+                try {
+                	conn.close();
+                } catch (SQLException e) {
+                	throw e;
+                } finally {
+                	conn = null;
+                }
+            }
+            tp.methodExit();
         }
+        
         return NO_RECORD;
     }
-
-    DBManager dbManager;
-    BatchTxlCardFailureDAO dao;
-    Trace.Printer tp;
-    SnapLogger snap;
-    Logger logger;
 }

@@ -46,6 +46,8 @@ import ncr.res.mobilepos.eventlog.dao.SQLServerEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.dao.SQLServerForwardItemListDAO;
+import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
+import ncr.res.mobilepos.giftcard.dao.SQLServerTxlCardFailureDAO;
 import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.dao.SQLServerBarneysCommonDAO;
@@ -169,6 +171,11 @@ public class SQLServerDAOFactory extends DAOFactory {
         return new SQLServerForwardItemListDAO();
     }
 
+    @Override
+    public final ITxlCardFailureDAO getTxlCardFailureDAO() throws DaoException {
+        return new SQLServerTxlCardFailureDAO();
+    }
+    
     @Override
     public final IDeviceInfoDAO getDeviceInfoDAO() throws DaoException {
         return new SQLDeviceInfoDAO();

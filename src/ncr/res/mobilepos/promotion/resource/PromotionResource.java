@@ -346,6 +346,13 @@ public class PromotionResource {
 				JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
 				Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
 				Sale saleIn = transactionIn.getSale();
+				
+				ResultBase rs = SaleItemsHandler.validateSale(saleIn);
+				if (ResultBase.RES_OK != rs.getNCRWSSResultCode()) {
+					tp.println(rs.getMessage());
+					response.setNCRWSSResultCode(rs.getNCRWSSResultCode());
+					return response;
+				}
 
 				String itemId = saleIn.getItemId();
 				//String itemForm = !StringUtility.isNullOrEmpty(saleIn.getItemForm()) ? saleIn.getItemForm() : "";
@@ -437,7 +444,7 @@ public class PromotionResource {
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					if (dpt == null) {
-						response.setNCRWSSResultCode(ResultBase.RES_OK);
+						response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 						response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 						response.setMessage("Not found in the PLU.");
 						tp.println("Not found in the PLU.");
@@ -477,12 +484,6 @@ public class PromotionResource {
 					return response;
 				}
 
-				ResultBase rs = SaleItemsHandler.validateSale(saleIn);
-				if (ResultBase.RES_OK != rs.getNCRWSSResultCode()) {
-					tp.println(rs.getMessage());
-					response.setNCRWSSResultCode(rs.getNCRWSSResultCode());
-					return response;
-				}
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
 
@@ -609,10 +610,10 @@ public class PromotionResource {
 	}
 
 	public String JaCodeCvt(String code) {
-		if ("0000".equals(code)) {
+		if ("0000".equals(code)){
 			code = "0182";
-		} else {
-			code = "040".equals(code.substring(0, 3)) ? "040" + code.substring(3, 4) : "016" + code.substring(3, 4);
+		} else if (!"040".equals(code.substring(0, 3))){
+			code = "016" + code.substring(3, 4);
 		}
 		return code;
 	}

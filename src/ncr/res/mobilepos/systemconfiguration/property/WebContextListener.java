@@ -23,6 +23,7 @@ import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JrnSpm;
 import ncr.res.mobilepos.helper.Logger;
@@ -115,6 +116,9 @@ public class WebContextListener implements ServletContextListener {
             // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
             copySystemConfigToGlobalConstant(systemConfig);
 
+            // Loads config file for Toppan Giftcard feature.
+            ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
+            
             barCode = itemCodeXMLConstant();
             GlobalConstant.setBarCode(barCode);
             

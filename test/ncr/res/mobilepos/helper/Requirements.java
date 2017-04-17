@@ -95,6 +95,7 @@ public class Requirements {
                         "c:/ncr/res/log");
                 initContext.bind("java:comp/env/snapPath",
                         "c:/ncr/res/log/snap_dir");
+                initContext.bind("java:comp/env/customParamBasePath", "c:/software/ncr/res/cust/para");
                 BasicDataSource dsMsSqlServer = new BasicDataSource();
                 dsMsSqlServer.setUrl("jdbc:sqlserver://localhost:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");
 //                dsMsSqlServer.setUrl("jdbc:sqlserver://153.59.128.97:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");

@@ -19,6 +19,7 @@ public class EnvironmentEntries {
     private static final String KEY_DEBUG_LEVEL = "debugLevel";
     private static final String KEY_SNAP_PATH = "snapPath";
     private static final String KEY_SPM_PATH = "Journalization/spmPath";
+    private static final String KEY_CUSTOM_PARAM_BASE_PATH = "customParamBasePath";
 
     // ServerId for Logger.
     private String serverId;
@@ -33,6 +34,9 @@ public class EnvironmentEntries {
 
     // Spm path for Spm logger.
     private String spmPath;
+    
+    //Custom path for load custom param base path..
+    private String customParamBasePath;
 
     /**
      * Constructor.
@@ -58,6 +62,8 @@ public class EnvironmentEntries {
         snapPath = (String)loadProperty(KEY_SNAP_PATH, context);
 
         spmPath = (String)loadProperty(KEY_SPM_PATH, context);
+        
+        customParamBasePath = (String)loadProperty(KEY_CUSTOM_PARAM_BASE_PATH, context);
     }
 
     /**
@@ -137,4 +143,11 @@ public class EnvironmentEntries {
         return spmPath;
     }
 
+    /**
+     * Returns custom param base path.
+     * @return spmPath.
+     */
+    public String getCustomParamBasePath() {
+        return customParamBasePath;
+    }
 }

@@ -173,6 +173,12 @@
     <env-entry-value>c:/software/ncr/res/custom/</env-entry-value>
   </env-entry>
   <env-entry>
+    <description>Path to store custom parameter files.</description>
+    <env-entry-name>customParamBasePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>c:/software/ncr/res/cust/para</env-entry-value>
+  </env-entry>
+  <env-entry>
     <description>Relative path to schedule.xml from custom base.</description>
     <env-entry-name>scheduleFilePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>

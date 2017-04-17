@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
@@ -89,6 +90,7 @@ public class InitializationStatusResource {
         initFailed |= SpmFileWriter.getInstance() == null;
         initFailed |= SQLStatement.getInstance() == null;
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
+        initFailed |= ToppanGiftCardConfigFactory.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

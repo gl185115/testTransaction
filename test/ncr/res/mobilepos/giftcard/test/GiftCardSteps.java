@@ -10,6 +10,9 @@ import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
+import org.junit.runner.RunWith;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import junit.framework.Assert;
 
@@ -19,6 +22,7 @@ import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.model.ResultBase;
 
+@RunWith(PowerMockRunner.class)
 @SuppressWarnings("deprecation")
 public class GiftCardSteps extends Steps {
 	private ToppanGiftcardResource toppanGiftcardResource = null;
@@ -49,6 +53,7 @@ public class GiftCardSteps extends Steps {
 		}
 	}
 	
+    @PrepareForTest(ToppanGiftcardResource.class)
 	@When("I test QueryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
 	public final void giftCardQuery(
 			String storeId, String workstationId, String transactionId,

@@ -3,7 +3,12 @@
  */
 package ncr.res.mobilepos.giftcard.resource;
 
-import java.io.File;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
@@ -13,16 +18,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.xml.bind.JAXBException;
-
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-
 import ncr.res.giftcard.toppan.dao.CenterAccess;
 import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
 import ncr.res.giftcard.toppan.model.Config;
@@ -30,14 +27,12 @@ import ncr.res.giftcard.toppan.model.Message;
 import ncr.res.giftcard.toppan.model.MessageBuilder;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.giftcard.model.GiftCard;
 import ncr.res.mobilepos.giftcard.model.GiftResult;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
-import ncr.res.mobilepos.giftcard.dao.SQLServerTxlCardFailureDAO;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -67,12 +62,8 @@ public class ToppanGiftcardResource {
      * The Program Name.
      */
     private static final String PROG_NAME = "TpnGiftR";
-    
-    private static final String CUSTOM = "CUSTOM";
-    private static final String CUSTPARA = "CUSTPARA";
-    private static final int DEFAULT_WEBSERVICE_CONNTIMEOUT = 3000;
-    private static final int DEFAULT_WEBSERVICE_CONNINTERVAL = 1000;
-    private static final int DEFAULT_WEBSERVICE_CONNRETRY = 3;
+
+    private final Config toppanGiftcardConfig;
 
     /**
      * Default Constructor for JournalizationResource.
@@ -82,15 +73,16 @@ public class ToppanGiftcardResource {
     public ToppanGiftcardResource() {
     	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
+    	toppanGiftcardConfig = ToppanGiftCardConfigFactory.getInstance();
     }
 
     /**
      * The method called by the Web Service to query giftcard current amount.
-     * @param storeid        The StoreID
-     * @param workstationid  The Terminal ID
-     * @param transactionid  The Transaction Number
-     * @param test           The Test Flag
-     * @param giftcard       The GiftCard Information Model
+     * @param storeId The StoreID
+     * @param workstationId The Terminal ID
+     * @param transactionId The Transaction Number
+     * @param test The Test Flag
+     * @param jsonItem The GiftCard Information Model
      * @return GiftResult    The GiftResult Object
      */
     @Path("/query")
@@ -117,32 +109,17 @@ public class ToppanGiftcardResource {
         
         GiftResult giftResult = new GiftResult();
         try {
-        	Config giftCardConfig = this.getGiftCardConfig();
-        	if(giftCardConfig == null){
-        		tp.println("No giftCardConfig File found.");
-                String errorMessage = "No giftCardConfig File found." + "(" + Config.FILENAME + ")";
-                giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-                giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-                giftResult.setMessage(errorMessage);
-        	} else {
-        		JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
-            	GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
-            	MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
-                Message msg = MessageBuilder.buildQuery(giftCardConfig, test,
-                                        storeId, workstationId, transactionId,
-                                        messageBuilderGiftCard);
-                tp.println("request", msg);
-                giftResult = centerAccess(msg, giftCardConfig);
-        	}
+            JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
+            GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
+            MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
+            Message msg = MessageBuilder.buildQuery(toppanGiftcardConfig, test,
+                                    storeId, workstationId, transactionId,
+                                    messageBuilderGiftCard);
+            tp.println("request", msg);
+            giftResult = centerAccess(msg, toppanGiftcardConfig);
         } catch (IOException e) {
         	String logMessage = "decode request param:" + jsonItem;
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
-            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
-            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
-            giftResult.setMessage(logMessage);
-        } catch (JAXBException e) {
-        	String logMessage = "decode request param:" + jsonItem;
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_JAXB, logMessage, e);
             giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
             giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
             giftResult.setMessage(logMessage);
@@ -161,12 +138,12 @@ public class ToppanGiftcardResource {
 
     /**
      * The method called by the Web Service to sell itmes by the card.
-     * @param storeid        The StoreID
-     * @param workstationid  The Terminal ID
-     * @param transactionid  The Transaction Number
-     * @param test           The Test Flag
-     * @param giftcard       The GiftCard Information
-     * @return GiftResult    The GiftResult Object
+     * @param storeId The StoreID
+     * @param workstationId The Terminal ID
+     * @param transactionId The Transaction Number
+     * @param test The Test Flag
+     * @param jsonItem The GiftCard Information
+     * @return The GiftResult Object
      */
     @Path("/sales")
     @POST
@@ -192,32 +169,17 @@ public class ToppanGiftcardResource {
         
         GiftResult giftResult = new GiftResult();
         try {
-        	Config giftCardConfig = this.getGiftCardConfig();
-        	if(giftCardConfig == null){
-        		tp.println("No giftCardConfig File found.");
-                String errorMessage = "No giftCardConfig File found." + "(" + Config.FILENAME + ")";
-                giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-                giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-                giftResult.setMessage(errorMessage);
-        	} else {
-        		JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
-            	GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
-            	MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
-                Message msg = MessageBuilder.buildSales(giftCardConfig, test,
-                                        storeId, workstationId, transactionId,
-                                        messageBuilderGiftCard);
-                tp.println("request", msg);
-                giftResult = centerAccess(msg, giftCardConfig);
-        	}
+            JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
+            GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
+            MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
+            Message msg = MessageBuilder.buildSales(toppanGiftcardConfig, test,
+                                    storeId, workstationId, transactionId,
+                                    messageBuilderGiftCard);
+            tp.println("request", msg);
+            giftResult = centerAccess(msg, toppanGiftcardConfig);
         } catch (IOException e) {
         	String logMessage = "decode request param:" + jsonItem;
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
-            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
-            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
-            giftResult.setMessage(logMessage);
-        } catch (JAXBException e) {
-        	String logMessage = "decode request param:" + jsonItem;
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_JAXB, logMessage, e);
             giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
             giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
             giftResult.setMessage(logMessage);
@@ -236,12 +198,12 @@ public class ToppanGiftcardResource {
 
     /**
      * The method called by the Web Service to cancel passed sales.
-     * @param storeid        The StoreID
-     * @param workstationid  The Terminal ID
-     * @param transactionid  The Transaction Number
-     * @param test           The Test Flag
-     * @param giftcard       The GiftCard Information
-     * @return GiftResult    The GiftResult Object
+     * @param storeId The StoreID
+     * @param workstationId The Terminal ID
+     * @param transactionId The Transaction Number
+     * @param test The Test Flag
+     * @param jsonItem The GiftCard Information
+     * @return The GiftResult Object
      */
     @Path("/cancel")
     @POST
@@ -267,32 +229,17 @@ public class ToppanGiftcardResource {
         
         GiftResult giftResult = new GiftResult();
         try {
-        	Config giftCardConfig = this.getGiftCardConfig();
-        	if(giftCardConfig == null){
-        		tp.println("No giftCardConfig File found.");
-                String errorMessage = "No giftCardConfig File found." + "(" + Config.FILENAME + ")";
-                giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-                giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-                giftResult.setMessage(errorMessage);
-        	} else {
-        		JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
-            	GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
-            	MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
-                Message msg = MessageBuilder.buildCancel(giftCardConfig, test,
-                                        storeId, workstationId, transactionId,
-                                        messageBuilderGiftCard);
-                tp.println("request", msg);
-                giftResult = centerAccess(msg, giftCardConfig);
-        	}
+            JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
+            GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
+            MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
+            Message msg = MessageBuilder.buildCancel(toppanGiftcardConfig, test,
+                                    storeId, workstationId, transactionId,
+                                    messageBuilderGiftCard);
+            tp.println("request", msg);
+            giftResult = centerAccess(msg, toppanGiftcardConfig);
         } catch (IOException e) {
         	String logMessage = "decode request param:" + jsonItem;
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
-            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
-            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
-            giftResult.setMessage(logMessage);
-        } catch (JAXBException e) {
-        	String logMessage = "decode request param:" + jsonItem;
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_JAXB, logMessage, e);
             giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
             giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
             giftResult.setMessage(logMessage);
@@ -311,7 +258,7 @@ public class ToppanGiftcardResource {
 
     /**
      * SendMessage to giftCard Center.
-     * @param GiftCard  The GiftResult Information Model
+     * @param gc The GiftResult Information Model
      * @return GiftCard The MessageBuilder.GiftCard Object
      */
     MessageBuilder.GiftCard createParameter(GiftCard gc) {
@@ -323,11 +270,10 @@ public class ToppanGiftcardResource {
 
     /**
      * SendMessage to giftCard Center.
-     * @param Message     The Message Information
-     * @param Config      The GiftCard Information Model
+     * @param msg The Message Information
+     * @param config The GiftCard Information Model
      * @return GiftResult The GiftResult Object
      */
-    @SuppressWarnings("resource")
 	private GiftResult centerAccess(Message msg, Config config) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -361,51 +307,5 @@ public class ToppanGiftcardResource {
         return result;
     }
     
-    /**
-     * Get GiftCard Configuration Information.
-     * @return Config    The Config Object
-     * @throws JAXBException 
-     */
-    private Config getGiftCardConfig() throws JAXBException {
-
-    	String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName);
-
-        Config giftcardConfig = null;
-        String path = System.getenv(CUSTPARA);
-        if (path == null) {
-            path = System.getenv(CUSTOM);;
-        }
-        File configFile = new File(path + File.separator + Config.FILENAME);
-        try {
-            XmlSerializer<Config> serializer = new XmlSerializer<Config>();
-            giftcardConfig = serializer.unMarshallXml(configFile, Config.class);
-            if(giftcardConfig != null){
-                if (giftcardConfig.getConnectionRetryOver() == 0) {
-                	giftcardConfig.setConnectionRetryOver(DEFAULT_WEBSERVICE_CONNRETRY);
-                }
-                if (giftcardConfig.getConnectionTimeout() > DEFAULT_WEBSERVICE_CONNTIMEOUT) {
-                	giftcardConfig.setConnectionTimeout(DEFAULT_WEBSERVICE_CONNTIMEOUT);
-                }
-                if (giftcardConfig.getConnectionRetryInterval() > DEFAULT_WEBSERVICE_CONNINTERVAL) {
-                	giftcardConfig.setConnectionRetryInterval(DEFAULT_WEBSERVICE_CONNINTERVAL);
-                }
-                tp.println("config.connectionTimeout", giftcardConfig.getConnectionTimeout());
-                tp.println("config.connectionRetryOver", giftcardConfig.getConnectionRetryOver());
-                tp.println("config.connectionRetryInterval", giftcardConfig.getConnectionRetryInterval());
-                tp.println("config.nonActivityTimeout", giftcardConfig.getNonActivityTimeout());
-                tp.println("config.responseTimeout", giftcardConfig.getResponseTimeout());
-                tp.println("config.jdbc", giftcardConfig.getJdbc());
-            }
-        } catch (JAXBException e) {
-            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_JAXB,
-                                    "can't read:" + configFile.getAbsolutePath(), e);
-            throw e;
-        } finally {
-            tp.methodExit(giftcardConfig);
-        }
-        
-        return giftcardConfig;
-    }
 }
 

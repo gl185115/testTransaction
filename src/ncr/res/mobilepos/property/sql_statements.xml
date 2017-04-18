@@ -707,7 +707,7 @@ WHERE
            RetailStoreId
              ,TillID,AccountCode,AccountSubCode,BusinessDayDate,TotalNumber,TotalMoney
         FROM
-            TXU_TOTAL_DRAWER_FINANCIAL
+            RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
         WHERE
             BusinessDayDate=? and RetailStoreId=?;
 
@@ -1001,7 +1001,7 @@ ORDER BY
   <!-- *************************  ENTRY KEY FOR POSLOG JOURNALIZATION     *************************  -->
 
   <entry key="save-poslog">
-    INSERT INTO TXL_SALES_JOURNAL
+    INSERT INTO RESTransaction.dbo.TXL_SALES_JOURNAL
            (RetailStoreId
            ,WorkstationId
            ,SequenceNumber
@@ -1037,9 +1037,9 @@ ORDER BY
     set @resTabletUi=?
     set @resUiConfig=?
 
-    IF EXISTS (select Container from TXU_SOFTWARE_VERSION
+    IF EXISTS (select Container from RESTransaction.dbo.TXU_SOFTWARE_VERSION
                where StoreId=@storeId and TerminalId=@terminalId and CompanyId=@companyId)
-      UPDATE TXU_SOFTWARE_VERSION
+      UPDATE RESTransaction.dbo.TXU_SOFTWARE_VERSION
        SET
        CompanyId = @companyId
        ,StoreId = @storeId
@@ -1051,7 +1051,7 @@ ORDER BY
        ,RESUiConfig = @resUiConfig
       WHERE StoreId=@storeId and TerminalId=@terminalId and CompanyId=@companyId
     ELSE
-      INSERT INTO TXU_SOFTWARE_VERSION(
+      INSERT INTO RESTransaction.dbo.TXU_SOFTWARE_VERSION(
         CompanyId
        ,StoreId
        ,TerminalId
@@ -1075,7 +1075,7 @@ ORDER BY
         SELECT
           TxType
         FROM
-          TXL_SALES_JOURNAL
+          RESTransaction.dbo.TXL_SALES_JOURNAL
         WHERE
           RetailStoreId = ? AND
           WorkstationId = ? AND
@@ -1086,7 +1086,7 @@ ORDER BY
         SELECT
           COUNT(*) AS [rowcount]
         FROM
-          TXL_SALES_JOURNAL
+          RESTransaction.dbo.TXL_SALES_JOURNAL
         WHERE
           CompanyId = ? AND
           RetailStoreId = ? AND
@@ -1100,7 +1100,7 @@ ORDER BY
           tx,
           txtype
     FROM
-      TXL_POSLOG
+      RESTransaction.dbo.TXL_POSLOG
     WHERE
       termid = ? AND txid = ? AND (txtype = ? OR txtype = 'NR');
   </entry>
@@ -1109,13 +1109,13 @@ ORDER BY
           tx,
           txtype
     FROM
-      TXL_POSLOG
+      RESTransaction.dbo.TXL_POSLOG
     WHERE
       termid = ? AND txid = ?;
   </entry>
   <entry key="update-poslog-txtype">
         UPDATE
-      TXL_SALES_JOURNAL
+      RESTransaction.dbo.TXL_SALES_JOURNAL
     SET
       TxType = ?
     WHERE
@@ -1126,7 +1126,7 @@ ORDER BY
   </entry>
 
   <entry key="get-poslog-xml-by-id">
-    SELECT tx FROM TXL_POSLOG
+    SELECT tx FROM RESTransaction.dbo.TXL_POSLOG
         WHERE
           corpid = ? AND
       storeid = ? AND
@@ -1139,7 +1139,7 @@ ORDER BY
     SELECT
       TOP 1 Tx
     FROM
-      TXL_SALES_JOURNAL
+      RESTransaction.dbo.TXL_SALES_JOURNAL
         WHERE
           RetailStoreId = ? AND
       WorkstationId = ? AND
@@ -1151,7 +1151,7 @@ ORDER BY
     SELECT
       TOP 1 Tx
     FROM
-      TXL_SALES_JOURNAL
+      RESTransaction.dbo.TXL_SALES_JOURNAL
       WHERE
         CompanyId = ? AND
         RetailStoreId = ? AND
@@ -1163,7 +1163,7 @@ ORDER BY
     ORDER BY JournalLine DESC;
   </entry>
   <entry key="get-poslog-xml-by-terminalid-storeid-txid-summarydateid">
-    SELECT TOP 1 tx FROM TXL_SALES_JOURNAL
+    SELECT TOP 1 tx FROM RESTransaction.dbo.TXL_SALES_JOURNAL
     WHERE
       RetailStoreId = ? AND
       WorkstationId = ? AND
@@ -1186,7 +1186,7 @@ ORDER BY
     SELECT
       TOP(?) Tx
     FROM
-      TXL_SALES_JOURNAL
+      RESTransaction.dbo.TXL_SALES_JOURNAL
     WHERE
       RetailStoreId = ? AND
       WorkstationId = ? AND
@@ -1199,7 +1199,7 @@ ORDER BY
     SELECT
       TOP(?) Tx
     FROM
-      TXL_SALES_JOURNAL
+      RESTransaction.dbo.TXL_SALES_JOURNAL
     WHERE
       RetailStoreId = ? AND
       WorkstationId = ? AND
@@ -1253,8 +1253,8 @@ ORDER BY
                 journal.SystemDateTime ASC
             ) as row_num, journal.companyId, journal.TrainingFlag
         FROM
-            TXL_SALES_JOURNAL journal LEFT JOIN
-            TXL_SALES_LEDGER ledger ON
+            RESTransaction.dbo.TXL_SALES_JOURNAL journal LEFT JOIN
+            RESTransaction.dbo.TXL_SALES_LEDGER ledger ON
             journal.BusinessDayDate = ledger.BusinessDayDate AND
             journal.RetailStoreId = ledger.RetailStoreId AND
             journal.WorkstationId = ledger.WorkstationId AND
@@ -1302,7 +1302,7 @@ ORDER BY
     order by row_num asc
   </entry>
   <entry key="save-void-details">
-    INSERT INTO TXL_SALES_VOIDED
+    INSERT INTO RESTransaction.dbo.TXL_SALES_VOIDED
       (RetailStoreId,
       WorkstationId,
       SequenceNumber,
@@ -1331,12 +1331,12 @@ ORDER BY
 
     IF EXISTS (
                  SELECT RetailStoreId
-                 FROM   TXU_TOTAL_GUESTTILLDAY
+                 FROM   RESTransaction.dbo.TXU_TOTAL_GUESTTILLDAY
                  WHERE  RetailStoreId=@storeId
                  AND    TillID=@tillId
                  AND    BusinessDayDate=@BusinessDayDate
               )
-      UPDATE TXU_TOTAL_GUESTTILLDAY
+      UPDATE RESTransaction.dbo.TXU_TOTAL_GUESTTILLDAY
       SET    SalesGuestCnt = SalesGuestCnt + @SalesGuestCnt,
              ReturnGuestCnt = ReturnGuestCnt + @ReturnGuestCnt,
              VoidGuestCnt = VoidGuestCnt + @VoidGuestCnt
@@ -1344,7 +1344,7 @@ ORDER BY
       AND    TillID=@tillId
       AND    BusinessDayDate=@BusinessDayDate
     ELSE
-      INSERT INTO TXU_TOTAL_GUESTTILLDAY (
+      INSERT INTO RESTransaction.dbo.TXU_TOTAL_GUESTTILLDAY (
         RetailStoreId,
         TillID,
         BusinessDayDate,
@@ -1364,7 +1364,7 @@ ORDER BY
     SELECT
       COUNT(*) AS [rowcount]
     FROM
-      TXL_SALES_VOIDED
+      RESTransaction.dbo.TXL_SALES_VOIDED
     WHERE
       RetailStoreId = ? AND
       WorkstationId = ? AND
@@ -1375,7 +1375,7 @@ ORDER BY
       TrainingFlag = ?;
   </entry>
   <entry key="save-summary-receipt-details">
-    INSERT INTO TXL_SUMMARYRECEIPT_HISTORY
+    INSERT INTO RESTransaction.dbo.TXL_SUMMARYRECEIPT_HISTORY
       (CompanyId,
        RetailStoreId,
        WorkstationId,
@@ -1392,7 +1392,7 @@ ORDER BY
       (?,?,?,?,?,?,?,?,?,?,?);
   </entry>
   <entry key="save-receipt-reprint-details">
-    INSERT INTO TXL_RECEIPTREPRINT_HISTORY
+    INSERT INTO RESTransaction.dbo.TXL_RECEIPTREPRINT_HISTORY
       (RetailStoreId,
        WorkstationId,
        SequenceNumber,
@@ -1410,7 +1410,7 @@ ORDER BY
     SELECT
       COUNT(*) as count
     FROM
-      TXL_SUMMARYRECEIPT_HISTORY
+      RESTransaction.dbo.TXL_SUMMARYRECEIPT_HISTORY
     WHERE
       CompanyId = ? AND
       RetailStoreId = ? AND
@@ -1508,14 +1508,14 @@ ORDER BY
                 Dpt,
                 TimeZoneCode,
                 (SUM(SalesGuestCnt) - SUM(VoidGuestCnt) - SUM(ReturnGuestCnt)) SalesGuestCnt
-    FROM        TXU_TOTAL_GUESTDPTDAY AS guest
+    FROM        RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY AS guest
 
     GROUP BY    RetailStoreId,
                 BusinessDayDate,
                 Dpt,
                 TimeZoneCode) guestCNT
     INNER JOIN
-                TXU_TOTAL_DPTSUMDAY AS dpts
+                RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY AS dpts
     ON
            guestCNT.RetailStoreId = dpts.RetailStoreId
     AND    guestCNT.BusinessDayDate = dpts.BusinessDayDate
@@ -1567,7 +1567,7 @@ ORDER BY
                           tsud.SalesSalesAmt,
                           stoinfo.StoreType,
                           guest.GuestCode
-               FROM       TXU_TOTAL_TIERSUMDAY tsud
+               FROM       RESTransaction.dbo.TXU_TOTAL_TIERSUMDAY tsud
                INNER JOIN
                           RESMaster.dbo.PRM_GUEST as guest
                ON         guest.GuestCode = tsud.Tier
@@ -1881,9 +1881,9 @@ ORDER BY
         SET @terminalno=?
         SET @opecode=?
 
-        IF EXISTS (SELECT * FROM TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
+        IF EXISTS (SELECT * FROM RESTransaction.dbo.TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
             UPDATE
-                TXU_POS_CTRL
+                RESTransaction.dbo.TXU_POS_CTRL
             SET
                 OpeCode=@opecode
             WHERE
@@ -1891,7 +1891,7 @@ ORDER BY
                 StoreId=@storeid AND
                 TerminalNo=@terminalno
         ELSE
-            INSERT INTO TXU_POS_CTRL
+            INSERT INTO RESTransaction.dbo.TXU_POS_CTRL
                 (
                   CompanyId,
                     StoreId,
@@ -1922,9 +1922,9 @@ ORDER BY
         SET @eodtime=null
         SET @eodtranno=null
 
-        IF EXISTS (SELECT * FROM TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
+        IF EXISTS (SELECT * FROM RESTransaction.dbo.TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
           UPDATE
-            TXU_POS_CTRL
+            RESTransaction.dbo.TXU_POS_CTRL
           SET
             OpenCloseStat = @openclosestat,
             SodTime = @sodtime,
@@ -1936,7 +1936,7 @@ ORDER BY
             StoreId=@storeid AND
             TerminalNo=@terminalno
         ELSE
-          INSERT INTO TXU_POS_CTRL (
+          INSERT INTO RESTransaction.dbo.TXU_POS_CTRL (
             CompanyId,
             StoreId,
             TerminalNo,
@@ -1972,9 +1972,9 @@ ORDER BY
         SET @eodtime=?
         SET @eodtranno=?
 
-        IF EXISTS (SELECT * FROM TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
+        IF EXISTS (SELECT * FROM RESTransaction.dbo.TXU_POS_CTRL WHERE CompanyId=@companyid AND StoreId=@storeid AND TerminalNo=@terminalno)
             UPDATE
-                TXU_POS_CTRL
+                RESTransaction.dbo.TXU_POS_CTRL
             SET
                 OpenCloseStat = @openclosestat,
                 EodTime = @eodtime,
@@ -1984,7 +1984,7 @@ ORDER BY
                 StoreId=@storeid AND
                 TerminalNo=@terminalno
         ELSE
-            INSERT INTO TXU_POS_CTRL (
+            INSERT INTO RESTransaction.dbo.TXU_POS_CTRL (
                 CompanyId,
                 StoreId,
                 TerminalNo,
@@ -2081,7 +2081,7 @@ ORDER BY
   </entry>
   <!-- *************************  ENTRY KEY FOR SYSTEM CONSOLIDATION   ************************* -->
   <entry key="save-lineItem">
-    INSERT INTO TXL_JOURNAL
+    INSERT INTO RESTransaction.dbo.TXL_JOURNAL
            (  corpid
         ,storeid
         ,termid
@@ -2128,7 +2128,7 @@ ORDER BY
         ,originaltranno
         ,upddate
     FROM
-      TXL_JOURNAL
+      RESTransaction.dbo.TXL_JOURNAL
     WHERE
       tranno = ?
     ORDER BY
@@ -2137,7 +2137,7 @@ ORDER BY
 
   <entry key="update-poslog-status">
         UPDATE
-      TXL_POSLOG
+      RESTransaction.dbo.TXL_POSLOG
     SET
       status = ?
     WHERE
@@ -2152,7 +2152,7 @@ ORDER BY
     SELECT
       TOP 100 *
     FROM
-      TXL_POSLOG
+      RESTransaction.dbo.TXL_POSLOG
     WHERE
       seqnum > ? AND
         status = 0
@@ -2166,7 +2166,7 @@ ORDER BY
     SELECT
       *
     FROM
-      TXU_TOTAL_ACNTDAY
+      RESTransaction.dbo.TXU_TOTAL_ACNTDAY
     WHERE
       corpid = ?
       AND storeid = ?
@@ -2180,7 +2180,7 @@ ORDER BY
   </entry>
 
   <entry key="save-total-account-day">
-    INSERT INTO TXU_TOTAL_ACNTDAY
+    INSERT INTO RESTransaction.dbo.TXU_TOTAL_ACNTDAY
            (    corpid,
         storeid,
         terminalid,
@@ -2208,7 +2208,7 @@ ORDER BY
   </entry>
 
   <entry key="update-total-account-day">
-    UPDATE TXU_TOTAL_ACNTDAY
+    UPDATE RESTransaction.dbo.TXU_TOTAL_ACNTDAY
         SET
       SalesItemCnt = SalesItemCnt + ?,
       SalesCostAmt = SalesCostAmt + ?,
@@ -2234,7 +2234,7 @@ ORDER BY
       AND Operatorcode = ?;
   </entry>
   <entry key="save-total-item-day">
-    INSERT INTO TXU_TOTAL_ITEMDAY
+    INSERT INTO RESTransaction.dbo.TXU_TOTAL_ITEMDAY
            (    corpid,
         storeid,
         summarydateid,
@@ -2261,7 +2261,7 @@ ORDER BY
   </entry>
 
   <entry key="update-total-item-day">
-    UPDATE TXU_TOTAL_ITEMDAY
+    UPDATE RESTransaction.dbo.TXU_TOTAL_ITEMDAY
         SET
       SalesItemCnt = SalesItemCnt + ?,
       SalesCostAmt = SalesCostAmt + ?,
@@ -2290,7 +2290,7 @@ ORDER BY
     SELECT
       *
     FROM
-      TXU_TOTAL_ITEMDAY
+      RESTransaction.dbo.TXU_TOTAL_ITEMDAY
     WHERE
       corpid = ?
       AND storeid = ?
@@ -2314,7 +2314,7 @@ ORDER BY
       SET @debtor=?
       SET @creditor=?
 
-      UPDATE TXU_TOTAL_DRAWER_FINANCIAL
+      UPDATE RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
         SET corpid=@corpid,storeid=@storeid,printerid=@printerid,accountcode=@accountcode,
             accountsubcode=@accountsubcode,summarydateid=@summarydateid,debtor=@debtor + debtor,
             creditor= @creditor + creditor
@@ -2322,7 +2322,7 @@ ORDER BY
           accountcode=@accountcode AND accountsubcode=@accountsubcode AND summarydateid=@summarydateid
       IF (@@ROWCOUNT = 0)
           INSERT
-          TXU_TOTAL_DRAWER_FINANCIAL
+          RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
             (corpid, storeid, printerid, accountcode, accountsubcode, summarydateid, debtor, creditor)
           VALUES
             (@corpid,@storeid,@printerid,@accountcode,@accountsubcode,@summarydateid,@debtor,@creditor)
@@ -2341,7 +2341,7 @@ ORDER BY
       SET @debtor=?
       SET @creditor=?
 
-      UPDATE TXU_TOTAL_FINANCIAL
+      UPDATE RESTransaction.dbo.TXU_TOTAL_FINANCIAL
         SET corpid=@corpid,storeid=@storeid,terminalid=@terminalid,accountcode=@accountcode,
             accountsubcode=@accountsubcode,summarydateid=@summarydateid,debtor=@debtor + debtor,
             creditor= @creditor + creditor
@@ -2349,7 +2349,7 @@ ORDER BY
           accountcode=@accountcode AND accountsubcode=@accountsubcode AND summarydateid=@summarydateid
       IF (@@ROWCOUNT = 0)
           INSERT
-          TXU_TOTAL_FINANCIAL
+          RESTransaction.dbo.TXU_TOTAL_FINANCIAL
             (corpid, storeid, terminalid, accountcode, accountsubcode, summarydateid, debtor, creditor)
           VALUES
             (@corpid,@storeid,@terminalid,@accountcode,@accountsubcode,@summarydateid,@debtor,@creditor)
@@ -2362,7 +2362,7 @@ ORDER BY
       SUM(Debit) as Debtor,
       SUM(Credit) as Creditor
     FROM
-      TXU_TOTAL_FINANCIAL
+      RESTransaction.dbo.TXU_TOTAL_FINANCIAL
     WHERE
       WorkstationId=? and BusinessDayDate=? and RetailStoreId=?
     GROUP BY AccountCode, AccountSubCode
@@ -2374,7 +2374,7 @@ ORDER BY
       SUM(Debit) as Debtor,
       SUM(Credit) as Creditor
     FROM
-      TXU_TOTAL_DRAWER_FINANCIAL
+      RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
     WHERE
       PrinterId=? and BusinessDayDate=? and RetailStoreId=?
     GROUP BY AccountCode, AccountSubCode
@@ -2385,7 +2385,7 @@ ORDER BY
     SELECT
       *
     FROM
-      TXU_TOTAL_ACNTDAY
+      RESTransaction.dbo.TXU_TOTAL_ACNTDAY
     WHERE
       corpid = ?
       AND storeid = ?
@@ -2395,7 +2395,7 @@ ORDER BY
   </entry>
 
   <entry key="insert-total-dept-day">
-    INSERT INTO TXU_TOTAL_DPTSUMDAY
+    INSERT INTO RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY
            (    corpid,
         storeid,
         summarydateid,
@@ -2415,7 +2415,7 @@ ORDER BY
   </entry>
 
   <entry key="update-total-dept-day">
-    UPDATE TXU_TOTAL_DPTSUMDAY
+    UPDATE RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY
         SET
       SalesItemCnt = SalesItemCnt + ?,
       SalesSalesAmt = SalesSalesAmt + ?,
@@ -2439,7 +2439,7 @@ ORDER BY
     SELECT
       *
     FROM
-      TXU_TOTAL_ITEMDAY
+      RESTransaction.dbo.TXU_TOTAL_ITEMDAY
     WHERE
       corpid = ?
       AND storeid = ?
@@ -2465,12 +2465,12 @@ ORDER BY
       SET @VoidGuestCnt= ?
 
 
-           UPDATE TXU_TOTAL_GUESTDPTDAY
+           UPDATE RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
           SET corpid= @corpid,storeid=@storeid,terminalid=@terminalid,Operatorcode=@Operatorcode,summarydateid=@summarydateid,dpt=@dpt ,timezonecode=@timezonecode, SalesGuestCnt= SalesGuestCnt + @SalesGuestCnt, ReturnGuestCnt= ReturnGuestCnt +@ReturnGuestCnt,  VoidGuestCnt= VoidGuestCnt + @VoidGuestCnt
           WHERE corpid= @corpid AND storeid=@storeid AND terminalid=@terminalid AND Operatorcode=@Operatorcode AND summarydateid=@summarydateid AND dpt=@dpt AND timezonecode=@timezonecode
         IF (@@ROWCOUNT = 0)
 
-          INSERT TXU_TOTAL_GUESTDPTDAY
+          INSERT RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
             (corpid, storeid, terminalid, Operatorcode, summarydateid, dpt, timezonecode, SalesGuestCnt, ReturnGuestCnt, VoidGuestCnt )
 
           VALUES (@corpid , @storeid, @terminalid, @Operatorcode, @summarydateid,@dpt, @timezonecode, @SalesGuestCnt, @ReturnGuestCnt, @VoidGuestCnt)
@@ -2484,7 +2484,7 @@ ORDER BY
         TotalNumber as AccountancyAccount,
         TotalMoney as AccountancyAmount,
         QFid as AccountancyQFid
-    FROM TXU_TOTAL_DRAWER_FINANCIAL
+    FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
     WHERE BusinessDayDate=? and RetailStoreId =?
     </entry>
 
@@ -2502,9 +2502,9 @@ ORDER BY
       SUM( actday.SalesSalesAmt) SalesSalesAmt,
       SUM( guest.SalesGuestCnt)-SUM( guest.VoidGuestCnt) SalesGuestCnt
     FROM
-      TXU_TOTAL_ACNTDAY actday
+      RESTransaction.dbo.TXU_TOTAL_ACNTDAY actday
     INNER JOIN
-      TXU_TOTAL_GUESTDPTDAY guest
+      RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY guest
     ON
       guest.TimeZoneCode = actday.TimeZoneCode AND
       guest.WorkstationId = actday.WorkstationId AND
@@ -2533,14 +2533,14 @@ ORDER BY
         SUM(dptsum.SalesItemCnt) SalesItemCnt,
         SUM(dptsum.SalesSalesAmt) SalesSalesAmt,
         SUM(guest.GuestCnt) SalesGuestCnt
-    FROM  TXU_TOTAL_DPTSUMDAY dptsum
+    FROM  RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY dptsum
     INNER JOIN(
              SELECT   RetailStoreId,
                       BusinessDayDate,
                       Dpt,
                       TimeZoneCode,
                       (SUM(SalesGuestCnt)-SUM(VoidGuestCnt)-SUM(ReturnGuestCnt)) GuestCnt
-             FROM TXU_TOTAL_GUESTDPTDAY
+             FROM RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
              GROUP BY RetailStoreId,
                       BusinessDayDate,
                       Dpt,
@@ -2575,13 +2575,13 @@ ORDER BY
       acnt.RetailStoreId,
       (SELECT
         (SUM(SalesGuestCnt)-SUM(VoidGuestCnt))
-          FROM TXU_TOTAL_GUESTDPTDAY
+          FROM RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
         WHERE BusinessDayDate = acnt.BusinessDayDate AND Dpt = acnt.Dpt
             AND WorkstationId = acnt.WorkstationId AND RetailStoreId = acnt.RetailStoreId) GuestCnt,
       SUM(SalesItemCnt) ItemCnt,
       SUM(SalesSalesAmt) SalesAmt
       FROM
-        TXU_TOTAL_ACNTDAY acnt
+        RESTransaction.dbo.TXU_TOTAL_ACNTDAY acnt
       LEFT JOIN
         RESMaster.dbo.MST_DPTINFO dptinfo
       ON dptinfo.Dpt = acnt.Dpt
@@ -2600,14 +2600,14 @@ ORDER BY
              SUM(dptsum.SalesItemCnt) ItemCnt,
              SUM(dptsum.SalesSalesAmt) SalesAmt,
              SUM(guest.GuestCnt) GuestCnt
-     FROM  TXU_TOTAL_DPTSUMDAY dptsum
+     FROM  RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY dptsum
      INNER JOIN(
              SELECT   RetailStoreId,
                       BusinessDayDate,
                       Dpt,
                       TimeZoneCode,
                       (SUM(SalesGuestCnt)-SUM(VoidGuestCnt)-SUM(ReturnGuestCnt)) GuestCnt
-             FROM TXU_TOTAL_GUESTDPTDAY
+             FROM RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
              GROUP BY RetailStoreId,
                       BusinessDayDate,
                       Dpt,
@@ -2650,9 +2650,9 @@ ORDER BY
        sum(act.SalesItemCnt) ItemCnt,
        sum(act.SalesSalesAmt) SalesAmt
     FROM
-      TXU_TOTAL_GUESTDPTDAY guest
+      RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY guest
     LEFT JOIN
-      TXU_TOTAL_ACNTDAY act
+      RESTransaction.dbo.TXU_TOTAL_ACNTDAY act
     ON
       act.OperatorCode=guest.OperatorCode AND
       act.RetailStoreId=guest.RetailStoreId AND
@@ -2677,12 +2677,12 @@ ORDER BY
        (SELECT
         (SUM(guest.SalesGuestCnt) - SUM(guest.VoidGuestCnt)) SalesGuestCnt
         FROM
-        TXU_TOTAL_GUESTDPTDAY guest
+        RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY guest
         WHERE
         guest.BusinessDayDate=act.BusinessDayDate AND guest.RetailStoreId=act.RetailStoreId and guest.OperatorCode=act.OperatorCode
       ) SalesGuestCnt
     FROM
-      TXU_TOTAL_ACNTDAY act
+      RESTransaction.dbo.TXU_TOTAL_ACNTDAY act
     LEFT JOIN
       RESMaster.dbo.MST_USER_CREDENTIALS users
     ON
@@ -2712,7 +2712,7 @@ ORDER BY
                      tillItemday.SlipLineNo,
                      tillItemday.SalesTime
                  FROM
-                     TXU_TOTAL_TILLITEMDAY tillItemday
+                     RESTransaction.dbo.TXU_TOTAL_TILLITEMDAY tillItemday
                  LEFT JOIN
                      RESMaster.dbo.MST_PLU plu
                  ON
@@ -2763,7 +2763,7 @@ ORDER BY
                         BusinessDayDate,
                         SUM(SalesItemCnt) ItemCnt,
                         SUM(SalesSalesAmt) SalesAmt
-              FROM      TXU_TOTAL_ITEMDAY
+              FROM      RESTransaction.dbo.TXU_TOTAL_ITEMDAY
               GROUP BY  RetailStoreId,
                         Plu,
                         BusinessDayDate ) itemday
@@ -2772,7 +2772,7 @@ ORDER BY
             Plu,
             BusinessDayDate,
             SUM(SalesGuestCnt) - SUM(VoidGuestCnt) - SUM(ReturnGuestCnt) SalesGuestCnt
-              FROM    TXU_TOTAL_GUESTITEMDAY
+              FROM    RESTransaction.dbo.TXU_TOTAL_GUESTITEMDAY
               GROUP BY  RetailStoreId,
             Plu,
             BusinessDayDate ) guestitem
@@ -2824,7 +2824,7 @@ ORDER BY
                         BusinessDayDate ,
                         SUM(SalesItemCnt) SalesItemCnt ,
                         SUM(SalesSalesAmt) SalesSalesAmt
-              FROM      TXU_TOTAL_ACNTDAY
+              FROM      RESTransaction.dbo.TXU_TOTAL_ACNTDAY
               GROUP BY  RetailStoreId ,
                         BusinessDayDate
             ) act
@@ -2845,7 +2845,7 @@ ORDER BY
                          BusinessDayDate ,
                          SUM(SalesGuestCnt - ReturnGuestCnt
                          - VoidGuestCnt) GuestCount
-              FROM    TXU_TOTAL_GUESTTILLDAY
+              FROM    RESTransaction.dbo.TXU_TOTAL_GUESTTILLDAY
               GROUP BY  RetailStoreId ,
                         BusinessDayDate
             ) guest ON  storeinfo.StoreId = guest.RetailStoreId
@@ -2881,7 +2881,7 @@ ORDER BY
                         BusinessDayDate,
                         SUM(SalesItemCnt) ItemCnt,
                         SUM(SalesSalesAmt) SalesAmt
-              FROM      TXU_TOTAL_ITEMDAY
+              FROM      RESTransaction.dbo.TXU_TOTAL_ITEMDAY
               GROUP BY  RetailStoreId,
                         Plu,
                         BusinessDayDate ) itemday
@@ -2889,7 +2889,7 @@ ORDER BY
                         Plu,
                         BusinessDayDate,
                         SUM(SalesGuestCnt) - SUM(VoidGuestCnt) - SUM(ReturnGuestCnt) GuestCnt
-                 FROM   TXU_TOTAL_GUESTITEMDAY
+                 FROM   RESTransaction.dbo.TXU_TOTAL_GUESTITEMDAY
                  GROUP BY RetailStoreId,
                         Plu,
                         BusinessDayDate ) guestitem
@@ -2942,7 +2942,7 @@ ORDER BY
             (SUM(SalesGuestCnt)-SUM(VoidGuestCnt)-SUM(ReturnGuestCnt)) SalesGuestCnt,
              SUM(tillitemday.ItemCnt) ItemCnt,
              SUM(tillitemday.SalesAmt) SalesAmt
-    FROM  TXU_TOTAL_GUESTITEMDAY guest
+    FROM  RESTransaction.dbo.TXU_TOTAL_GUESTITEMDAY guest
     INNER JOIN(
              SELECT    RetailStoreId,
                        TillID,
@@ -2951,7 +2951,7 @@ ORDER BY
                        Plu,
                        SUM(SalesItemCnt) ItemCnt,
                        SUM(SalesSalesAmt) SalesAmt
-              FROM     TXU_TOTAL_TILLITEMDAY
+              FROM     RESTransaction.dbo.TXU_TOTAL_TILLITEMDAY
               GROUP BY RetailStoreId,
                        TillID,
                        SalesPersonId,
@@ -2989,7 +2989,7 @@ ORDER BY
   SELECT
     RIGHT(REPLICATE('0',2)+CAST(act.timezonecode AS VARCHAR(2)),2) as timezonecode,
     SUM(guest.SalesGuestCnt) as SalesGuestCnt, SUM(act.SalesItemCnt) as SalesItemcnt, SUM(act.SalesSalesAmt) as SalesSalesAmt
-    FROM TXU_TOTAL_ACNTDAY act LEFT JOIN TXU_TOTAL_GUESTDPTDAY guest
+    FROM RESTransaction.dbo.TXU_TOTAL_ACNTDAY act LEFT JOIN RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY guest
     ON guest.summarydateid = act.summarydateid AND guest.storeid = act.storeid AND
       guest.dpt = act.dpt AND guest.timezonecode = act.timezonecode AND
       guest.Operatorcode = act.Operatorcode AND guest.terminalid = act.terminalid
@@ -3005,7 +3005,7 @@ ORDER BY
 
   <!-- *************************  ENTRY KEY FOR EXTERNAL CA REQUEST ************************* -->
   <entry key="save-extCAReq">
-    INSERT INTO TXL_EXTERNAL_CA_REQ
+    INSERT INTO RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
            ([RetailStoreId]
            ,[WorkstationId]
            ,[BusinessDayDate]
@@ -3019,7 +3019,7 @@ ORDER BY
            (?,?,?,?,?,?,?,?,1) /*TODO: Type is a new column and could not be NULL, defaulted to 1.*/
   </entry>
   <entry key="save-extCAReq-pastelport">
-    INSERT INTO TXL_EXTERNAL_CA_REQ
+    INSERT INTO RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
            ([RetailStoreId]
            ,[WorkstationId]
            ,[BusinessDayDate]
@@ -3051,7 +3051,7 @@ ORDER BY
       Amount,
       BusinessDayDate
     FROM
-      TXL_EXTERNAL_CA_REQ
+      RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
     WHERE
       RetailStoreId = ? AND
       WorkstationId = ? AND
@@ -3062,7 +3062,7 @@ ORDER BY
   </entry>
   <entry key="get-extCAReq-status">
     SELECT TOP 1 *
-      FROM   TXL_EXTERNAL_CA_REQ
+      FROM   RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
       WHERE  RetailStoreId = ?
       and    WorkstationId = ?
       and    SequenceNumber = ?
@@ -3085,14 +3085,14 @@ ORDER BY
     SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
 
     BEGIN TRAN
-    SELECT Status FROM TXL_EXTERNAL_CA_REQ(UPDLOCK)
+    SELECT Status FROM RESTransaction.dbo.TXL_EXTERNAL_CA_REQ(UPDLOCK)
     WHERE
       RetailStoreId = @_storeid and
         WorkstationId = @_termid and
         BusinessDayDate = @_txdate and
         SequenceNumber = @_txid and
         Status = @_status_cur
-    UPDATE TXL_EXTERNAL_CA_REQ
+    UPDATE RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
     SET Status = @_status_new
     WHERE
       RetailStoreId = @_storeid and
@@ -3104,7 +3104,7 @@ ORDER BY
   </entry>
 
   <entry key="set-extCAReqStatus">
-    UPDATE TXL_EXTERNAL_CA_REQ
+    UPDATE RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
     SET Status = ?
       WHERE
       RetailStoreId = ? and
@@ -3113,7 +3113,7 @@ ORDER BY
         SequenceNumber = ?
   </entry>
   <entry key="set-extCAReq">
-    UPDATE TXL_EXTERNAL_CA_REQ
+    UPDATE RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
     SET Status = ?,
       CreditCompanyCode = ?,
       CreditCompanyName = ?,
@@ -3140,7 +3140,7 @@ ORDER BY
     SELECT
       COUNT(*) as count
     FROM
-      TXL_FORWARD_ITEM
+      RESTransaction.dbo.TXL_FORWARD_ITEM
     WHERE
       RetailStoreId = ? AND
       PosTermId = ? AND
@@ -3166,7 +3166,7 @@ ORDER BY
     SELECT
       COUNT(1) as count
     FROM
-      TXL_FORWARD_ITEM
+      RESTransaction.dbo.TXL_FORWARD_ITEM
     WHERE
       CompanyId = LTRIM(RTRIM(@companyid)) AND
       RetailStoreId = LTRIM(RTRIM(@storeid)) AND
@@ -3188,7 +3188,7 @@ ORDER BY
     SELECT
       TOP 1 *
     FROM
-      TXL_FORWARD_ITEM
+      RESTransaction.dbo.TXL_FORWARD_ITEM
     WHERE
       RetailStoreId = ? AND
       PosTermId = ? AND
@@ -3200,7 +3200,7 @@ ORDER BY
 
   <entry key="set-forwardStatus">
     UPDATE
-      TXL_FORWARD_ITEM
+      RESTransaction.dbo.TXL_FORWARD_ITEM
     SET
       Status = ?
     WHERE
@@ -3212,7 +3212,7 @@ ORDER BY
   </entry>
 
   <entry key="save-itemForwardData">
-    INSERT INTO TXL_FORWARD_ITEM
+    INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
     (RetailStoreId
     ,WorkstationId
     ,SequenceNumber
@@ -3781,7 +3781,7 @@ ORDER BY
           , TraceNum
           , SettlementNum
           , Amount
-     FROM TXU_NPS_PASTELPORTLOG
+     FROM RESTransaction.dbo.TXU_NPS_PASTELPORTLOG
      WHERE RetailStoreId = ?
      AND   TxDate2 = ?
      AND   SequenceNumber = ? ;
@@ -3993,12 +3993,12 @@ ORDER BY
   </entry>
 
      <entry key = "get-logginginfo">
-        SELECT * FROM TXL_NPS_TXLOG WITH (ROWLOCK)
+        SELECT * FROM RESTransaction.dbo.TXL_NPS_TXLOG WITH (ROWLOCK)
         WHERE RetailStoreId = ? AND WorkstationId = ? AND SequenceNumber = ? AND PaymentSeq = ? AND Guid = ?;
     </entry>
 
     <entry key = "save-LoggingInfo">
-        INSERT INTO TXL_NPS_TXLOG WITH (ROWLOCK)
+        INSERT INTO RESTransaction.dbo.TXL_NPS_TXLOG WITH (ROWLOCK)
           (RetailStoreId,
             WorkstationId,
             SequenceNumber,
@@ -4034,7 +4034,7 @@ ORDER BY
               ,[PosCancelAmount]
               ,[PosCancelCount]
 
-                FROM   TXU_NPS_PASTELPORTCREDITSUMMARY
+                FROM   RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY
                 WITH (ROWLOCK)
                 WHERE  STOREID = ?
                 AND    TERMID = ?
@@ -4044,7 +4044,7 @@ ORDER BY
     </entry>
 
     <entry key = "save-SummaryInsert">
-                INSERT INTO    TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
+                INSERT INTO    RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
                     ( [RetailStoreId]
               ,[WorkstationId]
               ,[FinishDate]
@@ -4072,7 +4072,7 @@ ORDER BY
     </entry>
 
     <entry key = "set-SummaryUpdateSales">
-                    UPDATE TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
                     SET    SalesAmount     =   SalesAmount     + ?,
                            SalesCount      =   SalesCount      + ?,
                            VoidAmount      =   VoidAmount      + ?,
@@ -4089,7 +4089,7 @@ ORDER BY
     </entry>
 
     <entry key = "set-SummaryUpdateInit">
-                    UPDATE TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
                     SET    FinishDate          =   CAST(? AS datetime),
                            FinishPaymentSeq    =   ?,
                            FinishFlag          =   9
@@ -4101,7 +4101,7 @@ ORDER BY
     </entry>
 
     <entry key = "set-SummaryUpdateFinish">
-                    UPDATE TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
                     SET    FinishDate          =   CAST(? AS datetime),
                            FinishPaymentSeq    =   ?,
                            FinishFlag          =   1,
@@ -4155,7 +4155,7 @@ ORDER BY
             ,[SettlementNum]
             ,[TxDate2]
 
-                FROM   TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                FROM   RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                 WHERE  RetailStoreId     =   ?
                 AND    WorkstationId      =   ?
                 AND    PaymentSeq  =   ?
@@ -4163,7 +4163,7 @@ ORDER BY
     </entry>
 
     <entry key = "save-creditloginsert">
-                INSERT INTO TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                INSERT INTO RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     (RetailStoreId,   WorkstationId,    PaymentSeq,
                     TxDate,       SequenceNumber,   Brand,
                     Service,      TxType,       CrCompanyCode,
@@ -4180,7 +4180,7 @@ ORDER BY
     </entry>
 
   <entry key = "set-CreditLogUpdateRca">
-                  UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                  UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET    TxStatus        =   ?,
                            CaStatus        =   ?,
                            CaErrorCode     =   ?,
@@ -4190,10 +4190,10 @@ ORDER BY
                     AND    WorkstationId   =   ?
                     AND    PaymentSeq      =   ?
                     AND    TxDate          =   CAST(? AS datetime) ;
-    </entry>
+</entry>
 
     <entry key = "set-CreditLogUpdateSdc">
-                    UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET    TxType          =   ?
                     WHERE  RetailStoreId   =   ?
                     AND    WorkstationId   =   ?
@@ -4202,7 +4202,7 @@ ORDER BY
     </entry>
 
     <entry key = "set-CreditLogUpdateRdc">
-                    UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET    TxStatus        =   ?,
                            DcStatus        =   ?,
                            DcErrorCode     =   ?,
@@ -4215,7 +4215,7 @@ ORDER BY
                     AND    TxDate          =   CAST(? AS datetime) ;
     </entry>
     <entry key = "set-CreditLogUpdateVoid">
-                    UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET    VoidFlag        =   ?,
                            VoidCorpId      =   ?,
                            VoidStoreId     =   ?,
@@ -4237,7 +4237,7 @@ ORDER BY
                     AND TERMID = ?
     </entry>
     <entry key="set-VoidPaymentseq">
-                    UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET VoidPaymentSeq  =   ?
                     WHERE  RetailStoreId   =   ?
                     AND    WorkstationId   =   ?
@@ -4245,7 +4245,7 @@ ORDER BY
                     AND    TxDate          =   CAST(? AS datetime) ;
     </entry>
     <entry key="set-DCstatus">
-                    UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET     DcStatus  =   ?,
                             DcErrorCode = ?
                     WHERE   RetailStoreId   =   ?
@@ -4255,7 +4255,7 @@ ORDER BY
     </entry>
 
         <entry key="set-ServerPaymentseq">
-                    UPDATE TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                     SET  ServerPaymentSeq  =   ?
                     WHERE  STOREID         =   ?
                     AND    TERMID          =   ?
@@ -4297,7 +4297,7 @@ ORDER BY
             ,[SettlementNum]
             ,[TxDate2]
 
-             FROM   TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
+             FROM   RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
                   WHERE  RetailStoreId     =   ?
                   AND    WorkstationId      =   ?
                   AND    SequenceNumber        =   ?
@@ -4609,7 +4609,7 @@ ORDER BY
     SET @LayawayFlag = ?
     SET @TxType = ?
     SET @SalesTotalQty = ?
-        INSERT INTO TXL_FORWARD_ITEM
+        INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
            (CompanyId
            ,RetailStoreId
            ,WorkstationId
@@ -4707,7 +4707,7 @@ ORDER BY
     SELECT
       Status,
       Tx
-    FROM TXL_FORWARD_ITEM
+    FROM RESTransaction.dbo.TXL_FORWARD_ITEM
     WHERE CompanyId = @CompanyId
       AND RetailStoreId = @RetailStoreId
       AND SequenceNumber = @SequenceNumber
@@ -4717,7 +4717,7 @@ ORDER BY
       AND WorkstationId = @WorkstationId
   </entry>
   <entry key="update-forward-status">
-        UPDATE TXL_FORWARD_ITEM
+        UPDATE RESTransaction.dbo.TXL_FORWARD_ITEM
         SET Status = ?
         WHERE
             CompanyId = ?
@@ -4874,7 +4874,7 @@ ORDER BY
   </entry>
   <!-- Signature Request -->
   <entry key="add-signature-request">
-      INSERT INTO TXL_EXTERNAL_CA_REQ
+      INSERT INTO RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
         (RetailStoreId,
         WorkstationId,
         BusinessDayDate,
@@ -4894,7 +4894,7 @@ ORDER BY
       SELECT
         SequenceNumber, WorkstationId, Amount
       FROM
-        TXL_EXTERNAL_CA_REQ
+        RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
       WHERE
         RetailStoreId = ? AND
         TermId = ? AND
@@ -4906,7 +4906,7 @@ ORDER BY
       SELECT
         CaInfoRaw, Status
       FROM
-        TXL_EXTERNAL_CA_REQ
+        RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
       WHERE
         RetailStoreId = ? AND
         TermId = ? AND
@@ -4917,7 +4917,7 @@ ORDER BY
 
   <entry key="update-signature-request">
       UPDATE
-        TXL_EXTERNAL_CA_REQ
+        RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
       SET
         Status = ?
       WHERE
@@ -5516,7 +5516,7 @@ ORDER BY
         FROM
             RESMaster.dbo.MST_DEVICEINFO device
         LEFT JOIN
-            TXU_POS_CTRL pos
+            RESTransaction.dbo.TXU_POS_CTRL pos
         ON
           device.CompanyId = pos.CompanyId AND
             device.StoreId = pos.StoreId AND
@@ -6650,7 +6650,7 @@ ORDER BY
       SUM(ChangeFund) - SUM(Pickup) +
       SUM(Loan) + SUM(PayIn) as cashOnHand
     FROM
-      TXU_TOTAL_DRAWER_FINANCIAL
+      RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
     WHERE
       RetailStoreId = ? AND
       TillID = ? AND
@@ -7045,7 +7045,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='1' and financiall.AccountCodeExtend != '2' THEN financiall.Credit ELSE 0 END), 0)) AS AccountancyAmount,
             'Sales' AS AccountancyItemName,
             '1-01' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
           (SELECT  StoreId
@@ -7069,7 +7069,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountSubCode = '1' THEN financiall.Debit ELSE 0 END),0) AS AccountancyAmount,
             'SalesDiscount' AS AccountancyItemName,
             '1-02' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7096,7 +7096,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='3' and financiall.AccountCodeExtend != '2' THEN financiall.Debit ELSE 0 END), 0)) AS AccountancyAmount ,
             'Cancel' AS AccountancyItemName,
             '1-03' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7127,7 +7127,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='3' and financiall.AccountCodeExtend != '2' THEN financiall.Debit ELSE 0 END), 0)) AS AccountancyAmount ,
             'SalesSubTotal' AS AccountancyItemName,
             '1-04' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7153,7 +7153,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='2' AND financiall.AccountCodeExtend != '2' THEN financiall.Debit ELSE 0 END),0)) AS AccountancyAmount ,
             'ReturnSales' AS AccountancyItemName,
             '1-05' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7177,7 +7177,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountSubCode = '2' THEN financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'ReturnDiscount' AS AccountancyItemName,
             '1-06' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL AS financiall
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL AS financiall
         INNER JOIN
          (SELECT  StoreId
          FROM    RESMaster.dbo.MST_STOREINFO storeinfo
@@ -7203,7 +7203,7 @@ WHERE
              ISNULL ( SUM (CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='4' AND financiall.AccountCodeExtend != '2' then financiall.Debit+financiall.Credit ELSE 0 END),0)) AS AccountancyAmount ,
             'ReturnCancel' AS AccountancyItemName,
             '1-07' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7235,7 +7235,7 @@ WHERE
              ISNULL ( SUM (CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='4' AND financiall.AccountCodeExtend != '2' then financiall.Debit+financiall.Credit ELSE 0 END),0)) AS AccountancyAmount ,
             'ReturnSubTotal' AS AccountancyItemName,
             '1-08' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7276,7 +7276,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='4' AND financiall.AccountCodeExtend != '2' then financiall.Credit ELSE 0 END),0)) AS AccountancyAmount ,
             'NetSales' AS AccountancyItemName,
             '1-09' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7311,7 +7311,7 @@ WHERE
              ) AS AccountancyAmount ,
             'TaxNetSales' AS AccountancyItemName,
             '1-10' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
           (SELECT  StoreId
@@ -7336,7 +7336,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode='8' AND financiall.AccountSubCode='1' and financiall.AccountCodeExtend != '2' THEN financiall.Credit ELSE 0 END), 0)) AS AccountancyAmount,
             'TotalSales' AS AccountancyItemName,
             '1-11' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7363,7 +7363,7 @@ WHERE
              ) AS AccountancyAmount,
             'TaxTotalSales' AS AccountancyItemName,
             '1-12' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7394,7 +7394,7 @@ WHERE
             )AS AccountancyAmount,
             'Taxation' AS AccountancyItemName,
             '1-13' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
          INNER JOIN
          (SELECT  StoreId
@@ -7420,7 +7420,7 @@ WHERE
              )AS AccountancyAmount,
             'Tax' AS AccountancyItemName,
             '1-14' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7446,7 +7446,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode IN ('5') AND  financiall.AccountSubCode IN ('1','2','3','4') AND financiall.AccountCodeExtend  in ('101','201') THEN financiall.Debit-financiall.Credit ELSE 0 END),0 )) AS AccountancyAmount,
             'TaxExemption' AS AccountancyItemName,
             '1-15' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL AS financiall
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL AS financiall
         INNER JOIN
          (SELECT  StoreId
          FROM    RESMaster.dbo.MST_STOREINFO storeinfo
@@ -7474,7 +7474,7 @@ WHERE
           ISNULL ( SUM ( CASE WHEN financiall.AccountCode IN ('1','13','8') AND financiall.AccountCodeExtend not in ('0','1','2') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Credit-financiall.Debit ELSE 0 END),0 ) ) AS AccountancyAmount,
           'AmountSubtoal' AS AccountancyItemName,
           '1-16' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7500,7 +7500,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend IN('1','101') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'ItemDiscounts' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7525,7 +7525,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend IN('2','102') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'ItemNebiki' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7550,7 +7550,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend IN ('10', '110') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'EventsName' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7575,7 +7575,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend IN ('9', '109') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'EmployeeSales' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7600,7 +7600,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend IN ('4', '104') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'SubtotalDiscounts' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7625,7 +7625,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend IN ('5', '105') AND financiall.AccountSubCode IN ('1','2','3','4') THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'SubtotaNebiki' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7654,7 +7654,7 @@ WHERE
 --             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '5' AND financiall.AccountCodeExtend = '5' THEN financiall.Debit ELSE 0 END),0)) AS AccountancyAmount,
             'DicountsSubtotal' AS AccountancyItemName,
             '3' AS SalesOrPay
-         FROM TXU_TOTAL_DRAWER_FINANCIALALL
+         FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
          AS financiall
          INNER JOIN
          (SELECT  StoreId
@@ -7683,7 +7683,7 @@ WHERE
              AS AccountancyAmount,
             'Sell' AS AccountancyItemName,
             '1-17' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7711,7 +7711,7 @@ WHERE
              AS AccountancyAmount,
             'SellCancel' AS AccountancyItemName,
             '1-18' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7737,7 +7737,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '8' AND financiall.AccountCodeExtend = '2' AND financiall.AccountSubCode IN ('2','3') THEN financiall.Debit ELSE 0 END),0)) AS AccountancyAmount,
             'SellSubtotal' AS AccountancyItemName,
             '1-19' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7763,7 +7763,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '12' AND financiall.AccountSubCode = '3' THEN financiall.credit ELSE 0 END),0))AS AccountancyAmount,
             'Advances' AS AccountancyItemName,
             '1-20' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7787,7 +7787,7 @@ WHERE
            ( ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '12' AND financiall.AccountSubCode IN ('3','1') AND financiall.Credit &gt;'0' THEN financiall.Credit ELSE 0 END),0)) AS AccountancyAmount,
             'AdvancesCancel' AS AccountancyItemName,
             '1-21' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
         (SELECT  StoreId
@@ -7813,7 +7813,7 @@ WHERE
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '12' AND financiall.AccountSubCode IN ('3','1') AND financiall.Credit &gt;'0' THEN financiall.Credit ELSE 0 END),0)) AS AccountancyAmount,
             'AdvancesSubtotal' AS AccountancyItemName,
             '1-22' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
         (SELECT  StoreId
@@ -7841,7 +7841,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '3' THEN financiall.Debit ELSE 0 END),0 )) AS AccountancyAmount,
             'Cash' AS AccountancyItemName,
              '2-01' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7866,7 +7866,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '331' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'Credit' AS AccountancyItemName,
             '2-02' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7891,7 +7891,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'UnionPay' AS AccountancyItemName,
             '2-03' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7916,7 +7916,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'GiftCard' AS AccountancyItemName,
             '2-04' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
            (SELECT  StoreId
@@ -7941,7 +7941,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'GiftCertificates' AS AccountancyItemName,
             '2-05' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7966,7 +7966,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '361' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS AccountancyAmount,
             'TransferPayment' AS AccountancyItemName,
             '2-06' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -7990,7 +7990,7 @@ WHERE
             ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '392' AND financiall.AccountSubCode = '1' THEN financiall.Debit ELSE 0 END),0) AS AccountancyAmount,
             'AdvancesSales' AS AccountancyItemName,
             '2-07' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8035,7 +8035,7 @@ WHERE
              ) AS AccountancyAmount,
             'GoldSpeciesSubtotal' AS AccountancyItemName,
             '2-08' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8063,7 +8063,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
 AS AccountancyAmount,
             'Collected' AS AccountancyItemName,
             '2-22' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8095,7 +8095,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
  AS AccountancyAmount,
             'Modokinn' AS AccountancyItemName,
             '2-23' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8119,7 +8119,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             '0' AS AccountancyAmount,
             'Discontinuation' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8143,7 +8143,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             '0' AS AccountancyAmount,
             'Exchange' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8169,7 +8169,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '502' AND financiall.AccountCodeExtend = '200' AND financiall.AccountSubCode IN('2','3') THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAmount,
             'Stamp200' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
           (SELECT  StoreId
@@ -8194,7 +8194,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '502' AND financiall.AccountCodeExtend = '400' AND financiall.AccountSubCode IN('2','3') THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAmount,
             'Stamp400' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
           (SELECT  StoreId
@@ -8219,7 +8219,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '502' AND financiall.AccountCodeExtend = '600' AND financiall.AccountSubCode IN('2','3') THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAmount,
             'Stamp600' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8244,7 +8244,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '502' AND financiall.AccountCodeExtend = '1000' AND financiall.AccountSubCode IN('2','3') THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAmount,
             'Stamp1000' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
           (SELECT  StoreId
@@ -8269,7 +8269,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '502' AND financiall.AccountCodeExtend = '2000' AND financiall.AccountSubCode IN('2','3') THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAmount,
             'Stamp2000' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8294,7 +8294,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
              ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '502' AND financiall.AccountCodeExtend = '4000' AND financiall.AccountSubCode IN('2','3') THEN financiall.Count2 ELSE 0 END),0)) AS AccountancyAmount,
             'Stamp4000' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_DRAWER_FINANCIALALL
+        FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL
         AS financiall
         INNER JOIN
          (SELECT  StoreId
@@ -8320,7 +8320,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             'BarneysVoucher' AS AccountancyItemName,
             '2-09' AS SalesOrPay
 
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
           (SELECT  StoreId
@@ -8345,7 +8345,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             'BarneysGift' AS AccountancyItemName,
             '2-10' AS SalesOrPay
 
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
           (SELECT  StoreId
@@ -8369,7 +8369,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '93' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'IsetanGift' AS AccountancyItemName,
             '2-11' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
           (SELECT  StoreId
@@ -8393,7 +8393,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '01' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'DC' AS AccountancyItemName,
             '2-12' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8417,7 +8417,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '02' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'AMEX' AS AccountancyItemName,
             '2-13' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
           (SELECT  StoreId
@@ -8441,7 +8441,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '03' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'JCB' AS AccountancyItemName,
             '2-14' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
           (SELECT  StoreId
@@ -8465,7 +8465,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '04' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'Diners' AS AccountancyItemName,
             '2-15' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8489,7 +8489,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '06' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'Mitsui' AS AccountancyItemName,
             '2-16' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8513,7 +8513,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '08' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'Prince' AS AccountancyItemName,
             '2-17' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8537,7 +8537,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '09' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'Chel2000' AS AccountancyItemName,
             '2-18' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8561,7 +8561,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '10' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'Chel1000' AS AccountancyItemName,
             '2-19' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8585,7 +8585,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode NOT IN('91','92','93','01','02','03','04','06','08','10','09') THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
             'Sonota' AS AccountancyItemName,
             '2-20' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
         AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8609,7 +8609,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             ( ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' THEN  giftcertificate.Amount1 ELSE 0 END),0) ) AS AccountancyAmount,
             'GiftCertificatesSubtotal' AS AccountancyItemName,
             '2-21' AS SalesOrPay
-        FROM TXU_GIFTCERTIFICATE
+        FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
          AS  giftcertificate
         INNER JOIN
          (SELECT  StoreId
@@ -8636,7 +8636,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             '0' as AccountancyAmount,
             'Customers' AS AccountancyItemName,
             '3' AS SalesOrPay
-        FROM TXU_TOTAL_GUESTTILLDAY
+        FROM RESTransaction.dbo.TXU_TOTAL_GUESTTILLDAY
         AS guestTillDay
         INNER JOIN
         (SELECT  StoreId
@@ -8674,7 +8674,7 @@ ORDER BY SalesOrPay
      FROM   (
               (
                 SELECT ord.GuestNo
-              FROM   TXL_POS_GUEST_ORDER ord
+              FROM   RESTransaction.dbo.TXL_POS_GUEST_ORDER ord
           WHERE  ord.RetailStoreId = @RetailStoreId
           AND    ord.TerminalNo = @TerminalNo
           AND    ord.TranNo = @TranNo
@@ -8684,7 +8684,7 @@ ORDER BY SalesOrPay
             UNION ALL
             (
               SELECT res.GuestNo
-              FROM   TXL_POS_GUEST_RESERVATION res
+              FROM   RESTransaction.dbo.TXL_POS_GUEST_RESERVATION res
               WHERE  res.RetailStoreId=@RetailStoreId
             AND    res.TerminalNo=@TerminalNo
               AND    res.TranNo=@TranNo
@@ -8828,8 +8828,8 @@ ORDER BY SalesOrPay
       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '341' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) +
       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '350' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Debit-financiall.Credit ELSE 0 END),0) AS Credit,
       ISNULL ( SUM ( CASE WHEN gift.AccountSubCode IN ('1','2','3','4') THEN gift.Amount2 ELSE 0 END), 0) AS GiftCard
-    FROM TXU_TOTAL_DRAWER_FINANCIALALL financiall
-    LEFT JOIN TXU_GIFTCERTIFICATE gift
+    FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIALALL financiall
+    LEFT JOIN RESTransaction.dbo.TXU_GIFTCERTIFICATE gift
     ON   financiall.AccountCode = gift.AccountCode
     AND  financiall.AccountSubCode = gift.AccountSubCode
     AND  financiall.TillID = gift.TillID
@@ -9559,7 +9559,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @businessDayDate = ?
       SET @log = ?
 
-      insert into txl_ope_event
+      insert into RESTransaction.dbo.TXL_ope_event
              (companyId, retailStoreId, workstationId, trainingFlag, sequenceNumber,
                                  childNumber, businessDayDate, log, insDateTime)
       values (@companyId, @retailStoreId, @workstationId, @training, @sequenceNumber,
@@ -9578,7 +9578,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @training = ?
       SET @sequenceNumber = ?
 
-      select log from txl_ope_event
+      select log from RESTransaction.dbo.TXL_ope_event
       where companyId = @companyId and retailStoreId = @retailStoreId and workstationId = @workstationId
         and trainingFlag = @training and sequenceNumber = @sequenceNumber
       order by childNumber asc
@@ -10312,7 +10312,7 @@ WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.Store
 ORDER BY urgent.SequenceNo DESC
 </entry>
 <entry key="insert-offline-credit">
-insert into txl_offline_credit
+insert into RESTransaction.dbo.TXL_offline_credit
     (CompanyId, RetailStoreId, WorkstationId, SequenceNumber, BusinessDayDate, TrainingFlag,
      IV, Body, InsDateTIme)
   values
@@ -11364,7 +11364,7 @@ insert into txl_offline_credit
         OpenCloseStat,
         SodTime
       FROM
-        TXU_POS_CTRL
+        RESTransaction.dbo.TXU_POS_CTRL
       WHERE
         CompanyId = ? AND
         StoreId = ? AND

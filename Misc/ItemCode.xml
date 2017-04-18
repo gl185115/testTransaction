@@ -22,7 +22,7 @@
                 <id>janMagazine</id>
                 <type>single</type>
                 <symbol>EAN</symbol>
-				<format>491[0-9]{15}</format>
+                <format>491[0-9]{15}</format>
             </item>
             <item>
                 <description>和雑誌 旧コード 頭10</description>
@@ -52,7 +52,8 @@
                 <id>foreignBookOld</id>
                 <type>single</type>
                 <symbol></symbol>
-                <format>([0-3]|[5-9]){1}[0-9]{8}[0-9a-zA-Z]{1}[0-9]{4}</format>
+                <format>([0-3]|[5-9]){1}[0-9]{8}[0-9a-zA-Z]{1}[0-9]{4}
+                </format>
             </item>
             <item>
                 <description>洋書扱い和書</description>
@@ -60,7 +61,7 @@
                 <type>double</type>
                 <symbol>EAN</symbol>
                 <format>025[0-9]{10}</format>
-                <nextformat>[0-9]{13}</nextformat>
+                <nextformat>19[1|2]{1}[0-9]{10}</nextformat>
             </item>
             <item>
                 <description>洋雑誌</description>
@@ -84,7 +85,7 @@
                 <format>9784[0-9]{9}(\\s)19[1|2]{1}[0-9]{10}</format>
                 <format>978([0-3]|[5-9]){1}[0-9]{9}(\\s)19[1|2]{1}[0-9]{10}</format>
                 <format>979[0-9]{10}(\\s)19[1|2]{1}[0-9]{10}</format>
-                <format>0254[0-9]{9}(\\s)[0-9]{13}</format>
+                <format>0254[0-9]{9}(\\s)19[1|2]{1}[0-9]{10}</format>
             </item>
             <item>
                 <description>部門コード</description>

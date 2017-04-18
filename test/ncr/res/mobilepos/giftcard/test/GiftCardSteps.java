@@ -1,6 +1,5 @@
 package ncr.res.mobilepos.giftcard.test;
 
-import java.io.File;
 import java.lang.reflect.Field;
 
 import javax.servlet.ServletContext;
@@ -17,22 +16,14 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import junit.framework.Assert;
-
-import ncr.res.giftcard.toppan.model.Config;
-import ncr.res.mobilepos.constant.EnvironmentEntries;
-import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.giftcard.toppan.dao.CenterAccess;
+import ncr.res.giftcard.toppan.model.Message;
 import ncr.res.mobilepos.giftcard.resource.ToppanGiftcardResource;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.SnapLogger;
-import ncr.res.mobilepos.helper.SpmFileWriter;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.property.SQLStatement;
 
 @RunWith(PowerMockRunner.class)
-@SuppressWarnings("deprecation")
+@PrepareForTest(ToppanGiftcardResource.class)
 public class GiftCardSteps extends Steps {
 	private ToppanGiftcardResource toppanGiftcardResource = null;
 	private ResultBase giftCardResultBase = null;
@@ -84,7 +75,6 @@ public class GiftCardSteps extends Steps {
 		}
     }
     
-    @PrepareForTest(ToppanGiftcardResource.class)
 	@When("I test QueryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
 	public final void giftCardQuery(
 			String storeId, String workstationId, String transactionId,
@@ -101,6 +91,7 @@ public class GiftCardSteps extends Steps {
 		if (giftcard.equals("NULL")) {
 			giftcard = null;
 		}
+		
 		giftCardResultBase = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
@@ -120,6 +111,7 @@ public class GiftCardSteps extends Steps {
 		if (giftcard.equals("NULL")) {
 			giftcard = null;
 		}
+		
 		giftCardResultBase = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
@@ -139,6 +131,130 @@ public class GiftCardSteps extends Steps {
 		if (giftcard.equals("NULL")) {
 			giftcard = null;
 		}
+		
+		giftCardResultBase = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
+	}
+	
+	@When("I test Mockito QueryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	public final void mockitoGiftCardQuery(
+			String storeId, String workstationId, String transactionId,
+			boolean test, String giftcard) {
+		if (storeId.equals("NULL")) {
+			storeId = null;
+		}
+		if (workstationId.equals("NULL")) {
+			workstationId = null;
+		}
+		if (transactionId.equals("NULL")) {
+			transactionId = null;
+		}
+		if (giftcard.equals("NULL")) {
+			giftcard = null;
+		}
+		
+		Message mockRequestMessage = PowerMockito.mock(Message.class);
+	    Message mockResponseMessage = PowerMockito.mock(Message.class);
+		CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+		
+		try {
+			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
+			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
+			
+			PowerMockito.when(mockResponseMessage.getPriorAmount()).thenReturn("100");
+			PowerMockito.when(mockResponseMessage.getCurrentAmount()).thenReturn("200");
+			PowerMockito.when(mockResponseMessage.getErrorCode()).thenReturn("0");
+			PowerMockito.when(mockResponseMessage.getSubErrorCode()).thenReturn("0");
+
+			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
+			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
+			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		giftCardResultBase = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
+	}
+	
+	@When("I test Mockito sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	public final void mockitoGiftCardSales(
+			String storeId, String workstationId, String transactionId,
+			boolean test, String giftcard) {
+		if (storeId.equals("NULL")) {
+			storeId = null;
+		}
+		if (workstationId.equals("NULL")) {
+			workstationId = null;
+		}
+		if (transactionId.equals("NULL")) {
+			transactionId = null;
+		}
+		if (giftcard.equals("NULL")) {
+			giftcard = null;
+		}
+		
+		Message mockRequestMessage = PowerMockito.mock(Message.class);
+	    Message mockResponseMessage = PowerMockito.mock(Message.class);
+		CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+		
+		try {
+			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
+			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
+			
+			PowerMockito.when(mockResponseMessage.getPriorAmount()).thenReturn("100");
+			PowerMockito.when(mockResponseMessage.getCurrentAmount()).thenReturn("200");
+			PowerMockito.when(mockResponseMessage.getErrorCode()).thenReturn("0");
+			PowerMockito.when(mockResponseMessage.getSubErrorCode()).thenReturn("0");
+
+			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
+			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
+			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		giftCardResultBase = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
+	}
+	
+	@When("I test Mockito cancel with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	public final void mockitoGiftCardCancel(
+			String storeId, String workstationId, String transactionId,
+			boolean test, String giftcard) {
+		if (storeId.equals("NULL")) {
+			storeId = null;
+		}
+		if (workstationId.equals("NULL")) {
+			workstationId = null;
+		}
+		if (transactionId.equals("NULL")) {
+			transactionId = null;
+		}
+		if (giftcard.equals("NULL")) {
+			giftcard = null;
+		}
+		
+		Message mockRequestMessage = PowerMockito.mock(Message.class);
+	    Message mockResponseMessage = PowerMockito.mock(Message.class);
+		CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+		
+		try {
+			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
+			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
+			
+			PowerMockito.when(mockResponseMessage.getPriorAmount()).thenReturn("100");
+			PowerMockito.when(mockResponseMessage.getCurrentAmount()).thenReturn("200");
+			PowerMockito.when(mockResponseMessage.getErrorCode()).thenReturn("0");
+			PowerMockito.when(mockResponseMessage.getSubErrorCode()).thenReturn("0");
+
+			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
+			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
+			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		giftCardResultBase = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
 	}
 	

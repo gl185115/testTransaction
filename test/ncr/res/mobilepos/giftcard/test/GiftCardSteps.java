@@ -1,14 +1,17 @@
 package ncr.res.mobilepos.giftcard.test;
 
+import java.io.File;
 import java.lang.reflect.Field;
 
 import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBException;
 
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -17,16 +20,18 @@ import org.powermock.modules.junit4.PowerMockRunner;
 
 import junit.framework.Assert;
 import ncr.res.giftcard.toppan.dao.CenterAccess;
+import ncr.res.giftcard.toppan.model.Config;
 import ncr.res.giftcard.toppan.model.Message;
+import ncr.res.mobilepos.giftcard.model.GiftResult;
 import ncr.res.mobilepos.giftcard.resource.ToppanGiftcardResource;
 import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.helper.XmlSerializer;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(ToppanGiftcardResource.class)
 public class GiftCardSteps extends Steps {
 	private ToppanGiftcardResource toppanGiftcardResource = null;
-	private ResultBase giftCardResultBase = null;
+	private GiftResult giftResult = null;
 	
 	@BeforeScenario
     public final void setUpClass() {
@@ -75,6 +80,35 @@ public class GiftCardSteps extends Steps {
 		}
     }
     
+    @Given("toppan-gift.xml file exists.")
+    public void giftXmlFound() {
+    	Field toppanGiftcardConfigField;
+		try {
+			File configFile = new File("test\\ncr\\res\\mobilepos\\giftcard\\test" + File.separator + Config.FILENAME);
+			XmlSerializer<Config> serializer = new XmlSerializer<Config>();
+			Config config = serializer.unMarshallXml(configFile, Config.class);
+			
+			toppanGiftcardConfigField = toppanGiftcardResource.getClass().getDeclaredField("toppanGiftcardConfig");
+	    	toppanGiftcardConfigField.setAccessible(true);
+	    	toppanGiftcardConfigField.set(toppanGiftcardResource, config);
+		} catch (NoSuchFieldException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
 	@When("I test QueryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
 	public final void giftCardQuery(
 			String storeId, String workstationId, String transactionId,
@@ -92,7 +126,7 @@ public class GiftCardSteps extends Steps {
 			giftcard = null;
 		}
 		
-		giftCardResultBase = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
 	@When("I test sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
@@ -112,7 +146,7 @@ public class GiftCardSteps extends Steps {
 			giftcard = null;
 		}
 		
-		giftCardResultBase = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
 	@When("I test cancel with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
@@ -132,7 +166,7 @@ public class GiftCardSteps extends Steps {
 			giftcard = null;
 		}
 		
-		giftCardResultBase = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
 	@When("I test Mockito QueryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
@@ -151,12 +185,12 @@ public class GiftCardSteps extends Steps {
 		if (giftcard.equals("NULL")) {
 			giftcard = null;
 		}
-		
-		Message mockRequestMessage = PowerMockito.mock(Message.class);
-	    Message mockResponseMessage = PowerMockito.mock(Message.class);
-		CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
-		
+
 		try {
+			Message mockRequestMessage = PowerMockito.mock(Message.class);
+		    Message mockResponseMessage = PowerMockito.mock(Message.class);
+			CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+			
 			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
 			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
 			
@@ -168,12 +202,12 @@ public class GiftCardSteps extends Steps {
 			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
 			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
 			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+			
+			giftResult = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		giftCardResultBase = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
 	@When("I test Mockito sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
@@ -192,12 +226,12 @@ public class GiftCardSteps extends Steps {
 		if (giftcard.equals("NULL")) {
 			giftcard = null;
 		}
-		
-		Message mockRequestMessage = PowerMockito.mock(Message.class);
-	    Message mockResponseMessage = PowerMockito.mock(Message.class);
-		CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
-		
+
 		try {
+			Message mockRequestMessage = PowerMockito.mock(Message.class);
+		    Message mockResponseMessage = PowerMockito.mock(Message.class);
+			CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+			
 			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
 			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
 			
@@ -209,12 +243,12 @@ public class GiftCardSteps extends Steps {
 			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
 			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
 			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+			
+			giftResult = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		giftCardResultBase = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
 	@When("I test Mockito cancel with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
@@ -234,11 +268,11 @@ public class GiftCardSteps extends Steps {
 			giftcard = null;
 		}
 		
-		Message mockRequestMessage = PowerMockito.mock(Message.class);
-	    Message mockResponseMessage = PowerMockito.mock(Message.class);
-		CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
-		
 		try {
+			Message mockRequestMessage = PowerMockito.mock(Message.class);
+		    Message mockResponseMessage = PowerMockito.mock(Message.class);
+			CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+			
 			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
 			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
 			
@@ -250,17 +284,24 @@ public class GiftCardSteps extends Steps {
 			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
 			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
 			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+			
+			giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		giftCardResultBase = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
 	@Then("I should get the result: $expectedJson")
-	public final void giftCardGetData(int expectedJson) {
+	public final void giftCardGetData(final int expectedJson) {
 		Assert.assertEquals("Expect the  result code", expectedJson,
-				giftCardResultBase.getNCRWSSResultCode());
+				giftResult.getNCRWSSResultCode());
+	}
+	
+	@Then("I should get the GiftResult : $giftResult")
+	public final void giftCardGetData(final ExamplesTable examplesResult) {
+		Assert.assertEquals("Expect the  result code", 0, giftResult.getNCRWSSResultCode());
+//		Assert.assertEquals("Expect the PriorAmount", examplesResult.getRow(0).get("PriorAmount"),
+//				giftResult.getMessage().ge);
 	}
 }

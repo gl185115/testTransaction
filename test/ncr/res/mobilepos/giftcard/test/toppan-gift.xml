@@ -11,4 +11,7 @@
   <snappath>d:\software\ncr\res\log\snap_dir</snappath>
   <tracepath>d:\software\ncr\dbg</tracepath>
   <spampath>d:\software\ncr\log\spm_dir</spampath>
+  <connectionRetryOver>1</connectionRetryOver>
+  <connectionTimeout>1000</connectionTimeout>
+  <connectionRetryInterval>1000</connectionRetryInterval>
 </Config>

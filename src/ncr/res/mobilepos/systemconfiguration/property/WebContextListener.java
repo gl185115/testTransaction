@@ -216,12 +216,12 @@ public class WebContextListener implements ServletContextListener {
     }
 
     private BarCode itemCodeXMLConstant(){
-    	
+        EnvironmentEntries envEntries = EnvironmentEntries.getInstance();
+
     	BarCode barCode = null;
     	try {
-    		
         	XmlSerializer<BarCode> conSerializer = new XmlSerializer<BarCode>();
-            File conFileXml = new File(GlobalConstant.ITEMCODE_XML_PATH + File.separator + GlobalConstant.ITEMCODE_FILENAME);
+            File conFileXml = new File(envEntries.getParaBasePath() + File.separator + GlobalConstant.ITEMCODE_FILENAME);
             if(!conFileXml.exists()){
             	Logger.getInstance().logWarning("ItemCode",
 						"File Not Found!",

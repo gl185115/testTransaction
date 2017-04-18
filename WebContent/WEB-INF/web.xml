@@ -113,7 +113,6 @@
       <url-pattern>/rest/discountplaninfo/*</url-pattern>
       <url-pattern>/rest/eventlog/*</url-pattern>
       <url-pattern>/rest/line/*</url-pattern>
-      <url-pattern>/rest/networkreceipt/*</url-pattern>
       <url-pattern>/rest/pricing/getpicklistitems</url-pattern>
       <url-pattern>/rest/pricing/getItemPrice</url-pattern>
       <url-pattern>/rest/pricing/*/*</url-pattern>
@@ -255,6 +254,12 @@
     <env-entry-name>Printpaperlength</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>2</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <description>Path to store parameter files.</description>
+    <env-entry-name>paraBasePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>c:\software\ncr\res\para\</env-entry-value>
   </env-entry>
   <filter>
 	<filter-name>compression</filter-name>

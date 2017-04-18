@@ -1,7 +1,6 @@
 package ncr.res.mobilepos.constant;
 
 import javax.naming.Context;
-import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 /**
@@ -13,30 +12,93 @@ public class EnvironmentEntries {
     private static EnvironmentEntries instance;
 
     // Keys
+    // 1
     private static final String KEY_SERVER_ID = "serverID";
-    private static final String KEY_IOW_PATH = "iowPath";
-    private static final String KEY_TRACE_PATH = "tracePath";
+    // 2
     private static final String KEY_DEBUG_LEVEL = "debugLevel";
-    private static final String KEY_SNAP_PATH = "snapPath";
+    // 3
+    private static final String KEY_PRINT_PAPER_LENGTH = "Printpaperlength";
+    // 4
+    private static final String KEY_CUSTOM_MAINTENANCE_BASE_PATH ="customMaintenanceBasePath";
+    // 5
+    private static final String KEY_CUSTOM_RESOURCE_BASE_PATH = "customResourceBasePath";
+    // 6
+    private static final String KEY_IOW_PATH = "iowPath";
+    // 7
+    private static final String KEY_UI_CONSOLE_LOG_PATH = "UiConsoleLogPath";
+    // 8
+    private static final String KEY_DEVICE_LOG_PATH = "deviceLogPath";
+    // 9
+    private static final String KEY_TRACE_PATH = "tracePath";
+    // 10
     private static final String KEY_SPM_PATH = "Journalization/spmPath";
+    // 11
+    private static final String KEY_SNAP_PATH = "snapPath";
+    // 12
+    private static final String KEY_REPORT_FORMAT_NEW_PATH = "ReportFormatNewPath";
+    // 13
+    private static final String KEY_NR_RCPT_FORMAT_PATH = "nrRcptFormatPath";
+    // 14
+    private static final String KEY_LOCAL_PRINTER = "localPrinter";
+    // 15
+    private static final String KEY_SCHEDULE_FILE_PATH = "scheduleFilePath";
+    // 16
     private static final String KEY_CUSTOM_PARAM_BASE_PATH = "customParamBasePath";
+    // 17
+    private static final String KEY_PARA_BASE_PATH = "paraBasePath";
 
+    // 1
     // ServerId for Logger.
     private String serverId;
-    // IowPath for Logger.
-    private String iowPath;
-    // TracePath for DebugLogger.
-    private String tracePath;
+    // 2
     // DebugLevel for DebugLogger.
     private int debugLevel;
-    // SnapPath for SnapLogger.
-    private String snapPath;
-
+    // 3
+    // PrintPaperLength
+    private String printPaperLength;
+    // 4
+    // CustomMaintenanceBasePath
+    private String customMaintenanceBasePath;
+    // 5
+    // CustomResourceBasePath
+    private String customResourceBasePath;
+    // 6
+    // IowPath for Logger.
+    private String iowPath;
+    // 7
+    // UIConsoleLogPath
+    private String uiConsoleLogPath;
+    // 8
+    // DeviceLogPath
+    private String deviceLogPath;
+    // 9
+    // TracePath for DebugLogger.
+    private String tracePath;
+    // 10
     // Spm path for Spm logger.
     private String spmPath;
-    
-    //Custom path for load custom param base path..
+    // 11
+    // SnapPath for SnapLogger.
+    private String snapPath;
+    // 12
+    // ReportFormatNewPath
+    private String reportFormatNewPath;
+    // 13
+    // nrRcptFormatPath
+    private String nrRcptFormatPath;
+    // 14
+    // LocalPrinter
+    private String localPrinter;
+    // 15
+    // ScheduleFilePath
+    private String scheduleFilePath;
+    // 16
+    // CustomParamBasePath
     private String customParamBasePath;
+    // 17
+    // ParaBasePath
+    private String paraBasePath;
+
 
     /**
      * Constructor.
@@ -52,18 +114,41 @@ public class EnvironmentEntries {
      */
     private void loadEnvironmentEntries(Context initialContext) throws NamingException {
         Context context = (Context)initialContext.lookup("java:comp/env");
-
+        //1
         serverId = (String)loadProperty(KEY_SERVER_ID, context);
-        iowPath = (String)loadProperty(KEY_IOW_PATH, context);
-
-        tracePath = (String)loadProperty(KEY_TRACE_PATH, context);
+        //2
         debugLevel = (int)loadProperty(KEY_DEBUG_LEVEL, context);
-
-        snapPath = (String)loadProperty(KEY_SNAP_PATH, context);
-
+        //3
+        printPaperLength = (String)loadProperty(KEY_PRINT_PAPER_LENGTH, context);
+        //4
+        customMaintenanceBasePath = (String)loadProperty(KEY_CUSTOM_MAINTENANCE_BASE_PATH, context);
+        //5
+        customResourceBasePath = (String)loadProperty(KEY_CUSTOM_RESOURCE_BASE_PATH, context);
+        //6
+        iowPath = (String)loadProperty(KEY_IOW_PATH, context);
+        //7
+        uiConsoleLogPath = (String)loadProperty(KEY_UI_CONSOLE_LOG_PATH, context);
+        //8
+        deviceLogPath = (String)loadProperty(KEY_DEVICE_LOG_PATH, context);
+        //9
+        tracePath = (String)loadProperty(KEY_TRACE_PATH, context);
+        //10
         spmPath = (String)loadProperty(KEY_SPM_PATH, context);
-        
+        //11
+        snapPath = (String)loadProperty(KEY_SNAP_PATH, context);
+        //12
+        reportFormatNewPath = (String)loadProperty(KEY_REPORT_FORMAT_NEW_PATH, context);
+        //13
+        nrRcptFormatPath = (String)loadProperty(KEY_NR_RCPT_FORMAT_PATH, context);
+        //14
+        localPrinter = (String)loadProperty(KEY_LOCAL_PRINTER, context);
+        //15
+        scheduleFilePath = (String)loadProperty(KEY_SCHEDULE_FILE_PATH, context);
+        //16
         customParamBasePath = (String)loadProperty(KEY_CUSTOM_PARAM_BASE_PATH, context);
+        // 17
+        paraBasePath = (String)loadProperty(KEY_PARA_BASE_PATH, context);
+
     }
 
     /**
@@ -144,10 +229,90 @@ public class EnvironmentEntries {
     }
 
     /**
+     * Returns printPaperLength
+     * @return printPaperLength
+     */
+    public String getPrintPaperLength() {
+        return printPaperLength;
+    }
+
+    /**
+     * Returns customMaintenanceBasePath
+     * @return customMaintenanceBasePath
+     */
+    public String getCustomMaintenanceBasePath() {
+        return customMaintenanceBasePath;
+    }
+
+    /**
+     * Returns customResourceBasePath
+     * @return customResourceBasePath
+     */
+    public String getCustomResourceBasePath() {
+        return customResourceBasePath;
+    }
+
+    /**
+     * Returns uiConsoleLogPath
+     * @return uiConsoleLogPath
+     */
+    public String getUiConsoleLogPath() {
+        return uiConsoleLogPath;
+    }
+
+    /**
+     * Returns deviceLogPath
+     * @return deviceLogPath
+     */
+    public String getDeviceLogPath() {
+        return deviceLogPath;
+    }
+
+    /**
+     * Returns reportFormatNewPath
+     * @return reportFormatNewPath
+     */
+    public String getReportFormatNewPath() {
+        return reportFormatNewPath;
+    }
+
+    /**
+     * Returns nrRcptFormatPath
+     * @return nrRcptFormatPath
+     */
+    public String getNrRcptFormatPath() {
+        return nrRcptFormatPath;
+    }
+
+    /**
+     * Returns localPrinter
+     * @return localPrinter
+     */
+    public String getLocalPrinter() {
+        return localPrinter;
+    }
+
+    /**
+     * Returns scheduleFilePath
+     * @return scheduleFilePath
+     */
+    public String getScheduleFilePath() {
+        return scheduleFilePath;
+    }
+
+    /**
      * Returns custom param base path.
-     * @return spmPath.
+     * @return customParamBasePath
      */
     public String getCustomParamBasePath() {
         return customParamBasePath;
+    }
+
+    /**
+     * Returns para bast path.
+     * @return paraBasePath
+     */
+    public String getParaBasePath() {
+        return paraBasePath;
     }
 }

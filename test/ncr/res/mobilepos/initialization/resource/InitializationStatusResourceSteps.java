@@ -10,10 +10,13 @@ import org.powermock.api.mockito.PowerMockito;
 
 import java.lang.reflect.Field;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.Requirements;
@@ -36,8 +39,9 @@ public class InitializationStatusResourceSteps extends Steps {
     InitializationStatusResource testInitStatusResource;
 
     @BeforeScenario
-    public final void SetUpClass() {
+    public final void SetUpClass() throws NamingException {
         Requirements.SetUp();
+        InitialContext initContext = new InitialContext();
         ServletContext servletContext = Requirements.getMockServletContext();
         testInitStatusResource = new InitializationStatusResource();
     }
@@ -90,6 +94,12 @@ public class InitializationStatusResourceSteps extends Steps {
 
             case "JndiDBManagerMSSqlServer":
                 targetClass = JndiDBManagerMSSqlServer.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+
+            case "ToppanGiftCardConfigFactory":
+                targetClass = ToppanGiftCardConfigFactory.class;
                 targetField = PowerMockito.field(targetClass, "instance");
                 targetField.set(null, null);
                 break;

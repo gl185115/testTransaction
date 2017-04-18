@@ -374,7 +374,7 @@
                 <version>2.19.1</version>
                 <configuration>
                     <skip>${maven.test.skip}</skip>
-                    <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine}</argLine>
+                    <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine} -disableassertions</argLine>
                 </configuration>
             </plugin>
 

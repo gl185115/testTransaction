@@ -186,38 +186,38 @@ public class GiftCardSteps extends Steps {
 			giftcard = null;
 		}
 
-//		try {
-//			Message mockRequestMessage = PowerMockito.mock(Message.class);
-//		    Message mockResponseMessage = PowerMockito.mock(Message.class);
-//			CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
-//			
-//			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
-//			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
-//			
-//			PowerMockito.when(mockResponseMessage.getPriorAmount()).thenReturn("100");
-//			PowerMockito.when(mockResponseMessage.getCurrentAmount()).thenReturn("200");
-//			PowerMockito.when(mockResponseMessage.getErrorCode()).thenReturn("0");
-//			PowerMockito.when(mockResponseMessage.getSubErrorCode()).thenReturn("0");
-//
-//			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
-//			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
-//			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
-//			
-//			giftResult = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
-//			
-//			System.out.println("PriorAmount : " + giftResult.getPriorAmount());
-//			System.out.println("CurrentAmount : " + giftResult.getCurrentAmount());
-//			System.out.println("ErrorCode : " + giftResult.getErrorCode());
-//			System.out.println("SubErrorCode : " + giftResult.getSubErrorCode());
-//			System.out.println("AuthorizationNumber : " + giftResult.getAuthorizationNumber());
-//			System.out.println("ExpirationDate : " + giftResult.getExpirationDate());
-//			System.out.println("ActivationStatus : " + giftResult.getActivationStatus());
-//			System.out.println("ExpirationStatus : " + giftResult.getExpirationStatus());
-//			System.out.println("LostStatus : " + giftResult.getLostStatus());
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			Message mockRequestMessage = PowerMockito.mock(Message.class);
+		    Message mockResponseMessage = PowerMockito.mock(Message.class);
+			CenterAccess mockCenterAccess = PowerMockito.mock(CenterAccess.class);
+			
+			PowerMockito.whenNew(CenterAccess.class).withAnyArguments().thenReturn(mockCenterAccess);
+			PowerMockito.when(mockCenterAccess.send(mockRequestMessage)).thenReturn(mockResponseMessage);
+			
+			PowerMockito.when(mockResponseMessage.getPriorAmount()).thenReturn("100");
+			PowerMockito.when(mockResponseMessage.getCurrentAmount()).thenReturn("200");
+			PowerMockito.when(mockResponseMessage.getErrorCode()).thenReturn("0");
+			PowerMockito.when(mockResponseMessage.getSubErrorCode()).thenReturn("0");
+
+			PowerMockito.when(mockResponseMessage.getAuthNumber()).thenReturn("01");
+			PowerMockito.when(mockResponseMessage.getExpiration()).thenReturn("2017-04-18");
+			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
+			
+			giftResult = toppanGiftcardResource.QueryMember(storeId, workstationId, transactionId, test, giftcard);
+			
+			System.out.println("PriorAmount : " + giftResult.getPriorAmount());
+			System.out.println("CurrentAmount : " + giftResult.getCurrentAmount());
+			System.out.println("ErrorCode : " + giftResult.getErrorCode());
+			System.out.println("SubErrorCode : " + giftResult.getSubErrorCode());
+			System.out.println("AuthorizationNumber : " + giftResult.getAuthorizationNumber());
+			System.out.println("ExpirationDate : " + giftResult.getExpirationDate());
+			System.out.println("ActivationStatus : " + giftResult.getActivationStatus());
+			System.out.println("ExpirationStatus : " + giftResult.getExpirationStatus());
+			System.out.println("LostStatus : " + giftResult.getLostStatus());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@When("I test Mockito sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
@@ -255,6 +255,16 @@ public class GiftCardSteps extends Steps {
 			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
 			
 			giftResult = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
+			
+			System.out.println("PriorAmount : " + giftResult.getPriorAmount());
+			System.out.println("CurrentAmount : " + giftResult.getCurrentAmount());
+			System.out.println("ErrorCode : " + giftResult.getErrorCode());
+			System.out.println("SubErrorCode : " + giftResult.getSubErrorCode());
+			System.out.println("AuthorizationNumber : " + giftResult.getAuthorizationNumber());
+			System.out.println("ExpirationDate : " + giftResult.getExpirationDate());
+			System.out.println("ActivationStatus : " + giftResult.getActivationStatus());
+			System.out.println("ExpirationStatus : " + giftResult.getExpirationStatus());
+			System.out.println("LostStatus : " + giftResult.getLostStatus());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -296,6 +306,16 @@ public class GiftCardSteps extends Steps {
 			PowerMockito.when(mockResponseMessage.getCardStatus()).thenReturn("0000");
 			
 			giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
+			
+			System.out.println("PriorAmount : " + giftResult.getPriorAmount());
+			System.out.println("CurrentAmount : " + giftResult.getCurrentAmount());
+			System.out.println("ErrorCode : " + giftResult.getErrorCode());
+			System.out.println("SubErrorCode : " + giftResult.getSubErrorCode());
+			System.out.println("AuthorizationNumber : " + giftResult.getAuthorizationNumber());
+			System.out.println("ExpirationDate : " + giftResult.getExpirationDate());
+			System.out.println("ActivationStatus : " + giftResult.getActivationStatus());
+			System.out.println("ExpirationStatus : " + giftResult.getExpirationStatus());
+			System.out.println("LostStatus : " + giftResult.getLostStatus());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

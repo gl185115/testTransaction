@@ -31,20 +31,20 @@ Then I should get the result: 151
 !-- Scenario: GiftCard test (QueryMember) for toppan-gift.xml exists and mockito giftcard service started.
 !-- Given toppan-gift.xml file exists.
 !-- When I test Mockito QueryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
-!-- Then I should get the GiftResult: 
+!-- Then I should get the GiftResult : 
 !-- |PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
 !-- |100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
 
 !-- Scenario: GiftCard test (sales) for toppan-gift.xml and mockito giftcard service started.
 !-- Given toppan-gift.xml file exists.
 !-- When I test Mockito sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
-!-- Then I should get the GiftResult: 
+!-- Then I should get the GiftResult : 
 !-- |PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
 !-- |100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
 
 !-- Scenario: GiftCard test (cancel) for toppan-gift.xml and mockito giftcard service started.
 !-- Given toppan-gift.xml file exists.
 !-- When I test Mockito cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
-!-- Then I should get the GiftResult: 
+!-- Then I should get the GiftResult : 
 !-- |PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
 !-- |100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |

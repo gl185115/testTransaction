@@ -288,7 +288,22 @@ public class ToppanGiftcardResource {
                 result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
             } else {
                 tp.println("response", response);
-                result.transfer(response);
+                if (response.getPriorAmount().trim().length() > 0) {
+                	result.setPriorAmount(Long.parseLong(response.getPriorAmount()));
+                }
+                if (response.getCurrentAmount().trim().length() > 0) {
+                	result.setCurrentAmount(Long.parseLong(response.getCurrentAmount()));
+                }
+                result.setErrorCode(response.getErrorCode());
+                result.setSubErrorCode(response.getSubErrorCode());
+                result.setAuthorizationNumber(response.getAuthNumber());
+                result.setExpirationDate(response.getExpiration());
+                String status = response.getCardStatus();
+                if(status != null && status.length() == 4){
+                	result.setActivationStatus(status.charAt(0) - '0');
+                    result.setExpirationStatus(status.charAt(1) - '0');
+                    result.setLostStatus(status.charAt(2) - '0');
+                }
             }
         } catch (DaoException e) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);

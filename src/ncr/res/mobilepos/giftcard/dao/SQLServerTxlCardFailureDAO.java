@@ -57,7 +57,7 @@ public class SQLServerTxlCardFailureDAO extends AbstractDao implements ITxlCardF
      * @throws DaoException
      *             thrown when process fails.
      */
-    public SQLServerTxlCardFailureDAO() throws DaoException {
+    public SQLServerTxlCardFailureDAO() {
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         snap = (SnapLogger)SnapLogger.getInstance();

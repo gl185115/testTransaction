@@ -172,7 +172,7 @@ public class SQLServerDAOFactory extends DAOFactory {
     }
 
     @Override
-    public final ITxlCardFailureDAO getTxlCardFailureDAO() throws DaoException {
+    public final ITxlCardFailureDAO getTxlCardFailureDAO() {
         return new SQLServerTxlCardFailureDAO();
     }
     

@@ -26,7 +26,6 @@ import ncr.res.giftcard.toppan.model.Config;
 import ncr.res.giftcard.toppan.model.Message;
 import ncr.res.giftcard.toppan.model.MessageBuilder;
 import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.giftcard.model.GiftCard;
 import ncr.res.mobilepos.giftcard.model.GiftResult;
@@ -63,7 +62,15 @@ public class ToppanGiftcardResource {
      */
     private static final String PROG_NAME = "TpnGiftR";
 
+    /**
+     * ToppanGiftcardConfig
+     */
     private final Config toppanGiftcardConfig;
+
+    /**
+     * CenterAccess, external library access.
+     */
+    CenterAccess centerAccess;
 
     /**
      * Default Constructor for JournalizationResource.
@@ -74,6 +81,8 @@ public class ToppanGiftcardResource {
     	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
     	toppanGiftcardConfig = ToppanGiftCardConfigFactory.getInstance();
+        ITxlCardFailureDAO txlCardFailureDAO = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER).getTxlCardFailureDAO();
+        centerAccess = new CenterAccess(toppanGiftcardConfig, txlCardFailureDAO);
     }
 
     /**
@@ -92,7 +101,7 @@ public class ToppanGiftcardResource {
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
     })
-    public GiftResult QueryMember(
+    public GiftResult queryMember(
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
@@ -116,7 +125,7 @@ public class ToppanGiftcardResource {
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard);
             tp.println("request", msg);
-            giftResult = centerAccess(msg, toppanGiftcardConfig);
+            giftResult = centerAccess(msg);
         } catch (IOException e) {
         	String logMessage = "decode request param:" + jsonItem;
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
@@ -176,7 +185,7 @@ public class ToppanGiftcardResource {
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard);
             tp.println("request", msg);
-            giftResult = centerAccess(msg, toppanGiftcardConfig);
+            giftResult = centerAccess(msg);
         } catch (IOException e) {
         	String logMessage = "decode request param:" + jsonItem;
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
@@ -236,7 +245,7 @@ public class ToppanGiftcardResource {
                                     storeId, workstationId, transactionId,
                                     messageBuilderGiftCard);
             tp.println("request", msg);
-            giftResult = centerAccess(msg, toppanGiftcardConfig);
+            giftResult = centerAccess(msg);
         } catch (IOException e) {
         	String logMessage = "decode request param:" + jsonItem;
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
@@ -271,19 +280,15 @@ public class ToppanGiftcardResource {
     /**
      * SendMessage to giftCard Center.
      * @param msg The Message Information
-     * @param config The GiftCard Information Model
      * @return GiftResult The GiftResult Object
      */
-	private GiftResult centerAccess(Message msg, Config config) {
+	private GiftResult centerAccess(Message msg) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
 
         GiftResult result = new GiftResult();
         try {
-        	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        	ITxlCardFailureDAO txlCardFailureDAO = daoFactory.getTxlCardFailureDAO();
-        	CenterAccess ca = new CenterAccess(config, txlCardFailureDAO);
-            Message response = ca.send(msg);
+            Message response = centerAccess.send(msg);
             if (response == null) {
                 result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
             } else {
@@ -305,8 +310,6 @@ public class ToppanGiftcardResource {
                     result.setLostStatus(status.charAt(2) - '0');
                 }
             }
-        } catch (DaoException e) {
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
         } catch (CenterAccess.ConnectionException e) {
             LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO,
                                     "can't connect to the giftcard center", e);

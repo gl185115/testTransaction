@@ -260,7 +260,7 @@ public abstract class DAOFactory {
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
      */
-    public abstract ITxlCardFailureDAO getTxlCardFailureDAO() throws DaoException;
+    public abstract ITxlCardFailureDAO getTxlCardFailureDAO();
     
     /**
      * Gets the DAO object for Peripheral Controls.

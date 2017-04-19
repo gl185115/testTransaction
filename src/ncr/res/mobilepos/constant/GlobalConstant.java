@@ -11,7 +11,6 @@
 package ncr.res.mobilepos.constant;
 
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
-import ncr.res.mobilepos.systemconfiguration.model.BarCode;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -185,17 +184,6 @@ public final class GlobalConstant {
     
     public static final String ITEMCODE_XML_PATH = System.getenv("PARA");
     public static final String ITEMCODE_FILENAME = "ItemCode.xml";
-
-    /** Varieties Name **/
-    public static final String VARIETIES_JANBOOK = "janBook";
-    public static final String VARIETIES_JANBOOKOLD = "janBookOld";
-    public static final String VARIETIES_JANMAGAZINE = "janMagazine";
-    public static final String VARIETIES_FOREIGNJANBOOK = "foreignJanBook";
-    public static final String VARIETIES_FOREIGNMAGAZINE = "foreignMagazine";
-    public static final String VARIETIES_KINOKUNIYA = "kinokuniya";
-    public static final String VARIETIES_JANSALES = "janSales";
-    public static final String VARIETIES_FOREIGNBOOK = "foreignBook";
-    public static final String VARIETIES_FOREIGNBOOKOLD = "foreignBookOld";
     
     /** The Search Limit.
      *  The default is 5.
@@ -241,8 +229,6 @@ public final class GlobalConstant {
     private static String priceIncludeTaxKey;
     private static String range1;
     private static String defaultLanguage;
-
-    private static BarCode barCode;
     
     /**
      * The Company ID.
@@ -606,13 +592,5 @@ public final class GlobalConstant {
     public static void setDefaultLanguage(String defaultLanguage) {
         GlobalConstant.defaultLanguage = defaultLanguage;
     }
-
-	public static BarCode getBarCode() {
-		return barCode;
-	}
-
-	public static void setBarCode(BarCode barCode) {
-		GlobalConstant.barCode = barCode;
-	}
 }
 

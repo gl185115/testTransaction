@@ -62,6 +62,7 @@ import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
 import ncr.res.mobilepos.searchapi.helper.UrlConnectionHelper;
+import ncr.res.mobilepos.barcodeassignment.constant.BarcodeAssignmentConstant;
 
 /**
  * PromotionResource Class is a Web Resource which support MobilePOS Promotion
@@ -365,6 +366,7 @@ public class PromotionResource {
 				Item itemInfoTemp = new Item();
 				ViewDepartment departmentInfo = new ViewDepartment();
 				
+				// 二段バーコード判断
 				if (itemId.contains(" ")) {
 					twoStep = Boolean.parseBoolean(ResultBase.TRUE);
 					barcode_fst = itemId.split(" ")[0];
@@ -373,8 +375,9 @@ public class PromotionResource {
 					twoStep = Boolean.parseBoolean(ResultBase.FALSE);
 				}
 				
+				// 2段目バーコードを入力が必要かどうかを判断する
 				FormatByXml formatByXml= new FormatByXml();
-				boolean varietiesJudge = formatByXml.varietiesJudge(itemId);
+				boolean varietiesJudge = formatByXml.isDoubleBarcode(itemId);
 				if (varietiesJudge) {
 					Transaction transation = new Transaction();
 					transation.setItemId(itemId);
@@ -413,34 +416,35 @@ public class PromotionResource {
 					}
 				}
 
+				// 品目名を取得する
 				String varietiesName = formatByXml.getVarietiesName(itemId);
 				switch (varietiesName) {
-				case GlobalConstant.VARIETIES_JANBOOK:
+				case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					codeTemp = (dpt == null) ? codeCvtDAO.convertCCodeToDpt(companyId, barcode_sec.substring(3, 7)) : dpt;
 					break;
-				case GlobalConstant.VARIETIES_JANBOOKOLD:
+				case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
 					itemInfoTemp = dao.getItemByApiData(CDCalculation(itemId), companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					codeTemp = (dpt == null) ? codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14)) : dpt;
 					break;
-				case GlobalConstant.VARIETIES_JANMAGAZINE:
+				case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
 					itemInfoTemp = dao.getItemByApiData(itemId.substring(0, 13), companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					codeTemp = (dpt == null) ? codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(5, 10)) : dpt;
 					break;
-				case GlobalConstant.VARIETIES_FOREIGNBOOK:
+				case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					codeTemp = (dpt == null) ? JaCodeCvt(barcode_sec.substring(3, 7)) : dpt;
 					break;
-				case GlobalConstant.VARIETIES_FOREIGNBOOKOLD:
+				case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
 					itemInfoTemp = dao.getItemByApiData(CDCalculation(itemId), companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					codeTemp = (dpt == null) ? JaCodeCvt(itemId.substring(10, 14)) : dpt;
 					break;
-				case GlobalConstant.VARIETIES_FOREIGNJANBOOK:
+				case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					if (dpt == null) {
@@ -452,13 +456,13 @@ public class PromotionResource {
 					}
 					codeTemp = dpt;
 					break;
-				case GlobalConstant.VARIETIES_FOREIGNMAGAZINE:
+				case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
 					itemInfoTemp = dao.getItemByApiData(itemId, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					codeTemp = (dpt == null) ? "0161" : dpt;
 					break;
-				case GlobalConstant.VARIETIES_KINOKUNIYA:
-				case GlobalConstant.VARIETIES_JANSALES:
+				case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
+				case BarcodeAssignmentConstant.VARIETIES_JANSALES:
 					itemInfoTemp = dao.getItemByApiData(itemId, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
 					if (dpt == null) {
@@ -474,6 +478,7 @@ public class PromotionResource {
 					break;
 				}
 
+				// 部門コードを部門マスタテーブルに存在チェック
 				departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
 				dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
 				if (StringUtility.isNullOrEmpty(dptCode)) {
@@ -493,8 +498,8 @@ public class PromotionResource {
 				String itemIdTemp = null;
 				if (twoStep){
 					itemIdTemp = barcode_fst;
-				} else if (GlobalConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) || 
-						GlobalConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
+				} else if (BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) || 
+				        BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
 					itemIdTemp = CDCalculation(itemId);
 				} else {
 					itemIdTemp = itemId; 
@@ -549,16 +554,16 @@ public class PromotionResource {
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
 					double commodityPrice = 0.0;
 					switch (varietiesName) {
-					case GlobalConstant.VARIETIES_JANBOOK:
+					case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
 						commodityPrice = janBook(itemId);
 						break;
-					case GlobalConstant.VARIETIES_FOREIGNBOOK:
+					case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
 						commodityPrice = foreignBook(itemId);
 						break;
-					case GlobalConstant.VARIETIES_JANMAGAZINE:
+					case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
 						commodityPrice = janMagazine(itemId);
 						break;
-					case GlobalConstant.VARIETIES_FOREIGNMAGAZINE:
+					case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
 						commodityPrice = foreignMagazine(itemId);
 						break;
 					default:

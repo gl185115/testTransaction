@@ -1,60 +1,57 @@
 package ncr.res.mobilepos.promotion.helper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.systemconfiguration.model.ItemSale;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
+import ncr.res.mobilepos.barcodeassignment.model.ItemSale;
 
 public class FormatByXml {
 	
     private static final String BARCODE_TYPE = "double";
 	
+    private static BarcodeAssignment barcodeAssignment;
+    
 	public FormatByXml() {
 		super();
+		barcodeAssignment = BarcodeAssignmentFactory.getInstance();
 	}
 	
 	/**
-     * judge commodity is The two section?
-     * @param itemId : UI side commodity code
-     * @return 
-     *                   
+     * Returns if the given barcode belongs to 'Double' item category.
+     * @param checkCode code to check
+     * @return true if it is double barcode.
      */
-	public final boolean varietiesJudge(String itemId) {
+    public final boolean isDoubleBarcode(String checkCode) {
+        List<ItemSale> saleAssignmentItems  = barcodeAssignment.getSale().getSales();
+        // Picks up double barcode AssignmentItems and check matching.
+        for (ItemSale saleAssignmentItem : saleAssignmentItems) {
+            if (BARCODE_TYPE.equals(saleAssignmentItem.getType()) &&
+                    matchCodeWithItem(checkCode, saleAssignmentItem)) {
+                    return true;
+            }
+        }
+        return false;
+    }
 
-		boolean flag = false;
-		List<ItemSale> items = GlobalConstant.getBarCode().getSale().getSales();
-		List<ItemSale> itemList = new ArrayList<ItemSale>();
-		List<String> format = null;
-
-		for (ItemSale item : items) {
-			if (BARCODE_TYPE.equals(item.getType())) {
-				itemList.add(item);
-			}
-		}
-
-		for (ItemSale item : itemList) {
-			format = item.getFormat();
-			Pattern pattern = null;
-			Matcher matcher = null;
-			String regEx = "";
-
-			for (int i = 0; i < format.size(); i++) {
-				regEx = format.get(i);
-				pattern = Pattern.compile(regEx);
-				matcher = pattern.matcher(itemId);
-
-				if (matcher.matches()) {
-					flag = true;
-					
-					return flag;
-				}
-			}
-		}
-		return flag;
-	}
+    /**
+     * Checks if checkCode match with item.
+     * @param checkCode
+     * @param assignmentItem
+     * @return true: match
+     */
+    private boolean matchCodeWithItem(String checkCode, ItemSale assignmentItem) {
+        for(String formatRegEx : assignmentItem.getFormat()) {
+            Pattern pattern = Pattern.compile(formatRegEx);
+            Matcher matcher = pattern.matcher(checkCode);
+            if (matcher.matches()) {
+                return true;
+            }
+        }
+        return false;
+    }
 	
     /**
      * get Varieties name and method
@@ -65,7 +62,7 @@ public class FormatByXml {
 	public final String getVarietiesName(String itemId) {
 
 		String varietiesName = null;
-		List<ItemSale> itemSaleList = GlobalConstant.getBarCode().getSale().getSales();
+		List<ItemSale> itemSaleList = barcodeAssignment.getSale().getSales();
 		List<String> formatList = null;
 		String nextItem = "";
 		String oneItem = "";
@@ -115,5 +112,4 @@ public class FormatByXml {
 
 		return varietiesName;
 	}
-	
 }

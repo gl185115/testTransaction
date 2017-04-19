@@ -50,7 +50,8 @@ import ncr.res.mobilepos.pricing.model.PickList;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
-import ncr.res.mobilepos.systemconfiguration.model.BarCode;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 
 /**
  * ItemResource Web Resource Class
@@ -104,6 +105,8 @@ public class ItemResource {
     private Trace.Printer tp;
 
     private String pathName = "pricing";
+    
+    private static BarcodeAssignment barcodeAssignment;
 
     /**
      * Default Constructor. Instantiate ioWriter and sqlServerDAO member
@@ -113,6 +116,7 @@ public class ItemResource {
         setDaoFactory(DAOFactory.getDAOFactory(DAOFactory.SQLSERVER));
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
+        barcodeAssignment = BarcodeAssignmentFactory.getInstance();
     }
 
     /**
@@ -318,37 +322,35 @@ public class ItemResource {
     @Path("/getBarcodeInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="バーコード情報取得", response=BarCode.class)
+    @ApiOperation(value="バーコード情報取得", response=BarcodeAssignment.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
-	public final BarCode getBarcodeInfo() {
+	public final BarcodeAssignment getBarcodeInfo() {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 
-		BarCode barCode = null;
 		try {
-			barCode = GlobalConstant.getBarCode();
-			if(barCode == null){
-				barCode = new BarCode();
-				barCode.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
-				barCode.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
-				barCode.setMessage("xml file information get failed");
+			if(barcodeAssignment == null){
+			    barcodeAssignment = new BarcodeAssignment();
+			    barcodeAssignment.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
+			    barcodeAssignment.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
+			    barcodeAssignment.setMessage("xml file information get failed");
 				tp.println("xml file no information");
 				
-				return barCode;
+				return barcodeAssignment;
 			}
 			
-			barCode.setNCRWSSResultCode(ResultBase.RES_OK);
-			barCode.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
-			barCode.setMessage("xml file information get success");
+			barcodeAssignment.setNCRWSSResultCode(ResultBase.RES_OK);
+			barcodeAssignment.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
+			barcodeAssignment.setMessage("xml file information get success");
 			tp.println("xml file information get success");
 		} catch (Exception ex) {
 			LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL, ex.getMessage());
 		} finally {
-			tp.methodExit(barCode);
+			tp.methodExit(barcodeAssignment);
 		}
-		return barCode;
+		return barcodeAssignment;
 	}
     
     /**

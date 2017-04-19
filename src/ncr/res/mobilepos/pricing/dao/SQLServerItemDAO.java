@@ -92,6 +92,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         return couponFlag;
     }
     
+    private String chooseMdNameLocal(String mdName, String mdNameLocal, String dptNameLocal) {
+        if(mdName != null) {
+            return mdName; 
+        }
+        if(mdNameLocal != null) {
+            return mdNameLocal;  
+        }
+        return dptNameLocal;
+   }
+    
     /**
      * Gets the information of a single item by specifying the Store ID and and
      * its corresponding PLU code.
@@ -144,6 +154,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         Item searchedItem = null;
         String functionName = "SQLServerItemDAO.getItemByPLUWithStoreFixation";
         String actualStoreid = storeid;
+        String salesName = "";
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -216,13 +227,9 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setMd16(result.getString(result.findColumn("Md16")));
                 searchedItem.setMdType(result.getString(result.findColumn("MdType")));
                 searchedItem.setSku(result.getString(result.findColumn("Sku")));
-                if (result.getObject(result.findColumn("MdName")) != null){
-                	searchedItem.setMdNameLocal(result.getString(result.findColumn("MdName")));
-                } else if (result.getObject(result.findColumn("MdNameLocal")) != null){
-                	searchedItem.setMdNameLocal(result.getString(result.findColumn("MdNameLocal")));
-                } else {
-                	searchedItem.setMdNameLocal(result.getString(result.findColumn("DptNameLocal")));
-                }
+                salesName = chooseMdNameLocal(result.getString(result.findColumn("MdName")),result.getString(result.findColumn("MdNameLocal")),
+                        result.getString(result.findColumn("DptNameLocal")));
+                searchedItem.setMdNameLocal(salesName);
                 searchedItem.setMdKanaName(result.getString(result.findColumn("MdKanaName")));
                 searchedItem.setSalesPrice2(result.getLong(result.findColumn("SalesPrice2")));
                 searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));

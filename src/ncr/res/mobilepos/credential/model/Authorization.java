@@ -63,6 +63,31 @@ public class Authorization {
     @XmlElement(name = "secLevel10")
     private boolean secLevel10;
     /**
+     * security level 11
+     */
+    @XmlElement(name = "secLevel11")
+    private boolean secLevel11;
+    /**
+     * security level 12 
+     */
+    @XmlElement(name = "secLevel12")
+    private boolean secLevel12;
+    /**
+     * security level 13 
+     */
+    @XmlElement(name = "secLevel13")
+    private boolean secLevel13;
+    /**
+     * security level 14 
+     */
+    @XmlElement(name = "secLevel14")
+    private boolean secLevel14;
+    /**
+     * security level 15 
+     */
+    @XmlElement(name = "secLevel15")
+    private boolean secLevel15;
+    /**
      * 
      * @return security level 1
      */
@@ -212,12 +237,88 @@ public class Authorization {
     public void setSecLevel10(boolean secLevel10) {
         this.secLevel10 = secLevel10;
     }
+    /**
+     * 
+     * @return security level 11
+     */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P‚P", notes="‹–‰Âƒtƒ‰ƒO‚P‚P")
+    public boolean isSecLevel11() {
+        return secLevel11;
+    }
+    /**
+     * 
+     * @param set the security level 11
+     */
+    public void setSecLevel11(boolean secLevel11) {
+        this.secLevel11 = secLevel11;
+    }
+    /**
+     * 
+     * @return security level 12
+     */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P‚Q", notes="‹–‰Âƒtƒ‰ƒO‚P‚Q")
+    public boolean isSecLevel12() {
+        return secLevel12;
+    }
+    /**
+     * 
+     * @param set the security level 12
+     */
+    public void setSecLevel12(boolean secLevel12) {
+        this.secLevel12 = secLevel12;
+    }
+    /**
+     * 
+     * @return security level 13
+     */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P‚R", notes="‹–‰Âƒtƒ‰ƒO‚P‚R")
+    public boolean isSecLevel13() {
+        return secLevel13;
+    }
+    /**
+     * 
+     * @param set the security level 13
+     */
+    public void setSecLevel13(boolean secLevel13) {
+        this.secLevel13 = secLevel13;
+    }
+    /**
+     * 
+     * @return security level 14
+     */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P‚S", notes="‹–‰Âƒtƒ‰ƒO‚P‚S")
+    public boolean isSecLevel14() {
+        return secLevel14;
+    }
+    /**
+     * 
+     * @param set the security level 14
+     */
+    public void setSecLevel14(boolean secLevel14) {
+        this.secLevel14 = secLevel14;
+    }
+    /**
+     * 
+     * @return security level 15
+     */
+    @ApiModelProperty(value="‹–‰Âƒtƒ‰ƒO‚P‚T", notes="‹–‰Âƒtƒ‰ƒO‚P‚T")
+    public boolean isSecLevel15() {
+        return secLevel15;
+    }
+    /**
+     * 
+     * @param set the security level 15
+     */
+    public void setSecLevel15(boolean secLevel15) {
+        this.secLevel15 = secLevel15;
+    }
     @Override
     public String toString() {
-        return "Authorization [secLevel1=" + secLevel1 + ", secLevel2=" + secLevel2 + ", secLevel3=" + secLevel3
-                + ", secLevel4=" + secLevel4 + ", secLevel5=" + secLevel5 + ", secLevel6=" + secLevel6 + ", secLevel7="
-                + secLevel7 + ", secLevel8=" + secLevel8 + ", secLevel9=" + secLevel9 + ", secLevel10=" + secLevel10
-                + "]";
+		return "Authorization [secLevel1=" + secLevel1 + ", secLevel2=" + secLevel2 + ", secLevel3=" + secLevel3
+				+ ", secLevel4=" + secLevel4 + ", secLevel5=" + secLevel5 + ", secLevel6=" + secLevel6 + ", secLevel7="
+				+ secLevel7 + ", secLevel8=" + secLevel8 + ", secLevel9=" + secLevel9 + ", secLevel10=" + secLevel10
+				+ ", secLevel11=" + secLevel11 + ", secLevel12=" + secLevel12 + ", secLevel13=" + secLevel13
+				+ ", secLevel14=" + secLevel14 + ", secLevel15=" + secLevel15 + "]";
     }
 
 

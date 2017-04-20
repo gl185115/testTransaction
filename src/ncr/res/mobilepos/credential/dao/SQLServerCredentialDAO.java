@@ -1179,6 +1179,11 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 authorization.setSecLevel8(resultSet.getBoolean("SecLevel8"));
                 authorization.setSecLevel9(resultSet.getBoolean("SecLevel9"));
                 authorization.setSecLevel10(resultSet.getBoolean("SecLevel10"));
+                authorization.setSecLevel10(resultSet.getBoolean("SecLevel11"));
+                authorization.setSecLevel10(resultSet.getBoolean("SecLevel12"));
+                authorization.setSecLevel10(resultSet.getBoolean("SecLevel13"));
+                authorization.setSecLevel10(resultSet.getBoolean("SecLevel14"));
+                authorization.setSecLevel10(resultSet.getBoolean("SecLevel15"));
             }
 
         } catch (Exception ex) {

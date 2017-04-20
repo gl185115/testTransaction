@@ -34,8 +34,8 @@ Then the Extended Result Code is 801
 
 Scenario: Item Entry with ForeignJanBook(DptCode not exist)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0258881237777 1902013205020","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-Then the Result Code is 4
-Then the Extended Result Code is 4
+Then the Result Code is 180
+Then the Extended Result Code is 180
 
 !-- ITEM ENTRIES WITH KINOKUNIYA
 Scenario: Item Entry with KINOKUNIYA(itemName from MST_PLU_NAME, taxType and price from MST_PLU)
@@ -59,15 +59,20 @@ Then result should be :
 |MdNameLocal |TaxType |SalesPrice1|
 |Ｌバラウッド           |0       |456.0      |
 
-Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU, when operatorType = 5 ,to emergency status)
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":5,"Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 116
 
+Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU, when operatorType != 5 ,to error status)
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":2,"Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 801
+Then the Extended Result Code is 801
+
 Scenario: Item Entry with KINOKUNIYA(DptCode not exist)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0200014587412","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-Then the Result Code is 4
-Then the Extended Result Code is 4
+Then the Result Code is 180
+Then the Extended Result Code is 180
 
 !-- ITEM ENTRIES WITH JANSALES
 Scenario: Item Entry with JANSALES(itemName from MST_PLU_NAME, taxType and price from MST_PLU)
@@ -91,15 +96,20 @@ Then result should be :
 |MdNameLocal  	    |TaxType |SalesPrice1|
 |Ｌバラウッド                           |0       |6360.0    	 |
 
-Scenario: Item Entry with JANSALES(Not exist in MST_PLU)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"18134556","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Scenario: Item Entry with JANSALES(Not exist in MST_PLU, when operatorType = 5 ,to emergency status)
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":5,"Sale":{"ItemEntryID":1,"ItemID":"18134556","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 116
 
+Scenario: Item Entry with JANSALES(Not exist in MST_PLU, when operatorType != 5 ,to error status)
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":1,"Sale":{"ItemEntryID":1,"ItemID":"18134556","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 801
+Then the Extended Result Code is 801
+
 Scenario: Item Entry with JANSALES(DptCode not exist)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"2601811","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-Then the Result Code is 4
-Then the Extended Result Code is 4
+Then the Result Code is 180
+Then the Extended Result Code is 180
 
 !--------------------------------------------------------------------------- ADD BY YH
 Scenario: Item Entry Of judge commodity is The two section(janBook)
@@ -126,13 +136,13 @@ Then itemId should be : 9784123456789 0026
 
 Scenario: The two section id four below(Department number is empty)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456789 0038","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 4
-Then the Result Code is 4
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: No corresponding department number(janBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784987654321 1910039567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 4
-Then the Result Code is 4
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Plu no corresponding commodity(janBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784987654321 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
@@ -165,8 +175,8 @@ Then result should be :
 
 Scenario: No corresponding department number(foreignBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910038567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 4
-Then the Result Code is 4
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Plu no corresponding commodity(foreignBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910039567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
@@ -175,13 +185,13 @@ Then the Result Code is 1111
 
 Scenario: No corresponding department number and Transformation code id 0000(foreignBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910000567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 4
-Then the Result Code is 4
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: No corresponding department number and Transformation code id 0403(foreignBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910403567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 4
-Then the Result Code is 4
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(foreignBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456789 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
@@ -215,8 +225,8 @@ Then result should be :
 
 Scenario: No corresponding department number(janMagazine)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636112345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 4
-Then the Result Code is 4
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janMagazine)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
@@ -256,7 +266,7 @@ Then the Result Code is 0
 
 Scenario: can't get the new itemId from PLU
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0402234560161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-Then the Result Code is 4
+Then the Result Code is 180
 
 Scenario: get name from MST_PLU_NAME
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0401234560161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
@@ -298,7 +308,7 @@ Then the Result Code is 0
 
 Scenario: can't get the new itemId from PLU
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30223456780026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-Then the Result Code is 4
+Then the Result Code is 180
 
 Scenario: get the codeTemp when cCode is 0000
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30123456780000","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
@@ -347,7 +357,7 @@ Then the Result Code is 0
 
 Scenario: can't get the new itemId from PLU
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40223456780028","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-Then the Result Code is 4
+Then the Result Code is 180
 
 Scenario: get the codeTemp from CCODEINFO
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40223456780027","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 02 Businessdate 2016-08-16

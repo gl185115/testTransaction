@@ -81,11 +81,6 @@ public class ResultBase {
     public static final int PRICE_INPUT_REQUEST = 2;
     /**
      * Value : {@value}<br>
-     *The dpt code doesn't exist in the table.
-     */
-    public static final int DPTCODE_NOTFOUND = 4;
-    /**
-     * Value : {@value}<br>
      *Device was not found during authentication.
      */
     public static final int RESAUTH_DEVICENOTFOUND = 6;

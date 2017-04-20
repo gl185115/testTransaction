@@ -25,6 +25,9 @@ public class Transaction {
     /** The Operator ID. */
     @XmlElement(name = "OperatorID")
     private String operatorID;
+    /** The Operator Type. */
+    @XmlElement(name = "OperatorType")
+    private String operatorType;
     /** The Begin Date Time in yyyy-MM-dd'T'HH:mm:ss.SS format.*/
     @XmlElement(name = "BeginDateTime")
     private String beginDateTime;
@@ -91,6 +94,19 @@ public class Transaction {
         this.operatorID = operatorIDToSet;
     }
     /**
+     * @return the operatorType
+     */
+    @ApiModelProperty(value="オペレーター区分", notes="オペレーター区分")
+    public String getOperatorType() {
+		return operatorType;
+	}
+    /**
+     * @param operatorTypeToSet the operatorType to set
+     */
+	public void setOperatorType(String operatorType) {
+		this.operatorType = operatorType;
+	}
+	/**
      * @return the beginDateTime
      */
     @ApiModelProperty(value="日付を開始", notes="日付を開始")

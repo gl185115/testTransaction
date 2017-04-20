@@ -7,8 +7,8 @@
   <jdbc>jdbc:sqlserver://localhost:1433;databaseName=ResTransaction;selectMethod=cursor;sendStringParametersAsUnicode=false</jdbc>
   <user>entsvr</user>
   <password>ncrsa_ora</password>
-  <iowpath>d:\software\ncr\res\log</iowpath>
-  <snappath>d:\software\ncr\res\log\snap_dir</snappath>
-  <tracepath>d:\software\ncr\dbg</tracepath>
-  <spampath>d:\software\ncr\log\spm_dir</spampath>
+  <iowpath>c:/ncr/res/log</iowpath>
+  <snappath>c:/ncr/res/log/snap_dir</snappath>
+  <tracepath>c:/ncr/res/dbg</tracepath>
+  <spampath>c:/ncr/res/log/spm_dir</spampath>
 </Config>

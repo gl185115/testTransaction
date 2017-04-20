@@ -31,7 +31,7 @@ Then I should get the result: 151
 Scenario: GiftCard test (queryMember) for toppan-gift.xml exists and mockito giftcard service started.
 Given toppan-gift.xml file exists.
 Given I assume external library, CenterAccess returns normal result.
-When I test Mockito queryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
+When I test queryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
 Then I should get the GiftResult :
 |PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
 |100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
@@ -39,7 +39,7 @@ Then I should get the GiftResult :
 Scenario: GiftCard test (sales) for toppan-gift.xml and mockito giftcard service started.
 Given toppan-gift.xml file exists.
 Given I assume external library, CenterAccess returns normal result.
-When I test Mockito sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
+When I test sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
 Then I should get the GiftResult :
 |PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
 |100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
@@ -47,7 +47,7 @@ Then I should get the GiftResult :
 Scenario: GiftCard test (cancel) for toppan-gift.xml and mockito giftcard service started.
 Given toppan-gift.xml file exists.
 Given I assume external library, CenterAccess returns normal result.
-When I test Mockito cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
+When I test cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"}
 Then I should get the GiftResult :
 |PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
 |100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |

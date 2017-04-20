@@ -6052,7 +6052,7 @@ ORDER BY
   </entry>
   <entry key="view-authorization">
     SELECT SecLevel1, SecLevel2, SecLevel3, SecLevel4, SecLevel5, SecLevel6, SecLevel7, SecLevel8, SecLevel9,
-    SecLevel10
+    SecLevel10, SecLevel11, SecLevel12, SecLevel13, SecLevel14, SecLevel15
     FROM RESMaster.dbo.MST_EMP_SEC
     WHERE CompanyId = ? and EmpCode = ? and DeleteFlag = 0.0
   </entry>

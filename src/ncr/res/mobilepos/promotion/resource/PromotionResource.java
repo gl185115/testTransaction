@@ -422,32 +422,32 @@ public class PromotionResource {
 				case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					codeTemp = (dpt == null) ? codeCvtDAO.convertCCodeToDpt(companyId, barcode_sec.substring(3, 7)) : dpt;
+					codeTemp = (StringUtility.isNullOrEmpty(dpt)) ? codeCvtDAO.convertCCodeToDpt(companyId, barcode_sec.substring(3, 7)) : dpt;
 					break;
 				case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
 					itemInfoTemp = dao.getItemByApiData(CDCalculation(itemId), companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					codeTemp = (dpt == null) ? codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14)) : dpt;
+					codeTemp = (StringUtility.isNullOrEmpty(dpt)) ? codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14)) : dpt;
 					break;
 				case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
 					itemInfoTemp = dao.getItemByApiData(itemId.substring(0, 13), companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					codeTemp = (dpt == null) ? codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(5, 10)) : dpt;
+					codeTemp = (StringUtility.isNullOrEmpty(dpt)) ? codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(5, 10)) : dpt;
 					break;
 				case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					codeTemp = (dpt == null) ? JaCodeCvt(barcode_sec.substring(3, 7)) : dpt;
+					codeTemp = (StringUtility.isNullOrEmpty(dpt)) ? JaCodeCvt(barcode_sec.substring(3, 7)) : dpt;
 					break;
 				case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
 					itemInfoTemp = dao.getItemByApiData(CDCalculation(itemId), companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					codeTemp = (dpt == null) ? JaCodeCvt(itemId.substring(10, 14)) : dpt;
+					codeTemp = (StringUtility.isNullOrEmpty(dpt)) ? JaCodeCvt(itemId.substring(10, 14)) : dpt;
 					break;
 				case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					if (dpt == null) {
+					if (StringUtility.isNullOrEmpty(dpt)) {
 						response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 						response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 						response.setMessage("Not found in the PLU.");
@@ -459,13 +459,13 @@ public class PromotionResource {
 				case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
 					itemInfoTemp = dao.getItemByApiData(itemId, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					codeTemp = (dpt == null) ? "0161" : dpt;
+					codeTemp = (StringUtility.isNullOrEmpty(dpt)) ? "0161" : dpt;
 					break;
 				case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
 				case BarcodeAssignmentConstant.VARIETIES_JANSALES:
 					itemInfoTemp = dao.getItemByApiData(itemId, companyId);
 					dpt = (itemInfoTemp == null) ? null : itemInfoTemp.getDepartment();
-					if (dpt == null) {
+					if (StringUtility.isNullOrEmpty(dpt)) {
 						response.setNCRWSSResultCode(ResultBase.RES_OK);
 						response.setNCRWSSExtendedResultCode(ResultBase.EMERGENCY_REGISTRATION);
 						response.setMessage("The Emergency registration.");
@@ -480,7 +480,7 @@ public class PromotionResource {
 
 				// 部門コードを部門マスタテーブルに存在チェック
 				departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
-				dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+                dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
 				if (StringUtility.isNullOrEmpty(dptCode)) {
 					response.setNCRWSSResultCode(ResultBase.DPTCODE_NOTFOUND);
 					response.setNCRWSSExtendedResultCode(ResultBase.DPTCODE_NOTFOUND);

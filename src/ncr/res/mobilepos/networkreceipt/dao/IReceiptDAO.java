@@ -16,17 +16,6 @@ import ncr.res.mobilepos.simpleprinterdriver.NetPrinterInfo;
 public interface IReceiptDAO {
 
     /**
-     * Get printer name from MST_PRINTERINFO.
-     *
-     * @param storeid - store id
-     * @param deviceNO - terminal id
-     * @return String - name of the printer
-     * @throws DaoException - thrown when any exception occurs
-     */
-    String getPrinterName(String storeid, String deviceNO)
-            throws DaoException;
-
-    /**
      * Get logo file path
      *
      * @param storeid

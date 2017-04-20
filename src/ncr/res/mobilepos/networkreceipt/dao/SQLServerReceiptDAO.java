@@ -66,46 +66,6 @@ public class SQLServerReceiptDAO extends AbstractDao implements IReceiptDAO {
     }
 
     @Override
-    public final String getPrinterName(final String storeid, final String termid)
-            throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("storeid", storeid)
-                .println("termid", termid);
-
-        String printerName = "";
-        Connection connection = null;
-        PreparedStatement getPrinterNameStmt = null;
-        ResultSet rs = null;
-        try {
-
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-
-            getPrinterNameStmt = connection.prepareStatement(sqlStatement
-                    .getProperty("get-printerName"));
-           getPrinterNameStmt.setString(SQLStatement.PARAM1, storeid);
-            getPrinterNameStmt.setString(SQLStatement.PARAM2, termid);
-
-            rs = getPrinterNameStmt.executeQuery();
-            if (rs.next()) {
-                printerName = rs.getString("PrinterName");
-                tp.println("printerName", printerName);
-            } else {
-                tp.println("Printer Info not found");
-            }
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get printer name.", sqlEx);
-        } finally {
-            closeConnectionObjects(connection, getPrinterNameStmt, rs);
-
-            tp.methodExit(printerName);
-        }
-
-        return printerName;
-    }
-
-    @Override
     public final NetPrinterInfo getPrinterInfo(final String storeid,
             final String termid) throws DaoException {
 

@@ -1432,10 +1432,14 @@ ORDER BY
 
 <!-- *************************  ENTRY KEY FOR CREDENTIAL SERVICE      ************************* -->
     <entry key="get-status-of-operator">
-        SELECT    users.OperatorName, ope.OpeKanaName, ope.SecLevel2, ope.OpeType
+        SELECT    users.OperatorName, ope.OpeKanaName, ope.SecLevel2, opesec.SecGroup OpeType
         FROM      RESMaster.dbo.MST_EMPINFO ope,
+		          RESMaster.dbo.MST_EMP_SEC opesec,
                   RESMaster.dbo.MST_USER_CREDENTIALS users
-        WHERE     ope.EmpCode = users.OperatorNo AND
+        WHERE     ope.CompanyId = users.CompanyId AND
+		          ope.EmpCode = users.OperatorNo AND
+		          ope.CompanyId = opesec.CompanyId AND
+				  ope.EmpCode = opesec.EmpCode AND
                   ope.CompanyId = LTRIM(RTRIM(?)) AND
                   ope.EmpCode = LTRIM(RTRIM(?))
     </entry>

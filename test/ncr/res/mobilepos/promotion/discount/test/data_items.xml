@@ -8087,7 +8087,7 @@
 			<value>0</value>
 		</row>
 	</table>
-	<!-- 2017/04/18 add end by kl -->
+<!-- TODO MEXSVR-166 Activate after DBScript update.
 	<table name="MST_MAGCODEINFO">
 		<column>CompanyId</column>
 		<column>StoreId</column>
@@ -8183,4 +8183,5 @@
 
 		</row>
 	</table>
+	-->
 </dataset>

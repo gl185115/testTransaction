@@ -4,7 +4,6 @@ Given a Promotion Service
 Given a loaded dataset test/ncr/res/mobilepos/promotion/discount/test/data_items.xml
 When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
 
-!--------------------------------------------------------------------------- ADD BY SBQ
 !-- ITEM ENTRIES WITH FOREIGNJANBOOK
 Scenario: Item Entry with ForeignJanBook(itemName from MST_PLU_NAME, taxType and price from MST_PLU)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0259852147360 4458963205478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
@@ -111,7 +110,6 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 180
 Then the Extended Result Code is 180
 
-!--------------------------------------------------------------------------- ADD BY YH
 Scenario: Item Entry Of judge commodity is The two section(janBook)
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456789","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":5000}} CompanyId 01 Businessdate 2016-08-16
 Then the Extended Result Code is 1
@@ -223,41 +221,41 @@ Then result should be :
 |SalesPrice1|TaxType|MdNameLocal  |
 |10000.0  	|5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
 
-Scenario: No corresponding department number(janMagazine)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636112345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 180
-Then the Result Code is 180
+!-- TODO MEXSVR-166 Recover test-cases
+!-- Scenario: No corresponding department number(janMagazine)
+!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636112345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+!-- Then the Extended Result Code is 180
+!-- Then the Result Code is 180
+!-- 
+!-- Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janMagazine)
+!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+!-- Then result should be : 
+!-- |SalesPrice1|TaxType|MdNameLocal  |
+!-- |10000.0  	|0      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
+!-- 
+!-- Scenario: Item Entry Of get itemInfo Commodity price is 0 and Plu_Name in MdName is not empty (janMagazine)
+!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345679","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+!-- Then result should be : 
+!-- |SalesPrice1|TaxType|MdNameLocal  |
+!-- |5679.0  	|0      |MJROYAL BK465|
+!-- 
+!-- Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (janMagazine)
+!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345689","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+!-- Then result should be : 
+!-- |SalesPrice1|TaxType|MdNameLocal|
+!-- |10000.0  	|0      |‚kƒoƒ‰ƒEƒbƒh         |
+!-- 
+!-- Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (janMagazine)
+!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345600","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+!-- Then result should be : 
+!-- |SalesPrice1|TaxType|MdNameLocal  |
+!-- |10000.0  	|5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
+!-- 
+!-- Scenario: Plu no corresponding commodity(janMagazine)
+!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636212345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+!-- Then the Extended Result Code is 1111
+!-- Then the Result Code is 1111
 
-Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janMagazine)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then result should be : 
-|SalesPrice1|TaxType|MdNameLocal  |
-|10000.0  	|0      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
-
-Scenario: Item Entry Of get itemInfo Commodity price is 0 and Plu_Name in MdName is not empty (janMagazine)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345679","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then result should be : 
-|SalesPrice1|TaxType|MdNameLocal  |
-|5679.0  	|0      |MJROYAL BK465|
-
-Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (janMagazine)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345689","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then result should be : 
-|SalesPrice1|TaxType|MdNameLocal|
-|10000.0  	|0      |‚kƒoƒ‰ƒEƒbƒh         |
-
-Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (janMagazine)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636012345600","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then result should be : 
-|SalesPrice1|TaxType|MdNameLocal  |
-|10000.0  	|5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
-
-Scenario: Plu no corresponding commodity(janMagazine)
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636212345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-Then the Extended Result Code is 1111
-Then the Result Code is 1111
-
-!--------------------------------------------------------------------------- ADD BY KL
 !-- Test Item Entry with FOREIGNMAGAZINE.
 Scenario: get the new itemId with CDCalculation
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0401234560161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16

@@ -216,6 +216,16 @@ public class UserLoginSteps extends Steps {
 					operatorSecStatus.getAuthorization().isSecLevel9());
 			Assert.assertEquals("isSecLevel10", Boolean.parseBoolean(expectedData.get("isSecLevel10")),
 					operatorSecStatus.getAuthorization().isSecLevel10());
+			Assert.assertEquals("isSecLevel11", Boolean.parseBoolean(expectedData.get("isSecLevel11")),
+					operatorSecStatus.getAuthorization().isSecLevel11());
+			Assert.assertEquals("isSecLevel12", Boolean.parseBoolean(expectedData.get("isSecLevel12")),
+					operatorSecStatus.getAuthorization().isSecLevel12());
+			Assert.assertEquals("isSecLevel13", Boolean.parseBoolean(expectedData.get("isSecLevel13")),
+					operatorSecStatus.getAuthorization().isSecLevel13());
+			Assert.assertEquals("isSecLevel14", Boolean.parseBoolean(expectedData.get("isSecLevel14")),
+					operatorSecStatus.getAuthorization().isSecLevel14());
+			Assert.assertEquals("isSecLevel15", Boolean.parseBoolean(expectedData.get("isSecLevel15")),
+					operatorSecStatus.getAuthorization().isSecLevel15());
 		}
     }
 	

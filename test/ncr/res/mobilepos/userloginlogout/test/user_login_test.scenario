@@ -1,31 +1,30 @@
-!-- TODO MEXSVR-241 Recover test-cases.
-!-- Scenario: SignOn Success [Before SOD]
-!-- Given an initial data from data_users.xml
-!-- Given a companyid 01 storeid 0247 terminalid 0001
-!-- When I login with operator 9011011 passcode 9011011 demo false
-!-- Then I should get the following operator details:
-!-- |ncrwssresultcode	|operatorname	|operatorkananame	|operatortype	|isTransactions	|isReports	|isSettings	|isMerchandise	|isAdministration	|isDrawer	|
-!-- |0					|汎用販売員3		|ﾊﾝﾖｳﾊﾝﾊﾞｲｲﾝ3		|1				|false			|false		|false 		|false			|false				|false		|
-!-- Then I should get the following operator security status:
-!-- |ncrwssresultcode	|securitylevel	|isSecLevel1	|isSecLevel2	|isSecLevel3	|isSecLevel4	|isSecLevel5	|isSecLevel6	|isSecLevel7	|isSecLevel8	|isSecLevel9	|isSecLevel10	|
-!-- |0					|1				|true			|true			|true			|true			|true			|true			|true			|false			|false			|false			|
-!-- Then I should get the following till details:
-!-- |ncrwssresultcode	|businessdaydate	|sodflag	|eodflag	|
-!-- |0					|2016-07-28			|0			|1			|
-!-- 
-!-- Scenario: SignOn Success [After SOD]
-!-- Given that SOD has started data_start_sod.xml
-!-- Given a companyid 01 storeid 0247 terminalid 0001
-!-- When I login with operator 9011011 passcode 9011011 demo false
-!-- Then I should get the following operator details:
-!-- |ncrwssresultcode	|operatorname	|operatorkananame	|operatortype	|isTransactions	|isReports	|isSettings	|isMerchandise	|isAdministration	|isDrawer	|
-!-- |0					|汎用販売員3		|ﾊﾝﾖｳﾊﾝﾊﾞｲｲﾝ3		|1				|false			|false		|false 		|false			|false				|false		|
-!-- Then I should get the following operator security status:
-!-- |ncrwssresultcode	|securitylevel	|isSecLevel1	|isSecLevel2	|isSecLevel3	|isSecLevel4	|isSecLevel5	|isSecLevel6	|isSecLevel7	|isSecLevel8	|isSecLevel9	|isSecLevel10	|
-!-- |0					|1				|true			|true			|true			|true			|true			|true			|true			|false			|false			|false			|
-!-- Then I should get the following till details:
-!-- |ncrwssresultcode	|businessdaydate	|sodflag	|eodflag	|
-!-- |0					|2016-07-28			|1			|0			|
+Scenario: SignOn Success [Before SOD]
+Given an initial data from data_users.xml
+Given a companyid 01 storeid 0247 terminalid 0001
+When I login with operator 9011011 passcode 9011011 demo false
+Then I should get the following operator details:
+|ncrwssresultcode	|operatorname	|operatorkananame	|operatortype	|isTransactions	|isReports	|isSettings	|isMerchandise	|isAdministration	|isDrawer	|
+|0					|汎用販売員3		|ﾊﾝﾖｳﾊﾝﾊﾞｲｲﾝ3		|1				|false			|false		|false 		|false			|false				|false		|
+Then I should get the following operator security status:
+|ncrwssresultcode	|securitylevel	|isSecLevel1	|isSecLevel2	|isSecLevel3	|isSecLevel4	|isSecLevel5	|isSecLevel6	|isSecLevel7	|isSecLevel8	|isSecLevel9	|isSecLevel10	|isSecLevel11	|isSecLevel12	|isSecLevel13	|isSecLevel14	|isSecLevel15	|
+|0					|1				|true			|true			|true			|true			|true			|true			|true			|false			|false			|false			|false			|false			|false			|false			|false			|
+Then I should get the following till details:
+|ncrwssresultcode	|businessdaydate	|sodflag	|eodflag	|
+|0					|2016-07-28			|0			|1			|
+
+Scenario: SignOn Success [After SOD]
+Given that SOD has started data_start_sod.xml
+Given a companyid 01 storeid 0247 terminalid 0001
+When I login with operator 9011011 passcode 9011011 demo false
+Then I should get the following operator details:
+|ncrwssresultcode	|operatorname	|operatorkananame	|operatortype	|isTransactions	|isReports	|isSettings	|isMerchandise	|isAdministration	|isDrawer	|
+|0					|汎用販売員3		|ﾊﾝﾖｳﾊﾝﾊﾞｲｲﾝ3		|1				|false			|false		|false 		|false			|false				|false		|
+Then I should get the following operator security status:
+|ncrwssresultcode	|securitylevel	|isSecLevel1	|isSecLevel2	|isSecLevel3	|isSecLevel4	|isSecLevel5	|isSecLevel6	|isSecLevel7	|isSecLevel8	|isSecLevel9	|isSecLevel10	|isSecLevel11	|isSecLevel12	|isSecLevel13	|isSecLevel14	|isSecLevel15	|
+|0					|1				|true			|true			|true			|true			|true			|true			|true			|false			|false			|false			|false			|false			|false			|false			|false			|
+Then I should get the following till details:
+|ncrwssresultcode	|businessdaydate	|sodflag	|eodflag	|
+|0					|2016-07-28			|1			|0			|
 
 Scenario: SignOn Failed [Wrong Password]
 Given a companyid 01 storeid 0247 terminalid 0001

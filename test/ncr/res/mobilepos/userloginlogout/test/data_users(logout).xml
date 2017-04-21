@@ -15,6 +15,11 @@
 		<column>SecLevel8</column>
 		<column>SecLevel9</column>
 		<column>SecLevel10</column>
+		<column>SecLevel11</column>
+		<column>SecLevel12</column>
+		<column>SecLevel13</column>
+		<column>SecLevel14</column>
+		<column>SecLevel15</column>
 		<column>AuthorityCode</column>
 		<column>SubCode1</column>
 		<column>SubCode2</column>
@@ -49,6 +54,11 @@
 			<value>1</value>
 			<value>1</value>
 			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>

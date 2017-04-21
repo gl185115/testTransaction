@@ -41,6 +41,7 @@ SELECT TOP 1
        plu.OrgSalesPrice1,
        urgent.NewPrice,
        urgent.OldPrice,
+       plustore.SalesPrice,
        plu.SalesPrice1,
        plu.SalesPrice2,
        plu.CostPrice1,
@@ -85,6 +86,11 @@ SELECT TOP 1
        pluNameInfo.MdName
 FROM
   RESMaster.dbo.MST_PLU plu
+LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
+    ON plu.CompanyId = plustore.CompanyId
+    AND plustore.StoreId = @storeId
+    AND plustore.MdInternal = plu.MdInternal
+    AND plustore.DeleteFlag = 0.0
 LEFT JOIN RESMaster.dbo.MST_DPTINFO dpt
 ON plu.CompanyId = dpt.CompanyId
 AND  dpt.StoreId = plu.StoreId

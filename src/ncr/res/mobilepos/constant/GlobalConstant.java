@@ -10,10 +10,10 @@
 */
 package ncr.res.mobilepos.constant;
 
-import ncr.res.mobilepos.promotion.helper.TerminalItem;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import ncr.res.mobilepos.promotion.helper.TerminalItem;
 
 /**
  * GlobalConstant is a class that enumerates
@@ -181,10 +181,7 @@ public final class GlobalConstant {
     public static final String KEY_INSTORE_PARAM_9 = "InStoreParam9";
     public static final String KEY_INSTORE_PARAM_10 = "InStoreParam10";
     public static final String KEY_INSTORE_PARAM_11 = "InStoreParam11";
-    
-    public static final String ITEMCODE_XML_PATH = System.getenv("PARA");
-    public static final String ITEMCODE_FILENAME = "ItemCode.xml";
-    
+
     /** The Search Limit.
      *  The default is 5.
      */

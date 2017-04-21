@@ -1,7 +1,18 @@
 package ncr.res.mobilepos.promotion.resource;
 
+import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
+import atg.taglib.json.util.JSONObject;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
+import org.codehaus.jackson.JsonParseException;
+
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,19 +29,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import org.codehaus.jackson.JsonParseException;
-
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
-import atg.taglib.json.util.JSONArray;
-import atg.taglib.json.util.JSONException;
-import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.CheckDigitValue;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.barcodeassignment.constant.BarcodeAssignmentConstant;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
@@ -52,7 +54,7 @@ import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
-import ncr.res.mobilepos.promotion.helper.FormatByXml;
+import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
@@ -62,7 +64,6 @@ import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
 import ncr.res.mobilepos.searchapi.helper.UrlConnectionHelper;
-import ncr.res.mobilepos.barcodeassignment.constant.BarcodeAssignmentConstant;
 
 /**
  * PromotionResource Class is a Web Resource which support MobilePOS Promotion
@@ -376,8 +377,8 @@ public class PromotionResource {
 				}
 				
 				// 2段目バーコードを入力が必要かどうかを判断する
-				FormatByXml formatByXml= new FormatByXml();
-				boolean varietiesJudge = formatByXml.isDoubleBarcode(itemId);
+				boolean varietiesJudge = BarcodeAssignmentUtility.isPartOfDoubleBarcode(itemId,
+						BarcodeAssignmentFactory.getInstance());
 				if (varietiesJudge) {
 					Transaction transation = new Transaction();
 					transation.setItemId(itemId);
@@ -417,7 +418,8 @@ public class PromotionResource {
 				}
 
 				// 品目名を取得する
-				String varietiesName = formatByXml.getVarietiesName(itemId);
+				String varietiesName = BarcodeAssignmentUtility.getItemIdWith2LineCode(itemId,
+						BarcodeAssignmentFactory.getInstance());
 				switch (varietiesName) {
 				case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);

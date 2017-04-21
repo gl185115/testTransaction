@@ -1,13 +1,14 @@
 package ncr.res.mobilepos.barcodeassignment.factory;
 
 import java.io.File;
+
 import javax.xml.bind.JAXBException;
-import ncr.res.mobilepos.constant.GlobalConstant;
+
+import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 
 /**
  * This class loads BarcodeAssignment from XML File.
@@ -17,7 +18,11 @@ public class BarcodeAssignmentFactory {
      * A private member variable used for logging the class implementations.
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
-    
+    /**
+     * Barcode assignment configuration filename.
+     */
+    private static final String ITEMCODE_FILENAME = "ItemCode.xml";
+
     /**
      * The Program Name.
      */
@@ -47,7 +52,7 @@ public class BarcodeAssignmentFactory {
         Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), BarcodeAssignmentFactory.class);
         
         BarcodeAssignment barCode = null;
-        String path = paraBasePath + File.separator + GlobalConstant.ITEMCODE_FILENAME;
+        String path = paraBasePath + File.separator + ITEMCODE_FILENAME;
         File conFileXml = new File(path);
         if(!conFileXml.isFile() || !conFileXml.exists()) {
             String errorMessage = "No giftCardConfig File found." + "(" + path + ")";

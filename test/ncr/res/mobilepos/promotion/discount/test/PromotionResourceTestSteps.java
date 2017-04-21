@@ -455,24 +455,6 @@ public class PromotionResourceTestSteps extends Steps {
 				.getRevoke() == null, is(equalTo(true)));
 	}
 	
-//	@Then("result should be : $expectedItems")
-//	public final void resultShouldBe(final ExamplesTable expectedItems) {
-//		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
-//		Transaction transactionResult = promotionResponse.getTransaction();
-//		Sale sale = transactionResult.getSale();
-//		assertThat("transactionResult is equal to null",
-//				transactionResult == null, is(equalTo(false)));
-//		
-//		for (Map<String, String> expecedItem : expectedItems.getRows()) {
-//			assertThat("Compare the RegularSalesUnitPrice row ", sale.getRegularSalesUnitPrice(),
-//					is(equalTo(Double.parseDouble(expecedItem.get("RegularSalesUnitPrice")))));
-//			assertThat("Compare the TaxType row ", sale.getTaxType(),
-//					is(equalTo(Integer.parseInt(expecedItem.get("TaxType")))));
-//			assertThat("Compare the MdNameLocal row ", sale.getMdNameLocal(),
-//					is(equalTo(expecedItem.get("MdNameLocal"))));
-//		}
-//	}
-	
 	//2017/04/17 add start by kl
 	@Then("result should be : $expectedItems")
 	public final void resultShouldBe(final ExamplesTable expectedItems) {

@@ -474,6 +474,9 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the SalesPrice1 row ", ""
 					+ sale.getRegularSalesUnitPrice(),
 					is(equalTo(expecedItem.get("SalesPrice1"))));
+			assertThat("Compare the description row ", ""
+					+ sale.getDescription().getJa(),
+					is(equalTo(expecedItem.get("description"))));
 		}
 	}
 	//2017/04/17 add end by kl

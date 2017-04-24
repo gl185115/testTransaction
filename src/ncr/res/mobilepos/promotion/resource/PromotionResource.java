@@ -551,15 +551,17 @@ public class PromotionResource {
 				}
 
 				// 部門コードを部門マスタテーブルに存在チェック
-				departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
-                dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
-				if (StringUtility.isNullOrEmpty(dptCode)) {
-					response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-					response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-					response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
-					tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
-					return response;
-				}
+			    if (!(twoStep && barcode_sec.length() == 4 && regularSalesUnitPrice != 0)){
+			        departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
+			        dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+    			    if (StringUtility.isNullOrEmpty(dptCode)) {
+    			      response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+    			      response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+    			      response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
+    			      tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
+    			      return response;
+    			    }
+			    }
 
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
@@ -573,7 +575,9 @@ public class PromotionResource {
 				} else if (BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) || 
 				        BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
 					itemIdTemp = CDCalculation(itemId);
-				} else {
+				} else if (BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE.equals(varietiesName)){
+                    itemIdTemp = itemId.substring(0, 13);
+                } else {
 					itemIdTemp = itemId; 
 				}
 				

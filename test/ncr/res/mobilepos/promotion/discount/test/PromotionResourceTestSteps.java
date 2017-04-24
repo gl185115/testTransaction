@@ -13,18 +13,22 @@ import org.jbehave.core.steps.Steps;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.servlet.ServletContext;
+import javax.xml.bind.JAXBException;
 
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
@@ -81,6 +85,48 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 	}
 
+    @Given("ItemCode.xml file does not exist")
+    public void itemCodeXmlNotFound() {
+    	Field promotionConfigField;
+		try {
+			promotionConfigField = testpromotionResource.getClass().getDeclaredField("barcodeAssignment");
+			promotionConfigField.setAccessible(true);
+			promotionConfigField.set(testpromotionResource, null);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+    }
+	
+    @Given("ItemCode.xml file exist")
+    public void giftXmlFound() {
+    	Field promotionConfigField;
+		try {
+			File configFile = new File("test\\ncr\\res\\mobilepos\\promotion\\discount\\test" + File.separator + "itemCode.xml");
+			XmlSerializer<BarcodeAssignment> serializer = new XmlSerializer<BarcodeAssignment>();
+			BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile, BarcodeAssignment.class);
+			
+			promotionConfigField = testpromotionResource.getClass().getDeclaredField("barcodeAssignment");
+			promotionConfigField.setAccessible(true);
+			promotionConfigField.set(testpromotionResource, barcodeAssignment);
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			e.printStackTrace();
+		}
+    }
+    
 	@Given("a businessdate $file")
 	public final void noBusinessdateSet(String fileName) {
 		try {

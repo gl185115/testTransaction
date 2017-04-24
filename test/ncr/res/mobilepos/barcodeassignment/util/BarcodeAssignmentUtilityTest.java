@@ -29,6 +29,35 @@ public class BarcodeAssignmentUtilityTest {
     }
 
     @Test
+    public void isMultiAndSplitConsistency() {
+        Assert.assertTrue(BarcodeAssignmentUtility.isMultiLineBarcode("123 123"));
+        Assert.assertTrue(BarcodeAssignmentUtility.isMultiLineBarcode("1234567890 123456789"));
+        Assert.assertTrue(BarcodeAssignmentUtility.isMultiLineBarcode("  123  123  "));
+        Assert.assertTrue(BarcodeAssignmentUtility.isMultiLineBarcode(" 123  123"));
+        Assert.assertTrue(BarcodeAssignmentUtility.isMultiLineBarcode("456  456"));
+        Assert.assertTrue(BarcodeAssignmentUtility.isMultiLineBarcode("789789 789789 789789"));
+
+        Assert.assertEquals(2, BarcodeAssignmentUtility.splitDoubleBarcode("123 123").length);
+        Assert.assertEquals(2, BarcodeAssignmentUtility.splitDoubleBarcode("1234567890 123456789").length);
+        Assert.assertEquals(2, BarcodeAssignmentUtility.splitDoubleBarcode("  123  123  ").length);
+        Assert.assertEquals(2, BarcodeAssignmentUtility.splitDoubleBarcode(" 123  123").length);
+        Assert.assertEquals(2, BarcodeAssignmentUtility.splitDoubleBarcode("456  456").length);
+        Assert.assertEquals(2, BarcodeAssignmentUtility.splitDoubleBarcode("789789 789789 789789").length);
+
+        Assert.assertFalse(BarcodeAssignmentUtility.isMultiLineBarcode("789789"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isMultiLineBarcode(" 789789 "));
+        Assert.assertFalse(BarcodeAssignmentUtility.isMultiLineBarcode(" 789789"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isMultiLineBarcode("789789 "));
+        Assert.assertFalse(BarcodeAssignmentUtility.isMultiLineBarcode(" 78978 "));
+
+        Assert.assertEquals(1, BarcodeAssignmentUtility.splitDoubleBarcode("789789").length);
+        Assert.assertEquals(1, BarcodeAssignmentUtility.splitDoubleBarcode(" 789789 ").length);
+        Assert.assertEquals(1, BarcodeAssignmentUtility.splitDoubleBarcode(" 789789").length);
+        Assert.assertEquals(1, BarcodeAssignmentUtility.splitDoubleBarcode("789789 ").length);
+        Assert.assertEquals(1, BarcodeAssignmentUtility.splitDoubleBarcode(" 78978 ").length);
+    }
+
+    @Test
     public void splitDoubleBarcode() throws Exception {
         String[] checkArray;
         checkArray = BarcodeAssignmentUtility.splitDoubleBarcode("123 456");

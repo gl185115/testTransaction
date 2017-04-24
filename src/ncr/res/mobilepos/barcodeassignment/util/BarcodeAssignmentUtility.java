@@ -102,28 +102,120 @@ public class BarcodeAssignmentUtility {
 		}
 		return false;
 	}
-	
-    /**
-     * get Assignment Id from given inputCode and barcodeAssignment.
-     * @param inputCode
-     * @return Barcode : BarcodeAssignment Id
-     */
-	public static String getItemIdWith2LineCode(String inputCode, BarcodeAssignment barcodeAssignment) {
+
+
+	/**
+	 * Returns Assignment Id from given single barcode.
+	 * @param singleCode Single Code
+	 * @param barcodeAssignment barcode assignment information
+	 * @return barcode assignment id, specification of barcode
+	 */
+	public static String getBarcodeAssignmentItemIdWithSingleBarcode(
+			String singleCode, BarcodeAssignment barcodeAssignment) {
 		List<ItemSale> saleAssignmentItems = barcodeAssignment.getSale().getSales();
-
-		if(!isMultiLineBarcode(inputCode)) {
-			return "";
-		}
-		String[] codes = splitDoubleBarcode(inputCode);
-
 		for (ItemSale assignmentItem : saleAssignmentItems) {
 			// If first-line matches with format and second-line matches with next line, then return Id.
-			if(matchCodeWithItemFormat(codes[0], assignmentItem) &&
-					matchCodeWithItemNextFormat(codes[1], assignmentItem)) {
+			if(matchCodeWithItemFormat(singleCode, assignmentItem)) {
 				return assignmentItem.getId();
 			}
 		}
 		return "";
+	}
+
+	/**
+	 * Returns Assignment Id from given barcode.
+	 * @param inputCode this could be double or single barcode
+	 * If the code matches with format, then returns its ID.
+	 * @param barcodeAssignment 	barcode assignment information
+	 * @return barcode assignment id, specification of barcode
+	 */
+	public static String getBarcodeAssignmentItemId(String inputCode, BarcodeAssignment barcodeAssignment) {
+		if(isMultiLineBarcode(inputCode)) {
+			String[] inputDoubleBarcode = splitDoubleBarcode(inputCode);
+			return getBarcodeAssignmentItemIdWithDoubleBarcode(inputDoubleBarcode, barcodeAssignment);
+		}
+		return getBarcodeAssignmentItemIdWithSingleBarcode(inputCode, barcodeAssignment);
+	}
+
+    /**
+     * Returns Assignment Id from given double barcode.
+	 * If first code matches with format AND second matches with next-format, then returns its ID.
+     * @param doubleCode Double Barcode, this must be 2 length array.
+	 * @param barcodeAssignment 	barcode assignment information
+	 * @return barcode assignment id, specification of barcode
+     */
+	public static String getBarcodeAssignmentItemIdWithDoubleBarcode(
+			String[] doubleCode, BarcodeAssignment barcodeAssignment) {
+		List<ItemSale> saleAssignmentItems = barcodeAssignment.getSale().getSales();
+		for (ItemSale assignmentItem : saleAssignmentItems) {
+			// If first-line matches with format and second-line matches with next line, then return Id.
+			if(matchCodeWithItemFormat(doubleCode[0], assignmentItem) &&
+					matchCodeWithItemNextFormat(doubleCode[1], assignmentItem)) {
+				return assignmentItem.getId();
+			}
+		}
+		return "";
+	}
+
+
+	/**
+	 * get Varieties name and method
+	 * @param itemId : UI side commodity code
+	 * @return Barcode : Varieties
+	 *
+	 */
+	public static String getVarietiesName(String itemId, BarcodeAssignment barcodeAssignment) {
+
+		String varietiesName = null;
+		List<ItemSale> itemSaleList = barcodeAssignment.getSale().getSales();
+		List<String> formatList = null;
+		String nextItem = "";
+		String oneItem = "";
+		boolean flag = false;
+		String[] twoItem = itemId.split(" ");
+		if (twoItem.length >= 2) {
+			nextItem = twoItem[1];
+			oneItem = twoItem[0];
+		} else {
+			oneItem = itemId;
+		}
+
+		for (ItemSale item : itemSaleList) {
+			formatList = item.getFormat();
+			List<String> nextFomartList = null;
+			Pattern patternNextFormat = null;
+			Matcher matcherNextFormat = null;
+			Pattern pattern = null;
+			Matcher matcher = null;
+
+			for (String format : formatList) {
+				pattern = Pattern.compile(format);
+				matcher = pattern.matcher(oneItem);
+
+				if (matcher.matches()) {
+					flag = true;
+					break;
+				}
+			}
+
+			if (flag) {
+				if (item.getNextFormat() != null) {
+					nextFomartList = item.getNextFormat();
+					for (String nextFormat : nextFomartList) {
+						patternNextFormat = Pattern.compile(nextFormat);
+						matcherNextFormat = patternNextFormat.matcher(nextItem);
+
+						if (matcherNextFormat.matches()) {
+							break;
+						}
+					}
+				}
+				varietiesName = item.getId();
+				break;
+			}
+		}
+
+		return varietiesName;
 	}
 
 }

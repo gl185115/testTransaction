@@ -33,6 +33,7 @@ import ncr.realgate.util.CheckDigitValue;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.constant.BarcodeAssignmentConstant;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
@@ -107,6 +108,8 @@ public class PromotionResource {
 
     private static final String ITEM_FORM = "picklist";
 
+    private final BarcodeAssignment barcodeAssignment;
+
 	/**
 	 * Default Constructor for PromotionResource.
 	 *
@@ -115,6 +118,7 @@ public class PromotionResource {
 	 */
 	public PromotionResource() {
 		tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+		barcodeAssignment = BarcodeAssignmentFactory.getInstance();
 	}
 
 	/**
@@ -377,8 +381,7 @@ public class PromotionResource {
 				}
 				
 				// 2段目バーコードを入力が必要かどうかを判断する
-				boolean varietiesJudge = BarcodeAssignmentUtility.isPartOfDoubleBarcode(itemId,
-						BarcodeAssignmentFactory.getInstance());
+				boolean varietiesJudge = BarcodeAssignmentUtility.isPartOfDoubleBarcode(itemId, barcodeAssignment);
 				if (varietiesJudge) {
 					Transaction transation = new Transaction();
 					transation.setItemId(itemId);
@@ -418,8 +421,7 @@ public class PromotionResource {
 				}
 
 				// 品目名を取得する
-				String varietiesName = BarcodeAssignmentUtility.getItemIdWith2LineCode(itemId,
-						BarcodeAssignmentFactory.getInstance());
+				String varietiesName = BarcodeAssignmentUtility.getBarcodeAssignmentItemId(itemId, barcodeAssignment);
 				switch (varietiesName) {
 				case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
 					itemInfoTemp = dao.getItemByApiData(barcode_fst, companyId);

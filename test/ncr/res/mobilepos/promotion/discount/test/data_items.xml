@@ -8087,7 +8087,6 @@
 			<value>0</value>
 		</row>
 	</table>
-<!-- TODO MEXSVR-166 Activate after DBScript update.
 	<table name="MST_MAGCODEINFO">
 		<column>CompanyId</column>
 		<column>StoreId</column>

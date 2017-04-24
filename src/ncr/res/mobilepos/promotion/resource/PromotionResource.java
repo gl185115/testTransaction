@@ -646,6 +646,7 @@ public class PromotionResource {
 						break;
 					}
 					saleItem.setRegularSalesUnitPrice(commodityPrice);
+					saleItem.setActualSalesUnitPrice(commodityPrice);
 				}
 
 				saleItem.setDiscountType(discounttype);

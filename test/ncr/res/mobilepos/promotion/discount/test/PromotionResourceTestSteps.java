@@ -414,14 +414,23 @@ public class PromotionResourceTestSteps extends Steps {
 				is(equalTo(MdName)));
 	}
 	
-	@Then("the salesPrice1 should be : $salesPrice1")
-	public final void salesPrice1ShouleBe(final String salesPrice1) {
+	@Then("the RegularSalesPrice should be : $RegularSalesPrice")
+	public final void regularSalesPriceShouleBe(final String regularSalesPrice) {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
 		Transaction transactionResult = promotionResponse.getTransaction();
 		Sale sale = transactionResult.getSale();
-		assertThat("Compare the ItemID row ", "" + sale.getRegularSalesUnitPrice(),
-				is(equalTo(salesPrice1)));
+		assertThat("Compare the regularSalesPrice row ", "" + sale.getRegularSalesUnitPrice(),
+				is(equalTo(regularSalesPrice)));
 	}
+	
+	@Then("the ActualSalesPrice should be : $ActualSalesPrice")
+    public final void salesPrice1ShouleBe(final String actualSalesPrice) {
+        PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
+        Transaction transactionResult = promotionResponse.getTransaction();
+        Sale sale = transactionResult.getSale();
+        assertThat("Compare the actualSalesPrice row ", "" + sale.getActualSalesUnitPrice(),
+                is(equalTo(actualSalesPrice)));
+    }
 		
 	//2017/04/18 add end by kl
 
@@ -519,10 +528,13 @@ public class PromotionResourceTestSteps extends Steps {
 					is(equalTo(Integer.parseInt(expecedItem.get("TaxType")))));
 			assertThat("Compare the SalesPrice1 row ", ""
 					+ sale.getRegularSalesUnitPrice(),
-					is(equalTo(expecedItem.get("SalesPrice1"))));
+					is(equalTo(expecedItem.get("RegularSalesPrice"))));
 			assertThat("Compare the description row ", ""
 					+ sale.getDescription().getJa(),
 					is(equalTo(expecedItem.get("description"))));
+			assertThat("Compare the description row ", ""
+					+ sale.getActualSalesUnitPrice(),
+					is(equalTo(expecedItem.get("ActualSalesPrice"))));
 		}
 	}
 	//2017/04/17 add end by kl

@@ -78,7 +78,7 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 
     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
     Connection conn = dbManager.getConnection();
-    if (request.getMethod() == "POST") {
+    if ("POST".equals(request.getMethod())) {
         String sqlStr = 
                 "UPDATE RESMaster.dbo.PRM_DEVICE_ATTRIBUTE SET"
                 + " Description=?,"

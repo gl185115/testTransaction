@@ -33,7 +33,7 @@
 	} catch (Exception e) {
 	}
 
-    if (request.getMethod() == "GET" && "select".equals(request.getParameter("y1"))) {
+    if ("GET".equals(request.getMethod()) && "select".equals(request.getParameter("y1"))) {
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
         Connection connection = dbManager.getConnection();
 
@@ -71,7 +71,7 @@
          ps.close();
          connection.close();
     } else {
-        if (request.getMethod() == "POST") {
+        if ("POST".equals(request.getMethod())) {
             if (request.getParameter("action") != null) {
                 if ("update".equals(request.getParameter("action").toString())) {
                     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();

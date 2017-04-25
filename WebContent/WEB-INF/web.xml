@@ -94,7 +94,7 @@
       <url-pattern>/rest/creditauthorization/*</url-pattern>
       <url-pattern>/rest/customerSearch/*</url-pattern>
       <url-pattern>/rest/customeraccount/*</url-pattern>
-      <url-pattern>/rest/departmentinfo/*</url-pattern>
+      <url-pattern>/rest/departmentinfo/detail</url-pattern>
       <url-pattern>/rest/deviceinfo/add</url-pattern>
       <url-pattern>/rest/deviceinfo/delete/*</url-pattern>
       <url-pattern>/rest/deviceinfo/getallprinters</url-pattern>

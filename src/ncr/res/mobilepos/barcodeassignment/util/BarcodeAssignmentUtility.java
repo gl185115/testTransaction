@@ -114,7 +114,6 @@ public class BarcodeAssignmentUtility {
 			String singleCode, BarcodeAssignment barcodeAssignment) {
 		List<ItemSale> saleAssignmentItems = barcodeAssignment.getSale().getSales();
 		for (ItemSale assignmentItem : saleAssignmentItems) {
-			// If first-line matches with format and second-line matches with next line, then return Id.
 			if(matchCodeWithItemFormat(singleCode, assignmentItem)) {
 				return assignmentItem.getId();
 			}
@@ -155,67 +154,6 @@ public class BarcodeAssignmentUtility {
 			}
 		}
 		return "";
-	}
-
-
-	/**
-	 * get Varieties name and method
-	 * @param itemId : UI side commodity code
-	 * @return Barcode : Varieties
-	 *
-	 */
-	public static String getVarietiesName(String itemId, BarcodeAssignment barcodeAssignment) {
-
-		String varietiesName = null;
-		List<ItemSale> itemSaleList = barcodeAssignment.getSale().getSales();
-		List<String> formatList = null;
-		String nextItem = "";
-		String oneItem = "";
-		boolean flag = false;
-		String[] twoItem = itemId.split(" ");
-		if (twoItem.length >= 2) {
-			nextItem = twoItem[1];
-			oneItem = twoItem[0];
-		} else {
-			oneItem = itemId;
-		}
-
-		for (ItemSale item : itemSaleList) {
-			formatList = item.getFormat();
-			List<String> nextFomartList = null;
-			Pattern patternNextFormat = null;
-			Matcher matcherNextFormat = null;
-			Pattern pattern = null;
-			Matcher matcher = null;
-
-			for (String format : formatList) {
-				pattern = Pattern.compile(format);
-				matcher = pattern.matcher(oneItem);
-
-				if (matcher.matches()) {
-					flag = true;
-					break;
-				}
-			}
-
-			if (flag) {
-				if (item.getNextFormat() != null) {
-					nextFomartList = item.getNextFormat();
-					for (String nextFormat : nextFomartList) {
-						patternNextFormat = Pattern.compile(nextFormat);
-						matcherNextFormat = patternNextFormat.matcher(nextItem);
-
-						if (matcherNextFormat.matches()) {
-							break;
-						}
-					}
-				}
-				varietiesName = item.getId();
-				break;
-			}
-		}
-
-		return varietiesName;
 	}
 
 }

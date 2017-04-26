@@ -52,8 +52,7 @@
                 <id>foreignBookOld</id>
                 <type>single</type>
                 <symbol></symbol>
-                <format>([0-3]|[5-9]){1}[0-9]{8}[0-9a-zA-Z]{1}[0-9]{4}
-                </format>
+                <format>([0-3]|[5-9]){1}[0-9]{8}[0-9a-zA-Z]{1}[0-9]{4}</format>
             </item>
             <item>
                 <description>洋書扱い和書</description>

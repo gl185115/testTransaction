@@ -196,6 +196,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice")));
                     searchedItem.setSalesPriceFrom("1");
                 } else if (result.getObject(result.findColumn("NewPrice")) == null
+                        && result.getObject(result.findColumn("SalesPrice")) == null
                         && result.getObject(result.findColumn("SalesPrice1")) != null) {
                     searchedItem.setRegularSalesUnitPrice(result.getDouble(result.findColumn("SalesPrice1")));
                     searchedItem.setSalesPriceFrom("0");

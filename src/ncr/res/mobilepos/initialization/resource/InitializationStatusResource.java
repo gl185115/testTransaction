@@ -18,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
@@ -91,6 +92,7 @@ public class InitializationStatusResource {
         initFailed |= SQLStatement.getInstance() == null;
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
         initFailed |= ToppanGiftCardConfigFactory.getInstance() == null;
+        initFailed |= BarcodeAssignmentFactory.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

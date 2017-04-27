@@ -1,0 +1,6 @@
+Scenario: forward_item_test with UserPermission.
+Given entries for forward_item in database
+When I get operator with companyid 01 storeid 0247 workstationid 0001 and operatorid 1
+Then I should get the OperatorResult :
+|OperatorNo|OperatorType|Securitylevel
+|1         |1           |1            

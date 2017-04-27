@@ -144,6 +144,30 @@ public class GiftCardSteps extends Steps {
 		
 		giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
 	}
+	
+	@When("I test activate with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	public final void giftCardActivate(
+			String storeId, String workstationId, String transactionId,
+			boolean test, String giftcard) {
+		storeId = StringUtility.convNullOrEmptryString(storeId);
+		workstationId = StringUtility.convNullOrEmptryString(workstationId);
+		transactionId = StringUtility.convNullOrEmptryString(transactionId);
+		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		
+		giftResult = toppanGiftcardResource.activate(storeId, workstationId, transactionId, test, giftcard);
+	}
+	
+	@When("I test charge with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	public final void giftCardCharge(
+			String storeId, String workstationId, String transactionId,
+			boolean test, String giftcard) {
+		storeId = StringUtility.convNullOrEmptryString(storeId);
+		workstationId = StringUtility.convNullOrEmptryString(workstationId);
+		transactionId = StringUtility.convNullOrEmptryString(transactionId);
+		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		
+		giftResult = toppanGiftcardResource.charge(storeId, workstationId, transactionId, test, giftcard);
+	}
 
 	@Given("I assume external library, CenterAccess returns normal result.")
 	public final void mockCenterAccess() throws IllegalAccessException {
@@ -164,7 +188,6 @@ public class GiftCardSteps extends Steps {
 			
 			Field centerAccessField = toppanGiftcardResource.getClass().getDeclaredField("centerAccess");
 			centerAccessField.setAccessible(true);
-			centerAccessField.set(toppanGiftcardResource, null);
 			centerAccessField.set(toppanGiftcardResource, mockCenterAccess);
 		} catch (NoSuchFieldException | SecurityException e) {
 			// TODO Auto-generated catch block

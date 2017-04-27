@@ -264,6 +264,126 @@ public class ToppanGiftcardResource {
         
         return giftResult;
     }
+    
+    /**
+     * The method called by the Web Service to activate giftcard.
+     * @param storeId The StoreID
+     * @param workstationId The Terminal ID
+     * @param transactionId The Transaction Number
+     * @param test The Test Flag
+     * @param jsonItem The GiftCard Information Model
+     * @return GiftResult    The GiftResult Object
+     */
+    @Path("/activate")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="ギフトアクティベート", response=GiftResult.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    })
+    public GiftResult activate(
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
+    		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
+    		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
+    		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem) {
+    	
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("storeid", storeId);
+        tp.println("workstationid", workstationId);
+        tp.println("transactionid", transactionId);
+        tp.println("test", test);
+        tp.println("giftcard", jsonItem);
+        
+        GiftResult giftResult = new GiftResult();
+        try {
+            JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
+            GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
+            MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
+            Message msg = MessageBuilder.buildActivate(toppanGiftcardConfig, test,
+                                    storeId, workstationId, transactionId,
+                                    messageBuilderGiftCard);
+            tp.println("request", msg);
+            giftResult = centerAccess(msg);
+        } catch (IOException e) {
+        	String logMessage = "decode request param:" + jsonItem;
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
+            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setMessage(logMessage);
+		} catch (Exception e) {
+        	String logMessage = "decode request param:" + jsonItem;
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, logMessage, e);
+            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setMessage(logMessage);
+		} finally {
+			tp.methodExit(giftResult);
+        }
+        
+        return giftResult;
+    }
+    
+    /**
+     * The method called by the Web Service to charge giftcard.
+     * @param storeId The StoreID
+     * @param workstationId The Terminal ID
+     * @param transactionId The Transaction Number
+     * @param test The Test Flag
+     * @param jsonItem The GiftCard Information Model
+     * @return GiftResult    The GiftResult Object
+     */
+    @Path("/charge")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="ギフトチャージ", response=GiftResult.class)
+    @ApiResponses(value={
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    })
+    public GiftResult charge(
+    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
+    		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
+    		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
+    		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem) {
+    	
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("storeid", storeId);
+        tp.println("workstationid", workstationId);
+        tp.println("transactionid", transactionId);
+        tp.println("test", test);
+        tp.println("giftcard", jsonItem);
+        
+        GiftResult giftResult = new GiftResult();
+        try {
+            JsonMarshaller<GiftCard> jsonMarshaller = new JsonMarshaller<GiftCard>();
+            GiftCard giftCard = jsonMarshaller.unMarshall(jsonItem, GiftCard.class);
+            MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
+            Message msg = MessageBuilder.buildCharge(toppanGiftcardConfig, test,
+                                    storeId, workstationId, transactionId,
+                                    messageBuilderGiftCard);
+            tp.println("request", msg);
+            giftResult = centerAccess(msg);
+        } catch (IOException e) {
+        	String logMessage = "decode request param:" + jsonItem;
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO, logMessage, e);
+            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setMessage(logMessage);
+		} catch (Exception e) {
+        	String logMessage = "decode request param:" + jsonItem;
+            LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL, logMessage, e);
+            giftResult.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+            giftResult.setMessage(logMessage);
+		} finally {
+			tp.methodExit(giftResult);
+        }
+        
+        return giftResult;
+    }
 
     /**
      * SendMessage to giftCard Center.

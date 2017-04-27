@@ -8698,39 +8698,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
-  </entry>
-  <entry key="get-credit-summary">
-    DECLARE
-      @companyId varchar(max),
-      @storeId varchar(max),
-      @businessDayDate date,
-      @trainingFlag tinyint
-
-    SET @companyId = ?
-    SET @storeId = ?
-    SET @businessDayDate = ?
-    SET @trainingFlag = ?
-
-    SELECT
-      CompanyId,
-      RetailStoreId,
-      BusinessDayDate,
-      TrainingFlag,
-      SUM(SalesItemCnt) as CntSum,
-      SUM(SalesItemAmt) as AmtSum
-    FROM
-      RESTransaction.dbo.TXU_TOTAL_CREDITSTORE_SUMDAY
-    WHERE
-      CompanyId = @companyId AND
-      RetailStoreId = @storeId AND
-      BusinessDayDate = @businessDayDate AND
-      TrainingFlag = @trainingFlag
-    GROUP BY
-      CompanyId,
-      RetailStoreId,
-      BusinessDayDate,
-      TrainingFlag
-  </entry>
+  </entry>  
   <entry key="get-barcode-type">
   DECLARE
       @storeId varchar(max),

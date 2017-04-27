@@ -5,9 +5,6 @@ import ncr.res.mobilepos.settlement.model.SettlementInfo;
 import ncr.res.mobilepos.settlement.model.VoucherDetails;
 
 public interface ISettlementInfoDAO {
-	SettlementInfo getCreditSummary(String companyId, String storeId, 
-			String businessDayDate, int trainingFlag) throws Exception;
-	
 	SettlementInfo getVoucherList(String companyId, String storeId,
 			String businessDayDate, String terminalId, int trainingFlag) throws Exception;
 	

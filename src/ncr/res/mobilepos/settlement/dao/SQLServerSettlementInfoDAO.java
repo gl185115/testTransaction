@@ -61,57 +61,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     }
     
     @Override
-    public SettlementInfo getCreditSummary(String companyId, String storeId, 
-    		String businessDayDate, int trainingFlag) throws Exception {
-    	String functionName = DebugLogger.getCurrentMethodName();
-    	tp.methodEnter(functionName)
-    		.println("companyId", companyId)
-    		.println("storeId", storeId)
-    		.println("businessDayDate", businessDayDate)
-    		.println("trainingFlag", trainingFlag);
-    
-    	Connection connection = null;
-    	PreparedStatement statement = null;
-    	ResultSet result = null;
-    	SettlementInfo settlement = new SettlementInfo();
-    
-    	try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-            		sqlStatement.getProperty("get-credit-summary"));
-            statement.setString(SQLStatement.PARAM1, companyId);
-            statement.setString(SQLStatement.PARAM2, storeId);
-            statement.setString(SQLStatement.PARAM3, businessDayDate);
-            statement.setInt(SQLStatement.PARAM4, trainingFlag);
-            result = statement.executeQuery();
-            if (result.next()) {
-            	CreditInfo creditInfo = new CreditInfo();
-            	creditInfo.setCompanyId(result.getString("CompanyId"));
-            	creditInfo.setStoreId(result.getString("RetailStoreId"));
-            	creditInfo.setBusinessDayDate(result.getString("BusinessDayDate"));
-            	creditInfo.setTrainingFlag(result.getInt("TrainingFlag"));
-            	creditInfo.setSalesCntSum(result.getInt("CntSum"));
-            	creditInfo.setSalesAmtSum(result.getDouble("AmtSum"));
-            	settlement.setCreditInfo(creditInfo);
-            } else {
-            	tp.println("Credit summary not found.");
-            	settlement.setNCRWSSResultCode(ResultBase.RES_CREDIT_SUMMARY_NOT_FOUND);
-            	settlement.setMessage("Credit summary not found.");
-            }
-    	} catch (Exception e) {
-    		LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
-    				+ ": Failed to get credit summary.", e);
-    		throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
-    				+ functionName, e);
-        }  finally {
-        	closeConnectionObjects(connection, statement, result);
-        	tp.methodExit(settlement);
-        }
-    	return settlement;
-    }
-    
-    @Override
     public SettlementInfo getVoucherList(String companyId, String storeId, 
     		String businessDayDate, String terminalId, int trainingFlag) throws Exception {
     	String functionName = DebugLogger.getCurrentMethodName();

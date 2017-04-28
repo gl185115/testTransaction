@@ -8,10 +8,13 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -53,13 +56,24 @@ public class PoslogStatusResource {
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
     
-    @Path("/check")
-    @GET
-    @Produces({"application/javascript;charset=UTF-8"})
-    @ApiOperation(value="未処理件数取得", response=PoslogStatusInfo.class)
     /**
      * Check the count of result that not deal with.
+     * @param consolidation
+     *            the consolidation check flag
+     * @param transfer
+     *            the transfer check flag
+     * @return PoslogStatusInfo
+     *            the count of result that not deal with.
      */
+    @Path("/check")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="未処理件数取得", response=PoslogStatusInfo.class)
+    @ApiResponses(value={
+    	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+    	    @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+    	    })
     public final PoslogStatusInfo checkResultCount(
             @ApiParam(name="consolidation", value="Consolidationフラグ") @QueryParam("consolidation") final boolean consolidation,
             @ApiParam(name="transfer", value="POSLog転送フラグ") @QueryParam("transfer") final boolean transfer) {

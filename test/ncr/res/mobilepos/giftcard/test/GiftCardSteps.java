@@ -157,16 +157,16 @@ public class GiftCardSteps extends Steps {
 		giftResult = toppanGiftcardResource.activate(storeId, workstationId, transactionId, test, giftcard);
 	}
 	
-	@When("I test charge with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	@When("I test charge with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard campaign $campaign")
 	public final void giftCardCharge(
 			String storeId, String workstationId, String transactionId,
-			boolean test, String giftcard) {
+			boolean test, String giftcard, boolean campaign) {
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		workstationId = StringUtility.convNullOrEmptryString(workstationId);
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
 		
-		giftResult = toppanGiftcardResource.charge(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.charge(storeId, workstationId, transactionId, test, giftcard, campaign);
 	}
 
 	@Given("I assume external library, CenterAccess returns normal result.")

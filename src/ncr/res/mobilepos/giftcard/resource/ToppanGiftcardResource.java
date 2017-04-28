@@ -332,6 +332,7 @@ public class ToppanGiftcardResource {
      * @param transactionId The Transaction Number
      * @param test The Test Flag
      * @param jsonItem The GiftCard Information Model
+     * @param campaign The campaign Flag
      * @return GiftResult    The GiftResult Object
      */
     @Path("/charge")
@@ -346,7 +347,8 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
-    		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem) {
+    		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
+    		@ApiParam(name="campaign", value="キャンペーン付与拒否フラグ") @FormParam("campaign") final boolean campaign) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -355,6 +357,7 @@ public class ToppanGiftcardResource {
         tp.println("transactionid", transactionId);
         tp.println("test", test);
         tp.println("giftcard", jsonItem);
+        tp.println("campaign", campaign);
         
         GiftResult giftResult = new GiftResult();
         try {
@@ -363,7 +366,7 @@ public class ToppanGiftcardResource {
             MessageBuilder.GiftCard messageBuilderGiftCard= createParameter(giftCard);
             Message msg = MessageBuilder.buildCharge(toppanGiftcardConfig, test,
                                     storeId, workstationId, transactionId,
-                                    messageBuilderGiftCard);
+                                    messageBuilderGiftCard, campaign);
             tp.println("request", msg);
             giftResult = centerAccess(msg);
         } catch (IOException e) {

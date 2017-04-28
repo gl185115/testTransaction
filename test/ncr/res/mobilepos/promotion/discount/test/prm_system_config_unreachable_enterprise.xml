@@ -20,7 +20,7 @@
 		<row>
             <value>EnterpriseServer</value>
             <value>EnterpriseServerUri</value>
-            <value>https://xxx.xxx.xxx.xxx:8443/</value>
+            <value>https://localhost:8443/</value>
             <value>Enterprise Server URL</value>
         </row>
     </table>     	       		

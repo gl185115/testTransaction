@@ -429,7 +429,7 @@ public class PromotionResource {
 				// 部門コードを取得する
                 codeTemp = getDptCode(codeCvtDAO,dao,itemId,varietiesName,companyId,operatorType,response,item);
                 
-                if (ResultBase.RES_OK != response.getNCRWSSResultCode()){
+                if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
                     return response;
                 } else {
                     // 部門コードを部門マスタテーブルに存在チェック
@@ -456,9 +456,9 @@ public class PromotionResource {
                             saleOut.setRegularSalesUnitPrice(barCodePrice);
                             saleOut.setActualSalesUnitPrice(barCodePrice);
                             
-                            transactionOut.setItemId(twoStep ? barcode_fst : itemId);
+                            saleOut.setItemId(twoStep ? barcode_fst : itemId);
+                            saleOut.setDepartment(dptCode);
                             transactionOut.setSale(saleOut);
-                            response.setDepartment(dptCode);
                             response.setDepartmentName(dptName);
                             response.setTransaction(transactionOut);
                             return response;
@@ -572,7 +572,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -585,7 +584,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -598,7 +596,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -611,7 +608,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -624,7 +620,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -635,7 +630,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Not found in the PLU.");
                 tp.println("Not found in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -648,7 +642,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }
@@ -661,13 +654,11 @@ public class PromotionResource {
                     response.setNCRWSSExtendedResultCode(ResultBase.EMERGENCY_REGISTRATION);
                     response.setMessage("The Emergency registration.");
                     tp.println("The Emergency registration.");
-                    codeTemp = "response";
                 } else {
                     response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                     response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                     response.setMessage("Not found in the PLU.");
                     tp.println("Not found in the PLU.");
-                    codeTemp = "response";
                 }
             } else {
                 codeTemp = dpt;
@@ -681,7 +672,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Dpt is Empty in the PLU.");
                 tp.println("Dpt is Empty in the PLU.");
-                codeTemp = "response";
             } else {
                 codeTemp = dpt;
             }

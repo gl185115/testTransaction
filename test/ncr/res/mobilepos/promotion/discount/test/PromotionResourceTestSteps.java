@@ -294,7 +294,7 @@ public class PromotionResourceTestSteps extends Steps {
 	
 	@Then("the Extended Result Code is $resultcode")
 	public final void theExtendedResultCodeIs(int expectedResultCode) {
-		Assert.assertEquals("Expect the  result code", expectedResultCode,
+		Assert.assertEquals("Expect the extended result code", expectedResultCode,
 				actualResultBase.getNCRWSSExtendedResultCode());
 	}
 	
@@ -526,15 +526,41 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the TaxType row ", 
 					sale.getTaxType(),
 					is(equalTo(Integer.parseInt(expecedItem.get("TaxType")))));
-			assertThat("Compare the SalesPrice1 row ", ""
+			assertThat("Compare the RegularSalesUnitPrice row ", ""
 					+ sale.getRegularSalesUnitPrice(),
 					is(equalTo(expecedItem.get("RegularSalesPrice"))));
-			assertThat("Compare the description row ", ""
+			assertThat("Compare the Description row ", ""
 					+ sale.getDescription().getJa(),
 					is(equalTo(expecedItem.get("description"))));
-			assertThat("Compare the description row ", ""
+			assertThat("Compare the ActualSalesUnitPrice row ", ""
 					+ sale.getActualSalesUnitPrice(),
 					is(equalTo(expecedItem.get("ActualSalesPrice"))));
+		}
+	}
+	@Then("dptResult should be : $expectedItems")
+	public final void dptResultShouldBe(final ExamplesTable expectedItems) {
+		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
+		Transaction transactionResult = promotionResponse.getTransaction();
+		Sale sale = transactionResult.getSale();
+		assertThat("transactionResult is equal to null",
+				transactionResult == null, is(equalTo(false)));
+		
+		for (Map<String, String> expecedItem : expectedItems.getRows()) {
+			assertThat("Compare the DptName row ", ""
+					+ promotionResponse.getDepartmentName(),
+					is(equalTo(expecedItem.get("DptName"))));
+			assertThat("Compare the MdNameLocal row ", ""
+					+ sale.getMdNameLocal(),
+					is(equalTo(expecedItem.get("MdNameLocal"))));
+			assertThat("Compare the TaxType row ", 
+					sale.getTaxType(),
+					is(equalTo(Integer.parseInt(expecedItem.get("TaxType")))));
+			assertThat("Compare the ItemId row ", ""
+					+ sale.getItemId(),
+					is(equalTo(expecedItem.get("ItemId"))));
+			assertThat("Compare the Dpt row ", ""
+					+ sale.getDepartment(),
+					is(equalTo(expecedItem.get("Dpt"))));
 		}
 	}
 	//2017/04/17 add end by kl

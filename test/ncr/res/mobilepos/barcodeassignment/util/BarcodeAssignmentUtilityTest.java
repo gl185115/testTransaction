@@ -98,15 +98,15 @@ public class BarcodeAssignmentUtilityTest {
 
     @Test
     public void isWithCCode() throws Exception {
-        Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode("123 4"));
-        Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode("123 45"));
-        Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode("123 456"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode("123 4"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode("123 45"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode("123 456"));
         Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode("123 4567"));
         Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode("123 45678"));
 
-        Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode(" 123 4"));
-        Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode(" 123 45"));
-        Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode(" 123 456"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode(" 123 4"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode(" 123 45"));
+        Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode(" 123 456"));
         Assert.assertTrue(BarcodeAssignmentUtility.isWithCCode(" 123 4567"));
         Assert.assertFalse(BarcodeAssignmentUtility.isWithCCode(" 123 45678"));
 
@@ -217,28 +217,28 @@ public class BarcodeAssignmentUtilityTest {
 
         String singleBarcode = ("8888111222333");
         Assert.assertEquals("something",
-                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba));
+                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba).getId());
 
         singleBarcode = ("7777111222333");
-        Assert.assertEquals("",
+        Assert.assertEquals(null,
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba));
 
         singleBarcode = ("8888111222333");
         Assert.assertEquals("something",
-                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba));
+                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba).getId());
 
         // Only matches with the first one in BarcodeAssignment.
         singleBarcode = ("8888111222333");
         Assert.assertEquals("something",
-                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba));
+                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba).getId());
 
         singleBarcode = ("7777111222333");
-        Assert.assertEquals("",
+        Assert.assertEquals(null,
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba));
 
         singleBarcode = ("5555111222333");
         Assert.assertEquals("something3",
-                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba));
+                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithSingleBarcode(singleBarcode, ba).getId());
     }
 
     @Test
@@ -272,26 +272,26 @@ public class BarcodeAssignmentUtilityTest {
 
         String[] doubleBarcode = BarcodeAssignmentUtility.splitDoubleBarcode("8888111222333 7777111222333");
         Assert.assertEquals("something",
-                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba));
+                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba).getId());
 
         doubleBarcode = BarcodeAssignmentUtility.splitDoubleBarcode("7777111222333 7777111222333");
-        Assert.assertEquals("",
+        Assert.assertEquals(null,
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba));
 
         doubleBarcode = BarcodeAssignmentUtility.splitDoubleBarcode("8888111222333 5555111222333");
-        Assert.assertEquals("",
+        Assert.assertEquals(null,
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba));
 
         doubleBarcode = BarcodeAssignmentUtility.splitDoubleBarcode("8888111222333 6666111222333");
         Assert.assertEquals("something2",
-                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba));
+                BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba).getId());
 
         doubleBarcode = BarcodeAssignmentUtility.splitDoubleBarcode("7777111222333 6666111222333");
-        Assert.assertEquals("",
+        Assert.assertEquals(null,
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba));
 
         doubleBarcode = BarcodeAssignmentUtility.splitDoubleBarcode("7777111222333 7777111222333");
-        Assert.assertEquals("",
+        Assert.assertEquals(null,
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemIdWithDoubleBarcode(doubleBarcode, ba));
     }
 
@@ -305,53 +305,59 @@ public class BarcodeAssignmentUtilityTest {
         ba.setSale(baSale);
 
         ItemSale baItem = new ItemSale();
-        baItem.setId("something1");
+        baItem.setId("something double1");
         List<String> formats = new ArrayList<String>();
         formats.add("1111[0-9]{9}");
         List<String> nextFormats = new ArrayList<String>();
         nextFormats.add("1112[0-9]{9}");
         baItem.setFormat(formats);
         baItem.setNextFormat(nextFormats);
+        baItem.setType("double");
         baItemSales.add(baItem);
 
         ItemSale baItem2 = new ItemSale();
-        baItem2.setId("something2");
+        baItem2.setId("something double2");
         List<String> formats2 = new ArrayList<String>();
         formats2.add("2221[0-9]{9}");
         List<String> nextFormats2 = new ArrayList<String>();
         nextFormats2.add("2222[0-9]{9}");
         baItem2.setFormat(formats2);
         baItem2.setNextFormat(nextFormats2);
+        baItem2.setType("double");
         baItemSales.add(baItem2);
 
         ItemSale baItem4 = new ItemSale();
-        baItem4.setId("something4");
+        baItem4.setId("something single1");
         List<String> formats4 = new ArrayList<String>();
         formats4.add("4444[0-9]{9}");
         List<String> nextFormats4 = new ArrayList<String>();
         baItem4.setFormat(formats4);
         baItem4.setNextFormat(nextFormats4);
+        baItem4.setType("single");
         baItemSales.add(baItem4);
 
         ItemSale baItem5 = new ItemSale();
-        baItem5.setId("something5");
+        baItem5.setId("something single2");
         List<String> formats5 = new ArrayList<String>();
         List<String> nextFormats5 = new ArrayList<String>();
         nextFormats5.add("5555[0-9]{9}");
         baItem5.setFormat(formats5);
         baItem5.setNextFormat(nextFormats5);
+        baItem5.setType("single");
         baItemSales.add(baItem5);
 
-        // Single barcode matches with a first of 'something1'.
-        Assert.assertEquals("something1",
+        // Single barcode matches with a part of 'something1'.
+        Assert.assertEquals("something double1",
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemId("1111111222333", ba));
+        // Now it knows if it is a part of double barcode assignment.
+        Assert.assertTrue(BarcodeAssignmentUtility.isPartOfDoubleBarcode("1111111222333", ba));
 
         // Single barcode never matches with a 'next' of 'something1'.
         Assert.assertEquals("",
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemId("1112111222333", ba));
 
         // Double barcode can matches with 'something2'
-        Assert.assertEquals("something2",
+        Assert.assertEquals("something double2",
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemId("2221111222333 2222111222333", ba));
 
         // Double barcode can't match with 'something2', only first line match, second line doen't.
@@ -359,8 +365,10 @@ public class BarcodeAssignmentUtilityTest {
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemId("2221111222333 2223111222333", ba));
 
         // Single barcode can matches with ba which only has format.
-        Assert.assertEquals("something4",
+        Assert.assertEquals("something single1",
                 BarcodeAssignmentUtility.getBarcodeAssignmentItemId("4444111222333", ba));
+        // Now it knows if it is not a part of double barcode assignment.
+        Assert.assertFalse(BarcodeAssignmentUtility.isPartOfDoubleBarcode("4444111222333", ba));
 
         // Double barcode can't match with 'something4' which is for single barcode.
         Assert.assertEquals("",

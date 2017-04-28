@@ -10813,4 +10813,52 @@ insert into RESTransaction.dbo.TXL_offline_credit
     	MagCode = @magcode
   </entry>
 
+  <entry key="poslog-status-check">
+	Declare 
+		@status varchar(max)
+		
+	SET @status= ?
+
+	IF (@status = 'SendStatus1')
+	BEGIN
+		SELECT
+		(
+			SELECT
+				COUNT(*) as C_NotExcuteCount
+			FROM
+				RESTransaction.dbo.TXL_SALES_JOURNAL
+			WHERE
+				Status = 0
+		) C_NotExcuteCount,
+		(
+			SELECT
+				COUNT(*) as T_NotExcuteCount
+			FROM
+				RESTransaction.dbo.TXL_SALES_JOURNAL
+			WHERE
+				SendStatus1 = 0
+		) T_NotExcuteCount
+	END
+	ELSE
+	BEGIN
+	SELECT
+		(
+			SELECT
+				COUNT(*) as C_NotExcuteCount
+			FROM
+				RESTransaction.dbo.TXL_SALES_JOURNAL
+			WHERE
+				Status = 0
+		) C_NotExcuteCount,
+		(
+			SELECT
+				COUNT(*) as T_NotExcuteCount
+			FROM
+				RESTransaction.dbo.TXL_SALES_JOURNAL
+			WHERE
+				SendStatus2 = 0
+		) T_NotExcuteCount
+	END
+  </entry>
+
 </properties>

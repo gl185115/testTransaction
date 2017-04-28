@@ -64,6 +64,8 @@ import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
 import ncr.res.mobilepos.offlinecredit.dao.SQLServerOfflineCreditDAO;
 import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.point.dao.SQLServerPointDAO;
+import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
+import ncr.res.mobilepos.poslogstatus.dao.SQLServerPoslogStatusDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
@@ -116,6 +118,11 @@ public class SQLServerDAOFactory extends DAOFactory {
         return new SQLServerItemDAO();
     }
 
+    @Override
+    public final IPoslogStatusDAO getPoslogStatusDAO() throws DaoException {
+        return new SQLServerPoslogStatusDAO();
+    }
+    
     @Override
     public final IClassInfoDAO getClassInfoDAO() throws DaoException {
         return new SQLServerClassInfoDAO();

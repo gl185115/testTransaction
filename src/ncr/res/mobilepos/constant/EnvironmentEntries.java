@@ -3,6 +3,8 @@ package ncr.res.mobilepos.constant;
 import javax.naming.Context;
 import javax.naming.NamingException;
 
+import ncr.res.mobilepos.helper.StringUtility;
+
 /**
  * This class is Singleton to store <env-entry> in web.xml.
  * This is initialized once in WebContextListener and loads necessary env-entries and caches them.
@@ -46,6 +48,8 @@ public class EnvironmentEntries {
     private static final String KEY_CUSTOM_PARAM_BASE_PATH = "customParamBasePath";
     // 17
     private static final String KEY_PARA_BASE_PATH = "paraBasePath";
+    // 18
+    private static final String KEY_POSLOG_TRANSFER_STATUS_COLUMN = "POSLogTransferStatusColumn";
 
     // 1
     // ServerId for Logger.
@@ -98,6 +102,9 @@ public class EnvironmentEntries {
     // 17
     // ParaBasePath
     private String paraBasePath;
+    // 18
+    // POSLogTransferStatusColumn
+    private String poslogTransferStatusColumn;
 
 
     /**
@@ -148,6 +155,8 @@ public class EnvironmentEntries {
         customParamBasePath = (String)loadProperty(KEY_CUSTOM_PARAM_BASE_PATH, context);
         // 17
         paraBasePath = (String)loadProperty(KEY_PARA_BASE_PATH, context);
+        // 18
+        poslogTransferStatusColumn = (String)loadProperty(KEY_POSLOG_TRANSFER_STATUS_COLUMN, context);
 
     }
 
@@ -315,4 +324,16 @@ public class EnvironmentEntries {
     public String getParaBasePath() {
         return paraBasePath;
     }
+
+    /**
+     * Returns Poslog Transfer Status Column.
+     * @return poslogTransferStatusColumn
+     */
+	public String getPoslogTransferStatusColumn() {
+		if (StringUtility.isNullOrEmpty(poslogTransferStatusColumn)){
+			return "SendStatus1";
+		} else {
+			return poslogTransferStatusColumn;
+		}
+	}
 }

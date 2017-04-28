@@ -219,6 +219,12 @@
     <env-entry-value>c:\software\ncr\res\log\SPM_DIR</env-entry-value>
   </env-entry>
   <env-entry>
+  	<description>POSLog Transfer status column name</description>
+  	<env-entry-name>POSLogTransferStatusColumn</env-entry-name>
+  	<env-entry-type>java.lang.String</env-entry-type>
+  	<env-entry-value>SendStatus1</env-entry-value>
+  </env-entry>
+  <env-entry>
     <env-entry-name>debugLevel</env-entry-name>
     <env-entry-type>java.lang.Integer</env-entry-type>
     <env-entry-value>5</env-entry-value>

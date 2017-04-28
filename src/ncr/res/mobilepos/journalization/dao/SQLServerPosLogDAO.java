@@ -258,7 +258,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         long ReturnGuestCnt = 0;
         long VoidGuestCnt = 0;
 
-        // ‘OŽó‹àAHoldA‹q’‚Ì‚¢‚¸‚ê‚©‚ª’ù³‚Ìê‡A‹q”‚ÍŒvã‚µ‚È‚¢
         if (null != transaction.getRetailTransaction()) {
             if (null != transaction.getRetailTransaction().getTransactionLink()) {
                 TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
@@ -271,22 +270,17 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         if (!returnFlag) {
-            // ”„ã‚Ìê‡
             if (txType.equalsIgnoreCase(TxTypes.SALES)) {
                 SalesGuestCnt = 1;
-                // •Ô•i‚Ìê‡
             } else if (txType.equalsIgnoreCase(TxTypes.RETURN)) {
                 ReturnGuestCnt = 1;
-                // ŽæÁ‚Ìê‡
             } else {
-                // ’Êí”„ã‚ªŽæÁ‚Ìê‡
                 if (null != transaction.getRetailTransaction()) {
                     if (null != transaction.getRetailTransaction().getLineItems()) {
                         List<LineItem> lineItems = transaction.getRetailTransaction().getLineItems();
 
                         for (LineItem lineItem : lineItems) {
                             if (lineItem.getRetrn() != null) {
-                                // ’Êí”„ã‚ªŽæÁ•Ô•i‚Ìê‡
                                 isVoidReturnFlag = true;
                                 break;
                             }
@@ -2055,9 +2049,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         saveVoidDetailsStmt.executeUpdate();
     }
 
-    /**
-     * ‘OŽJ‚ÌPosLog‚Ì•Û‘¶
-     */
     @Override
     public int saveForwardPosLog(PosLog posLog, String posLogXml, String queue, String total) throws DaoException {
 
@@ -2127,9 +2118,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         return result;
     }
 
-    /**
-     * ‘OŽJPosLog ‚ÌŽæ“¾
-     */
     @Override
     public SearchForwardPosLog getForwardItemsPosLog(String CompanyId, String RetailStoreId, String WorkstationId,
             String SequenceNumber, String Queue, String BusinessDayDate, String TrainingFlag) throws DaoException {

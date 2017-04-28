@@ -103,25 +103,27 @@
                 <format>[0-9]{13}</format>
             </item>
             <item>
+                <description>UPCA商品</description>
+                <id>upcSales</id>
+                <type>single</type>
+                <symbol>UPCA</symbol>
+                <format>[0-9]{8}</format>
+                <format>[0-9]{12}</format>
+            </item>
+            <item>
+                <description>UPCE商品</description>
+                <id>upcSales</id>
+                <type>single</type>
+                <symbol>UPCE</symbol>
+                <format>[0-9]{8}</format>
+                <format>[0-9]{12}</format>
+            </item>
+            <item>
                 <description>NW7商品</description>
                 <id>nw7Sales</id>
                 <type>single</type>
                 <symbol>Codabar</symbol>
                 <format>(A|a){1}(\\d{18})(C|c)</format>
-            </item>
-            <item>
-                <description>EAN商品</description>
-                <id>janSales</id>
-                <type>single</type>
-                <symbol>EAN</symbol>
-                <format>.*</format>
-            </item>
-            <item>
-                <description>UPCA商品</description>
-                <id>upcSales</id>
-                <type>single</type>
-                <symbol>UPCA</symbol>
-                <format>.*</format>
             </item>
         </items>
     </sale>

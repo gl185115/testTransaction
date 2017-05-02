@@ -87,7 +87,7 @@ public class PoslogStatusResource {
             		PROG_NAME,
                     functionName,
                     Logger.RES_PARA_ERR,
-                    "リクエストデータフォーマットエラー。\nクエリーパラメータが未設定です。(conolidation / transfer)\n");
+                    "リクエストデータフォーマットエラー。\nクエリーパラメータが未設定です。(consolidation / transfer)\n");
     		response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		response.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);

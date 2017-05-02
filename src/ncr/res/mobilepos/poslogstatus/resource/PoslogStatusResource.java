@@ -83,6 +83,11 @@ public class PoslogStatusResource {
     	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
     	
     	if (!consolidation && !transfer){
+    		LOGGER.logAlert(
+            		PROG_NAME,
+                    functionName,
+                    Logger.RES_PARA_ERR,
+                    "リクエストデータフォーマットエラー。\nクエリーパラメータが未設定です。(conolidation / transfer)\n");
     		response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		response.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -97,7 +102,7 @@ public class PoslogStatusResource {
 		} catch (DaoException daoEx) {
             LOGGER.logAlert(
             		PROG_NAME,
-                    "poslogStatusResource.checkResultCount",
+                    "functionName",
                     Logger.RES_EXCEP_DAO,
                     "Failed to get the info of poslog status.\n"
                             + daoEx.getMessage());
@@ -113,7 +118,7 @@ public class PoslogStatusResource {
         } catch (Exception ex) {
             LOGGER.logAlert(
             		PROG_NAME,
-            		"poslogStatusResource.checkResultCount",
+            		"functionName",
                     Logger.RES_EXCEP_GENERAL,
                     "Failed to get Poslog Status " + ": "
                             + ex.getMessage());

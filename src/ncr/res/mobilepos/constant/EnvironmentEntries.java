@@ -50,6 +50,8 @@ public class EnvironmentEntries {
     private static final String KEY_PARA_BASE_PATH = "paraBasePath";
     // 18
     private static final String KEY_POSLOG_TRANSFER_STATUS_COLUMN = "POSLogTransferStatusColumn";
+    // 19
+    private static final String KEY_SYSTEM_PATH = "systemPath";
 
     // 1
     // ServerId for Logger.
@@ -105,7 +107,9 @@ public class EnvironmentEntries {
     // 18
     // POSLogTransferStatusColumn
     private String poslogTransferStatusColumn;
-
+    // 19
+    // systemPath
+    private String systemPath;
 
     /**
      * Constructor.
@@ -157,6 +161,8 @@ public class EnvironmentEntries {
         paraBasePath = (String)loadProperty(KEY_PARA_BASE_PATH, context);
         // 18
         poslogTransferStatusColumn = (String)loadProperty(KEY_POSLOG_TRANSFER_STATUS_COLUMN, context);
+        // 19
+        systemPath = (String)loadProperty(KEY_SYSTEM_PATH, context);
 
     }
 
@@ -336,4 +342,12 @@ public class EnvironmentEntries {
 			return poslogTransferStatusColumn;
 		}
 	}
+	
+    /**
+     * Returns system path.
+     * @return systemPath
+     */
+    public String getSystemPath() {
+        return systemPath;
+    }
 }

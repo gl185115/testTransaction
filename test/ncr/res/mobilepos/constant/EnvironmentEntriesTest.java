@@ -50,7 +50,11 @@ public class EnvironmentEntriesTest {
     // 16
     private static final String KEY_CUSTOM_PARAM_BASE_PATH = "customParamBasePath";
     // 17
+    private static final String KEY_PARA_BASE_PATH = "paraBasePath";
+    // 18
     private static final String KEY_POSLOG_TRANSFER_STATUS_COLUMN = "POSLogTransferStatusColumn";
+    // 19
+    private static final String KEY_SYSTEM_PATH = "systemPath";
 
     @Before
     public void setUp() throws NamingException {
@@ -83,6 +87,7 @@ public class EnvironmentEntriesTest {
         initContext.bind("java:comp/env/customParamBasePath", "test/resources/cust/para");
         initContext.bind("java:comp/env/paraBasePath", "test/resources/para");
         initContext.bind("java:comp/env/POSLogTransferStatusColumn", "SendStatus1");
+        initContext.bind("java:comp/env/systemPath", "c:/software/ncr/res/sys");
     }
 
     @After
@@ -123,6 +128,7 @@ public class EnvironmentEntriesTest {
             assertEquals("test/resources/cust/para", env.getCustomParamBasePath());
             assertEquals("test/resources/para", env.getParaBasePath());
             assertEquals("SendStatus1", env.getPoslogTransferStatusColumn());
+            assertEquals("c:/software/ncr/res/sys", env.getSystemPath());
 
         } catch (Exception e) {
             fail("No Exception exptected.");

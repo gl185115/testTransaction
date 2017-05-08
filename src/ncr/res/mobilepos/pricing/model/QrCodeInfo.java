@@ -36,6 +36,9 @@ public class QrCodeInfo {
     
     @XmlElement(name = "outputType")
     private String outputType;
+    
+    @XmlElement(name = "displayOrder")
+    private String displayOrder;
 
     @ApiModelProperty(value="出力タイプ", notes="出力タイプ")
     public String getOutputType() {
@@ -107,6 +110,15 @@ public class QrCodeInfo {
 
     public void setBmpFileCount(String bmpFileCount) {
         this.bmpFileCount = bmpFileCount;
+    }
+    
+    @ApiModelProperty(value="出力順", notes="出力順")
+    public String getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(String displayOrder) {
+        this.displayOrder = displayOrder;
     }
 
 }

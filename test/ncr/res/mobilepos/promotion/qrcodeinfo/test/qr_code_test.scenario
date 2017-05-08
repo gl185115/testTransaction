@@ -1,0 +1,15 @@
+Scenario: test QrCodeInfo.
+Given a loaded dataset test/ncr/res/mobilepos/promotion/qrcodeinfo/test/data_qrCode.xml
+
+Scenario: qrCodeInfo test for file exist.
+When the tomcat startUp with systemPath test/resources/sys
+Then the Result Code is 0
+Then I should get the QrCodeInfo :
+|PromotionId|MinimumPrice|OutputTargetValue|BMPFileName|BMPFileFlag|BMPFileCount|OutputType|DisplayOrder|
+|0001       |100000.0    |null             |‘S“X                  |0          |1           |1         |1           |
+|0002       |100000.0    |null             |‘S“X2       |0          |1           |1         |1           |
+
+Scenario: qrCodeInfo test for file don't exist.
+When the tomcat startUp with systemPath ""
+the Result Code is 1
+

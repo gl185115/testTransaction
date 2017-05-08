@@ -1,10 +1,12 @@
 package ncr.res.mobilepos.systemsetting.resource;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
@@ -34,6 +36,27 @@ import ncr.res.mobilepos.systemsetting.model.SystemSetting;
 @Api(value="/SystemSettings", description="ÉVÉXÉeÉÄÇÃê›íËAPI")
 public class SystemSettingResource {
 
+    /**
+     * ServletContext.
+     */
+    @Context
+    private ServletContext context;
+
+    /**
+     * @return the context
+     */
+    public final ServletContext getContext() {
+        return context;
+    }
+
+    /**
+     * @param contextToSet
+     *            the context to set
+     */
+    public final void setContext(final ServletContext contextToSet) {
+        this.context = contextToSet;
+    }
+    
     /**
      * Logger.
      */
@@ -86,22 +109,15 @@ public class SystemSettingResource {
             .println("storeid", storeId);
 
         try {
-            String qCompanyId = StringUtility.isNullOrEmpty(companyId) ? "0" : companyId;
             String qStoreId = StringUtility.isNullOrEmpty(storeId) ? "0" : storeId;
 
             ISystemSettingDAO systemSetDao = daoFactory.getSystemSettingDAO();
 
-            dateSetting = systemSetDao.getDateSetting(qCompanyId, qStoreId);
+            dateSetting = systemSetDao.getDateSetting(companyId, qStoreId);
             if (dateSetting == null) {
                 if (!"0".equals(qStoreId)) {
                     qStoreId = "0";
-                    dateSetting = systemSetDao.getDateSetting(qCompanyId, qStoreId);
-                }
-            }
-            if (dateSetting == null) {
-                if (!"0".equals(qCompanyId)) {
-                    qCompanyId = "0";
-                    dateSetting = systemSetDao.getDateSetting(qCompanyId, qStoreId);
+                    dateSetting = systemSetDao.getDateSetting(companyId, qStoreId);
                 }
             }
 

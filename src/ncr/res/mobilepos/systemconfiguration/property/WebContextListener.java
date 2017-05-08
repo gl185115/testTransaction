@@ -29,6 +29,7 @@ import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Item;
+import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;;
@@ -117,6 +118,9 @@ public class WebContextListener implements ServletContextListener {
             
             // Loads ItemCode.xml file
             BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
+            
+            // Loads QrCodeInfo  Information
+            QrCodeInfoFactory.initialize(environmentEntries.getSystemPath());
             
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
 		} catch (Exception e) {

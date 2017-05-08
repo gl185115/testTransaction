@@ -14,6 +14,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
@@ -24,6 +25,7 @@ import ncr.res.mobilepos.helper.ResultBaseHelper;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 
 import static org.junit.Assert.assertEquals;
@@ -100,6 +102,16 @@ public class InitializationStatusResourceSteps extends Steps {
 
             case "ToppanGiftCardConfigFactory":
                 targetClass = ToppanGiftCardConfigFactory.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+            case "QrCodeInfoFactory":
+                targetClass = QrCodeInfoFactory.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+            case "BarcodeAssignmentFactory":
+                targetClass = BarcodeAssignmentFactory.class;
                 targetField = PowerMockito.field(targetClass, "instance");
                 targetField.set(null, null);
                 break;

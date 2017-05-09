@@ -73,11 +73,11 @@ public class QrCodeSteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-	
     
 	@When("the tomcat startUp with systemPath $systemPath")
 	public final void getQrCodeInfo(String systemPath) throws Exception {
 		try{
+			status = 0;
 			QrCodeList = qrCodeInfoFactory.initialize(systemPath);
 		} catch(IOException e) {
 			status = ERROR_IOEXCEPTION;
@@ -121,7 +121,14 @@ public class QrCodeSteps extends Steps {
 	
 	@Then("the Result Code is $resultcode")
 	public final void theResultCodeIs(int expectedResultCode) {
-		Assert.assertEquals("Expect the  result code", expectedResultCode,
+		Assert.assertEquals("Expect the result code", expectedResultCode,
 				status);
+	}
+	
+	@Then("the emptyResult is $expectedResult")
+	public final void qrCodeInfoIsNull(String expectedResult) {
+		assertThat("Expect the result ",
+				"" + QrCodeList,
+				is(equalTo(expectedResult)));
 	}
 }

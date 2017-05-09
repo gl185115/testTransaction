@@ -1,15 +1,31 @@
 Scenario: test QrCodeInfo.
 Given a loaded dataset test/ncr/res/mobilepos/promotion/qrcodeinfo/test/data_qrCode.xml
 
-Scenario: qrCodeInfo test for file exist.
-When the tomcat startUp with systemPath test/resources/sys
+Scenario: systemPath is "".
+When the tomcat startUp with systemPath ""
+Then the Result Code is 1
+
+Scenario: COMPANYID exist but STOREID not exist.
+When the tomcat startUp with systemPath test/resources/sys/nostoreId
+Then the Result Code is 1
+
+Scenario: STOREID exist but COMPANYID not exist.
+When the tomcat startUp with systemPath test/resources/sys/nocompanyid
+Then the Result Code is 1
+
+Scenario: Business date is not set.
+When the tomcat startUp with systemPath test/resources/sys/datenotset
+Then the Result Code is 2
+
+Scenario: can't find rigth info because deleteFlag is 1.
+When the tomcat startUp with systemPath test/resources/sys/noinfo
+Then the Result Code is 0
+Then the emptyResult is null
+
+Scenario: get the right info.
+When the tomcat startUp with systemPath test/resources/sys/normal
 Then the Result Code is 0
 Then I should get the QrCodeInfo :
 |PromotionId|MinimumPrice|OutputTargetValue|BMPFileName|BMPFileFlag|BMPFileCount|OutputType|DisplayOrder|
 |0001       |100000.0    |null             |‘S“X                  |0          |1           |1         |1           |
 |0002       |100000.0    |null             |‘S“X2       |0          |1           |1         |1           |
-
-Scenario: qrCodeInfo test for file don't exist.
-When the tomcat startUp with systemPath ""
-the Result Code is 1
-

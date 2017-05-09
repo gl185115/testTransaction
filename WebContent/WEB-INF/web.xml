@@ -54,8 +54,9 @@
         ncr.res.mobilepos.webserviceif.resource,
         ncr.res.mobilepos.point.resource,
         ncr.res.mobilepos.uiconfig.resource,
-        ncr.res.mobilepos.creditcard.resource
-        ncr.res.mobilepos.initialization.resource
+        ncr.res.mobilepos.creditcard.resource,
+        ncr.res.mobilepos.initialization.resource,
+        ncr.res.mobilepos.poslogstatus.resource
     </param-value>
     </init-param>
     <init-param>
@@ -129,6 +130,7 @@
       <url-pattern>/rest/WebServiceIf/*</url-pattern>
       <url-pattern>/rest/ItemForward/*</url-pattern>
       <url-pattern>/rest/creditcard/*</url-pattern>
+      <url-pattern>/rest/poslogstatus/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -233,6 +235,11 @@
     <env-entry-name>snapPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>c:\software\ncr\res\log\snap_dir</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <env-entry-name>systemPath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>c:\software\ncr\res\sys</env-entry-value>
   </env-entry>
   <!-- 売上表レポート利用のファーマットXMLファイル -->
   <env-entry>

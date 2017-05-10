@@ -163,7 +163,7 @@
                 <id>signon</id>
                 <type>single</type>
                 <symbol>Codabar</symbol>
-                <format>(A|a){1}(\\d{7})([a-b|A-B])</format>
+                <format>(A|a){1}([0-9]{4,7})(B|b){1}</format>
             </item>
         </items>
     </signon>

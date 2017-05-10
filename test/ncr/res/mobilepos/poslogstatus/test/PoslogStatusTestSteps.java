@@ -65,13 +65,13 @@ public class PoslogStatusTestSteps extends Steps {
 	}
 	
 	@Then("a consolidationResult is $consolidationResult")
-	public final void theConsolidationResultIs(final Long consolidationResult) {
+	public final void theConsolidationResultIs(final int consolidationResult) {
 		Assert.assertEquals("Expect the  consolidationResult code", consolidationResult,
 				poslogStatusInfo.getConsolidationResult());
 	}
 	
 	@Then("a transferResult is $transferResult")
-	public final void theTransferResultIs(final Long transferResult) {
+	public final void theTransferResultIs(final int transferResult) {
 		Assert.assertEquals("Expect the  transferResult code", transferResult,
 				poslogStatusInfo.getTransferResult());
 	}

@@ -95,9 +95,12 @@ public class ItemResourceSteps extends Steps {
     }
     
     @Then("I should have item with promo values $tagcode, $taxtype, $discounttype, $mustbuyflag, $salesitemflag")
-    public final void checkPromotionValues(String tagcode, int taxtype, int discounttype, int mustbuyflag, int salesitemflag) {
+    public final void checkPromotionValues(String tagcode, int taxtype, String discounttype, int mustbuyflag, int salesitemflag) {
         if (tagcode.equals("null")) {
             tagcode = null;
+        }
+        if (discounttype.equals("null")) {
+        	discounttype = null;
         }
         assertThat(actualProduct.getItem().getMixMatchCode(), is(equalTo(tagcode)));
         assertThat(actualProduct.getItem().getTaxType(), is(equalTo(taxtype)));

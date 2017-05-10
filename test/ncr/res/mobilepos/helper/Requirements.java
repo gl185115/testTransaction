@@ -104,7 +104,6 @@ public class Requirements {
                 initContext.bind("java:comp/env/customParamBasePath", "test/resources/cust/para");
                 initContext.bind("java:comp/env/paraBasePath", "test/resources/para");
                 initContext.bind("java:comp/env/POSLogTransferStatusColumn", "SendStatus1");
-                initContext.bind("java:comp/env/systemPath", "test/resources/sys/normal");
 
                 BasicDataSource dsMsSqlServer = new BasicDataSource();
                 dsMsSqlServer.setUrl("jdbc:sqlserver://localhost:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");

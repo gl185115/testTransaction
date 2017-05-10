@@ -236,11 +236,6 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>c:\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <env-entry>
-    <env-entry-name>systemPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\sys</env-entry-value>
-  </env-entry>
   <!-- 売上表レポート利用のファーマットXMLファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>

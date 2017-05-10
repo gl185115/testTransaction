@@ -22,12 +22,12 @@ public class PoslogStatusInfo extends ResultBase{
      * Count of consolidation result.
      */
     @XmlElement(name = "consolidationResult")
-	private Long consolidationResult;
+	private int consolidationResult;
     /**
      * Count of transfer result.
      */
     @XmlElement(name = "transferResult")
-	private Long transferResult;
+	private int transferResult;
 	
     /**
      * Gets the count of consolidation result.
@@ -35,7 +35,7 @@ public class PoslogStatusInfo extends ResultBase{
      * @return consolidation result count.
      */
     @ApiModelProperty( value="consolidationŒ‹‰Ê", notes="consolidationŒ‹‰Ê")
-    public final Long getConsolidationResult() {
+    public final int getConsolidationResult() {
 		return consolidationResult;
 	}
     
@@ -44,7 +44,7 @@ public class PoslogStatusInfo extends ResultBase{
      *
      * @param consolidationResultToSet consolidationResult.
      */
-	public final void setConsolidationResult(Long consolidationResult) {
+	public final void setConsolidationResult(int consolidationResult) {
 		this.consolidationResult = consolidationResult;
 	}
 	
@@ -54,7 +54,7 @@ public class PoslogStatusInfo extends ResultBase{
      * @return transfer result count.
      */
 	@ApiModelProperty( value="transferŒ‹‰Ê", notes="transferŒ‹‰Ê")
-	public final Long getTransferResult() {
+	public final int getTransferResult() {
 		return transferResult;
 	}
 	
@@ -63,7 +63,7 @@ public class PoslogStatusInfo extends ResultBase{
      *
      * @param transferResultToSet transferResult.
      */
-	public final void setTransferResult(Long transferResult) {
+	public final void setTransferResult(int transferResult) {
 		this.transferResult = transferResult;
 	}
     

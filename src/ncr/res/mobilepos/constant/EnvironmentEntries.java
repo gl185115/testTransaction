@@ -51,7 +51,7 @@ public class EnvironmentEntries {
     // 18
     private static final String KEY_POSLOG_TRANSFER_STATUS_COLUMN = "POSLogTransferStatusColumn";
     // 19
-    private static final String KEY_SYSTEM_PATH = "systemPath";
+    private static final String KEY_SYSTEM_PATH = "SYS";
 
     // 1
     // ServerId for Logger.
@@ -114,16 +114,18 @@ public class EnvironmentEntries {
     /**
      * Constructor.
      * @throws NamingException Throws if initialization fails.
+     * @throws Exception
      */
-    private EnvironmentEntries(Context initialContext) throws NamingException {
+    private EnvironmentEntries(Context initialContext) throws NamingException, Exception {
         loadEnvironmentEntries(initialContext);
     }
 
     /**
      * Loading.
      * @throws NamingException Throws if initialization fails.
+     * @throws Exception
      */
-    private void loadEnvironmentEntries(Context initialContext) throws NamingException {
+    private void loadEnvironmentEntries(Context initialContext) throws NamingException, Exception {
         Context context = (Context)initialContext.lookup("java:comp/env");
         //1
         serverId = (String)loadProperty(KEY_SERVER_ID, context);
@@ -157,13 +159,19 @@ public class EnvironmentEntries {
         scheduleFilePath = (String)loadProperty(KEY_SCHEDULE_FILE_PATH, context);
         //16
         customParamBasePath = (String)loadProperty(KEY_CUSTOM_PARAM_BASE_PATH, context);
-        // 17
+        //17
         paraBasePath = (String)loadProperty(KEY_PARA_BASE_PATH, context);
-        // 18
-        poslogTransferStatusColumn = (String)loadProperty(KEY_POSLOG_TRANSFER_STATUS_COLUMN, context);
-        // 19
-        systemPath = (String)loadProperty(KEY_SYSTEM_PATH, context);
-
+        try {
+        //18
+            poslogTransferStatusColumn = (String)loadProperty(KEY_POSLOG_TRANSFER_STATUS_COLUMN, context);
+            if(StringUtility.isNullOrEmpty(poslogTransferStatusColumn)){
+                throw new Exception("resTransaction failed to get poslogTransferStatusColumn");
+            }
+        } catch (NamingException e){
+            poslogTransferStatusColumn = "SendStatus1";
+        }
+        //19
+        systemPath = System.getenv(KEY_SYSTEM_PATH);
     }
 
     /**
@@ -187,8 +195,9 @@ public class EnvironmentEntries {
     /**
      * Initializes the instance.
      * @throws NamingException throws if initialization fails.
+     * @throws Exception
      */
-    public static EnvironmentEntries initInstance(Context initialContext) throws NamingException {
+    public static EnvironmentEntries initInstance(Context initialContext) throws NamingException, Exception {
         // Resets instance as null.
         instance = null;
         instance = new EnvironmentEntries(initialContext);
@@ -336,11 +345,7 @@ public class EnvironmentEntries {
      * @return poslogTransferStatusColumn
      */
 	public String getPoslogTransferStatusColumn() {
-		if (StringUtility.isNullOrEmpty(poslogTransferStatusColumn)){
-			return "SendStatus1";
-		} else {
-			return poslogTransferStatusColumn;
-		}
+		return poslogTransferStatusColumn;
 	}
 	
     /**

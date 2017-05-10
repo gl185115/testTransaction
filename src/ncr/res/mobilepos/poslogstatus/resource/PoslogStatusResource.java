@@ -17,6 +17,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -96,13 +97,14 @@ public class PoslogStatusResource {
     	}
     	
     	try {
-			IPoslogStatusDAO dao = daoFactory.getPoslogStatusDAO();
-			response = dao.checkPoslogStatus(consolidation, transfer);
+    	    IPoslogStatusDAO dao = daoFactory.getPoslogStatusDAO();
+    	    String poslogTransferColumnName = EnvironmentEntries.getInstance().getPoslogTransferStatusColumn();
+    	    response = dao.checkPoslogStatus(consolidation, transfer, poslogTransferColumnName);
 			
 		} catch (DaoException daoEx) {
             LOGGER.logAlert(
             		PROG_NAME,
-                    "functionName",
+                    functionName,
                     Logger.RES_EXCEP_DAO,
                     "Failed to get the info of poslog status.\n"
                             + daoEx.getMessage());
@@ -118,7 +120,7 @@ public class PoslogStatusResource {
         } catch (Exception ex) {
             LOGGER.logAlert(
             		PROG_NAME,
-            		"functionName",
+            		functionName,
                     Logger.RES_EXCEP_GENERAL,
                     "Failed to get Poslog Status " + ": "
                             + ex.getMessage());

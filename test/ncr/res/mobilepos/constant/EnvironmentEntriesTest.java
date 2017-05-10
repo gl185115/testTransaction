@@ -57,7 +57,7 @@ public class EnvironmentEntriesTest {
     // 18
     private static final String KEY_POSLOG_TRANSFER_STATUS_COLUMN = "POSLogTransferStatusColumn";
     // 19
-    private static final String KEY_SYSTEM_PATH = "systemPath";
+    private static final String KEY_SYSTEM_PATH = "SYS";
 
     @Before
     public void setUp() throws NamingException {
@@ -90,7 +90,6 @@ public class EnvironmentEntriesTest {
         initContext.bind("java:comp/env/customParamBasePath", "test/resources/cust/para");
         initContext.bind("java:comp/env/paraBasePath", "test/resources/para");
         initContext.bind("java:comp/env/POSLogTransferStatusColumn", "SendStatus1");
-        initContext.bind("java:comp/env/systemPath", "c:/software/ncr/res/sys");
     }
 
     @After
@@ -131,7 +130,7 @@ public class EnvironmentEntriesTest {
             assertEquals("test/resources/cust/para", env.getCustomParamBasePath());
             assertEquals("test/resources/para", env.getParaBasePath());
             assertEquals("SendStatus1", env.getPoslogTransferStatusColumn());
-            assertEquals("C:/software/ncr/res/sys", env.getSystemPath().replace('\\', '/'));
+            assertEquals(System.getenv(KEY_SYSTEM_PATH), env.getSystemPath());
 
         } catch (Exception e) {
             fail("No Exception exptected.");
@@ -168,7 +167,6 @@ public class EnvironmentEntriesTest {
         initContext.bind("java:comp/env/customParamBasePath", "test/resources/cust/para");
         initContext.bind("java:comp/env/paraBasePath", "test/resources/para");
         initContext.bind("java:comp/env/POSLogTransferStatusColumn", "");
-        initContext.bind("java:comp/env/systemPath", "c:/software/ncr/res/sys");
     }
     
     @SuppressWarnings("unused")
@@ -217,7 +215,6 @@ public class EnvironmentEntriesTest {
 
         initContext.bind("java:comp/env/customParamBasePath", "test/resources/cust/para");
         initContext.bind("java:comp/env/paraBasePath", "test/resources/para");
-        initContext.bind("java:comp/env/systemPath", "c:/software/ncr/res/sys");
     }
     
     @Test
@@ -252,7 +249,7 @@ public class EnvironmentEntriesTest {
             assertEquals("test/resources/cust/para", env.getCustomParamBasePath());
             assertEquals("test/resources/para", env.getParaBasePath());
             assertEquals("SendStatus1", env.getPoslogTransferStatusColumn());
-            assertEquals("C:/software/ncr/res/sys", env.getSystemPath().replace('\\', '/'));
+            assertEquals(System.getenv(KEY_SYSTEM_PATH), env.getSystemPath());
             
         } catch (Exception e1) {
             fail("No Exception exptected.");

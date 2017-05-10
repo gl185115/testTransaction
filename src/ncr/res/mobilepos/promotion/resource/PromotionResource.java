@@ -319,7 +319,7 @@ public class PromotionResource {
 		Transaction transactionOut = new Transaction();
 		Sale saleOut = new Sale();
 		PromotionResponse response = new PromotionResponse();
-		int discounttype = 0;
+		String discounttype = "0";
 		boolean twoStep = false;
 		String codeTemp = null;
 		String dptCode = null;
@@ -353,7 +353,6 @@ public class PromotionResource {
 				// terminalItem.getMixMatch
 				JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
 				Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
-				String operatorType = transactionIn.getOperatorType();
 				Sale saleIn = transactionIn.getSale();
 				
 				ResultBase rs = SaleItemsHandler.validateSale(saleIn);
@@ -427,7 +426,7 @@ public class PromotionResource {
 				}
 
 				// 部門コードを取得する
-                codeTemp = getDptCode(codeCvtDAO,dao,itemId,varietiesName,companyId,operatorType,response,item);
+                codeTemp = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,response,item);
                 
                 if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
                     return response;
@@ -451,6 +450,17 @@ public class PromotionResource {
                             String taxType = departmentInfo.getDepartment().getTaxType();
                             saleOut.setMdNameLocal(dptName);
                             saleOut.setTaxType(Integer.parseInt(taxType));
+                            saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
+                            saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
+                            saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
+                            
+                            String taxRate = departmentInfo.getDepartment().getTaxRate();
+                            saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
+                            
+                            saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
+                            
+                            saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
+                            
                             // バーコード価格を使用
                             double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
                             saleOut.setRegularSalesUnitPrice(barCodePrice);
@@ -497,8 +507,11 @@ public class PromotionResource {
 		            saleItem.setActualSalesUnitPrice(barCodePrice);
 				}
 
+				if (discounttype == null) {
+				    discounttype = departmentInfo.getDepartment().getDiscountType();
+				}
 				saleItem.setDiscountType(discounttype);
-				boolean flag = discounttype == 0;
+				boolean flag = ("0".equals(discounttype));
 				saleItem.setDiscountable(flag);
 				response.setPromotion(promotion);
 				transactionOut.setSale(saleItem);
@@ -545,12 +558,12 @@ public class PromotionResource {
      * @return codeTemp
 	 * @throws DaoException 
      */
-	private String getDptCode(ICodeConvertDAO codeCvtDAO,IItemDAO dao,String itemId,String varietiesName,
-	        String companyId,String operatorType,PromotionResponse response,Item item) throws DaoException {
+	private String getDptCode(ICodeConvertDAO codeCvtDAO,String itemId,String varietiesName,
+	        String companyId,PromotionResponse response,Item item) throws DaoException {
 	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("dao", dao)
-                .println("itemId", itemId).println("varietiesName", varietiesName)
-                .println("companyId", companyId).println("companyId", companyId).println("response", response).println("item", item);
+        tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("itemId", itemId)
+		    .println("varietiesName", varietiesName).println("companyId", companyId)
+		    .println("response", response).println("item", item);
 	    
 	    String codeTemp = null;
         String dpt = null;
@@ -649,17 +662,10 @@ public class PromotionResource {
         case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
         case BarcodeAssignmentConstant.VARIETIES_JANSALES:
             if (StringUtility.isNullOrEmpty(dpt)) {
-                if ("5".equals(operatorType)){
-                    response.setNCRWSSResultCode(ResultBase.RES_OK);
-                    response.setNCRWSSExtendedResultCode(ResultBase.EMERGENCY_REGISTRATION);
-                    response.setMessage("The Emergency registration.");
-                    tp.println("The Emergency registration.");
-                } else {
-                    response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                    response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                    response.setMessage("Not found in the PLU.");
-                    tp.println("Not found in the PLU.");
-                }
+                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+                response.setMessage("Not found in the PLU.");
+                tp.println("Not found in the PLU.");
             } else {
                 codeTemp = dpt;
             }
@@ -746,7 +752,7 @@ public class PromotionResource {
         tp.methodEnter(functionName).println("code", code);
 	    
 		if ("0000".equals(code)){
-			code = "0182";
+			code = "0183";
 		} else if (!"040".equals(code.substring(0, 3))){
 			code = "016" + code.substring(3, 4);
 		}
@@ -1044,7 +1050,7 @@ public class PromotionResource {
 		item.setDiscountable(json.getBoolean("discountable"));
 		item.setTaxRate(json.getInt("taxRate"));
 		item.setTaxType(json.getInt("taxType"));
-		item.setDiscountType(json.getInt("discountType"));
+		item.setDiscountType(json.getString("discountType"));
 		item.setSubNum1(json.getInt("subNum1"));
 		item.setDptDiscountType(json.getInt("dptDiscountType"));
 		item.setNonSales(json.getInt("nonSales"));

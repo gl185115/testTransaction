@@ -215,7 +215,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setOrgSalesPrice1(result.getDouble(result.findColumn("OrgSalesPrice1")));
                 }
                 searchedItem.setDepartment(result.getString(result.findColumn("Dpt")));
-                searchedItem.setDiscountType(result.getInt(result.findColumn("DiscountType")));
+                searchedItem.setDiscountType(result.getString(result.findColumn("DiscountType")));
                 searchedItem.setDptDiscountType(result.getInt(result.findColumn("dptDiscountType")));
                 searchedItem.setMd02(result.getString(result.findColumn("Md02")));
                 searchedItem.setMd03(result.getString(result.findColumn("Md03")));
@@ -935,7 +935,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setOrgSalesPrice1(result.getDouble(result.findColumn("OrgSalesPrice1")));
                 }
                 searchedItem.setDepartment(result.getString(result.findColumn("Dpt")));
-                searchedItem.setDiscountType(result.getInt(result.findColumn("DiscountType")));
+                searchedItem.setDiscountType(result.getString(result.findColumn("DiscountType")));
                 searchedItem.setMd02(result.getString(result.findColumn("Md02")));
                 searchedItem.setMd03(result.getString(result.findColumn("Md03")));
                 searchedItem.setMd04(result.getString(result.findColumn("Md04")));

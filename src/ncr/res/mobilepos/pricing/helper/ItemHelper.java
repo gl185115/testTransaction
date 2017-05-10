@@ -67,7 +67,7 @@ public final class ItemHelper {
     
     public static double calculateActualSalesPrice(final Item item) {
     	double actualSalesPrice = item.getRegularSalesUnitPrice();
-    	if (item.getDiscountType() == 0) { // if item is discountable
+    	if ("0".equals(item.getDiscountType())) { // if item is discountable
     		if (item.getDiscountFlag() == 0) { // discount by amount
     			if (item.getDiscountAmount() <= actualSalesPrice) {
     				actualSalesPrice -= item.getDiscountAmount();

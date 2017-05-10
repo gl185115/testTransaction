@@ -68,7 +68,7 @@ public class Item {
     private int taxType;
 
     @XmlElement(name = "DiscountType")
-    private int discountType = 0;
+    private String discountType;
     
     @XmlElement(name = "SubNum1")
     private int subNum1 = 0;
@@ -1300,15 +1300,15 @@ public class Item {
     }
 
     @ApiModelProperty(value="値引許可フラグ", notes="値引許可フラグ")
-    public final int getDiscountType() {
+    public final String getDiscountType() {
         return this.discountType;
     }
 
-    public final void setDiscountType(final int discountType) {
+    public final void setDiscountType(final String discountType) {
         this.discountType = discountType;
 
         // set discountable
-        this.discountable = (this.discountType == 0);
+        this.discountable = ("0".equals(this.discountType));
     }
 
     @ApiModelProperty(value="非販売", notes="非販売")

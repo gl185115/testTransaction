@@ -117,7 +117,7 @@ public final class SaleItemsHandler {
         saleRes.setDepartment(item.getDepartment());
         saleRes.setDescription(item.getDescription());
         saleRes.setItemId(item.getItemId());
-        saleRes.setDiscountable(item.getDiscountType() == 0);
+        saleRes.setDiscountable("0".equals(item.getDiscountType()));
         saleRes.setQuantity(saleIn.getQuantity());
         saleRes.setLine(item.getLine());
         saleRes.setItemClass(item.getItemClass());

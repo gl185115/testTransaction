@@ -162,8 +162,8 @@ public class WebContextListener implements ServletContextListener {
             initializeLoggers();
 
             functionName = DebugLogger.getCurrentMethodName();
-            tp.methodEnter(functionName);
             tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+            tp.methodEnter(functionName);
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
 
             initializeDBInstances();

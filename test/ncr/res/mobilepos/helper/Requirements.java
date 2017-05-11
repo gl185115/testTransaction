@@ -6,14 +6,20 @@ import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockServletContext;
 
+import java.lang.reflect.Field;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManager;
 import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("deprecation")
 public class Requirements {
@@ -26,7 +32,7 @@ public class Requirements {
     
     /**
      * Gets the mock servlet context.
-     *
+     * This doesn't initialize business logic factories.
      * @return the mock servlet context
      */
     public static ServletContext getMockServletContext() {
@@ -39,10 +45,44 @@ public class Requirements {
                 "AESKeyStoreGenDateAlias");
         servletContextEvent = new ServletContextEvent(servletContext);
         listener = new WebContextListener();
-        listener.contextInitialized(servletContextEvent);
-
+        initializeWebServiceForTest();
         return servletContext;
     }
+
+    public static void initializeWebServiceForTest() {
+        try {
+            listener.initializeEnvironmentVariables();
+            mockWindowsEnvironmentVariables();
+            listener.initializeLoggers();
+            listener.initializeDBInstances();
+            listener.preloadDBRecord();
+
+        } catch (Exception e) {
+            // In case Logger is failed to initialize.
+            Assert.fail("resTransaction failed to initialize caused by:" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Mocks WindowsEnvironmentVariables.
+     * Since System.getenv is hard to mock, then mock the container instead.
+     */
+    public static void mockWindowsEnvironmentVariables() {
+        try {
+            // WindowsEnvironmentalVariables.
+            WindowsEnvironmentVariables environmentVariable = mock(WindowsEnvironmentVariables.class);
+            Field fieldContext = WindowsEnvironmentVariables.class.getDeclaredField("instance");
+            fieldContext.setAccessible(true);
+            fieldContext.set(null, environmentVariable);
+
+            // Mock the variables.
+            when(environmentVariable.getSystemPath()).thenReturn("test/resources/sys/normal");
+        } catch(NoSuchFieldException | IllegalAccessException ex) {
+            Assert.fail("Mocking failed for WindowsEnvironmentVariables.");
+        }
+    }
+
     /**
      * Stops the server.
      */

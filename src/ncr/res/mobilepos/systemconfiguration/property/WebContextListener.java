@@ -13,14 +13,19 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JrnSpm;
@@ -32,7 +37,7 @@ import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
-import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;;
+
 
 /**
  * WebContextListener is a Listener class that listens each
@@ -63,6 +68,87 @@ public class WebContextListener implements ServletContextListener {
 	}
 
     /**
+     * Initializes and loads environment variable containers.
+     * @throws NamingException
+     */
+	public final void initializeEnvironmentVariables() throws NamingException {
+        // Loads from WindowsEnvironmentVariables.
+        WindowsEnvironmentVariables.initInstance();
+        // Loads from web.xml.
+        EnvironmentEntries.initInstance(new InitialContext());
+    }
+
+    /**
+     * Initializes Loggers.
+     * @throws NamingException
+     * @throws IOException
+     */
+    public final void initializeLoggers() throws NamingException, IOException {
+        EnvironmentEntries environmentEntries = EnvironmentEntries.getInstance();
+
+        // Initializes IowLogger.
+        Logger.initInstance(environmentEntries.getIowPath(), environmentEntries.getServerId());
+        // Initializes SnapLogger.
+        SnapLogger.initInstance(environmentEntries.getSnapPath());
+
+        // Initializes DebugLogger.
+        DebugLogger.initInstance(environmentEntries.getTracePath(), environmentEntries.getDebugLevel());
+        // Initializes SpmFileWriter and writes a header line.
+        SpmFileWriter spmFileWriter = SpmFileWriter.initInstance(environmentEntries.getSpmPath(),
+                environmentEntries.getServerId(), true);
+        spmFileWriter.write(JrnSpm.HEADER);
+
+        Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        String functionName = DebugLogger.getCurrentMethodName();
+        if(tp != null) {
+            tp.methodEnter(functionName);
+            tp.println(" - The WebAPI StartApp called. ");
+            tp.println("Preparing to retrieve the System Parameters");
+            tp.methodExit();
+        }
+    }
+
+    /**
+     * Initializes database related classes.
+     * @throws DaoException
+     * @throws SQLStatementException
+     */
+    public final void initializeDBInstances() throws DaoException, SQLStatementException {
+        // Checks if DataSource is present in context.xml, if it fails with invalid config, DaoException is thrown.
+        JndiDBManagerMSSqlServer.initialize();
+        // Initializes SQLStatement.
+        SQLStatement.initInstance();
+    }
+
+    /**
+     * Preload and cache system parameters from DB.
+     * @throws DaoException
+     */
+    public final void preloadDBRecord() throws DaoException {
+        DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+        //Get System parameters from PRM_SYSTEM_CONFIG and set to GlobalConstant.
+        SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
+        Map<String, String> systemConfig = systemDao.getSystemParameters();
+        GlobalConstant.setSystemConfig(systemConfig);
+        // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
+        copySystemConfigToGlobalConstant(systemConfig);
+    }
+
+    /**
+     * Initializes business logic factories.
+     * @throws Exception
+     */
+    public final void initializeBusinessLogicFactories() throws Exception {
+        EnvironmentEntries environmentEntries = EnvironmentEntries.getInstance();
+        // Loads ItemCode.xml file
+        BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
+        // Loads config file for Toppan Giftcard feature.
+        ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
+        // Loads QrCodeInfo  Information
+        QrCodeInfoFactory.initialize(WindowsEnvironmentVariables.getInstance().getSystemPath());
+    }
+
+    /**
      * Method called when during servlet StartUp.
      * @param event     Servlet Context Event
      */
@@ -71,58 +157,18 @@ public class WebContextListener implements ServletContextListener {
     public final void contextInitialized(final ServletContextEvent event) {
         String functionName = "";
         Trace.Printer tp = null;
-        EnvironmentEntries environmentEntries = null;
-
         try {
-            // Loads from web.xml.
-            environmentEntries = EnvironmentEntries.initInstance(new InitialContext());
-            // Initializes IowLogger.
-            Logger.initInstance(environmentEntries.getIowPath(), environmentEntries.getServerId());
-            // Initializes SnapLogger.
-            SnapLogger.initInstance(environmentEntries.getSnapPath());
+            initializeEnvironmentVariables();
+            initializeLoggers();
 
-            // Initializes DebugLogger.
-            DebugLogger.initInstance(environmentEntries.getTracePath(), environmentEntries.getDebugLevel());
-            // Initializes SpmFileWriter and writes a header line.
-            SpmFileWriter spmFileWriter = SpmFileWriter.initInstance(environmentEntries.getSpmPath(),
-                    environmentEntries.getServerId(), true);
-            spmFileWriter.write(JrnSpm.HEADER);
-
-            tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
             functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
-            tp.println(" - The WebAPI StartApp called. ");
-            tp.println("Preparing to retrieve the System Parameters");
-
-            // Checks if DataSource is present in context.xml, if it fails with invalid config, DaoException is thrown.
-            JndiDBManagerMSSqlServer.initialize();
-
-            //Instantiate the DAO Factory for System Configuration
-            DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-
-            // Initializes SQLStatement.
-            SQLStatement.initInstance();
-
-            //Get the System parameters from PRM_SYSTEM_CONFIG
-            SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
-            Map<String, String> systemConfig = systemDao.getSystemParameters();
-
-            // Set SystemConfiguration to GlobalConstant.
-            GlobalConstant.setSystemConfig(systemConfig);
-
-            // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
-            copySystemConfigToGlobalConstant(systemConfig);
-
-            // Loads config file for Toppan Giftcard feature.
-            ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
-            
-            // Loads ItemCode.xml file
-            BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
-            
-            // Loads QrCodeInfo  Information
-            QrCodeInfoFactory.initialize(environmentEntries.getSystemPath());
-            
+            tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
             tp.println("WebContextListener.contextInitialized").println("System Parameter successfully retrieved.");
+
+            initializeDBInstances();
+            preloadDBRecord();
+            initializeBusinessLogicFactories();
 		} catch (Exception e) {
             // In case Logger is failed to initialize.
             System.out.println("resTransaction failed to initialize caused by:" + e.getMessage());
@@ -138,6 +184,10 @@ public class WebContextListener implements ServletContextListener {
         }
     }
 
+    /**
+     * Copies to cache system config parameters.
+     * @param sysParams
+     */
     private static void copySystemConfigToGlobalConstant(Map<String, String> sysParams) {
         // Gets MultiSOD flag from SystemConfiguration.
         String multiSOD = (String)sysParams.get(GlobalConstant.MULTIPLE_SOD);

@@ -10,7 +10,6 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.mockito.Mockito;
-import org.powermock.api.support.membermodification.MemberModifier;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -21,6 +20,8 @@ import javax.xml.bind.JAXBException;
 import ncr.res.giftcard.toppan.dao.CenterAccess;
 import ncr.res.giftcard.toppan.model.Config;
 import ncr.res.giftcard.toppan.model.Message;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.giftcard.model.GiftResult;
 import ncr.res.mobilepos.giftcard.resource.ToppanGiftcardResource;
 import ncr.res.mobilepos.helper.Requirements;
@@ -47,6 +48,7 @@ public class GiftCardSteps extends Steps {
     private void initResources() {
 		ServletContext context = Requirements.getMockServletContext();
 		try {
+			ToppanGiftCardConfigFactory.initialize(EnvironmentEntries.getInstance().getCustomParamBasePath());
 			toppanGiftcardResource = new ToppanGiftcardResource();
 			Field contextField = toppanGiftcardResource.getClass().getDeclaredField("context");
 			contextField.setAccessible(true);

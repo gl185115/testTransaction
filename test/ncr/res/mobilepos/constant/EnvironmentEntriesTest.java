@@ -130,10 +130,9 @@ public class EnvironmentEntriesTest {
             assertEquals("test/resources/cust/para", env.getCustomParamBasePath());
             assertEquals("test/resources/para", env.getParaBasePath());
             assertEquals("SendStatus1", env.getPoslogTransferStatusColumn());
-            assertEquals(System.getenv(KEY_SYSTEM_PATH), env.getSystemPath());
 
         } catch (Exception e) {
-            fail("No Exception exptected.");
+            fail("No Exception expected.");
         }
     }
     
@@ -249,10 +248,9 @@ public class EnvironmentEntriesTest {
             assertEquals("test/resources/cust/para", env.getCustomParamBasePath());
             assertEquals("test/resources/para", env.getParaBasePath());
             assertEquals("SendStatus1", env.getPoslogTransferStatusColumn());
-            assertEquals(System.getenv(KEY_SYSTEM_PATH), env.getSystemPath());
-            
+
         } catch (Exception e1) {
-            fail("No Exception exptected.");
+            fail("No Exception expected.");
         }
     }
 

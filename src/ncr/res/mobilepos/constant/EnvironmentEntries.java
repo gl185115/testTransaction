@@ -50,8 +50,7 @@ public class EnvironmentEntries {
     private static final String KEY_PARA_BASE_PATH = "paraBasePath";
     // 18
     private static final String KEY_POSLOG_TRANSFER_STATUS_COLUMN = "POSLogTransferStatusColumn";
-    // 19
-    private static final String KEY_SYSTEM_PATH = "SYS";
+    private static final String DEFAULT_POSLOG_TRANSGER_STATUS_COLUMN = "SendStatus1";
 
     // 1
     // ServerId for Logger.
@@ -107,16 +106,13 @@ public class EnvironmentEntries {
     // 18
     // POSLogTransferStatusColumn
     private String poslogTransferStatusColumn;
-    // 19
-    // systemPath
-    private String systemPath;
 
     /**
      * Constructor.
      * @throws NamingException Throws if initialization fails.
      * @throws Exception
      */
-    private EnvironmentEntries(Context initialContext) throws NamingException, Exception {
+    private EnvironmentEntries(Context initialContext) throws NamingException {
         loadEnvironmentEntries(initialContext);
     }
 
@@ -125,53 +121,65 @@ public class EnvironmentEntries {
      * @throws NamingException Throws if initialization fails.
      * @throws Exception
      */
-    private void loadEnvironmentEntries(Context initialContext) throws NamingException, Exception {
+    private void loadEnvironmentEntries(Context initialContext) throws NamingException {
         Context context = (Context)initialContext.lookup("java:comp/env");
         //1
-        serverId = (String)loadProperty(KEY_SERVER_ID, context);
+        serverId = loadProperty(KEY_SERVER_ID, context);
         //2
-        debugLevel = (int)loadProperty(KEY_DEBUG_LEVEL, context);
+        debugLevel = loadPropertyInt(KEY_DEBUG_LEVEL, context);
         //3
-        printPaperLength = (String)loadProperty(KEY_PRINT_PAPER_LENGTH, context);
+        printPaperLength = loadProperty(KEY_PRINT_PAPER_LENGTH, context);
         //4
-        customMaintenanceBasePath = (String)loadProperty(KEY_CUSTOM_MAINTENANCE_BASE_PATH, context);
+        customMaintenanceBasePath = loadProperty(KEY_CUSTOM_MAINTENANCE_BASE_PATH, context);
         //5
-        customResourceBasePath = (String)loadProperty(KEY_CUSTOM_RESOURCE_BASE_PATH, context);
+        customResourceBasePath = loadProperty(KEY_CUSTOM_RESOURCE_BASE_PATH, context);
         //6
-        iowPath = (String)loadProperty(KEY_IOW_PATH, context);
+        iowPath = loadProperty(KEY_IOW_PATH, context);
         //7
-        uiConsoleLogPath = (String)loadProperty(KEY_UI_CONSOLE_LOG_PATH, context);
+        uiConsoleLogPath = loadProperty(KEY_UI_CONSOLE_LOG_PATH, context);
         //8
-        deviceLogPath = (String)loadProperty(KEY_DEVICE_LOG_PATH, context);
+        deviceLogPath = loadProperty(KEY_DEVICE_LOG_PATH, context);
         //9
-        tracePath = (String)loadProperty(KEY_TRACE_PATH, context);
+        tracePath = loadProperty(KEY_TRACE_PATH, context);
         //10
-        spmPath = (String)loadProperty(KEY_SPM_PATH, context);
+        spmPath = loadProperty(KEY_SPM_PATH, context);
         //11
-        snapPath = (String)loadProperty(KEY_SNAP_PATH, context);
+        snapPath = loadProperty(KEY_SNAP_PATH, context);
         //12
-        reportFormatNewPath = (String)loadProperty(KEY_REPORT_FORMAT_NEW_PATH, context);
+        reportFormatNewPath = loadProperty(KEY_REPORT_FORMAT_NEW_PATH, context);
         //13
-        nrRcptFormatPath = (String)loadProperty(KEY_NR_RCPT_FORMAT_PATH, context);
+        nrRcptFormatPath = loadProperty(KEY_NR_RCPT_FORMAT_PATH, context);
         //14
-        localPrinter = (String)loadProperty(KEY_LOCAL_PRINTER, context);
+        localPrinter = loadProperty(KEY_LOCAL_PRINTER, context);
         //15
-        scheduleFilePath = (String)loadProperty(KEY_SCHEDULE_FILE_PATH, context);
+        scheduleFilePath = loadProperty(KEY_SCHEDULE_FILE_PATH, context);
         //16
-        customParamBasePath = (String)loadProperty(KEY_CUSTOM_PARAM_BASE_PATH, context);
+        customParamBasePath = loadProperty(KEY_CUSTOM_PARAM_BASE_PATH, context);
         //17
-        paraBasePath = (String)loadProperty(KEY_PARA_BASE_PATH, context);
-        try {
+        paraBasePath = loadProperty(KEY_PARA_BASE_PATH, context);
         //18
-            poslogTransferStatusColumn = (String)loadProperty(KEY_POSLOG_TRANSFER_STATUS_COLUMN, context);
-            if(StringUtility.isNullOrEmpty(poslogTransferStatusColumn)){
-                throw new Exception("resTransaction failed to get poslogTransferStatusColumn");
+        poslogTransferStatusColumn = loadParameter(
+                KEY_POSLOG_TRANSFER_STATUS_COLUMN, context, DEFAULT_POSLOG_TRANSGER_STATUS_COLUMN);
+    }
+
+    /**
+     * Loads one parameter from context. If no entry found, then returns default value.
+     * If the entry is empty, then return invalid state exception.
+     * @param keyName Key name
+     * @param context Context
+     * @param defaultValue Default value when entry is missing.
+     * @return loaded entry.
+     */
+    private String loadParameter(String keyName, Context context, String defaultValue) {
+        try {
+            String value = loadProperty(keyName, context);
+            if(StringUtility.isNullOrEmpty(value)){
+                throw new IllegalStateException(keyName + " in web.xml is not allowed to be empty.");
             }
+            return value;
         } catch (NamingException e){
-            poslogTransferStatusColumn = "SendStatus1";
+            return defaultValue;
         }
-        //19
-        systemPath = System.getenv(KEY_SYSTEM_PATH);
     }
 
     /**
@@ -180,8 +188,18 @@ public class EnvironmentEntries {
      * @param context Context
      * @return loaded entry
      */
-    private Object loadProperty(String keyName, Context context) throws NamingException {
-        return context.lookup(keyName);
+    private int loadPropertyInt(String keyName, Context context) throws NamingException {
+        return (int)context.lookup(keyName);
+    }
+
+    /**
+     * Loads one property from Context.
+     * @param keyName Key name
+     * @param context Context
+     * @return loaded entry
+     */
+    private String loadProperty(String keyName, Context context) throws NamingException {
+        return (String)context.lookup(keyName);
     }
 
     /**
@@ -197,7 +215,7 @@ public class EnvironmentEntries {
      * @throws NamingException throws if initialization fails.
      * @throws Exception
      */
-    public static EnvironmentEntries initInstance(Context initialContext) throws NamingException, Exception {
+    public static EnvironmentEntries initInstance(Context initialContext) throws NamingException {
         // Resets instance as null.
         instance = null;
         instance = new EnvironmentEntries(initialContext);
@@ -348,11 +366,4 @@ public class EnvironmentEntries {
 		return poslogTransferStatusColumn;
 	}
 	
-    /**
-     * Returns system path.
-     * @return systemPath
-     */
-    public String getSystemPath() {
-        return systemPath;
-    }
 }

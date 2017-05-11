@@ -1,18 +1,6 @@
 package ncr.res.mobilepos.additem.test;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-import javax.servlet.ServletContext;
-
 import junit.framework.Assert;
-import ncr.res.mobilepos.department.model.ViewDepartment;
-import ncr.res.mobilepos.department.resource.DepartmentResource;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.pricing.resource.ItemResource;
-import ncr.res.mobilepos.promotion.model.PromotionResponse;
-import ncr.res.mobilepos.promotion.resource.PromotionResource;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -22,6 +10,22 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.department.model.ViewDepartment;
+import ncr.res.mobilepos.department.resource.DepartmentResource;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.promotion.model.PromotionResponse;
+import ncr.res.mobilepos.promotion.resource.PromotionResource;
 
 @SuppressWarnings("deprecation")
 public class AddItemSteps extends Steps {
@@ -74,6 +78,7 @@ public class AddItemSteps extends Steps {
 		servletContext = null;
 		try {
 			servletContext = Requirements.getMockServletContext();
+			BarcodeAssignmentFactory.initialize(EnvironmentEntries.getInstance().getParaBasePath());
 			testpromotionResource = new PromotionResource();
 			testDepartmentResource = new DepartmentResource();
 			Field promotioncontext;

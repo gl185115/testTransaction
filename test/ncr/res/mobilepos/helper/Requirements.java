@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManager;
 import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
@@ -51,8 +52,8 @@ public class Requirements {
 
     public static void initializeWebServiceForTest() {
         try {
-            listener.initializeEnvironmentVariables();
             mockWindowsEnvironmentVariables();
+            EnvironmentEntries.initInstance(new InitialContext());
             listener.initializeLoggers();
             listener.initializeDBInstances();
             listener.preloadDBRecord();

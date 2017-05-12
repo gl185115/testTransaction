@@ -19,7 +19,7 @@ public class WindowsEnvironmentVariables {
      *
      * @throws NamingException Throws if initialization fails.
      */
-    private WindowsEnvironmentVariables() {
+    private WindowsEnvironmentVariables() throws NamingException {
         loadWindowsEnvironmentVariables();
     }
 
@@ -27,7 +27,7 @@ public class WindowsEnvironmentVariables {
      * Initializes the instance.
      * @throws NamingException throws if initialization fails.
      */
-    public static WindowsEnvironmentVariables initInstance() {
+    public static WindowsEnvironmentVariables initInstance() throws NamingException {
         // Resets instance as null.
         instance = null;
         instance = new WindowsEnvironmentVariables();
@@ -38,9 +38,24 @@ public class WindowsEnvironmentVariables {
      * Loads environment variables.
      * @throws NamingException Throws if initialization fails.
      */
-    private void loadWindowsEnvironmentVariables() {
+    private void loadWindowsEnvironmentVariables() throws NamingException {
         //1
-        systemPath = System.getenv(KEY_SYSTEM_PATH);
+        systemPath = loadVariable(KEY_SYSTEM_PATH);
+    }
+
+    /**
+     * Loads one parameter from windows system environment.
+     * NamingException is thrown if the variable is not defined in the system environment.
+     * @param keyName Key name
+     * @return loaded variable
+     * @throws NamingException is thrown if the variable is not defined in the system environment
+     */
+    private String loadVariable(String keyName) throws NamingException {
+        String value = System.getenv(keyName);
+        if(value == null){
+            throw new NamingException(keyName + " is not defined in Windows Environment Variables.");
+        }
+        return value;
     }
 
     /**

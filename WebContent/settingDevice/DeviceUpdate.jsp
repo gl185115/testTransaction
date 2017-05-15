@@ -42,7 +42,7 @@
     String dev_CompanyId="",dev_StoreId="",dev_TerminalId="",dev_Training="",dev_DeviceName="",dev_AttributeId="",dev_PrinterId="",dev_TillId="",dev_LinkQueueBuster = "";
     String tra_CompanyId="",tra_StoreId="",tra_TerminalId="",tra_Training="",tra_DeviceName="",tra_AttributeId="",tra_PrinterId="",tra_TillId="",tra_LinkQueueBuster = "";
     String ter_CompanyId="",ter_StoreId="",ter_TerminalId="",ter_FloorId="",ter_TerminalName="",ter_IPAddress="",ter_StoreClass="",ter_TerminalType="",
-    		ter_TillType="",ter_RelationType="",ter_LogoFileName="",ter_InshiFileName="",ter_UpdCount = "";
+    		ter_TillType="",ter_RelationType="",ter_LogoFileName="",ter_InshiFileName="",ter_SalesPromotionBMPPath="",ter_UpdCount = "";
     
     g_storeID    = request.getParameter("s1");
     g_terminalID = request.getParameter("t1");
@@ -163,6 +163,7 @@
             sqlStr += " ,terminalinfo.RelationType    AS ter_RelationType        ";
             sqlStr += " ,terminalinfo.LogoFileName    AS ter_LogoFileName        ";
             sqlStr += " ,terminalinfo.InshiFileName   AS ter_InshiFileName       ";
+            sqlStr += " ,terminalinfo.SubCode2        AS ter_SalesPromotionBMPPath";
             sqlStr += " ,terminalinfo.UpdCount        AS ter_UpdCount            ";
 
             // テーブル定義
@@ -231,6 +232,7 @@
                 ter_RelationType = rs.getString("ter_RelationType");
                 ter_LogoFileName = rs.getString("ter_LogoFileName");
                 ter_InshiFileName = rs.getString("ter_InshiFileName");
+                ter_SalesPromotionBMPPath = rs.getString("ter_SalesPromotionBMPPath");
                 ter_UpdCount = rs.getString("ter_UpdCount");
                 session.setAttribute("ter_UpdCount", ter_UpdCount);
 
@@ -292,6 +294,7 @@
                 + " ,RelationType=?                 "
                 + " ,LogoFileName=?                 "
                 + " ,InshiFileName=?                "
+                + " ,SubCode2=?                "
                 + " ,DeleteFlag = '0'               "
                 + " ,UpdCount   = UpdCount+1        "
                 + " ,UpdDate    = CURRENT_TIMESTAMP "
@@ -317,6 +320,7 @@
                 + " , RelationType       "
                 + " , LogoFileName       "
                 + " , InshiFileName      "
+                + " , SubCode2           "
                 + " , DeleteFlag         "
                 + " , InsDate            "
                 + " , InsAppId           "
@@ -344,6 +348,7 @@
                 + "'" + g_companyID  + "'"
                 + ",'" + g_storeID    + "'"
                 + ",'" + g_terminalID + "'"
+                + " , ?                  "
                 + " , ?                  "
                 + " , ?                  "
                 + " , ?                  "
@@ -426,20 +431,22 @@
             psUpd.setString(19, request.getParameter("ter_RelationType"));
             psUpd.setString(20, request.getParameter("ter_LogoFileName"));
             psUpd.setString(21, request.getParameter("ter_InshiFileName"));
-            psUpd.setString(22, user);
+            psUpd.setString(22, request.getParameter("ter_SalesPromotionBMPPath"));
+            psUpd.setString(23, user);
 
             // MST_TERMINALINFOの設定(insert)
-            psUpd.setString(23, request.getParameter("ter_FloorId"));
-            psUpd.setString(24, request.getParameter("ter_TerminalName"));
-            psUpd.setString(25, request.getParameter("ter_IPAddress"));
-            psUpd.setString(26, request.getParameter("ter_StoreClass"));
-            psUpd.setString(27, request.getParameter("ter_TerminalType"));
-            psUpd.setString(28, request.getParameter("ter_TillType"));
-            psUpd.setString(29, request.getParameter("ter_RelationType"));
-            psUpd.setString(30, request.getParameter("ter_LogoFileName"));
-            psUpd.setString(31, request.getParameter("ter_InshiFileName"));
-            psUpd.setString(32, user);
-            psUpd.setString(33, user);
+            psUpd.setString(24, request.getParameter("ter_FloorId"));
+            psUpd.setString(25, request.getParameter("ter_TerminalName"));
+            psUpd.setString(26, request.getParameter("ter_IPAddress"));
+            psUpd.setString(27, request.getParameter("ter_StoreClass"));
+            psUpd.setString(28, request.getParameter("ter_TerminalType"));
+            psUpd.setString(29, request.getParameter("ter_TillType"));
+            psUpd.setString(30, request.getParameter("ter_RelationType"));
+            psUpd.setString(31, request.getParameter("ter_LogoFileName"));
+            psUpd.setString(32, request.getParameter("ter_InshiFileName"));
+            psUpd.setString(33, request.getParameter("ter_SalesPromotionBMPPath"));
+            psUpd.setString(34, user);
+            psUpd.setString(35, user);
 
             try {
                int iret = psUpd.executeUpdate();
@@ -741,6 +748,13 @@
         <td align="right">印紙ファイルパス ： </td>
         <td align="left">
           <input maxlength="255" type="text" id="ter_InshiFileName" name="ter_InshiFileName" value="<%= ter_InshiFileName%>" size=40 required pattern=".{1,255}">(255文字以内で入力してください)
+        </td>
+      </tr>
+      <tr>
+        <td align="right">販促ビットマップパス ： </td>
+        <td align="left">
+          <input maxlength="255" type="text" id="ter_SalesPromotionBMPPath" name="ter_SalesPromotionBMPPath" value="<%= ter_SalesPromotionBMPPath%>" size=40 required
+                 pattern=".{1,255}\\\\">(255文字以内で最後に\\をつけて入力してください)
         </td>
       </tr>
     </table>

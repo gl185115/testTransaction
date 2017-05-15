@@ -322,6 +322,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
             sqlStr += " ,terminalinfo.RelationType    AS ter_RelationType        ";
             sqlStr += " ,terminalinfo.LogoFileName    AS ter_LogoFileName        ";
             sqlStr += " ,terminalinfo.InshiFileName   AS ter_InshiFileName       ";
+            sqlStr += " ,terminalinfo.SubCode2        AS ter_SalesPromotionBMPPath";
             // PRM_DEVICE_ATTRIBUTE
             sqlStr += " ,device_attribute.AttributeId    AS pda_AttributeId    ";
             sqlStr += " ,device_attribute.Description    AS pda_Description    ";
@@ -444,6 +445,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                 MstTerminalinfoList.add(rs.getString("ter_RelationType"));
                 MstTerminalinfoList.add(rs.getString("ter_LogoFileName"));
                 MstTerminalinfoList.add(rs.getString("ter_InshiFileName"));
+                MstTerminalinfoList.add(rs.getString("ter_SalesPromotionBMPPath"));
 
                 // PRM_DEVICE_ATTRIBUTE
                 ArrayList<String> PrmDeviceAttributeList = new ArrayList<String>();
@@ -691,6 +693,11 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td colspan="2" class="orangetd">印紙ファイルパス(InshFilePath)</td>
                     <td colspan="2">
                     <input type="text" id="ter_InshFilePath" name="ter_InshFilePath" value="<%=MstTerminalinfoLists.get(0).get(11)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">販促ビットマップファイルパス(SubCode2)</td>
+                    <td colspan="2">
+                        <input type="text" id="ter_SalesPromotionBMPPath" name="ter_SalesPromotionBMPPath" value="<%=MstTerminalinfoLists.get(0).get(12)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
                     <th style="width: 50%" colspan="2">PRM_DEVICE_ATTRIBUTE 項目</th>

@@ -24,6 +24,12 @@
         <!-- These values are overwritten by Jenkins. -->
         <maven.test.skip>false</maven.test.skip>
         <maven.install.skip>false</maven.install.skip>
+
+        <!-- false for counting PowerMock coverage with verbose warnings. -->
+        <maven.coverage.powermock.exclude>true</maven.coverage.powermock.exclude>
+        <!-- 1 for immediate stop of test-execution after one failure. -->
+        <maven.skip.after.failure.count>0</maven.skip.after.failure.count>
+
         <build.number>0</build.number>
         <svn.revision>0</svn.revision>
         <myGroupId>temp</myGroupId>
@@ -375,6 +381,7 @@
                 <configuration>
                     <skip>${maven.test.skip}</skip>
                     <argLine>-Dfile.encoding=${project.build.sourceEncoding} ${argLine} -disableassertions</argLine>
+                    <skipAfterFailureCount>${maven.skip.after.failure.count}</skipAfterFailureCount>
                 </configuration>
             </plugin>
 
@@ -437,9 +444,38 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.7.201606060606</version>
+                <version>0.7.9</version>
                 <executions>
                     <execution>
+                        <id>default-instrument</id>
+                        <goals>
+                            <goal>instrument</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${maven.coverage.powermock.exclude}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-restore-instrumented-classes</id>
+                        <goals>
+                            <goal>restore-instrumented-classes</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${maven.coverage.powermock.exclude}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-report</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${maven.coverage.powermock.exclude}</skip>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-check</id>
                         <goals>
                             <!-- bound phase, initialize -->
                             <goal>prepare-agent</goal>
@@ -721,7 +757,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.7.7.201606060606</version>
+                <version>0.7.9</version>
                 <reportSets>
                     <reportSet>
                         <reports>

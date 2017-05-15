@@ -10879,4 +10879,12 @@ FROM
 WHERE
 	%s = 0;
 </entry>
+	<entry key="get-servertables">
+		SELECT 
+			Name, 
+			Type, 
+			Url 
+		FROM
+			RESMaster.dbo.PRM_SERVER_TBL
+	</entry>
 </properties>

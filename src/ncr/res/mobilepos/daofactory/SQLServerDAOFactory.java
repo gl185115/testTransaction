@@ -80,6 +80,8 @@ import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.queuesignature.dao.QueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
 import ncr.res.mobilepos.report.dao.SQLServerReportDAO;
+import ncr.res.mobilepos.servertable.dao.IServerTableDAO;
+import ncr.res.mobilepos.servertable.dao.SQLServerServerTableDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
 import ncr.res.mobilepos.settlement.dao.SQLServerSettlementInfoDAO;
 import ncr.res.mobilepos.store.dao.IStoreDAO;
@@ -173,6 +175,11 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public final IReceiptDAO getReceiptDAO() throws DaoException {
         return new SQLServerReceiptDAO();
+    }
+    
+    @Override
+    public final IServerTableDAO getServerTableDAO() throws DaoException {
+    	return new SQLServerServerTableDAO();
     }
 
     @Override

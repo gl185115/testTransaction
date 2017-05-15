@@ -55,6 +55,7 @@ import ncr.res.mobilepos.promotion.dao.QrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
+import ncr.res.mobilepos.servertable.dao.IServerTableDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
 import ncr.res.mobilepos.store.dao.IStoreDAO;
 import ncr.res.mobilepos.store.dao.SQLServerStoreDAO;
@@ -470,4 +471,6 @@ public abstract class DAOFactory {
 	public abstract ICardInfoDAO getStatusInfo() throws Exception;
 	
 	public abstract ICreditCardAbstractDAO getCreditCardInfo() throws Exception;
+
+	public abstract IServerTableDAO getServerTableDAO() throws DaoException;
 }

@@ -59,6 +59,7 @@
                 <id>foreignJanBook</id>
                 <type>double</type>
                 <symbol>EAN</symbol>
+                <emergency>false</emergency>
                 <format>025[0-9]{10}</format>
                 <nextformat>19[1|2]{1}[0-9]{10}</nextformat>
             </item>

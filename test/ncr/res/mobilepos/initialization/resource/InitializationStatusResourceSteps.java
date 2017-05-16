@@ -11,11 +11,11 @@ import org.powermock.api.mockito.PowerMockito;
 import java.lang.reflect.Field;
 
 import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -41,10 +41,14 @@ public class InitializationStatusResourceSteps extends Steps {
     InitializationStatusResource testInitStatusResource;
 
     @BeforeScenario
-    public final void SetUpClass() throws NamingException {
+    public final void SetUpClass() throws Exception {
         Requirements.SetUp();
         InitialContext initContext = new InitialContext();
         ServletContext servletContext = Requirements.getMockServletContext();
+        EnvironmentEntries env = EnvironmentEntries.getInstance();
+        BarcodeAssignmentFactory.initialize(env.getParaBasePath());
+        ToppanGiftCardConfigFactory.initialize(env.getCustomParamBasePath());
+        QrCodeInfoFactory.initialize(WindowsEnvironmentVariables.getInstance().getSystemPath());
         testInitStatusResource = new InitializationStatusResource();
     }
 

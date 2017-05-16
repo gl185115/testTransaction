@@ -22,7 +22,9 @@ import java.util.Map.Entry;
 import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBException;
 
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
@@ -144,6 +146,7 @@ public class PromotionResourceTestSteps extends Steps {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 					"test/ncr/res/mobilepos/promotion/datasets/prm_system_config_no_tax_rate.xml");
 			servletContext = Requirements.getMockServletContext();
+			BarcodeAssignmentFactory.initialize(EnvironmentEntries.getInstance().getParaBasePath());
 		} catch (/* RuntimeError */Exception ex) {
 			Assert.fail("Can't Start Up WebStoreServer");
 		}
@@ -157,6 +160,7 @@ public class PromotionResourceTestSteps extends Steps {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 					systemConDataSet);
 			servletContext = Requirements.getMockServletContext();
+			BarcodeAssignmentFactory.initialize(EnvironmentEntries.getInstance().getParaBasePath());
 		} catch (/* RuntimeError */Exception ex) {
 			Assert.fail("Can't Start Up WebStoreServer");
 		}

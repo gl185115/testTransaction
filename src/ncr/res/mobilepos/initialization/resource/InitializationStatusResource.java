@@ -27,6 +27,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 
 /**
@@ -92,6 +93,7 @@ public class InitializationStatusResource {
         initFailed |= SQLStatement.getInstance() == null;
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
         initFailed |= ToppanGiftCardConfigFactory.getInstance() == null;
+        initFailed |= QrCodeInfoFactory.getInstance() == null;
         initFailed |= BarcodeAssignmentFactory.getInstance() == null;
 
         if(initFailed) {

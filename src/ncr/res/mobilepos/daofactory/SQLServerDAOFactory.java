@@ -72,8 +72,8 @@ import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerCodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerMixMatchDAO;
-import ncr.res.mobilepos.promotion.dao.QrCodeInfoDAO;
-import ncr.res.mobilepos.promotion.dao.SQLServerQrCodeDAO;
+import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
+import ncr.res.mobilepos.promotion.dao.SQLServerQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuebuster.dao.SQLServerQueueBusterDao;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
@@ -258,8 +258,8 @@ public class SQLServerDAOFactory extends DAOFactory {
     }
     
     @Override
-    public final QrCodeInfoDAO getQrCodeInfoDAO() throws DaoException {
-        return new SQLServerQrCodeDAO();
+    public final IQrCodeInfoDAO getQrCodeInfoDAO() throws DaoException {
+        return new SQLServerQrCodeInfoDAO();
     }
 
     @Override

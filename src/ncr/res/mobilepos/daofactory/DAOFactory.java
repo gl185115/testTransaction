@@ -51,7 +51,7 @@ import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
-import ncr.res.mobilepos.promotion.dao.QrCodeInfoDAO;
+import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
@@ -381,7 +381,7 @@ public abstract class DAOFactory {
      * @throws DaoException
      *             exception
      */
-    public abstract QrCodeInfoDAO getQrCodeInfoDAO() throws DaoException;
+    public abstract IQrCodeInfoDAO getQrCodeInfoDAO() throws DaoException;
 
     public abstract ICashAccountDAO getCashAccountDAO() throws DaoException;
 

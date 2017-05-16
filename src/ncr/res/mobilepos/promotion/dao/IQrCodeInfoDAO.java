@@ -5,7 +5,7 @@ import java.util.List;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 
-public interface QrCodeInfoDAO {
+public interface IQrCodeInfoDAO {
 
 	/**
 	 * Get PromotionId from MST_QRCODE_INFO and MST_QRCODE_STORE

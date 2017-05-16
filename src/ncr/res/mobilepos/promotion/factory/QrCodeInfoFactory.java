@@ -16,7 +16,7 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
-import ncr.res.mobilepos.promotion.dao.QrCodeInfoDAO;
+import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
 
@@ -104,7 +104,7 @@ public class QrCodeInfoFactory {
             
             QrCodeList = new ArrayList<QrCodeInfo>(); 
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            QrCodeInfoDAO codeInfDAO = daoFactory.getQrCodeInfoDAO();
+            IQrCodeInfoDAO codeInfDAO = daoFactory.getQrCodeInfoDAO();
             QrCodeList = codeInfDAO.getkinokuniyaQrCodeInfo(companyId, storeId, dayDate);
             
         } catch (DaoException e) {

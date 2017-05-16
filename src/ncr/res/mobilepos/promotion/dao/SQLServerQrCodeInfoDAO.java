@@ -17,7 +17,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.property.SQLStatement;
 
-public class SQLServerQrCodeDAO extends AbstractDao implements QrCodeInfoDAO {
+public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDAO {
 	/**
      * The Database Manager of the class.
      */
@@ -42,7 +42,7 @@ public class SQLServerQrCodeDAO extends AbstractDao implements QrCodeInfoDAO {
      * @throws DaoException
      *             The exception thrown when the constructor fails.
      */
-    public SQLServerQrCodeDAO() throws DaoException {
+    public SQLServerQrCodeInfoDAO() throws DaoException {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());

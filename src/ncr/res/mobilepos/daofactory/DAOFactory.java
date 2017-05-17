@@ -12,6 +12,7 @@
 package ncr.res.mobilepos.daofactory;
 
 import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
+import ncr.res.mobilepos.appserver.dao.IAppServerDAO;
 import ncr.res.mobilepos.authentication.dao.IAuthAdminDao;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.dao.ICorpStoreDAO;
@@ -55,7 +56,6 @@ import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
-import ncr.res.mobilepos.servertable.dao.IServerTableDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
 import ncr.res.mobilepos.store.dao.IStoreDAO;
 import ncr.res.mobilepos.store.dao.SQLServerStoreDAO;
@@ -472,5 +472,5 @@ public abstract class DAOFactory {
 	
 	public abstract ICreditCardAbstractDAO getCreditCardInfo() throws Exception;
 
-	public abstract IServerTableDAO getServerTableDAO() throws DaoException;
+	public abstract IAppServerDAO getAppServerDAO() throws DaoException;
 }

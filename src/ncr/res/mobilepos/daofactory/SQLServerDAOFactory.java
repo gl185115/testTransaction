@@ -10,6 +10,8 @@
 
 package ncr.res.mobilepos.daofactory;
 
+import ncr.res.mobilepos.appserver.dao.IAppServerDAO;
+import ncr.res.mobilepos.appserver.dao.SQLServerAppServerDAO;
 import ncr.res.mobilepos.authentication.dao.*;
 import ncr.res.mobilepos.barcode.dao.IBarCodeDAO;
 import ncr.res.mobilepos.barcode.dao.SQLServerBarCodeDAO;
@@ -80,8 +82,6 @@ import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.queuesignature.dao.QueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
 import ncr.res.mobilepos.report.dao.SQLServerReportDAO;
-import ncr.res.mobilepos.servertable.dao.IServerTableDAO;
-import ncr.res.mobilepos.servertable.dao.SQLServerServerTableDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
 import ncr.res.mobilepos.settlement.dao.SQLServerSettlementInfoDAO;
 import ncr.res.mobilepos.store.dao.IStoreDAO;
@@ -178,8 +178,8 @@ public class SQLServerDAOFactory extends DAOFactory {
     }
     
     @Override
-    public final IServerTableDAO getServerTableDAO() throws DaoException {
-    	return new SQLServerServerTableDAO();
+    public final IAppServerDAO getAppServerDAO() throws DaoException {
+    	return new SQLServerAppServerDAO();
     }
 
     @Override

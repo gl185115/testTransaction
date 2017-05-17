@@ -1,4 +1,4 @@
-package ncr.res.mobilepos.servertable.model;
+package ncr.res.mobilepos.appserver.model;
 
 import java.util.List;
 
@@ -13,27 +13,27 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "ServerTables")
-@ApiModel(value="ServerTables")
-public class ServerTables extends ResultBase {
+@XmlRootElement(name = "AppServers")
+@ApiModel(value="AppServers")
+public class AppServers extends ResultBase {
 	/**
 	 * List of AP Servers
 	 */
     @XmlElement(name = "Servers")
-    private List<ServerTable> serverTables;
+    private List<AppServer> appServers;
     /**
      * Get the list of AP Servers
      * @return
      */
-    @ApiModelProperty(value="AP Servers", notes="Tomcat or IIS")
-    public List<ServerTable> getServerTables() {
-		return serverTables;
+    @ApiModelProperty(value="App Servers", notes="Tomcat or IIS")
+    public List<AppServer> getAppServers() {
+		return appServers;
 	}
     /**
-     * Set the list of AP Servers
-     * @param serverTables
+     * Set the list of Application Servers
+     * @param servers
      */
-	public void setServerTables(List<ServerTable> serverTables) {
-		this.serverTables = serverTables;
+	public void setAppServers(List<AppServer> appServers) {
+		this.appServers = appServers;
 	}
 }

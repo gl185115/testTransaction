@@ -1,14 +1,13 @@
 /*
  * Copyright (c) 2017 NCR/JAPAN Corporation SW-R&D
  * 
- * ServerTableResource
+ * AppServerResource
  * 
- * Resource which provides a list of AP Server for checking WebApp connection.
+ * Resource which provides a list of Application Server for checking WebApp connection.
  * 
  */
-package ncr.res.mobilepos.servertable.resource;
+package ncr.res.mobilepos.appserver.resource;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import com.wordnik.swagger.annotations.Api;
@@ -22,22 +21,22 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.appserver.dao.IAppServerDAO;
+import ncr.res.mobilepos.appserver.model.AppServer;
+import ncr.res.mobilepos.appserver.model.AppServers;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.servertable.dao.IServerTableDAO;
-import ncr.res.mobilepos.servertable.model.ServerTable;
-import ncr.res.mobilepos.servertable.model.ServerTables;
 
 /**
- * ServerTableResource Web Resource Class. 
- * This gets server table (Tomcat or IIS web application request url).
+ * AppServerResource Web Resource Class. 
+ * This gets application servers (Tomcat or IIS web application request url).
  */
 @Path("/servertable")
 @Api(value = "/servertable", description = "サーバーテーブルAPI")
-public class ServerTableResource {
+public class AppServerResource {
 	/**
 	 * The program name.
 	 */
@@ -48,59 +47,55 @@ public class ServerTableResource {
 	private static final Logger LOGGER = (Logger) Logger.getInstance();
 
 	/**
-	 * Default Constructor for ServerTableResource.
+	 * Default Constructor for AppServerResource.
 	 *
 	 * <P>
 	 * Initializes the logger object.
 	 */
-	public ServerTableResource() {
+	public AppServerResource() {
 	}
 
 	/**
 	 * This method get the list of AP Server with request url.
 	 * 
-	 * @return ServerTables
+	 * @return AppServers
 	 */
 	@Path("/get")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value = "ServerTables", response = ServerTables.class)
+	@ApiOperation(value = "AppServers", response = AppServers.class)
 	@ApiResponses(value={
 			@ApiResponse(code=ResultBase.RES_OK, message="Success"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
-	public final ServerTables getServerTables() {
+	public final AppServers getAppServers() {
 		String functionName = DebugLogger.getCurrentMethodName();
 		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread()
 				.getId(), getClass());
 		if (tp != null) {
 			tp.methodEnter(functionName);
 		}
-		ServerTables serverTables = new ServerTables();
+		AppServers appServers = new AppServers();
 		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 		try {
-			IServerTableDAO serverDAO = daoFactory.getServerTableDAO();
-			List<ServerTable> servers = serverDAO.getServerTables();
+			IAppServerDAO serverDAO = daoFactory.getAppServerDAO();
+			List<AppServer> servers = serverDAO.getAppServers();
 			if (!servers.isEmpty()) {
-				serverTables.setServerTables(servers);
+				appServers.setAppServers(servers);
 			}
 		} catch (DaoException ex) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
-					"Failed to get servertable:" + ex.getMessage());
-			if (ex.getCause() instanceof SQLException) {
-				serverTables.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-			} else {
-				serverTables.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-			}
+					"Failed to get app servers:" + ex.getMessage());
+			appServers.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
 		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-					"Failed to get servertable:" + ex.getMessage());
-			serverTables.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+					"Failed to get app servers:" + ex.getMessage());
+			appServers.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
 		} finally {
-			tp.methodExit(serverTables);
+			tp.methodExit(appServers);
 		}
-		return serverTables;
+		return appServers;
 	}
 }

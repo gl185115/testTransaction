@@ -131,6 +131,7 @@
       <url-pattern>/rest/ItemForward/*</url-pattern>
       <url-pattern>/rest/creditcard/*</url-pattern>
       <url-pattern>/rest/poslogstatus/*</url-pattern>
+      <url-pattern>/rest/servertable/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

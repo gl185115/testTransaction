@@ -1,10 +1,10 @@
-package ncr.res.mobilepos.servertable.model;
+package ncr.res.mobilepos.appserver.model;
 /**
- * AP Server Types.
+ * Application Server Types.
  */
-public class APServerTypes {
+public class AppServerTypes {
 	/** Default constructor. **/
-	private APServerTypes(){
+	private AppServerTypes(){
 		
 	}
 	/**

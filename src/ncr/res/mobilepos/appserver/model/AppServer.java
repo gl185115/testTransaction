@@ -1,4 +1,4 @@
-package ncr.res.mobilepos.servertable.model;
+package ncr.res.mobilepos.appserver.model;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -9,9 +9,9 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "ServerTable")
-@ApiModel(value="ServerTable")
-public class ServerTable {
+@XmlRootElement(name = "AppServer")
+@ApiModel(value="AppServer")
+public class AppServer {
 	/**
 	 * AP Server Name.
 	 */

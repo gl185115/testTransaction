@@ -10879,7 +10879,7 @@ FROM
 WHERE
 	%s = 0;
 </entry>
-	<entry key="get-servertables">
+	<entry key="get-server-list">
 		SELECT 
 			Name, 
 			Type, 

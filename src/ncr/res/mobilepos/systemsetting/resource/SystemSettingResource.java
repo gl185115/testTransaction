@@ -1,5 +1,8 @@
 package ncr.res.mobilepos.systemsetting.resource;
 
+import java.io.IOException;
+import java.net.InetAddress;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -16,6 +19,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
@@ -72,7 +76,7 @@ public class SystemSettingResource {
     /**
      * Program name.
      */
-    private String progname = "BizRsc";
+    private String PROG_NAME = "SysSet";
 
     /**
      * DAO Factory for System Setting.
@@ -131,11 +135,11 @@ public class SystemSettingResource {
                 tp.println("No settings found.");
             }
         } catch (DaoException e) {
-            LOGGER.logAlert(progname, functionname, Logger.RES_EXCEP_DAO,
+            LOGGER.logAlert(PROG_NAME, functionname, Logger.RES_EXCEP_DAO,
                     "Failed to get the System Settings: \n" + e.getMessage());
             systemSetting.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionname, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(PROG_NAME, functionname, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the System Settings: \n" + e.getMessage());
             systemSetting.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
         } finally {
@@ -175,7 +179,7 @@ public class SystemSettingResource {
                 tp.println("Unabled to retrieve current date and time.");
             }
         } catch (Exception e) {
-            LOGGER.logAlert(progname, functionname, Logger.RES_EXCEP_GENERAL,
+            LOGGER.logAlert(PROG_NAME, functionname, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the server's current date and time. \n"
                                + e.getMessage());
             dateTime.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -184,4 +188,57 @@ public class SystemSettingResource {
         }
         return dateTime;
     }
+    
+    /**
+     * Ping check connection to IpAddress.
+     * @param ipAddress IP to ping
+     * @return ResultBase
+     */
+	@POST
+	@Path("/ping")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "PingIPAddress", response = ResultBase.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = ResultBase.RES_OK, message = "IPAddress is reachable"),
+			@ApiResponse(code = ResultBase.RES_ERROR_PING, message = "IpAddress is not reachable"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "Network error"),
+			@ApiResponse(code = ResultBase.RES_ERROR_ILLEGALARGUMENTEXCEPTION, message = "Timeout is negative"),
+			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="îƒópÉGÉâÅ[")})
+	public final ResultBase ping(
+			@ApiParam(name = "ipaddress", value = "ipaddress") @FormParam("ipaddress") final String ipAddress) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread()
+				.getId(), getClass());
+		if (tp != null) {
+			tp.methodEnter(functionName);
+		}
+		ResultBase result = new ResultBase();
+		try {
+			InetAddress inet = InetAddress.getByName(ipAddress);
+			if (inet.isReachable(GlobalConstant.getPingWaitTimer())) {
+				result.setNCRWSSResultCode(ResultBase.RES_OK);
+			} else {
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
+				result.setMessage(ipAddress + " is not reachable.");
+			}
+		} catch (IOException e) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_IO,
+					"Failed to ping ipaddress.\n" + e.getMessage());
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+			result.setMessage(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to ping ipaddress.\n" + e.getMessage());
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_ILLEGALARGUMENTEXCEPTION);
+			result.setMessage(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to ping ipaddress.\n" + e.getMessage());
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(e.getMessage());
+		} finally {
+			tp.methodExit(result);
+		}
+		return result;
+	}
 }

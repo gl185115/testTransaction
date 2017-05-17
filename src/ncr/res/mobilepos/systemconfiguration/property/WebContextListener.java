@@ -263,5 +263,10 @@ public class WebContextListener implements ServletContextListener {
 
         GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
         GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
+        
+        String pingWaitTimer = sysParams.get(GlobalConstant.PING_WAIT_TIMER);
+        if(!StringUtility.isNullOrEmpty(pingWaitTimer)) {
+        	GlobalConstant.setPingWaitTimer(Integer.parseInt(pingWaitTimer));
+        }
     }
 }

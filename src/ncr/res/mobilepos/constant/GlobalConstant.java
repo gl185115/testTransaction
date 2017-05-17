@@ -181,6 +181,10 @@ public final class GlobalConstant {
     public static final String KEY_INSTORE_PARAM_9 = "InStoreParam9";
     public static final String KEY_INSTORE_PARAM_10 = "InStoreParam10";
     public static final String KEY_INSTORE_PARAM_11 = "InStoreParam11";
+    /**
+     * The key name for ping waiting time.
+     */
+    public static final String PING_WAIT_TIMER = "PingWaitTimer";
 
     /** The Search Limit.
      *  The default is 5.
@@ -251,6 +255,10 @@ public final class GlobalConstant {
      * Allow or disallow multiple SOD on businessdaydate.
      */
     private static boolean multiSOD = false;
+    /**
+     * Ping waiting time.
+     */
+    private static int pingWaitTimer = 3000;
 
 
     /**
@@ -589,5 +597,13 @@ public final class GlobalConstant {
     public static void setDefaultLanguage(String defaultLanguage) {
         GlobalConstant.defaultLanguage = defaultLanguage;
     }
+
+	public static int getPingWaitTimer() {
+		return pingWaitTimer;
+	}
+
+	public static void setPingWaitTimer(int pingWaitTimer) {
+		GlobalConstant.pingWaitTimer = pingWaitTimer;
+	}
 }
 

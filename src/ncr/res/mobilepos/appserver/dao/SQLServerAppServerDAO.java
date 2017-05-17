@@ -99,12 +99,6 @@ public class SQLServerAppServerDAO extends AbstractDao implements IAppServerDAO 
 					"Failed to get the list of appserver.\n"
 							+ sqlEx.getMessage());
 			throw new DaoException("SQLException: @getAppServers ", sqlEx);
-		} catch (Exception e) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-					"Failed to get the list of appserver.\n" + e.getMessage());
-			throw new DaoException("Exception: @" + "SQLServerAppServerDAO:"
-					+ functionName + " - Failed to get the list of appserver.",
-					e);
 		} finally {
 			tp.methodExit(servers);
 		}

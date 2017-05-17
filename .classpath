@@ -10,7 +10,6 @@
 	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-core/1.8/jersey-core-1.8.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jsoup/jsoup/1.6.1/jsoup-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-taglib-0.4.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/toppan-giftcard-mobile.jar"/>
 	<classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar"/>
@@ -45,7 +44,6 @@
 	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4.9/xstream-1.4.9.jar"/>
 	<classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar"/>
-	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/dbunit/dbunit/2.4.8/dbunit-2.4.8.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/3.1.1.RELEASE/spring-core-3.1.1.RELEASE.jar"/>
@@ -61,6 +59,15 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-util-scan/8.0.24/tomcat-util-scan-8.0.24.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-dbcp/8.0.24/tomcat-dbcp-8.0.24.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sqljdbc42.jar"/>
-	<classpathentry kind="var" path="M2_REPO/sqljdbc42/sqljdbc42/4.2/sqljdbc42-4.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ncr/res/base/mex-common/1.0.2.1/mex-common-1.0.2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ncr/res/base/javalib/toppan-giftcard-mobile/1.0.1.6/toppan-giftcard-mobile-1.0.1.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-module-junit4/1.6.6/powermock-module-junit4-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-mockito-common/1.6.6/powermock-api-mockito-common-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-core/1.6.6/powermock-core-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-support/1.6.6/powermock-api-support-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-module-junit4-common/1.6.6/powermock-module-junit4-common-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-reflect/1.6.6/powermock-reflect-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.10.19/mockito-core-1.10.19.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-mockito/1.6.6/powermock-api-mockito-1.6.6.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

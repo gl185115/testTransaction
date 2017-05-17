@@ -147,7 +147,7 @@ public class PromotionResource {
 			@ApiResponse(code = ResultBase.RES_PROMOTION_DATE_INVALID, message = "プロモーション日付無効") })
 	public final ResultBase beginTransaction(
 			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
-			@ApiParam(name = "workstationid", value = "作業台コード") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNo,
 			@ApiParam(name = "companyid", value = "会社コード") @FormParam("companyid") final String companyid,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
@@ -218,7 +218,7 @@ public class PromotionResource {
 			@ApiResponse(code = ResultBase.RES_PROMOTION_DATE_INVALID, message = "プロモーション日付無効") })
 	public final ResultBase endTransaction(
 			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
-			@ApiParam(name = "workstationid", value = "作業台コード") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String jsonTransaction) {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -307,7 +307,7 @@ public class PromotionResource {
 			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
 	public final PromotionResponse itemEntry(
 			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
-			@ApiParam(name = "workstationid", value = "作業台コード") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
@@ -319,6 +319,7 @@ public class PromotionResource {
 		Transaction transactionOut = new Transaction();
 		Sale saleOut = new Sale();
 		PromotionResponse response = new PromotionResponse();
+		String commonStoreID = "0";// 共通店番号(0)
 		String discounttype = "0";
 		boolean twoStep = false;
 		String codeTemp = null;
@@ -367,7 +368,6 @@ public class PromotionResource {
 				DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 				ICodeConvertDAO codeCvtDAO = daoFactory.getCodeConvertDAO();
 				IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
-				IItemDAO dao = daoFactory.getItemDAO();
 				ViewDepartment departmentInfo = new ViewDepartment();
 				
 				// 二段バーコード判断
@@ -410,11 +410,23 @@ public class PromotionResource {
 				
 				SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId,
 						businessDate); // 各種割引情報を含めた商品情報
+				if (searchedProd == null) {
+	                if (!"0".equals(retailStoreId)) {
+	                    searchedProd = itemResource.getItemByPLUcode(commonStoreID, itemIdTemp, companyId,
+	                            businessDate); // 共通店番号(0)で検索
+	                }
+	            }
+				
 				Item item = null;
 				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK) {
 					tp.println("Item was not found!");
 					try {
 						item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
+						if (item == null) {
+		                    if (!"0".equals(retailStoreId)) {
+		                        item = getdetailInfoData(commonStoreID, itemIdTemp, companyId, businessDate);// 共通店番号(0)で検索
+		                    }
+		                }
 					} catch (Exception e) {
 						LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
 								functionName + ": Failed to send item entry.", e);
@@ -433,6 +445,12 @@ public class PromotionResource {
                 } else {
                     // 部門コードを部門マスタテーブルに存在チェック
                     departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
+                    if (departmentInfo == null) {
+                        if (!"0".equals(retailStoreId)) {
+                            departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp);// 共通店番号(0)で検索
+                        }
+                    }
+                    
                     dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
                     if (StringUtility.isNullOrEmpty(dptCode)) {
                       response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
@@ -863,7 +881,7 @@ public class PromotionResource {
 			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
 	public final PromotionResponse itemMixMatchInfobySku(
 			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
-			@ApiParam(name = "workstationid", value = "作業台コード") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "業務") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
@@ -1227,7 +1245,7 @@ public class PromotionResource {
 			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
 	public final PromotionResponse itemUpdate(
 			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
-			@ApiParam(name = "workstationid", value = "作業台コード") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
 

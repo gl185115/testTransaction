@@ -56,7 +56,8 @@
         ncr.res.mobilepos.uiconfig.resource,
         ncr.res.mobilepos.creditcard.resource,
         ncr.res.mobilepos.initialization.resource,
-        ncr.res.mobilepos.poslogstatus.resource
+        ncr.res.mobilepos.poslogstatus.resource,
+        ncr.res.mobilepos.appserver.resource
     </param-value>
     </init-param>
     <init-param>

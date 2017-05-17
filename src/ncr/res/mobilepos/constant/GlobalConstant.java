@@ -184,7 +184,7 @@ public final class GlobalConstant {
     /**
      * The key name for server ping timeout.
      */
-    public static final String KEY_SERVER_PING_TIMEOUT = "PingWaitTimer";
+    public static final String KEY_SERVER_PING_TIMEOUT = "ServerPingTimeout";
     /**
      * Default value for server ping timeout in milliseconds.
      */

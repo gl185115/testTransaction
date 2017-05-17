@@ -182,10 +182,17 @@ public final class GlobalConstant {
     public static final String KEY_INSTORE_PARAM_10 = "InStoreParam10";
     public static final String KEY_INSTORE_PARAM_11 = "InStoreParam11";
     /**
-     * The key name for ping waiting time.
+     * The key name for server ping timeout.
      */
-    public static final String PING_WAIT_TIMER = "PingWaitTimer";
-
+    public static final String KEY_SERVER_PING_TIMEOUT = "PingWaitTimer";
+    /**
+     * Default value for server ping timeout in milliseconds.
+     */
+    private static final int DEFAULT_SERVER_PING_TIMEOUT = 3000;
+    /**
+     * Ping waiting time in milliseconds.
+     */
+    private static int pingWaitTimer = DEFAULT_SERVER_PING_TIMEOUT;
     /** The Search Limit.
      *  The default is 5.
      */
@@ -255,11 +262,6 @@ public final class GlobalConstant {
      * Allow or disallow multiple SOD on businessdaydate.
      */
     private static boolean multiSOD = false;
-    /**
-     * Ping waiting time.
-     */
-    private static int pingWaitTimer = 3000;
-
 
     /**
      * Gets Tax Rate.

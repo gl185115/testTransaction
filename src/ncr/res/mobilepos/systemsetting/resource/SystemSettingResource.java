@@ -2,6 +2,7 @@ package ncr.res.mobilepos.systemsetting.resource;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
@@ -202,7 +203,6 @@ public class SystemSettingResource {
 			@ApiResponse(code = ResultBase.RES_OK, message = "IPAddress is reachable"),
 			@ApiResponse(code = ResultBase.RES_ERROR_PING, message = "IpAddress is not reachable"),
 			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "Network error"),
-			@ApiResponse(code = ResultBase.RES_ERROR_ILLEGALARGUMENTEXCEPTION, message = "Timeout is negative"),
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="îƒópÉGÉâÅ[")})
 	public final ResultBase ping(
 			@ApiParam(name = "ipaddress", value = "ipaddress") @FormParam("ipaddress") final String ipAddress) {
@@ -214,7 +214,13 @@ public class SystemSettingResource {
 		}
 		ResultBase result = new ResultBase();
 		try {
-			InetAddress inet = InetAddress.getByName(ipAddress);
+			InetAddress inet = null;
+			try {
+				inet = InetAddress.getByName(ipAddress);
+			} catch (UnknownHostException ex) {
+				result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
+				result.setMessage("Invalid IpAddress. This maybe a hostname.");
+			}
 			if (inet.isReachable(GlobalConstant.getPingWaitTimer())) {
 				result.setNCRWSSResultCode(ResultBase.RES_OK);
 			} else {
@@ -225,11 +231,6 @@ public class SystemSettingResource {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_IO,
 					"Failed to ping ipaddress.\n" + e.getMessage());
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-			result.setMessage(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-					"Failed to ping ipaddress.\n" + e.getMessage());
-			result.setNCRWSSResultCode(ResultBase.RES_ERROR_ILLEGALARGUMENTEXCEPTION);
 			result.setMessage(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,

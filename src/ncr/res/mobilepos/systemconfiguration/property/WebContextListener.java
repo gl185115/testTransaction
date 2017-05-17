@@ -152,7 +152,6 @@ public class WebContextListener implements ServletContextListener {
      * Method called when during servlet StartUp.
      * @param event     Servlet Context Event
      */
-    @SuppressWarnings("unchecked")
     @Override
     public final void contextInitialized(final ServletContextEvent event) {
         String functionName = "";
@@ -264,9 +263,16 @@ public class WebContextListener implements ServletContextListener {
         GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
         GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
         
-        String pingWaitTimer = sysParams.get(GlobalConstant.PING_WAIT_TIMER);
+        String pingWaitTimer = sysParams.get(GlobalConstant.KEY_SERVER_PING_TIMEOUT);
         if(!StringUtility.isNullOrEmpty(pingWaitTimer)) {
-        	GlobalConstant.setPingWaitTimer(Integer.parseInt(pingWaitTimer));
+        	try{
+        		int pingWaitTimerInt = Integer.parseInt(pingWaitTimer);
+        		if(pingWaitTimerInt >= 0) {
+        			GlobalConstant.setPingWaitTimer(pingWaitTimerInt);
+        		}
+        	} catch(NumberFormatException ex) {
+        		// Remain default
+        	}
         }
     }
 }

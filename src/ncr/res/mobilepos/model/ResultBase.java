@@ -68,7 +68,7 @@ public class ResultBase {
      * Value : {@value}
      * Error on Ping IPAddress.
      */
-    public static final int RES_ERROR_PING = 0x100;
+    public static final int RES_ERROR_PING = 100;
     /**
      * Value : {@value}<br>
      *Authentication success result code.
@@ -315,11 +315,6 @@ public class ResultBase {
      *Stream IO exception occured.
      */
     public static final int RES_ERROR_IOEXCEPTION = 151;
-    /**
-     * Value : {@value}<br>
-     * Illegal Argument Exception is thrown.
-     */
-    public static final int RES_ERROR_ILLEGALARGUMENTEXCEPTION = 165;
     /**
      * Value : {@value}<br>
      *Printer exception occured.

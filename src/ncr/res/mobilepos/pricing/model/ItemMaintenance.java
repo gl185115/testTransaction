@@ -67,7 +67,7 @@ public class ItemMaintenance extends ResultBase {
      * Getters for Workstation ID.
      * @return The Workstation ID.
      */
-    @ApiModelProperty(value="作業台コード", notes="作業台コード")
+    @ApiModelProperty(value="ターミナル番号", notes="ターミナル番号")
     public final String getWorkstationid() {
         return workstationid;
     }

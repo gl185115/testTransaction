@@ -358,7 +358,7 @@ public class QueueBusterResource {
     public final BusteredTransactionList list(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
     		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreId,
-    		@ApiParam(name="workstationid", value="作業台コード") @QueryParam("workstationid") final String workstationId,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @QueryParam("workstationid") final String workstationId,
     		@ApiParam(name="queue", value="署名要請の列標識") @QueryParam("queue") final String queue,
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final int trainingFlag) {
 

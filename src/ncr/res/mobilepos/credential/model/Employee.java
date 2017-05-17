@@ -147,7 +147,7 @@ public class Employee {
      *
      * @return String workStationID.
      */
-    @ApiModelProperty(value="作業台コード", notes="作業台コード")
+    @ApiModelProperty(value="ターミナル番号", notes="ターミナル番号")
     public final String getWorkStationID() {
         return workStationID;
     }

@@ -25,6 +25,9 @@ public class ItemSale {
 
     @XmlElement(name = "symbol")
     private String symbol;
+    
+    @XmlElement(name = "emergency")
+    private boolean emergency = true;
 
     @XmlElement(name = "format")
     private List<String> format;
@@ -62,6 +65,14 @@ public class ItemSale {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+    
+    public boolean getEmergency() {
+        return emergency;
+    }
+
+    public void setEmergency(boolean emergency) {
+        this.emergency = emergency;
     }
 
     public List<String> getNextFormat() {

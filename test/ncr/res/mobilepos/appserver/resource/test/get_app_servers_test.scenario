@@ -1,0 +1,15 @@
+Scenario: Get App Servers with data
+Given data in table PRM_SERVER_TABLE
+When I get app servers
+Then I should get NCRWSSResultCode:0
+Then I should get the following:
+|Name				|Type				|Url															|IISUrl													|
+|AP Server (IIS)	|WOApi				|																|http://localhost:8086/WOApi/HealthCheckAPI/|
+|AP Server (TOMCAT)	|resTransaction		|http://localhost:8080/resTransaction/rest/initialization/status|														|
+
+Scenario: Get App Servers with 0 data
+Given an empty table in PRM_SERVER_TABLE
+When I get app servers
+Then I should get NCRWSSResultCode:0
+Then I should get Servers=null
+

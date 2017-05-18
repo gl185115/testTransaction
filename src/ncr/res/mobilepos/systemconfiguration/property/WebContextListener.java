@@ -263,15 +263,21 @@ public class WebContextListener implements ServletContextListener {
         GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
         GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
         
-        String pingWaitTimer = sysParams.get(GlobalConstant.KEY_SERVER_PING_TIMEOUT);
-        if(!StringUtility.isNullOrEmpty(pingWaitTimer)) {
+        String serverPingTimeout = sysParams.get(GlobalConstant.KEY_SERVER_PING_TIMEOUT);
+        if(!StringUtility.isNullOrEmpty(serverPingTimeout)) {
         	try{
-        		int pingWaitTimerInt = Integer.parseInt(pingWaitTimer);
-        		if(pingWaitTimerInt >= 0) {
-        			GlobalConstant.setPingWaitTimer(pingWaitTimerInt);
+        		int serverPingTimeoutInt = Integer.parseInt(serverPingTimeout);
+        		if(serverPingTimeoutInt >= 0) {
+        			GlobalConstant.setServerPingTimeout(serverPingTimeoutInt);
         		}
         	} catch(NumberFormatException ex) {
-        		// Remain default
+				Logger.getInstance().logAlert(
+						"SysCnfg",
+						"copySystemConfigToGlobalConstant",
+						Logger.RES_PARA_ERR,
+						"Invalid param format: "
+								+ GlobalConstant.KEY_SERVER_PING_TIMEOUT + ","
+								+ serverPingTimeout);
         	}
         }
     }

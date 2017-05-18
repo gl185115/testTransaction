@@ -190,9 +190,9 @@ public final class GlobalConstant {
      */
     private static final int DEFAULT_SERVER_PING_TIMEOUT = 3000;
     /**
-     * Ping waiting time in milliseconds.
+     * Server ping timeout in milliseconds.
      */
-    private static int pingWaitTimer = DEFAULT_SERVER_PING_TIMEOUT;
+    private static int serverPingTimeout = DEFAULT_SERVER_PING_TIMEOUT;
     /** The Search Limit.
      *  The default is 5.
      */
@@ -600,12 +600,12 @@ public final class GlobalConstant {
         GlobalConstant.defaultLanguage = defaultLanguage;
     }
 
-	public static int getPingWaitTimer() {
-		return pingWaitTimer;
+	public static int getServerPingTimeout() {
+		return serverPingTimeout;
 	}
 
-	public static void setPingWaitTimer(int pingWaitTimer) {
-		GlobalConstant.pingWaitTimer = pingWaitTimer;
+	public static void setServerPingTimeout(int serverPingTimeout) {
+		GlobalConstant.serverPingTimeout = serverPingTimeout;
 	}
 }
 

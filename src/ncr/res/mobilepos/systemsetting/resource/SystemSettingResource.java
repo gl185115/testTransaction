@@ -215,13 +215,8 @@ public class SystemSettingResource {
 		ResultBase result = new ResultBase();
 		try {
 			InetAddress inet = null;
-			try {
-				inet = InetAddress.getByName(ipAddress);
-			} catch (UnknownHostException ex) {
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
-				result.setMessage("Invalid IpAddress. This maybe a hostname.");
-			}
-			if (inet.isReachable(GlobalConstant.getPingWaitTimer())) {
+			inet = InetAddress.getByName(ipAddress);
+			if (inet.isReachable(GlobalConstant.getServerPingTimeout())) {
 				result.setNCRWSSResultCode(ResultBase.RES_OK);
 			} else {
 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);

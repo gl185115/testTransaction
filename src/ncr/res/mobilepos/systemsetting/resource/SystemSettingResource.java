@@ -214,14 +214,16 @@ public class SystemSettingResource {
 		}
 		ResultBase result = new ResultBase();
 		try {
-			InetAddress inet = null;
-			inet = InetAddress.getByName(ipAddress);
+			InetAddress inet = InetAddress.getByName(ipAddress);
 			if (inet.isReachable(GlobalConstant.getServerPingTimeout())) {
 				result.setNCRWSSResultCode(ResultBase.RES_OK);
 			} else {
 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
 				result.setMessage(ipAddress + " is not reachable.");
 			}
+		} catch (UnknownHostException ex) {
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
+            result.setMessage("Invalid IpAddress. This maybe a hostname.");
 		} catch (IOException e) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_IO,
 					"Failed to ping ipaddress.\n" + e.getMessage());

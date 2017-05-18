@@ -10,14 +10,18 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
 import java.util.Map;
 
 import ncr.res.mobilepos.appserver.model.AppServers;
 import ncr.res.mobilepos.appserver.resource.AppServerResource;
 import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.model.ResultBase;
 
 public class AppServerSteps extends Steps {
 
@@ -93,6 +97,21 @@ public class AppServerSteps extends Steps {
 						.trim(), appServers.getAppServers().get(i).getIisUrl());
 			}
 			i++;
+		}
+	}
+	
+	@Then("the JSON should have the following format: $expectedJson")
+	public final void theJsonShouldHaveTheFollowingJSONFormat(
+			String expectedJson) {
+		try {
+			JsonMarshaller<AppServers> jsonMarshaller = new JsonMarshaller<AppServers>();
+			String actualJson = jsonMarshaller.marshall(appServers);
+			// compare to json strings regardless of property ordering
+			JSONAssert.assertEquals(expectedJson, actualJson,
+					JSONCompareMode.NON_EXTENSIBLE);
+		} catch (Exception e) {
+			Assert.fail("Failed to verify the AppServers JSON format");
+			e.printStackTrace();
 		}
 	}
 

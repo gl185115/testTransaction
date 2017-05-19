@@ -1,0 +1,35 @@
+Scenario: Given ipAddress is invalid and failed with UnknownHostException
+Given ipAddress, 1231.456.789.1111 is invalid and cannot be resolved
+Given Timeout is defined as 1000 ms
+When I make a ping to ipAddress, 1231.456.789.1111
+Then Ping failed by UnknownHostException with RES_ERROR_PING
+
+Scenario: Host is reachable within timeout.
+Given ipAddress, 123.456.789.012 is valid and resolvable
+Given Timeout is defined as 1000 ms
+Given AppServer can be reachable within 900 ms
+When I make a ping to ipAddress, 123.456.789.012
+Then Ping returns sucessfully
+
+Scenario: Host is not reachable within timeout.
+Given ipAddress, 123.456.789.012 is valid and resolvable
+Given Timeout is defined as 1000 ms
+Given AppServer can be reachable within 1100 ms
+When I make a ping to ipAddress, 123.456.789.012
+Then Ping failed by timeout with RES_ERROR_PING
+
+Scenario: Host is not reachable due to network problem.
+Given ipAddress, 123.456.789.012 is valid and resolvable
+Given Timeout is defined as 1000 ms
+Given AppServer can be reachable within 1100 ms
+Given Network has trouble
+When I make a ping to ipAddress, 123.456.789.012
+Then Ping failed with RES_ERROR_IOEXCEPTION
+
+Scenario: Ping failed due to system problem.
+Given ipAddress, 123.456.789.012 is valid and resolvable
+Given Timeout is defined as 1000 ms
+Given AppServer can be reachable within 1100 ms
+Given System has trouble
+When I make a ping to ipAddress, 123.456.789.012
+Then Ping failed with RES_ERROR_GENERAL

@@ -163,7 +163,7 @@ public class BarcodeAssignmentUtility {
         for (ItemSale assignmentItem : saleAssignmentItems) {
             // If first-line matches with format and second-line matches with next line, then return Id.
             if (matchCodeWithItemFormat(doubleCode[0], assignmentItem) &&
-                    matchCodeWithItemNextFormat(doubleCode[1], assignmentItem)) {
+                    (matchCodeWithItemNextFormat(doubleCode[1], assignmentItem) || doubleCode[1].length() == 4)) {
                 return assignmentItem;
             }
         }

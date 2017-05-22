@@ -106,11 +106,8 @@ public class PromotionResource {
 	 */
 	private static final String PROG_NAME = "Prom";
 
-    private static final String ITEM_FORM = "picklist";
-
     private final BarcodeAssignment barcodeAssignment;
     
-    public static final String VARIETIES_NONE = "none";
 
 	/**
 	 * Default Constructor for PromotionResource.
@@ -382,13 +379,6 @@ public class PromotionResource {
                 // 品目名を取得する
                 String varietiesName = BarcodeAssignmentUtility.getBarcodeAssignmentItemId(itemId, barcodeAssignment);
                 
-                // 二段目のコードを4桁の場合
-                if ("".equals(varietiesName)) {
-                    if (twoStep && barcode_sec.length() == 4) {
-                        varietiesName = VARIETIES_NONE;
-                    }
-                }
-                
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
 
@@ -410,7 +400,7 @@ public class PromotionResource {
 				
 				SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId,
 						businessDate); // 各種割引情報を含めた商品情報
-				if (searchedProd == null) {
+				if (searchedProd == null || (searchedProd != null && searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK)) {
 	                if (!"0".equals(retailStoreId)) {
 	                    searchedProd = itemResource.getItemByPLUcode(commonStoreID, itemIdTemp, companyId,
 	                            businessDate); // 共通店番号(0)で検索
@@ -597,7 +587,13 @@ public class PromotionResource {
         switch (varietiesName) {
         case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
             if(dpt == null){
-                codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, barcode_sec.substring(3, 7));
+                String cCode = "";
+                if (barcode_sec.length() > 7) {
+                    cCode = barcode_sec.substring(3, 7);
+                } else {
+                    cCode = barcode_sec;
+                }
+                codeTemp = codeCvtDAO.convertCCodeToDpt(companyId,cCode);
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -621,7 +617,7 @@ public class PromotionResource {
             break;
         case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
             if(dpt == null){
-                codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(5, 10));
+                codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(0, 5));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -633,7 +629,13 @@ public class PromotionResource {
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
             if(dpt == null){
-                codeTemp = JaCodeCvt(barcode_sec.substring(3, 7));
+                String jaCode = "";
+                if (barcode_sec.length() > 7) {
+                    jaCode = barcode_sec.substring(3, 7);
+                } else {
+                    jaCode = barcode_sec;
+                }
+                codeTemp = JaCodeCvt(jaCode);
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -684,18 +686,6 @@ public class PromotionResource {
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Not found in the PLU.");
                 tp.println("Not found in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case VARIETIES_NONE:
-            if(dpt == null){
-                codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, barcode_sec);
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
             } else {
                 codeTemp = dpt;
             }
@@ -823,7 +813,10 @@ public class PromotionResource {
         tp.methodEnter(functionName).println("itemId", itemId);
         
 		String[] item = itemId.split(" ");
-		int price = Integer.parseInt(item[1].substring(7, 12));
+		int price = 0;
+		if (item[1].length() == 13) {
+		    price = Integer.parseInt(item[1].substring(7, 12));
+		}
 
 		tp.methodExit(price);
 		return price;
@@ -842,9 +835,9 @@ public class PromotionResource {
 		String[] item = itemId.split(" ");
 		String topThree = item[1].substring(0, 3);
 		int price = 0;
-		if ("191".equals(topThree)) {
+		if ("191".equals(topThree) && item[1].length() == 13) {
 			price = (int) Math.round(Double.parseDouble(item[1].substring(7, 12)) * 100 / 103);
-		} else if ("192".equals(topThree)) {
+		} else if ("192".equals(topThree) && item[1].length() == 13) {
 			price = Integer.parseInt(item[1].substring(7, 12));
 		}
 
@@ -1313,5 +1306,5 @@ public class PromotionResource {
 		}
 		return promotionResponse;
 	}
-
+	
 }

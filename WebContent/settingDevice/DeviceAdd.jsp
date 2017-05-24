@@ -455,8 +455,8 @@ window.onload = function() {
           <tr>
             <td align="right">販促ビットマップパス ： </td>
             <td align="left">
-                <input maxlength="255" type="text" name="salesPromotionBMPPath" id="salesPromotionBMPPath"
-                       size=40 required pattern=".{1,255}\\\\">(255文字以内で最後に\\をつけて入力してください)
+                <input maxlength="100" type="text" name="salesPromotionBMPPath" id="salesPromotionBMPPath"
+                       size=40 required pattern=".{1,98}\\\\">(100文字以内で最後に\\をつけて入力してください)
             </td>
           </tr>
         </table>

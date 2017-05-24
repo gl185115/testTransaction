@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -55,10 +56,12 @@ import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
+import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
+import ncr.res.mobilepos.promotion.model.ItemList;
 import ncr.res.mobilepos.promotion.model.MixMatchDetailInfo;
 import ncr.res.mobilepos.promotion.model.Promotion;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
@@ -108,6 +111,17 @@ public class PromotionResource {
 
     private final BarcodeAssignment barcodeAssignment;
     
+    private final List<QrCodeInfo> qrCodeInfoList;
+    
+    public static final String PROMOTIONTYPE_ALL = "1";
+    public static final String PROMOTIONTYPE_DPT = "2";
+    public static final String PROMOTIONTYPE_DPT_CONN = "3";
+    public static final String PROMOTIONTYPE_DPT_BRANDID = "4";
+    public static final String PROMOTIONTYPE_LINE = "5";
+    public static final String PROMOTIONTYPE_ITEMCODE = "6";
+    public static final String OUTPUTTYPE_ONE = "1";
+    public static final String OUTPUTTYPE_TWO = "2";
+    public static final String OUTPUTTYPE_THREE = "3";
 
 	/**
 	 * Default Constructor for PromotionResource.
@@ -118,6 +132,7 @@ public class PromotionResource {
 	public PromotionResource() {
 		tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
 		barcodeAssignment = BarcodeAssignmentFactory.getInstance();
+		qrCodeInfoList = QrCodeInfoFactory.getInstance();
 	}
 
 	/**
@@ -1307,4 +1322,287 @@ public class PromotionResource {
 		return promotionResponse;
 	}
 	
+	/**
+     * getQrCodeInfoList for requesting promotion information.
+     * 
+     * @param companyId
+     *            The companyId
+     * @param retailStoreId
+     *            Store Number where the transaction is coming from
+     * @param workStationId
+     *            Device Number where the transaction is coming from
+     * @param sequenceNumber
+     *            The current transaction sequence number
+     * @param businessDate
+     *            The businessDate
+     * @param transaction     
+     *            The item Info and Operator Info XML
+     * @return {@link Transaction}
+     */
+    @SuppressWarnings("unchecked")
+    @POST
+    @Produces("application/json;charset=UTF-8")
+    @Path("/getQrCodeInfoList")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value = "QRCODE情報を取得", response = Promotion.class)
+    @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+            @ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
+            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
+            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+    public final Promotion getQrCodeInfoList(
+            @ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+            @ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
+            @ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
+            @ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
+            @ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate,
+            @ApiParam(name = "transaction", value = "商品情報と会員情報") @FormParam("transaction") final String transaction) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
+                .println("WorkstationId", workStationId).println("SequenceNumber", sequenceNumber)
+                .println("businessDate", businessDate).println("Transaction", transaction);
+        Promotion response = new Promotion();
+        int maxPrintNum = 4;
+        int bitmapCount = 0;
+        List<QrCodeInfo> qrCodeInfoListTemp = null;
+        List<QrCodeInfo> qrCodeInfoList = null;
+        
+        try {
+            if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
+                    businessDate)) {
+                response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                tp.println("Parameter[s] is empty or null.");
+                return response;
+            }
+            
+            JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
+            Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+            
+            // get valid data
+            qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
+            
+            int count = 0;
+            if (qrCodeInfoListTemp == null || qrCodeInfoListTemp.size() < 1) {
+                response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                response.setMessage("Not found valid data.");
+                tp.println("Not found valid data.");
+                return response;
+            } else {
+                // 一番小さい値を持つ企画コードが複数の場合
+                String displayOrder = qrCodeInfoListTemp.get(0).getDisplayOrder();
+                for (int i = 0; i < qrCodeInfoListTemp.size(); i++) {
+                    if (displayOrder.equals(qrCodeInfoListTemp.get(i).getDisplayOrder())){
+                        count++;
+                    }
+                }
+            }
+            
+            // 最大印字枚数をパラメータに取得する
+            String getMaxPrintNum = GlobalConstant.getMaxQRCodePrintNum();
+            if (!StringUtility.isNullOrEmpty(getMaxPrintNum)){
+                maxPrintNum = Integer.parseInt(getMaxPrintNum);
+            }
+            
+            // 有効な企画コードを取得する
+            boolean flag = true;
+            for (int i = 0; i < count; i++) {
+                if (!flag) {
+                    break;
+                }
+                bitmapCount = qrCodeInfoListTemp.get(i).getQuanlitySum();
+                for (int j = 0; j < bitmapCount; j++) {
+                    if (qrCodeInfoList == null) {
+                        qrCodeInfoList = new ArrayList<QrCodeInfo>();
+                    }
+                    if (qrCodeInfoList.size() < maxPrintNum) {
+                        qrCodeInfoList.add(qrCodeInfoListTemp.get(i));
+                    } else {
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+            
+            response.setQrCodeInfoList(qrCodeInfoList);
+        } catch (JsonParseException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
+            response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+        } catch (IOException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to send QrCodeInfoList.", e);
+            response.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+            response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send QrCodeInfoList.", e);
+            response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+        } finally {
+            tp.methodExit(response);
+        }
+        return response;
+    }
+    
+    /**
+     * set valid data into map
+     * 
+     * @param transactionIn
+     * @return List<QrCodeInfo>
+     */
+    private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("Transaction", transactionIn);
+        
+        String SexTypeIn = transactionIn.getCustomerClass().getSexType();
+        String CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
+        List<ItemList> itemListIns = transactionIn.getItemList();
+        List<ItemList> itemListOut = null;
+        List<QrCodeInfo> qrCodeInfoListTemp = null;
+        Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
+        
+        for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
+            if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
+                break;
+            }
+            
+            itemListOut = new ArrayList<ItemList>();
+            switch (qrCodeInfo.getPromotionType()) {
+            case PROMOTIONTYPE_ALL:
+                if (itemListIns.size() > 0 ) {
+                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListIns);
+                }
+                break;
+            case PROMOTIONTYPE_DPT:
+                for (ItemList itemListIn : itemListIns) {
+                    if (itemListIn.getDpt() == null ? false : itemListIn.getDpt().equals(qrCodeInfo.getDpt())) {
+                        itemListOut.add(itemListIn);
+                    }
+                }
+                if (itemListOut.size() > 0 ) {
+                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+                }
+                break;
+            case PROMOTIONTYPE_DPT_CONN:
+                for (ItemList itemListIn : itemListIns) {
+                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt()) 
+                            || StringUtility.isNullOrEmpty(itemListIn.getConnCode())) {
+                        break;
+                    }
+                    if (itemListIn.getDpt().equals(qrCodeInfo.getDpt())
+                            && itemListIn.getConnCode().equals(qrCodeInfo.getConnCode())) {
+                        itemListOut.add(itemListIn);
+                    }
+                }
+                if (itemListOut.size() > 0 ) {
+                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+                }
+                break;
+            case PROMOTIONTYPE_DPT_BRANDID:
+                for (ItemList itemListIn : itemListIns) {
+                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt()) 
+                            || StringUtility.isNullOrEmpty(itemListIn.getBrandId())) {
+                        break;
+                    }
+                    if (itemListIn.getDpt().equals(qrCodeInfo.getDpt()) 
+                            && itemListIn.getBrandId().equals(qrCodeInfo.getBrandId())) {
+                        itemListOut.add(itemListIn);
+                    }
+                }
+                if (itemListOut.size() > 0 ) {
+                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+                }
+                break;
+            case PROMOTIONTYPE_LINE:
+                for (ItemList itemListIn : itemListIns) {
+                    if (itemListIn.getLine() == null ? false : itemListIn.getLine().equals(qrCodeInfo.getLine())) {
+                        itemListOut.add(itemListIn);
+                    }
+                }
+                if (itemListOut.size() > 0 ) {
+                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+                }
+                break;
+            case PROMOTIONTYPE_ITEMCODE:
+                for (ItemList itemListIn : itemListIns) {
+                    String qrCodeSku = qrCodeInfo.getSku();
+                    String listInItemCode = itemListIn.getItemcode();
+                    if (!StringUtility.isNullOrEmpty(qrCodeSku)) {
+                        if (qrCodeSku.contains("*")) {
+                            qrCodeSku = qrCodeInfo.getSku().split("\\*")[0];
+                            listInItemCode = listInItemCode.substring(0, qrCodeSku.length());
+                        }
+                        if (listInItemCode.equals(qrCodeSku)) {
+                            itemListOut.add(itemListIn);
+                        }
+                    }
+                }
+                if (itemListOut.size() > 0 ) {
+                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+                }
+                break;
+            }
+        }
+        
+        // get valid data from map
+        if (qrItemMap.size() > 0) {
+            qrCodeInfoListTemp = getQrCodeInfoListTemp(qrItemMap);
+        }
+        
+        tp.methodExit(qrCodeInfoListTemp);
+        return qrCodeInfoListTemp;
+    }
+    
+    /**
+     * get valid data from map
+     * 
+     * @param qrItemMap
+     * @return List<QrCodeInfo>
+     */
+    private List<QrCodeInfo> getQrCodeInfoListTemp(Map<String, List<ItemList>> qrItemMap) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("qrItemMap", qrItemMap);
+        
+        List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>(); 
+        
+        for (String promotionId : qrItemMap.keySet()) {
+            for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
+                if (promotionId.equals(qrCodeInfo.getPromotionId())) {
+                    int quanlitySum = 0;
+                    int priceSum = 0;
+                    
+                    for (ItemList item : qrItemMap.get(promotionId)) {
+                        quanlitySum = quanlitySum + item.getQty();
+                        priceSum = priceSum + item.getAmount();
+                    }
+                    
+                    switch (qrCodeInfo.getOutputType()) {
+                    case OUTPUTTYPE_ONE:
+                        qrCodeInfo.setQuanlitySum(1);
+                        break;
+                    case OUTPUTTYPE_TWO:
+                        qrCodeInfo.setQuanlitySum(quanlitySum);
+                        break;
+                    case OUTPUTTYPE_THREE:
+                        if (!StringUtility.isNullOrEmpty(qrCodeInfo.getOutputTargetValue())) {
+                            int outputTargetValue = Integer.parseInt(qrCodeInfo.getOutputTargetValue());
+                            quanlitySum = outputTargetValue == 0 ? 0 : priceSum / outputTargetValue;
+                        } else {
+                            quanlitySum = 0;
+                        }
+                        
+                        qrCodeInfo.setQuanlitySum(quanlitySum);
+                        break;
+                    }
+                    
+                    int minimumPrice = (int) Math.round(qrCodeInfo.getMinimumPrice());
+                    if (priceSum >= minimumPrice && qrCodeInfo.getQuanlitySum() > 0) {
+                        qrCodeInfoListTemp.add(qrCodeInfo);
+                    }
+                    break;
+                }
+            }
+        }
+        
+        tp.methodExit(qrCodeInfoListTemp);
+        return qrCodeInfoListTemp;
+    }
 }

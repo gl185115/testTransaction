@@ -74,6 +74,26 @@ public class Customer extends ResultBase {
      */
     @XmlElement (name = "Address")
     private String address;
+    /**
+     * The Customer's id
+     */
+    @XmlElement (name = "id")
+    private String id;
+    /**
+     * The Customer's rank
+     */
+    @XmlElement (name = "rank")
+    private String rank;
+    /**
+     * The Customer's SexType
+     */
+    @XmlElement (name = "SexType")
+    private String sexType;
+    /**
+     * The Customer's birthMonth.
+     */
+    @XmlElement (name = "birthMonth")
+    private String birthMonth;
 
     /**
      * Get The Customer's Address.
@@ -231,5 +251,73 @@ public class Customer extends ResultBase {
      */
     public final void setPoints(final int custPoints) {
         this.points = custPoints;
+    }
+    
+    /**
+     * Gets the Customer's id
+     * @return      Returns Customer's id
+     */
+    @ApiModelProperty(value="‰ïˆõ”Ô†", notes="‰ïˆõ”Ô†")
+    public final String getId() {
+        return id;
+    }
+
+    /**
+     * Sets the Customer's id
+     * @param id    The new value for Customer's id
+     */
+    public final void setId(final String id) {
+        this.id = id;
+    }
+    
+    /**
+     * Gets the Customer's rank
+     * @return      Returns Customer's rank
+     */
+    @ApiModelProperty(value="‰ïˆõ‚Ìƒ‰ƒ“ƒN", notes="‰ïˆõ‚Ìƒ‰ƒ“ƒN")
+    public final String getRank() {
+        return rank;
+    }
+
+    /**
+     * Sets the Customer's rank
+     * @param rank    The new value for Customer's rank
+     */
+    public final void setRank(final String rank) {
+        this.rank = rank;
+    }
+    
+    /**
+     * Gets the Customer's SexType
+     * @return      Returns Customer's SexType
+     */
+    @ApiModelProperty(value="‰ïˆõ‚Ì«•Ê", notes="‰ïˆõ‚Ì«•Ê")
+    public final String getSexType() {
+        return sexType;
+    }
+
+    /**
+     * Sets the Customer's SexType
+     * @param sexType    The new value for Customer's SexType
+     */
+    public final void setSexType(final String sexType) {
+        this.sexType = sexType;
+    }
+    
+    /**
+     * Gets the Customer's birthMonth.
+     * @return      Returns Customer's birthMonth.
+     */
+    @ApiModelProperty(value="‰ïˆõ‚Ì’a¶Œ", notes="‰ïˆõ‚Ì’a¶Œ")
+    public final String getBirthMonth() {
+        return birthMonth;
+    }
+
+    /**
+     * Sets the Customer's birthMonth.
+     * @param birthMonth    The new value for Customer's birthMonth.
+     */
+    public final void setBirthMonth(final String birthMonth) {
+        this.birthMonth = birthMonth;
     }
 }

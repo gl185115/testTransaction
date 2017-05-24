@@ -164,6 +164,8 @@ public final class GlobalConstant {
     public static final String POINTSERVERPOINTRATE3 = "rate3";
 
     /** Key to retrieve TodUrl from SystemConfig **/
+    public static final String MAXQRCODEPRINTNUM = "MaxQRCodePrintNum";
+    /** Key to retrieve TodUrl from SystemConfig **/
     public static final String KEY_TOD_URI = "TodUri";
     /** Key to retrieve TodConnectionTimeout from SystemConfig **/
     public static final String KEY_TOD_CONNECTION_TIMEOUT = "TodConnectionTimeout";
@@ -199,6 +201,7 @@ public final class GlobalConstant {
     private static int maxSearchResults = 5;
 
     // Tod params
+    private static String maxQRCodePrintNum;
     private static String todUri;
     private static int todConnectionTimeout = 1000;
     private static int todReadTimeout = 1000;
@@ -607,5 +610,14 @@ public final class GlobalConstant {
 	public static void setServerPingTimeout(int serverPingTimeout) {
 		GlobalConstant.serverPingTimeout = serverPingTimeout;
 	}
+	
+    public static String getMaxQRCodePrintNum() {
+        return maxQRCodePrintNum;
+    }
+
+    public static void setMaxQRCodePrintNum(String maxQRCodePrintNum) {
+        GlobalConstant.maxQRCodePrintNum = maxQRCodePrintNum;
+    }
+	
 }
 

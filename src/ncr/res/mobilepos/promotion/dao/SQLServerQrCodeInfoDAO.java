@@ -66,7 +66,7 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
      * @throws DaoException Exception when error occurs.
      */
     @Override
-	public final List<QrCodeInfo> getkinokuniyaQrCodeInfo(String companyId, String storeId, String dayDate) throws DaoException {
+	public final List<QrCodeInfo> getQrCodeInfoList(String companyId, String storeId, String dayDate) throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.println("CompanyId", companyId);
         tp.println("storeId", storeId);
@@ -80,7 +80,7 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-kinokuniya-qrcode-info"));
+            select = connection.prepareStatement(sqlStatement.getProperty("get-qrcode-info-list"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, storeId);
             select.setString(SQLStatement.PARAM3, dayDate);
@@ -92,7 +92,8 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
                     QrCodeList = new ArrayList<QrCodeInfo>();
                 }
                 codeInfo = new QrCodeInfo();
-                codeInfo.setPromotionId(result.getString(result.findColumn("QRPromotionId")));
+                codeInfo.setPromotionId(result.getString(result.findColumn("PromotionId")));
+                codeInfo.setPromotionName(result.getString(result.findColumn("PromotionName")));
                 if(null != result.getObject(result.findColumn("MinimumPrice"))){
                     codeInfo.setMinimumPrice(result.getDouble(result.findColumn("MinimumPrice")));
                 }else{
@@ -104,6 +105,17 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
                 codeInfo.setBmpFileCount(result.getString(result.findColumn("BmpFileCount")));
                 codeInfo.setOutputType(result.getString(result.findColumn("OutputType")));
                 codeInfo.setDisplayOrder(result.getString(result.findColumn("DisplayOrder")));
+                codeInfo.setPromotionType(result.getString(result.findColumn("promotionType")));
+                codeInfo.setDpt(result.getString(result.findColumn("Dpt")));
+                codeInfo.setLine(result.getString(result.findColumn("Line")));
+                codeInfo.setClassCode(result.getString(result.findColumn("Class")));
+                codeInfo.setSku(result.getString(result.findColumn("Sku")));
+                codeInfo.setConnCode(result.getString(result.findColumn("ConnCode")));
+                codeInfo.setBrandId(result.getString(result.findColumn("BrandId")));
+                codeInfo.setMemberRank(result.getString(result.findColumn("MemberRank")));
+                codeInfo.setMemberTargetType(result.getString(result.findColumn("MemberTargetType")));
+                codeInfo.setSexType(result.getString(result.findColumn("SexType")));
+                codeInfo.setBirthMonth(result.getString(result.findColumn("BirthMonth")));
                 QrCodeList.add(codeInfo);
             }
         } catch (SQLException sqlEx) {

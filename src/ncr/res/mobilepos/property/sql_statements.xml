@@ -592,7 +592,7 @@ UNION
 
 
 </entry>
-<entry key="get-kinokuniya-qrcode-info">
+<entry key="get-qrcode-info-list">
 DECLARE @companyId VARCHAR(32),
         @storeId VARCHAR(32),
         @businessDate VARCHAR(10)
@@ -603,44 +603,74 @@ SET @businessDate =LTRIM(RTRIM(?))
 
 SELECT * FROM(
 SELECT
-    info.PromotionId QRPromotionId,
+    info.PromotionId,
+    info.PromotionName,
     info.MinimumPrice,
     info.OutputTargetValue,
     info.BMPFileName,
     info.BMPFileFlag,
     info.BMPFileCount,
     info.OutputType,
-    info.DisplayOrder
+    info.DisplayOrder,
+    detail.PromotionType,
+	detail.Dpt,
+	detail.Line,
+	detail.Class,
+	detail.Sku,
+	detail.ConnCode,
+	detail.BrandId,
+	member.MemberRank,
+	member.MemberTargetType,
+	member.SexType,
+	member.BirthMonth
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
-LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
-    ON info.CompanyId = store.CompanyId
-	AND info.PromotionId = store.PromotionId
+LEFT JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+	ON info.CompanyId = detail.CompanyId
+	AND info.PromotionId = detail.PromotionId
+LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
+	ON info.CompanyId = member.CompanyId
+	AND info.PromotionId = member.PromotionId
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
     AND info.CompanyId = @companyId
-    AND store.CompanyId = @companyId
-    AND store.DeleteFlag = 0.0
-    AND store.StoreId = @storeId
     AND info.TargetStoreType IN ('0','2')
 
 UNION
 
 SELECT
-    info.PromotionId QRPromotionId,
+    info.PromotionId,
+    info.PromotionName,
     info.MinimumPrice,
     info.OutputTargetValue,
     info.BMPFileName,
     info.BMPFileFlag,
     info.BMPFileCount,
     info.OutputType,
-    info.DisplayOrder
+    info.DisplayOrder,
+    detail.PromotionType,
+	detail.Dpt,
+	detail.Line,
+	detail.Class,
+	detail.Sku,
+	detail.ConnCode,
+	detail.BrandId,
+	member.MemberRank,
+	member.MemberTargetType,
+	member.SexType,
+	member.BirthMonth
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
     ON info.CompanyId = store.CompanyId
 	AND info.PromotionId = store.PromotionId
+LEFT JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+	ON info.CompanyId = detail.CompanyId
+	AND info.PromotionId = detail.PromotionId
+LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
+	ON info.CompanyId = member.CompanyId
+	AND info.PromotionId = member.PromotionId
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
@@ -649,7 +679,7 @@ WHERE
     AND store.DeleteFlag = 0.0
     AND store.StoreId = @storeId
 
-) A ORDER BY DisplayOrder
+) A ORDER BY DisplayOrder, PromotionId
 </entry>
 <entry key="get-qrcode-info">
 DECLARE @companyId VARCHAR(32),

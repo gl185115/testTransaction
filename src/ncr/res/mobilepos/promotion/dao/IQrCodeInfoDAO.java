@@ -16,7 +16,7 @@ public interface IQrCodeInfoDAO {
 	 * @throws DaoException
 	 *             The exception thrown when searching failed.
 	 */
-    List<QrCodeInfo> getkinokuniyaQrCodeInfo(String companyId, String code, String dayDate) 
+    List<QrCodeInfo> getQrCodeInfoList(String companyId, String code, String dayDate) 
 			throws DaoException;
 }
 

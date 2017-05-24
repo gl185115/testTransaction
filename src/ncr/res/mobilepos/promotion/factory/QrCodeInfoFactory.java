@@ -105,7 +105,7 @@ public class QrCodeInfoFactory {
             QrCodeList = new ArrayList<QrCodeInfo>(); 
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IQrCodeInfoDAO codeInfDAO = daoFactory.getQrCodeInfoDAO();
-            QrCodeList = codeInfDAO.getkinokuniyaQrCodeInfo(companyId, storeId, dayDate);
+            QrCodeList = codeInfDAO.getQrCodeInfoList(companyId, storeId, dayDate);
             
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,

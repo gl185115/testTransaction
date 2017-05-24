@@ -115,6 +115,39 @@ public class QrCodeSteps extends Steps {
 			assertThat("Compare the DisplayOrder row ",
 					"" + QrCodeList.get(i).getDisplayOrder(),
 					is(equalTo(expectedItem.get("DisplayOrder"))));
+			assertThat("Compare the PromotionType row ",
+					"" + QrCodeList.get(i).getPromotionType(),
+					is(equalTo(expectedItem.get("PromotionType"))));
+			assertThat("Compare the Dpt row ",
+					"" + QrCodeList.get(i).getDpt(),
+					is(equalTo(expectedItem.get("Dpt"))));
+			assertThat("Compare the Line row ",
+					"" + QrCodeList.get(i).getLine(),
+					is(equalTo(expectedItem.get("Line"))));
+			assertThat("Compare the Class row ",
+					"" + QrCodeList.get(i).getClassCode(),
+					is(equalTo(expectedItem.get("Class"))));
+			assertThat("Compare the Sku row ",
+					"" + QrCodeList.get(i).getSku(),
+					is(equalTo(expectedItem.get("Sku"))));
+			assertThat("Compare the ConnCode row ",
+					"" + QrCodeList.get(i).getConnCode(),
+					is(equalTo(expectedItem.get("ConnCode"))));
+			assertThat("Compare the BrandId row ",
+					"" + QrCodeList.get(i).getBrandId(),
+					is(equalTo(expectedItem.get("BrandId"))));
+			assertThat("Compare the MemberRank row ",
+					"" + QrCodeList.get(i).getMemberRank(),
+					is(equalTo(expectedItem.get("MemberRank"))));
+			assertThat("Compare the MemberTargetType row ",
+					"" + QrCodeList.get(i).getMemberTargetType(),
+					is(equalTo(expectedItem.get("MemberTargetType"))));
+			assertThat("Compare the SexType row ",
+					"" + QrCodeList.get(i).getSexType(),
+					is(equalTo(expectedItem.get("SexType"))));
+			assertThat("Compare the BirthMonth row ",
+					"" + QrCodeList.get(i).getBirthMonth(),
+					is(equalTo(expectedItem.get("BirthMonth"))));
 			i++;
 		}
 	}

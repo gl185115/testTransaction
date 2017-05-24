@@ -40,6 +40,42 @@ public class QrCodeInfo {
     @XmlElement(name = "displayOrder")
     private String displayOrder;
 
+    @XmlElement(name = "promotionType")
+    private String promotionType;
+    
+    @XmlElement(name = "dpt")
+    private String dpt;
+    
+    @XmlElement(name = "line")
+    private String line;
+    
+    @XmlElement(name = "class")
+    private String classCode;
+    
+    @XmlElement(name = "sku")
+    private String sku;
+    
+    @XmlElement(name = "connCode")
+    private String connCode;
+    
+    @XmlElement(name = "brandId")
+    private String brandId;
+    
+    @XmlElement(name = "memberRank")
+    private String memberRank;
+    
+    @XmlElement(name = "memberTargetType")
+    private String memberTargetType;
+    
+    @XmlElement(name = "sexType")
+    private String sexType;
+    
+    @XmlElement(name = "birthMonth")
+    private String birthMonth;
+    
+    @XmlElement(name = "QuanlitySum")
+    private int quanlitySum;
+    
     @ApiModelProperty(value="出力タイプ", notes="出力タイプ")
     public String getOutputType() {
         return outputType;
@@ -121,4 +157,112 @@ public class QrCodeInfo {
         this.displayOrder = displayOrder;
     }
 
+    @ApiModelProperty(value="登録種別", notes="登録種別")
+	public String getPromotionType() {
+		return promotionType;
+	}
+
+	public void setPromotionType(String promotionType) {
+		this.promotionType = promotionType;
+	}
+
+	@ApiModelProperty(value="部門コード", notes="部門コード")
+	public String getDpt() {
+		return dpt;
+	}
+
+	public void setDpt(String dpt) {
+		this.dpt = dpt;
+	}
+
+	@ApiModelProperty(value="品種コード", notes="品種コード")
+	public String getLine() {
+		return line;
+	}
+
+	public void setLine(String line) {
+		this.line = line;
+	}
+
+	@ApiModelProperty(value="クラスコード", notes="クラスコード")
+	public String getClassCode() {
+		return classCode;
+	}
+
+	public void setClassCode(String classCode) {
+		this.classCode = classCode;
+	}
+
+	@ApiModelProperty(value="商品コード", notes="商品コード")
+	public String getSku() {
+		return sku;
+	}
+
+	public void setSku(String sku) {
+		this.sku = sku;
+	}
+
+	@ApiModelProperty(value="仕入先コード", notes="仕入先コード")
+	public String getConnCode() {
+		return connCode;
+	}
+
+	public void setConnCode(String connCode) {
+		this.connCode = connCode;
+	}
+
+	@ApiModelProperty(value="ブランドコード", notes="ブランドコード")
+	public String getBrandId() {
+		return brandId;
+	}
+
+	public void setBrandId(String brandId) {
+		this.brandId = brandId;
+	}
+
+	@ApiModelProperty(value="会員ランク", notes="会員ランク")
+	public String getMemberRank() {
+		return memberRank;
+	}
+
+	public void setMemberRank(String memberRank) {
+		this.memberRank = memberRank;
+	}
+
+	@ApiModelProperty(value="会員番号指定フラグ", notes="会員番号指定フラグ")
+	public String getMemberTargetType() {
+		return memberTargetType;
+	}
+
+	public void setMemberTargetType(String memberTargetType) {
+		this.memberTargetType = memberTargetType;
+	}
+
+	@ApiModelProperty(value="性別", notes="性別")
+	public String getSexType() {
+		return sexType;
+	}
+
+	public void setSexType(String sexType) {
+		this.sexType = sexType;
+	}
+
+	@ApiModelProperty(value="誕生月", notes="誕生月")
+	public String getBirthMonth() {
+		return birthMonth;
+	}
+
+	public void setBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+
+    @ApiModelProperty(value="ビットマップの印字数", notes="ビットマップの印字数")
+    public int getQuanlitySum() {
+        return quanlitySum;
+    }
+
+    public void setQuanlitySum(int quanlitySum) {
+        this.quanlitySum = quanlitySum;
+    }
+    
 }

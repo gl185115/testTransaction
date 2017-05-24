@@ -280,5 +280,7 @@ public class WebContextListener implements ServletContextListener {
 								+ serverPingTimeout);
         	}
         }
+        
+        GlobalConstant.setMaxQRCodePrintNum(sysParams.get(GlobalConstant.MAXQRCODEPRINTNUM));
     }
 }

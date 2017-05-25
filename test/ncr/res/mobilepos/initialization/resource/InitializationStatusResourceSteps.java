@@ -140,11 +140,13 @@ public class InitializationStatusResourceSteps extends Steps {
                 targetField = PowerMockito.field(targetClass, "instance");
                 targetField.set(null, null);
                 break;
+
             case "QrCodeInfoFactory":
-                targetClass = QrCodeInfoFactory.class;
+        		targetClass = QrCodeInfoFactory.class;
                 targetField = PowerMockito.field(targetClass, "instance");
                 targetField.set(null, null);
                 break;
+                
             case "BarcodeAssignmentFactory":
                 targetClass = BarcodeAssignmentFactory.class;
                 targetField = PowerMockito.field(targetClass, "instance");
@@ -169,9 +171,11 @@ public class InitializationStatusResourceSteps extends Steps {
     public final void resultCodeShouldBe(final String resultCode,
                                          final String extendedResultCode,
                                         final String message) {
-        assertEquals(ResultBaseHelper.getErrorCode(resultCode), resultBase.getNCRWSSResultCode());
-        assertEquals(ResultBaseHelper.getErrorCode(extendedResultCode), resultBase.getNCRWSSExtendedResultCode());
-        assertEquals(ResultBaseHelper.getErrorMessage(message), resultBase.getMessage());
+    	if (!"ENTERPRISE".equalsIgnoreCase(System.getenv("SERVERTYPE"))) {
+	        assertEquals(ResultBaseHelper.getErrorCode(resultCode), resultBase.getNCRWSSResultCode());
+	        assertEquals(ResultBaseHelper.getErrorCode(extendedResultCode), resultBase.getNCRWSSExtendedResultCode());
+	        assertEquals(ResultBaseHelper.getErrorMessage(message), resultBase.getMessage());
+    	}
     }
 
 }

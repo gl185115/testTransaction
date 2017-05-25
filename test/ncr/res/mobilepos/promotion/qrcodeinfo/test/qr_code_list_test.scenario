@@ -10,16 +10,18 @@ When check the list with companyId 0001 retailstoreid 0001 workstationid 1 seque
 Then the Result Code is 151
 
 Scenario: qrCodeInfoListTemp.size() < 1.
-!-- Given the systemPath: test/resources/sys/unusualcompanyid
-!-- When check the list with companyId 02  retailstoreid 0001 workstationid 1 sequencenumber 123 businessDate 20150102 transaction {"CustomerClass":{"SexType": 1},"Customer":{"id":"xxxxxxxxxx","rank":"xxxxxxxx","SexType":1,"birthMonth":"MM"},"Items":[{"itemcode":"4920001002384", "Qty":1,"Amount":1000,"Dpt":"0011","Line":"0002","Class":"0003","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4920041002384", "Qty":2,"Amount":840,"Dpt":"0311","Line":"0404","Class":"0221","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4923304402621", "Qty":2,"Amount":400,"Dpt":"0041","Line":"0102","Class":"0503","ConnCode":"xxxx","BrandId":"xxxxx"}]}
-!-- Then the Result Code is 133
-
-Scenario: qrCodeInfoListTemp.size() < 1.
 When check the list with companyId 01  retailstoreid 0001 workstationid 1 sequencenumber 123 businessDate 20150102 transaction {"CustomerClass":{"SexType": 1},"Customer":{"id":"xxxxxxxxxx","rank":"xxxxxxxx","SexType":1,"birthMonth":"MM"},"Items":[{},{},{}]}
 Then the Result Code is 133
 
 Scenario: the PromotionType is 1 and Price > MinimumPrice.
 When check the list with companyId 01  retailstoreid 0001 workstationid 1 sequencenumber 123 businessDate 20150102 transaction {"CustomerClass":{"SexType": 1},"Customer":{"id":"xxxxxxxxxx","rank":"xxxxxxxx","SexType":1,"birthMonth":"MM"},"Items":[{"itemcode":"4920001002384", "Qty":1,"Amount":1000,"Dpt":"0011","Line":"0002","Class":"0003","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4920041002384", "Qty":2,"Amount":840,"Dpt":"0311","Line":"0404","Class":"0221","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4923304402621", "Qty":2,"Amount":400,"Dpt":"0041","Line":"0102","Class":"0503","ConnCode":"xxxx","BrandId":"xxxxx"}]}
+Then the Result Code is 0
+Then I should get the QrCodeInfoList : 
+|PromotionId|PromotionName|MinimumPrice|BMPFileName     |BMPFileFlag|BMPFileCount|OutputType|
+|0001       |‘S“X11type1   |100.0       |‘S“X11type1     |0          |1           |1         |
+
+Scenario: the PromotionType is 1 and Price > MinimumPrice Customer is null.
+When check the list with companyId 01  retailstoreid 0001 workstationid 1 sequencenumber 123 businessDate 20150102 transaction {"CustomerClass":{"SexType": 1},"Items":[{"itemcode":"4920001002384", "Qty":1,"Amount":1000,"Dpt":"0011","Line":"0002","Class":"0003","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4920041002384", "Qty":2,"Amount":840,"Dpt":"0311","Line":"0404","Class":"0221","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4923304402621", "Qty":2,"Amount":400,"Dpt":"0041","Line":"0102","Class":"0503","ConnCode":"xxxx","BrandId":"xxxxx"}]}
 Then the Result Code is 0
 Then I should get the QrCodeInfoList : 
 |PromotionId|PromotionName|MinimumPrice|BMPFileName     |BMPFileFlag|BMPFileCount|OutputType|

@@ -21,6 +21,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.constant.ServerTypes;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
@@ -145,7 +146,9 @@ public class WebContextListener implements ServletContextListener {
         // Loads config file for Toppan Giftcard feature.
         ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
         // Loads QrCodeInfo  Information
-        QrCodeInfoFactory.initialize(WindowsEnvironmentVariables.getInstance().getSystemPath());
+        if (!ServerTypes.ENTERPRISE.equals(System.getenv("SERVERTYPE"))){
+        	QrCodeInfoFactory.initialize(WindowsEnvironmentVariables.getInstance().getSystemPath());
+        }
     }
 
     /**

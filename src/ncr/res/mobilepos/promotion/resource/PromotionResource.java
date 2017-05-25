@@ -1465,15 +1465,29 @@ public class PromotionResource {
         tp.methodEnter(functionName).println("Transaction", transactionIn);
         
         String SexTypeIn = transactionIn.getCustomerClass().getSexType();
-        String CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
+        boolean CustomerSexTypeInFlag = false;
+        String CustomerSexTypeIn = null;
+        if (transactionIn.getCustomer() == null) {
+            CustomerSexTypeInFlag = false;
+        } else {
+            CustomerSexTypeInFlag = true;
+            CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
+        }
+        
         List<ItemList> itemListIns = transactionIn.getItemList();
         List<ItemList> itemListOut = null;
         List<QrCodeInfo> qrCodeInfoListTemp = null;
         Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
         
         for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
-            if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
-                break;
+            if (CustomerSexTypeInFlag == true) {
+                if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
+                    break;
+                }
+            } else {
+                if (!(SexTypeIn.equals(qrCodeInfo.getSexType()))) {
+                    break;
+                }
             }
             
             itemListOut = new ArrayList<ItemList>();

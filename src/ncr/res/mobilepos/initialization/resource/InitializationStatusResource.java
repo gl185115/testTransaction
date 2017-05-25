@@ -20,6 +20,7 @@ import javax.ws.rs.core.MediaType;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.ServerTypes;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -93,7 +94,9 @@ public class InitializationStatusResource {
         initFailed |= SQLStatement.getInstance() == null;
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
         initFailed |= ToppanGiftCardConfigFactory.getInstance() == null;
-        initFailed |= QrCodeInfoFactory.getInstance() == null;
+        if (!ServerTypes.ENTERPRISE.equals(System.getenv("SERVERTYPE"))){
+        	initFailed |= QrCodeInfoFactory.getInstance() == null;
+        }
         initFailed |= BarcodeAssignmentFactory.getInstance() == null;
 
         if(initFailed) {

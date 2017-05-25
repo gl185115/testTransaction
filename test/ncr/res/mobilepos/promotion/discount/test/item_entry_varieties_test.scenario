@@ -250,7 +250,7 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456780 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
 |RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal   |description  |
-|56789.0  	      |56789.0  	   |0      |MJROYAL BK465 |MJROYAL BK465|
+|56789.0  	      |56789.0  	   |5      |MJROYAL BK465 |MJROYAL BK465|
 
 Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (foreignBook)
 Given ItemCode.xml file exist

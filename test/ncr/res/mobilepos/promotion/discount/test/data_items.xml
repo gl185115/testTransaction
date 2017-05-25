@@ -8592,6 +8592,53 @@
 			<value>usp_IF_MaintDptInfo</value>
 			<value>system</value>
 		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0161</value>
+			<null />
+			<value>Ｌバラウッド</value>
+			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:44.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:44.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
 		<!-- kl -->
 		<row>
 			<value>01</value>
@@ -9094,7 +9141,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>36360</value>
+			<value>49122</value>
 			<value>21111</value>
 			<value>0397</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>

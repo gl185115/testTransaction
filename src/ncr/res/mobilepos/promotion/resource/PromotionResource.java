@@ -445,57 +445,58 @@ public class PromotionResource {
 				// 部門コードを取得する
                 codeTemp = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,response,item);
                 
+                // 商品マスタから取得失敗の場合
                 if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
                     return response;
-                } else {
-                    // 部門コードを部門マスタテーブルに存在チェック
-                    departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
-                    if (departmentInfo == null) {
-                        if (!"0".equals(retailStoreId)) {
-                            departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp);// 共通店番号(0)で検索
-                        }
+                }
+                
+                // 部門コードを部門マスタテーブルに存在チェック
+                departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
+                if (departmentInfo == null) {
+                    if (!"0".equals(retailStoreId)) {
+                        departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp);// 共通店番号(0)で検索
                     }
-                    
-                    dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
-                    if (StringUtility.isNullOrEmpty(dptCode)) {
-                      response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-                      response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-                      response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
-                      tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
-                      return response;
-                    } else {
-                        if (item == null) {
-                            if (twoStep && barcode_sec.length() == 4) {
-                                response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
-                            }
-                            // 部門情報を戻る
-                            String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
-                            String taxType = departmentInfo.getDepartment().getTaxType();
-                            saleOut.setMdNameLocal(dptName);
-                            saleOut.setTaxType(Integer.parseInt(taxType));
-                            saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
-                            saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
-                            saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
-                            
-                            String taxRate = departmentInfo.getDepartment().getTaxRate();
-                            saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
-                            
-                            saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
-                            
-                            saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
-                            
-                            // バーコード価格を使用
-                            double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-                            saleOut.setRegularSalesUnitPrice(barCodePrice);
-                            saleOut.setActualSalesUnitPrice(barCodePrice);
-                            
-                            saleOut.setItemId(twoStep ? barcode_fst : itemId);
-                            saleOut.setDepartment(dptCode);
-                            transactionOut.setSale(saleOut);
-                            response.setDepartmentName(dptName);
-                            response.setTransaction(transactionOut);
-                            return response;
+                }
+                
+                dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+                if (StringUtility.isNullOrEmpty(dptCode)) {
+                  response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+                  response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+                  response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
+                  tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
+                  return response;
+                } else {
+                    if (item == null) {
+                        if (twoStep && barcode_sec.length() == 4) {
+                            response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
                         }
+                        // 部門情報を戻る
+                        String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
+                        String taxType = departmentInfo.getDepartment().getTaxType();
+                        saleOut.setMdNameLocal(dptName);
+                        saleOut.setTaxType(Integer.parseInt(taxType));
+                        saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
+                        saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
+                        saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
+                        
+                        String taxRate = departmentInfo.getDepartment().getTaxRate();
+                        saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
+                        
+                        saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
+                        
+                        saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
+                        
+                        // バーコード価格を使用
+                        double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+                        saleOut.setRegularSalesUnitPrice(barCodePrice);
+                        saleOut.setActualSalesUnitPrice(barCodePrice);
+                        
+                        saleOut.setItemId(twoStep ? barcode_fst : itemId);
+                        saleOut.setDepartment(dptCode);
+                        transactionOut.setSale(saleOut);
+                        response.setDepartmentName(dptName);
+                        response.setTransaction(transactionOut);
+                        return response;
                     }
                 }
                 
@@ -528,6 +529,8 @@ public class PromotionResource {
 				    double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 				    saleItem.setRegularSalesUnitPrice(barCodePrice);
 		            saleItem.setActualSalesUnitPrice(barCodePrice);
+		            String taxType = departmentInfo.getDepartment().getTaxType();
+		            saleItem.setTaxType(Integer.parseInt(taxType));
 				}
 
 				if (discounttype == null) {
@@ -591,17 +594,24 @@ public class PromotionResource {
 	    String codeTemp = null;
         String dpt = null;
         String barcode_sec = null;
+        boolean itemFlag = true;
         
         // 二段バーコード判断
         if (itemId.contains(" ")) {
             barcode_sec = itemId.split(" ")[1];
         }
-        dpt = (item == null) ? null : item.getDepartment();
+        
+        if (item != null) {
+            dpt = item.getDepartment();
+            if (item.getRegularSalesUnitPrice() > 0.0) {
+                itemFlag = false;
+            }
+        }
         
         // 部門コードを取得する
         switch (varietiesName) {
         case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
-            if(dpt == null){
+            if(itemFlag){
                 String cCode = "";
                 if (barcode_sec.length() > 7) {
                     cCode = barcode_sec.substring(3, 7);
@@ -619,7 +629,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
-            if(dpt == null){
+            if(itemFlag){
                 codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -631,7 +641,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
-            if(dpt == null){
+            if(itemFlag){
                 codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(0, 5));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -643,7 +653,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
-            if(dpt == null){
+            if(itemFlag){
                 String jaCode = "";
                 if (barcode_sec.length() > 7) {
                     jaCode = barcode_sec.substring(3, 7);
@@ -661,7 +671,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
-            if(dpt == null){
+            if(itemFlag){
                 codeTemp = JaCodeCvt(itemId.substring(10, 14));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -673,7 +683,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
-            if (StringUtility.isNullOrEmpty(dpt)) {
+            if (StringUtility.isNullOrEmpty(dpt) || itemFlag) {
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Not found in the PLU.");
@@ -683,7 +693,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
-            if(dpt == null){
+            if(itemFlag){
                 codeTemp = "0161";
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -696,7 +706,9 @@ public class PromotionResource {
             break;
         case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
         case BarcodeAssignmentConstant.VARIETIES_JANSALES:
-            if (StringUtility.isNullOrEmpty(dpt)) {
+        case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD1:
+        case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD2:
+            if (StringUtility.isNullOrEmpty(dpt) || itemFlag) {
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Not found in the PLU.");

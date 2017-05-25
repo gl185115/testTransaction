@@ -1541,172 +1541,172 @@ public class ReceiptMode {
         return memberinfo;
     }
 
-    /**
-     * @param member memberinfo
-     */
-    public void setMemberInfo(MemberInfo member) {
+    // /**
+    //  * @param member memberinfo
+    //  */
+    // public void setMemberInfo(MemberInfo member) {
 
-        this.memberinfo = member;
-    }
+    //     this.memberinfo = member;
+    // }
 
-    public final String toString() {
-        StringBuilder sb = new StringBuilder();
-        return sb.toString();
-    }
+    // public final String toString() {
+    //     StringBuilder sb = new StringBuilder();
+    //     return sb.toString();
+    // }
 
-    /**
-     * Gets the AmountForPoints under LineItem.
-     *
-     * @return        The AmountForPoints under LineItem.
-     */
-    public final String getMiAmountForPoints() {
-        return this.memberinfo != null ? this.memberinfo.getAmountForPoints() : null;
-    }
-    /**
-     * Gets the PointRate under LineItem.
-     *
-     * @return        The PointRate under LineItem.
-     */
-    public final String getMiPointRate() {
-        return this.memberinfo != null ? this.memberinfo.getPointRate() : null;
-    }
-    /**
-     * Gets the CorrectionPoints under LineItem.
-     *
-     * @return        The CorrectionPoints under LineItem.
-     */
-    public final String getMiCorrectionPoints() {
-        return this.memberinfo != null ? this.memberinfo.getCorrectionPoints() : null;
-    }
-    /**
-     * Gets the ExpirationDate under LineItem.
-     *
-     * @return        The ExpirationDate under LineItem.
-     */
-    public final String getMiExpirationDate() {
-        String expirationDate = null;
-        if(this.memberinfo != null){
-            expirationDate = this.memberinfo.getExpirationDate();
-            if(!StringUtility.isNullOrEmpty(expirationDate) && expirationDate.length() == 8){
-                expirationDate = expirationDate.substring(0,4) + "/" + expirationDate.substring(4,6) +
-                         "/" + expirationDate.substring(6,8);
-            }
-        }
-        return expirationDate;
-    }
-    /**
-     * Gets the MemberShipId under LineItem.
-     *
-     * @return        The MemberShipId under LineItem.
-     */
-    public final String getMiMemberShipId() {
-        return this.memberinfo != null ? this.memberinfo.getInputtedMembershipId().getElementValue() : null;
-    }
-    /**
-     * Gets the tMediaId under LineItem.
-     *
-     * @return        The tMediaId under LineItem.
-     */
-    public final String getMiMediaId() {
-        return this.memberinfo != null ? this.memberinfo.getMediaId() : null;
-    }
-    /**
-     * Gets the PointsAcknowledgeId under LineItem.
-     *
-     * @return        The PointsAcknowledgeId under LineItem.
-     */
-    public final String getMiPointsAcknowledgeId() {
-        return this.memberinfo != null ? this.memberinfo.getPointsAcknowledgeId() : null;
-    }
-    /**
-     * Gets the PiontsTransactionId under LineItem.
-     *
-     * @return        The PiontsTransactionIdId under LineItem.
-     */
-    public final String getMiPiontsTransactionId() {
-        return this.memberinfo != null ? this.memberinfo.getPiontsTransactionId() : null;
-    }
-    /**
-     * Gets the PointsMethod under LineItem.
-     *
-     * @return        The PointsMethod under LineItem.
-     */
-    public final String getMiPointsMethod() {
-        return this.memberinfo != null ? this.memberinfo.getPointsMethod() : null;
-    }
-    /**
-     * Gets the StatusCode under LineItem.
-     *
-     * @return        The StatusCode under LineItem.
-     */
-    public final String getMiStatusCode() {
-        return this.memberinfo != null ? this.memberinfo.getStatusCode() : null;
-    }
-    /**
-     * Gets the ServerStatusCode under LineItem.
-     *
-     * @return        The ServerStatusCode under LineItem.
-     */
-    public final String getMiServerStatusCode() {
-        return this.memberinfo != null ? this.memberinfo.getServerStatusCode() : null;
-    }
-    /**
-     * Gets the PointsPrior under LineItem.
-     *
-     * @return        The PointsPrior under LineItem.
-     */
-    public final String getMiPointsPrior() {
-        return this.memberinfo != null ? this.memberinfo.getPointsPrior() : null;
-    }
-    /**
-     * Gets the TotalPoints under LineItem.
-     *
-     * @return        The TotalPoints under LineItem.
-     */
-    public final String getMiTotalPoints() {
-        return this.memberinfo != null ? this.memberinfo.getTotalPoints() : null;
-    }
-    /**
-     * Gets the LostPoints under LineItem.
-     *
-     * @return        The LostPoints under LineItem.
-     */
-    public final String getMiLostPoints() {
-        return this.memberinfo != null ? this.memberinfo.getLostPoints() : null;
-    }
+    // /**
+    //  * Gets the AmountForPoints under LineItem.
+    //  *
+    //  * @return        The AmountForPoints under LineItem.
+    //  */
+    // public final String getMiAmountForPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getAmountForPoints() : null;
+    // }
+    // /**
+    //  * Gets the PointRate under LineItem.
+    //  *
+    //  * @return        The PointRate under LineItem.
+    //  */
+    // public final String getMiPointRate() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointRate() : null;
+    // }
+    // /**
+    //  * Gets the CorrectionPoints under LineItem.
+    //  *
+    //  * @return        The CorrectionPoints under LineItem.
+    //  */
+    // public final String getMiCorrectionPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getCorrectionPoints() : null;
+    // }
+    // /**
+    //  * Gets the ExpirationDate under LineItem.
+    //  *
+    //  * @return        The ExpirationDate under LineItem.
+    //  */
+    // public final String getMiExpirationDate() {
+    //     String expirationDate = null;
+    //     if(this.memberinfo != null){
+    //         expirationDate = this.memberinfo.getExpirationDate();
+    //         if(!StringUtility.isNullOrEmpty(expirationDate) && expirationDate.length() == 8){
+    //             expirationDate = expirationDate.substring(0,4) + "/" + expirationDate.substring(4,6) +
+    //                      "/" + expirationDate.substring(6,8);
+    //         }
+    //     }
+    //     return expirationDate;
+    // }
+    // /**
+    //  * Gets the MemberShipId under LineItem.
+    //  *
+    //  * @return        The MemberShipId under LineItem.
+    //  */
+    // public final String getMiMemberShipId() {
+    //     return this.memberinfo != null ? this.memberinfo.getInputtedMembershipId() : null;
+    // }
+    // /**
+    //  * Gets the tMediaId under LineItem.
+    //  *
+    //  * @return        The tMediaId under LineItem.
+    //  */
+    // public final String getMiMediaId() {
+    //     return this.memberinfo != null ? this.memberinfo.getMediaId() : null;
+    // }
+    // /**
+    //  * Gets the PointsAcknowledgeId under LineItem.
+    //  *
+    //  * @return        The PointsAcknowledgeId under LineItem.
+    //  */
+    // public final String getMiPointsAcknowledgeId() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointsAcknowledgeId() : null;
+    // }
+    // /**
+    //  * Gets the PiontsTransactionId under LineItem.
+    //  *
+    //  * @return        The PiontsTransactionIdId under LineItem.
+    //  */
+    // public final String getMiPiontsTransactionId() {
+    //     return this.memberinfo != null ? this.memberinfo.getPiontsTransactionId() : null;
+    // }
+    // /**
+    //  * Gets the PointsMethod under LineItem.
+    //  *
+    //  * @return        The PointsMethod under LineItem.
+    //  */
+    // public final String getMiPointsMethod() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointsMethod() : null;
+    // }
+    // /**
+    //  * Gets the StatusCode under LineItem.
+    //  *
+    //  * @return        The StatusCode under LineItem.
+    //  */
+    // public final String getMiStatusCode() {
+    //     return this.memberinfo != null ? this.memberinfo.getStatusCode() : null;
+    // }
+    // /**
+    //  * Gets the ServerStatusCode under LineItem.
+    //  *
+    //  * @return        The ServerStatusCode under LineItem.
+    //  */
+    // public final String getMiServerStatusCode() {
+    //     return this.memberinfo != null ? this.memberinfo.getServerStatusCode() : null;
+    // }
+    // /**
+    //  * Gets the PointsPrior under LineItem.
+    //  *
+    //  * @return        The PointsPrior under LineItem.
+    //  */
+    // public final String getMiPointsPrior() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointsPrior() : null;
+    // }
+    // /**
+    //  * Gets the TotalPoints under LineItem.
+    //  *
+    //  * @return        The TotalPoints under LineItem.
+    //  */
+    // public final String getMiTotalPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getTotalPoints() : null;
+    // }
+    // /**
+    //  * Gets the LostPoints under LineItem.
+    //  *
+    //  * @return        The LostPoints under LineItem.
+    //  */
+    // public final String getMiLostPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getLostPoints() : null;
+    // }
 
-    /**
-     * Gets the PointsPrior add the CorrectionPoints.
-     *
-     * @return
-     */
-    public final String getPointsPriorAddCorrectionPoints() {
+    // /**
+    //  * Gets the PointsPrior add the CorrectionPoints.
+    //  *
+    //  * @return
+    //  */
+    // public final String getPointsPriorAddCorrectionPoints() {
 
-        String strValue = null;
+    //     String strValue = null;
 
-        if (this.memberinfo != null) {
-            String strPointsPrior = this.memberinfo.getPointsPrior();
-            String strCorrectionPoints = this.memberinfo.getCorrectionPoints();
+    //     if (this.memberinfo != null) {
+    //         String strPointsPrior = this.memberinfo.getPointsPrior();
+    //         String strCorrectionPoints = this.memberinfo.getCorrectionPoints();
 
-            if (StringUtility
-                    .isNullOrEmpty(strPointsPrior, strCorrectionPoints)) {
-                strValue = "0";
-            } else if (StringUtility.isNullOrEmpty(strPointsPrior)) {
-                strValue = String
-                        .valueOf(Long.valueOf(strCorrectionPoints) < 0 ? 0
-                                : Long.valueOf(strCorrectionPoints));
-            } else if (StringUtility.isNullOrEmpty(strCorrectionPoints)) {
-                strValue = String.valueOf(Long.valueOf(strPointsPrior) < 0 ? 0
-                        : Long.valueOf(strPointsPrior));
-            } else {
-                strValue = String.valueOf((Long.valueOf(strPointsPrior) + Long
-                        .valueOf(strCorrectionPoints)) < 0 ? 0 : (Long
-                        .valueOf(strPointsPrior) + Long
-                        .valueOf(strCorrectionPoints)));
-            }
-        }
-        return strValue;
-    }
+    //         if (StringUtility
+    //                 .isNullOrEmpty(strPointsPrior, strCorrectionPoints)) {
+    //             strValue = "0";
+    //         } else if (StringUtility.isNullOrEmpty(strPointsPrior)) {
+    //             strValue = String
+    //                     .valueOf(Long.valueOf(strCorrectionPoints) < 0 ? 0
+    //                             : Long.valueOf(strCorrectionPoints));
+    //         } else if (StringUtility.isNullOrEmpty(strCorrectionPoints)) {
+    //             strValue = String.valueOf(Long.valueOf(strPointsPrior) < 0 ? 0
+    //                     : Long.valueOf(strPointsPrior));
+    //         } else {
+    //             strValue = String.valueOf((Long.valueOf(strPointsPrior) + Long
+    //                     .valueOf(strCorrectionPoints)) < 0 ? 0 : (Long
+    //                     .valueOf(strPointsPrior) + Long
+    //                     .valueOf(strCorrectionPoints)));
+    //         }
+    //     }
+    //     return strValue;
+    // }
 
     /**
      *

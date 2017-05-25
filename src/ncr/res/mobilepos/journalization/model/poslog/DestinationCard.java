@@ -19,8 +19,8 @@ public class DestinationCard {
     @XmlElement(name = "UnifiedMembershipIdTo")
     private String unifiedMembershipIdTo;
 
-    @XmlElement(name = "InputtedMembershipId")
-    private InputtedMembershipId inputtedMembershipId;
+    // @XmlElement(name = "InputtedMembershipId")
+    // private InputtedMembershipId inputtedMembershipId;
     /**
      * The private member variable that holds
      * the membershipId16To of DestinationCard.
@@ -75,18 +75,18 @@ public class DestinationCard {
         this.unifiedMembershipIdTo = unifiedMembershipIdTo;
     }
 
-    /**
-     * @param inputtedMembershipId the inputtedMembershipId to set
-     */
-    public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
-        this.inputtedMembershipId = inputtedMembershipId;
-    }
-    /**
-     * @return the inputtedMembershipId
-     */
-    public InputtedMembershipId getInputtedMembershipId() {
-        return inputtedMembershipId;
-    }
+    // /**
+    //  * @param inputtedMembershipId the inputtedMembershipId to set
+    //  */
+    // public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
+    //     this.inputtedMembershipId = inputtedMembershipId;
+    // }
+    // /**
+    //  * @return the inputtedMembershipId
+    //  */
+    // public InputtedMembershipId getInputtedMembershipId() {
+    //     return inputtedMembershipId;
+    // }
 
     /**
      * @return the membershipId16To

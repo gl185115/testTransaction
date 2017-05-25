@@ -117,8 +117,8 @@ public class PostPoint {
     @XmlElement(name = "MembershipId16")
     private String membershipId16;
     
-    @XmlElement(name = "InputtedMembershipId")
-    private InputtedMembershipId inputtedMembershipId;
+    // @XmlElement(name = "InputtedMembershipId")
+    // private InputtedMembershipId inputtedMembershipId;
     
     @XmlElement(name = "UnifiedMembershipId")
     private String unifiedMembershipId;
@@ -425,18 +425,18 @@ public class PostPoint {
     public String getMembershipId16() {
         return membershipId16;
     }
-    /**
-     * @param inputtedMembershipId the inputtedMembershipId to set
-     */
-    public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
-        this.inputtedMembershipId = inputtedMembershipId;
-    }
-    /**
-     * @return the inputtedMembershipId
-     */
-    public InputtedMembershipId getInputtedMembershipId() {
-        return inputtedMembershipId;
-    }
+    // /**
+    //  * @param inputtedMembershipId the inputtedMembershipId to set
+    //  */
+    // public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
+    //     this.inputtedMembershipId = inputtedMembershipId;
+    // }
+    // /**
+    //  * @return the inputtedMembershipId
+    //  */
+    // public InputtedMembershipId getInputtedMembershipId() {
+    //     return inputtedMembershipId;
+    // }
     /**
      * @param membershipId16 the membershipId16 to set
      */

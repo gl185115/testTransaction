@@ -89,8 +89,8 @@ public class PointTicketIssue {
     @XmlElement(name = "MembershipId16")
     private String membershipId16;
     
-    @XmlElement(name = "InputtedMembershipId")
-    private InputtedMembershipId inputtedMembershipId;
+    // @XmlElement(name = "InputtedMembershipId")
+    // private InputtedMembershipId inputtedMembershipId;
     /**
      *  private variable that holds the last visited company
      */
@@ -402,18 +402,18 @@ public class PointTicketIssue {
     public void setMembershipId16(String membershipId16) {
         this.membershipId16 = membershipId16;
     }
-    /**
-     * @param inputtedMembershipId the inputtedMembershipId to set
-     */
-    public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
-        this.inputtedMembershipId = inputtedMembershipId;
-    }
-    /**
-     * @return the inputtedMembershipId
-     */
-    public InputtedMembershipId getInputtedMembershipId() {
-        return inputtedMembershipId;
-    }
+    // /**
+    //  * @param inputtedMembershipId the inputtedMembershipId to set
+    //  */
+    // public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
+    //     this.inputtedMembershipId = inputtedMembershipId;
+    // }
+    // /**
+    //  * @return the inputtedMembershipId
+    //  */
+    // public InputtedMembershipId getInputtedMembershipId() {
+    //     return inputtedMembershipId;
+    // }
     /**
      * @return the ticketCounter
      */

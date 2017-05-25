@@ -17,8 +17,8 @@ public class SourceCard {
     @XmlElement(name = "CreditCardCompanyCodeFrom")
     private String creditCardCompanyCodeFrom;
 
-    @XmlElement(name = "InputtedMembershipId")
-    private InputtedMembershipId inputtedMembershipId;
+    // @XmlElement(name = "InputtedMembershipId")
+    // private InputtedMembershipId inputtedMembershipId;
     /**
      * The private member variable that holds
      * the MemberCode1 of DestinationCard.
@@ -67,18 +67,18 @@ public class SourceCard {
     public void setCreditCardCompanyCodeFrom(String creditCardCompanyCodeFrom) {
         this.creditCardCompanyCodeFrom = creditCardCompanyCodeFrom;
     }
-    /**
-     * @param inputtedMembershipId the inputtedMembershipId to set
-     */
-    public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
-        this.inputtedMembershipId = inputtedMembershipId;
-    }
-    /**
-     * @return the inputtedMembershipId
-     */
-    public InputtedMembershipId getInputtedMembershipId() {
-        return inputtedMembershipId;
-    }
+    // /**
+    //  * @param inputtedMembershipId the inputtedMembershipId to set
+    //  */
+    // public void setInputtedMembershipId(InputtedMembershipId inputtedMembershipId) {
+    //     this.inputtedMembershipId = inputtedMembershipId;
+    // }
+    // /**
+    //  * @return the inputtedMembershipId
+    //  */
+    // public InputtedMembershipId getInputtedMembershipId() {
+    //     return inputtedMembershipId;
+    // }
     /**
      * 
      * @return

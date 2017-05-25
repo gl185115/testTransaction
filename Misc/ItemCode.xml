@@ -160,7 +160,7 @@
                 <id>pointCoupon</id>
                 <type>single</type>
                 <symbol>NW7</symbol>
-                <format>(D|d){1}(\\d{20}})(D|d){1}</format>
+                <format>(D|d){1}(\\d{20})(D|d){1}</format>
             </item>
         </items>
     </payment>

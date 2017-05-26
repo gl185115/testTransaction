@@ -66,4 +66,14 @@ public class WindowsEnvironmentVariablesSteps extends Steps {
 	public void checkGetSystem(String expected) {
 		Assert.assertEquals(expected, WindowsEnvironmentVariables.getInstance().getSystemPath());
 	}
+
+	@Then("server type is $expected")
+	public void checkServerType(String expected) {
+		if(ServerTypes.ENTERPRISE.equalsIgnoreCase(expected)) {
+			Assert.assertTrue(WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise());
+		} else {
+			Assert.assertFalse(WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise());
+		}
+	}
+
 }

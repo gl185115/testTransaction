@@ -10,9 +10,13 @@ public class WindowsEnvironmentVariables {
     private static WindowsEnvironmentVariables instance;
     // 1
     private static final String KEY_SYSTEM_PATH = "SYS";
-    // 1
-    // ServerId for Logger.
+    // 2
+    private static final String KEY_SERVER_TYPE = "SERVERTYPE";
+
+    // 1 ServerId for Logger.
     private String systemPath;
+    // 2 ServerType
+    private String serverType;
 
     /**
      * Constructor.
@@ -41,6 +45,8 @@ public class WindowsEnvironmentVariables {
     private void loadWindowsEnvironmentVariables() throws NamingException {
         //1
         systemPath = loadVariable(KEY_SYSTEM_PATH);
+        //2
+        serverType = loadVariable(KEY_SERVER_TYPE);
     }
 
     /**
@@ -64,6 +70,14 @@ public class WindowsEnvironmentVariables {
      */
     public String getSystemPath() {
         return systemPath;
+    }
+
+    /**
+     * Returns if server type is enterprise as true. (or false for host.)
+     * @return true: ENTERPRISE, false:STORE
+     */
+    public boolean isServerTypeEnterprise() {
+        return ServerTypes.ENTERPRISE.equalsIgnoreCase(serverType);
     }
 
     /**

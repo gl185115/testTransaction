@@ -21,7 +21,6 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.constant.ServerTypes;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
@@ -141,13 +140,14 @@ public class WebContextListener implements ServletContextListener {
      */
     public final void initializeBusinessLogicFactories() throws Exception {
         EnvironmentEntries environmentEntries = EnvironmentEntries.getInstance();
+        WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
         // Loads ItemCode.xml file
         BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
         // Loads config file for Toppan Giftcard feature.
         ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
-        // Loads QrCodeInfo  Information
-        if (!ServerTypes.ENTERPRISE.equals(System.getenv("SERVERTYPE"))){
-        	QrCodeInfoFactory.initialize(WindowsEnvironmentVariables.getInstance().getSystemPath());
+        // Only HOST loads QrCodeInfo  Information
+        if(!windowsEnvironmentVariables.isServerTypeEnterprise()) {
+        	QrCodeInfoFactory.initialize(windowsEnvironmentVariables.getSystemPath());
         }
     }
 
@@ -286,4 +286,39 @@ public class WebContextListener implements ServletContextListener {
         
         GlobalConstant.setMaxQRCodePrintNum(sysParams.get(GlobalConstant.MAXQRCODEPRINTNUM));
     }
+
+    /**
+        GlobalConstant.setPingWaitTimer(
+    parsePositiveInt(GlobalConstant.KEY_SERVER_PING_TIMEOUT,
+                     sysParams, GlobalConstant.DEFAULT_SERVER_PING_TIMEOUT));
+     **/
+
+    /**
+     * Gets one value from given key-value map, then parse into int.
+     * If there is no value matched, the value has invalid format as Number or
+     *    the parsed value is not positive int, then default is returned.
+     * @param key
+     * @param kvMap
+     * @param defaultValue
+     * @return found value or default for not-found, invalid format or negative int.
+     */
+    public static int parsePositiveInt(String key, Map<String, String> kvMap, int defaultValue) {
+        String strValue = kvMap.get(key);
+        if(!StringUtility.isNullOrEmpty(strValue)) {
+            try {
+                int intValue = Integer.parseInt(strValue);
+                if (intValue >= 0) {
+                    return intValue;
+                }
+            } catch (NumberFormatException e) {
+                // Invalid format.
+                Logger.getInstance().logAlert("GlobalConstant",
+                        "parsePositiveInt",
+                        Logger.RES_EXCEP_NODATAFOUND,
+                        "Invalid format for: " + key + " in PRM_SYSTEM_CONFIG");
+            }
+        }
+        return defaultValue;
+    }
+
 }

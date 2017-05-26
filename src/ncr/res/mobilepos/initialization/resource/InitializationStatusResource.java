@@ -93,10 +93,6 @@ public class InitializationStatusResource {
         initFailed |= SpmFileWriter.getInstance() == null;
         initFailed |= SQLStatement.getInstance() == null;
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
-        initFailed |= ToppanGiftCardConfigFactory.getInstance() == null;
-        if (!ServerTypes.ENTERPRISE.equals(System.getenv("SERVERTYPE"))){
-        	initFailed |= QrCodeInfoFactory.getInstance() == null;
-        }
         initFailed |= BarcodeAssignmentFactory.getInstance() == null;
 
         if(initFailed) {

@@ -1,23 +1,31 @@
 <!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
 <dataset>
-	<table name="MST_USER_CREDENTIALS_DATA">
+	<table name="MST_USER_CREDENTIALS">
 		<column>CompanyId</column>
 		<column>OperatorNo</column>
+		<column>PassCode</column>
+		<column>Role</column>
+		<column>OperatorName</column>
+		<column>OperatorType</column>
 		<column>LastActiveTime</column>
 		<column>TerminalId</column>
 		<column>StoreId</column>
-		<column>Status</column>
 		<column>UpdDate</column>
+		<column>Status</column>
 		<column>UpdAppId</column>
 		<column>UpdOpeCode</column>
 		<row>
 			<value>01</value>
-			<value>9011011             </value>
-			<null />
+			<value>9011011</value>
+			<value>9011011</value>
+			<value>NCR     </value>
+			<value>汎用販売員3</value>
+			<value>1</value>
+			<null/>
 			<value>0001</value>
-			<null />
+			<value>0247</value>
+			<value>2016-08-16 12:52:42.0000000</value>
 			<value>Active</value>
-			<value>2016-08-16 12:11:32.2470000</value>
 			<value>usp_MakeCommonEmp</value>
 			<value>system</value>
 		</row>
@@ -206,26 +214,6 @@
 			<value>2016-07-28 15:17:11.5630000</value>
 			<value>till.releaseexecuteauthority</value>
 			<value>9011011</value>
-		</row>
-	</table>
-	<table name="PRM_GROUP_FUNCTION">
-		<column>GroupCode</column>
-		<column>GroupName</column>
-		<column>Transactions</column>
-		<column>Reports</column>
-		<column>Settings</column>
-		<column>Merchandise</column>
-		<column>Administration</column>
-		<column>Drawer</column>
-		<row>
-			<value>1</value>
-			<value>Staffs</value>
-			<null />
-			<null />
-			<null />
-			<null />
-			<value>0</value>
-			<null />
 		</row>
 	</table>
 </dataset>

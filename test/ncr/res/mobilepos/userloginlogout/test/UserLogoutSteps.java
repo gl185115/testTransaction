@@ -1,19 +1,7 @@
 package ncr.res.mobilepos.userloginlogout.test;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
 import junit.framework.Assert;
-import ncr.res.mobilepos.credential.resource.CredentialResource;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.journalization.model.PosLogResp;
-import ncr.res.mobilepos.journalization.resource.JournalizationResource;
-import ncr.res.mobilepos.model.ResultBase;
+
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.dbunit.operation.DatabaseOperation;
@@ -24,6 +12,20 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
+
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import ncr.res.mobilepos.credential.resource.CredentialResource;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.journalization.model.PosLogResp;
+import ncr.res.mobilepos.journalization.resource.JournalizationResource;
+import ncr.res.mobilepos.model.ResultBase;
 
 /**
  * Steps class for component testing of operator signon.
@@ -135,7 +137,7 @@ public class UserLogoutSteps extends Steps {
     }
     @Then("MST_USER_CREDENTIALS should have the following: $expected")
     public final void testCredentialTable(ExamplesTable expected) throws DataSetException {
-    	ITable actualItemRows = dbInitiator.getTableSnapshot("MST_USER_CREDENTIALS_DATA");
+    	ITable actualItemRows = dbInitiator.getTableSnapshot("MST_USER_CREDENTIALS");
     	
 		int i = 0;
 		for (Map<String, String> expItem : expected.getRows()) {

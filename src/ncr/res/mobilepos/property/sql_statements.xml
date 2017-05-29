@@ -5060,15 +5060,17 @@ ORDER BY
   </entry>
   <entry key="get-departments">
   DECLARE @key varchar(max),
+    @companyId varchar(max),
     @storeid varchar(max),
     @limit int,
     @name varchar(max)
 
     SET @limit=?
+    SET @companyId=?
     SET @storeid=?
     SET @key=?
     SET @name=?
-
+		 
     SET @storeid = (CASE
                WHEN (len(@key) = 0 OR (@key IS NULL))
                   THEN @storeid
@@ -5076,7 +5078,7 @@ ORDER BY
                    THEN @storeid
                WHEN NOT EXISTS(SELECT Dpt, DptName FROM RESMaster.dbo.MST_DPTINFO WHERE StoreId= @storeid AND Dpt like @key {ESCAPE '\'} )
                   THEN '0'
-                   ELSE @storeid
+               ELSE @storeid
              END)
     SET @limit = (CASE
            WHEN(@limit > -1)
@@ -5102,6 +5104,9 @@ ORDER BY
 
     FROM RESMaster.dbo.MST_DPTINFO
     WHERE
+	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
+            CompanyId = @companyId
+          )) AND
       ((@storeid IS NULL OR LEN(@storeid) = 0) OR (
             StoreId = @storeid
           )) AND
@@ -5114,6 +5119,7 @@ ORDER BY
           ))) AND
       Status = 'Active'
     ORDER BY
+      DisplayOrder,
          CASE
         WHEN (len(@name) &gt; 0 AND (@key IS NULL OR len(@key) &lt;= 0))
           THEN DptName

@@ -7,6 +7,7 @@
 		<column>DptName</column>
 		<column>DptNameLocal</column>
 		<column>DptKanaName</column>
+		<column>DisplayOrder</column>
 		<column>Jigyobu</column>
 		<column>Gyoshu</column>
 		<column>Bumon</column>
@@ -53,6 +54,7 @@
 			<value>dpttest0</value>
 			<value>部門テスト0</value>
 			<value>部門テスト0</value>
+			<value>1</value>
 			<value>003</value>
 			<value>003</value>
 			<value>003</value>
@@ -100,6 +102,7 @@
 			<value>dpttest1</value>
 			<value>部門テスト1</value>
 			<value>部門テスト1</value>
+			<value>2</value>
 			<value>001</value>
 			<value>001</value>
 			<value>001</value>
@@ -147,6 +150,7 @@
 			<value>dpttest4</value>
 			<value>部門テスト4</value>
 			<value>部門テスト4</value>
+			<value>3</value>
 			<value>004</value>
 			<value>004</value>
 			<value>004</value>
@@ -194,6 +198,7 @@
 			<value>dpttest3</value>
 			<value>部門テスト3</value>
 			<value>部門テスト3</value>
+			<value>3</value>
 			<value>003</value>
 			<value>003</value>
 			<value>003</value>
@@ -241,6 +246,7 @@
 			<value>Dpt 01234567890123456789</value>
 			<value>部門01234567890123456789</value>
 			<value>部門01234567890123456789</value>
+			<value>123456789</value>
 			<value>01</value>
 			<value>01</value>
 			<value>0011</value>
@@ -288,6 +294,7 @@
 			<value>Dpt 100</value>
 			<value>部門100</value>
 			<value>部門100</value>
+			<value>10</value>
 			<value>01</value>
 			<value>01</value>
 			<value>0011</value>
@@ -335,6 +342,7 @@
 			<value>Dpt 101</value>
 			<value>部門101</value>
 			<value>部門101</value>
+			<value>1</value>
 			<value>01</value>
 			<value>01</value>
 			<value>0011</value>
@@ -382,6 +390,7 @@
 			<value>Dpt 102</value>
 			<value>部門102</value>
 			<value>部門102</value>
+			<value>102</value>
 			<value>01</value>
 			<value>01</value>
 			<value>0011</value>
@@ -429,6 +438,7 @@
 			<value>Dpt 103</value>
 			<value>部門103</value>
 			<value>部門103</value>
+			<value>1</value>
 			<value>01</value>
 			<value>01</value>
 			<value>0011</value>

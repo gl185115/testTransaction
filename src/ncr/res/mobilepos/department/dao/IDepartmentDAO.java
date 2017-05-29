@@ -40,6 +40,6 @@ public interface IDepartmentDAO {
      * @throws DaoException
      *             if error exists.
      */
-    DepartmentList listDepartments(String retailStoreID, String key, String name, int searchLimit)
+    DepartmentList listDepartments(String companyId, String retailStoreID, String key, String name, int searchLimit)
     throws DaoException;
 }

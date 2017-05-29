@@ -18,19 +18,18 @@ import ncr.res.mobilepos.department.model.DepartmentName;
 import ncr.res.mobilepos.department.model.DptConst;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 /**
- * 
+ *
  * @author AP185142
  * @author RD185102
  * @author cc185102 - (July 30, 2012) Updated List Department to have partial
  *         search on Department ID and Department Name.
- * 
+ *
  */
 public class SQLServerDepartmentDAO extends AbstractDao implements
 		IDepartmentDAO {
@@ -50,7 +49,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 	/**
 	 * The class constructor.
-	 * 
+	 *
 	 * @throws DaoException
 	 *             Exception thrown when construction fails.
 	 */
@@ -62,7 +61,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 	/**
 	 * Gets the information of an active department.
-	 * 
+	 *
 	 * @param retailStoreID
 	 *            - store to which the department belongs.
 	 * @param departmentID
@@ -72,7 +71,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 	 *             - if database fails.
 	 */
 	@Override
-	public final ViewDepartment selectDepartmentDetail(final String companyID, 
+	public final ViewDepartment selectDepartmentDetail(final String companyID,
 			final String retailStoreID, final String departmentID)
 			throws DaoException {
 		tp.methodEnter("selectDepartmentDetail");
@@ -135,18 +134,18 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 		return dptModel;
 	}
-    
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public final DepartmentList listDepartments(final String storeId,
+	public final DepartmentList listDepartments(final String companyId, final String storeId,
 			final String key, final String name, final int limit)
 			throws DaoException {
 		String functionName = "SQLServerDepartmentDAO.listDepartments";
 		tp.methodEnter(DebugLogger.getCurrentMethodName())
-				.println("RetailStoreID", storeId).println("Key", key)
-				.println("Limit", limit);
+				.println("CompanyID", companyId).println("RetailStoreID", storeId)
+				.println("Key", key).println("Name", name).println("Limit", limit);
 
 		Connection connection = null;
 		PreparedStatement selectStmt = null;
@@ -168,15 +167,18 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 					.getMaxSearchResults() : limit;
 
 			selectStmt.setInt(SQLStatement.PARAM1, searchLimit);
-			selectStmt.setString(SQLStatement.PARAM2, storeId);
+			selectStmt.setString(SQLStatement.PARAM2, companyId);
+			selectStmt.setString(SQLStatement.PARAM3, storeId);
 
 			String keyId = StringUtility.isNullOrEmpty(key) ? null : StringUtility.escapeCharatersForSQLqueries(key) + "%";
 			String nameTemp = StringUtility.isNullOrEmpty(name) ? null : "%"
 					+ StringUtility.escapeCharatersForSQLqueries(name) + "%";
 
-			selectStmt.setString(SQLStatement.PARAM3, keyId);
-			selectStmt.setString(SQLStatement.PARAM4, nameTemp);
+			selectStmt.setString(SQLStatement.PARAM4, keyId);
+			selectStmt.setString(SQLStatement.PARAM5, nameTemp);
+
 			resultSet = selectStmt.executeQuery();
+
 			while (resultSet.next()) {
 				Department department = new Department();
 				department
@@ -199,8 +201,14 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				departments.add(department);
 			}
 
-			dptList.setRetailStoreID(storeId);
-			dptList.setDepartments(departments);
+			if (departments.size() == 0){
+				dptList.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+				tp.println("Department not found.");
+				dptList.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			} else {
+				dptList.setRetailStoreID(storeId);
+				dptList.setDepartments(departments);
+			}
 
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,

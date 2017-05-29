@@ -67,7 +67,7 @@ public class DepartmentResource {
      * The Trace Printer.
      */
     private Trace.Printer tp;
-    
+
     /**
      * constructor.
      */
@@ -86,7 +86,7 @@ public class DepartmentResource {
     public final void setDaoFactory(final DAOFactory daofactory) {
         this.daoFactory = daofactory;
     }
-    
+
     /**
      * @param contextToSet
      *            the context to set
@@ -108,9 +108,9 @@ public class DepartmentResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="有効な部門情報を検索する", response=ViewDepartment.class)
+    @ApiOperation(value="部門詳細取得", response=ViewDepartment.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門がみつからない"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門未検出エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -132,12 +132,12 @@ public class DepartmentResource {
             tp.methodExit(dptModel.toString());
             return dptModel;
         }
-        
+
         try {
             IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
             dptModel = iDptDao
                     .selectDepartmentDetail(companyID, retailStoreID, departmentID);
-            
+
             if (dptModel == null) {
                 if (!"0".equals(retailStoreID)) {
                     String commonStoreID = "0";
@@ -169,7 +169,7 @@ public class DepartmentResource {
         }
         return dptModel;
     }
-    
+
     /**
      * Gets the list of active departments.
      *
@@ -184,36 +184,38 @@ public class DepartmentResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="有効な部門情報取得", response=DepartmentList.class)
+    @ApiOperation(value="部門一覧取得", response=DepartmentList.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門未検出エラー"),
     })
     public final DepartmentList listDepartments(
-    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("retailstoreid") final String storeId,
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String storeId,
     		@ApiParam(name="key", value="部門コード") @QueryParam("key") final String key,
     		@ApiParam(name="name", value="部門名称") @QueryParam("name") final String name,
-    		@ApiParam(name="limit", value="制限条数") @QueryParam("limit") final int limit) {
+    		@ApiParam(name="limit", value="最大取得件数") @QueryParam("limit") final int limit) {
 
         String functionName = "DepartmentResource.listDepartments";
 
         tp.methodEnter(DebugLogger.getCurrentMethodName())
+             .println("companyid", companyId)
              .println("retailstoreid", storeId)
              .println("key", key)
              .println("limit", limit)
              .println("name",name);
 
-
         DepartmentList dptList = new DepartmentList();
         try {
             IDepartmentDAO deptDao = daoFactory.getDepartmentDAO();
-            dptList = deptDao.listDepartments(storeId, key, name, limit);
-            
-            if (dptList == null) {
+            dptList = deptDao.listDepartments(companyId, storeId, key, name, limit);
+
+            if (dptList.getDepartments() == null) {
                 if (!"0".equals(storeId)) {
                     String commonStoreID = "0";
-                    dptList = deptDao.listDepartments(commonStoreID, key, name, limit);
+                    dptList = deptDao.listDepartments(companyId, commonStoreID, key, name, limit);
                 }
             }
         } catch (DaoException ex) {

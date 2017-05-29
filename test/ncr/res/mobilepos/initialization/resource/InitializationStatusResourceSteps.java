@@ -171,11 +171,9 @@ public class InitializationStatusResourceSteps extends Steps {
     public final void resultCodeShouldBe(final String resultCode,
                                          final String extendedResultCode,
                                         final String message) {
-    	if (!"ENTERPRISE".equalsIgnoreCase(System.getenv("SERVERTYPE"))) {
-	        assertEquals(ResultBaseHelper.getErrorCode(resultCode), resultBase.getNCRWSSResultCode());
-	        assertEquals(ResultBaseHelper.getErrorCode(extendedResultCode), resultBase.getNCRWSSExtendedResultCode());
-	        assertEquals(ResultBaseHelper.getErrorMessage(message), resultBase.getMessage());
-    	}
+        assertEquals(ResultBaseHelper.getErrorCode(resultCode), resultBase.getNCRWSSResultCode());
+        assertEquals(ResultBaseHelper.getErrorCode(extendedResultCode), resultBase.getNCRWSSExtendedResultCode());
+        assertEquals(ResultBaseHelper.getErrorMessage(message), resultBase.getMessage());
     }
 
 }

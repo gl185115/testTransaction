@@ -38,9 +38,9 @@ import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
-import ncr.res.mobilepos.constant.ServerTypes;
 import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.TxTypes;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -63,8 +63,8 @@ import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.Total;
 import ncr.res.mobilepos.journalization.model.poslog.Tender;
+import ncr.res.mobilepos.journalization.model.poslog.Total;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionSearch;
@@ -693,23 +693,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
-     * Private Method for Getting the Server Type in the System Environment
-     *
-     * @return Server Type ("STORE", "ENTERPRISE")
-     *
-     * @throws DaoException
-     *             The Exception thrown when the process fails
-     */
-    private String getServerType()  {
-        // check value for environment variable SERVERTYPE
-        String serverType = System.getenv("SERVERTYPE");
-        if (StringUtility.isNullOrEmpty(serverType)) {
-            serverType = DEFAULT_SERVERTYPE;
-        }
-        return serverType;
-    }
-
-    /**
      * Private Method for Start of Day Transaction
      * This method updates RESMaster.dbo.MST_TILLIDINFO.SodFlag to 1.
      * @param transaction The current transaction.
@@ -737,7 +720,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         // Checks if SOD is not finished yet.
-        boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
+        boolean isEnterprise = WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise();
         if (!isEnterprise && TillInfoResource.SOD_FLAG_FINISHED.equals(currentTill.getSodFlag())) {
             tp.methodExit();
             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
@@ -753,16 +736,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         tillInfoDAO.updateTillOnJourn(connection, currentTill, updatingTill, isEnterprise);
         tp.methodExit();
-    }
-
-    /**
-     * Compares environment "SERVERTYPE" to serverType parameter.
-     *
-     * @param serverType
-     * @return true/false.
-     */
-    private boolean isServerType(String serverType) {
-        return this.getServerType().equalsIgnoreCase(serverType);
     }
 
     /**
@@ -793,7 +766,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         // Checks if EOD is not finished yet.
-        boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
+        boolean isEnterprise = WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise();
         if (!isEnterprise && TillInfoResource.EOD_FLAG_FINISHED.equals(currentTill.getEodFlag())) {
             tp.methodExit();
             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName

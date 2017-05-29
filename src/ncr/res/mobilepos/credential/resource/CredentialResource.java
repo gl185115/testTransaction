@@ -32,6 +32,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.model.Authorization;
 import ncr.res.mobilepos.credential.model.Employee;
@@ -689,16 +690,11 @@ public class CredentialResource {
                 ? securityContext.getUserPrincipal().getName() : null;
     }
 
-    // environmental variable name for the server type.
-    static final String SERVERTYPE = "SERVERTYPE";
-    // environmental variable SERVERTYPE value for the enterprise server.
-    static final String ENTERPRISE = "ENTERPRISE";
-
     void updateTod() {
-        // Enterprise server is TOD source. Therefore, it does not need to get
-        // TOD.
-        if (ENTERPRISE.equals(System.getenv(SERVERTYPE)))
+        // Enterprise server is TOD source. Therefore, it does not need to get TOD.
+        if(WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise()) {
             return;
+        }
 
         TodHelper helper = new TodHelper();
         helper.adjust();

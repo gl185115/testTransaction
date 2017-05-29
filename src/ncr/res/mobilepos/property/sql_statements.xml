@@ -882,7 +882,7 @@ IF NOT EXISTS (
     AND StoreId = @storeId
     AND CompanyId = @companyId
 )
-  SET @storeId = '0'
+  SET @storeId = '0000'
 
 SELECT
     CompanyId,
@@ -5086,39 +5086,89 @@ ORDER BY
                ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_DPTINFO)
            END)
 
-    SELECT TOP(@limit)
-      Dpt,
-      DptName,
-      DptNameLocal,
-      StoreId,
-      InheritFlag,
-      ExceptionFlag,
-
-      DiscountType,
-      DiscountFlag,
-      DiscountAmt,
-      DiscountRate,
-      TaxRate,
-      TaxType
-
-
-    FROM RESMaster.dbo.MST_DPTINFO
-    WHERE
-	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
-            CompanyId = @companyId
-          )) AND
-      ((@storeid IS NULL OR LEN(@storeid) = 0) OR (
-            StoreId = @storeid
-          )) AND
-      ((@key IS NULL OR LEN(@key) = 0) OR (
-            Dpt LIKE @key  {ESCAPE '\'}
-          )) AND
-      ((@name IS NULL) OR (
-            ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
-            (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
-          ))) AND
-      Status = 'Active'
-    ORDER BY
+    SELECT TOP(@limit) 
+	       Dpt,
+          DptName,
+          DptNameLocal,
+          StoreId,
+          InheritFlag,
+          ExceptionFlag,
+          DiscountType,
+          DiscountFlag,
+          DiscountAmt,
+          DiscountRate,
+          TaxRate,
+          TaxType
+	   FROM (
+        SELECT 
+          Dpt,
+          DptName,
+          DptNameLocal,
+          StoreId,
+          InheritFlag,
+          ExceptionFlag,
+          DiscountType,
+          DiscountFlag,
+          DiscountAmt,
+          DiscountRate,
+          TaxRate,
+          TaxType,
+          DisplayOrder
+        FROM RESMaster.dbo.MST_DPTINFO
+        WHERE
+    	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
+                CompanyId = @companyId
+              )) AND
+          ((@storeid IS NULL OR LEN(@storeid) = 0) OR (
+                StoreId = @storeid
+              )) AND
+          ((@key IS NULL OR LEN(@key) = 0) OR (
+                Dpt LIKE @key  {ESCAPE '\'}
+              )) AND
+          ((@name IS NULL) OR (
+                ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
+                (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
+              ))) AND
+          Status = 'Active'
+    
+    union 
+    	SELECT 
+          Dpt,
+          DptName,
+          DptNameLocal,
+          StoreId,
+          InheritFlag,
+          ExceptionFlag,
+          DiscountType,
+          DiscountFlag,
+          DiscountAmt,
+          DiscountRate,
+          TaxRate,
+          TaxType,
+          DisplayOrder
+        FROM RESMaster.dbo.MST_DPTINFO a
+        WHERE
+    	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
+                CompanyId = @companyId
+              )) AND
+          StoreId = '0' AND
+          ((@key IS NULL OR LEN(@key) = 0) OR (
+                Dpt LIKE @key  {ESCAPE '\'}
+              )) AND
+          ((@name IS NULL) OR (
+                ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
+                (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
+              ))) AND
+          Status = 'Active' 
+    	  AND NOT EXISTS (
+             SELECT 1
+               FROM RESMaster.dbo.MST_DPTINFO b
+              WHERE a.CompanyId = b.CompanyId
+                AND b.StoreId = @storeid
+                AND a.dpt = b.dpt
+    	  )
+    ) DPT
+	  ORDER BY
       DisplayOrder,
          CASE
         WHEN (len(@name) &gt; 0 AND (@key IS NULL OR len(@key) &lt;= 0))

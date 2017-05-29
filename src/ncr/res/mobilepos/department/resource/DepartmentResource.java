@@ -136,12 +136,12 @@ public class DepartmentResource {
         try {
             IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
             dptModel = iDptDao
-                    .selectDepartmentDetail(companyID, retailStoreID, departmentID);
+                    .selectDepartmentDetail(companyID, retailStoreID, departmentID, retailStoreID);
 
             if (dptModel == null) {
                 if (!"0".equals(retailStoreID)) {
                     String commonStoreID = "0";
-                    dptModel = iDptDao.selectDepartmentDetail(companyID, commonStoreID, departmentID);
+                    dptModel = iDptDao.selectDepartmentDetail(companyID, commonStoreID, departmentID, retailStoreID);
                 }
             }
         } catch (DaoException daoEx) {
@@ -212,12 +212,6 @@ public class DepartmentResource {
             IDepartmentDAO deptDao = daoFactory.getDepartmentDAO();
             dptList = deptDao.listDepartments(companyId, storeId, key, name, limit);
 
-            if (dptList.getDepartments() == null) {
-                if (!"0".equals(storeId)) {
-                    String commonStoreID = "0";
-                    dptList = deptDao.listDepartments(companyId, commonStoreID, key, name, limit);
-                }
-            }
         } catch (DaoException ex) {
             LOGGER.logAlert(this.progname, functionName,
                     Logger.RES_EXCEP_DAO, "Failed to list departments "

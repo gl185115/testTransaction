@@ -20,7 +20,7 @@ Then I should have the following departments:
 |0   	|901|Active	|
 |0031  	|902|Active	|
 When I list all departments of storeid 0031
-Then I should get resultcode 0 and 9 department list
+Then I should get resultcode 0 and 15 department list
 Then I should get list: 
 |DPT|DPTNAME       |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|
 |309|Department 309|•”–å309        |0		|0				|0			|1			|null			|0			|0			|8		|1		|
@@ -31,7 +31,14 @@ Then I should get list:
 |203|Department 203|•”–å203        |0		|0				|0			|1			|null			|0			|0			|8		|1		|
 |202|Department 202|•”–å202        |0		|0				|0			|1			|null			|0			|0			|8		|1		|
 |201|Department 201|•”–å201        |0		|0				|0			|1			|null			|0			|0			|8		|1		|
+|105|Department 105|•”–å105        |0       |0              |0          |1          |null           |0          |0          |8      |1      |
+|104|Department 104|•”–å104        |0       |0              |0          |1          |null           |0          |0          |8      |1      |
+|103|Department 103|•”–å103        |0       |0              |0          |1          |null           |0          |0          |8      |1      |
+|102|Department 102|•”–å102        |0       |0              |0          |1          |null           |0          |0          |8      |1      |
+|101|Department 101|•”–å101        |5       |5              |0          |1          |null           |0          |0          |8      |1      |
+|901|Department 901|•”–å901        |5       |5              |0          |1          |null           |0          |0          |8      |1      |
 |902|Department 902|•”–å902		   |5	    |5          	|0			|1			|null			|0			|0			|8		|1      |
+
 
 Scenario: List Departments of non-existing store
 Given a Department Resource
@@ -50,9 +57,10 @@ Then I should get list:
 Scenario: List Departments of company and store
 Given a Department Resource
 When I list all departments of companyid 02 storeid 0031
-Then I should get resultcode 0 and 1 department list
+Then I should get resultcode 0 and 2 department list
 Then I should get list: 
 |DPT|DPTNAME        |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|
+|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8		|1       |
 |902|Department 902	|•”–å902	   |5	       |5            |0			|1			|null			|0			|0			|8		|1       |
 
 Scenario: List Departments of company and non-existing store

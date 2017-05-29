@@ -24,7 +24,7 @@ public interface IDepartmentDAO {
     * @throws DaoException - exception
     */
     ViewDepartment selectDepartmentDetail(String companyID, String retailStoreID,
-        String departmentID) throws DaoException;
+        String departmentID, String searchRetailStoreID) throws DaoException;
     /**
      * Gets the list of active departments of a store.
      *

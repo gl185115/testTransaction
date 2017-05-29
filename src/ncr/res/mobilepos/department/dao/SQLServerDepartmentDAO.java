@@ -72,12 +72,13 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 	 */
 	@Override
 	public final ViewDepartment selectDepartmentDetail(final String companyID,
-			final String retailStoreID, final String departmentID)
+			final String retailStoreID, final String departmentID, String searchRetailStoreID)
 			throws DaoException {
 		tp.methodEnter("selectDepartmentDetail");
 		tp.println("CompanyID", companyID)
           .println("RetailStoreID", retailStoreID)
-          .println("DepartmentID", departmentID);
+          .println("DepartmentID", departmentID)
+          .println("SearchRetailStoreID", searchRetailStoreID);
 
 		ViewDepartment dptModel = new ViewDepartment();
 
@@ -113,7 +114,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				dpt.setSubNum2(result.getString(DptConst.COL_SUBNUM2_FLAG));
 				dpt.setSubNum3(result.getString(DptConst.COL_SUBNUM3_FLAG));
 				dptModel.setDepartment(dpt);
-				dptModel.setRetailStoreID(result.getString(DptConst.COL_STORE_ID));
+				dptModel.setRetailStoreID(searchRetailStoreID);
 			} else {
 				dptModel.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
 				tp.println("Department not found.");
@@ -183,8 +184,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				Department department = new Department();
 				department
 						.setDepartmentID(resultSet.getString(DptConst.COL_DPT));
-				department.setRetailStoreID(resultSet
-						.getString(DptConst.COL_STORE_ID));
+				department.setRetailStoreID(storeId);
 				DepartmentName departmentName = new DepartmentName();
 				departmentName.setEn(resultSet.getString(DptConst.COL_DPT_NAME));
 				departmentName.setJa(resultSet

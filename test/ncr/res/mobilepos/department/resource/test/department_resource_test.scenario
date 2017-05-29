@@ -33,7 +33,7 @@ Then the resultcode should be 0 and extendedResultCode should be 0
 When I get Department with companyid 01 storeid 0031 and dptid 004
 Then I should get department model with properties:
 |RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|
-|0		        |004	|dpttest4	|部門テスト4	 |5			|5				|5.0			|5		|5		|
+|0031		    |004	|dpttest4	|部門テスト4	 |5			|5				|5.0			|5		|5		|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- Department exist both in Store and Enterprise Store

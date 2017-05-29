@@ -1,17 +1,5 @@
 package ncr.res.mobilepos.promotion.resource;
 
-import atg.taglib.json.util.JSONArray;
-import atg.taglib.json.util.JSONException;
-import atg.taglib.json.util.JSONObject;
-
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
-import org.codehaus.jackson.JsonParseException;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,11 +18,23 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import org.codehaus.jackson.JsonParseException;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
+import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
+import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.CheckDigitValue;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.constant.BarcodeAssignmentConstant;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
+import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
@@ -57,7 +57,6 @@ import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
-import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
@@ -110,9 +109,9 @@ public class PromotionResource {
 	private static final String PROG_NAME = "Prom";
 
     private final BarcodeAssignment barcodeAssignment;
-    
+
     private final List<QrCodeInfo> qrCodeInfoList;
-    
+
     public static final String PROMOTIONTYPE_ALL = "1";
     public static final String PROMOTIONTYPE_DPT = "2";
     public static final String PROMOTIONTYPE_DPT_CONN = "3";
@@ -137,7 +136,7 @@ public class PromotionResource {
 
 	/**
 	 * The Begin Transaction for Promotion.
-	 * 
+	 *
 	 * @param retailStoreId
 	 *            The Retail Store ID.
 	 * @param workStationId
@@ -294,7 +293,7 @@ public class PromotionResource {
 
 	/**
 	 * Item entry for requesting item and promotion information.
-	 * 
+	 *
 	 * @param retailStoreId
 	 *            Store Number where the transaction is coming from
 	 * @param workStationId
@@ -338,7 +337,7 @@ public class PromotionResource {
 		String dptCode = null;
 		String barcode_fst = null;
 		String barcode_sec = null;
-		
+
 		try {
 			if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
 					businessDate)) {
@@ -367,7 +366,7 @@ public class PromotionResource {
 				JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
 				Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
 				Sale saleIn = transactionIn.getSale();
-				
+
 				ResultBase rs = SaleItemsHandler.validateSale(saleIn);
 				if (ResultBase.RES_OK != rs.getNCRWSSResultCode()) {
 					tp.println(rs.getMessage());
@@ -376,12 +375,12 @@ public class PromotionResource {
 				}
 
 				String itemId = saleIn.getItemId();
-				
+
 				DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 				ICodeConvertDAO codeCvtDAO = daoFactory.getCodeConvertDAO();
 				IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
 				ViewDepartment departmentInfo = new ViewDepartment();
-				
+
 				// 二段バーコード判断
 				if (itemId.contains(" ")) {
 					twoStep = Boolean.parseBoolean(ResultBase.TRUE);
@@ -390,10 +389,10 @@ public class PromotionResource {
 				} else {
 					twoStep = Boolean.parseBoolean(ResultBase.FALSE);
 				}
-				
+
                 // 品目名を取得する
                 String varietiesName = BarcodeAssignmentUtility.getBarcodeAssignmentItemId(itemId, barcodeAssignment);
-                
+
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
 
@@ -404,15 +403,15 @@ public class PromotionResource {
 				String itemIdTemp = null;
 				if (twoStep){
 					itemIdTemp = barcode_fst;
-				} else if (BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) || 
+				} else if (BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) ||
 				        BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
 					itemIdTemp = CDCalculation(itemId);
 				} else if (BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE.equals(varietiesName)){
                     itemIdTemp = itemId.substring(0, 13);
                 } else {
-					itemIdTemp = itemId; 
+					itemIdTemp = itemId;
 				}
-				
+
 				SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId,
 						businessDate); // 各種割引情報を含めた商品情報
 				if (searchedProd == null || (searchedProd != null && searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK)) {
@@ -421,7 +420,7 @@ public class PromotionResource {
 	                            businessDate); // 共通店番号(0)で検索
 	                }
 	            }
-				
+
 				Item item = null;
 				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK) {
 					tp.println("Item was not found!");
@@ -444,20 +443,20 @@ public class PromotionResource {
 
 				// 部門コードを取得する
                 codeTemp = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,response,item);
-                
+
                 // 商品マスタから取得失敗の場合
                 if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
                     return response;
                 }
-                
+
                 // 部門コードを部門マスタテーブルに存在チェック
-                departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp);
+                departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
                 if (departmentInfo == null) {
                     if (!"0".equals(retailStoreId)) {
-                        departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp);// 共通店番号(0)で検索
+                        departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp, retailStoreId);// 共通店番号(0)で検索
                     }
                 }
-                
+
                 dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
                 if (StringUtility.isNullOrEmpty(dptCode)) {
                   response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
@@ -478,19 +477,19 @@ public class PromotionResource {
                         saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
                         saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
                         saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
-                        
+
                         String taxRate = departmentInfo.getDepartment().getTaxRate();
                         saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
-                        
+
                         saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
-                        
+
                         saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
-                        
+
                         // バーコード価格を使用
                         double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
                         saleOut.setRegularSalesUnitPrice(barCodePrice);
                         saleOut.setActualSalesUnitPrice(barCodePrice);
-                        
+
                         saleOut.setItemId(twoStep ? barcode_fst : itemId);
                         saleOut.setDepartment(dptCode);
                         transactionOut.setSale(saleOut);
@@ -499,7 +498,7 @@ public class PromotionResource {
                         return response;
                     }
                 }
-                
+
 				info.setTruePrice(item.getRegularSalesUnitPrice());
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
@@ -562,7 +561,7 @@ public class PromotionResource {
 		}
 		return response;
 	}
-	
+
 	private List<CouponInfo> makeCouponInfoList(Map<String, CouponInfo> map) {
 		List<CouponInfo> list = new ArrayList<CouponInfo>();
 		for (Map.Entry<String, CouponInfo> map1 : map.entrySet()) {
@@ -570,10 +569,10 @@ public class PromotionResource {
 		}
 		return list;
 	}
-	
+
 	/**
      * 部門コードを取得する
-     * 
+     *
      * @param codeCvtDAO
      * @param dao
      * @param itemId
@@ -582,7 +581,7 @@ public class PromotionResource {
      * @param operatorType
      * @param response
      * @return codeTemp
-	 * @throws DaoException 
+	 * @throws DaoException
      */
 	private String getDptCode(ICodeConvertDAO codeCvtDAO,String itemId,String varietiesName,
 	        String companyId,PromotionResponse response,Item item) throws DaoException {
@@ -590,24 +589,24 @@ public class PromotionResource {
         tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("itemId", itemId)
 		    .println("varietiesName", varietiesName).println("companyId", companyId)
 		    .println("response", response).println("item", item);
-	    
+
 	    String codeTemp = null;
         String dpt = null;
         String barcode_sec = null;
         boolean itemFlag = true;
-        
+
         // 二段バーコード判断
         if (itemId.contains(" ")) {
             barcode_sec = itemId.split(" ")[1];
         }
-        
+
         if (item != null) {
             dpt = item.getDepartment();
             if (item.getRegularSalesUnitPrice() > 0.0) {
                 itemFlag = false;
             }
         }
-        
+
         // 部門コードを取得する
         switch (varietiesName) {
         case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
@@ -720,14 +719,14 @@ public class PromotionResource {
         default:
             break;
         }
-        
+
         tp.methodExit(codeTemp);
         return codeTemp;
     }
-	
+
 	/**
      * バーコード価格を使用
-     * 
+     *
      * @param varietiesName
      * @param itemId
      * @return commodityPrice
@@ -735,7 +734,7 @@ public class PromotionResource {
 	private double barCodePriceCalculation(String varietiesName, String itemId) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("varietiesName", varietiesName).println("itemId", itemId);
-        
+
         double commodityPrice = 0.0;
         switch (varietiesName) {
         case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
@@ -753,59 +752,59 @@ public class PromotionResource {
         default:
             break;
         }
-        
+
         tp.methodExit(commodityPrice);
         return commodityPrice;
     }
-    
+
 	/**
           * 　C/D を算出する
-     * 
+     *
      * @param itemId
      * @return itemId
      */
 	private String CDCalculation(String itemId) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("itemId", itemId);
-        
+
 		char cd = CheckDigitValue.generate("978" + itemId.substring(0, 9), 12, "131313131313", 10,
 				CheckDigitValue.SKIP_0_OK, true);
 		itemId = "978" + itemId.substring(0, 9) + cd;
-		
+
 		tp.methodExit(itemId);
 		return itemId;
 	}
 
 	/**
           * 　部門変換する
-     * 
+     *
      * @param code
      * @return code
      */
 	private String JaCodeCvt(String code) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("code", code);
-	    
+
 		if ("0000".equals(code)){
 			code = "0183";
 		} else if (!"040".equals(code.substring(0, 3))){
 			code = "016" + code.substring(3, 4);
 		}
-		
+
 		tp.methodExit(code);
 		return code;
 	}
 
 	/**
 	 * 洋雑誌価格計算
-	 * 
+	 *
 	 * @param itemId
 	 * @return price
 	 */
 	private int foreignMagazine(String itemId) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("itemId", itemId);
-	    
+
 		int price = Integer.parseInt(itemId.substring(9, 12)) * 10;
 
 		tp.methodExit(price);
@@ -814,14 +813,14 @@ public class PromotionResource {
 
 	/**
 	 * 和雑誌価格計算
-	 * 
+	 *
 	 * @param itemId
 	 * @return price
 	 */
 	private int janMagazine(String itemId) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("itemId", itemId);
-	    
+
 		String endFour = itemId.substring(itemId.length() - 4);
 		int price = Integer.parseInt(endFour);
 
@@ -831,14 +830,14 @@ public class PromotionResource {
 
 	/**
 	 * 洋書価格計算
-	 * 
+	 *
 	 * @param itemId
 	 * @return price
 	 */
 	private int foreignBook(String itemId) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("itemId", itemId);
-        
+
 		String[] item = itemId.split(" ");
 		int price = 0;
 		if (item[1].length() == 13) {
@@ -851,14 +850,14 @@ public class PromotionResource {
 
 	/**
 	 * 和書価格計算
-	 * 
+	 *
 	 * @param itemId
 	 * @return price
 	 */
 	private int janBook(String itemId) {
 	    String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("itemId", itemId);
-	    
+
 		String[] item = itemId.split(" ");
 		String topThree = item[1].substring(0, 3);
 		int price = 0;
@@ -871,10 +870,10 @@ public class PromotionResource {
 		tp.methodExit(price);
 		return price;
 	}
-	
+
 	/**
 	 * Get The MixMatch by Sku
-	 * 
+	 *
 	 * @param retailStoreId
 	 *            Store Number where the transaction is coming from
 	 * @param workStationId
@@ -991,7 +990,7 @@ public class PromotionResource {
 
 	/**
 	 * get remote serverInfo
-	 * 
+	 *
 	 * @param retailStoreId
 	 * @param pluCode
 	 * @param companyId
@@ -1035,7 +1034,7 @@ public class PromotionResource {
 
 	/***
 	 * Add ParaMeters to The URL
-	 * 
+	 *
 	 * @param url
 	 *            The remote url
 	 * @param json
@@ -1063,7 +1062,7 @@ public class PromotionResource {
 
 	/**
 	 * JSONObject to item
-	 * 
+	 *
 	 * @param json
 	 *            The data of the remote return
 	 * @return item
@@ -1243,7 +1242,7 @@ public class PromotionResource {
 	/**
 	 * Item update to an existing item in the transaction a.) requesting of
 	 * removing or adding quantity b.) Change of Item's Price.
-	 * 
+	 *
 	 * @param retailStoreId
 	 *            Store number where the transaction is coming from.
 	 * @param workStationId
@@ -1333,10 +1332,10 @@ public class PromotionResource {
 		}
 		return promotionResponse;
 	}
-	
+
 	/**
      * getQrCodeInfoList for requesting promotion information.
-     * 
+     *
      * @param companyId
      *            The companyId
      * @param retailStoreId
@@ -1347,7 +1346,7 @@ public class PromotionResource {
      *            The current transaction sequence number
      * @param businessDate
      *            The businessDate
-     * @param transaction     
+     * @param transaction
      *            The item Info and Operator Info XML
      * @return {@link Transaction}
      */
@@ -1377,7 +1376,7 @@ public class PromotionResource {
         int bitmapCount = 0;
         List<QrCodeInfo> qrCodeInfoListTemp = null;
         List<QrCodeInfo> qrCodeInfoList = null;
-        
+
         try {
             if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
                     businessDate)) {
@@ -1385,13 +1384,13 @@ public class PromotionResource {
                 tp.println("Parameter[s] is empty or null.");
                 return response;
             }
-            
+
             JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
             Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
-            
+
             // get valid data
             qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
-            
+
             int count = 0;
             if (qrCodeInfoListTemp == null || qrCodeInfoListTemp.size() < 1) {
                 response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -1408,13 +1407,13 @@ public class PromotionResource {
                     }
                 }
             }
-            
+
             // 最大印字枚数をパラメータに取得する
             String getMaxPrintNum = GlobalConstant.getMaxQRCodePrintNum();
             if (!StringUtility.isNullOrEmpty(getMaxPrintNum)){
                 maxPrintNum = Integer.parseInt(getMaxPrintNum);
             }
-            
+
             // 有効な企画コードを取得する
             boolean flag = true;
             for (int i = 0; i < count; i++) {
@@ -1434,7 +1433,7 @@ public class PromotionResource {
                     }
                 }
             }
-            
+
             response.setQrCodeInfoList(qrCodeInfoList);
         } catch (JsonParseException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
@@ -1453,17 +1452,17 @@ public class PromotionResource {
         }
         return response;
     }
-    
+
     /**
      * set valid data into map
-     * 
+     *
      * @param transactionIn
      * @return List<QrCodeInfo>
      */
     private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("Transaction", transactionIn);
-        
+
         String SexTypeIn = transactionIn.getCustomerClass().getSexType();
         boolean CustomerSexTypeInFlag = false;
         String CustomerSexTypeIn = null;
@@ -1473,12 +1472,12 @@ public class PromotionResource {
             CustomerSexTypeInFlag = true;
             CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
         }
-        
+
         List<ItemList> itemListIns = transactionIn.getItemList();
         List<ItemList> itemListOut = null;
         List<QrCodeInfo> qrCodeInfoListTemp = null;
         Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
-        
+
         for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
             if (CustomerSexTypeInFlag == true) {
                 if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
@@ -1489,7 +1488,7 @@ public class PromotionResource {
                     break;
                 }
             }
-            
+
             itemListOut = new ArrayList<ItemList>();
             switch (qrCodeInfo.getPromotionType()) {
             case PROMOTIONTYPE_ALL:
@@ -1509,7 +1508,7 @@ public class PromotionResource {
                 break;
             case PROMOTIONTYPE_DPT_CONN:
                 for (ItemList itemListIn : itemListIns) {
-                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt()) 
+                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt())
                             || StringUtility.isNullOrEmpty(itemListIn.getConnCode())) {
                         break;
                     }
@@ -1524,11 +1523,11 @@ public class PromotionResource {
                 break;
             case PROMOTIONTYPE_DPT_BRANDID:
                 for (ItemList itemListIn : itemListIns) {
-                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt()) 
+                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt())
                             || StringUtility.isNullOrEmpty(itemListIn.getBrandId())) {
                         break;
                     }
-                    if (itemListIn.getDpt().equals(qrCodeInfo.getDpt()) 
+                    if (itemListIn.getDpt().equals(qrCodeInfo.getDpt())
                             && itemListIn.getBrandId().equals(qrCodeInfo.getBrandId())) {
                         itemListOut.add(itemListIn);
                     }
@@ -1567,39 +1566,39 @@ public class PromotionResource {
                 break;
             }
         }
-        
+
         // get valid data from map
         if (qrItemMap.size() > 0) {
             qrCodeInfoListTemp = getQrCodeInfoListTemp(qrItemMap);
         }
-        
+
         tp.methodExit(qrCodeInfoListTemp);
         return qrCodeInfoListTemp;
     }
-    
+
     /**
      * get valid data from map
-     * 
+     *
      * @param qrItemMap
      * @return List<QrCodeInfo>
      */
     private List<QrCodeInfo> getQrCodeInfoListTemp(Map<String, List<ItemList>> qrItemMap) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("qrItemMap", qrItemMap);
-        
-        List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>(); 
-        
+
+        List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>();
+
         for (String promotionId : qrItemMap.keySet()) {
             for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
                 if (promotionId.equals(qrCodeInfo.getPromotionId())) {
                     int quanlitySum = 0;
                     int priceSum = 0;
-                    
+
                     for (ItemList item : qrItemMap.get(promotionId)) {
                         quanlitySum = quanlitySum + item.getQty();
                         priceSum = priceSum + item.getAmount();
                     }
-                    
+
                     switch (qrCodeInfo.getOutputType()) {
                     case OUTPUTTYPE_ONE:
                         qrCodeInfo.setQuanlitySum(1);
@@ -1614,11 +1613,11 @@ public class PromotionResource {
                         } else {
                             quanlitySum = 0;
                         }
-                        
+
                         qrCodeInfo.setQuanlitySum(quanlitySum);
                         break;
                     }
-                    
+
                     int minimumPrice = (int) Math.round(qrCodeInfo.getMinimumPrice());
                     if (priceSum >= minimumPrice && qrCodeInfo.getQuanlitySum() > 0) {
                         qrCodeInfoListTemp.add(qrCodeInfo);
@@ -1627,7 +1626,7 @@ public class PromotionResource {
                 }
             }
         }
-        
+
         tp.methodExit(qrCodeInfoListTemp);
         return qrCodeInfoListTemp;
     }

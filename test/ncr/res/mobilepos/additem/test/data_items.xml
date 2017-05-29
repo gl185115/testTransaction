@@ -779,6 +779,7 @@
 		<column>DptName</column>
 		<column>DptNameLocal</column>
 		<column>DptKanaName</column>
+		<column>DisplayOrder</column>
 		<column>Jigyobu</column>
 		<column>Gyoshu</column>
 		<column>Bumon</column>
@@ -825,6 +826,7 @@
 			<value></value>
 			<value>Ｌバラウッド</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>0</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -872,6 +874,7 @@
 			<value></value>
 			<value>Ｍバラウウッド</value>
 			<value>Mﾊﾞﾗｳｳｯﾄﾞ</value>
+			<value>1</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -919,6 +922,7 @@
 			<value></value>
 			<value>Ｍカジュアルシューズ</value>
 			<value>Mｶｼﾞｭｱﾙｼｭｰｽﾞ</value>
+			<value>2</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -966,6 +970,7 @@
 			<value></value>
 			<value>トレッキング小物</value>
 			<value>ﾄﾚｯｷﾝｸﾞｺﾓﾉ</value>
+			<value>3</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>

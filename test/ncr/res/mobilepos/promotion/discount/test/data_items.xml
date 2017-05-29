@@ -8363,6 +8363,7 @@
 		<column>DptName</column>
 		<column>DptNameLocal</column>
 		<column>DptKanaName</column>
+		<column>DisplayOrder</column>
 		<column>Jigyobu</column>
 		<column>Gyoshu</column>
 		<column>Bumon</column>
@@ -8410,6 +8411,7 @@
 			<null />
 			<value>MJROYAL BK465</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>0</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8457,6 +8459,7 @@
 			<null />
 			<value>MJROYAL BK465</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>1</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8504,6 +8507,7 @@
 			<null />
 			<value>MJROYAL BK465</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>2</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8552,6 +8556,7 @@
 			<null />
 			<value>Ｌバラウッド</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>3</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8599,6 +8604,7 @@
 			<null />
 			<value>Ｌバラウッド</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>4</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8647,6 +8653,7 @@
 			<null />
 			<value>Ｌバラウッド</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>5</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8695,6 +8702,7 @@
 			<null />
 			<value>Ｌバラウッド</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>6</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>
@@ -8742,6 +8750,7 @@
 			<null />
 			<null />
 			<null />
+			<value>7</value>
 			<value>00</value>
 			<value>0</value>
 			<value>0</value>

@@ -1,0 +1,23 @@
+Scenario: StoreId (0) only in the applicable tables
+Given a table MST_TENDERINFO_Scenario1.xml
+Given that tenderinfo service
+When I get tenderinfo of CompanyId:01 StoreId:0123 TenderType:1,2,5,6
+Then I should get the following json : {"message":"Success","JSONObject":"{\"1\":[{\"companyId\":\"01\",\"storeId\":\"0123\",\"tenderType\":\"1\",\"tenderId\":\"0101\",\"code\":\"0101\",\"label\":{\"ja\":\"è§ïiåîÇP\",\"en\":\"JCB\"},\"stampType\":\"1\",\"pointType\":\"1\",\"changeType\":\"1\",\"unitPrice\":\"0\",\"displayOrder\":\"0\"}]}","NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: StoreId (XXXX) and StoreId (0)
+Given a table MST_TENDERINFO_Scenario2.xml
+Given that tenderinfo service
+When I get tenderinfo of CompanyId:01 StoreId:0123 TenderType:1,2,5,6
+Then I should get the following json : {"message":"Success","JSONObject":"{\"1\":[{\"companyId\":\"01\",\"storeId\":\"0123\",\"tenderType\":\"1\",\"tenderId\":\"0102\",\"code\":\"0102\",\"label\":{\"ja\":\"è§ïiåîÇQ\",\"en\":\"UC\"},\"stampType\":\"1\",\"pointType\":\"1\",\"changeType\":\"1\",\"unitPrice\":\"0\",\"displayOrder\":\"0\"}]}","NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: StoreId (XXXX) only in the applicable tables
+Given a table MST_TENDERINFO_Scenario3.xml
+Given that tenderinfo service
+When I get tenderinfo of CompanyId:01 StoreId:0123 TenderType:1,2,5,6
+Then I should get the following json : {"message":"Success","JSONObject":"{\"1\":[{\"companyId\":\"01\",\"storeId\":\"0123\",\"tenderType\":\"1\",\"tenderId\":\"0103\",\"code\":\"0103\",\"label\":{\"ja\":\"è§ïiåîÇR\",\"en\":\"VISA\"},\"stampType\":\"1\",\"pointType\":\"1\",\"changeType\":\"1\",\"unitPrice\":\"0\",\"displayOrder\":\"0\"}]}","NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: NO actual/specific store id and common store id
+Given a table MST_TENDERINFO_Scenario4.xml
+Given that tenderinfo service
+When I get tenderinfo of CompanyId:01 StoreId:0123 TenderType:1,2,5,6
+Then I should get the following json : {"message":"No Rows Available","NCRWSSExtendedResultCode":157,"NCRWSSResultCode":157}

@@ -1,0 +1,23 @@
+Scenario: StoreId (0) only in the applicable tables
+Given a table MST_CUSTOMERCLASS_Scenario1.xml
+Given that customerclassinfo service
+When I get customerclassinfo of CompanyId:01 StoreId:0123
+Then I should get the following json : {"CustomerClassInfoList":[{"CompanyId":"01","StoreId":"0123","CustomerClassId":"01","CustomerClassName":"èóê´ÇPÇOë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: StoreId (XXXX) only in the applicable tables
+Given a table MST_CUSTOMERCLASS_Scenario2.xml
+Given that customerclassinfo service
+When I get customerclassinfo of CompanyId:01 StoreId:0123
+Then I should get the following json : {"CustomerClassInfoList":[{"CompanyId":"01","StoreId":"0123","CustomerClassId":"02","CustomerClassName":"èóê´2ÇOë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: StoreId (XXXX) or TerminalId(YYYY)
+Given a table MST_CUSTOMERCLASS_Scenario3.xml
+Given that customerclassinfo service
+When I get customerclassinfo of CompanyId:01 StoreId:0123
+Then I should get the following json : {"CustomerClassInfoList":[{"CompanyId":"01","StoreId":"0123","CustomerClassId":"01","CustomerClassName":"èóê´ÇPÇOë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: No common or specific StoreId
+Given a table MST_CUSTOMERCLASS_Scenario4.xml
+Given that customerclassinfo service
+When I get customerclassinfo of CompanyId:01 StoreId:0123
+Then I should get the following json : {"CustomerClassInfoList":[],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

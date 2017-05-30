@@ -85,7 +85,7 @@ public class SQLServerCustomerClassInfoDAO extends AbstractDao implements ICusto
 			while (result.next()) {
 				CustomerClassInfo customeClassInfo = new CustomerClassInfo();
 				customeClassInfo.setCompanyId(result.getString("CompanyId"));
-				customeClassInfo.setStoreId(result.getString("StoreId"));
+				customeClassInfo.setStoreId(storeId);
 				customeClassInfo.setId(result.getString("CustomerClassId"));
 				customeClassInfo.setName(result.getString("CustomerClassName"));
 				customeClassInfo.setKanaName(result.getString("CustomerClassKanaName"));

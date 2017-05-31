@@ -10056,6 +10056,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
     SELECT
       base.PointFlag,
       base.BasePrice,
+      base.BasePoint,
       base.RecordId,
       dept.BasePoint,
       dept.CardSettingFlag,
@@ -10121,6 +10122,9 @@ insert into RESTransaction.dbo.TXL_offline_credit
     base.PointType,
     base.BasePrice,
     base.RecordId,
+    base.BasePoint,
+    base.PointTender,
+    base.TenderSettingFlag,
     base.BasePointCash,
     base.BasePointAffiliate,
     base.BasePointNonAffiliate,
@@ -10148,6 +10152,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
     base.DptSettingFlag,
     base.TargetStoreType,
     pointcard.CardClassId,
+    tender.TenderId,
+    tender.TenderType,
     iteminfo.GroupTargetType,
     iteminfo.GroupIdStart,
     iteminfo.GroupIdEnd,
@@ -10168,18 +10174,32 @@ insert into RESTransaction.dbo.TXL_offline_credit
     RESMaster.dbo.MST_CAMPAIGN_ITEM_INFO iteminfo
   ON
     base.RecordId = iteminfo.RecordId
+    AND
+    base.CompanyId = iteminfo.CompanyId
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_ITEM_DETAIL itemdetail
   ON
     base.RecordId = itemdetail.RecordId
+    AND
+    base.CompanyId = itemdetail.CompanyId
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
   ON
     base.RecordId = pointcard.RecordId
+    AND
+    base.CompanyId = pointcard.CompanyId
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_STORE store
   ON
     base.RecordId = store.RecordId
+    AND
+    base.CompanyId = store.CompanyId
+  LEFT JOIN
+    RESMaster.dbo.MST_CAMPAIGN_TENDER tender
+  ON
+    base.RecordId = tender.RecordId
+    AND
+    base.CompanyId = tender.CompanyId
   WHERE
     base.CompanyId = @companyId
     AND
@@ -10209,7 +10229,10 @@ insert into RESTransaction.dbo.TXL_offline_credit
   SELECT
     base.PointType,
     base.BasePrice,
+    base.BasePoint,
     base.RecordId,
+    base.PointTender,
+    base.TenderSettingFlag,
     base.TargetDaySettingFlag,
     base.TargetDay1,
     base.TargetDay2,
@@ -10278,117 +10301,14 @@ insert into RESTransaction.dbo.TXL_offline_credit
   @businessDate date
 
   SET @companyId = ?
-  SET @storeId = ?
   SET @businessDate = ?
-  SET @cardClassId = ?
-  SET @bizCategoryId = '0000'
 
-  IF NOT EXISTS(
-    SELECT
-      RecordId
-    FROM
-      RESMaster.dbo.MST_POINT_INFO
-    WHERE
-      CompanyId = @companyId AND
-      TargetType = '3' AND StoreId = @storeId
-      AND CONVERT(DATE,@businessDate) >= StartDate)
-      BEGIN
-        IF NOT EXISTS(
-          SELECT
-            RecordId
-          FROM
-            RESMaster.dbo.MST_POINT_INFO
-          WHERE
-          CompanyId = @companyId AND
-          TargetType = '2' AND BizCatId = @bizCategoryId
-          AND CONVERT(DATE,@businessDate) >= StartDate)
-          BEGIN
-            SET @targetType = '1'
-            SET @bizCategoryId = '0000'
-            SET @storeId = '0000'
-          END
-        ELSE
-          BEGIN
-            SET @targetType = '2'
-            SET @storeId = '0000'
-          END
-      END
-      ELSE
-        BEGIN
-          SET @targetType = '3'
-        END
-  IF EXISTS(
-    SELECT
-      base.RecordId
-    FROM
-      RESMaster.dbo.MST_POINT_INFO base
-    LEFT JOIN
-      RESMaster.dbo.MST_POINT_CARD pointcard
-    ON
-      base.RecordId = pointcard.RecordId
-    WHERE
-      base.CompanyId = @companyId
-      AND
-      base.TargetType = @targetType
-      AND
-      base.BizCatId = @bizCategoryId
-      AND
-      base.StoreId = @storeId
-      AND
-      pointcard.CardClassId = @cardClassId
-      AND
-      CONVERT(DATE,@businessDate) >= base.StartDate
-      AND
-      base.DeleteFlag = 0.0
-      AND
-      base.CardSettingFlag = '1'
-      AND
-      base.DptSettingFlag = '0'
-      AND
-      base.RecordId = pointcard.RecordId)
-   SELECT
+    SELECT TOP 1
       base.PointFlag,
       base.BasePrice,
       base.RecordId,
-      pointcard.BasePointCash,
-      pointcard.BasePointAffiliate,
-      pointcard.BasePointNonAffiliate,
-      base.PointCalcType,
-      base.TaxCalcType,
-      base.RoundType,
-      base.CardSettingFlag,
-      base.DptSettingFlag
-    FROM
-      RESMaster.dbo.MST_POINT_INFO base
-    LEFT JOIN
-      RESMaster.dbo.MST_POINT_CARD pointcard
-    ON
-      base.RecordId = pointcard.RecordId
-    WHERE
-      base.CompanyId = @companyId
-      AND
-      base.TargetType = @targetType
-      AND
-      base.BizCatId = @bizCategoryId
-      AND
-      base.StoreId = @storeId
-      AND
-      pointcard.CardClassId = @cardClassId
-      AND
-      CONVERT(DATE,@businessDate) >= base.StartDate
-      AND
-      base.DeleteFlag = 0.0
-      AND
-      base.CardSettingFlag = '1'
-      AND
-      base.DptSettingFlag = '0'
-      AND
-      base.RecordId = pointcard.RecordId
-  ELSE
-    SELECT
-      base.PointFlag,
-      base.BasePrice,
-      base.RecordId,
+      base.BasePoint,
+      base.CashingUnit,
       base.BasePointCash,
       base.BasePointAffiliate,
       base.BasePointNonAffiliate,
@@ -10402,15 +10322,18 @@ insert into RESTransaction.dbo.TXL_offline_credit
     WHERE
       base.CompanyId = @companyId
       AND
-      base.TargetType = @targetType
+      base.TargetType = '1'
       AND
-      base.BizCatId = @bizCategoryId
+      (base.BizCatId = '0000' OR base.BizCatId = '0')
       AND
-      base.StoreId = @storeId
+      (base.StoreId = '0000' OR base.StoreId = '0')
       AND
       CONVERT(DATE,@businessDate) >= base.StartDate
       AND
+      base.PointFlag = '1'
+      AND
       base.DeleteFlag = 0.0
+    ORDER BY base.StartDate DESC
 </entry>
 <entry key="get-point-tran-rate-campaign">
   DECLARE
@@ -10451,7 +10374,9 @@ insert into RESTransaction.dbo.TXL_offline_credit
       SELECT
         base.PointType,
         base.BasePrice,
+        base.BasePoint,
         base.RecordId,
+        base.PointTender,
         base.CampaignName,
         base.TargetDaySettingFlag,
         base.TargetDay1,
@@ -10474,6 +10399,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
         pointcard.BasePointCash,
         pointcard.BasePointAffiliate,
         pointcard.BasePointNonAffiliate,
+        base.TenderSettingFlag,
         base.TargetStoreType,
         base.CardSettingFlag,
         base.DptSettingFlag,
@@ -10507,6 +10433,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
       base.PointType,
       base.BasePrice,
       base.RecordId,
+      base.BasePoint,
+      base.PointTender,
       base.CampaignName,
       base.TargetDaySettingFlag,
       base.TargetDay1,
@@ -10529,6 +10457,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
       base.BasePointCash,
       base.BasePointAffiliate,
       base.BasePointNonAffiliate,
+      base.TenderSettingFlag,
       base.TargetStoreType,
       base.CardSettingFlag,
       base.DptSettingFlag,

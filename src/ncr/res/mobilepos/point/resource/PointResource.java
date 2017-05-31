@@ -129,14 +129,12 @@ public class PointResource {
     public final PointRateResponse getTranPointRate(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
-    		@ApiParam(name="cardClassId", value="カード区分コード") @QueryParam("cardClassId") final String cardClassId) {
+    		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("storeId", storeId)
-            .println("businessDate", businessDate)
-            .println("cardClassId", cardClassId);
+            .println("businessDate", businessDate);
         PointRateResponse response = new PointRateResponse();
         List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
         
@@ -148,7 +146,7 @@ public class PointResource {
         
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
-            tranPointRateList = pointDao.getTranPointRate(companyId, storeId, businessDate, cardClassId);
+            tranPointRateList = pointDao.getTranPointRate(companyId, storeId, businessDate);
             response.setTranPointRateList(tranPointRateList);
         } catch (Exception e) {
             String loggerErrorCode = null;
@@ -166,8 +164,7 @@ public class PointResource {
             response.setNCRWSSResultCode(resultBaseErrorCode);
             LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
                     "Failed to get tran point rate companyId#" + companyId + ", "
-                    + "storeId#" + storeId + " and cardClassId#" + cardClassId + ": "
-                    + e.getMessage());
+                    + "storeId#" + storeId + ": " + e.getMessage());
         } finally {
             tp.methodExit(response.toString());
         }

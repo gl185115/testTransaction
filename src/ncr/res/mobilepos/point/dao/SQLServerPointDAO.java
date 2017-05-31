@@ -155,6 +155,8 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                     itemPointRate.setBasePrice(result2.getString("BasePrice"));
                     itemPointRate.setRecordId(result2.getString("RecordId"));
                     itemPointRate.setBasePoint(result2.getString("BasePoint"));
+                    itemPointRate.setPointTender(result2.getString("PointTender"));
+                    itemPointRate.setTenderSettingFlag(result2.getString("TenderSettingFlag"));
                     itemPointRate.setDptSettingFlag(result2.getString("DptSettingFlag"));
                     itemPointRate.setItemSettingFlag(result2.getString("ItemSettingFlag"));
                     itemPointRate.setCardSettingFlag(result2.getString("CardSettingFlag"));
@@ -209,7 +211,11 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                         itemPointRate.setPointFlag("1");
                         itemPointRate.setBasePrice(result3.getString("BasePrice"));
                         itemPointRate.setRecordId(result3.getString("RecordId"));
-                        itemPointRate.setBasePoint("0");
+                        itemPointRate.setBasePoint(result3.getString("BasePoint"));
+                        itemPointRate.setPointTender(result3.getString("PointTender"));
+                        itemPointRate.setTenderSettingFlag(result3.getString("TenderSettingFlag"));
+                        itemPointRate.setTenderType(result3.getString("TenderType"));
+                        itemPointRate.setTenderId(result3.getString("TenderId"));
                         itemPointRate.setBasePointCash(result3.getString("BasePointCash"));
                         itemPointRate.setBasePointAffiliate(result3.getString("BasePointAffiliate"));
                         itemPointRate.setBasePointNonAffiliate(result3.getString("BasePointNonAffiliate"));
@@ -235,13 +241,12 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     }
 
     @Override
-    public List<TranPointRate> getTranPointRate(String companyId, String storeId,  String businessdate, String cardclassid) throws Exception {
+    public List<TranPointRate> getTranPointRate(String companyId, String storeId,  String businessdate) throws Exception {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)
             .println("storeId", storeId)
-            .println("businessDate", businessdate)
-            .println("cardClassId", cardclassid);
+            .println("businessDate", businessdate);
         
         Connection connection = null;
         PreparedStatement statement = null;
@@ -254,9 +259,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             statement = connection.prepareStatement(
                         sqlStatement.getProperty("get-point-tran-rate"));
             statement.setString(SQLStatement.PARAM1, companyId);
-            statement.setString(SQLStatement.PARAM2, storeId);
-            statement.setString(SQLStatement.PARAM3, businessdate);
-            statement.setString(SQLStatement.PARAM4, cardclassid);
+            statement.setString(SQLStatement.PARAM2, businessdate);
 
             result = statement.executeQuery();
             while(result.next())  {
@@ -266,6 +269,8 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                 tranPointRate.setStoreId(storeId);
                 tranPointRate.setPointFlag(result.getString("PointFlag"));
                 tranPointRate.setBasePrice(result.getString("BasePrice"));
+                tranPointRate.setBasePoint(result.getString("BasePoint"));
+                tranPointRate.setCashingUnit(result.getString("CashingUnit"));
                 tranPointRate.setRecordId(result.getString("RecordId"));
                 tranPointRate.setBasePointCash(result.getString("BasePointCash"));
                 tranPointRate.setBasePointAffiliate(result.getString("BasePointAffiliate"));
@@ -287,53 +292,54 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             tp.methodExit(tranPointRateList);
         }
     	
-        Connection connection2 = null;
-        PreparedStatement statement2 = null;
-        ResultSet result2 = null;
+        // Connection connection2 = null;
+        // PreparedStatement statement2 = null;
+        // ResultSet result2 = null;
 
-        try {
-            connection2 = dbManager.getConnection();
-            SQLStatement sqlStatement2 = SQLStatement.getInstance();
-            statement2 = connection2.prepareStatement(
-                        sqlStatement2.getProperty("get-point-tran-rate-campaign"));
-            statement2.setString(SQLStatement.PARAM1, companyId);
-            statement2.setString(SQLStatement.PARAM2, storeId);
-            statement2.setString(SQLStatement.PARAM3, businessdate);
-            statement2.setString(SQLStatement.PARAM4, cardclassid);
-            result2 = statement2.executeQuery();
-            while(result2.next())  {
-                if (IsCampaignEnabled(businessdate,
-                result2.getString("TargetDaySettingFlag"), result2.getString("TargetDay1"), result2.getString("TargetDay2"),
-                result2.getString("TargetDay3"), result2.getString("TargetDay4"), result2.getString("TargetDay5"),
-                result2.getString("TargetDay6"), result2.getString("TargetDay7"), result2.getString("TargetDay8"), result2.getString("TargetDay9"),
-                result2.getString("DayOfWeekSettingFlag"), result2.getString("DayOfWeekMonFlag"), result2.getString("DayOfWeekTueFlag"),
-                result2.getString("DayOfWeekWedFlag"), result2.getString("DayOfWeekThuFlag"), result2.getString("DayOfWeekFriFlag"),
-                result2.getString("DayOfWeekSatFlag"), result2.getString("DayOfWeekSunFlag"))) {
-                    TranPointRate tranPointRate = new TranPointRate();
-                    tranPointRate.setType("1");
-                    tranPointRate.setCompanyId(companyId);
-                    tranPointRate.setStoreId(storeId);
-                    tranPointRate.setBasePrice(result2.getString("BasePrice"));
-                    tranPointRate.setRecordId(result2.getString("RecordId"));
-                    tranPointRate.setBasePointCash(result2.getString("BasePointCash"));
-                    tranPointRate.setBasePointAffiliate(result2.getString("BasePointAffiliate"));
-                    tranPointRate.setBasePointNonAffiliate(result2.getString("BasePointNonAffiliate"));
-                    tranPointRate.setCardSettingFlag(result2.getString("CardSettingFlag"));
-                    tranPointRate.setDptSettingFlag(result2.getString("DptSettingFlag"));
-                    tranPointRate.setItemSettingFlag(result2.getString("ItemSettingFlag"));
-                    tranPointRate.setTargetStoreType(result2.getString("TargetStoreType"));
-                    tranPointRateList.add(tranPointRate);
-                }
-            }
-        } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get tran point rate2.", e);
-            throw new Exception("SQLException: @SQLServerPointDAO."
-                    + functionName, e);
-        } finally {
-            closeConnectionObjects(connection2, statement2, result2);
-            tp.methodExit(tranPointRateList);
-        }
+        // try {
+        //     connection2 = dbManager.getConnection();
+        //     SQLStatement sqlStatement2 = SQLStatement.getInstance();
+        //     statement2 = connection2.prepareStatement(
+        //                 sqlStatement2.getProperty("get-point-tran-rate-campaign"));
+        //     statement2.setString(SQLStatement.PARAM1, companyId);
+        //     statement2.setString(SQLStatement.PARAM2, storeId);
+        //     statement2.setString(SQLStatement.PARAM3, businessdate);
+        //     statement2.setString(SQLStatement.PARAM4, cardclassid);
+        //     result2 = statement2.executeQuery();
+        //     while(result2.next())  {
+        //         if (IsCampaignEnabled(businessdate,
+        //         result2.getString("TargetDaySettingFlag"), result2.getString("TargetDay1"), result2.getString("TargetDay2"),
+        //         result2.getString("TargetDay3"), result2.getString("TargetDay4"), result2.getString("TargetDay5"),
+        //         result2.getString("TargetDay6"), result2.getString("TargetDay7"), result2.getString("TargetDay8"), result2.getString("TargetDay9"),
+        //         result2.getString("DayOfWeekSettingFlag"), result2.getString("DayOfWeekMonFlag"), result2.getString("DayOfWeekTueFlag"),
+        //         result2.getString("DayOfWeekWedFlag"), result2.getString("DayOfWeekThuFlag"), result2.getString("DayOfWeekFriFlag"),
+        //         result2.getString("DayOfWeekSatFlag"), result2.getString("DayOfWeekSunFlag"))) {
+        //             TranPointRate tranPointRate = new TranPointRate();
+        //             tranPointRate.setType("1");
+        //             tranPointRate.setCompanyId(companyId);
+        //             tranPointRate.setStoreId(storeId);
+        //             tranPointRate.setBasePrice(result2.getString("BasePrice"));
+        //             tranPointRate.setBasePoint(result2.getString("BasePoint"));
+        //             tranPointRate.setRecordId(result2.getString("RecordId"));
+        //             tranPointRate.setBasePointCash(result2.getString("BasePointCash"));
+        //             tranPointRate.setBasePointAffiliate(result2.getString("BasePointAffiliate"));
+        //             tranPointRate.setBasePointNonAffiliate(result2.getString("BasePointNonAffiliate"));
+        //             tranPointRate.setCardSettingFlag(result2.getString("CardSettingFlag"));
+        //             tranPointRate.setDptSettingFlag(result2.getString("DptSettingFlag"));
+        //             tranPointRate.setItemSettingFlag(result2.getString("ItemSettingFlag"));
+        //             tranPointRate.setTargetStoreType(result2.getString("TargetStoreType"));
+        //             tranPointRateList.add(tranPointRate);
+        //         }
+        //     }
+        // } catch (Exception e) {
+        //     LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+        //             + ": Failed to get tran point rate2.", e);
+        //     throw new Exception("SQLException: @SQLServerPointDAO."
+        //             + functionName, e);
+        // } finally {
+        //     closeConnectionObjects(connection2, statement2, result2);
+        //     tp.methodExit(tranPointRateList);
+        // }
         return tranPointRateList;
     }
 

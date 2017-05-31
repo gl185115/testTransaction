@@ -9,13 +9,13 @@ import javax.xml.bind.annotation.XmlRootElement;
  * Xeb Member Points Info Model Object.
  *
  * <P>
- * A KinopMemberInfo Node in POSLog XML.
+ * A MemberInfoDetail Node in POSLog XML.
  *
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "KinopMemberInfo")
-public class KinopMemberInfo {
+@XmlRootElement(name = "MemberInfoDetail")
+public class MemberInfoDetail {
     /**
      * The private variable that will hold the MemberCode
      */

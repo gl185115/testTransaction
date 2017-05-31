@@ -466,6 +466,11 @@ public class PromotionResource {
 					if (item == null) {
 						if (twoStep && barcode_sec.length() == 4) {
 							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
+						} else {
+							// バーコード価格を使用
+							double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+							saleOut.setRegularSalesUnitPrice(barCodePrice);
+							saleOut.setActualSalesUnitPrice(barCodePrice);
 						}
 						// 部門情報を戻る
 						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
@@ -482,11 +487,6 @@ public class PromotionResource {
 						saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
 
 						saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
-
-						// バーコード価格を使用
-						double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-						saleOut.setRegularSalesUnitPrice(barCodePrice);
-						saleOut.setActualSalesUnitPrice(barCodePrice);
 
 						saleOut.setItemId(twoStep ? barcode_fst : itemId);
 						saleOut.setDepartment(dptCode);

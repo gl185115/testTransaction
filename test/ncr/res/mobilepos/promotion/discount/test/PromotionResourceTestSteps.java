@@ -565,6 +565,30 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the Dpt row ", ""
 					+ sale.getDepartment(),
 					is(equalTo(expecedItem.get("Dpt"))));
+			assertThat("Compare the Md11 row ", ""
+					+ sale.getMd11(),
+					is(equalTo(expecedItem.get("Md11"))));
+			assertThat("Compare the Md12 row ", ""
+					+ sale.getMd12(),
+					is(equalTo(expecedItem.get("Md12"))));
+			assertThat("Compare the Md13 row ", ""
+					+ sale.getMd13(),
+					is(equalTo(expecedItem.get("Md13"))));
+			 assertThat("Compare the TaxRate row ", ""
+						+ sale.getTaxRate(),
+						is(equalTo(expecedItem.get("TaxRate"))));
+			assertThat("Compare the NonSales row ", ""
+					+ sale.getNonSales(),
+					is(equalTo(expecedItem.get("NonSales"))));
+			assertThat("Compare the DiscountType row ", ""
+					+ sale.getDiscountType(),
+					is(equalTo(expecedItem.get("DiscountType"))));
+			assertThat("Compare the RegularSalesUnitPrice row ", ""
+					+ sale.getRegularSalesUnitPrice(),
+					is(equalTo(expecedItem.get("RegularSalesPrice"))));
+			assertThat("Compare the ActualSalesUnitPrice row ", ""
+					+ sale.getActualSalesUnitPrice(),
+					is(equalTo(expecedItem.get("ActualSalesPrice"))));
 		}
 	}
 	//2017/04/17 add end by kl

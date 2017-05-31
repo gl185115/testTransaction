@@ -135,8 +135,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 2
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|
-|Ｌバラウッド|Ｌバラウッド|0|9784923456789|0397|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|
+|Ｌバラウッド|Ｌバラウッド|0|9784923456789|0397|0|0|1|0|0|0|0.0|0.0|
 
 Scenario: The two section id four below(Department number is empty)
 Given ItemCode.xml file exist
@@ -162,8 +162,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|
-|Ｌバラウッド|Ｌバラウッド|0|9784987654321|0397|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|
+|Ｌバラウッド|Ｌバラウッド|0|9784987654321|0397|0|0|1|0|0|0|55135.0|55135.0|
 
 Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janBook)
 Given ItemCode.xml file exist
@@ -205,8 +205,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|
-|MJROYAL BK465|MJROYAL BK465|5|9783987654321|0166|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|
+|MJROYAL BK465|MJROYAL BK465|5|9783987654321|0166|0|0|1|0|0|0|56789.0|56789.0|
 
 Scenario: Department number is empty String(foreignBook)
 Given ItemCode.xml file exist
@@ -307,8 +307,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|
-|Ｌバラウッド|Ｌバラウッド|0|491223636212345678|0397|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|
+|Ｌバラウッド|Ｌバラウッド|0|491223636212345678|0397|0|0|1|0|0|0|5678.0|5678.0|
 
 !-- Test Item Entry with FOREIGNMAGAZINE.
 Scenario: get the new itemId with CDCalculation
@@ -473,8 +473,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|
-|Ｌバラウッド|Ｌバラウッド|0|40223456780027|3970|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|
+|Ｌバラウッド|Ｌバラウッド|0|40223456780027|3970|0|0|1|0|0|0|0.0|0.0|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist

@@ -36,10 +36,10 @@ Then result should be :
 |‚kƒoƒ‰ƒEƒbƒh           |0       |10000.0          |10000.0         |‚kƒoƒ‰ƒEƒbƒh            |
 
 Scenario: Item Entry with ForeignJanBook(Not exist in MST_PLU)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0251092187546 1984963205000","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 801
-!-- Then the Extended Result Code is 801
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0251092187546 1984963205000","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 801
+Then the Extended Result Code is 801
 
 Scenario: Item Entry with ForeignJanBook(DptCode not exist)
 Given ItemCode.xml file exist
@@ -72,17 +72,11 @@ Then result should be :
 |MdNameLocal |TaxType |RegularSalesPrice|ActualSalesPrice|description|
 |‚kƒoƒ‰ƒEƒbƒh           |0       |456.0            |456.0           |‚kƒoƒ‰ƒEƒbƒh         |
 
-Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU, when operatorType = 5 ,to emergency status)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":5,"Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 116
-
-Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU, when operatorType != 5 ,to error status)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":2,"Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 801
-!-- Then the Extended Result Code is 801
+Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU, to error status)
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":2,"Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 801
+Then the Extended Result Code is 801
 
 Scenario: Item Entry with KINOKUNIYA(DptCode not exist)
 Given ItemCode.xml file exist
@@ -115,17 +109,11 @@ Then result should be :
 |MdNameLocal  	    |TaxType |RegularSalesPrice|ActualSalesPrice|description |
 |‚kƒoƒ‰ƒEƒbƒh                           |0       |6360.0           |6360.0          |‚kƒoƒ‰ƒEƒbƒh           |
 
-Scenario: Item Entry with JANSALES(Not exist in MST_PLU, when operatorType = 5 ,to emergency status)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":5,"Sale":{"ItemEntryID":1,"ItemID":"18134556","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 116
-
-Scenario: Item Entry with JANSALES(Not exist in MST_PLU, when operatorType != 5 ,to error status)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":1,"Sale":{"ItemEntryID":1,"ItemID":"18134556","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 801
-!-- Then the Extended Result Code is 801
+Scenario: Item Entry with JANSALES(Not exist in MST_PLU, to error status)
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":1,"Sale":{"ItemEntryID":1,"ItemID":"18134556","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 801
+Then the Extended Result Code is 801
 
 Scenario: Item Entry with JANSALES(DptCode not exist)
 Given ItemCode.xml file exist
@@ -142,19 +130,19 @@ Then result should be :
 |10000.0       	  |10000.0  	   |0      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
 
 Scenario: The two section id four below and item is null
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784923456789 0026","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 2
-!-- Then dptResult should be :
-!-- |DptName|MdNameLocal|TaxType|ItemId|Dpt|
-!-- |‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|9784923456789|0397|
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784923456789 0026","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 2
+Then dptResult should be :
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|
+|‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|9784923456789|0397|
 
 Scenario: The two section id four below(Department number is empty)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784923456789 0038","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Extended Result Code is 180
-!-- Then the Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784923456789 0038","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Department number is empty String(janBook)
 Given ItemCode.xml file exist
@@ -163,19 +151,19 @@ Then the Extended Result Code is 801
 Then the Result Code is 801
 
 Scenario: No corresponding department number(janBook)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784987654321 1910039567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Extended Result Code is 180
-!-- Then the Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784987654321 1910039567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Plu no corresponding commodity(janBook)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784987654321 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 0
-!-- Then dptResult should be :
-!-- |DptName|MdNameLocal|TaxType|ItemId|Dpt|
-!-- |‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|9784987654321|0397|
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784987654321 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 0
+Then dptResult should be :
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|
+|‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|9784987654321|0397|
 
 Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janBook)
 Given ItemCode.xml file exist
@@ -206,19 +194,19 @@ Then result should be :
 |10000.0  	      |10000.0  	   |5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
 
 Scenario: No corresponding department number(foreignBook)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910038567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Extended Result Code is 180
-!-- Then the Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910038567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Plu no corresponding commodity(foreignBook)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 0
-!-- Then dptResult should be :
-!-- |DptName|MdNameLocal|TaxType|ItemId|Dpt|
-!-- |MJROYAL BK465|MJROYAL BK465|5|9783987654321|0166|
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 0
+Then dptResult should be :
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|
+|MJROYAL BK465|MJROYAL BK465|5|9783987654321|0166|
 
 Scenario: Department number is empty String(foreignBook)
 Given ItemCode.xml file exist
@@ -227,16 +215,16 @@ Then the Extended Result Code is 801
 Then the Result Code is 801
 
 Scenario: No corresponding department number and Transformation code id 0000(foreignBook)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910000567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Extended Result Code is 180
-!-- Then the Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910000567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: No corresponding department number and Transformation code id 0403(foreignBook)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910403567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Extended Result Code is 180
-!-- Then the Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783987654321 1910403567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(foreignBook)
 Given ItemCode.xml file exist
@@ -250,7 +238,7 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456780 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
 |RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal   |description  |
-|56789.0  	      |56789.0  	   |5      |MJROYAL BK465 |MJROYAL BK465|
+|56789.0  	      |56789.0  	   |0      |MJROYAL BK465 |MJROYAL BK465|
 
 Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (foreignBook)
 Given ItemCode.xml file exist
@@ -274,10 +262,10 @@ Then result should be :
 |10000.0  	      |10000.0  	   |5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
 
 Scenario: No corresponding department number(janMagazine)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636112345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Extended Result Code is 180
-!-- Then the Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491233636112345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Extended Result Code is 180
+Then the Result Code is 180
 
 Scenario: Department number is empty String(janMagazine)
 Given ItemCode.xml file exist
@@ -314,13 +302,13 @@ Then result should be :
 |10000.0  	      |10000.0  	   |5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|
 
 Scenario: Plu no corresponding commodity(janMagazine)
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636212345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 0
-!-- Then dptResult should be :
-!-- |DptName|MdNameLocal|TaxType|ItemId|Dpt|
-!-- |‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|491223636212345678|0397|
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636212345678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 0
+Then dptResult should be :
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|
+|‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|491223636212345678|0397|
 
 !-- Test Item Entry with FOREIGNMAGAZINE.
 Scenario: get the new itemId with CDCalculation
@@ -331,10 +319,10 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 
 Scenario: can't get the new itemId from PLU
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0402234560161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 180
-!-- Then the Extended Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0402234560161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 180
+Then the Extended Result Code is 180
 
 Scenario: The Dpt is empty when we can find the info in PLU
 Given ItemCode.xml file exist
@@ -396,10 +384,10 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 
 Scenario: can't get the new itemId from PLU
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30223456780027","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 180
-!-- Then the Extended Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30223456780027","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 180
+Then the Extended Result Code is 180
 
 Scenario: The Dpt is empty when we can find the info in PLU
 Given ItemCode.xml file exist
@@ -468,10 +456,10 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 
 Scenario: can't get the new itemId from PLU
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40223456780028","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
-!-- Then the Result Code is 180
-!-- Then the Extended Result Code is 180
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40223456780028","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 180
+Then the Extended Result Code is 180
 
 Scenario: The Dpt is empty when we can find the info in PLU
 Given ItemCode.xml file exist
@@ -480,13 +468,13 @@ Then the Result Code is 801
 Then the Extended Result Code is 801
 
 Scenario: get the codeTemp from CCODEINFO
-!-- Given ItemCode.xml file exist
-!-- When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40223456780027","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 02 Businessdate 2016-08-16
-!-- Then the Result Code is 0
-!-- Then the Extended Result Code is 0
-!-- Then dptResult should be :
-!-- |DptName|MdNameLocal|TaxType|ItemId|Dpt|
-!-- |‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|40223456780027|3970|
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40223456780027","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 02 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 0
+Then dptResult should be :
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|
+|‚kƒoƒ‰ƒEƒbƒh|‚kƒoƒ‰ƒEƒbƒh|0|40223456780027|3970|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist

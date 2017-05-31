@@ -434,8 +434,6 @@ public class PromotionResource {
 					} catch (Exception e) {
 						LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
 								functionName + ": Failed to send item entry.", e);
-						response.setNCRWSSResultCode(0);
-						throw new Exception("0");
 					}
 				} else {
 					item = searchedProd.getItem();
@@ -593,24 +591,18 @@ public class PromotionResource {
 	    String codeTemp = null;
         String dpt = null;
         String barcode_sec = null;
-        boolean itemFlag = true;
 
         // 二段バーコード判断
         if (itemId.contains(" ")) {
             barcode_sec = itemId.split(" ")[1];
         }
-
-        if (item != null) {
-            dpt = item.getDepartment();
-            if (item.getRegularSalesUnitPrice() > 0.0) {
-                itemFlag = false;
-            }
-        }
+        
+        dpt = (item == null) ? null : item.getDepartment();
 
         // 部門コードを取得する
         switch (varietiesName) {
         case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
-            if(itemFlag){
+            if(dpt == null){
                 String cCode = "";
                 if (barcode_sec.length() > 7) {
                     cCode = barcode_sec.substring(3, 7);
@@ -628,7 +620,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
-            if(itemFlag){
+            if(dpt == null){
                 codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -640,7 +632,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
-            if(itemFlag){
+            if(dpt == null){
                 codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(0, 5));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -652,7 +644,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
-            if(itemFlag){
+            if(dpt == null){
                 String jaCode = "";
                 if (barcode_sec.length() > 7) {
                     jaCode = barcode_sec.substring(3, 7);
@@ -670,7 +662,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
-            if(itemFlag){
+            if(dpt == null){
                 codeTemp = JaCodeCvt(itemId.substring(10, 14));
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -682,7 +674,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
-            if (StringUtility.isNullOrEmpty(dpt) || itemFlag) {
+            if (StringUtility.isNullOrEmpty(dpt)) {
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Not found in the PLU.");
@@ -692,7 +684,7 @@ public class PromotionResource {
             }
             break;
         case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
-            if(itemFlag){
+            if(dpt == null){
                 codeTemp = "0161";
             } else if(StringUtility.isEmpty(dpt)){
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -707,7 +699,7 @@ public class PromotionResource {
         case BarcodeAssignmentConstant.VARIETIES_JANSALES:
         case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD1:
         case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD2:
-            if (StringUtility.isNullOrEmpty(dpt) || itemFlag) {
+            if (StringUtility.isNullOrEmpty(dpt) || !(item.getRegularSalesUnitPrice() > 0.0)) {
                 response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 response.setMessage("Not found in the PLU.");

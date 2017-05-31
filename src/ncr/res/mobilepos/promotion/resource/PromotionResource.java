@@ -108,19 +108,19 @@ public class PromotionResource {
 	 */
 	private static final String PROG_NAME = "Prom";
 
-    private final BarcodeAssignment barcodeAssignment;
+	private final BarcodeAssignment barcodeAssignment;
 
-    private final List<QrCodeInfo> qrCodeInfoList;
+	private final List<QrCodeInfo> qrCodeInfoList;
 
-    public static final String PROMOTIONTYPE_ALL = "1";
-    public static final String PROMOTIONTYPE_DPT = "2";
-    public static final String PROMOTIONTYPE_DPT_CONN = "3";
-    public static final String PROMOTIONTYPE_DPT_BRANDID = "4";
-    public static final String PROMOTIONTYPE_LINE = "5";
-    public static final String PROMOTIONTYPE_ITEMCODE = "6";
-    public static final String OUTPUTTYPE_ONE = "1";
-    public static final String OUTPUTTYPE_TWO = "2";
-    public static final String OUTPUTTYPE_THREE = "3";
+	public static final String PROMOTIONTYPE_ALL = "1";
+	public static final String PROMOTIONTYPE_DPT = "2";
+	public static final String PROMOTIONTYPE_DPT_CONN = "3";
+	public static final String PROMOTIONTYPE_DPT_BRANDID = "4";
+	public static final String PROMOTIONTYPE_LINE = "5";
+	public static final String PROMOTIONTYPE_ITEMCODE = "6";
+	public static final String OUTPUTTYPE_ONE = "1";
+	public static final String OUTPUTTYPE_TWO = "2";
+	public static final String OUTPUTTYPE_THREE = "3";
 
 	/**
 	 * Default Constructor for PromotionResource.
@@ -138,7 +138,7 @@ public class PromotionResource {
 	 * The Begin Transaction for Promotion.
 	 *
 	 * @param retailStoreId
-	 *            The Retail Store ID.
+	 *	        The Retail Store ID.
 	 * @param workStationId
 	 *            The Workstation ID.
 	 * @param sequenceNo
@@ -390,8 +390,8 @@ public class PromotionResource {
 					twoStep = Boolean.parseBoolean(ResultBase.FALSE);
 				}
 
-                // 品目名を取得する
-                String varietiesName = BarcodeAssignmentUtility.getBarcodeAssignmentItemId(itemId, barcodeAssignment);
+				// 品目名を取得する
+				String varietiesName = BarcodeAssignmentUtility.getBarcodeAssignmentItemId(itemId, barcodeAssignment);
 
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
@@ -404,22 +404,22 @@ public class PromotionResource {
 				if (twoStep){
 					itemIdTemp = barcode_fst;
 				} else if (BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) ||
-				        BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
+						BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
 					itemIdTemp = CDCalculation(itemId);
 				} else if (BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE.equals(varietiesName)){
-                    itemIdTemp = itemId.substring(0, 13);
-                } else {
+					itemIdTemp = itemId.substring(0, 13);
+				} else {
 					itemIdTemp = itemId;
 				}
 
 				SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId,
 						businessDate); // 各種割引情報を含めた商品情報
 				if (searchedProd == null || (searchedProd != null && searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK)) {
-	                if (!"0".equals(retailStoreId)) {
-	                    searchedProd = itemResource.getItemByPLUcode(commonStoreID, itemIdTemp, companyId,
-	                            businessDate); // 共通店番号(0)で検索
-	                }
-	            }
+					if (!"0".equals(retailStoreId)) {
+						searchedProd = itemResource.getItemByPLUcode(commonStoreID, itemIdTemp, companyId,
+								businessDate); // 共通店番号(0)で検索
+					}
+				}
 
 				Item item = null;
 				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK) {
@@ -427,10 +427,10 @@ public class PromotionResource {
 					try {
 						item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
 						if (item == null) {
-		                    if (!"0".equals(retailStoreId)) {
-		                        item = getdetailInfoData(commonStoreID, itemIdTemp, companyId, businessDate);// 共通店番号(0)で検索
-		                    }
-		                }
+							if (!"0".equals(retailStoreId)) {
+								item = getdetailInfoData(commonStoreID, itemIdTemp, companyId, businessDate);// 共通店番号(0)で検索
+							}
+						}
 					} catch (Exception e) {
 						LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
 								functionName + ": Failed to send item entry.", e);
@@ -440,62 +440,62 @@ public class PromotionResource {
 				}
 
 				// 部門コードを取得する
-                codeTemp = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,response,item);
+				codeTemp = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,response,item);
 
-                // 商品マスタから取得失敗の場合
-                if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
-                    return response;
-                }
+				// 商品マスタから取得失敗の場合
+				if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
+					return response;
+				}
 
-                // 部門コードを部門マスタテーブルに存在チェック
-                departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
-                if (departmentInfo == null) {
-                    if (!"0".equals(retailStoreId)) {
-                        departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp, retailStoreId);// 共通店番号(0)で検索
-                    }
-                }
+				// 部門コードを部門マスタテーブルに存在チェック
+				departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
+				if (departmentInfo == null) {
+					if (!"0".equals(retailStoreId)) {
+						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp, retailStoreId);// 共通店番号(0)で検索
+					}
+				}
 
-                dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
-                if (StringUtility.isNullOrEmpty(dptCode)) {
-                  response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-                  response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-                  response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
-                  tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
-                  return response;
-                } else {
-                    if (item == null) {
-                        if (twoStep && barcode_sec.length() == 4) {
-                            response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
-                        }
-                        // 部門情報を戻る
-                        String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
-                        String taxType = departmentInfo.getDepartment().getTaxType();
-                        saleOut.setMdNameLocal(dptName);
-                        saleOut.setTaxType(Integer.parseInt(taxType));
-                        saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
-                        saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
-                        saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
+				dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+				if (StringUtility.isNullOrEmpty(dptCode)) {
+					response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+					response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+					response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
+					tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
+					return response;
+				} else {
+					if (item == null) {
+						if (twoStep && barcode_sec.length() == 4) {
+							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
+						}
+						// 部門情報を戻る
+						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
+						String taxType = departmentInfo.getDepartment().getTaxType();
+						saleOut.setMdNameLocal(dptName);
+						saleOut.setTaxType(Integer.parseInt(taxType));
+						saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
+						saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
+						saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
 
-                        String taxRate = departmentInfo.getDepartment().getTaxRate();
-                        saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
+						String taxRate = departmentInfo.getDepartment().getTaxRate();
+						saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
 
-                        saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
+						saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
 
-                        saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
+						saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
 
-                        // バーコード価格を使用
-                        double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-                        saleOut.setRegularSalesUnitPrice(barCodePrice);
-                        saleOut.setActualSalesUnitPrice(barCodePrice);
+						// バーコード価格を使用
+						double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+						saleOut.setRegularSalesUnitPrice(barCodePrice);
+						saleOut.setActualSalesUnitPrice(barCodePrice);
 
-                        saleOut.setItemId(twoStep ? barcode_fst : itemId);
-                        saleOut.setDepartment(dptCode);
-                        transactionOut.setSale(saleOut);
-                        response.setDepartmentName(dptName);
-                        response.setTransaction(transactionOut);
-                        return response;
-                    }
-                }
+						saleOut.setItemId(twoStep ? barcode_fst : itemId);
+						saleOut.setDepartment(dptCode);
+						transactionOut.setSale(saleOut);
+						response.setDepartmentName(dptName);
+						response.setTransaction(transactionOut);
+						return response;
+					}
+				}
 
 				info.setTruePrice(item.getRegularSalesUnitPrice());
 				Promotion promotion = new Promotion();
@@ -523,15 +523,15 @@ public class PromotionResource {
 
 				// バーコード価格を使用
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
-				    double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-				    saleItem.setRegularSalesUnitPrice(barCodePrice);
-		            saleItem.setActualSalesUnitPrice(barCodePrice);
-		            String taxType = departmentInfo.getDepartment().getTaxType();
-		            saleItem.setTaxType(Integer.parseInt(taxType));
+					double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+					saleItem.setRegularSalesUnitPrice(barCodePrice);
+					saleItem.setActualSalesUnitPrice(barCodePrice);
+					String taxType = departmentInfo.getDepartment().getTaxType();
+					saleItem.setTaxType(Integer.parseInt(taxType));
 				}
 
 				if (discounttype == null) {
-				    discounttype = departmentInfo.getDepartment().getDiscountType();
+					discounttype = departmentInfo.getDepartment().getDiscountType();
 				}
 				saleItem.setDiscountType(discounttype);
 				boolean flag = ("0".equals(discounttype));
@@ -569,195 +569,195 @@ public class PromotionResource {
 	}
 
 	/**
-     * 部門コードを取得する
-     *
-     * @param codeCvtDAO
-     * @param dao
-     * @param itemId
-     * @param varietiesName
-     * @param companyId
-     * @param operatorType
-     * @param response
-     * @return codeTemp
+	 * 部門コードを取得する
+	 *
+	 * @param codeCvtDAO
+	 * @param dao
+	 * @param itemId
+	 * @param varietiesName
+	 * @param companyId
+	 * @param operatorType
+	 * @param response
+	 * @return codeTemp
 	 * @throws DaoException
-     */
+	 */
 	private String getDptCode(ICodeConvertDAO codeCvtDAO,String itemId,String varietiesName,
-	        String companyId,PromotionResponse response,Item item) throws DaoException {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("itemId", itemId)
-		    .println("varietiesName", varietiesName).println("companyId", companyId)
-		    .println("response", response).println("item", item);
+			String companyId,PromotionResponse response,Item item) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("itemId", itemId)
+			.println("varietiesName", varietiesName).println("companyId", companyId)
+			.println("response", response).println("item", item);
 
-	    String codeTemp = null;
-        String dpt = null;
-        String barcode_sec = null;
+		String codeTemp = null;
+		String dpt = null;
+		String barcode_sec = null;
 
-        // 二段バーコード判断
-        if (itemId.contains(" ")) {
-            barcode_sec = itemId.split(" ")[1];
-        }
-        
-        dpt = (item == null) ? null : item.getDepartment();
+		// 二段バーコード判断
+		if (itemId.contains(" ")) {
+			barcode_sec = itemId.split(" ")[1];
+		}
+		
+		dpt = (item == null) ? null : item.getDepartment();
 
-        // 部門コードを取得する
-        switch (varietiesName) {
-        case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
-            if(dpt == null){
-                String cCode = "";
-                if (barcode_sec.length() > 7) {
-                    cCode = barcode_sec.substring(3, 7);
-                } else {
-                    cCode = barcode_sec;
-                }
-                codeTemp = codeCvtDAO.convertCCodeToDpt(companyId,cCode);
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
-            if(dpt == null){
-                codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14));
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
-            if(dpt == null){
-                codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(0, 5));
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
-            if(dpt == null){
-                String jaCode = "";
-                if (barcode_sec.length() > 7) {
-                    jaCode = barcode_sec.substring(3, 7);
-                } else {
-                    jaCode = barcode_sec;
-                }
-                codeTemp = JaCodeCvt(jaCode);
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
-            if(dpt == null){
-                codeTemp = JaCodeCvt(itemId.substring(10, 14));
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
-            if (StringUtility.isNullOrEmpty(dpt)) {
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Not found in the PLU.");
-                tp.println("Not found in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
-            if(dpt == null){
-                codeTemp = "0161";
-            } else if(StringUtility.isEmpty(dpt)){
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Dpt is Empty in the PLU.");
-                tp.println("Dpt is Empty in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
-        case BarcodeAssignmentConstant.VARIETIES_JANSALES:
-        case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD1:
-        case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD2:
-            if (StringUtility.isNullOrEmpty(dpt) || !(item.getRegularSalesUnitPrice() > 0.0)) {
-                response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
-                response.setMessage("Not found in the PLU.");
-                tp.println("Not found in the PLU.");
-            } else {
-                codeTemp = dpt;
-            }
-            break;
-        default:
-            break;
-        }
+		// 部門コードを取得する
+		switch (varietiesName) {
+		case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
+			if(dpt == null){
+				String cCode = "";
+				if (barcode_sec.length() > 7) {
+					cCode = barcode_sec.substring(3, 7);
+				} else {
+					cCode = barcode_sec;
+				}
+				codeTemp = codeCvtDAO.convertCCodeToDpt(companyId,cCode);
+			} else if(StringUtility.isEmpty(dpt)){
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Dpt is Empty in the PLU.");
+				tp.println("Dpt is Empty in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
+			if(dpt == null){
+				codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, itemId.substring(10, 14));
+			} else if(StringUtility.isEmpty(dpt)){
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Dpt is Empty in the PLU.");
+				tp.println("Dpt is Empty in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
+			if(dpt == null){
+				codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, itemId.substring(0, 5));
+			} else if(StringUtility.isEmpty(dpt)){
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Dpt is Empty in the PLU.");
+				tp.println("Dpt is Empty in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
+			if(dpt == null){
+				String jaCode = "";
+				if (barcode_sec.length() > 7) {
+					jaCode = barcode_sec.substring(3, 7);
+				} else {
+					jaCode = barcode_sec;
+				}
+				codeTemp = JaCodeCvt(jaCode);
+			} else if(StringUtility.isEmpty(dpt)){
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Dpt is Empty in the PLU.");
+				tp.println("Dpt is Empty in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
+			if(dpt == null){
+				codeTemp = JaCodeCvt(itemId.substring(10, 14));
+			} else if(StringUtility.isEmpty(dpt)){
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Dpt is Empty in the PLU.");
+				tp.println("Dpt is Empty in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
+			if (StringUtility.isNullOrEmpty(dpt)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Not found in the PLU.");
+				tp.println("Not found in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
+			if(dpt == null){
+				codeTemp = "0161";
+			} else if(StringUtility.isEmpty(dpt)){
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Dpt is Empty in the PLU.");
+				tp.println("Dpt is Empty in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
+		case BarcodeAssignmentConstant.VARIETIES_JANSALES:
+		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD1:
+		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD2:
+			if (StringUtility.isNullOrEmpty(dpt) || !(item.getRegularSalesUnitPrice() > 0.0)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Not found in the PLU.");
+				tp.println("Not found in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
+		default:
+			break;
+		}
 
-        tp.methodExit(codeTemp);
-        return codeTemp;
-    }
+		tp.methodExit(codeTemp);
+		return codeTemp;
+	}
 
 	/**
-     * バーコード価格を使用
-     *
-     * @param varietiesName
-     * @param itemId
-     * @return commodityPrice
-     */
+	 * バーコード価格を使用
+	 *
+	 * @param varietiesName
+	 * @param itemId
+	 * @return commodityPrice
+	 */
 	private double barCodePriceCalculation(String varietiesName, String itemId) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("varietiesName", varietiesName).println("itemId", itemId);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("varietiesName", varietiesName).println("itemId", itemId);
 
-        double commodityPrice = 0.0;
-        switch (varietiesName) {
-        case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
-            commodityPrice = janBook(itemId);
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
-            commodityPrice = foreignBook(itemId);
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
-            commodityPrice = janMagazine(itemId);
-            break;
-        case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
-            commodityPrice = foreignMagazine(itemId);
-            break;
-        default:
-            break;
-        }
+		double commodityPrice = 0.0;
+		switch (varietiesName) {
+		case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
+			commodityPrice = janBook(itemId);
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
+			commodityPrice = foreignBook(itemId);
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
+			commodityPrice = janMagazine(itemId);
+			break;
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
+			commodityPrice = foreignMagazine(itemId);
+			break;
+		default:
+			break;
+		}
 
-        tp.methodExit(commodityPrice);
-        return commodityPrice;
-    }
+		tp.methodExit(commodityPrice);
+		return commodityPrice;
+	}
 
 	/**
-          * 　C/D を算出する
-     *
-     * @param itemId
-     * @return itemId
-     */
+	 * C/D を算出する
+	 *
+	 * @param itemId
+	 * @return itemId
+	 */
 	private String CDCalculation(String itemId) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("itemId", itemId);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("itemId", itemId);
 
 		char cd = CheckDigitValue.generate("978" + itemId.substring(0, 9), 12, "131313131313", 10,
 				CheckDigitValue.SKIP_0_OK, true);
@@ -768,14 +768,14 @@ public class PromotionResource {
 	}
 
 	/**
-          * 　部門変換する
-     *
-     * @param code
-     * @return code
-     */
+	 * 部門変換する
+	 *
+	 * @param code
+	 * @return code
+	 */
 	private String JaCodeCvt(String code) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("code", code);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("code", code);
 
 		if ("0000".equals(code)){
 			code = "0183";
@@ -794,8 +794,8 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private int foreignMagazine(String itemId) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("itemId", itemId);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("itemId", itemId);
 
 		int price = Integer.parseInt(itemId.substring(9, 12)) * 10;
 
@@ -810,8 +810,8 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private int janMagazine(String itemId) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("itemId", itemId);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String endFour = itemId.substring(itemId.length() - 4);
 		int price = Integer.parseInt(endFour);
@@ -827,13 +827,13 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private int foreignBook(String itemId) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("itemId", itemId);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String[] item = itemId.split(" ");
 		int price = 0;
 		if (item[1].length() == 13) {
-		    price = Integer.parseInt(item[1].substring(7, 12));
+			price = Integer.parseInt(item[1].substring(7, 12));
 		}
 
 		tp.methodExit(price);
@@ -847,8 +847,8 @@ public class PromotionResource {
 	 * @return price
 	 */
 	private int janBook(String itemId) {
-	    String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("itemId", itemId);
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String[] item = itemId.split(" ");
 		String topThree = item[1].substring(0, 3);
@@ -1326,300 +1326,307 @@ public class PromotionResource {
 	}
 
 	/**
-     * getQrCodeInfoList for requesting promotion information.
-     *
-     * @param companyId
-     *            The companyId
-     * @param retailStoreId
-     *            Store Number where the transaction is coming from
-     * @param workStationId
-     *            Device Number where the transaction is coming from
-     * @param sequenceNumber
-     *            The current transaction sequence number
-     * @param businessDate
-     *            The businessDate
-     * @param transaction
-     *            The item Info and Operator Info XML
-     * @return {@link Transaction}
-     */
-    @SuppressWarnings("unchecked")
-    @POST
-    @Produces("application/json;charset=UTF-8")
-    @Path("/getQrCodeInfoList")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value = "QRCODE情報を取得", response = Promotion.class)
-    @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-            @ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
-            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
-    public final Promotion getQrCodeInfoList(
-            @ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
-            @ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
-            @ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
-            @ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
-            @ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate,
-            @ApiParam(name = "transaction", value = "商品情報と会員情報") @FormParam("transaction") final String transaction) {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
-                .println("WorkstationId", workStationId).println("SequenceNumber", sequenceNumber)
-                .println("businessDate", businessDate).println("Transaction", transaction);
-        Promotion response = new Promotion();
-        int maxPrintNum = 4;
-        int bitmapCount = 0;
-        List<QrCodeInfo> qrCodeInfoListTemp = null;
-        List<QrCodeInfo> qrCodeInfoList = null;
+	 * getQrCodeInfoList for requesting promotion information.
+	 *
+	 * @param companyId
+	 *            The companyId
+	 * @param retailStoreId
+	 *            Store Number where the transaction is coming from
+	 * @param workStationId
+	 *            Device Number where the transaction is coming from
+	 * @param sequenceNumber
+	 *            The current transaction sequence number
+	 * @param businessDate
+	 *            The businessDate
+	 * @param transaction
+	 *            The item Info and Operator Info XML
+	 * @return {@link Transaction}
+	 */
+	@SuppressWarnings("unchecked")
+	@POST
+	@Produces("application/json;charset=UTF-8")
+	@Path("/getQrCodeInfoList")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@ApiOperation(value = "QRCODE情報を取得", response = Promotion.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+	public final Promotion getQrCodeInfoList(
+			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate,
+			@ApiParam(name = "transaction", value = "商品情報と会員情報") @FormParam("transaction") final String transaction) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
+				.println("WorkstationId", workStationId).println("SequenceNumber", sequenceNumber)
+				.println("businessDate", businessDate).println("Transaction", transaction);
+		Promotion response = new Promotion();
+		int maxPrintNum = 4;
+		int bitmapCount = 0;
+		List<QrCodeInfo> qrCodeInfoListTemp = null;
+		List<QrCodeInfo> qrCodeInfoListOut = null;
 
-        try {
-            if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
-                    businessDate)) {
-                response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-                tp.println("Parameter[s] is empty or null.");
-                return response;
-            }
+		try {
+			if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
+					businessDate)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				tp.println("Parameter[s] is empty or null.");
+				return response;
+			}
+			
+			if (qrCodeInfoList == null) {
+				response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+				response.setMessage("Not found Initial startup data.");
+				tp.println("Not found Initial startup data.");
+			}
 
-            JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
-            Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+			JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
+			Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
 
-            // get valid data
-            qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
+			// get valid data
+			qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
 
-            int count = 0;
-            if (qrCodeInfoListTemp == null || qrCodeInfoListTemp.size() < 1) {
-                response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-                response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-                response.setMessage("Not found valid data.");
-                tp.println("Not found valid data.");
-                return response;
-            } else {
-                // 一番小さい値を持つ企画コードが複数の場合
-                String displayOrder = qrCodeInfoListTemp.get(0).getDisplayOrder();
-                for (int i = 0; i < qrCodeInfoListTemp.size(); i++) {
-                    if (displayOrder.equals(qrCodeInfoListTemp.get(i).getDisplayOrder())){
-                        count++;
-                    }
-                }
-            }
+			int count = 0;
+			if (qrCodeInfoListTemp == null || qrCodeInfoListTemp.size() < 1) {
+				response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+				response.setMessage("Not found valid data.");
+				tp.println("Not found valid data.");
+				return response;
+			} else {
+				// 一番小さい値を持つ企画コードが複数の場合
+				String displayOrder = qrCodeInfoListTemp.get(0).getDisplayOrder();
+				for (int i = 0; i < qrCodeInfoListTemp.size(); i++) {
+					if (displayOrder.equals(qrCodeInfoListTemp.get(i).getDisplayOrder())){
+						count++;
+					}
+				}
+			}
 
-            // 最大印字枚数をパラメータに取得する
-            String getMaxPrintNum = GlobalConstant.getMaxQRCodePrintNum();
-            if (!StringUtility.isNullOrEmpty(getMaxPrintNum)){
-                maxPrintNum = Integer.parseInt(getMaxPrintNum);
-            }
+			// 最大印字枚数をパラメータに取得する
+			String getMaxPrintNum = GlobalConstant.getMaxQRCodePrintNum();
+			if (!StringUtility.isNullOrEmpty(getMaxPrintNum)){
+				maxPrintNum = Integer.parseInt(getMaxPrintNum);
+			}
 
-            // 有効な企画コードを取得する
-            boolean flag = true;
-            for (int i = 0; i < count; i++) {
-                if (!flag) {
-                    break;
-                }
-                bitmapCount = qrCodeInfoListTemp.get(i).getQuanlitySum();
-                for (int j = 0; j < bitmapCount; j++) {
-                    if (qrCodeInfoList == null) {
-                        qrCodeInfoList = new ArrayList<QrCodeInfo>();
-                    }
-                    if (qrCodeInfoList.size() < maxPrintNum) {
-                        qrCodeInfoList.add(qrCodeInfoListTemp.get(i));
-                    } else {
-                        flag = false;
-                        break;
-                    }
-                }
-            }
+			// 有効な企画コードを取得する
+			boolean flag = true;
+			for (int i = 0; i < count; i++) {
+				if (!flag) {
+					break;
+				}
+				bitmapCount = qrCodeInfoListTemp.get(i).getQuanlitySum();
+				for (int j = 0; j < bitmapCount; j++) {
+					if (qrCodeInfoListOut == null) {
+						qrCodeInfoListOut = new ArrayList<QrCodeInfo>();
+					}
+					if (qrCodeInfoListOut.size() < maxPrintNum) {
+						qrCodeInfoListOut.add(qrCodeInfoListTemp.get(i));
+					} else {
+						flag = false;
+						break;
+					}
+				}
+			}
 
-            response.setQrCodeInfoList(qrCodeInfoList);
-        } catch (JsonParseException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
-            response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-            response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
-        } catch (IOException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to send QrCodeInfoList.", e);
-            response.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-            response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-        } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send QrCodeInfoList.", e);
-            response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-            response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-        } finally {
-            tp.methodExit(response);
-        }
-        return response;
-    }
+			response.setQrCodeInfoList(qrCodeInfoListOut);
+		} catch (JsonParseException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+		} catch (IOException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to send QrCodeInfoList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send QrCodeInfoList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(response);
+		}
+		return response;
+	}
 
-    /**
-     * set valid data into map
-     *
-     * @param transactionIn
-     * @return List<QrCodeInfo>
-     */
-    private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("Transaction", transactionIn);
+	/**
+	 * set valid data into map
+	 *
+	 * @param transactionIn
+	 * @return List<QrCodeInfo>
+	 */
+	private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("Transaction", transactionIn);
 
-        String SexTypeIn = transactionIn.getCustomerClass().getSexType();
-        boolean CustomerSexTypeInFlag = false;
-        String CustomerSexTypeIn = null;
-        if (transactionIn.getCustomer() == null) {
-            CustomerSexTypeInFlag = false;
-        } else {
-            CustomerSexTypeInFlag = true;
-            CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
-        }
+		String SexTypeIn = transactionIn.getCustomerClass().getSexType();
+		boolean CustomerSexTypeInFlag = false;
+		String CustomerSexTypeIn = null;
+		if (transactionIn.getCustomer() == null) {
+			CustomerSexTypeInFlag = false;
+		} else {
+			CustomerSexTypeInFlag = true;
+			CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
+		}
 
-        List<ItemList> itemListIns = transactionIn.getItemList();
-        List<ItemList> itemListOut = null;
-        List<QrCodeInfo> qrCodeInfoListTemp = null;
-        Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
+		List<ItemList> itemListIns = transactionIn.getItemList();
+		List<ItemList> itemListOut = null;
+		List<QrCodeInfo> qrCodeInfoListTemp = null;
+		Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
 
-        for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
-            if (CustomerSexTypeInFlag == true) {
-                if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
-                    break;
-                }
-            } else {
-                if (!(SexTypeIn.equals(qrCodeInfo.getSexType()))) {
-                    break;
-                }
-            }
+		for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
+			if (CustomerSexTypeInFlag == true) {
+				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
+					break;
+				}
+			} else {
+				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()))) {
+					break;
+				}
+			}
 
-            itemListOut = new ArrayList<ItemList>();
-            switch (qrCodeInfo.getPromotionType()) {
-            case PROMOTIONTYPE_ALL:
-                if (itemListIns.size() > 0 ) {
-                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListIns);
-                }
-                break;
-            case PROMOTIONTYPE_DPT:
-                for (ItemList itemListIn : itemListIns) {
-                    if (itemListIn.getDpt() == null ? false : itemListIn.getDpt().equals(qrCodeInfo.getDpt())) {
-                        itemListOut.add(itemListIn);
-                    }
-                }
-                if (itemListOut.size() > 0 ) {
-                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-                }
-                break;
-            case PROMOTIONTYPE_DPT_CONN:
-                for (ItemList itemListIn : itemListIns) {
-                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt())
-                            || StringUtility.isNullOrEmpty(itemListIn.getConnCode())) {
-                        break;
-                    }
-                    if (itemListIn.getDpt().equals(qrCodeInfo.getDpt())
-                            && itemListIn.getConnCode().equals(qrCodeInfo.getConnCode())) {
-                        itemListOut.add(itemListIn);
-                    }
-                }
-                if (itemListOut.size() > 0 ) {
-                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-                }
-                break;
-            case PROMOTIONTYPE_DPT_BRANDID:
-                for (ItemList itemListIn : itemListIns) {
-                    if (StringUtility.isNullOrEmpty(itemListIn.getDpt())
-                            || StringUtility.isNullOrEmpty(itemListIn.getBrandId())) {
-                        break;
-                    }
-                    if (itemListIn.getDpt().equals(qrCodeInfo.getDpt())
-                            && itemListIn.getBrandId().equals(qrCodeInfo.getBrandId())) {
-                        itemListOut.add(itemListIn);
-                    }
-                }
-                if (itemListOut.size() > 0 ) {
-                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-                }
-                break;
-            case PROMOTIONTYPE_LINE:
-                for (ItemList itemListIn : itemListIns) {
-                    if (itemListIn.getLine() == null ? false : itemListIn.getLine().equals(qrCodeInfo.getLine())) {
-                        itemListOut.add(itemListIn);
-                    }
-                }
-                if (itemListOut.size() > 0 ) {
-                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-                }
-                break;
-            case PROMOTIONTYPE_ITEMCODE:
-                for (ItemList itemListIn : itemListIns) {
-                    String qrCodeSku = qrCodeInfo.getSku();
-                    String listInItemCode = itemListIn.getItemcode();
-                    if (!StringUtility.isNullOrEmpty(qrCodeSku)) {
-                        if (qrCodeSku.contains("*")) {
-                            qrCodeSku = qrCodeInfo.getSku().split("\\*")[0];
-                            listInItemCode = listInItemCode.substring(0, qrCodeSku.length());
-                        }
-                        if (listInItemCode.equals(qrCodeSku)) {
-                            itemListOut.add(itemListIn);
-                        }
-                    }
-                }
-                if (itemListOut.size() > 0 ) {
-                    qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-                }
-                break;
-            }
-        }
+			itemListOut = new ArrayList<ItemList>();
+			switch (qrCodeInfo.getPromotionType()) {
+			case PROMOTIONTYPE_ALL:
+				if (itemListIns.size() > 0 ) {
+					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListIns);
+				}
+				break;
+			case PROMOTIONTYPE_DPT:
+				for (ItemList itemListIn : itemListIns) {
+					if (itemListIn.getDpt() == null ? false : itemListIn.getDpt().equals(qrCodeInfo.getDpt())) {
+						itemListOut.add(itemListIn);
+					}
+				}
+				if (itemListOut.size() > 0 ) {
+					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+				}
+				break;
+			case PROMOTIONTYPE_DPT_CONN:
+				for (ItemList itemListIn : itemListIns) {
+					if (StringUtility.isNullOrEmpty(itemListIn.getDpt())
+							|| StringUtility.isNullOrEmpty(itemListIn.getConnCode())) {
+						break;
+					}
+					if (itemListIn.getDpt().equals(qrCodeInfo.getDpt())
+							&& itemListIn.getConnCode().equals(qrCodeInfo.getConnCode())) {
+						itemListOut.add(itemListIn);
+					}
+				}
+				if (itemListOut.size() > 0 ) {
+					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+				}
+				break;
+			case PROMOTIONTYPE_DPT_BRANDID:
+				for (ItemList itemListIn : itemListIns) {
+					if (StringUtility.isNullOrEmpty(itemListIn.getDpt())
+							|| StringUtility.isNullOrEmpty(itemListIn.getBrandId())) {
+						break;
+					}
+					if (itemListIn.getDpt().equals(qrCodeInfo.getDpt())
+							&& itemListIn.getBrandId().equals(qrCodeInfo.getBrandId())) {
+						itemListOut.add(itemListIn);
+					}
+				}
+				if (itemListOut.size() > 0 ) {
+					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+				}
+				break;
+			case PROMOTIONTYPE_LINE:
+				for (ItemList itemListIn : itemListIns) {
+					if (itemListIn.getLine() == null ? false : itemListIn.getLine().equals(qrCodeInfo.getLine())) {
+						itemListOut.add(itemListIn);
+					}
+				}
+				if (itemListOut.size() > 0 ) {
+					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+				}
+				break;
+			case PROMOTIONTYPE_ITEMCODE:
+				for (ItemList itemListIn : itemListIns) {
+					String qrCodeSku = qrCodeInfo.getSku();
+					String listInItemCode = itemListIn.getItemcode();
+					if (!StringUtility.isNullOrEmpty(qrCodeSku)) {
+						if (qrCodeSku.contains("*")) {
+							qrCodeSku = qrCodeInfo.getSku().split("\\*")[0];
+							listInItemCode = listInItemCode.substring(0, qrCodeSku.length());
+						}
+						if (listInItemCode.equals(qrCodeSku)) {
+							itemListOut.add(itemListIn);
+						}
+					}
+				}
+				if (itemListOut.size() > 0 ) {
+					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
+				}
+				break;
+			}
+		}
 
-        // get valid data from map
-        if (qrItemMap.size() > 0) {
-            qrCodeInfoListTemp = getQrCodeInfoListTemp(qrItemMap);
-        }
+		// get valid data from map
+		if (qrItemMap.size() > 0) {
+			qrCodeInfoListTemp = getQrCodeInfoListTemp(qrItemMap);
+		}
 
-        tp.methodExit(qrCodeInfoListTemp);
-        return qrCodeInfoListTemp;
-    }
+		tp.methodExit(qrCodeInfoListTemp);
+		return qrCodeInfoListTemp;
+	}
 
-    /**
-     * get valid data from map
-     *
-     * @param qrItemMap
-     * @return List<QrCodeInfo>
-     */
-    private List<QrCodeInfo> getQrCodeInfoListTemp(Map<String, List<ItemList>> qrItemMap) {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("qrItemMap", qrItemMap);
+	/**
+	 * get valid data from map
+	 *
+	 * @param qrItemMap
+	 * @return List<QrCodeInfo>
+	 */
+	private List<QrCodeInfo> getQrCodeInfoListTemp(Map<String, List<ItemList>> qrItemMap) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("qrItemMap", qrItemMap);
 
-        List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>();
+		List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>();
 
-        for (String promotionId : qrItemMap.keySet()) {
-            for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
-                if (promotionId.equals(qrCodeInfo.getPromotionId())) {
-                    int quanlitySum = 0;
-                    int priceSum = 0;
+		for (String promotionId : qrItemMap.keySet()) {
+			for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
+				if (promotionId.equals(qrCodeInfo.getPromotionId())) {
+					int quanlitySum = 0;
+					int priceSum = 0;
 
-                    for (ItemList item : qrItemMap.get(promotionId)) {
-                        quanlitySum = quanlitySum + item.getQty();
-                        priceSum = priceSum + item.getAmount();
-                    }
+					for (ItemList item : qrItemMap.get(promotionId)) {
+						quanlitySum = quanlitySum + item.getQty();
+						priceSum = priceSum + item.getAmount();
+					}
 
-                    switch (qrCodeInfo.getOutputType()) {
-                    case OUTPUTTYPE_ONE:
-                        qrCodeInfo.setQuanlitySum(1);
-                        break;
-                    case OUTPUTTYPE_TWO:
-                        qrCodeInfo.setQuanlitySum(quanlitySum);
-                        break;
-                    case OUTPUTTYPE_THREE:
-                        if (!StringUtility.isNullOrEmpty(qrCodeInfo.getOutputTargetValue())) {
-                            int outputTargetValue = Integer.parseInt(qrCodeInfo.getOutputTargetValue());
-                            quanlitySum = outputTargetValue == 0 ? 0 : priceSum / outputTargetValue;
-                        } else {
-                            quanlitySum = 0;
-                        }
+					switch (qrCodeInfo.getOutputType()) {
+					case OUTPUTTYPE_ONE:
+						qrCodeInfo.setQuanlitySum(1);
+						break;
+					case OUTPUTTYPE_TWO:
+						qrCodeInfo.setQuanlitySum(quanlitySum);
+						break;
+					case OUTPUTTYPE_THREE:
+						if (!StringUtility.isNullOrEmpty(qrCodeInfo.getOutputTargetValue())) {
+							int outputTargetValue = Integer.parseInt(qrCodeInfo.getOutputTargetValue());
+							quanlitySum = outputTargetValue == 0 ? 0 : priceSum / outputTargetValue;
+						} else {
+							quanlitySum = 0;
+						}
 
-                        qrCodeInfo.setQuanlitySum(quanlitySum);
-                        break;
-                    }
+						qrCodeInfo.setQuanlitySum(quanlitySum);
+						break;
+					}
 
-                    int minimumPrice = (int) Math.round(qrCodeInfo.getMinimumPrice());
-                    if (priceSum >= minimumPrice && qrCodeInfo.getQuanlitySum() > 0) {
-                        qrCodeInfoListTemp.add(qrCodeInfo);
-                    }
-                    break;
-                }
-            }
-        }
+					int minimumPrice = (int) Math.round(qrCodeInfo.getMinimumPrice());
+					if (priceSum >= minimumPrice && qrCodeInfo.getQuanlitySum() > 0) {
+						qrCodeInfoListTemp.add(qrCodeInfo);
+					}
+					break;
+				}
+			}
+		}
 
-        tp.methodExit(qrCodeInfoListTemp);
-        return qrCodeInfoListTemp;
-    }
+		tp.methodExit(qrCodeInfoListTemp);
+		return qrCodeInfoListTemp;
+	}
 }

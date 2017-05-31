@@ -22,13 +22,13 @@ public class PoslogStatusInfo extends ResultBase{
      * Count of consolidation result.
      */
     @XmlElement(name = "consolidationResult")
-	private int consolidationResult;
+	private Integer consolidationResult;
     /**
      * Count of transfer result.
      */
     @XmlElement(name = "transferResult")
-	private int transferResult;
-	
+	private Integer transferResult;
+
     /**
      * Gets the count of consolidation result.
      *
@@ -38,7 +38,7 @@ public class PoslogStatusInfo extends ResultBase{
     public final int getConsolidationResult() {
 		return consolidationResult;
 	}
-    
+
     /**
      * Sets the count of consolidation result.
      *
@@ -47,7 +47,7 @@ public class PoslogStatusInfo extends ResultBase{
 	public final void setConsolidationResult(int consolidationResult) {
 		this.consolidationResult = consolidationResult;
 	}
-	
+
 	/**
      * Gets the count of transfer result.
      *
@@ -57,7 +57,7 @@ public class PoslogStatusInfo extends ResultBase{
 	public final int getTransferResult() {
 		return transferResult;
 	}
-	
+
 	/**
      * Sets the count of transfer result.
      *
@@ -66,7 +66,7 @@ public class PoslogStatusInfo extends ResultBase{
 	public final void setTransferResult(int transferResult) {
 		this.transferResult = transferResult;
 	}
-    
+
 	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();

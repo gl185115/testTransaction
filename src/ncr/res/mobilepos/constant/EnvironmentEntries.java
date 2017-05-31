@@ -174,7 +174,7 @@ public class EnvironmentEntries {
         try {
             String value = loadProperty(keyName, context);
             if(StringUtility.isNullOrEmpty(value)){
-                throw new IllegalStateException(keyName + " in web.xml is not allowed to be empty.");
+                return null;
             }
             return value;
         } catch (NamingException e){
@@ -365,5 +365,5 @@ public class EnvironmentEntries {
 	public String getPoslogTransferStatusColumn() {
 		return poslogTransferStatusColumn;
 	}
-	
+
 }

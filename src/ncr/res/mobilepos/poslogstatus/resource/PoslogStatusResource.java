@@ -22,6 +22,7 @@ import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.poslogstatus.model.PoslogStatusInfo;
@@ -38,7 +39,7 @@ public class PoslogStatusResource {
      * Trace Printer.
      */
     private Trace.Printer tp;
-    
+
     /**
 	 * The Program Name.
 	 */
@@ -56,7 +57,7 @@ public class PoslogStatusResource {
         // Initialize trace printer, Constructor is called by each request.
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
-    
+
     /**
      * Check the count of result that not deal with.
      * @param consolidation
@@ -82,7 +83,7 @@ public class PoslogStatusResource {
 		tp.methodEnter(functionName).println("Consolidation", consolidation).println("Transfer", transfer);
     	PoslogStatusInfo response = new PoslogStatusInfo();
     	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-    	
+
     	if (!consolidation && !transfer){
     		LOGGER.logAlert(
             		PROG_NAME,
@@ -95,12 +96,26 @@ public class PoslogStatusResource {
 			tp.println("Parameter[s] is all false.");
 			return response;
     	}
-    	
+
     	try {
     	    IPoslogStatusDAO dao = daoFactory.getPoslogStatusDAO();
     	    String poslogTransferColumnName = EnvironmentEntries.getInstance().getPoslogTransferStatusColumn();
+
+            if (transfer && StringUtility.isNullOrEmpty(poslogTransferColumnName)) {
+            	LOGGER.logAlert(
+                		PROG_NAME,
+                		functionName,
+                        Logger.RES_EXCEP_GENERAL,
+                        "パラメータ取得エラー。\nweb.xmlのPOSLogTransferStatusColumnパラメータが未設定です。\n");
+                response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                response.setMessage("web.xml POSLogTransferStatusColumn is empty.");
+    			tp.println("web.xml POSLogTransferStatusColumn is empty.");
+    			return response;
+            }
+
     	    response = dao.checkPoslogStatus(consolidation, transfer, poslogTransferColumnName);
-			
+
 		} catch (DaoException daoEx) {
             LOGGER.logAlert(
             		PROG_NAME,

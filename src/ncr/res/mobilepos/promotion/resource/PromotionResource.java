@@ -1480,11 +1480,11 @@ public class PromotionResource {
 		for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
 			if (CustomerSexTypeInFlag == true) {
 				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
-					break;
+					continue;
 				}
 			} else {
 				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()))) {
-					break;
+					continue;
 				}
 			}
 

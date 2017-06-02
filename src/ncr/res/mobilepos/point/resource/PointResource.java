@@ -21,11 +21,14 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.point.model.Point;
+import ncr.res.mobilepos.point.model.CashingUnit;
 import ncr.res.mobilepos.point.model.ItemPointRate;
 import ncr.res.mobilepos.point.model.TranPointRate;
+import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -169,5 +172,58 @@ public class PointResource {
             tp.methodExit(response.toString());
         }
         return response;
+    }
+    
+    /**
+     * Service to view CashingUnit of given parameter companyid and recordId.
+     * 
+     * @param companyid
+     * @param recordId
+     * @return JSON type of CashingUnit.
+     */
+    @Path("/getcashingunit")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="POINT還元率情報取得", response=ViewStore.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final CashingUnit getCashingUnit(
+            @ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
+            @ApiParam(name="recordId", value="管理NO")@QueryParam("recordId") final String recordId) {
+
+        String functionName = "";
+
+        tp.methodEnter("getCashingUnit");
+        tp.println("CompanyId", companyId).println("RecordId",recordId);
+        CashingUnit cashingUnit = new CashingUnit();
+
+        try {
+
+            IPointDAO pointDAO = daoFactory.getPointDAO();
+            cashingUnit = pointDAO.getCashingUnitInfo(companyId, recordId);
+
+        } catch (DaoException ex) {
+            LOGGER.logAlert(
+                    PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_DAO,
+                    "Failed to view CashingUnit# " + cashingUnit + ": "
+                            + ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.logAlert(
+                    PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_GENERAL,
+                    "Failed to view cashingUnit# " + cashingUnit + ": "
+                            + ex.getMessage());
+        } finally {
+            tp.methodExit(cashingUnit.toString());
+        }
+
+        return cashingUnit;
     }
 }

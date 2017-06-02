@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.point.model.CashingUnit;
 import ncr.res.mobilepos.point.model.ItemPointRate;
 import ncr.res.mobilepos.point.model.TranPointRate;
 import ncr.res.mobilepos.daofactory.AbstractDao;
@@ -533,5 +534,50 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
         	return true;
         }
         return false;
+    }
+    
+    @Override
+    public CashingUnit getCashingUnitInfo(String companyId,String recordId) throws DaoException {
+        String functionName = "";
+
+        tp.methodEnter("");
+        tp.println("CompanyId", companyId).println("RecordId", recordId);
+
+        CashingUnit cashingUnit = new CashingUnit();
+        //Store store = new Store();
+        //cashingUnit.setRetailStoreID(retailStoreID);
+
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet result = null;
+
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement
+                    .getProperty("get-point-cashing-unit"));
+
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, recordId);
+
+            result = select.executeQuery();
+
+            if (result.next()) {
+                cashingUnit.setCashingUnit(result.getString("CashingUnit"));
+            } else {
+                tp.println("CashingUnit not found.");
+            }
+
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to get CashingUnit.", e);
+            throw new DaoException("SQLException: @SQLServerPointDAO."
+                    + functionName, e);
+        } finally {
+            closeConnectionObjects(connection, select, result);
+            tp.methodExit(cashingUnit);
+        }
+        return cashingUnit;
     }
 }

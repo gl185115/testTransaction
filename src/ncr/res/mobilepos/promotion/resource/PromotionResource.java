@@ -55,6 +55,7 @@ import ncr.res.mobilepos.pricing.model.PremiumInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.promotion.dao.ICashingUnitConvertDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
@@ -1231,6 +1232,72 @@ public class PromotionResource {
 		return item;
 	}
 
+	   
+    /**
+     */
+    
+    public final PromotionResponse getCashingUnitInfo(
+            @ApiParam(name = "companyId", value = "") @FormParam("companyId") final String companyId,
+            @ApiParam(name = "recordId", value = "") @FormParam("recordId") final String recordId) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyId).println("RecordId", recordId);
+        
+        PromotionResponse response = new PromotionResponse();
+        
+        try {
+            if (StringUtility.isNullOrEmpty(companyId, recordId)) {
+                response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                tp.println("Parameter[s] is empty or null.");
+                return response;
+            }
+            DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            //ICashingUnitConvertDAO cashingUnitCvtDAO = daoFactory.getCashingUnitConvertDAO();
+            String cashingUnit = null;
+            
+            //cashingUnit = getCashingUnit(cashingUnitCvtDAO,companyId,recordId);
+            
+//            response.setCashingUnit(cashingUnit);
+        }/* catch (JsonParseException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send item entry.", e);
+            response = new PromotionResponse(ResultBase.RES_ERROR_INVALIDPARAMETER,
+                    ResultBase.RES_ERROR_INVALIDPARAMETER, e);
+        } catch (IOException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to send item entry.", e);
+            response = new PromotionResponse(ResultBase.RES_ERROR_IOEXCEPTION, ResultBase.RES_ERROR_IOEXCEPTION, e);
+        }*/ catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send item entry.", e);
+            if ("0".equals(e.getMessage())) {
+                response = new PromotionResponse(1111, 1111, e);
+            } else {
+                response = new PromotionResponse(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, e);
+            }
+        } finally {
+            tp.methodExit(response);
+        }
+        return response;
+    }
+    /**
+     * ŠÒŒ³—¦‚ðŽg—p
+     * 
+     * @param Id
+     * @param recordId
+     * @return cashingUnitTemp
+     */
+    private String getCashingUnit(ICashingUnitConvertDAO cashingUnitCvtDAO,
+            String companyId,String recordId) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("cashingUnitCvtDAO", cashingUnitCvtDAO)
+                                    .println("recordId", recordId)
+                                    .println("companyId", companyId);
+        
+        String cashingUnitTemp = null;
+        
+        cashingUnitTemp = cashingUnitCvtDAO.convertRecordIdToCashingUnit(companyId, recordId);
+        
+        tp.methodExit(cashingUnitTemp);
+        return cashingUnitTemp;
+    }
+	
 	/**
 	 * Item update to an existing item in the transaction a.) requesting of
 	 * removing or adding quantity b.) Change of Item's Price.

@@ -415,23 +415,11 @@ public class PromotionResource {
 
 				SearchedProduct searchedProd = itemResource.getItemByPLUcode(retailStoreId, itemIdTemp, companyId,
 						businessDate); // 各種割引情報を含めた商品情報
-				if (searchedProd == null || (searchedProd != null && searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK)) {
-					if (!"0".equals(retailStoreId)) {
-						searchedProd = itemResource.getItemByPLUcode(commonStoreID, itemIdTemp, companyId,
-								businessDate); // 共通店番号(0)で検索
-					}
-				}
-
 				Item item = null;
 				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK) {
 					tp.println("Item was not found!");
 					try {
 						item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
-						if (item == null) {
-							if (!"0".equals(retailStoreId)) {
-								item = getdetailInfoData(commonStoreID, itemIdTemp, companyId, businessDate);// 共通店番号(0)で検索
-							}
-						}
 					} catch (Exception e) {
 						LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
 								functionName + ": Failed to send item entry.", e);
@@ -450,11 +438,6 @@ public class PromotionResource {
 
 				// 部門コードを部門マスタテーブルに存在チェック
 				departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
-				if (departmentInfo == null) {
-					if (!"0".equals(retailStoreId)) {
-						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, commonStoreID, codeTemp, retailStoreId);// 共通店番号(0)で検索
-					}
-				}
 
 				dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
 				if (StringUtility.isNullOrEmpty(dptCode)) {

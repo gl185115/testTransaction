@@ -9,7 +9,17 @@ DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @MdInternal VARCHAR(32)
     SET        @storeId = LTRIM(RTRIM(?))
     SET        @companyId = LTRIM(RTRIM(?))
     SET        @MdInternal = LTRIM(RTRIM(?))
-     SET       @businessDate = LTRIM(RTRIM(?))
+    SET       @businessDate = LTRIM(RTRIM(?))
+     
+    IF NOT EXISTS (
+       SELECT *
+       FROM
+         RESMaster.dbo.MST_PLU plu
+       WHERE
+         plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+    )
+    SET @storeId = '0'
+        
 SELECT TOP 1
        plu.CompanyId,
        plu.StoreId,
@@ -154,7 +164,7 @@ plu.CompanyId  = urgent.CompanyId
 AND plu.Sku  = urgent.Sku
 AND plu.Md01 = urgent.ColorId
 
-WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = '0' AND plu.DeleteFlag = 0.0
+WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 ORDER BY urgent.SequenceNo DESC
 
 </entry>

@@ -138,12 +138,6 @@ public class DepartmentResource {
             dptModel = iDptDao
                     .selectDepartmentDetail(companyID, retailStoreID, departmentID, retailStoreID);
 
-            if (dptModel == null) {
-                if (!"0".equals(retailStoreID)) {
-                    String commonStoreID = "0";
-                    dptModel = iDptDao.selectDepartmentDetail(companyID, commonStoreID, departmentID, retailStoreID);
-                }
-            }
         } catch (DaoException daoEx) {
             LOGGER.logAlert(
                     "DepartmentRes",

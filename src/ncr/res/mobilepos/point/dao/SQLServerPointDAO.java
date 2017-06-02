@@ -537,11 +537,10 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     }
     
     @Override
-    public CashingUnit getCashingUnitInfo(String companyId,String recordId) throws DaoException {
+    public CashingUnit getCashingUnitInfo() throws DaoException {
         String functionName = "";
 
-        tp.methodEnter("");
-        tp.println("CompanyId", companyId).println("RecordId", recordId);
+        tp.methodEnter("");;
 
         CashingUnit cashingUnit = new CashingUnit();
         //Store store = new Store();
@@ -557,9 +556,6 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(sqlStatement
                     .getProperty("get-point-cashing-unit"));
-
-            select.setString(SQLStatement.PARAM1, companyId);
-            select.setString(SQLStatement.PARAM2, recordId);
 
             result = select.executeQuery();
 

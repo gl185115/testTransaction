@@ -10110,19 +10110,10 @@ insert into RESTransaction.dbo.TXL_offline_credit
       base.RecordId = dept.RecordId
 </entry>
 <entry key="get-point-cashing-unit">
-  DECLARE
-  @companyId varchar(12),
-  @recordId varchar(9)
-
-  SET @companyId = ?
-  SET @recordId = ?
-
   SELECT
-    base.CashingUnit
+    TOP 1 CashingUnit
   FROM
     RESMaster.dbo.MST_POINT_INFO base
-  WHERE
-    base.CompanyId = @companyId AND base.RecordId = @recordId
 </entry>
 <entry key="get-point-item-campaign-rate">
   DECLARE

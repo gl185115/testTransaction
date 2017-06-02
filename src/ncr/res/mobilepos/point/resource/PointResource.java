@@ -191,20 +191,17 @@ public class PointResource {
             @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
-    public final CashingUnit getCashingUnit(
-            @ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-            @ApiParam(name="recordId", value="管理NO")@QueryParam("recordId") final String recordId) {
+    public final CashingUnit getCashingUnit() {
 
         String functionName = "";
 
         tp.methodEnter("getCashingUnit");
-        tp.println("CompanyId", companyId).println("RecordId",recordId);
         CashingUnit cashingUnit = new CashingUnit();
 
         try {
 
             IPointDAO pointDAO = daoFactory.getPointDAO();
-            cashingUnit = pointDAO.getCashingUnitInfo(companyId, recordId);
+            cashingUnit = pointDAO.getCashingUnitInfo();
 
         } catch (DaoException ex) {
             LOGGER.logAlert(

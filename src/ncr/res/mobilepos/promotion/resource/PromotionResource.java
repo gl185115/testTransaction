@@ -488,7 +488,7 @@ public class PromotionResource {
 
 						saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
 
-						saleOut.setItemId(twoStep ? barcode_fst : itemId);
+						saleOut.setItemId(itemIdTemp);
 						saleOut.setDepartment(dptCode);
 						transactionOut.setSale(saleOut);
 						response.setDepartmentName(dptName);

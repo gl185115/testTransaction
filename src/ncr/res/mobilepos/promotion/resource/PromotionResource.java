@@ -330,7 +330,6 @@ public class PromotionResource {
 		Transaction transactionOut = new Transaction();
 		Sale saleOut = new Sale();
 		PromotionResponse response = new PromotionResponse();
-		String commonStoreID = "0";// ã§í ìXî‘çÜ(0)
 		String discounttype = "0";
 		boolean twoStep = false;
 		String codeTemp = null;

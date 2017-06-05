@@ -115,6 +115,13 @@ public class Transaction {
      */
     @XmlElement(name = "TillID")
     private String tillID;
+    
+    /**
+     * The private member variable that will\ hold the summaryReceiptReservation of the
+     * Transaction.
+     */
+    @XmlElement(name = "SummaryReceiptReservation")
+    private int summaryReceiptReservation;
 
     /**
      * BusinessUnit.
@@ -491,6 +498,25 @@ public class Transaction {
      */
     public final String getTillID() {
         return tillID;
+    }
+    
+    /**
+     * Set the SummaryReceiptReservation.
+     * 
+     * @param summaryReceiptReservationToSet
+     *            The SummaryReceiptReservation.
+     */
+    public final void setSummaryReceiptReservation(final int summaryReceiptReservation) {
+        this.summaryReceiptReservation = summaryReceiptReservation;
+    }
+    
+    /**
+     * Get the SummaryReceiptReservation.
+     * 
+     * @return The SummaryReceiptReservation.
+     */
+    public final int getSummaryReceiptReservation() {
+        return summaryReceiptReservation;
     }
 
     /**

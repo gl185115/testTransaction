@@ -34,6 +34,9 @@ public class BusteredTransaction {
     /** The Sequence Number. */
     @XmlElement(name = "SequenceNumber")
     private String sequencenumber;
+    /** The SummaryReceiptReservation. */
+    @XmlElement(name = "SummaryReceiptReservation")
+    private int summaryReceiptReservation;
     /** The Total. */
     @XmlElement(name = "Total")
     private Double total;
@@ -106,6 +109,23 @@ public class BusteredTransaction {
      */
     public final void setSequencenumber(final String sequencenumberToSet) {
         this.sequencenumber = sequencenumberToSet;
+    }
+    
+    /**
+     * Get the SummaryReceiptReservation.
+     * @return The SummaryReceiptReservation.
+     */
+    @ApiModelProperty(value="—ÌûØ—\–ñ", notes="—ÌûØ—\–ñ")
+    public final int getSummaryReceiptReservation() {
+        return summaryReceiptReservation;
+    }
+    
+    /**
+     * Set the SummaryReceiptReservation.
+     * @param summaryReceiptReservationToSet The SummaryReceiptReservation to set.
+     */
+    public final void setSummaryReceiptReservation(final int summaryReceiptReservation) {
+        this.summaryReceiptReservation = summaryReceiptReservation;
     }
 
     /**

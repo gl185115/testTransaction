@@ -432,7 +432,9 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 				bustTransaction.setBusinessDayDate(businessDayDate);
 				bustTransaction.setReceiptDateTime(transaction
 						.getReceiptDateTime());
-
+				bustTransaction.setSummaryReceiptReservation(transaction
+						.getSummaryReceiptReservation());
+				
 				// get subtotal
 				double grandAmount = 0;
 				List<Total> totals = null;

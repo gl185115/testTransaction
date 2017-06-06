@@ -33,6 +33,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
@@ -70,8 +71,9 @@ public class WebContextListener implements ServletContextListener {
     /**
      * Initializes and loads environment variable containers.
      * @throws NamingException
+     * @throws IOException
      */
-	public final void initializeEnvironmentVariables() throws NamingException {
+	public final void initializeEnvironmentVariables() throws NamingException, IOException {
         // Loads from WindowsEnvironmentVariables.
         WindowsEnvironmentVariables.initInstance();
         // Loads from web.xml.
@@ -145,9 +147,15 @@ public class WebContextListener implements ServletContextListener {
         BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
         // Loads config file for Toppan Giftcard feature.
         ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
-        // Only HOST loads QrCodeInfo  Information
+
         if(!windowsEnvironmentVariables.isServerTypeEnterprise()) {
-        	QrCodeInfoFactory.initialize(windowsEnvironmentVariables.getSystemPath());
+            String companyId = windowsEnvironmentVariables.getCompanyId();
+            String storeId = windowsEnvironmentVariables.getStoreId();
+
+            // Only HOST loads QrCodeInfo  Information
+        	QrCodeInfoFactory.initialize(companyId, storeId);
+            // Only HOST loads PricePromInfo Information
+        	PricePromInfoFactory.initialize(companyId, storeId);
         }
     }
 
@@ -265,7 +273,7 @@ public class WebContextListener implements ServletContextListener {
 
         GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
         GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
-        
+
         String serverPingTimeout = sysParams.get(GlobalConstant.KEY_SERVER_PING_TIMEOUT);
         if(!StringUtility.isNullOrEmpty(serverPingTimeout)) {
         	try{
@@ -283,7 +291,7 @@ public class WebContextListener implements ServletContextListener {
 								+ serverPingTimeout);
         	}
         }
-        
+
         GlobalConstant.setMaxQRCodePrintNum(sysParams.get(GlobalConstant.MAXQRCODEPRINTNUM));
     }
 

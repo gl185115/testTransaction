@@ -10,9 +10,15 @@
 
 package ncr.res.mobilepos.daofactory;
 
+import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
 import ncr.res.mobilepos.appserver.dao.IAppServerDAO;
 import ncr.res.mobilepos.appserver.dao.SQLServerAppServerDAO;
-import ncr.res.mobilepos.authentication.dao.*;
+import ncr.res.mobilepos.authentication.dao.AuthAdminDao;
+import ncr.res.mobilepos.authentication.dao.AuthDeviceDao;
+import ncr.res.mobilepos.authentication.dao.IAuthAdminDao;
+import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
+import ncr.res.mobilepos.authentication.dao.ICorpStoreDAO;
+import ncr.res.mobilepos.authentication.dao.SQLServerCorpStoreDAO;
 import ncr.res.mobilepos.barcode.dao.IBarCodeDAO;
 import ncr.res.mobilepos.barcode.dao.SQLServerBarCodeDAO;
 import ncr.res.mobilepos.buyadditionalinfo.dao.IBuyadditionalInfoDAO;
@@ -39,16 +45,25 @@ import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
 import ncr.res.mobilepos.customerclass.dao.SQLServerCustomerClassInfoDAO;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.dao.SQLServerDepartmentDAO;
-import ncr.res.mobilepos.deviceinfo.dao.*;
+import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
+import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
+import ncr.res.mobilepos.deviceinfo.dao.SQLCreditAuthorizationLinkDAO;
+import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
+import ncr.res.mobilepos.deviceinfo.dao.SQLQueueBusterLinkDAO;
+import ncr.res.mobilepos.deviceinfo.dao.SQLSignatureLinkDAO;
 import ncr.res.mobilepos.devicelog.dao.IDeviceLogDAO;
 import ncr.res.mobilepos.devicelog.dao.SQLServerDeviceLogDAO;
-import ncr.res.mobilepos.discountplaninfo.dao.*;
+import ncr.res.mobilepos.discountplaninfo.dao.DiscountPlanInfoCommomDAO;
+import ncr.res.mobilepos.discountplaninfo.dao.IPremiumFlagDAO;
+import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
+import ncr.res.mobilepos.discountplaninfo.dao.SQLServerDiscountPlanInfoCommonDAO;
+import ncr.res.mobilepos.discountplaninfo.dao.SQLServerPremiumFlagDAO;
+import ncr.res.mobilepos.discountplaninfo.dao.SQLServerPromotionInfoDAO;
 import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.eventlog.dao.SQLServerEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.dao.SQLServerForwardItemListDAO;
-import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
 import ncr.res.mobilepos.giftcard.dao.SQLServerTxlCardFailureDAO;
 import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
@@ -69,12 +84,14 @@ import ncr.res.mobilepos.point.dao.SQLServerPointDAO;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.poslogstatus.dao.SQLServerPoslogStatusDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.pricing.dao.SQLServerPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
+import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerCodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerMixMatchDAO;
-import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuebuster.dao.SQLServerQueueBusterDao;
@@ -96,7 +113,7 @@ import ncr.res.mobilepos.tillinfo.dao.SQLServerTillInfoDAO;
 
 /**
  * SQLServerDAOFactory is DAO Factory dedicated for SQLServer only.
- * 
+ *
  * @see DAOFactory
  */
 public class SQLServerDAOFactory extends DAOFactory {
@@ -126,7 +143,7 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final IPoslogStatusDAO getPoslogStatusDAO() throws DaoException {
         return new SQLServerPoslogStatusDAO();
     }
-    
+
     @Override
     public final IClassInfoDAO getClassInfoDAO() throws DaoException {
         return new SQLServerClassInfoDAO();
@@ -171,12 +188,12 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final SQLServerSystemConfigDAO getSystemConfigDAO() throws DaoException {
         return new SQLServerSystemConfigDAO();
     }
-    
+
     @Override
     public final IReceiptDAO getReceiptDAO() throws DaoException {
         return new SQLServerReceiptDAO();
     }
-    
+
     @Override
     public final IAppServerDAO getAppServerDAO() throws DaoException {
     	return new SQLServerAppServerDAO();
@@ -191,7 +208,7 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final ITxlCardFailureDAO getTxlCardFailureDAO() {
         return new SQLServerTxlCardFailureDAO();
     }
-    
+
     @Override
     public final IDeviceInfoDAO getDeviceInfoDAO() throws DaoException {
         return new SQLDeviceInfoDAO();
@@ -251,12 +268,12 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final IMixMatchDAO getMixMatchDAO() throws DaoException {
         return new SQLServerMixMatchDAO();
     }
-    
+
     @Override
     public final ICodeConvertDAO getCodeConvertDAO() throws DaoException {
         return new SQLServerCodeConvertDAO();
     }
-    
+
     @Override
     public final IQrCodeInfoDAO getQrCodeInfoDAO() throws DaoException {
         return new SQLServerQrCodeInfoDAO();
@@ -371,9 +388,14 @@ public class SQLServerDAOFactory extends DAOFactory {
 	public ICardInfoDAO getStatusInfo() throws Exception {
 		return new SQLServerCardInfoDAO();
 	}
-	
+
 	@Override
 	public ICreditCardAbstractDAO getCreditCardInfo() throws Exception {
 		return new SQLServerCreditCardDAO();
 	}
+
+    public final IPricePromInfoDAO getPricePromInfoDAO() throws DaoException {
+        return new SQLServerPricePromInfoDAO();
+    }
+
 }

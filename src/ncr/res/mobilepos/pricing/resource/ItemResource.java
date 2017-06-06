@@ -36,6 +36,8 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -45,20 +47,20 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickList;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
-import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
-import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 
 /**
  * ItemResource Web Resource Class
- * 
+ *
  * <P>
  * Supports MobilePOS Item Pricing/Search processes.
- * 
+ *
  */
 @Path("/pricing")
 @Api(value="/pricing", description="価格設定API")
@@ -105,8 +107,14 @@ public class ItemResource {
     private Trace.Printer tp;
 
     private String pathName = "pricing";
-    
+
     private static BarcodeAssignment barcodeAssignment;
+
+	private final List<PricePromInfo> pricePromInfoList;
+
+	public static final String PROMOTIONTYPE_DPT = "1";
+	public static final String PROMOTIONTYPE_LINE = "2";
+	public static final String PROMOTIONTYPE_ITEMCODE = "3";
 
     /**
      * Default Constructor. Instantiate ioWriter and sqlServerDAO member
@@ -117,11 +125,12 @@ public class ItemResource {
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
         barcodeAssignment = BarcodeAssignmentFactory.getInstance();
+        pricePromInfoList = PricePromInfoFactory.getInstance();
     }
 
     /**
      * Sets the DaoFactory of the ItemResource to use the DAO methods.
-     * 
+     *
      * @param daoFactory
      *            The new value for the DAO Factory
      */
@@ -136,7 +145,7 @@ public class ItemResource {
      * Method called by the Web Service for retrieving the information of an
      * Item by specifying its Store ID and the Item's price Look Up.<br>
      * <br>
-     * 
+     *
      * Interface Name: Price Lookup<br>
      * Request Type: POST<br>
      * URL: {Base URI}/pricing/{storeid}/{plucode}<br>
@@ -191,7 +200,7 @@ public class ItemResource {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();
             returnItem = itemDAO.getItemByPLU(storeID, pluCode,companyId,Integer.parseInt(priceIncludeTax),bussinessDate);
-            
+
         } catch (DaoException daoEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_DAO,
                     "Failed to get the item details.\n" + daoEx.getMessage());
@@ -220,7 +229,7 @@ public class ItemResource {
 
         return searchedProduct;
     }
-    
+
     /**
      * Get The Item Price List.
      * @param transaction transaction
@@ -235,7 +244,7 @@ public class ItemResource {
     @ApiOperation(value="プロジェクトの価格表を獲得し", response=Item.class)
     public final List<Item> getItemsPrice(
     		@ApiParam(name="transaction", value="業務") @FormParam("transaction") String transaction,
-    		@ApiParam(name="StoreId", value="店舗コード") @FormParam("StoreId") String storeId, 
+    		@ApiParam(name="StoreId", value="店舗コード") @FormParam("StoreId") String storeId,
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String companyId ,
     		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -276,9 +285,9 @@ public class ItemResource {
         }
         return itemList;
     }
-    
+
     /**
-     * 
+     *
      * @param companyId
      * @param storeId
      * @param itemType
@@ -314,9 +323,9 @@ public class ItemResource {
         }
         return pickList;
     }
-    
+
     /**
-     * 
+     *
      * @return towStep and deptEntry is true items
      */
     @Path("/getBarcodeInfo")
@@ -337,10 +346,10 @@ public class ItemResource {
 			    barcodeAssignment.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOINFORMATION);
 			    barcodeAssignment.setMessage("xml file information get failed");
 				tp.println("xml file no information");
-				
+
 				return barcodeAssignment;
 			}
-			
+
 			barcodeAssignment.setNCRWSSResultCode(ResultBase.RES_OK);
 			barcodeAssignment.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
 			barcodeAssignment.setMessage("xml file information get success");
@@ -352,16 +361,16 @@ public class ItemResource {
 		}
 		return barcodeAssignment;
 	}
-    
+
     /**
      * Checks if storeid is an enterprise store(0).
-     * 
+     *
      * @param storeID
      *            to check.
      * @return true if an enterprise storeid, false if not.
      */
     private boolean isEnterpriseStore(final String storeID) {
-        return null != storeID && !storeID.isEmpty() && 
+        return null != storeID && !storeID.isEmpty() &&
         		"0".equals(storeID.trim());
     }
 
@@ -370,7 +379,7 @@ public class ItemResource {
 
     /**
      * Checks if is normal pricing.
-     * 
+     *
      * @return true, if is normal pricing
      */
     private boolean isNormalPricing() {
@@ -384,4 +393,65 @@ public class ItemResource {
                 .getUserPrincipal().getName() : null;
     }
 
+	 /**
+     * Get The Price Prom Info.
+     * @param sku The ID of The Sku
+     * @param dpt  The ID of The Department
+     * @param line The ID of The Line
+     * @return PricePromInfo The List of The Price Prom
+     */
+    public final PricePromInfo getPricePromInfoList(
+			final String sku, final String dpt, final String line) {
+
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("sku", sku).println("dpt", dpt).println("line", line);
+
+		PricePromInfo response = new PricePromInfo();
+		PricePromInfo pricePromInfoOut = null;
+
+		try {
+			for (PricePromInfo pricePromInfo : pricePromInfoList) {
+
+				switch (pricePromInfo.getPromotionType()) {
+				case PROMOTIONTYPE_DPT:
+					if (dpt == null ? false : dpt.equals(pricePromInfo.getDpt())){
+						pricePromInfoOut = pricePromInfo;
+					}
+					break;
+
+				case PROMOTIONTYPE_LINE:
+					if (line == null ? false : line.equals(pricePromInfo.getLine())){
+						pricePromInfoOut = pricePromInfo;
+					}
+					break;
+				case PROMOTIONTYPE_ITEMCODE:
+					String pricePromSku = pricePromInfo.getSku();
+					String itemSku = sku;
+
+					if (!StringUtility.isNullOrEmpty(pricePromSku)) {
+						if (pricePromSku.contains("*")) {
+							pricePromSku = pricePromInfo.getSku().split("\\*")[0];
+							itemSku = itemSku.substring(0, pricePromSku.length());
+						}
+						if (itemSku.equals(pricePromSku)) {
+							pricePromInfoOut = pricePromInfo;
+						}
+					}
+					break;
+				}
+
+				if (pricePromInfoOut != null){
+					break;
+				}
+			}
+
+			response = pricePromInfoOut;
+
+		} catch (Exception e) {
+			LOGGER.logAlert(progname, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send PricePromInfoList.", e);
+		} finally {
+			tp.methodExit(response);
+		}
+		return response;
+	}
 }

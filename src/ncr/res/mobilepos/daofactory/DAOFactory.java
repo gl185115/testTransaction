@@ -50,6 +50,7 @@ import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
 import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
@@ -116,7 +117,7 @@ public abstract class DAOFactory {
      * @see ILineDAO
      */
     public abstract ILineDAO getLineDAO() throws DaoException;
-    
+
     /**
      * Gets the DAO object for poslog status in the database.
      *
@@ -160,7 +161,7 @@ public abstract class DAOFactory {
     /**
      * Gets the DAO object for manipulating Admin information in the database
      * for Authentication.
-     * 
+     *
      * @return DAO Object for Admin of Authentication
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -181,7 +182,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations for Credential Service.
-     * 
+     *
      * @return CredentialDao
      * @throws DaoException
      *             - Exception
@@ -190,7 +191,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Report Generation.
-     * 
+     *
      * @return IReportDAO object
      * @throws DaoException
      *             - Exception
@@ -199,7 +200,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Receipt Generation.
-     * 
+     *
      * @return IReceiptDAO object
      * @throws DaoException
      *             -Exception
@@ -208,17 +209,17 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on System Configuration.
-     * 
+     *
      * @return The DAO object for SystemConfig
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
      * @see SQLServerSystemConfigDAO
      */
     public abstract SQLServerSystemConfigDAO getSystemConfigDAO() throws DaoException;
-    
+
     /**
      * Gets the DAO object for performing operations on Store.
-     * 
+     *
      * @return The DAO object for Store
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -228,7 +229,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on Store.
-     * 
+     *
      * @return The DAO object for CorpStore
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -238,7 +239,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on QueueBustering.
-     * 
+     *
      * @return The DAO object for QueueBuster
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -257,7 +258,7 @@ public abstract class DAOFactory {
     /**
      * Gets the DAO object for Transfer transactions between smart phone and
      * POS.
-     * 
+     *
      * @return IForwardItemListDAO The DAO object
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -268,16 +269,16 @@ public abstract class DAOFactory {
     /**
      * Gets the DAO object for Transfer transactions between smart phone and
      * POS.
-     * 
+     *
      * @return ITxlCardFailureDAO The DAO object
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
      */
     public abstract ITxlCardFailureDAO getTxlCardFailureDAO();
-    
+
     /**
      * Gets the DAO object for Peripheral Controls.
-     * 
+     *
      * @return IPeripheralControlDAO The DAO object
      * @throws DaoException
      *             Exception
@@ -286,7 +287,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for mobile device log upload/download.
-     * 
+     *
      * @return IDeviceLogDAO The DAO object
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -295,7 +296,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the QueueSignatureDao.
-     * 
+     *
      * @return IQueueSignatureDao The DAO object
      * @throws DaoException
      *             - Exception
@@ -304,7 +305,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DepartmentDao.
-     * 
+     *
      * @return IDepartmentDao The DAO object
      * @throws DaoException
      *             - Exception
@@ -313,7 +314,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for QueueBuster Link.
-     * 
+     *
      * @return ILinkDAO The DAO object
      * @throws DaoException
      *             Exception
@@ -322,7 +323,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Credential User Group.
-     * 
+     *
      * @return {@link IGroupDAO} The DAO object
      * @throws DaoException
      *             Exception
@@ -331,7 +332,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for CreditAuthorization Link.
-     * 
+     *
      * @return ILinkDAO The DAO object
      * @throws DaoException
      *             Exception
@@ -340,7 +341,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Signature Link.
-     * 
+     *
      * @return ILinkDAO The DAO object.
      * @throws DaoException
      *             Exception
@@ -349,7 +350,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO Object for MixMatch.
-     * 
+     *
      * @return IMixMatchDAO
      * @throws DaoException
      *             exception
@@ -358,25 +359,25 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO Object for MixMatch.
-     * 
+     *
      * @return IMixMatchDAO
      * @throws DaoException
      *             exception
      */
     public abstract IMasterMaintenanceDAO getMasterMaintenanceDAO() throws DaoException;
-    
+
     /**
      * Gets the DAO Object for Code Convert.
-     * 
+     *
      * @return ICodeConvertDAO
      * @throws DaoException
      *             exception
      */
     public abstract ICodeConvertDAO getCodeConvertDAO() throws DaoException;
-    
+
     /**
      * Gets the DAO Object for QrCodeInfo.
-     * 
+     *
      * @return QrCodeInfoDAO
      * @throws DaoException
      *             exception
@@ -387,7 +388,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Till Info.
-     * 
+     *
      * @return ITillInfoDAO The DAO object.
      * @throws DaoException
      *             Exception
@@ -396,7 +397,7 @@ public abstract class DAOFactory {
 
     /**
      * Retrieves the concrete Factory for the DAO.
-     * 
+     *
      * @param whichFactory
      *            Identifies which storage implementation the DAO Factory to
      *            retrieve is specific to.
@@ -449,7 +450,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on Store.
-     * 
+     *
      * @return The DAO object for CM Preset Info.
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -459,7 +460,7 @@ public abstract class DAOFactory {
 
     /**
      * Get Offline Credit data DAO. return the DAO.
-     * 
+     *
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
      * @see SQLServerStoreDAO
@@ -469,8 +470,10 @@ public abstract class DAOFactory {
     public abstract ICardInfoDAO getMemberInfo() throws Exception;
 
 	public abstract ICardInfoDAO getStatusInfo() throws Exception;
-	
+
 	public abstract ICreditCardAbstractDAO getCreditCardInfo() throws Exception;
 
 	public abstract IAppServerDAO getAppServerDAO() throws DaoException;
+
+	public abstract IPricePromInfoDAO getPricePromInfoDAO() throws DaoException;
 }

@@ -334,6 +334,93 @@ WHERE info.DeleteFlag = 0.0
 
 </entry>
 
+
+
+<entry key="get-price-prom-info-list">
+
+DECLARE @companyId VARCHAR(12),
+        @storeId VARCHAR(10) ,
+        @businessDate VARCHAR(32)
+
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
+SET @businessDate = LTRIM(RTRIM(?))
+
+SELECT
+     info.PromotionNo
+    ,info.PromotionName
+    ,info.DayOfWeekSettingFlag
+    ,info.DayOfWeekMonFlag
+    ,info.DayOfWeekTueFlag
+    ,info.DayOfWeekWedFlag
+    ,info.DayOfWeekThuFlag
+    ,info.DayOfWeekFriFlag
+    ,info.DayOfWeekSatFlag
+    ,info.DayOfWeekSunFlag
+    ,detail.PromotionType
+    ,detail.BrandFlag
+    ,detail.Dpt
+    ,detail.Line
+    ,detail.Class
+    ,detail.Sku
+    ,detail.DiscountClass
+    ,detail.DiacountRate
+    ,detail.DiscountAmt
+    ,detail.BrandId
+    ,info.UpdDate
+FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
+INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
+    AND detail.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
+WHERE info.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.CompanyId = @companyId
+	AND info.TargetStoreType in ('0','2')
+
+UNION
+
+SELECT
+     info.PromotionNo
+    ,info.PromotionName
+    ,info.DayOfWeekSettingFlag
+    ,info.DayOfWeekMonFlag
+    ,info.DayOfWeekTueFlag
+    ,info.DayOfWeekWedFlag
+    ,info.DayOfWeekThuFlag
+    ,info.DayOfWeekFriFlag
+    ,info.DayOfWeekSatFlag
+    ,info.DayOfWeekSunFlag
+    ,detail.PromotionType
+    ,detail.BrandFlag
+    ,detail.Dpt
+    ,detail.Line
+    ,detail.Class
+    ,detail.Sku
+    ,detail.DiscountClass
+    ,detail.DiacountRate
+    ,detail.DiscountAmt
+    ,detail.BrandId
+    ,info.UpdDate
+FROM  RESMaster.dbo.MST_PRICE_PROM_INFO info
+INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
+    ON info.CompanyId = detail.CompanyId AND info.PromotionNo = detail.PromotionNo
+    AND detail.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN detail.StartDate AND detail.EndDate
+INNER JOIN RESMaster.dbo.MST_PRICE_PROM_STORE store
+   ON info.CompanyId = store.CompanyId
+   AND info.PromotionNo = store.PromotionNo
+   AND store.StoreId = @storeId
+   AND store.DeleteFlag = 0.0
+WHERE info.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.CompanyId = @companyId
+	AND info.TargetStoreType = '1'
+
+ORDER BY info.UpdDate DESC
+
+</entry>
+
 <entry key="get-price-mm-info">
 DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @sku VARCHAR(32), @businessDate VARCHAR(32)
     SET        @storeId = LTRIM(RTRIM(?))
@@ -2371,7 +2458,7 @@ ORDER BY
             (@corpid,@storeid,@terminalid,@accountcode,@accountsubcode,@summarydateid,@debtor,@creditor)
     COMMIT
   </entry>
-  
+
   <!-- *************************  ENTRY KEY FOR DEPARTMENT DAY SUMMARRY TABLE ************************* -->
   <entry key="select-total-dept-day">
     SELECT
@@ -2538,7 +2625,7 @@ ORDER BY
     GROUP BY acnt.Dpt, dptinfo.DptName, acnt.WorkstationId, acnt.BusinessDayDate, acnt.RetailStoreId
     ORDER BY acnt.Dpt
   </entry>
-    
+
   <entry key="select-detailreport">
   SELECT
     RIGHT(REPLICATE('0',2)+CAST(act.timezonecode AS VARCHAR(2)),2) as timezonecode,
@@ -3514,7 +3601,7 @@ ORDER BY
       @AttributeId);
   </entry>
   <!-- For Department Info for Item Details-->
-  
+
      <entry key = "get-logginginfo">
         SELECT * FROM RESTransaction.dbo.TXL_NPS_TXLOG WITH (ROWLOCK)
         WHERE RetailStoreId = ? AND WorkstationId = ? AND SequenceNumber = ? AND PaymentSeq = ? AND Guid = ?;
@@ -5080,7 +5167,7 @@ ORDER BY
     SET @storeid=?
     SET @key=?
     SET @name=?
-		 
+
     SET @storeid = (CASE
                WHEN (len(@key) = 0 OR (@key IS NULL))
                   THEN @storeid
@@ -5096,7 +5183,7 @@ ORDER BY
                ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_DPTINFO)
            END)
 
-    SELECT TOP(@limit) 
+    SELECT TOP(@limit)
 	       Dpt,
           DptName,
           DptNameLocal,
@@ -5110,7 +5197,7 @@ ORDER BY
           TaxRate,
           TaxType
 	   FROM (
-        SELECT 
+        SELECT
           Dpt,
           DptName,
           DptNameLocal,
@@ -5140,9 +5227,9 @@ ORDER BY
                 (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
               ))) AND
           Status = 'Active'
-    
-    union 
-    	SELECT 
+
+    union
+    	SELECT
           Dpt,
           DptName,
           DptNameLocal,
@@ -5169,7 +5256,7 @@ ORDER BY
                 ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
                 (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
               ))) AND
-          Status = 'Active' 
+          Status = 'Active'
     	  AND NOT EXISTS (
              SELECT 1
                FROM RESMaster.dbo.MST_DPTINFO b
@@ -8854,7 +8941,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
-  </entry>  
+  </entry>
   <entry key="get-barcode-type">
   DECLARE
       @storeId varchar(max),
@@ -10881,23 +10968,23 @@ insert into RESTransaction.dbo.TXL_offline_credit
   <entry key="convert-ccode-to-dpt">
   DECLARE
       @companyId varchar(max), @ccode varchar(20)
-      
+
   SET @companyId = ?
   SET @ccode = ?
-  
+
   SELECT     Dpt
     FROM RESMaster.dbo.MST_CCODEINFO
     WHERE CompanyId = @companyId AND
     	CCode = @ccode
   </entry>
-  
+
   <entry key="convert-magcode-to-dpt">
   DECLARE
       @companyId varchar(max), @magcode varchar(20)
-      
+
   SET @companyId = ?
   SET @magcode = ?
-  
+
   SELECT     Dpt
     FROM RESMaster.dbo.MST_MAGCODEINFO
     WHERE CompanyId = @companyId AND
@@ -10913,10 +11000,10 @@ WHERE
 	%s = 0;
 </entry>
 	<entry key="get-server-list">
-		SELECT 
-			Name, 
-			Type, 
-			Url 
+		SELECT
+			Name,
+			Type,
+			Url
 		FROM
 			RESMaster.dbo.PRM_SERVER_TBL
 	</entry>

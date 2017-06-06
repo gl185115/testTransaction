@@ -1,4 +1,4 @@
-package ncr.res.mobilepos.promotion.factory;
+package ncr.res.mobilepos.pricing.factory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,15 +10,15 @@ import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.pricing.model.QrCodeInfo;
-import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
 
 /**
- * This class loads QrCodeInfo from MST_QRCODE_INFO and MST_QRCODE_STORE.
+ * This class loads PricePromInfo from MST_PRICE_PROM_INFO,MST_PRICE_PROM_DETAIL and MST_PRICE_PROM_STORE.
  */
-public class QrCodeInfoFactory {
+public class PricePromInfoFactory {
     /** A private member variable used for the servlet context. */
 	private static ServletContext context; // to access the web.xml
     /**
@@ -28,35 +28,34 @@ public class QrCodeInfoFactory {
     /**
      * The Program Name.
      */
-    private static final String PROG_NAME = "QrCodeAFactory";
+    private static final String PROG_NAME = "PricePromFactory";
 
-    private static List<QrCodeInfo> instance;
+    private static List<PricePromInfo> instance;
 
-    public QrCodeInfoFactory() {
+    public PricePromInfoFactory() {
     }
 
-    public static List<QrCodeInfo> initialize(String companyId, String storeId) throws Exception {
+    public static List<PricePromInfo> initialize(String companyId, String storeId) throws Exception {
         instance = null;
-        instance = codeInfoConstant(companyId, storeId);
+        instance = pricePromInfoConstant(companyId, storeId);
         return instance;
     }
 
-    public static List<QrCodeInfo> getInstance() {
+    public static List<PricePromInfo> getInstance() {
         return instance;
     }
 
     /**
-     * Get QrCodeInfo  Information.
-     * @param companyId
-     * @param storeId
-     * @return List<QrCodeInfo>
+     * Get PricePromInfo Information.
+     * @param systemPath
+     * @return List<PricePromInfo>
      * @throws Exception
      */
-    private static List<QrCodeInfo> codeInfoConstant(String companyId, String storeId) throws Exception {
-        Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), QrCodeInfoFactory.class);
+    private static List<PricePromInfo> pricePromInfoConstant(String companyId, String storeId) throws Exception {
+        Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), PricePromInfoFactory.class);
         String functionName = DebugLogger.getCurrentMethodName();
 
-        List<QrCodeInfo> QrCodeList = null;
+        List<PricePromInfo> PricePromList = null;
 
         try {
 
@@ -69,25 +68,25 @@ public class QrCodeInfoFactory {
             }
             String bizDay = dateSetting.getToday();
 
-            QrCodeList = new ArrayList<QrCodeInfo>();
+            PricePromList = new ArrayList<PricePromInfo>();
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IQrCodeInfoDAO codeInfDAO = daoFactory.getQrCodeInfoDAO();
-            QrCodeList = codeInfDAO.getQrCodeInfoList(companyId, storeId, bizDay);
+            IPricePromInfoDAO pricePromInfDAO = daoFactory.getPricePromInfoDAO();
+            PricePromList = pricePromInfDAO.getPricePromInfoList(companyId, storeId, bizDay);
 
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,
-                    functionName + ": Failed to get codeInfo.", e);
+                    functionName + ": Failed to get PricePromInfo.", e);
             throw e;
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to get codeInfo.", e);
+                    functionName + ": Failed to get PricePromInfo.", e);
             throw e;
         } finally {
-             if(tp != null) {
-                tp.methodExit(QrCodeList);
+            if(tp != null) {
+                tp.methodExit(PricePromList);
             }
         }
 
-        return QrCodeList;
+        return PricePromList;
     }
 }

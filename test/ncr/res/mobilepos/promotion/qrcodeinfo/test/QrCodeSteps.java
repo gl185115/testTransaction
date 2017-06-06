@@ -1,14 +1,6 @@
 package ncr.res.mobilepos.promotion.qrcodeinfo.test;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
+import junit.framework.Assert;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -19,14 +11,23 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 
-import junit.framework.Assert;
-import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class QrCodeSteps extends Steps {
 	private QrCodeInfoFactory qrCodeInfoFactory = null;
@@ -35,19 +36,19 @@ public class QrCodeSteps extends Steps {
 	private static int status = 0;
 	public static final int ERROR_IOEXCEPTION = 1;
 	public static final int ERROR_DAOEXCEPTION = 2;
-
+	
 	@BeforeScenario
     public final void setUpClass() {
 		dbInit = new DBInitiator("SQLServerItemDAOSteps", DATABASE.RESMaster);
         Requirements.SetUp();
         initResources();
     }
-
+	
     @AfterScenario
     public final void tearDownClass() {
         Requirements.TearDown();
     }
-
+    
     private void initResources() {
 		ServletContext context = Requirements.getMockServletContext();
 		try {
@@ -63,7 +64,7 @@ public class QrCodeSteps extends Steps {
 			Assert.fail("Cant load Mock Servlet Context.");
 		}
 	}
-
+    
     @Given("a loaded dataset $dataset")
 	public final void initdatasetsDpt(final String dataset) {
 		try {
@@ -72,21 +73,20 @@ public class QrCodeSteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-
+    
 	@When("the tomcat startUp with systemPath $systemPath")
 	public final void getQrCodeInfo(String systemPath) throws Exception {
 		try{
 			status = 0;
-			WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
-			QrCodeInfoFactory.initialize(windowsEnvironmentVariables.getCompanyId(),windowsEnvironmentVariables.getStoreId());
+			QrCodeList = qrCodeInfoFactory.initialize(systemPath);
 		} catch(IOException e) {
 			status = ERROR_IOEXCEPTION;
 		} catch (DaoException e) {
 			status = ERROR_DAOEXCEPTION;
 		}
 	}
-
-
+	
+	
 	@Then("I should get the QrCodeInfo : $expectedJson")
 	public final void qrCodeInfoShouldBe(final ExamplesTable expectedItems) {
 		int i = 0;
@@ -94,7 +94,7 @@ public class QrCodeSteps extends Steps {
 			assertThat("Compare the PromotionId at row ",
 					"" + QrCodeList.get(i).getPromotionId(),
 					is(equalTo(expectedItem.get("PromotionId"))));
-			assertThat("Compare the MinimumPrice row ",
+			assertThat("Compare the MinimumPrice row ", 
 					"" + QrCodeList.get(i).getMinimumPrice(),
 					is(equalTo(expectedItem.get("MinimumPrice"))));
 			assertThat("Compare the OutputTargetValue at row ",
@@ -151,13 +151,13 @@ public class QrCodeSteps extends Steps {
 			i++;
 		}
 	}
-
+	
 	@Then("the Result Code is $resultcode")
 	public final void theResultCodeIs(int expectedResultCode) {
 		Assert.assertEquals("Expect the result code", expectedResultCode,
 				status);
 	}
-
+	
 	@Then("the emptyResult is $expectedResult")
 	public final void qrCodeInfoIsNull(String expectedResult) {
 		assertThat("Expect the result ",

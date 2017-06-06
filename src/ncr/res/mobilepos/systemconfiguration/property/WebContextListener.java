@@ -153,7 +153,7 @@ public class WebContextListener implements ServletContextListener {
             String storeId = windowsEnvironmentVariables.getStoreId();
 
             // Only HOST loads QrCodeInfo  Information
-        	QrCodeInfoFactory.initialize(companyId, storeId);
+        	QrCodeInfoFactory.initialize(windowsEnvironmentVariables.getSystemPath());
             // Only HOST loads PricePromInfo Information
         	PricePromInfoFactory.initialize(companyId, storeId);
         }

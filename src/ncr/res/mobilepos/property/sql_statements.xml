@@ -10269,6 +10269,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
     iteminfo.SkuTargetType,
     iteminfo.SkuStart,
     iteminfo.SkuEnd,
+    iteminfo.BasePoint as InfoBasePoint,
+    itemdetail.BasePoint as DetailBasePoint,
     itemdetail.TargetType,
     itemdetail.TargetId
   FROM

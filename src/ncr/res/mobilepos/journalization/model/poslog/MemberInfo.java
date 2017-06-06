@@ -98,10 +98,10 @@ public class MemberInfo {
     private Integer lostPoints;
 
     /**
-     * The private variable that will hold the MemberInfoDetail
+     * The private variable that will hold the MemberDetail
      */
-    @XmlElement(name = "MemberInfoDetail")
-    private MemberInfoDetail memberInfoDetail;
+    @XmlElement(name = "MemberDetail")
+    private MemberDetail memberDetail;
 
     /**
      * 
@@ -313,18 +313,18 @@ public class MemberInfo {
 
     /**
      * 
-     * @return MemberInfoDetail
+     * @return MemberDetail
      */
-    public MemberInfoDetail getMemberInfoDetail() {
-        return memberInfoDetail;
+    public MemberDetail getMemberDetail() {
+        return memberDetail;
     }
 
     /**
      * 
-     * @param MemberInfoDetail
+     * @param MemberDetail
      */
-    public void setMemberInfoDetail(MemberInfoDetail memberInfoDetail) {
-        this.memberInfoDetail = memberInfoDetail;
+    public void setMemberDetail(MemberDetail memberDetail) {
+        this.memberDetail = memberDetail;
     }
 
     @Override
@@ -334,7 +334,7 @@ public class MemberInfo {
                 + "CorrectionPoints = " + correctionPoints + "BasicPoints = " + basicPoints + "AdditionalPoints = "
                 + additionalPoints + "BonusPoints = " + bonusPoints + "CouponPoints = " + couponPoints
                 + "PointsRedeemed = " + pointsRedeemed + "PointsPrior = " + pointsPrior + "TotalPoints = " + totalPoints
-                + "LostPoints = " + lostPoints + "MemberInfoDetail = " + memberInfoDetail + "]";
+                + "LostPoints = " + lostPoints + "MemberDetail = " + memberDetail + "]";
     }
 
 }

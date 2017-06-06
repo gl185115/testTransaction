@@ -678,6 +678,15 @@ public class PromotionResource {
 			}
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
+			if (StringUtility.isNullOrEmpty(dpt)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+				response.setMessage("Not found in the PLU.");
+				tp.println("Not found in the PLU.");
+			} else {
+				codeTemp = dpt;
+			}
+			break;
 		case BarcodeAssignmentConstant.VARIETIES_JANSALES:
 		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD1:
 		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD2:

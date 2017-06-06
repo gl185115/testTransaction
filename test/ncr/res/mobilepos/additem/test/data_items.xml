@@ -1151,6 +1151,14 @@
 		<column>StartDate</column>
 		<column>EndDate</column>
 		<column>TargetStoreType</column>
+		<column>DayOfWeekSettingFlag</column>
+		<column>DayOfWeekMonFlag</column>
+		<column>DayOfWeekTueFlag</column>
+		<column>DayOfWeekWedFlag</column>
+		<column>DayOfWeekThuFlag</column>
+		<column>DayOfWeekFriFlag</column>
+		<column>DayOfWeekSatFlag</column>
+		<column>DayOfWeekSunFlag</column>
 		<column>SubCode1</column>
 		<column>SubCode2</column>
 		<column>SubCode3</column>
@@ -1179,6 +1187,14 @@
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
 			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
 			<value></value>
 			<value></value>
 			<value></value>

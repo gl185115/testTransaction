@@ -1,5 +1,9 @@
 package ncr.res.mobilepos.constant;
 
+import java.io.IOException;
+
+import javax.naming.NamingException;
+
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
@@ -8,8 +12,6 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
 import org.powermock.api.mockito.PowerMockito;
-
-import javax.naming.NamingException;
 
 import ncr.res.mobilepos.helper.StringUtility;
 
@@ -32,7 +34,7 @@ public class WindowsEnvironmentVariablesSteps extends Steps {
 	}
 
 	@When("Initialization is triggered")
-	public void trigerInit() throws NamingException {
+	public void trigerInit() throws NamingException, IOException {
 		try {
 			WindowsEnvironmentVariables.initInstance();
 		} catch (NamingException nme) {

@@ -138,4 +138,54 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
         
         return QrCodeList;
     }
+    
+    /**
+     * Get CustomerId from MST_QRCODE_MEMBERID
+     * @param promotionId,
+	 *        customerId
+     * @return rightCustomerId
+     * @throws DaoException Exception when error occurs.
+     */
+    public final String getCustomerQrCodeInfoList(String companyId, String promotionId, String customerId) throws DaoException {
+    	String functionName = DebugLogger.getCurrentMethodName();
+    	tp.println("CompanyId", companyId);
+    	tp.println("PromotionId", promotionId);
+        tp.println("CustomerId", customerId);
+        
+    	Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet result = null;
+        
+        String rightCustomerId = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement.getProperty("is-member-on-promotion"));
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, promotionId);
+            select.setString(SQLStatement.PARAM3, customerId);
+            result = select.executeQuery();
+            
+            while(result.next()){
+                rightCustomerId = result.getString(result.findColumn("MemberId"));
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to get the customerId.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @getCustomerQrCodeInfo ", sqlEx);
+        }
+        catch (NumberFormatException nuEx) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+                    "Failed to get the customerId.\n" + nuEx.getMessage());
+            throw new DaoException("NumberFormatException: @getCustomerQrCodeInfo ", nuEx);
+        } catch (Exception e) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to get the customerId.\n" + e.getMessage());
+            throw new DaoException("Exception: @getCustomerQrCodeInfo ", e);
+        } finally {
+            closeConnectionObjects(connection, select, result);
+            tp.methodExit(rightCustomerId);
+        }
+    	return rightCustomerId;
+    }
 }

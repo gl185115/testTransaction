@@ -8305,6 +8305,37 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
+			<value>0029</value>
+			<value>0010</value>
+			<value>1234</value>
+			<value>一般</value>
+			<value>単行本</value>
+			<value>総記</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-03-22 16:09:44.4314770</value>
+			<value>batch</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2017-03-22 16:09:44.4314770</value>
+			<value>batch</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
 			<value>0000</value>
 			<value>0010</value>
 			<value>3970</value>
@@ -8752,6 +8783,54 @@
 			<value>0</value>
 			<null />
 			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>21111</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:44.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:44.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>1234</value>
+			<null />
+			<value>MJROYAL BK465</value>
+			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
+			<value>2</value>
+			<value>00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>1</value>
 			<null />
 			<value>0</value>
 			<value>0</value>

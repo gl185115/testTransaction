@@ -407,6 +407,43 @@
 			<value>SYSTEM</value>
 		</row>
 		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>全店111type2</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<null />
+			<value>全店111type2</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
 			<value>02</value>
 			<value>0001</value>
 			<value>全店21</value>
@@ -999,6 +1036,39 @@
 			<value>SYSTEM</value>
 			<value>SYSTEM</value>
 		</row>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>1</value>
+			<value>2</value>
+			<value>394</value>
+			<value>0002</value>
+			<value>39401</value>
+			<value>04627788</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
 </table>
 <table name="MST_QRCODE_MEMBER">
 		<column>CompanyId</column>
@@ -1031,7 +1101,7 @@
 		<row>
 			<value>01</value>
 			<value>0001</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1060,10 +1130,10 @@
 		<row>
 			<value>01</value>
 			<value>0002</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
-			<value>02</value>
+			<value>01</value>
 			<null />
 			<null />
 			<null />
@@ -1089,7 +1159,7 @@
 		<row>
 			<value>01</value>
 			<value>0003</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1118,7 +1188,7 @@
 		<row>
 			<value>01</value>
 			<value>0004</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1147,7 +1217,7 @@
 		<row>
 			<value>01</value>
 			<value>0005</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1176,7 +1246,7 @@
 		<row>
 			<value>01</value>
 			<value>0006</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1205,7 +1275,7 @@
 		<row>
 			<value>01</value>
 			<value>0007</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1234,7 +1304,7 @@
 		<row>
 			<value>01</value>
 			<value>0008</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1263,7 +1333,7 @@
 		<row>
 			<value>01</value>
 			<value>0009</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
@@ -1292,10 +1362,91 @@
 		<row>
 			<value>01</value>
 			<value>0010</value>
-			<null />
+			<value>1</value>
 			<value>0</value>
 			<value>1</value>
 			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+</table>
+<table name="MST_QRCODE_MEMBERID">
+		<column>CompanyId</column>
+		<column>PromotionId</column>
+		<column>MemberId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>11111111111110</value>
 			<null />
 			<null />
 			<null />

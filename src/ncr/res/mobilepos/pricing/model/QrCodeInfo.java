@@ -73,8 +73,14 @@ public class QrCodeInfo {
     @XmlElement(name = "birthMonth")
     private String birthMonth;
     
-    @XmlElement(name = "QuanlitySum")
-    private int quanlitySum;
+    @XmlElement(name = "quantity")
+    private int quantity;
+    
+    @XmlElement(name = "targetValue")
+    private String targetValue;
+    
+    @XmlElement(name = "customerId")
+    private String customerId;
     
     @ApiModelProperty(value="出力タイプ", notes="出力タイプ")
     public String getOutputType() {
@@ -256,13 +262,31 @@ public class QrCodeInfo {
 		this.birthMonth = birthMonth;
 	}
 
-    @ApiModelProperty(value="ビットマップの印字数", notes="ビットマップの印字数")
-    public int getQuanlitySum() {
-        return quanlitySum;
-    }
+	@ApiModelProperty(value="印字枚数", notes="印字枚数")
+	public int getQuantity() {
+		return quantity;
+	}
 
-    public void setQuanlitySum(int quanlitySum) {
-        this.quanlitySum = quanlitySum;
-    }
-    
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	@ApiModelProperty(value="出力基準値", notes="出力基準値")
+	public String getTargetValue() {
+		return targetValue;
+	}
+
+	public void setTargetValue(String targetValue) {
+		this.targetValue = targetValue;
+	}
+
+	@ApiModelProperty(value="会員番号", notes="会員番号")
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+	
 }

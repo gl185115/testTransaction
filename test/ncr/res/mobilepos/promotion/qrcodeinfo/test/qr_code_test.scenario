@@ -27,12 +27,13 @@ When the tomcat startUp with systemPath test/resources/sys/normal
 Then the Result Code is 0
 Then I should get the QrCodeInfo :
 |PromotionId|MinimumPrice|OutputTargetValue|BMPFileName     |BMPFileFlag|BMPFileCount|OutputType|DisplayOrder|PromotionType|Dpt|Line  |Class|Sku          |ConnCode|BrandId|MemberRank|MemberTargetType|SexType|BirthMonth|
-|0001       |100.0       |null             |‘S“X11type1      |0          |1           |1         |1           |1            |394|0001  |39401|04627787     |null    |null   |null      |0               |1      |01        |
-|0002       |100.0       |null             |‘S“X12type2      |0          |1           |2         |1           |2            |394|0002  |39401|04627788     |null    |null   |null      |0               |1      |02        |
-|0004       |100.0       |null             |‘S“X14type4      |0          |1           |3         |1           |4            |394|0004  |39401|04627787     |null    |00001  |null      |0               |1      |01        |
-|0005       |100.0       |null             |‘S“X15type5      |0          |1           |2         |1           |5            |394|0005  |39401|04627787     |null    |null   |null      |0               |1      |01        |
-|0006       |100.0       |null             |‘S“X16type3      |0          |1           |1         |1           |3            |394|0006  |39401|04627787     |0001    |null   |null      |0               |1      |01        |
-|0007       |100.0       |null             |‘S“X17type6      |0          |1           |2         |1           |6            |394|0007  |39401|4920001001230|null    |null   |null      |0               |1      |01        |
-|0008       |100.0       |null             |‘S“X18type3      |0          |1           |2         |1           |3            |394|0008  |39401|04627787     |0001    |null   |null      |0               |1      |01        |
-|0009       |100.0       |1000             |‘S“X19type4      |0          |1           |3         |1           |4            |394|0009  |39401|04627787     |null    |00001  |null      |0               |1      |01        |
-|0010       |100.0       |null             |‘S“X110type6     |0          |1           |2         |1           |6            |394|0010  |39401|492000100999*|null    |null   |null      |0               |1      |01        |
+|0001       |100.0       |null             |‘S“X11type1      |0          |1           |1         |1           |1            |394|0001  |39401|04627787     |null    |null   |1         |0               |1      |01        |
+|0002       |100.0       |null             |‘S“X12type2      |0          |1           |2         |1           |2            |394|0002  |39401|04627788     |null    |null   |1         |0               |1      |01        |
+|0004       |100.0       |null             |‘S“X14type4      |0          |1           |3         |1           |4            |394|0004  |39401|04627787     |null    |00001  |1         |0               |1      |01        |
+|0005       |100.0       |null             |‘S“X15type5      |0          |1           |2         |1           |5            |394|0005  |39401|04627787     |null    |null   |1         |0               |1      |01        |
+|0006       |100.0       |null             |‘S“X16type3      |0          |1           |1         |1           |3            |394|0006  |39401|04627787     |0001    |null   |1         |0               |1      |01        |
+|0007       |100.0       |null             |‘S“X17type6      |0          |1           |2         |1           |6            |394|0007  |39401|4920001001230|null    |null   |1         |0               |1      |01        |
+|0008       |100.0       |null             |‘S“X18type3      |0          |1           |2         |1           |3            |394|0008  |39401|04627787     |0001    |null   |1         |0               |1      |01        |
+|0009       |100.0       |1000             |‘S“X19type4      |0          |1           |3         |1           |4            |394|0009  |39401|04627787     |null    |00001  |1         |0               |1      |01        |
+|0010       |100.0       |null             |‘S“X110type6     |0          |1           |2         |1           |6            |394|0010  |39401|492000100999*|null    |null   |1         |0               |1      |01        |
+|0011       |100.0       |null             |‘S“X111type2     |0          |1           |2         |1           |2            |394|0002  |39401|04627788     |null    |null   |1         |1               |1      |01        |

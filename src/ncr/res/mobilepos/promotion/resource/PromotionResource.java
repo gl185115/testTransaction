@@ -56,6 +56,7 @@ import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
+import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
@@ -121,6 +122,8 @@ public class PromotionResource {
 	public static final String OUTPUTTYPE_ONE = "1";
 	public static final String OUTPUTTYPE_TWO = "2";
 	public static final String OUTPUTTYPE_THREE = "3";
+	public static final String MEMBERTARGETTYPE_ZERO = "0";
+	public static final String MEMBERTARGETTYPE_ONE = "1";
 
 	/**
 	 * Default Constructor for PromotionResource.
@@ -446,14 +449,6 @@ public class PromotionResource {
 					return response;
 				} else {
 					if (item == null) {
-						if (twoStep && barcode_sec.length() == 4) {
-							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
-						} else {
-							// バーコード価格を使用
-							double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-							saleOut.setRegularSalesUnitPrice(barCodePrice);
-							saleOut.setActualSalesUnitPrice(barCodePrice);
-						}
 						// 部門情報を戻る
 						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
 						String taxType = departmentInfo.getDepartment().getTaxType();
@@ -472,6 +467,19 @@ public class PromotionResource {
 
 						saleOut.setItemId(itemIdTemp);
 						saleOut.setDepartment(dptCode);
+						
+						if (twoStep && barcode_sec.length() == 4) {
+							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
+						} else {
+							// バーコード価格を使用
+							double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+							if ("1".equals(taxType)) {
+								barCodePrice = (int) (barCodePrice * 1.08);
+							}
+							saleOut.setRegularSalesUnitPrice(barCodePrice);
+							saleOut.setActualSalesUnitPrice(barCodePrice);
+						}
+						
 						transactionOut.setSale(saleOut);
 						response.setDepartmentName(dptName);
 						response.setTransaction(transactionOut);
@@ -506,10 +514,13 @@ public class PromotionResource {
 				// バーコード価格を使用
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
 					double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-					saleItem.setRegularSalesUnitPrice(barCodePrice);
-					saleItem.setActualSalesUnitPrice(barCodePrice);
 					String taxType = departmentInfo.getDepartment().getTaxType();
 					saleItem.setTaxType(Integer.parseInt(taxType));
+					if ("1".equals(taxType)) {
+						barCodePrice = (int) (barCodePrice * 1.08);
+					}
+					saleItem.setRegularSalesUnitPrice(barCodePrice);
+					saleItem.setActualSalesUnitPrice(barCodePrice);
 				}
 
 				if (discounttype == null) {
@@ -1377,6 +1388,7 @@ public class PromotionResource {
 
 			JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
 			Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+			transactionIn.setCompanyId(companyId);
 
 			// get valid data
 			qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
@@ -1410,12 +1422,15 @@ public class PromotionResource {
 				if (!flag) {
 					break;
 				}
-				bitmapCount = qrCodeInfoListTemp.get(i).getQuanlitySum();
+				bitmapCount = qrCodeInfoListTemp.get(i).getQuantity();
 				for (int j = 0; j < bitmapCount; j++) {
 					if (qrCodeInfoListOut == null) {
 						qrCodeInfoListOut = new ArrayList<QrCodeInfo>();
 					}
 					if (qrCodeInfoListOut.size() < maxPrintNum) {
+						if (qrCodeInfoListTemp.get(i).getQuantity() > maxPrintNum) {
+							qrCodeInfoListTemp.get(i).setQuantity(maxPrintNum);
+						}
 						qrCodeInfoListOut.add(qrCodeInfoListTemp.get(i));
 					} else {
 						flag = false;
@@ -1448,18 +1463,27 @@ public class PromotionResource {
 	 *
 	 * @param transactionIn
 	 * @return List<QrCodeInfo>
+	 * @throws DaoException 
 	 */
-	private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) {
+	private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("Transaction", transactionIn);
 
 		String SexTypeIn = transactionIn.getCustomerClass().getSexType();
-		boolean CustomerSexTypeInFlag = false;
+		String rank = null;
+		String birthMonth = null;
+		String customerId = null;
+		if (transactionIn.getCustomer() != null) {
+			rank = transactionIn.getCustomer().getRank();
+			birthMonth = transactionIn.getCustomer().getBirthMonth();
+			customerId = transactionIn.getCustomer().getId();
+		}
+		boolean CustomerExistFlag = false;
 		String CustomerSexTypeIn = null;
 		if (transactionIn.getCustomer() == null) {
-			CustomerSexTypeInFlag = false;
+			CustomerExistFlag = false;
 		} else {
-			CustomerSexTypeInFlag = true;
+			CustomerExistFlag = true;
 			CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
 		}
 
@@ -1469,9 +1493,22 @@ public class PromotionResource {
 		Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
 
 		for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
-			if (CustomerSexTypeInFlag == true) {
+			if (CustomerExistFlag == true) {
 				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
 					continue;
+				}
+				// MemberTargetType = 0の場合
+				if (MEMBERTARGETTYPE_ZERO.equalsIgnoreCase(qrCodeInfo.getMemberTargetType())) {
+					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank()) 
+							&& birthMonth.equals(qrCodeInfo.getBirthMonth()))) {
+						continue;
+					}
+				} else {
+					qrCodeInfo.setCustomerId(checkCustomerID(qrCodeInfo, transactionIn));
+					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank()) 
+							&& birthMonth.equals(qrCodeInfo.getBirthMonth()) && customerId.equals(qrCodeInfo.getCustomerId()))) {
+						continue;
+					}
 				}
 			} else {
 				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()))) {
@@ -1483,6 +1520,11 @@ public class PromotionResource {
 			switch (qrCodeInfo.getPromotionType()) {
 			case PROMOTIONTYPE_ALL:
 				if (itemListIns.size() > 0 ) {
+					for (String promotionId : qrItemMap.keySet()) {
+						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
+							itemListIns.addAll(qrItemMap.get(promotionId));
+						}
+					}
 					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListIns);
 				}
 				break;
@@ -1493,6 +1535,11 @@ public class PromotionResource {
 					}
 				}
 				if (itemListOut.size() > 0 ) {
+					for (String promotionId : qrItemMap.keySet()) {
+						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
+							itemListOut.addAll(qrItemMap.get(promotionId));
+						}
+					}
 					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
@@ -1508,6 +1555,11 @@ public class PromotionResource {
 					}
 				}
 				if (itemListOut.size() > 0 ) {
+					for (String promotionId : qrItemMap.keySet()) {
+						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
+							itemListOut.addAll(qrItemMap.get(promotionId));
+						}
+					}
 					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
@@ -1523,6 +1575,11 @@ public class PromotionResource {
 					}
 				}
 				if (itemListOut.size() > 0 ) {
+					for (String promotionId : qrItemMap.keySet()) {
+						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
+							itemListOut.addAll(qrItemMap.get(promotionId));
+						}
+					}
 					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
@@ -1533,6 +1590,11 @@ public class PromotionResource {
 					}
 				}
 				if (itemListOut.size() > 0 ) {
+					for (String promotionId : qrItemMap.keySet()) {
+						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
+							itemListOut.addAll(qrItemMap.get(promotionId));
+						}
+					}
 					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
@@ -1551,6 +1613,11 @@ public class PromotionResource {
 					}
 				}
 				if (itemListOut.size() > 0 ) {
+					for (String promotionId : qrItemMap.keySet()) {
+						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
+							itemListOut.addAll(qrItemMap.get(promotionId));
+						}
+					}
 					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
@@ -1591,10 +1658,10 @@ public class PromotionResource {
 
 					switch (qrCodeInfo.getOutputType()) {
 					case OUTPUTTYPE_ONE:
-						qrCodeInfo.setQuanlitySum(1);
+						qrCodeInfo.setQuantity(1);
 						break;
 					case OUTPUTTYPE_TWO:
-						qrCodeInfo.setQuanlitySum(quanlitySum);
+						qrCodeInfo.setQuantity(quanlitySum);
 						break;
 					case OUTPUTTYPE_THREE:
 						if (!StringUtility.isNullOrEmpty(qrCodeInfo.getOutputTargetValue())) {
@@ -1604,12 +1671,13 @@ public class PromotionResource {
 							quanlitySum = 0;
 						}
 
-						qrCodeInfo.setQuanlitySum(quanlitySum);
+						qrCodeInfo.setQuantity(quanlitySum);
 						break;
 					}
 
+					qrCodeInfo.setTargetValue(qrCodeInfo.getOutputTargetValue());					
 					int minimumPrice = (int) Math.round(qrCodeInfo.getMinimumPrice());
-					if (priceSum >= minimumPrice && qrCodeInfo.getQuanlitySum() > 0) {
+					if (priceSum >= minimumPrice && qrCodeInfo.getQuantity() > 0) {
 						qrCodeInfoListTemp.add(qrCodeInfo);
 					}
 					break;
@@ -1619,5 +1687,16 @@ public class PromotionResource {
 
 		tp.methodExit(qrCodeInfoListTemp);
 		return qrCodeInfoListTemp;
+	}
+	
+	private String checkCustomerID(QrCodeInfo qrCodeInfo, Transaction transactionIn) throws DaoException {
+		String rightCustomerId = null;
+		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+		IQrCodeInfoDAO codeInfDAO = daoFactory.getQrCodeInfoDAO();
+		String companyId = transactionIn.getCompanyId();
+		String promotionId = qrCodeInfo.getPromotionId();
+		String customerId = transactionIn.getCustomer().getId();
+		rightCustomerId = codeInfDAO.getCustomerQrCodeInfoList(companyId, promotionId, customerId);
+		return rightCustomerId;
 	}
 }

@@ -722,7 +722,7 @@ SELECT
 	member.BirthMonth
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
-LEFT JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
 	ON info.CompanyId = detail.CompanyId
 	AND info.PromotionId = detail.PromotionId
 LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
@@ -763,7 +763,7 @@ FROM
 LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
     ON info.CompanyId = store.CompanyId
 	AND info.PromotionId = store.PromotionId
-LEFT JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
 	ON info.CompanyId = detail.CompanyId
 	AND info.PromotionId = detail.PromotionId
 LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member

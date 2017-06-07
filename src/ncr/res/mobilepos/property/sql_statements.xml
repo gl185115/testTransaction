@@ -880,7 +880,15 @@ WHERE
 
 ) A ORDER BY DisplayOrder
 </entry>
-  <entry key="get-till-information-list">
+<entry key="is-member-on-promotion">
+SELECT
+    MemberId
+FROM
+    RESMaster.dbo.MST_QRCODE_MEMBERID
+WHERE
+    CompanyId = ? AND PromotionId = ? AND MemberId = ?
+</entry>
+<entry key="get-till-information-list">
   DECLARE    @storeId VARCHAR(6)
   SET        @storeId = LTRIM(RTRIM(?))
   SELECT     StoreId,

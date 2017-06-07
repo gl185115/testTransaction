@@ -114,7 +114,7 @@ public class ViewDepartment extends ResultBase {
      * @return discountRate
      */
     @ApiModelProperty( value="Š„ˆø—¦", notes="Š„ˆø—¦")
-    public final double getDiscountRate() {
+    public final Double getDiscountRate() {
         return discountRate;
     }
 

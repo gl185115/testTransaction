@@ -101,9 +101,9 @@ public class MemberDetail {
     private String nextRankName;
 
     /**
-     * The private variable that will hold the HightRank
+     * The private variable that will hold the HighRank
      */
-    @XmlElement(name = "HightRank")
+    @XmlElement(name = "HighRank")
     private String highRank;
 
     /**
@@ -338,17 +338,17 @@ public class MemberDetail {
 
     /**
      * 
-     * @return HightRank
+     * @return HighRank
      */
-    public String getHightRank() {
+    public String getHighRank() {
         return highRank;
     }
 
     /**
      * 
-     * @param HightRank
+     * @param HighRank
      */
-    public void setHightRank(String highRank) {
+    public void setHighRank(String highRank) {
         this.highRank = highRank;
     }
 
@@ -375,7 +375,7 @@ public class MemberDetail {
                 + "SalesAmountByRankEnd=" + salesAmountByRankEnd + "SalesAmountByRank=" + salesAmountByRank
                 + "SalesAmountByRankExpiration=" + salesAmountByRankExpiration + "RankApplyAmount=" + rankApplyAmount
                 + "NextRankStart=" + nextRankStart + "NextRankEnd=" + nextRankEnd + "NextRank=" + nextRank
-                + "NextRankName=" + nextRankName + "HightRank=" + highRank + "HighRankName=" + highRankName +"]";
+                + "NextRankName=" + nextRankName + "HighRank=" + highRank + "HighRankName=" + highRankName +"]";
     }
 
 }

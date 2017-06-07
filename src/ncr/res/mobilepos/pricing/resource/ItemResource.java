@@ -409,21 +409,13 @@ public class ItemResource {
 		PricePromInfo response = new PricePromInfo();
 		PricePromInfo pricePromInfoOut = null;
 
+		if (pricePromInfoList == null){
+			return null;
+		}
 		try {
 			for (PricePromInfo pricePromInfo : pricePromInfoList) {
 
 				switch (pricePromInfo.getPromotionType()) {
-				case PROMOTIONTYPE_DPT:
-					if (dpt == null ? false : dpt.equals(pricePromInfo.getDpt())){
-						pricePromInfoOut = pricePromInfo;
-					}
-					break;
-
-				case PROMOTIONTYPE_LINE:
-					if (line == null ? false : line.equals(pricePromInfo.getLine())){
-						pricePromInfoOut = pricePromInfo;
-					}
-					break;
 				case PROMOTIONTYPE_ITEMCODE:
 					String pricePromSku = pricePromInfo.getSku();
 					String itemSku = sku;
@@ -436,6 +428,18 @@ public class ItemResource {
 						if (itemSku.equals(pricePromSku)) {
 							pricePromInfoOut = pricePromInfo;
 						}
+					}
+					break;
+
+				case PROMOTIONTYPE_LINE:
+					if (line == null ? false : line.equals(pricePromInfo.getLine())){
+						pricePromInfoOut = pricePromInfo;
+					}
+					break;
+
+				case PROMOTIONTYPE_DPT:
+					if (dpt == null ? false : dpt.equals(pricePromInfo.getDpt())){
+						pricePromInfoOut = pricePromInfo;
 					}
 					break;
 				}

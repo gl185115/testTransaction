@@ -780,6 +780,24 @@ WHERE
 
 ) A ORDER BY DisplayOrder, PromotionId
 </entry>
+<entry key="check-cust-in-memberid">
+DECLARE @companyId VARCHAR(32),
+		@promotionId VARCHAR(20),
+		@customerId VARCHAR(22)
+
+SET @companyId =LTRIM(RTRIM(?))
+SET @promotionId =LTRIM(RTRIM(?))
+SET @customerId =LTRIM(RTRIM(?))
+
+SELECT
+	MemberId
+FROM
+	RESMaster.dbo.MST_QRCODE_MEMBERID
+WHERE
+	companyId = @companyId
+	AND MemberId = @customerId
+	AND promotionId = @promotionId
+</entry>
 <entry key="get-qrcode-info">
 DECLARE @companyId VARCHAR(32),
         @dpt VARCHAR(32),

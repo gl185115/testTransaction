@@ -160,7 +160,7 @@ public class SQLServerQrCodeInfoDAO extends AbstractDao implements IQrCodeInfoDA
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("is-member-on-promotion"));
+            select = connection.prepareStatement(sqlStatement.getProperty("check-cust-in-memberid"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, promotionId);
             select.setString(SQLStatement.PARAM3, customerId);

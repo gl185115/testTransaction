@@ -1,0 +1,1226 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DPTINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>Dpt</column>
+		<column>DptName</column>
+		<column>DptNameLocal</column>
+		<column>DptKanaName</column>
+		<column>DisplayOrder</column>
+		<column>Jigyobu</column>
+		<column>Gyoshu</column>
+		<column>Bumon</column>
+		<column>Uriba</column>
+		<column>Category</column>
+		<column>StockType</column>
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>ExceptionFlag</column>
+		<column>CostRateFlag</column>
+		<column>CostRate</column>
+		<column>DiscountFlag</column>
+		<column>DiscountAmt</column>
+		<column>DiscountRate</column>
+		<column>AgeRestrictedFlag</column>
+		<column>InheritFlag</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>Status</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>003</value>
+			<value>dpttest0</value>
+			<value>部門テスト0</value>
+			<value>部門テスト0</value>
+			<value>1</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>001</value>
+			<value>dpttest1</value>
+			<value>部門テスト1</value>
+			<value>部門テスト1</value>
+			<value>2</value>
+			<value>001</value>
+			<value>001</value>
+			<value>001</value>
+			<value>001</value>
+			<value>001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>004</value>
+			<value>dpttest4</value>
+			<value>部門テスト4</value>
+			<value>部門テスト4</value>
+			<value>3</value>
+			<value>004</value>
+			<value>004</value>
+			<value>004</value>
+			<value>004</value>
+			<value>004</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>003</value>
+			<value>dpttest3</value>
+			<value>部門テスト3</value>
+			<value>部門テスト3</value>
+			<value>3</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<value>003</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>000031</value>
+			<value>01234567890123456789</value>
+			<value>Dpt 01234567890123456789</value>
+			<value>部門01234567890123456789</value>
+			<value>部門01234567890123456789</value>
+			<value>123456789</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>100</value>
+			<value>Dpt 100</value>
+			<value>部門100</value>
+			<value>部門100</value>
+			<value>10</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Deleted</value>
+			<value>1</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>101</value>
+			<value>Dpt 101</value>
+			<value>部門101</value>
+			<value>部門101</value>
+			<value>1</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>InActive</value>
+			<value>1</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>102</value>
+			<value>Dpt 102</value>
+			<value>部門102</value>
+			<value>部門102</value>
+			<value>102</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value>1</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>103</value>
+			<value>Dpt 103</value>
+			<value>部門103</value>
+			<value>部門103</value>
+			<value>1</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>201</value>
+			<value>Dpt 201</value>
+			<value>部門201</value>
+			<value>部門201</value>
+			<value>10</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>202</value>
+			<value>Dpt 202</value>
+			<value>部門202</value>
+			<value>部門202</value>
+			<value>10</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>203</value>
+			<value>Dpt 203</value>
+			<value>部門203</value>
+			<value>部門203</value>
+			<value>10</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>204</value>
+			<value>Dpt 204</value>
+			<value>部門204</value>
+			<value>部門204</value>
+			<value>10</value>
+			<value>01</value>
+			<value>01</value>
+			<value>0011</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<null />
+			<value>5</value>
+			<value>5</value>
+			<value>5</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>		
+	</table>
+	<table name="MST_PRICE_PROM_INFO">
+		<column>CompanyId</column>
+		<column>PromotionNo</column>
+		<column>PromotionName</column>
+		<column>StartDate</column>
+		<column>EndDate</column>
+		<column>TargetStoreType</column>
+		<column>DayOfWeekSettingFlag</column>
+		<column>DayOfWeekMonFlag</column>
+		<column>DayOfWeekTueFlag</column>
+		<column>DayOfWeekWedFlag</column>
+		<column>DayOfWeekThuFlag</column>
+		<column>DayOfWeekFriFlag</column>
+		<column>DayOfWeekSatFlag</column>
+		<column>DayOfWeekSunFlag</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>特売全店企画</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>特売各店企画</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-02 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-02 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0003</value>
+			<value>特売各店企画(曜日)</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-03 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-03 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0004</value>
+			<value>特売各店企画(曜日)</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-04 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-04 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+	<table name="MST_PRICE_PROM_DETAIL">
+		<column>CompanyId</column>
+		<column>PromotionNo</column>
+		<column>PromotionDetailNo</column>
+		<column>PromotionType</column>
+		<column>BrandFlag</column>
+		<column>Dpt</column>
+		<column>Line</column>
+		<column>Class</column>
+		<column>Sku</column>
+		<column>BrandId</column>
+		<column>DiscountClass</column>
+		<column>DiacountRate</column>
+		<column>DiscountAmt</column>
+		<column>StartDate</column>
+		<column>EndDate</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>201</value>
+			<value>02</value>
+			<value>20102</value>
+			<value>04208711</value>
+			<value></value>
+			<value>2</value>
+			<null />
+			<value>500</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>2</value>
+			<value>1</value>
+			<value>0</value>
+			<value>202</value>
+			<value>02</value>
+			<value>20202</value>
+			<value>04208711</value>
+			<value></value>
+			<value>2</value>
+			<null />
+			<value>500</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>202</value>
+			<value>02</value>
+			<value>20202</value>
+			<value>04208711</value>
+			<value></value>
+			<value>1</value>
+			<value>10.5</value>
+			<null />
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0003</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>203</value>
+			<value>02</value>
+			<value>20302</value>
+			<value>04208711</value>
+			<value></value>
+			<value>1</value>
+			<value>20.0</value>
+			<null />
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-03 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-03 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0004</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>204</value>
+			<value>02</value>
+			<value>20402</value>
+			<value>04208711</value>
+			<value></value>
+			<value>1</value>
+			<value>33.3</value>
+			<null />
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-03 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-03 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+	<table name="MST_PRICE_PROM_STORE">
+		<column>CompanyId</column>
+		<column>PromotionNo</column>
+		<column>StoreId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>0031</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+            <value>01</value>
+            <value>0002</value>
+            <value>0032</value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <value></value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <value></value>
+            <value></value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+            <value>0</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+        </row>
+	</table>
+	<table name="MST_BIZDAY">
+	  <column>CompanyId</column>
+	  <column>StoreId</column>
+	  <column>TodayDate</column>
+	  <column>SwitchTime</column>
+	  <column>Skip</column>
+	  <column>NextDate</column>
+	  <column>PrevDate</column>
+	  <column>SubCode1</column>
+	  <column>SubCode2</column>
+	  <column>SubCode3</column>
+	  <column>SubCode4</column>
+	  <column>SubCode5</column>
+	  <column>SubNum1</column>
+	  <column>SubNum2</column>
+	  <column>SubNum3</column>
+	  <column>SubNum4</column>
+	  <column>SubNum5</column>
+	  <column>DeleteFlag</column>
+	  <column>DelDate</column>
+	  <column>DelAppId</column>
+	  <column>DelOpeCode</column>
+	  <column>InsDate</column>
+	  <column>InsAppId</column>
+	  <column>InsOpeCode</column>
+	  <column>UpdCount</column>
+	  <column>UpdDate</column>
+	  <column>UpdAppId</column>
+	  <column>UpdOpeCode</column>				
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>2015-11-07</value>			
+			<value>01:00am</value>			
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>			
+			<null />
+			<null />
+			<null />
+			<value>2015-08-10 16:11:00.0000000</value>			
+			<value>NCR-POS</value>
+			<value>0009999</value>			
+			<value>1</value>
+			<value>2017-02-10 18:50:10.5130000</value>
+			<value>rejchdat.vbs</value>
+			<value>system</value>				
+		</row>
+	</table>
+</dataset>

@@ -28,6 +28,29 @@ public class ViewDepartment extends ResultBase {
     @XmlElement(name = "RetailStoreID")
     private String retailStoreID;
 
+   /**
+     * Promotion No.
+     */
+    @XmlElement(name = "promotionNo")
+    private String promotionNo;
+
+    /**
+     * Discount Rate.
+     */
+    @XmlElement(name = "DiscountRate")
+    private Double discountRate;
+
+    /**
+     * Discount Amt.
+     */
+    @XmlElement(name = "DiscountAmt")
+    private Long discountAmt;
+
+    /**
+     * Discount Class.
+     */
+    @XmlElement(name = "DiscountClass")
+    private String discountClass;
     /**
      * Gets the list of departments.
      *
@@ -66,4 +89,79 @@ public class ViewDepartment extends ResultBase {
         this.retailStoreID = retailStoreIDToSet;
     }
 
+   /**
+     * Gets the promotionNo .
+     *
+     * @return promotionNo
+     */
+    @ApiModelProperty( value="Šé‰æNo", notes="Šé‰æNo")
+    public final String getPromotionNo() {
+        return promotionNo;
+    }
+
+    /**
+     * Sets the promotionNo.
+     *
+     * @param promotionNoToSet promotionNo.
+     */
+    public final void setPromotionNo(final String promotionNoToSet) {
+        this.promotionNo = promotionNoToSet;
+    }
+
+	/**
+     * Gets the DiscountRate.
+     *
+     * @return discountRate
+     */
+    @ApiModelProperty( value="Š„ˆø—¦", notes="Š„ˆø—¦")
+    public final double getDiscountRate() {
+        return discountRate;
+    }
+
+    /**
+     * Sets the DiscountRate.
+     *
+     * @param discountRateToSet discountRate.
+     */
+    public final void setDiscountRate(final Double discountRateToSet) {
+        this.discountRate = discountRateToSet;
+    }
+
+    /**
+     * Gets the DiscountAmt.
+     *
+     * @return discountAmt
+     */
+    @ApiModelProperty( value="’lˆøŠz", notes="’lˆøŠz")
+    public final Long getDiscountAmt() {
+        return discountAmt;
+    }
+
+    /**
+     * Sets the discountAmt.
+     *
+     * @param discountAmtToSet discountAmt.
+     */
+    public final void setDiscountAmt(final long discountAmtToSet) {
+        this.discountAmt = discountAmtToSet;
+    }
+
+	/**
+     * Gets the discountClass.
+     *
+     * @return discountClass
+     */
+    @ApiModelProperty( value="Š„ˆø‹æ•ª", notes="Š„ˆø‹æ•ª")
+    public final String getDiscountClass() {
+        return discountClass;
+    }
+
+    /**
+     * Sets the discountClass.
+     *
+     * @param discountClassToSet discountClass.
+     */
+    public final void setDiscountClass(final String discountClassToSet) {
+        this.discountClass = discountClassToSet;
+    }
 }

@@ -19,6 +19,7 @@ import ncr.res.giftcard.toppan.model.Config;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DBInitiator;
@@ -93,6 +94,12 @@ public class InitializationStatusResourceSteps extends Steps {
         Class targetClass = null;
         Field targetField = null;
         switch(className) {
+            case "WindowsEnvironmentVariables":
+                targetClass = WindowsEnvironmentVariables.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+
             case "EnvironmentEntries":
                 targetClass = EnvironmentEntries.class;
                 targetField = PowerMockito.field(targetClass, "instance");

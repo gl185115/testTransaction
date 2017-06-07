@@ -6,29 +6,27 @@
  */
 package ncr.res.mobilepos.initialization.resource;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
-import ncr.res.mobilepos.constant.ServerTypes;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
-import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 
 /**
@@ -94,6 +92,7 @@ public class InitializationStatusResource {
         initFailed |= SQLStatement.getInstance() == null;
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
         initFailed |= BarcodeAssignmentFactory.getInstance() == null;
+        initFailed |= WindowsEnvironmentVariables.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

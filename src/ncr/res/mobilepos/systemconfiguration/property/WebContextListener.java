@@ -21,6 +21,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
@@ -75,9 +76,11 @@ public class WebContextListener implements ServletContextListener {
      */
 	public final void initializeEnvironmentVariables() throws NamingException, IOException {
         // Loads from WindowsEnvironmentVariables.
-        WindowsEnvironmentVariables.initInstance();
+        WindowsEnvironmentVariables winEnv = WindowsEnvironmentVariables.initInstance();
         // Loads from web.xml.
         EnvironmentEntries.initInstance(new InitialContext());
+        // Loads from system config files.
+        SystemFileConfig.initInstance(winEnv.getSystemPath());
     }
 
     /**
@@ -143,14 +146,16 @@ public class WebContextListener implements ServletContextListener {
     public final void initializeBusinessLogicFactories() throws Exception {
         EnvironmentEntries environmentEntries = EnvironmentEntries.getInstance();
         WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
+        SystemFileConfig systemFileConfig = SystemFileConfig.getInstance();
+
         // Loads ItemCode.xml file
         BarcodeAssignmentFactory.initialize(environmentEntries.getParaBasePath());
         // Loads config file for Toppan Giftcard feature.
         ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
 
         if(!windowsEnvironmentVariables.isServerTypeEnterprise()) {
-            String companyId = windowsEnvironmentVariables.getCompanyId();
-            String storeId = windowsEnvironmentVariables.getStoreId();
+            String companyId =  systemFileConfig.getCompanyId();
+            String storeId = systemFileConfig.getStoreId();
 
             // Only HOST loads QrCodeInfo  Information
         	QrCodeInfoFactory.initialize(windowsEnvironmentVariables.getSystemPath());

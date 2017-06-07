@@ -15,6 +15,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManager;
 import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
@@ -54,6 +55,7 @@ public class Requirements {
         try {
             mockWindowsEnvironmentVariables();
             EnvironmentEntries.initInstance(new InitialContext());
+            SystemFileConfig.initInstance(WindowsEnvironmentVariables.getInstance().getSystemPath());
             listener.initializeLoggers();
             listener.initializeDBInstances();
             listener.preloadDBRecord();

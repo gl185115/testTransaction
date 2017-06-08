@@ -106,8 +106,6 @@ public class ItemResource {
      */
     private Trace.Printer tp;
 
-    private String pathName = "pricing";
-
     private static BarcodeAssignment barcodeAssignment;
 
 	private final List<PricePromInfo> pricePromInfoList;
@@ -362,17 +360,6 @@ public class ItemResource {
 		return barcodeAssignment;
 	}
 
-    /**
-     * Checks if storeid is an enterprise store(0).
-     *
-     * @param storeID
-     *            to check.
-     * @return true if an enterprise storeid, false if not.
-     */
-    private boolean isEnterpriseStore(final String storeID) {
-        return null != storeID && !storeID.isEmpty() &&
-        		"0".equals(storeID.trim());
-    }
 
     /** The constant for normal pricing. */
     private static final String NORMAL_PRICING = "0";
@@ -387,13 +374,7 @@ public class ItemResource {
         return pricingType == null || pricingType.equals(NORMAL_PRICING);
     }
 
-    private String getOpeCode() {
-        return ((securityContext != null) && (securityContext
-                .getUserPrincipal()) != null) ? securityContext
-                .getUserPrincipal().getName() : null;
-    }
-
-	 /**
+    /**
      * Get The Price Prom Info.
      * @param sku The ID of The Sku
      * @param dpt  The ID of The Department

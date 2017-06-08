@@ -18,8 +18,17 @@ public interface IQrCodeInfoDAO {
 	 */
 	List<QrCodeInfo> getQrCodeInfoList(String companyId, String code, String dayDate) 
 			throws DaoException;
-	
+
+	/**
+	 * Check customerId in MST_QRCODE_QRCODE_MEMBERID
+	 * 
+	 * @param companyId ,
+	 *        promotionId,
+	 *        customerId
+	 * @return rightCustomerId
+	 * @throws DaoException
+	 *             The exception thrown when searching failed.
+	 */
 	String getCustomerQrCodeInfoList(String companyId, String promotionId, String customerId) 
 			throws DaoException;
 }
-

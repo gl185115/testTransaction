@@ -1367,7 +1367,6 @@ public class PromotionResource {
 				.println("businessDate", businessDate).println("Transaction", transaction);
 		Promotion response = new Promotion();
 		int maxPrintNum = 4;
-		int bitmapCount = 0;
 		List<QrCodeInfo> qrCodeInfoListTemp = null;
 		List<QrCodeInfo> qrCodeInfoListOut = null;
 
@@ -1419,26 +1418,20 @@ public class PromotionResource {
 			// 有効な企画コードを取得する
 			boolean flag = true;
 			for (int i = 0; i < count; i++) {
-				if (!flag) {
-					break;
-				}
-				bitmapCount = qrCodeInfoListTemp.get(i).getQuantity();
-				for (int j = 0; j < bitmapCount; j++) {
+				if (flag) {
 					if (qrCodeInfoListOut == null) {
 						qrCodeInfoListOut = new ArrayList<QrCodeInfo>();
 					}
-					if (qrCodeInfoListOut.size() < maxPrintNum) {
-						if (qrCodeInfoListTemp.get(i).getQuantity() > maxPrintNum) {
-							qrCodeInfoListTemp.get(i).setQuantity(maxPrintNum);
-						}
-						qrCodeInfoListOut.add(qrCodeInfoListTemp.get(i));
-					} else {
+					if (!(qrCodeInfoListTemp.get(i).getQuantity() < maxPrintNum)) {
+						qrCodeInfoListTemp.get(i).setQuantity(maxPrintNum);
 						flag = false;
-						break;
+					} else {
+						maxPrintNum = maxPrintNum - qrCodeInfoListTemp.get(i).getQuantity();
 					}
+					qrCodeInfoListOut.add(qrCodeInfoListTemp.get(i));
 				}
 			}
-
+			
 			response.setQrCodeInfoList(qrCodeInfoListOut);
 		} catch (JsonParseException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
@@ -1519,28 +1512,13 @@ public class PromotionResource {
 			itemListOut = new ArrayList<ItemList>();
 			switch (qrCodeInfo.getPromotionType()) {
 			case PROMOTIONTYPE_ALL:
-				if (itemListIns.size() > 0 ) {
-					for (String promotionId : qrItemMap.keySet()) {
-						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
-							itemListIns.addAll(qrItemMap.get(promotionId));
-						}
-					}
-					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListIns);
-				}
+				itemListOut.addAll(itemListIns);
 				break;
 			case PROMOTIONTYPE_DPT:
 				for (ItemList itemListIn : itemListIns) {
 					if (itemListIn.getDpt() == null ? false : itemListIn.getDpt().equals(qrCodeInfo.getDpt())) {
 						itemListOut.add(itemListIn);
 					}
-				}
-				if (itemListOut.size() > 0 ) {
-					for (String promotionId : qrItemMap.keySet()) {
-						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
-							itemListOut.addAll(qrItemMap.get(promotionId));
-						}
-					}
-					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
 			case PROMOTIONTYPE_DPT_CONN:
@@ -1554,14 +1532,6 @@ public class PromotionResource {
 						itemListOut.add(itemListIn);
 					}
 				}
-				if (itemListOut.size() > 0 ) {
-					for (String promotionId : qrItemMap.keySet()) {
-						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
-							itemListOut.addAll(qrItemMap.get(promotionId));
-						}
-					}
-					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-				}
 				break;
 			case PROMOTIONTYPE_DPT_BRANDID:
 				for (ItemList itemListIn : itemListIns) {
@@ -1574,28 +1544,12 @@ public class PromotionResource {
 						itemListOut.add(itemListIn);
 					}
 				}
-				if (itemListOut.size() > 0 ) {
-					for (String promotionId : qrItemMap.keySet()) {
-						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
-							itemListOut.addAll(qrItemMap.get(promotionId));
-						}
-					}
-					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
-				}
 				break;
 			case PROMOTIONTYPE_LINE:
 				for (ItemList itemListIn : itemListIns) {
 					if (itemListIn.getLine() == null ? false : itemListIn.getLine().equals(qrCodeInfo.getLine())) {
 						itemListOut.add(itemListIn);
 					}
-				}
-				if (itemListOut.size() > 0 ) {
-					for (String promotionId : qrItemMap.keySet()) {
-						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
-							itemListOut.addAll(qrItemMap.get(promotionId));
-						}
-					}
-					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
 				break;
 			case PROMOTIONTYPE_ITEMCODE:
@@ -1612,15 +1566,18 @@ public class PromotionResource {
 						}
 					}
 				}
-				if (itemListOut.size() > 0 ) {
+				break;
+			}
+
+			if (itemListOut.size() > 0 ) {
+				if(qrItemMap != null && qrItemMap.size() > 0) {
 					for (String promotionId : qrItemMap.keySet()) {
 						if (qrCodeInfo.getPromotionId().equals(promotionId)) {
 							itemListOut.addAll(qrItemMap.get(promotionId));
 						}
 					}
-					qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 				}
-				break;
+				qrItemMap.put(qrCodeInfo.getPromotionId(), itemListOut);
 			}
 		}
 
@@ -1675,7 +1632,7 @@ public class PromotionResource {
 						break;
 					}
 
-					qrCodeInfo.setTargetValue(qrCodeInfo.getOutputTargetValue());					
+					qrCodeInfo.setTargetValue(qrCodeInfo.getOutputTargetValue());
 					int minimumPrice = (int) Math.round(qrCodeInfo.getMinimumPrice());
 					if (priceSum >= minimumPrice && qrCodeInfo.getQuantity() > 0) {
 						qrCodeInfoListTemp.add(qrCodeInfo);
@@ -1689,6 +1646,13 @@ public class PromotionResource {
 		return qrCodeInfoListTemp;
 	}
 	
+	/**
+	 * check customerid in MST_QRCODE_MEMBERID
+	 *
+	 * @param qrCodeInfo
+	 * @param transactionIn
+	 * @return rightCustomerId
+	 */
 	private String checkCustomerID(QrCodeInfo qrCodeInfo, Transaction transactionIn) throws DaoException {
 		String rightCustomerId = null;
 		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);

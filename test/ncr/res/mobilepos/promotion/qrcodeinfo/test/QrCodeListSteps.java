@@ -125,6 +125,12 @@ public class QrCodeListSteps extends Steps {
 			assertThat("Compare the PromotionId at row ",
 					"" + response.getQrCodeInfoMap().get(i).getPromotionName(),
 					is(equalTo(expectedItem.get("PromotionName"))));
+			assertThat("Compare the TargetValue at row ",
+					"" + response.getQrCodeInfoMap().get(i).getTargetValue(),
+					is(equalTo(expectedItem.get("TargetValue"))));
+			assertThat("Compare the Quantity at row ",
+					"" + response.getQrCodeInfoMap().get(i).getQuantity(),
+					is(equalTo(expectedItem.get("Quantity"))));
 			i++;
 		}
 	}

@@ -1,8 +1,6 @@
-Scenario: Invalid Parameters
-Given I have Department Resource companyid 01 storeid 0031
-
 Scenario: Department Query No PriceProm
 Given entries for discount_department in database
+Given I have Department Resource companyid 01 storeid 0031
 !-- Discount exist
 When I get Department with companyid 01 storeid 0031 and dptid 201
 Then I should get department model with properties:

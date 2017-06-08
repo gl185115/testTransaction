@@ -1,6 +1,12 @@
 package ncr.res.mobilepos.promotion.qrcodeinfo.test;
 
-import junit.framework.Assert;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -11,49 +17,37 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
-import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
-import ncr.res.mobilepos.constant.EnvironmentEntries;
+import junit.framework.Assert;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
-import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.pricing.model.QrCodeInfo;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.promotion.model.Promotion;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
-
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class QrCodeListSteps extends Steps {
 	private PromotionResource promotionResource = null;
 	private Promotion response = null;
 	private DBInitiator dbInit = null;
+	private SystemFileConfig systemFileConfig = null;
 	private static int status = 0;
 	public static final int ERROR_IOEXCEPTION = 1;
 	public static final int ERROR_DAOEXCEPTION = 2;
-	
+
 	@BeforeScenario
     public final void setUpClass() {
 		dbInit = new DBInitiator("SQLServerItemDAOSteps", DATABASE.RESMaster);
         Requirements.SetUp();
         initResources();
     }
-	
+
     @AfterScenario
     public final void tearDownClass() {
         Requirements.TearDown();
     }
-    
+
     private void initResources() {
 		ServletContext context = Requirements.getMockServletContext();
 		try {
@@ -63,14 +57,19 @@ public class QrCodeListSteps extends Steps {
 			contextField.set(promotionResource, context);
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 					"test/ncr/res/mobilepos/promotion/qrcodeinfo/test/mst_bizday.xml");
-			QrCodeInfoFactory.initialize(WindowsEnvironmentVariables.getInstance().getSystemPath());
+
+			SystemFileConfig sys = SystemFileConfig.initInstance(WindowsEnvironmentVariables.getInstance().getSystemPath());
+			String companyId = sys.getCompanyId();
+			String storeId = sys.getStoreId();
+
+			QrCodeInfoFactory.initialize(companyId,storeId);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			Assert.fail("Cant load Mock Servlet Context.");
 		}
 	}
-    
+
     @Given("a loaded dataset $dataset")
 	public final void initdatasetsDpt(final String dataset) {
 		try {
@@ -79,23 +78,28 @@ public class QrCodeListSteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-    
+
     @Given("the systemPath: $systemPath")
 	public final void changeSys(final String systemPath) {
 		try {
-			QrCodeInfoFactory.initialize(systemPath);
+			SystemFileConfig sys = SystemFileConfig.initInstance(systemPath);
+			String companyId = sys.getCompanyId();
+			String storeId = sys.getStoreId();
+
+			QrCodeInfoFactory.initialize(companyId,storeId);
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-    
+
 	@When("check the list with companyId $companyId retailstoreid $retailstoreid workstationid $workstationid sequencenumber $sequencenumber businessDate $businessDate transaction $transaction")
 	public final void getQrCodeInfo(String companyId, String retailStoreId, String workstationid, String sequencenumber, String businessDate, String transaction) throws Exception {
 		status = 0;
 		response = promotionResource.getQrCodeInfoList(companyId, retailStoreId, workstationid, sequencenumber, businessDate, transaction);
 	}
-	
-	
+
+
 	@Then("I should get the QrCodeInfoList : $expectedJson")
 	public final void qrCodeInfoListShouldBe(final ExamplesTable expectedItems) {
 		int i = 0;
@@ -109,7 +113,7 @@ public class QrCodeListSteps extends Steps {
 			assertThat("Compare the BMPFileName at row ",
 					response.getQrCodeInfoMap().get(i).getBmpFileName(),
 					is(equalTo(expectedItem.get("BMPFileName"))));
-			assertThat("Compare the MinimumPrice row ", 
+			assertThat("Compare the MinimumPrice row ",
 					"" + response.getQrCodeInfoMap().get(i).getMinimumPrice(),
 					is(equalTo(expectedItem.get("MinimumPrice"))));
 			assertThat("Compare the OutputType at row ", ""
@@ -124,13 +128,13 @@ public class QrCodeListSteps extends Steps {
 			i++;
 		}
 	}
-	
+
 	@Then("the Result Code is $resultcode")
 	public final void theResultCodeIs(int expectedResultCode) {
 		Assert.assertEquals("Expect the result code", expectedResultCode,
 				response.getNCRWSSResultCode());
 	}
-	
+
 	@Then("the emptyResult is $expectedResult")
 	public final void qrCodeInfoIsNull(String expectedResult) {
 		assertThat("Expect the result ",

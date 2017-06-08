@@ -3,15 +3,15 @@ Given a loaded dataset test/ncr/res/mobilepos/promotion/qrcodeinfo/test/data_qrC
 
 Scenario: systemPath is "".
 When the tomcat startUp with systemPath ""
-Then the Result Code is 1
+Then the Result Code is 3
 
 Scenario: COMPANYID exist but STOREID not exist.
 When the tomcat startUp with systemPath test/resources/sys/nostoreId
-Then the Result Code is 1
+Then the Result Code is 3
 
 Scenario: STOREID exist but COMPANYID not exist.
 When the tomcat startUp with systemPath test/resources/sys/nocompanyid
-Then the Result Code is 1
+Then the Result Code is 3
 
 Scenario: Business date is not set.
 When the tomcat startUp with systemPath test/resources/sys/datenotset

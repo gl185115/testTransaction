@@ -117,7 +117,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				dpt.setSubNum3(result.getString(DptConst.COL_SUBNUM3_FLAG));
 				dptModel.setDepartment(dpt);
 				dptModel.setRetailStoreID(searchRetailStoreID);
-				SetPricePromInfo(dptModel);
+				setPricePromInfo(dptModel);
 			} else {
 				dptModel.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
 				tp.println("Department not found.");
@@ -139,27 +139,19 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 		return dptModel;
 	}
 
-	private void SetPricePromInfo(ViewDepartment dptModel) throws DaoException{
+	private void setPricePromInfo(ViewDepartment dptModel) {
 		tp.methodEnter(DebugLogger.getCurrentMethodName()).println("Dpt", dptModel.getDepartment().getDepartmentID());
 
-		try {
-			ItemResource itemResource = new ItemResource();
-			PricePromInfo pricePromInfo ;
-			pricePromInfo = itemResource.getPricePromInfoList("", dptModel.getDepartment().getDepartmentID(), "");
-
-			if (pricePromInfo != null){
-				dptModel.setDiscountClass(pricePromInfo.getDiscountClass());
-				dptModel.setDiscountAmt(pricePromInfo.getDiscountAmt());
-				dptModel.setDiscountRate(pricePromInfo.getDiscountRate());
-				dptModel.setPromotionNo(pricePromInfo.getPromotionNo());
-			}
-		} catch (Exception e) {
-            LOGGER.logAlert(progName, "SQLServerDepartmentDAO.SetPricePromInfo()", Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the price prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @SetPricePromInfo ", e);
-		} finally {
-            tp.methodExit(dptModel.toString());
-        }
+		ItemResource itemResource = new ItemResource();
+		PricePromInfo pricePromInfo ;
+		pricePromInfo = itemResource.getPricePromInfoList("", dptModel.getDepartment().getDepartmentID(), "");
+		if (pricePromInfo != null){
+			dptModel.setDiscountClass(pricePromInfo.getDiscountClass());
+			dptModel.setDiscountAmt(pricePromInfo.getDiscountAmt());
+			dptModel.setDiscountRate(pricePromInfo.getDiscountRate());
+			dptModel.setPromotionNo(pricePromInfo.getPromotionNo());
+		}
+        tp.methodExit(dptModel.toString());
 	}
 
 	/**

@@ -406,56 +406,45 @@ public class ItemResource {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("sku", sku).println("dpt", dpt).println("line", line);
 
-		PricePromInfo response = new PricePromInfo();
 		PricePromInfo pricePromInfoOut = null;
 
 		if (pricePromInfoList == null){
 			return null;
 		}
-		try {
-			for (PricePromInfo pricePromInfo : pricePromInfoList) {
-
-				switch (pricePromInfo.getPromotionType()) {
-				case PROMOTIONTYPE_ITEMCODE:
-					String pricePromSku = pricePromInfo.getSku();
-					String itemSku = sku;
-
-					if (!StringUtility.isNullOrEmpty(pricePromSku)) {
-						if (pricePromSku.contains("*")) {
-							pricePromSku = pricePromInfo.getSku().split("\\*")[0];
-							itemSku = itemSku.substring(0, pricePromSku.length());
+		for (PricePromInfo pricePromInfo : pricePromInfoList) {
+			switch (pricePromInfo.getPromotionType()) {
+			case PROMOTIONTYPE_ITEMCODE:
+				String pricePromSku = pricePromInfo.getSku();
+				String itemSku = sku;
+				if (!StringUtility.isNullOrEmpty(pricePromSku)) {
+					if (pricePromSku.contains("*")) {
+						if (pricePromSku.startsWith(itemSku)) {
+							pricePromInfoOut = pricePromInfo;
+							return pricePromInfo;
 						}
+					} else {
 						if (itemSku.equals(pricePromSku)) {
 							pricePromInfoOut = pricePromInfo;
+							return pricePromInfo;
 						}
 					}
-					break;
-
-				case PROMOTIONTYPE_LINE:
-					if (line == null ? false : line.equals(pricePromInfo.getLine())){
-						pricePromInfoOut = pricePromInfo;
-					}
-					break;
-
-				case PROMOTIONTYPE_DPT:
-					if (dpt == null ? false : dpt.equals(pricePromInfo.getDpt())){
-						pricePromInfoOut = pricePromInfo;
-					}
-					break;
 				}
-
-				if (pricePromInfoOut != null){
-					break;
+				break;
+			case PROMOTIONTYPE_LINE:
+				if (line != null && line.equals(pricePromInfo.getLine())){
+					pricePromInfoOut = pricePromInfo;
+					return pricePromInfo;
 				}
+				break;
+			case PROMOTIONTYPE_DPT:
+				if (dpt != null && dpt.equals(pricePromInfo.getDpt())){
+					pricePromInfoOut = pricePromInfo;
+					return pricePromInfo;
+				}
+				break;
 			}
-
-			response = pricePromInfoOut;
-
-		} catch (Exception e) {
-			LOGGER.logAlert(progname, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send PricePromInfoList.", e);
-		} finally {
-			tp.methodExit(response);
 		}
-		return response;
+		tp.methodExit(pricePromInfoOut);
+		return null;
 	}
 }

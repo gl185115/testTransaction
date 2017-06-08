@@ -1,7 +1,5 @@
 package ncr.res.mobilepos.constant;
 
-import java.io.IOException;
-
 import javax.naming.NamingException;
 
 /**
@@ -24,18 +22,16 @@ public class WindowsEnvironmentVariables {
      * Constructor.
      *
      * @throws NamingException Throws if initialization fails.
-     * @throws IOException
      */
-    private WindowsEnvironmentVariables() throws NamingException, IOException {
+    private WindowsEnvironmentVariables() throws NamingException {
         loadWindowsEnvironmentVariables();
     }
 
     /**
      * Initializes the instance.
      * @throws NamingException throws if initialization fails.
-     * @throws IOException
      */
-    public static WindowsEnvironmentVariables initInstance() throws NamingException, IOException {
+    public static WindowsEnvironmentVariables initInstance() throws NamingException {
         // Resets instance as null.
         instance = null;
         instance = new WindowsEnvironmentVariables();
@@ -44,7 +40,7 @@ public class WindowsEnvironmentVariables {
 
     /**
      * Loads environment variables.
-     * @throws Exception
+     * @throws NamingException
      */
     private void loadWindowsEnvironmentVariables() throws NamingException {
         //1

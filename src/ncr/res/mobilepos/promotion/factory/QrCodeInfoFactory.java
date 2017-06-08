@@ -31,17 +31,11 @@ public class QrCodeInfoFactory {
     private static final String PROG_NAME = "QrCodeAFactory";
 
     private static List<QrCodeInfo> instance;
-    /**
-     * QrCodeInfo configuration filename.
-     */
-    private static final String COMPANYID_FILENAME = "COMPANYID";
-
-    private static final String STOREID_FILENAME = "STOREID";
 
     public QrCodeInfoFactory() {
     }
 
-    public static List<QrCodeInfo> initialize(String companyId, String storeId) throws Exception {
+    public static List<QrCodeInfo> initialize(String companyId, String storeId) throws DaoException {
         instance = null;
         instance = codeInfoConstant(companyId, storeId);
         return instance;
@@ -58,11 +52,11 @@ public class QrCodeInfoFactory {
      * @return List<QrCodeInfo>
      * @throws Exception
      */
-    private static List<QrCodeInfo> codeInfoConstant(String companyId, String storeId) throws Exception {
+    private static List<QrCodeInfo> codeInfoConstant(String companyId, String storeId) throws DaoException {
     	Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), QrCodeInfoFactory.class);
         String functionName = DebugLogger.getCurrentMethodName();
 
-        List<QrCodeInfo> QrCodeList = null;
+        List<QrCodeInfo> qrCodeList = null;
 
         try {
 
@@ -76,25 +70,21 @@ public class QrCodeInfoFactory {
             }
             String dayDate = dateSetting.getToday();
 
-            QrCodeList = new ArrayList<QrCodeInfo>();
+            qrCodeList = new ArrayList<QrCodeInfo>();
             DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IQrCodeInfoDAO codeInfDAO = daoFactory.getQrCodeInfoDAO();
-            QrCodeList = codeInfDAO.getQrCodeInfoList(companyId, storeId, dayDate);
+            qrCodeList = codeInfDAO.getQrCodeInfoList(companyId, storeId, dayDate);
 
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,
                     functionName + ": Failed to get codeInfo.", e);
             throw e;
-        } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to get codeInfo.", e);
-            throw e;
         } finally {
             if(tp != null) {
-                tp.methodExit(QrCodeList);
+                tp.methodExit(qrCodeList);
             }
         }
 
-        return QrCodeList;
+        return qrCodeList;
     }
 }

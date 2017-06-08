@@ -4,8 +4,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ncr.realgate.util.Trace;
@@ -36,8 +39,8 @@ public class SQLServerPricePromInfoDAO extends AbstractDao implements IPriceProm
     /**
      * constant. the falg
      */
-    private static final String FLAG_ON = "1";
-    private static final String FLAG_OFF = "0";
+    private static final int FLAG_ON = 1;
+    private static final int FLAG_OFF = 0;
 
     /**
      * Default Constructor for SQLServerPricePromInfoDAO
@@ -79,121 +82,98 @@ public class SQLServerPricePromInfoDAO extends AbstractDao implements IPriceProm
         tp.println("storeId", storeId);
         tp.println("dayDate", dayDate);
 
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-
-        List<PricePromInfo> PricePromList = null;
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-price-prom-info-list"));
-            select.setString(SQLStatement.PARAM1, companyId);
-            select.setString(SQLStatement.PARAM2, storeId);
-            select.setString(SQLStatement.PARAM3, dayDate);
-            result = select.executeQuery();
-
+        List<PricePromInfo> pricePromList = new ArrayList<PricePromInfo>();
+        try (Connection connection = dbManager.getConnection();
+              PreparedStatement statement = prepareGetPricePromInfoList(companyId, storeId, dayDate, connection);
+              ResultSet result = statement.executeQuery();)
+        {
             PricePromInfo pricePromInfo = null;
             while(result.next()){
-            	if (IsPricePromEnabled(dayDate,
-                        result.getString("DayOfWeekSettingFlag"), result.getString("DayOfWeekMonFlag"), result.getString("DayOfWeekTueFlag"),
-                        result.getString("DayOfWeekWedFlag"), result.getString("DayOfWeekThuFlag"), result.getString("DayOfWeekFriFlag"),
-                        result.getString("DayOfWeekSatFlag"), result.getString("DayOfWeekSunFlag"))) {
-
-            		if (PricePromList == null){
-                        PricePromList = new ArrayList<PricePromInfo>();
-                    }
-                    pricePromInfo = new PricePromInfo();
-                    pricePromInfo.setPromotionNo(result.getString(result.findColumn("PromotionNo")));
-                    pricePromInfo.setPromotionName(result.getString(result.findColumn("PromotionName")));
-                    pricePromInfo.setPromotionType(result.getString(result.findColumn("PromotionType")));
-                    pricePromInfo.setBrandFlag(result.getInt(result.findColumn("BrandFlag")));
-                    pricePromInfo.setDpt(result.getString(result.findColumn("Dpt")));
-                    pricePromInfo.setLine(result.getString(result.findColumn("Line")));
-                    pricePromInfo.setClas(result.getString(result.findColumn("Class")));
-                    pricePromInfo.setSku(result.getString(result.findColumn("Sku")));
-                    pricePromInfo.setDiscountClass(result.getString(result.findColumn("DiscountClass")));
-                    pricePromInfo.setDiscountRate(result.getDouble(result.findColumn("DiacountRate")));
-                    pricePromInfo.setDiscountAmt(result.getLong(result.findColumn("DiscountAmt")));
-                    pricePromInfo.setBrandId(result.getString(result.findColumn("BrandId")));
-
-                    PricePromList.add(pricePromInfo);
-
+            	if (!isPricePromEnabled(dayDate,
+                        result.getInt("DayOfWeekSettingFlag"), result.getInt("DayOfWeekMonFlag"), result.getInt("DayOfWeekTueFlag"),
+                        result.getInt("DayOfWeekWedFlag"), result.getInt("DayOfWeekThuFlag"), result.getInt("DayOfWeekFriFlag"),
+                        result.getInt("DayOfWeekSatFlag"), result.getInt("DayOfWeekSunFlag"))) {
+            		continue;
             	}
+            	pricePromInfo = new PricePromInfo();
+            	pricePromInfo.setPromotionNo(result.getString(result.findColumn("PromotionNo")));
+            	pricePromInfo.setPromotionName(result.getString(result.findColumn("PromotionName")));
+            	pricePromInfo.setPromotionType(result.getString(result.findColumn("PromotionType")));
+            	pricePromInfo.setBrandFlag(result.getInt(result.findColumn("BrandFlag")));
+            	pricePromInfo.setDpt(result.getString(result.findColumn("Dpt")));
+            	pricePromInfo.setLine(result.getString(result.findColumn("Line")));
+            	pricePromInfo.setClas(result.getString(result.findColumn("Class")));
+            	pricePromInfo.setSku(result.getString(result.findColumn("Sku")));
+            	pricePromInfo.setDiscountClass(result.getString(result.findColumn("DiscountClass")));
+            	pricePromInfo.setDiscountRate(result.getDouble(result.findColumn("DiacountRate")));
+            	pricePromInfo.setDiscountAmt(result.getLong(result.findColumn("DiscountAmt")));
+            	pricePromInfo.setBrandId(result.getString(result.findColumn("BrandId")));
+            	pricePromList.add(pricePromInfo);
+
             }
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the PriceProm information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getPricePromInfo ", sqlEx);
-        }
-        catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the PriceProm information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getPricePromInfo ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the PriceProm information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getPricePromInfo ", e);
         } finally {
-        	closeConnectionObjects(connection, select, result);
-            tp.methodExit(PricePromList);
+        	tp.methodExit(pricePromList);
         }
-
-        return PricePromList;
+        return pricePromList;
 	}
 
-	private boolean IsPricePromEnabled(String businessDate,String weekflag,
-			String monday, String tuesday, String wednesday, String thursday, String friday, String saturday, String sunday) {
+	private boolean isPricePromEnabled(String businessDate,int weekflag,
+			int monday, int tuesday, int wednesday, int thursday, int friday, int saturday, int sunday) {
 
-		if (weekflag.equals(FLAG_OFF)) {
+		if (weekflag == FLAG_OFF) {
 			return true;
 		}
 
-		String[] date = businessDate.split("-");
-		Calendar cal = Calendar.getInstance();
-	    cal.clear();
-	    cal.set(Integer.valueOf(date[0]), Integer.valueOf(date[1]) - 1, Integer.valueOf(date[2]));
+	    Calendar calendar = Calendar.getInstance();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            date = sdf.parse(businessDate);
+            calendar.setTime(date);
+        } catch (ParseException e){
+            // Invalid business date, unlikely happen.
+        	return false;
+        }
 
-	    if (weekflag.equals(FLAG_ON)) {
-		    switch (cal.get(Calendar.DAY_OF_WEEK)) {
-		    case Calendar.SUNDAY:
-		    	if (sunday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		        case Calendar.MONDAY:
-		            if (monday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		        case Calendar.TUESDAY:
-		            if (tuesday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		        case Calendar.WEDNESDAY:
-		            if (wednesday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		        case Calendar.THURSDAY:
-		            if (thursday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		        case Calendar.FRIDAY:
-		            if (friday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		        case Calendar.SATURDAY:
-		            if (saturday.equals(FLAG_ON)) {
-		                return true;
-		            }
-		            break;
-		    }
+        int dayOfTheWeekFlag = 0;
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+        case Calendar.SUNDAY:
+        	dayOfTheWeekFlag = sunday;
+            break;
+        case Calendar.MONDAY:
+        	dayOfTheWeekFlag = monday;
+            break;
+        case Calendar.TUESDAY:
+        	dayOfTheWeekFlag = tuesday;
+            break;
+        case Calendar.WEDNESDAY:
+        	dayOfTheWeekFlag = wednesday;
+            break;
+        case Calendar.THURSDAY:
+        	dayOfTheWeekFlag = thursday;
+            break;
+        case Calendar.FRIDAY:
+        	dayOfTheWeekFlag = friday;
+            break;
+        case Calendar.SATURDAY:
+        	dayOfTheWeekFlag = saturday;
+            break;
 	    }
-	    return false;
+        return dayOfTheWeekFlag == FLAG_ON;
 	}
 
+    protected PreparedStatement prepareGetPricePromInfoList(String companyId,String storeId,String businessDate,Connection connection
+                                                            ) throws SQLException {
+        // Creates PreparedStatement .
+    	SQLStatement sqlStatement = SQLStatement.getInstance();
+        PreparedStatement statement = connection.prepareStatement(sqlStatement.getProperty("get-price-prom-info-list"));
+        statement.setString(SQLStatement.PARAM1, companyId);
+        statement.setString(SQLStatement.PARAM2, storeId);
+        statement.setString(SQLStatement.PARAM3, businessDate);
+        return statement;
+    }
 }

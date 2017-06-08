@@ -20,6 +20,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -93,6 +94,7 @@ public class InitializationStatusResource {
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
         initFailed |= BarcodeAssignmentFactory.getInstance() == null;
         initFailed |= WindowsEnvironmentVariables.getInstance() == null;
+        initFailed |= SystemFileConfig.getInstance() == null;
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

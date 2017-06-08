@@ -106,6 +106,8 @@ public class ItemResource {
      */
     private Trace.Printer tp;
 
+    private String pathName = "pricing";
+
     private static BarcodeAssignment barcodeAssignment;
 
 	private final List<PricePromInfo> pricePromInfoList;
@@ -360,6 +362,17 @@ public class ItemResource {
 		return barcodeAssignment;
 	}
 
+    /**
+     * Checks if storeid is an enterprise store(0).
+     *
+     * @param storeID
+     *            to check.
+     * @return true if an enterprise storeid, false if not.
+     */
+    private boolean isEnterpriseStore(final String storeID) {
+        return null != storeID && !storeID.isEmpty() &&
+        		"0".equals(storeID.trim());
+    }
 
     /** The constant for normal pricing. */
     private static final String NORMAL_PRICING = "0";
@@ -374,7 +387,13 @@ public class ItemResource {
         return pricingType == null || pricingType.equals(NORMAL_PRICING);
     }
 
-    /**
+    private String getOpeCode() {
+        return ((securityContext != null) && (securityContext
+                .getUserPrincipal()) != null) ? securityContext
+                .getUserPrincipal().getName() : null;
+    }
+
+	 /**
      * Get The Price Prom Info.
      * @param sku The ID of The Sku
      * @param dpt  The ID of The Department
@@ -383,11 +402,6 @@ public class ItemResource {
      */
     public final PricePromInfo getPricePromInfo(
 			final String sku, final String dpt, final String line) {
-
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("sku", sku).println("dpt", dpt).println("line", line);
-
-		PricePromInfo pricePromInfoOut = null;
 
 		if (pricePromInfoList == null){
 			return null;
@@ -400,12 +414,10 @@ public class ItemResource {
 				if (!StringUtility.isNullOrEmpty(pricePromSku)) {
 					if (pricePromSku.contains("*")) {
 						if (itemSku.startsWith(pricePromSku.replace("*", ""))) {
-							pricePromInfoOut = pricePromInfo;
 							return pricePromInfo;
 						}
 					} else {
 						if (itemSku.equals(pricePromSku)) {
-							pricePromInfoOut = pricePromInfo;
 							return pricePromInfo;
 						}
 					}
@@ -413,19 +425,16 @@ public class ItemResource {
 				break;
 			case PROMOTIONTYPE_LINE:
 				if (line != null && line.equals(pricePromInfo.getLine())){
-					pricePromInfoOut = pricePromInfo;
 					return pricePromInfo;
 				}
 				break;
 			case PROMOTIONTYPE_DPT:
 				if (dpt != null && dpt.equals(pricePromInfo.getDpt())){
-					pricePromInfoOut = pricePromInfo;
 					return pricePromInfo;
 				}
 				break;
 			}
 		}
-		tp.methodExit(pricePromInfoOut);
 		return null;
 	}
 }

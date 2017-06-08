@@ -7,16 +7,27 @@ import java.io.IOException;
 
 import javax.naming.NamingException;
 
+/**
+ * SystemFileConfig, a container class for a host information.
+ * Parameter files should be located under system path, usually x:/software/ncr/res/sys.
+ */
 public class SystemFileConfig {
     private static SystemFileConfig instance;
 
+    /**
+     * 1. CompanyId
+     */
     private String companyId;
+    /**
+     * 2. StoreId
+     */
     private String storeId;
+
     private static final String COMPANYID_FILENAME = "COMPANYID";
     private static final String STOREID_FILENAME = "STOREID";
 
 
-    private SystemFileConfig(String systemPath) throws IOException, NamingException {
+    private SystemFileConfig(String systemPath) throws IOException {
         loadSystemPathFiles(systemPath);
     }
 
@@ -25,7 +36,7 @@ public class SystemFileConfig {
      * @throws NamingException throws if initialization fails.
      * @throws IOException
      */
-    public static SystemFileConfig initInstance(String systemPath) throws NamingException, IOException {
+    public static SystemFileConfig initInstance(String systemPath) throws IOException {
         // Resets instance as null.
         instance = null;
         instance = new SystemFileConfig(systemPath);
@@ -61,48 +72,35 @@ public class SystemFileConfig {
      * @throws IOException
      * @throws Exception
      */
-    private void loadSystemPathFiles(String systemPath) throws NamingException, IOException {
+    private void loadSystemPathFiles(String systemPath) throws IOException {
         //1
-        companyId = loadFile(systemPath, COMPANYID_FILENAME);
+        companyId = readFirstLine(systemPath, COMPANYID_FILENAME);
         //2
-        storeId = loadFile(systemPath, STOREID_FILENAME);
+        storeId = readFirstLine(systemPath, STOREID_FILENAME);
     }
 
     /**
-     * Loads systemPath files.
+     * Loads systemPath files. null for empty file.
+     * @param systemPath
+     * @param fileName
+     * @return the first line of the file. Null for empty file.
      * @throws IOException
-     * @throws Exception
      */
-    private String loadFile(String systemPath, String fileName) throws NamingException,IOException{
-
-        BufferedReader reader = null;
-        String value = null;
-
-        try {
-            File file = new File(systemPath + File.separator + fileName);
-
-            if(!file.isFile() || !file.exists()) {
-                throw new NamingException(fileName + " file not found." + "(" + systemPath + ")");
-            }
-
-            reader = new BufferedReader(new FileReader(file));
-            value = reader.readLine();
-            if (value != null){
-                value = value.trim();
-            }
-
-        } catch (IOException e) {
-            throw e;
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e1) {
-                    throw e1;
-                }
-            }
+    public static String readFirstLine(final String systemPath, final String fileName) throws IOException{
+        File file = new File(systemPath + File.separator + fileName);
+        if (!file.isFile() || !file.exists()) {
+            throw new IOException(fileName + " file not found." + "(" + systemPath + ")");
         }
 
+        // Reads only the first line.
+        String value;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            value = reader.readLine();
+            if (value == null){
+                throw new IOException("File is empty. " + file.getAbsolutePath());
+            }
+            value = value.trim();
+        }
         return value;
     }
 

@@ -1,15 +1,6 @@
 package ncr.res.mobilepos.promotion.qrcodeinfo.test;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
+import junit.framework.Assert;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -20,24 +11,30 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 
-import junit.framework.Assert;
-import ncr.res.mobilepos.constant.SystemFileConfig;
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class QrCodeSteps extends Steps {
 	private QrCodeInfoFactory qrCodeInfoFactory = null;
 	private List<QrCodeInfo> QrCodeList = null;
-	private SystemFileConfig systemFileConfig = null;
 	private DBInitiator dbInit = null;
 	private static int status = 0;
-	public static final int ERROR_IOEXCEPTION = 1;
 	public static final int ERROR_DAOEXCEPTION = 2;
-	public static final int ERROR_NAMINGEXCEPTION = 3;
 
 	@BeforeScenario
     public final void setUpClass() {
@@ -76,21 +73,15 @@ public class QrCodeSteps extends Steps {
 		}
 	}
 
-	@When("the tomcat startUp with systemPath $systemPath")
-	public final void getQrCodeInfo(String systemPath) throws Exception {
+	@When("the tomcat startUp with companyId $companyId and storeId $storeId")
+	public final void getQrCodeInfo(String companyId, String storeId) throws Exception {
 		try{
 			status = 0;
-			systemFileConfig = SystemFileConfig.initInstance(systemPath);
-			String companyId = systemFileConfig.getCompanyId();
-			String storeId = systemFileConfig.getStoreId();
-
-			QrCodeList = qrCodeInfoFactory.initialize(companyId,storeId);
-		} catch(IOException e) {
-			status = ERROR_IOEXCEPTION;
+			QrCodeList = qrCodeInfoFactory.initialize(
+					StringUtility.convNullOrEmptryString(companyId),
+					StringUtility.convNullOrEmptryString(storeId));
 		} catch (DaoException e) {
 			status = ERROR_DAOEXCEPTION;
-		} catch (NamingException e) {
-			status = ERROR_NAMINGEXCEPTION;
 		}
 	}
 

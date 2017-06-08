@@ -398,9 +398,9 @@ public class ItemResource {
      * @param sku The ID of The Sku
      * @param dpt  The ID of The Department
      * @param line The ID of The Line
-     * @return PricePromInfo The List of The Price Prom
+     * @return PricePromInfo The Price Prom Info Object
      */
-    public final PricePromInfo getPricePromInfoList(
+    public final PricePromInfo getPricePromInfo(
 			final String sku, final String dpt, final String line) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -418,7 +418,7 @@ public class ItemResource {
 				String itemSku = sku;
 				if (!StringUtility.isNullOrEmpty(pricePromSku)) {
 					if (pricePromSku.contains("*")) {
-						if (pricePromSku.startsWith(itemSku)) {
+						if (itemSku.startsWith(pricePromSku.replace("*", ""))) {
 							pricePromInfoOut = pricePromInfo;
 							return pricePromInfo;
 						}

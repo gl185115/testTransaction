@@ -144,7 +144,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 		ItemResource itemResource = new ItemResource();
 		PricePromInfo pricePromInfo ;
-		pricePromInfo = itemResource.getPricePromInfoList("", dptModel.getDepartment().getDepartmentID(), "");
+		pricePromInfo = itemResource.getPricePromInfo("", dptModel.getDepartment().getDepartmentID(), "");
 		if (pricePromInfo != null){
 			dptModel.setDiscountClass(pricePromInfo.getDiscountClass());
 			dptModel.setDiscountAmt(pricePromInfo.getDiscountAmt());

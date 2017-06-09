@@ -38,6 +38,8 @@ import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
+import ncr.res.mobilepos.department.model.Department;
+import ncr.res.mobilepos.department.model.DepartmentName;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
@@ -88,6 +90,7 @@ public class PromotionResource {
 	public static final int DISCOUNTABLE = 0;
 
 	public static final String REMOTE_UTL = "resTransaction/rest/remoteitem/item_getremoteinfo";
+	public static final String ENTERPRISE_DPT_UTL = "resTransaction/rest/enterprisedpt/department_getremoteinfo";
 
 	/**
 	 * ALL_DISCOUNTABLE for all MixMatch item.
@@ -437,9 +440,15 @@ public class PromotionResource {
 					return response;
 				}
 
-				// 部門コードを部門マスタテーブルに存在チェック
-				departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
+				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item !=null) {
+					// サーバーから部門情報を取得する
+					departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+				} else {
+					// ローカルから部門情報を取得する
+					departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
+				}
 
+				// 部門コードを部門マスタテーブルに存在チェック
 				dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
 				if (StringUtility.isNullOrEmpty(dptCode)) {
 					response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
@@ -985,6 +994,50 @@ public class PromotionResource {
 	/**
 	 * get remote serverInfo
 	 *
+	 * @param companyId
+	 * @param retailStoreId
+	 * @param codeTemp
+	 * @param retailStoreId
+	 * @return
+	 * @throws Exception
+	 */
+	private final ViewDepartment getDptInfoData(String companyId, String retailStoreId, String codeTemp, String searchRetailStoreID)
+			throws Exception {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId)
+				.println("CodeTemp", codeTemp).println("SearchRetailStoreID", searchRetailStoreID);
+		JSONObject result = null;
+		ViewDepartment departmentInfo = null;
+		try {
+			JSONObject valueResult = new JSONObject();
+			valueResult.put("companyId", companyId);
+			valueResult.put("retailStoreId", retailStoreId);
+			valueResult.put("codeTemp", codeTemp);
+			valueResult.put("searchRetailStoreID", searchRetailStoreID);
+			int timeOut = 5;
+			String enterpriseServerTimeout = GlobalConstant.getEnterpriseServerTimeout();
+			if (!StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
+				timeOut = Integer.valueOf(enterpriseServerTimeout.toString());
+			}
+			String url = GlobalConstant.getEnterpriseServerUri() + ENTERPRISE_DPT_UTL;
+			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
+			// Check if error is empty.
+			if (result.getJSONObject("department") != null) {
+				departmentInfo = (ViewDepartment) jsonToDeparment(result.getJSONObject("department"));
+			}
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote item entry.",
+					e);
+			throw new Exception();
+		} finally {
+			tp.methodExit(departmentInfo);
+		}
+		return departmentInfo;
+	}
+	
+	/**
+	 * get remote serverInfo
+	 *
 	 * @param retailStoreId
 	 * @param pluCode
 	 * @param companyId
@@ -1052,6 +1105,39 @@ public class PromotionResource {
 			count++;
 		}
 		return url;
+	}
+
+	/**
+	 * JSONObject to Deparment
+	 *
+	 * @param json
+	 *            The data of the remote return
+	 * @return item
+	 * @throws NumberFormatException
+	 *             The Number of The Format Exception
+	 * @throws JSONException
+	 *             The Json Exception
+	 */
+	private ViewDepartment jsonToDeparment(JSONObject json) throws NumberFormatException, JSONException {
+		ViewDepartment departmentInfo = new ViewDepartment();
+		Department dpt = new Department();
+		dpt.setDepartmentID(json.getString("departmentID"));
+
+		// department name
+		DepartmentName departmentName = new DepartmentName();
+		departmentName.setEn(json.getJSONObject("departmentName").getString("en"));
+		departmentName.setJa(json.getJSONObject("departmentName").getString("ja"));
+		dpt.setDepartmentName(departmentName);
+		dpt.setTaxRate(json.getString("taxRate"));
+		dpt.setTaxType(json.getString("taxType"));
+		dpt.setDiscountType(json.getString("discountType"));
+		dpt.setNonSales(json.getInt("nonSales"));
+		dpt.setSubNum1(json.getString("subNum1"));
+		dpt.setSubNum2(json.getString("subNum2"));
+		dpt.setSubNum3(json.getString("subNum3"));
+		departmentInfo.setDepartment(dpt);
+		departmentInfo.setRetailStoreID(json.getString("retailStoreID"));
+		return departmentInfo;
 	}
 
 	/**

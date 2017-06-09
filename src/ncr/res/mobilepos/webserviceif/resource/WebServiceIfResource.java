@@ -1290,4 +1290,92 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
+        
+        /**
+         * Gets the pastel point info.
+         *
+         * @param requestData: The request data
+         *
+         * @return the point info.
+         */
+        @Path("/getPointInfo")
+        @POST
+        @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+        @ApiOperation(value="ポイント情報を取得する", response=JSONData.class)
+        @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+        
+        })
+        public final JSONData getPastelPointInfo(
+                @ApiParam(name="requestData", value="データ") @FormParam("requestData") String requestData) {
+            String functionName = DebugLogger.getCurrentMethodName();
+            tp.methodEnter(functionName);
+            tp.println("requestData", requestData);
+            JSONData jsonData = new JSONData();
+            JSONObject result = null;
+            String address = "";
+            try {
+                if (StringUtility.isNullOrEmpty(requestData)) {
+                    tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                    jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                    jsonData.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                    return jsonData;
+                }
+                int timeOut = GlobalConstant.getApiServerTimeout();
+                address = WebServiceIfConstants.PASTELPOINT_APIURI;
+                result = UrlConnectionHelper.connectionForPost(address, requestData, timeOut);
+                if (result == null) {
+                    jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
+                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
+                    jsonData.setMessage(ResultBase.RES_SEARCHAPIERROR_MSG);
+                } else {
+                    jsonData.setJsonObject(result.toString());
+                    jsonData.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                    jsonData.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                    jsonData.setMessage(ResultBase.RES_SUCCESS_MSG);
+                }
+            } catch (MalformedURLException e) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + "Failed to get point info.\n", e);
+                jsonData
+                        .setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+                jsonData
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+                jsonData.setMessage(e.getMessage());
+            } catch (IOException e) {
+                if (e instanceof UnknownHostException) {
+                    LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                            + "Failed to get point info.\n", e);
+                    jsonData
+                            .setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                    jsonData
+                            .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                    jsonData.setMessage(e.getMessage());
+                } else {
+                    LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                            + "Failed to get point info.\n", e);
+                    jsonData
+                            .setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                    jsonData
+                            .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                    jsonData.setMessage(e.getMessage());
+                }
+            } catch (Exception e) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+                        + "Failed to get point info.\n", e);
+                jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                jsonData
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                jsonData.setMessage(e.getMessage());
+            } finally {
+                tp.methodExit(jsonData);
+            }
+            return jsonData;
+        }
 }

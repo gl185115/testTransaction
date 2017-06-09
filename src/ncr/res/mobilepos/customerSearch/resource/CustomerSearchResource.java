@@ -474,6 +474,8 @@ public class CustomerSearchResource {
             @ApiParam(name="loginKey", value="ログインキー") @FormParam("loginKey") final String loginKey) {
 
         String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("loginKey", loginKey);
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
 
         try {
@@ -620,6 +622,8 @@ public class CustomerSearchResource {
             customerSearchReturnBean
                     .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             customerSearchReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(customerSearchReturnBean);
         }
 
         return customerSearchReturnBean;
@@ -647,6 +651,8 @@ public class CustomerSearchResource {
             @ApiParam(name="memberCode", value="会員コード") @FormParam("memberCode") final String memberCode) {
 
         String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("memberCode", memberCode);
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
 
         try {
@@ -793,6 +799,8 @@ public class CustomerSearchResource {
             customerSearchReturnBean
                     .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             customerSearchReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(customerSearchReturnBean);
         }
 
         return customerSearchReturnBean;
@@ -820,6 +828,8 @@ public class CustomerSearchResource {
             @ApiParam(name="memberCode", value="会員コード") @FormParam("memberCode") final String memberCode) {
 
         String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("memberCode", memberCode);
         CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
 
         try {
@@ -966,6 +976,8 @@ public class CustomerSearchResource {
             customerSearchReturnBean
                     .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             customerSearchReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(customerSearchReturnBean);
         }
 
         return customerSearchReturnBean;

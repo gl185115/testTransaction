@@ -134,4 +134,9 @@ public class WebServiceIfConstants {
      * The SlipNoAPI Update api.
      */
     public static final String SLIPNOAPI_UPDATE_URL = "/SlipNoAPI/SlipNoUpdate.json/";
+    
+    /** 
+     * get point info use url
+     *  */
+    public static final String PASTELPOINT_APIURI = "http://localhost:9080/PastelPortIF/point";
 }

@@ -315,7 +315,25 @@ public class Sale {
      */
     @XmlElement(name="barPurpose")
     private String barPurpose;
-
+    
+    /**
+     * PointDiscountFlag
+     */
+    @XmlElement(name="PointDiscountFlag")
+    private String pointDiscountFlag;
+    
+    /**
+     * PointFlag
+     */
+    @XmlElement(name="PointFlag")
+    private String pointFlag;
+    
+    /**
+     * AggregateFlag
+     */
+    @XmlElement(name="AggregateFlag")
+    private String aggregateFlag;
+    
     /**
      * Associate ”Ì”„ˆõ
      */
@@ -1137,6 +1155,42 @@ public class Sale {
      */
     public final void setForward(final Forward forward) {
         this.forward = forward;
+    }
+    /**
+     * @return the PointDiscountFlag
+     */
+    public final String getPointDiscountFlag() {
+        return pointDiscountFlag;
+    }
+    /**
+     * @param PointDiscountFlag the PointDiscountFlag to set
+     */
+    public final void setPointDiscountFlag(final String pointDiscountFlag) {
+        this.pointDiscountFlag = pointDiscountFlag;
+    }
+    /**
+     * @return the PointFlag
+     */
+    public final String getPointFlag() {
+        return pointFlag;
+    }
+    /**
+     * @param PointFlag the PointFlag to set
+     */
+    public final void setPointFlag(final String pointFlag) {
+        this.pointFlag = pointFlag;
+    }
+    /**
+     * @return the AggregateFlag
+     */
+    public final String getAggregateFlag() {
+        return aggregateFlag;
+    }
+    /**
+     * @param AggregateFlag the AggregateFlag to set
+     */
+    public final void setAggregateFlag(final String aggregateFlag) {
+        this.aggregateFlag = aggregateFlag;
     }
     /**
      * @return the sizeChange

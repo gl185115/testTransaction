@@ -193,10 +193,10 @@ public class Transaction {
     private APIErrorList apiErrorList;
 
     /**
-     * The private member variable that will hold the floorID of the Transaction.
+     * The private member variable that will hold the floorId of the Transaction.
      */
     @XmlElement(name = "FloorID")
-    private int floorID;
+    private Integer floorId;
 
     /**
      * Gets the ControlTransaction for SymmaryReceipt.
@@ -659,5 +659,20 @@ public class Transaction {
      */
     public void setBeforeTransactionNumber(String beforeTransactionNumber) {
         this.beforeTransactionNumber = beforeTransactionNumber;
+    }
+
+    /**
+     * @return the floorId
+     */
+    public String getFloorId() {
+        return beforeTransactionNumber;
+    }
+
+    /**
+     * @param floorId
+     *            the floorId to set
+     */
+    public void setFloorId(Integer floorId) {
+        this.floorId = floorId;
     }
 }

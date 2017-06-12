@@ -146,7 +146,7 @@ public class ProcessedTransaction {
     }
     /**
      * 
-     * @param businessDayDateFrom
+     * @param businessDayDateTimeFrom
      */
     public void setBusinessDayDateTimeFrom(String businessDayDateTimeFrom) {
         this.businessDayDateTimeFrom = businessDayDateTimeFrom;

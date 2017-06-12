@@ -122,120 +122,126 @@ public class Instrument {
     }
 
     /**
-     * @param cardNumber the cardNumber to set
+     * @return cardNumber
+     */
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
+    /**
+     * @param cardNumber セットする cardNumber
      */
     public final void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
     /**
-     * @return the authorizationNumber
+     * @return authorizationNumber
      */
     public final String getAuthorizationNumber() {
         return authorizationNumber;
     }
 
     /**
-     * @param authorizationNumber the authorizationNumber to set
+     * @param authorizationNumber セットする authorizationNumber
      */
     public final void setAuthorizationNumber(String authorizationNumber) {
         this.authorizationNumber = authorizationNumber;
     }
 
     /**
-     * @return the expirationDate
+     * @return expirationDate
      */
     public final String getExpirationDate() {
         return expirationDate;
     }
 
     /**
-     * @param ExpirationDate
-     *            the ExpirationDate to set
+     * @param ExpirationDate セットする ExpirationDate
      */
     public final void setExpirationDate(String expirationDate) {
         this.expirationDate = expirationDate;
     }
 
     /**
-     * @return the priorFaceValueAmount
+     * @return priorFaceValueAmount
      */
     public final Integer getPriorFaceValueAmount() {
         return priorFaceValueAmount;
     }
 
     /**
-     * @param priorFaceValueAmount the priorFaceValueAmount to set
+     * @param priorFaceValueAmount セットする priorFaceValueAmount
      */
     public final void setPriorFaceValueAmount(Integer priorFaceValueAmount) {
         this.priorFaceValueAmount = priorFaceValueAmount;
     }
 
     /**
-     * @return the currentFaceValueAmount
+     * @return currentFaceValueAmount
      */
     public final Integer getCurrentFaceValueAmount() {
         return currentFaceValueAmount;
     }
 
     /**
-     * @param currentFaceValueAmount the currentFaceValueAmount to set
+     * @param currentFaceValueAmount セットする currentFaceValueAmount
      */
     public final void setCurrentFaceValueAmount(Integer currentFaceValueAmount) {
         this.currentFaceValueAmount = currentFaceValueAmount;
     }
 
     /**
-     * @return the chargeAmount
+     * @return chargeAmount
      */
     public final Integer getChargeAmount() {
         return chargeAmount;
     }
 
     /**
-     * @param chargeAmount the chargeAmount to set
+     * @param chargeAmount セットする chargeAmount
      */
     public final void setChargeAmount(Integer chargeAmount) {
         this.chargeAmount = chargeAmount;
     }
 
     /**
-     * @return the jis1
+     * @return jis1
      */
     public final String getJis1() {
         return jis1;
     }
 
     /**
-     * @param jis1 the jis1 to set
+     * @param jis1 セットする jis1
      */
     public final void setJis1(String jis1) {
         this.jis1 = jis1;
     }
 
     /**
-     * @return the jis2
+     * @return jis2
      */
     public final String getJis2() {
         return jis2;
     }
 
     /**
-     * @param jis2 the jis2 to set
+     * @param jis2 セットする jis2
      */
     public final void setJis2(String jis2) {
         this.jis2 = jis2;
     }
 
     /**
-     * @return the pin
+     * @return pin
      */
     public final String getPin() {
         return pin;
     }
 
     /**
-     * @param pin the pin to set
+     * @param pin セットする pin
      */
     public final void setPin(String pin) {
         this.pin = pin;

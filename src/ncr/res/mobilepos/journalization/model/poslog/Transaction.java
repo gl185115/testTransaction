@@ -115,7 +115,7 @@ public class Transaction {
      */
     @XmlElement(name = "TillID")
     private String tillID;
-    
+
     /**
      * The private member variable that will\ hold the summaryReceiptReservation of the
      * Transaction.
@@ -193,8 +193,14 @@ public class Transaction {
     private APIErrorList apiErrorList;
 
     /**
+     * The private member variable that will hold the floorID of the Transaction.
+     */
+    @XmlElement(name = "FloorID")
+    private int floorID;
+
+    /**
      * Gets the ControlTransaction for SymmaryReceipt.
-     * 
+     *
      * @return ControlTransaction of SummaryReceipt.
      */
     public ControlTransaction getControlTransaction() {
@@ -203,7 +209,7 @@ public class Transaction {
 
     /**
      * Sets the ControlTransaction for SymmaryReceipt.
-     * 
+     *
      * @param controlTransaction
      *            ControlTransaction of SummaryReceipt.
      */
@@ -213,7 +219,7 @@ public class Transaction {
 
     /**
      * Gets the training mode flag of transaction.
-     * 
+     *
      * @return The training mode flag of transaction
      */
     public final String getTrainingModeFlag() {
@@ -222,7 +228,7 @@ public class Transaction {
 
     /**
      * Sets training mode flag of transaction.
-     * 
+     *
      * @param trainingModeFlag
      */
     public final void setTrainingModeFlag(final String trainingModeFlag) {
@@ -231,7 +237,7 @@ public class Transaction {
 
     /**
      * Gets the cancel flag of transaction.
-     * 
+     *
      * @return The cancel flag of transaction
      */
     public final String getCancelFlag() {
@@ -240,7 +246,7 @@ public class Transaction {
 
     /**
      * Sets cancel flag of transaction.
-     * 
+     *
      * @param cancelFlagToSet
      */
     public final void setCancelFlag(final String cancelFlagToSet) {
@@ -483,7 +489,7 @@ public class Transaction {
 
 	/**
      * Set the Till ID.
-     * 
+     *
      * @param tillIDToSet
      *            The Till ID.
      */
@@ -493,26 +499,26 @@ public class Transaction {
 
     /**
      * Get the Till ID.
-     * 
+     *
      * @return The Till ID.
      */
     public final String getTillID() {
         return tillID;
     }
-    
+
     /**
      * Set the SummaryReceiptReservation.
-     * 
+     *
      * @param summaryReceiptReservationToSet
      *            The SummaryReceiptReservation.
      */
     public final void setSummaryReceiptReservation(final int summaryReceiptReservation) {
         this.summaryReceiptReservation = summaryReceiptReservation;
     }
-    
+
     /**
      * Get the SummaryReceiptReservation.
-     * 
+     *
      * @return The SummaryReceiptReservation.
      */
     public final int getSummaryReceiptReservation() {
@@ -540,7 +546,7 @@ public class Transaction {
 
     /**
      * Tells if Transaction is empty.
-     * 
+     *
      * @return True if transaction is empty else false.
      */
     public final boolean isEmpty() {
@@ -552,7 +558,7 @@ public class Transaction {
 
     /**
      * Overrides to String implementation.
-     * 
+     *
      * @return The string implementation of the Transaction.
      */
     public final String toString() {

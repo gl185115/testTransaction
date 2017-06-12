@@ -56,7 +56,7 @@ public class Tender {
      */
     @XmlAttribute(name = "TenderType")
     private String tenderType;
-    
+
     /**
      * The private member variable that will hold the tender type of Tender.
      */
@@ -100,7 +100,7 @@ public class Tender {
      */
     @XmlElement(name = "StoredValueInstrument")
     private StoredValueInstrument storedValueInstrument;
-    
+
     /**
      * The private member variable that will hold the MonetaryKind.
      */
@@ -118,25 +118,37 @@ public class Tender {
      */
     @XmlElement(name = "Other")
     private Other other;
-    
+
     /***
      * The private member variable that will hold netTotal for this line item
      */
     @XmlElement(name = "NetTotal")
     private String netTotal;
-    
+
     @XmlElement(name = "GrossTotal")
     private String grossTotal;
-    
+
     @XmlElement(name = "Difference")
     private String difference;
-    
+
     @XmlElement(name = "ChangeReserve")
     private String changeReserve;
-    
+
     @XmlElement(name = "Devices")
     private Devices devices;
-    
+
+    /**
+     * The private member variable that will hold the category of Tender.
+     */
+    @XmlElement(name = "Category")
+    private String category;
+
+    /**
+     * The private member variable that will hold the Id of Tender.
+     */
+    @XmlElement(name = "TenderId")
+    private String tenderId;
+
     /**
      * The default constructor for Tender class.
      */
@@ -345,61 +357,61 @@ public class Tender {
             str.append("tenderChange : ")
                .append(this.tenderChange.toString());
         }
-        
+
         if (null != this.voucher) {
             str.append("Voucher : ")
                .append(this.voucher.toString());
         }
-        
+
         if (null != this.tax) {
             str.append("Tax : ")
                .append(this.tax.toString());
         }
-        
+
         if(null != this.monetaryKind){
             str.append("MonetaryKind:")
             .append(this.monetaryKind.toString()).append(crlf);
         }
-        
+
         return str.toString();
     }
 
     public final void setNetTotal(String ntotal) {
     	this.netTotal = ntotal;
     }
-    
+
     public final String getNetTotal() {
     	return this.netTotal;
     }
-    
+
     public final void setGrossTotal(String grsTotal) {
     	this.grossTotal = grsTotal;
     }
-    
+
     public final String getGrossTotal() {
     	return grossTotal;
     }
-    
+
     public final void setDifference(String diff) {
     	this.difference = diff;
     }
-    
+
     public final String getDifference() {
     	return this.difference;
     }
-    
+
     public final void setChangeReserve(String changeReserve) {
     	this.changeReserve = changeReserve;
     }
-    
+
     public final String getChangeReserve() {
     	return this.changeReserve;
     }
-    
+
     public final void setDevices(Devices obj) {
     	this.devices = obj;
     }
-    
+
     public final Devices getDevices() {
     	return devices;
     }
@@ -454,4 +466,19 @@ public class Tender {
 		this.tenderTiming = tenderTiming;
 	}
 
+    public final void setCategory(String category) {
+    	this.category = category;
+    }
+
+    public final String getCategory() {
+    	return this.category;
+    }
+
+    public final void setTenderId(String tenderId) {
+    	this.tenderId = tenderId;
+    }
+
+    public final String getTenderId() {
+    	return this.tenderId;
+    }
 }

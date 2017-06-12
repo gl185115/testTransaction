@@ -14,6 +14,13 @@ public class ProcessedTransaction {
      */
     @XmlElement(name = "BusinessDayDateFrom")
     private String businessDayDateFrom;
+	
+    /**
+     * 元運用時刻                                                                                        
+     */
+    @XmlElement(name = "BusinessDayDateTimeFrom")
+    private String businessDayDateTimeFrom;	
+	
     /**
      * 元会社コード                                                                                       
      */
@@ -128,6 +135,21 @@ public class ProcessedTransaction {
      */
     public void setBusinessDayDateFrom(String businessDayDateFrom) {
         this.businessDayDateFrom = businessDayDateFrom;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public String getBusinessDayDateTimeFrom() {
+        return businessDayDateTimeFrom;
+    }
+    /**
+     * 
+     * @param businessDayDateFrom
+     */
+    public void setBusinessDayDateTimeFrom(String businessDayDateTimeFrom) {
+        this.businessDayDateTimeFrom = businessDayDateTimeFrom;
     }
     /**
      * 

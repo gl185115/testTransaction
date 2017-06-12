@@ -30,7 +30,7 @@ public class Voucher {
      */
     @XmlElement(name = "VoucherName")
     private String voucherName;
-    
+
     /**
     * The private member variable that will hold the change type of the voucher.
     */
@@ -42,7 +42,7 @@ public class Voucher {
     */
    @XmlElement(name = "VoucherID")
    private String voucherID;
-   
+
     /**
      * The private member variable that will hold the voucher id of the voucher.
      */
@@ -72,13 +72,13 @@ public class Voucher {
      */
     @XmlElement(name = "StampType")
     private String stampType;
-    
+
     /**
      * Previous PointType.
      */
     @XmlElement(name = "PointType")
     private String pointType;
-    
+
     /**
      * ID of UnspentAmount.
      */
@@ -126,6 +126,49 @@ public class Voucher {
      */
     @XmlElement(name = "Difference")
     private String difference;
+
+    /***
+     * cardNumber;
+     */
+    @XmlElement(name = "CardNumber")
+    private String cardNumber;
+
+    /***
+     * authorizationNumber;
+     */
+    @XmlElement(name = "AuthorizationNumber")
+    private String authorizationNumber;
+
+    /***
+     * priorFaceValueAmount;
+     */
+    @XmlElement(name = "PriorFaceValueAmount")
+    private Integer priorFaceValueAmount;
+
+    /***
+     * currentFaceValueAmount;
+     */
+    @XmlElement(name = "CurrentFaceValueAmount")
+    private Integer currentFaceValueAmount;
+
+    /***
+     * jis1;
+     */
+    @XmlElement(name = "JIS1")
+    private String jis1;
+    /***
+     * jis2;
+     */
+    @XmlElement(name = "JIS2")
+    private String jis2;
+
+    /***
+     * pin;
+     */
+    @XmlElement(name = "PIN")
+    private String pin;
+
+
     /**
      * @return the amount
      */
@@ -304,33 +347,33 @@ public class Voucher {
 
         return str.toString();
     }
-    
+
     /***
      * @param regAmount
      */
     public final void setRegisteredAmount(String regAmount) {
     	this.registeredAmount = regAmount;
     }
-    
+
     /***
      * @return the registeredAmount.
      */
     public final String getRegisteredAmount() {
     	return this.registeredAmount;
     }
-    
+
     public final void setCurrentAmount(String curAmt) {
     	this.currentAmount = curAmt;
     }
-    
+
     public final String getCurrentAmount() {
     	return this.currentAmount;
     }
-    
+
     public final void setDifference(String diff) {
     	this.difference = diff;
     }
-    
+
     public final String getDifference() {
     	return this.difference;
     }
@@ -389,5 +432,103 @@ public class Voucher {
      */
     public final void setPointType(String pointType) {
         this.pointType = pointType;
+    }
+
+    /**
+     * @return the CardNumber
+     */
+    public final String getCardNumber() {
+        return cardNumber;
+    }
+
+    /**
+     * @param cardNumber the cardNumber to set
+     */
+    public final void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
+    }
+
+    /**
+     * @return the authorizationNumber
+     */
+    public final String getAuthorizationNumber() {
+        return authorizationNumber;
+    }
+
+    /**
+     * @param authorizationNumber the authorizationNumber to set
+     */
+    public final void setAuthorizationNumber(String authorizationNumber) {
+        this.authorizationNumber = authorizationNumber;
+    }
+
+    /**
+     * @return the priorFaceValueAmount
+     */
+    public final Integer getPriorFaceValueAmount() {
+        return priorFaceValueAmount;
+    }
+
+    /**
+     * @param priorFaceValueAmount the priorFaceValueAmount to set
+     */
+    public final void setPriorFaceValueAmount(Integer priorFaceValueAmount) {
+        this.priorFaceValueAmount = priorFaceValueAmount;
+    }
+
+    /**
+     * @return the currentFaceValueAmount
+     */
+    public final Integer getCurrentFaceValueAmount() {
+        return currentFaceValueAmount;
+    }
+
+    /**
+     * @param currentFaceValueAmount the currentFaceValueAmount to set
+     */
+    public final void setCurrentFaceValueAmount(Integer currentFaceValueAmount) {
+        this.currentFaceValueAmount = currentFaceValueAmount;
+    }
+
+    /**
+     * @return the jis1
+     */
+    public final String getJis1() {
+        return jis1;
+    }
+
+    /**
+     * @param jis1 the jis1 to set
+     */
+    public final void setJis1(String jis1) {
+        this.jis1 = jis1;
+    }
+
+    /**
+     * @return the jis2
+     */
+    public final String getJis2() {
+        return jis2;
+    }
+
+    /**
+     * @param jis2 the jis2 to set
+     */
+    public final void setJis2(String jis2) {
+        this.jis2 = jis2;
+    }
+
+    /**
+     * @return the pin
+     */
+    public final String getPin() {
+        return pin;
+    }
+
+    /**
+     * @param pin the pin to set
+     */
+    public final void setPin(String pin) {
+        this.pin = pin;
     }
 }

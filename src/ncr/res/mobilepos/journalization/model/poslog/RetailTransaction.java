@@ -107,6 +107,18 @@ public class RetailTransaction {
     private List<PriceDerivationResult> priceDerivationResult;
 
     /**
+     * customerId
+     */
+    @XmlElement(name = "CustomerID")
+    private String customerId;
+
+    /**
+     * The private member variable that holds the qr promotion items
+     */
+    @XmlElement(name="QRPromotionInfo")
+    private QRPromotionInfo qrPromotionInfo;
+
+    /**
      * The private member variable that holds the number of items
      * of the customer.
      */
@@ -267,6 +279,7 @@ public class RetailTransaction {
      */
     @XmlElement(name = "barLoyaltyReward")
     private BarLoyaltyReward barLoyaltyReward;
+
     /**
      * The Getter method for Total.
      * @return  The Total.
@@ -351,6 +364,24 @@ public class RetailTransaction {
      */
     public final void setLineItems(final List<LineItem> lineItemsToSet) {
         this.lineItems = lineItemsToSet;
+    }
+
+    /**
+     * Sets the qr promotion info.
+     *
+     * @param qrPromotionInfoToSet      The new value for qrPromotionInfot.
+     */
+    public final void setQrPromotionInfo(QRPromotionInfo qrPromotionInfoToSet) {
+        this.qrPromotionInfo = qrPromotionInfoToSet;
+    }
+
+    /**
+     * Gets the qr promotion info.
+     *
+     * @return        The qr promotion info.
+     */
+    public final QRPromotionInfo getQrPromotionInfo() {
+        return qrPromotionInfo;
     }
 
     /**
@@ -879,5 +910,16 @@ public class RetailTransaction {
     public void setDeliveryRetailStoreId(String deliveryRetailStoreId) {
         this.deliveryRetailStoreId = deliveryRetailStoreId;
     }
-
+    /**
+     * @return the customerId
+     */
+    public String getCustomerID() {
+        return customerId;
+    }
+    /**
+     * @param customerId the customerId to set
+     */
+    public void setCustomerID(String customerId) {
+        this.customerId = customerId;
+    }
 }

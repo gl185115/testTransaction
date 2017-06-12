@@ -68,6 +68,18 @@ public class QRPromotion {
     private String qrOutputTargetValue;
 
     /**
+     * SequenceNumber
+     */
+    @XmlElement(name = "SequenceNumber")
+    private Integer sequenceNumber;
+
+    /**
+     * Quantity
+     */
+    @XmlElement(name = "Quantity")
+    private Integer quantity;
+
+    /**
      * @return the qrPromotionId
      */
     public final String getQRPromotionId() {
@@ -163,5 +175,33 @@ public class QRPromotion {
      */
     public final void setQROutputTargetValue(final String qrOutputTargetValue) {
         this.qrOutputTargetValue = qrOutputTargetValue;
+    }
+
+    /**
+     * @return the sequenceNumber
+     */
+    public final Integer getSequenceNumber() {
+        return sequenceNumber;
+    }
+
+    /**
+     * @param sequenceNumber the sequenceNumber to set
+     */
+    public final void setSequenceNumber(final Integer sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    /**
+     * @return the quantity
+     */
+    public final Integer getQuantity() {
+        return quantity;
+    }
+
+    /**
+     * @param quantity the quantity to set
+     */
+    public final void setQuantity(final Integer quantity) {
+        this.quantity = quantity;
     }
 }

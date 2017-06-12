@@ -38,6 +38,12 @@ public class MemberInfo {
     private String inputtedMembershipId;
 
     /**
+     * The private variable that will hold the TransactionId
+     */
+    @XmlElement(name = "TransactionId")
+    private String transactionId;
+
+    /**
      * The private variable that will hold the StatusCode
      */
     @XmlElement(name = "StatusCode")
@@ -104,7 +110,7 @@ public class MemberInfo {
     private MemberDetail memberDetail;
 
     /**
-     * 
+     *
      * @return PointsMethod
      */
     public Integer getPointsMethod() {
@@ -112,7 +118,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param PointsMethod
      */
     public void setPointsMethod(Integer pointsMethod) {
@@ -120,7 +126,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return AmountForPoints
      */
     public Integer getAmountForPoints() {
@@ -128,7 +134,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param AmountForPoints
      */
     public void setAmountForPoints(Integer amountForPoints) {
@@ -136,7 +142,23 @@ public class MemberInfo {
     }
 
     /**
-     * 
+    *
+    * @return TransactionId
+    */
+   public String getTransactionId() {
+       return transactionId;
+   }
+
+   /**
+    *
+    * @param transactionId
+    */
+   public void setTransactionId(String transactionId) {
+       this.transactionId = transactionId;
+   }
+
+    /**
+     *
      * @return InputtedMembershipId
      */
     public String getInputtedMembershipId() {
@@ -144,7 +166,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param InputtedMembershipId
      */
     public void setInputtedMembershipId(String inputtedMembershipId) {
@@ -152,7 +174,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return StatusCode
      */
     public String getStatusCode() {
@@ -160,7 +182,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param StatusCode
      */
     public void setStatusCode(String statusCode) {
@@ -168,7 +190,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return CorrectionPoints
      */
     public Integer getCorrectionPoints() {
@@ -176,7 +198,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param CorrectionPoints
      */
     public void setCorrectionPoints(Integer correctionPoints) {
@@ -184,7 +206,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return BasicPoints
      */
     public Integer getBasicPoints() {
@@ -192,7 +214,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param BasicPoints
      */
     public void setBasicPoints(Integer basicPoints) {
@@ -200,7 +222,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return AdditionalPoints
      */
     public Integer getAdditionalPoints() {
@@ -208,7 +230,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param AdditionalPoints
      */
     public void setAdditionalPoints(Integer additionalPoints) {
@@ -216,7 +238,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return BonusPoints
      */
     public Integer getBonusPoints() {
@@ -224,7 +246,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param BonusPoints
      */
     public void setBonusPoints(Integer bonusPoints) {
@@ -232,7 +254,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return CouponPoints
      */
     public Integer getCouponPoints() {
@@ -240,7 +262,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param CouponPoints
      */
     public void setCouponPoints(Integer couponPoints) {
@@ -248,7 +270,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return PointsRedeemed
      */
     public Integer getPointsRedeemed() {
@@ -256,7 +278,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param PointsRedeemed
      */
     public void setPointsRedeemed(Integer pointsRedeemed) {
@@ -264,7 +286,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return PointsPrior
      */
     public Integer getPointsPrior() {
@@ -272,7 +294,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param PointsPrior
      */
     public void setPointsPrior(Integer pointsPrior) {
@@ -280,7 +302,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return TotalPoints
      */
     public Integer getTotalPoints() {
@@ -288,7 +310,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param TotalPoints
      */
     public void setTotalPoints(Integer totalPoints) {
@@ -296,7 +318,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return LostPoints
      */
     public Integer getLostPoints() {
@@ -304,7 +326,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param LostPoints
      */
     public void setLostPoints(Integer lostPoints) {
@@ -312,7 +334,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @return MemberDetail
      */
     public MemberDetail getMemberDetail() {
@@ -320,7 +342,7 @@ public class MemberInfo {
     }
 
     /**
-     * 
+     *
      * @param MemberDetail
      */
     public void setMemberDetail(MemberDetail memberDetail) {

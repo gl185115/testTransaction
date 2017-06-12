@@ -78,7 +78,7 @@ public class Return {
      */
     @XmlAttribute(name = "ReasonCode")
     private String reasonCode;
-    
+
     /**
      * The private member variable that will hold the taxable flag of Return.
      */
@@ -99,7 +99,7 @@ public class Return {
      */
     @XmlElement(name = "ScanBarCode")
     private String scanBarCode;
-    
+
     /**
      * The private member variable that will hold the description
      * of the returned item.
@@ -124,55 +124,55 @@ public class Return {
      */
     @XmlElement(name = "SkuType")
     private String skuType;
-    
+
     /**
      * The private member variable that will hold the mdVenderof Return.
      */
     @XmlElement(name = "MdVender")
     private String mdVender;
-    
+
     /**
      * The private member variable that will hold the SupplierCode of Return.
      */
     @XmlElement(name = "SupplierCode")
     private String supplierCode;
-    
+
     /**
      * The private member variable that will hold the SubSupplierCode Return.
      */
     @XmlElement(name = "SubSupplierCode")
     private String subSupplierCode;
-    
+
     /**
      * The private member variable that will hold the colorId of Return.
      */
     @XmlElement(name = "ColorId")
     private String colorId;
-    
+
     /**
      * The private member variable that will hold the colorName of Return.
      */
     @XmlElement(name = "ColorName")
     private String colorName;
-    
+
     /**
      * The private member variable that will hold the sizeId of Return.
      */
     @XmlElement(name = "SizeId")
     private String sizeId;
-    
+
     /**
      * The private member variable that will hold the sizeName of Return.
      */
     @XmlElement(name = "SizeName")
     private String sizeName;
-    
+
     /**
      * The private member variable that will hold the groupCode of Return.
      */
     @XmlElement(name = "GroupCode")
     private String groupCode;
-    
+
     /**
     *The private member variable that will hold the OldSizeId of Return.
     */
@@ -221,7 +221,7 @@ public class Return {
      */
     @XmlElement(name = "SalesPriceFrom")
     private SalesPriceFrom salesPriceFrom;
-    
+
     /**
      * The private member variable that will hold the not computed sales unit
      *  price from price override of Sale.
@@ -246,13 +246,13 @@ public class Return {
      */
     @XmlElement(name = "ExtendedDiscountAmount")
     private double extendedDiscountAmount;
-    
+
     /**
      * The private member variable that will hold the CostPrice of Return.
      */
     @XmlElement(name = "CostPrice")
     private int costPrice;
-    
+
     /**
      * The Retail Price Modifier.
      */
@@ -277,7 +277,7 @@ public class Return {
      */
     @XmlElement(name = "ItemSellingRule")
     private ItemSellingRule itemSellingRule;
-    
+
     /**
      * The private member variable that will hold the Forward.
      */
@@ -301,13 +301,13 @@ public class Return {
      */
     @XmlElement(name="Associate")
     private Associate associate;
-    
+
     /**
      * SizeChange
      */
     @XmlElement(name="SizeChange")
     private String sizeChange;
-    
+
     /**
      * SizeChanged
      */
@@ -337,18 +337,12 @@ public class Return {
      */
     @XmlElement(name="Coupon")
     private Coupon coupon;
-    
+
     /**
      * PremiumInfo
      */
     @XmlElement(name="PremiumInfo")
     private PremiumInfo premiumInfo;
-
-    /**
-     * QRPromotionInfo
-     */
-    @XmlElement(name="QRPromotionInfo")
-    private QRPromotionInfo qrPromotionInfo;
 
     /**
      * The private member variable that will hold text notes for this line item
@@ -362,13 +356,13 @@ public class Return {
      */
     @XmlElement(name = "InventoryReservationID")
     private String inventoryReservationID;
-    
+
     /**
      * barInventoryLineNo
      */
     @XmlElement(name = "barInventoryLineNo")
     private int barInventoryLineNo;
-    
+
     /**
      * barPoints
      */
@@ -386,19 +380,19 @@ public class Return {
      */
     @XmlElement(name="PointDiscountFlag")
     private String pointDiscountFlag;
-    
+
     /**
      * PointFlag
      */
     @XmlElement(name="PointFlag")
     private String pointFlag;
-    
+
     /**
      * AggregateFlag
      */
     @XmlElement(name="AggregateFlag")
     private String aggregateFlag;
-    
+
     /**
      * OperatorID
      */
@@ -730,7 +724,7 @@ public class Return {
     public void setReasonCode(String reasonCode) {
         this.reasonCode = reasonCode;
     }
-    
+
     public final String getNote() {
         return note;
     }
@@ -779,7 +773,7 @@ public class Return {
     public void setInventoryReservationID(String inventoryReservationID) {
         this.inventoryReservationID = inventoryReservationID;
     }
-    
+
     /**
      * @return barInventoryLineNo
      */
@@ -793,7 +787,7 @@ public class Return {
     public void setBarInventoryLineNo(int barInventoryLineNo) {
         this.barInventoryLineNo = barInventoryLineNo;
     }
-    
+
     /**
      * @return operatorID
      */
@@ -993,14 +987,6 @@ public class Return {
 		this.repSku = repSku;
 	}
 
-	public final QRPromotionInfo getQrPromotionInfo() {
-		return qrPromotionInfo;
-	}
-
-	public final void setQrPromotionInfo(QRPromotionInfo qrPromotionInfo) {
-		this.qrPromotionInfo = qrPromotionInfo;
-	}
-
 	/**
      * @return the salesPriceFrom
      */
@@ -1156,18 +1142,6 @@ public class Return {
      */
     public final void setPremiumInfo(final PremiumInfo premiumInfo) {
         this.premiumInfo = premiumInfo;
-    }
-    /**
-     * @return the qrPromotionInfo
-     */
-    public final QRPromotionInfo getQRPromotionInfo() {
-        return qrPromotionInfo;
-    }
-    /**
-     * @param qrPromotionInfo the qrPromotionInfo to set
-     */
-    public final void setQRPromotionInfo(final QRPromotionInfo qrPromotionInfo) {
-        this.qrPromotionInfo = qrPromotionInfo;
     }
     /**
      * @return the taxType

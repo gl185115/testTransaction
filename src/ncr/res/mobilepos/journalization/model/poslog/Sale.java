@@ -114,43 +114,43 @@ public class Sale {
      */
     @XmlElement(name = "SkuType")
     private String skuType;
-    
+
     /**
      * The private member variable that will hold the mdVender of Sale.
      */
     @XmlElement(name = "MdVender")
     private String mdVender;
-    
+
     /**
      * The private member variable that will hold the SupplierCode of Sale.
      */
     @XmlElement(name = "SupplierCode")
     private String supplierCode;
-    
+
     /**
      * The private member variable that will hold the SubSupplierCode Sale.
      */
     @XmlElement(name = "SubSupplierCode")
     private String subSupplierCode;
-    
+
     /**
      * The private member variable that will hold the colorId of Sale.
      */
     @XmlElement(name = "ColorId")
     private String colorId;
-    
+
     /**
      * The private member variable that will hold the colorName of Sale.
      */
     @XmlElement(name = "ColorName")
     private String colorName;
-    
+
     /**
      * The private member variable that will hold the sizeId of Sale.
      */
     @XmlElement(name = "SizeId")
     private String sizeId;
-    
+
     /**
     *The private member variable that will hold the OldSizeId of Sale.
     */
@@ -197,19 +197,19 @@ public class Sale {
      */
     @XmlElement(name = "SizeName")
     private String sizeName;
-    
+
     /**
      * The private member variable that will hold the groupCode of Sale.
      */
     @XmlElement(name = "GroupCode")
     private String groupCode;
-    
+
     /**
      * The private member variable that will hold the sales priceFrom of Sale.
      */
     @XmlElement(name = "SalesPriceFrom")
     private SalesPriceFrom salesPriceFrom;
-    
+
     /**
      * The private member variable that will hold the not computed sales unit
      *  price from price override of Sale.
@@ -235,6 +235,13 @@ public class Sale {
      */
     @XmlElement(name = "Quantity")
     private int quantity;
+
+    /**
+     * The private member variable that will hold the GiftRegistry of Sale.
+     */
+    @XmlElement(name = "GiftRegistry")
+    private GiftRegistry giftRegistry;
+
     /**
      * The Discount Amount.
      */
@@ -251,7 +258,7 @@ public class Sale {
      */
     @XmlElement(name = "CostPrice")
     private int costPrice;
-    
+
     /**
      * The Retail Price Modifier.
      */
@@ -315,37 +322,37 @@ public class Sale {
      */
     @XmlElement(name="barPurpose")
     private String barPurpose;
-    
+
     /**
      * PointDiscountFlag
      */
     @XmlElement(name="PointDiscountFlag")
     private String pointDiscountFlag;
-    
+
     /**
      * PointFlag
      */
     @XmlElement(name="PointFlag")
     private String pointFlag;
-    
+
     /**
      * AggregateFlag
      */
     @XmlElement(name="AggregateFlag")
     private String aggregateFlag;
-    
+
     /**
      * Associate ”Ì”„ˆõ
      */
     @XmlElement(name="Associate")
     private Associate associate;
-    
+
     /**
      * SizeChange
      */
     @XmlElement(name="SizeChange")
     private String sizeChange;
-    
+
     /**
      * SizeChanged
      */
@@ -375,7 +382,7 @@ public class Sale {
      */
     @XmlElement(name="Coupon")
     private Coupon coupon;
-    
+
     /**
      * PremiumInfo
      */
@@ -383,17 +390,11 @@ public class Sale {
     private PremiumInfo premiumInfo;
 
     /**
-     * QRPromotionInfo
-     */
-    @XmlElement(name="QRPromotionInfo")
-    private QRPromotionInfo qrPromotionInfo;
-    
-    /**
      * ExchangeFlag
      */
     @XmlElement(name="ExchangeFlag")
     private int exchangeFlag;
-    
+
     /**
      * operatorID
      */
@@ -405,7 +406,7 @@ public class Sale {
      */
     @XmlElement(name = "barOperatorName")
     private BarOperatorName barOperatorName;
-    
+
     /**
      * barInventoryLineNo
      */
@@ -422,13 +423,13 @@ public class Sale {
      *
      * @return        Regular sales unit price of Sale.
      */
-    
+
     /**
      * barReservationType
      */
     @XmlElement(name = "barReservationType")
     private BarReservationType barReservationType;
-    
+
     /**
      * taxableFlag
      */
@@ -442,6 +443,48 @@ public class Sale {
     private int customerOrderFlag;
 
     /**
+     * ItemAmount
+     */
+    @XmlElement(name = "ItemAmount")
+    private int itemAmount;
+
+    /**
+     * CategoryCode
+     */
+    @XmlElement(name = "CategoryCode")
+    private String categoryCode;
+
+    /**
+     * BeforeDpt
+     */
+    @XmlElement(name = "BeforeDpt")
+    private String beforeDpt;
+
+    /**
+     * BeforeDpt
+     */
+    @XmlElement(name = "ExceptionFlag")
+    private String exceptionFlag;
+
+    /**
+     * BeforeDpt
+     */
+    @XmlElement(name = "MagazineCode")
+    private String magazineCode;
+
+    /**
+     * BeforeDpt
+     */
+    @XmlElement(name = "PublishingCode")
+    private String publishingCode;
+
+    /**
+     * SupplementFlag
+     */
+    @XmlElement(name = "SupplementFlag")
+    private String supplementFlag;
+
+    /**
      * @return the barReservationType
      */
     public BarReservationType getBarReservationType() {
@@ -450,12 +493,12 @@ public class Sale {
     /**
      * Sets the barReservationType of RainCheck.
      *
-     * @param barReservationType   
+     * @param barReservationType
      */
     public void setBarReservationType(BarReservationType barReservationType) {
         this.barReservationType = barReservationType;
     }
-    
+
     public final double getRegularsalesunitprice() {
         return regularsalesunitprice;
     }
@@ -625,6 +668,24 @@ public class Sale {
     }
 
     /**
+     * Sets the GiftRegistry of Sale.
+     *
+     * @param giftRegistryToSet        The new value for GiftRegistry of Sale.
+     */
+    public final void setGiftRegistry(final GiftRegistry giftRegistryToSet) {
+        this.giftRegistry = giftRegistryToSet;
+    }
+
+    /**
+     * Gets the GiftRegistry of Sale.
+     *
+     * @return        The GiftRegistry of Sale.
+     */
+    public final GiftRegistry getGiftRegistry() {
+        return giftRegistry;
+    }
+
+    /**
      * Sets the quantity of Sale.
      *
      * @param quantityToSet        The new value for quantity of Sale.
@@ -632,6 +693,7 @@ public class Sale {
     public final void setQuantity(final int quantityToSet) {
         this.quantity = quantityToSet;
     }
+
 
     /**
      * @return the taxType
@@ -662,7 +724,7 @@ public class Sale {
     public final void setReturnFlag(final String returnFlag) {
         this.returnFlag = returnFlag;
     }
-    
+
     /**
      * Gets the Department  of Sale.
      *
@@ -932,7 +994,7 @@ public class Sale {
     public void setBarOperatorName(BarOperatorName barOperatorName) {
         this.barOperatorName = barOperatorName;
     }
-    
+
     /**
      * @return barInventoryLineNo
      */
@@ -1126,12 +1188,6 @@ public class Sale {
 	public final void setRepSku(String repSku) {
 		this.repSku = repSku;
 	}
-	public final QRPromotionInfo getQrPromotionInfo() {
-		return qrPromotionInfo;
-	}
-	public final void setQrPromotionInfo(QRPromotionInfo qrPromotionInfo) {
-		this.qrPromotionInfo = qrPromotionInfo;
-	}
 	/**
      * @return the salesPriceFrom
      */
@@ -1265,18 +1321,6 @@ public class Sale {
         this.premiumInfo = premiumInfo;
     }
     /**
-     * @return the qrPromotionInfo
-     */
-    public final QRPromotionInfo getQRPromotionInfo() {
-        return qrPromotionInfo;
-    }
-    /**
-     * @param qrPromotionInfo the qrPromotionInfo to set
-     */
-    public final void setQRPromotionInfo(final QRPromotionInfo qrPromotionInfo) {
-        this.qrPromotionInfo = qrPromotionInfo;
-    }
-    /**
      * @return the exchangeFlag
      */
     public final int getExchangeFlag() {
@@ -1402,5 +1446,87 @@ public class Sale {
 	public void setCustomerOrderFlag(int customerOrderFlag) {
 		this.customerOrderFlag = customerOrderFlag;
 	}
-	
+    /**
+     * @param itemAmount the itemAmount to set
+     */
+    public final void setItemAmount(final int itemAmount) {
+        this.itemAmount = itemAmount;
+    }
+    /**
+     * @return the itemAmount
+     */
+    public final int getItemAmount() {
+        return itemAmount;
+    }
+    /**
+     * @param categoryCode the categoryCode to set
+     */
+    public final void setCategoryCode(final String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+    /**
+     * @return the beforeDpt
+     */
+    public final String getCategoryCode() {
+        return categoryCode;
+    }    /**
+     * @param beforeDpt the beforeDpt to set
+     */
+    public final void setBeforeDpt(final String beforeDpt) {
+        this.beforeDpt = beforeDpt;
+    }
+    /**
+     * @return the beforeDpt
+     */
+    public final String getBeforeDpt() {
+        return beforeDpt;
+    }
+    /**
+     * @param exceptionFlag the exceptionFlag to set
+     */
+    public final void setExceptionFlag(final String exceptionFlag) {
+        this.exceptionFlag = exceptionFlag;
+    }
+    /**
+     * @return the exceptionFlag
+     */
+    public final String getExceptionFlag() {
+        return exceptionFlag;
+    }
+    /**
+     * @param magazineCode the magazineCode to set
+     */
+    public final void setMagazineCode(final String magazineCode) {
+        this.magazineCode = magazineCode;
+    }
+    /**
+     * @return the magazineCode
+     */
+    public final String getMagazineCode() {
+        return magazineCode;
+    }
+    /**
+     * @param publishingCode the publishingCode to set
+     */
+    public final void setPublishingCode(final String publishingCode) {
+        this.publishingCode = publishingCode;
+    }
+    /**
+     * @return the publishingCode
+     */
+    public final String getPublishingCode() {
+        return publishingCode;
+    }
+    /**
+     * @param itemAmount the itemAmount to set
+     */
+    public final void setSupplementFlag(final String supplementFlag) {
+        this.supplementFlag = supplementFlag;
+    }
+    /**
+     * @return the supplementFlag
+     */
+    public final String getSupplementFlag() {
+        return supplementFlag;
+    }
 }

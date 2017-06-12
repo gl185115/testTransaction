@@ -415,8 +415,6 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                 businessdate);
 
         CashingUnit cashingUnit = new CashingUnit();
-        //Store store = new Store();
-        //cashingUnit.setRetailStoreID(retailStoreID);
 
         Connection connection = null;
         PreparedStatement select = null;

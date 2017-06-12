@@ -10229,7 +10229,7 @@ DECLARE
   WHERE
     base.CompanyId = @companyId
     AND
-    CONVERT(DATE,@businessDate) > base.StartDate
+    CONVERT(DATE,@businessDate) > base.StartDate OR CONVERT(DATE,@businessDate) = base.StartDate
     AND
     base.DeleteFlag = 0.0
     AND

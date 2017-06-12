@@ -449,7 +449,12 @@ public class PromotionResource {
 				}
 
 				// 部門コードを部門マスタテーブルに存在チェック
-				dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+				if (departmentInfo == null) {
+					dptCode = null;
+				} else {
+					dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+				}
+				
 				if (StringUtility.isNullOrEmpty(dptCode)) {
 					response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
 					response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
@@ -1022,7 +1027,7 @@ public class PromotionResource {
 			String url = GlobalConstant.getEnterpriseServerUri() + ENTERPRISE_DPT_UTL;
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
-			if (result.getJSONObject("department") != null) {
+			if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
 				departmentInfo = (ViewDepartment) jsonToDeparment(result.getJSONObject("department"));
 			}
 		} catch (Exception e) {

@@ -10215,10 +10215,28 @@ insert into RESTransaction.dbo.TXL_offline_credit
       base.RecordId = dept.RecordId
 </entry>
 <entry key="get-point-cashing-unit">
+DECLARE
+  @companyId varchar(12),
+  @businessDate date
+
+  SET @companyId = ?
+  SET @businessDate = ?
+  
   SELECT
     TOP 1 CashingUnit
   FROM
     RESMaster.dbo.MST_POINT_INFO base
+  WHERE
+    base.CompanyId = @companyId
+    AND
+    CONVERT(DATE,@businessDate) > base.StartDate
+    AND
+    base.DeleteFlag = 0.0
+    AND
+    base.TargetType = '1'
+    AND
+    base.PointFlag = '1'
+  ORDER BY base.StartDate DESC
 </entry>
 <entry key="get-point-item-campaign-rate">
   DECLARE

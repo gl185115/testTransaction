@@ -12,5 +12,5 @@ public interface IPointDAO {
     List<ItemPointRate> getItemPointRate(String companyId, String storeId, String businessdate, String deptcode, String groupcode, String brandId, String sku) throws Exception;
     List<TranPointRate> getTranPointRate(String companyId, String storeId, String businessdate) throws Exception;
 
-    CashingUnit getCashingUnitInfo() throws DaoException;
+    CashingUnit getCashingUnitInfo(String companyId, String businessdate) throws DaoException;
 }

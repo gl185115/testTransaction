@@ -9052,7 +9052,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
         tender.TenderType = 1 AND
         tender.DeleteFlag = 0.0
     )
-      SET @storeId = '0000'
+      SET @storeId = '0'
 
      SELECT
       tender.CompanyId,

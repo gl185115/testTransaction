@@ -89,7 +89,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             while (result.next()) {
             	VoucherInfo voucherInfo = new VoucherInfo();
             	voucherInfo.setCompanyId(result.getString("CompanyId"));
-            	voucherInfo.setStoreId(result.getString("StoreId"));
+            	voucherInfo.setStoreId(storeId);
             	voucherInfo.setVoucherCompanyId(result.getString("TenderId"));
             	voucherInfo.setVoucherType(result.getString(("TenderType")));
             	voucherInfo.setVoucherName(result.getString("TenderName"));
@@ -144,7 +144,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             while (result.next()) {
             	VoucherInfo voucherInfo = new VoucherInfo();
             	voucherInfo.setCompanyId(result.getString("CompanyId"));
-            	voucherInfo.setStoreId(result.getString("StoreId"));
+            	voucherInfo.setStoreId(storeId);
             	voucherInfo.setVoucherCompanyId(result.getString("TenderId"));
             	voucherInfo.setVoucherType(result.getString(("TenderType")));
             	voucherInfo.setVoucherName(result.getString("TenderName"));

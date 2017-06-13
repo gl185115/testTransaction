@@ -168,6 +168,17 @@ public class Voucher {
     @XmlElement(name = "PIN")
     private String pin;
 
+    /***
+    * ChargeAmount.
+    */
+   @XmlElement(name = "ChargeAmount")
+   private int chargeAmount;
+       
+   /***
+    * Brand.
+    */
+   @XmlElement(name = "Brand")
+   private String brand;
 
     /**
      * @return the amount
@@ -530,5 +541,34 @@ public class Voucher {
      */
     public final void setPin(String pin) {
         this.pin = pin;
+    }
+    /**
+     * @return the chargeAmount
+     */
+    public final int getChargeAmount() {
+        return chargeAmount;
+    }
+
+    /**
+     * @param chargeAmount
+     *            the chargeAmount to set
+     */
+    public final void setChargeAmount(int chargeAmount) {
+        this.chargeAmount = chargeAmount;
+    }
+
+    /**
+     * @return the brand
+     */
+    public final String getBrand() {
+        return brand;
+    }
+
+    /**
+     * @param brand
+     *            the brand to set
+     */
+    public final void setBrand(String brand) {
+        this.brand = brand;
     }
 }

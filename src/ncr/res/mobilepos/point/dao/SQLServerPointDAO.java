@@ -67,11 +67,11 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
 
     @Override
     public List<ItemPointRate> getItemPointRate(String companyId, String storeId, String businessdate, String deptcode,
-            String groupcode, String brandId, String sku) throws Exception {
+            String groupcode, String brandId, String barCode) throws Exception {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
                 .println("businessDate", businessdate).println("deptCode", deptcode).println("groupCode", groupcode)
-                .println("brandId", brandId).println("sku", sku);
+                .println("brandId", brandId).println("barCode", barCode);
 
         List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
 
@@ -89,7 +89,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             statement3.setString(SQLStatement.PARAM4, deptcode);
             statement3.setString(SQLStatement.PARAM5, groupcode);
             statement3.setString(SQLStatement.PARAM6, brandId);
-            statement3.setString(SQLStatement.PARAM7, sku);
+            statement3.setString(SQLStatement.PARAM7, barCode);
             result3 = statement3.executeQuery();
             while (result3.next()) {
                 if (IsCampaignEnabled(businessdate, result3.getString("TargetDaySettingFlag"),
@@ -108,7 +108,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                             result3.getString("DptStart"), result3.getString("DptEnd"), deptcode,
                             result3.getString("BrandTargetType"), result3.getString("BrandIdStart"),
                             result3.getString("BrandIdEnd"), brandId, result3.getString("SkuTargetType"),
-                            result3.getString("SkuStart"), result3.getString("SkuEnd"), sku,
+                            result3.getString("SkuStart"), result3.getString("SkuEnd"), barCode,
                             result3.getString("TargetId"), result3.getString("TargetType"))) {
                         ItemPointRate itemPointRate = new ItemPointRate();
                         itemPointRate.setType("2");
@@ -309,7 +309,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     private boolean IsCampaignItemEnabled(String itemflag, String groupidflag, String groupidstart, String groupidend,
             String groupid, String dptflag, String dptstart, String dptend, String dpt, String brandidflag,
             String brandidstart, String brandidend, String brandid, String skuflag, String skustart, String skuend,
-            String sku, String targetid, String targettype) {
+            String barCode, String targetid, String targettype) {
         boolean grouphit = false;
         boolean dpthit = false;
         boolean brandhit = false;
@@ -365,12 +365,12 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                 if (parseLong(skuend) == 0) {
                     skuend = "99999999";
                 }
-                if (parseLong(skustart) <= parseLong(sku) && parseLong(sku) <= parseLong(skuend)) {
+                if (parseLong(skustart) <= parseLong(barCode) && parseLong(barCode) <= parseLong(skuend)) {
                     skuhit = true;
                 }
             }
         } else if (FLAG_MULTI.equals(skuflag) && "4".equals(targettype)) {
-            if (sku.startsWith(targetid)) {
+            if (barCode.startsWith(targetid)) {
                 skuhit = true;
             }
         }

@@ -69,7 +69,7 @@ public class PointResource {
     		@ApiParam(name="deptCode", value="部門コード") @QueryParam("deptCode") final String deptCode,
     		@ApiParam(name="groupCode", value="グループコード") @QueryParam("groupCode") final String groupCode,
     		@ApiParam(name="brandId", value="ブランドコード") @QueryParam("brandId") final String brandId,
-    		@ApiParam(name="sku", value="自社品番") @QueryParam("sku") final String sku
+    		@ApiParam(name="barCode", value="商品コード") @QueryParam("barCode") final String barCode
     ) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -79,7 +79,7 @@ public class PointResource {
             .println("deptCode", deptCode)
             .println("groupCode", groupCode)
             .println("brandId", brandId)
-            .println("sku", sku);
+            .println("barCode", barCode);
         PointRateResponse response = new PointRateResponse();
         List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
         
@@ -91,7 +91,7 @@ public class PointResource {
         
         try {
             IPointDAO pointDao = daoFactory.getPointDAO();
-            itemPointRateList = pointDao.getItemPointRate(companyId, storeId, businessDate, deptCode, groupCode, brandId, sku);
+            itemPointRateList = pointDao.getItemPointRate(companyId, storeId, businessDate, deptCode, groupCode, brandId, barCode);
             response.setItemPointRateList(itemPointRateList);
         } catch (Exception e) {
             String loggerErrorCode = null;
@@ -110,7 +110,7 @@ public class PointResource {
             LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode,
                     "Failed to get item point rate for companyId#" + companyId + ", "
                     + "storeId#" + storeId + " and deptCode#" + deptCode
-                    + " and groupCode#" + groupCode + " and brandId#" + brandId + " and sku#" + sku + ": "
+                    + " and groupCode#" + groupCode + " and brandId#" + brandId + " and barCode#" + barCode + ": "
                     + e.getMessage());
         } finally {
             tp.methodExit(response.toString());

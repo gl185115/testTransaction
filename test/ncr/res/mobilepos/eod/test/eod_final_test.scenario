@@ -53,8 +53,8 @@ Given that presetcminfo data
 When getting presetcminfo of companyid:01, storeid:0247, terminalid:0001, businessdaydate:2016-08-09
 Then it should get NCRWSSResultCode:0
 Then it should get the following:
-|CompanyId	|CMId	|CMName	|CMType	|BizCatId	|StoreId	|TerminalId	|Top1Message	|Top2Message	|Top3Message		|Top4Message	|Top5Message		|Bottom1Message				|Bottom2Message		|Bottom3Message	|Bottom4Message	|Bottom5Message	|
-|01			|3		|CM4	|3		|01			|0247		|0000		|上段１行目		|上段２行目		|インテグレーションテスト3	|残り5日間		|不具合ゼロを目指します	|MeXプロジェクト					|開始しています。		|協力者募集中		|下段４行目		|下段５行目		|
+|CompanyId	|CMName	|CMType	|BizCatId	|StoreId	|TerminalId	|Top1Message	|Top2Message	|Top3Message		|Top4Message	|Top5Message		|Bottom1Message				|Bottom2Message		|Bottom3Message	|Bottom4Message	|Bottom5Message	|
+|01			|CM4	|3		|01			|0247		|0			|上段１行目		|上段２行目		|インテグレーションテスト3	|残り5日間		|不具合ゼロを目指します	|MeXプロジェクト					|開始しています。		|協力者募集中		|下段４行目		|下段５行目		|
 
 !-- Operator SignOff
 Given that operator has sign-on

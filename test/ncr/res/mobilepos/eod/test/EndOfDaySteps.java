@@ -301,7 +301,7 @@ public class EndOfDaySteps extends Steps {
 	}
 	@When("getting presetcminfo of companyid:$1, storeid:$2, terminalid:$3, businessdaydate:$4")
 	public final void whenGettingPrecetCMInfo(final String companyId, final String storeId, final String terminalId, final String businessDayDate) {
-//		operation = Operation.GETCMPRESETCMINFOS;
+		operation = Operation.GETCMPRESETCMINFOS;
 		cmPresetInfos = storeResource.getCMPresetInfoList(companyId, storeId, terminalId, businessDayDate);
 		resultCode = cmPresetInfos.getNCRWSSResultCode();
 	}
@@ -573,7 +573,8 @@ public class EndOfDaySteps extends Steps {
 		}break;
 		case GETCMPRESETCMINFOS: {
 			Assert.assertEquals("Compare CompanyId", expectedTable.getRow(0).get("CompanyId"), cmPresetInfos.getCMPresetInfoList().get(0).getCompanyId());
-			Assert.assertEquals("Compare CMId", expectedTable.getRow(0).get("CMId"), cmPresetInfos.getCMPresetInfoList().get(0).getCMId());
+			// CMId column in database is auto incremented by 1. Therefore, it is dynamic.
+			//Assert.assertEquals("Compare CMId", expectedTable.getRow(0).get("CMId"), cmPresetInfos.getCMPresetInfoList().get(0).getCMId());
 			Assert.assertEquals("Compare CMName", expectedTable.getRow(0).get("CMName"), cmPresetInfos.getCMPresetInfoList().get(0).getCMName());
 			Assert.assertEquals("Compare CMType", expectedTable.getRow(0).get("CMType"), cmPresetInfos.getCMPresetInfoList().get(0).getCMType());
 			Assert.assertEquals("Compare BizCatId", expectedTable.getRow(0).get("BizCatId"), cmPresetInfos.getCMPresetInfoList().get(0).getBizCatId());

@@ -479,10 +479,10 @@ public class Sale {
     private String publishingCode;
 
     /**
-     * SupplementFlag
+     * RestockFlag
      */
-    @XmlElement(name = "SupplementFlag")
-    private String supplementFlag;
+    @XmlElement(name = "RestockFlag")
+    private String restockFlag;
 
     /**
      * @return the barReservationType
@@ -1518,15 +1518,15 @@ public class Sale {
         return publishingCode;
     }
     /**
-     * @param itemAmount the itemAmount to set
+     * @param restockFlag the restockFlag to set
      */
-    public final void setSupplementFlag(final String supplementFlag) {
-        this.supplementFlag = supplementFlag;
+    public final void setRestockFlag(final String restockFlag) {
+        this.restockFlag = restockFlag;
     }
     /**
-     * @return the supplementFlag
+     * @return the restockFlag
      */
-    public final String getSupplementFlag() {
-        return supplementFlag;
+    public final String getRestockFlag() {
+        return restockFlag;
     }
 }

@@ -244,6 +244,12 @@ public class RetailTransaction {
     private String taxFreeMode;
 
     /**
+     * The private member variable that holds the loyalty account
+     */
+    @XmlElement(name = "LoyaltyAccount")
+    private LoyaltyAccount loyaltyAccount;
+
+    /**
      * The private member variable that holds the taxRate type
      */
     @XmlElement(name = "TaxRateType")
@@ -873,6 +879,18 @@ public class RetailTransaction {
      */
     public void setTaxFreeMode(String taxFreeMode) {
         this.taxFreeMode = taxFreeMode;
+    }
+    /**
+     * @return the loyaltyAccount
+     */
+    public LoyaltyAccount getLoyaltyAccount() {
+        return loyaltyAccount;
+    }
+    /**
+     * @param loyaltyAccount the loyaltyAccount to set
+     */
+    public void setLoyaltyAccount(LoyaltyAccount loyaltyAccount) {
+        this.loyaltyAccount = loyaltyAccount;
     }
     /**
      * @return the taxRateType

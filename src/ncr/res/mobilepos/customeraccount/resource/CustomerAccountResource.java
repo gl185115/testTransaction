@@ -126,7 +126,7 @@ public class CustomerAccountResource {
 	        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
 	    })
 	public final LoyaltyAccountInfo getLoyaltyAccountInfo(
-			@ApiParam(name = "companyId", value = "企業コード") @PathParam("companyId") final String companyId,
+			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
 			@ApiParam(name = "connName", value = "顧客名") @FormParam("connName") final String connName,
 			@ApiParam(name = "connKanaName", value = "顧客カナ名") @FormParam("connKanaName") final String connKanaName,

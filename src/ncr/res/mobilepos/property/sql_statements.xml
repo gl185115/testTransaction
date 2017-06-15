@@ -1640,6 +1640,11 @@ ORDER BY
       SELECT * FROM RESMaster.dbo.MST_CUSTINFO
           WHERE CustomerId = ?;
   </entry>
+  
+  <entry key="get-loyalty-account">
+    SELECT * FROM RESMaster.dbo.MST_CONNINFO
+    WHERE companyId = ? AND storeId = ? AND %s AND DeleteFlag = 0;
+  </entry>
 
 <!-- *************************  ENTRY KEY FOR CREDENTIAL SERVICE      ************************* -->
     <entry key="get-status-of-operator">

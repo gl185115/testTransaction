@@ -1,0 +1,41 @@
+Scenario: Test Customeraccount
+Given a loaded dataset test/ncr/res/mobilepos/customeraccount/test/data_customeraccount.xml
+
+Scenario: check companyId isNullOrEmpty.
+When I get loyaltyaccountinfo attribute companyId {} storeId 0001 connName ‰Á“¡—SŽi  connKanaName ‚©‚Æ‚¤  connTel ConnTel1
+Then the Result Code is 154
+
+Scenario: check storeId isNullOrEmpty.
+When I get loyaltyaccountinfo attribute companyId 01 storeId {} connName ‰Á“¡—SŽi  connKanaName ‚©‚Æ‚¤  connTel ConnTel1
+Then the Result Code is 154
+
+Scenario: none of the parameters are null.
+When I get loyaltyaccountinfo attribute companyId 01 storeId 0001 connName ‰Á“¡—SŽi connKanaName ‚©‚Æ‚¤ connTel ConnTel1
+Then I should get the following:
+|ConnCode	|ConnName	|ConnKanaName  |ConnTel	    |
+|0001	    |‰Á“¡—SŽi		|‚©‚Æ‚¤‚ä‚¤‚¶	   |ConnTel1001	|
+
+Scenario: connName and connKanaName and connTel are null.
+When I get loyaltyaccountinfo attribute companyId 01 storeId 0001 connName {} connKanaName {} connTel {}
+Then I should get the Result size is 0
+
+Scenario: connKanaName and connTel are null.
+When I get loyaltyaccountinfo attribute companyId 01 storeId 0001 connName ‰Á“¡ connKanaName {} connTel {}
+Then I should get the following:
+|ConnCode	|ConnName	|ConnKanaName  |ConnTel	    |
+|0001	    |‰Á“¡—SŽi		|‚©‚Æ‚¤‚ä‚¤‚¶	   |ConnTel1001	|
+|0002	    |‰Á“¡–{ˆ®  	|ƒtƒWƒ‚ƒgƒAƒLƒ‰	   |ConnTel2001	|
+
+Scenario: connName and connTel are null.
+When I get loyaltyaccountinfo attribute companyId 01 storeId 0001 connName {} connKanaName ‚©‚Æ‚¤ connTel {}
+Then I should get the following:
+|ConnCode	|ConnName	|ConnKanaName  |ConnTel	    |
+|0001	    |‰Á“¡—SŽi		|‚©‚Æ‚¤‚ä‚¤‚¶	   |ConnTel1001	|
+
+Scenario: connName and connKanaName are null.
+When I get loyaltyaccountinfo attribute companyId 01 storeId 0001 connName {} connKanaName {} connTel ConnTel1
+Then I should get the following:
+|ConnCode   |ConnName   |ConnKanaName  |ConnTel     |
+|0001       |‰Á“¡—SŽi          |‚©‚Æ‚¤‚ä‚¤‚¶               |ConnTel1001 |
+Then the JSON should have the following format : 
+{"LoyaltyAccountList":[{"CompanyId":"01","StoreId":"0001","ConnCode":"0001","OrgCode":"01","ConnCat":1,"ConnGrp":"ConnGrp0001","ConnName":"‰Á“¡—SŽi","ConnKanaName":"‚©‚Æ‚¤‚ä‚¤‚¶","ConnZip":"ConnZip01","ConnAddr":"ConnAddr0001","ConnTel":"ConnTel1001","ConnFax":"ConnFax0001","ConnOwner":"ConnOwner0001","ConnLimit":"ConnLimit0001","ConnCloseDate":"0612","OnlineType":1,"SlipType":2,"PaymentType":3,"CostRate":20,"ConnStartDate":"2015-08-10 00:00:00.0","ConnEndDate":"2015-08-15 00:00:00.0","ConnSubCode":"ConnSubCode0001","SubCode1":"SubCode10001","SubCode2":"SubCode20001","SubCode3":"SubCode30001","SubCode4":"SubCode40001","SubCode5":"SubCode50001","SubNum1":11.0,"SubNum2":12.0,"SubNum3":13.0,"SubNum4":14.0,"SubNum5":15.0}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

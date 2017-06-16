@@ -36,11 +36,11 @@ public class CustomerSearchConstants {
     public static final String KEYID_MEMBERSERVERTIMEOUT = "MemberServerTimeout";
     
     /** Dummy Xml - LoginKey */
-    public static final String LOGINKEYXML = "LoginKey.xml";
+    public static final String LOGINKEYXML = "loginKey.xml";
     
     /** Dummy Xml - RankInfo */
-    public static final String RANKINFOXML = "RankInfo.xml";
+    public static final String RANKINFOXML = "rank.xml";
     
     /** Dummy Xml - MemberInfo */
-    public static final String MEMBERINFOXML = "MemberInfo.xml";
+    public static final String MEMBERINFOXML = "memberInfo.xml";
 }

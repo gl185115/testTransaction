@@ -34,6 +34,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
@@ -162,6 +163,8 @@ public class WebContextListener implements ServletContextListener {
         	QrCodeInfoFactory.initialize(companyId, storeId);
             // Only HOST loads PricePromInfo Information
         	PricePromInfoFactory.initialize(companyId, storeId);
+        	// Only HOST loads PriceMMInfo Information
+        	PriceMMInfoFactory.initialize(companyId, storeId);
         	// Only HOST loads PromotionMsg Information
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
         }

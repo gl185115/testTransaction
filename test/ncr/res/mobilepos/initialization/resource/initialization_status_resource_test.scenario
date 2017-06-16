@@ -80,3 +80,17 @@ Given Business logic factories were initialized
 Given BarcodeAssignmentFactory failed to instantiate
 When the status check API are called
 Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with PricePromInfoFactory failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given PricePromInfoFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG
+
+Scenario: Initialization Status returns Error with PriceMMInfoFactory failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given PriceMMInfoFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG

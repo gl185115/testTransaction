@@ -30,6 +30,10 @@ import ncr.res.mobilepos.helper.ResultBaseHelper;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
+import ncr.res.mobilepos.pricing.model.PriceMMInfo;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
@@ -86,6 +90,18 @@ public class InitializationStatusResourceSteps extends Steps {
         Field qrCodeInfosInstance = QrCodeInfoFactory.class.getDeclaredField("instance");
         qrCodeInfosInstance.setAccessible(true);
         qrCodeInfosInstance.set(null, qrCodeInfosMock);
+        
+        // Mocks PricePromDetailInfo.
+        List<PricePromInfo> pricePromInfosMock = mock(List.class);
+        Field pricePromeInfosInstance = PricePromInfoFactory.class.getDeclaredField("instance");
+        pricePromeInfosInstance.setAccessible(true);
+        pricePromeInfosInstance.set(null, pricePromInfosMock);
+        
+        // Mocks PriceMMInfo.
+        List<PriceMMInfo> priceMMInfosMock = mock(List.class);
+        Field priceMMInfosInstance = PriceMMInfoFactory.class.getDeclaredField("instance");
+        priceMMInfosInstance.setAccessible(true);
+        priceMMInfosInstance.set(null, priceMMInfosMock);
     }
 
 
@@ -150,6 +166,18 @@ public class InitializationStatusResourceSteps extends Steps {
 
             case "QrCodeInfoFactory":
         		targetClass = QrCodeInfoFactory.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+                
+            case "PricePromInfoFactory":
+        		targetClass = PricePromInfoFactory.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+                
+            case "PriceMMInfoFactory":
+        		targetClass = PriceMMInfoFactory.class;
                 targetField = PowerMockito.field(targetClass, "instance");
                 targetField.set(null, null);
                 break;

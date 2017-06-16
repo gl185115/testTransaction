@@ -33,6 +33,7 @@ import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
@@ -188,6 +189,7 @@ public class PromotionResourceTestSteps extends Steps {
 		
 		if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(retailStoreId)) {
 			PricePromInfoFactory.initialize(companyId,retailStoreId);
+			PriceMMInfoFactory.initialize(companyId, retailStoreId);
 		}
 		
 		actualResultBase = testpromotionResource.beginTransaction(
@@ -214,6 +216,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 		if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(retailStoreId)) {
 			PricePromInfoFactory.initialize(companyId,retailStoreId);
+			PriceMMInfoFactory.initialize(companyId, retailStoreId);
 		}
 		
 		actualResultBase = testpromotionResource.itemEntry(retailStoreId,

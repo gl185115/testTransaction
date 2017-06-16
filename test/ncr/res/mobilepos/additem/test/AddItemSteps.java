@@ -23,6 +23,7 @@ import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
@@ -72,6 +73,7 @@ public class AddItemSteps extends Steps {
 		this.businessDate = businessDate;
 		this.seqNo = seqNo;
 		PricePromInfoFactory.initialize(companyId, storeId);
+		PriceMMInfoFactory.initialize(companyId, storeId);
 	}
 
 	@Given("the Web API Starts Up with $systemConDataSet System Configuration")

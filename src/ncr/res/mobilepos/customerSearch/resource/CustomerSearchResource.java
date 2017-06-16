@@ -25,7 +25,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.credential.model.Operator;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customerSearch.helper.HTTPBasicAuthorization;
@@ -532,9 +532,7 @@ public class CustomerSearchResource {
             // send url
             List<String> lstReturn = new ArrayList<String>();
             if (dummyXml){
-                boolean flag = true;     // true: return success xml 
-                File file = flag ? new File(CustomerSearchConstants.LOGINKEYXMLPATH) :
-                    new File(CustomerSearchConstants.ERRORXMLPATH);
+                File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.LOGINKEYXML);
                 InputStream in = new FileInputStream(file);
                 BufferedReader br = new BufferedReader(new InputStreamReader(in));
                 StringBuilder strbReturn = new StringBuilder();
@@ -543,6 +541,7 @@ public class CustomerSearchResource {
                 while((strReadLine = br.readLine()) != null){
                     strbReturn.append(strReadLine.trim());
                 }
+                br.close();
                 lstReturn.add(strbReturn.toString());
             } else {
                 lstReturn = HTTPBasicAuthorization.connection(
@@ -709,9 +708,7 @@ public class CustomerSearchResource {
             // send url
             List<String> lstReturn = new ArrayList<String>();
             if (dummyXml){
-                boolean flag = true;     // true: return success xml 
-                File file = flag ? new File(CustomerSearchConstants.RANKXMLPATH) :
-                    new File(CustomerSearchConstants.ERRORXMLPATH);
+                File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.RANKINFOXML);
                 InputStream in = new FileInputStream(file);
                 BufferedReader br = new BufferedReader(new InputStreamReader(in));
                 StringBuilder strbReturn = new StringBuilder();
@@ -720,6 +717,7 @@ public class CustomerSearchResource {
                 while((strReadLine = br.readLine()) != null){
                     strbReturn.append(strReadLine.trim());
                 }
+                br.close();
                 lstReturn.add(strbReturn.toString());
             } else {
                 lstReturn = HTTPBasicAuthorization.connection(
@@ -886,9 +884,7 @@ public class CustomerSearchResource {
             // send url
             List<String> lstReturn = new ArrayList<String>();
             if (dummyXml){
-                boolean flag = true;     // true: return success xml 
-                File file = flag ? new File(CustomerSearchConstants.MEMBERINFOXMLPATH) :
-                    new File(CustomerSearchConstants.ERRORXMLPATH);
+                File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.MEMBERINFOXML);
                 InputStream in = new FileInputStream(file);
                 BufferedReader br = new BufferedReader(new InputStreamReader(in));
                 StringBuilder strbReturn = new StringBuilder();
@@ -897,6 +893,7 @@ public class CustomerSearchResource {
                 while((strReadLine = br.readLine()) != null){
                     strbReturn.append(strReadLine.trim());
                 }
+                br.close();
                 lstReturn.add(strbReturn.toString());
             } else {
                 lstReturn = HTTPBasicAuthorization.connection(

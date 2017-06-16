@@ -1,0 +1,33 @@
+Scenario: test PromotionMsgInfo.
+Given a loaded dataset test/ncr/res/mobilepos/promotion/promotionmsginfo/test/data_promotionMsg.xml
+
+Scenario: COMPANYID exist but STOREID not exist.
+When the tomcat startUp with companyId 01 and storeId null
+Then the Result Code is 2
+
+Scenario: STOREID exist but COMPANYID not exist.
+When the tomcat startUp with companyId null and storeId 0001
+Then the Result Code is 2
+
+Scenario: Business date is not set.
+When the tomcat startUp with companyId 02 and storeId 0002
+Then the Result Code is 2
+
+Scenario: can't find rigth info because deleteFlag is 1.
+When the tomcat startUp with companyId 03 and storeId 0001
+Then the Result Code is 0
+Then the emptyResult is []
+
+Scenario: get the right info.
+When the tomcat startUp with companyId 01 and storeId 0247
+Then the Result Code is 0
+Then I should get the PromotionMsgInfo :
+|RecordId|Subject             |MinimunPrice|MessageBody           |MdInternal  |
+|1       |ƒ^ƒCƒgƒ‹@‚O‚P|‚P  |1000        |ƒƒbƒZ[ƒW@‚O‚P|‚P  |111111111111| 
+|4       |ƒ^ƒCƒgƒ‹@‚O‚P|‚S  |3000        |ƒƒbƒZ[ƒW@‚O‚P|‚S  |111111111111| 
+|4       |ƒ^ƒCƒgƒ‹@‚O‚P|‚S  |3000        |ƒƒbƒZ[ƒW@‚O‚P|‚S  |222222222222|
+|8       |ƒ^ƒCƒgƒ‹@‚O‚P|‚W  |1000        |ƒƒbƒZ[ƒW@‚O‚P|‚W  |111111111111|
+|9       |ƒ^ƒCƒgƒ‹@‚O‚P|‚X  |1000        |ƒƒbƒZ[ƒW@‚O‚P|‚X  |111111111111|
+|10      |ƒ^ƒCƒgƒ‹@‚O‚P|‚P‚O|1000        |ƒƒbƒZ[ƒW@‚O‚P|‚P‚O|111111111111|
+|10      |ƒ^ƒCƒgƒ‹@‚O‚P|‚P‚O|1000        |ƒƒbƒZ[ƒW@‚O‚P|‚P‚O|222222222222|
+|10      |ƒ^ƒCƒgƒ‹@‚O‚P|‚P‚O|1000        |ƒƒbƒZ[ƒW@‚O‚P|‚P‚O|33333*      |

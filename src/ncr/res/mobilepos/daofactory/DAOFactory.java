@@ -53,6 +53,7 @@ import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
+import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
@@ -476,4 +477,6 @@ public abstract class DAOFactory {
 	public abstract IAppServerDAO getAppServerDAO() throws DaoException;
 
 	public abstract IPricePromInfoDAO getPricePromInfoDAO() throws DaoException;
+
+	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
 }

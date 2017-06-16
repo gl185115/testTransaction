@@ -89,9 +89,11 @@ import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
+import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerCodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerMixMatchDAO;
+import ncr.res.mobilepos.promotion.dao.SQLServerPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuebuster.dao.SQLServerQueueBusterDao;
@@ -394,8 +396,13 @@ public class SQLServerDAOFactory extends DAOFactory {
 		return new SQLServerCreditCardDAO();
 	}
 
+	@Override
     public final IPricePromInfoDAO getPricePromInfoDAO() throws DaoException {
         return new SQLServerPricePromInfoDAO();
+    }
+	@Override
+    public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
+        return new SQLServerPromotionMsgInfoDAO();
     }
 
 }

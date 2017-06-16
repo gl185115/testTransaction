@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -58,7 +59,9 @@ import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
+import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
+import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
@@ -66,6 +69,7 @@ import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
 import ncr.res.mobilepos.promotion.model.ItemList;
 import ncr.res.mobilepos.promotion.model.MixMatchDetailInfo;
 import ncr.res.mobilepos.promotion.model.Promotion;
+import ncr.res.mobilepos.promotion.model.PromotionMsgInfo;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
@@ -116,6 +120,8 @@ public class PromotionResource {
 
 	private final List<QrCodeInfo> qrCodeInfoList;
 
+	private final List<PromotionMsgInfo> promotionMsgInfoList;
+
 	public static final String PROMOTIONTYPE_ALL = "1";
 	public static final String PROMOTIONTYPE_DPT = "2";
 	public static final String PROMOTIONTYPE_DPT_CONN = "3";
@@ -138,6 +144,7 @@ public class PromotionResource {
 		tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
 		barcodeAssignment = BarcodeAssignmentFactory.getInstance();
 		qrCodeInfoList = QrCodeInfoFactory.getInstance();
+		promotionMsgInfoList = PromotionMsgInfoFactory.getInstance();
 	}
 
 	/**
@@ -454,7 +461,7 @@ public class PromotionResource {
 				} else {
 					dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
 				}
-				
+
 				if (StringUtility.isNullOrEmpty(dptCode)) {
 					response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
 					response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
@@ -481,7 +488,7 @@ public class PromotionResource {
 
 						saleOut.setItemId(itemIdTemp);
 						saleOut.setDepartment(dptCode);
-						
+
 						if (twoStep && barcode_sec.length() == 4) {
 							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
 						} else {
@@ -493,7 +500,7 @@ public class PromotionResource {
 							saleOut.setRegularSalesUnitPrice(barCodePrice);
 							saleOut.setActualSalesUnitPrice(barCodePrice);
 						}
-						
+
 						transactionOut.setSale(saleOut);
 						response.setDepartmentName(dptName);
 						response.setTransaction(transactionOut);
@@ -603,7 +610,7 @@ public class PromotionResource {
 		if (itemId.contains(" ")) {
 			barcode_sec = itemId.split(" ")[1];
 		}
-		
+
 		dpt = (item == null) ? null : item.getDepartment();
 
 		// 部門コードを取得する
@@ -1039,7 +1046,7 @@ public class PromotionResource {
 		}
 		return departmentInfo;
 	}
-	
+
 	/**
 	 * get remote serverInfo
 	 *
@@ -1323,7 +1330,7 @@ public class PromotionResource {
 
 		return item;
 	}
-	
+
 	/**
 	 * Item update to an existing item in the transaction a.) requesting of
 	 * removing or adding quantity b.) Change of Item's Price.
@@ -1468,7 +1475,7 @@ public class PromotionResource {
 				tp.println("Parameter[s] is empty or null.");
 				return response;
 			}
-			
+
 			if (qrCodeInfoList == null) {
 				response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -1522,7 +1529,7 @@ public class PromotionResource {
 					qrCodeInfoListOut.add(qrCodeInfoListTemp.get(i));
 				}
 			}
-			
+
 			response.setQrCodeInfoList(qrCodeInfoListOut);
 		} catch (JsonParseException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
@@ -1547,7 +1554,7 @@ public class PromotionResource {
 	 *
 	 * @param transactionIn
 	 * @return List<QrCodeInfo>
-	 * @throws DaoException 
+	 * @throws DaoException
 	 */
 	private List<QrCodeInfo> getQrCodeInfo(Transaction transactionIn) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -1583,13 +1590,13 @@ public class PromotionResource {
 				}
 				// MemberTargetType = 0の場合
 				if (MEMBERTARGETTYPE_ZERO.equalsIgnoreCase(qrCodeInfo.getMemberTargetType())) {
-					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank()) 
+					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank())
 							&& birthMonth.equals(qrCodeInfo.getBirthMonth()))) {
 						continue;
 					}
 				} else {
 					qrCodeInfo.setCustomerId(checkCustomerID(qrCodeInfo, transactionIn));
-					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank()) 
+					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank())
 							&& birthMonth.equals(qrCodeInfo.getBirthMonth()) && customerId.equals(qrCodeInfo.getCustomerId()))) {
 						continue;
 					}
@@ -1736,7 +1743,7 @@ public class PromotionResource {
 		tp.methodExit(qrCodeInfoListTemp);
 		return qrCodeInfoListTemp;
 	}
-	
+
 	/**
 	 * check customerid in MST_QRCODE_MEMBERID
 	 *
@@ -1753,5 +1760,216 @@ public class PromotionResource {
 		String customerId = transactionIn.getCustomer().getId();
 		rightCustomerId = codeInfDAO.getCustomerQrCodeInfoList(companyId, promotionId, customerId);
 		return rightCustomerId;
+	}
+
+	/**
+	 * getPromotionMessageList for requesting promotion msg information.
+	 *
+	 * @param companyId
+	 *            The companyId
+	 * @param retailStoreId
+	 *            Store Number where the transaction is coming from
+	 * @param workStationId
+	 *            Device Number where the transaction is coming from
+	 * @param sequenceNumber
+	 *            The current transaction sequence number
+	 * @param businessDate
+	 *            The businessDate
+	 * @param transaction
+	 *            The item Info XML
+	 * @return {@link Transaction}
+	 */
+	@SuppressWarnings("unchecked")
+	@POST
+	@Produces("application/json;charset=UTF-8")
+	@Path("/getPromotionMessageList")
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@ApiOperation(value = "販促メッセージ情報を取得", response = Promotion.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+	public final Promotion getPromotionMessageList(
+			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "businessdate", value = "業務日付") @FormParam("businessdate") final String businessDate,
+			@ApiParam(name = "transaction", value = "商品情報") @FormParam("transaction") final String transaction) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("companyId", companyId).println("RetailStoreId", retailStoreId)
+				.println("WorkstationId", workStationId).println("sequencenumber", sequenceNumber)
+				.println("businessDate", businessDate).println("Transaction", transaction);
+		Promotion response = new Promotion();
+
+		List<PromotionMsgInfo> promMsgInfoListOut = null;
+
+		try {
+			if (StringUtility.isNullOrEmpty(retailStoreId, workStationId, sequenceNumber, transaction, companyId,
+					businessDate)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+				tp.println("Parameter[s] is empty or null.");
+				return response;
+			}
+
+			if (promotionMsgInfoList == null) {
+				tp.println("Not found Initial startup data.");
+				return response;
+			}
+
+			JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();
+			Transaction transactionIn = jsonMarshall.unMarshall(transaction, Transaction.class);
+			transactionIn.setCompanyId(companyId);
+
+			// get valid data
+			promMsgInfoListOut = getPromotionMsgInfo(transactionIn);
+			if (promMsgInfoListOut == null || promMsgInfoListOut.size() < 1) {
+				tp.println("Not found valid data.");
+				return response;
+			}
+
+			response.setPromotionMsgInfoList(promMsgInfoListOut);
+
+		} catch (JsonParseException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send promotionMsgInfoList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+		} catch (IOException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to send promotionMsgInfoList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send promotionMsgInfoList.", e);
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(response);
+		}
+		return response;
+	}
+
+	/**
+	 * set valid data into map
+	 *
+	 * @param transactionIn
+	 * @return List<QrCodeInfo>
+	 * @throws DaoException
+	 */
+	private List<PromotionMsgInfo> getPromotionMsgInfo(Transaction transactionIn) throws DaoException {
+		String companyId = transactionIn.getCompanyId();
+		List<ItemList> itemListIns = transactionIn.getItemList();
+		List<ItemList> itemListOut = null;
+		List<PromotionMsgInfo> promMsgInfoListTemp = null;
+		Map<Integer, List<ItemList>> promMsgItemMap = new TreeMap<Integer, List<ItemList>>();
+
+		for (PromotionMsgInfo promotionMsgInfo : promotionMsgInfoList) {
+			itemListOut = new ArrayList<ItemList>();
+
+			for (ItemList itemListIn : itemListIns) {
+				String promMsgMdInternal = promotionMsgInfo.getItemCode();
+				String listInItemCode = itemListIn.getItemcode();
+
+				if (!StringUtility.isNullOrEmpty(promMsgMdInternal)) {
+					if (promMsgMdInternal.contains("*")) {
+						if (listInItemCode.startsWith(promMsgMdInternal.replace("*", ""))) {
+							itemListOut.add(itemListIn);
+						}
+					} else {
+						if (listInItemCode.equals(promMsgMdInternal)) {
+							itemListOut.add(itemListIn);
+						}
+					}
+				}
+			}
+
+			if (itemListOut.size() > 0 ) {
+				if(promMsgItemMap != null && promMsgItemMap.size() > 0) {
+					for (int recordId : promMsgItemMap.keySet()) {
+						if (promotionMsgInfo.getRecordId() == recordId) {
+							itemListOut.addAll(promMsgItemMap.get(recordId));
+						}
+					}
+				}
+				promMsgItemMap.put(promotionMsgInfo.getRecordId(), itemListOut);
+			}
+		}
+
+		// get valid data from map
+		if (promMsgItemMap.size() > 0) {
+			promMsgInfoListTemp = getPromotionMsgInfoListTemp(companyId, promMsgItemMap);
+		}
+		return promMsgInfoListTemp;
+	}
+
+	/**
+	 * get valid data from map
+	 *
+	 * @param companyId
+	 * @param promMsgItemMap
+	 * @return List<PromotionMsgInfo>
+	 * @throws DaoException
+	 */
+	private List<PromotionMsgInfo> getPromotionMsgInfoListTemp(String companyId,Map<Integer, List<ItemList>> promMsgItemMap) throws DaoException {
+
+		List<PromotionMsgInfo> promMsgInfoListTemp = new ArrayList<PromotionMsgInfo>();
+		List<PromotionMsgInfo> promMsgInfoListOut = new ArrayList<PromotionMsgInfo>();
+
+		List<String> dptList = new ArrayList<String>();
+		List<String> itemCodeList = new ArrayList<String>();
+		String itemCode;
+		int priceSum;
+		PromotionMsgInfo promMsgInfo = null;
+
+		for (Integer recordId : promMsgItemMap.keySet()) {
+
+			for (PromotionMsgInfo promotionMsgInfo : promotionMsgInfoList) {
+
+				if (recordId.equals(promotionMsgInfo.getRecordId())) {
+					priceSum = 0;
+					itemCodeList.clear();
+					promMsgInfoListTemp.clear();
+
+					dptList = getPromotionMsgDpt(companyId, recordId);
+
+					for (ItemList item : promMsgItemMap.get(recordId)) {
+						if (dptList == null || dptList.size() == 0 || dptList.contains(item.getDpt())){
+							itemCode = item.getItemcode();
+							if (!itemCodeList.contains(itemCode)){
+								promMsgInfo = new PromotionMsgInfo();
+								promMsgInfo.setItemCode(itemCode);
+								promMsgInfo.setMdName(item.getMdName());
+								promMsgInfo.setMessageBody(promotionMsgInfo.getMessageBody());
+
+								promMsgInfoListTemp.add(promMsgInfo);
+								itemCodeList.add(itemCode);
+							}
+							priceSum = priceSum + item.getAmount();
+						}
+					}
+					int minimumPrice = (int) Math.round(promotionMsgInfo.getMinimunPrice());
+
+					if (priceSum >= minimumPrice) {
+						promMsgInfoListOut.addAll(promMsgInfoListTemp.stream().distinct().collect(Collectors.toList()));
+					}
+					break;
+				}
+			}
+		}
+
+		return promMsgInfoListOut;
+	}
+
+	/**
+	 * get dpt from MST_PROMOTIONMSG_DPT
+	 *
+	 * @param companyId
+	 * @param recordId
+	 * @return List<String>
+	 */
+	private List<String> getPromotionMsgDpt(String companyId, int recordId) throws DaoException {
+		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+		IPromotionMsgInfoDAO promMsgInfDAO = daoFactory.getPromotionMsgInfoDAO();
+
+		return promMsgInfDAO.getPromotionMsgDptList(companyId, recordId);
 	}
 }

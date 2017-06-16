@@ -898,6 +898,70 @@ WHERE
 
 ) A ORDER BY DisplayOrder
 </entry>
+<entry key="get-promotion-msg-info-list">
+DECLARE @companyId VARCHAR(12),
+        @storeId VARCHAR(10) ,
+        @businessDate VARCHAR(32)
+
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
+SET @businessDate = LTRIM(RTRIM(?))
+
+SELECT
+     info.RecordId,
+     info.Subject,
+     info.MinimunPrice,
+     info.MessageBody,
+     detail.MdInternal,
+     info.UpdDate
+FROM  RESMaster.dbo.MST_PROMOTIONMSG_INFO info
+INNER JOIN RESMaster.dbo.MST_PROMOTIONMSG_DETAIL detail
+    ON info.CompanyId = detail.CompanyId AND info.RecordId = detail.RecordId
+    AND detail.DeleteFlag = 0.0
+WHERE info.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.CompanyId = @companyId
+	AND info.TargetStoreType in ('0','2')
+
+UNION
+
+SELECT
+     info.RecordId,
+     info.Subject,
+     info.MinimunPrice,
+     info.MessageBody,
+     detail.MdInternal,
+     info.UpdDate
+FROM  RESMaster.dbo.MST_PROMOTIONMSG_INFO info
+INNER JOIN RESMaster.dbo.MST_PROMOTIONMSG_DETAIL detail
+    ON info.CompanyId = detail.CompanyId AND info.RecordId = detail.RecordId
+    AND detail.DeleteFlag = 0.0
+INNER JOIN RESMaster.dbo.MST_PROMOTIONMSG_STORE store
+   ON info.CompanyId = store.CompanyId
+   AND info.RecordId = store.RecordId
+   AND store.StoreId = @storeId
+   AND store.DeleteFlag = 0.0
+WHERE info.DeleteFlag = 0.0
+    AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+    AND info.CompanyId = @companyId
+	AND info.TargetStoreType = '1'
+ORDER BY info.UpdDate DESC
+</entry>
+<entry key="get-promotion-msg-dpt-list">
+DECLARE @companyId VARCHAR(32),
+        @recordId int
+
+SET @companyId =LTRIM(RTRIM(?))
+SET @recordId =LTRIM(RTRIM(?))
+
+SELECT
+     Dpt
+FROM RESMaster.dbo.MST_PROMOTIONMSG_DPT
+WHERE CompanyId = @companyId
+  AND RecordId = @recordId
+  AND DeleteFlag = 0.0
+ORDER BY Dpt
+</entry>
   <entry key="get-till-information-list">
   DECLARE    @storeId VARCHAR(6)
   SET        @storeId = LTRIM(RTRIM(?))

@@ -33,13 +33,16 @@ public class ItemList {
 
     @XmlElement(name = "BrandId")
     private String brandId;
-    
+
     @XmlElement(name = "Qty")
     private int quantity;
 
     @XmlElement(name = "Amount")
     private int amount;
-    
+
+    @XmlElement(name = "MdName")
+    private String mdName;
+
     @ApiModelProperty(value="商品コード", notes="商品コード")
     public final String getItemcode() {
 		return itemcode;
@@ -48,7 +51,7 @@ public class ItemList {
 	public final void setItemcode(String itemcode) {
 		this.itemcode = itemcode;
 	}
-	
+
     @ApiModelProperty(value="部門コード", notes="部門コード")
     public final String getDpt() {
         return dpt;
@@ -57,7 +60,7 @@ public class ItemList {
     public final void setDpt(String dpt) {
         this.dpt = dpt;
     }
-    
+
     @ApiModelProperty(value="品種コード", notes="品種コード")
     public final String getLine() {
         return line;
@@ -66,7 +69,7 @@ public class ItemList {
     public final void setLine(String line) {
         this.line = line;
     }
-    
+
     @ApiModelProperty(value="クラスコード", notes="クラスコード")
     public final String getClassCode() {
         return classCode;
@@ -75,7 +78,7 @@ public class ItemList {
     public final void setClassCode(String classCode) {
         this.classCode = classCode;
     }
-    
+
     @ApiModelProperty(value="仕入れ先コード", notes="仕入れ先コード")
     public final String getConnCode() {
         return connCode;
@@ -84,7 +87,7 @@ public class ItemList {
     public final void setConnCode(String connCode) {
         this.connCode = connCode;
     }
-    
+
     @ApiModelProperty(value="ブランドコード", notes="ブランドコード")
     public final String getBrandId() {
         return brandId;
@@ -93,16 +96,16 @@ public class ItemList {
     public final void setBrandId(String brandId) {
         this.brandId = brandId;
     }
-    
+
     @ApiModelProperty(value="数量", notes="数量")
     public final int getQty() {
         return quantity;
     }
-    
+
     public final void setQty(final int quantity) {
         this.quantity = quantity;
     }
-    
+
     @ApiModelProperty(value="金額", notes="金額")
     public final int getAmount() {
         return this.amount;
@@ -110,5 +113,14 @@ public class ItemList {
 
     public final void setAmount(final int amount) {
         this.amount = amount;
+    }
+
+    @ApiModelProperty(value="商品名", notes="商品名")
+    public final String getMdName() {
+        return mdName;
+    }
+
+    public final void setMdName(String mdName) {
+        this.mdName = mdName;
     }
 }

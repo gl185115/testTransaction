@@ -235,7 +235,7 @@
 			<value>11000001</value>
 			<null />
 			<value>1</value>
-			<value>30.0</value>
+			<value>10.0</value>
 			<null />
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
@@ -273,7 +273,7 @@
 			<value>11000002</value>
 			<null />
 			<value>1</value>
-			<value>30.0</value>
+			<value>10.0</value>
 			<null />
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
@@ -311,7 +311,7 @@
 			<value>11000003</value>
 			<null />
 			<value>1</value>
-			<value>30.0</value>
+			<value>10.0</value>
 			<null />
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
@@ -349,7 +349,7 @@
 			<value>11000004</value>
 			<null />
 			<value>1</value>
-			<value>30.0</value>
+			<value>20.0</value>
 			<null />
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
@@ -387,7 +387,7 @@
 			<value>11000005</value>
 			<null />
 			<value>1</value>
-			<value>30.0</value>
+			<value>20.0</value>
 			<null />
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
@@ -460,10 +460,10 @@
 			<value>394</value>
 			<value>07</value>
 			<value>39301</value>
-			<value>1100000*</value>
+			<value>1110000*</value>
 			<null />
 			<value>1</value>
-			<value>30.0</value>
+			<value>40.0</value>
 			<null />
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>

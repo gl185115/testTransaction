@@ -402,12 +402,13 @@ public class SQLServerDAOFactory extends DAOFactory {
 	public final IPricePromInfoDAO getPricePromInfoDAO() throws DaoException {
 		return new SQLServerPricePromInfoDAO();
 	}
-	
+
 	@Override
 	public IPriceMMInfoDAO getPriceMMInfoDAO() throws DaoException {
 		// TODO Auto-generated method stub
 		return new SQLServerPriceMMInfoDAO();
 	}
+
 	@Override
 	public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
 		return new SQLServerPromotionMsgInfoDAO();

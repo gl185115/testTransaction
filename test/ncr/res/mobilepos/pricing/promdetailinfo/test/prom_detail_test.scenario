@@ -23,12 +23,12 @@ When the tomcat startUp with companyId 01 and storeId 0001
 Then the Result Code is 0
 Then I should get the PricePromInfo :
 |PromotionNo|PromotionName             |PromotionType|BrandFlag  |Dpt  |Line|Class|Sku       |DiscountClass|DiscountRate|DiscountAmt|BrandId|
-|0001       |‘S“X11DeleteFlag0          |1            |0          |null |02  |39301|11000002  |1            |30.0        |0          |null   |
-|0001       |‘S“X11DeleteFlag0          |1            |0          |393  |01  |39301|11000001  |1            |30.0        |0          |null   |
-|0001       |‘S“X11DeleteFlag0          |1            |0          |394  |03  |39301|11000003  |1            |30.0        |0          |null   |
-|0001       |‘S“X11DeleteFlag0          |2            |0          |394  |null|39301|11000004  |1            |30.0        |0          |null   |
-|0001       |‘S“X11DeleteFlag0          |2            |0          |394  |05  |39301|11000005  |1            |30.0        |0          |null   |
+|0001       |‘S“X11DeleteFlag0          |1            |0          |null |02  |39301|11000002  |1            |10.0        |0          |null   |
+|0001       |‘S“X11DeleteFlag0          |1            |0          |393  |01  |39301|11000001  |1            |10.0        |0          |null   |
+|0001       |‘S“X11DeleteFlag0          |1            |0          |394  |03  |39301|11000003  |1            |10.0        |0          |null   |
+|0001       |‘S“X11DeleteFlag0          |2            |0          |394  |null|39301|11000004  |1            |20.0        |0          |null   |
+|0001       |‘S“X11DeleteFlag0          |2            |0          |394  |05  |39301|11000005  |1            |20.0        |0          |null   |
 |0001       |‘S“X11DeleteFlag0          |3            |0          |394  |06  |39301|null      |1            |30.0        |0          |null   |
-|0001       |‘S“X11DeleteFlag0          |3            |0          |394  |07  |39301|1100000*  |1            |30.0        |0          |null   |
+|0001       |‘S“X11DeleteFlag0          |3            |0          |394  |07  |39301|1110000*  |1            |40.0        |0          |null   |
 |0001       |‘S“X11DeleteFlag0          |3            |0          |394  |08  |39301|11000008  |1            |30.0        |0          |null   |
 |0003       |‘S“X13DeleteFlag0WeekFlag1 |1            |0          |393  |01  |39301|13000001  |1            |30.0        |0          |null   |

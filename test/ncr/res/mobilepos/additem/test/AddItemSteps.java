@@ -23,6 +23,7 @@ import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
@@ -64,12 +65,13 @@ public class AddItemSteps extends Steps {
 
 	@Given("a companyid $companyid storeid $storeid workstationid $terminalid businessdate $businessdate seqno $seqno")
 	public final void givenParameters(String companyId, String storeId,
-			String terminalId, String businessDate, String seqNo) {
+			String terminalId, String businessDate, String seqNo) throws Exception {
 		this.companyId = companyId;
 		this.storeId = storeId;
 		this.terminalId = terminalId;
 		this.businessDate = businessDate;
 		this.seqNo = seqNo;
+		PricePromInfoFactory.initialize(companyId, storeId);
 	}
 
 	@Given("the Web API Starts Up with $systemConDataSet System Configuration")
@@ -97,7 +99,7 @@ public class AddItemSteps extends Steps {
 				dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 						systemConDataSet);
 				dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
-						"test/ncr/res/mobilepos/promotion/discount/test/mst_bizday.xml");
+						"test/resources/para/mst_bizday.xml");
 			} catch (Exception ex) {
 				Assert.fail("Can't Retrieve Servlet context from promotion.");
 			}

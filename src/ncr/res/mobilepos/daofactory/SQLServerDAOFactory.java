@@ -84,8 +84,10 @@ import ncr.res.mobilepos.point.dao.SQLServerPointDAO;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.poslogstatus.dao.SQLServerPoslogStatusDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.pricing.dao.SQLServerPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerPricePromInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
@@ -397,12 +399,18 @@ public class SQLServerDAOFactory extends DAOFactory {
 	}
 
 	@Override
-    public final IPricePromInfoDAO getPricePromInfoDAO() throws DaoException {
-        return new SQLServerPricePromInfoDAO();
-    }
+	public final IPricePromInfoDAO getPricePromInfoDAO() throws DaoException {
+		return new SQLServerPricePromInfoDAO();
+	}
+	
 	@Override
-    public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
-        return new SQLServerPromotionMsgInfoDAO();
-    }
+	public IPriceMMInfoDAO getPriceMMInfoDAO() throws DaoException {
+		// TODO Auto-generated method stub
+		return new SQLServerPriceMMInfoDAO();
+	}
+	@Override
+	public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
+		return new SQLServerPromotionMsgInfoDAO();
+	}
 
 }

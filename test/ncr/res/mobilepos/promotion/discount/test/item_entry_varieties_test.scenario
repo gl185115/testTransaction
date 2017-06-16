@@ -2,7 +2,7 @@ Scenario: Test Item Entry with Item Varieties.
 When the Web API Starts Up with test/ncr/res/mobilepos/promotion/discount/test/prm_system_config_unreachable_enterprise.xml System Configuration
 Given a Promotion Service
 Given a loaded dataset test/ncr/res/mobilepos/promotion/discount/test/data_items.xml
-When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01 Businessdate 2016-08-16
+When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01
 
 Scenario: ItemCode.xml file does not exist.
 Given ItemCode.xml file does not exist

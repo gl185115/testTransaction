@@ -10,9 +10,12 @@ import javax.xml.bind.Marshaller;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Department;
 import ncr.res.mobilepos.pricing.model.ItemMaintenance;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
@@ -60,6 +63,8 @@ public class ItemResourceSteps extends Steps {
     public final void initdatasets(final String dataset) throws Exception {
         dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
                 "test/ncr/res/mobilepos/pricing/resource/datasets/" + dataset + ".xml");
+        dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+				"test/resources/para/mst_bizday.xml");
     }
 
     @AfterScenario
@@ -83,13 +88,19 @@ public class ItemResourceSteps extends Steps {
     }
 
     @When("I get item by plu using $storeid $plucode $deviceid $businessday")
-    public final void getItemByPLUCoderesource(String storeid, String pluCode, String companyId, String businessDay) {
+    public final void getItemByPLUCoderesource(String storeid, String pluCode, String companyId, String businessDay) throws Exception {
         if (storeid.equals("null")) {
             storeid = null;
         }
         if (pluCode.equals("null")) {
             pluCode = null;
         }
+        
+        if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(storeid)) {
+			PricePromInfoFactory.initialize(companyId,storeid);
+			PriceMMInfoFactory.initialize(companyId,storeid);
+		}
+        
         actualProduct = itemres.getItemByPLUcode(storeid, pluCode, companyId, businessDay);
         expctdResultCode = actualProduct.getNCRWSSResultCode();
     }

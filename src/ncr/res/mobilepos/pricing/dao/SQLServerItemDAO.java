@@ -25,12 +25,16 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Description;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItem;
 import ncr.res.mobilepos.pricing.model.PickListItemType;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
+import ncr.res.mobilepos.pricing.model.PriceMMInfo;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
+import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.property.SQLStatement;
 
 /**
@@ -265,10 +269,20 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 }
                 
+                ItemResource itemResource = new ItemResource();
+                PricePromInfo pricePromInfo;
+                if (!StringUtility.isNullOrEmpty(searchedItem.getDepartment()) && !StringUtility.isNullOrEmpty(searchedItem.getLine())) {
+                    pricePromInfo = itemResource.getPricePromInfo(searchedItem.getSku(), searchedItem.getDepartment(), searchedItem.getLine());
+                } else {
+                    pricePromInfo = null;
+                }
+                PriceMMInfo priceMMInfo;
+                priceMMInfo = itemResource.getPriceMMInfo(searchedItem.getSku());
+                
                 // 特売管理(PROM_INFO 自動割引)
-                if (!isHasPromDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate)) {
+                if (!isHasPromDetailInfoList(pricePromInfo, searchedItem)) {
                     // バンドルミックス(PRICE_MM_INFO mixmatch)
-                    if (!isHasPriceMMInfo(actualStoreid, searchedItem, companyId, bussinessDate)) {
+                    if (!isHasPriceMMInfoList(priceMMInfo, searchedItem)) {
                         // 買替サポート（REPLACESUPPORT_INFO）
                         isHasReplaceSupportDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate);
                     }
@@ -278,7 +292,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 // プレミアム商品（PREMIUMITEM_INFO）
                 getPremiumitemInfo(actualStoreid, searchedItem, companyId, bussinessDate);
                 //QRcode（QRCODE_INFO）
-                getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
+//                getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
 
             } else {
                 tp.println("Item not found.");
@@ -366,6 +380,28 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
     
     /**
+     * 特売管理マスタ 情報取得
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+    private boolean isHasPromDetailInfoList(final PricePromInfo pricePromInfo, final Item searchedItem) throws DaoException {
+    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+        .println("PricePromInfo", pricePromInfo)
+        .println("searchedItem", searchedItem);
+    	
+    	boolean isHaveValue = false;
+    	
+    	if (null != pricePromInfo) {
+    		isHaveValue = true;
+            searchedItem.setPromotionNo(pricePromInfo.getPromotionNo());
+            searchedItem.setDiscountClass(Integer.parseInt(pricePromInfo.getDiscountClass()));
+            searchedItem.setDiacountRate(pricePromInfo.getDiscountRate());
+            searchedItem.setDiscountAmt((int)pricePromInfo.getDiscountAmt());
+    	}
+    	return isHaveValue;
+    }
+    
+    /**
      * バンドルミックス 情報取得
      * @param storeid The ID of the Store where the items are located
      * @param searchedItem the Item
@@ -442,6 +478,43 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             tp.methodExit(searchedItem);
         }
         return isHaveValue;
+    }
+    
+    /**
+     * バンドルミックス 情報取得
+     * @param priceMMInfo 
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+    private boolean isHasPriceMMInfoList(final PriceMMInfo priceMMInfo, final Item searchedItem) throws DaoException {
+    	tp.methodEnter(DebugLogger.getCurrentMethodName())
+        .println("PriceMMInfo", priceMMInfo)
+        .println("searchedItem", searchedItem);
+    	
+    	boolean isHaveValue = false;
+    	
+    	if (null != priceMMInfo) {
+    		isHaveValue = true;
+    		searchedItem.setMixMatchCode(priceMMInfo.getMMNo());
+            searchedItem.setRuleQuantity1(priceMMInfo.getConditionCount1());
+            searchedItem.setRuleQuantity2(priceMMInfo.getConditionCount2());
+            searchedItem.setRuleQuantity3(priceMMInfo.getConditionCount3());
+            
+            searchedItem.setConditionPrice3(priceMMInfo.getConditionPrice3());
+            searchedItem.setConditionPrice2(priceMMInfo.getConditionPrice2());
+            searchedItem.setConditionPrice1(priceMMInfo.getConditionPrice1());
+            searchedItem.setDecisionPrice1(priceMMInfo.getDecisionPrice1());
+            searchedItem.setDecisionPrice2(priceMMInfo.getDecisionPrice2());
+            searchedItem.setDecisionPrice3(priceMMInfo.getDecisionPrice3());
+           
+            searchedItem.setAveragePrice1(priceMMInfo.getAveragePrice1());
+            searchedItem.setAveragePrice2(priceMMInfo.getAveragePrice2());
+            searchedItem.setAveragePrice3(priceMMInfo.getAveragePrice3());
+            
+            searchedItem.setNote(priceMMInfo.getNote());
+            searchedItem.setSku(priceMMInfo.getSku());
+    	}
+    	return isHaveValue;
     }
     
     /**

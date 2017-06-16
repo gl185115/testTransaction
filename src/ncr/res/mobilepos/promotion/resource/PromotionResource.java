@@ -511,7 +511,7 @@ public class PromotionResource {
 				info.setTruePrice(item.getRegularSalesUnitPrice());
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
-				promotion.setQrCodeInfoList(terminalItem.getQrCodeInfoList(item));
+//				promotion.setQrCodeInfoList(terminalItem.getQrCodeInfoList(item));
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
 					terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 					if (!"false".equals(transactionIn.getEntryFlag())) {

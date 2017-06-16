@@ -1,0 +1,30 @@
+Scenario: test PricePromInfo.
+Given a loaded dataset test/ncr/res/mobilepos/pricing/promdetailinfo/test/data_promDetail.xml
+
+Scenario: when the PromotionType is 1, dpt != null and dpt is right.
+When get the pricePromInfo with sku 11000001 dpt 393 line 01
+Then the Result Code is 0
+Then I should get the PricePromInfo :
+|PromotionNo|DiscountClass|DiscountRate|DiscountAmt|
+|0001       |1            |30.0        |0          |
+
+Scenario: when the PromotionType is 2, line != null and line is right.
+When get the pricePromInfo with sku 11000005 dpt 394 line 05
+Then the Result Code is 0
+Then I should get the PricePromInfo :
+|PromotionNo|DiscountClass|DiscountRate|DiscountAmt|
+|0001       |1            |30.0        |0          |
+
+Scenario: when the PromotionType is 3, pricePromSku contains "*"
+When get the pricePromInfo with sku null dpt 394 line 06
+Then the Result Code is 0
+Then I should get the PricePromInfo :
+|PromotionNo|DiscountClass|DiscountRate|DiscountAmt|
+|0001       |1            |30.0        |0          |
+
+Scenario: when the PromotionType is 3, pricePromSku not contains "*"
+When get the pricePromInfo with sku 11000008 dpt 394 line 06
+Then the Result Code is 0
+Then I should get the PricePromInfo :
+|PromotionNo|DiscountClass|DiscountRate|DiscountAmt|
+|0001       |1            |30.0        |0          |

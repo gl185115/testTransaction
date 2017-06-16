@@ -30,8 +30,10 @@ import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.model.Discount;
@@ -81,7 +83,7 @@ public class PromotionResourceTestSteps extends Steps {
 			promotioncontext.set(testpromotionResource, servletContext);
 			itemcontext.set(itemResourceObj, servletContext);
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
-					"test/ncr/res/mobilepos/promotion/discount/test/mst_bizday.xml");
+					"test/resources/para/mst_bizday.xml");
 		} catch (Exception ex) {
 			Assert.fail("Can't Retrieve Servlet context from promotion.");
 		}
@@ -169,7 +171,7 @@ public class PromotionResourceTestSteps extends Steps {
 	@When("a Begin Transaction at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId")
 	public final void aBeginTransactionAtPromotionWithParameters(
 			String retailStoreId, String workStationId, String sequenceNo,
-			String transactionJson, String companyId) {
+			String transactionJson, String companyId) throws Exception {
 
 		if (retailStoreId.equals("NULL")) {
 			retailStoreId = null;
@@ -183,6 +185,11 @@ public class PromotionResourceTestSteps extends Steps {
 		if (transactionJson.equals("NULL")) {
 			transactionJson = null;
 		}
+		
+		if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(retailStoreId)) {
+			PricePromInfoFactory.initialize(companyId,retailStoreId);
+		}
+		
 		actualResultBase = testpromotionResource.beginTransaction(
 				retailStoreId, workStationId, sequenceNo, companyId,
 				transactionJson);
@@ -191,7 +198,7 @@ public class PromotionResourceTestSteps extends Steps {
 	@When("a Item Entry at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId Businessdate $businessDate")
 	public final void aItemEntryAtPromotionWithParameters(String retailStoreId,
 			String workStationId, String sequenceNo, String transactionJson,
-			String companyId, String businessDate) {
+			String companyId, String businessDate) throws Exception {
 
 		if (retailStoreId.equals("NULL")) {
 			retailStoreId = null;
@@ -205,6 +212,10 @@ public class PromotionResourceTestSteps extends Steps {
 		if (transactionJson.equals("NULL")) {
 			transactionJson = null;
 		}
+		if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(retailStoreId)) {
+			PricePromInfoFactory.initialize(companyId,retailStoreId);
+		}
+		
 		actualResultBase = testpromotionResource.itemEntry(retailStoreId,
 				workStationId, sequenceNo, transactionJson, companyId,
 				businessDate);

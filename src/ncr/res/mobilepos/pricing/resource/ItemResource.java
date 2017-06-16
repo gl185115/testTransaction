@@ -47,9 +47,11 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickList;
+import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.promotion.model.Sale;
@@ -111,6 +113,8 @@ public class ItemResource {
     private static BarcodeAssignment barcodeAssignment;
 
 	private final List<PricePromInfo> pricePromInfoList;
+	
+	private final List<PriceMMInfo> priceMMInfoList;
 
 	public static final String PROMOTIONTYPE_DPT = "1";
 	public static final String PROMOTIONTYPE_LINE = "2";
@@ -126,6 +130,7 @@ public class ItemResource {
                 getClass());
         barcodeAssignment = BarcodeAssignmentFactory.getInstance();
         pricePromInfoList = PricePromInfoFactory.getInstance();
+        priceMMInfoList = PriceMMInfoFactory.getInstance();
     }
 
     /**
@@ -433,6 +438,34 @@ public class ItemResource {
 					return pricePromInfo;
 				}
 				break;
+			}
+		}
+		return null;
+	}
+    
+    /**
+     * Get The Price MM Info.
+     * @param sku The ID of The Sku
+     * @return PriceMMInfo The Price MM Info Object
+     */
+    public final PriceMMInfo getPriceMMInfo(final String sku) {
+
+		if (priceMMInfoList == null){
+			return null;
+		}
+		for (PriceMMInfo priceMMInfo : priceMMInfoList) {
+			String priceMMSku = priceMMInfo.getSku();
+			String itemSku = sku;
+			if (!StringUtility.isNullOrEmpty(priceMMSku)) {
+				if (priceMMSku.contains("*")) {
+					if (itemSku.startsWith(priceMMSku.replace("*", ""))) {
+						return priceMMInfo;
+					}
+				} else {
+					if (itemSku.equals(priceMMSku)) {
+						return priceMMInfo;
+					}
+				}
 			}
 		}
 		return null;

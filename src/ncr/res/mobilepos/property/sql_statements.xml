@@ -510,6 +510,80 @@ ELSE
         AND info.TargetStoreType = '1'
 </entry>
 
+<entry key="get-price-mm-info-list">
+DECLARE @companyId VARCHAR(12),
+        @storeId VARCHAR(10) ,
+        @businessDate VARCHAR(32)
+
+SET @companyId = LTRIM(RTRIM(?))
+SET @storeId = LTRIM(RTRIM(?))
+SET @businessDate = LTRIM(RTRIM(?))
+
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.MMNo,
+    detail.Sku
+FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.CompanyId = detail.CompanyId
+        AND info.MMNo = detail.MMNo
+        AND detail.DeleteFlag = 0.0
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.CompanyId =  @companyId
+        AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
+
+UNION
+
+SELECT
+    info.CompanyId,
+    info.Note,
+    info.ConditionCount1,
+    info.ConditionPrice1,
+    info.DecisionPrice1 ,
+    info.AveragePrice1  ,
+    info.ConditionCount2,
+    info.ConditionPrice2,
+    info.DecisionPrice2 ,
+    info.AveragePrice2  ,
+    info.ConditionCount3,
+    info.ConditionPrice3,
+    info.DecisionPrice3,
+    info.AveragePrice3,
+    info.MMNo,
+    detail.Sku
+    FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
+    INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
+        ON info.CompanyId = detail.CompanyId
+        AND info.MMNo = detail.MMNo
+        AND detail.DeleteFlag = 0.0
+    INNER JOIN RESMaster.dbo.MST_PRICE_MM_STORE store
+        ON info.CompanyId = store.CompanyId
+        AND info.MMNo = store.MMNo
+        AND store.StoreId = @storeId
+        AND store.DeleteFlag = 0.0
+    WHERE
+        info.DeleteFlag = 0.0
+        AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+        AND info.CompanyId =  @companyId
+        AND info.TargetStoreType = '1'
+</entry>
+
 <entry key="get-coupon-info">
 DECLARE    @storeId VARCHAR(10) ,
            @companyId VARCHAR(12),

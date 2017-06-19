@@ -138,5 +138,5 @@ public class WebServiceIfConstants {
     /** 
      * get point info use url
      *  */
-    public static final String PASTELPOINT_APIURI = "http://localhost:9080/PastelPortIF/point";
+    public static final String PASTELPOINT_APIURI = "http://localhost:9080/pastelport/point/requests";
 }

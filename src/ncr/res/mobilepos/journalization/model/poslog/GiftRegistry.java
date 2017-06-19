@@ -38,6 +38,9 @@ public class GiftRegistry {
 
 	@XmlElement(name = "PIN")
 	private String pin;
+	
+	@XmlElement(name = "ErrorCode")
+	private String errorCode;
 
 	public final String getBrand() {
 		return this.brand;
@@ -108,4 +111,11 @@ public class GiftRegistry {
 	public final void setPin(String pinToSet) {
 		this.pin = pinToSet;
 	}
+	
+	public final String getErrorCode() {
+        return this.errorCode;
+    }
+    public final void setErrorCode(String errorCodeToSet) {
+        this.errorCode = errorCodeToSet;
+    }
 }

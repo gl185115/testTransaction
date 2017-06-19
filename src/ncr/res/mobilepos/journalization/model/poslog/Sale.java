@@ -243,6 +243,12 @@ public class Sale {
     private GiftRegistry giftRegistry;
 
     /**
+     * The private member variable that will hold the OriginalGiftRegistry of Sale.
+     */
+    @XmlElement(name = "OriginalGiftRegistry")
+    private GiftRegistry originalGiftRegistry;
+    
+    /**
      * The Discount Amount.
      */
     @XmlElement(name = "DiscountAmount")
@@ -683,6 +689,24 @@ public class Sale {
      */
     public final GiftRegistry getGiftRegistry() {
         return giftRegistry;
+    }
+
+    /**
+     * Sets the OriginalGiftRegistry of Sale.
+     *
+     * @param originalGiftRegistryToSet        The new value for OriginalGiftRegistry of Sale.
+     */
+    public final void setoriginalGiftRegistry(final GiftRegistry originalGiftRegistryToSet) {
+        this.originalGiftRegistry = originalGiftRegistryToSet;
+    }
+
+    /**
+     * Gets the OriginalGiftRegistry of Sale.
+     *
+     * @return        The OriginalGiftRegistry of Sale.
+     */
+    public final GiftRegistry getOriginalGiftRegistry() {
+        return originalGiftRegistry;
     }
 
     /**

@@ -68,16 +68,28 @@ public class Tender {
      */
     @XmlAttribute(name = "TypeCode")
     private String typeCode;
+
+    /**
+     * The private member variable that will hold the type class of Tender.
+     */
+    @XmlAttribute(name = "TenderClass")
+    private String tenderClass;
+
     /**
      * The private member variable that will hold the Tax.
      */
     @XmlElement(name = "Tax")
     private Tax tax;
     /**
-     * The private member variable that will hold the TenderChange.
+     * The private member variable that will hold the Voucher.
      */
     @XmlElement(name = "Voucher")
     private List<Voucher> voucher;
+    /**
+     * The private member variable that will hold the OriginalVoucher.
+     */
+    @XmlElement(name = "OriginalVoucher")
+    private List<Voucher> originalVoucher;
     /**
      * The private member variable that will hold the Authorization.
      */
@@ -161,6 +173,7 @@ public class Tender {
         this.tenderType = null;
         this.typeCode = null;
         this.monetaryKind = new ArrayList<MonetaryKind>();
+        this.tenderClass = null;
     }
 
     /**
@@ -215,6 +228,24 @@ public class Tender {
      */
     public final void setTypeCode(final String typeCodeToSet) {
         this.typeCode = typeCodeToSet;
+    }
+
+    /**
+     * Gets the type class of Tender.
+     *
+     * @return        The type class of Tender.
+     */
+    public final String getTenderClass() {
+        return tenderClass;
+    }
+
+    /**
+     * Sets the type class of Tender.
+     *
+     * @param tenderClassToSet        The new value for the type class of Tender.
+     */
+    public final void setTenderClass(final String tenderClassToSet) {
+        this.tenderClass = tenderClassToSet;
     }
 
     /**
@@ -286,6 +317,20 @@ public class Tender {
      */
     public final void setVoucher(List<Voucher> voucher) {
         this.voucher = voucher;
+    }
+
+    /**
+     * @return the originalVoucher
+     */
+    public final List<Voucher> getOriginalVoucher() {
+        return originalVoucher;
+    }
+
+    /**
+     * @param originalVoucher the originalVoucher to set
+     */
+    public final void setOriginalVoucher(List<Voucher> originalVoucher) {
+        this.originalVoucher = originalVoucher;
     }
 
     /**

@@ -56,7 +56,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.constants.JournalizationConstants;
 import ncr.res.mobilepos.journalization.constants.PosLogRespConstants;
-import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
+import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.helper.PosLogLogger;
 import ncr.res.mobilepos.journalization.helper.UrlConnectionHelper;
@@ -516,9 +516,9 @@ public class JournalizationResource {
 
             DAOFactory sqlServer = DAOFactory
                     .getDAOFactory(DAOFactory.SQLSERVER);
-            IBarneysCommonDAO iBarneysCommenDAO = sqlServer
-                    .getBarneysCommonDAO();
-            searchGuestOrder = iBarneysCommenDAO
+            ICommonDAO iCommonDAO = sqlServer
+                    .getCommonDAO();
+            searchGuestOrder = iCommonDAO
                     .searchGuestOrderInfoBySequenceNo(storeId, deviceId,
                             sequenceNo, businessDate);
         } catch (DaoException e) {

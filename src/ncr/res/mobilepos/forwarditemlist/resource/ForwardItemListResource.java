@@ -45,7 +45,7 @@ import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
+import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.model.ForwardList;
 import ncr.res.mobilepos.journalization.model.ForwardListInfo;
@@ -475,8 +475,8 @@ public class ForwardItemListResource {
             }
 
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
-            List<ForwardListInfo> forwardList = iBarneysCommenDAO.getForwardList(CompanyId, RetailStoreId,
+            ICommonDAO iCommonDAO = sqlServer.getCommonDAO();
+            List<ForwardListInfo> forwardList = iCommonDAO.getForwardList(CompanyId, RetailStoreId,
                     TrainingFlag, LayawayFlag, Queue, TxType);
             result.setForwardListInfo(forwardList);
             result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
@@ -616,8 +616,8 @@ public class ForwardItemListResource {
         ResultBase resultBase = new ResultBase();
         try {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
-            int result = iBarneysCommenDAO.updateForwardStatus(CompanyId, RetailStoreId, WorkstationId, SequenceNumber,
+            ICommonDAO iCommonDAO = sqlServer.getCommonDAO();
+            int result = iCommonDAO.updateForwardStatus(CompanyId, RetailStoreId, WorkstationId, SequenceNumber,
                     Queue, BusinessDayDate, TrainingFlag, Status);
 
             if (result == SQLResultsConstants.ROW_DUPLICATE) {

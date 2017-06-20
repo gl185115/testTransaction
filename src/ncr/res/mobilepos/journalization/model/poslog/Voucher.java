@@ -173,12 +173,18 @@ public class Voucher {
     */
    @XmlElement(name = "ChargeAmount")
    private int chargeAmount;
-       
+
    /***
     * Brand.
     */
    @XmlElement(name = "Brand")
    private String brand;
+
+   /***
+    * ErrorCode.
+    */
+   @XmlElement(name = "ErrorCode")
+   private String errorCode;
 
     /**
      * @return the amount
@@ -570,5 +576,20 @@ public class Voucher {
      */
     public final void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    /**
+     * @return the errorCode
+     */
+    public final String getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     * @param errorCode
+     *            the errorCode to set
+     */
+    public final void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 }

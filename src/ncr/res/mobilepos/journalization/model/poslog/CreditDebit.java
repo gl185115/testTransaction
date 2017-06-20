@@ -157,19 +157,25 @@ public class CreditDebit {
      */
     @XmlElement(name = "ChangeType")
     private String changeType;
-   
+
     /**
      * StampType
      */
     @XmlElement(name = "StampType")
     private String stampType;
-    
+
     /**
      * PointType
      */
     @XmlElement(name = "PointType")
     private String pointType;
-   
+
+    /***
+     * ErrorCode
+     */
+    @XmlElement(name = "ErrorCode")
+    private String errorCode;
+
     /**
      * Default Constructor for CreditDebit.
      *
@@ -191,6 +197,7 @@ public class CreditDebit {
         changeType = null;
         stampType = null;
         pointType = null;
+        errorCode = null;
     }
     /**
      * @return the barExpirationDate
@@ -578,5 +585,17 @@ public class CreditDebit {
      */
     public final void setPointType(final String pointType) {
         this.pointType = pointType;
+    }
+    /**
+     * @return the errorCode
+     */
+    public final String getErrorCode() {
+        return errorCode;
+    }
+    /**
+     * @param errorCode the errorCode to set
+     */
+    public final void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 }

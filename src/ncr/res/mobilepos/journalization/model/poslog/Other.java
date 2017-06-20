@@ -37,62 +37,68 @@ public class Other {
      */
     @XmlElement(name = "TenderId")
     private String tenderId;
-    
+
     /**
      * The private member variable that will hold the tenderName.
      */
     @XmlElement(name = "TenderName")
     private String tenderName;
-    
+
     /**
      * The private member variable that will hold the memberNo.
      */
     @XmlElement(name = "MemberNo")
     private String memberNo;
-    
+
     /**
      * The private member variable that will hold the AuthorizationCode.
      */
     @XmlElement(name = "AuthorizationCode")
     private String authorizationCode;
-    
+
     /**
      * The private member variable that will hold the slipNo.
      */
     @XmlElement(name = "SlipNo")
     private String slipNo;
-    
+
     /**
      * The private member variable that will hold the changeType.
      */
     @XmlElement(name = "ChangeType")
     private String changeType;
-    
+
     /**
      * The private member variable that will hold the stampType.
      */
     @XmlElement(name = "StampType")
     private String stampType;
-    
+
     /**
      * The private member variable that will hold the pointType.
      */
     @XmlElement(name = "PointType")
     private String pointType;
-    
+
     @XmlElement(name = "Count")
     private String count;
-    
+
     @XmlElement(name = "Amount")
     private Amount amount;
-    
+
+    /***
+     * The private member variable that will hold the errorCode.
+     */
+    @XmlElement(name = "ErrorCode")
+    private String errorCode;
+
     public final Amount getAmount() {
     	return this.amount;
     }
     public final void setAmount(Amount amt) {
     	this.amount = amt;
     }
-    
+
     public final String getCount() {
     	return this.count;
     }
@@ -224,5 +230,19 @@ public class Other {
      */
     public final void setPointType(final String pointType) {
         this.pointType = pointType;
+    }
+
+    /**
+     * @return the errorCode
+     */
+    public final String getErrorCode() {
+        return errorCode;
+    }
+
+    /**
+     * @param errorCode the errorCode to set
+     */
+    public final void setErrorCode(String errorCode) {
+        this.errorCode = errorCode;
     }
 }

@@ -82,7 +82,9 @@ public class WebContextListener implements ServletContextListener {
         // Loads from web.xml.
         EnvironmentEntries.initInstance(new InitialContext());
         // Loads from system config files.
-        SystemFileConfig.initInstance(winEnv.getSystemPath());
+        if(!winEnv.isServerTypeEnterprise()){
+            SystemFileConfig.initInstance(winEnv.getSystemPath());
+        }
     }
 
     /**

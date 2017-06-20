@@ -217,6 +217,13 @@ public class WebContextListener implements ServletContextListener {
         } else {
             GlobalConstant.setMultiSOD(false);
         }
+        // global variable for DebugSmartP
+        String debugSmartP = sysParams.get(GlobalConstant.KEY_TOD_SMARTP_DEBUG);
+        if (!StringUtility.isNullOrEmpty(debugSmartP) && "1".equalsIgnoreCase(debugSmartP)) {
+            GlobalConstant.setMemberServerDebug(true);
+        } else {
+            GlobalConstant.setMemberServerDebug(false);
+        }
 
         //global variable for credential day left warning
         GlobalConstant.setCredentialDaysLeft(sysParams.get(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING));
@@ -244,7 +251,6 @@ public class WebContextListener implements ServletContextListener {
         if (!StringUtility.isNullOrEmpty(todReadTimeout)) {
             GlobalConstant.setTodReadTimeout(Integer.parseInt(todReadTimeout));
         }
-
         GlobalConstant.setInStoreParam1(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_1));
         GlobalConstant.setInStoreParam2(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_2));
         GlobalConstant.setInStoreParam3(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_3));

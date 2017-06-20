@@ -171,6 +171,8 @@ public final class GlobalConstant {
     public static final String KEY_TOD_CONNECTION_TIMEOUT = "TodConnectionTimeout";
     /** Key to retrieve TodReadTimeout from SystemConfig **/
     public static final String KEY_TOD_READ_TIMEOUT = "TodReadTimeout";
+    /** Key to debug SmartP from SystemConfig **/
+    public static final String KEY_TOD_SMARTP_DEBUG = "MemberServerDebug";
     /** Keys to retrieve InStoreParams **/
     public static final String KEY_INSTORE_PARAM_1 = "InStoreParam1";
     public static final String KEY_INSTORE_PARAM_2 = "InStoreParam2";
@@ -206,6 +208,7 @@ public final class GlobalConstant {
     private static int todConnectionTimeout = 1000;
     private static int todReadTimeout = 1000;
 
+    private static boolean memberServerDebug = false;
     /**  Instore params. **/
     private static String inStoreParam1;
     private static String inStoreParam2;
@@ -386,6 +389,22 @@ public final class GlobalConstant {
     
     public static boolean isMultiSOD() {
     	return GlobalConstant.multiSOD;    	
+    }
+
+    /**
+     * Sets memberServerDebug
+     * @param memberServerDebug
+     */
+    public static void setMemberServerDebug(boolean memberServerDebug) {
+        GlobalConstant.memberServerDebug = memberServerDebug;
+    }
+
+    /**
+     * Gets memberServerDebug
+     * @return
+     */
+    public static boolean getMemberServerDebug() {
+        return GlobalConstant.memberServerDebug;
     }
 
     /**

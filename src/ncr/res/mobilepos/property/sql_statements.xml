@@ -5310,7 +5310,7 @@ ORDER BY
       SET @storeid = '0'
 
     SELECT
-      StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, SubNum1, SubNum2, SubNum3
+      StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, SubNum1, SubNum2, SubNum3, SubNum4
     FROM
       RESMaster.dbo.MST_DPTINFO
     WHERE

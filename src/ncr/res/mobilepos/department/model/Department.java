@@ -97,6 +97,9 @@ public class Department {
     @XmlElement(name = "SubNum3")
     private String subNum3;
     
+    @XmlElement(name = "subNum4")
+    private String subNum4;
+    
     private String updAppId;
     
     private String updOpeCode;
@@ -250,6 +253,13 @@ public class Department {
     }
     public void setSubNum3(String subNum3) {
         this.subNum3 = subNum3;
+    }
+    @ApiModelProperty( value="KPC累計購入金額連携対象フラグ", notes="KPC累計購入金額連携対象フラグ")
+    public String getSubNum4() {
+        return subNum4;
+    }
+    public void setSubNum4(String subNum4) {
+        this.subNum4 = subNum4;
     }
     @ApiModelProperty( value="最終更新プログラムID", notes="最終更新プログラムID")
     public final String getUpdAppId() {

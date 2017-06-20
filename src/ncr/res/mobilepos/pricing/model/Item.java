@@ -434,6 +434,15 @@ public class Item {
     @XmlElement(name = "dptSubCode1")
     private String dptSubCode1;
     
+    @XmlElement(name = "dptSubNum2")
+    private String dptSubNum2;
+    
+    @XmlElement(name = "dptSubNum3")
+    private String dptSubNum3;
+    
+    @XmlElement(name = "dptSubNum4")
+    private String dptSubNum4;
+    
     @ApiModelProperty(value="日本語大分類名称", notes="日本語大分類名称")
     public String getDptNameLocal() {
         return dptNameLocal;
@@ -477,6 +486,33 @@ public class Item {
 
     public void setDptSubCode1(String dptSubCode1) {
         this.dptSubCode1 = dptSubCode1;
+    }
+    
+    @ApiModelProperty(value="KPC付与対象フラグ", notes="KPC付与対象フラグ")
+    public String getDptSubNum2() {
+        return dptSubNum2;
+    }
+
+    public void setDptSubNum2(String dptSubNum2) {
+        this.dptSubNum2 = dptSubNum2;
+    }
+    
+    @ApiModelProperty(value="KPC利用対象フラグ", notes="KPC利用対象フラグ")
+    public String getDptSubNum3() {
+        return dptSubNum3;
+    }
+
+    public void setDptSubNum3(String dptSubNum3) {
+        this.dptSubNum3 = dptSubNum3;
+    }
+    
+    @ApiModelProperty(value="KPC累計購入金額連携対象フラグ", notes="KPC累計購入金額連携対象フラグ")
+    public String getDptSubNum4() {
+        return dptSubNum4;
+    }
+
+    public void setDptSubNum4(String dptSubNum4) {
+        this.dptSubNum4 = dptSubNum4;
     }
 
     @ApiModelProperty(value="JANコード価格", notes="JANコード価格")

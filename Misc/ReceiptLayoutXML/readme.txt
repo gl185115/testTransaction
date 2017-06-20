@@ -57,7 +57,7 @@ If it is failed to find XML file, receipt service will use current method (forma
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>d:\software\ncr\res\custom\AdvanceReceiptCommodityFormat.xml</env-entry-value>
   </env-entry>
-<!-- BARNEYS_前受金一括取消レシート利用のファーマットXMLファイル -->
+<!-- COMMON_前受金一括取消レシート利用のファーマットXMLファイル -->
    <env-entry>
     <env-entry-name>advanceVoidRcptFormatPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>

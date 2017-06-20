@@ -1948,14 +1948,14 @@ public class ReportResource {
                             .convNullToDoubleZero(itemstr[1]));
                     break;
                 // ”ƒ•¨Œ”
-                case ReportConstants.CASH_BARNEYSVOUCHER:
+                case ReportConstants.CASH_COMMONVOUCHER:
                     reportmode.setShoppingTicketAmt(StringUtility
                             .convNullToDoubleZero(itemstr[1]));
                     reportmode.setShoppingTicketPoints(StringUtility
     						.convNullToLongZero(itemstr[2]));
                     break;
                 // ƒMƒtƒgŒ”
-                case ReportConstants.CASH_BARNEYSGIFT:
+                case ReportConstants.CASH_COMMONGIFT:
                     reportmode.setGiftVoucherAmt(StringUtility
                             .convNullToDoubleZero(itemstr[1]));
                     reportmode.setGiftVoucherPoints(StringUtility

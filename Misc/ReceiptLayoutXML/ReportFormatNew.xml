@@ -2072,7 +2072,7 @@
      </Line>
 	   <!--買物券-->
     <Line size="0" align="left" feedNum="0">
-       <Lable property="ATYReportBarneysVoucher" leftMargin="0" 
+       <Lable property="ATYReportCommonVoucher" leftMargin="0" 
             fixedLength="18" appendSign=" " appendWay="right"></Lable>
        <Price property="ShoppingTicketPoints" fixedLength="7"
 			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>
@@ -2083,7 +2083,7 @@
     </Line>
     <!--ギフト券-->
     <Line size="0" align="left" feedNum="0">
-        <Lable property="ATYReportBarneysGift" leftMargin="0"
+        <Lable property="ATYReportCommonGift" leftMargin="0"
             fixedLength="18" appendSign=" " appendWay="right"></Lable>
         <Price property="GiftVoucherPoints" fixedLength="7"
 			appendSign=" " appendWay="left" leftMargin="0" isMinus="false"></Price>

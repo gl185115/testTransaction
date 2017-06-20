@@ -40,7 +40,7 @@ import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.dao.SQLServerForwardItemListDAO;
-import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
+import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.line.dao.ILineDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
@@ -420,7 +420,7 @@ public abstract class DAOFactory {
         }
     }
 
-    public abstract IBarneysCommonDAO getBarneysCommonDAO() throws DaoException;
+    public abstract ICommonDAO getCommonDAO() throws DaoException;
 
     public abstract ICustomerSearthDAO getCustomerSearthDAO() throws DaoException;
 

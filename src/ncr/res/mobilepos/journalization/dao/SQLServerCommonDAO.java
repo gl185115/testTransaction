@@ -19,8 +19,8 @@ import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 
-public class SQLServerBarneysCommonDAO extends AbstractDao implements
-        IBarneysCommonDAO {
+public class SQLServerCommonDAO extends AbstractDao implements
+        ICommonDAO {
     private final String PROG_NAME = "BnsCommomDao";
     /** The database manager. */
     private DBManager dbManager;
@@ -36,7 +36,7 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
      * @throws DaoException
      *             thrown when process fails.
      */
-    public SQLServerBarneysCommonDAO() throws DaoException {
+    public SQLServerCommonDAO() throws DaoException {
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
@@ -112,12 +112,12 @@ public class SQLServerBarneysCommonDAO extends AbstractDao implements
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to search guest order By SequenceNo.", sqlEx);
             throw new DaoException("SQLException:"
-                    + " @SQLServerBarneysCommenDAO.searchGuestOrderInfoBySequenceNo", sqlEx);
+                    + " @SQLServerCommonDAO.searchGuestOrderInfoBySequenceNo", sqlEx);
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
                     + ": Failed to search guest order info By SequenceNo.", e);
             throw new DaoException("Exception:"
-                    + " @SQLServerBarneysCommenDAO.searchGuestOrderInfoBySequenceNo", e);
+                    + " @SQLServerCommonDAO.searchGuestOrderInfoBySequenceNo", e);
         } finally {
             closeConnectionObjects(connection, selectStmnt, resultSet);
             tp.methodExit(searchGuestOrder);

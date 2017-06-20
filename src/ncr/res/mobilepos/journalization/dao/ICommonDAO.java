@@ -25,7 +25,7 @@ import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
 import ncr.res.mobilepos.journalization.model.SequenceNo;
 
 
-public interface IBarneysCommonDAO {
+public interface ICommonDAO {
     /* 1.05 2014.12.11 FENGSHA æˆø”Ô†‚É‚æ‚è‘Oó‹à”Ô†æ“¾ ADD START */
     /**
      * @param storeId

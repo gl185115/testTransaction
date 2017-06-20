@@ -8144,7 +8144,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             <!--36 買物券-->
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '91' THEN  giftcertificate.Count ELSE 0 END),0) as AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '91' THEN  giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
-            'BarneysVoucher' AS AccountancyItemName,
+            'CommonVoucher' AS AccountancyItemName,
             '2-09' AS SalesOrPay
 
         FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE
@@ -8169,7 +8169,7 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
             <!--37 ギフト券-->
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '92' THEN giftcertificate.Count ELSE 0 END),0) as AccountancyAccount,
             ISNULL ( SUM ( CASE WHEN giftcertificate.AccountCode = '351' AND giftcertificate.CompanyCode = '92' THEN giftcertificate.Amount1 ELSE 0 END),0) AS AccountancyAmount,
-            'BarneysGift' AS AccountancyItemName,
+            'CommonGift' AS AccountancyItemName,
             '2-10' AS SalesOrPay
 
         FROM RESTransaction.dbo.TXU_GIFTCERTIFICATE

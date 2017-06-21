@@ -215,7 +215,7 @@ public class RainCheck {
      *
      * @return        Regular sales unit price of RainCheck.
      */
-    public final double getRegularsalesunitprice() {
+    public final double getRegularSalesUnitPrice() {
         return regularsalesunitprice;
     }
 
@@ -235,7 +235,7 @@ public class RainCheck {
      *
      * @return        Actual sales unit price of RainCheck.
      */
-    public final double getActualsalesunitprice() {
+    public final double getActualSalesUnitPrice() {
         return actualsalesunitprice;
     }
 
@@ -245,7 +245,7 @@ public class RainCheck {
      * @param actualsalesunitpriceToSet   The new value for
      *                                     actual sales unit price of RainCheck.
      */
-    public final void setActualsalesunitprice(
+    public final void setActualSalesUnitPrice(
             final long actualsalesunitpriceToSet) {
         this.actualsalesunitprice = actualsalesunitpriceToSet;
     }
@@ -652,7 +652,7 @@ public class RainCheck {
     /**
      * @param regularsalesunitprice ƒZƒbƒg‚·‚é regularsalesunitprice
      */
-    public void setRegularsalesunitprice(double regularsalesunitprice) {
+    public void setRegularSalesUnitPrice(double regularsalesunitprice) {
         this.regularsalesunitprice = regularsalesunitprice;
     }
 

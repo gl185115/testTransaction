@@ -464,7 +464,7 @@ public class LayawayReturn {
      *
      * @return        The actual sales price of Return.
      */
-    public final long getActualsalesunitprice() {
+    public final long getActualSalesUnitPrice() {
         return actualsalesunitprice;
     }
 
@@ -474,7 +474,7 @@ public class LayawayReturn {
      * @param actualsalesunitpriceToSet  The new value of Return's actual
      *                                     sales price.
      */
-    public final void setActualsalesunitprice(
+    public final void setActualSalesUnitPrice(
             final long actualsalesunitpriceToSet) {
         this.actualsalesunitprice = actualsalesunitpriceToSet;
     }
@@ -654,11 +654,11 @@ public class LayawayReturn {
         this.clas = clasToSet;
     }
 
-    public double getRegularsalesunitprice() {
+    public double getRegularSalesUnitPrice() {
         return regularsalesunitprice;
     }
 
-    public void setRegularsalesunitprice(double regularsalesunitprice) {
+    public void setRegularSalesUnitPrice(double regularsalesunitprice) {
         this.regularsalesunitprice = regularsalesunitprice;
     }
 

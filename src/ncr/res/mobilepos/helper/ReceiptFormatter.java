@@ -173,7 +173,7 @@ public class ReceiptFormatter {
     private static String formatSaleItem(LineItem lineItem, String saleItemTR) {       
         String qtyPrice = lineItem.getSale().getQuantity() > 1
                 ? String.valueOf("(" + lineItem.getSale().getQuantity()
-                  + " x @" + lineItem.getSale().getActualsalesunitprice()
+                  + " x @" + lineItem.getSale().getActualSalesUnitPrice()
                     + ")") : "";
             String mdName = lineItem.getSale().getDescription().trim();
             String saleItemTRTemp  = saleItemTR.replace("MdName", mdName);
@@ -969,7 +969,7 @@ public class ReceiptFormatter {
             if (lineItem.getSale() != null) {
                 int qtynum = lineItem.getSale().getQuantity();
                 double actualsalesunitprice =
-                    lineItem.getSale().getActualsalesunitprice();
+                    lineItem.getSale().getActualSalesUnitPrice();
                 String qtyPrice = setQtyPrice(qtynum, actualsalesunitprice);
                 totalAmt = totalAmt + lineItem.getSale().getExtendedAmt();
                 String mdName = lineItem.getSale().getDescription().trim();

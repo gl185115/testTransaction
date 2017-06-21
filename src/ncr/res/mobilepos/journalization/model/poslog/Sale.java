@@ -504,8 +504,8 @@ public class Sale {
     public void setBarReservationType(BarReservationType barReservationType) {
         this.barReservationType = barReservationType;
     }
-
-    public final double getRegularsalesunitprice() {
+    
+    public final double getRegularSalesUnitPrice() {
         return regularsalesunitprice;
     }
 
@@ -515,7 +515,7 @@ public class Sale {
      * @param regularsalesunitpriceToSet   The new value for regular
      *                                      sales unit price of Sale.
      */
-    public final void setRegularsalesunitprice(
+    public final void setRegularSalesUnitPrice(
             final long regularsalesunitpriceToSet) {
         this.regularsalesunitprice = regularsalesunitpriceToSet;
     }
@@ -525,7 +525,7 @@ public class Sale {
      *
      * @return        Actual sales unit price of Sale.
      */
-    public final double getActualsalesunitprice() {
+    public final double getActualSalesUnitPrice() {
         return actualsalesunitprice;
     }
 
@@ -535,7 +535,7 @@ public class Sale {
      * @param actualsalesunitpriceToSet   The new value for
      *                                     actual sales unit price of Sale.
      */
-    public final void setActualsalesunitprice(
+    public final void setActualSalesUnitPrice(
             final long actualsalesunitpriceToSet) {
         this.actualsalesunitprice = actualsalesunitpriceToSet;
     }

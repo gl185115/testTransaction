@@ -128,6 +128,13 @@
                 <symbol>Codabar</symbol>
                 <format>(A|a){1}(\\d{18})(C|c)</format>
             </item>
+            <item>
+                <description>ギフトカード販売</description>
+                <id>giftcardSale32</id>
+                <type>single</type>
+                <symbol>EAN</symbol>
+                <format>[0-9a-zA-Z]{32}</format>
+            </item>
         </items>
     </sale>
     <payment>

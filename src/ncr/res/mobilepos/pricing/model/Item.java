@@ -434,6 +434,9 @@ public class Item {
     @XmlElement(name = "dptSubCode1")
     private String dptSubCode1;
     
+    @XmlElement(name = "dptSubNum1")
+    private String dptSubNum1;
+    
     @XmlElement(name = "dptSubNum2")
     private String dptSubNum2;
     
@@ -486,6 +489,15 @@ public class Item {
 
     public void setDptSubCode1(String dptSubCode1) {
         this.dptSubCode1 = dptSubCode1;
+    }
+    
+    @ApiModelProperty(value="電子マネー利用可否フラグ", notes="電子マネー利用可否フラグ")
+    public String getDptSubNum1() {
+        return dptSubNum1;
+    }
+
+    public void setDptSubNum1(String dptSubNum1) {
+        this.dptSubNum1 = dptSubNum1;
     }
     
     @ApiModelProperty(value="KPC付与対象フラグ", notes="KPC付与対象フラグ")

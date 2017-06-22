@@ -7,7 +7,7 @@ Scenario: Add Auto Discount Amount (500.0) Item
 When I add an item 4957669206754
 Then I should get the following:
 |Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
-|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R		|10000.0				|4957669206754	|1			|0.0			|500		|397		|‚kƒoƒ‰ƒEƒbƒh		|
+|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R		|7398.0				|4957669206754	|1			|0.0			|500		|397		|‚kƒoƒ‰ƒEƒbƒh		|
 
 Scenario: Add Auto Discount Rate (30%) Item
 When I add an item 4957669622196

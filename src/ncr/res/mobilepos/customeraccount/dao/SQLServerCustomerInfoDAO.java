@@ -285,7 +285,7 @@ extends AbstractDao implements ICustomerDAO {
 	private PreparedStatement prepareStatementCountUnsendPoslog(Connection connection, String companyId, String storeId,
 			String sql) throws SQLException {
 		// Replace %s to check sql.
-		String query = String.format(sqlStatement.getProperty("get-loyalty-account"), sql);
+		String query = String.format(sqlStatement.getProperty("get-loyalty-account"), sql, sql);
 		PreparedStatement statement = connection.prepareStatement(query);
 		return statement;
 	}

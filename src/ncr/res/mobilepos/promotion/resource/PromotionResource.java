@@ -478,6 +478,7 @@ public class PromotionResource {
 						saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
 						saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
+						saleOut.setDptSubNum1(departmentInfo.getDepartment().getSubNum1());
 						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());

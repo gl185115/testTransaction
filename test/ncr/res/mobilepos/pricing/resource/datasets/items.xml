@@ -226,8 +226,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -380,8 +380,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -534,8 +534,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -688,8 +688,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -842,8 +842,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -996,8 +996,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -1150,8 +1150,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -1304,8 +1304,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -1458,8 +1458,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />
@@ -1612,8 +1612,8 @@
 			<value></value>
 			<value><![CDATA[10000]]></value>
 			<value><![CDATA[0]]></value>
-			<null />
-			<null />
+			<value>1991-09-30 00:00:00.000</value>
+			<value>2099-09-30 00:00:00.000</value>
 			<null />
 			<null />
 			<null />

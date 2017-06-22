@@ -603,25 +603,6 @@
                         <phase>none</phase>
                     </execution>
                     <execution>
-                        <id>xmlparams</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy-file</goal>
-                        </goals>
-                        <configuration>
-                            <repositoryId>resmex-snapshots</repositoryId>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>xmlparams</artifactId>
-                            <version>${project.version}</version>
-                            <packaging>zip</packaging>
-                            <pomFile>pom.xml</pomFile>
-                            <file>${project.build.directory}/XmlParams.zip</file>
-                            <uniqueVersion>false</uniqueVersion>
-                            <generatePom>true</generatePom>
-                            <url>${project.distributionManagement.snapshotRepository.url}</url>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <id>poslogbinding</id>
                         <phase>deploy</phase>
                         <goals>

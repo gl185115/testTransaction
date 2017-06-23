@@ -61,6 +61,16 @@ public class TransactionLink {
     @XmlElement(name = "OperatorID")
     private String operatorID;
     /**
+     * The private member variable that will hold the OperatorName
+     */
+    @XmlElement(name = "OperatorName")
+    private String operatorName;
+    /**
+     * The private member variable that will hold the OperatorNameKana
+     */
+    @XmlElement(name = "OperatorNameKana")
+    private String operatorNameKana;
+    /**
      * The private member variable that will hold the business day date of the
      * returned Transaction.
      */
@@ -138,7 +148,7 @@ public class TransactionLink {
 
     /**
      * return the latestUpdateOperatorID
-     * 
+     *
      * @return
      */
     public final String getLatestUpdateOperatorID() {
@@ -154,7 +164,7 @@ public class TransactionLink {
 
     /**
      * return the latestUpdateSequenceNumber
-     * 
+     *
      * @return
      */
     public final String getLatestUpdateSequenceNumber() {
@@ -163,7 +173,7 @@ public class TransactionLink {
 
     /**
      * sets the latestUpdateSequenceNumber
-     * 
+     *
      * @param str
      */
     public final void setLatestUpdateSequenceNumber(String str) {
@@ -172,7 +182,7 @@ public class TransactionLink {
 
     /**
      * return the latestUpdateBusinessDate
-     * 
+     *
      * @return
      */
     public final String getLatestUpdateBusinessDate() {
@@ -181,7 +191,7 @@ public class TransactionLink {
 
     /**
      * sets the latestUpdateBusinessDate
-     * 
+     *
      * @param str
      */
     public final void setLatestUpdateBusinessDate(String str) {
@@ -190,7 +200,7 @@ public class TransactionLink {
 
     /**
      * return the latestUpdateStoreID
-     * 
+     *
      * @return
      */
     public final String getLatestUpdateStoreID() {
@@ -199,7 +209,7 @@ public class TransactionLink {
 
     /**
      * sets the latestUpdateStoreId
-     * 
+     *
      * @param str
      */
     public final void setLatestUpdateStoreID(String str) {
@@ -208,7 +218,7 @@ public class TransactionLink {
 
     /**
      * returns the customerCount variable
-     * 
+     *
      * @return
      */
     public final CustomerCount getCustomerCount() {
@@ -217,7 +227,7 @@ public class TransactionLink {
 
     /**
      * sets the customerCount variable
-     * 
+     *
      * @param cc
      */
     public final void setCustomerCount(CustomerCount cc) {
@@ -226,7 +236,7 @@ public class TransactionLink {
 
     /**
      * return the authorizationNumber
-     * 
+     *
      * @return
      */
     public final String getAuthorizationNumber() {
@@ -387,7 +397,7 @@ public class TransactionLink {
 
     /**
      * Gets the operatorID of the Transaction Link.
-     * 
+     *
      * @return operatorID.
      */
     public String getOperatorID() {
@@ -396,17 +406,52 @@ public class TransactionLink {
 
     /**
      * Sets the operatorID of the Transaction Link.
-     * 
+     *
      * @param operatorID
      *            The new value for the operatorID of the Transaction Link.
      */
     public void setOperatorID(String operatorID) {
         this.operatorID = operatorID;
     }
+    /**
+     * Gets the operatorName of the Transaction Link.
+     *
+     * @return operatorName.
+     */
+    public String getOperatorName() {
+        return operatorName;
+    }
 
     /**
+     * Sets the operatorName of the Transaction Link.
+     *
+     * @param operatorName
+     *            The new value for the operatorName of the Transaction Link.
+     */
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+    /**
+     * Gets the operatorNameKana of the Transaction Link.
+     *
+     * @return operatorNameKana.
+     */
+    public String getOperatorNameKana() {
+        return operatorNameKana;
+    }
+
+    /**
+     * Sets the operatorNameKana of the Transaction Link.
+     *
+     * @param operatorNameKana
+     *            The new value for the operatorNameKana of the Transaction Link.
+     */
+    public void setOperatorNameKana(String operatorNameKana) {
+        this.operatorNameKana = operatorNameKana;
+    }
+    /**
      * Gets the EODCount of the Transaction Link
-     * 
+     *
      * @return eODCount
      */
     public String getEODCount() {
@@ -415,7 +460,7 @@ public class TransactionLink {
 
     /**
      * Sets the EODCount of the Transaction Link.
-     * 
+     *
      * @param eodcount
      *            The new value of eODCount.
      */
@@ -425,7 +470,7 @@ public class TransactionLink {
 
     /**
      * Gets the Weather value of the Transaction Link.
-     * 
+     *
      * @return weather
      */
     public Weather getWeather() {
@@ -434,7 +479,7 @@ public class TransactionLink {
 
     /**
      * Sets the Weather value of the Transaction Link.
-     * 
+     *
      * @param weather
      *            The new value of weather
      */
@@ -444,7 +489,7 @@ public class TransactionLink {
 
     /**
      * Gets the Customer of the Transaction Link.
-     * 
+     *
      * @return customer
      */
     public String getCustomer() {
@@ -453,7 +498,7 @@ public class TransactionLink {
 
     /**
      * Sets the Customer of the Transaction Link.
-     * 
+     *
      * @param customer
      *            The new value of customer
      */

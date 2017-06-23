@@ -1,5 +1,13 @@
 package ncr.res.mobilepos.deviceinfo.dao;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Snap;
@@ -29,14 +37,6 @@ import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.tillinfo.model.Till;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 /**
  * PeripheralControl data access object.
  * @see IDeviceInfoDAO
@@ -59,7 +59,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     private Trace.Printer tp = null;
     /**
-     *  Snap Logger. 
+     *  Snap Logger.
      */
     private SnapLogger snap;
 	/**
@@ -78,7 +78,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         // Gets Singleton reference from the factory.
         this.sqlStatement = SQLStatement.getInstance();
 	}
-	
+
     /**
      * Set the Printer Id association for a device.
      * @param storeid     store identifier
@@ -111,9 +111,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             update.setString(SQLStatement.PARAM1, printerid);
             update.setString(SQLStatement.PARAM2,updAppId);
             update.setString(SQLStatement.PARAM3, updOpeCode);
-            update.setString(SQLStatement.PARAM4, storeid);           
+            update.setString(SQLStatement.PARAM4, storeid);
             update.setString(SQLStatement.PARAM5, terminalid);
-            
+
             result = update.executeUpdate();
 			if (SQLResultsConstants.ONE_ROW_AFFECTED == result) {
                 resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
@@ -140,7 +140,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, update);
-			
+
 			tp.methodExit(resultBase);
 		}
 
@@ -152,9 +152,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      * @return ResultBase
      * @throws SQLException - sql
      * @throws DaoException - dao
-     * @throws IOException 
+     * @throws IOException
      */
-	public final ResultBase createPeripheralDeviceInfo(final DeviceInfo newDeviceInfo) 
+	public final ResultBase createPeripheralDeviceInfo(final DeviceInfo newDeviceInfo)
 			throws DaoException, IOException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
@@ -164,7 +164,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         int result = 0;
         Connection connection = null;
         PreparedStatement create = null;
-        
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -172,15 +172,15 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     sqlStatement.getProperty("create-peripheraldeviceinfo"));
             create.setString(SQLStatement.PARAM1,
                     newDeviceInfo.getRetailStoreId());
-            create.setString(SQLStatement.PARAM2, 
+            create.setString(SQLStatement.PARAM2,
             		newDeviceInfo.getDeviceId());
-            create.setString(SQLStatement.PARAM3, 
+            create.setString(SQLStatement.PARAM3,
             		newDeviceInfo.getPrinterId());
-            create.setString(SQLStatement.PARAM4, 
+            create.setString(SQLStatement.PARAM4,
             		newDeviceInfo.getTillId());
             create.setString(SQLStatement.PARAM5,
                     newDeviceInfo.getLinkPOSTerminalId());
-            create.setString(SQLStatement.PARAM6, 
+            create.setString(SQLStatement.PARAM6,
             		newDeviceInfo.getLogSize());
             create.setString(SQLStatement.PARAM7,
                     newDeviceInfo.getSaveLogFile());
@@ -201,18 +201,18 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             create.setString(SQLStatement.PARAM15,
                     newDeviceInfo.getDeviceName());
             create.setString(SQLStatement.PARAM16,
-                    newDeviceInfo.getAppId());
+                    newDeviceInfo.getUpdAppId());
             create.setString(SQLStatement.PARAM17,
-                    newDeviceInfo.getOpeCode());
+                    newDeviceInfo.getUpdOpeCode());
             create.setString(SQLStatement.PARAM18,
                     newDeviceInfo.getCompanyId());
             create.setInt(SQLStatement.PARAM19,
                     newDeviceInfo.getTrainingMode());
             create.setString(SQLStatement.PARAM20,
-                    newDeviceInfo.getAppId());
+                    newDeviceInfo.getUpdAppId());
             create.setString(SQLStatement.PARAM21,
-                    newDeviceInfo.getOpeCode());
-            create.setString(SQLStatement.PARAM22, 
+                    newDeviceInfo.getUpdOpeCode());
+            create.setString(SQLStatement.PARAM22,
             		newDeviceInfo.getAttributeId());
             result = create.executeUpdate();
             connection.commit();
@@ -230,7 +230,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to create Peripheral Info.", ex);
-			
+
 			if (ex.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
 				throw new DaoException("SQLException: @" + functionName, ex);
 			}
@@ -332,12 +332,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			tp.methodExit(printerInfo);
 		}
 		return printerInfo;
-	} 
-    
+	}
+
     /**
      * Get Printers registered in the store configuration.
      * @param storeId - store identifier
@@ -362,7 +362,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
-        try {  
+        try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(
@@ -377,12 +377,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 					StringUtility.isNullOrEmpty(name) ? null : "%"
 							+ StringUtility.escapeCharatersForSQLqueries(name
 									.trim()) + "%");
-           
+
 			tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
 			int searchLimit = (limit == 0) ? GlobalConstant
 					.getMaxSearchResults() : limit;
 			select.setInt(SQLStatement.PARAM4, searchLimit);
-            
+
             result = select.executeQuery();
             while (result.next()) {
                 PrinterInfo printinfo = new PrinterInfo();
@@ -409,7 +409,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			tp.methodExit(allprintinfo);
 		}
 
@@ -426,7 +426,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			.println("storeid", storeid)
 			.println("terminalid", terminalid)
 			.println("trainingmode", trainingmode);
-        
+
     	DeviceInfo devInfo = new DeviceInfo();
         PrinterInfo printerInfo = new PrinterInfo();
         ResultSet result = null;
@@ -472,8 +472,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                         result.findColumn("LinkSignature")));
                 devInfo.setLinkPOSTerminalId(StringUtility.convNullToEmpty(
                 		result.getString(result.findColumn("LinkPosTerminalId"))));
-                devInfo.setPricingType(result.getString("PricingType"));                                
-                devInfo.setTxid(result.getString("LastTxId"));                 
+                devInfo.setPricingType(result.getString("PricingType"));
+                devInfo.setTxid(result.getString("LastTxId"));
                 devInfo.setSuspendtxid(result.getString("LastSuspendTxId"));
                 devInfo.setStatus(result.getString(
                 		result.findColumn("Status")));
@@ -496,7 +496,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 devInfo.setAttributeId(result.getString(
                 		result.findColumn("AttributeId")));
             } else {
-                devInfo.setLinkPOSTerminalId("");               
+                devInfo.setLinkPOSTerminalId("");
             }
             devInfo.setPrinterInfo(printerInfo);
 		} catch (SQLException ex) {
@@ -553,18 +553,18 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, deleteDeviceStmt);
-			
+
 			tp.methodExit(resultBase);
 		}
 		return resultBase;
-	}	
-	
+	}
+
 	@Override
 	public final ViewDeviceInfo updateDevice(final String companyID, final String retailStoreID,
-			final String deviceID, final DeviceInfo deviceInfoToSet, 
+			final String deviceID, final DeviceInfo deviceInfoToSet,
 			final int trainingMode, Connection connection) throws DaoException{
 		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName);		
+		tp.methodEnter(functionName);
 		tp.println("companyid", companyID)
 			.println("retailstoreid", retailStoreID)
 			.println("deviceid", deviceID)
@@ -592,15 +592,15 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     deviceInfoToSet.getCompanyId());
             updateStatement.setString(SQLStatement.PARAM2,
             		deviceInfoToSet.getRetailStoreId());
-            updateStatement.setString(SQLStatement.PARAM3, 
-            		deviceInfoToSet.getDeviceId());  
-            updateStatement.setString(SQLStatement.PARAM4, 
+            updateStatement.setString(SQLStatement.PARAM3,
+            		deviceInfoToSet.getDeviceId());
+            updateStatement.setString(SQLStatement.PARAM4,
             		deviceInfoToSet.getPrinterId());
             updateStatement.setString(SQLStatement.PARAM5,
                     deviceInfoToSet.getTillId());
             updateStatement.setString(SQLStatement.PARAM6,
             		deviceInfoToSet.getLinkPOSTerminalId());
-            updateStatement.setString(SQLStatement.PARAM7, 
+            updateStatement.setString(SQLStatement.PARAM7,
             		deviceInfoToSet.getLogSize());
             updateStatement.setString(SQLStatement.PARAM8,
             		deviceInfoToSet.getSaveLogFile());
@@ -637,11 +637,11 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	devInfoToReturn.setCompanyId(
             			result.getString(result.findColumn("CompanyId")).trim());
             	devInfoToReturn.setDeviceId(
-            			result.getString(result.findColumn("TerminalId")).trim());                             
+            			result.getString(result.findColumn("TerminalId")).trim());
             	devInfoToReturn.setRetailStoreId(
-            			result.getString(result.findColumn("StoreId")).trim());                             
+            			result.getString(result.findColumn("StoreId")).trim());
             	devInfoToReturn.setLogSize(
-            			result.getString(result.findColumn("SendLogFile")).trim());                             
+            			result.getString(result.findColumn("SendLogFile")).trim());
             	devInfoToReturn.setDeviceName(
             			result.getString(result.findColumn("DeviceName")));
             	devInfoToReturn.setLogSize(
@@ -659,9 +659,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	devInfoToReturn.setLinkPOSTerminalId(
             			result.getString(result.findColumn("LinkPosTerminalId")));
             	devInfoToReturn.setTillId(
-            			result.getString(result.findColumn("TillId")));             
+            			result.getString(result.findColumn("TillId")));
             	devInfoToReturn.setTxid(
-            			result.getString(result.findColumn("LastTxid")));  
+            			result.getString(result.findColumn("LastTxid")));
             	devInfoToReturn.setSuspendtxid(
             			result.getString(result.findColumn("LastSuspendTxId")));
             	devInfoToReturn.setPrinterId(
@@ -674,7 +674,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             				devInfoToReturn.getRetailStoreId(), devInfoToReturn.getPrinterId());
             	} else {
             		printerInfo = new PrinterInfo();
-            	}             
+            	}
             	viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
             	viewInfo.setMessage("Success");
             } else {
@@ -693,17 +693,17 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 					+ ": Failed to update device.", ex);
             if (ex.getErrorCode() == Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
-                DeviceInfo prevdeviceInfo = getDeviceInfo(companyID, retailStoreID, 
+                DeviceInfo prevdeviceInfo = getDeviceInfo(companyID, retailStoreID,
                 		deviceID, trainingMode);
-                String companyIdToSet = deviceInfoToSet.getCompanyId() != null ? 
+                String companyIdToSet = deviceInfoToSet.getCompanyId() != null ?
                 		deviceInfoToSet.getCompanyId() : companyID;
-                String storeIdToSet = deviceInfoToSet.getRetailStoreId() != null ? 
+                String storeIdToSet = deviceInfoToSet.getRetailStoreId() != null ?
                 		deviceInfoToSet.getRetailStoreId() : retailStoreID;
-                String deviceIdToSet = deviceInfoToSet.getDeviceId() != null ? 
+                String deviceIdToSet = deviceInfoToSet.getDeviceId() != null ?
                 		deviceInfoToSet.getDeviceId() : deviceID;
-                DeviceInfo deviceInfo = getDeviceInfo(companyID, storeIdToSet, 
+                DeviceInfo deviceInfo = getDeviceInfo(companyID, storeIdToSet,
                 		deviceIdToSet, trainingMode);
-                
+
             	if ("Deleted".equalsIgnoreCase(deviceInfo.getStatus())) {
             		closeConnectionObjects(connection, updateStatement);
             		try {
@@ -713,12 +713,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 								+ ": Failed to update device.", ex);
 					}
             		setDeviceInfo(deviceInfoToSet, prevdeviceInfo);
-                    ResultBase activateResult = activateDevice(companyIdToSet, storeIdToSet, 
+                    ResultBase activateResult = activateDevice(companyIdToSet, storeIdToSet,
                     		deviceIdToSet, connection);
                     if (activateResult.getNCRWSSResultCode() == ResultBase.RES_OK) {
-                    	ViewDeviceInfo viewDeviceInfo = updateDevice(companyIdToSet, storeIdToSet, 
+                    	ViewDeviceInfo viewDeviceInfo = updateDevice(companyIdToSet, storeIdToSet,
                     			deviceIdToSet, deviceInfoToSet, trainingMode, connection);
-                        ResultBase deleteResult = deleteDevice(deviceID, retailStoreID, 
+                        ResultBase deleteResult = deleteDevice(deviceID, retailStoreID,
                         		deviceInfoToSet.getUpdAppId(), deviceInfoToSet.getUpdOpeCode());
                         if (deleteResult.getNCRWSSResultCode() == ResultBase.RES_OK) {
                         	viewInfo.setDeviceInfo(viewDeviceInfo.getDeviceInfo());
@@ -747,7 +747,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return viewInfo;
 	}
-    
+
 	private void setDeviceInfo(final DeviceInfo deviceInfoToSet,
 			DeviceInfo prevdeviceInfo) {
 		if (deviceInfoToSet.getDeviceName() == null) {
@@ -789,7 +789,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		if (deviceInfoToSet.getSaveLogFile() == null) {
 			deviceInfoToSet.setSaveLogFile(prevdeviceInfo.getSaveLogFile());
-		}		
+		}
 		if (deviceInfoToSet.getTxid() == null) {
 			deviceInfoToSet.setTxid(prevdeviceInfo.getTxid());
 		}
@@ -799,12 +799,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		if (deviceInfoToSet.getEjSequence() < 0) {
 			deviceInfoToSet.setEjSequence(prevdeviceInfo.getEjSequence());
 		}
-		
+
 	}
-    
+
     private ResultBase activateDevice(final String companyID, final String retailStoreID,
             final String deviceID, Connection connection) throws DaoException {
-        
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 		        .println("companyid", companyID)
@@ -836,7 +836,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 						+ " and terminalid does not exist");
 			}
 			connection.commit();
-			
+
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to activate device.", ex);
@@ -847,21 +847,21 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(null, activateStatement, result);
-			
+
 			tp.methodExit(resultBase);
 		}
 		return resultBase;
 	}
 
-    
+
 	public ViewPrinterInfo updatePrinterInfo(String storeID, String printerID,
 			PrinterInfo printerinfoToSet) throws Exception {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("printerid", printerID)
         	.println("retailstoreid", storeID)
             .println("printerinfo", printerinfoToSet.toString());
-        
+
         Connection connection = null;
         PreparedStatement updateStatement = null;
         ResultSet result = null;
@@ -871,19 +871,19 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         boolean isValidForUpdate = true;
         String strPrinterIdToBeSaved = null;
         String strStoreIdToBeSaved = null;
-        
+
         //start update after determining if printer exists
-        try {         	
+        try {
         	connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
         	ResultBase oldPrinterStatus = this.checkPrinterIfExisting(storeID, printerID);
-        	
+
         	if(oldPrinterStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND || oldPrinterStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){//not existing ||  existing but deleted
         		viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
         		isValidForUpdate = false;
-		    }else { 
+		    }else {
 		    	ResultBase newPrinterStatus = this.checkPrinterIfExisting(printerinfoToSet.getRetailStoreId(), ""+printerinfoToSet.getPrinterId());
-		    	
+
 		    	//not the same storeid and printerid and is active
 		    	if( !(storeID.equalsIgnoreCase(printerinfoToSet.getRetailStoreId()) && printerID.equalsIgnoreCase(""+printerinfoToSet.getPrinterId()))
 		    			&& newPrinterStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_ACTIVE){
@@ -893,21 +893,21 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		    			&& newPrinterStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){
 		    		strPrinterIdToBeSaved = ""+printerinfoToSet.getPrinterId();
 		    		strStoreIdToBeSaved   = printerinfoToSet.getRetailStoreId();
-		    		oldPrinterInfo = this.getPrinterInfo(storeID, printerID);	
+		    		oldPrinterInfo = this.getPrinterInfo(storeID, printerID);
 		    		if(oldPrinterInfo != null){
 		    			printerinfoToSet = this.mergePrinterDetails(printerinfoToSet,oldPrinterInfo);
-		    		}		    		
+		    		}
 		    		//delete printer
 		    		ResultBase resultBaseDelete = this.deletePrinter(storeID, printerID, printerinfoToSet.getUpdAppId(), printerinfoToSet.getUpdOpeCode());
 		    		if(resultBaseDelete.getNCRWSSResultCode() != ResultBase.RESCREDL_OK){
 		    			viewInfo.setNCRWSSResultCode(resultBaseDelete.getNCRWSSResultCode());
 		    			isValidForUpdate = false;
 		    		}
-		    	}   	
-		    }        	
-        	if(isValidForUpdate){ 
+		    	}
+		    }
+        	if(isValidForUpdate){
 	            updateStatement = connection.prepareStatement(
-	                       sqlStatement.getProperty("update-printerinfo"));           
+	                       sqlStatement.getProperty("update-printerinfo"));
 	            updateStatement.setString(SQLStatement.PARAM1,
 	            		printerinfoToSet.getRetailStoreId());
 	            updateStatement.setString(SQLStatement.PARAM2, printerinfoToSet.getPrinterId());
@@ -920,9 +920,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	            updateStatement.setString(SQLStatement.PARAM9, printerinfoToSet.getUpdOpeCode());
 	            updateStatement.setString(SQLStatement.PARAM10, (strStoreIdToBeSaved != null)?strStoreIdToBeSaved:storeID);
 	            updateStatement.setString(SQLStatement.PARAM11, (strPrinterIdToBeSaved != null)?strPrinterIdToBeSaved:printerID);
-	           
+
 	            result = updateStatement.executeQuery();
-	
+
 	         if (result.next()) {
 	             printerInfoToReturn.setRetailStoreId(
 	                     result.getString(
@@ -951,10 +951,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	             viewInfo.setMessage("The info with given storeid,"
 	                     + " and printerid does not exist");
 	         }
-         }    
+         }
          viewInfo.setPrinterInfo(printerInfoToReturn);
          connection.commit();
-	
+
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update printer info.", ex);
@@ -974,7 +974,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, updateStatement, result);
-			
+
 			tp.methodExit(viewInfo);
 		}
 		return viewInfo;
@@ -984,7 +984,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	public final ResultBase createPrinterInfo(final String storeID,
 			final String printerID, final PrinterInfo printerInfo)
 			throws DaoException {
-		
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeID", storeID)
 				.println("printerID", printerID)
@@ -993,24 +993,24 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         ResultBase resultBase = new ResultBase();
         Connection connection = null;
         PreparedStatement create = null;
-        
+
         try {
-        	
+
         	//check if valid for insertion
         	ResultBase printerResultBaseStatus = this.checkPrinterIfExisting(storeID, printerID);
-        
+
         	if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND || printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){// 1 = not existing; 2 = existing but deleted
 		        connection = dbManager.getConnection();
-		        SQLStatement sqlStatement = SQLStatement.getInstance();	       
-		        
-		        if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND){ //insert directly since not-existing	         
+		        SQLStatement sqlStatement = SQLStatement.getInstance();
+
+		        if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND){ //insert directly since not-existing
 		        	create = connection.prepareStatement(
 		                    sqlStatement.getProperty("insert-printerinfo"));
 		        }else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){//update deleted printer
 		        	create = connection.prepareStatement(
-		                    sqlStatement.getProperty("update-deleted-printerinfo"));	       
-		        }	              
-		            
+		                    sqlStatement.getProperty("update-deleted-printerinfo"));
+		        }
+
 	            create.setString(SQLStatement.PARAM1, storeID);
 	            create.setString(SQLStatement.PARAM2, printerID);
 	            create.setString(SQLStatement.PARAM3, printerInfo.getPrinterName());
@@ -1021,12 +1021,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	                    printerInfo.getPrinterDescription());
 	            create.setString(SQLStatement.PARAM8, printerInfo.getUpdAppId());
 	            create.setString(SQLStatement.PARAM9, printerInfo.getUpdOpeCode());
-	            
+
 	            if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND){
-	            	create.executeUpdate();	            	
-	            }else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){            	
-	            	create.executeQuery();            	
-	            }  
+	            	create.executeUpdate();
+	            }else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){
+	            	create.executeQuery();
+	            }
 	            connection.commit();
         	}else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_ACTIVE){//duplicate
         		resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
@@ -1048,7 +1048,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, create);
-			
+
 			tp.methodExit(resultBase);
 		}
 
@@ -1058,13 +1058,13 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     @Override
 	public final ResultBase setQueueBusterLink(final String storeid,
 			final String terminalid, final String queuebusterlink,
-			final String appId, final String opeCode) throws SQLException,
+			final String appId, final String opeCode,final String companyId,final String training) throws SQLException,
 			DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeID", storeid)
 				.println("queuebusterlink", queuebusterlink)
 				.println("terminalid", terminalid).println("updappid", appId)
-				.println("updopecode", opeCode);
+				.println("updopecode", opeCode).println("CompanyID", companyId);
 
         ResultBase resultBase = new ResultBase();
         Connection connection = null;
@@ -1080,7 +1080,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             setQueueBusterLink.setString(SQLStatement.PARAM3, terminalid);
             setQueueBusterLink.setString(SQLStatement.PARAM4, appId);
             setQueueBusterLink.setString(SQLStatement.PARAM5, opeCode);
-
+            setQueueBusterLink.setString(SQLStatement.PARAM6, companyId);
+            setQueueBusterLink.setString(SQLStatement.PARAM7, training);
             int result = setQueueBusterLink.executeUpdate();
             connection.commit();
 
@@ -1099,13 +1100,13 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, setQueueBusterLink);
-			
+
 			tp.methodExit(resultBase);
 		}
 
 		return resultBase;
 	}
-    
+
     /**
      * Delete Printer Information.
      * @param storeid   The Retail Store ID.
@@ -1127,9 +1128,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         Connection connection = null;
         PreparedStatement delete = null;
 
-        try { 
+        try {
             connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();            
+            SQLStatement sqlStatement = SQLStatement.getInstance();
             //check if printer is not Active
         	ResultBase printerResultBaseStatus = this.checkPrinterIfExisting(storeid, printerid);
         	if(printerResultBaseStatus.getNCRWSSResultCode() != ResultBase.RES_PRINTER_IS_ACTIVE){
@@ -1141,19 +1142,19 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	            delete.setString(SQLStatement.PARAM2, updOpeCode);
 	            delete.setString(SQLStatement.PARAM3, storeid);
 	            delete.setString(SQLStatement.PARAM4, printerid);
-	
+
 	            result = delete.executeUpdate();
 	            connection.commit();
-	
+
 	            if (result == SQLResultsConstants.ONE_ROW_AFFECTED) {
 	                resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
 	                resultBase.setMessage("Success Delete of PrinterInfo.");
 	            }else{
 	            	resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_NOT_DELETED);
-	                resultBase.setMessage("Delete of PrinterInfo Failed.");	            	
+	                resultBase.setMessage("Delete of PrinterInfo Failed.");
 	            }
         	}
-            	
+
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to delete printer.", ex);
@@ -1164,23 +1165,24 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, delete);
-			
+
 			tp.methodExit(resultBase);
 		}
 
 		return resultBase;
 	}
-	
+
 	@Override
 	public final ResultBase setAuthorizationLink(final String retailStoreID,
 			final String terminalID, final String authorizationLink,
-			final String appId, final String opeCode) throws DaoException {
+			final String appId, final String opeCode,final String companyId,final String training) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("RetailStoreID", retailStoreID)
 				.println("TerminalID", terminalID)
+				.println("CompanyID", companyId)
 				.println("AuthorizationLink", authorizationLink)
 				.println("UpdAppId", appId).println("UpdOpeCode", opeCode);
-        
+
         ResultBase resultBase = new ResultBase();
         Connection connection = null;
         PreparedStatement setAuthorizationLink = null;
@@ -1197,6 +1199,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             setAuthorizationLink.setString(SQLStatement.PARAM3, terminalID);
             setAuthorizationLink.setString(SQLStatement.PARAM4, appId);
             setAuthorizationLink.setString(SQLStatement.PARAM5, opeCode);
+            setAuthorizationLink.setString(SQLStatement.PARAM6, companyId);
+            setAuthorizationLink.setString(SQLStatement.PARAM7, training);
 
             int result = setAuthorizationLink.executeUpdate();
             connection.commit();
@@ -1216,13 +1220,13 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException("SQLException: @" + functionName, ex);
 		} finally {
 			closeConnectionObjects(connection, setAuthorizationLink);
-			
+
 			tp.methodExit(resultBase);
 		}
 		return resultBase;
 	}
-    
-    public final boolean updateLastTxidAtJournal(final Transaction transaction, 
+
+    public final boolean updateLastTxidAtJournal(final Transaction transaction,
     		final Connection connection, int trainingMode) throws DaoException {
         if (snap == null) {
             snap = (SnapLogger) SnapLogger.getInstance();
@@ -1232,16 +1236,16 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     Thread.currentThread().getId(), getClass());
         }
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
+
 		boolean updated = this.updateLastTxidOfDeviceInfo(transaction.getOrganizationHierarchy().getId(),
 				transaction.getRetailStoreID(), transaction.getWorkStationID().getValue(),
-				transaction.getSequenceNo(), trainingMode, connection) == 
+				transaction.getSequenceNo(), trainingMode, connection) ==
 				SQLResultsConstants.ONE_ROW_AFFECTED;
-		
-		tp.methodExit(updated);        
+
+		tp.methodExit(updated);
         return updated;
     }
-    
+
 	public final boolean updateLastTxidAtCreditAuth(final String jsonStr)
 			throws DaoException {
 		if (snap == null) {
@@ -1251,10 +1255,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
 					getClass());
 		}
-		
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("jsonStr", jsonStr);
-		
+
 		boolean updated = false;
 		Connection connection = null;
 		try {
@@ -1263,9 +1267,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			updated = (this.updateLastTxidOfDeviceInfo(
 			        jsonObj.getString("companyid"),
 					jsonObj.getString("storeid"),
-					jsonObj.getString("terminalid"), 
+					jsonObj.getString("terminalid"),
 					jsonObj.getString("txid"),
-					jsonObj.getInt("trainingMode"),connection) == 
+					jsonObj.getInt("trainingMode"),connection) ==
 					SQLResultsConstants.ONE_ROW_AFFECTED);
 			connection.commit();
 		} catch (JSONException e) {
@@ -1293,25 +1297,25 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return updated;
 	}
-    
-    public final boolean updateLastSuspendTxidAtQueueBuster(final PosLog 
+
+    public final boolean updateLastSuspendTxidAtQueueBuster(final PosLog
     		posLog, final Connection connection) throws DaoException {
         if (tp == null) {
             tp = DebugLogger.getDbgPrinter(
                     Thread.currentThread().getId(), getClass());
         }
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
+
 		Transaction transaction = posLog.getTransaction();
 		boolean updated = this.updateLastSuspendTxidOfDeviceInfo(transaction.getOrganizationHierarchy().getId(),
 				transaction.getRetailStoreID(), transaction.getWorkStationID().getValue(),
-				transaction.getSequenceNo(), transaction.getTrainingModeFlag(), connection) == 
+				transaction.getSequenceNo(), transaction.getTrainingModeFlag(), connection) ==
 				SQLResultsConstants.ONE_ROW_AFFECTED;
-		
+
 		tp.methodExit(updated);
         return updated;
     }
-    
+
 	private final int updateLastTxidOfDeviceInfo(final String companyid, final String storeid,
 			final String deviceid, final String lasttxid, int trainingMode,
 			final Connection connection) throws DaoException {
@@ -1344,7 +1348,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update last transaction number.", e);
 			throw new DaoException(e);
-	
+
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update last transaction number.", e);
@@ -1355,7 +1359,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return affectedRow;
 	}
-    
+
 	private final int updateLastSuspendTxidOfDeviceInfo(final String companyid, final String storeid,
 			final String deviceid, final String lasttxid, final String trainingFlag,
 			final Connection connection) throws DaoException {
@@ -1388,34 +1392,34 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update last suspend transaction number.", e);
 			throw new DaoException(e);
-	
+
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update last suspend transaction number.", e);
 			throw new DaoException(e);
 		} finally {
 			closeConnectionObjects(null, updateTxidStmt);
-			
+
 			tp.methodExit(affectedRow);
 		}
 		return affectedRow;
 	}
-	
+
 	/**
 	 * Checks if printer is existing in DB using storeid and printerid
-	 * 
+	 *
 	 * @param storeID
 	 * @param printerID
-	 * @return ResultBase with NCRWSSResultCode being set	
+	 * @return ResultBase with NCRWSSResultCode being set
 	 * @throws DaoException
 	 */
 	public ResultBase checkPrinterIfExisting(final String storeID,
 			final String printerID) throws DaoException {
-		
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeID", storeID)
 				.println("printerID", printerID);
-       
+
         String strStatus = null;
         ResultBase resultBase = new ResultBase();
         ResultSet resultSet = null;
@@ -1428,33 +1432,33 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             check = connection.prepareStatement(
                     sqlStatement.getProperty("check-printer-if-existing"));
             check.setString(SQLStatement.PARAM1, storeID);
-            check.setString(SQLStatement.PARAM2, printerID);           
-            resultSet = check.executeQuery();            
-           
+            check.setString(SQLStatement.PARAM2, printerID);
+            resultSet = check.executeQuery();
+
             if (resultSet.next()) {
             	strStatus = resultSet.getString("Status");
             	if(strStatus != null && "active".equalsIgnoreCase(strStatus)){
-            		resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_IS_ACTIVE);            		
+            		resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_IS_ACTIVE);
             	}else{
         			resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_IS_DELETED);
-        		} 
+        		}
             }else{//not existing
             	resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
             }
-                        
+
 		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to check if printer is existing.", ex);
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, check, resultSet);
-			
+
 			tp.methodExit(resultBase);
 		}
 		return resultBase;
 	}
-	 
-    
+
+
     private PrinterInfo mergePrinterDetails(PrinterInfo newPrinterInfo, PrinterInfo oldPrinterInfo){
     	if(newPrinterInfo.getRetailStoreId() == null){
     		newPrinterInfo.setRetailStoreId(oldPrinterInfo.getRetailStoreId());
@@ -1476,23 +1480,23 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     	}
     	return newPrinterInfo;
     }
-    
+
     /*
      * (non-Javadoc)
      * @see ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO#getAllTills(java.lang.String, java.lang.String, int)
      */
-    public final List<Till> getAllTills(final String storeId, final String key, 
+    public final List<Till> getAllTills(final String storeId, final String key,
             final int limit) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("storeid", storeId)
                 .println("key", key).println("limit", limit);
-        
+
         List<Till> tillList = new ArrayList<>();
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
-        try {  
+
+        try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(
@@ -1501,12 +1505,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     StringUtility.isNullOrEmpty(storeId) ? null : storeId);
             select.setString(SQLStatement.PARAM2,
                     StringUtility.isNullOrEmpty(key) ? null : key.trim() + "%");
-                   
+
             tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
             int searchLimit = (limit == 0) ? GlobalConstant
                     .getMaxSearchResults() : limit;
             select.setInt(SQLStatement.PARAM3, searchLimit);
-            
+
             result = select.executeQuery();
             while (result.next()) {
                 Till aTill = new Till();
@@ -1531,7 +1535,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to retrieve tills.", ex);
         } finally {
-            closeConnectionObjects(connection, select, result);     
+            closeConnectionObjects(connection, select, result);
             tp.methodExit(tillList);
         }
         return tillList;
@@ -1540,8 +1544,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      * (non-Javadoc)
      * @see ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO#setTillId(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
-    public final ResultBase setTillId(final String storeId, final String terminalId, 
-    		final String tillId, final String updAppId, final String updOpeCode) 
+    public final ResultBase setTillId(final String storeId, final String terminalId,
+    		final String tillId, final String updAppId, final String updOpeCode)
     				throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeid", storeId)
@@ -1549,12 +1553,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			.println("tillid", tillId)
 			.println("updAppId", updAppId)
 			.println("updOpeCode", updOpeCode);
-		
+
 		ResultBase resultBase = new ResultBase();
 		int result = 0;
 		Connection connection = null;
 		PreparedStatement update = null;
-		
+
 		try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1563,18 +1567,18 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             update.setString(SQLStatement.PARAM1, tillId);
             update.setString(SQLStatement.PARAM2,updAppId);
             update.setString(SQLStatement.PARAM3, updOpeCode);
-            update.setString(SQLStatement.PARAM4, storeId);           
+            update.setString(SQLStatement.PARAM4, storeId);
             update.setString(SQLStatement.PARAM5, terminalId);
-            
+
             result = update.executeUpdate();
-            
+
 			if (SQLResultsConstants.ONE_ROW_AFFECTED == result) {
                 resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
                 resultBase.setMessage("Successfully set TillId.");
                 connection.commit();
 			} else if (SQLResultsConstants.ONE_ROW_AFFECTED < result) {
                 resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-                resultBase.setMessage("Affected row is greater than 1." + 
+                resultBase.setMessage("Affected row is greater than 1." +
                 		" There should only be one unique StoreId and TerminalId of device.");
                 tp.println("Failed to set TillId.");
             } else {
@@ -1595,11 +1599,11 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to set TillId.", ex);
 		} finally {
-			closeConnectionObjects(connection, update);		
+			closeConnectionObjects(connection, update);
 			tp.methodExit(resultBase);
-		}     
-    	return resultBase;   	
-    }   
+		}
+    	return resultBase;
+    }
 
 	/**
 	 * Gets the Device Attribute.
@@ -1685,22 +1689,22 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         tp.println("companyid", companyId)
             .println("storeid", storeId)
             .println("terminalId", terminalId);
-        
+
         DeviceAttribute deviceAttributeInfo = new DeviceAttribute();
         ResultSet resultSet = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
-        try {  
+
+        try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            
+
             select = connection.prepareStatement(
                     sqlStatement.getProperty("get-device-attribute-info"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, storeId);
             select.setString(SQLStatement.PARAM3, terminalId);
-                               
+
             resultSet = select.executeQuery();
 
             if (resultSet.next()) {
@@ -1722,7 +1726,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	deviceAttributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             	deviceAttributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
             }else{
-            	
+
             	deviceAttributeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	deviceAttributeInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	deviceAttributeInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
@@ -1738,12 +1742,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to Get the Device attribute Info.", ex);
         } finally {
-            closeConnectionObjects(connection, select, resultSet);     
+            closeConnectionObjects(connection, select, resultSet);
             tp.methodExit(deviceAttributeInfo);
         }
         return deviceAttributeInfo;
     }
-    
+
     public final ViewTerminalInfo getTerminalInfo(String companyId, String storeId,
     		String terminalId) throws Exception {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -1751,12 +1755,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         tp.println("companyId", companyId)
         	.println("storeId", storeId)
         	.println("terminalId", terminalId);
-         
+
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement statement = null;
     	ViewTerminalInfo viewTerminalInfo = new ViewTerminalInfo();
-    	
+
     	try {
     		connection = dbManager.getConnection();
     		SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -1766,7 +1770,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     		statement.setString(SQLStatement.PARAM2, storeId);
     		statement.setString(SQLStatement.PARAM3, terminalId);
     		result = statement.executeQuery();
-    		
+
     		if (result.next()) {
     			TerminalInfo terminalInfo = new TerminalInfo();
     			terminalInfo.setCompanyId(result.getString("CompanyId"));
@@ -1800,7 +1804,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     			tp.println("Terminal info not found.");
     		}
     	} catch (Exception e) {
-    		LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+    		LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
     				+ ": Failed to get terminal info.", e);
     		throw new Exception(e.getCause() + ": @SQLServerDeviceInfoDAO."
     				+ functionName, e);
@@ -1912,5 +1916,5 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		return terminals;
 	}
 
-	
+
 }

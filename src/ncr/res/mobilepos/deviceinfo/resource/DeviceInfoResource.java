@@ -1,41 +1,15 @@
 package ncr.res.mobilepos.deviceinfo.resource;
 
-import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
-import ncr.res.mobilepos.credential.model.Employee;
-import ncr.res.mobilepos.credential.model.Operator;
-import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
-import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
-import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
-import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
-import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
-import ncr.res.mobilepos.deviceinfo.model.POSLinkInfo;
-import ncr.res.mobilepos.deviceinfo.model.POSLinks;
-import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
-import ncr.res.mobilepos.deviceinfo.model.Printers;
-import ncr.res.mobilepos.deviceinfo.model.SearchedDevice;
-import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
-import ncr.res.mobilepos.deviceinfo.model.TerminalTillGroup;
-import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewPosLinkInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
-import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
-import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.JsonMarshaller;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.journalization.resource.JournalizationResource;
-import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.store.resource.StoreResource;
-import ncr.res.mobilepos.tillinfo.model.Till;
-import ncr.res.mobilepos.tillinfo.model.ViewTill;
-import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -56,16 +30,40 @@ import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
+import ncr.res.mobilepos.credential.model.Employee;
+import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
+import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
+import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
+import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
+import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.POSLinkInfo;
+import ncr.res.mobilepos.deviceinfo.model.POSLinks;
+import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
+import ncr.res.mobilepos.deviceinfo.model.Printers;
+import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
+import ncr.res.mobilepos.deviceinfo.model.TerminalTillGroup;
+import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.ViewPosLinkInfo;
+import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
+import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
+import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
+import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.JsonMarshaller;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.journalization.resource.JournalizationResource;
+import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.store.model.ViewStore;
+import ncr.res.mobilepos.store.resource.StoreResource;
+import ncr.res.mobilepos.tillinfo.model.Till;
+import ncr.res.mobilepos.tillinfo.model.ViewTill;
+import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 /**
  * DeviceInfoResource Web Resource Class.
@@ -100,7 +98,7 @@ public class DeviceInfoResource {
      * Servlet context holder.
      */
     @Context private ServletContext context;
-     /** 
+     /**
         *Security context holder.
         */
     @Context private SecurityContext securityContext;
@@ -128,7 +126,7 @@ public class DeviceInfoResource {
      * constant for creditauthorization link type.
      */
     private static final String CREDITAUTH_LINK_TYPE = "creditauthorization";
-    
+
     private String pathName = "deviceinfo";
 
     /**
@@ -158,7 +156,7 @@ public class DeviceInfoResource {
                 Thread.currentThread().getId(), getClass());
         daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
     }
-    
+
     /**
      * Service resource to set the Printer
      * association for the device identified
@@ -175,32 +173,34 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/setprinterid")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末番号によると、印刷関係を設定する", response=ResultBase.class)
+    @ApiOperation(value="端末にプリンターを設定する", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターを見つからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_NOPOSTERMINALLINK, message="端末接続の設備は発見されていない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している")       
+        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している")
     })
     public final ResultBase setPrinterId(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
     		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
-    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId) {
+    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("retailstoreid", storeId)
             .println("terminalid", terminalId)
-            .println("printerid", printerId);
+            .println("printerid", printerId)
+            .println("companyid", companyId);
 
         ResultBase result = new ResultBase();
 
-        try {           
+        try {
             IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
             // printerid = 0  local printer.
             // printerid = -1 clear the link of printer and device.
-            if(!"0".equals(printerId) && !"-1".equals(printerId)  && 
+            if(!"0".equals(printerId) && !"-1".equals(printerId)  &&
             		!StringUtility.isNullOrEmpty(printerId)){
                 PrinterInfo printInfo =
                         iPerCtrlDao.getPrinterInfo(storeId, printerId);
@@ -222,6 +222,7 @@ public class DeviceInfoResource {
                 newDeviceInfo.setUpdAppId(pathName.concat(".setprinterid"));
                 newDeviceInfo.setUpdOpeCode(getOpeCode());
                 newDeviceInfo.setPrinterId(printerId);
+                newDeviceInfo.setCompanyId(companyId);
                 result = iPerCtrlDao.createPeripheralDeviceInfo(newDeviceInfo);
             }
 		} catch (DaoException ex) {
@@ -288,7 +289,7 @@ public class DeviceInfoResource {
                 result.setPrinters(arrayPrinters);
                 result.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
                 result.setMessage("retrieved printers");
-            } 
+            }
 
 		} catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
@@ -396,17 +397,17 @@ public class DeviceInfoResource {
 			tp.methodExit(viewDevInfo);
 		}
         return viewDevInfo;
-    }    
+    }
 
     private boolean deviceExists(String deviceID, String retailStoreID, int training, String companyId) {
         ViewDeviceInfo viewDeviceInfo = getDeviceInfo(companyId, deviceID, retailStoreID, training);
-        if (viewDeviceInfo.getNCRWSSResultCode() != ResultBase.RES_OK || 
+        if (viewDeviceInfo.getNCRWSSResultCode() != ResultBase.RES_OK ||
     		"Deleted".equals(viewDeviceInfo.getDeviceInfo().getStatus())) {
             return false;
         }
         return true;
     }
-    
+
     private boolean deviceInUse(String deviceId, String storeId)  {
         try {
             SQLServerCredentialDAO credential = new SQLServerCredentialDAO();
@@ -423,8 +424,8 @@ public class DeviceInfoResource {
         }
         return false;
     }
-    
-    
+
+
     /**
      * Web Method call used to add a new Device Information in the DataBase.
      * @param deviceInfoJson    The new Device Information.
@@ -448,12 +449,12 @@ public class DeviceInfoResource {
     })
 	public final ResultBase createDevice(
 			@ApiParam(name="deviceinfo", value="端末情報相関") @FormParam("deviceinfo") final String deviceInfoJson) {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("deviceinfo", deviceInfoJson);
-        
+
         ResultBase resultBase = new ResultBase();
-        
+
         try {
             JsonMarshaller<DeviceInfo> jsonMarshall =
                 new JsonMarshaller<DeviceInfo>();
@@ -467,14 +468,14 @@ public class DeviceInfoResource {
                         ResultBase.RESDEVCTL_INVALID_STOREID);
                 return resultBase;
             }
-            
+
             if(!storeExists(storeid)){
                 tp.println("Store does not exist");
                 resultBase.setNCRWSSResultCode(
                         ResultBase.RES_STORE_NOT_EXIST);
                 return resultBase;
             }
-            
+
             String deviceID = deviceInfo.getDeviceId();
             if (!StringUtility.isNullOrEmpty(deviceID)
                     && StringUtility
@@ -515,7 +516,7 @@ public class DeviceInfoResource {
 		}
         return resultBase;
     }
-    
+
     /**
      * Updates device entry in MST_DEVICEINFO.
      *
@@ -540,19 +541,19 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データを発見していない")      
+        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データを発見していない")
     })
     public final ViewDeviceInfo updateDevice(
     	@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
     	@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
-    	@ApiParam(name="deviceid", value="端末番号") @FormParam("deviceid") final String deviceID,            
+    	@ApiParam(name="deviceid", value="端末番号") @FormParam("deviceid") final String deviceID,
     	@ApiParam(name="deviceinfo", value="端末情報") @FormParam("deviceinfo") final String jsonDeviceInfo,
     	@ApiParam(name="trainingmode", value="トレーニングフラグ") @FormParam("trainingmode") final int trainingMode) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 	        .println("companyid", companyID)
 	        .println("retailstoreid", retailStoreID)
-	        .println("deviceid", deviceID)				
+	        .println("deviceid", deviceID)
 			.println("deviceinfo", jsonDeviceInfo)
 			.println("trainingmode", trainingMode);
 
@@ -567,7 +568,7 @@ public class DeviceInfoResource {
 			JsonMarshaller<DeviceInfo> jsonMarshaller = new JsonMarshaller<DeviceInfo>();
 			DeviceInfo newDeviceInfo = jsonMarshaller.unMarshall(
 					jsonDeviceInfo, DeviceInfo.class);
-			if (!StringUtility.isNullOrEmpty(newDeviceInfo.getRetailStoreId()) && 
+			if (!StringUtility.isNullOrEmpty(newDeviceInfo.getRetailStoreId()) &&
 				!storeExists(newDeviceInfo.getRetailStoreId())) {
 				tp.println("New StoreId does not exist");
 				viewInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
@@ -628,7 +629,7 @@ public class DeviceInfoResource {
 			@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
 			@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
 			@ApiParam(name="printerinfo", value="プリンター情報") @FormParam("printerinfo") final String jsonPrinterInfo) {
-        
+
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("retailstoreid", storeId)
                 .println("printerid", printerId)
@@ -643,14 +644,14 @@ public class DeviceInfoResource {
             return resultBase;
         }
 
-        
+
         if(!storeExists(storeId)){
             resultBase.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
             tp.println("Store does not exist");
             tp.methodExit(resultBase);
             return resultBase;
         }
-        
+
         try {
             IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
             JsonMarshaller<PrinterInfo> jsonMarshaller =
@@ -718,7 +719,7 @@ public class DeviceInfoResource {
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
     		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
     		@ApiParam(name="printerinfo", value="プリンター情報") @FormParam("printerinfo") final String printerInfoJson) {
-    	
+
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
                 .println("retailstoreid", storeId)
@@ -743,7 +744,7 @@ public class DeviceInfoResource {
             return newPrinterInfo;
         }
 
-        
+
         try {
 
             JsonMarshaller<PrinterInfo> jsonMarshall =
@@ -757,7 +758,7 @@ public class DeviceInfoResource {
                     newPrinterInfo.setNCRWSSResultCode(
                             ResultBase.RES_STORE_NOT_EXIST);
                     tp.println("New Store does not exist");
-                    return newPrinterInfo;  
+                    return newPrinterInfo;
             }
 
             IDeviceInfoDAO deviceInfoDao = daoFactory
@@ -788,7 +789,7 @@ public class DeviceInfoResource {
 
 		return newPrinterInfo;
 	}
-    
+
     /*
     * Web Method call used to delete a printerinfo in the DataBase.
     * @param storeid    The storeid.
@@ -813,7 +814,7 @@ public class DeviceInfoResource {
    public final ResultBase deletePrinter(
 		   @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
 		   @ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerid) {
-       
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", storeid)
 				.println("printerid", printerid);
@@ -828,14 +829,14 @@ public class DeviceInfoResource {
                        ResultBase.RESDEVCTL_INVALIDPARAMETER);
                return resultBase;
            }
-       
+
 
            if (!printerExists(storeid, printerid)) {
                tp.println("Printer does not exist");
                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
                return resultBase;
            }
-           
+
            IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
            String updAppId = pathName.concat(".printer.delete");
            resultBase = deviceInfoDao.deletePrinter(storeid, printerid,updAppId, getOpeCode());
@@ -858,7 +859,7 @@ public class DeviceInfoResource {
 		}
 		return resultBase;
 	}
-   
+
     /**
      * Service resource to set retrieve
      * the Link Information.
@@ -885,7 +886,7 @@ public class DeviceInfoResource {
 			@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
 			@ApiParam(name="retailstoreid", value="店舗コード") @PathParam("retailstoreid") final String storeId,
 			@ApiParam(name="poslinkid", value="posリンクコード") @PathParam("poslinkid") final String posLinkId) {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("linktype", linkType)
 				.println("retailstoreid", storeId)
@@ -894,15 +895,15 @@ public class DeviceInfoResource {
         ViewPosLinkInfo viewPosLinkInfo = new ViewPosLinkInfo();
         viewPosLinkInfo.setPosLinkInfo(new POSLinkInfo());
 
-        if (StringUtility.isNullOrEmpty(linkType,storeId,posLinkId)) {           
+        if (StringUtility.isNullOrEmpty(linkType,storeId,posLinkId)) {
             viewPosLinkInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
             tp.println("RetailStoreID or POSLink ID is invalid.");
             tp.methodExit(viewPosLinkInfo);
             return viewPosLinkInfo;
         }
 
-       
-        
+
+
         try {
             if (QUEUEBUSTER_LINK_TYPE.equals(linkType)) {
                 ILinkDAO queueBusterLinkDao = daoFactory
@@ -994,14 +995,14 @@ public class DeviceInfoResource {
 				.println("name", name).println("limit", limit);
 
         POSLinks poslinks = new POSLinks();
-        
+
         if(storeId == null || linkType == null){
             poslinks.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
             tp.println("RetailStoreID or Link Type is invalid.");
             tp.methodExit(poslinks);
             return poslinks;
         }
-        
+
         int searchLimit = (limit == 0) ? GlobalConstant.getMaxSearchResults() : limit;
 
         try {
@@ -1063,8 +1064,8 @@ public class DeviceInfoResource {
 			tp.methodExit(poslinks);
 		}
 		return poslinks;
-	}   
-    
+	}
+
     /**
      * Web Method call used to set AuthorizationLink to a device.
      * @param retailStoreId     The Retail Store ID.
@@ -1087,11 +1088,15 @@ public class DeviceInfoResource {
     public final ResultBase setAuthorizationLink(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
     		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="training", value="トレーニングフラグ") @FormParam("training") final String training,
     		@ApiParam(name="authorizationlink", value="認可リンク") @FormParam("authorizationlink") final String authorizationLink) {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", retailStoreId)
 				.println("terminalid", terminalId)
+				.println("companyid", companyId)
+				.println("training", training)
 				.println("authorizationlink", authorizationLink);
 
 		ResultBase resultBase = new ResultBase();
@@ -1112,7 +1117,7 @@ public class DeviceInfoResource {
 			IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
 			String appId = pathName.concat(".setauthlink");
 			resultBase = deviceInfoDao.setAuthorizationLink(retailStoreId,
-					terminalId, authorizationLink, appId, getOpeCode());
+					terminalId, authorizationLink, appId, getOpeCode(),companyId,training);
 
 		} catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
@@ -1157,13 +1162,17 @@ public class DeviceInfoResource {
     public final ResultBase setQueueBusterLink(
     		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
     		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalid,
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="training", value="トレーニングフラグ") @FormParam("training") final String training,
     		@ApiParam(name="queuebusterlink", value="Bluetoothプリンター") @FormParam("queuebusterlink") final String queuebusterlink) {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("retailstoreid", storeid)
 				.println("terminalid", terminalid)
-				.println("queuebusterlink", queuebusterlink);
-        
+				.println("companyid", companyId)
+				.println("queuebusterlink", queuebusterlink)
+				.println("training", training);
+
         ResultBase resultBase = new ResultBase();
         try {
 
@@ -1171,7 +1180,7 @@ public class DeviceInfoResource {
                 ViewPosLinkInfo qbInfo = this.getLinkItem(
                         QUEUEBUSTER_LINK_TYPE, storeid, queuebusterlink);
                 if (qbInfo.getNCRWSSResultCode() != ResultBase.RES_OK) {
-                    tp.println("queuebusterlink to set does not exist.");                    
+                    tp.println("queuebusterlink to set does not exist.");
                     resultBase.setNCRWSSResultCode(
                             ResultBase.RES_LINK_NOTFOUND);
                     return resultBase;
@@ -1182,7 +1191,7 @@ public class DeviceInfoResource {
                     .getDeviceInfoDAO();
             String appId = pathName.concat(".setqueuebusterlink");
             resultBase = deviceInfoDao.setQueueBusterLink(
-                    storeid, terminalid, queuebusterlink, appId, getOpeCode());
+                    storeid, terminalid, queuebusterlink, appId, getOpeCode(),companyId,training);
 
 		} catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
@@ -1229,7 +1238,7 @@ public class DeviceInfoResource {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("retailstoreid", storeID)
         .println("printerID", printerID);
-       
+
       PrinterInfo printerInfo = null;
       String functionName = className + "isPrinterExisting";
         try{
@@ -1249,7 +1258,7 @@ public class DeviceInfoResource {
         }
         return isExist;
     }
-    
+
     /* Checks if store is existing.
     *
     * @param retailStoreID the store identifier.
@@ -1257,21 +1266,21 @@ public class DeviceInfoResource {
     */
    private boolean linkExists(final String storeId, final String linkType, final String posLinkId) {
        boolean isExist = true;
-       
+
        ViewPosLinkInfo viewPosLinkInfo = getLinkItem(linkType, storeId, posLinkId);
-       if (viewPosLinkInfo.getPosLinkInfo() == null || 
+       if (viewPosLinkInfo.getPosLinkInfo() == null ||
     		   "Deleted".equalsIgnoreCase(viewPosLinkInfo.getPosLinkInfo().getStatus())) {
            isExist = false;
        }
        return isExist;
    }
 
-    
+
     private String getOpeCode(){
         return ((securityContext != null) && (securityContext.getUserPrincipal()) != null) ? securityContext
                 .getUserPrincipal().getName() : null;
     }
-    
+
     /**
      * Service resource to retrieve
      * all the tills/drawers
@@ -1313,7 +1322,7 @@ public class DeviceInfoResource {
             if (!tillList.isEmpty()) {
                 result.setTillList(tillList);
                 result.setMessage("Successfully retrieved tills.");
-            } 
+            }
 		} catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
 					functionName + ": Failed to retrieve tills.", ex);
@@ -1322,7 +1331,7 @@ public class DeviceInfoResource {
 			} else {
 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
 			}
-		} catch (Exception ex) {		
+		} catch (Exception ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
 					functionName + ": Failed to retrieve tills.", ex);
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -1355,19 +1364,21 @@ public class DeviceInfoResource {
     public final ResultBase setTillId(
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
     		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
-    		@ApiParam(name="tillid", value="ドゥローアコード") @FormParam("tillid") final String tillId) {
+    		@ApiParam(name="tillid", value="ドゥローアコード") @FormParam("tillid") final String tillId,
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("storeid", storeId)
             .println("terminalid", terminalId)
-            .println("tillid", tillId);
+            .println("tillid", tillId)
+            .println("companyid", companyId);
 
         ResultBase result = new ResultBase();
         String updAppId = pathName.concat(".settillid");
         String opeCode = getOpeCode();
-        
-        try {           
+
+        try {
             IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-            
+
             if(StringUtility.isNullOrEmpty(storeId)) {
             	tp.println("Invalid value for StoreId.");
             	result.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
@@ -1375,7 +1386,7 @@ public class DeviceInfoResource {
             	tp.methodExit(result);
             	return result;
             }
-            
+
             if(StringUtility.isNullOrEmpty(terminalId)) {
             	tp.println("Invalid value for TerminalId.");
             	result.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
@@ -1383,7 +1394,7 @@ public class DeviceInfoResource {
             	tp.methodExit(result);
             	return result;
             }
-                                
+
             if(tillId != null) {
             	if(tillId.trim().isEmpty()) {
             		tp.println("Invalid value for TillId. TillId should not be empty.");
@@ -1393,7 +1404,7 @@ public class DeviceInfoResource {
                 	return result;
             	} else {
             		ViewTill viewTill = new TillInfoResource().viewTill(storeId, tillId);
-	        	 
+
             		if(viewTill.getNCRWSSResultCode() != ResultBase.RES_OK) {
             			tp.println("Till does not exist.");
             			result.setNCRWSSResultCode(viewTill.getNCRWSSResultCode());
@@ -1401,12 +1412,12 @@ public class DeviceInfoResource {
             			tp.methodExit(result);
             			return result;
             		}
-            	}	
-            }           
-     
+            	}
+            }
+
             result = iPerCtrlDao.setTillId(storeId,
                     terminalId, tillId, updAppId, opeCode);
-            
+
             if (ResultBase.RESDEVCTL_NOTFOUND
                     == result.getNCRWSSResultCode()) {
                 DeviceInfo newDeviceInfo = new DeviceInfo();
@@ -1416,6 +1427,7 @@ public class DeviceInfoResource {
                 newDeviceInfo.setUpdAppId(updAppId);
                 newDeviceInfo.setUpdOpeCode(opeCode);
                 newDeviceInfo.setTillId(tillId);
+                newDeviceInfo.setCompanyId(companyId);
                 result = iPerCtrlDao.createPeripheralDeviceInfo(newDeviceInfo);
             }
 		} catch (DaoException ex) {
@@ -1452,7 +1464,7 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
-        
+
     })
     public final ResultBase getAttribute(
     		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
@@ -1537,33 +1549,33 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
-        
+
     })
     public final DeviceAttribute getDeviceAttribute(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="terminalId", value="端末番号") @QueryParam("terminalId") final String terminalId) {
-    	
+
 		String functionName = DebugLogger.getCurrentMethodName();
-		
+
 		tp.methodEnter(functionName);
 		tp.println("companyid", companyId)
 		    .println("storeid", storeId)
 		    .println("terminalId", terminalId);
-		
+
 		DeviceAttribute result = new DeviceAttribute();
-		
+
 		try{
 			if(StringUtility.isNullOrEmpty(storeId, terminalId)){
 				result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 				result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
-				
+
 				return result;
 			}
 			IDeviceInfoDAO iPerCtrlDao =
 		               daoFactory.getDeviceInfoDAO();
-			 
+
 			result = iPerCtrlDao.getDeviceAttributeInfo(companyId, storeId, terminalId);
 		}catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
@@ -1577,7 +1589,7 @@ public class DeviceInfoResource {
 				result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DAO);
 				result.setMessage(ex.getMessage());
 			}
-		} catch (Exception ex) {		
+		} catch (Exception ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
 					functionName + ": Failed to get the Device attributeInfo.", ex);
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -1586,10 +1598,10 @@ public class DeviceInfoResource {
 		} finally {
 			tp.methodExit(result);
 		}
-		
+
 		return result;
     }
-    
+
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getterminalinfo")
@@ -1610,15 +1622,15 @@ public class DeviceInfoResource {
 		tp.println("companyId", companyId)
 			.println("storeId", storeId)
 			.println("terminalId", terminalId);
-		
+
     	ViewTerminalInfo terminalInfoResult = new ViewTerminalInfo();
-    	
+
     	if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId)) {
     		terminalInfoResult.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
         	tp.methodExit(terminalInfoResult.toString());
         	return terminalInfoResult;
         }
-    	
+
     	try {
     		IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
     		terminalInfoResult = iPerCtrlDao.getTerminalInfo(companyId, storeId, terminalId);

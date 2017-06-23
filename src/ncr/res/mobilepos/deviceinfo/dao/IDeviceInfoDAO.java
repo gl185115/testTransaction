@@ -1,5 +1,10 @@
 package ncr.res.mobilepos.deviceinfo.dao;
 
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.List;
+
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
@@ -12,11 +17,6 @@ import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.model.Till;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 
 /**
  * IDeviceInfoDAO Interface.
@@ -39,7 +39,7 @@ public interface IDeviceInfoDAO {
      * @return ResultBase
      * @throws SQLException The exception thrown when SQL related issue fail.
      * @throws DaoException The exception thrown for non-SQL related issue.
-     * @throws IOException 
+     * @throws IOException
      */
     ResultBase createPeripheralDeviceInfo(DeviceInfo  deviceInfo)
     throws Exception;
@@ -53,8 +53,8 @@ public interface IDeviceInfoDAO {
      */
     PrinterInfo getPrinterInfo(String storeid,
             String printerid)
-    throws SQLException, DaoException;    
-    
+    throws SQLException, DaoException;
+
     /**
      * Get Printers registered in the store configuration.
      * @param storeid - store identifier
@@ -68,8 +68,8 @@ public interface IDeviceInfoDAO {
      * @throws DaoException - dao
      */
     List<PrinterInfo> getAllPrinterInfo(
-            String storeid, String key, String name, int limit) throws Exception;   
-    
+            String storeid, String key, String name, int limit) throws Exception;
+
     //FOR NEW DEVICE INFO FUNCTIONS --------------------
     /**
      * Retrieve device info for a specific device.
@@ -113,7 +113,7 @@ public interface IDeviceInfoDAO {
     ViewDeviceInfo updateDevice(String companyid,
             String storeid, String terminalid,
             DeviceInfo deviceinfo, int trainingmode, Connection connection) throws Exception;
-    
+
     /**
      * Update printer info.
      * @param storeid - store identifier
@@ -135,17 +135,17 @@ public interface IDeviceInfoDAO {
      */
     ResultBase createPrinterInfo(String storeID, String printerID,
             PrinterInfo printerInfo) throws DaoException;
-    
+
     /**
      * Delete Printer Information.
      * @param storeId   The Retail Store ID.
      * @param printerId The Printer ID.
-     * @param 
+     * @param
      * @return  The Result Base.
      * @throws DaoException The exception thrown when error occur.
      */
     ResultBase deletePrinter(String storeId, String printerId, String updAppId, String updOpeCode) throws DaoException;
-    
+
     /**
      * Set the Signature Link for the device.
      * @param retailStoreID     The Retail Store ID.
@@ -153,11 +153,13 @@ public interface IDeviceInfoDAO {
      * @param signatureLink     The POS Link ID for Signature.
      * @param appId - application identifier
      * @param opeCode - operator code
+     * @param companyId - The Company ID
+     * @param training - The training flag
      * @return ResultBase object with result code.
      * @throws DaoException     Thrown when exception occurs.
      */
     ResultBase setAuthorizationLink(String retailStoreID, String terminalID,
-            String signatureLink, String appId, String opeCode) throws DaoException;
+            String signatureLink, String appId, String opeCode,String companyId,String training) throws DaoException;
 
     /**
      * Set the QueueBuster Link for a device.
@@ -166,40 +168,42 @@ public interface IDeviceInfoDAO {
      * @param queuebusterlink - link identifier for the queue buster
      * @param appId - application identifier
      * @param opeCode - operator code
+     * @param companyId - The Company ID
+     * @param training - The training flag
      * @return ResultBase - result of the operation
      * @throws SQLException - exception due to sql execution
      * @throws DaoException - exception in the dao
      */
     ResultBase setQueueBusterLink(String storeid,
-            String terminalid, String queuebusterlink, String appId, String opeCode
+            String terminalid, String queuebusterlink, String appId, String opeCode,String companyId,String training
             ) throws Exception;
     /**
      * Update last txid at journal service.
      * @param transaction object of poslog
-     * @param trainingMode 
+     * @param trainingMode
      * @param db connection object
      * @return
-     * @throws DaoException 
+     * @throws DaoException
      */
-    boolean updateLastTxidAtJournal(final Transaction transaction, 
+    boolean updateLastTxidAtJournal(final Transaction transaction,
     		final Connection connection, int trainingMode) throws DaoException;
     /**
      * Update last txid at credit authorization service.
      * @param jsonStr
      * @return
-     * @throws DaoException 
+     * @throws DaoException
      */
-    boolean updateLastTxidAtCreditAuth(final String jsonStr) throws DaoException;    
+    boolean updateLastTxidAtCreditAuth(final String jsonStr) throws DaoException;
     /**
      * Update last suspend txid at queue buster service.
      * @param posLog object
      * @param db connection object
      * @return
-     * @throws DaoException 
+     * @throws DaoException
      */
-    boolean updateLastSuspendTxidAtQueueBuster(final PosLog posLog, 
-    		final Connection connection) throws DaoException;    
-	
+    boolean updateLastSuspendTxidAtQueueBuster(final PosLog posLog,
+    		final Connection connection) throws DaoException;
+
     /**
      * Gets tills/drawers registered in the store configuration.
      * @param storeId - store identifier
@@ -211,7 +215,7 @@ public interface IDeviceInfoDAO {
      * @return List<Till> the list of Till
      * @throws DaoException
      */
-    List<Till> getAllTills(final String storeId, final String key, 
+    List<Till> getAllTills(final String storeId, final String key,
     		final int limit) throws DaoException;
     /**
      * Sets the Till Id association for a device/terminal.
@@ -223,8 +227,8 @@ public interface IDeviceInfoDAO {
      * @return ResultBase	- The result of the operation.
      * @throws DaoException	- Thrown when DAO error is encountered.
      */
-    ResultBase setTillId(final String storeId, final String terminalId, 
-    		final String tillId,final String updAppId, final String updOpeCode) 
+    ResultBase setTillId(final String storeId, final String terminalId,
+    		final String tillId,final String updAppId, final String updOpeCode)
     				throws DaoException;
 
     /**
@@ -235,7 +239,7 @@ public interface IDeviceInfoDAO {
      * @throws DaoException	- Thrown when DAO error is encountered.
      */
     ResultBase getAttributeInfo(final String storeId,final String terminalId, String companyId, int training)	throws DaoException;
-	
+
 	/**
      * Gets the Attribute Info of Device.
      * @param companyId     - The company identifier
@@ -246,7 +250,7 @@ public interface IDeviceInfoDAO {
      */
 	DeviceAttribute getDeviceAttributeInfo(String companyId, String storeId, String terminalId)
 					throws DaoException;
-	
+
 	/**
 	 * Gets the terminal info of a terminal.
 	 * @param companyyId 	- The company identifier.
@@ -255,7 +259,7 @@ public interface IDeviceInfoDAO {
 	 * @return TerminalInfo	- The info pertaining to the terminal.
 	 * @throws Exception	- Thrown when an error is encountered.
 	 */
-	ViewTerminalInfo getTerminalInfo(String companyyId, String storeId, 
+	ViewTerminalInfo getTerminalInfo(String companyyId, String storeId,
 			String terminalId) throws Exception;
 
     /**

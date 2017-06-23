@@ -3859,6 +3859,7 @@ ORDER BY
         ,InsOpeCode
         ,DeleteFlag
         ,AttributeId
+        ,SubNum1
       )
     VALUES(
       @StoreId,
@@ -3931,7 +3932,8 @@ ORDER BY
       @InsAppId,
       @InsOpeCode,
       0,
-      @AttributeId);
+      @AttributeId,
+      1);
   </entry>
   <!-- For Department Info for Item Details-->
 
@@ -6009,13 +6011,15 @@ DECLARE @operatorno varchar(MAX),
 
     <!-- FOR SETTING DEVICE INFO LINKS -->
     <entry key="set-queuebusterlink">
-    DECLARE @storeid varchar(MAX), @termid varchar(MAX), @queuelink varchar(MAX), @upddate datetime, @updappid varchar(MAX), @updopecode varchar(MAX)
+    DECLARE @storeid varchar(MAX), @termid varchar(MAX), @queuelink varchar(MAX), @upddate datetime, @updappid varchar(MAX), @updopecode varchar(MAX), @companyId varchar(MAX) ,@training varchar(MAX)
     SET @queuelink=?
     SET @storeid=?
     SET @termid=?
     SET @upddate=GETDATE()
     SET @updappid=?
     SET @updopecode=?
+    SET @companyId=?
+    SET @training=?
 
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO
@@ -6026,13 +6030,13 @@ DECLARE @operatorno varchar(MAX),
       UpdOpeCode = @updopecode
 
     WHERE
-    StoreId = @storeid AND TerminalId = @termid
+    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training
 
     IF(@@ROWCOUNT = 0)
       INSERT INTO RESMaster.dbo.MST_DEVICEINFO
-    (StoreId,TerminalId,LinkQueueBuster,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode)
+    (StoreId,TerminalId,LinkQueueBuster,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode,SubNum1,CompanyId,Training,DeleteFlag,InsDate,InsAppId,InsOpeCode,UpdCount)
       VALUES
-    (@storeid,@termid,@queuelink,3,40,0,@upddate,@updappid,@updopecode)
+    (@storeid,@termid,@queuelink,3,40,0,@upddate,@updappid,@updopecode,1,@companyId,@training,0,@upddate,@updappid,@updopecode,0)
     </entry>
 
   <entry key="set-authorizationlink">
@@ -6040,7 +6044,9 @@ DECLARE @operatorno varchar(MAX),
     @linkauthorization varchar(MAX),
     @upddate datetime,
     @updappid varchar(MAX),
-    @updopecode varchar(MAX)
+    @updopecode varchar(MAX), 
+    @companyId varchar(MAX), 
+    @training varchar(MAX)
 
     SET @linkauthorization=?
     SET @storeid=?
@@ -6048,6 +6054,8 @@ DECLARE @operatorno varchar(MAX),
     SET @upddate= GETDATE()
     SET @updappid= ?
     SET @updopecode= ?
+    SET @companyId=?
+    SET @training=?
 
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO
@@ -6058,13 +6066,13 @@ DECLARE @operatorno varchar(MAX),
     UpdOpeCode = @updopecode
 
     WHERE
-    StoreId = @storeid AND TerminalId = @termid
+    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training
 
     IF(@@ROWCOUNT = 0)
       INSERT INTO RESMaster.dbo.MST_DEVICEINFO
-    (StoreId,TerminalId,LinkAuthorization,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode)
+    (StoreId,TerminalId,LinkAuthorization,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode,SubNum1,CompanyId,Training,DeleteFlag,InsDate,InsAppId,InsOpeCode,UpdCount)
       VALUES
-    (@storeid,@termid,@linkauthorization,3,40,0,@upddate,@updappid,@updopecode)
+    (@storeid,@termid,@linkauthorization,3,40,0,@upddate,@updappid,@updopecode,1,@companyId,@training,0,@upddate,@updappid,@updopecode,0)
 
   </entry>
 

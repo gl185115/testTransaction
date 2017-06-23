@@ -25,7 +25,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
     String infoString = "";
     Boolean isUpdateAreaHide = true;
     String user = ""; //ログインユーザー名
-    
+
     //ログインユーザー名取得
 	try {
 	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
@@ -76,17 +76,17 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
         	queueIdList.add(rsSelect.getString("Id"));
         	queueNameList.add(rsSelect.getString("DisplayName"));
         }
-        
+
         isUpdateAreaHide = false;
-        
+
         psSelect.close();
         connection.close();
-        
+
     } else if (request.getParameter("addCompanyID") != null && request.getParameter("addCompanyID").length() != 0) {
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
         Connection connection = dbManager.getConnection();
         if (request.getParameter("terminalID") != null) {
-        	
+
         	sqlStr = "SELECT COUNT(terminalid) terminalIdNum"
         			+ " FROM RESMaster.dbo.MST_DEVICEINFO"
         			+ " WHERE companyID=? and storeID=? and terminalId=?";
@@ -102,14 +102,14 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 connection.close();
             } else {
                 psSelect.close();
-                
+
                 sqlStr = "SELECT TodayDate"
                         + " FROM RESMaster.dbo.MST_BIZDAY"
                         + " WHERE companyID=?";
                 psSelect = connection.prepareStatement(sqlStr);
                 psSelect.setString(1, request.getParameter("addCompanyID").toString());
                 rsSelect = psSelect.executeQuery();
-                
+
                 Date nowDate = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String today = formatter.format(nowDate);
@@ -120,8 +120,8 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 sqlStr = /* MST_DEVICEINFO */
                         "INSERT INTO RESMaster.dbo.MST_DEVICEINFO"
                         + " (CompanyId, StoreId, TerminalId, Training, DeviceName, AttributeId, PrinterId, TillId, LinkPosTerminalId, LinkQueueBuster, SendLogFile, SaveLogFile, AutoUpload, Status, subNum1, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + " VALUES (?, ?, ?, 0, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?),"
-                        + "        (?, ?, ?, 1, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
+                        + " VALUES (?, ?, ?, 0, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 1, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?),"
+                        + "        (?, ?, ?, 1, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 1, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
                         /* MST_TERMINALINFO */
                         + " UPDATE RESMaster.dbo.MST_TERMINALINFO"
                         + "  SET FloorId=?, TerminalName=?, IPAddress=?, StoreClass=?, TerminalType=?, TillType=?, RelationType=?, LogoFileName=?, InshiFileName=?, SubCode2=?, UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice',UpdOpeCode=?"
@@ -234,9 +234,9 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 } else {
                     psIns.setString(63, request.getParameter("ipAddressPrint"));
                 }
-                
+
                 psIns.setInt(64, defaultPrinterPort);
-                
+
                 psIns.setString(65, user);
                 psIns.setString(66, user);
                 // MST_TILLIDINFO(update)
@@ -285,7 +285,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
 function searchDev(obj) {
     var companyId = storesearch.document.getElementById('companyidlist').value;
     var storeId = storesearch.document.getElementById('storeidlist').value;
-    document.getElementById('searchCompanyID').value = companyId; 
+    document.getElementById('searchCompanyID').value = companyId;
     document.getElementById('searchStoreID').value = storeId;
 
     var myform = document.getElementById('searchform');
@@ -462,13 +462,13 @@ window.onload = function() {
         </table>
       </div>
       <div align="right">
-        <input type="button" value="登録" id="insertDev" name="insertDev" class="res-big-green"> 
+        <input type="button" value="登録" id="insertDev" name="insertDev" class="res-big-green">
       </div>
     </div>
     <button id="fakeButton" style="display:none"></button>
   </form>
 
-  
+
 </body>
 <script type="text/javascript">
 function changePrinterType(obj) {
@@ -507,7 +507,7 @@ jQuery(function ($) {
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>
 <%--
 	}

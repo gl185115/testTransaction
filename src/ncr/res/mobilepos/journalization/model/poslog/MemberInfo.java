@@ -32,6 +32,12 @@ public class MemberInfo {
     private Integer amountForPoints;
 
     /**
+     * The private variable that will hold the AmountForRank
+     */
+    @XmlElement(name = "AmountForRank")
+    private Integer amountForRank;
+
+    /**
      * The private variable that will hold the InputtedMembershipId
      */
     @XmlElement(name = "InputtedMembershipId")
@@ -139,6 +145,22 @@ public class MemberInfo {
      */
     public void setAmountForPoints(Integer amountForPoints) {
         this.amountForPoints = amountForPoints;
+    }
+
+    /**
+     *
+     * @return AmountForRank
+     */
+    public Integer getAmountForRank() {
+        return amountForRank;
+    }
+
+    /**
+     *
+     * @param AmountForRank
+     */
+    public void setAmountForRank(Integer amountForRank) {
+        this.amountForRank = amountForRank;
     }
 
     /**

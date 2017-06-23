@@ -17,8 +17,8 @@ ArrayList<String> PRINTER_NAME = new ArrayList<String>() {{add("接続されな�
 ArrayList<String> TILL_VAL = new ArrayList<String>() {{add("Manual"); add("Auto"); add("None");}};
 ArrayList<String> CREDIT_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CREDIT_NAME = new ArrayList<String>() {{add("クレジット処理不可"); add("クレジット処理可");}};
-ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2");}};
-ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP");}};
+ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2"); add("3");}};
+ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP"); add("Infox");}};
 ArrayList<String> CASH_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("なし"); add("あり");}};
 ArrayList<String> ATT1_VAL = new ArrayList<String>() {{add("1"); add("2"); add("3");}};
@@ -37,6 +37,8 @@ ArrayList<String> ATT7_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しない"); add("SDMC初期化する");}};
 ArrayList<String> ATT8_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add("スワイプ式");}};
+ArrayList<String> ATT9_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリーダーを接続しない"); add("図書カードリーダーを接続する");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -64,9 +66,9 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 			sqlStr = "INSERT INTO RESMaster.dbo.PRM_DEVICE_ATTRIBUTE"
 					+ "(AttributeId, Description, Printer, Till, CreditTerminal, MSR, CashChanger, "
 					+ "Attribute1, Attribute2, Attribute3, Attribute4, Attribute5, "
-					+ "Attribute6, Attribute7, Attribute8)"
+					+ "Attribute6, Attribute7, Attribute8, Attribute9)"
 //					+ "Attribute6, Attribute7, Attribute8, Attribute9, Attribute10)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 //					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			Date nowDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -88,7 +90,7 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 			psIns.setString(13, request.getParameter("Attribute6"));
 			psIns.setString(14, request.getParameter("Attribute7"));
 			psIns.setString(15, request.getParameter("Attribute8"));
-//			psIns.setString(16, request.getParameter("Attribute9"));
+			psIns.setString(16, request.getParameter("Attribute9"));
 //			psIns.setString(17, request.getParameter("Attribute10"));
 
 			try {
@@ -305,6 +307,19 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td align="right">属性９ ： </td>
+                <td align="left">
+                    <select name="Attribute9" id="Attribute9" required>
+                    <%
+                        for (int i=0;i<ATT9_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT9_VAL.get(i) + "\"");
+                            out.println(">" + ATT9_VAL.get(i) +" : " + ATT9_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
 <!--		<tr>
 				<td class="center">属性９</td>
 				<td><input maxlength="4" type="text" name="Attribute9" id="Attribute9" size=4></td>
@@ -317,7 +332,7 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 		<br>
 	</div>
 	<div align="right">
-		<input type="button" value="登録" id="insertDev" name="insertDev" class="res-big-green"> 
+		<input type="button" value="登録" id="insertDev" name="insertDev" class="res-big-green">
 	</div>
 	<br>
     <button id="fakeButton" style="display:none"></button>
@@ -333,7 +348,7 @@ jQuery(function ($) {
         	document.getElementById('fakeButton').click();
             return;
         }
-        
+
         var valueList=[];
         valueList.push(document.getElementById('Printer').value);
         valueList.push(document.getElementById('Till').value);
@@ -348,6 +363,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('Attribute6').value);
         valueList.push(document.getElementById('Attribute7').value);
         valueList.push(document.getElementById('Attribute8').value);
+        valueList.push(document.getElementById('Attribute9').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(
@@ -379,5 +395,5 @@ jQuery(function ($) {
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>

@@ -13,8 +13,8 @@ ArrayList<String> PRINTER_NAME = new ArrayList<String>() {{add("接続されな�
 ArrayList<String> TILL_VAL = new ArrayList<String>() {{add("Manual"); add("Auto"); add("None");}};
 ArrayList<String> CREDIT_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CREDIT_NAME = new ArrayList<String>() {{add("クレジット処理不可"); add("クレジット処理可");}};
-ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2");}};
-ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP");}};
+ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2"); add("3");}};
+ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP"); add("Infox");}};
 ArrayList<String> CASH_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("なし"); add("あり");}};
 ArrayList<String> ATT1_VAL = new ArrayList<String>() {{add("1"); add("2"); add("3");}};
@@ -33,6 +33,8 @@ ArrayList<String> ATT7_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT7_NAME = new ArrayList<String>() {{add("SDMC初期化しない"); add("SDMC初期化する");}};
 ArrayList<String> ATT8_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add("スワイプ式");}};
+ArrayList<String> ATT9_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリーダーを接続しない"); add("図書カードリーダーを接続する");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -69,7 +71,7 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 	// ATTAttribute8
 	String ATTAttribute8 = request.getParameter("ATTAttribute8");
 	// ATTAttribute9
-//	String ATTAttribute9 = request.getParameter("Attribute9");
+	String ATTAttribute9 = request.getParameter("ATTAttribute9");
 	// ATTAttribute10
 //	String ATTAttribute10 = request.getParameter("Attribute10");
 
@@ -79,7 +81,7 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
     Connection conn = dbManager.getConnection();
     if ("POST".equals(request.getMethod())) {
-        String sqlStr = 
+        String sqlStr =
                 "UPDATE RESMaster.dbo.PRM_DEVICE_ATTRIBUTE SET"
                 + " Description=?,"
                 + " Printer=?,"
@@ -95,7 +97,7 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
                 + " Attribute6=?,"
                 + " Attribute7=?,"
                 + " Attribute8=?"
-//              + ", Attribute9=?"
+                + ", Attribute9=?"
 //              + ", Attribute10=?"
                 + " WHERE AttributeId=?; "
                 ;
@@ -115,10 +117,10 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
         psIns.setString(12, ATTAttribute6);
         psIns.setString(13, ATTAttribute7);
         psIns.setString(14, ATTAttribute8);
-//      psIns.setString(15, ATTAttribute9);
+        psIns.setString(15, ATTAttribute9);
 //      psIns.setString(16, ATTAttribute10);
-        psIns.setString(15, ATTAttributeId);
-        
+        psIns.setString(16, ATTAttributeId);
+
         try {
             int rsIns = psIns.executeUpdate();
             if(rsIns > 0){
@@ -166,18 +168,18 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
             String printer = rs.getString("Printer");
             String till = rs.getString("Till");
             String creditTerminal = rs.getString("CreditTerminal");
-            String MSR = rs.getString("MSR"); 
+            String MSR = rs.getString("MSR");
             String cashChanger = rs.getString("CashChanger");
-            String Attribute1 = rs.getString("Attribute1"); 
-            String Attribute2 = rs.getString("Attribute2"); 
-            String Attribute3 = rs.getString("Attribute3"); 
-            String Attribute4 = rs.getString("Attribute4"); 
-            String Attribute5 = rs.getString("Attribute5"); 
-            String Attribute6 = rs.getString("Attribute6"); 
-            String Attribute7 = rs.getString("Attribute7"); 
-            String Attribute8 = rs.getString("Attribute8"); 
-            String Attribute9 = rs.getString("Attribute9"); 
-            String Attribute10 = rs.getString("Attribute10"); 
+            String Attribute1 = rs.getString("Attribute1");
+            String Attribute2 = rs.getString("Attribute2");
+            String Attribute3 = rs.getString("Attribute3");
+            String Attribute4 = rs.getString("Attribute4");
+            String Attribute5 = rs.getString("Attribute5");
+            String Attribute6 = rs.getString("Attribute6");
+            String Attribute7 = rs.getString("Attribute7");
+            String Attribute8 = rs.getString("Attribute8");
+            String Attribute9 = rs.getString("Attribute9");
+            String Attribute10 = rs.getString("Attribute10");
 
             java.lang.StringBuilder sb = new java.lang.StringBuilder();
             sb.append("{\"AttributeId\": \"").append(attributeId).append("\", ")
@@ -242,8 +244,8 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 					<th>属性６(Attribute6)</th>
 					<th>属性７(Attribute7)</th>
 					<th>属性８(Attribute8)</th>
-<!--					
-	                <th>属性９(Attribute9)</th>
+					<th>属性９(Attribute9)</th>
+<!--
                     <th>属性１０(Attribute10)</th>
 -->
 				</tr>
@@ -439,6 +441,18 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 						%>
 				</select></td>
 			</tr>
+			<tr>
+				<td align="right">属性９(Attribute9) ：</td>
+				<td align="left"><select name="ATTAttribute9"
+					id="ATTAttribute9" required>
+						<%
+						    for (int i = 0; i < ATT9_VAL.size(); i++) {
+						        out.print("<option value=\"" + ATT9_VAL.get(i) + "\"");
+						        out.println(">" + ATT9_VAL.get(i) + " : " + ATT9_NAME.get(i) + "</option>");
+						    }
+						%>
+				</select></td>
+			</tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>
@@ -456,9 +470,9 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 		</table>
 	</div>
 	<div align="right">
-      <input type="button" value="更新" id="start" name="start" class="res-big-green"> 
+      <input type="button" value="更新" id="start" name="start" class="res-big-green">
 	</div>
-	
+
 </div>
 <button id="fakeButton" style="display:none"></button>
 </form>
@@ -511,10 +525,9 @@ ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add
 		// ATTATTAttribute8
 		StrId = 'attribute8' + InValue;
 		document.getElementById('ATTAttribute8').value = document.getElementById(StrId).value || false;
-
 		// ATTATTAttribute9
-//		StrId = 'attribute9' + InValue;
-//		document.getElementById('ATTAttribute9').value = document.getElementById(StrId).value || false;
+		StrId = 'attribute9' + InValue;
+		document.getElementById('ATTAttribute9').value = document.getElementById(StrId).value || false;
 		// ATTATTAttribute10
 //		StrId = 'attribute10' + InValue;
 //		document.getElementById('ATTAttribute10').value = document.getElementById(StrId).value || false;
@@ -530,7 +543,7 @@ jQuery(function ($) {
         	document.getElementById('fakeButton').click();
             return;
         }
-        
+
         var valueList=[];
         valueList.push(document.getElementById('ATTPrinter').value);
         valueList.push(document.getElementById('ATTTill').value);
@@ -545,6 +558,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute6').value);
         valueList.push(document.getElementById('ATTAttribute7').value);
         valueList.push(document.getElementById('ATTAttribute8').value);
+        valueList.push(document.getElementById('ATTAttribute9').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(
@@ -629,9 +643,9 @@ jQuery(function ($) {
 				log += '<td><input type="text" id="attribute8' + i
 						+ '" name="attribute8' + i + '" disabled value="'
 						+ (currentLog[i].Attribute8 || '&nbsp;') + '"></td>';
-//				log += '<td><input type="text" id="attribute9' + i
-//						+ '" name="attribute9' + i + '" disabled value="'
-//						+ (currentLog[i].Attribute9 || '&nbsp;' ) + '"></td>';
+				log += '<td><input type="text" id="attribute9' + i
+						+ '" name="attribute9' + i + '" disabled value="'
+						+ (currentLog[i].Attribute9 || '&nbsp;' ) + '"></td>';
 //				log += '<td><input type="text" id="attribute10' + i
 //						+ '" name="attribute10' + i + '" disabled value="'
 //						+ (currentLog[i].Attribute10 || '&nbsp;' ) + '"></td>';
@@ -645,12 +659,12 @@ jQuery(function ($) {
 				document.getElementById('tablearea').style.display = "block";
 			}
 		};
-		
+
         showLog();
 	})();
 </script>
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>

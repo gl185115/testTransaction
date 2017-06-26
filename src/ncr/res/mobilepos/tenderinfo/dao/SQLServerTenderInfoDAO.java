@@ -258,8 +258,6 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 tenderInfo.put("changeType", resultSet.getString("ChangeType"));
                 tenderInfo.put("tenderIdentification", resultSet.getString("TenderIdentification"));
                 tenderInfo.put("unitPrice", resultSet.getString("UnitPrice"));
-                tenderInfo.put("tenderVoid", resultSet.getString("SubCode1"));
-                tenderInfo.put("tenderAccount", resultSet.getString("SubCode2"));
                 tenderInfo.put("tranVoid", resultSet.getString("SubNum1"));
                 tenderInfo.put("tranReturn", resultSet.getString("SubNum2"));
                 tenderInfo.put("displayOrder", resultSet.getString("DisplayOrder"));

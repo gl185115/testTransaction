@@ -161,8 +161,11 @@ public class Tender {
     @XmlElement(name = "TenderId")
     private String tenderId;
     
-    @XmlAttribute(name = "TranVoid")
-    private String tranVoid;
+    @XmlAttribute(name = "Voidable")
+    private String voidable;
+    
+    @XmlAttribute(name = "Returnable")
+    private String returnable;
     /**
      * The default constructor for Tender class.
      */
@@ -529,11 +532,19 @@ public class Tender {
     	return this.tenderId;
     }
 
-    public String getTranVoid() {
-        return tranVoid;
+    public String getVoidable() {
+        return voidable;
     }
 
-    public void setTranVoid(String tranVoid) {
-        this.tranVoid = tranVoid;
+    public void setVoidable(String voidable) {
+        this.voidable = voidable;
+    }
+
+    public String getReturnable() {
+        return returnable;
+    }
+
+    public void setReturnable(String returnable) {
+        this.returnable = returnable;
     }
 }

@@ -63,7 +63,13 @@ public class GetTenderInfoResourceSteps extends Steps {
 		jsonData = tenderInfoResource.getTenderInfo(companyId, storeId,
 				tenderType);
 	}
-
+	
+    @When("I get all tenderinfo of CompanyId:$1 StoreId:$2")
+    public final void whenGetAllTenderInfo(final String companyId,
+            final String storeId) {
+        jsonData = tenderInfoResource.getAllTenderInfo(companyId, storeId);
+    }
+    
 	@Then("I should get the following json : $1")
 	public final void thenIShouldGetJson(final String expectedJson)
 			throws JSONException, IOException {
@@ -73,4 +79,6 @@ public class GetTenderInfoResourceSteps extends Steps {
 		JSONAssert.assertEquals(expectedJson, actualJson,
 				JSONCompareMode.NON_EXTENSIBLE);
 	}
+	
+
 }

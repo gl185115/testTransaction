@@ -160,7 +160,9 @@ public class Tender {
      */
     @XmlElement(name = "TenderId")
     private String tenderId;
-
+    
+    @XmlAttribute(name = "TranVoid")
+    private String tranVoid;
     /**
      * The default constructor for Tender class.
      */
@@ -525,5 +527,13 @@ public class Tender {
 
     public final String getTenderId() {
     	return this.tenderId;
+    }
+
+    public String getTranVoid() {
+        return tranVoid;
+    }
+
+    public void setTranVoid(String tranVoid) {
+        this.tranVoid = tranVoid;
     }
 }

@@ -1254,6 +1254,54 @@ ORDER BY Dpt
         ORDER BY item.StoreId ASC, MdInternal ASC
 
   </entry>
+    
+  <entry key="get-tenderinfo-alltype">
+        DECLARE
+        @companyId VARCHAR (12),
+        @storeId VARCHAR (10)
+        
+        SET @storeId = LTRIM(RTRIM(?))
+        SET @companyId = LTRIM(RTRIM(?))
+    
+        IF NOT EXISTS (
+            SELECT TOP 1
+             * 
+            FROM 
+                RESMaster.dbo.MST_TENDERINFO
+            WHERE
+                DeleteFlag = 0.0 AND
+                StoreId = @storeId AND
+                CompanyId = @companyId
+        )
+        SET @storeId = '0'
+    
+        SELECT
+            CompanyId,
+            StoreId,
+            TenderType,
+            TenderId,
+            TenderName,
+            TenderKanaName,
+            StampType,
+            PointType,
+            ChangeType,
+            TenderIdentification,
+            UnitPrice,
+            SubCode1,
+            SubCode2,
+            SubNum1,
+            SubNum2,
+            DisplayOrder
+        FROM
+            RESMaster.dbo.MST_TENDERINFO
+        WHERE
+            DeleteFlag = 0.0 AND
+            StoreId = @storeId AND
+            CompanyId = @companyId
+        ORDER BY
+            DisplayOrder,
+            TenderType
+    </entry>
 <entry key="get-tenderinfo-type">
 DECLARE
     @companyId VARCHAR (12),

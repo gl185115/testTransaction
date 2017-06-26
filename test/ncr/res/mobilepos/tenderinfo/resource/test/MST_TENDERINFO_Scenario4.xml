@@ -10,6 +10,7 @@
 		<column>StampType</column>
 		<column>PointType</column>
 		<column>ChangeType</column>
+        <column>TenderIdentification</column>
 		<column>UnitPrice</column>
 		<column>DisplayOrder</column>
 		<column>SubCode1</column>

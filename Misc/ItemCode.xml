@@ -6,7 +6,7 @@
                 <description>和書</description>
                 <id>janBook</id>
                 <type>double</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>9784[0-9]{9}</format>
                 <nextformat>19[1|2]{1}[0-9]{10}</nextformat>
             </item>
@@ -22,28 +22,28 @@
                 <description>和雑誌</description>
                 <id>janMagazine</id>
                 <type>single</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>491[0-9]{15}</format>
             </item>
             <item>
                 <description>和雑誌 旧コード 頭10</description>
                 <id>janMagazineOld1</id>
                 <type>single</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>10[0-9]{11}</format>
             </item>
             <item>
                 <description>和雑誌 旧コード 頭11</description>
                 <id>janMagazineOld2</id>
                 <type>single</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>11[0-9]{11}</format>
             </item>
             <item>
                 <description>洋書</description>
                 <id>foreignBook</id>
                 <type>double</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>978([0-3]|[5-9]){1}[0-9]{9}</format>
                 <format>979[0-9]{10}</format>
                 <nextformat>19[1|2]{1}[0-9]{10}</nextformat>
@@ -60,7 +60,7 @@
                 <description>洋書扱い和書</description>
                 <id>foreignJanBook</id>
                 <type>double</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <emergency>false</emergency>
                 <format>025[0-9]{10}</format>
                 <nextformat>19[1|2]{1}[0-9]{10}</nextformat>
@@ -69,21 +69,21 @@
                 <description>洋雑誌</description>
                 <id>foreignMagazine</id>
                 <type>single</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>04[0-9]{11}</format>
             </item>
             <item>
                 <description>紀伊国屋書店独自商品</description>
                 <id>kinokuniya</id>
                 <type>single</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN13</symbol>
                 <format>02([0-4]|[6-9]){1}[0-9]{10}</format>
             </item>
             <item>
                 <description>一段目二段目</description>
                 <id>section</id>
                 <type>single</type>
-                <symbol></symbol>
+                <symbol>EAN13</symbol>
                 <format>9784[0-9]{9}(\\s)19[1|2]{1}[0-9]{10}</format>
                 <format>978([0-3]|[5-9]){1}[0-9]{9}(\\s)19[1|2]{1}[0-9]{10}</format>
                 <format>979[0-9]{10}(\\s)19[1|2]{1}[0-9]{10}</format>

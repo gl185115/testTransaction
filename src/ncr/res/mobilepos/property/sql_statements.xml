@@ -10814,20 +10814,11 @@ DECLARE
   DECLARE
   @companyId varchar(12),
   @storeId varchar(10),
-  @targetType varchar(10),
-  @deptCode varchar(10),
-  @businessDate date,
-  @groupCode varchar(20),
-  @brandId varchar(20),
-  @barCode varchar(20)
+  @businessDate date
 
   SET @companyId = ?
   SET @storeId = ?
   SET @businessDate = ?
-  SET @deptCode = ?
-  SET @groupCode = ?
-  SET @brandId = ?
-  SET @barCode = ?
 
   SELECT
     base.PointType,
@@ -10861,7 +10852,6 @@ DECLARE
     base.TargetStoreType,
     base.ItemSettingFlag,
     base.DptSettingFlag,
-    base.TargetStoreType,
     pointcard.CardClassId,
     tender.TenderId,
     tender.TenderType,

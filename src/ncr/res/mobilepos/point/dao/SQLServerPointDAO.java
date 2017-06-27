@@ -16,8 +16,10 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.point.factory.PointRateFactory;
 import ncr.res.mobilepos.point.model.CashingUnit;
 import ncr.res.mobilepos.point.model.ItemPointRate;
+import ncr.res.mobilepos.point.model.PointInfo;
 import ncr.res.mobilepos.point.model.TranPointRate;
 import ncr.res.mobilepos.property.SQLStatement;
 
@@ -66,14 +68,12 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
     }
 
     @Override
-    public List<ItemPointRate> getItemPointRate(String companyId, String storeId, String businessdate, String deptcode,
-            String groupcode, String brandId, String barCode) throws Exception {
+    public List<PointInfo> getPointInfoList(String companyId, String storeId, String businessdate) throws Exception {
         String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
-                .println("businessDate", businessdate).println("deptCode", deptcode).println("groupCode", groupcode)
-                .println("brandId", brandId).println("barCode", barCode);
+        tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("businessDate",
+                businessdate);
 
-        List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
+        List<PointInfo> pointInfoList = new ArrayList<PointInfo>();
 
         Connection connection3 = null;
         PreparedStatement statement3 = null;
@@ -86,10 +86,6 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             statement3.setString(SQLStatement.PARAM1, companyId);
             statement3.setString(SQLStatement.PARAM2, storeId);
             statement3.setString(SQLStatement.PARAM3, businessdate);
-            statement3.setString(SQLStatement.PARAM4, deptcode);
-            statement3.setString(SQLStatement.PARAM5, groupcode);
-            statement3.setString(SQLStatement.PARAM6, brandId);
-            statement3.setString(SQLStatement.PARAM7, barCode);
             result3 = statement3.executeQuery();
             while (result3.next()) {
                 if (IsCampaignEnabled(businessdate, result3.getString("TargetDaySettingFlag"),
@@ -102,49 +98,40 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                         result3.getString("DayOfWeekWedFlag"), result3.getString("DayOfWeekThuFlag"),
                         result3.getString("DayOfWeekFriFlag"), result3.getString("DayOfWeekSatFlag"),
                         result3.getString("DayOfWeekSunFlag"))) {
-                    if (IsCampaignItemEnabled(result3.getString("ItemSettingFlag"),
-                            result3.getString("GroupTargetType"), result3.getString("GroupIdStart"),
-                            result3.getString("GroupIdEnd"), groupcode, result3.getString("DptTargetType"),
-                            result3.getString("DptStart"), result3.getString("DptEnd"), deptcode,
-                            result3.getString("BrandTargetType"), result3.getString("BrandIdStart"),
-                            result3.getString("BrandIdEnd"), brandId, result3.getString("SkuTargetType"),
-                            result3.getString("SkuStart"), result3.getString("SkuEnd"), barCode,
-                            result3.getString("TargetId"), result3.getString("TargetType"))) {
-                        ItemPointRate itemPointRate = new ItemPointRate();
-                        itemPointRate.setType("2");
-                        itemPointRate.setCompanyId(companyId);
-                        itemPointRate.setStoreId(storeId);
-                        itemPointRate.setPointFlag("1");
-                        itemPointRate.setBasePrice(result3.getString("BasePrice"));
-                        itemPointRate.setRecordId(result3.getString("RecordId"));
-                        itemPointRate.setPointTender(result3.getString("PointTender"));
-                        itemPointRate.setTenderSettingFlag(result3.getString("TenderSettingFlag"));
-                        itemPointRate.setTenderType(result3.getString("TenderType"));
-                        itemPointRate.setTenderId(result3.getString("TenderId"));
-                        itemPointRate.setBasePointCash(result3.getString("BasePointCash"));
-                        itemPointRate.setBasePointAffiliate(result3.getString("BasePointAffiliate"));
-                        itemPointRate.setBasePointNonAffiliate(result3.getString("BasePointNonAffiliate"));
-                        itemPointRate.setDptSettingFlag(result3.getString("DptSettingFlag"));
-                        itemPointRate.setItemSettingFlag(result3.getString("ItemSettingFlag"));
-                        itemPointRate.setCardSettingFlag(result3.getString("CardSettingFlag"));
-                        itemPointRate.setStoreSettingFlag(result3.getString("TargetStoreType"));
-                        itemPointRate.setCardClassId(result3.getString("CardClassId"));
-                        if (FLAG_MULTI.equals(result3.getString("GroupTargetType"))
-                                || FLAG_MULTI.equals(result3.getString("DptTargetType"))
-                                || FLAG_MULTI.equals(result3.getString("BrandTargetType"))
-                                || FLAG_MULTI.equals(result3.getString("SkuTargetType"))) {
-                            itemPointRate.setBasePoint(result3.getString("DetailBasePoint"));
-                        } else if (FLAG_ON.equals(result3.getString("GroupTargetType"))
-                                || FLAG_ON.equals(result3.getString("DptTargetType"))
-                                || FLAG_ON.equals(result3.getString("BrandTargetType"))
-                                || FLAG_ON.equals(result3.getString("SkuTargetType"))) {
-                            itemPointRate.setBasePoint(result3.getString("InfoBasePoint"));
-                        } else {
-                            itemPointRate.setBasePoint(result3.getString("BasePoint"));
-                        }
-
-                        itemPointRateList.add(itemPointRate);
-                    }
+                    PointInfo pointInfo = new PointInfo();
+                    pointInfo.setPointType(result3.getString("PointType"));
+                    pointInfo.setBasePrice(result3.getString("BasePrice"));
+                    pointInfo.setRecordId(result3.getString("RecordId"));
+                    pointInfo.setBasePoint(result3.getString("BasePoint"));
+                    pointInfo.setPointTender(result3.getString("PointTender"));
+                    pointInfo.setTenderSettingFlag(result3.getString("TenderSettingFlag"));
+                    pointInfo.setBasePointCash(result3.getString("BasePointCash"));
+                    pointInfo.setBasePointAffiliate(result3.getString("BasePointAffiliate"));
+                    pointInfo.setBasePointNonAffiliate(result3.getString("BasePointNonAffiliate"));
+                    pointInfo.setCardSettingFlag(result3.getString("CardSettingFlag"));
+                    pointInfo.setTargetStoreType(result3.getString("TargetStoreType"));
+                    pointInfo.setItemSettingFlag(result3.getString("ItemSettingFlag"));
+                    pointInfo.setDptSettingFlag(result3.getString("DptSettingFlag"));
+                    pointInfo.setCardClassId(result3.getString("CardClassId"));
+                    pointInfo.setTenderId(result3.getString("TenderId"));
+                    pointInfo.setTenderType(result3.getString("TenderType"));
+                    pointInfo.setGroupTargetType(result3.getString("GroupTargetType"));
+                    pointInfo.setGroupIdStart(result3.getString("GroupIdStart"));
+                    pointInfo.setGroupIdEnd(result3.getString("GroupIdEnd"));
+                    pointInfo.setDptTargetType(result3.getString("DptTargetType"));
+                    pointInfo.setDptStart(result3.getString("DptStart"));
+                    pointInfo.setDptEnd(result3.getString("DptEnd"));
+                    pointInfo.setBrandTargetType(result3.getString("BrandTargetType"));
+                    pointInfo.setBrandIdStart(result3.getString("BrandIdStart"));
+                    pointInfo.setBrandIdEnd(result3.getString("BrandIdEnd"));
+                    pointInfo.setSkuTargetType(result3.getString("SkuTargetType"));
+                    pointInfo.setSkuStart(result3.getString("SkuStart"));
+                    pointInfo.setSkuEnd(result3.getString("SkuEnd"));
+                    pointInfo.setInfoBasePoint(result3.getString("InfoBasePoint"));
+                    pointInfo.setDetailBasePoint(result3.getString("DetailBasePoint"));
+                    pointInfo.setTargetType(result3.getString("TargetType"));
+                    pointInfo.setTargetId(result3.getString("TargetId"));
+                    pointInfoList.add(pointInfo);
                 }
             }
         } catch (SQLException e) {
@@ -152,8 +139,64 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
             throw new Exception("SQLException: @SQLServerPointDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection3, statement3, result3);
-            tp.methodExit(itemPointRateList);
+            tp.methodExit(pointInfoList);
         }
+        return pointInfoList;
+    }
+
+    @Override
+    public List<ItemPointRate> getItemPointRate(String companyId, String storeId, String businessdate, String deptcode,
+            String groupcode, String brandId, String barCode) throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId)
+                .println("businessDate", businessdate).println("deptCode", deptcode).println("groupCode", groupcode)
+                .println("brandId", brandId).println("barCode", barCode);
+
+        List<ItemPointRate> itemPointRateList = new ArrayList<ItemPointRate>();
+        List<PointInfo> pointInfoList = PointRateFactory.getRateInstanceItem();
+        for (PointInfo pointInfo : pointInfoList) {
+            if (IsCampaignItemEnabled(pointInfo.getItemSettingFlag(), pointInfo.getGroupTargetType(),
+                    pointInfo.getGroupIdStart(), pointInfo.getGroupIdEnd(), groupcode, pointInfo.getDptTargetType(),
+                    pointInfo.getDptStart(), pointInfo.getDptEnd(), deptcode, pointInfo.getBrandTargetType(),
+                    pointInfo.getBrandIdStart(), pointInfo.getBrandIdEnd(), brandId, pointInfo.getSkuTargetType(),
+                    pointInfo.getSkuStart(), pointInfo.getSkuEnd(), barCode, pointInfo.getTargetId(),
+                    pointInfo.getTargetType())) {
+                ItemPointRate itemPointRate = new ItemPointRate();
+                itemPointRate.setType("2");
+                itemPointRate.setCompanyId(companyId);
+                itemPointRate.setStoreId(storeId);
+                itemPointRate.setPointFlag("1");
+                itemPointRate.setBasePrice(pointInfo.getBasePrice());
+                itemPointRate.setRecordId(pointInfo.getRecordId());
+                itemPointRate.setPointTender(pointInfo.getPointTender());
+                itemPointRate.setTenderSettingFlag(pointInfo.getTenderSettingFlag());
+                itemPointRate.setTenderType(pointInfo.getTenderType());
+                itemPointRate.setTenderId(pointInfo.getTenderId());
+                itemPointRate.setBasePointCash(pointInfo.getBasePointCash());
+                itemPointRate.setBasePointAffiliate(pointInfo.getBasePointAffiliate());
+                itemPointRate.setBasePointNonAffiliate(pointInfo.getBasePointNonAffiliate());
+                itemPointRate.setDptSettingFlag(pointInfo.getDptSettingFlag());
+                itemPointRate.setItemSettingFlag(pointInfo.getItemSettingFlag());
+                itemPointRate.setCardSettingFlag(pointInfo.getCardSettingFlag());
+                itemPointRate.setStoreSettingFlag(pointInfo.getTargetStoreType());
+                itemPointRate.setCardClassId(pointInfo.getCardClassId());
+                if (FLAG_MULTI.equals(pointInfo.getGroupTargetType()) || FLAG_MULTI.equals(pointInfo.getDptTargetType())
+                        || FLAG_MULTI.equals(pointInfo.getBrandTargetType())
+                        || FLAG_MULTI.equals(pointInfo.getSkuTargetType())) {
+                    itemPointRate.setBasePoint(pointInfo.getDetailBasePoint());
+                } else if (FLAG_ON.equals(pointInfo.getGroupTargetType())
+                        || FLAG_ON.equals(pointInfo.getDptTargetType())
+                        || FLAG_ON.equals(pointInfo.getBrandTargetType())
+                        || FLAG_ON.equals(pointInfo.getSkuTargetType())) {
+                    itemPointRate.setBasePoint(pointInfo.getInfoBasePoint());
+                } else {
+                    itemPointRate.setBasePoint(pointInfo.getBasePoint());
+                }
+
+                itemPointRateList.add(itemPointRate);
+            }
+        }
+        tp.methodExit(itemPointRateList);
         return itemPointRateList;
     }
 
@@ -163,11 +206,43 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("businessDate",
                 businessdate);
+        List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
+        List<PointInfo> pointInfoList = PointRateFactory.getRateInstanceTran();
+
+           for (PointInfo pointInfo : pointInfoList) {
+                TranPointRate tranPointRate = new TranPointRate();
+                tranPointRate.setType("0");
+                tranPointRate.setCompanyId(companyId);
+                tranPointRate.setStoreId(storeId);
+                tranPointRate.setPointFlag(pointInfo.getPointFlag());
+                tranPointRate.setBasePrice(pointInfo.getBasePrice());
+                tranPointRate.setBasePoint(pointInfo.getBasePoint());
+                tranPointRate.setCashingUnit(pointInfo.getCashingUnit());
+                tranPointRate.setRecordId(pointInfo.getRecordId());
+                tranPointRate.setBasePointCash(pointInfo.getBasePointCash());
+                tranPointRate.setBasePointAffiliate(pointInfo.getBasePointAffiliate());
+                tranPointRate.setBasePointNonAffiliate(pointInfo.getBasePointNonAffiliate());
+                tranPointRate.setPointCalcType(pointInfo.getPointCalcType());
+                tranPointRate.setTaxCalcType(pointInfo.getTaxCalcType());
+                tranPointRate.setRoundType(pointInfo.getRoundType());
+                tranPointRate.setCardSettingFlag(pointInfo.getCardSettingFlag());
+                tranPointRate.setDptSettingFlag(pointInfo.getDptSettingFlag());
+                tranPointRateList.add(tranPointRate);
+            }
+        tp.methodExit(tranPointRateList);
+        return tranPointRateList;
+    }
+    @Override
+    public List<PointInfo> getTranPointInfoList(String companyId, String storeId, String businessdate)
+            throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("businessDate",
+                businessdate);
 
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
-        List<TranPointRate> tranPointRateList = new ArrayList<TranPointRate>();
+        List<PointInfo> pointInfoList = new ArrayList<PointInfo>();
 
         try {
             connection = dbManager.getConnection();
@@ -178,35 +253,31 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
 
             result = statement.executeQuery();
             while (result.next()) {
-                TranPointRate tranPointRate = new TranPointRate();
-                tranPointRate.setType("0");
-                tranPointRate.setCompanyId(companyId);
-                tranPointRate.setStoreId(storeId);
-                tranPointRate.setPointFlag(result.getString("PointFlag"));
-                tranPointRate.setBasePrice(result.getString("BasePrice"));
-                tranPointRate.setBasePoint(result.getString("BasePoint"));
-                tranPointRate.setCashingUnit(result.getString("CashingUnit"));
-                tranPointRate.setRecordId(result.getString("RecordId"));
-                tranPointRate.setBasePointCash(result.getString("BasePointCash"));
-                tranPointRate.setBasePointAffiliate(result.getString("BasePointAffiliate"));
-                tranPointRate.setBasePointNonAffiliate(result.getString("BasePointNonAffiliate"));
-                tranPointRate.setPointCalcType(result.getString("PointCalcType"));
-                tranPointRate.setTaxCalcType(result.getString("TaxCalcType"));
-                tranPointRate.setRoundType(result.getString("RoundType"));
-                tranPointRate.setCardSettingFlag(result.getString("CardSettingFlag"));
-                tranPointRate.setDptSettingFlag(result.getString("DptSettingFlag"));
-                tranPointRateList.add(tranPointRate);
+                PointInfo pointInfo = new PointInfo();
+                pointInfo.setPointFlag(result.getString("PointFlag"));
+                pointInfo.setBasePrice(result.getString("BasePrice"));
+                pointInfo.setBasePoint(result.getString("BasePoint"));
+                pointInfo.setCashingUnit(result.getString("CashingUnit"));
+                pointInfo.setRecordId(result.getString("RecordId"));
+                pointInfo.setBasePointCash(result.getString("BasePointCash"));
+                pointInfo.setBasePointAffiliate(result.getString("BasePointAffiliate"));
+                pointInfo.setBasePointNonAffiliate(result.getString("BasePointNonAffiliate"));
+                pointInfo.setPointCalcType(result.getString("PointCalcType"));
+                pointInfo.setTaxCalcType(result.getString("TaxCalcType"));
+                pointInfo.setRoundType(result.getString("RoundType"));
+                pointInfo.setCardSettingFlag(result.getString("CardSettingFlag"));
+                pointInfo.setDptSettingFlag(result.getString("DptSettingFlag"));
+                pointInfoList.add(pointInfo);
             }
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get tran point rate.", e);
             throw new Exception("SQLException: @SQLServerPointDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);
-            tp.methodExit(tranPointRateList);
+            tp.methodExit(pointInfoList);
         }
-        return tranPointRateList;
+        return pointInfoList;
     }
-
     private boolean IsCampaignEnabled(String businessDate, String dateflag, String date1, String date2, String date3,
             String date4, String date5, String date6, String date7, String date8, String date9, String weekflag,
             String monday, String tuesday, String wednesday, String thursday, String friday, String saturday,
@@ -415,37 +486,12 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                 businessdate);
 
         CashingUnit cashingUnit = new CashingUnit();
+        List<PointInfo> pointInfoList = PointRateFactory.getRateInstanceTran();
 
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-point-cashing-unit"));
-
-            select.setString(SQLStatement.PARAM1, companyId);
-            select.setString(SQLStatement.PARAM2, businessdate);
-            result = select.executeQuery();
-
-            if (result.next()) {
-                cashingUnit.setCashingUnit(result.getString("CashingUnit"));
-            } else {
-                tp.println("CashingUnit not found.");
-            }
-
-        } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-                    + ": Failed to get CashingUnit.", e);
-            throw new DaoException("SQLException: @SQLServerPointDAO."
-                    + functionName, e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            tp.methodExit(cashingUnit);
+        for (PointInfo pointInfo : pointInfoList) {
+            cashingUnit.setCashingUnit(pointInfo.getCashingUnit());
         }
+        tp.methodExit(cashingUnit);
         return cashingUnit;
     }
 }

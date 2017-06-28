@@ -6136,6 +6136,33 @@ DECLARE @operatorno varchar(MAX),
     FROM RESMaster.dbo.MST_EMP_SEC
     WHERE CompanyId = ? and EmpCode = ? and DeleteFlag = 0.0
   </entry>
+  <!-- ADD BGN 担当者権限の検証-->
+  <entry key="view-authorization-with-passcode">
+    SELECT
+        SecLevel1,
+        SecLevel2,
+        SecLevel3,
+        SecLevel4,
+        SecLevel5,
+        SecLevel6,
+        SecLevel7,
+        SecLevel8,
+        SecLevel9,
+        SecLevel10,
+        SecLevel11,
+        SecLevel12,
+        SecLevel13,
+        SecLevel14,
+        SecLevel15
+    FROM 
+        RESMaster.dbo.MST_EMP_SEC
+    WHERE 
+        CompanyId = ? AND 
+        EmpCode = ? AND 
+        Password = ? AND
+        DeleteFlag = 0.0
+  </entry>
+  <!-- ADD END 担当者権限の検証-->
   <!-- FOR MIX MATCH PROMOTION  -->
   <entry key="get-MixMatch">
     DECLARE @storeid varchar(max), @code varchar(max)

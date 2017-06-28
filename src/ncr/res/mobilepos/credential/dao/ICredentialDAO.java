@@ -177,5 +177,8 @@ public interface ICredentialDAO {
     ResultBase deleteEmployee(String retailStoreID, String operatorID, String updOpeCode, String updAppId)
             throws DaoException;
     
-    public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException;
+    /** CHG BGN íSìñé“å†å¿ÇÃåüèÿ **/
+    //public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException;
+    public Authorization getOperatorAuthorization(String companyId, String opeCode, String opePass) throws DaoException;
+    /** CHG END íSìñé“å†å¿ÇÃåüèÿ **/
 }

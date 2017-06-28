@@ -1154,7 +1154,10 @@ public class SQLServerCredentialDAO extends AbstractDao implements
      * @param opeCode
      * @return Authorization
      */
-    public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException {
+    /** CHG BGN íSìñé“å†å¿ÇÃåüèÿ **/
+    //public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException {
+    public Authorization getOperatorAuthorization(String companyId, String opeCode, String opePass) throws DaoException {
+    /** CHG END íSìñé“å†å¿ÇÃåüèÿ **/
         ResultSet resultSet = null;
         Connection connection = null;
         PreparedStatement authorizationStmt = null;
@@ -1162,10 +1165,24 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            authorizationStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("view-authorization"));
-            authorizationStmt.setString(SQLStatement.PARAM1, companyId);
-            authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
+            /** CHG BGN íSìñé“å†å¿ÇÃåüèÿ **/
+//            authorizationStmt = connection.prepareStatement(
+//                    sqlStatement.getProperty("view-authorization"));
+//            authorizationStmt.setString(SQLStatement.PARAM1, companyId);
+//            authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
+            if (opePass == null) {
+            	authorizationStmt = connection.prepareStatement(
+                        sqlStatement.getProperty("view-authorization"));
+                authorizationStmt.setString(SQLStatement.PARAM1, companyId);
+                authorizationStmt.setString(SQLStatement.PARAM2, opeCode);            	
+            } else {
+            	authorizationStmt = connection.prepareStatement(
+                        sqlStatement.getProperty("view-authorization-with-passcode"));
+                authorizationStmt.setString(SQLStatement.PARAM1, companyId);
+                authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
+                authorizationStmt.setString(SQLStatement.PARAM3, opePass);
+            }
+            /** CHG END íSìñé“å†å¿ÇÃåüèÿ **/
             resultSet = authorizationStmt.executeQuery();
             if (resultSet.next()) {
                 authorization = new Authorization();

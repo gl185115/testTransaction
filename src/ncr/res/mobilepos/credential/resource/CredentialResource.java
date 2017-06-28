@@ -278,7 +278,10 @@ public class CredentialResource {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICredentialDAO credentialDAO = sqlServer.getCredentialDAO();
             operator = credentialDAO.getStatusOfOperator(companyid, empCode);
-            Authorization authorization = credentialDAO.getOperatorAuthorization(companyid, empCode);
+            /** CHG BGN 担当者権限の検証 **/
+            //Authorization authorization = credentialDAO.getOperatorAuthorization(companyid, empCode);
+            Authorization authorization = credentialDAO.getOperatorAuthorization(companyid, empCode, null);
+            /** CHG END 担当者権限の検証 **/
             operator.setAuthorization(authorization);
         } catch (DaoException ex) {
             LOGGER.logAlert(progName, Logger.RES_EXCEP_DAO, functionName + ": Failed to Get status of Operator.", ex);
@@ -296,7 +299,81 @@ public class CredentialResource {
         }
         return operator;
     }
+    /** ADD BGN 担当者権限の検証 **/
+    /**
+     * Check Operator and get its Authorization
+     *
+     * @param companyid
+     * 			企業コード、必須
+     * @param retailstoreid
+     * 			添付コード、不必須
+     * @param terminalid
+     * 			添付コード、不必須
+     * @param operatorid
+     * 			オペレータコード、必須
+     * @param operatorpass
+     *			オペレータパスワード、必須
+     * @return status of an operator
+     */
+    @Path("/checkoperator")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="オペレータステータスと権限", response=Operator.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RESAUTH_DEVICENOTFOUND, message="認証中にデバイスが見つかりませんでした。"),
+        @ApiResponse(code=ResultBase.RESAUTH_INVALIDPARAMETER, message="認証パラメータが無効です。"),
+        @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="指定された企業コードまたは店舗コードはデータベースに存在しません"),
+        @ApiResponse(code=ResultBase.RESREG_INVALIDPASSCODE, message="指定されたパスコードが無効です"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
+    public final Operator getAttribute(
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="terminalid", value="端末番号") @QueryParam("terminalid") final String terminalId,
+    		@ApiParam(name="operatorid", value="オペレータコード") @QueryParam("operatorid") final String operatorId,
+    		@ApiParam(name="operatorpass", value="オペレータパスワード") @QueryParam("operatorpass") final String operatorPass) {
 
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("CompanyId", companyId)
+	        .println("RetailStoreId", retailStoreId)
+	        .println("WorkStationId", terminalId)
+	        .println("OperatorId", operatorId)
+        	.println("OperatorPass", operatorPass);
+
+        Operator operator = new Operator();
+        
+        try {
+            if (StringUtility.isNullOrEmpty(companyId, retailStoreId, terminalId, operatorId, operatorPass)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                operator.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                operator.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                operator.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return operator;
+            }
+
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            ICredentialDAO credentialDAO = sqlServer.getCredentialDAO();
+            operator = credentialDAO.getStatusOfOperator(companyId, operatorId);
+            Authorization authorization = credentialDAO.getOperatorAuthorization(companyId, operatorId, operatorPass);
+            operator.setAuthorization(authorization);
+        } catch (DaoException ex) {
+            LOGGER.logAlert(progName, Logger.RES_EXCEP_DAO, functionName + ": Failed to get status and authorization of operator", ex);
+            operator.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            operator.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            operator.setMessage(ex.getMessage());
+        } catch (Exception ex) {
+            LOGGER.logAlert(progName, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get status and authorization of operator",
+                    ex);
+            operator.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            operator.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            operator.setMessage(ex.getMessage());
+        } finally {
+            tp.methodExit(operator);
+        }
+    	return operator;
+    }
+    /** ADD END 担当者権限の検証 **/
     /**
      * Get system name list
      *

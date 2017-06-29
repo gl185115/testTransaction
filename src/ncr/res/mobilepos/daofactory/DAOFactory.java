@@ -49,6 +49,7 @@ import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
 import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
+import ncr.res.mobilepos.posmailinfo.dao.IPOSMailInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
@@ -482,4 +483,8 @@ public abstract class DAOFactory {
 	public abstract IPriceMMInfoDAO getPriceMMInfoDAO() throws DaoException;
 
 	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
+	
+	/** ADD BGN 情報伝達機能 **/
+	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
+	/** ADD END 情報伝達機能 **/
 }

@@ -83,6 +83,8 @@ import ncr.res.mobilepos.point.dao.IPointDAO;
 import ncr.res.mobilepos.point.dao.SQLServerPointDAO;
 import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.poslogstatus.dao.SQLServerPoslogStatusDAO;
+import ncr.res.mobilepos.posmailinfo.dao.IPOSMailInfoDAO;
+import ncr.res.mobilepos.posmailinfo.dao.SQLServerPOSMailInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
@@ -413,5 +415,11 @@ public class SQLServerDAOFactory extends DAOFactory {
 	public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
 		return new SQLServerPromotionMsgInfoDAO();
 	}
+	
+	/** ADD BGN 情報伝達機能 **/
+	public IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException {
+		return new SQLServerPOSMailInfoDAO();
+	}
+	/** ADD END 情報伝達機能 **/
 
 }

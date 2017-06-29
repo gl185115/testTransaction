@@ -11634,4 +11634,43 @@ WHERE
 		FROM
 			RESMaster.dbo.PRM_SERVER_TBL
 	</entry>
+	<!-- ADD BGN 情報伝達機能 -->
+  <!-- *************************  ENTRY KEY FOR POS MAIL INFO  ************************* -->
+  <entry key="get-pos-mail-info">
+  DECLARE
+    @companyId VARCHAR(12),
+    @retailStoreId VARCHAR(10),
+    @workstationId VARCHAR(6),
+    @businessDate DATE
+
+    SET @companyId = LTRIM(RTRIM(?))
+    SET @retailStoreId = LTRIM(RTRIM(?))
+    SET @workstationId = LTRIM(RTRIM(?))
+    SET @businessDate = LTRIM(RTRIM(?))
+  SELECT
+    PMI.RecordId,
+    PMI.MailSubject,
+    PMI.StartDate,
+    PMI.EndDate,
+    PMI.MailBody,
+    PMI.RegOpeCode,
+    PMI.RegOpeName
+  FROM
+    RESMaster.dbo.MST_POSMAIL_INFO PMI
+  LEFT JOIN
+    RESMaster.dbo.MST_POSMAIL_STORE PMS
+      ON
+        PMS.CompanyId = PMI.CompanyId AND
+        PMS.RecordId = PMI.RecordId AND
+        PMS.DeleteFlag = PMI.DeleteFlag
+  WHERE
+    @companyId = PMI.CompanyId AND
+    @retailStoreId = PMS.StoreId AND
+    PMI.TargetStoreType = 1 AND
+    @businessDate BETWEEN PMI.StartDate AND PMI.EndDate AND
+    PMI.DeleteFlag = 0.0
+  ORDER BY
+    PMI.UpdDate DESC, RecordId ASC
+  </entry>
+  <!-- ADD END 情報伝達機能 -->
 </properties>

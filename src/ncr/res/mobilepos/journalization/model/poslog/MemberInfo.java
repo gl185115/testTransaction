@@ -116,6 +116,12 @@ public class MemberInfo {
     private MemberDetail memberDetail;
 
     /**
+     * The private variable that will hold the AmountByRank
+     */
+    @XmlElement(name = "AmountByRank")
+    private Integer amountByRank;
+
+    /**
      *
      * @return PointsMethod
      */
@@ -371,6 +377,22 @@ public class MemberInfo {
         this.memberDetail = memberDetail;
     }
 
+    /**
+    *
+    * @return AmountByRank
+    */
+   public Integer getAmountByRank() {
+       return amountByRank;
+   }
+
+   /**
+    *
+    * @param AmountByRank
+    */
+   public void setAmountByRank(Integer amountByRank) {
+       this.amountByRank = amountByRank;
+   }
+
     @Override
     public String toString() {
         return "MemberInfo [PointsMethod=" + pointsMethod + "AmountForPoints = " + amountForPoints
@@ -378,7 +400,7 @@ public class MemberInfo {
                 + "CorrectionPoints = " + correctionPoints + "BasicPoints = " + basicPoints + "AdditionalPoints = "
                 + additionalPoints + "BonusPoints = " + bonusPoints + "CouponPoints = " + couponPoints
                 + "PointsRedeemed = " + pointsRedeemed + "PointsPrior = " + pointsPrior + "TotalPoints = " + totalPoints
-                + "LostPoints = " + lostPoints + "MemberDetail = " + memberDetail + "]";
+                + "LostPoints = " + lostPoints + "AmountByRank = " + amountByRank + "MemberDetail = " + memberDetail + "]";
     }
 
 }

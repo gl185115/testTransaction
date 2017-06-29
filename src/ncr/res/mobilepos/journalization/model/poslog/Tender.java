@@ -160,12 +160,16 @@ public class Tender {
      */
     @XmlElement(name = "TenderId")
     private String tenderId;
-    
+
     @XmlAttribute(name = "Voidable")
     private String voidable;
-    
+
     @XmlAttribute(name = "Returnable")
     private String returnable;
+
+    @XmlAttribute(name = "Cancelable")
+    private String cancelable;
+
     /**
      * The default constructor for Tender class.
      */
@@ -546,5 +550,13 @@ public class Tender {
 
     public void setReturnable(String returnable) {
         this.returnable = returnable;
+    }
+
+    public String getCancelable() {
+        return cancelable;
+    }
+
+    public void setCancelable(String cancelable) {
+        this.cancelable = cancelable;
     }
 }

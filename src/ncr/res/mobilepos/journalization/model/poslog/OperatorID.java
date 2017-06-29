@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 /**
  * @author      mlwang      <mlwangi @ isoftstone.com>
- * 
+ *
  * OperatorID Model Object.
  *
  * <P>A OperatorID Node in POSLog XML.
@@ -41,34 +41,55 @@ public class OperatorID {
      */
     @XmlAttribute(name = "OperatorNameKana")
     private String operatorNameKana;
-    
+
+    /**
+     * OperatorGroup.
+     */
+    @XmlAttribute(name = "OperatorGroup")
+    private String operatorGroup;
+
     /**
      * @return the operatorName
      */
     public final String getOperatorName() {
     	return this.operatorName;
     }
-    
+
     /**
      * @param operatorName the operatorName to set
      */
     public final void setOperatorName(String operatorName) {
     	  this.operatorName = operatorName;
     }
-    
+
     /**
      * @return the operatorNameKana
      */
     public final String getOperatorNameKana() {
     	return this.operatorNameKana;
     }
-    
+
     /**
      * @param operatorNameKana the operatorNameKana to set
      */
     public final void setOperatorNameKana(String operatorNameKana) {
     	this.operatorNameKana = operatorNameKana;
     }
+
+    /**
+     * @return the operatorNameKana
+     */
+    public final String getOperatorGroup() {
+    	return this.operatorGroup;
+    }
+
+    /**
+     * @param operatorGroup the operatorGroup to set
+     */
+    public final void setOperatorGroup(String operatorGroup) {
+    	this.operatorGroup = operatorGroup;
+    }
+
     /**
      * @return the value
      */

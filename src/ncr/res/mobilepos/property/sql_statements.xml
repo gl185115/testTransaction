@@ -1291,6 +1291,7 @@ ORDER BY Dpt
             SubCode2,
             SubNum1,
             SubNum2,
+            SubNum3,
             DisplayOrder
         FROM
             RESMaster.dbo.MST_TENDERINFO

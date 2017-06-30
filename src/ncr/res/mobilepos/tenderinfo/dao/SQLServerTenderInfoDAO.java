@@ -251,7 +251,6 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 labelValue = new JSONObject();
                 labelValue.put("ja", resultSet.getString("TenderName"));
                 labelValue.put("en", resultSet.getString("TenderKanaName"));
-
                 tenderInfo.put("label", labelValue);
                 tenderInfo.put("stampType", resultSet.getString("StampType"));
                 tenderInfo.put("pointType", resultSet.getString("PointType"));
@@ -260,6 +259,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 tenderInfo.put("unitPrice", resultSet.getString("UnitPrice"));
                 tenderInfo.put("tranVoid", resultSet.getString("SubNum1"));
                 tenderInfo.put("tranReturn", resultSet.getString("SubNum2"));
+                tenderInfo.put("tenderVoid", resultSet.getString("SubNum3"));
                 tenderInfo.put("displayOrder", resultSet.getString("DisplayOrder"));
                 
                 if (tenderList.containsKey(resultSet.getString("TenderType"))) {

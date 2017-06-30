@@ -8,7 +8,7 @@
 DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10), 
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10), 
-        @pluNameStoreId VARCHAR(10), @urgentStoreStoreId VARCHAR(10)
+        @pluNameStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
     SET @MdInternal = LTRIM(RTRIM(?))
@@ -22,7 +22,6 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @sizeStoreId = @storeId
     SET @brandStoreId = @storeId
     SET @pluNameStoreId = @storeId
-    SET @urgentStoreStoreId = @storeId
 
     IF NOT EXISTS (
        SELECT *
@@ -120,19 +119,6 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          pluNameInfo.CompanyId = @companyId AND pluNameInfo.MdInternal = @MdInternal AND pluNameInfo.StoreId = @pluNameStoreId
     )
     SET @pluNameStoreId = '0'
-
-    IF NOT EXISTS (
-       SELECT *
-       FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
-       INNER JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
-       ON info.CompanyId  = store.CompanyId
-       AND info.RecordId = store.RecordId
-       AND store.DeleteFlag = 0.0
-       AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
-       AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @urgentStoreStoreId)
-       AND info.DeleteFlag = 0.0
-    )
-    SET @urgentStoreStoreId = '0'
 
 SELECT TOP 1
        plu.CompanyId,
@@ -274,7 +260,7 @@ LEFT JOIN  (
     AND info.RecordId = store.RecordId
     AND store.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
-    AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @urgentStoreStoreId)
+    AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @storeId)
     AND info.DeleteFlag = 0.0
 
 ) urgent ON
@@ -10441,13 +10427,12 @@ DECLARE  @MdInternal VARCHAR(32)
 </entry>
 <entry key="get-item-price">
 DECLARE    @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),
-           @storeStoreId VARCHAR(10), @urgentStoreStoreId VARCHAR(10)
+           @storeStoreId VARCHAR(10)
     SET    @storeId = LTRIM(RTRIM(?))
     SET    @companyId = LTRIM(RTRIM(?))
     SET    @MdInternal = LTRIM(RTRIM(?))
     SET    @businessDate = LTRIM(RTRIM(?))
     SET    @storeStoreId = @storeId
-    SET    @urgentStoreStoreId = @storeId
     
     IF NOT EXISTS (
        SELECT *
@@ -10466,19 +10451,6 @@ DECLARE    @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32)
          CompanyId = @companyId AND MdInternal = @MdInternal AND StoreId = @storeStoreId AND DeleteFlag = 0.0
     )
     SET @storeStoreId = '0'
-
-    IF NOT EXISTS (
-       SELECT *
-       FROM RESMaster.dbo.MST_PRICE_URGENT_INFO_FORSTORE info
-       INNER JOIN RESMaster.dbo.MST_PRICE_URGENT_STORE_FORSTORE store
-       ON info.CompanyId  = store.CompanyId
-       AND info.RecordId = store.RecordId
-       AND store.DeleteFlag = 0.0
-       AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
-       AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @urgentStoreStoreId)
-       AND info.DeleteFlag = 0.0
-    )
-    SET @urgentStoreStoreId = '0'
 
     SELECT TOP 1
        plu.CompanyId,
@@ -10551,7 +10523,7 @@ LEFT JOIN  (
     AND info.RecordId = store.RecordId
     AND store.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN store.StartDate AND store.EndDate
-    AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @urgentStoreStoreId)
+    AND store.TargetStoreType IN ('0','2') OR (store.TargetStoreType = '1' AND store.StoreId = @storeId)
     AND info.DeleteFlag = 0
 
 ) urgent
@@ -11597,27 +11569,49 @@ DECLARE
   DECLARE
       @companyId varchar(max), @ccode varchar(20)
 
-  SET @companyId = ?
-  SET @ccode = ?
+SET @companyId = ?
+SET @ccode = ?
+SET @storeId = ?
 
-  SELECT     Dpt
-    FROM RESMaster.dbo.MST_CCODEINFO
-    WHERE CompanyId = @companyId AND
-    	CCode = @ccode
-  </entry>
+IF NOT EXISTS (
+	SELECT Dpt
+	  FROM RESMaster.dbo.MST_CCODEINFO
+	 WHERE CompanyId = @companyId
+	   AND CCode = @ccode
+	   AND StoreId = @storeId
+)
+SET @storeId = '0'
+    
+SELECT Dpt
+  FROM RESMaster.dbo.MST_CCODEINFO
+ WHERE CompanyId = @companyId
+   AND CCode = @ccode
+   AND StoreId = @storeId
+</entry>
 
-  <entry key="convert-magcode-to-dpt">
-  DECLARE
-      @companyId varchar(max), @magcode varchar(20)
+<entry key="convert-magcode-to-dpt">
+DECLARE
+    @companyId varchar(max), @magcode varchar(20), @storeId varchar(max)
 
-  SET @companyId = ?
-  SET @magcode = ?
+SET @companyId = ?
+SET @magcode = ?
+SET @storeId = ?
 
-  SELECT     Dpt
-    FROM RESMaster.dbo.MST_MAGCODEINFO
-    WHERE CompanyId = @companyId AND
-    	MagCode = @magcode
-  </entry>
+IF NOT EXISTS (
+	SELECT Dpt
+	  FROM RESMaster.dbo.MST_MAGCODEINFO
+	 WHERE CompanyId = @companyId
+	   AND MagCode = @magcode
+	   AND StoreId = @storeId
+)
+SET @storeId = '0'
+
+SELECT Dpt
+  FROM RESMaster.dbo.MST_MAGCODEINFO
+ WHERE CompanyId = @companyId
+   AND MagCode = @magcode
+   AND StoreId = @storeId
+</entry>
 
 <entry key="count-unsend-poslog">
 SELECT

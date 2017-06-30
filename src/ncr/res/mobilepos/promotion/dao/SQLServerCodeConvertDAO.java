@@ -59,12 +59,13 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
     /**
      * Convert CCode to DptCode from MST_CCODEINFO.
      * @param companyId ,
-	 *        CCode    
+	 *        CCode,
+	 *        storeId
      * @return Dpt code
      * @throws DaoException Exception when error occurs.
      */
     @Override
-	public final String convertCCodeToDpt(final String companyId, final String code) throws DaoException {
+	public final String convertCCodeToDpt(final String companyId, final String code, final String storeId) throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.methodEnter("convertCCodeToDpt");
     	tp.println("CompanyId", companyId);
@@ -82,6 +83,7 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
                     sqlStatement.getProperty("convert-ccode-to-dpt"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, code);
+            select.setString(SQLStatement.PARAM3, storeId);
             result = select.executeQuery();
             
             if (result.next()) {
@@ -103,16 +105,18 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
     /**
      * Convert MagCode to DptCode from MST_MAGCODEINFO.
      * @param companyId ,
-	 *        magCode    
+	 *        magCode,
+	 *        storeId
      * @return Dpt code
      * @throws DaoException Exception when error occurs.
      */
     @Override
-	public final String convertMagCodeToDpt(final String companyId, final String code) throws DaoException {
+	public final String convertMagCodeToDpt(final String companyId, final String code, final String storeId) throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.methodEnter("convertMagCodeToDpt");
     	tp.println("CompanyId", companyId);
         tp.println("Code", code);
+        tp.println("storeId", storeId);
         
         Connection connection = null;
         PreparedStatement select = null;
@@ -126,6 +130,7 @@ public class SQLServerCodeConvertDAO extends AbstractDao implements ICodeConvert
                     sqlStatement.getProperty("convert-magcode-to-dpt"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, code);
+            select.setString(SQLStatement.PARAM3, storeId);
             result = select.executeQuery();
             
             if (result.next()) {

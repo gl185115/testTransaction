@@ -547,7 +547,8 @@ public class CustomerSearchResource {
                         strbUrl.toString(), strbParams.toString(),
                         mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
                         mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT));
+                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
             }
 
             // sorting the returned data
@@ -723,7 +724,8 @@ public class CustomerSearchResource {
                         strbUrl.toString(), strbParams.toString(),
                         mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
                         mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT));
+                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
             }
 
             // sorting the returned data
@@ -899,7 +901,8 @@ public class CustomerSearchResource {
                         strbUrl.toString(), strbParams.toString(),
                         mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
                         mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT));
+                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
             }
 
             // sorting the returned data

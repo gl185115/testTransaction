@@ -35,6 +35,9 @@ public class CustomerSearchConstants {
     /** Timeout the KeyId column of the table PRM_SYSTEM_CONFIG */
     public static final String KEYID_MEMBERSERVERTIMEOUT = "MemberServerTimeout";
     
+    /** Timeout the KeyId column of the table PRM_SYSTEM_CONFIG */
+    public static final String KEYID_MEMBERSERVERCONNECTTIMEOUT = "MemberServerConnectTimeout";
+    
     /** Dummy Xml - LoginKey */
     public static final String LOGINKEYXML = "loginKey.xml";
     

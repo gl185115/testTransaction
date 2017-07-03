@@ -67,9 +67,9 @@ public class HTTPBasicAuthorization {
     public static List<String> connection(String address, String params, String username,
             String password, String readTimeout ,String connectTimeout) throws MalformedURLException, IOException{
         List<String> lstReturn = new ArrayList<String>();
-        LOGGER.logAlert("HTTPBasicAuthorization","connection","LOG:", "WebApi address:" + address + "  params :" + params);
-        LOGGER.logAlert("HTTPBasicAuthorization","connection","LOG:", "username:" + username + "  password :" + password);
-        URL url = new URL(address);
+        LOGGER.logAlert("HTTPBasicAuthorization","connection","LOG:", "WebApi address:" + address + "  params:" + params);
+        LOGGER.logAlert("HTTPBasicAuthorization","connection","LOG:", "username:" + username + "  password:" + password);
+        URL url = new URL(address + "?" + params);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         String author = "Basic "
                 + Base64.encode((username + ":" + password).getBytes());
@@ -88,9 +88,9 @@ public class HTTPBasicAuthorization {
         if(!StringUtility.isNullOrEmpty(readTimeout)){
             conn.setReadTimeout(Integer.parseInt(readTimeout) * 1000);
         }
-        PrintWriter printWriter = new PrintWriter(conn.getOutputStream());
-        printWriter.write(params.toString());
-        printWriter.flush();
+//        PrintWriter printWriter = new PrintWriter(conn.getOutputStream());
+//        printWriter.write(params.toString());
+//        printWriter.flush();
         conn.connect();
         int intConnectionStatus = conn.getResponseCode();
         lstReturn.add(String.valueOf(intConnectionStatus));

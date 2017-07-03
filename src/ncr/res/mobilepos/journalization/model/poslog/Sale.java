@@ -247,7 +247,7 @@ public class Sale {
      */
     @XmlElement(name = "OriginalGiftRegistry")
     private GiftRegistry originalGiftRegistry;
-    
+
     /**
      * The Discount Amount.
      */
@@ -491,6 +491,12 @@ public class Sale {
     private String restockFlag;
 
     /**
+     * LabelPrice
+     */
+    @XmlElement(name = "LabelPrice")
+    private String labelPrice;
+
+    /**
      * @return the barReservationType
      */
     public BarReservationType getBarReservationType() {
@@ -504,7 +510,7 @@ public class Sale {
     public void setBarReservationType(BarReservationType barReservationType) {
         this.barReservationType = barReservationType;
     }
-    
+
     public final double getRegularSalesUnitPrice() {
         return regularsalesunitprice;
     }
@@ -1552,5 +1558,17 @@ public class Sale {
      */
     public final String getRestockFlag() {
         return restockFlag;
+    }
+    /**
+     * @param restockFlag the restockFlag to set
+     */
+    public final void setLabelPrice(final String labelPrice) {
+        this.labelPrice = labelPrice;
+    }
+    /**
+     * @return the restockFlag
+     */
+    public final String getLabelPrice() {
+        return labelPrice;
     }
 }

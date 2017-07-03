@@ -11,10 +11,14 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+
+import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 
 public class HTTPBasicAuthorization {
 
+
+    private static final Logger LOGGER = (Logger) Logger.getInstance();
     /**
      * HTTP Basic Authentication
      *
@@ -63,6 +67,7 @@ public class HTTPBasicAuthorization {
     public static List<String> connection(String address, String params, String username,
             String password, String readTimeout ,String connectTimeout) throws MalformedURLException, IOException{
         List<String> lstReturn = new ArrayList<String>();
+        LOGGER.logAlert("HTTPBasicAuthorization","connection","", "WebApi address:" + address + "  params :" + params);
         URL url = new URL(address);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         String author = "Basic "

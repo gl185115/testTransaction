@@ -11567,7 +11567,7 @@ DECLARE
   <!-- *************************  ENTRY KEY FOR ConvertCode INFO  ************************* -->
   <entry key="convert-ccode-to-dpt">
   DECLARE
-      @companyId varchar(max), @ccode varchar(20)
+      @companyId varchar(max), @ccode varchar(20), @storeId varchar(max)
 
 SET @companyId = ?
 SET @ccode = ?

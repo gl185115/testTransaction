@@ -76,7 +76,7 @@ public class HTTPBasicAuthorization {
         conn.setRequestProperty("Authorization", author);
         conn.setRequestProperty("Content-Length", String  
                 .valueOf(params.length())); 
-        conn.setDoOutput(true);
+        //conn.setDoOutput(true);
         conn.setDoInput(true);
         if(!StringUtility.isNullOrEmpty(connectTimeout)){
             conn.setConnectTimeout(Integer.parseInt(connectTimeout) * 1000);

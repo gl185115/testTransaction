@@ -132,7 +132,7 @@
                 <description>ギフトカード販売</description>
                 <id>giftcardSale32</id>
                 <type>single</type>
-                <symbol>EAN</symbol>
+                <symbol>EAN128</symbol>
                 <format>[0-9a-zA-Z]{32}</format>
             </item>
         </items>
@@ -140,29 +140,18 @@
     <payment>
         <items>
             <item>
-                <description>クーポン</description>
-                <id>coupon</id>
-                <type>single</type>
-                <symbol>EAN</symbol>
-                <format>983*</format>
-                <format>9842*</format>
-                <format>9846*</format>
-            </item>
-            <item>
-                <description>ギフト</description>
-                <id>giftCertificate</id>
-                <type>single</type>
-                <symbol>EAN</symbol>
-                <format>9840*</format>
-                <format>9841*</format>
-            </item>
-            <item>
                 <description>値引割引</description>
                 <id>discount</id>
                 <type>single</type>
-                <symbol>Codabar</symbol>
-                <format>(B|b){1}(\\d{20}|\\d{10})(C|c){1}</format>
-                <format>(A|a){1}\\d{16}(A|a){1}</format>
+                <symbol>NW7</symbol>
+                <format>(B|b){1}(\\d{2})(\\d{3})(\\d{1})(\\d{1})(\\d{7})(\\d{6})(C|c){1}</format>
+            </item>
+            <item>
+                <description>QR値引割引</description>
+                <id>QRdiscount</id>
+                <type>single</type>
+                <symbol>QR</symbol>
+                <format>(B|b){1}(\\d{2})(\\d{3})(\\d{1})(\\d{1})(\\d{7})(\\d{6})(C|c){1}.*</format>
             </item>
             <item>
                 <description>ポイントクーポン</description>

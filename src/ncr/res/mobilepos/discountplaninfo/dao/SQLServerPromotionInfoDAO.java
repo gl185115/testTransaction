@@ -101,7 +101,7 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
                         && (rateDiscountFlag.indexOf(resultSet.getString("RateDiscountFlag")) > -1)) {
                     promotioninfo = new JSONObject();
                     promotioninfo.put("companyId", resultSet.getString("CompanyId"));
-                    promotioninfo.put("storeId", resultSet.getString("StoreId"));
+                    promotioninfo.put("storeId", storeId);
                     promotioninfo.put("promotionId", resultSet.getString("PromotionId"));
                     promotioninfo.put("promotionName", resultSet.getString("PromotionName"));
                     promotioninfo.put("receiptName", resultSet.getString("ReceiptName"));

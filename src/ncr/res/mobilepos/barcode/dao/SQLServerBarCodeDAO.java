@@ -102,7 +102,7 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
                 }
                 JSONObject valueResult = new JSONObject();
                 valueResult.put("companyId", resultSet.getString("CompanyId"));
-                valueResult.put("storeId", resultSet.getString("StoreId"));
+                valueResult.put("storeId", storeId);
                 valueResult.put("cardType", resultSet.getString("CardType"));
                 valueResult.put("seqNo", resultSet.getString("SeqNo"));
                 valueResult.put("subNo", resultSet.getString("SubNo"));

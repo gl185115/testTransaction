@@ -11,14 +11,10 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 
 public class HTTPBasicAuthorization {
 
-
-    private static final Logger LOGGER = (Logger) Logger.getInstance();
     /**
      * HTTP Basic Authentication
      *
@@ -67,16 +63,14 @@ public class HTTPBasicAuthorization {
     public static List<String> connection(String address, String params, String username,
             String password, String readTimeout ,String connectTimeout) throws MalformedURLException, IOException{
         List<String> lstReturn = new ArrayList<String>();
-        LOGGER.logAlert("HTTPBasicAuthorization","connection","LOG:", "WebApi address:" + address + "  params:" + params);
-        LOGGER.logAlert("HTTPBasicAuthorization","connection","LOG:", "username:" + username + "  password:" + password);
-        URL url = new URL(address + "?" + params);
+        URL url = new URL(address);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         String author = "Basic "
                 + Base64.encode((username + ":" + password).getBytes());
         conn.setRequestProperty("Authorization", author);
         conn.setRequestProperty("Content-Length", String  
                 .valueOf(params.length())); 
-        //conn.setDoOutput(true);
+        conn.setDoOutput(true);
         conn.setDoInput(true);
         if(!StringUtility.isNullOrEmpty(connectTimeout)){
             conn.setConnectTimeout(Integer.parseInt(connectTimeout) * 1000);
@@ -88,9 +82,9 @@ public class HTTPBasicAuthorization {
         if(!StringUtility.isNullOrEmpty(readTimeout)){
             conn.setReadTimeout(Integer.parseInt(readTimeout) * 1000);
         }
-//        PrintWriter printWriter = new PrintWriter(conn.getOutputStream());
-//        printWriter.write(params.toString());
-//        printWriter.flush();
+        PrintWriter printWriter = new PrintWriter(conn.getOutputStream());
+        printWriter.write(params.toString());
+        printWriter.flush();
         conn.connect();
         int intConnectionStatus = conn.getResponseCode();
         lstReturn.add(String.valueOf(intConnectionStatus));

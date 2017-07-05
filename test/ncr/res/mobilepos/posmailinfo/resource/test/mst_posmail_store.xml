@@ -1,0 +1,289 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_POSMAIL_STORE">
+		<column>CompanyId</column>
+		<column>RecordId</column>
+		<column>StoreId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>10</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>2</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>3</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>4</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>5</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>6</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>7</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>8</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>9</value>
+			<value>0247</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+	</table>
+</dataset>

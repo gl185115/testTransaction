@@ -484,7 +484,5 @@ public abstract class DAOFactory {
 
 	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
 	
-	/** ADD BGN 情報伝達機能 **/
 	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
-	/** ADD END 情報伝達機能 **/
 }

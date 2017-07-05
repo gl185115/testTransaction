@@ -139,6 +139,10 @@ public final class Logger extends IoWriter {
      * The message id of para error
      */
     public static final String RES_PARA_ERR = "108";
+    /**
+     * The message id of json exception
+     */
+    public static final String RES_EXCEP_JSON = "109";
 
     /**
      * Constructor.

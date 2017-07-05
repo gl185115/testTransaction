@@ -203,13 +203,11 @@ public class ResultBase {
      *Reports success result code.
      */
     public static final int RESRPT_OK = 0;
-    /** ADD BGN 情報伝達機能 **/
     /**
      * Value : {@value}<br>
      *POS Mail Info success result code.
      */
     public static final int RES_POSMAIL_INFO_OK = 0;
-    /** ADD END 情報伝達機能 **/
     /**
      * Value : {@value}<br>
      *The Emergency registration.

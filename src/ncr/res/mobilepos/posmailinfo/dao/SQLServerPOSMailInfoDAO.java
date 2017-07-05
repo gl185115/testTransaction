@@ -6,16 +6,18 @@
  * DAO which handles database information of POS Mail Info.
  *
  */
-/** ADD BGN 情報伝達機能 **/
 package ncr.res.mobilepos.posmailinfo.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.AbstractDao;
@@ -24,7 +26,6 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.webserviceif.model.JSONData;
 
@@ -69,55 +70,74 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
 			.println("workstationId", workstationId)
 			.println("businessDate", businessDate);
 
-		PreparedStatement selectStmnt = null;
-		ResultSet resultSet = null;
-		Connection connection = null;
-		
 		JSONData posMailInfo = new JSONData();
 		JSONArray infoData = new JSONArray();
 		try {
-			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
-			
-			selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-pos-mail-info"));
-			selectStmnt.setString(SQLStatement.PARAM1, companyId);
-			selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
-			selectStmnt.setString(SQLStatement.PARAM3, workstationId);
-			selectStmnt.setString(SQLStatement.PARAM4, businessDate);
-			resultSet = selectStmnt.executeQuery();
-
 			JSONObject rowData = null;
 			String outputDate = "";
-			while(resultSet.next()) {
-				rowData = new JSONObject();
-				rowData.put("RecordId", resultSet.getString("RecordId"));				
-				rowData.put("MailSubject", resultSet.getString("MailSubject"));
-				rowData.put("MailBody", resultSet.getString("MailBody"));
-				rowData.put("RegOpeCode", resultSet.getString("RegOpeCode"));
-				rowData.put("RegOpeName",  resultSet.getString("RegOpeName"));
+			try (Connection connection = dbManager.getConnection();
+					PreparedStatement selectStmnt = connection
+							.prepareStatement(sqlStatement
+									.getProperty("get-pos-mail-info"));) {
+				selectStmnt.setString(SQLStatement.PARAM1, companyId);
+				selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
+				selectStmnt.setString(SQLStatement.PARAM3, workstationId);
+				selectStmnt.setString(SQLStatement.PARAM4, businessDate);
+				
+				try (ResultSet resultSet = selectStmnt.executeQuery();) {
+					while (resultSet.next()) {
+						rowData = new JSONObject();
+						rowData.put("RecordId", resultSet.getString("RecordId"));
+						rowData.put("MailSubject",
+								resultSet.getString("MailSubject"));
+						rowData.put("MailBody", resultSet.getString("MailBody"));
+						rowData.put("RegOpeCode",
+								resultSet.getString("RegOpeCode"));
+						rowData.put("RegOpeName",
+								resultSet.getString("RegOpeName"));
 
-				Date date = inSDF.parse(resultSet.getString("StartDate"));
-				outputDate = outSDF.format(date);
-				rowData.put("StartDate", outputDate);
+						Date date = inSDF.parse(resultSet
+								.getString("StartDate"));
+						outputDate = outSDF.format(date);
+						rowData.put("StartDate", outputDate);
 
-				date = inSDF.parse(resultSet.getString("EndDate"));
-				outputDate = outSDF.format(date);
-				rowData.put("EndDate", outputDate);				
+						date = inSDF.parse(resultSet.getString("EndDate"));
+						outputDate = outSDF.format(date);
+						rowData.put("EndDate", outputDate);
 
-				infoData.add(rowData);
+						infoData.add(rowData);
+					}
+				}
+			} catch (JSONException jsonEx) {
+				LOGGER.logAlert(
+						PROG_NAME,
+						functionName,
+						Logger.RES_EXCEP_JSON,
+						"Failed to get list of messages.\n"
+								+ jsonEx.getMessage());
+				throw new DaoException("JSONException: @getPOSMailInfo ", jsonEx);
+			} catch (ParseException parseEx) {
+				LOGGER.logAlert(
+						PROG_NAME,
+						functionName,
+						Logger.RES_EXCEP_PARSE,
+						"Failed to get list of messages.\n"
+								+ parseEx.getMessage());
+				throw new DaoException("ParseException: @getPOSMailInfo ", parseEx);
 			}
 			posMailInfo.setInfoData(infoData.toString());
-			posMailInfo.setNCRWSSResultCode(ResultBase.RES_POSMAIL_INFO_OK);
-			posMailInfo.setNCRWSSExtendedResultCode(ResultBase.RES_POSMAIL_INFO_OK);
-		} catch (Exception e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get list of messages.",
-                    e);
-            throw new DaoException("Exception:" + " @SQLServerPOSMailInfoDAO.getPOSMailInfo", e);
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(
+					PROG_NAME,
+					functionName,
+					Logger.RES_EXCEP_SQL,
+					"Failed to get list of messages.\n"
+							+ sqlEx.getMessage());
+			throw new DaoException("SQLException: @getPOSMailInfo ", sqlEx);
 		} finally {
-			closeConnectionObjects(connection, selectStmnt, resultSet);
-            tp.methodExit(posMailInfo);
+			tp.methodExit(posMailInfo);
 		}
 		return posMailInfo;
 	}
 }
-/** ADD END 情報伝達機能 **/

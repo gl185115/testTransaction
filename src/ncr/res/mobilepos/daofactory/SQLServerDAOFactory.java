@@ -416,10 +416,8 @@ public class SQLServerDAOFactory extends DAOFactory {
 		return new SQLServerPromotionMsgInfoDAO();
 	}
 	
-	/** ADD BGN 情報伝達機能 **/
+	@Override
 	public IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException {
 		return new SQLServerPOSMailInfoDAO();
 	}
-	/** ADD END 情報伝達機能 **/
-
 }

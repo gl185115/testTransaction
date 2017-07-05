@@ -6,7 +6,6 @@
  * Resource which provides a list of POS Mail notification messages.
  * 
  */
-/** ADD BGN 情報伝達機能 **/
 package ncr.res.mobilepos.posmailinfo.resource;
 
 import javax.servlet.ServletContext;
@@ -91,4 +90,3 @@ public class POSMailInfoResource {
 		return posMailInfo;
     }
 }
-/** ADD END 情報伝達機能 **/

@@ -58,9 +58,7 @@
         ncr.res.mobilepos.initialization.resource,
         ncr.res.mobilepos.poslogstatus.resource,
         ncr.res.mobilepos.appserver.resource,
-        <!-- ADD BGN 情報伝達機能 -->
         ncr.res.mobilepos.posmailinfo.resource
-        <!-- ADD END 情報伝達機能 -->
     </param-value>
     </init-param>
     <init-param>
@@ -136,9 +134,7 @@
       <url-pattern>/rest/creditcard/*</url-pattern>
       <url-pattern>/rest/poslogstatus/*</url-pattern>
       <url-pattern>/rest/servertable/*</url-pattern>
-      <!-- ADD BGN 情報伝達機能 -->
       <url-pattern>/rest/posmailinfo/*</url-pattern>
-      <!-- ADD END 情報伝達機能 -->
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

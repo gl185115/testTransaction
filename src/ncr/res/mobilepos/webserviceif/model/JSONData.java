@@ -21,10 +21,8 @@ public class JSONData extends ResultBase{
 	@XmlElement(name = "JSONObject")
 	private String jsonObject = null;
 
-	/** ADD BGN 情報伝達機能 **/
 	@XmlElement(name = "InfoData")
 	private String infoData = null;
-	/** ADD END 情報伝達機能 **/
 	/**
 	 * @return the jsonObject
 	 */
@@ -40,7 +38,6 @@ public class JSONData extends ResultBase{
 		this.jsonObject = jsonObject;
 	}
 
-	/** ADD BGN 情報伝達機能 **/
 	public final String getInfoData() {
 		return infoData;
 	}
@@ -48,5 +45,4 @@ public class JSONData extends ResultBase{
 	public final void setInfoData(String infoData) {
 		this.infoData = infoData;
 	}
-	/** ADD END 情報伝達機能 **/
 }

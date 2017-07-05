@@ -7,6 +7,7 @@
 package ncr.res.mobilepos.initialization.resource;
 
 import javax.annotation.PostConstruct;
+import javax.naming.NamingException;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -94,7 +95,12 @@ public class InitializationStatusResource {
         initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
         initFailed |= BarcodeAssignmentFactory.getInstance() == null;
         initFailed |= WindowsEnvironmentVariables.getInstance() == null;
-        initFailed |= SystemFileConfig.getInstance() == null;
+
+        try {
+			if(!WindowsEnvironmentVariables.initInstance().isServerTypeEnterprise()){
+				initFailed |= SystemFileConfig.getInstance() == null;
+			}
+		} catch (NamingException e) {}
 
         if(initFailed) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);

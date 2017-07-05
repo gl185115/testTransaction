@@ -1,0 +1,203 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_PRICE_PROMOTION">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>PromotionId</column>
+		<column>PromotionName</column>
+		<column>ReceiptName</column>
+		<column>DiscountReason</column>
+		<column>DiscountReasonName</column>
+		<column>PromotionType</column>
+		<column>DiscountType</column>
+		<column>InputFlag</column>
+		<column>PartialFlag</column>
+		<column>RateDiscountFlag</column>
+		<column>PriceDiscountFlag</column>
+		<column>ButtonFlag</column>
+		<column>BarcodeFlag</column>
+		<column>BarcodeDigit</column>
+		<column>BarcodeStartCode</column>
+		<column>BarcodeEndCode</column>
+		<column>BarcodeIdCode1</column>
+		<column>BarcodeIdStartIndex1</column>
+		<column>BarcodeIdStartDigit1</column>
+		<column>BarcodeIdCode2</column>
+		<column>BarcodeIdStartIndex2</column>
+		<column>BarcodeIdStartDigit2</column>
+		<column>PointCombinationUseFlag</column>
+		<column>PointAddFlag</column>
+		<column>DiscountBarcodeType</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>特別割引</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>6</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<value></value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>1</value>
+			<value>19</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>0</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>特別割引</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>6</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<value></value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>1</value>
+			<value>19</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>0</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>特別割引</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>6</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<value></value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>1</value>
+			<value>19</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>0247</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>特別割引</value>
+			<value>61</value>
+			<value>特別割引</value>
+			<value>6</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<value></value>
+			<null />
+			<null />
+			<value>1</value>
+			<value>1</value>
+			<value>19</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-01-18 13:53:08.1170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+</dataset>

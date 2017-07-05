@@ -529,26 +529,32 @@ public class CustomerSearchResource {
 
             // basic authenticate
             // send url
-            List<String> lstReturn = new ArrayList<String>();
-            if (GlobalConstant.getMemberServerDebug()){
-                File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.LOGINKEYXML);
-                InputStream in = new FileInputStream(file);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                StringBuilder strbReturn = new StringBuilder();
-                String strReadLine = "";
-                lstReturn.add("200");
-                while((strReadLine = br.readLine()) != null){
-                    strbReturn.append(strReadLine.trim());
+            List<String> lstReturn = null;
+            
+            for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getMemberServerDebug()){
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.LOGINKEYXML);
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while((strReadLine = br.readLine()) != null){
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    lstReturn.add(strbReturn.toString());
+                } else {
+                    lstReturn = HTTPBasicAuthorization.connection(
+                            strbUrl.toString(), strbParams.toString(),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
                 }
-                br.close();
-                lstReturn.add(strbReturn.toString());
-            } else {
-                lstReturn = HTTPBasicAuthorization.connection(
-                        strbUrl.toString(), strbParams.toString(),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
+                
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
             }
 
             // sorting the returned data
@@ -706,27 +712,34 @@ public class CustomerSearchResource {
 
             // basic authenticate
             // send url
-            List<String> lstReturn = new ArrayList<String>();
-            if (GlobalConstant.getMemberServerDebug()){
-                File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.RANKINFOXML);
-                InputStream in = new FileInputStream(file);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                StringBuilder strbReturn = new StringBuilder();
-                String strReadLine = "";
-                lstReturn.add("200");
-                while((strReadLine = br.readLine()) != null){
-                    strbReturn.append(strReadLine.trim());
+            List<String> lstReturn = null;
+            
+            for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getMemberServerDebug()){
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.RANKINFOXML);
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while((strReadLine = br.readLine()) != null){
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    lstReturn.add(strbReturn.toString());
+                } else {
+                    lstReturn = HTTPBasicAuthorization.connection(
+                            strbUrl.toString(), strbParams.toString(),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
                 }
-                br.close();
-                lstReturn.add(strbReturn.toString());
-            } else {
-                lstReturn = HTTPBasicAuthorization.connection(
-                        strbUrl.toString(), strbParams.toString(),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
+                
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
             }
+            
 
             // sorting the returned data
             if (lstReturn == null || lstReturn.size() == 0) {
@@ -883,27 +896,33 @@ public class CustomerSearchResource {
 
             // basic authenticate
             // send url
-            List<String> lstReturn = new ArrayList<String>();
-            if (GlobalConstant.getMemberServerDebug()){
-                File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.MEMBERINFOXML);
-                InputStream in = new FileInputStream(file);
-                BufferedReader br = new BufferedReader(new InputStreamReader(in));
-                StringBuilder strbReturn = new StringBuilder();
-                String strReadLine = "";
-                lstReturn.add("200");
-                while((strReadLine = br.readLine()) != null){
-                    strbReturn.append(strReadLine.trim());
+            List<String> lstReturn = null;
+            for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getMemberServerDebug()){
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.MEMBERINFOXML);
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while((strReadLine = br.readLine()) != null){
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    lstReturn.add(strbReturn.toString());
+                } else {
+                    lstReturn = HTTPBasicAuthorization.connection(
+                            strbUrl.toString(), strbParams.toString(),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
                 }
-                br.close();
-                lstReturn.add(strbReturn.toString());
-            } else {
-                lstReturn = HTTPBasicAuthorization.connection(
-                        strbUrl.toString(), strbParams.toString(),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
-                        mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
+                
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
             }
+            
 
             // sorting the returned data
             if (lstReturn == null || lstReturn.size() == 0) {

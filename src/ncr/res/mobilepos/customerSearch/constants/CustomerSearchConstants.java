@@ -46,4 +46,7 @@ public class CustomerSearchConstants {
     
     /** Dummy Xml - MemberInfo */
     public static final String MEMBERINFOXML = "memberInfo.xml";
+    
+    /** Retry total times */
+    public static final int RETRYTOTAL = 3;
 }

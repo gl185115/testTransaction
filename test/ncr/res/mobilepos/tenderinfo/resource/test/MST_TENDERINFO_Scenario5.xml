@@ -105,4 +105,191 @@
             <value>SYSTEM</value>
         </row>
     </table>
+    
+    <table name="MST_COUPONPRICE">
+        <column>CompanyId</column>
+        <column>StoreId</column>
+        <column>TenderType</column>
+        <column>TenderId</column>
+        <column>SeqNo</column>
+        <column>NameText</column>
+        <column>UnitPrice</column>
+        <column>DisplayOrder</column>
+        <column>SubCode1</column>
+        <column>SubCode2</column>
+        <column>SubCode3</column>
+        <column>SubCode4</column>
+        <column>SubCode5</column>
+        <column>SubNum1</column>
+        <column>SubNum2</column>
+        <column>SubNum3</column>
+        <column>SubNum4</column>
+        <column>SubNum5</column>
+        <column>DeleteFlag</column>
+        <column>DelDate</column>
+        <column>DelAppId</column>
+        <column>DelOpeCode</column>
+        <column>InsDate</column>
+        <column>InsAppId</column>
+        <column>InsOpeCode</column>
+        <column>UpdCount</column>
+        <column>UpdDate</column>
+        <column>UpdAppId</column>
+        <column>UpdOpeCode</column>
+        <row>
+            <value>01</value>
+            <value>0</value>
+            <value>8</value>
+            <value>0020</value>
+            <value>1</value>
+            <value>ＱＵＯカード</value>
+            <value>1000</value>
+            <value>2</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>2017-01-01 00:00:00.0000000</value>
+            <value>0</value>
+            <value>0001</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+            <value>0</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0</value>
+            <value>8</value>
+            <value>0020</value>
+            <value>2</value>
+            <value>ＱＵＯカード</value>
+            <value>2000</value>
+            <value>2</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>2017-01-01 00:00:00.0000000</value>
+            <value>0</value>
+            <value>0001</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+            <value>0</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0222</value>
+            <value>1</value>
+            <value>金券類１</value>
+            <value>1000</value>
+            <value>2</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>2017-01-01 00:00:00.0000000</value>
+            <value>0</value>
+            <value>0001</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+            <value>0</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0200</value>
+            <value>2</value>
+            <value>金券類１</value>
+            <value>2000</value>
+            <value>2</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>2017-01-01 00:00:00.0000000</value>
+            <value>0</value>
+            <value>0001</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+            <value>0</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0223</value>
+            <value>1</value>
+            <value>金券類２</value>
+            <value>1000</value>
+            <value>2</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>2017-01-01 00:00:00.0000000</value>
+            <value>0</value>
+            <value>0001</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+            <value>0</value>
+            <value>2015-11-01 00:00:00.0000000</value>
+            <value>SYSTEM</value>
+            <value>SYSTEM</value>
+        </row>
+    </table>
 </dataset>

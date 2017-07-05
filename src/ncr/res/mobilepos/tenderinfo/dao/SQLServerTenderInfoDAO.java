@@ -4,13 +4,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.AbstractDao;
@@ -262,6 +265,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 tenderInfo.put("tenderVoid", resultSet.getString("SubNum3"));
                 tenderInfo.put("displayOrder", resultSet.getString("DisplayOrder"));
                 
+                getCouponPriceInfo(storeId, tenderInfo, companyId);
                 if (tenderList.containsKey(resultSet.getString("TenderType"))) {
                     tenderList.get(resultSet.getString("TenderType")).add(tenderInfo);
                 } else {
@@ -300,6 +304,65 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
         }
         return tender;
     }
+    
+    /**
+     * åîóﬁ(ã‡éÌï )ÇÃéÌóﬁÅ^íPâøèÓïÒÇéÊìæÇ∑ÇÈ
+     * @param storeid
+     * @param tenderInfo
+     * @param companyId The ID of the companyId
+     * @throws DaoException   Exception thrown when the failed.
+     */
+	private void getCouponPriceInfo(final String storeId, final JSONObject tenderInfo, final String companyId)
+			throws DaoException {
+		tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeId)
+				.println("tenderInfo", tenderInfo).println("CompanyId", companyId);
+
+		Connection connection = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		String functionName = "SQLServerTenderInfoDAO.getCouponPriceInfo";
+		try {
+			String tenderId = tenderInfo.getString("tenderId").toString();
+			String tenderType = tenderInfo.getString("tenderType").toString();
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			select = connection.prepareStatement(sqlStatement.getProperty("get-coupon-price-info"));
+			select.setString(SQLStatement.PARAM1, companyId);
+			select.setString(SQLStatement.PARAM2, storeId);
+			select.setString(SQLStatement.PARAM3, tenderId);
+			select.setString(SQLStatement.PARAM4, tenderType);
+			result = select.executeQuery();
+			
+			JSONArray couponPriceList = null;
+			JSONObject couponPriceInfo = null;
+			while(result.next()){
+				if (couponPriceList == null) {
+					couponPriceList = new JSONArray();
+				}
+				couponPriceInfo = new JSONObject();
+				couponPriceInfo.put("nameText", result.getString("NameText"));
+				couponPriceInfo.put("unitPrice", result.getString("UnitPrice"));
+				couponPriceList.add(couponPriceInfo);
+			}
+			tenderInfo.put("couponPriceList", couponPriceList);
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+					"Failed to get the prom information.\n" + sqlEx.getMessage());
+			throw new DaoException("SQLException: @getCouponPriceInfo ", sqlEx);
+		} catch (NumberFormatException nuEx) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+					"Failed to get the prom information.\n" + nuEx.getMessage());
+			throw new DaoException("NumberFormatException: @getCouponPriceInfo ", nuEx);
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get the prom information.\n" + e.getMessage());
+			throw new DaoException("Exception: @getCouponPriceInfo ", e);
+		} finally {
+			closeConnectionObjects(connection, select, result);
+			tp.methodExit(tenderInfo);
+		}
+	}
+    
     @Override
     public JSONData getTenderInfoByType(String companyId, String storeId, String tenderType, String tenderId)
             throws DaoException {

@@ -1289,6 +1289,50 @@ ORDER BY Dpt
             DisplayOrder,
             TenderType
     </entry>
+    
+<entry key="get-coupon-price-info">
+    DECLARE
+        @companyId VARCHAR (12),
+        @storeId VARCHAR (10),
+        @tenderId VARCHAR (20),
+        @tenderType VARCHAR (10)
+        
+       SET @companyId = LTRIM(RTRIM(?))
+       SET @storeId = LTRIM(RTRIM(?))
+       SET @tenderId = LTRIM(RTRIM(?))
+       SET @tenderType = LTRIM(RTRIM(?))
+    
+        IF NOT EXISTS (
+	        SELECT
+	            NameText,
+	            UnitPrice
+	        FROM
+	            RESMaster.dbo.MST_COUPONPRICE
+	      WHERE
+	            DeleteFlag = 0.0 AND
+	            StoreId = @storeId AND
+	            CompanyId = @companyId AND
+	            TenderType = @tenderType AND
+	            TenderId = @tenderId
+        )
+        SET @storeId = '0'
+    
+        SELECT
+            NameText,
+            UnitPrice
+        FROM
+            RESMaster.dbo.MST_COUPONPRICE
+      WHERE
+            DeleteFlag = 0.0 AND
+            StoreId = @storeId AND
+            CompanyId = @companyId AND
+            TenderType = @tenderType AND
+            TenderId = @tenderId
+        ORDER BY
+            DisplayOrder,
+            TenderType
+</entry>
+
 <entry key="get-tenderinfo-type">
 DECLARE
     @companyId VARCHAR (12),

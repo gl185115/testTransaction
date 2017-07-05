@@ -323,11 +323,11 @@ public class Item {
     @XmlElement(name ="BrandName")
     private String brandName;
     
-    @XmlElement(name ="cCode")
-    private String cCode;
+    @XmlElement(name ="CategoryCode")
+    private String categoryCode;
 
-    @XmlElement(name ="barCodePrice")
-    private double barCodePrice;
+    @XmlElement(name ="LabelPrice")
+    private double labelPrice;
     
     @ApiModelProperty(value="カラー名称(カナ)", notes="カラー名称(カナ)")
     public String getColorkananame() {
@@ -1565,20 +1565,20 @@ public class Item {
 	
     @ApiModelProperty(value="Cコード", notes="Cコード")
     public final String getCategoryCode() {
-        return cCode;
+        return categoryCode;
     }
 
-    public final void setCategoryCode(String cCode) {
-        this.cCode = cCode;
+    public final void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
     }
     
     @ApiModelProperty(value="アベル価格", notes="アベル価格")
     public final double getLabelPrice() {
-        return barCodePrice;
+        return labelPrice;
     }
 
-    public final void setLabelPrice(double barCodePrice) {
-        this.barCodePrice = barCodePrice;
+    public final void setLabelPrice(double labelPrice) {
+        this.labelPrice = labelPrice;
     }
 
 	@Override

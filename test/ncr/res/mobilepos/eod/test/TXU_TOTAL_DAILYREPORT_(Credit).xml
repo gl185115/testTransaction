@@ -12,6 +12,8 @@
 		<column>ItemLevel4</column>
 		<column>TrainingFlag</column>
 		<column>ItemCnt</column>
+		<column>GestCnt</column>
+		<column>TranCnt</column>
 		<column>ItemAmt</column>
 		<column>InsDate</column>
 		<column>InsAppId</column>
@@ -31,6 +33,8 @@
 			<value></value>
 			<value>0</value>
 			<value>1</value>
+			<value>0</value>
+			<value>0</value>
 			<value>1080</value>
 			<value>2016-08-16 12:12:28.1613449</value>
 			<value>usp_UpdateDailyReport</value>

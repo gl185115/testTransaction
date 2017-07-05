@@ -12,6 +12,8 @@
 		<column>ItemLevel4</column>
 		<column>TrainingFlag</column>
 		<column>ItemCnt</column>
+		<column>GestCnt</column>
+		<column>TranCnt</column>
 		<column>ItemAmt</column>
 		<column>InsDate</column>
 		<column>InsAppId</column>

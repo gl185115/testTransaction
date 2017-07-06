@@ -7109,7 +7109,7 @@ WHERE
     <!-- ******************* Start of Line **************** -->
 
     <entry key="get-line-list">
-  DECLARE @line varchar(MAX), @storeid varchar(MAX),  @dpt varchar(MAX), @limit int, @name varchar(MAX)
+DECLARE @line varchar(MAX), @storeid varchar(MAX),  @dpt varchar(MAX), @limit int, @name varchar(MAX)
     SET @limit = ?
     SET @storeid = ?
     SET @dpt = ?
@@ -7120,8 +7120,22 @@ WHERE
                THEN @limit
                ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_LINEINFO)
            END)
+IF NOT EXISTS (
+   SELECT *
+   FROM
+     RESMaster.dbo.MST_LINEINFO
+   WHERE
+     (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
+      AND (@dpt IS NULL OR len(@dpt) = 0 OR Dpt = @dpt)
+      AND (@line IS NULL OR len(@line) = 0 OR ( Line like @line {ESCAPE '\'} ))
+      AND (@name IS NULL OR len(@name) = 0
+      OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} )
+      OR ( LOWER(LineNameLocal) like LOWER(@name) {ESCAPE '\'} )
+      )
+)
+SET @StoreId = '0'
 
-    SELECT TOP (@limit)
+SELECT TOP (@limit)
       StoreId,
       Line,
       LineName,
@@ -7135,8 +7149,7 @@ WHERE
       DiscountAmt,
       DiscountRate,
       AgeRestrictedFlag,
-      InheritFlag,
-      SubSmallInt5
+      InheritFlag
     FROM
       RESMaster.dbo.MST_LINEINFO
     WHERE

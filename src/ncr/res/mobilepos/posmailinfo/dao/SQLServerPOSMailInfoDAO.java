@@ -72,72 +72,69 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
 
 		JSONData posMailInfo = new JSONData();
 		JSONArray infoData = new JSONArray();
-		try {
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			JSONObject rowData = null;
-			String outputDate = "";
-			try (Connection connection = dbManager.getConnection();
-					PreparedStatement selectStmnt = connection
-							.prepareStatement(sqlStatement
-									.getProperty("get-pos-mail-info"));) {
-				selectStmnt.setString(SQLStatement.PARAM1, companyId);
-				selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
-				selectStmnt.setString(SQLStatement.PARAM3, workstationId);
-				selectStmnt.setString(SQLStatement.PARAM4, businessDate);
-				
-				try (ResultSet resultSet = selectStmnt.executeQuery();) {
-					while (resultSet.next()) {
-						rowData = new JSONObject();
-						rowData.put("RecordId", resultSet.getString("RecordId"));
-						rowData.put("MailSubject",
-								resultSet.getString("MailSubject"));
-						rowData.put("MailBody", resultSet.getString("MailBody"));
-						rowData.put("RegOpeCode",
-								resultSet.getString("RegOpeCode"));
-						rowData.put("RegOpeName",
-								resultSet.getString("RegOpeName"));
+		SQLStatement sqlStatement = SQLStatement.getInstance();
+		
+		try (Connection connection = dbManager.getConnection();
+				PreparedStatement selectStmnt = getPOSMailInfoPreparedStatement(
+						companyId, retailStoreId, workstationId, businessDate,
+						sqlStatement, connection);
+				ResultSet resultSet = selectStmnt.executeQuery();) {
+			while (resultSet.next()) {
+				JSONObject rowData = new JSONObject();
+				rowData.put("RecordId", resultSet.getString("RecordId"));
+				rowData.put("MailSubject", resultSet.getString("MailSubject"));
+				rowData.put("MailBody", resultSet.getString("MailBody"));
+				rowData.put("RegOpeCode", resultSet.getString("RegOpeCode"));
+				rowData.put("RegOpeName", resultSet.getString("RegOpeName"));
 
-						Date date = inSDF.parse(resultSet
-								.getString("StartDate"));
-						outputDate = outSDF.format(date);
-						rowData.put("StartDate", outputDate);
+				Date date = inSDF.parse(resultSet.getString("StartDate"));
+				String outputDate = outSDF.format(date);
+				rowData.put("StartDate", outputDate);
 
-						date = inSDF.parse(resultSet.getString("EndDate"));
-						outputDate = outSDF.format(date);
-						rowData.put("EndDate", outputDate);
+				date = inSDF.parse(resultSet.getString("EndDate"));
+				outputDate = outSDF.format(date);
+				rowData.put("EndDate", outputDate);
 
-						infoData.add(rowData);
-					}
-				}
-			} catch (JSONException jsonEx) {
-				LOGGER.logAlert(
-						PROG_NAME,
-						functionName,
-						Logger.RES_EXCEP_JSON,
-						"Failed to get list of messages.\n"
-								+ jsonEx.getMessage());
-				throw new DaoException("JSONException: @getPOSMailInfo ", jsonEx);
-			} catch (ParseException parseEx) {
-				LOGGER.logAlert(
-						PROG_NAME,
-						functionName,
-						Logger.RES_EXCEP_PARSE,
-						"Failed to get list of messages.\n"
-								+ parseEx.getMessage());
-				throw new DaoException("ParseException: @getPOSMailInfo ", parseEx);
+				infoData.add(rowData);
 			}
 			posMailInfo.setInfoData(infoData.toString());
+		} catch (JSONException jsonEx) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_JSON,
+					"Failed to get list of messages.\n" + jsonEx.getMessage());
+			throw new DaoException("JSONException: @getPOSMailInfo ", jsonEx);
+		} catch (ParseException parseEx) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+					"Failed to get list of messages.\n" + parseEx.getMessage());
+			throw new DaoException("ParseException: @getPOSMailInfo ", parseEx);
 		} catch (SQLException sqlEx) {
-			LOGGER.logAlert(
-					PROG_NAME,
-					functionName,
-					Logger.RES_EXCEP_SQL,
-					"Failed to get list of messages.\n"
-							+ sqlEx.getMessage());
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+					"Failed to get list of messages.\n" + sqlEx.getMessage());
 			throw new DaoException("SQLException: @getPOSMailInfo ", sqlEx);
 		} finally {
 			tp.methodExit(posMailInfo);
 		}
 		return posMailInfo;
+	}
+	/**
+	 * Sets sql parameter of "get-pos-mail-info"
+	 * @param companyId
+	 * @param retailStoreId
+	 * @param workstationId
+	 * @param businessDate
+	 * @param sqlStmt
+	 * @param connection
+	 * @return
+	 * @throws SQLException
+	 */
+	private PreparedStatement getPOSMailInfoPreparedStatement(String companyId,
+			String retailStoreId, String workstationId, String businessDate,
+			SQLStatement sqlStmt, Connection connection) throws SQLException {
+		PreparedStatement selectStmnt = connection.prepareStatement(sqlStmt
+				.getProperty("get-pos-mail-info"));
+		selectStmnt.setString(SQLStatement.PARAM1, companyId);
+		selectStmnt.setString(SQLStatement.PARAM2, retailStoreId);
+		selectStmnt.setString(SQLStatement.PARAM3, workstationId);
+		selectStmnt.setString(SQLStatement.PARAM4, businessDate);
+		return selectStmnt;
 	}
 }

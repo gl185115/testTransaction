@@ -114,8 +114,7 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
 
             while (result.next()) {
             	Line line = new Line(); 
-            	line.setRetailStoreId(result.getString(result
-                        .findColumn("StoreId")));    
+            	line.setRetailStoreId(retailstoreid);    
             	line.setLine(result.getString(result
                         .findColumn("Line")));             	
             	Description description = new Description();
@@ -138,8 +137,7 @@ public class SQLServerLineDAO extends AbstractDao implements ILineDAO {
                 line.setDiscountAmount(result.getDouble(result.findColumn("DiscountAmt")));
                 line.setDiscountRate(result.getDouble(result.findColumn("DiscountRate")));             
                 line.setAgeRestrictedFlag(result.getString(result.findColumn("AgeRestrictedFlag")));                
-                line.setInheritFlag(result.getString(result.findColumn("InheritFlag")));
-                line.setSubSmallInt5(result.getString(result.findColumn("SubSmallInt5")));   
+                line.setInheritFlag(result.getString(result.findColumn("InheritFlag")));  
                 
                 lineList.add(line);
             }

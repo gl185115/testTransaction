@@ -1,0 +1,49 @@
+Scenario: Empty List
+Given data in table MST_LINEINFO with test/ncr/res/mobilepos/line/resource/test/mst_line_info_(nodata).xml
+Given a Line Resource
+When I get line list of retailstoreid 0247 with limit 5
+Then I should get NCRWSSResultCode 0 and 0 line info list
+
+
+Scenario: Specific Store (0247) Line List
+Given data in table MST_LINEINFO with test/ncr/res/mobilepos/line/resource/test/mst_line_info_(specificstoreonly).xml
+Given a Line Resource
+When I get line list of retailstoreid 0247 with limit 5
+Then I should have the following data
+|STOREID	|LINE	|DPT
+|0247		|08		|001
+Then I should get NCRWSSResultCode 0 and 1 line info list
+Then I should get the following line list entries
+StoreId	|Line	|LineName	|LineNameLocal	|Dpt	|TaxType	|TaxRate	|DiscountType	|ExceptionFlag	|DiscountFlag	|DiscountAmt	|DiscountRate	|AgeRestrictedFlag	|InheritFlag
+0247   	|08  	|null    	|その他                    	|001	|1      	|0      	|1           	|0            	|null       	|0          	|1          	|0                	|0
+
+
+Scenario: Common Store (0) Line List
+Given data in table MST_LINEINFO with test/ncr/res/mobilepos/line/resource/test/mst_line_info_(commonstoreonly).xml
+Given a Line Resource
+When I get line list of retailstoreid 0247 with limit 5
+Then I should have the following data
+|STOREID	|LINE	|DPT
+|0			|00		|000
+Then I should get NCRWSSResultCode 0 and 1 line info list
+Then I should get the following line list entries
+StoreId	|Line	|LineName	|LineNameLocal	|Dpt	|TaxType	|TaxRate	|DiscountType	|ExceptionFlag	|DiscountFlag	|DiscountAmt	|DiscountRate	|AgeRestrictedFlag	|InheritFlag
+0247   	|00  	|null    	|オーダー承り             	|000	|1      	|0      	|1           	|0            	|null       	|0          	|1          	|0                	|0
+
+
+Scenario: Specific Store (0247) Line List
+Given data in table MST_LINEINFO with test/ncr/res/mobilepos/line/resource/test/mst_line_info_(commonspecificstores).xml
+Given a Line Resource
+When I get line list of retailstoreid 0247 with limit 5
+Then I should have the following data
+|STOREID	|LINE	|DPT
+|0			|00		|000
+|0247		|08		|001
+|0247		|09		|002
+|0247		|10		|003
+Then I should get NCRWSSResultCode 0 and 3 line info list
+Then I should get the following line list entries
+StoreId	|Line	|LineName	|LineNameLocal	|Dpt	|TaxType	|TaxRate	|DiscountType	|ExceptionFlag	|DiscountFlag	|DiscountAmt	|DiscountRate	|AgeRestrictedFlag	|InheritFlag
+0247   	|08  	|null    	|その他                    	|001	|1      	|0      	|1           	|0            	|null       	|0          	|1          	|0                	|0
+0247   	|09  	|null    	|その他-1        |002		|1      	|0      	|1           	|0            	|null       	|0          	|1          	|0                	|0
+0247   	|10  	|null    	|その他-2        |003		|1      	|0      	|1           	|0            	|null       	|0          	|1          	|0                	|0

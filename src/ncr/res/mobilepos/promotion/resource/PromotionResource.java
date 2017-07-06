@@ -730,6 +730,7 @@ public class PromotionResource {
 		case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
 			if(dpt == null){
 				codeTemp = "0161";
+				codeTemp = codeTemp + " " + codeTemp;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);

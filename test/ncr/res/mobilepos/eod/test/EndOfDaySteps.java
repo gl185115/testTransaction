@@ -54,7 +54,7 @@ public class EndOfDaySteps extends Steps {
 
 	public enum Operation {
 		GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT, 
-		GETVOUCHERLIST, GETITEMTYPE3DAILYSALESREPORT, GETTRANSACTIONCOUNT, GETREPORTITEMS, SAVEPOSLOG, GETCMPRESETCMINFOS
+		GETVOUCHERLIST, GETITEMTYPE3DAILYSALESREPORT, GETTRANSACTIONCOUNT, GETTXCOUNTBYBUSINESSDATE, GETREPORTITEMS, SAVEPOSLOG, GETCMPRESETCMINFOS
 	};
 
 	Operation operation = Operation.GETLASTPAYINPAYOUT;
@@ -323,6 +323,11 @@ public class EndOfDaySteps extends Steps {
 	public final void whenGettingTransactionCount(final String companyId, final String storeId, final String txtype, final int trainingFlag){
 		operation = Operation.GETTRANSACTIONCOUNT;
 		settlementInfo = settlementResource.getTransactionCount(companyId, storeId, txtype, trainingFlag);
+	}
+	@When("getting tx count by businessdate of companyId=$1, storeId=$2, workStationId=$3, txtype=$4, businessDate=$5, trainingFlag=$6")
+	public final void whenGettingTxCountByBusinessDate(final String companyId, final String storeId, final String workStationId, final String txtype, final String businessDate, final int trainingFlag){
+		operation = Operation.GETTXCOUNTBYBUSINESSDATE;
+		settlementInfo = settlementResource.getTxCountByBusinessDate(companyId, storeId, workStationId, txtype, businessDate, trainingFlag);
 	}
 	@Then("it should get TxCount:$1, NCRWSSResultCode:$3")
 	public final void testTransactionCnt(final int txCnt, final int resultCode) {

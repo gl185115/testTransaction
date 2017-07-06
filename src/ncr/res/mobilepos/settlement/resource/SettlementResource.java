@@ -176,6 +176,69 @@ public class SettlementResource {
         }
         return settlement;
     }
+    
+    @Path("/gettxcountbybusinessdate")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="取引数取得", response=SettlementInfo.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+        })
+    public final SettlementInfo getTxCountByBusinessDate(
+    		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name = "workstationid", value = "ターミナル番号")@QueryParam("workstationid") final String workStationId,
+    		@ApiParam(name="txtype", value="取引種別")@QueryParam("txtype") final String txtype,
+    		@ApiParam(name = "businessDate", value = "営業日") @FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+            .println("companyId", companyId)
+            .println("storeId", storeId)
+            .println("workstationid", workStationId)
+            .println("txtype", txtype)
+            .println("businessDate", businessDate)
+            .println("trainingFlag", trainingFlag);
+        SettlementInfo settlement = new SettlementInfo();
+        
+        if (StringUtility.isNullOrEmpty(companyId, storeId, workStationId, txtype, businessDate)) {
+            tp.println("A required parameter is null or empty.");
+            settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.methodExit(settlement.toString());
+            return settlement;
+        }
+        
+        try {
+            ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
+            settlement = settlementDao.getTxCountByBusinessDate(companyId, storeId, workStationId, txtype, businessDate, trainingFlag);
+        } catch (Exception e) {
+            String loggerErrorCode = null;
+            int resultBaseErrorCode = 0;
+            if (e.getCause() instanceof SQLException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DB;
+            } else if (e.getCause() instanceof SQLStatementException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DAO;
+            } else {
+                loggerErrorCode = Logger.RES_EXCEP_GENERAL;
+                resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
+            }
+            settlement.setNCRWSSResultCode(resultBaseErrorCode);
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
+                "Failed to get EOD count for companyId=" + companyId + ", " 
+                + "storeId=" + storeId + ", and "
+                + "trainingFlag=" + trainingFlag + " : " + e.getMessage());
+        } finally {
+            tp.methodExit(settlement.toString());
+        }
+        return settlement;
+    }
+    
     @Path("/getcredit")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })

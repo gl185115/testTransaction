@@ -29,94 +29,153 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          RESMaster.dbo.MST_PLU plu
        WHERE
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @storeId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_PLU_STORE
+         RESMaster.dbo.MST_PLU_STORE pluStore
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON pluStore.CompanyId = plu.CompanyId
+         AND plustore.MdInternal = plu.MdInternal
+         AND plustore.DeleteFlag = 0.0
+         AND pluStore.StoreId = @storeStoreId
        WHERE
-         CompanyId = @companyId AND MdInternal = @MdInternal AND StoreId = @storeStoreId AND DeleteFlag = 0.0
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @storeStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_DPTINFO dpt, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_DPTINFO dpt
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = dpt.CompanyId
+        AND plu.Dpt = dpt.Dpt
+        AND dpt.DeleteFlag = 0.0
+        AND dpt.StoreId = @dptStoreId
        WHERE
-         dpt.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND dpt.StoreId = @dptStoreId AND dpt.DeleteFlag = 0.0
-         AND plu.Dpt = dpt.Dpt
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @dptStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_GROUPINFO groupInfo, RESMaster.dbo.MST_PLU plu, RESMaster.dbo.MST_DPTINFO dpt
+         RESMaster.dbo.MST_GROUPINFO groupInfo
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = groupInfo.CompanyId
+       INNER JOIN 
+         RESMaster.dbo.MST_DPTINFO dpt
+         ON dpt.SubCode1 = groupInfo.GroupId
+         AND groupInfo.DeleteFlag = 0.0
+         AND groupInfo.StoreId = @groupStoreId
        WHERE
-         groupInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND groupInfo.StoreId = @groupStoreId AND groupInfo.DeleteFlag = 0.0
-         AND dpt.SubCode1 = groupInfo.GroupId
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @groupStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_CLASSINFO classInfo, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_CLASSINFO classInfo
+       INNER JOIN 
+         RESMaster.dbo.MST_PLU plu
+         ON plu.Class = classInfo.Class
+        AND plu.CompanyId = classInfo.CompanyId
+        AND plu.Dpt = classInfo.Dpt
+        AND plu.Line = classInfo.Line
+        AND classInfo.DeleteFlag = 0.0
+        AND classInfo.StoreId = @classStoreId
        WHERE
-         classInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND classInfo.StoreId = @classStoreId AND classInfo.DeleteFlag = 0.0
-         AND plu.Class = classInfo.Class AND plu.Dpt = classInfo.Dpt AND plu.Line = classInfo.Line
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @classStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_NAME_SYSTEM system, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_NAME_SYSTEM system
+       INNER JOIN 
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = system.CompanyId
+        AND system.NameId = plu.TaxType
+        AND system.NameCategory = '0060'
+        AND system.DeleteFlag = 0.0
+        AND system.StoreId = @systemStoreId
        WHERE
-         system.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND system.StoreId = @systemStoreId AND system.DeleteFlag = 0.0
-         AND system.NameId = plu.TaxType AND system.NameCategory = '0060'
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @systemStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_COLORINFO colorInfo, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_COLORINFO colorInfo
+       INNER JOIN 
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = colorInfo.CompanyId
+        AND plu.Md01 = colorInfo.ColorId
+        AND colorInfo.DeleteFlag = 0.0
+        AND colorInfo.StoreId = @colorStoreId
        WHERE
-         colorInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND colorInfo.StoreId = @colorStoreId AND colorInfo.DeleteFlag = 0.0
-         AND plu.Md01 = colorInfo.ColorId
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @colorStoreId = '0'
     
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_SIZEINFO sizeInfo, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_SIZEINFO sizeInfo
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = sizeInfo.CompanyId
+        AND plu.Md05 = sizeInfo.SizeId
+        AND sizeInfo.StoreId = @sizeStoreId
        WHERE
-         sizeInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND sizeInfo.StoreId = @sizeStoreId
-         AND plu.Md05 = sizeInfo.SizeId
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @sizeStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_BRANDINFO brandInfo, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_BRANDINFO brandInfo
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = brandInfo.CompanyId
+        AND plu.Md07 = brandInfo.BrandId
+        AND brandInfo.StoreId = @brandStoreId
        WHERE
-         brandInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND brandInfo.StoreId = @brandStoreId
-         AND plu.Md07 = brandInfo.BrandId
+         brandInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId
+         AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @brandStoreId = '0'
 
     IF NOT EXISTS (
        SELECT *
        FROM
-         RESMaster.dbo.MST_PLU_NAME pluNameInfo, RESMaster.dbo.MST_PLU plu
+         RESMaster.dbo.MST_PLU_NAME pluNameInfo
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = pluNameInfo.CompanyId
+        AND plu.MdInternal = pluNameInfo.MdInternal
+        AND pluNameInfo.StoreId = @pluNameStoreId
        WHERE
-         pluNameInfo.CompanyId = @companyId AND pluNameInfo.MdInternal = @MdInternal AND pluNameInfo.StoreId = @pluNameStoreId
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId
+         AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @pluNameStoreId = '0'
 
@@ -9813,6 +9872,34 @@ SET @partialFlag = LTRIM(RTRIM(?))
       CompanyId = @companyId AND
       RetailStoreId = @storeId AND
       TxType = @txtype AND
+      TrainingFlag = @trainingFlag
+  </entry>
+  <entry key="get-tx-count-by-businessdate">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @workStationId varchar(max),
+      @txtype varchar(max),
+      @businessDate varchar(max),
+      @trainingFlag tinyint
+
+    SET @companyId = ?
+    SET @storeId = ?
+    SET @workStationId = ?
+    SET @txtype = ?
+    SET @businessDate = ?
+    SET @trainingFlag = ?
+
+    SELECT
+      COUNT(*) AS TxCount
+    FROM
+      RESTransaction.dbo.TXL_SALES_JOURNAL
+    WHERE
+      CompanyId = @companyId AND
+      RetailStoreId = @storeId AND
+      WorkstationId = @storeId AND
+      TxType = @txtype AND
+      BusinessDayDate = @storeId AND
       TrainingFlag = @trainingFlag
   </entry>
 <entry key="get-card-type-info">

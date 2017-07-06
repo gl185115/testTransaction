@@ -217,6 +217,59 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
         return settlement;
     }
     
+    /* (non-Javadoc)
+     * @see ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO#getTxCountByBusinessDate(java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)
+     */
+    @Override
+    public SettlementInfo getTxCountByBusinessDate(String companyId, String storeId, String workStationId,
+    		String txtype, String businessDate, int trainingFlag)throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+        .println("companyId", companyId)
+        .println("storeId", storeId)
+        .println("workStationId", workStationId)
+        .println("txtype", txtype)
+        .println("businessDate", businessDate)
+        .println("trainingFlag", trainingFlag);
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        SettlementInfo settlement = new SettlementInfo();
+        
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-tx-count-by-businessdate"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, workStationId);
+            statement.setString(SQLStatement.PARAM4, txtype);
+            statement.setString(SQLStatement.PARAM5, businessDate);
+            statement.setInt(SQLStatement.PARAM6, trainingFlag);
+            result = statement.executeQuery();
+            
+            if (result.next()) {
+                settlement.setTxCount(result.getInt("TxCount"));
+            } else {
+                tp.println("EOD count not found.");
+                settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                settlement.setMessage("Tx count not found.");
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get Tx count.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        }  finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
+    
     @Override
     public SettlementInfo getCredit(String companyId, String storeId, String terminalId, String businessDate,
             int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws Exception {

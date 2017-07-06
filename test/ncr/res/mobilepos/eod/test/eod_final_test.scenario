@@ -6,6 +6,13 @@ Then TXL_SALES_JOURNAL table should have:
 When getting transaction count of companyId=01, storeId=0247, txtype=EOD, trainingFlag=0
 Then it should get TxCount:0, NCRWSSResultCode:0
 
+!-- # of EOD Transaction by business date
+Given that has no EOD transaction
+Then TXL_SALES_JOURNAL table should have:
+|CompanyId  |RetailStoreId  |WorkstationId  |SequenceNumber |BusinessDayDate    |TrainingFlag   |TxType |ServerId   |Status |SendStatus1    |SendStatus2    |EjStatus   |Tx|
+When getting tx count by businessdate of companyId=01, storeId=0247, workStationId=0002, txtype=EOD, businessDate=20170410, trainingFlag=0
+Then it should get TxCount:0, NCRWSSResultCode:0
+
 2. https://localhost:8443/resTransaction/rest/cashaccount/getcash
 !-- Total Cash of ChangeFund Transactions
 Given that has no changefund data

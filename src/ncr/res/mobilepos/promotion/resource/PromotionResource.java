@@ -346,6 +346,7 @@ public class PromotionResource {
 		String discounttype = "0";
 		boolean twoStep = false;
 		String codeTemp = null;
+		String codeTempConn = null;
 		String dptCode = null;
 		String barcode_fst = null;
 		String barcode_sec = null;
@@ -441,13 +442,20 @@ public class PromotionResource {
 
 				String cCode = "";
 				// 部門コードを取得する
-				codeTemp = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item,cCode);
-
+				codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
+				
 				// 商品マスタから取得失敗の場合
 				if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
 					return response;
+				} else {
+					if (codeTempConn.contains(" ")) {
+						codeTemp = codeTempConn.split(" ")[0];
+						cCode = codeTempConn.split(" ")[1];
+					} else {
+						codeTemp = codeTempConn;
+					}
 				}
-
+				
 				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item !=null) {
 					// サーバーから部門情報を取得する
 					departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
@@ -611,15 +619,16 @@ public class PromotionResource {
 	 * @throws DaoException
 	 */
 	private String getDptCode(ICodeConvertDAO codeCvtDAO,String itemId,String varietiesName,
-			String companyId,String StoreId,PromotionResponse response,Item item, String cCode) throws DaoException {
+			String companyId,String StoreId,PromotionResponse response,Item item) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("codeCvtDAO", codeCvtDAO).println("itemId", itemId)
 			.println("varietiesName", varietiesName).println("companyId", companyId).println("StoreId", StoreId)
-			.println("response", response).println("item", item).println("cCode", cCode);
+			.println("response", response).println("item", item);
 
 		String codeTemp = null;
 		String dpt = null;
 		String barcode_sec = null;
+		String cCode = "";
 
 		// 二段バーコード判断
 		if (itemId.contains(" ")) {
@@ -638,6 +647,7 @@ public class PromotionResource {
 					cCode = barcode_sec;
 				}
 				codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, cCode, StoreId);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -651,6 +661,7 @@ public class PromotionResource {
 			if(dpt == null){
 				cCode = itemId.substring(10, 14);
 				codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, cCode, StoreId);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -664,6 +675,7 @@ public class PromotionResource {
 			if(dpt == null){
 				cCode = itemId.substring(0, 5);
 				codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, cCode, StoreId);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -681,6 +693,7 @@ public class PromotionResource {
 					cCode = barcode_sec;
 				}
 				codeTemp = JaCodeCvt(cCode);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -694,6 +707,7 @@ public class PromotionResource {
 			if(dpt == null){
 				cCode = itemId.substring(10, 14);
 				codeTemp = JaCodeCvt(cCode);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -1047,7 +1061,14 @@ public class PromotionResource {
 			if (!StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
 				timeOut = Integer.valueOf(enterpriseServerTimeout.toString());
 			}
-			String url = GlobalConstant.getEnterpriseServerUri() + ENTERPRISE_DPT_UTL;
+			String endStr = GlobalConstant.getEnterpriseServerUri().substring(GlobalConstant.getEnterpriseServerUri().length() - 1);
+			String url = "";
+			if ("/".equals(endStr)) {
+				url = GlobalConstant.getEnterpriseServerUri() + ENTERPRISE_DPT_UTL;
+			} else {
+				url = GlobalConstant.getEnterpriseServerUri() + '/' + ENTERPRISE_DPT_UTL;
+			}
+			
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
 			if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
@@ -1091,7 +1112,14 @@ public class PromotionResource {
 			if (!StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
 				timeOut = Integer.valueOf(enterpriseServerTimeout.toString());
 			}
-			String url = GlobalConstant.getEnterpriseServerUri() + REMOTE_UTL;
+			String endStr = GlobalConstant.getEnterpriseServerUri().substring(GlobalConstant.getEnterpriseServerUri().length() - 1);
+			String url = "";
+			if ("/".equals(endStr)) {
+				url = GlobalConstant.getEnterpriseServerUri() + REMOTE_UTL;
+			} else {
+				url = GlobalConstant.getEnterpriseServerUri() + '/' + REMOTE_UTL;
+			}
+			
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
 			if (result != null) {
@@ -1317,7 +1345,7 @@ public class PromotionResource {
 		}
 
 		List<QrCodeInfo> list = new ArrayList<QrCodeInfo>();
-		if (json.get("qrCodeList") != null) {
+		if (!"null".equals(json.getString("qrCodeList"))) {
 			JSONArray jsonArray = new JSONArray(json.getString("qrCodeList"));
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject itemJson = (JSONObject) jsonArray.get(i);

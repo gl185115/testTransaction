@@ -14,6 +14,9 @@ public interface ISettlementInfoDAO {
 	SettlementInfo getTransactionCount(String companyId, String storeId,
 	    String txtype, int trainingFlag) throws Exception;
 	
+	SettlementInfo getTxCountByBusinessDate(String companyId, String storeId, String workStationId,
+		    String txtype, String businessDate, int trainingFlag) throws Exception;
+	
 	SettlementInfo getCredit(final String companyId, final String storeId,
             final String terminalId, final String businessDate, final int trainingFlag, final String dataType, 
             final String itemLevel1, final String itemLevel2) throws Exception;

@@ -603,6 +603,12 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the ActualSalesUnitPrice row ", ""
 					+ sale.getActualSalesUnitPrice(),
 					is(equalTo(expecedItem.get("ActualSalesPrice"))));
+			assertThat("Compare the CategoryCode row ", ""
+					+ sale.getCategoryCode(),
+					is(equalTo(expecedItem.get("CategoryCode"))));
+			assertThat("Compare the LabelPrice row ", ""
+					+ sale.getLabelPrice(),
+					is(equalTo(expecedItem.get("LabelPrice"))));
 		}
 	}
 	//2017/04/17 add end by kl

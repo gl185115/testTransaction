@@ -9666,9 +9666,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     WHERE
       tender.CompanyId = @companyId AND
       tender.StoreId = @storeId AND
-      tender.TenderType = 1 AND
+      (tender.TenderType = 10 OR
+      tender.TenderType = 11 )AND
       tender.DeleteFlag = 0.0
-
   </entry>
 <entry key = "get-promotioninfo-type">
 DECLARE

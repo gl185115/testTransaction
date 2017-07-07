@@ -35,13 +35,13 @@ public class PriceMMInfo {
 	private double conditionPrice1;
 
 	@XmlElement(name = "decisionPrice1")
-	private double decisionPrice1;
+	private Double decisionPrice1;
 
 	@XmlElement(name = "decisionPrice2")
-	private double decisionPrice2;
+	private Double decisionPrice2;
 
 	@XmlElement(name = "decisionPrice3")
-	private double decisionPrice3;
+	private Double decisionPrice3;
 
 	@XmlElement(name = "averagePrice1")
 	private double averagePrice1;
@@ -122,29 +122,29 @@ public class PriceMMInfo {
 	}
 
 	@ApiModelProperty(value="ê¨óßå„âøäi1", notes="ê¨óßå„âøäi1")
-	public double getDecisionPrice1() {
+	public Double getDecisionPrice1() {
 		return decisionPrice1;
 	}
 
-	public void setDecisionPrice1(double decisionPrice1) {
+	public void setDecisionPrice1(Double decisionPrice1) {
 		this.decisionPrice1 = decisionPrice1;
 	}
 
 	@ApiModelProperty(value="ê¨óßå„âøäi2", notes="ê¨óßå„âøäi2")
-	public double getDecisionPrice2() {
+	public Double getDecisionPrice2() {
 		return decisionPrice2;
 	}
 
-	public void setDecisionPrice2(double decisionPrice2) {
+	public void setDecisionPrice2(Double decisionPrice2) {
 		this.decisionPrice2 = decisionPrice2;
 	}
 
 	@ApiModelProperty(value="ê¨óßå„âøäi3", notes="ê¨óßå„âøäi3")
-	public double getDecisionPrice3() {
+	public Double getDecisionPrice3() {
 		return decisionPrice3;
 	}
 
-	public void setDecisionPrice3(double decisionPrice3) {
+	public void setDecisionPrice3(Double decisionPrice3) {
 		this.decisionPrice3 = decisionPrice3;
 	}
 

@@ -37,7 +37,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0101</value>
 			<value>商品券１</value>
 			<value>JCB</value>
@@ -72,7 +72,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0102</value>
 			<value>商品券２</value>
 			<value>UC</value>
@@ -107,7 +107,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0103</value>
 			<value>商品券３</value>
 			<value>VISA</value>
@@ -142,7 +142,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0104</value>
 			<value>商品券４</value>
 			<value>DC/UFJ NICOS</value>
@@ -177,7 +177,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0106</value>
 			<value>商品券５</value>
 			<value>ﾆﾎﾝﾀﾞｲﾅｰｽ</value>
@@ -212,7 +212,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0109</value>
 			<value>商品券６</value>
 			<value>ﾆｯｾﾝﾚﾝ</value>
@@ -247,7 +247,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0110</value>
 			<value>商品券７</value>
 			<value>NCｶｰﾄﾞ</value>
@@ -282,7 +282,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0111</value>
 			<value>商品券８</value>
 			<value>ｼｮｳﾅｲｼﾝﾊﾟﾝ</value>
@@ -317,7 +317,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0112</value>
 			<value>商品券９</value>
 			<value>ｴｽｺｰﾄ</value>
@@ -352,7 +352,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0115</value>
 			<value>商品券１０</value>
 			<value>OCS</value>
@@ -387,7 +387,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0118</value>
 			<value>グループ券</value>
 			<value>ｸﾞﾙｰﾌﾞｹﾝ</value>
@@ -422,7 +422,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0161</value>
 			<value>その他券１</value>
 			<value>ｿﾉﾀｹﾝ 1</value>
@@ -457,7 +457,7 @@
 		<row>
 			<value>01</value>
 			<value>0</value>
-			<value>1</value>
+			<value>10</value>
 			<value>0162</value>
 			<value>その他券２</value>
 			<value>ｿﾉﾀｹﾝ 2</value>

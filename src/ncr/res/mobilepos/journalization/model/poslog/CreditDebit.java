@@ -175,7 +175,13 @@ public class CreditDebit {
      */
     @XmlElement(name = "ErrorCode")
     private String errorCode;
-
+    
+    /***
+     * TenderName
+     */
+    @XmlElement(name = "TenderName")
+    private String tenderName;
+    
     /**
      * Default Constructor for CreditDebit.
      *
@@ -598,4 +604,11 @@ public class CreditDebit {
     public final void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
     }
+    public String getTenderName() {
+        return tenderName;
+    }
+    public void setTenderName(String tenderName) {
+        this.tenderName = tenderName;
+    }
+    
 }

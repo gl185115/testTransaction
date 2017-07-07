@@ -5563,39 +5563,51 @@ ORDER BY
 
     <entry key="get-activated-tills-on-businessday">
         SELECT
-            CompanyId,
-            StoreId,
-            TillId,
-            TerminalId,
-            BusinessDayDate,
-            SodFlag,
-            EodFlag
-        FROM RESMaster.dbo.MST_TILLIDINFO
+            tillidinfo.CompanyId,
+            tillidinfo.StoreId,
+            tillidinfo.TillId,
+            tillidinfo.TerminalId,
+            deviceinfo.DeviceName,
+            tillidinfo.BusinessDayDate,
+            tillidinfo.SodFlag,
+            tillidinfo.EodFlag
+        FROM RESMaster.dbo.MST_TILLIDINFO tillidinfo
+        LEFT JOIN RESMaster.dbo.MST_DEVICEINFO deviceinfo 
+        ON tillidinfo.CompanyId = deviceinfo.CompanyId
+        AND tillidinfo.StoreId = deviceinfo.StoreId
+        AND tillidinfo.TerminalId = deviceinfo.TerminalId
+        AND deviceinfo.Training = ?
         WHERE
-            CompanyId = ? AND
-            StoreId = ? AND
-            BusinessDayDate = ? AND
-            DeleteFlag = 0
-        ORDER BY TillId, TerminalId
+            tillidinfo.CompanyId = ? AND
+            tillidinfo.StoreId = ? AND
+            tillidinfo.BusinessDayDate = ? AND
+            tillidinfo.DeleteFlag = 0
+        ORDER BY tillidinfo.TillId, tillidinfo.TerminalId
     </entry>
 
     <entry key="get-unclosed-tills-on-businessday">
         SELECT
-            CompanyId,
-            StoreId,
-            TillId,
-            TerminalId,
-            BusinessDayDate,
-            SodFlag,
-            EodFlag
-        FROM RESMaster.dbo.MST_TILLIDINFO
+            tillidinfo.CompanyId,
+            tillidinfo.StoreId,
+            tillidinfo.TillId,
+            tillidinfo.TerminalId,
+            deviceinfo.DeviceName,
+            tillidinfo.BusinessDayDate,
+            tillidinfo.SodFlag,
+            tillidinfo.EodFlag
+        FROM RESMaster.dbo.MST_TILLIDINFO tillidinfo
+        LEFT JOIN RESMaster.dbo.MST_DEVICEINFO deviceinfo 
+        ON tillidinfo.CompanyId = deviceinfo.CompanyId
+        AND tillidinfo.StoreId = deviceinfo.StoreId
+        AND tillidinfo.TerminalId = deviceinfo.TerminalId
+        AND deviceinfo.Training = ?
         WHERE
-            CompanyId = ? AND
-            StoreId = ? AND
-            BusinessDayDate = ? AND
-            EodFlag = 0 AND
-            DeleteFlag = 0
-        ORDER BY TillId, TerminalId
+            tillidinfo.CompanyId = ? AND
+            tillidinfo.StoreId = ? AND
+            tillidinfo.BusinessDayDate = ? AND
+            tillidinfo.EodFlag = 0 AND
+            tillidinfo.DeleteFlag = 0
+        ORDER BY tillidinfo.TillId, tillidinfo.TerminalId
     </entry>
 
     <entry key="search-logon-users">

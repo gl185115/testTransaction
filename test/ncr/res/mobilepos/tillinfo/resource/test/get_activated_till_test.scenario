@@ -1,26 +1,32 @@
 !-- Check required parameters
 Scenario: Check required parameters - companyId is ""
 Given a TillInfoResource Resource
-When I get activated tills with companyId:empty storeId:9999 businessDate:2017-01-01
+When I get activated tills with companyId:empty storeId:9999 businessDate:2017-01-01 trainingFlag:0
 Then the result should be ResultCode:RES_ERROR_INVALIDPARAMETER and ExtendedResultCode:RES_ERROR_INVALIDPARAMETER
 Then the result message should be RES_INVALIDPARAMETER_MSG
 
 Scenario: Check required parameters - storeId is null
 Given a TillInfoResource Resource
-When I get activated tills with companyId:01 storeId:null businessDate:2017-01-01
+When I get activated tills with companyId:01 storeId:null businessDate:2017-01-01 trainingFlag:0
 Then the result should be ResultCode:RES_ERROR_INVALIDPARAMETER and ExtendedResultCode:RES_ERROR_INVALIDPARAMETER
 Then the result message should be RES_INVALIDPARAMETER_MSG
 
 Scenario: Check required parameters - businessDate is ""
 Given a TillInfoResource Resource
-When I get activated tills with companyId:01 storeId:9999 businessDate:empty
+When I get activated tills with companyId:01 storeId:9999 businessDate:empty trainingFlag:0
 Then the result should be ResultCode:RES_ERROR_INVALIDPARAMETER and ExtendedResultCode:RES_ERROR_INVALIDPARAMETER
 Then the result message should be RES_INVALIDPARAMETER_MSG
 
 !-- Check businessDate format
 Scenario: Check required parameters - businessDate is not yyyy-MM-dd
 Given a TillInfoResource Resource
-When I get activated tills with companyId:01 storeId:9999 businessDate:2017/01/01
+When I get activated tills with companyId:01 storeId:9999 businessDate:2017/01/01 trainingFlag:0
+Then the result should be ResultCode:RES_ERROR_INVALIDPARAMETER and ExtendedResultCode:RES_ERROR_INVALIDPARAMETER
+Then the result message should be RES_INVALIDPARAMETER_MSG
+
+Scenario: Check required parameters - trainingFlag is null
+Given a TillInfoResource Resource
+When I get activated tills with companyId:01 storeId:9999 businessDate:2017-01-01 trainingFlag:null
 Then the result should be ResultCode:RES_ERROR_INVALIDPARAMETER and ExtendedResultCode:RES_ERROR_INVALIDPARAMETER
 Then the result message should be RES_INVALIDPARAMETER_MSG
 
@@ -29,72 +35,83 @@ Scenario: Success
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14
+Given a MST_DEVICEINFO2 dataset
+When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|01         |9999		|99995001	|5001		|2014-11-14		|1		|9		|
-|01         |9999		|99995002	|5002		|2014-11-14		|1		|0		|
-|01         |9999		|99995003	|5003		|2014-11-14		|1		|0		|
+|CompanyId  |StoreId	|TillId  	|DeviceName|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999		|99995001	|POS1      |5001		|2014-11-14		|1		|9		|
+|01         |9999		|99995002	|POS2      |5002		|2014-11-14		|1		|0		|
+|01         |9999		|99995003	|POS3      |5003		|2014-11-14		|1		|0		|
 
 Scenario: Different business day.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-When I get activated tills with companyId:01 storeId:9999 businessDate:2014-12-01
+When I get activated tills with companyId:01 storeId:9999 businessDate:2014-12-01 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|01         |9999		|99995000	|5000		|2014-12-01		|0		|1		|
+|CompanyId  |StoreId	|TillId  	|DeviceName|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999		|99995000	|POS0      |5000		|2014-12-01		|0		|1		|
+
+Scenario: Different training flag.
+Given a TillInfoResource Resource
+Given a RESMaster DBInitiator
+Given a MST_TILLIDINFO dataset
+When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-13 trainingFlag:1
+Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
+Then I should get the following tills:
+|CompanyId  |StoreId	|TillId  	|DeviceName		|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999		|99995004	|POS4 Training	|5004		|2014-11-13		|1		|0		|
 
 Scenario: Ignore deleted tills.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO_DELETED dataset
-When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14
+When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|01         |9999		|99995001	|5001		|2014-11-14		|1		|9		|
+|CompanyId  |StoreId	|TillId  	|DeviceName|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999		|99995001	|POS1      |5001		|2014-11-14		|1		|9		|
 
 Scenario: Different store.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-When I get activated tills with companyId:01 storeId:000031 businessDate:2014-11-14
+When I get activated tills with companyId:01 storeId:000031 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|01         |000031		|000031	|000031		|2014-11-14		|0		|0		|
+|CompanyId  |StoreId	|TillId  	|DeviceName|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |000031		|000031		|          |000031		|2014-11-14		|0		|0		|
 
 Scenario: Different company.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-When I get activated tills with companyId:02 storeId:9999 businessDate:2014-11-14
+When I get activated tills with companyId:02 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|CompanyId  |StoreId	|TillId  	|DeviceName	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
 
 Scenario: Get till even it did EOD.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO_EOD dataset
-When I get activated tills with companyId:01 storeId:9999 businessDate:2014-12-01
+When I get activated tills with companyId:01 storeId:9999 businessDate:2014-12-01 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
-|CompanyId  |StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
-|01         |9999   	|99995000   |5000       |2014-12-01 	|1  	|0  |
-|01         |9999	    |99995001	|5001       |2014-12-01 	|0  	|1  |
+|CompanyId  |StoreId	|TillId  	|DeviceName|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|01         |9999   	|99995000   |POS0    |5000       |2014-12-01 	|1  	|0  |
+|01         |9999	    |99995001	|POS1    |5001       |2014-12-01 	|0  	|1  |
 
 Scenario: Get till against broken db connection, DaoException
 Given a TillInfoResource Resource
 When database has trouble
-When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14
+When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_ERROR_DB and ExtendedResultCode:RES_ERROR_DB
 
 Scenario: NullPointerException (RuntimeException)
 Given a TillInfoResource Resource
 When runtime exception is thrown
-When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14
+When I get activated tills with companyId:01 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_ERROR_GENERAL and ExtendedResultCode:RES_ERROR_GENERAL

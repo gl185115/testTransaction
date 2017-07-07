@@ -1,11 +1,5 @@
 package ncr.res.mobilepos.tillinfo.resource;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
@@ -20,6 +14,12 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -230,12 +230,12 @@ public class TillInfoResource {
         }
         return result;
     }
-    
+
 	private String getOpeCode(){
 		return ((context != null) && (context.getUserPrincipal()) != null) ? context
 				.getUserPrincipal().getName() : null;
 	}
-	
+
     /**
      * Web method called to get execution authority when SOD/EOD is triggered.
      * @param companyId - the company id which the Till belongs to.
@@ -507,13 +507,13 @@ public class TillInfoResource {
      * @param processingType - The processing type: SOD or EOD.
      * @return ResultBase
      */
-	
+
     @Path("/releaseexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="SOD/EOD実行権限破棄", response=ResultBase.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),   
+    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_TILL_NOT_EXIST, message="ドロワは存在しない"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -718,17 +718,17 @@ public class TillInfoResource {
      * @param terminalId - The terminal ID of the POS where SOD/EOD is executed.
      * @return ResultBase
      */
-	
-	
+
+
     @Path("/search")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="ユーザーがドロワーを使用するかをチェックする", response=ResultBase.class)
-    @ApiResponses(value={   
+    @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")  
+    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")
     })
     public final ResultBase search(
     		@ApiParam(name="companyid",value="ドロワーコード") @FormParam("companyid") final String companyid,
@@ -855,6 +855,7 @@ public class TillInfoResource {
 	 * @param companyId
 	 * @param storeId
 	 * @param businessDate yyyy-MM-dd
+	 * @param trainingFlag
 	 * @return ViewTill
 	 */
 	@Path("/alltillinfo")
@@ -869,7 +870,8 @@ public class TillInfoResource {
 	public final ViewTill getActivatedTillsOnBusinessDay(
 			@ApiParam(name="companyId", value="企業コード") @QueryParam("companyId") final String companyId,
 			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
+			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+			@ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
 		// Trace Logging
 		final String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
@@ -882,7 +884,7 @@ public class TillInfoResource {
 		result.setTillList(Collections.emptyList());
 
 		// Checks if required fields are present.
-		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate)) {
+		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate, trainingFlag)) {
 			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Required fields are missing.");
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -901,7 +903,7 @@ public class TillInfoResource {
 		try {
 			// Selects from DB.
 			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-			List<Till> activatedTills = tillInfoDAO.getActivatedTillsOnBusinessDay(companyId, storeId, businessDate);
+			List<Till> activatedTills = tillInfoDAO.getActivatedTillsOnBusinessDay(companyId, storeId, businessDate, Integer.parseInt(trainingFlag));
 			result.setTillList(activatedTills);
 		} catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
@@ -924,6 +926,7 @@ public class TillInfoResource {
 	 * @param companyId
 	 * @param storeId
 	 * @param businessDate yyyy-MM-dd
+	 * @param trainingFlag
 	 * @return ViewTill
 	 */
 	@Path("/unfinishedeodinfo")
@@ -938,20 +941,22 @@ public class TillInfoResource {
 	public final ViewTill getUnclosedTillsOnBusinessDay(
 			@ApiParam(name="companyId", value="企業コード") @QueryParam("companyId") final String companyId,
 			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
+			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+			@ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
 		// Trace Logging
 		final String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId);
 		tp.println("storeId", storeId);
 		tp.println("businessDate", businessDate);
+		tp.println("trainingFlag", trainingFlag);
 
 		// Initializes response holder
 		ViewTill result = new ViewTill();
 		result.setTillList(Collections.emptyList());
 
 		// Checks if required fields are present.
-		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate)) {
+		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate, trainingFlag) ) {
 			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Required fields are missing.");
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -970,7 +975,7 @@ public class TillInfoResource {
 		try {
 			// Selects from DB.
 			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-			List<Till> unclosedTills = tillInfoDAO.getUnclosedTillsOnBusinessDay(companyId, storeId, businessDate);
+			List<Till> unclosedTills = tillInfoDAO.getUnclosedTillsOnBusinessDay(companyId, storeId, businessDate, Integer.parseInt(trainingFlag));
 			result.setTillList(unclosedTills);
 		} catch (DaoException ex) {
 			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,

@@ -1,6 +1,13 @@
 package ncr.res.mobilepos.tillinfo.resource.test;
 
-import junit.framework.Assert;
+import static org.junit.Assert.*;
+import static org.mockito.Matchers.*;
+import static org.mockito.Mockito.*;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -12,11 +19,7 @@ import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.powermock.api.support.membermodification.MemberModifier;
 
-import java.lang.reflect.Field;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
+import junit.framework.Assert;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DBInitiator;
@@ -28,17 +31,12 @@ import ncr.res.mobilepos.tillinfo.dao.SQLServerTillInfoDAO;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 @SuppressWarnings("deprecation")
 public class GetUnclosedTillSteps extends Steps {
 	private TillInfoResource tillInfoResource;
 	private ViewTill resultList;
 	private DBInitiator dbInitMaster;
-	
+
 	@BeforeScenario
     public final void setUp() {
         Requirements.SetUp();
@@ -48,9 +46,9 @@ public class GetUnclosedTillSteps extends Steps {
     public final void TearDown(){
         Requirements.TearDown();
     }
-    
+
     @Given("a TillInfoResource Resource")
-    public final void createResource() {        
+    public final void createResource() {
         ServletContext context = Requirements.getMockServletContext();
         tillInfoResource = new TillInfoResource();
         try {
@@ -59,7 +57,7 @@ public class GetUnclosedTillSteps extends Steps {
             tillContext.set(tillInfoResource, context);
         } catch (Exception e) {
             Assert.fail("Cant load Mock Servlet Context.");
-        } 
+        }
     }
 
     @Given("a RESMaster DBInitiator")
@@ -78,20 +76,22 @@ public class GetUnclosedTillSteps extends Steps {
     	}
     }
 
-    @When("I get activated tills with companyId:$companyId storeId:$storeId businessDate:$businessDate")
-    public final void execGetActivatedTills(String companyId, String storeId, String businessDate) {
+    @When("I get activated tills with companyId:$companyId storeId:$storeId businessDate:$businessDate trainingFlag:$trainingFlag")
+    public final void execGetActivatedTills(String companyId, String storeId, String businessDate, String trainingFlag) {
     	companyId = StringUtility.convNullOrEmptryString(companyId);
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		businessDate = StringUtility.convNullOrEmptryString(businessDate);
-    	resultList = tillInfoResource.getActivatedTillsOnBusinessDay(companyId, storeId, businessDate);
+		trainingFlag = StringUtility.convNullOrEmptryString(trainingFlag);
+    	resultList = tillInfoResource.getActivatedTillsOnBusinessDay(companyId, storeId, businessDate, trainingFlag);
     }
 
-	@When("I get unclosed tills with companyId:$companyId storeId:$storeId businessDate:$businessDate")
-	public final void execGetUnclosedTills(String companyId, String storeId, String businessDate) {
+	@When("I get unclosed tills with companyId:$companyId storeId:$storeId businessDate:$businessDate trainingFlag:$trainingFlag")
+	public final void execGetUnclosedTills(String companyId, String storeId, String businessDate, String trainingFlag) {
 		companyId = StringUtility.convNullOrEmptryString(companyId);
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		businessDate = StringUtility.convNullOrEmptryString(businessDate);
-		resultList = tillInfoResource.getUnclosedTillsOnBusinessDay(companyId, storeId, businessDate);
+		trainingFlag = StringUtility.convNullOrEmptryString(trainingFlag);
+		resultList = tillInfoResource.getUnclosedTillsOnBusinessDay(companyId, storeId, businessDate, trainingFlag);
 	}
 
 	@When("database has trouble")
@@ -99,8 +99,8 @@ public class GetUnclosedTillSteps extends Steps {
 		DAOFactory daoFactoryMock = mock(DAOFactory.class);
 		SQLServerTillInfoDAO daoMock = mock(SQLServerTillInfoDAO.class);
 		when(daoFactoryMock.getTillInfoDAO()).thenReturn(daoMock);
-		when(daoMock.getActivatedTillsOnBusinessDay(anyString(),anyString(),anyString())).thenThrow(new DaoException());
-		when(daoMock.getUnclosedTillsOnBusinessDay(anyString(),anyString(),anyString())).thenThrow(new DaoException());
+		when(daoMock.getActivatedTillsOnBusinessDay(anyString(),anyString(),anyString(),anyInt())).thenThrow(new DaoException());
+		when(daoMock.getUnclosedTillsOnBusinessDay(anyString(),anyString(),anyString(),anyInt())).thenThrow(new DaoException());
 		Field daoFactoryField = MemberModifier.field(TillInfoResource.class, "daoFactory");
 		daoFactoryField.set(tillInfoResource, daoFactoryMock);
 	}
@@ -110,8 +110,8 @@ public class GetUnclosedTillSteps extends Steps {
 		DAOFactory daoFactoryMock = mock(DAOFactory.class);
 		SQLServerTillInfoDAO daoMock = mock(SQLServerTillInfoDAO.class);
 		when(daoFactoryMock.getTillInfoDAO()).thenReturn(daoMock);
-		when(daoMock.getActivatedTillsOnBusinessDay(anyString(),anyString(),anyString())).thenThrow(new NullPointerException());
-		when(daoMock.getUnclosedTillsOnBusinessDay(anyString(),anyString(),anyString())).thenThrow(new NullPointerException());
+		when(daoMock.getActivatedTillsOnBusinessDay(anyString(),anyString(),anyString(),anyInt())).thenThrow(new NullPointerException());
+		when(daoMock.getUnclosedTillsOnBusinessDay(anyString(),anyString(),anyString(),anyInt())).thenThrow(new NullPointerException());
 		Field daoFactoryField = MemberModifier.field(TillInfoResource.class, "daoFactory");
 		daoFactoryField.set(tillInfoResource, daoFactoryMock);
 	}
@@ -138,15 +138,15 @@ public class GetUnclosedTillSteps extends Steps {
 						row.get("CompanyId"), resultList.getTillList().get(i).getCompanyId());
 	            assertEquals("Compare StoreId at row " + i,
 		            		row.get("StoreId"), resultList.getTillList().get(i).getStoreId());
-	            assertEquals("Compare TillId at row " + i, 
+	            assertEquals("Compare TillId at row " + i,
 	            		row.get("TillId"), resultList.getTillList().get(i).getTillId());
-	            assertEquals("Compare TerminalId at row " + i, 
+	            assertEquals("Compare TerminalId at row " + i,
 	            		row.get("TerminalId"), resultList.getTillList().get(i).getTerminalId());
-	            assertEquals("Compare BusinessDayDate at row " + i, 
+	            assertEquals("Compare BusinessDayDate at row " + i,
 	            		row.get("BusinessDayDate"), resultList.getTillList().get(i).getBusinessDayDate());
-	            assertEquals("Compare SodFlag at row " + i, 
+	            assertEquals("Compare SodFlag at row " + i,
 	            		row.get("SodFlag"), resultList.getTillList().get(i).getSodFlag());
-	            assertEquals("Compare EodFlag at row " + i, 
+	            assertEquals("Compare EodFlag at row " + i,
 	            		row.get("EodFlag"), resultList.getTillList().get(i).getEodFlag());
 	            i++;
 	        }

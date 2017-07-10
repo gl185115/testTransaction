@@ -139,10 +139,10 @@ public class RetailTransaction {
     private Pending pending;
 
     /**
-     * The private member variable that holds the transaction link.
+     * The private member variable that holds the transaction link list.
      */
     @XmlElement(name = "TransactionLink")
-    private TransactionLink transactionLink;
+    private List<TransactionLink> transactionLink;
 
     /**
      * The private member variable that holds the SlipNo.
@@ -317,19 +317,19 @@ public class RetailTransaction {
     /**
      * Gets the transaction link.
      *
-     * @return        Returns the transaction link.
+     * @return        Returns the transaction link list.
      */
-    public final TransactionLink getTransactionLink() {
+    public final List<TransactionLink> getTransactionLink() {
         return transactionLink;
     }
 
     /**
      * Sets the transaction link.
      *
-     * @param transactionLinkToSet      The new value for the transaction link.
+     * @param transactionLinkToSet      The new value for the transaction link list.
      */
     public final void setTransactionLink(
-            final TransactionLink transactionLinkToSet) {
+            final List<TransactionLink> transactionLinkToSet) {
         this.transactionLink = transactionLinkToSet;
     }
 

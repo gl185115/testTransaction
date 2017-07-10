@@ -54,6 +54,7 @@ import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.EasyJson;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
@@ -260,11 +261,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         if (null != transaction.getRetailTransaction()) {
             if (null != transaction.getRetailTransaction().getTransactionLink()) {
-                TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+
+            	TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
+
                 if (TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())
-                        || TxTypes.HOLD.equals(transactionLink.getReasonCode())
-                        || TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())) {
-                    returnFlag = true;
+                            || TxTypes.HOLD.equals(transactionLink.getReasonCode())
+                            || TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())) {
+                        returnFlag = true;
                 }
             }
         }
@@ -394,7 +397,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
         String companyId = transaction.getOrganizationHierarchy().getId();
         String returnedType = "";
 
@@ -466,7 +469,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
         String companyId = transaction.getOrganizationHierarchy().getId();
         String txtType = getTransactionType(connection, transactionLink.getRetailStoreID(),
                 transactionLink.getWorkStationID().getValue(), transactionLink.getSequenceNo(),
@@ -613,7 +616,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
         // String txtType = getTransactionType(connection,
         // transactionLink.getRetailStoreID(),
         // transactionLink.getWorkStationID().getValue(),

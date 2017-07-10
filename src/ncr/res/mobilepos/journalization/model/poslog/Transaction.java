@@ -664,8 +664,8 @@ public class Transaction {
     /**
      * @return the floorId
      */
-    public String getFloorId() {
-        return beforeTransactionNumber;
+    public Integer getFloorId() {
+        return floorId;
     }
 
     /**

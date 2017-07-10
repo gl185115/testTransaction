@@ -103,4 +103,5 @@ public final class TxTypes {
     public static final String CASHINVOID = "CashInVoid";
     public static final String CASHOUTVOID = "CashOutVoid";
     public static final String SUSPEND = "Suspend";
+    public static final String RESUME = "Resume";
 }

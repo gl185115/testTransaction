@@ -20,6 +20,7 @@ import ncr.res.mobilepos.journalization.model.poslog.StoredValueFund;
 import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
 import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
+import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
 
 /**
  * A Helper Class that handles the information of a given POSLog.
@@ -159,7 +160,7 @@ public final class POSLogHandler {
     public static boolean isLayawayTransaction(Transaction transaction) {
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
-		
+
 		if (lineItems != null && lineItems.size() > 0) {
 			for (LineItem lineItem : lineItems) {
 				if (lineItem.getLayaway() != null) {
@@ -172,16 +173,16 @@ public final class POSLogHandler {
 				}
 			}
 		}
-		
+
         return false;
     }
-     
+
     /**
      * Checks whether a POSLog transaction is a hold or not
-     * 
+     *
      * @param transaction
      *            the transaction to be checked
-     * 
+     *
      * @return TRUE, if transaction is hold, else FALSE
      */
     public static boolean isHoldTransaction(Transaction transaction) {
@@ -207,10 +208,10 @@ public final class POSLogHandler {
 
     /**
      * Checks whether a POSLog transaction is a reservation or not
-     * 
+     *
      * @param transaction
      *            the transaction to be checked
-     * 
+     *
      * @return TRUE, if transaction is reservation, else FALSE
      */
     public static boolean isReservationTransaction(Transaction transaction) {
@@ -236,14 +237,14 @@ public final class POSLogHandler {
 
     /**
      * Checks whether a POSLog transaction is a customerOrder or not
-     * 
+     *
      * @param transaction
      *            the transaction to be checked
-     * 
+     *
      * @return TRUE, if transaction is customerOrder, else FALSE
      */
     public static boolean isCustomerOrderTransaction(Transaction transaction) {
-        
+
         boolean result = false;
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
@@ -262,7 +263,7 @@ public final class POSLogHandler {
         }
         return result;
     }
-    
+
     /**
      * Checks whether a POSLog transaction is a Previous Layaway or not
      *
@@ -274,7 +275,7 @@ public final class POSLogHandler {
     public static boolean isPreviousLayawayTransaction(Transaction transaction) {
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
-        
+
 		if (lineItems != null && lineItems.size() > 0) {
 			for (LineItem lineItem : lineItems) {
 				if (lineItem.getPreviousLayaway() != null) {
@@ -285,7 +286,7 @@ public final class POSLogHandler {
 				}
 			}
 		}
-		
+
         return false;
     }
     // 1.01    2014.12.26      LiQian    PosLogìoò^   End
@@ -376,13 +377,16 @@ public final class POSLogHandler {
 
             if (transactionStatus == null) {
                 if (retailTransaction.getTransactionLink() != null) {
-                	if(TxTypes.LAYAWAY.equals(retailTransaction.getTransactionLink().getReasonCode())){
+
+                	TransactionLink transactionLink = getNormalTransactionLink(retailTransaction.getTransactionLink());
+
+                	if(TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())){
                 		result = TxTypes.LAYAWAY;  // ëOéÛã‡í˘ê≥
-                	} else if(TxTypes.HOLD.equals(retailTransaction.getTransactionLink().getReasonCode())){
+                	} else if(TxTypes.HOLD.equals(transactionLink.getReasonCode())){
                         result = TxTypes.HOLD;  // Holdí˘ê≥
-                    } else if(TxTypes.CUSTOMERORDER.equals(retailTransaction.getTransactionLink().getReasonCode())){
+                    } else if(TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())){
                         result = TxTypes.CUSTOMERORDER;  // ãqíçí˘ê≥
-                    } else if(TxTypes.RESERVATION.equals(retailTransaction.getTransactionLink().getReasonCode())){
+                    } else if(TxTypes.RESERVATION.equals(transactionLink.getReasonCode())){
                         result = TxTypes.RESERVATION;  // ó\ñÒí˘ê≥
                 	} else {
                 		result = TxTypes.RETURN;   // return with receipt
@@ -398,7 +402,7 @@ public final class POSLogHandler {
                     } else if (isReservationTransaction(transaction)) {
                     	result = TxTypes.RESERVATION;
                     } else if (isCustomerOrderTransaction(transaction)) {
-                    	result = TxTypes.CUSTOMERORDER;                    
+                    	result = TxTypes.CUSTOMERORDER;
                     } else if (isPreviousLayawayTransaction(transaction)
                             || isNormalSaleTransaction(transaction)) {
                         result = TxTypes.SALES;
@@ -476,7 +480,7 @@ public final class POSLogHandler {
     private static boolean isPostPoint(Transaction transaction) {
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
-        
+
         if (lineItems != null && lineItems.size() > 0) {
             for (LineItem lineItem : lineItems) {
                 if (lineItem.getPostPoint() != null) {
@@ -519,7 +523,7 @@ public final class POSLogHandler {
         }
         return updateType;
     }
-    
+
     private static String getMatchingTxType(String dayPart)  {
     	String result = "";
     	try {
@@ -553,4 +557,21 @@ public final class POSLogHandler {
     }
     //Add More POSLog helper functions here
 
+    /**
+     * static function that will get not resume TransactionLink
+     * @param transactionLinks
+     * @return TransactionLink
+     */
+    public static TransactionLink getNormalTransactionLink(List<TransactionLink> transactionLinks) {
+    	TransactionLink result = new TransactionLink();
+        if (transactionLinks != null && transactionLinks.size() > 0) {
+            for (TransactionLink transactionLink : transactionLinks) {
+            	if (!TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())){
+            		result = transactionLink;
+            		break;
+            	}
+            }
+        }
+        return result;
+    }
 }

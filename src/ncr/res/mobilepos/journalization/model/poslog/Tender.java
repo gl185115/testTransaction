@@ -169,7 +169,9 @@ public class Tender {
 
     @XmlAttribute(name = "Cancelable")
     private String cancelable;
-
+    
+    @XmlElement(name = "TenderName")
+    private String tenderName;
     /**
      * The default constructor for Tender class.
      */
@@ -559,4 +561,13 @@ public class Tender {
     public void setCancelable(String cancelable) {
         this.cancelable = cancelable;
     }
+
+    public String getTenderName() {
+        return tenderName;
+    }
+
+    public void setTenderName(String tenderName) {
+        this.tenderName = tenderName;
+    }
+    
 }

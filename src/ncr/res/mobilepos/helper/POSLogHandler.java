@@ -566,7 +566,7 @@ public final class POSLogHandler {
     	TransactionLink result = new TransactionLink();
         if (transactionLinks != null && transactionLinks.size() > 0) {
             for (TransactionLink transactionLink : transactionLinks) {
-            	if (!TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())){
+            	if (!TxTypes.RESUME.equals(transactionLink.getReasonCode())){
             		result = transactionLink;
             		break;
             	}

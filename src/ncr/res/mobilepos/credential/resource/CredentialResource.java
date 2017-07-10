@@ -354,18 +354,10 @@ public class CredentialResource {
 
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICredentialDAO credentialDAO = sqlServer.getCredentialDAO();
-            operator = credentialDAO.getStatusOfOperator(companyId, operatorId);
-            Authorization authorization = credentialDAO.getOperatorAuthorization(companyId, operatorId, operatorPass);
-            if (authorization != null) {
+            operator = credentialDAO.signOnOperator(companyId, operatorId, operatorPass, terminalId);
+            if(operator.getNCRWSSResultCode() == 0){
+                Authorization authorization = credentialDAO.getOperatorAuthorization(companyId, operatorId, operatorPass);
                 operator.setAuthorization(authorization);
-                operator.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-                operator.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-                operator.setMessage(ResultBase.RES_SUCCESS_MSG);
-            } else {
-                operator.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-                operator.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-                operator.setMessage(ResultBase.RES_NODATAFOUND_MSG);
-                tp.println(ResultBase.RES_NODATAFOUND_MSG);
             }
         } catch (DaoException ex) {
             LOGGER.logAlert(progName, Logger.RES_EXCEP_DAO, functionName + ": Failed to get status and authorization of operator", ex);

@@ -102,3 +102,23 @@ Then MST_TILLIDINFO table should have:
 Then MST_DEVICEINFO table should have:
 |CompanyId	|StoreId	|TerminalId	|Training	|DeviceName		|AttributeId	|TillId		|LastTxId	|Status	|
 |01			|0247		|0001		|0			|POS#0001ƒeƒXƒg	|4				|02470001	|1671		|Active	|
+
+!-- Payment Amt Count
+Given that payment amt data
+When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:
+Then it should get NCRWSSResultCode:0
+Then it should get the following:
+|TenderId   |SumAmt |
+|0222       |3030   |
+|0223       |0      |
+|0224       |9000   |
+
+!-- Payment Amt Count By terminalId
+Given that payment amt data
+When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0247
+Then it should get NCRWSSResultCode:0
+Then it should get the following:
+|TenderId   |SumAmt |
+|0222       |3030   |
+|0223       |0      |
+|0224       |9000   |

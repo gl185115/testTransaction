@@ -31,4 +31,10 @@ public interface ISettlementInfoDAO {
 	
 	List<VoucherDetails> getVoucherDetailsByTillId(String companyId, String storeId, String tillId,
             String businessDate, int trainingFlag, String itemLevel3) throws Exception;
+	
+	SettlementInfo getCountPaymentAmt(final String companyId, final String storeId,
+			final String businessDate, int trainingFlag) throws Exception;
+	
+	SettlementInfo getPaymentAmtByTerminalId(final String companyId, final String storeId,
+            final String businessDate, int trainingFlag, String terminalId) throws Exception;
 }

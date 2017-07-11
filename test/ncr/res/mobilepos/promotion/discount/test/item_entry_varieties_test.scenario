@@ -391,7 +391,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|
-|MJROYAL BK465|MJROYAL BK465|5|0401234567891|0161|0|0|1|0|0|0|7890.0|7890.0|0161|7890.0|
+|MJROYAL BK465|MJROYAL BK465|5|0401234567891|0161|0|0|1|0|0|0|7890.0|7890.0|null|7890.0|
 
 Scenario: Item Entry with normal code
 Given ItemCode.xml file exist

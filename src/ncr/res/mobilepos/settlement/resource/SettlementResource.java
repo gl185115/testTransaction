@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.settlement.resource;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
@@ -26,6 +27,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
+import ncr.res.mobilepos.settlement.model.PaymentAmtInfo;
 import ncr.res.mobilepos.settlement.model.SettlementInfo;
 
 @Path("/settlement")
@@ -193,7 +195,7 @@ public class SettlementResource {
     		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name = "workstationid", value = "ターミナル番号")@QueryParam("workstationid") final String workStationId,
     		@ApiParam(name="txtype", value="取引種別")@QueryParam("txtype") final String txtype,
-    		@ApiParam(name = "businessDate", value = "営業日") @FormParam("businessDate") final String businessDate,
+    		@ApiParam(name = "businessDate", value = "営業日") @QueryParam("businessDate") final String businessDate,
     		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -317,4 +319,66 @@ public class SettlementResource {
         return settlement;
     }
     
+    @Path("/getcountpaymentamt")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="金種集計情報取得", response=SettlementInfo.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final SettlementInfo getCountPaymentAmt(
+    		@ApiParam(name="companyId", value="会社コード")@FormParam("companyId") final String companyId,
+    		@ApiParam(name="storeId", value="店舗番号")@FormParam("storeId") final String storeId,
+    		@ApiParam(name="businessDate", value="営業日")@FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag,
+    		@ApiParam(name="terminalId", value="端末番号")@FormParam("terminalId") final String terminalId){
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("businessDate", businessDate)
+          .println("trainingFlag", trainingFlag)
+          .println("terminalId", terminalId);
+        
+        SettlementInfo settlement = new SettlementInfo();
+        
+        if (StringUtility.isNullOrEmpty(companyId, storeId, businessDate)) {
+            tp.println("A required parameter is null or empty.");
+            settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.methodExit(settlement.toString());
+            return settlement;
+        }
+        try {
+            ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
+            if(StringUtility.isNullOrEmpty(terminalId)){
+                settlement = settlementDao.getCountPaymentAmt(companyId, storeId, businessDate, trainingFlag);
+            }else{
+                settlement = settlementDao.getPaymentAmtByTerminalId(companyId, storeId, businessDate, trainingFlag, terminalId);
+            }
+        } catch (Exception e) {
+            String loggerErrorCode = null;
+            int resultBaseErrorCode = 0;
+            if (e.getCause() instanceof SQLException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DB;
+            } else if (e.getCause() instanceof SQLStatementException) {
+                loggerErrorCode = Logger.RES_EXCEP_DAO;
+                resultBaseErrorCode = ResultBase.RES_ERROR_DAO;
+            } else {
+                loggerErrorCode = Logger.RES_EXCEP_GENERAL;
+                resultBaseErrorCode = ResultBase.RES_ERROR_GENERAL;
+            }
+            settlement.setNCRWSSResultCode(resultBaseErrorCode);
+            LOGGER.logAlert(PROG_NAME, functionName, loggerErrorCode, 
+                "Failed to get payment amt for companyId=" + companyId + ", " 
+                + "storeId=" + storeId + ", businessDayDate=" + businessDate + " : " + e.getMessage());
+        } finally {
+            tp.methodExit(settlement.toString());
+        }
+        return settlement;
+    }
 }

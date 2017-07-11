@@ -16,6 +16,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.settlement.model.CreditInfo;
+import ncr.res.mobilepos.settlement.model.PaymentAmtInfo;
 import ncr.res.mobilepos.settlement.model.SettlementInfo;
 import ncr.res.mobilepos.settlement.model.VoucherDetails;
 import ncr.res.mobilepos.settlement.model.VoucherInfo;
@@ -507,4 +508,115 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     return voucherDetails;
     }
     
+    @Override
+    public SettlementInfo getCountPaymentAmt(String companyId, String storeId, String businessDate, int trainingFlag) throws Exception {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("businessDate", businessDate)
+		  .println("trainingFlag", trainingFlag);
+    
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        SettlementInfo settlement = null;
+        PaymentAmtInfo paymentAmtInfo = null;
+        List<PaymentAmtInfo> paymentAmtList = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-count-payment-amt"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
+            
+            result = statement.executeQuery();
+            settlement = new SettlementInfo();
+            while (result.next()){
+                paymentAmtInfo = new PaymentAmtInfo();
+                if (paymentAmtList == null) {
+                    paymentAmtList = new ArrayList<PaymentAmtInfo>();
+                }
+                paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
+                paymentAmtList.add(paymentAmtInfo);
+        	}
+            settlement.setPaymentAmtList(paymentAmtList);
+            if (paymentAmtList.isEmpty()) {
+                tp.println("Payment amt not found.");
+                settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                settlement.setMessage("Payment amt not found.");
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get payment amt.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        }  finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
+    
+    @Override
+    public SettlementInfo getPaymentAmtByTerminalId(String companyId, String storeId, String businessDate, int trainingFlag, String terminalId) throws Exception {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("businessDate", businessDate)
+          .println("trainingFlag", trainingFlag)
+          .println("terminalId", terminalId);
+    
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        List<PaymentAmtInfo> paymentAmtList = null;
+        SettlementInfo settlement = null;
+        PaymentAmtInfo paymentAmtInfo = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-payment-amt-by-terminalid"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
+            statement.setString(SQLStatement.PARAM5, terminalId);
+            
+            result = statement.executeQuery();
+            while (result.next()){
+                settlement = new SettlementInfo();
+                paymentAmtInfo = new PaymentAmtInfo();
+                if (paymentAmtList == null) {
+                    paymentAmtList = new ArrayList<PaymentAmtInfo>();
+                }
+                paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
+                paymentAmtList.add(paymentAmtInfo);
+            }
+            settlement.setPaymentAmtList(paymentAmtList);
+            if (paymentAmtList.isEmpty()) {
+                tp.println("Payment amt not found.");
+                settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                settlement.setMessage("Payment amt not found.");
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get payment amt.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        }  finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
 }

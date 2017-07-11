@@ -54,7 +54,8 @@ public class EndOfDaySteps extends Steps {
 
 	public enum Operation {
 		GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT, 
-		GETVOUCHERLIST, GETITEMTYPE3DAILYSALESREPORT, GETTRANSACTIONCOUNT, GETTXCOUNTBYBUSINESSDATE, GETREPORTITEMS, SAVEPOSLOG, GETCMPRESETCMINFOS
+		GETVOUCHERLIST, GETITEMTYPE3DAILYSALESREPORT, GETTRANSACTIONCOUNT, GETTXCOUNTBYBUSINESSDATE, GETREPORTITEMS, SAVEPOSLOG, GETCMPRESETCMINFOS,
+		GETCOUNTPAYMENTAMT
 	};
 
 	Operation operation = Operation.GETLASTPAYINPAYOUT;
@@ -125,6 +126,23 @@ public class EndOfDaySteps extends Steps {
 			dbRESMasterInitiator.ExecuteOperation(
 					DatabaseOperation.CLEAN_INSERT,
 					"test/ncr/res/mobilepos/eod/test/data_users.xml");
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+   @Given("that payment amt data")
+	public final void givenPaymentAmt() {
+		try {
+			dbRESMasterInitiator = new DBInitiator("EndOfDaySteps2",
+					DATABASE.RESMaster);
+			dbRESMasterInitiator.ExecuteOperation(
+					DatabaseOperation.CLEAN_INSERT,
+					"test/ncr/res/mobilepos/eod/test/payment_amt_data.xml");
+			dbRESTransactionInitiator = new DBInitiator("EndOfDaySteps2",
+					DATABASE.RESTransaction);
+			dbRESTransactionInitiator
+					.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+							"test/ncr/res/mobilepos/eod/test/TXL_TRAN_PAYMENT.xml");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -304,6 +322,12 @@ public class EndOfDaySteps extends Steps {
 		operation = Operation.GETCMPRESETCMINFOS;
 		cmPresetInfos = storeResource.getCMPresetInfoList(companyId, storeId, terminalId, businessDayDate);
 		resultCode = cmPresetInfos.getNCRWSSResultCode();
+	}
+	@When("getting payment amt of companyid:$1, storeid:$2, businessdaydate:$3, trainingFlag:$4, terminalId:$5")
+	public final void whenGettingPaymentAmtData(final String companyId, final String storeId, final String businessDayDate, final int trainingFlag, final String terminalId) {
+		operation = Operation.GETCOUNTPAYMENTAMT;
+		settlementInfo = settlementResource.getCountPaymentAmt(companyId, storeId, businessDayDate, trainingFlag, terminalId);
+		resultCode = settlementInfo.getNCRWSSResultCode();
 	}
 	@When("saving poslogxml:$1, trainingmode:$2")
 	public final void whenSavingPOSlog(final String posLogXml, final int trainingMode){
@@ -595,6 +619,14 @@ public class EndOfDaySteps extends Steps {
 			Assert.assertEquals("Compare Bottom3Message", expectedTable.getRow(0).get("Bottom3Message"), cmPresetInfos.getCMPresetInfoList().get(0).getBottom3Message());
 			Assert.assertEquals("Compare Bottom4Message", expectedTable.getRow(0).get("Bottom4Message"), cmPresetInfos.getCMPresetInfoList().get(0).getBottom4Message());
 			Assert.assertEquals("Compare Bottom5Message", expectedTable.getRow(0).get("Bottom5Message"), cmPresetInfos.getCMPresetInfoList().get(0).getBottom5Message());
+		}break;
+		case GETCOUNTPAYMENTAMT: {
+			int i = 0;
+			for (Map<String, String> expected : expectedTable.getRows()) {
+				Assert.assertEquals("Compare TenderId" + i, expected.get("TenderId"), settlementInfo.getPaymentAmtList().get(i).getTenderId());
+				Assert.assertEquals("Compare SumAmt", Integer.parseInt(expected.get("SumAmt")), settlementInfo.getPaymentAmtList().get(i).getSumAmt());
+				i++;
+			}
 		}break;
 		default:
 			break;

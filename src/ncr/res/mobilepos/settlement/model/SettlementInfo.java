@@ -22,6 +22,8 @@ public class SettlementInfo extends ResultBase {
     private List<VoucherInfo> voucherList;
     @XmlElement(name = "TxCount")
     private int txCount;
+    @XmlElement(name = "PaymentAmtList")
+    private List<PaymentAmtInfo> paymentAmtList;
     
     public final void setCreditInfo(CreditInfo creditInfo) {
     	this.creditInfo = creditInfo;
@@ -55,6 +57,15 @@ public class SettlementInfo extends ResultBase {
     public void setTxCount(int txCount) {
         this.txCount = txCount;
     }
+    
+    public final void setPaymentAmtList(List<PaymentAmtInfo> paymentAmtList) {
+        this.paymentAmtList = paymentAmtList;
+    }
+    
+    @ApiModelProperty(value="金種集計金額リスト", notes="金種集計金額リスト")
+    public final List<PaymentAmtInfo> getPaymentAmtList() {
+        return paymentAmtList;
+    }
 
     @Override
     public final String toString() {
@@ -63,6 +74,7 @@ public class SettlementInfo extends ResultBase {
     	sb.append("CreditInfo: ").append(creditInfo).append("; ");
     	sb.append("VoucherList: ").append(voucherList).append("; ");
     	sb.append("TxCount: ").append(txCount).append("; ");
+    	sb.append("PaymentAmtList: ").append(paymentAmtList).append("; ");
     	return sb.toString();
     }
 }

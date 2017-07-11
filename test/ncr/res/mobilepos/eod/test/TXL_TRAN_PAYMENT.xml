@@ -1,0 +1,493 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXL_TRAN_PAYMENT">
+		<column>CompanyId</column>
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>BusinessDayDate</column>
+		<column>SequenceNumber</column>
+		<column>TrainingFlag</column>
+		<column>BusinessDateTime</column>
+		<column>ValidFlag</column>
+		<column>ReturnFlag</column>
+		<column>VoidFlag</column>
+		<column>CancelFlag</column>
+		<column>TxType</column>
+		<column>DataKind</column>
+		<column>TenderType</column>
+		<column>TenderId</column>
+		<column>CreditCompanyId</column>
+		<column>CreditPaymentMethod</column>
+		<column>CreditPaymentCount</column>
+		<column>CreditApprovalCode</column>
+		<column>CreditExpDate</column>
+		<column>CreditSlipNo</column>
+		<column>CreditBonusMonth1</column>
+		<column>CreditBonusMonth2</column>
+		<column>CreditBonusAmt</column>
+		<column>CreditOwnCreditKind</column>
+		<column>Amt</column>
+		<column>ConvertAmt</column>
+		<column>SurplusAmt</column>
+		<column>ShoppingLoanApprovalCode</column>
+		<column>ShoppingLoanMemberNo</column>
+		<column>ShoppingLoanAccountNo</column>
+		<column>ChargeSlipNo</column>
+		<column>PendingSlipNo</column>
+		<column>CashFlowType</column>
+		<column>CashFlowRemarksId</column>
+		<column>CashFlowRemarksNote</column>
+		<column>PackCnt</column>
+		<column>ItemCnt</column>
+		<column>StockType</column>
+		<column>ProcTodayDate</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<value>2016-06-20</value>
+			<value>1</value>
+			<value>0</value>
+			<value>2016-06-20 18:13:11.000</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>000</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0222</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1000</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>2016-06-20</value>
+			<value>2017-03-30 18:13:23.9012812</value>
+			<value>usp_UpdateTranPayment</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>2017-03-30 18:13:23.9012812</value>
+			<value>usp_UpdateTranPayment</value>
+			<value>0001</value>
+		</row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>2</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0222</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>1000</value>
+            <value>10</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>3</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0222</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>1000</value>
+            <value>0</value>
+            <value>20</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>    
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>4</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0223</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>2000</value>
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>5</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0223</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>2000</value>
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>6</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0223</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>2000</value>
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>7</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>1</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0223</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>2000</value>
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>8</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0224</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>4000</value>
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+        <row>
+            <value>01</value>
+            <value>0247</value>
+            <value>0004</value>
+            <value>2016-06-20</value>
+            <value>9</value>
+            <value>0</value>
+            <value>2016-06-20 18:13:11.000</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>000</value>
+            <value>0</value>
+            <value>10</value>
+            <value>0224</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>5000</value>
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <value>2016-06-20</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+            <value>1</value>
+            <value>2017-03-30 18:13:23.9012812</value>
+            <value>usp_UpdateTranPayment</value>
+            <value>0001</value>
+        </row>
+	</table>
+</dataset>

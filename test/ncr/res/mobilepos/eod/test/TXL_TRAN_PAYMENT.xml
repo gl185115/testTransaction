@@ -16,6 +16,7 @@
 		<column>DataKind</column>
 		<column>TenderType</column>
 		<column>TenderId</column>
+		<column>TenderIdentification</column>
 		<column>CreditCompanyId</column>
 		<column>CreditPaymentMethod</column>
 		<column>CreditPaymentCount</column>
@@ -64,6 +65,7 @@
 			<value>0</value>
 			<value>10</value>
 			<value>0222</value>
+			<value>2</value>
 			<null />
 			<null />
 			<null />
@@ -113,6 +115,7 @@
             <value>0</value>
             <value>10</value>
             <value>0222</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -162,6 +165,7 @@
             <value>0</value>
             <value>10</value>
             <value>0222</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -211,6 +215,7 @@
             <value>0</value>
             <value>10</value>
             <value>0223</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -260,6 +265,7 @@
             <value>0</value>
             <value>10</value>
             <value>0223</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -309,6 +315,7 @@
             <value>0</value>
             <value>10</value>
             <value>0223</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -358,6 +365,7 @@
             <value>0</value>
             <value>10</value>
             <value>0223</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -407,6 +415,7 @@
             <value>0</value>
             <value>10</value>
             <value>0224</value>
+            <value>2</value>
             <null />
             <null />
             <null />
@@ -456,6 +465,7 @@
             <value>0</value>
             <value>10</value>
             <value>0224</value>
+            <value>2</value>
             <null />
             <null />
             <null />

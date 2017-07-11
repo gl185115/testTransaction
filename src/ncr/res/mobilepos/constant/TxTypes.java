@@ -48,6 +48,9 @@ public final class TxTypes {
 
     public static final String OTHER = "Other";
     public static final String SALES = "Sales";
+    public static final String GIFTCARDINQUIRY = "GiftCardInquiry";
+    public static final String GIFTCARDRECHARGE = "GiftCardRecharge";
+    public static final String CHARGECANCEL = "ChargeCancel";
     public static final String ECSALES = "ECSales";
     public static final String RETURN = "Return";
     public static final String ECRETURN = "ECReturn";

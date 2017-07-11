@@ -541,6 +541,34 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         tp.methodExit();
     }
+    
+    /**
+     * Private Method for charge cancel
+     *
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
+     *
+     * @return void
+     *
+     * @throws Exception
+     *             The Exception thrown when the process fails
+     */
+    private void doChargeCancelTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName());
+
+        savePosLogXML(transaction, posLogXml, TxTypes.CHARGECANCEL, savePOSLogStmt, connection, trainingMode);
+
+        tp.methodExit();
+    }
 
     /**
      * Private Method that implement the chkPOSLogDuplicate of transaction.
@@ -1198,6 +1226,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.SALES:
                 case TxTypes.ECSALES:
                 case TxTypes.EXCHANGESALES:
+                case TxTypes.GIFTCARDINQUIRY:
+                case TxTypes.GIFTCARDRECHARGE:
                     doNormalTransaction(transaction, posLogXml, savePOSLogStmt, connection,
                             saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
                     break;
@@ -1216,6 +1246,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     break;
                 case TxTypes.CANCEL:
                     doCancelTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
+                    break;
+                case TxTypes.CHARGECANCEL:
+                    doChargeCancelTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.VOID:
                 case TxTypes.RETURNVOID:

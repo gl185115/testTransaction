@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Return")
 public class Return {
-    /**
+	/**
      * The private member variable that will hold the tax type of Return.
      */
     @XmlAttribute(name = "TaxType")
@@ -410,6 +410,118 @@ public class Return {
      */
     @XmlElement(name = "barPSType")
     private String barPSType;
+
+
+    /////////////////////////////////////////////////////
+    /**
+     * The private member variable that will hold the ReturnFlag of Return.
+     */
+    @XmlAttribute(name = "ReturnFlag")
+    private String returnFlag;
+
+    /**
+     * The private member variable that will hold the returnExchangeFlag of Return.
+     */
+    @XmlElement(name = "ReturnExchangeFlag")
+    private String returnExchangeFlag;
+
+
+    /**
+     * The private member variable that will hold the GiftRegistry of Return.
+     */
+    @XmlElement(name = "GiftRegistry")
+    private GiftRegistry giftRegistry;
+
+    /**
+     * The private member variable that will hold the OriginalGiftRegistry of Return.
+     */
+    @XmlElement(name = "OriginalGiftRegistry")
+    private GiftRegistry originalGiftRegistry;
+
+    /**
+     * The Discount Amount.
+     */
+    @XmlElement(name = "DiscountAmount")
+    private double discountAmount;
+
+    /**
+     * Action
+     */
+    @XmlAttribute(name = "Action")
+    private String action;
+
+    /**
+     * ExchangeFlag
+     */
+    @XmlElement(name="ExchangeFlag")
+    private int exchangeFlag;
+
+    /**
+     * barOperatorName
+     */
+    @XmlElement(name = "barOperatorName")
+    private BarOperatorName barOperatorName;
+
+    /**
+     * barReservationType
+     */
+    @XmlElement(name = "barReservationType")
+    private BarReservationType barReservationType;
+
+    /**
+     * CustomerOrderFlag ãqíç
+     */
+    @XmlElement(name = "CustomerOrderFlag")
+    private int customerOrderFlag;
+
+    /**
+     * ItemAmount
+     */
+    @XmlElement(name = "ItemAmount")
+    private int itemAmount;
+
+    /**
+     * CategoryCode
+     */
+    @XmlElement(name = "CategoryCode")
+    private String categoryCode;
+
+    /**
+     * BeforeDpt
+     */
+    @XmlElement(name = "BeforeDpt")
+    private String beforeDpt;
+
+    /**
+     * ExceptionFlag
+     */
+    @XmlElement(name = "ExceptionFlag")
+    private String exceptionFlag;
+
+    /**
+     * MagazineCode
+     */
+    @XmlElement(name = "MagazineCode")
+    private String magazineCode;
+
+    /**
+     * PublishingCode
+     */
+    @XmlElement(name = "PublishingCode")
+    private String publishingCode;
+
+    /**
+     * RestockFlag
+     */
+    @XmlElement(name = "RestockFlag")
+    private String restockFlag;
+
+    /**
+     * LabelPrice
+     */
+    @XmlElement(name = "LabelPrice")
+    private String labelPrice;
+    /////////////////////////////////////////////////////
 
     /**
      * Gets the Item Selling Rule information of the returned item.
@@ -1255,4 +1367,246 @@ public class Return {
 	public final void setDptNameLocal(String dptNameLocal) {
 		this.dptNameLocal = dptNameLocal;
 	}
+
+
+	//////////////////////////////////////
+    /**
+     * Gets the returnFlag  of Sale.
+     *
+     * @return        The returnFlag of Sale.
+     */
+    public final String getReturnFlag() {
+        return returnFlag;
+    }
+
+    /**
+     * Sets the returnFlag of Sale.
+     *
+     * @param returnFlag        The new value for returnFlag of Sale.
+     */
+    public final void setReturnFlag(final String returnFlag) {
+        this.returnFlag = returnFlag;
+    }
+    /**
+     * Gets the returnExchangeFlag of Sale.
+     *
+     * @return  The returnExchangeFlag of Sale.
+     */
+    public final String getReturnExchangeFlag() {
+        return returnExchangeFlag;
+    }
+
+    /**
+     * Sets the returnExchangeFlag of Sale.
+     *
+     * @param returnExchangeFlagToSet      The new value for returnExchangeFlag of Sale.
+     */
+    public final void setReturnExchangeFlag(final String returnExchangeFlagToSet) {
+        this.returnExchangeFlag = returnExchangeFlagToSet;
+    }
+
+    /**
+     * Sets the GiftRegistry of Sale.
+     *
+     * @param giftRegistryToSet        The new value for GiftRegistry of Sale.
+     */
+    public final void setGiftRegistry(final GiftRegistry giftRegistryToSet) {
+        this.giftRegistry = giftRegistryToSet;
+    }
+
+    /**
+     * Gets the GiftRegistry of Sale.
+     *
+     * @return        The GiftRegistry of Sale.
+     */
+    public final GiftRegistry getGiftRegistry() {
+        return giftRegistry;
+    }
+
+	/**
+     * Sets the OriginalGiftRegistry of Sale.
+     *
+     * @param originalGiftRegistryToSet        The new value for OriginalGiftRegistry of Sale.
+     */
+    public final void setoriginalGiftRegistry(final GiftRegistry originalGiftRegistryToSet) {
+        this.originalGiftRegistry = originalGiftRegistryToSet;
+    }
+
+    /**
+     * Gets the OriginalGiftRegistry of Sale.
+     *
+     * @return        The OriginalGiftRegistry of Sale.
+     */
+    public final GiftRegistry getOriginalGiftRegistry() {
+        return originalGiftRegistry;
+    }
+    /**
+     * Sets the discount amount of the sale item.
+     * @param discountAmountToSet The Discount Amount.
+     */
+    public final void setDiscountAmount(final double discountAmountToSet) {
+        this.discountAmount = discountAmountToSet;
+    }
+
+    /**
+     * Gets the discount amount of the sale item.
+     * @return  The Discount Amount.
+     */
+    public final double getDiscountAmount() {
+        return discountAmount;
+    }
+    /**
+     * @return action
+     */
+    public String getAction() {
+        return action;
+    }
+
+    /**
+     * @param action ÉZÉbÉgÇ∑ÇÈ action
+     */
+    public void setAction(String action) {
+        this.action = action;
+    }
+    /**
+     * @return the exchangeFlag
+     */
+    public final int getExchangeFlag() {
+        return exchangeFlag;
+    }
+    /**
+     * @param exchangeFlag the exchangeFlag to set
+     */
+    public final void setExchangeFlag(final int exchangeFlag) {
+        this.exchangeFlag = exchangeFlag;
+    }
+    /**
+     * @return the barOperatorName
+     */
+    public BarOperatorName getBarOperatorName() {
+        return barOperatorName;
+    }
+
+    /**
+     * @param barOperatorName the operatorID to set
+     */
+    public void setBarOperatorName(BarOperatorName barOperatorName) {
+        this.barOperatorName = barOperatorName;
+    }
+    /**
+     * @return the barReservationType
+     */
+    public BarReservationType getBarReservationType() {
+        return barReservationType;
+    }
+    /**
+     * Sets the barReservationType of RainCheck.
+     *
+     * @param barReservationType
+     */
+    public void setBarReservationType(BarReservationType barReservationType) {
+        this.barReservationType = barReservationType;
+    }
+    public int getCustomerOrderFlag() {
+		return customerOrderFlag;
+	}
+	public void setCustomerOrderFlag(int customerOrderFlag) {
+		this.customerOrderFlag = customerOrderFlag;
+	}
+	/**
+     * @param itemAmount the itemAmount to set
+     */
+    public final void setItemAmount(final int itemAmount) {
+        this.itemAmount = itemAmount;
+    }
+    /**
+     * @return the itemAmount
+     */
+    public final int getItemAmount() {
+        return itemAmount;
+    }
+    /**
+     * @param categoryCode the categoryCode to set
+     */
+    public final void setCategoryCode(final String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+    /**
+     * @return the beforeDpt
+     */
+    public final String getCategoryCode() {
+        return categoryCode;
+    }
+    /**
+     * @param beforeDpt the beforeDpt to set
+     */
+    public final void setBeforeDpt(final String beforeDpt) {
+        this.beforeDpt = beforeDpt;
+    }
+    /**
+     * @return the beforeDpt
+     */
+    public final String getBeforeDpt() {
+        return beforeDpt;
+    }
+	/**
+     * @param exceptionFlag the exceptionFlag to set
+     */
+    public final void setExceptionFlag(final String exceptionFlag) {
+        this.exceptionFlag = exceptionFlag;
+    }
+    /**
+     * @return the exceptionFlag
+     */
+    public final String getExceptionFlag() {
+        return exceptionFlag;
+    }
+    /**
+     * @param magazineCode the magazineCode to set
+     */
+    public final void setMagazineCode(final String magazineCode) {
+        this.magazineCode = magazineCode;
+    }
+    /**
+     * @return the magazineCode
+     */
+    public final String getMagazineCode() {
+        return magazineCode;
+    }
+    /**
+     * @param publishingCode the publishingCode to set
+     */
+    public final void setPublishingCode(final String publishingCode) {
+        this.publishingCode = publishingCode;
+    }
+    /**
+     * @return the publishingCode
+     */
+    public final String getPublishingCode() {
+        return publishingCode;
+    }
+    /**
+     * @param restockFlag the restockFlag to set
+     */
+    public final void setRestockFlag(final String restockFlag) {
+        this.restockFlag = restockFlag;
+    }
+    /**
+     * @return the restockFlag
+     */
+    public final String getRestockFlag() {
+        return restockFlag;
+    }
+    /**
+     * @param labelPrice the labelPrice to set
+     */
+    public final void setLabelPrice(final String labelPrice) {
+        this.labelPrice = labelPrice;
+    }
+    /**
+     * @return the labelPrice
+     */
+    public final String getLabelPrice() {
+        return labelPrice;
+    }
 }

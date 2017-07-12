@@ -247,6 +247,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setSubCode3(result.getString(result.findColumn("SubCode3")));
                 searchedItem.setMdVender(result.getString(result.findColumn("MdVender")));
                 searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
+                if (result.getObject(result.findColumn("PosMdType")) == null) {
+                	searchedItem.setNonSales(result.getInt(result.findColumn("ExceptionFlag")));
+                } else {
+                	searchedItem.setNonSales(result.getInt(result.findColumn("PosMdType")));
+                }
                 
                 searchedItem.setCostPrice1(result.getLong(result.findColumn("CostPrice1")));
                 searchedItem.setMakerPrice(result.getLong(result.findColumn("MakerPrice")));
@@ -296,7 +301,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 // プレミアム商品（PREMIUMITEM_INFO）
                 getPremiumitemInfo(actualStoreid, searchedItem, companyId, bussinessDate);
                 //QRcode（QRCODE_INFO）
-//                getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
+                //getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
 
             } else {
                 tp.println("Item not found.");

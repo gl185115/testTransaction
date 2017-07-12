@@ -14,6 +14,8 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 public class PaymentAmtInfo {
 	@XmlElement(name = "TenderId")
 	private String tenderId;
+	@XmlElement(name = "TenderName")
+	private String tenderName;
 	@XmlElement(name = "SumAmt")
 	private int sumAmt;
   
@@ -31,6 +33,21 @@ public class PaymentAmtInfo {
 	public void setTenderId(String tenderId) {
 		this.tenderId = tenderId;
 	}
+	
+	/**
+     * @return the tenderId
+     */
+    @ApiModelProperty(value="í•Ê–¼Ì(Š¿š)", notes="í•Ê–¼Ì(Š¿š)")
+    public String getTenderName() {
+        return tenderName;
+    }
+
+    /**
+     * @param tenderId the tenderId to set
+     */
+    public void setTenderName(String tenderName) {
+        this.tenderName = tenderName;
+    }
 	
 	/**
 	 * @return the sumAmt

@@ -542,6 +542,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
                     paymentAmtList = new ArrayList<PaymentAmtInfo>();
                 }
                 paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setTenderName(result.getString("TenderName"));
                 paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
                 paymentAmtList.add(paymentAmtInfo);
         	}
@@ -599,6 +600,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
                     paymentAmtList = new ArrayList<PaymentAmtInfo>();
                 }
                 paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setTenderName(result.getString("TenderName"));
                 paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
                 paymentAmtList.add(paymentAmtInfo);
             }

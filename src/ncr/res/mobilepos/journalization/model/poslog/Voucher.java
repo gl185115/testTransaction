@@ -97,6 +97,11 @@ public class Voucher {
     @XmlAttribute(name = "SubTenderType")
     private String subTenderType;
     /**
+     * TenderName
+     */
+    @XmlAttribute(name = "TenderName")
+    private String tenderName;
+    /**
      * barSubTypeCode
      */
     @XmlElement(name = "barSubTypeCode")
@@ -223,6 +228,18 @@ public class Voucher {
      */
     public  final void setTenderType(String tenderType) {
         this.tenderType = tenderType;
+    }
+    /**
+     * @return the subTenderType
+     */
+    public final String getTenderName() {
+        return tenderName;
+    }
+    /**
+     * @param subTenderType the subTenderType to set
+     */
+    public final void setTenderName(String tenderName) {
+        this.tenderName = tenderName;
     }
     /**
      * @return the subTenderType

@@ -1630,24 +1630,28 @@ public class PromotionResource {
 
 		for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
 			if (CustomerExistFlag == true) {
-				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
+				if (!("0".equals(qrCodeInfo.getSexType()) || SexTypeIn.equals(qrCodeInfo.getSexType()) 
+						|| CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
 					continue;
 				}
 				// MemberTargetType = 0�̏ꍇ
 				if (MEMBERTARGETTYPE_ZERO.equalsIgnoreCase(qrCodeInfo.getMemberTargetType())) {
-					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank())
-							&& birthMonth.equals(qrCodeInfo.getBirthMonth()))) {
+					if(!(("0".equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType())) 
+							&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
+							&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth())))) {
 						continue;
 					}
 				} else {
 					qrCodeInfo.setCustomerId(checkCustomerID(qrCodeInfo, transactionIn));
-					if(!(CustomerSexTypeIn.equals(qrCodeInfo.getSexType()) && rank.equals(qrCodeInfo.getMemberRank())
-							&& birthMonth.equals(qrCodeInfo.getBirthMonth()) && customerId.equals(qrCodeInfo.getCustomerId()))) {
+					if(!(("0".equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))
+							&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
+							&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth()))
+							&& customerId.equals(qrCodeInfo.getCustomerId()))) {
 						continue;
 					}
 				}
 			} else {
-				if (!(SexTypeIn.equals(qrCodeInfo.getSexType()))) {
+				if (!("0".equals(qrCodeInfo.getSexType()) || SexTypeIn.equals(qrCodeInfo.getSexType()))) {
 					continue;
 				}
 			}

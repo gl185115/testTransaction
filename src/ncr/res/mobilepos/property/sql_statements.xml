@@ -1509,6 +1509,7 @@ ORDER BY
 DECLARE
     @companyId VARCHAR (12),
     @storeId VARCHAR (10),
+    @storeIdUsual VARCHAR (10),
     @cashFlowDirection VARCHAR (50),
     @tenderId VARCHAR (50),
     @tenderType VARCHAR (50)
@@ -1517,19 +1518,21 @@ SET @companyId = LTRIM(RTRIM(?))
 SET @cashFlowDirection = LTRIM(RTRIM(?))
 SET @tenderId = LTRIM(RTRIM(?))
 SET @tenderType = LTRIM(RTRIM(?))
+SET @storeIdUsual = @storeId
 
 IF NOT EXISTS (
-	SELECT *
-	FROM  RESMaster.dbo.MST_CASHFLOW_REMARKS a, RESMaster.dbo.MST_TENDERINFO b
-	WHERE
+    SELECT *
+    FROM  RESMaster.dbo.MST_CASHFLOW_REMARKS a, RESMaster.dbo.MST_TENDERINFO b
+    WHERE
     a.StoreId = @storeId
-	AND a.CompanyId = @companyId
-	AND a.CashFlowDirection = @cashFlowDirection
-	AND b.TenderId = @tenderId
-	AND b.TenderType = @tenderType
-	AND b.TenderId = a.CashFlowType
+    AND a.CompanyId = @companyId
+    AND a.CompanyId = b.CompanyId
+    AND a.CashFlowDirection = @cashFlowDirection
+    AND b.TenderId = @tenderId
+    AND b.TenderType = @tenderType
+    AND b.TenderId = a.CashFlowType
 )
-SET @storeId = '0'
+SET @storeIdUsual = '0'
 
 SELECT
     a.CompanyId,
@@ -1543,8 +1546,10 @@ FROM
     RESMaster.dbo.MST_CASHFLOW_REMARKS a,
     RESMaster.dbo.MST_TENDERINFO b
 WHERE
-    a.StoreId = @storeId
-AND a.CompanyId = @companyId
+    a.CompanyId = @companyId
+AND a.CompanyId = b.CompanyId
+AND b.StoreId = @storeId
+AND a.StoreId = @storeIdUsual
 AND a.CashFlowDirection = @cashFlowDirection
 AND b.TenderId = @tenderId
 AND b.TenderType = @tenderType

@@ -9911,9 +9911,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
     WHERE
       CompanyId = @companyId AND
       RetailStoreId = @storeId AND
-      WorkstationId = @storeId AND
+      WorkstationId = @workStationId AND
       TxType = @txtype AND
-      BusinessDayDate = @storeId AND
+      BusinessDayDate = @businessDate AND
       TrainingFlag = @trainingFlag
   </entry>
 <entry key="get-card-type-info">

@@ -26,7 +26,7 @@
 			<value>01</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>1</value>
 			<value>送料</value>
 			<value>0</value>
@@ -49,7 +49,7 @@
 			<value>01</value>
 			<value>0</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>2</value>
 			<value>箱代</value>
 			<value>0</value>
@@ -72,7 +72,7 @@
 			<value>01</value>
 			<value>1</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>1</value>
 			<value>予約:ウインター部門</value>
 			<value>0</value>
@@ -95,7 +95,7 @@
 			<value>01</value>
 			<value>1</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>2</value>
 			<value>予約:アウトドア部門</value>
 			<value>0</value>
@@ -118,7 +118,7 @@
 			<value>01</value>
 			<value>2</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>1</value>
 			<value>不明:ウインター部門</value>
 			<value>0</value>
@@ -141,7 +141,7 @@
 			<value>01</value>
 			<value>2</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>2</value>
 			<value>不明:アウトドア部門</value>
 			<value>0</value>
@@ -162,9 +162,32 @@
 		</row>
 		<row>
 			<value>01</value>
+			<value>2</value>
+			<value>0247</value>
+			<value>0</value>
+			<value>2</value>
+			<value>不明:アウトドア部門247</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019031100014</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
 			<value>3</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>1</value>
 			<value>縫製工賃</value>
 			<value>0</value>
@@ -187,9 +210,78 @@
 			<value>01</value>
 			<value>3</value>
 			<value>0</value>
-			<value>0001</value>
+			<value>0</value>
 			<value>2</value>
 			<value>チューンナップ工賃</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019030000018</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>3</value>
+			<value>0247</value>
+			<value>0</value>
+			<value>1</value>
+			<value>縫製工賃247</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019029900015</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>3</value>
+			<value>0247</value>
+			<value>0</value>
+			<value>2</value>
+			<value>チューンナップ工賃247</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019030000018</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>3</value>
+			<value>0247</value>
+			<value>0001</value>
+			<value>2</value>
+			<value>チューンナップ工賃2470001</value>
 			<value>0</value>
 			<value>1</value>
 			<value>2019030000018</value>

@@ -63,10 +63,10 @@ public class GetPicklistSteps extends Steps {
         }
     }
 
-    @When("I get picklist of $companyid $storeid $itemtype")
-    public final void getItemByPLUCoderesource(final String companyId, final String storeId, final String itemType) {
+    @When("I get picklist of $companyid $storeid $terminalid $itemtype")
+    public final void getItemByPLUCoderesource(final String companyId, final String storeId, final String terminalId, final String itemType) {
     	this.itemType = itemType;
-        pickList = itemres.getPickList(companyId, storeId, "",itemType); //sato
+        pickList = itemres.getPickList(companyId, storeId, terminalId, itemType); 
     }
 
     @Then("the resultcode should be $resultCode")

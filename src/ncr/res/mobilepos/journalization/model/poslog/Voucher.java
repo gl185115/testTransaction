@@ -191,6 +191,12 @@ public class Voucher {
    @XmlElement(name = "ErrorCode")
    private String errorCode;
 
+   /**
+    * TenderIdentification
+    */
+   @XmlAttribute(name = "TenderIdentification")
+   private String tenderIdentification;
+
     /**
      * @return the amount
      */
@@ -608,5 +614,20 @@ public class Voucher {
      */
     public final void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
+    }
+
+    /**
+     * @return the tenderIdentification
+     */
+    public final String getTenderIdentification() {
+        return tenderIdentification;
+    }
+
+    /**
+     * @param tenderIdentification
+     *            the tenderIdentification to set
+     */
+    public final void setTenderIdentification(String tenderIdentification) {
+        this.tenderIdentification = tenderIdentification;
     }
 }

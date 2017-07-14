@@ -169,9 +169,17 @@ public class Tender {
 
     @XmlAttribute(name = "Cancelable")
     private String cancelable;
-    
-    @XmlElement(name = "TenderName")
+
+    @XmlAttribute(name = "TenderName")
     private String tenderName;
+
+
+    @XmlAttribute(name = "SubTenderType")
+    private String subTenderType;
+
+    @XmlAttribute(name = "TenderIdentification")
+    private String tenderIdentification;
+
     /**
      * The default constructor for Tender class.
      */
@@ -569,5 +577,21 @@ public class Tender {
     public void setTenderName(String tenderName) {
         this.tenderName = tenderName;
     }
-    
+
+    public String getSubTenderType() {
+        return subTenderType;
+    }
+
+    public void setSubTenderType(String subTenderType) {
+        this.subTenderType = subTenderType;
+    }
+
+    public String getTenderIdentification() {
+        return tenderIdentification ;
+    }
+
+    public void setTenderIdentification(String tenderIdentification ) {
+        this.tenderIdentification = tenderIdentification ;
+    }
+
 }

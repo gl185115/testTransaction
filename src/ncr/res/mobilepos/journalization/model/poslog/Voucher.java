@@ -91,6 +91,13 @@ public class Voucher {
     @XmlAttribute(name = "TenderType")
     private String tenderType;
 
+    
+    /**
+     * Tenderidentification
+     */
+    @XmlAttribute(name = "Tenderidentification")
+    private String tenderidentification;
+    
     /**
      * SubTenderType
      */
@@ -234,6 +241,18 @@ public class Voucher {
      */
     public  final void setTenderType(String tenderType) {
         this.tenderType = tenderType;
+    }
+    /**
+     * @return the Tenderidentification
+     */
+    public final String getTenderidentification() {
+        return tenderidentification;
+    }
+    /**
+     * @param tenderidentification the tenderidentification to set
+     */
+    public  final void setTenderidentification(String tenderidentification) {
+        this.tenderidentification = tenderidentification;
     }
     /**
      * @return the subTenderType

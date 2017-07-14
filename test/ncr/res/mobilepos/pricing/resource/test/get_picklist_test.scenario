@@ -2,7 +2,7 @@ Scenario: Get Price
 Given entries for picklist_items in database
 Given I have Item resource
 !-- Out of Goods Items ItemType=0
-When I get picklist of 01 0247 0 0
+When I get picklist of 01 0247 0
 Then the resultcode should be 0
 Then I should get the following: 
 |displayorder	|itemname	|itemtype	|mdinternal		|
@@ -10,49 +10,25 @@ Then I should get the following:
 |0				|箱代		|0			|2063418800011	|
 
 !-- Pre-ordered Items ItemType=1
-When I get picklist of 01 0247 0 1
+When I get picklist of 01 0247 1
 Then the resultcode should be 0
 Then I should get the following: 
-|displayorder	|itemname					|itemtype	|mdinternal		|
+|displayorder	|itemname			|itemtype	|mdinternal		|
 |0				|予約:ウインター部門		|1			|2019031800013	|
 |0				|予約:アウトドア部門		|1			|2019031900010	|
 
 !-- Unknown Part Number Items ItemType=2
-When I get picklist of 01 0247 0 2
+When I get picklist of 01 0247 2
 Then the resultcode should be 0
 Then I should get the following: 
-|displayorder	|itemname					|itemtype	|mdinternal		|
-|0				|不明:ウインター部門		|2			|2019031000017	|
-|0				|不明:アウトドア部門247		|2			|2019031100014	|
-
-!-- Unknown Part Number Items ItemType=2
-When I get picklist of 01 0248 0 2
-Then the resultcode should be 0
-Then I should get the following: 
-|displayorder	|itemname					|itemtype	|mdinternal		|
+|displayorder	|itemname			|itemtype	|mdinternal		|
 |0				|不明:ウインター部門		|2			|2019031000017	|
 |0				|不明:アウトドア部門		|2			|2019031100014	|
 
 !-- Labor Cost Items ItemType=3
-When I get picklist of 01 0247 0001 3
-Then the resultcode should be 0
-Then I should get the following: 
-|displayorder	|itemname					|itemtype	|mdinternal		|
-|0				|縫製工賃247				|3			|2019029900015	|
-|0				|チューンナップ工賃2470001	|3			|2019030000018	|
-
-!-- Labor Cost Items ItemType=3
-When I get picklist of 01 0247 0002 3
-Then the resultcode should be 0
-Then I should get the following: 
-|displayorder	|itemname				|itemtype	|mdinternal		|
-|0				|縫製工賃247			|3			|2019029900015	|
-|0				|チューンナップ工賃247	|3			|2019030000018	|
-
-!-- Labor Cost Items ItemType=3
-When I get picklist of 01 0 0002 3
+When I get picklist of 01 0247 3
 Then the resultcode should be 0
 Then I should get the following: 
 |displayorder	|itemname			|itemtype	|mdinternal		|
-|0				|縫製工賃			|3			|2019029900015	|
-|0				|チューンナップ工賃	|3			|2019030000018	|
+|0				|縫製工賃				|3			|2019029900015	|
+|0				|チューンナップ工賃		|3			|2019030000018	|

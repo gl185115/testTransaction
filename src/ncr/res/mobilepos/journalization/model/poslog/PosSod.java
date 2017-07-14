@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  */
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlRootElement(name = "PosSod")
+@XmlRootElement(name = "POSSOD")
 public class PosSod {
 
     /**

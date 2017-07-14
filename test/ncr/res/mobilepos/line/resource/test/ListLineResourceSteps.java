@@ -1,11 +1,13 @@
 package ncr.res.mobilepos.line.resource.test;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-
+import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+
+import junit.framework.Assert;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
@@ -17,10 +19,13 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
-import junit.framework.Assert;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
@@ -33,19 +38,19 @@ public class ListLineResourceSteps extends Steps {
 	private LineResource lineResource = null;
 	private SearchedLine lineList = null;
 	private DAOFactory daoFactory;
-
+	
 	@BeforeScenario
 	public final void SetUpClass() {
 		Requirements.SetUp();
 		dbInitRESMaster = new DBInitiator("ListLineResourceSteps","test/ncr/res/mobilepos/line/resource/test/mst_line_info_(nodata).xml", DATABASE.RESMaster);
 		GlobalConstant.setMaxSearchResults(50);
 	}
-
+	
 	@AfterScenario
 	public final void TearDownClass() {
 		Requirements.TearDown();
 	}
-
+	
 	@Given("data in table MST_LINEINFO with $path")
 	public final void initLineInfoTableWithData(final String path) {
 		try {
@@ -61,18 +66,18 @@ public class ListLineResourceSteps extends Steps {
         lineResource = new LineResource();
         lineResource.setContext(servletContext);
     }
-
-	@When("I get line list of retailstoreid $retailstoreid with limit $limit companyid $companyid")
-	public final void getLineListOfRetailstoreidWithLimit(final String retailstoreid, final int limit, final String companyid) {
-		lineList = lineResource.list(retailstoreid, null, null, null, limit, companyid);
+	
+	@When("I get line list of retailstoreid $retailstoreid with limit $limit") 
+	public final void getLineListOfRetailstoreidWithLimit(final String retailstoreid, final int limit) {
+		lineList = lineResource.list(retailstoreid, null, null, null, limit);		
 	}
-
+	
 	@Then("I should get NCRWSSResultCode $expectedCode and $length line info list")
 	public final void thenShouldGetResults(final int expected, final int length) {
 		Assert.assertEquals(expected, lineList.getNCRWSSResultCode());
 		Assert.assertEquals(length, lineList.getLines().size());
 	}
-
+	
 	@Then("I should have the following data $expectedlineinfo")
     public final void iShoudHaveTheFollowingList(
             final ExamplesTable expectedlineinfo) throws DataSetException{
@@ -97,17 +102,17 @@ public class ListLineResourceSteps extends Steps {
             assertThat("MST_LINEINFO (row"+i+" - DPT",
                     dpt.trim(),
                     is(equalTo(lineInfoList.get("DPT").trim())));
-
+            
             i++;
         }
     }
-
+	
 	@Then("I should get the following line list entries $listLine")
 	public final void thenIShouldHaveTheFollowingLineList(final ExamplesTable expectedLineList) throws DataSetException {
 		try {
 			Assert.assertEquals("Must exact number of Line Entries from the List",
 					expectedLineList.getRowCount(), lineList.getLines().size());
-
+		
 			int i = 0;
 			for (Map<String, String> tempLineList : expectedLineList.getRows()) {
 				Line actualLineInfo = new Line(lineList.getLines().get(i));
@@ -118,7 +123,7 @@ public class ListLineResourceSteps extends Steps {
 						tempLineList.get("Line"), actualLineInfo.getLine());
 				Assert.assertEquals("Compare the Dpt " + i,
 						tempLineList.get("Dpt"), actualLineInfo.getDepartment());
-
+				
 				if (tempLineList.get("LineName").equals("null") || tempLineList.get("LineName").equals("NULL")) {
 	                Assert.assertNull("Assume that LineName is "
 	                        + "null for row " + i + ":",
@@ -127,7 +132,7 @@ public class ListLineResourceSteps extends Steps {
 	            	Assert.assertEquals("Compare the LineName EN " + i,
 							tempLineList.get("LineName"), actualLineInfo.getDescription().getEn());
 	            }
-
+				
 				if (tempLineList.get("LineNameLocal").equals("null") || tempLineList.get("LineNameLocal").equals("NULL")) {
 	                Assert.assertNull("Assume that LineName is "
 	                        + "null for row " + i + ":",
@@ -136,7 +141,7 @@ public class ListLineResourceSteps extends Steps {
 	            	Assert.assertEquals("Compare the LineNameLocal JA " + i,
 						tempLineList.get("LineNameLocal"), actualLineInfo.getDescription().getJa());
 	            }
-
+	            
 				if (tempLineList.get("TaxType").equals("null") || tempLineList.get("TaxType").equals("NULL")) {
 					Assert.assertNull("Assume that TaxType is "
 							+ "null for row " + i + ":",
@@ -145,7 +150,7 @@ public class ListLineResourceSteps extends Steps {
 					Assert.assertEquals("Compare the TaxType " + i,
 							tempLineList.get("TaxType"), actualLineInfo.getTaxType());
 				}
-
+				
 				if (tempLineList.get("TaxRate").equals("null") || tempLineList.get("TaxRate").equals("NULL")) {
 					Assert.assertNull("Assume that TaxRate is "
 							+ "null for row " + i + ":",
@@ -154,7 +159,7 @@ public class ListLineResourceSteps extends Steps {
 					Assert.assertEquals("Compare the TaxRate " + i,
 							tempLineList.get("TaxRate"), actualLineInfo.getTaxRate());
 				}
-
+				
 				if (tempLineList.get("DiscountType").equals("null") || tempLineList.get("DiscountType").equals("NULL")) {
 					Assert.assertNull("Assume that DiscountType is "
 							+ "null for row " + i + ":",
@@ -163,7 +168,7 @@ public class ListLineResourceSteps extends Steps {
 					Assert.assertEquals("Compare the DiscountType " + i,
 						tempLineList.get("DiscountType"), actualLineInfo.getDiscountType());
 				}
-
+				
 				if (tempLineList.get("ExceptionFlag").equals("null") || tempLineList.get("ExceptionFlag").equals("NULL")) {
 					Assert.assertNull("Assume that ExceptionFlag is "
 							+ "null for row " + i + ":",
@@ -172,7 +177,7 @@ public class ListLineResourceSteps extends Steps {
 					Assert.assertEquals("Compare the ExceptionFlag " + i,
 						tempLineList.get("ExceptionFlag"), actualLineInfo.getExceptionFlag());
 				}
-
+				
 				if (tempLineList.get("DiscountFlag").equals("null") || tempLineList.get("DiscountFlag").equals("NULL")) {
 					Assert.assertNull("Assume that DiscountFlag is "
 							+ "null for row " + i + ":",
@@ -190,7 +195,7 @@ public class ListLineResourceSteps extends Steps {
 	                        + ": ", Integer.parseInt(tempLineList.get("DiscountAmt")),
 	                          java.math.BigDecimal.valueOf(actualLineInfo.getDiscountAmount()).intValue());
 				}
-
+				
 				if (tempLineList.get("DiscountRate").equals("null") || tempLineList.get("DiscountRate").equals("NULL")) {
 					Assert.assertNull("Assume that DiscountRate is "
 							+ "null for row " + i + ":",
@@ -200,7 +205,7 @@ public class ListLineResourceSteps extends Steps {
 	                        + ": ", Integer.parseInt(tempLineList.get("DiscountRate")),
 	                          java.math.BigDecimal.valueOf(actualLineInfo.getDiscountRate()).intValue());
 				}
-
+				
 				if (tempLineList.get("AgeRestrictedFlag").equals("null") || tempLineList.get("AgeRestrictedFlag").equals("NULL")) {
 					Assert.assertNull("Assume that AgeRestrictedFlag is "
 							+ "null for row " + i + ":",
@@ -209,7 +214,7 @@ public class ListLineResourceSteps extends Steps {
 					Assert.assertEquals("Compare the AgeRestrictedFlag " + i,
 						tempLineList.get("AgeRestrictedFlag"), actualLineInfo.getAgeRestrictedFlag());
 				}
-
+				
 				if (tempLineList.get("InheritFlag").equals("null") || tempLineList.get("InheritFlag").equals("NULL")) {
 					Assert.assertNull("Assume that InheritFlag is "
 							+ "null for row " + i + ":",

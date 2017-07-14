@@ -26,6 +26,7 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
@@ -35,7 +36,7 @@ import ncr.res.mobilepos.property.SQLStatement;
 
 /**
  * A Data Access Object implementation for Classes.
- *
+ * 
  * @see IClassInfoDAO
  */
 
@@ -49,7 +50,7 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
     /**
      * The Program name.
      */
-    private String progname = "ClassInfoDAO";
+    private String progname = "ClassInfoDAO";    
     /**
      * The Trace Printer.
      */
@@ -57,10 +58,10 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
 
     /**
      * Default Constructor for SQLServerClassInfoDAO
-     *
+     * 
      * <P>
      * Sets DBManager for database connection, and Logger for logging.
-     *
+     * 
      * @throws DaoException
      *             The exception thrown when the constructor fails.
      */
@@ -71,26 +72,25 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
     }
     /**
      * Gets the Database Manager for SQLServerClassInfoDAO.
-     *
+     * 
      * @return Returns a DBManager Instance.
      */
     public final DBManager getDbManager() {
         return dbManager;
-    }
-
+    }    
+    
     /**
      * {@inheritDoc}
-     */
+     */    
     public final List<ClassInfo> listClasses(final String storeId, final String department,
-            final String key, final String name, final int limit, final String companyId) throws DaoException {
+            final String key, final String name, final int limit) throws DaoException {
 
         tp.methodEnter(DebugLogger.getCurrentMethodName())
                 .println("storeId", storeId)
                 .println("department", department)
                 .println("key", key)
-                .println("limit", limit)
-                .println("companyId", companyId);
-
+                .println("limit", limit);
+       
         List<ClassInfo> classInfoList = new ArrayList<ClassInfo>();
         Connection connection = null;
         PreparedStatement select = null;
@@ -100,33 +100,31 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-class-list"));
+                    .getProperty("get-class-list"));            
             int searchLimit = (limit == 0) ? GlobalConstant
-                    .getMaxSearchResults() : limit;
+                    .getMaxSearchResults() : limit;            
             select.setInt(SQLStatement.PARAM1, searchLimit);
             select.setString(SQLStatement.PARAM2, storeId);
             select.setString(SQLStatement.PARAM3, department);
             select.setString(SQLStatement.PARAM4, StringUtility.isNullOrEmpty(key)? null : StringUtility.escapeCharatersForSQLqueries(key) + '%');
             select.setString(SQLStatement.PARAM5, StringUtility.isNullOrEmpty(name)? null : '%' + StringUtility.escapeCharatersForSQLqueries(name) + '%' );
-            select.setString(SQLStatement.PARAM6, companyId);
-
             result = select.executeQuery();
 
             while (result.next()) {
-            	ClassInfo classInfo = new ClassInfo();
+            	ClassInfo classInfo = new ClassInfo();                
 
             	classInfo.setRetailStoreId(result.getString(result
-                        .findColumn("StoreId")));
+                        .findColumn("StoreId")));    
             	classInfo.setItemClass(result.getString(result
-                        .findColumn("Class")));
+                        .findColumn("Class"))); 
             	Description description = new Description();
                 description.setEn(result.getString(result.
                 		findColumn("ClassName")));
                 description.setJa(result.getString(result
                         .findColumn("ClassNameLocal")));
-                classInfo.setDescription(description);
+                classInfo.setDescription(description);                
                 classInfo.setDepartment(result.getString(result
-                        .findColumn("Dpt")));
+                        .findColumn("Dpt")));                
                 classInfo.setLine(result.getString(result
                         .findColumn("Line")));
                 classInfo.setTaxType(result.getString(result
@@ -136,17 +134,19 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 classInfo.setDiscountType(result.getString(result
                         .findColumn("DiscountType")));
                 classInfo.setExceptionFlag(result.getString(result
-                        .findColumn("ExceptionFlag")));
+                        .findColumn("ExceptionFlag")));              
                 classInfo.setDiscountFlag(result.getString(result.
-                		findColumn("DiscountFlag")));
+                		findColumn("DiscountFlag")));                
                 classInfo.setDiscountAmount(result.getDouble(result.
                 		findColumn("DiscountAmt")));
                 classInfo.setDiscountRate(result.getDouble(result.
-                		findColumn("DiscountRate")));
+                		findColumn("DiscountRate")));       
                 classInfo.setAgeRestrictedFlag(result.getString(result.
-                		findColumn("AgeRestrictedFlag")));
+                		findColumn("AgeRestrictedFlag")));                
                 classInfo.setInheritFlag(result.getString(result.
                 		findColumn("InheritFlag")));
+                classInfo.setSubSmallInt5(result.getString(result
+                        .findColumn("SubSmallInt5")));                
                 classInfoList.add(classInfo);
             }
 
@@ -163,10 +163,10 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
 
         return classInfoList;
     }
-
+    
     /**
      * {@inheritDoc}
-     */
+     */ 
     @Override
     public final ResultBase deleteClass(final String retailStoreID,	final String department,
     		final String line, final String itemClass) throws DaoException {
@@ -189,7 +189,7 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             deleteStmt = connection.prepareStatement(sqlStatement
                     .getProperty("delete-class"));
             setValues(deleteStmt, retailStoreID, department, line, itemClass);
-
+            
             result = deleteStmt.executeUpdate();
             if (result == 0) {
                 resultBase.setNCRWSSResultCode(ResultBase.RES_CLASS_INFO_NOT_EXIST);
@@ -212,14 +212,14 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                     "SQLException: @SQLServerClassInfoDAO.deleteClass ", e);
         } finally {
             closeConnectionObjects(connection, deleteStmt);
-
+            
             tp.methodExit(resultBase);
         }
 
         return resultBase;
     }
-
-
+    
+    
     /**
      * {@inheritDoc} .
      */
@@ -227,18 +227,18 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
     public final ResultBase createClassInfo(final ClassInfo classInfo) throws DaoException {
 
         String functionName = "SQLServerClassInfoDAO.createClassInfo";
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
+        tp.methodEnter(DebugLogger.getCurrentMethodName())               
                 .println("ClassInfo", classInfo);
-
-        ResultBase resultBase = new ResultBase();
+        
+        ResultBase resultBase = new ResultBase();        
         if(classInfo == null){
         	resultBase
 		            .setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
 		    tp.println("Parameter[s] is null or empty.");
 		    tp.methodExit(resultBase);
 		    return resultBase;
-        }
-
+        }           
+        
         Connection connection = null;
         PreparedStatement insertStmt = null;
         try {
@@ -247,19 +247,19 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             SQLStatement sqlStatement = SQLStatement.getInstance();
             insertStmt = connection.prepareStatement(sqlStatement
                     .getProperty("insert-class"));
-
+            
             String en = "";
             String ja = "";
             if (classInfo.getDescription() != null) {
-                en = classInfo.getDescription().getEn() != null ?
+                en = classInfo.getDescription().getEn() != null ? 
                 		classInfo.getDescription().getEn() : "";
-                ja = classInfo.getDescription().getJa() != null ?
+                ja = classInfo.getDescription().getJa() != null ? 
                 		classInfo.getDescription().getJa() : "";
-            }
+            }                                  
             insertStmt.setString(SQLStatement.PARAM1, classInfo.getRetailStoreId());
             insertStmt.setString(SQLStatement.PARAM2, classInfo.getItemClass());
             insertStmt.setString(SQLStatement.PARAM3, en);
-            insertStmt.setString(SQLStatement.PARAM4, ja);
+            insertStmt.setString(SQLStatement.PARAM4, ja); 
             insertStmt.setString(SQLStatement.PARAM5, classInfo.getDepartment());
             insertStmt.setString(SQLStatement.PARAM6, classInfo.getLine());
             insertStmt.setString(SQLStatement.PARAM7, classInfo.getTaxType());
@@ -267,18 +267,18 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             insertStmt.setString(SQLStatement.PARAM9, classInfo.getDiscountType());
             insertStmt.setString(SQLStatement.PARAM10, classInfo.getExceptionFlag());
             insertStmt.setString(SQLStatement.PARAM11, classInfo.getDiscountFlag());
-            insertStmt.setDouble(SQLStatement.PARAM12, classInfo.getDiscountAmount());
-            insertStmt.setDouble(SQLStatement.PARAM13, classInfo.getDiscountRate());
-            insertStmt.setString(SQLStatement.PARAM14,  classInfo.getAgeRestrictedFlag());
-            insertStmt.setString(SQLStatement.PARAM15,  classInfo.getInheritFlag());
-            insertStmt.setString(SQLStatement.PARAM16,  classInfo.getSubSmallInt5());
+            insertStmt.setDouble(SQLStatement.PARAM12, classInfo.getDiscountAmount()); 
+            insertStmt.setDouble(SQLStatement.PARAM13, classInfo.getDiscountRate()); 
+            insertStmt.setString(SQLStatement.PARAM14,  classInfo.getAgeRestrictedFlag()); 
+            insertStmt.setString(SQLStatement.PARAM15,  classInfo.getInheritFlag()); 
+            insertStmt.setString(SQLStatement.PARAM16,  classInfo.getSubSmallInt5()); 
             insertStmt.setString(SQLStatement.PARAM17, classInfo.getUpdAppId());
             insertStmt.setString(SQLStatement.PARAM18, classInfo.getUpdOpeCode());
             insertStmt.executeUpdate();
-
+            
             connection.commit();
         } catch (SQLException e) {
-
+            
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to create classInfo\n " + e.getMessage());
             if (Math.abs(SQLResultsConstants.ROW_DUPLICATE) != e.getErrorCode()) {
@@ -287,30 +287,29 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             throw new DaoException("SQLException: @" + functionName, e);
         } catch (Exception e) {
             rollBack(connection, "Exception:@" + functionName, e);
-
+            
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to create classInfo\n " + e.getMessage());
             throw new DaoException("SQLException: @" + functionName, e);
         } finally {
             closeConnectionObjects(connection, insertStmt);
-
+            
             tp.methodExit(resultBase);
         }
         return resultBase;
     }
-
+    
     /**
      * {@inheritDoc}
      */
     public final ViewClassInfo selectClassInfoDetail(
-            final String retailStoreID, final String department, final String line, final String itemClass, final String companyID)
+            final String retailStoreID, final String department, final String line, final String itemClass)
             throws DaoException {
         tp.methodEnter("selectClassInfoDetail");
         tp.println("RetailStoreID", retailStoreID)
         		.println("Department",department)
         		.println("line",line)
-        		.println("class",itemClass)
-        		.println("companyID",companyID);
+        		.println("class",itemClass);
 
         ViewClassInfo classInfoModel = new ViewClassInfo();
 
@@ -327,23 +326,22 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             select.setString(SQLStatement.PARAM2, department);
             select.setString(SQLStatement.PARAM3, line);
             select.setString(SQLStatement.PARAM4, itemClass);
-            select.setString(SQLStatement.PARAM5, companyID);
 
             result = select.executeQuery();
             if (result.next()) {
-            	ClassInfo classInfo = new ClassInfo();
+            	ClassInfo classInfo = new ClassInfo();  
             	classInfo.setRetailStoreId(result.getString(result
-                        .findColumn("StoreId")));
+                        .findColumn("StoreId")));    
             	classInfo.setItemClass(result.getString(result
-                        .findColumn("Class")));
+                        .findColumn("Class"))); 
             	Description description = new Description();
                 description.setEn(result.getString(result.
                 		findColumn("ClassName")));
                 description.setJa(result.getString(result
                         .findColumn("ClassNameLocal")));
-                classInfo.setDescription(description);
+                classInfo.setDescription(description);                
                 classInfo.setDepartment(result.getString(result
-                        .findColumn("Dpt")));
+                        .findColumn("Dpt")));                
                 classInfo.setLine(result.getString(result
                         .findColumn("Line")));
                 classInfo.setTaxType(result.getString(result
@@ -353,22 +351,24 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 classInfo.setDiscountType(result.getString(result
                         .findColumn("DiscountType")));
                 classInfo.setExceptionFlag(result.getString(result
-                        .findColumn("ExceptionFlag")));
+                        .findColumn("ExceptionFlag")));              
                 classInfo.setDiscountFlag(result.getString(result.
-                		findColumn("DiscountFlag")));
+                		findColumn("DiscountFlag")));                
                 classInfo.setDiscountAmount(result.getDouble(result.
                 		findColumn("DiscountAmt")));
                 classInfo.setDiscountRate(result.getDouble(result.
-                		findColumn("DiscountRate")));
+                		findColumn("DiscountRate")));       
                 classInfo.setAgeRestrictedFlag(result.getString(result.
-                		findColumn("AgeRestrictedFlag")));
+                		findColumn("AgeRestrictedFlag")));                
                 classInfo.setInheritFlag(result.getString(result.
                 		findColumn("InheritFlag")));
+                classInfo.setSubSmallInt5(result.getString(result
+                        .findColumn("SubSmallInt5")));            	
             	classInfoModel.setClassInfo(classInfo);
             } else {
                 classInfoModel.setNCRWSSResultCode(ResultBase.RES_CLASS_INFO_NOT_EXIST);
-                tp.println("Class not updated.");
-            }
+                tp.println("Class not updated.");                
+            }  
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progname,
                     "SQLServerClassInfoDAO.selectClassInfoDetail()",
@@ -378,18 +378,18 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                     sqlEx);
         } finally {
             closeConnectionObjects(connection, select, result);
-
+            
             tp.methodExit(classInfoModel.toString());
         }
         return classInfoModel;
-    }
-
+    } 
+    
     /**
      * {@inheritDoc}
      */
 	public ViewClassInfo updateClassInfo(String retailStoreId, String department,
 			String lineid, String itemClass, ClassInfo classInfo) throws DaoException {
-
+		
 	 	String functionName = "SQLServerClassInfoDAO.updateClassInfo";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
                 .println("RetailStoreID", retailStoreId)
@@ -403,26 +403,26 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
         ResultSet result = null;
         ClassInfo updatedClassInfo = null;
         ViewClassInfo viewClassInfoResult = new ViewClassInfo();
-
+        
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             updateStmt = connection.prepareStatement(sqlStatement
-                    .getProperty("update-class"));
-
+                    .getProperty("update-class"));            
+           
             String en = "";
             String ja = "";
             if (classInfo.getDescription() != null) {
-                en = classInfo.getDescription().getEn() != null ?
+                en = classInfo.getDescription().getEn() != null ? 
                 		classInfo.getDescription().getEn() : "";
-                ja = classInfo.getDescription().getJa() != null ?
+                ja = classInfo.getDescription().getJa() != null ? 
                 		classInfo.getDescription().getJa() : "";
             }
-
+            
             updateStmt.setString(SQLStatement.PARAM1, classInfo.getRetailStoreId());
-            updateStmt.setString(SQLStatement.PARAM2, classInfo.getItemClass());
-            updateStmt.setString(SQLStatement.PARAM3, en);
-            updateStmt.setString(SQLStatement.PARAM4, ja);
+            updateStmt.setString(SQLStatement.PARAM2, classInfo.getItemClass());            
+            updateStmt.setString(SQLStatement.PARAM3, en); 
+            updateStmt.setString(SQLStatement.PARAM4, ja); 
             updateStmt.setString(SQLStatement.PARAM5, classInfo.getDepartment());
             updateStmt.setString(SQLStatement.PARAM6, classInfo.getLine());
             updateStmt.setString(SQLStatement.PARAM7, classInfo.getTaxType());
@@ -430,35 +430,35 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             updateStmt.setString(SQLStatement.PARAM9, classInfo.getDiscountType());
             updateStmt.setString(SQLStatement.PARAM10, classInfo.getExceptionFlag());
             updateStmt.setString(SQLStatement.PARAM11, classInfo.getDiscountFlag());
-            updateStmt.setDouble(SQLStatement.PARAM12, classInfo.getDiscountAmount());
-            updateStmt.setDouble(SQLStatement.PARAM13, classInfo.getDiscountRate());
-            updateStmt.setString(SQLStatement.PARAM14,  classInfo.getAgeRestrictedFlag());
-            updateStmt.setString(SQLStatement.PARAM15,  classInfo.getInheritFlag());
-            updateStmt.setString(SQLStatement.PARAM16,  classInfo.getSubSmallInt5());
+            updateStmt.setDouble(SQLStatement.PARAM12, classInfo.getDiscountAmount()); 
+            updateStmt.setDouble(SQLStatement.PARAM13, classInfo.getDiscountRate()); 
+            updateStmt.setString(SQLStatement.PARAM14,  classInfo.getAgeRestrictedFlag()); 
+            updateStmt.setString(SQLStatement.PARAM15,  classInfo.getInheritFlag()); 
+            updateStmt.setString(SQLStatement.PARAM16,  classInfo.getSubSmallInt5()); 
             updateStmt.setString(SQLStatement.PARAM17, classInfo.getUpdAppId());
             updateStmt.setString(SQLStatement.PARAM18, classInfo.getUpdOpeCode());
             updateStmt.setString(SQLStatement.PARAM19, retailStoreId);
             updateStmt.setString(SQLStatement.PARAM20, department);
-            updateStmt.setString(SQLStatement.PARAM21, lineid);
-            updateStmt.setString(SQLStatement.PARAM22, itemClass);
-
+            updateStmt.setString(SQLStatement.PARAM21, lineid);           
+            updateStmt.setString(SQLStatement.PARAM22, itemClass);           
+            
             result = updateStmt.executeQuery();
             if (result.next()) {
                 updatedClassInfo = new ClassInfo();
                 updatedClassInfo.setRetailStoreId(result.getString(result
-                        .findColumn("StoreId")));
+                        .findColumn("StoreId"))); 
                 updatedClassInfo.setItemClass(result.getString(result
-                        .findColumn("Class")));
+                        .findColumn("Class")));             	            	
             	Description description = new Description();
                 description
                         .setEn(result.getString(result.findColumn("ClassName")));
                 description.setJa(result.getString(result
                         .findColumn("ClassNameLocal")));
-                updatedClassInfo.setDescription(description);
+                updatedClassInfo.setDescription(description);                
                 updatedClassInfo.setDepartment(result.getString(result
-                        .findColumn("Dpt")));
+                        .findColumn("Dpt"))); 
                 updatedClassInfo.setLine(result.getString(result
-                        .findColumn("Line")));
+                        .findColumn("Line"))); 
                 updatedClassInfo.setTaxType(result.getString(result
                         .findColumn("TaxType")));
                 updatedClassInfo.setTaxRate(result.getString(result
@@ -466,15 +466,15 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
                 updatedClassInfo.setDiscountType(result.getString(result
                         .findColumn("DiscountType")));
                 updatedClassInfo.setExceptionFlag(result.getString(result
-                        .findColumn("ExceptionFlag")));
+                        .findColumn("ExceptionFlag")));                
                 updatedClassInfo.setDiscountFlag(result.getString(result.
                 		findColumn("DiscountFlag")));
                 updatedClassInfo.setDiscountAmount(result.getDouble(result.
                 		findColumn("DiscountAmt")));
                 updatedClassInfo.setDiscountRate(result.getDouble(result.
-                		findColumn("DiscountRate")));
+                		findColumn("DiscountRate")));             
                 updatedClassInfo.setAgeRestrictedFlag(result.getString(result.
-                		findColumn("AgeRestrictedFlag")));
+                		findColumn("AgeRestrictedFlag")));                
                 updatedClassInfo.setInheritFlag(result.getString(result.
                 		findColumn("InheritFlag")));
                 updatedClassInfo.setSubSmallInt5(result.getString(result.
@@ -488,13 +488,13 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
         } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 rollBack(connection, "SQLException:@" + functionName, e);
-            }
+            }           
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to update classinfo\n " + e.getMessage());
             throw new DaoException("SQLException: @" + functionName, e);
         } catch (Exception e) {
             rollBack(connection, "Exception:@" + functionName, e);
-
+            
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to update classinfo\n " + e.getMessage());
             throw new DaoException("SQLException: @" + functionName, e);
@@ -505,7 +505,7 @@ public class SQLServerClassInfoDAO extends AbstractDao implements IClassInfoDAO 
             tp.methodExit(viewClassInfoResult);
         }
         return viewClassInfoResult;
-
+		
 	}
-
+    
 }

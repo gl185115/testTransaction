@@ -157,45 +157,6 @@
 		</row>
 		<row>
 			<value>03</value>
-			<value>0</value>
-			<value>86</value>
-			<value>15</value>
-			<value>2</value>
-			<value>3</value>
-			<value>1</value>
-			<value>001</value>
-			<null />
-			<value>1</value>
-			<value>20</value>
-			<value>2011-12-01</value>
-			<value>1</value>
-			<value>2099-12-31</value>
-			<value>2011-11-11</value>
-			<value>DM部門割引2</value>
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<value>0</value>
-			<null />
-			<null />
-			<null />
-			<value>2016-03-11 11:51:39.2788052</value>
-			<value>usp_IF_MaintPriceDiscount</value>
-			<value>system</value>
-			<value>0</value>
-			<value>2016-03-11 11:51:39.2788052</value>
-			<value>usp_IF_MaintPriceDiscount</value>
-			<value>system</value>
-		</row>
-		<row>
-			<value>03</value>
 			<value>0247</value>
 			<value>86</value>
 			<value>15</value>

@@ -21,11 +21,11 @@ import ncr.res.mobilepos.model.ResultBase;
  * IClassInfoDAO is a DAO interface for ClassInfo.
  */
 public interface IClassInfoDAO {
-
-
+   
+	
     /**
      * Gets the list of classes in a particular
-     * Store, Common Store or even All Stores
+     * Store, Common Store or even All Stores   
      * Can bypass the searchLimit defined in the SystemConfig max search results
      * using limit
      *
@@ -35,15 +35,13 @@ public interface IClassInfoDAO {
      *                          to search the class(s) by item class
      * @param   name     The given name used
      *                          to search the class(s) by class name
-     * @param   limit   The limit of the class to be search.
-     * @param   companyId The ID of the Company where
-     *                          the classes are located
+     * @param   limit   The limit of the class to be search.  
      * @return  The list of classes.
      * @throws  DaoException
      *  The Exception thrown when getting the List of Classes failed.
      */
-    List<ClassInfo> listClasses(String storeId, String department, String key, String name, int limit, String companyId) throws DaoException;
-
+    List<ClassInfo> listClasses(String storeId, String department, String key, String name, int limit) throws DaoException;
+    
     /**
      * Deletes a Class.
      * @param retailStoreID The retailstoreid of a class.
@@ -56,7 +54,7 @@ public interface IClassInfoDAO {
      */
     ResultBase deleteClass(String retailStoreID, String department,
             String line, String itemClass) throws DaoException;
-
+    
     /**
      * Create a Class.
      * @param classInfo          The new values of the classInfo.
@@ -65,28 +63,27 @@ public interface IClassInfoDAO {
      * @throws DaoException The Exception thrown when if error exists.
      */
     ResultBase createClassInfo(ClassInfo classInfo) throws DaoException;
-
+    
     /**
      * Select ClassInfo.
      * @param retailStoreID - store number
-     * @param department - department number
+     * @param department - department number 
      * @param line - line
      * @param itemClass - class id
-     * @param companyID - company id
-     *
+     * 
      * @return ViewClassInfo Model
      * @throws DaoException - exception
      */
      ViewClassInfo selectClassInfoDetail(String retailStoreID,
-         String department, String line, String itemClass, String companyID) throws DaoException;
-
+         String department, String line, String itemClass) throws DaoException;
+     
      /**
       * Updates a CLass info
-      *
+      *  
       * @param retailStoreId the store of the to be updated class  info
       * @param department	the department of the to be updated class info
-      * @param lineid		the lineid of the to be updated class info
-      * @param itemClass	the itemClass of the to be updated class info
+      * @param lineid		the lineid of the to be updated class info      
+      * @param itemClass	the itemClass of the to be updated class info  
       * @param class		the class object of the to be updated
       * @return ViewClassInfo object with the updated line
       * @throws DaoException

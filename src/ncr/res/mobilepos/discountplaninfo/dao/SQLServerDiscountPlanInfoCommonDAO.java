@@ -10,15 +10,17 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
-import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscountInfo;
+import ncr.res.mobilepos.discountplaninfo.dao.DiscountPlanInfoCommomDAO;
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscountInfo;
 import ncr.res.mobilepos.property.SQLStatement;
 
 public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
     DiscountPlanInfoCommomDAO{
-
+	
 	private final String PROG_NAME = "DisCountCommomDao";
     /** The database manager. */
     private DBManager dbManager;
@@ -30,7 +32,7 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
 
     /**
      * Initializes DBManager.
-     *
+     * 
      * @throws DaoException
      *             if error exists.
      */
@@ -42,7 +44,7 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
 
     /**
      * Retrieves DBManager.
-     *
+     * 
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -50,13 +52,11 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
     }
 	/**
      * @param SubtotalDiscount
-     * @param companyId
-     * @param storeId
      * @return the SubtotalDiscount information
      * @throws DaoException
      *             Thrown when process fails.
      */
-	public ArrayList<SubtotalDiscountInfo> getSubtotalDiscount(String companyId, String storeId)
+	public ArrayList<SubtotalDiscountInfo> getSubtotalDiscount()
             throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -70,9 +70,6 @@ public class SQLServerDiscountPlanInfoCommonDAO extends AbstractDao implements
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(sqlStatement
                     .getProperty("get-subtotalDiscount"));
-            select.setString(SQLStatement.PARAM1, companyId);
-            select.setString(SQLStatement.PARAM2, storeId);
-
             result = select.executeQuery();
             while (result.next()) {
                 if(subtotalDiscountInfo == null){

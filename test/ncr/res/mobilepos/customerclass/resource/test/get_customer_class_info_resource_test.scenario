@@ -8,7 +8,7 @@ Scenario: Specific StoreId (0123) and Common StoreId(0) in MST_CUSTOMERCLASS tab
 Given a table MST_CUSTOMERCLASS_Scenario2.xml
 Given that customerclassinfo service
 When I get customerclassinfo of CompanyId:01 StoreId:0123
-Then I should get the following json : {"CustomerClassInfoList":[{"CompanyId":"01","StoreId":"0123","CustomerClassId":"01","CustomerClassName":"èóê´10ë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""},{"CompanyId":"01","StoreId":"0123","CustomerClassId":"02","CustomerClassName":"èóê´2ÇOë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""},{"CompanyId":"01","StoreId":"0123","CustomerClassId":"03","CustomerClassName":"èóê´ÇRÇOë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+Then I should get the following json : {"CustomerClassInfoList":[{"CompanyId":"01","StoreId":"0123","CustomerClassId":"02","CustomerClassName":"èóê´2ÇOë„","CustomerClassKanaName":"01","GenerationType":"0","SexType":"","OtherType":""}],"NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
 
 Scenario: Specific StoreId (0123) only in in MST_CUSTOMERCLASS table
 Given a table MST_CUSTOMERCLASS_Scenario3.xml

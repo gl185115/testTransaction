@@ -1,12 +1,19 @@
 package ncr.res.mobilepos.pricing.resource.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Iterator;
-
 import javax.servlet.ServletContext;
+
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.pricing.model.PickList;
+import ncr.res.mobilepos.pricing.model.PickListItem;
+import ncr.res.mobilepos.pricing.model.PickListItemType;
+import ncr.res.mobilepos.pricing.resource.ItemResource;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -17,14 +24,6 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
-
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.pricing.model.PickList;
-import ncr.res.mobilepos.pricing.model.PickListItem;
-import ncr.res.mobilepos.pricing.model.PickListItemType;
-import ncr.res.mobilepos.pricing.resource.ItemResource;
 
 public class GetPicklistSteps extends Steps {
     ItemResource itemres;
@@ -37,7 +36,7 @@ public class GetPicklistSteps extends Steps {
         Requirements.SetUp();
         dbInit = new DBInitiator("ItemResourceSteps", DATABASE.RESMaster);
     }
-
+    
     @AfterScenario
     public final void TearDownClass() {
         Requirements.TearDown();
@@ -53,12 +52,12 @@ public class GetPicklistSteps extends Steps {
     public final void IHaveItemResource() {
     	ServletContext context = Requirements.getMockServletContext();
         itemres = new ItemResource();
-        try
+        try 
         {
         	Field field = itemres.getClass().getDeclaredField("context");
             field.setAccessible(true);
             field.set(itemres, context);
-        } catch (Exception ex) {
+        } catch (Exception ex) { 
             Assert.fail("Cannot Start the WebAPI");
         }
     }
@@ -66,14 +65,14 @@ public class GetPicklistSteps extends Steps {
     @When("I get picklist of $companyid $storeid $terminalid $itemtype")
     public final void getItemByPLUCoderesource(final String companyId, final String storeId, final String terminalId, final String itemType) {
     	this.itemType = itemType;
-        pickList = itemres.getPickList(companyId, storeId, terminalId, itemType); 
+        pickList = itemres.getPickList(companyId, storeId, itemType);
     }
-
+    
     @Then("the resultcode should be $resultCode")
     public final void resultCodeShouldBe(final int resultcode) {
         Assert.assertEquals("Asset the expected resultcode", pickList.getNCRWSSResultCode(), resultcode);
     }
-
+ 
 	@Then("I should get the following: $expected")
 	public final void testPOSLogs(ExamplesTable expectedDataTable)
 			throws IOException {

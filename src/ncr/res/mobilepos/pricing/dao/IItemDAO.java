@@ -13,8 +13,13 @@ package ncr.res.mobilepos.pricing.dao;
 import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.model.BrandProducts;
+import ncr.res.mobilepos.pricing.model.GroupLines;
+import ncr.res.mobilepos.pricing.model.ReasonDataList;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItemType;
+import ncr.res.mobilepos.pricing.model.SearchedProducts;
 /**
  * IItemDAO is a DAO interface for Item.
  */
@@ -27,7 +32,7 @@ public interface IItemDAO {
      * @param   storeid  The Store ID which the item is located
      * @param   pluCode  The Item's Price Look Up Code
      * @param   priceIncludeTax The Price Include Tax
-     * @param   companyId The companyId Id
+     * @param   companyId The companyId Id 
      * @param   bussinessDate The bussinessDate
      * @return  The details of the particular item
      * @throws  DaoException    Exception thrown when
@@ -57,26 +62,24 @@ public interface IItemDAO {
      * @throws DaoException The exception thrown when error occurred.
      */
     Item getItemBypluCode(String storeId,String plucode,String companyId,String businessDate) throws DaoException;
-
+    
     /**
      * get the items for pick list.
      * @param companyId
      * @param storeId
-     * @param terminalId
      * @param itemType
      * @return
      * @throws DaoException
      */
-    List<PickListItemType> getPickListItems(String companyId, String storeId, String terminalId, String itemType) throws DaoException;
-
-
+    List<PickListItemType> getPickListItems(String companyId, String storeId, String itemType) throws DaoException;
+    
+    
     /**
      * get the item by param
      * @param companyId 会社コード
-     * @param storeId 店舗コード
      * @param plucode itemId
      * @return object itemInfo
      * @throws DaoException The exception thrown when error occurred.
      */
-    Item getItemByApiData(String plucode,String companyId,String storeId) throws DaoException;
+    Item getItemByApiData(String plucode,String companyId) throws DaoException;
 }

@@ -60,20 +60,20 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         public WebServiceIfResource() {
             tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                     getClass());
-        }
-
+        }    
+        
     @Path("/getSalesCharge")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="売掛情報を得る", response=JSONData.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-    @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+    @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"), 
+    @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"), 
+    @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
     @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
     @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+    
     })
     public final JSONData getSalesChargeAPI(@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
 
@@ -148,12 +148,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
         @ApiOperation(value="取引別点検情報を得る", response=JSONData.class)
         @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"), 
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getTransactionReport(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData,
@@ -240,12 +240,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
         @ApiOperation(value="入出金の点検を得る", response=JSONData.class)
         @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getCashInOutReport(@ApiParam(name="apiData", value="APIデータ")  @FormParam("apiData") String apiData) {
             String functionName = DebugLogger.getCurrentMethodName();
@@ -313,12 +313,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
         @ApiOperation(value="グループ点検を得る", response=JSONData.class)
         @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),                                                            
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),       
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getGroupReport(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData,
@@ -390,20 +390,20 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
          *            the api Data
          * @return the Operation report
          */
-
-
-
+       
+        
+        
         @Path("/getOperationReport")
         @POST
         @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
         @ApiOperation(value="オペレーターの点検を得る", response=JSONData.class)
         @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),     
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getOperationReport(@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData) {
             String functionName = DebugLogger.getCurrentMethodName();
@@ -472,12 +472,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="ジャーナル情報を取得する", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),              
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getTransaction(
         		@ApiParam(name="APIType", value="APIタイプ") @FormParam("APIType") String APIType,
@@ -566,12 +566,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="更新HTT取引明細", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),              
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData hhtUpdate(
         		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
@@ -592,7 +592,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                 String apiUrl = GlobalConstant.getApiServerUrl();
                 String address = apiUrl + WebServiceIfConstants.PROCESSINGTRAN_UPDATE_URL;
                 result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
-
+                
                 if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -653,12 +653,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="HHT取引リストと詳しい情報を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),               
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getHHTInfo(@ApiParam(name="param", value="パラメータ") @FormParam("param") String param) {
 
@@ -669,7 +669,6 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             JSONData jsonData = new JSONData();
             JSONObject result = null;
             String companyCode = "";
-            String storeCode = "";
             try {
                 int timeOut = GlobalConstant.getApiServerTimeout();
 
@@ -685,7 +684,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                     // the map Store setBindInfo
                     JSONArray setJsonArray = new  JSONArray();
                     Set<String> set = new HashSet<String>();
-
+                    
                     JSONArray removeArray = new  JSONArray();
                     // if has the detailInfo Then get the plu table Info put in the
                     // detailInfo
@@ -693,16 +692,13 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                         JSONArray newJsonArray = new JSONArray();
                         // Get The CompanyId from Para
                         if (!StringUtility.isNullOrEmpty(param)) {
-                            for (String val : param.split("&")) {
-                                if (val.startsWith("CompanyId")) {
-                                    companyCode = val.split("=").length > 0 ? val.split("=")[1] : "";
-                                }
-                                if (val.startsWith("StoreCode")) {
-                                	storeCode = val.split("=").length > 0 ? val.split("=")[1] : "";
+                            for (String companyId : param.split("&")) {
+                                if (companyId.startsWith("CompanyId")) {
+                                    companyCode = companyId.split("=").length > 0 ? companyId.split("=")[1] : "";
                                 }
                             }
                         }
-                        // get the itemInfo by Api Data
+                        // get the itemInfo by Api Data 
                         JSONArray jsonArray = new JSONArray(result.getString("ProcessingDetailData"));
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject json = (JSONObject) jsonArray.get(i);
@@ -711,7 +707,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                             if("1".equals(json.getString("SetType"))){
                                 removeArray.add(json);
                             }
-                            Item item = itemDao.getItemByApiData(json.getString("MdInternal"), companyCode, storeCode);
+                            Item item = itemDao.getItemByApiData(json.getString("MdInternal"), companyCode);
                             if (null != item) {
                                 newJsonArray.add(addJson(json, item));
                             }else{
@@ -729,7 +725,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                                         setInfo.put("net" , -(json.getDouble("ItemTotalAmt") - priceDiscountAmt));
                                         setInfo.put("amount", priceDiscountAmt);
                                         setInfo.put("preAmount", json.getDouble("ItemTotalAmt"));
-                                    }
+                                    } 
                                     setJsonArray.add(setInfo);
                                     set.add(json.getString("SetNo"));
                                 }else{
@@ -786,7 +782,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
-
+        
         private JSONObject addJson(JSONObject json,Item item) throws JSONException{
             json.put("SubNum1", item.getSubNum1());
             json.put("SubNum2", item.getSubNum2());
@@ -836,7 +832,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="未決情報を取得する", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),               
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -864,7 +860,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                  String apiUrl = GlobalConstant.getApiServerUrl();
                  address = apiUrl + WebServiceIfConstants.PENDINGTRANAPI_SEACHER_URL;
                  result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
-
+          
                 if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -915,20 +911,20 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_ERROR_ITEMIDNOTFOUND, message="指定の商品IDは取得しない"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_ITEMIDNOTFOUND, message="指定の商品IDは取得しない"),      
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getPricingSearch(
         		@ApiParam(name="Data", value="データ") @FormParam("Data") String Data) {
-
+        	
         	String functionName = DebugLogger.getCurrentMethodName();
             tp.methodEnter(functionName);
             tp.println("Data", Data);
-
+            
             JSONData jsonData = new JSONData();
             JSONObject result = null;
             String address = "";
@@ -944,7 +940,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
                  String apiUrl = GlobalConstant.getApiServerUrl();
                  address = apiUrl + WebServiceIfConstants.ITEMPRICEAPI_SEACHER_URL;
                  result = UrlConnectionHelper.connectionForPost(address, Data, timeOut);
-
+          
                 if (result == null) {
                     jsonData.setNCRWSSResultCode(ResultBase.RES_ERROR_SEARCHAPI);
                     jsonData.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SEARCHAPI);
@@ -986,7 +982,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
-
+        
         /**
          * get the PendingTranUpdate info
          * @param apiData PendingTranUpdate
@@ -998,12 +994,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="未決情報更新", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getPendingTranUpdate(@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
             String functionName = DebugLogger.getCurrentMethodName();
@@ -1060,8 +1056,8 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
-
-
+        
+        
         /**
          * get the PremiumItemStore info
          * @param apiData request Data
@@ -1073,12 +1069,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="プレミアム・アイテム店の情報を得る", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),        
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getPremiumItemStore(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
@@ -1138,7 +1134,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
-
+        
         /**
          * get the PremiumItemStoreUpdate info
          * @param apiData The request Data
@@ -1150,12 +1146,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="プレミアム・アイテム店の情報を更新する", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),       
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getPremiumItemStoreUpdate(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData) {
@@ -1217,7 +1213,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
-
+        
         /**
          * get the PremiumItemStoreUpdate info
          * @param apiData The request Data
@@ -1229,12 +1225,12 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiOperation(value="取引番号更新", response=JSONData.class)
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),         
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getSlipNoUpdate(
         		@ApiParam(name="apiData", value="APIデータ") @FormParam("apiData") String apiData){
@@ -1294,7 +1290,7 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
             }
             return jsonData;
         }
-
+        
         /**
          * Gets the pastel point info.
          *
@@ -1309,11 +1305,11 @@ import ncr.res.mobilepos.webserviceif.model.JSONData;
         @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_SEARCHAPI, message="検索API失敗"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+        @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"), 
         @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します。"),
         @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-
+        
         })
         public final JSONData getPastelPointInfo(
                 @ApiParam(name="requestData", value="データ") @FormParam("requestData") String requestData) {

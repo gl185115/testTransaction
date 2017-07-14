@@ -625,6 +625,8 @@ public class EndOfDaySteps extends Steps {
 			for (Map<String, String> expected : expectedTable.getRows()) {
 				Assert.assertEquals("Compare TenderId " + i, expected.get("TenderId"), settlementInfo.getPaymentAmtList().get(i).getTenderId());
 				Assert.assertEquals("Compare TenderName " + i, expected.get("TenderName"), settlementInfo.getPaymentAmtList().get(i).getTenderName());
+				Assert.assertEquals("Compare TenderType " + i, expected.get("TenderType"), settlementInfo.getPaymentAmtList().get(i).getTenderType());
+				Assert.assertEquals("Compare TenderIdentification " + i, expected.get("TenderIdentification"), settlementInfo.getPaymentAmtList().get(i).getTenderIdentification());				
 				Assert.assertEquals("Compare SumAmt " + i, Integer.parseInt(expected.get("SumAmt")), settlementInfo.getPaymentAmtList().get(i).getSumAmt());
 				i++;
 			}

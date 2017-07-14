@@ -16,6 +16,10 @@ public class PaymentAmtInfo {
 	private String tenderId;
 	@XmlElement(name = "TenderName")
 	private String tenderName;
+	@XmlElement(name = "TenderType")
+	private String tenderType;
+	@XmlElement(name = "TenderIdentification")
+	private String tenderIdentification;
 	@XmlElement(name = "SumAmt")
 	private int sumAmt;
   
@@ -35,19 +39,49 @@ public class PaymentAmtInfo {
 	}
 	
 	/**
-     * @return the tenderId
-     */
-    @ApiModelProperty(value="í•Ê–¼Ì(Š¿š)", notes="í•Ê–¼Ì(Š¿š)")
-    public String getTenderName() {
-        return tenderName;
-    }
+	 * @return the tenderName
+	 */
+	@ApiModelProperty(value="í•Ê–¼Ì(Š¿š)", notes="í•Ê–¼Ì(Š¿š)")
+	public String getTenderName() {
+		return tenderName;
+	}
 
-    /**
-     * @param tenderId the tenderId to set
-     */
-    public void setTenderName(String tenderName) {
-        this.tenderName = tenderName;
-    }
+	/**
+	 * @param tenderName the tenderName to set
+	 */
+	public void setTenderName(String tenderName) {
+		this.tenderName = tenderName;
+	}
+	
+	/**
+	 * @return the tenderType
+	 */
+	@ApiModelProperty(value="x•¥í•Ê", notes="x•¥í•Ê")
+	public String getTenderType() {
+		return tenderType;
+	}
+
+	/**
+	 * @param tenderType the tenderType to set
+	 */
+	public void setTenderType(String tenderType) {
+		this.tenderType = tenderType;
+	}
+	
+	/**
+	 * @return the tenderIdentification
+	 */
+	@ApiModelProperty(value="x•¥¯•Ê", notes="x•¥¯•Ê")
+	public String getTenderIdentification() {
+		return tenderIdentification;
+	}
+
+	/**
+	 * @param tenderIdentification the tenderIdentification to set
+	 */
+	public void setTenderIdentification(String tenderIdentification) {
+		this.tenderIdentification = tenderIdentification;
+	}
 	
 	/**
 	 * @return the sumAmt

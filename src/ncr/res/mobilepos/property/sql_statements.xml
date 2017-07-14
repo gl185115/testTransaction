@@ -11813,11 +11813,13 @@ IF NOT EXISTS (
 )
 SET @storeId = '0'
 
-SELECT A.TenderId,A.TenderName,A.SumAmt - ISNULL(B.SumAmt, 0)  AS SumAmt
+SELECT A.TenderId,A.TenderName,A.TenderType,A.TenderIdentification,A.SumAmt - ISNULL(B.SumAmt, 0)  AS SumAmt
 FROM (
 
     SELECT parment.TenderId,
            tender.TenderName,
+           tender.TenderType,
+           tender.TenderIdentification,
            SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
@@ -11833,11 +11835,13 @@ FROM (
       AND parment.DataKind = '0'
       AND (parment.ReturnFlag = '0' AND parment.VoidFlag = '0')
       AND parment.TrainingFlag = @trainingflag
-    GROUP BY parment.TenderId,tender.TenderName
+    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 ) A
 LEFT JOIN (
     SELECT parment.TenderId,
            tender.TenderName,
+           tender.TenderType,
+           tender.TenderIdentification,
            SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
@@ -11853,7 +11857,7 @@ LEFT JOIN (
       AND parment.DataKind = '0'
       AND (parment.ReturnFlag = '1' OR parment.VoidFlag = '1')
       AND parment.TrainingFlag = @trainingflag
-    GROUP BY parment.TenderId,tender.TenderName
+    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 ) B
 ON A.TenderId = B.TenderId
 ORDER BY A.TenderId
@@ -11890,11 +11894,13 @@ IF NOT EXISTS (
 )
 SET @storeId = '0'
 
-SELECT A.TenderId,A.TenderName,A.SumAmt - ISNULL(B.SumAmt, 0)  AS SumAmt
+SELECT A.TenderId,A.TenderName,A.TenderType,A.TenderIdentification,A.SumAmt - ISNULL(B.SumAmt, 0)  AS SumAmt
 FROM (
 
     SELECT parment.TenderId,
            tender.TenderName,
+           tender.TenderType,
+           tender.TenderIdentification,
            SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
@@ -11911,11 +11917,13 @@ FROM (
       AND parment.DataKind = '0'
       AND (parment.ReturnFlag = '0' AND parment.VoidFlag = '0')
       AND parment.TrainingFlag = @trainingflag
-    GROUP BY parment.TenderId,tender.TenderName
+    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 ) A
 LEFT JOIN (
     SELECT parment.TenderId,
            tender.TenderName,
+           tender.TenderType,
+           tender.TenderIdentification,
            SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
@@ -11932,7 +11940,7 @@ LEFT JOIN (
       AND parment.DataKind = '0'
       AND (parment.ReturnFlag = '1' OR parment.VoidFlag = '1')
       AND parment.TrainingFlag = @trainingflag
-    GROUP BY parment.TenderId,tender.TenderName
+    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 ) B
 ON A.TenderId = B.TenderId
 ORDER BY A.TenderId

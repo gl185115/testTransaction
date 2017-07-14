@@ -543,6 +543,8 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
                 }
                 paymentAmtInfo.setTenderId(result.getString("TenderId"));
                 paymentAmtInfo.setTenderName(result.getString("TenderName"));
+                paymentAmtInfo.setTenderType(result.getString("TenderType"));
+                paymentAmtInfo.setTenderIdentification(result.getString("TenderIdentification"));
                 paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
                 paymentAmtList.add(paymentAmtInfo);
         	}
@@ -601,6 +603,8 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
                 }
                 paymentAmtInfo.setTenderId(result.getString("TenderId"));
                 paymentAmtInfo.setTenderName(result.getString("TenderName"));
+                paymentAmtInfo.setTenderType(result.getString("TenderType"));
+                paymentAmtInfo.setTenderIdentification(result.getString("TenderIdentification"));
                 paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
                 paymentAmtList.add(paymentAmtInfo);
             }

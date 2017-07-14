@@ -5,22 +5,23 @@ import java.util.ArrayList;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.discountplaninfo.dao.DiscountPlanInfoCommomDAO;
 import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscount;
 import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscountInfo;
+import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -61,8 +62,10 @@ public class DiscountPlanInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     })
-    public final SubtotalDiscount getSubtotalDiscount() {
-    	
+    public final SubtotalDiscount getSubtotalDiscount(
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId) {
+
     	String functionName = DebugLogger.getCurrentMethodName();
 
     	SubtotalDiscount result = new SubtotalDiscount();
@@ -72,7 +75,7 @@ public class DiscountPlanInfoResource {
             DiscountPlanInfoCommomDAO discountPlanCommenDAO = daoFactory
                     .getDiscountPlanInfoCommomDAO();
 
-            ArrayList<SubtotalDiscountInfo> subtotalDiscount = discountPlanCommenDAO.getSubtotalDiscount();
+            ArrayList<SubtotalDiscountInfo> subtotalDiscount = discountPlanCommenDAO.getSubtotalDiscount(companyId,storeId);
 
             if (subtotalDiscount != null) {
             	SubtotalDiscountInfo[] arraySubtotalDiscount = new SubtotalDiscountInfo[subtotalDiscount

@@ -71,10 +71,45 @@
 		</row>
 		<row>
 			<value>01</value>
-			<value>0123</value>
+			<value>0</value>
 			<value>1</value>
 			<value>0102</value>
 			<value>商品券２</value>
+			<value>UC</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0123</value>
+			<value>1</value>
+			<value>0102</value>
+			<value>商品券２２</value>
 			<value>UC</value>
 			<value>1</value>
 			<value>1</value>

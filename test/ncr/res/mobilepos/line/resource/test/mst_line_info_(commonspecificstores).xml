@@ -85,6 +85,48 @@
         </row>
         <row>
             <value>01</value>
+            <value>0</value>
+            <value>08</value>
+            <null/>
+            <value>その他(common)</value>
+            <value>ｿﾉﾀ(common)</value>
+            <value>001</value>
+            <value>0</value>
+            <value>1</value>
+            <value>0</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>1</value>
+            <value>0</value>
+            <value>0</value>
+            <value>オーダー承り</value>
+            <value>ｵｰﾀﾞｰｳｹﾀﾏﾜﾘ</value>
+            <null/>
+            <null/>
+            <null/>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>0</value>
+            <value>2016-03-11</value>
+            <null/>
+            <null/>
+            <value>2016-03-11</value>
+            <value>usp_IF_MaintLineInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11</value>
+            <value>usp_IF_MaintLineInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>01</value>
             <value>0247</value>
             <value>08</value>
             <null/>

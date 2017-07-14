@@ -12,20 +12,20 @@ package ncr.res.mobilepos.line.dao;
 
 import java.util.List;
 
+import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.line.model.Line;
 import ncr.res.mobilepos.line.model.ViewLine;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.exception.DaoException;
 
 /**
  * IClassInfoDAO is a DAO interface for ClassInfo.
  */
 public interface ILineDAO {
-   
-	
+
+
     /**
      * Gets the list of Lines in a particular
-     * Store, Common Store or even All Stores   
+     * Store, Common Store or even All Stores
      * Can bypass the searchLimit defined in the SystemConfig max search results
      * using limit
      *
@@ -35,13 +35,15 @@ public interface ILineDAO {
      *                          to search the line(s) by line
      * @param   name     The given name used
      *                          to search the line(s) by line name
-     * @param   limit   The limit of the line to be search.  
+     * @param   limit   The limit of the line to be search.
+     * @param   companyid The ID of the Company where
+     *                 the lines are located
      * @return  The list of lines.
      * @throws  DaoException
      *  The Exception thrown when getting the List of Lines failed.
      */
-    List<Line> listLines(String retailstoreid, String department, String key, String name, int limit) throws DaoException;  
-        
+    List<Line> listLines(String retailstoreid, String department, String key, String name, int limit, String companyid) throws DaoException;
+
     /**
      * Deletes a Line.
      * @param retailStoreID The retailstoreid of a line.
@@ -53,7 +55,7 @@ public interface ILineDAO {
      */
     ResultBase deleteLine(String retailStoreID, String department,
             String line) throws DaoException;
-    
+
     /**
      * Create a Line.
      * @param line          The new values of the line.
@@ -62,21 +64,22 @@ public interface ILineDAO {
      * @throws DaoException The Exception thrown when if error exists.
      */
     ResultBase createLine(Line line) throws DaoException;
-    
+
     /**
      * Select Line.
      * @param retailStoreID - store number
-     * @param department - department number 
+     * @param department - department number
      * @param line - line
+     * @param companyID - company id
      * @return Line Model
      * @throws DaoException - exception
      */
      ViewLine selectLineDetail(String retailStoreID,
-         String department, String line) throws DaoException;
-     
+         String department, String line, String companyID) throws DaoException;
+
      /**
       * Updates a Line infod
-      *  
+      *
       * @param retailStoreId the store of the to be updated line  info
       * @param department	the department of the to be updated line info
       * @param lineid		the lineid of the to be updated line info
@@ -85,5 +88,5 @@ public interface ILineDAO {
       * @throws DaoException
       */
      ViewLine updateLine (String retailStoreId, String department, String lineid, Line line) throws DaoException;
-     
+
 }

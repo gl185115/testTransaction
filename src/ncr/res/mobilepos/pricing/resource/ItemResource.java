@@ -113,7 +113,7 @@ public class ItemResource {
     private static BarcodeAssignment barcodeAssignment;
 
 	private final List<PricePromInfo> pricePromInfoList;
-	
+
 	private final List<PriceMMInfo> priceMMInfoList;
 
 	public static final String PROMOTIONTYPE_DPT = "1";
@@ -308,17 +308,19 @@ public class ItemResource {
     public final PickList getPickList(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
     		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="端末コード") @QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="itemType", value="アイテムタイプ") @QueryParam("itemType") final String itemType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
           .println("companyId", companyId)
           .println("storeId", storeId)
+          .println("terminalId", terminalId)
           .println("itemType", itemType);
         PickList pickList = null;
         try {
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             pickList = new PickList();
-            pickList.setItems(itemDAO.getPickListItems(companyId, storeId, itemType));
+            pickList.setItems(itemDAO.getPickListItems(companyId, storeId, terminalId, itemType));
         } catch (Exception ex) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     ex.getMessage());
@@ -442,7 +444,7 @@ public class ItemResource {
 		}
 		return null;
 	}
-    
+
     /**
      * Get The Price MM Info.
      * @param sku The ID of The Sku

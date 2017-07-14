@@ -83,7 +83,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     public final DBManager getDbManager() {
         return dbManager;
     }
-    
+
     private String getCouponFlag(final String itemCouponFlag) {
         String couponFlag;
         if (itemCouponFlag == null) {
@@ -95,17 +95,17 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         }
         return couponFlag;
     }
-    
+
     private String chooseMdNameLocal(String mdName, String mdNameLocal, String dptNameLocal) {
         if(mdName != null) {
-            return mdName; 
+            return mdName;
         }
         if(mdNameLocal != null) {
-            return mdNameLocal;  
+            return mdNameLocal;
         }
         return dptNameLocal;
    }
-    
+
     /**
      * Gets the information of a single item by specifying the Store ID and and
      * its corresponding PLU code.
@@ -115,7 +115,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param pluCode
      *            The Item's Price Look Up Code
      * @param bussinessDate
-     *            The date 
+     *            The date
      * @param EventId
      *            The EventId
      * @return The details of the particular item
@@ -128,7 +128,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate);
     }
 
-    
+
     /** Gets the information of a single item by specifying the Store ID and and
     * its corresponding PLU code.
     *
@@ -181,7 +181,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 description.setJa(salesName);
                 searchedItem.setDescription(description);
 
-                if (result.getObject(result.findColumn("TaxType")) != null && 
+                if (result.getObject(result.findColumn("TaxType")) != null &&
                 		result.getDouble(result.findColumn("SalesPrice1")) != 0) {
                 	searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
                 } else {
@@ -252,12 +252,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 } else {
                 	searchedItem.setNonSales(result.getInt(result.findColumn("PosMdType")));
                 }
-                
                 searchedItem.setCostPrice1(result.getLong(result.findColumn("CostPrice1")));
                 searchedItem.setMakerPrice(result.getLong(result.findColumn("MakerPrice")));
                 searchedItem.setConn1(result.getString(result.findColumn("Conn1")));
                 searchedItem.setConn2(result.getString(result.findColumn("Conn2")));
-                
+
                 searchedItem.setDptNameLocal(result.getString(result.findColumn("DptNameLocal")));
                 searchedItem.setClassNameLocal(result.getString(result.findColumn("ClassNameLocal")));
                 searchedItem.setGroupName(result.getString(result.findColumn("GroupName")));
@@ -277,7 +276,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     // Compute the Actual Sales Price
                     searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 }
-                
+
                 ItemResource itemResource = new ItemResource();
                 PricePromInfo pricePromInfo;
                 if (!StringUtility.isNullOrEmpty(searchedItem.getDepartment()) && !StringUtility.isNullOrEmpty(searchedItem.getLine())) {
@@ -287,7 +286,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 }
                 PriceMMInfo priceMMInfo;
                 priceMMInfo = itemResource.getPriceMMInfo(searchedItem.getSku());
-                
+
                 // 特売管理(PROM_INFO 自動割引)
                 if (!isHasPromDetailInfoList(pricePromInfo, searchedItem)) {
                     // バンドルミックス(PRICE_MM_INFO mixmatch)
@@ -326,7 +325,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
         return searchedItem;
     }
-    
+
 
     /**
      * 特売管理マスタ 情報取得
@@ -387,7 +386,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         }
         return isHaveValue;
     }
-    
+
     /**
      * 特売管理マスタ 情報取得
      * @param searchedItem the Item
@@ -397,9 +396,9 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     	tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("PricePromInfo", pricePromInfo)
         .println("searchedItem", searchedItem);
-    	
+
     	boolean isHaveValue = false;
-    	
+
     	if (null != pricePromInfo) {
     		isHaveValue = true;
             searchedItem.setPromotionNo(pricePromInfo.getPromotionNo());
@@ -409,7 +408,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     	}
     	return isHaveValue;
     }
-    
+
     /**
      * バンドルミックス 情報取得
      * @param storeid The ID of the Store where the items are located
@@ -445,27 +444,27 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setRuleQuantity1(result.getInt(result.findColumn("ConditionCount1")));
                 searchedItem.setRuleQuantity2(result.getInt(result.findColumn("ConditionCount2")));
                 searchedItem.setRuleQuantity3(result.getInt(result.findColumn("ConditionCount3")));
-                
+
                 searchedItem.setConditionPrice3(result.getDouble(result.findColumn("ConditionPrice3")));
                 searchedItem.setConditionPrice2(result.getDouble(result.findColumn("ConditionPrice2")));
                 searchedItem.setConditionPrice1(result.getDouble(result.findColumn("ConditionPrice1")));
-                
+
                 if(result.getObject(result.findColumn("DecisionPrice1")) != null ){
                     searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
                 }
-                
+
                 if(result.getObject(result.findColumn("DecisionPrice2")) != null ){
                     searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
                 }
-                
+
                 if(result.getObject(result.findColumn("DecisionPrice3")) != null ){
                     searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
                 }
-               
+
                 searchedItem.setAveragePrice1(result.getDouble(result.findColumn("AveragePrice1")));
                 searchedItem.setAveragePrice2(result.getDouble(result.findColumn("AveragePrice2")));
                 searchedItem.setAveragePrice3(result.getDouble(result.findColumn("AveragePrice3")));
-                
+
                 searchedItem.setNote(result.getString(result.findColumn("Note")));
             }
         } catch (SQLException sqlEx) {
@@ -488,10 +487,10 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         }
         return isHaveValue;
     }
-    
+
     /**
      * バンドルミックス 情報取得
-     * @param priceMMInfo 
+     * @param priceMMInfo
      * @param searchedItem the Item
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
@@ -499,33 +498,33 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     	tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("PriceMMInfo", priceMMInfo)
         .println("searchedItem", searchedItem);
-    	
+
     	boolean isHaveValue = false;
-    	
+
     	if (null != priceMMInfo) {
     		isHaveValue = true;
     		searchedItem.setMixMatchCode(priceMMInfo.getMMNo());
             searchedItem.setRuleQuantity1(priceMMInfo.getConditionCount1());
             searchedItem.setRuleQuantity2(priceMMInfo.getConditionCount2());
             searchedItem.setRuleQuantity3(priceMMInfo.getConditionCount3());
-            
+
             searchedItem.setConditionPrice3(priceMMInfo.getConditionPrice3());
             searchedItem.setConditionPrice2(priceMMInfo.getConditionPrice2());
             searchedItem.setConditionPrice1(priceMMInfo.getConditionPrice1());
             searchedItem.setDecisionPrice1(priceMMInfo.getDecisionPrice1());
             searchedItem.setDecisionPrice2(priceMMInfo.getDecisionPrice2());
             searchedItem.setDecisionPrice3(priceMMInfo.getDecisionPrice3());
-           
+
             searchedItem.setAveragePrice1(priceMMInfo.getAveragePrice1());
             searchedItem.setAveragePrice2(priceMMInfo.getAveragePrice2());
             searchedItem.setAveragePrice3(priceMMInfo.getAveragePrice3());
-            
+
             searchedItem.setNote(priceMMInfo.getNote());
             searchedItem.setSku(priceMMInfo.getSku());
     	}
     	return isHaveValue;
     }
-    
+
     /**
      * クラブ買替えサポート管理マスタ 情報取得
      * @param storeid The ID of the Store where the items are located
@@ -580,8 +579,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         }
         return isHaveValue;
     }
-    
-    
+
+
     /**
      * 割引券発行管理マスタ 情報取得
      * @param storeid The ID of the Store where the items are located
@@ -638,8 +637,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             tp.methodExit(searchedItem);
         }
     }
-    
-    
+
+
     /**
      * プレミアム商品管理マスタ 情報取得
      * @param storeid The ID of the Store where the items are located
@@ -699,10 +698,10 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             tp.methodExit(searchedItem);
         }
     }
-    
+
     private void getQrCodeInfo(final String storeid, final Item searchedItem, final String companyId,
             final String bussinessDate) throws DaoException{
-        
+
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
         .println("searchedItem", searchedItem)
@@ -712,7 +711,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         PreparedStatement select = null;
         ResultSet result = null;
         String functionName = "SQLServerItemDAO.getQrCodeInfo";
-        List<QrCodeInfo> list = new ArrayList<QrCodeInfo>(); 
+        List<QrCodeInfo> list = new ArrayList<QrCodeInfo>();
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -788,7 +787,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             result = select.executeQuery();
             if (result.next()) {
                 searchedItem = new Item();
-                
+
                 searchedItem.setMixMatchCode(result.getString(result.findColumn("MMNo")));
                 searchedItem.setRuleQuantity1(result.getInt(result.findColumn("ConditionCount1")));
                 searchedItem.setRuleQuantity2(result.getInt(result.findColumn("ConditionCount2")));
@@ -801,15 +800,15 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 //                searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
 //                searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
 //                searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
-                
+
                 if(result.getObject(result.findColumn("DecisionPrice1")) != null ){
                     searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
                 }
-                
+
                 if(result.getObject(result.findColumn("DecisionPrice2")) != null ){
                     searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
                 }
-                
+
                 if(result.getObject(result.findColumn("DecisionPrice3")) != null ){
                     searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
                 }
@@ -915,11 +914,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     * get items for pick list
     */
     @Override
-    public List<PickListItemType> getPickListItems(String companyId, String storeId, String itemType) throws DaoException {
+    public List<PickListItemType> getPickListItems(String companyId, String storeId, String terminalId, String itemType) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
         .println("companyId", companyId)
         .println("storeId", storeId)
+        .println("terminalId", terminalId)
         .println("itemType", itemType);
 
         Connection connection = null;
@@ -934,7 +934,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             select = connection.prepareStatement(sqlStatement.getProperty("get-picklist-items"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, storeId);
-            select.setString(SQLStatement.PARAM3, itemType);
+            select.setString(SQLStatement.PARAM3, terminalId);
+            select.setString(SQLStatement.PARAM4, itemType);
             result = select.executeQuery();
             int itemtype = 0;
             itemTypes[itemtype] = new PickListItemType();
@@ -943,11 +944,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 item.setDisplayOrder(result.getInt("DisplayOrder"));
                 item.setItemName(result.getString("ItemName"));
                 item.setItemType(result.getInt("ItemType"));
-                item.setMdInternal(result.getString("MdInternal"));
+                item.setMdInternal(result.getString("ItemCode"));
                 if(item.getItemType() < 4) {
                     if(itemtype != item.getItemType()) {
                         itemtype = item.getItemType();
-                    } 
+                    }
                     if(itemTypes[itemtype] == null) {
                         itemTypes[itemtype] = new PickListItemType();
                     }
@@ -967,8 +968,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
 
     @Override
-    public Item getItemByApiData(String plucode, String companyId) throws DaoException {
-        tp.methodEnter(DebugLogger.getCurrentMethodName()).println("PLU", plucode).println("CompanyId", companyId);
+    public Item getItemByApiData(String plucode, String companyId, String storeId) throws DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName()).println("PLU", plucode).println("CompanyId", companyId).println("StoreId", storeId);
 
         Connection connection = null;
         PreparedStatement select = null;
@@ -981,6 +982,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             select = connection.prepareStatement(sqlStatement.getProperty("get-item-byapidata"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, plucode);
+            select.setString(SQLStatement.PARAM3, storeId);
 
             result = select.executeQuery();
 
@@ -1004,7 +1006,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 } else {
                     searchedItem.setRegularSalesUnitPrice(0);
                 }
-                
+
                 if (result.getObject(result.findColumn("SalesPrice1")) != null) {
                     searchedItem.setPluPrice(result.getDouble(result.findColumn("SalesPrice1")));
                 } else {
@@ -1056,7 +1058,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
                 searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
-                
+
                 //searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
 
                 // // 特売管理
@@ -1103,7 +1105,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
         return searchedItem;
     }
-    
-    
-    
+
+
+
 }

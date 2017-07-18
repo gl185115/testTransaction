@@ -1,5 +1,11 @@
 package ncr.res.mobilepos.eod.test;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
 import org.dbunit.operation.DatabaseOperation;
@@ -12,14 +18,9 @@ import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
 
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.ServletContext;
-
 import ncr.res.mobilepos.cashaccount.model.GetCashBalance;
 import ncr.res.mobilepos.cashaccount.resource.CashAccountResource;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.deviceinfo.model.PosControlOpenCloseStatus;
 import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
@@ -53,7 +54,7 @@ public class EndOfDaySteps extends Steps {
 	private CMPresetInfos cmPresetInfos = null;
 
 	public enum Operation {
-		GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT, 
+		GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT,
 		GETVOUCHERLIST, GETITEMTYPE3DAILYSALESREPORT, GETTRANSACTIONCOUNT, GETTXCOUNTBYBUSINESSDATE, GETREPORTITEMS, SAVEPOSLOG, GETCMPRESETCMINFOS,
 		GETCOUNTPAYMENTAMT
 	};
@@ -75,7 +76,7 @@ public class EndOfDaySteps extends Steps {
 	private CashAccountResource cashAcctResource = null;
 	private GetCashBalance totalCashOnHand = null;
 	private StoreResource storeResource = null;
-	
+
 	@BeforeScenario
 	public final void setUp() {
 		Requirements.SetUp();
@@ -158,6 +159,7 @@ public class EndOfDaySteps extends Steps {
 			dbRESMasterInitiator.ExecuteOperation(
 					DatabaseOperation.CLEAN_INSERT,
 					"test/ncr/res/mobilepos/eod/test/MST_STOREINFO.xml");
+			GlobalConstant.setBizCatIdColumnOfStoreInfo("SubCode18");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -298,7 +300,7 @@ public class EndOfDaySteps extends Steps {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	@Given("that has no EOD transaction")
 	public final void givenNoEODTx() {
 		dbRESTransactionInitiator = new DBInitiator("EndOfDaySteps",
@@ -310,7 +312,7 @@ public class EndOfDaySteps extends Steps {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}	
+	}
 	@When("signing-off with operatorid:$1")
 	public final void whenSigningOff(final String operatorId) {
 		CredentialResource credentialResource = new CredentialResource();
@@ -358,7 +360,7 @@ public class EndOfDaySteps extends Steps {
 		Assert.assertEquals("Compare TxCount", txCnt, settlementInfo.getTxCount());
 		Assert.assertEquals("Compare NCRWSSResultCode", resultCode, settlementInfo.getNCRWSSResultCode());
 	}
-	
+
 	@When("getting daily sales report for companyId:$1 storeId:$2 tillId:$3 terminalId:$4 businessDate:$5 trainingFlag:$6 dataType:$7 itemLevel1:$8 itemLevel2:$9")
 	public final void whenGettingItemType3DailySalesReport(
 			final String companyId, final String storeId, final String tillId,
@@ -370,12 +372,12 @@ public class EndOfDaySteps extends Steps {
 		totalCashOnHand = cashAcctResource.getReportItems(companyId, storeId, tillId, terminalId,
 				businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
 		resultCode = totalCashOnHand.getNCRWSSResultCode();
-	}	
+	}
 	@Then("it should get NCRWSSResultCode:$1")
 	public final void testSalesReportChangeFund(final int expected) {
 		Assert.assertEquals("Compare NCRWSSResultCode", expected, resultCode);
 	}
-	
+
 	@Then("it should get paymentList:$1")
 	public final void testPaymentList(final int expected) {
 		 Assert.assertEquals("Compare PaymentAmtList", expected, settlementInfo.getPaymentAmtList().size());
@@ -587,7 +589,7 @@ public class EndOfDaySteps extends Steps {
 		}break;
 		case GETREPORTITEMS: {
 			//|CompanyId	|StoreId	|DataType	|ItemLevel1	|ItemLevel2	|ItemLevel3	|ItemLevel4	|ItemName	|TillId		|ItemCount	|ItemAmt	|NCRWSSExtendedResultCode	|NCRWSSResultCode	|
-			int i = 0;			
+			int i = 0;
 			for (Map<String, String> expected : expectedTable.getRows()) {
 				Assert.assertEquals("Compare CompanyId", expected.get("CompanyId"), reportItems.getReportItems().get(i).getCompanyId());
 				Assert.assertEquals("Compare StoreId", expected.get("StoreId"), reportItems.getReportItems().get(i).getStoreId());
@@ -631,7 +633,7 @@ public class EndOfDaySteps extends Steps {
 				Assert.assertEquals("Compare TenderId " + i, expected.get("TenderId"), settlementInfo.getPaymentAmtList().get(i).getTenderId());
 				Assert.assertEquals("Compare TenderName " + i, expected.get("TenderName"), settlementInfo.getPaymentAmtList().get(i).getTenderName());
 				Assert.assertEquals("Compare TenderType " + i, expected.get("TenderType"), settlementInfo.getPaymentAmtList().get(i).getTenderType());
-				Assert.assertEquals("Compare TenderIdentification " + i, expected.get("TenderIdentification"), settlementInfo.getPaymentAmtList().get(i).getTenderIdentification());				
+				Assert.assertEquals("Compare TenderIdentification " + i, expected.get("TenderIdentification"), settlementInfo.getPaymentAmtList().get(i).getTenderIdentification());
 				Assert.assertEquals("Compare SumAmt " + i, Integer.parseInt(expected.get("SumAmt")), settlementInfo.getPaymentAmtList().get(i).getSumAmt());
 				i++;
 			}
@@ -678,7 +680,7 @@ public class EndOfDaySteps extends Steps {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Given("that EOD has started")
 	public final void givenThatEODStarted(){
 		try {
@@ -786,7 +788,7 @@ public class EndOfDaySteps extends Steps {
 			Assert.assertEquals("Compare the TerminalId row " + i + ": ", expItem.get("TerminalId"), actualItemRows.getValue(i, "TerminalId").toString());
 			Assert.assertEquals("Compare the BusinessDayDate row " + i + ": ", expItem.get("BusinessDayDate"), actualItemRows.getValue(i, "BusinessDayDate").toString());
 			Assert.assertEquals("Compare the SodFlag row " + i + ": ", expItem.get("SodFlag"), actualItemRows.getValue(i, "SodFlag").toString());
-			Assert.assertEquals("Compare the EodFlag row " + i + ": ", expItem.get("EodFlag"), actualItemRows.getValue(i, "EodFlag").toString());			
+			Assert.assertEquals("Compare the EodFlag row " + i + ": ", expItem.get("EodFlag"), actualItemRows.getValue(i, "EodFlag").toString());
 			i++;
 		}
 	}
@@ -804,14 +806,14 @@ public class EndOfDaySteps extends Steps {
 			Assert.assertEquals("Compare the ItemLevel1 row " + i + ": ", expItem.get("ItemLevel1"), actualItemRows.getValue(i, "ItemLevel1").toString());
 			Assert.assertEquals("Compare the ItemLevel2 row " + i + ": ", expItem.get("ItemLevel2"), actualItemRows.getValue(i, "ItemLevel2").toString());
 			Assert.assertEquals("Compare the ItemLevel3 row " + i + ": ", expItem.get("ItemLevel3"), actualItemRows.getValue(i, "ItemLevel3").toString().trim());
-			Assert.assertEquals("Compare the ItemLevel4 row " + i + ": ", expItem.get("ItemLevel4"), actualItemRows.getValue(i, "ItemLevel4").toString().trim());	
-			Assert.assertEquals("Compare the ItemName row " + i + ": ", expItem.get("ItemName"), actualItemRows.getValue(i, "ItemName").toString());	
-			Assert.assertEquals("Compare the DisplayOrder row " + i + ": ", expItem.get("DisplayOrder"), actualItemRows.getValue(i, "DisplayOrder").toString());	
-			Assert.assertEquals("Compare the DeleteFlag row " + i + ": ", expItem.get("DeleteFlag"), actualItemRows.getValue(i, "DeleteFlag").toString());	
+			Assert.assertEquals("Compare the ItemLevel4 row " + i + ": ", expItem.get("ItemLevel4"), actualItemRows.getValue(i, "ItemLevel4").toString().trim());
+			Assert.assertEquals("Compare the ItemName row " + i + ": ", expItem.get("ItemName"), actualItemRows.getValue(i, "ItemName").toString());
+			Assert.assertEquals("Compare the DisplayOrder row " + i + ": ", expItem.get("DisplayOrder"), actualItemRows.getValue(i, "DisplayOrder").toString());
+			Assert.assertEquals("Compare the DeleteFlag row " + i + ": ", expItem.get("DeleteFlag"), actualItemRows.getValue(i, "DeleteFlag").toString());
 			i++;
 		}
-	}	
-	
+	}
+
 	@Then("TXU_TOTAL_DAILYREPORT table should have: $expected")
 	public final void checkTxuTotalDailyReport(final ExamplesTable expecteditems)
 			throws DataSetException {
@@ -836,7 +838,7 @@ public class EndOfDaySteps extends Steps {
 			i++;
 		}
 	}
-	
+
 	@Then("TXL_SALES_JOURNAL table should have: $expected")
 	public final void checkTxlSalesJournal(final ExamplesTable expecteditems) throws DataSetException {
 		List<Map<String, String>> expectedItemRows = expecteditems.getRows();
@@ -851,17 +853,17 @@ public class EndOfDaySteps extends Steps {
 			Assert.assertEquals("Compare the SequenceNumber row " + i + ": ", expItem.get("SequenceNumber"), actualItemRows.getValue(i, "SequenceNumber").toString());
 			Assert.assertEquals("Compare the BusinessDayDate row " + i + ": ", expItem.get("BusinessDayDate"), actualItemRows.getValue(i, "BusinessDayDate").toString());
 			Assert.assertEquals("Compare the TrainingFlag row " + i + ": ", expItem.get("TrainingFlag"), actualItemRows.getValue(i, "TrainingFlag").toString());
-			Assert.assertEquals("Compare the TxType row " + i + ": ", expItem.get("TxType"), actualItemRows.getValue(i, "TxType").toString());			
-			Assert.assertEquals("Compare the ServerId row " + i + ": ", expItem.get("ServerId"), actualItemRows.getValue(i, "ServerId").toString());			
-			Assert.assertEquals("Compare the Status row " + i + ": ", expItem.get("Status"), actualItemRows.getValue(i, "Status").toString());			
-			Assert.assertEquals("Compare the SendStatus1 row " + i + ": ", expItem.get("SendStatus1"), actualItemRows.getValue(i, "SendStatus1").toString());			
-			Assert.assertEquals("Compare the SendStatus2 row " + i + ": ", expItem.get("SendStatus2"), actualItemRows.getValue(i, "SendStatus2").toString());	
-			Assert.assertEquals("Compare the EjStatus row " + i + ": ", expItem.get("EjStatus"), actualItemRows.getValue(i, "EjStatus").toString());	
-			Assert.assertEquals("Compare the Tx row " + i + ": ", expItem.get("Tx"), actualItemRows.getValue(i, "Tx").toString());	
+			Assert.assertEquals("Compare the TxType row " + i + ": ", expItem.get("TxType"), actualItemRows.getValue(i, "TxType").toString());
+			Assert.assertEquals("Compare the ServerId row " + i + ": ", expItem.get("ServerId"), actualItemRows.getValue(i, "ServerId").toString());
+			Assert.assertEquals("Compare the Status row " + i + ": ", expItem.get("Status"), actualItemRows.getValue(i, "Status").toString());
+			Assert.assertEquals("Compare the SendStatus1 row " + i + ": ", expItem.get("SendStatus1"), actualItemRows.getValue(i, "SendStatus1").toString());
+			Assert.assertEquals("Compare the SendStatus2 row " + i + ": ", expItem.get("SendStatus2"), actualItemRows.getValue(i, "SendStatus2").toString());
+			Assert.assertEquals("Compare the EjStatus row " + i + ": ", expItem.get("EjStatus"), actualItemRows.getValue(i, "EjStatus").toString());
+			Assert.assertEquals("Compare the Tx row " + i + ": ", expItem.get("Tx"), actualItemRows.getValue(i, "Tx").toString());
 			i++;
 		}
 	}
-	
+
 	@Then("MST_DEVICEINFO table should have: $expected")
 	public final void checkMstDeviceInfo(final ExamplesTable expecteditems) throws DataSetException {
 		List<Map<String, String>> expectedItemRows = expecteditems.getRows();
@@ -876,13 +878,13 @@ public class EndOfDaySteps extends Steps {
 			Assert.assertEquals("Compare the Training row " + i + ": ", expItem.get("Training"), actualItemRows.getValue(i, "Training").toString());
 			Assert.assertEquals("Compare the DeviceName row " + i + ": ", expItem.get("DeviceName"), actualItemRows.getValue(i, "DeviceName").toString());
 			Assert.assertEquals("Compare the AttributeId row " + i + ": ", expItem.get("AttributeId"), actualItemRows.getValue(i, "AttributeId").toString());
-			Assert.assertEquals("Compare the TillId row " + i + ": ", expItem.get("TillId"), actualItemRows.getValue(i, "TillId").toString());			
-			Assert.assertEquals("Compare the LastTxId row " + i + ": ", expItem.get("LastTxId"), actualItemRows.getValue(i, "LastTxId").toString());			
-			Assert.assertEquals("Compare the Status row " + i + ": ", expItem.get("Status"), actualItemRows.getValue(i, "Status").toString());	
+			Assert.assertEquals("Compare the TillId row " + i + ": ", expItem.get("TillId"), actualItemRows.getValue(i, "TillId").toString());
+			Assert.assertEquals("Compare the LastTxId row " + i + ": ", expItem.get("LastTxId"), actualItemRows.getValue(i, "LastTxId").toString());
+			Assert.assertEquals("Compare the Status row " + i + ": ", expItem.get("Status"), actualItemRows.getValue(i, "Status").toString());
 			i++;
 		}
 	}
-	
+
 	@When("getting till information of storeid:$1 tillid:$2")
 	public final void getTillInfo(final String storeId, final String tillId) {
 		operation = Operation.GETTILLINFO;

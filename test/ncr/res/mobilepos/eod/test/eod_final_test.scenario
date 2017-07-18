@@ -113,6 +113,12 @@ Then it should get the following:
 |0223       |商品券２           |10        |2                   |0      |
 |0224       |グループ券         |10        |2                   |9000   |
 
+!-- Payment Amt Count but data is null
+Given that payment amt data
+When getting payment amt of companyid:02, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:
+Then it should get NCRWSSResultCode:0
+Then it should get paymentList:0
+
 !-- Payment Amt Count By terminalId
 Given that payment amt data
 When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0004
@@ -122,3 +128,9 @@ Then it should get the following:
 |0222       |商品券１           |10        |2                   |3030   |
 |0223       |商品券２           |10        |2                   |0      |
 |0224       |グループ券         |10        |2                   |9000   |
+
+!-- Payment Amt Count By terminalId but data is null
+Given that payment amt data
+When getting payment amt of companyid:02, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0004
+Then it should get NCRWSSResultCode:0
+Then it should get paymentList:0

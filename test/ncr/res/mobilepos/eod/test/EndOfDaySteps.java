@@ -130,7 +130,7 @@ public class EndOfDaySteps extends Steps {
 			ex.printStackTrace();
 		}
 	}
-   @Given("that payment amt data")
+	@Given("that payment amt data")
 	public final void givenPaymentAmt() {
 		try {
 			dbRESMasterInitiator = new DBInitiator("EndOfDaySteps2",
@@ -374,6 +374,11 @@ public class EndOfDaySteps extends Steps {
 	@Then("it should get NCRWSSResultCode:$1")
 	public final void testSalesReportChangeFund(final int expected) {
 		Assert.assertEquals("Compare NCRWSSResultCode", expected, resultCode);
+	}
+	
+	@Then("it should get paymentList:$1")
+	public final void testPaymentList(final int expected) {
+		 Assert.assertEquals("Compare PaymentAmtList", expected, settlementInfo.getPaymentAmtList().size());
 	}
 
 	@When("getting last payin/payout transactions companyid:$1 storeid:$2 terminalid:$3 businessdate:$4 trainingflag:$5")

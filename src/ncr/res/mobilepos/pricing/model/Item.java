@@ -329,6 +329,12 @@ public class Item {
     @XmlElement(name ="LabelPrice")
     private double labelPrice;
     
+    @XmlElement(name = "MagazineCode")
+    private String magazineCode;
+    
+    @XmlElement(name = "PublishingCode")
+    private String publishingCode;
+    
     @ApiModelProperty(value="カラー名称(カナ)", notes="カラー名称(カナ)")
     public String getColorkananame() {
         return colorkananame;
@@ -1581,6 +1587,24 @@ public class Item {
         this.labelPrice = labelPrice;
     }
 
+    @ApiModelProperty(value="雑誌コード", notes="雑誌コード")
+    public final String getMagazineCode() {
+        return magazineCode;
+    }
+
+    public final void setMagazineCode(String magazineCode) {
+        this.magazineCode = magazineCode;
+    }
+    
+    @ApiModelProperty(value="出版社コード", notes="出版社コード")
+    public final String getPublishingCode() {
+        return publishingCode;
+    }
+
+    public final void setPublishingCode(String publishingCode) {
+        this.publishingCode = publishingCode;
+    }
+    
 	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();

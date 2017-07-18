@@ -90,9 +90,9 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 	}
 
-    @Given("ItemCode.xml file does not exist")
-    public void itemCodeXmlNotFound() {
-    	Field promotionConfigField;
+	@Given("ItemCode.xml file does not exist")
+	public void itemCodeXmlNotFound() {
+		Field promotionConfigField;
 		try {
 			promotionConfigField = testpromotionResource.getClass().getDeclaredField("barcodeAssignment");
 			promotionConfigField.setAccessible(true);
@@ -106,11 +106,11 @@ public class PromotionResourceTestSteps extends Steps {
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
-    }
+	}
 	
-    @Given("ItemCode.xml file exist")
-    public void giftXmlFound() {
-    	Field promotionConfigField;
+	@Given("ItemCode.xml file exist")
+	public void giftXmlFound() {
+		Field promotionConfigField;
 		try {
 			File configFile = new File("test\\ncr\\res\\mobilepos\\promotion\\discount\\test" + File.separator + "itemCode.xml");
 			XmlSerializer<BarcodeAssignment> serializer = new XmlSerializer<BarcodeAssignment>();
@@ -130,8 +130,8 @@ public class PromotionResourceTestSteps extends Steps {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-    }
-    
+	}
+	
 	@Given("a businessdate $file")
 	public final void noBusinessdateSet(String fileName) {
 		try {
@@ -442,13 +442,13 @@ public class PromotionResourceTestSteps extends Steps {
 	}
 	
 	@Then("the ActualSalesPrice should be : $ActualSalesPrice")
-    public final void salesPrice1ShouleBe(final String actualSalesPrice) {
-        PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
-        Transaction transactionResult = promotionResponse.getTransaction();
-        Sale sale = transactionResult.getSale();
-        assertThat("Compare the actualSalesPrice row ", "" + sale.getActualSalesUnitPrice(),
-                is(equalTo(actualSalesPrice)));
-    }
+	public final void salesPrice1ShouleBe(final String actualSalesPrice) {
+		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
+		Transaction transactionResult = promotionResponse.getTransaction();
+		Sale sale = transactionResult.getSale();
+		assertThat("Compare the actualSalesPrice row ", "" + sale.getActualSalesUnitPrice(),
+				is(equalTo(actualSalesPrice)));
+	}
 		
 	//2017/04/18 add end by kl
 
@@ -553,6 +553,9 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the ActualSalesUnitPrice row ", ""
 					+ sale.getActualSalesUnitPrice(),
 					is(equalTo(expecedItem.get("ActualSalesPrice"))));
+			assertThat("Compare the PublishingCode row ", ""
+					+ sale.getPublishingCode(),
+					is(equalTo(expecedItem.get("PublishingCode"))));
 		}
 	}
 	@Then("dptResult should be : $expectedItems")
@@ -609,6 +612,9 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the LabelPrice row ", ""
 					+ sale.getLabelPrice(),
 					is(equalTo(expecedItem.get("LabelPrice"))));
+			assertThat("Compare the MagazineCode row ", ""
+					+ sale.getMagazineCode(),
+					is(equalTo(expecedItem.get("MagazineCode"))));
 		}
 	}
 	//2017/04/17 add end by kl

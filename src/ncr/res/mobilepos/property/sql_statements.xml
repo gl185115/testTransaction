@@ -224,6 +224,7 @@ SELECT TOP 1
        plu.Conn1,
        plu.ConnType1,
        plu.Conn2,
+       plu.VenderCode,
        plu.DiscountFlag,
        plu.SubCode1,
        plu.SubCode2,

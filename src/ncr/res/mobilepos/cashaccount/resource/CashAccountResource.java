@@ -162,10 +162,10 @@ public class CashAccountResource {
             }
             if(StringUtility.isNullOrEmpty(tillId)){
             	response = cashAccountDAO.getCashBalance(companyId, storeId, terminalId, 
-                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+                        businessDate, trainingFlag, dataType, itemLevel1);
             }else{
             	response = cashAccountDAO.getCashBalanceByTillId(companyId, storeId, tillId, 
-                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+                        businessDate, trainingFlag, dataType, itemLevel1);
             }
         } catch (DaoException e) {
             LOGGER.logAlert(progName, "getCashBalance", Logger.RES_EXCEP_DAO,

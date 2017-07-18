@@ -108,7 +108,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
      */
     @Override
     public GetCashBalance getCashBalance(String companyId, String storeId, String terminalId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws DaoException {
+            int trainingFlag, String dataType, String itemLevel1) throws DaoException {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -118,8 +118,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
         
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
@@ -137,7 +136,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             selectStmnt.setString(SQLStatement.PARAM6, dataType);
             selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
-            selectStmnt.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = selectStmnt.executeQuery();
             
@@ -182,7 +180,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
      */
     @Override
     public GetCashBalance getCashBalanceByTillId(String companyId, String storeId, String tillId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws DaoException {
+            int trainingFlag, String dataType, String itemLevel1) throws DaoException {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -192,8 +190,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
         
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
@@ -211,7 +208,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             selectStmnt.setString(SQLStatement.PARAM6, dataType);
             selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
-            selectStmnt.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = selectStmnt.executeQuery();
             

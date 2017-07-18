@@ -21,9 +21,9 @@ public interface ICashAccountDAO {
 	
 	GetCashBalance getCashBalance(final String companyId, final String storeId,
             final String terminalId, final String businessDate, final int trainingFlag, final String dataType, 
-            final String itemLevel1, final String itemLevel2) throws DaoException;
+            final String itemLevel1) throws DaoException;
 	
 	GetCashBalance getCashBalanceByTillId(String companyId, String storeId, String tillId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws DaoException;
+            int trainingFlag, String dataType, String itemLevel1) throws DaoException;
 
 }

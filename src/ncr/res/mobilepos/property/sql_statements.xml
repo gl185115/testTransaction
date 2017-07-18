@@ -11358,8 +11358,7 @@ DECLARE
       @businessDate varchar(max),
       @trainingFlag tinyint,
       @dataType varchar(max),
-      @itemLevel1 varchar(max),
-      @itemLevel2 varchar(max)
+      @itemLevel1 varchar(max)
 
     SET @companyId = ?
     SET @storeId = ?
@@ -11368,7 +11367,6 @@ DECLARE
     SET @trainingFlag = ?
     SET @dataType = ?
     SET @itemLevel1 = ?
-    SET @itemLevel2 = ?
 
    SELECT
       a.CompanyId,
@@ -11393,8 +11391,7 @@ DECLARE
             ItemType = @dataType AND
             BusinessDayDate = @businessDate AND
             TrainingFlag = @trainingFlag AND
-            ItemLevel1 = @itemLevel1 AND
-            ItemLevel2 = @itemLevel2
+            ItemLevel1 = @itemLevel1
             Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
             ) as CntSum,
       (SELECT
@@ -11407,8 +11404,7 @@ DECLARE
             ItemType = @dataType AND
             BusinessDayDate = @businessDate AND
             TrainingFlag = @trainingFlag AND
-            ItemLevel1 = @itemLevel1 AND
-            ItemLevel2 = @itemLevel2
+            ItemLevel1 = @itemLevel1
             Group by CompanyId, RetailStoreId, BusinessDayDate, ItemType, TrainingFlag, ItemLevel1, ItemLevel2
             ) as AmtSum
 
@@ -11420,7 +11416,6 @@ DECLARE
        a.BusinessDayDate = @businessDate  AND
        a.ItemType = @dataType AND
        a.itemLevel1 = @itemLevel1 AND
-       a.itemLevel2 = @itemLevel2 AND
        a.TrainingFlag = @trainingFlag
 
 </entry>
@@ -11432,7 +11427,6 @@ DECLARE
       @trainingFlag tinyint,
       @dataType varchar(max),
       @itemLevel1 varchar(max),
-      @itemLevel2 varchar(max),
       @tillId varchar(max)
 
     SET @companyId = ?
@@ -11442,7 +11436,6 @@ DECLARE
     SET @trainingFlag = ?
     SET @dataType = ?
     SET @itemLevel1 = ?
-    SET @itemLevel2 = ?
 
    SELECT
       a.CompanyId,
@@ -11469,7 +11462,6 @@ DECLARE
        a.BusinessDayDate = @businessDate  AND
        a.ItemType = @dataType AND
        a.itemLevel1 = @itemLevel1 AND
-       a.itemLevel2 = @itemLevel2 AND
        a.TrainingFlag = @trainingFlag
 	   GROUP BY
 	   a.CompanyId,

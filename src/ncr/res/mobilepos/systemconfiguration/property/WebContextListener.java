@@ -34,12 +34,12 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.point.factory.PointRateFactory;
 import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
-import ncr.res.mobilepos.point.factory.PointRateFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
@@ -268,6 +268,9 @@ public class WebContextListener implements ServletContextListener {
         GlobalConstant.setInStoreParam10(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_10));
         GlobalConstant.setInStoreParam11(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_11));
 
+        String bizCatIdColumnOfStoreInfo = sysParams.get(GlobalConstant.BIZCATID_COLUMN_OF_STOREINFO);
+        GlobalConstant.setBizCatIdColumnOfStoreInfo(
+        		 (!StringUtility.isNullOrEmpty(bizCatIdColumnOfStoreInfo)) ? bizCatIdColumnOfStoreInfo : GlobalConstant.DEFAULT_BIZCATID_COLUMN_OF_STOREINFO);
 
         String taxRate = sysParams.get(GlobalConstant.TAX_RATE_KEY);
         if (!StringUtility.isNullOrEmpty(taxRate)) {

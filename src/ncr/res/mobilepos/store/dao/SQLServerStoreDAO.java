@@ -33,7 +33,7 @@ import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
  * Access database for store CRUD manipulations.
- * 
+ *
  */
 public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     /**
@@ -63,7 +63,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -75,7 +75,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -84,7 +84,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
     /*
      * view store details of storeid.
-     * 
+     *
      * @see ncr.res.mobilepos.store.dao.IStoreDAO#viewStore(java.lang.String)
      */
     @Override
@@ -153,7 +153,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                     + ".viewStore - Error view store", ex);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(storeData);
         }
 
@@ -164,7 +164,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
      * {@inheritDoc}
      */
     @Override
-    public final List<Store> listStores(final String companyId, final String key, 
+    public final List<Store> listStores(final String companyId, final String key,
     		final String name, final int limit) throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("listStores")
@@ -184,14 +184,14 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             selectStoresStmt = conn.prepareStatement(sqlStatement
                     .getProperty("get-stores"));
             tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
-            int searchLimit = (limit == 0) ? 
-            		GlobalConstant.getMaxSearchResults() : limit;             
+            int searchLimit = (limit == 0) ?
+            		GlobalConstant.getMaxSearchResults() : limit;
             selectStoresStmt.setString(SQLStatement.PARAM1, companyId);
             selectStoresStmt.setString(SQLStatement.PARAM2, key);
             selectStoresStmt.setString(SQLStatement.PARAM3, name);
-            selectStoresStmt.setInt(SQLStatement.PARAM4, searchLimit);  
+            selectStoresStmt.setInt(SQLStatement.PARAM4, searchLimit);
             resultset = selectStoresStmt.executeQuery();
-            
+
             while (resultset.next()) {
                 Store store = new Store();
                 store.setCompanyId(resultset.getString("CompanyId"));
@@ -221,7 +221,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     /**
      * This is to get the current status of the Store 1 - Active 2 - Deleted -1
      * - Not Found
-     * 
+     *
      * @param storeId
      * @return
      * @throws DaoException
@@ -277,18 +277,18 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
         } finally {
             closeConnectionObjects(null, select, result);
             closeConnectionObjects(connection, update);
-            
+
             tp.methodExit(status);
         }
 
         return status;
 
-    }    
+    }
     /**
      * {@inheritDoc}
      */
     @Override
-    public final List<CMPresetInfo> listCMPresetInfo(final String companyId, final String storeId, 
+    public final List<CMPresetInfo> listCMPresetInfo(final String companyId, final String storeId,
             final String terminalId, final String businessDayDate) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("listCMPresetInfo")
@@ -305,18 +305,15 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
             conn = dbManager.getConnection();
-            selectStmt = conn.prepareStatement(sqlStatement
-                    .getProperty("get-preset-cm-info"));
-           
+            selectStmt = conn.prepareStatement(String.format(sqlStatement.getProperty("get-preset-cm-info") ,GlobalConstant.getBizCatIdColumnOfStoreInfo()));
             selectStmt.setString(SQLStatement.PARAM1, companyId);
             selectStmt.setString(SQLStatement.PARAM2, storeId);
             selectStmt.setString(SQLStatement.PARAM3, terminalId);
-            selectStmt.setString(SQLStatement.PARAM4, businessDayDate);  
+            selectStmt.setString(SQLStatement.PARAM4, businessDayDate);
             resultSet = selectStmt.executeQuery();
 
             while (resultSet.next()) {
                 CMPresetInfo cmPresetInfo = new CMPresetInfo();
-
                 cmPresetInfo.setCompanyId(resultSet.getString("CompanyId"));
                 cmPresetInfo.setCMId(resultSet.getInt("CMId"));
                 cmPresetInfo.setCMName(resultSet.getString("CMName"));
@@ -448,7 +445,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             SQLStatement sqlStatement = SQLStatement.getInstance();
             conn = dbManager.getConnection();
             selectStmt = conn.prepareStatement(sqlStatement.getProperty("get-subNum1"));
-           
+
             selectStmt.setString(SQLStatement.PARAM1, storeId);
             selectStmt.setString(SQLStatement.PARAM2, workStactionId);
             selectStmt.setString(SQLStatement.PARAM3, companyId);
@@ -566,7 +563,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                     + ".getStoreDetaiInfo - Error view store", ex);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(storeData);
         }
 

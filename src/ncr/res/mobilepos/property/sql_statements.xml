@@ -9175,7 +9175,7 @@ AND INFO.CompanyId = @CompanyId
 
 SET @BizCatId = (
         SELECT
-            SubCode1
+            %s
         FROM
             RESMaster.DBO.MST_STOREINFO
         WHERE
@@ -10322,7 +10322,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @terminalId = ?
       SET @businessDayDate = ?
       SET @bizCatId = (
-              SELECT SubCode1
+              SELECT %s
               FROM RESMaster.dbo.MST_STOREINFO
               WHERE CompanyId = @companyId AND StoreId = @storeId
             )

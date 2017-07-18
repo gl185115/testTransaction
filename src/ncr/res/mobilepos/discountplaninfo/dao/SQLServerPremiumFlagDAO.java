@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import atg.taglib.json.util.JSONArray;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
@@ -39,7 +39,7 @@ public class SQLServerPremiumFlagDAO extends AbstractDao implements IPremiumFlag
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -50,7 +50,7 @@ public class SQLServerPremiumFlagDAO extends AbstractDao implements IPremiumFlag
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -84,7 +84,7 @@ public class SQLServerPremiumFlagDAO extends AbstractDao implements IPremiumFlag
             connection = dbManager.getConnection();
 
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-premium-flag"));
+            selectStmnt = connection.prepareStatement(String.format(sqlStatement.getProperty("get-premium-flag") ,GlobalConstant.getBizCatIdColumnOfStoreInfo()));
             selectStmnt.setString(SQLStatement.PARAM1, companyId);
             selectStmnt.setString(SQLStatement.PARAM2, storeId);
             selectStmnt.setString(SQLStatement.PARAM3, terminalId);

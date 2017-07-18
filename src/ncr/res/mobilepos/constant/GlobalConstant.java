@@ -22,7 +22,7 @@ import ncr.res.mobilepos.promotion.helper.TerminalItem;
  */
 public final class GlobalConstant {
     /** Default Constructor. */
-    private GlobalConstant() {    	
+    private GlobalConstant() {
     }
     /**
      * The key name for APIUrl.
@@ -132,7 +132,7 @@ public final class GlobalConstant {
     /** The Key for credential day left warning. */
     public static final String CREDENTIAL_DAY_LEFT_WARNING = "CredentialDayLeftWarning";
     /**
-     * The key of receipt number 
+     * The key of receipt number
      */
     public static final String NUMBER_OF_RECEIPT = "NumberOfReceipt";
     /**
@@ -185,6 +185,11 @@ public final class GlobalConstant {
     public static final String KEY_INSTORE_PARAM_9 = "InStoreParam9";
     public static final String KEY_INSTORE_PARAM_10 = "InStoreParam10";
     public static final String KEY_INSTORE_PARAM_11 = "InStoreParam11";
+    /** The BizCatId Column Of StoreInfo **/
+    public static final String BIZCATID_COLUMN_OF_STOREINFO = "BizCatIdColumnOfStoreInfo";
+    /** The BizCatId Column Of StoreInfo (Default Value) **/
+    public static final String DEFAULT_BIZCATID_COLUMN_OF_STOREINFO = "SubCode1";
+
     /**
      * The key name for server ping timeout.
      */
@@ -222,6 +227,9 @@ public final class GlobalConstant {
     private static String inStoreParam10;
     private static String inStoreParam11;
 
+    /** BizCatIdColumnOfStoreInfo **/
+    private static String bizCatIdColumnOfStoreInfo;
+
     /** Terminal Item map. **/
     private static Map<String, TerminalItem> terminalItemsMap = new HashMap<>();
 
@@ -232,7 +240,7 @@ public final class GlobalConstant {
      * System specific URL parameters.
      */
     /** Search API URL **/
-    public static final String INVENTORYORDERSEARCHURL = "InventoryOrderSearchUrl";  
+    public static final String INVENTORYORDERSEARCHURL = "InventoryOrderSearchUrl";
 
     private static String taxRate;
     private static String pricingType;
@@ -243,7 +251,7 @@ public final class GlobalConstant {
     private static String priceIncludeTaxKey;
     private static String range1;
     private static String defaultLanguage;
-    
+
     /**
      * The Company ID.
      */
@@ -366,9 +374,9 @@ public final class GlobalConstant {
     public static void setSwitchTime(final String switchTimeToSet) {
         GlobalConstant.switchTime = switchTimeToSet;
     }
-    
+
     /**
-     * Get the day which starts the display of a login warning message. 
+     * Get the day which starts the display of a login warning message.
      * @return  Credential Days left before password expiration
      */
     public static String getCredentialDaysLeft() {
@@ -376,19 +384,19 @@ public final class GlobalConstant {
     }
 
     /**
-     * Set the day which starts the display of a login warning message. 
+     * Set the day which starts the display of a login warning message.
      * @param credentialDaysLeftToSet The Credential days left to set.
      */
     public static void setCredentialDaysLeft(final String credentialDaysLeftToSet) {
         GlobalConstant.credentialDaysLeft = credentialDaysLeftToSet;
     }
-    
+
     public static void setMultiSOD(final boolean multiSODToSet) {
     	GlobalConstant.multiSOD = multiSODToSet;
     }
-    
+
     public static boolean isMultiSOD() {
-    	return GlobalConstant.multiSOD;    	
+    	return GlobalConstant.multiSOD;
     }
 
     /**
@@ -543,6 +551,14 @@ public final class GlobalConstant {
         GlobalConstant.inStoreParam11 = inStoreParam11;
     }
 
+    public static String getBizCatIdColumnOfStoreInfo() {
+        return bizCatIdColumnOfStoreInfo;
+    }
+
+    public static void setBizCatIdColumnOfStoreInfo(String bizCatIdColumnOfStoreInfo) {
+        GlobalConstant.bizCatIdColumnOfStoreInfo = bizCatIdColumnOfStoreInfo;
+    }
+
     public static Map<String, TerminalItem> getTerminalItemsMap() {
         return terminalItemsMap;
     }
@@ -562,7 +578,7 @@ public final class GlobalConstant {
 	public static String getPricingType() {
         return pricingType;
     }
-	
+
 	public static void setPricingType(String pricingType) {
         GlobalConstant.pricingType = pricingType;
     }
@@ -629,7 +645,7 @@ public final class GlobalConstant {
 	public static void setServerPingTimeout(int serverPingTimeout) {
 		GlobalConstant.serverPingTimeout = serverPingTimeout;
 	}
-	
+
     public static String getMaxQRCodePrintNum() {
         return maxQRCodePrintNum;
     }
@@ -637,6 +653,6 @@ public final class GlobalConstant {
     public static void setMaxQRCodePrintNum(String maxQRCodePrintNum) {
         GlobalConstant.maxQRCodePrintNum = maxQRCodePrintNum;
     }
-	
+
 }
 

@@ -536,11 +536,9 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             
             result = statement.executeQuery();
             settlement = new SettlementInfo();
+            paymentAmtList = new ArrayList<PaymentAmtInfo>();
             while (result.next()){
                 paymentAmtInfo = new PaymentAmtInfo();
-                if (paymentAmtList == null) {
-                    paymentAmtList = new ArrayList<PaymentAmtInfo>();
-                }
                 paymentAmtInfo.setTenderId(result.getString("TenderId"));
                 paymentAmtInfo.setTenderName(result.getString("TenderName"));
                 paymentAmtInfo.setTenderType(result.getString("TenderType"));
@@ -549,17 +547,12 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
                 paymentAmtList.add(paymentAmtInfo);
         	}
             settlement.setPaymentAmtList(paymentAmtList);
-            if (paymentAmtList.isEmpty()) {
-                tp.println("Payment amt not found.");
-                settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-                settlement.setMessage("Payment amt not found.");
-            }
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
                     + ": Failed to get payment amt.", e);
             throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
                     + functionName, e);
-        }  finally {
+        } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(settlement);
         }
@@ -595,12 +588,10 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             statement.setString(SQLStatement.PARAM5, terminalId);
             
             result = statement.executeQuery();
+            settlement = new SettlementInfo();
+            paymentAmtList = new ArrayList<PaymentAmtInfo>();
             while (result.next()){
-                settlement = new SettlementInfo();
                 paymentAmtInfo = new PaymentAmtInfo();
-                if (paymentAmtList == null) {
-                    paymentAmtList = new ArrayList<PaymentAmtInfo>();
-                }
                 paymentAmtInfo.setTenderId(result.getString("TenderId"));
                 paymentAmtInfo.setTenderName(result.getString("TenderName"));
                 paymentAmtInfo.setTenderType(result.getString("TenderType"));
@@ -609,17 +600,12 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
                 paymentAmtList.add(paymentAmtInfo);
             }
             settlement.setPaymentAmtList(paymentAmtList);
-            if (paymentAmtList.isEmpty()) {
-                tp.println("Payment amt not found.");
-                settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-                settlement.setMessage("Payment amt not found.");
-            }
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
                     + ": Failed to get payment amt.", e);
             throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
                     + functionName, e);
-        }  finally {
+        } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(settlement);
         }

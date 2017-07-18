@@ -9,6 +9,10 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
+import org.json.JSONException;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
+
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
@@ -90,6 +94,13 @@ public class ListPOSMailInfoSteps extends Steps {
 	}
 	@Then("I should get InfoData(JSON String): $1")
 	public final void thenIShouldHaveInfoDataJSONString(final String expected){
-		Assert.assertEquals("Compare InfoData", expected, jsonData.getInfoData());
+		try {
+			// compare to json strings regardless of property ordering
+			JSONAssert.assertEquals(expected, jsonData.getInfoData(),
+					JSONCompareMode.NON_EXTENSIBLE);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

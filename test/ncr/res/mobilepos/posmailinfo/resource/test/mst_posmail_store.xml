@@ -27,58 +27,6 @@
 		<column>UpdOpeCode</column>
 		<row>
 			<value>01</value>
-			<value>1</value>
-			<value>0247</value>
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<value>0</value>
-			<null />
-			<null />
-			<null />
-			<value>2012-12-12 00:00:00.0000000</value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>2012-12-12 00:00:00.0000000</value>
-			<value>1</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>01</value>
-			<value>10</value>
-			<value>0247</value>
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<value>0</value>
-			<null />
-			<null />
-			<null />
-			<value>2012-12-12 00:00:00.0000000</value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>2012-12-12 00:00:00.0000000</value>
-			<value>1</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>01</value>
 			<value>2</value>
 			<value>0247</value>
 			<null />
@@ -104,8 +52,8 @@
 			<value>1</value>
 		</row>
 		<row>
-			<value>01</value>
-			<value>3</value>
+			<value>02</value>
+			<value>2</value>
 			<value>0247</value>
 			<null />
 			<null />
@@ -130,8 +78,8 @@
 			<value>1</value>
 		</row>
 		<row>
-			<value>01</value>
-			<value>4</value>
+			<value>03</value>
+			<value>2</value>
 			<value>0247</value>
 			<null />
 			<null />
@@ -156,8 +104,8 @@
 			<value>1</value>
 		</row>
 		<row>
-			<value>01</value>
-			<value>5</value>
+			<value>04</value>
+			<value>2</value>
 			<value>0247</value>
 			<null />
 			<null />
@@ -182,8 +130,8 @@
 			<value>1</value>
 		</row>
 		<row>
-			<value>01</value>
-			<value>6</value>
+			<value>05</value>
+			<value>2</value>
 			<value>0247</value>
 			<null />
 			<null />
@@ -208,8 +156,8 @@
 			<value>1</value>
 		</row>
 		<row>
-			<value>01</value>
-			<value>7</value>
+			<value>06</value>
+			<value>1</value>
 			<value>0247</value>
 			<null />
 			<null />
@@ -234,34 +182,8 @@
 			<value>1</value>
 		</row>
 		<row>
-			<value>01</value>
-			<value>8</value>
-			<value>0247</value>
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<value>0</value>
-			<null />
-			<null />
-			<null />
-			<value>2012-12-12 00:00:00.0000000</value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>2012-12-12 00:00:00.0000000</value>
-			<value>1</value>
-			<value>1</value>
-		</row>
-		<row>
-			<value>01</value>
-			<value>9</value>
+			<value>06</value>
+			<value>2</value>
 			<value>0247</value>
 			<null />
 			<null />

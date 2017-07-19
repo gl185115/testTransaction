@@ -103,25 +103,9 @@ Then MST_DEVICEINFO table should have:
 |CompanyId	|StoreId	|TerminalId	|Training	|DeviceName		|AttributeId	|TillId		|LastTxId	|Status	|
 |01			|0247		|0001		|0			|POS#0001テスト	|4				|02470001	|1671		|Active	|
 
-!-- Payment Amt Count
-Given that payment amt data
-When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:
-Then it should get NCRWSSResultCode:0
-Then it should get the following:
-|TenderId   |TenderName |TenderType|TenderIdentification|SumAmt |
-|0222       |商品券１           |10        |2                   |3030   |
-|0223       |商品券２           |10        |2                   |0      |
-|0224       |グループ券         |10        |2                   |9000   |
-
-!-- Payment Amt Count but data is null
-Given that payment amt data
-When getting payment amt of companyid:02, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:
-Then it should get NCRWSSResultCode:0
-Then it should get paymentList:0
-
 !-- Payment Amt Count By terminalId
 Given that payment amt data
-When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0004
+When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0004, txType:
 Then it should get NCRWSSResultCode:0
 Then it should get the following:
 |TenderId   |TenderName |TenderType|TenderIdentification|SumAmt |
@@ -131,6 +115,21 @@ Then it should get the following:
 
 !-- Payment Amt Count By terminalId but data is null
 Given that payment amt data
-When getting payment amt of companyid:02, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0004
+When getting payment amt of companyid:02, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:0004, txType:
+Then it should get NCRWSSResultCode:0
+Then it should get paymentList:0
+
+!-- Payment Amt Count By txType
+Given that payment amt data
+When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:, txType:900
+Then it should get NCRWSSResultCode:0
+Then it should get the following:
+|TenderId   |TenderName |TenderType|TenderIdentification|SumAmt |SumBalancingRegisterAmt|SumBalancingCurrentAmt|SumBalancingDifferenceAmt|
+|0222       |商品券１           |10        |2                   |2010   |1100                   |2200                  |3300                     |
+|0224       |グループ券         |10        |2                   |300    |1010                   |2020                  |3030                     |
+
+!-- Payment Amt Count By txType but data is null
+Given that payment amt data
+When getting payment amt of companyid:02, storeid:0247, businessdaydate:2016-06-20, trainingFlag:0, terminalId:, txType:900
 Then it should get NCRWSSResultCode:0
 Then it should get paymentList:0

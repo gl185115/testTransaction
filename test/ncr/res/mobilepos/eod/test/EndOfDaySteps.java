@@ -29,6 +29,7 @@ import ncr.res.mobilepos.forwarditemlist.resource.ForwardItemListResource;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.journalization.model.ForwardList;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
@@ -56,7 +57,7 @@ public class EndOfDaySteps extends Steps {
 	public enum Operation {
 		GETLASTPAYINPAYOUT, GETSUSPENDEDTXS, GETEXECUTEAUTHORITY, GETWORKINGDEVICES, GETTILLINFO, RELEASEEXECAUTHORITY, GETDEVICESTATUS, GETCREDIT,
 		GETVOUCHERLIST, GETITEMTYPE3DAILYSALESREPORT, GETTRANSACTIONCOUNT, GETTXCOUNTBYBUSINESSDATE, GETREPORTITEMS, SAVEPOSLOG, GETCMPRESETCMINFOS,
-		GETCOUNTPAYMENTAMT
+		GETCOUNTPAYMENTAMT,GETPAYMENTAMTBYTXTYPE
 	};
 
 	Operation operation = Operation.GETLASTPAYINPAYOUT;
@@ -325,10 +326,14 @@ public class EndOfDaySteps extends Steps {
 		cmPresetInfos = storeResource.getCMPresetInfoList(companyId, storeId, terminalId, businessDayDate);
 		resultCode = cmPresetInfos.getNCRWSSResultCode();
 	}
-	@When("getting payment amt of companyid:$1, storeid:$2, businessdaydate:$3, trainingFlag:$4, terminalId:$5")
-	public final void whenGettingPaymentAmtData(final String companyId, final String storeId, final String businessDayDate, final int trainingFlag, final String terminalId) {
-		operation = Operation.GETCOUNTPAYMENTAMT;
-		settlementInfo = settlementResource.getCountPaymentAmt(companyId, storeId, businessDayDate, trainingFlag, terminalId);
+	@When("getting payment amt of companyid:$1, storeid:$2, businessdaydate:$3, trainingFlag:$4, terminalId:$5, txType:$6")
+	public final void whenGettingPaymentAmtData(final String companyId, final String storeId, final String businessDayDate, final int trainingFlag, final String terminalId, final String txType) {
+		if (StringUtility.isNullOrEmpty(txType)) {
+			operation = Operation.GETCOUNTPAYMENTAMT;
+		} else {
+			operation = Operation.GETPAYMENTAMTBYTXTYPE;
+		}
+		settlementInfo = settlementResource.getCountPaymentAmt(companyId, storeId, businessDayDate, trainingFlag, terminalId, txType);
 		resultCode = settlementInfo.getNCRWSSResultCode();
 	}
 	@When("saving poslogxml:$1, trainingmode:$2")
@@ -635,6 +640,19 @@ public class EndOfDaySteps extends Steps {
 				Assert.assertEquals("Compare TenderType " + i, expected.get("TenderType"), settlementInfo.getPaymentAmtList().get(i).getTenderType());
 				Assert.assertEquals("Compare TenderIdentification " + i, expected.get("TenderIdentification"), settlementInfo.getPaymentAmtList().get(i).getTenderIdentification());
 				Assert.assertEquals("Compare SumAmt " + i, Integer.parseInt(expected.get("SumAmt")), settlementInfo.getPaymentAmtList().get(i).getSumAmt());
+				i++;
+			}
+		}break;
+		case GETPAYMENTAMTBYTXTYPE: {
+			int i = 0;
+			for (Map<String, String> expected : expectedTable.getRows()) {
+				Assert.assertEquals("Compare TenderId " + i, expected.get("TenderId"), settlementInfo.getPaymentAmtList().get(i).getTenderId());
+				Assert.assertEquals("Compare TenderName " + i, expected.get("TenderName"), settlementInfo.getPaymentAmtList().get(i).getTenderName());
+				Assert.assertEquals("Compare TenderType " + i, expected.get("TenderType"), settlementInfo.getPaymentAmtList().get(i).getTenderType());
+				Assert.assertEquals("Compare TenderIdentification " + i, expected.get("TenderIdentification"), settlementInfo.getPaymentAmtList().get(i).getTenderIdentification());
+				Assert.assertEquals("Compare SumBalancingRegisterAmt " + i, Integer.parseInt(expected.get("SumBalancingRegisterAmt")), settlementInfo.getPaymentAmtList().get(i).getSumBalancingRegisterAmt());
+				Assert.assertEquals("Compare SumBalancingCurrentAmt " + i, Integer.parseInt(expected.get("SumBalancingCurrentAmt")), settlementInfo.getPaymentAmtList().get(i).getSumBalancingCurrentAmt());
+				Assert.assertEquals("Compare SumBalancingDifferenceAmt " + i, Integer.parseInt(expected.get("SumBalancingDifferenceAmt")), settlementInfo.getPaymentAmtList().get(i).getSumBalancingDifferenceAmt());
 				i++;
 			}
 		}break;

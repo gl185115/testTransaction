@@ -505,57 +505,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     }
     
     @Override
-    public SettlementInfo getCountPaymentAmt(String companyId, String storeId, String businessDate, int trainingFlag) throws Exception {
-        
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName);
-        tp.println("companyId", companyId)
-          .println("storeId", storeId)
-          .println("businessDate", businessDate)
-		  .println("trainingFlag", trainingFlag);
-    
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet result = null;
-        SettlementInfo settlement = null;
-        PaymentAmtInfo paymentAmtInfo = null;
-        List<PaymentAmtInfo> paymentAmtList = null;
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-                    sqlStatement.getProperty("get-count-payment-amt"));
-            statement.setString(SQLStatement.PARAM1, companyId);
-            statement.setString(SQLStatement.PARAM2, storeId);
-            statement.setString(SQLStatement.PARAM3, businessDate);
-            statement.setInt(SQLStatement.PARAM4, trainingFlag);
-            
-            result = statement.executeQuery();
-            settlement = new SettlementInfo();
-            paymentAmtList = new ArrayList<PaymentAmtInfo>();
-            while (result.next()){
-                paymentAmtInfo = new PaymentAmtInfo();
-                paymentAmtInfo.setTenderId(result.getString("TenderId"));
-                paymentAmtInfo.setTenderName(result.getString("TenderName"));
-                paymentAmtInfo.setTenderType(result.getString("TenderType"));
-                paymentAmtInfo.setTenderIdentification(result.getString("TenderIdentification"));
-                paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
-                paymentAmtList.add(paymentAmtInfo);
-        	}
-            settlement.setPaymentAmtList(paymentAmtList);
-        } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
-                    + ": Failed to get payment amt.", e);
-            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
-                    + functionName, e);
-        } finally {
-            closeConnectionObjects(connection, statement, result);
-            tp.methodExit(settlement);
-        }
-        return settlement;
-    }
-    
-    @Override
     public SettlementInfo getPaymentAmtByTerminalId(String companyId, String storeId, String businessDate, int trainingFlag, String terminalId) throws Exception {
         
         String functionName = DebugLogger.getCurrentMethodName();
@@ -602,6 +551,61 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
                     + functionName, e);
         } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
+    
+    @Override
+    public SettlementInfo getPaymentAmtByTxType(String companyId, String storeId, String businessDate, int trainingFlag, String txType) throws Exception {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("businessDate", businessDate)
+          .println("trainingFlag", trainingFlag)
+          .println("txType", txType);
+    
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        List<PaymentAmtInfo> paymentAmtList = null;
+        SettlementInfo settlement = null;
+        PaymentAmtInfo paymentAmtInfo = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-payment-amt-by-txtype"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
+            statement.setString(SQLStatement.PARAM5, txType);
+            
+            result = statement.executeQuery();
+            settlement = new SettlementInfo();
+            paymentAmtList = new ArrayList<PaymentAmtInfo>();
+            while (result.next()){
+                paymentAmtInfo = new PaymentAmtInfo();
+                paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setTenderName(result.getString("TenderName"));
+                paymentAmtInfo.setTenderType(result.getString("TenderType"));
+                paymentAmtInfo.setTenderIdentification(result.getString("TenderIdentification"));
+                paymentAmtInfo.setSumBalancingRegisterAmt(result.getInt("SumBalancingRegisterAmt"));
+                paymentAmtInfo.setSumBalancingCurrentAmt(result.getInt("SumBalancingCurrentAmt"));
+                paymentAmtInfo.setSumBalancingDifferenceAmt(result.getInt("SumBalancingDifferenceAmt")); 
+                paymentAmtList.add(paymentAmtInfo);
+            }
+            settlement.setPaymentAmtList(paymentAmtList);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get payment amt.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        }  finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(settlement);
         }

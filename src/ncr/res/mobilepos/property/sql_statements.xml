@@ -11821,84 +11821,6 @@ WHERE
   ORDER BY
     PMI.UpdDate DESC, RecordId ASC
   </entry>
-<entry key="get-count-payment-amt">
-DECLARE @companyId varchar(MAX),
-        @storeId varchar(MAX),
-        @businessDate DATE,
-        @trainingflag tinyint
-
-    SET @companyid = ?;
-    SET @storeid = ?;
-    SET @businessDate = ?;
-    SET @trainingflag = ?;
-
-IF NOT EXISTS (
- SELECT *
-
-   FROM RESMaster.dbo.MST_TENDERINFO tender
-  INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
-     ON tender.CompanyId = parment.CompanyId
-    AND tender.StoreId = @storeId
-    AND tender.TenderId = parment.TenderId
-    AND tender.TenderType = parment.TenderType
-  WHERE parment.CompanyId = @companyid
-    AND parment.BusinessDayDate = @businessDate
-    AND parment.ValidFlag = '1'
-    AND parment.CancelFlag = '0'
-    AND parment.DataKind = '0'
-    AND parment.TrainingFlag = @trainingflag
-)
-SET @storeId = '0'
-
-SELECT A.TenderId,A.TenderName,A.TenderType,A.TenderIdentification,A.SumAmt - ISNULL(B.SumAmt, 0)  AS SumAmt
-FROM (
-
-    SELECT parment.TenderId,
-           tender.TenderName,
-           tender.TenderType,
-           tender.TenderIdentification,
-           SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
-
-     FROM RESMaster.dbo.MST_TENDERINFO tender
-    INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
-       ON tender.CompanyId = parment.CompanyId
-      AND tender.StoreId = @storeId
-      AND tender.TenderId = parment.TenderId
-      AND tender.TenderType = parment.TenderType
-    WHERE parment.CompanyId = @companyid
-      AND parment.BusinessDayDate = @businessDate
-      AND parment.ValidFlag = '1'
-      AND parment.CancelFlag = '0'
-      AND parment.DataKind = '0'
-      AND (parment.ReturnFlag = '0' AND parment.VoidFlag = '0')
-      AND parment.TrainingFlag = @trainingflag
-    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
-) A
-LEFT JOIN (
-    SELECT parment.TenderId,
-           tender.TenderName,
-           tender.TenderType,
-           tender.TenderIdentification,
-           SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
-
-     FROM RESMaster.dbo.MST_TENDERINFO tender
-    INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
-       ON tender.CompanyId = parment.CompanyId
-      AND tender.StoreId = @storeId
-      AND tender.TenderId = parment.TenderId
-      AND tender.TenderType = parment.TenderType
-    WHERE parment.CompanyId = @companyid
-      AND parment.BusinessDayDate = @businessDate
-      AND parment.ValidFlag = '1'
-      AND parment.CancelFlag = '0'
-      AND parment.DataKind = '0'
-      AND (parment.ReturnFlag = '1' OR parment.VoidFlag = '1')
-      AND parment.TrainingFlag = @trainingflag
-    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
-) B
-ON A.TenderId = B.TenderId
-ORDER BY A.TenderId
-</entry>
 <entry key="get-payment-amt-by-terminalid">
 DECLARE @companyId varchar(MAX),
         @storeId varchar(MAX),
@@ -11928,6 +11850,7 @@ IF NOT EXISTS (
     AND parment.CancelFlag = '0'
     AND parment.DataKind = '0'
     AND parment.TrainingFlag = @trainingflag
+    AND parment.TenderType IN ('8','9','10','11')
 )
 SET @storeId = '0'
 
@@ -11954,6 +11877,7 @@ FROM (
       AND parment.DataKind = '0'
       AND (parment.ReturnFlag = '0' AND parment.VoidFlag = '0')
       AND parment.TrainingFlag = @trainingflag
+      AND parment.TenderType IN ('8','9','10','11')
     GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 ) A
 LEFT JOIN (
@@ -11977,9 +11901,69 @@ LEFT JOIN (
       AND parment.DataKind = '0'
       AND (parment.ReturnFlag = '1' OR parment.VoidFlag = '1')
       AND parment.TrainingFlag = @trainingflag
+      AND parment.TenderType IN ('8','9','10','11')
     GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 ) B
 ON A.TenderId = B.TenderId
 ORDER BY A.TenderId
+</entry>
+<entry key="get-payment-amt-by-txtype">
+DECLARE @companyId varchar(MAX),
+        @storeId varchar(MAX),
+        @businessDate DATE,
+        @trainingflag tinyint,
+        @txType varchar(6)
+
+    SET @companyid = ?;
+    SET @storeid = ?;
+    SET @businessDate = ?;
+    SET @trainingflag = ?;
+    SET @txType = ?;
+
+IF NOT EXISTS (
+ SELECT *
+   FROM RESMaster.dbo.MST_TENDERINFO tender
+  INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
+     ON tender.CompanyId = parment.CompanyId
+    AND tender.StoreId = @storeId
+    AND tender.TenderId = parment.TenderId
+    AND tender.TenderType = parment.TenderType
+  WHERE parment.CompanyId = @companyid
+    AND parment.BusinessDayDate = @businessDate
+    AND parment.ValidFlag = '1'
+    AND parment.CancelFlag = '0'
+    AND parment.VoidFlag = '0'
+    AND parment.ReturnFlag = '0'
+    AND parment.DataKind = '8'
+    AND parment.TrainingFlag = @trainingflag
+    AND parment.TxType = @txType
+    AND parment.TenderType IN ('8','9','10','11')
+)
+SET @storeId = '0'
+
+ SELECT parment.TenderId,
+        tender.TenderName,
+        tender.TenderType,
+        tender.TenderIdentification,
+        SUM(parment.BalancingRegisterAmt) AS SumBalancingRegisterAmt,
+        SUM(parment.BalancingCurrentAmt) AS SumBalancingCurrentAmt,
+        SUM(parment.BalancingDifferenceAmt) AS SumBalancingDifferenceAmt
+   FROM RESMaster.dbo.MST_TENDERINFO tender
+  INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
+     ON tender.CompanyId = parment.CompanyId
+    AND tender.StoreId = @storeId
+    AND tender.TenderId = parment.TenderId
+    AND tender.TenderType = parment.TenderType
+  WHERE parment.CompanyId = @companyid
+    AND parment.BusinessDayDate = @businessDate
+    AND parment.ValidFlag = '1'
+    AND parment.CancelFlag = '0'
+    AND parment.VoidFlag = '0'
+    AND parment.ReturnFlag = '0'
+    AND parment.DataKind = '8'
+    AND parment.TrainingFlag = @trainingflag
+    AND parment.TxType = @txType
+    AND parment.TenderType IN ('8','9','10','11')
+  GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
 </entry>
 </properties>

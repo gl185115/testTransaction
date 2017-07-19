@@ -22,7 +22,13 @@ public class PaymentAmtInfo {
 	private String tenderIdentification;
 	@XmlElement(name = "SumAmt")
 	private int sumAmt;
-  
+	@XmlElement(name = "SumBalancingRegisterAmt")
+	private int sumBalancingRegisterAmt;
+	@XmlElement(name = "SumBalancingCurrentAmt")
+	private int sumBalancingCurrentAmt;
+	@XmlElement(name = "SumBalancingDifferenceAmt")
+	private int sumBalancingDifferenceAmt;
+
 	/**
 	 * @return the tenderId
 	 */
@@ -96,5 +102,50 @@ public class PaymentAmtInfo {
 	 */
 	public void setSumAmt(int sumAmt) {
 		this.sumAmt = sumAmt;
+	}
+	
+	/**
+	 * @return the sumBalancingRegisterAmt
+	 */
+	@ApiModelProperty(value="é¿ç›çÇã‡äz", notes="é¿ç›çÇã‡äz")
+	public int getSumBalancingRegisterAmt() {
+		return sumBalancingRegisterAmt;
+	}
+
+	/**
+	 * @param sumBalancingRegisterAmt the sumBalancingRegisterAmt to set
+	 */
+	public void setSumBalancingRegisterAmt(int sumBalancingRegisterAmt) {
+		this.sumBalancingRegisterAmt = sumBalancingRegisterAmt;
+	}
+	
+	/**
+	 * @return the sumBalancingCurrentAmt
+	 */
+	@ApiModelProperty(value="åvéZç›çÇã‡äz", notes="åvéZç›çÇã‡äz")
+	public int getSumBalancingCurrentAmt() {
+		return sumBalancingCurrentAmt;
+	}
+
+	/**
+	 * @param sumBalancingCurrentAmt the sumBalancingCurrentAmt to set
+	 */
+	public void setSumBalancingCurrentAmt(int sumBalancingCurrentAmt) {
+		this.sumBalancingCurrentAmt = sumBalancingCurrentAmt;
+	}
+	
+	/**
+	 * @return the sumBalancingDifferenceAmt
+	 */
+	@ApiModelProperty(value="âﬂïsë´ã‡äz", notes="âﬂïsë´ã‡äz")
+	public int getSumBalancingDifferenceAmt() {
+		return sumBalancingDifferenceAmt;
+	}
+
+	/**
+	 * @param sumBalancingDifferenceAmt the sumBalancingDifferenceAmt to set
+	 */
+	public void setSumBalancingDifferenceAmt(int sumBalancingDifferenceAmt) {
+		this.sumBalancingDifferenceAmt = sumBalancingDifferenceAmt;
 	}
 }

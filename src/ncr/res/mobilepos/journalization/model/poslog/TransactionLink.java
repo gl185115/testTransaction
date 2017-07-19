@@ -145,6 +145,11 @@ public class TransactionLink {
      */
     @XmlElement(name = "TotalAmount")
     private int totalAmount;
+    /**
+     * Private member TotalTaxAmount
+     */
+    @XmlElement(name = "TotalTaxAmount")
+    private int totalTaxAmount;
 
     /**
      * return the latestUpdateOperatorID
@@ -519,6 +524,20 @@ public class TransactionLink {
      */
     public void setTotalAmount(int totalAmount) {
         this.totalAmount = totalAmount;
+    }
+    /**
+     * @return the totalTaxAmount
+     */
+    public int getTotalTaxAmount() {
+        return totalTaxAmount;
+    }
+
+    /**
+     * @param totalTaxAmount
+     *            the totalTaxAmount to set
+     */
+    public void setTotalTaxAmount(int totalTaxAmount) {
+        this.totalTaxAmount = totalTaxAmount;
     }
 
 }

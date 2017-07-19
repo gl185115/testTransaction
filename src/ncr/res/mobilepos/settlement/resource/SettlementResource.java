@@ -260,8 +260,7 @@ public class SettlementResource {
     		@ApiParam(name="businessDate", value="営業日")@FormParam("businessDate") final String businessDate,
     		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag,
     		@ApiParam(name="dataType", value="データ種別")@FormParam("dataType") final String dataType,
-    		@ApiParam(name="itemLevel1", value="項目レベル１")@FormParam("itemLevel1")final String itemLevel1,
-    		@ApiParam(name="itemLevel2", value="項目レベル２")@FormParam("itemLevel2") final String itemLevel2){
+    		@ApiParam(name="itemLevel1", value="項目レベル１")@FormParam("itemLevel1")final String itemLevel1){
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -269,8 +268,7 @@ public class SettlementResource {
           .println("storeId", storeId)
           .println("trainingFlag", trainingFlag)
           .println("datatype", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
         
         SettlementInfo settlement = new SettlementInfo();
         
@@ -290,10 +288,10 @@ public class SettlementResource {
             ISettlementInfoDAO settlementDao = daoFactory.getSettlementInfoDAO();
             if(StringUtility.isNullOrEmpty(tillId)){
             	settlement = settlementDao.getCredit(companyId, storeId, terminalId, 
-                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+                        businessDate, trainingFlag, dataType, itemLevel1);
             }else{
             	settlement = settlementDao.getCreditByTillId(companyId, storeId, tillId, 
-                        businessDate, trainingFlag, dataType, itemLevel1, itemLevel2);
+                        businessDate, trainingFlag, dataType, itemLevel1);
             }
         } catch (Exception e) {
             String loggerErrorCode = null;

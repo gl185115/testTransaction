@@ -19,11 +19,11 @@ public interface ISettlementInfoDAO {
 	
 	SettlementInfo getCredit(final String companyId, final String storeId,
             final String terminalId, final String businessDate, final int trainingFlag, final String dataType, 
-            final String itemLevel1, final String itemLevel2) throws Exception;
+            final String itemLevel1) throws Exception;
 	
 	SettlementInfo getCreditByTillId(final String companyId, final String storeId, final String tillId,
             final String businessDate, final int trainingFlag, final String dataType, 
-            final String itemLevel1, final String itemLevel2) throws Exception;
+            final String itemLevel1) throws Exception;
 	
 	List<VoucherDetails> getVoucherDetails(final String companyId, final String storeId,
             final String terminalId, final String businessDate, final int trainingFlag,

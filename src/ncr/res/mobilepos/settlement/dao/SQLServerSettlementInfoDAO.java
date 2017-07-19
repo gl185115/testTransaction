@@ -273,7 +273,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     
     @Override
     public SettlementInfo getCredit(String companyId, String storeId, String terminalId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws Exception {
+            int trainingFlag, String dataType, String itemLevel1) throws Exception {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -283,8 +283,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
     
         Connection connection = null;
         PreparedStatement statement = null;
@@ -303,7 +302,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             statement.setInt(SQLStatement.PARAM5, trainingFlag);
             statement.setString(SQLStatement.PARAM6, dataType);
             statement.setString(SQLStatement.PARAM7, itemLevel1);
-            statement.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = statement.executeQuery();
             if (result.next()) {
@@ -333,7 +331,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     }
     @Override
     public SettlementInfo getCreditByTillId(String companyId, String storeId, String tilleId,
-    		String businessDate, int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws Exception {
+    		String businessDate, int trainingFlag, String dataType, String itemLevel1) throws Exception {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -343,8 +341,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
     
         Connection connection = null;
         PreparedStatement statement = null;
@@ -363,7 +360,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             statement.setInt(SQLStatement.PARAM5, trainingFlag);
             statement.setString(SQLStatement.PARAM6, dataType);
             statement.setString(SQLStatement.PARAM7, itemLevel1);
-            statement.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = statement.executeQuery();
             if (result.next()) {

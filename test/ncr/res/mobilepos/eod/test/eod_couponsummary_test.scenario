@@ -23,7 +23,7 @@ Then it should get the following:
 
 Scenario: Continue EOD @Coupon Summary Screen (Without Coupon Transaction Within Businessday)
 Given that has credit payments
-When getting credit companyId:01 storeId:0247 businessDate:2016-08-16 trainingFlag:0 dataType:2 itemLevel1:01 itemLevel2:01 tillId:02470001 terminalId:null
+When getting credit companyId:01 storeId:0247 businessDate:2016-08-16 trainingFlag:0 dataType:2 itemLevel1:01 tillId:02470001 terminalId:null
 Then it should get the following:
 |CompanyId	|RetailStoreId	|BusinessDayDate	|TrainingFlag	|SalesCntSum	|SalesItemAmt	|SalesItemCnt	|SalesAmtSum	|
 |01			|0247			|2016-08-16			|0				|1				|0.0			|0				|1080.0			|

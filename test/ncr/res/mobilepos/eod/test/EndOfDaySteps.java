@@ -909,17 +909,16 @@ public class EndOfDaySteps extends Steps {
 				.getDeviceStatus(companyId, storeId, terminalId);
 	}
 
-	@When("getting credit companyId:$1 storeId:$2 businessDate:$3 trainingFlag:$4 dataType:$5 itemLevel1:$6 itemLevel2:$7 tillId:$8 terminalId:$9")
+	@When("getting credit companyId:$1 storeId:$2 businessDate:$3 trainingFlag:$4 dataType:$5 itemLevel1:$6 tillId:$7 terminalId:$8")
 	public final void getCredit(final String companyId, final String storeId,
 			final String businessDate, final int trainingFlag,
 			final String dataType, final String itemLevel1,
-			final String itemLevel2, final String tillId,
-			final String terminalIdParam) {
+			final String tillId, final String terminalIdParam) {
 		operation = Operation.GETCREDIT;
 		String terminalId = terminalIdParam.equalsIgnoreCase("null") ? null
 				: terminalIdParam;
 		settlementInfo = settlementResource.getCredit(companyId, storeId,
 				tillId, terminalId, businessDate, trainingFlag, dataType,
-				itemLevel1, itemLevel2);
+				itemLevel1);
 	}
 }

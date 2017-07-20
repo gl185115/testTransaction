@@ -36,7 +36,7 @@ Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
 Given a MST_DEVICEINFO2 dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
@@ -48,7 +48,7 @@ Scenario: Different business day.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-13 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
@@ -59,7 +59,7 @@ Scenario: Different training flag.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-13 trainingFlag:1
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
@@ -70,7 +70,7 @@ Scenario: Ignore deleted tills.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO_DELETED dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
@@ -80,7 +80,7 @@ Scenario: Different store.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:01 storeId:000031 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
@@ -91,7 +91,7 @@ Scenario: Different company.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:02 storeId:9999 businessDate:2014-11-14 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:
@@ -101,7 +101,7 @@ Scenario: Don't get tills which has done EOD.
 Given a TillInfoResource Resource
 Given a RESMaster DBInitiator
 Given a MST_TILLIDINFO_EOD dataset
-Given a table TXL_SALES_JOURNAL dataset
+Given a resTransaction table dataset
 When I get unclosed tills with companyId:01 storeId:9999 businessDate:2014-12-01 trainingFlag:0
 Then the result should be ResultCode:RES_OK and ExtendedResultCode:RES_OK
 Then I should get the following tills:

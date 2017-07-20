@@ -77,15 +77,14 @@ public class GetUnclosedTillSteps extends Steps {
     	}
     }
     
-    @Given("a table $dataset dataset")
-    public final void insertTransactionDatabase(final String dataset) {
+    @Given("a resTransaction table dataset")
+    public final void insertTransactionDatabase() {
     	try {
 			dbRESTransactionInitiator = new DBInitiator("GetTillListSteps",
 				DATABASE.RESTransaction);
 				
 	    	dbRESTransactionInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
-						"test/ncr/res/mobilepos/tillinfo/resource/test/"
-						+ dataset + ".xml");
+						"test/ncr/res/mobilepos/tillinfo/resource/test/TXL_SALES_JOURNAL.xml");
     	} catch (Exception e) {
     		e.printStackTrace();
     	}

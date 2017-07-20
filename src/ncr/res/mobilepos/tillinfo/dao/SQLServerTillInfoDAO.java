@@ -507,22 +507,81 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
      * @param resultSet
      * @return List of Tills
      */
-    protected List<Till> populateResultTillList(ResultSet resultSet) throws SQLException {
-        List<Till> resultList = new ArrayList<Till>();
-        while(resultSet.next()){
-            Till till = new Till();
-            till.setCompanyId(resultSet.getString("CompanyId"));
-            till.setStoreId(resultSet.getString("StoreId"));
-            till.setTillId(resultSet.getString("TillId"));
-            till.setTerminalId(resultSet.getString("TerminalId"));
-            till.setDeviceName(resultSet.getString("DeviceName"));
-            till.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
-            till.setSodFlag(resultSet.getString("SodFlag"));
-            till.setEodFlag(resultSet.getString("EodFlag"));
-            resultList.add(till);
-        }
-        return resultList;
-    }
+	protected List<Till> populateResultTillList(ResultSet resultSet) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		List<Till> resultList = new ArrayList<Till>();
+		try {
+			while(resultSet.next()){
+				Till till = new Till();
+				till.setCompanyId(resultSet.getString("CompanyId"));
+				till.setStoreId(resultSet.getString("StoreId"));
+				till.setTillId(resultSet.getString("TillId"));
+				till.setTerminalId(resultSet.getString("TerminalId"));
+				till.setDeviceName(resultSet.getString("DeviceName"));
+				till.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
+				till.setSodFlag(resultSet.getString("SodFlag"));
+				till.setEodFlag(resultSet.getString("EodFlag"));
+				
+				if ("0".equals(till.getEodFlag())) {
+					till.setEodSummary("0");
+				} else {
+					getEodSummary(till);
+				}
+				resultList.add(till);
+			}
+		} catch (SQLException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+					+ ": Failed to get populateResultTillList infomation.", e);
+			throw new DaoException("SQLException:"
+					+ " @SQLServerTillInfoDAO.populateResultTillList", e);
+		}
+		return resultList;
+	}
+	
+	/**
+	 * Get EodSummary from TXL_SALES_JOURNAL
+	 * @param till
+	 * @return Till
+	 */
+	private void getEodSummary(Till till) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+
+		tp.methodEnter(functionName);
+		tp.println("Till", till);
+
+		Connection connection = null;
+		PreparedStatement selectStmnt = null;
+		ResultSet result = null;
+
+		try {
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-eodsummary"));
+			selectStmnt.setString(SQLStatement.PARAM1,till.getCompanyId());
+			selectStmnt.setString(SQLStatement.PARAM2,till.getStoreId());
+			selectStmnt.setString(SQLStatement.PARAM3,till.getTerminalId());
+			selectStmnt.setString(SQLStatement.PARAM4,till.getBusinessDayDate());
+			result = selectStmnt.executeQuery();
+
+			while(result.next()){
+				till.setEodSummary(result.getString("Status"));
+			}
+
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+					+ ": Failed to get eodsummary infomation.", sqlEx);
+			throw new DaoException("SQLException:"
+					+ " @SQLServerTillInfoDAO.getEodSummary", sqlEx);
+		} catch (Exception ex) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+					+ ": Failed to get eodsummary infomation.", ex);
+			throw new DaoException("Exception:"
+					+ " @SQLServerTillInfoDAO.getEodSummary", ex);
+		} finally {
+			closeConnectionObjects(connection, selectStmnt, result);
+			tp.methodExit(till);
+		}
+	}
 
     /**
      * Populates PreparedStatement with given SQL name.

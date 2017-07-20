@@ -36,6 +36,7 @@ public class GetUnclosedTillSteps extends Steps {
 	private TillInfoResource tillInfoResource;
 	private ViewTill resultList;
 	private DBInitiator dbInitMaster;
+	private DBInitiator dbRESTransactionInitiator;
 
 	@BeforeScenario
     public final void setUp() {
@@ -63,6 +64,8 @@ public class GetUnclosedTillSteps extends Steps {
     @Given("a RESMaster DBInitiator")
     public final void createDBInitiator() {
         dbInitMaster = new DBInitiator("GetTillListSteps", DATABASE.RESMaster);
+        dbRESTransactionInitiator = new DBInitiator("GetTillListSteps",
+				DATABASE.RESTransaction);
     }
 
     @Given("a $dataset dataset")
@@ -71,6 +74,17 @@ public class GetUnclosedTillSteps extends Steps {
 	    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 	    				"test/ncr/res/mobilepos/tillinfo/resource/test/"
 	    				+ dataset + ".xml");
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    }
+    
+    @Given("a table $dataset dataset")
+    public final void insertTransactionDatabase(final String dataset) {
+    	try {
+	    	dbRESTransactionInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+						"test/ncr/res/mobilepos/tillinfo/resource/test/"
+						+ dataset + ".xml");
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
@@ -148,6 +162,8 @@ public class GetUnclosedTillSteps extends Steps {
 	            		row.get("SodFlag"), resultList.getTillList().get(i).getSodFlag());
 	            assertEquals("Compare EodFlag at row " + i,
 	            		row.get("EodFlag"), resultList.getTillList().get(i).getEodFlag());
+	            assertEquals("Compare EodSummary at row " + i,
+	            		row.get("EodSummary"), resultList.getTillList().get(i).getEodSummary());
 	            i++;
 	        }
         } catch (Exception e) {

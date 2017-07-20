@@ -79,6 +79,12 @@ public class Till{
      */
     @XmlElement(name = "TerminalId")
     private String terminalId;
+    
+    /**
+     * EodSummary
+     */
+    @XmlElement(name = "EodSummary")
+    private String eodSummary;
 
     @ApiModelProperty(value="会社コード", notes="会社コード")
 	public String getCompanyId() {
@@ -195,6 +201,15 @@ public class Till{
 
 	public final void setDeviceName(String deviceName) {
 		this.deviceName = deviceName;
+	}
+	
+    @ApiModelProperty(value="集計済フラグ", notes="集計済フラグ")
+	public final String getEodSummary() {
+		return this.eodSummary;
+	}
+
+	public final void setEodSummary(String eodSummary) {
+		this.eodSummary = eodSummary;
 	}
 
     /**

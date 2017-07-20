@@ -5569,6 +5569,18 @@ ORDER BY
         ORDER BY TillId;
     </entry>
 
+    <entry key="get-eodsummary">
+        SELECT
+            Status
+        FROM RESTransaction.dbo.TXL_SALES_JOURNAL
+        WHERE
+            CompanyId = ? AND
+            RetailStoreId = ? AND
+            WorkstationId = ? AND
+            BusinessDayDate = ? AND
+            TxType = 'EOD'
+    </entry>
+    
     <entry key="get-activated-tills-on-businessday">
         SELECT
             tillidinfo.CompanyId,

@@ -64,8 +64,6 @@ public class GetUnclosedTillSteps extends Steps {
     @Given("a RESMaster DBInitiator")
     public final void createDBInitiator() {
         dbInitMaster = new DBInitiator("GetTillListSteps", DATABASE.RESMaster);
-        dbRESTransactionInitiator = new DBInitiator("GetTillListSteps",
-				DATABASE.RESTransaction);
     }
 
     @Given("a $dataset dataset")
@@ -82,6 +80,9 @@ public class GetUnclosedTillSteps extends Steps {
     @Given("a table $dataset dataset")
     public final void insertTransactionDatabase(final String dataset) {
     	try {
+			dbRESTransactionInitiator = new DBInitiator("GetTillListSteps",
+				DATABASE.RESTransaction);
+				
 	    	dbRESTransactionInitiator.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
 						"test/ncr/res/mobilepos/tillinfo/resource/test/"
 						+ dataset + ".xml");

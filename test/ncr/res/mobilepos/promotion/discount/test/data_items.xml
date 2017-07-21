@@ -9700,6 +9700,38 @@
 			<value>0</value>
 			<value>0</value>
 		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>9784923456789</value>
+			<value>0</value>
+			<value>テストー商品名前</value>
+			<value>テストー楽</value>
+			<value>テストー楽</value>
+			<value>テストー楽</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:44.7179394</value>
+			<value>21111</value>
+			<value>0</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:44.7179394</value>
+			<value>0</value>
+			<value>0</value>
+		</row>
 	</table>
 	<table name="MST_MAGCODEINFO">
 		<column>CompanyId</column>

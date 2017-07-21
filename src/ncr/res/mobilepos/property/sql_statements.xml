@@ -336,6 +336,30 @@ ORDER BY urgent.SequenceNo DESC
 
 </entry>
 
+<entry key="get-plu-name">
+DECLARE    @companyId VARCHAR(12),
+           @storeId VARCHAR(10),
+           @mdInternal VARCHAR(32)
+    SET    @companyId = LTRIM(RTRIM(?))
+    SET    @storeId = LTRIM(RTRIM(?))
+    SET    @mdInternal = LTRIM(RTRIM(?))
+
+    IF NOT EXISTS (
+       SELECT *
+       FROM
+         RESMaster.dbo.MST_PLU_NAME
+       WHERE
+         CompanyId = @companyId AND MdInternal = @mdInternal AND StoreId = @storeId
+    )
+    SET @storeId = '0'
+
+    SELECT *
+    FROM
+      RESMaster.dbo.MST_PLU_NAME
+    WHERE
+      CompanyId = @companyId AND MdInternal = @mdInternal AND StoreId = @storeId
+</entry>
+
 <entry key="get-price-ReplaceSupport-info">
 DECLARE    @storeId VARCHAR(10) ,@companyId VARCHAR(12), @sku VARCHAR(32), @businessDate VARCHAR(32)
     SET        @storeId = LTRIM(RTRIM(?))

@@ -95,6 +95,7 @@ public class PromotionResource {
 
 	public static final String REMOTE_UTL = "resTransaction/rest/remoteitem/item_getremoteinfo";
 	public static final String ENTERPRISE_DPT_UTL = "resTransaction/rest/enterprisedpt/department_getremoteinfo";
+	public static final String ENTERPRISE_MDNAME_UTL = "resTransaction/rest/remoteitem/mdName_getremoteinfo";
 
 	/**
 	 * ALL_DISCOUNTABLE for all MixMatch item.
@@ -393,6 +394,7 @@ public class PromotionResource {
 				DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 				ICodeConvertDAO codeCvtDAO = daoFactory.getCodeConvertDAO();
 				IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
+				IItemDAO dao = new SQLServerItemDAO();
 				ViewDepartment departmentInfo = new ViewDepartment();
 
 				// 二段バーコード判断
@@ -479,10 +481,25 @@ public class PromotionResource {
 					return response;
 				} else {
 					if (item == null) {
+						Sale saleMdName = new Sale();
+						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
+						String mdName = saleMdName.getMdNameLocal();
+						if (StringUtility.isNullOrEmpty(mdName)) {
+							try {
+								saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+							} catch (Exception e) {
+								LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+										functionName + ": Failed to send mdName.", e);
+							}
+						}
 						// 部門情報を戻る
 						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
 						String taxType = departmentInfo.getDepartment().getTaxType();
-						saleOut.setMdNameLocal(dptName);
+						if (StringUtility.isNullOrEmpty(mdName)) {
+							saleOut.setMdNameLocal(dptName);
+						} else {
+							saleOut.setMdNameLocal(mdName);
+						}
 						saleOut.setTaxType(Integer.parseInt(taxType));
 						saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
 						saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
@@ -701,6 +718,7 @@ public class PromotionResource {
 					cCode = barcode_sec;
 				}
 				codeTemp = JaCodeCvt(cCode);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -714,6 +732,7 @@ public class PromotionResource {
 			if(dpt == null){
 				cCode = itemId.substring(10, 14);
 				codeTemp = JaCodeCvt(cCode);
+				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
@@ -1039,6 +1058,55 @@ public class PromotionResource {
 		return response;
 	}
 
+    /**
+     * get remote serverInfo
+     *
+     * @param companyId
+     * @param retailStoreId
+     * @param itemCode
+     * @return
+     * @throws Exception
+     */
+    private final Sale getMdName(String companyId, String retailStoreId, String itemCode)
+            throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId)
+                .println("ItemCode", itemCode);
+        JSONObject result = null;
+        Sale saleMdName = new Sale();
+        try {
+            JSONObject valueResult = new JSONObject();
+            valueResult.put("companyId", companyId);
+            valueResult.put("retailStoreId", retailStoreId);
+            valueResult.put("ItemCode", itemCode);
+            int timeOut = 5;
+            String enterpriseServerTimeout = GlobalConstant.getEnterpriseServerTimeout();
+            if (!StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
+                timeOut = Integer.valueOf(enterpriseServerTimeout.toString());
+            }
+            String endStr = GlobalConstant.getEnterpriseServerUri().substring(GlobalConstant.getEnterpriseServerUri().length() - 1);
+            String url = "";
+            if ("/".equals(endStr)) {
+                url = GlobalConstant.getEnterpriseServerUri() + ENTERPRISE_MDNAME_UTL;
+            } else {
+                url = GlobalConstant.getEnterpriseServerUri() + '/' + ENTERPRISE_MDNAME_UTL;
+            }
+            
+            result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
+            // Check if error is empty.
+            if (result != null) {
+            	saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote getMdName.",
+                    e);
+            throw new Exception();
+        } finally {
+            tp.methodExit(saleMdName);
+        }
+        return saleMdName;
+    }
+    
 	/**
 	 * get remote serverInfo
 	 *
@@ -1168,7 +1236,23 @@ public class PromotionResource {
 		}
 		return url;
 	}
-
+	/**
+	 * JSONObject to Sale
+	 *
+	 * @param json
+	 *            The data of the remote return
+	 * @return Sale
+	 * @throws NumberFormatException
+	 *             The Number of The Format Exception
+	 * @throws JSONException
+	 *             The Json Exception
+	 */
+	private Sale jsonToMdName(JSONObject json) throws NumberFormatException, JSONException {
+		Sale mdName = new Sale();
+		mdName.setMdNameLocal(json.getString("mdNameLocal"));
+		return mdName;
+	}
+	
 	/**
 	 * JSONObject to Deparment
 	 *

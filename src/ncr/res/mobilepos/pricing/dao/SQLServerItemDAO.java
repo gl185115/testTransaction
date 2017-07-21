@@ -35,6 +35,7 @@ import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.property.SQLStatement;
 
 /**
@@ -329,6 +330,56 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     }
     
 
+    /**
+     * 商品名前取得する
+     * @param companyId The ID of the companyId
+     * @param storeid The ID of the Store where the items are located
+     * @param itemCode
+     * @return MdName
+     * @throws DaoException   Exception thrown when getting the name information failed.
+     */
+    public Sale getItemNameFromPluName(final String companyId, final String storeid, final String itemCode) throws DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName())
+        .println("CompanyId", companyId)
+        .println("StoreID", storeid)
+        .println("itemCode", itemCode);
+
+        Sale sale = new Sale();
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet result = null;
+        String functionName = "SQLServerItemDAO.getItemNameFromPluName";
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement.getProperty("get-plu-name"));
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, storeid);
+            select.setString(SQLStatement.PARAM3, itemCode);
+            result = select.executeQuery();
+            if(result.next()){
+            	sale.setMdNameLocal(result.getString(result.findColumn("MdName")));
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to get the prom information.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @getItemNameFromPluName ", sqlEx);
+        }
+        catch (NumberFormatException nuEx) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
+                    "Failed to get the prom information.\n" + nuEx.getMessage());
+            throw new DaoException("NumberFormatException: @getItemNameFromPluName ", nuEx);
+        } catch (Exception e) {
+            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to get the prom information.\n" + e.getMessage());
+            throw new DaoException("Exception: @getItemNameFromPluName ", e);
+        } finally {
+            closeConnectionObjects(connection, select, result);
+            tp.methodExit(sale);
+        }
+        return sale;
+    }
+    
     /**
      * 特売管理マスタ 情報取得
      * @param storeid The ID of the Store where the items are located

@@ -20,6 +20,7 @@ import ncr.res.mobilepos.pricing.model.ReasonDataList;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItemType;
 import ncr.res.mobilepos.pricing.model.SearchedProducts;
+import ncr.res.mobilepos.promotion.model.Sale;
 /**
  * IItemDAO is a DAO interface for Item.
  */
@@ -82,4 +83,14 @@ public interface IItemDAO {
      * @throws DaoException The exception thrown when error occurred.
      */
     Item getItemByApiData(String plucode,String companyId) throws DaoException;
+    
+    /**
+     * get the item by param
+     * @param companyId âÔé–ÉRÅ[Éh
+     * @param storeid storeid
+     * @param itemCode itemCode
+     * @return itemInfo itemInfo
+     * @throws DaoException The exception thrown when error occurred.
+     */
+    Sale getItemNameFromPluName(final String companyId, final String storeid, final String itemCode) throws DaoException;
 }

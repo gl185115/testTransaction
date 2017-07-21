@@ -2,8 +2,6 @@ package ncr.res.mobilepos.promotion.resource;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,7 +20,6 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
@@ -109,6 +106,52 @@ public class RemoteItemResource {
                 }
             } catch (DaoException e) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get item Info.", e); 
+            }
+    }
+    
+    /**
+     * get Item DetailInfo
+     * 
+     * @param companyId
+     *            The companyId
+     * @param retailStoreId
+     *            The retailStoreId
+     * @param ItemCode
+     *            The code of The Item
+     * @return MdName
+     */
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON })
+    @Path("/mdName_getremoteinfo")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+    @ApiOperation(value="è§ïiñºéÊìæ", response=Void.class)
+    public final void getMdName(@Context HttpServletRequest request,@Context HttpServletResponse response) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        String companyId = request.getParameter("companyId");
+        String retailStoreId = request.getParameter("retailStoreId");
+        String ItemCode = request.getParameter("ItemCode");
+            if (StringUtility.isNullOrEmpty(companyId, retailStoreId, ItemCode)) {
+                tp.println("Parameter[s] is empty or null.");
+            }
+            try {
+                SQLServerItemDAO sqlDao = new SQLServerItemDAO();
+                Sale saleMdName = sqlDao.getItemNameFromPluName(companyId, retailStoreId, ItemCode);
+                Transaction transactionOut = new Transaction();
+                PromotionResponse promotionResponse = new PromotionResponse();
+                try {
+                    OutputStream out = response.getOutputStream();
+                    if(saleMdName != null){
+                    	transactionOut.setSale(saleMdName);
+                        promotionResponse.setTransaction(transactionOut);
+                        out.write(promotionResponse.toString().getBytes());
+                        out.flush();
+                        out.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } catch (DaoException e) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get MdName Info.", e); 
             }
     }
 }

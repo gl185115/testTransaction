@@ -1829,7 +1829,7 @@ public class DeviceInfoResource {
         Map<String, TerminalTillGroup> activeGroups = new HashMap<>();
         // Keeps a reference to a group which API caller belongs to.
         TerminalTillGroup ownGroup = null;
-
+        String tillId = null;
         for(TerminalStatus terminal : allTerminals) {
             // Checks if the terminal is active on this business day.
             if(isTerminalWorking(terminal, thisBusinessDatetime)) {
@@ -1843,16 +1843,16 @@ public class DeviceInfoResource {
                     activeGroups.put(terminal.getTillId(), tillGroup);
                 }
                 tillGroup.add(terminal);
-
-                // This terminal belongs to the group, so keeps the reference as own group.
                 if(companyId.equals(terminal.getCompanyId())  &&
                         storeId.equals(terminal.getStoreId()) &&
                         terminalId.equals(terminal.getTerminalId())) {
-                    ownGroup = tillGroup;
+                    tillId = terminal.getTillId();
                 }
             }
         }
-
+        
+        // This terminal belongs to the group, so keeps the reference as own group.
+        ownGroup = activeGroups.get(tillId);
         // Creates WorkingDevices for JSON return.
         WorkingDevices normalReturn = new WorkingDevices();
         normalReturn.setNCRWSSResultCode(ResultBase.RES_OK);

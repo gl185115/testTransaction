@@ -77,7 +77,7 @@ public class GetUnclosedTillSteps extends Steps {
     	}
     }
     
-    @Given("a resTransaction table dataset")
+    @Given("resTransaction table dataset")
     public final void insertTransactionDatabase() {
     	try {
 			dbRESTransactionInitiator = new DBInitiator("GetTillListSteps",

@@ -1616,49 +1616,45 @@ public class PromotionResource {
 		String rank = null;
 		String birthMonth = null;
 		String customerId = null;
+		boolean CustomerExistFlag = false;
+		String CustomerSexTypeIn = null;
 		if (transactionIn.getCustomer() != null) {
 			rank = transactionIn.getCustomer().getRank();
 			birthMonth = transactionIn.getCustomer().getBirthMonth();
 			customerId = transactionIn.getCustomer().getId();
-		}
-		boolean CustomerExistFlag = false;
-		String CustomerSexTypeIn = null;
-		if (transactionIn.getCustomer() == null) {
-			CustomerExistFlag = false;
-		} else {
-			CustomerExistFlag = true;
 			CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
+			CustomerExistFlag = true;
 		}
-
+		
 		List<ItemList> itemListIns = transactionIn.getItemList();
 		List<ItemList> itemListOut = null;
 		List<QrCodeInfo> qrCodeInfoListTemp = null;
 		Map<String, List<ItemList>> qrItemMap = new TreeMap<String, List<ItemList>>();
 
 		for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
-			if (CustomerExistFlag == true) {
-				if (!("0".equals(qrCodeInfo.getSexType()) || SexTypeIn.equals(qrCodeInfo.getSexType()) 
-						|| CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
-					continue;
-				}
-				// MemberTargetType = 0�̏ꍇ
-				if (MEMBERTARGETTYPE_ZERO.equalsIgnoreCase(qrCodeInfo.getMemberTargetType())) {
-					if(!(("0".equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType())) 
-							&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
-							&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth())))) {
+			if (!StringUtility.isNullOrEmpty(qrCodeInfo.getSexType())) {
+				if (CustomerExistFlag == true) {
+					if (!("0".equals(qrCodeInfo.getSexType()) || SexTypeIn.equals(qrCodeInfo.getSexType()) 
+							|| CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))) {
 						continue;
+					}
+					// MemberTargetType = 0�̏ꍇ
+					if (MEMBERTARGETTYPE_ZERO.equalsIgnoreCase(qrCodeInfo.getMemberTargetType())) {
+						if(!(("0".equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType())) 
+								&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
+								&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth())))) {
+							continue;
+						}
+					} else {
+						qrCodeInfo.setCustomerId(checkCustomerID(qrCodeInfo, transactionIn));
+						if(!(("0".equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))
+								&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
+								&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth()))
+								&& customerId.equals(qrCodeInfo.getCustomerId()))) {
+							continue;
+						}
 					}
 				} else {
-					qrCodeInfo.setCustomerId(checkCustomerID(qrCodeInfo, transactionIn));
-					if(!(("0".equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))
-							&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
-							&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth()))
-							&& customerId.equals(qrCodeInfo.getCustomerId()))) {
-						continue;
-					}
-				}
-			} else {
-				if (!("0".equals(qrCodeInfo.getSexType()) || SexTypeIn.equals(qrCodeInfo.getSexType()))) {
 					continue;
 				}
 			}
@@ -1712,11 +1708,13 @@ public class PromotionResource {
 					String listInItemCode = itemListIn.getItemcode();
 					if (!StringUtility.isNullOrEmpty(qrCodeSku)) {
 						if (qrCodeSku.contains("*")) {
-							qrCodeSku = qrCodeInfo.getSku().split("\\*")[0];
-							listInItemCode = listInItemCode.substring(0, qrCodeSku.length());
-						}
-						if (listInItemCode.equals(qrCodeSku)) {
-							itemListOut.add(itemListIn);
+							if (listInItemCode.startsWith(qrCodeSku.replace("*", ""))) {
+								itemListOut.add(itemListIn);
+							}
+						} else {
+							if (listInItemCode.equals(qrCodeSku)) {
+								itemListOut.add(itemListIn);
+							}
 						}
 					}
 				}

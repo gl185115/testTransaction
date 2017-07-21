@@ -150,7 +150,11 @@ public class TransactionLink {
      */
     @XmlElement(name = "TotalTaxAmount")
     private int totalTaxAmount;
-
+    /**
+     * Private member DocTaxFlag
+     */
+    @XmlElement(name = "DocTaxFlag")
+    private int docTaxFlag;
     /**
      * return the latestUpdateOperatorID
      *
@@ -540,4 +544,18 @@ public class TransactionLink {
         this.totalTaxAmount = totalTaxAmount;
     }
 
+    /**
+     * @return the docTaxFlag
+     */
+    public int getDocTaxFlag() {
+        return docTaxFlag;
+    }
+
+    /**
+     * @param docTaxFlag
+     *            the docTaxFlag to set
+     */
+    public void setDocTaxFlag(int docTaxFlag) {
+        this.docTaxFlag = docTaxFlag;
+    }
 }

@@ -2091,15 +2091,19 @@ ORDER BY
 
         SET @companyId = ?
         SET @storeId = ?
-  
-    IF NOT EXISTS (
-		SELECT * FROM RESMaster.dbo.MST_CONNINFO
-		WHERE companyId = @companyId AND storeId = @storeId AND %s AND DeleteFlag = 0
-    )
-    SET @storeId = '0'
+	
+		SELECT *
+        FROM (
+            SELECT * ,
+                   ROW_Number() OVER (PARTITION BY CompanyId,ConnCode ORDER BY StoreId DESC) AS rownumber			
+              FROM RESMaster.dbo.MST_CONNINFO
+             WHERE companyId = @companyId 
+               AND storeId IN (@storeId,'0')
+               AND %s
+               AND DeleteFlag = 0
+          ) TBL
+         WHERE rownumber = 1
 
-    SELECT * FROM RESMaster.dbo.MST_CONNINFO
-    WHERE companyId = @companyId AND storeId = @storeId AND %s AND DeleteFlag = 0;
 </entry>
 
 <!-- *************************  ENTRY KEY FOR CREDENTIAL SERVICE      ************************* -->

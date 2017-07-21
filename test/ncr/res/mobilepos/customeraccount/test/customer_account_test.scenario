@@ -32,6 +32,13 @@ Then I should get the following:
 |ConnCode	|ConnName	|ConnKanaName  |ConnTel	    |
 |0001	    |‰Á“¡—SŽi		|‚©‚Æ‚¤‚ä‚¤‚¶	   |ConnTel1001	|
 
+Scenario: get common store(0) data.
+When I get loyaltyaccountinfo attribute companyId 01 storeId 0247 connName ‰Á“¡ connKanaName {} connTel {}
+Then I should get the following:
+|ConnCode	|ConnName	|ConnKanaName  |ConnTel	    |
+|0001	    |‰Á“¡—SŽicommon		|‚©‚Æ‚¤‚ä‚¤‚¶	   |ConnTel1001	|
+|0002	    |‰Á“¡–{ˆ®0247  	|ƒtƒWƒ‚ƒgƒAƒLƒ‰	   |ConnTel2001	|
+
 Scenario: connName and connKanaName are null.
 When I get loyaltyaccountinfo attribute companyId 01 storeId 0001 connName {} connKanaName {} connTel ConnTel1
 Then I should get the following:

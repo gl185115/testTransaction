@@ -75,6 +75,43 @@
 		</row>
 		<row>
 			<value>01</value>
+			<value>0012</value>
+			<value>全店112type1</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>1</value>
+			<value>1112</value>
+			<value>全店112type1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
 			<value>0002</value>
 			<value>全店12type2</value>
 			<value>2015-01-01</value>
@@ -709,6 +746,39 @@
 		<row>
 			<value>01</value>
 			<value>0001</value>
+			<value>1</value>
+			<value>1</value>
+			<value>394</value>
+			<value>0001</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0012</value>
 			<value>1</value>
 			<value>1</value>
 			<value>394</value>

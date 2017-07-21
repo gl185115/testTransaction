@@ -25,7 +25,7 @@ When check the list with companyId 01  retailstoreid 0001 workstationid 1 sequen
 Then the Result Code is 0
 Then I should get the QrCodeInfoList : 
 |PromotionId|PromotionName|MinimumPrice|BMPFileName     |BMPFileFlag|BMPFileCount|OutputType|TargetValue|Quantity|
-|0001       |‘S“X11type1   |100.0       |‘S“X11type1     |0          |1           |1         |1011       |1       |
+|0012       |‘S“X112type1 |100.0       |‘S“X112type1     |0          |1           |1         |1112       |1       |
 
 Scenario: the PromotionType is 2 item.getDpt != qrCodeInfo.getDpt.
 When check the list with companyId 01  retailstoreid 0001 workstationid 1 sequencenumber 123 businessDate 20150102 transaction {"CustomerClass":{"SexType": 1},"Customer":{"id":"11111111111110","rank":"1","SexType":1,"birthMonth":"01"},"Items":[{"itemcode":"4920001002384", "Qty":1,"Amount":1000,"Dpt":"0011","Line":"0002","Class":"0003","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4920041002384", "Qty":2,"Amount":840,"Dpt":"0311","Line":"0404","Class":"0221","ConnCode":"xxxx","BrandId":"xxxxx"},{"itemcode":"4923304402621", "Qty":2,"Amount":400,"Dpt":"0041","Line":"0102","Class":"0503","ConnCode":"xxxx","BrandId":"xxxxx"}]}

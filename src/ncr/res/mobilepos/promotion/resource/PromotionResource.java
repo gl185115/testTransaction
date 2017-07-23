@@ -457,13 +457,18 @@ public class PromotionResource {
 						codeTemp = codeTempConn;
 					}
 				}
-				
+				String mdName = null;
+				Sale saleMdName = null;
 				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item !=null) {
 					// サーバーから部門情報を取得する
 					departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+					saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+					mdName = saleMdName.getMdNameLocal();
 				} else {
 					// ローカルから部門情報を取得する
 					departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
+					saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
+					mdName = saleMdName.getMdNameLocal();
 				}
 
 				// 部門コードを部門マスタテーブルに存在チェック
@@ -481,17 +486,6 @@ public class PromotionResource {
 					return response;
 				} else {
 					if (item == null) {
-						Sale saleMdName = new Sale();
-						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
-						String mdName = saleMdName.getMdNameLocal();
-						if (StringUtility.isNullOrEmpty(mdName)) {
-							try {
-								saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
-							} catch (Exception e) {
-								LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-										functionName + ": Failed to send mdName.", e);
-							}
-						}
 						// 部門情報を戻る
 						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
 						String taxType = departmentInfo.getDepartment().getTaxType();

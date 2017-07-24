@@ -525,13 +525,16 @@ public class PromotionResource {
 							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
 						} else {
 							// バーコード価格を使用
-							double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-							if ("1".equals(taxType)) {
-								barCodePrice = (int) (barCodePrice * 1.08);
+							Double barCodePrice = null;
+							barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+							if (barCodePrice != null) {
+								if ("1".equals(taxType)) {
+									barCodePrice = (double) Math.round(barCodePrice * 1.08);
+								}
+								saleOut.setLabelPrice(barCodePrice);
+								saleOut.setRegularSalesUnitPrice(barCodePrice);
+								saleOut.setActualSalesUnitPrice(barCodePrice);
 							}
-							saleOut.setLabelPrice(barCodePrice);
-							saleOut.setRegularSalesUnitPrice(barCodePrice);
-							saleOut.setActualSalesUnitPrice(barCodePrice);
 						}
 
 						transactionOut.setSale(saleOut);
@@ -565,24 +568,30 @@ public class PromotionResource {
 					saleItem.setDiscountAmount(0);
 				}
 
+				Double barCodePrice = null;
+				barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+				if (barCodePrice != null) {
+					saleItem.setLabelPrice(barCodePrice);
+				}
+				
 				// バーコード価格を使用
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
-					double barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 					String taxType = departmentInfo.getDepartment().getTaxType();
 					saleItem.setTaxType(Integer.parseInt(taxType));
-					if ("1".equals(taxType)) {
-						barCodePrice = (int) (barCodePrice * 1.08);
+					if (barCodePrice != null) {
+						if ("1".equals(taxType)) {
+							barCodePrice = (double) Math.round(barCodePrice * 1.08);
+						}
+						saleItem.setRegularSalesUnitPrice(barCodePrice);
+						saleItem.setActualSalesUnitPrice(barCodePrice);
 					}
-					saleItem.setLabelPrice(barCodePrice);
-					saleItem.setRegularSalesUnitPrice(barCodePrice);
-					saleItem.setActualSalesUnitPrice(barCodePrice);
 				}
 
 				if (!StringUtility.isNullOrEmpty(cCode)) {
 					if (cCode.length() == 4) {
-						saleOut.setCategoryCode(cCode);
+						saleItem.setCategoryCode(cCode);
 					} else {
-						saleOut.setMagazineCode(cCode);
+						saleItem.setMagazineCode(cCode);
 					}
 				}
 
@@ -659,12 +668,12 @@ public class PromotionResource {
 		// 部門コードを取得する
 		switch (varietiesName) {
 		case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
+			if (barcode_sec.length() > 7) {
+				cCode = barcode_sec.substring(3, 7);
+			} else {
+				cCode = barcode_sec;
+			}
 			if(dpt == null){
-				if (barcode_sec.length() > 7) {
-					cCode = barcode_sec.substring(3, 7);
-				} else {
-					cCode = barcode_sec;
-				}
 				codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, cCode, StoreId);
 				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
@@ -673,12 +682,12 @@ public class PromotionResource {
 				response.setMessage("Dpt is Empty in the PLU.");
 				tp.println("Dpt is Empty in the PLU.");
 			} else {
-				codeTemp = dpt;
+				codeTemp = dpt + " " + cCode;
 			}
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
+			cCode = itemId.substring(10, 14);
 			if(dpt == null){
-				cCode = itemId.substring(10, 14);
 				codeTemp = codeCvtDAO.convertCCodeToDpt(companyId, cCode, StoreId);
 				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
@@ -687,12 +696,12 @@ public class PromotionResource {
 				response.setMessage("Dpt is Empty in the PLU.");
 				tp.println("Dpt is Empty in the PLU.");
 			} else {
-				codeTemp = dpt;
+				codeTemp = dpt + " " + cCode;
 			}
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINE:
+			String magCode = itemId.substring(0, 5);
 			if(dpt == null){
-				String magCode = itemId.substring(0, 5);
 				codeTemp = codeCvtDAO.convertMagCodeToDpt(companyId, magCode, StoreId);
 				codeTemp = codeTemp + " " + magCode;
 			} else if(StringUtility.isEmpty(dpt)){
@@ -701,16 +710,16 @@ public class PromotionResource {
 				response.setMessage("Dpt is Empty in the PLU.");
 				tp.println("Dpt is Empty in the PLU.");
 			} else {
-				codeTemp = dpt;
+				codeTemp = dpt + " " + magCode;
 			}
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOK:
+			if (barcode_sec.length() > 7) {
+				cCode = barcode_sec.substring(3, 7);
+			} else {
+				cCode = barcode_sec;
+			}
 			if(dpt == null){
-				if (barcode_sec.length() > 7) {
-					cCode = barcode_sec.substring(3, 7);
-				} else {
-					cCode = barcode_sec;
-				}
 				codeTemp = JaCodeCvt(cCode);
 				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
@@ -719,12 +728,12 @@ public class PromotionResource {
 				response.setMessage("Dpt is Empty in the PLU.");
 				tp.println("Dpt is Empty in the PLU.");
 			} else {
-				codeTemp = dpt;
+				codeTemp = dpt + " " + cCode;
 			}
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
+			cCode = itemId.substring(10, 14);
 			if(dpt == null){
-				cCode = itemId.substring(10, 14);
 				codeTemp = JaCodeCvt(cCode);
 				codeTemp = codeTemp + " " + cCode;
 			} else if(StringUtility.isEmpty(dpt)){
@@ -733,7 +742,7 @@ public class PromotionResource {
 				response.setMessage("Dpt is Empty in the PLU.");
 				tp.println("Dpt is Empty in the PLU.");
 			} else {
-				codeTemp = dpt;
+				codeTemp = dpt + " " + cCode;
 			}
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_FOREIGNJANBOOK:
@@ -795,11 +804,11 @@ public class PromotionResource {
 	 * @param itemId
 	 * @return commodityPrice
 	 */
-	private double barCodePriceCalculation(String varietiesName, String itemId) {
+	private Double barCodePriceCalculation(String varietiesName, String itemId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("varietiesName", varietiesName).println("itemId", itemId);
 
-		double commodityPrice = 0.0;
+		Double commodityPrice = null;
 		switch (varietiesName) {
 		case BarcodeAssignmentConstant.VARIETIES_JANBOOK:
 			commodityPrice = janBook(itemId);
@@ -865,11 +874,11 @@ public class PromotionResource {
 	 * @param itemId
 	 * @return price
 	 */
-	private int foreignMagazine(String itemId) {
+	private Double foreignMagazine(String itemId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("itemId", itemId);
 
-		int price = Integer.parseInt(itemId.substring(9, 12)) * 10;
+		Double price = Double.parseDouble(itemId.substring(9, 12)) * 10;
 
 		tp.methodExit(price);
 		return price;
@@ -881,12 +890,12 @@ public class PromotionResource {
 	 * @param itemId
 	 * @return price
 	 */
-	private int janMagazine(String itemId) {
+	private Double janMagazine(String itemId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String endFour = itemId.substring(itemId.length() - 4);
-		int price = Integer.parseInt(endFour);
+		Double price = Double.parseDouble(endFour);
 
 		tp.methodExit(price);
 		return price;
@@ -898,14 +907,14 @@ public class PromotionResource {
 	 * @param itemId
 	 * @return price
 	 */
-	private int foreignBook(String itemId) {
+	private Double foreignBook(String itemId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String[] item = itemId.split(" ");
-		int price = 0;
+		Double price = null;
 		if (item[1].length() == 13) {
-			price = Integer.parseInt(item[1].substring(7, 12));
+			price = Double.parseDouble(item[1].substring(7, 12));
 		}
 
 		tp.methodExit(price);
@@ -918,17 +927,17 @@ public class PromotionResource {
 	 * @param itemId
 	 * @return price
 	 */
-	private int janBook(String itemId) {
+	private Double janBook(String itemId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("itemId", itemId);
 
 		String[] item = itemId.split(" ");
 		String topThree = item[1].substring(0, 3);
-		int price = 0;
+		Double price = null;
 		if ("191".equals(topThree) && item[1].length() == 13) {
-			price = (int) Math.round(Double.parseDouble(item[1].substring(7, 12)) * 100 / 103);
+			price = (double) Math.round(Double.parseDouble(item[1].substring(7, 12)) * 100 / 103);
 		} else if ("192".equals(topThree) && item[1].length() == 13) {
-			price = Integer.parseInt(item[1].substring(7, 12));
+			price = Double.parseDouble(item[1].substring(7, 12));
 		}
 
 		tp.methodExit(price);

@@ -556,6 +556,15 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the PublishingCode row ", ""
 					+ sale.getPublishingCode(),
 					is(equalTo(expecedItem.get("PublishingCode"))));
+			if (sale.getCategoryCode() != null) {
+				assertThat("Compare the CategoryCode row ", ""
+						+ sale.getCategoryCode(),
+						is(equalTo(expecedItem.get("CategoryCode"))));
+			} else if (sale.getMagazineCode() != null) {
+				assertThat("Compare the MagazineCode row ", ""
+						+ sale.getMagazineCode(),
+						is(equalTo(expecedItem.get("MagazineCode"))));
+			}
 		}
 	}
 	@Then("dptResult should be : $expectedItems")

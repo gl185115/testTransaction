@@ -133,8 +133,8 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456789 0026","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then the Result Code is 0
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0       	  |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|10000.0       	  |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|0026|
 
 Scenario: The two section id four below and item is null
 Given ItemCode.xml file exist
@@ -143,7 +143,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 2
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|
-|ÇkÉoÉâÉEÉbÉh|ÉeÉXÉgÅ[è§ïiñºëO|0|9784923456789|0397|0|0|1|0|0|0|0.0|0.0|0026|0.0|null|
+|ÇkÉoÉâÉEÉbÉh|ÉeÉXÉgÅ[è§ïiñºëO|0|9784923456789|0397|0|0|1|0|0|0|0.0|0.0|0026|null|null|
 
 Scenario: The two section id four below(Department number is empty)
 Given ItemCode.xml file exist
@@ -170,7 +170,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|
-|MJROYAL BK465|MJROYAL BK465|1|9784987654321|1234|0|0|1|0|0|0|59545.0|59545.0|0029|59545.0|null|
+|MJROYAL BK465|MJROYAL BK465|1|9784987654321|1234|0|0|1|0|0|0|59546.0|59546.0|0029|59546.0|null|
 
 Scenario: Plu no corresponding commodity(janBook)
 Given ItemCode.xml file exist
@@ -185,29 +185,29 @@ Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456789 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0       	  |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|10000.0       	  |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|0026|
 
 Scenario: Item Entry Of get itemInfo Commodity price is 0 and Plu_Name in MdName is not empty (janBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456780 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|55135.0  	      |55135.0  	   |0      |MJROYAL BK465|MJROYAL BK465|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|55135.0  	      |55135.0  	   |0      |MJROYAL BK465|MJROYAL BK465|123456789|0026|
 
 Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (janBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456781 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description|PublishingCode|
-|10000.0  	      |10000.0  	   |0      |ÇkÉoÉâÉEÉbÉh             |ÇkÉoÉâÉEÉbÉh         |123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description|PublishingCode|CategoryCode|
+|10000.0  	      |10000.0  	   |0      |ÇkÉoÉâÉEÉbÉh             |ÇkÉoÉâÉEÉbÉh         |123456789|0026|
 
 Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (janBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456700 1910036567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|0036|
 
 !-- ITEM ENTRIES WITH FOREIGNBOOK
 Scenario: No corresponding department number(foreignBook)
@@ -247,36 +247,36 @@ Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456789 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0  	      |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|10000.0  	      |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|0026|
 
 Scenario: Item Entry Of get itemInfo Commodity price is 0 and Plu_Name in MdName is not empty (foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456780 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal   |description  |PublishingCode|
-|56789.0  	      |56789.0  	   |0      |MJROYAL BK465 |MJROYAL BK465|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal   |description  |PublishingCode|CategoryCode|
+|56789.0  	      |56789.0  	   |0      |MJROYAL BK465 |MJROYAL BK465|123456789|0026|
 
 Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456781 1910026567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description|PublishingCode|
-|10000.0  	      |10000.0  	   |0      |ÇkÉoÉâÉEÉbÉh             |ÇkÉoÉâÉEÉbÉh         |123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description|PublishingCode|CategoryCode|
+|10000.0  	      |10000.0  	   |0      |ÇkÉoÉâÉEÉbÉh             |ÇkÉoÉâÉEÉbÉh         |123456789|0026|
 
 Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456700 1910036567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|0036|
 
 Scenario: Item Entry Of get itemInfo Plu in TaxType is empty ItemId top three 979(foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9793123456700 1910036567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|
+|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|0036|
 
 !-- ITEM ENTRIES WITH JANMAGAZINE
 Scenario: No corresponding department number(janMagazine)
@@ -295,29 +295,29 @@ Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janMagazine)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636011145678","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0  	      |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|MagazineCode|
+|10000.0  	      |10000.0  	   |0      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|49122|
 
 Scenario: Item Entry Of get itemInfo Commodity price is 0 and Plu_Name in MdName is not empty (janMagazine)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636022245679","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|5679.0  	      |5679.0  	       |0      |MJROYAL BK465|MJROYAL BK465|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|MagazineCode|
+|5679.0  	      |5679.0  	       |0      |MJROYAL BK465|MJROYAL BK465|123456789|49122|
 
 Scenario: Item Entry Of get itemInfo Plu in MdNameLocal is empty and Plu_Name in MdName is empty (janMagazine)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636033345689","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal|description|PublishingCode|
-|10000.0  	      |10000.0  	   |0      |ÇkÉoÉâÉEÉbÉh         |ÇkÉoÉâÉEÉbÉh        |123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal|description|PublishingCode|MagazineCode|
+|10000.0  	      |10000.0  	   |0      |ÇkÉoÉâÉEÉbÉh         |ÇkÉoÉâÉEÉbÉh        |123456789|49122|
  
 Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (janMagazine)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636044445600","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 Businessdate 2016-08-16
 Then result should be : 
-|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|
-|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|
+|RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|MagazineCode|
+|10000.0  	      |10000.0  	   |5      |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR|123456789|49122|
 
 Scenario: Plu no corresponding commodity(janMagazine)
 Given ItemCode.xml file exist
@@ -399,8 +399,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then result should be :
-|MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|
-|ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy         |123456789|
+|MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|CategoryCode|
+|ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy         |123456789|0026|
 
 !-- Test Item Entry with FOREIGNBOOKOLD.
 Scenario: get the new itemId with CDCalculation
@@ -439,7 +439,7 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30999999990416","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|
-|MJROYAL BK465|MJROYAL BK465|5|9783099999998|0166|0|0|1|0|0|0|0.0|0.0|0416|0.0|null|
+|MJROYAL BK465|MJROYAL BK465|5|9783099999998|0166|0|0|1|0|0|0|0.0|0.0|0416|null|null|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist
@@ -475,8 +475,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then result should be :
-|MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|
-|ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy          |123456789|
+|MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|CategoryCode|
+|ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy          |123456789|0026|
 
 !-- Test Item Entry with JANBOOKOLD.
 Scenario: get the new itemId with CDCalculation
@@ -505,7 +505,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|
-|ÇkÉoÉâÉEÉbÉh|ÇkÉoÉâÉEÉbÉh|0|9784022345677|3970|0|0|1|0|0|0|0.0|0.0|0027|0.0|null|
+|ÇkÉoÉâÉEÉbÉh|ÇkÉoÉâÉEÉbÉh|0|9784022345677|3970|0|0|1|0|0|0|0.0|0.0|0027|null|null|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist
@@ -541,5 +541,5 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then result should be :
-|MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|
-|ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy          |123456789|
+|MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|CategoryCode|
+|ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy          |123456789|0026|

@@ -327,7 +327,7 @@ public class Item {
     private String categoryCode;
 
     @XmlElement(name ="LabelPrice")
-    private double labelPrice;
+    private Double labelPrice;
     
     @XmlElement(name = "MagazineCode")
     private String magazineCode;
@@ -1579,11 +1579,11 @@ public class Item {
     }
     
     @ApiModelProperty(value="ƒAƒxƒ‹‰¿Ši", notes="ƒAƒxƒ‹‰¿Ši")
-    public final double getLabelPrice() {
+    public final Double getLabelPrice() {
         return labelPrice;
     }
 
-    public final void setLabelPrice(double labelPrice) {
+    public final void setLabelPrice(Double labelPrice) {
         this.labelPrice = labelPrice;
     }
 

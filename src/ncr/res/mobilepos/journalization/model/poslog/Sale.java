@@ -491,6 +491,12 @@ public class Sale {
     private String restockFlag;
 
     /**
+     * ElectronicMoneyFlag
+     */
+    @XmlElement(name = "ElectronicMoneyFlag")
+    private String electronicMoneyFlag;
+
+    /**
      * LabelPrice
      */
     @XmlElement(name = "LabelPrice")
@@ -1054,7 +1060,7 @@ public class Sale {
     }
 
     /**
-     * @param extendedAmt ƒZƒbƒg‚·‚é extendedAmt
+     * @param extendedAmt Æ’ZÆ’bÆ’gâ€šÂ·â€šÃ© extendedAmt
      */
     public void setExtendedAmt(double extendedAmt) {
         this.extendedAmt = extendedAmt;
@@ -1558,6 +1564,18 @@ public class Sale {
      */
     public final String getRestockFlag() {
         return restockFlag;
+    }
+    /**
+     * @param electronicMoneyFlag the electronicMoneyFlag to set
+     */
+    public final void setElectronicMoneyFlag(final String electronicMoneyFlag) {
+        this.electronicMoneyFlag = electronicMoneyFlag;
+    }
+    /**
+     * @return the electronicMoneyFlag
+     */
+    public final String getElectronicMoneyFlag() {
+        return electronicMoneyFlag;
     }
     /**
      * @param restockFlag the restockFlag to set

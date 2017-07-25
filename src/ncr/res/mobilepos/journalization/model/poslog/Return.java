@@ -517,6 +517,12 @@ public class Return {
     private String restockFlag;
 
     /**
+     * ElectronicMoneyFlag
+     */
+    @XmlElement(name = "ElectronicMoneyFlag")
+    private String electronicMoneyFlag;
+
+    /**
      * LabelPrice
      */
     @XmlElement(name = "LabelPrice")
@@ -1596,6 +1602,18 @@ public class Return {
      */
     public final String getRestockFlag() {
         return restockFlag;
+    }
+    /**
+     * @param electronicMoneyFlag the electronicMoneyFlag to set
+     */
+    public final void setElectronicMoneyFlag(final String electronicMoneyFlag) {
+        this.electronicMoneyFlag = electronicMoneyFlag;
+    }
+    /**
+     * @return the electronicMoneyFlag
+     */
+    public final String getElectronicMoneyFlag() {
+        return electronicMoneyFlag;
     }
     /**
      * @param labelPrice the labelPrice to set

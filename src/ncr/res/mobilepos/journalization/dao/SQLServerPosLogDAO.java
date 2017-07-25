@@ -1234,11 +1234,15 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.RETURN:
                 case TxTypes.ECRETURN:
                 case TxTypes.EXCHANGERETURN:
-                    if (transaction.getRetailTransaction().getTransactionLink() != null) { // return
-                                                                                           // with
-                                                                                           // receipt
-                        doReturnWithReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
-                                saveVoidDetailsStmt, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                    if (transaction.getRetailTransaction().getTransactionLink() != null) { // return with receipt
+                        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
+                        if (transactionLink.getSequenceNo() == null) {
+                            doReturnNoReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
+                                    saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                        } else {
+                            doReturnWithReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
+                                    saveVoidDetailsStmt, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                        }
                     } else { // return without receipt
                         doReturnNoReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
                                 saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);

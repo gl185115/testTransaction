@@ -91,7 +91,7 @@ public class WebServiceIfConstants {
     /**
      * The EjnlIndexAPI Seacher api.
      */
-    public static final String JOURNALDETAILS_URL = "/EjnlIndexAPI/EjnlIndex.json/";
+    public static final String JOURNALDETAILS_URL = "/TranAPI/EJData.json/";
     /**
      * The ProcessingTranApi Seacher api.
      */

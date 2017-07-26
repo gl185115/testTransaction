@@ -459,7 +459,7 @@ public class PromotionResource {
 				}
 				String mdName = null;
 				Sale saleMdName = null;
-				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item !=null) {
+				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
 					// サーバーから部門情報を取得する
 					departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
 					saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
@@ -469,6 +469,18 @@ public class PromotionResource {
 					departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
 					saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
 					mdName = saleMdName.getMdNameLocal();
+					if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
+						tp.println("departmentInfo was not found!");
+						try {
+							// サーバーから部門情報を取得する
+							departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+							saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+							mdName = saleMdName.getMdNameLocal();
+						} catch (Exception e) {
+							LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+									functionName + ": Failed to send item entry.", e);
+						}
+					}
 				}
 
 				// 部門コードを部門マスタテーブルに存在チェック
@@ -504,7 +516,7 @@ public class PromotionResource {
 						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
 
 						String taxRate = departmentInfo.getDepartment().getTaxRate();
-						saleOut.setTaxRate(taxRate == null ? 0 : Integer.parseInt(taxRate));
+						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : Integer.parseInt(taxRate));
 
 						saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
 

@@ -196,7 +196,7 @@ public class Transaction {
      * The private member variable that will hold the floorId of the Transaction.
      */
     @XmlElement(name = "FloorID")
-    private Integer floorId;
+    private String floorId;
 
     /**
      * Gets the ControlTransaction for SymmaryReceipt.
@@ -664,7 +664,7 @@ public class Transaction {
     /**
      * @return the floorId
      */
-    public Integer getFloorId() {
+    public String getFloorId() {
         return floorId;
     }
 
@@ -672,7 +672,7 @@ public class Transaction {
      * @param floorId
      *            the floorId to set
      */
-    public void setFloorId(Integer floorId) {
+    public void setFloorId(String floorId) {
         this.floorId = floorId;
     }
 }

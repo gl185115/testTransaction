@@ -6,8 +6,8 @@
  <entry key="get-item">
 
 DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),
-        @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10), 
-        @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10), 
+        @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
+        @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
         @pluNameStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
@@ -72,7 +72,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
        INNER JOIN
          RESMaster.dbo.MST_PLU plu
          ON plu.CompanyId = groupInfo.CompanyId
-       INNER JOIN 
+       INNER JOIN
          RESMaster.dbo.MST_DPTINFO dpt
          ON dpt.SubCode1 = groupInfo.GroupId
          AND groupInfo.DeleteFlag = 0.0
@@ -87,7 +87,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
        SELECT *
        FROM
          RESMaster.dbo.MST_CLASSINFO classInfo
-       INNER JOIN 
+       INNER JOIN
          RESMaster.dbo.MST_PLU plu
          ON plu.Class = classInfo.Class
         AND plu.CompanyId = classInfo.CompanyId
@@ -105,7 +105,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
        SELECT *
        FROM
          RESMaster.dbo.MST_NAME_SYSTEM system
-       INNER JOIN 
+       INNER JOIN
          RESMaster.dbo.MST_PLU plu
          ON plu.CompanyId = system.CompanyId
         AND system.NameId = plu.TaxType
@@ -122,7 +122,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
        SELECT *
        FROM
          RESMaster.dbo.MST_COLORINFO colorInfo
-       INNER JOIN 
+       INNER JOIN
          RESMaster.dbo.MST_PLU plu
          ON plu.CompanyId = colorInfo.CompanyId
         AND plu.Md01 = colorInfo.ColorId
@@ -133,7 +133,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @colorStoreId = '0'
-    
+
     IF NOT EXISTS (
        SELECT *
        FROM
@@ -1326,19 +1326,19 @@ ORDER BY Dpt
         ORDER BY item.StoreId ASC, MdInternal ASC
 
   </entry>
-    
+
   <entry key="get-tenderinfo-alltype">
         DECLARE
         @companyId VARCHAR (12),
         @storeId VARCHAR (10)
-        
+
         SET @storeId = LTRIM(RTRIM(?))
         SET @companyId = LTRIM(RTRIM(?))
-    
+
         IF NOT EXISTS (
             SELECT TOP 1
-             * 
-            FROM 
+             *
+            FROM
                 RESMaster.dbo.MST_TENDERINFO
             WHERE
                 DeleteFlag = 0.0 AND
@@ -1346,7 +1346,7 @@ ORDER BY Dpt
                 CompanyId = @companyId
         )
         SET @storeId = '0'
-    
+
         SELECT
             CompanyId,
             StoreId,
@@ -1375,19 +1375,19 @@ ORDER BY Dpt
             DisplayOrder,
             TenderType
     </entry>
-    
+
 <entry key="get-coupon-price-info">
     DECLARE
         @companyId VARCHAR (12),
         @storeId VARCHAR (10),
         @tenderId VARCHAR (20),
         @tenderType VARCHAR (10)
-        
+
        SET @companyId = LTRIM(RTRIM(?))
        SET @storeId = LTRIM(RTRIM(?))
        SET @tenderId = LTRIM(RTRIM(?))
        SET @tenderType = LTRIM(RTRIM(?))
-    
+
         IF NOT EXISTS (
 	        SELECT
 	            NameText,
@@ -1402,7 +1402,7 @@ ORDER BY Dpt
 	            TenderId = @tenderId
         )
         SET @storeId = '0'
-    
+
         SELECT
             NameText,
             UnitPrice
@@ -2108,20 +2108,20 @@ ORDER BY
     SELECT * FROM RESMaster.dbo.MST_CUSTINFO
         WHERE CustomerId = ?;
 </entry>
- 
+
 <entry key="get-loyalty-account">
     DECLARE @companyId varchar(max),
             @storeId varchar(max)
 
         SET @companyId = ?
         SET @storeId = ?
-	
+
 		SELECT *
         FROM (
             SELECT * ,
-                   ROW_Number() OVER (PARTITION BY CompanyId,ConnCode ORDER BY StoreId DESC) AS rownumber			
+                   ROW_Number() OVER (PARTITION BY CompanyId,ConnCode ORDER BY StoreId DESC) AS rownumber
               FROM RESMaster.dbo.MST_CONNINFO
-             WHERE companyId = @companyId 
+             WHERE companyId = @companyId
                AND storeId IN (@storeId,'0')
                AND %s
                AND DeleteFlag = 0
@@ -5065,16 +5065,16 @@ ORDER BY
 
   SET @companyid = ?;
   SET @storeid = ?;
-  
+
   IF NOT EXISTS (
      SELECT *
      FROM
        RESMaster.dbo.MST_BIZDAY
      WHERE
-       CompanyId = @companyid AND StoreId = @storeid AND DeleteFlag = 0  
+       CompanyId = @companyid AND StoreId = @storeid AND DeleteFlag = 0
   )
   SET @storeId = '0'
-    
+
   SELECT
     CompanyId,
     StoreId,
@@ -5084,7 +5084,7 @@ ORDER BY
   FROM
     RESMaster.dbo.MST_BIZDAY
   WHERE
-    CompanyId = @companyid AND StoreId = @storeid AND DeleteFlag = 0  
+    CompanyId = @companyid AND StoreId = @storeid AND DeleteFlag = 0
 </entry>
 
   <!-- *************************  ENTRY KEY FOR DEVICE LOG TABLE ************************* -->
@@ -5608,7 +5608,7 @@ ORDER BY
             BusinessDayDate = ? AND
             TxType = 'EOD'
     </entry>
-    
+
     <entry key="get-activated-tills-on-businessday">
         SELECT
             tillidinfo.CompanyId,
@@ -5620,7 +5620,7 @@ ORDER BY
             tillidinfo.SodFlag,
             tillidinfo.EodFlag
         FROM RESMaster.dbo.MST_TILLIDINFO tillidinfo
-        LEFT JOIN RESMaster.dbo.MST_DEVICEINFO deviceinfo 
+        LEFT JOIN RESMaster.dbo.MST_DEVICEINFO deviceinfo
         ON tillidinfo.CompanyId = deviceinfo.CompanyId
         AND tillidinfo.StoreId = deviceinfo.StoreId
         AND tillidinfo.TerminalId = deviceinfo.TerminalId
@@ -5644,7 +5644,7 @@ ORDER BY
             tillidinfo.SodFlag,
             tillidinfo.EodFlag
         FROM RESMaster.dbo.MST_TILLIDINFO tillidinfo
-        LEFT JOIN RESMaster.dbo.MST_DEVICEINFO deviceinfo 
+        LEFT JOIN RESMaster.dbo.MST_DEVICEINFO deviceinfo
         ON tillidinfo.CompanyId = deviceinfo.CompanyId
         AND tillidinfo.StoreId = deviceinfo.StoreId
         AND tillidinfo.TerminalId = deviceinfo.TerminalId
@@ -6242,8 +6242,8 @@ DECLARE @operatorno varchar(MAX),
     @linkauthorization varchar(MAX),
     @upddate datetime,
     @updappid varchar(MAX),
-    @updopecode varchar(MAX), 
-    @companyId varchar(MAX), 
+    @updopecode varchar(MAX),
+    @companyId varchar(MAX),
     @training varchar(MAX)
 
     SET @linkauthorization=?
@@ -6304,11 +6304,11 @@ DECLARE @operatorno varchar(MAX),
         SecLevel13,
         SecLevel14,
         SecLevel15
-    FROM 
+    FROM
         RESMaster.dbo.MST_EMP_SEC
-    WHERE 
-        CompanyId = ? AND 
-        EmpCode = ? AND 
+    WHERE
+        CompanyId = ? AND
+        EmpCode = ? AND
         Password = ? AND
         DeleteFlag = 0.0
   </entry>
@@ -7080,7 +7080,7 @@ DECLARE @StoreId VARCHAR(10),
     SET @Dpt = LTRIM(RTRIM(?))
     SET @Line = LTRIM(RTRIM(?))
     SET @Class = LTRIM(RTRIM(?))
- 
+
 IF NOT EXISTS (
    SELECT *
    FROM
@@ -8995,7 +8995,7 @@ DECLARE @StoreId VARCHAR(10),
     SET @StoreId = LTRIM(RTRIM(?))
     SET @Dpt = LTRIM(RTRIM(?))
     SET @Line = LTRIM(RTRIM(?))
- 
+
 IF NOT EXISTS (
    SELECT *
    FROM
@@ -9456,7 +9456,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
   SET @storeId = ?
   SET @membershipId = ?
   SET @classStoreId = @storeId
-  
+
   IF NOT EXISTS (
      SELECT *
      FROM
@@ -9471,7 +9471,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
        typeInfo.DeleteFlag = 0.0
   )
   SET @storeId = '0'
-      
+
   IF NOT EXISTS (
      SELECT *
      FROM
@@ -9984,7 +9984,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
            DeleteFlag = 0.0
    )
    SET @storeId = '0'
-  
+
       SELECT
         CompanyId,
         StoreId,
@@ -10085,7 +10085,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @companyId = ?
       SET @storeId = ?
       SET @memberId2 = ?
-   
+
   IF NOT EXISTS (
      SELECT *
      FROM
@@ -10097,7 +10097,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
        AND DeleteFlag = 0.0
   )
   SET @storeId = '0'
-  
+
   SELECT TOP 1
   CompanyId,
   StoreId,
@@ -10133,7 +10133,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @companyId = ?
       SET @storeId = ?
       SET @memberStatus = ?
-   
+
   IF NOT EXISTS (
      SELECT *
      FROM
@@ -10145,7 +10145,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
      AND DeleteFlag = 0.0
   )
   SET @storeId = '0'
-  
+
   SELECT TOP 1
   CompanyId,
   StoreId,
@@ -10189,7 +10189,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
           DeleteFlag = 0.0
     )
     SET @storeId = '0'
-    
+
         SELECT
           CompanyId,
           StoreId,
@@ -10379,7 +10379,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND
       DeleteFlag = 0.0
     AND(
-         (CMType ='1' AND BizCatId = '00' AND StoreId = '0' AND TerminalId = '0')
+         (CMType ='1' AND BizCatId = '0' AND StoreId = '0' AND TerminalId = '0')
         OR (CMType ='2' AND BizCatId = @bizCatId AND StoreId = '0' AND TerminalId = '0')
         OR (CMType ='3' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = '0')
         OR (CMType ='4' AND BizCatId = @bizCatId AND StoreId = @storeId AND TerminalId = @terminalId)
@@ -10637,7 +10637,7 @@ DECLARE    @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32)
     SET    @MdInternal = LTRIM(RTRIM(?))
     SET    @businessDate = LTRIM(RTRIM(?))
     SET    @storeStoreId = @storeId
-    
+
     IF NOT EXISTS (
        SELECT *
        FROM
@@ -10997,7 +10997,7 @@ DECLARE
 
   SET @companyId = ?
   SET @businessDate = ?
-  
+
   SELECT
     TOP 1 CashingUnit
   FROM
@@ -11777,7 +11777,7 @@ IF NOT EXISTS (
 	   AND StoreId = @storeId
 )
 SET @storeId = '0'
-    
+
 SELECT Dpt
   FROM RESMaster.dbo.MST_CCODEINFO
  WHERE CompanyId = @companyId

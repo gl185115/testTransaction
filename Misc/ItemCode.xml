@@ -23,6 +23,7 @@
                 <id>janMagazine</id>
                 <type>single</type>
                 <symbol>EAN13</symbol>
+                <format>491[0-9]{10}</format>
                 <format>491[0-9]{15}</format>
             </item>
             <item>

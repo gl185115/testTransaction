@@ -906,7 +906,9 @@ public class PromotionResource {
 	private Double janMagazine(String itemId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("itemId", itemId);
-
+		if (itemId.length() < 18) {
+		    return Double.parseDouble("0");
+		}
 		String endFour = itemId.substring(itemId.length() - 4);
 		Double price = Double.parseDouble(endFour);
 

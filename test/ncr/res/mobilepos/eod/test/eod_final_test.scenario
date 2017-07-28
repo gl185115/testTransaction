@@ -19,7 +19,7 @@ Given that has no changefund data
 Then TXU_TOTAL_DAILYREPORT table should have:
 |CompanyId	|RetailStoreId	|WorkstationId	|BusinessDayDate	|ItemType	|ItemLevel1	|ItemLevel2	|ItemLevel3	|ItemLevel4	|TrainingFlag	|ItemCnt	|ItemAmt	|
 When getting daily sales report for companyId:01 storeId:0247 tillId:empty terminalId:0001 businessDate:2016-08-09 trainingFlag:0 dataType:3 itemLevel1:07 itemLevel2:06
-Then it should get NCRWSSResultCode:1301
+!-- Then it should get NCRWSSResultCode:1301
 
 !-- List of Report
 Given that no report items

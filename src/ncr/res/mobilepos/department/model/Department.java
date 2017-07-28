@@ -97,13 +97,15 @@ public class Department {
     @XmlElement(name = "SubNum3")
     private String subNum3;
     
-    @XmlElement(name = "subNum4")
+    @XmlElement(name = "SubNum4")
     private String subNum4;
     
     private String updAppId;
     
     private String updOpeCode;
 
+    @XmlElement(name = "SubCode1")
+    private String subCode1;
     /**
      *Gets the retail store number.
      *
@@ -278,7 +280,13 @@ public class Department {
     public final void setUpdOpeCode(String updOpeCode) {
 	this.updOpeCode = updOpeCode;
     }
-
+    @ApiModelProperty( value="グループコード", notes="グループコード")
+    public String getSubCode1() {
+        return subCode1;
+    }
+    public void setSubCode1(String subCode1) {
+        this.subCode1 = subCode1;
+    }
     
     @Override
     public final String toString() {

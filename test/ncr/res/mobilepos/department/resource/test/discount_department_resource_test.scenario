@@ -4,28 +4,28 @@ Given I have Department Resource companyid 01 storeid 0031
 !-- Discount exist
 When I get Department with companyid 01 storeid 0031 and dptid 201
 Then I should get department model with properties:
-|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|
-|0031	        |201	|Dpt 201	|•”–å201	 |5			|5				|5.0			|5		|5		|0001		|2				  |500			  |0.0			   |
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
+|0031	        |201	|Dpt 201	|•”–å201	 |5			|5				|5.0			|5		|5		|0001		|2				  |500			  |0.0			   |0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- Discount exist TargetStore
 When I get Department with companyid 01 storeid 0031 and dptid 202
 Then I should get department model with properties:
-|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|
-|0031	        |202	|Dpt 202	|•”–å202	 |5			|5				|5.0			|5		|5		|0002		|1				  |0			  |10.5			   |
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
+|0031	        |202	|Dpt 202	|•”–å202	 |5			|5				|5.0			|5		|5		|0002		|1				  |0			  |10.5			   |0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- Discount not exist DayOfWeekSetting
 When I get Department with companyid 01 storeid 0031 and dptid 203
 Then I should get department model with properties:
-|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|
-|0031	        |203	|Dpt 203	|•”–å203	 |5			|5				|5.0			|5		|5		|null		|null			  |null		  	|null			   |
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
+|0031	        |203	|Dpt 203	|•”–å203	 |5			|5				|5.0			|5		|5		|null		|null			  |null		  	|null			   |0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- Discount exist DayOfWeekSetting
 When I get Department with companyid 01 storeid 0031 and dptid 204
 Then I should get department model with properties:
-|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|
-|0031	        |204	|Dpt 204	|•”–å204	 |5			|5				|5.0			|5		|5		|0004		|1				  |0			  |33.3			   |
+|RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|PROMOTIONID|PROMDISCOUNTCLASS|PROMDISCOUNTAMT|PROMDISCOUNTRATE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
+|0031	        |204	|Dpt 204	|•”–å204	 |5			|5				|5.0			|5		|5		|0004		|1				  |0			  |33.3			   |0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 

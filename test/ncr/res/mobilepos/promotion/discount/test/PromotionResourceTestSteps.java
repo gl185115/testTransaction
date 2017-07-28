@@ -565,6 +565,9 @@ public class PromotionResourceTestSteps extends Steps {
 						+ sale.getMagazineCode(),
 						is(equalTo(expecedItem.get("MagazineCode"))));
 			}
+			assertThat("Compare the dptSubCode1 row ", ""
+					+ sale.getDptSubCode1(),
+					is(equalTo(expecedItem.get("dptSubCode1"))));
 		}
 	}
 	@Then("dptResult should be : $expectedItems")
@@ -624,6 +627,9 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the MagazineCode row ", ""
 					+ sale.getMagazineCode(),
 					is(equalTo(expecedItem.get("MagazineCode"))));
+			assertThat("Compare the dptSubCode1 row ", ""
+					+ sale.getDptSubCode1(),
+					is(equalTo(expecedItem.get("dptSubCode1"))));
 		}
 	}
 	//2017/04/17 add end by kl

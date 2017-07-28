@@ -11,18 +11,3 @@ Given a CashAccount Resource
 When getting the cash balance for 01 0247 02470001 0001 2016-06-29 0 3 07 06
 Then resultCode should be 0
 Then cashOnHand should be 20000
-
-Scenario: wrong tillId
-Given a CashAccount Resource
-When getting the cash balance for 01 0247 02470000 0001 2016-06-29 0 3 07 06
-Then resultCode should be 1301
-
-Scenario: wrong storeId
-Given a CashAccount Resource
-When getting the cash balance for 01 0031 02470001 0001 2016-06-29 0 3 07 06
-Then resultCode should be 1301
-
-Scenario: wrong businessDayDate
-Given a CashAccount Resource
-When getting the cash balance for 01 0247 02470001 0001 2016-06-30 0 3 07 06
-Then resultCode should be 1301

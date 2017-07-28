@@ -5698,7 +5698,7 @@ ORDER BY
       SET @storeid = '0'
 
     SELECT
-      StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, SubNum1, SubNum2, SubNum3, SubNum4
+      StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, SubNum1, SubNum2, SubNum3, SubNum4, SubCode1
     FROM
       RESMaster.dbo.MST_DPTINFO
     WHERE
@@ -5744,7 +5744,12 @@ ORDER BY
           DiscountAmt,
           DiscountRate,
           TaxRate,
-          TaxType
+          TaxType,
+          SubNum1,
+          SubNum2,
+          SubNum3,
+          SubNum4,
+          SubCode1
 	   FROM (
         SELECT
           Dpt,
@@ -5759,6 +5764,11 @@ ORDER BY
           DiscountRate,
           TaxRate,
           TaxType,
+          SubNum1,
+          SubNum2,
+          SubNum3,
+          SubNum4,
+          SubCode1,
           DisplayOrder
         FROM RESMaster.dbo.MST_DPTINFO
         WHERE
@@ -5791,6 +5801,11 @@ ORDER BY
           DiscountRate,
           TaxRate,
           TaxType,
+          SubNum1,
+          SubNum2,
+          SubNum3,
+          SubNum4,
+          SubCode1,
           DisplayOrder
         FROM RESMaster.dbo.MST_DPTINFO a
         WHERE

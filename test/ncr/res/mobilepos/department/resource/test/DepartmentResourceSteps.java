@@ -131,6 +131,16 @@ public class DepartmentResourceSteps extends Steps {
                   dptModel.getDepartment().getTaxRate());
           assertEquals(dptDetails.get("TAXTYPE"),
                   dptModel.getDepartment().getTaxType());
+          assertEquals(dptDetails.get("SUBNUM1"),
+                  dptModel.getDepartment().getSubNum1());
+          assertEquals(dptDetails.get("SUBNUM2"),
+                  dptModel.getDepartment().getSubNum2());
+          assertEquals(dptDetails.get("SUBNUM3"),
+                  dptModel.getDepartment().getSubNum3());
+          assertEquals(dptDetails.get("SUBNUM4"),
+                  dptModel.getDepartment().getSubNum4());
+          assertEquals(dptDetails.get("SUBCODE1"),
+                  dptModel.getDepartment().getSubCode1());
         }
      }
 

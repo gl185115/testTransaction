@@ -233,6 +233,16 @@ public class ListDepartmentsResourceSteps extends Steps {
                     tempDpt.get("TAXRATE"), actualDept.getTaxRate());
             Assert.assertEquals("Compare the Department's TaxType " + i,
                     tempDpt.get("TAXTYPE"), actualDept.getTaxType());
+            Assert.assertEquals("Compare the Department's SubNum1 " + i,
+                    tempDpt.get("SUBNUM1"), actualDept.getSubNum1());
+            Assert.assertEquals("Compare the Department's SubNum2 " + i,
+                    tempDpt.get("SUBNUM2"), actualDept.getSubNum2());
+            Assert.assertEquals("Compare the Department's SubNum3 " + i,
+                    tempDpt.get("SUBNUM3"), actualDept.getSubNum3());
+            Assert.assertEquals("Compare the Department's SubNum4 " + i,
+                    tempDpt.get("SUBNUM4"), actualDept.getSubNum4());
+            Assert.assertEquals("Compare the Department's SubCode1 " + i,
+                    tempDpt.get("SUBCODE1"), actualDept.getSubCode1());
             i++;
         }
     }

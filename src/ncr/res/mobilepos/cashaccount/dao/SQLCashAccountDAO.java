@@ -155,10 +155,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
                 cashBalance.setTillId(tillId);
                 
                 getCashBalance.setCashBalance(cashBalance);
-            } else {
-                getCashBalance.setNCRWSSResultCode(
-                        ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
-                tp.println("Cash balance not retrieved.");
             }
          } catch (Exception e) {
              LOGGER.logAlert(functionName,
@@ -226,10 +222,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
                 cashBalance.setTillId(tillId);
                 
                 getCashBalance.setCashBalance(cashBalance);
-            } else {
-                getCashBalance.setNCRWSSResultCode(
-                        ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
-                tp.println("Cash balance not retrieved.");
             }
          } catch (Exception e) {
              LOGGER.logAlert(functionName,

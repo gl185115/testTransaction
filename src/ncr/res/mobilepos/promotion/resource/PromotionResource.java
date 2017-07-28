@@ -510,6 +510,7 @@ public class PromotionResource {
 						saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
 						saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
+						saleOut.setDptSubCode1(departmentInfo.getDepartment().getSubCode1());
 						saleOut.setDptSubNum1(departmentInfo.getDepartment().getSubNum1());
 						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
@@ -1293,9 +1294,11 @@ public class PromotionResource {
 		dpt.setTaxType(json.getString("taxType"));
 		dpt.setDiscountType(json.getString("discountType"));
 		dpt.setNonSales(json.getInt("nonSales"));
+	    dpt.setSubCode1(json.getString("subCode1"));
 		dpt.setSubNum1(json.getString("subNum1"));
 		dpt.setSubNum2(json.getString("subNum2"));
 		dpt.setSubNum3(json.getString("subNum3"));
+		dpt.setSubNum4(json.getString("subNum4"));
 		departmentInfo.setDepartment(dpt);
 		departmentInfo.setRetailStoreID(json.getString("retailStoreID"));
 		return departmentInfo;

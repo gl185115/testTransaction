@@ -659,15 +659,12 @@ public class JournalizationResource {
 			IPosLogDAO poslogDao = sqlServer.getPOSLogDAO();
 			poslogString = poslogDao.getLastBalancingTxPoslog(companyId, storeId,
 					terminalId, businessDate, trainingFlag);
-			if (poslogString == null) {
-				poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-				poslog.setMessage("Last balancing tx poslog not found.");
-			} else {
+			if (poslogString != null) {
 				XmlSerializer<SearchedPosLog>
 						poslogSerializer = new XmlSerializer<SearchedPosLog>();
 				poslog = poslogSerializer.unMarshallXml(
 						poslogString, SearchedPosLog.class);
-			 }
+			}
 		} catch (Exception e) {
 			String loggerErrorCode = null;
 			int resultBaseErrorCode = 0;

@@ -112,6 +112,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				dpt.setTaxType(result.getString(DptConst.COL_TAX_TYPE));
 				dpt.setDiscountType(result.getString(DptConst.COL_DISCOUNT_TYPE));
 				dpt.setNonSales(result.getInt(DptConst.COL_EXCEPTION_FLAG));
+				dpt.setSubCode1(result.getString(DptConst.COL_SUBCODE1_FLAG));
 				dpt.setSubNum1(result.getString(DptConst.COL_SUBNUM1_FLAG));
 				dpt.setSubNum2(result.getString(DptConst.COL_SUBNUM2_FLAG));
 				dpt.setSubNum3(result.getString(DptConst.COL_SUBNUM3_FLAG));
@@ -217,6 +218,12 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				department.setDiscounRate(resultSet.getDouble(DptConst.COL_DISCOUNT_RATE));
 				department.setTaxRate(resultSet.getString(DptConst.COL_TAX_RATE));
 				department.setTaxType(resultSet.getString(DptConst.COL_TAX_TYPE));
+				department.setSubNum1(resultSet.getString(DptConst.COL_SUBNUM1_FLAG));
+				department.setSubNum2(resultSet.getString(DptConst.COL_SUBNUM2_FLAG));
+				department.setSubNum3(resultSet.getString(DptConst.COL_SUBNUM3_FLAG));
+				department.setSubNum4(resultSet.getString(DptConst.COL_SUBNUM4_FLAG));
+				department.setSubCode1(resultSet.getString(DptConst.COL_SUBCODE1_FLAG));
+				
 				departments.add(department);
 			}
 

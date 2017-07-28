@@ -58,6 +58,10 @@ public class DptConst {
 	 */
 	public static final String COL_TAX_TYPE = "TaxType";
 	/**
+	 * Column name for SubCode1
+	 */
+	public static final String COL_SUBCODE1_FLAG = "SubCode1";
+	/**
 	 * Column name for SubNum1
 	 */
 	public static final String COL_SUBNUM1_FLAG = "SubNum1";

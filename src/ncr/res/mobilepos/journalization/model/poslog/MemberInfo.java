@@ -1,5 +1,7 @@
 package ncr.res.mobilepos.journalization.model.poslog;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -121,6 +123,17 @@ public class MemberInfo {
     @XmlElement(name = "AmountByRank")
     private Integer amountByRank;
 
+    /**
+     * The private variable that will hold the CardClass
+     */
+    @XmlElement(name = "CardClass")
+    private String cardClass;
+
+    /**
+     * The private member variable that holds the CouponDetail.
+     */
+    @XmlElement(name = "CouponDetail")
+    private List<CouponDetail> couponDetail;
     /**
      *
      * @return PointsMethod
@@ -392,6 +405,40 @@ public class MemberInfo {
    public void setAmountByRank(Integer amountByRank) {
        this.amountByRank = amountByRank;
    }
+    /**
+    *
+    * @return CardClass
+    */
+   public String getCardClass() {
+       return cardClass;
+   }
+
+   /**
+    *
+    * @param CardClass
+    */
+   public void setCardClass(String cardClass) {
+       this.cardClass = cardClass;
+   }
+
+   /**
+    * Gets the CouponDetail.
+    *
+    * @return        Returns the CouponDetail list.
+    */
+   public final List<CouponDetail> getCouponDetail() {
+       return couponDetail;
+   }
+
+   /**
+    * Sets the CouponDetail.
+    *
+    * @param CouponDetailToSet      The new value for the CouponDetail list.
+    */
+   public final void setCouponDetail(
+           final List<CouponDetail> couponDetailToSet) {
+       this.couponDetail = couponDetailToSet;
+   }
 
     @Override
     public String toString() {
@@ -400,7 +447,7 @@ public class MemberInfo {
                 + "CorrectionPoints = " + correctionPoints + "BasicPoints = " + basicPoints + "AdditionalPoints = "
                 + additionalPoints + "BonusPoints = " + bonusPoints + "CouponPoints = " + couponPoints
                 + "PointsRedeemed = " + pointsRedeemed + "PointsPrior = " + pointsPrior + "TotalPoints = " + totalPoints
-                + "LostPoints = " + lostPoints + "AmountByRank = " + amountByRank + "MemberDetail = " + memberDetail + "]";
+                + "LostPoints = " + lostPoints + "AmountByRank = " + amountByRank + "CardClass = " + cardClass + "MemberDetail = " + memberDetail + "]";
     }
 
 }

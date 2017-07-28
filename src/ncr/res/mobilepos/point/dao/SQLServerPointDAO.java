@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.AbstractDao;
@@ -441,9 +442,11 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                 }
             }
         } else if (FLAG_MULTI.equals(skuflag) && "4".equals(targettype)) {
-            if (barCode.startsWith(targetid)) {
-                skuhit = true;
-            }
+            // if (barCode.startsWith(targetid)) {
+            //     skuhit = true;
+            // }
+            Pattern p = Pattern.compile("^" + targetid);
+            skuhit = p.matcher(barCode).find();
         }
 
         if (FLAG_OFF.equals(brandidflag)) {

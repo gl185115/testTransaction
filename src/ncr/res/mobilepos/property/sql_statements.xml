@@ -9416,6 +9416,34 @@ IF @TargetType &gt; '0'
         END
 SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
   </entry>
+  <entry key="get-card-class-info-list">
+    DECLARE
+      @companyId varchar(max),
+      @storeId varchar(max),
+      @cardClassId varchar(max)
+
+    SET @companyId = ?
+    SET @storeId = ?
+
+    SELECT
+      CompanyId,
+      StoreId,
+      CardClassId,
+      CardClassName,
+      CardClassKanaName,
+      CardClassShortName,
+      CardClassShortKanaName,
+      CreditType,
+      MaincardDigitType,
+      RankType,
+      SubCode1
+    FROM
+      RESMaster.dbo.MST_CARD_CLASSINFO
+    WHERE
+      CompanyId = @companyId AND
+      (StoreId = @storeId OR StoreId = '0') AND
+      DeleteFlag = 0.0
+  </entry>
   <entry key="get-card-class-info-all">
     DECLARE
       @companyId varchar(max),

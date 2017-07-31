@@ -11944,7 +11944,7 @@ FROM (
            tender.TenderName,
            tender.TenderType,
            tender.TenderIdentification,
-           SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
+           SUM(parment.Amt + ISNULL(parment.ConvertAmt, 0) + ISNULL(parment.SurplusAmt, 0)) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
@@ -11968,7 +11968,7 @@ LEFT JOIN (
            tender.TenderName,
            tender.TenderType,
            tender.TenderIdentification,
-           SUM(parment.Amt+parment.ConvertAmt+parment.SurplusAmt) AS SumAmt
+           SUM(parment.Amt + ISNULL(parment.ConvertAmt, 0) + ISNULL(parment.SurplusAmt, 0)) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
@@ -12028,9 +12028,9 @@ SET @storeId = '0'
         tender.TenderName,
         tender.TenderType,
         tender.TenderIdentification,
-        SUM(parment.BalancingRegisterAmt) AS SumBalancingRegisterAmt,
-        SUM(parment.BalancingCurrentAmt) AS SumBalancingCurrentAmt,
-        SUM(parment.BalancingDifferenceAmt) AS SumBalancingDifferenceAmt
+        SUM(ISNULL(parment.BalancingRegisterAmt, 0)) AS SumBalancingRegisterAmt,
+        SUM(ISNULL(parment.BalancingCurrentAmt, 0)) AS SumBalancingCurrentAmt,
+        SUM(ISNULL(parment.BalancingDifferenceAmt, 0)) AS SumBalancingDifferenceAmt
    FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
      ON tender.CompanyId = parment.CompanyId

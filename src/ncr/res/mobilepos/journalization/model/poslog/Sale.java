@@ -1566,18 +1566,6 @@ public class Sale {
         return restockFlag;
     }
     /**
-     * @param electronicMoneyFlag the electronicMoneyFlag to set
-     */
-    public final void setElectronicMoneyFlag(final String electronicMoneyFlag) {
-        this.electronicMoneyFlag = electronicMoneyFlag;
-    }
-    /**
-     * @return the electronicMoneyFlag
-     */
-    public final String getElectronicMoneyFlag() {
-        return electronicMoneyFlag;
-    }
-    /**
      * @param restockFlag the restockFlag to set
      */
     public final void setLabelPrice(final String labelPrice) {

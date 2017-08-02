@@ -58,6 +58,18 @@ public class Sale extends Item {
     
     private int rewardId;
     
+    @XmlElement(name = "DptDiscountClass")
+    private String dptDiscountClass;
+    
+    @XmlElement(name = "DptDiscountAmt")
+    private Long dptDiscountAmt;
+    
+    @XmlElement(name = "DptDiscountRate")
+    private Double dptDiscountRate;
+    
+    @XmlElement(name = "DptPromotionNo")
+    private String dptPromotionNo;
+    
     public Sale() {
         this.setDiscount(0);
         this.isPriceOverride = false;
@@ -184,6 +196,31 @@ public class Sale extends Item {
 	public void setItemForm(String itemForm) {
 		this.itemForm = itemForm;
 	}
+	
+    public String getDptDiscountClass() {
+        return dptDiscountClass;
+    }
+    public void setDptDiscountClass(String dptDiscountClass) {
+        this.dptDiscountClass = dptDiscountClass;
+    }
+    public Long getDptDiscountAmt() {
+        return dptDiscountAmt;
+    }
+    public void setDptDiscountAmt(Long dptDiscountAmt) {
+        this.dptDiscountAmt = dptDiscountAmt;
+    }
+    public Double getDptDiscountRate() {
+        return dptDiscountRate;
+    }
+    public void setDptDiscountRate(Double dptDiscountRate) {
+        this.dptDiscountRate = dptDiscountRate;
+    }
+    public String getDptPromotionNo() {
+        return dptPromotionNo;
+    }
+    public void setDptPromotionNo(String dptPromotionNo) {
+        this.dptPromotionNo = dptPromotionNo;
+    }
     //-----
     @Override
     public final Object clone() {

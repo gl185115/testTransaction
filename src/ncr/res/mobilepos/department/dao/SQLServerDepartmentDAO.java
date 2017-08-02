@@ -172,7 +172,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 		PreparedStatement selectStmt = null;
 		ResultSet resultSet = null;
 		DepartmentList dptList = new DepartmentList();
-		List<Department> departments = new ArrayList<Department>();
+		List<ViewDepartment> departments = new ArrayList<ViewDepartment>();
 
 		try {
 
@@ -202,6 +202,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 			while (resultSet.next()) {
 				Department department = new Department();
+				ViewDepartment dptModel = new ViewDepartment();
 				department
 						.setDepartmentID(resultSet.getString(DptConst.COL_DPT));
 				department.setRetailStoreID(storeId);
@@ -223,8 +224,10 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				department.setSubNum3(resultSet.getString(DptConst.COL_SUBNUM3_FLAG));
 				department.setSubNum4(resultSet.getString(DptConst.COL_SUBNUM4_FLAG));
 				department.setSubCode1(resultSet.getString(DptConst.COL_SUBCODE1_FLAG));
-				
-				departments.add(department);
+				dptModel.setDepartment(department);
+				dptModel.setRetailStoreID(storeId);
+				setPricePromInfo(dptModel);
+				departments.add(dptModel);
 			}
 
 			if (departments.size() == 0){

@@ -28,7 +28,7 @@ public class DepartmentList extends ResultBase {
      */
     @XmlElementWrapper(name = "DepartmentList")
     @XmlElementRef
-    private List<Department> departments;
+    private List<ViewDepartment> departments;
     /**
      * Store id.
      */
@@ -41,7 +41,7 @@ public class DepartmentList extends ResultBase {
      * @return an array list of department.
      */
     @ApiModelProperty( value="•”–åî•ñ", notes="•”–åî•ñ")
-    public final List<Department> getDepartments() {
+    public final List<ViewDepartment> getDepartments() {
         return departments;
     }
 
@@ -50,7 +50,7 @@ public class DepartmentList extends ResultBase {
      *
      * @param dptList list of departments.
      */
-    public final void setDepartments(final List<Department> dptList) {
+    public final void setDepartments(final List<ViewDepartment> dptList) {
         this.departments = dptList;
     }
 

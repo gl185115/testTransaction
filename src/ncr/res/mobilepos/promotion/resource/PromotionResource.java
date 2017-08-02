@@ -515,10 +515,10 @@ public class PromotionResource {
 						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
-//						saleOut.setDptDiscountClass(departmentInfo.getDiscountClass());
-//						saleOut.setDptDiscountAmt(departmentInfo.getDiscountAmt());
-//						saleOut.setDptDiscountRate(departmentInfo.getDiscountRate());
-//						saleOut.setDptPromotionNo(departmentInfo.getPromotionNo());
+						saleOut.setDptDiscountClass(departmentInfo.getDiscountClass());
+						saleOut.setDptDiscountAmt(departmentInfo.getDiscountAmt());
+						saleOut.setDptDiscountRate(departmentInfo.getDiscountRate());
+						saleOut.setDptPromotionNo(departmentInfo.getPromotionNo());
 
 						String taxRate = departmentInfo.getDepartment().getTaxRate();
 						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : Integer.parseInt(taxRate));
@@ -615,10 +615,10 @@ public class PromotionResource {
 				if (discounttype == null) {
 					discounttype = departmentInfo.getDepartment().getDiscountType();
 				}
-//				saleItem.setDptDiscountClass(departmentInfo.getDiscountClass());
-//				saleItem.setDptDiscountAmt(departmentInfo.getDiscountAmt());
-//				saleItem.setDptDiscountRate(departmentInfo.getDiscountRate());
-//				saleItem.setDptPromotionNo(departmentInfo.getPromotionNo());
+				saleItem.setDptDiscountClass(departmentInfo.getDiscountClass());
+				saleItem.setDptDiscountAmt(departmentInfo.getDiscountAmt());
+				saleItem.setDptDiscountRate(departmentInfo.getDiscountRate());
+				saleItem.setDptPromotionNo(departmentInfo.getPromotionNo());
 				saleItem.setDiscountType(discounttype);
 				boolean flag = ("0".equals(discounttype));
 				saleItem.setDiscountable(flag);

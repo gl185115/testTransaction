@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>resTransaction</artifactId>
+    <artifactId>${myArtifactId}</artifactId>
     <packaging>war</packaging>
     <name>RESTransactionService</name>
     <url>http://maven.apache.org</url>
@@ -34,6 +34,9 @@
         <svn.revision>0</svn.revision>
         <myGroupId>temp</myGroupId>
         <myVersion>temp</myVersion>
+        <myArtifactId>temp</myArtifactId>
+        <!-- replace web.xml's ${drive.path} to this value  -->
+        <drive.path>C:</drive.path>
     </properties>
 
     <repositories>

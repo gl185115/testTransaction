@@ -540,7 +540,7 @@
                         </goals>
                         <configuration>
                             <finalName>poslog-binding</finalName>
-                            <outputDirectory>${project.build.directory}/resTransaction/WEB-INF/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${myArtifactId}/WEB-INF/lib</outputDirectory>
                             <includes>
                                 <include>**/ncr/res/mobilepos/helper/XmlSerializer.class</include>
                                 <include>**/ncr/res/mobilepos/journalization/model/poslog/*.class</include>
@@ -619,7 +619,7 @@
                             <artifactId>poslog-binding</artifactId>
                             <version>${project.version}</version>
                             <packaging>jar</packaging>
-                            <file>${project.build.directory}/resTransaction/WEB-INF/lib/poslog-binding.jar</file>
+                            <file>${project.build.directory}/${myArtifactId}/WEB-INF/lib/poslog-binding.jar</file>
                             <pomFile>pom.xml</pomFile>
                             <generatePom>true</generatePom>
                             <uniqueVersion>false</uniqueVersion>

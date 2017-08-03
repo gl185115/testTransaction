@@ -330,8 +330,7 @@
 		</testResources>
 		
         <plugins>
-
-            <!-- build number -->
+			<!-- build number -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>buildnumber-maven-plugin</artifactId>
@@ -554,8 +553,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>2.2</version>
+                <version>2.3</version>
                 <configuration>
+                	<encoding>${project.build.sourceEncoding}</encoding>
                     <!-- Excludes classes in poslog-binding.jar -->
                     <packagingExcludes>
                         **/ncr/res/mobilepos/helper/XmlSerializer.class,

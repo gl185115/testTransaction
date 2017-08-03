@@ -3,6 +3,8 @@ package ncr.res.mobilepos.promotion.resource;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1629,7 +1631,7 @@ public class PromotionResource {
 				.println("businessDate", businessDate).println("Transaction", transaction);
 		Promotion response = new Promotion();
 		int maxPrintNum = 4;
-		List<QrCodeInfo> qrCodeInfoListTemp = null;
+		List<QrCodeInfo> qrCodeInfoListTemp = new ArrayList<QrCodeInfo>();;
 		List<QrCodeInfo> qrCodeInfoListOut = null;
 
 		try {
@@ -1653,7 +1655,7 @@ public class PromotionResource {
 
 			// get valid data
 			qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
-
+			
 			int count = 0;
 			if (qrCodeInfoListTemp == null || qrCodeInfoListTemp.size() < 1) {
 				response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -1662,6 +1664,19 @@ public class PromotionResource {
 				tp.println("Not found valid data.");
 				return response;
 			} else {
+				Collections.sort(qrCodeInfoListTemp, new Comparator<QrCodeInfo>() {
+					
+					@Override
+					public int compare(QrCodeInfo o1, QrCodeInfo o2) {
+						if(Integer.parseInt(o1.getDisplayOrder()) > Integer.parseInt(o2.getDisplayOrder())){
+							return 1;
+						}
+						if(Integer.parseInt(o1.getDisplayOrder()) == Integer.parseInt(o2.getDisplayOrder())){
+							return 0;
+						}
+						return -1;
+					}
+				});
 				// 一番小さい値を持つ企画コードが複数の場合
 				String displayOrder = qrCodeInfoListTemp.get(0).getDisplayOrder();
 				for (int i = 0; i < qrCodeInfoListTemp.size(); i++) {

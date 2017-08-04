@@ -991,25 +991,27 @@ SELECT
     info.OutputType,
     info.DisplayOrder,
     detail.PromotionType,
-	detail.Dpt,
-	detail.Line,
-	detail.Class,
-	detail.Sku,
-	detail.ConnCode,
-	detail.BrandId,
-	member.MemberRank,
-	member.MemberTargetType,
-	member.SexType,
-	member.BirthMonth
+    detail.Dpt,
+    detail.Line,
+    detail.Class,
+    detail.Sku,
+    detail.ConnCode,
+    detail.BrandId,
+    member.MemberRank,
+    member.MemberTargetType,
+    member.SexType,
+    member.BirthMonth
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-	ON info.CompanyId = detail.CompanyId
-	AND info.PromotionId = detail.PromotionId
+    ON info.CompanyId = detail.CompanyId
+    AND info.PromotionId = detail.PromotionId
+    AND detail.DeleteFlag = 0
 LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
-	ON info.CompanyId = member.CompanyId
-	AND info.PromotionId = member.PromotionId
-	AND info.TargetMemberType = '1'
+    ON info.CompanyId = member.CompanyId
+    AND info.PromotionId = member.PromotionId
+    AND info.TargetMemberType = '1'
+    AND member.DeleteFlag = 0
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
@@ -1029,28 +1031,30 @@ SELECT
     info.OutputType,
     info.DisplayOrder,
     detail.PromotionType,
-	detail.Dpt,
-	detail.Line,
-	detail.Class,
-	detail.Sku,
-	detail.ConnCode,
-	detail.BrandId,
-	member.MemberRank,
-	member.MemberTargetType,
-	member.SexType,
-	member.BirthMonth
+    detail.Dpt,
+    detail.Line,
+    detail.Class,
+    detail.Sku,
+    detail.ConnCode,
+    detail.BrandId,
+    member.MemberRank,
+    member.MemberTargetType,
+    member.SexType,
+    member.BirthMonth
 FROM
     RESMaster.dbo.MST_QRCODE_INFO info
 LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
     ON info.CompanyId = store.CompanyId
-	AND info.PromotionId = store.PromotionId
+    AND info.PromotionId = store.PromotionId
 INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-	ON info.CompanyId = detail.CompanyId
-	AND info.PromotionId = detail.PromotionId
+    ON info.CompanyId = detail.CompanyId
+    AND info.PromotionId = detail.PromotionId
+    AND detail.DeleteFlag = 0
 LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
-	ON info.CompanyId = member.CompanyId
-	AND info.PromotionId = member.PromotionId
-	AND info.TargetMemberType = '1'
+    ON info.CompanyId = member.CompanyId
+    AND info.PromotionId = member.PromotionId
+    AND info.TargetMemberType = '1'
+    AND member.DeleteFlag = 0
 WHERE
     CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.DeleteFlag = 0.0
@@ -1078,6 +1082,7 @@ WHERE
 	companyId = @companyId
 	AND MemberId = @customerId
 	AND promotionId = @promotionId
+	AND DeleteFlag = 0
 </entry>
 <entry key="get-qrcode-info">
 DECLARE @companyId VARCHAR(32),

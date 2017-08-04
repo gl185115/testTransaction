@@ -77,7 +77,7 @@ public class Department {
     private double discountAmt;
     
     @XmlElement(name = "DiscountRate")
-    private double discounRate;
+    private double discountRate;
     
     @XmlElement(name = "AgeRestrictedFlag")
     private String ageRestrictedFlag;
@@ -106,6 +106,18 @@ public class Department {
 
     @XmlElement(name = "SubCode1")
     private String subCode1;
+    
+    @XmlElement(name = "PriceDiscountClass")
+    private String priceDiscountClass;
+    
+    @XmlElement(name = "PricePromotionNo")
+    private String pricePromotionNo;
+	
+	@XmlElement(name = "PriceDiscountAmt")
+    private double priceDiscountAmt;
+    
+    @XmlElement(name = "PriceDiscountRate")
+    private double priceDiscountRate;
     /**
      *Gets the retail store number.
      *
@@ -208,11 +220,11 @@ public class Department {
         this.discountAmt = discountAmt;
     }
     @ApiModelProperty( value="自動値引率", notes="自動値引率")
-    public double getDiscounRate() {
-        return discounRate;
+    public double getDiscountRate() {
+        return discountRate;
     }
-    public void setDiscounRate(double discounRate) {
-        this.discounRate = discounRate;
+    public void setDiscountRate(double discountRate) {
+        this.discountRate = discountRate;
     }
     @ApiModelProperty( value="年齢制限フラグ", notes="年齢制限フラグ")
     public String getAgeRestrictedFlag() {
@@ -287,6 +299,34 @@ public class Department {
     public void setSubCode1(String subCode1) {
         this.subCode1 = subCode1;
     }
+    @ApiModelProperty( value="企画No", notes="企画No")
+    public String getPricePromotionNo() {
+        return pricePromotionNo;
+    }
+    public void setPricePromotionNo(String pricePromotionNo) {
+        this.pricePromotionNo = pricePromotionNo;
+    }
+    @ApiModelProperty( value="割引区分", notes="割引区分")
+    public String getPriceDiscountClass() {
+        return priceDiscountClass;
+    }
+    public void setPriceDiscountClass(String priceDiscountClass) {
+        this.priceDiscountClass = priceDiscountClass;
+    }
+	@ApiModelProperty( value="値引額", notes="値引額")
+    public double getPriceDiscountAmt() {
+        return priceDiscountAmt;
+    }
+    public void setPriceDiscountAmt(double priceDiscountAmt) {
+        this.priceDiscountAmt = priceDiscountAmt;
+    }
+    @ApiModelProperty( value="割引率", notes="割引率")
+    public double getPriceDiscountRate() {
+        return priceDiscountRate;
+    }
+    public void setPriceDiscountRate(double priceDiscountRate) {
+        this.priceDiscountRate = priceDiscountRate;
+    }
     
     @Override
     public final String toString() {
@@ -305,7 +345,7 @@ public class Department {
             .append("discountType: ").append(discountType).append(clrf)
             .append("discountFlag: ").append(discountFlag).append(clrf)
             .append("discountAmt: ").append(discountAmt).append(clrf)
-            .append("discounRate: ").append(discounRate).append(clrf)
+            .append("discounRate: ").append(discountRate).append(clrf)
             .append("taxRate: ").append(taxRate).append(clrf)
             .append("taxtype: ").append(taxType).append(clrf)
             .append("updAppId: ").append(updAppId).append(clrf)

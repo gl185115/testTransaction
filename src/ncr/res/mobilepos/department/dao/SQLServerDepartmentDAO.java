@@ -172,7 +172,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 		PreparedStatement selectStmt = null;
 		ResultSet resultSet = null;
 		DepartmentList dptList = new DepartmentList();
-		List<ViewDepartment> departments = new ArrayList<ViewDepartment>();
+		List<Department> departments = new ArrayList<Department>();
 
 		try {
 
@@ -202,7 +202,6 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 
 			while (resultSet.next()) {
 				Department department = new Department();
-				ViewDepartment dptModel = new ViewDepartment();
 				department
 						.setDepartmentID(resultSet.getString(DptConst.COL_DPT));
 				department.setRetailStoreID(storeId);
@@ -216,7 +215,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				department.setDiscountType(resultSet.getString(DptConst.COL_DISCOUNT_TYPE));
 				department.setDiscountFlag(resultSet.getString(DptConst.COL_DISCOUNT_FLAG));
 				department.setDiscountAmt(resultSet.getDouble(DptConst.COL_DISCOUNT_AMT));
-				department.setDiscounRate(resultSet.getDouble(DptConst.COL_DISCOUNT_RATE));
+				department.setDiscountRate(resultSet.getDouble(DptConst.COL_DISCOUNT_RATE));
 				department.setTaxRate(resultSet.getString(DptConst.COL_TAX_RATE));
 				department.setTaxType(resultSet.getString(DptConst.COL_TAX_TYPE));
 				department.setSubNum1(resultSet.getString(DptConst.COL_SUBNUM1_FLAG));
@@ -224,10 +223,18 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				department.setSubNum3(resultSet.getString(DptConst.COL_SUBNUM3_FLAG));
 				department.setSubNum4(resultSet.getString(DptConst.COL_SUBNUM4_FLAG));
 				department.setSubCode1(resultSet.getString(DptConst.COL_SUBCODE1_FLAG));
-				dptModel.setDepartment(department);
-				dptModel.setRetailStoreID(storeId);
-				setPricePromInfo(dptModel);
-				departments.add(dptModel);
+				
+				ItemResource itemResource = new ItemResource();
+				PricePromInfo pricePromInfo ;
+				pricePromInfo = itemResource.getPricePromInfo("", department.getDepartmentID(), "");
+				if (pricePromInfo != null){
+					department.setPriceDiscountClass(pricePromInfo.getDiscountClass());
+					department.setPriceDiscountAmt(pricePromInfo.getDiscountAmt());
+					department.setPriceDiscountRate(pricePromInfo.getDiscountRate());
+					department.setPricePromotionNo(pricePromInfo.getPromotionNo());
+				}
+				
+				departments.add(department);
 			}
 
 			if (departments.size() == 0){

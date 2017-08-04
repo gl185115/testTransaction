@@ -183,7 +183,7 @@ public class ListDepartmentsResourceSteps extends Steps {
 
         int i = 0;
         for (Map<String, String> tempDpt : expectedDepartments.getRows()) {
-            Department actualDept = dptList.getDepartments().get(i).getDepartment();
+            Department actualDept = dptList.getDepartments().get(i);
 
             Assert.assertEquals("Compare the Deparments's ID " + i,
                     tempDpt.get("DPT"), actualDept.getDepartmentID());
@@ -222,17 +222,27 @@ public class ListDepartmentsResourceSteps extends Steps {
             if (tempDpt.get("DISCOUNTRATE").equals("null")) {
                 Assert.assertNull("Assume that Discount Rate is "
                         + "null for row" + i + ":",
-                        actualDept.getDiscounRate());
+                        actualDept.getDiscountRate());
             } else {
             	Assert.assertEquals("Compare the Discount Rate row" + i
                         + ": ", Integer.parseInt(tempDpt.get("DISCOUNTRATE")),
-                          java.math.BigDecimal.valueOf(actualDept.getDiscounRate()).intValue());
+                          java.math.BigDecimal.valueOf(actualDept.getDiscountRate()).intValue());
             }
 
             Assert.assertEquals("Compare the Department's Tax Rate " + i,
                     tempDpt.get("TAXRATE"), actualDept.getTaxRate());
             Assert.assertEquals("Compare the Department's TaxType " + i,
                     tempDpt.get("TAXTYPE"), actualDept.getTaxType());
+            Assert.assertEquals("Compare the Department's SubNum1 " + i,
+                    tempDpt.get("SUBNUM1"), actualDept.getSubNum1());
+            Assert.assertEquals("Compare the Department's SubNum2 " + i,
+                    tempDpt.get("SUBNUM2"), actualDept.getSubNum2());
+            Assert.assertEquals("Compare the Department's SubNum3 " + i,
+                    tempDpt.get("SUBNUM3"), actualDept.getSubNum3());
+            Assert.assertEquals("Compare the Department's SubNum4 " + i,
+                    tempDpt.get("SUBNUM4"), actualDept.getSubNum4());
+            Assert.assertEquals("Compare the Department's SubCode1 " + i,
+                    tempDpt.get("SUBCODE1"), actualDept.getSubCode1());
             i++;
         }
     }

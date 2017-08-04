@@ -82,6 +82,9 @@ public class QrCodeInfo {
     @XmlElement(name = "customerId")
     private String customerId;
     
+    @XmlElement(name = "fileExist")
+    private int fileExist;
+    
     @ApiModelProperty(value="出力タイプ", notes="出力タイプ")
     public String getOutputType() {
         return outputType;
@@ -289,4 +292,12 @@ public class QrCodeInfo {
 		this.customerId = customerId;
 	}
 	
+	@ApiModelProperty(value="ファイル存在フラグ", notes="ファイル存在フラグ")
+	public int getFileExist() {
+		return fileExist;
+	}
+
+	public void setFileExist(int fileExist) {
+		this.fileExist = fileExist;
+	}
 }

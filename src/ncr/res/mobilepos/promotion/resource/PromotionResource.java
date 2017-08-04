@@ -1,5 +1,8 @@
 package ncr.res.mobilepos.promotion.resource;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -44,7 +47,10 @@ import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.model.Department;
 import ncr.res.mobilepos.department.model.DepartmentName;
 import ncr.res.mobilepos.department.model.ViewDepartment;
+import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
+import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JsonMarshaller;
@@ -1709,6 +1715,8 @@ public class PromotionResource {
 				}
 			}
 
+			getQrCodeFileExist(qrCodeInfoListOut, companyId, retailStoreId, workStationId);
+			
 			response.setQrCodeInfoList(qrCodeInfoListOut);
 		} catch (JsonParseException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
@@ -1934,6 +1942,74 @@ public class PromotionResource {
 		String customerId = transactionIn.getCustomer().getId();
 		rightCustomerId = codeInfDAO.getCustomerQrCodeInfoList(companyId, promotionId, customerId);
 		return rightCustomerId;
+	}
+	
+	/**
+	 * get qrcode file exist
+	 *
+	 * @param qrCodeInfoListOut
+	 * @param companyId
+	 * @param storeId
+	 * @param terminalId
+	 * 
+	 * @return List<QrCodeInfo>
+	 * @throws Exception 
+	 */
+	private void getQrCodeFileExist(List<QrCodeInfo> qrCodeInfoListOut, String companyId, String storeId, String terminalId) throws Exception {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("qrCodeInfoListOut", qrCodeInfoListOut).println("companyId", companyId)
+			.println("storeId", storeId).println("terminalId", terminalId);
+
+		ViewTerminalInfo terminalInfoResult = new ViewTerminalInfo();
+		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+		String fileName = null;
+		
+		try {
+			IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
+			terminalInfoResult = iPerCtrlDao.getTerminalInfo(companyId, storeId, terminalId);
+			
+			if (terminalInfoResult.getNCRWSSResultCode() == ResultBase.RES_OK) {
+				String systemPath = terminalInfoResult.getTerminalInfo().getSubCode2();
+				
+				for (QrCodeInfo qrCodeInfo : qrCodeInfoListOut) {
+					int bmpFileCount = Integer.parseInt(qrCodeInfo.getBmpFileCount());
+					fileName = qrCodeInfo.getBmpFileName();
+					if (StringUtility.isNullOrEmpty(fileName)) {
+						qrCodeInfo.setFileExist(0);
+					} else {
+						for (int i = 0; i < bmpFileCount; i++) {
+							String strTemp = "_" +String.format("%02d", i+1) + ".";
+							String fileNameTemp = fileName.replaceAll("\\.", strTemp);
+							File file = new File(systemPath + File.separator + fileNameTemp);
+							if (file.isFile() || file.exists()) {
+								qrCodeInfo.setFileExist(1);
+							} else {
+								qrCodeInfo.setFileExist(0);
+								break;
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception e) {
+			String loggerErrorCode = null;
+			if (e.getCause() instanceof SQLException) {
+				loggerErrorCode = Logger.RES_EXCEP_DAO;
+			} else if (e.getCause() instanceof SQLStatementException) {
+				loggerErrorCode = Logger.RES_EXCEP_DAO;
+			} else if (e.getCause() instanceof IOException) {
+				loggerErrorCode = Logger.RES_EXCEP_IO;
+			} else {
+				loggerErrorCode = Logger.RES_EXCEP_GENERAL;
+			}
+			LOGGER.logAlert(PROG_NAME, loggerErrorCode, functionName,
+					"Failed to read File for fileName#" + fileName + ", " + "companyId#" + companyId + ", "
+					+ "storeId#" + storeId + " and terminalId#" + terminalId + ": " + e.getMessage());
+			throw new Exception();
+
+		} finally {
+			tp.methodExit(qrCodeInfoListOut);
+		}
 	}
 
 	/**

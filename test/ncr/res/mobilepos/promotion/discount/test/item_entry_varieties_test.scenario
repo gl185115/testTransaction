@@ -143,7 +143,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 2
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|Ｌバラウッド|テストー商品名前|0|9784923456789|0397|0|0|1|0|0|0|0.0|0.0|0026|null|null|21111|
+|Ｌバラウッド|テストー商品名前|0|9784923456789|0397|0|0|1|0|0|0|0.0|0.0|0026|0.0|null|21111|
 
 Scenario: The two section id four below(Department number is empty)
 Given ItemCode.xml file exist
@@ -439,7 +439,7 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30999999990416","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|MJROYAL BK465|MJROYAL BK465|5|9783099999998|0166|0|0|1|0|0|0|0.0|0.0|0416|null|null|21111|
+|MJROYAL BK465|MJROYAL BK465|5|9783099999998|0166|0|0|1|0|0|0|0.0|0.0|0416|0.0|null|21111|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist
@@ -505,7 +505,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|Ｌバラウッド|Ｌバラウッド|0|9784022345677|3970|0|0|1|0|0|0|0.0|0.0|0027|null|null|21111|
+|Ｌバラウッド|Ｌバラウッド|0|9784022345677|3970|0|0|1|0|0|0|0.0|0.0|0027|0.0|null|21111|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist

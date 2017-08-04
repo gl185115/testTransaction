@@ -546,12 +546,13 @@ public class PromotionResource {
 							}
 						}
 						
+						Double barCodePrice = null;
+						barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 						if (twoStep && barcode_sec.length() == 4) {
+						    saleOut.setLabelPrice(barCodePrice);
 							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
 						} else {
 							// バーコード価格を使用
-							Double barCodePrice = null;
-							barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 							if (barCodePrice != null) {
 								if ("1".equals(taxType)) {
 									barCodePrice = (double) Math.round(barCodePrice * 1.08);
@@ -851,6 +852,10 @@ public class PromotionResource {
 		case BarcodeAssignmentConstant.VARIETIES_FOREIGNMAGAZINE:
 			commodityPrice = foreignMagazine(itemId);
 			break;
+		case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
+		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
+		    commodityPrice = Double.parseDouble("0");
+		    break;
 		default:
 			break;
 		}
@@ -946,6 +951,8 @@ public class PromotionResource {
 		Double price = null;
 		if (item[1].length() == 13) {
 			price = Double.parseDouble(item[1].substring(7, 12));
+		}else{
+		    price = Double.parseDouble("0");
 		}
 
 		tp.methodExit(price);
@@ -969,6 +976,8 @@ public class PromotionResource {
 			price = (double) Math.round(Double.parseDouble(item[1].substring(7, 12)) * 100 / 103);
 		} else if ("192".equals(topThree) && item[1].length() == 13) {
 			price = Double.parseDouble(item[1].substring(7, 12));
+		}else{
+		    price = Double.parseDouble("0");
 		}
 
 		tp.methodExit(price);

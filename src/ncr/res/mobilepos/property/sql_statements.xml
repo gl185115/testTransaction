@@ -979,91 +979,198 @@ SET @companyId =LTRIM(RTRIM(?))
 SET @storeId =LTRIM(RTRIM(?))
 SET @businessDate =LTRIM(RTRIM(?))
 
-SELECT * FROM(
-SELECT
-    info.PromotionId,
-    info.PromotionName,
-    info.MinimumPrice,
-    info.OutputTargetValue,
-    info.BMPFileName,
-    info.BMPFileFlag,
-    info.BMPFileCount,
-    info.OutputType,
-    info.DisplayOrder,
-    detail.PromotionType,
-    detail.Dpt,
-    detail.Line,
-    detail.Class,
-    detail.Sku,
-    detail.ConnCode,
-    detail.BrandId,
-    member.MemberRank,
-    member.MemberTargetType,
-    member.SexType,
-    member.BirthMonth
-FROM
-    RESMaster.dbo.MST_QRCODE_INFO info
-INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-    ON info.CompanyId = detail.CompanyId
-    AND info.PromotionId = detail.PromotionId
-    AND detail.DeleteFlag = 0
-LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
-    ON info.CompanyId = member.CompanyId
-    AND info.PromotionId = member.PromotionId
-    AND info.TargetMemberType = '1'
-    AND member.DeleteFlag = 0
-WHERE
-    CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-    AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @companyId
-    AND info.TargetStoreType IN ('0','2')
-
-UNION
-
-SELECT
-    info.PromotionId,
-    info.PromotionName,
-    info.MinimumPrice,
-    info.OutputTargetValue,
-    info.BMPFileName,
-    info.BMPFileFlag,
-    info.BMPFileCount,
-    info.OutputType,
-    info.DisplayOrder,
-    detail.PromotionType,
-    detail.Dpt,
-    detail.Line,
-    detail.Class,
-    detail.Sku,
-    detail.ConnCode,
-    detail.BrandId,
-    member.MemberRank,
-    member.MemberTargetType,
-    member.SexType,
-    member.BirthMonth
-FROM
-    RESMaster.dbo.MST_QRCODE_INFO info
-LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
-    ON info.CompanyId = store.CompanyId
-    AND info.PromotionId = store.PromotionId
-INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-    ON info.CompanyId = detail.CompanyId
-    AND info.PromotionId = detail.PromotionId
-    AND detail.DeleteFlag = 0
-LEFT JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
-    ON info.CompanyId = member.CompanyId
-    AND info.PromotionId = member.PromotionId
-    AND info.TargetMemberType = '1'
-    AND member.DeleteFlag = 0
-WHERE
-    CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-    AND info.DeleteFlag = 0.0
-    AND info.CompanyId = @companyId
-    AND store.CompanyId = @companyId
-    AND store.DeleteFlag = 0.0
-    AND store.StoreId = @storeId
-
-) A ORDER BY DisplayOrder, PromotionId
+SELECT * FROM (
+	SELECT  A.PromotionId,
+	        A.PromotionName,
+	        A.MinimumPrice,
+	        A.OutputTargetValue,
+	        A.BMPFileName,
+	        A.BMPFileFlag,
+	        A.BMPFileCount,
+	        A.OutputType,
+	        A.DisplayOrder,
+	        A.PromotionType,
+	        A.Dpt,
+	        A.Line,
+	        A.Class,
+	        A.Sku,
+	        A.ConnCode,
+	        A.BrandId,
+	        member.MemberRank,
+	        member.MemberTargetType,
+	        member.SexType,
+	        member.BirthMonth
+	FROM(
+	    SELECT
+	        info.CompanyId,
+	        info.TargetMemberType,
+	        info.PromotionId,
+	        info.PromotionName,
+	        info.MinimumPrice,
+	        info.OutputTargetValue,
+	        info.BMPFileName,
+	        info.BMPFileFlag,
+	        info.BMPFileCount,
+	        info.OutputType,
+	        info.DisplayOrder,
+	        detail.PromotionType,
+	        detail.Dpt,
+	        detail.Line,
+	        detail.Class,
+	        detail.Sku,
+	        detail.ConnCode,
+	        detail.BrandId
+	    FROM
+	        RESMaster.dbo.MST_QRCODE_INFO info
+	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+	        ON info.CompanyId = detail.CompanyId
+	        AND info.PromotionId = detail.PromotionId
+	        AND detail.DeleteFlag = 0
+	    WHERE
+	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+	        AND info.DeleteFlag = 0.0
+	        AND info.CompanyId = @companyId
+	        AND info.TargetStoreType IN ('0','2')
+	
+	    UNION
+	
+	    SELECT
+	        info.CompanyId,
+	        info.TargetMemberType,
+	        info.PromotionId,
+	        info.PromotionName,
+	        info.MinimumPrice,
+	        info.OutputTargetValue,
+	        info.BMPFileName,
+	        info.BMPFileFlag,
+	        info.BMPFileCount,
+	        info.OutputType,
+	        info.DisplayOrder,
+	        detail.PromotionType,
+	        detail.Dpt,
+	        detail.Line,
+	        detail.Class,
+	        detail.Sku,
+	        detail.ConnCode,
+	        detail.BrandId
+	    FROM
+	        RESMaster.dbo.MST_QRCODE_INFO info
+	    LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
+	        ON info.CompanyId = store.CompanyId
+	        AND info.PromotionId = store.PromotionId
+	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+	        ON info.CompanyId = detail.CompanyId
+	        AND info.PromotionId = detail.PromotionId
+	        AND detail.DeleteFlag = 0
+	    WHERE
+	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+	        AND info.DeleteFlag = 0.0
+	        AND info.CompanyId = @companyId
+	        AND store.CompanyId = @companyId
+	        AND store.DeleteFlag = 0.0
+	        AND store.StoreId = @storeId 
+	  ) A 
+	INNER JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
+	   ON A.CompanyId = member.CompanyId
+	  AND A.PromotionId = member.PromotionId
+	  AND A.TargetMemberType = '1'
+	  AND member.DeleteFlag = 0
+	
+	UNION
+	
+	SELECT  A.PromotionId,
+	        A.PromotionName,
+	        A.MinimumPrice,
+	        A.OutputTargetValue,
+	        A.BMPFileName,
+	        A.BMPFileFlag,
+	        A.BMPFileCount,
+	        A.OutputType,
+	        A.DisplayOrder,
+	        A.PromotionType,
+	        A.Dpt,
+	        A.Line,
+	        A.Class,
+	        A.Sku,
+	        A.ConnCode,
+	        A.BrandId,
+	        NULL,
+	        NULL,
+	        NULL,
+	        NULL
+	FROM(
+	    SELECT
+	        info.CompanyId,
+	        info.TargetMemberType,
+	        info.PromotionId,
+	        info.PromotionName,
+	        info.MinimumPrice,
+	        info.OutputTargetValue,
+	        info.BMPFileName,
+	        info.BMPFileFlag,
+	        info.BMPFileCount,
+	        info.OutputType,
+	        info.DisplayOrder,
+	        detail.PromotionType,
+	        detail.Dpt,
+	        detail.Line,
+	        detail.Class,
+	        detail.Sku,
+	        detail.ConnCode,
+	        detail.BrandId
+	    FROM
+	        RESMaster.dbo.MST_QRCODE_INFO info
+	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+	        ON info.CompanyId = detail.CompanyId
+	        AND info.PromotionId = detail.PromotionId
+	        AND detail.DeleteFlag = 0
+	    WHERE
+	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+	        AND info.DeleteFlag = 0.0
+	        AND info.CompanyId = @companyId
+	        AND info.TargetStoreType IN ('0','2')
+	
+	    UNION
+	
+	    SELECT
+	        info.CompanyId,
+	        info.TargetMemberType,
+	        info.PromotionId,
+	        info.PromotionName,
+	        info.MinimumPrice,
+	        info.OutputTargetValue,
+	        info.BMPFileName,
+	        info.BMPFileFlag,
+	        info.BMPFileCount,
+	        info.OutputType,
+	        info.DisplayOrder,
+	        detail.PromotionType,
+	        detail.Dpt,
+	        detail.Line,
+	        detail.Class,
+	        detail.Sku,
+	        detail.ConnCode,
+	        detail.BrandId
+	    FROM
+	        RESMaster.dbo.MST_QRCODE_INFO info
+	    LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
+	        ON info.CompanyId = store.CompanyId
+	        AND info.PromotionId = store.PromotionId
+	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+	        ON info.CompanyId = detail.CompanyId
+	        AND info.PromotionId = detail.PromotionId
+	        AND detail.DeleteFlag = 0
+	    WHERE
+	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+	        AND info.DeleteFlag = 0.0
+	        AND info.CompanyId = @companyId
+	        AND store.CompanyId = @companyId
+	        AND store.DeleteFlag = 0.0
+	        AND store.StoreId = @storeId
+	) A 
+	WHERE A.TargetMemberType = '0'
+) B
+ORDER BY DisplayOrder, PromotionId
 </entry>
 <entry key="check-cust-in-memberid">
 DECLARE @companyId VARCHAR(32),

@@ -1778,10 +1778,10 @@ public class PromotionResource {
 		for (QrCodeInfo qrCodeInfo : qrCodeInfoList) {
 			if (!StringUtility.isNullOrEmpty(qrCodeInfo.getSexType())) {
 				if (CustomerExistFlag == true) {
-					if (!(("0".equals(qrCodeInfo.getSexType()) || SexTypeIn.equals(qrCodeInfo.getSexType()) 
-							|| CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))
-							&& ("0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
-							&& ("00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth())))) {
+					if (!(("0".equals(CustomerSexTypeIn) || "0".equals(SexTypeIn) || "0".equals(qrCodeInfo.getSexType())
+							|| SexTypeIn.equals(qrCodeInfo.getSexType()) || CustomerSexTypeIn.equals(qrCodeInfo.getSexType()))
+							&& ("0".equals(rank) || "0".equals(qrCodeInfo.getMemberRank()) || rank.equals(qrCodeInfo.getMemberRank()))
+							&& ("00".equals(birthMonth) || "00".equals(qrCodeInfo.getBirthMonth()) || birthMonth.equals(qrCodeInfo.getBirthMonth())))) {
 						continue;
 					}
 					// MemberTargetType = 1�̏ꍇ

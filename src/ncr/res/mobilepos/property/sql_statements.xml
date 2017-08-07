@@ -12056,7 +12056,7 @@ FROM (
            tender.TenderName,
            tender.TenderType,
            tender.TenderIdentification,
-           SUM(parment.Amt + ISNULL(parment.ConvertAmt, 0) + ISNULL(parment.SurplusAmt, 0)) AS SumAmt
+           SUM(parment.Amt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
@@ -12080,7 +12080,7 @@ LEFT JOIN (
            tender.TenderName,
            tender.TenderType,
            tender.TenderIdentification,
-           SUM(parment.Amt + ISNULL(parment.ConvertAmt, 0) + ISNULL(parment.SurplusAmt, 0)) AS SumAmt
+           SUM(parment.Amt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment

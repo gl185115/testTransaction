@@ -109,7 +109,7 @@ When getting payment amt of companyid:01, storeid:0247, businessdaydate:2016-06-
 Then it should get NCRWSSResultCode:0
 Then it should get the following:
 |TenderId   |TenderName |TenderType|TenderIdentification|SumAmt |
-|0222       |商品券１           |10        |2                   |3030   |
+|0222       |商品券１           |10        |2                   |3000   |
 |0223       |商品券２           |10        |2                   |0      |
 |0224       |グループ券         |10        |2                   |9000   |
 

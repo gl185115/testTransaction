@@ -12056,7 +12056,8 @@ FROM (
            tender.TenderName,
            tender.TenderType,
            tender.TenderIdentification,
-           SUM(parment.Amt) AS SumAmt
+           SUM(parment.Amt) AS SumAmt,
+           tender.DisplayOrder
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
@@ -12073,13 +12074,10 @@ FROM (
       AND (parment.ReturnFlag = '0' AND parment.VoidFlag = '0')
       AND parment.TrainingFlag = @trainingflag
       AND parment.TenderType IN ('8','9','10','11')
-    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
+    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
 ) A
 LEFT JOIN (
     SELECT parment.TenderId,
-           tender.TenderName,
-           tender.TenderType,
-           tender.TenderIdentification,
            SUM(parment.Amt) AS SumAmt
 
      FROM RESMaster.dbo.MST_TENDERINFO tender
@@ -12097,10 +12095,10 @@ LEFT JOIN (
       AND (parment.ReturnFlag = '1' OR parment.VoidFlag = '1')
       AND parment.TrainingFlag = @trainingflag
       AND parment.TenderType IN ('8','9','10','11')
-    GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
+    GROUP BY parment.TenderId
 ) B
 ON A.TenderId = B.TenderId
-ORDER BY A.TenderId
+ORDER BY A.DisplayOrder,A.TenderType DESC
 </entry>
 <entry key="get-payment-amt-by-txtype">
 DECLARE @companyId varchar(MAX),
@@ -12159,6 +12157,7 @@ SET @storeId = '0'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
-  GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification
+  GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
+  ORDER BY DisplayOrder,TenderType DESC
 </entry>
 </properties>

@@ -515,6 +515,7 @@ public class PromotionResource {
 							saleOut.setMdNameLocal(mdName);
 						}
 						saleOut.setTaxType(Integer.parseInt(taxType));
+						saleOut.setTaxTypeSource("2");
 						saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
 						saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
@@ -534,7 +535,7 @@ public class PromotionResource {
 						saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
 
 						saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
-
+						saleOut.setDiscountTypeSource("2");
 						saleOut.setItemId(itemIdTemp);
 						saleOut.setDepartment(dptCode);
 
@@ -600,10 +601,12 @@ public class PromotionResource {
 					saleItem.setLabelPrice(barCodePrice);
 				}
 				
+				saleItem.setTaxTypeSource("1");
 				// バーコード価格を使用
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
 					String taxType = departmentInfo.getDepartment().getTaxType();
 					saleItem.setTaxType(Integer.parseInt(taxType));
+					saleItem.setTaxTypeSource("2");
 					if (barCodePrice != null) {
 						if ("1".equals(taxType)) {
 							barCodePrice = (double) Math.round(barCodePrice * 1.08);
@@ -621,8 +624,10 @@ public class PromotionResource {
 					}
 				}
 
+				saleItem.setDiscountTypeSource("1");
 				if (discounttype == null) {
 					discounttype = departmentInfo.getDepartment().getDiscountType();
+					saleItem.setDiscountTypeSource("2");
 				}
 				saleItem.setDptDiscountClass(departmentInfo.getDiscountClass());
 				saleItem.setDptDiscountAmt(departmentInfo.getDiscountAmt());

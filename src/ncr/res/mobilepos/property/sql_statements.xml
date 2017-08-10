@@ -10946,13 +10946,12 @@ insert into RESTransaction.dbo.TXL_offline_credit
         WHEN @tillId IS NULL
         THEN (
           SELECT
-            SUM(ItemCnt)
+            SUM(TranCnt)
           FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
             CompanyId = @companyId AND
             RetailStoreId = @retailstoreId AND
-            ItemType = a.DataType AND
             ItemLevel1 = a.ItemLevel1 AND
             ItemLevel2 = a.ItemLevel2 AND
             ItemLevel3 = a.ItemLevel3 AND
@@ -10961,13 +10960,12 @@ insert into RESTransaction.dbo.TXL_offline_credit
             TrainingFlag = @trainingFlag)
         ELSE (
           SELECT
-            SUM(ItemCnt)
+            SUM(TranCnt)
           FROM
             RESTransaction.dbo.TXU_TOTAL_DAILYREPORT
           WHERE
             CompanyId = @companyId AND
             RetailStoreId = @retailstoreId AND
-            ItemType = a.DataType AND
             ItemLevel1 = a.ItemLevel1 AND
             ItemLevel2 = a.ItemLevel2 AND
             ItemLevel3 = a.ItemLevel3 AND
@@ -10994,7 +10992,6 @@ insert into RESTransaction.dbo.TXL_offline_credit
           WHERE
             CompanyId = @companyId AND
             RetailStoreId = @retailstoreId AND
-            ItemType = a.DataType AND
             ItemLevel1 = a.ItemLevel1 AND
             ItemLevel2 = a.ItemLevel2 AND
             ItemLevel3 = a.ItemLevel3 AND
@@ -11009,7 +11006,6 @@ insert into RESTransaction.dbo.TXL_offline_credit
           WHERE
             CompanyId = @companyId AND
             RetailStoreId = @retailstoreId AND
-            ItemType = a.DataType AND
             ItemLevel1 = a.ItemLevel1 AND
             ItemLevel2 = a.ItemLevel2 AND
             ItemLevel3 = a.ItemLevel3 AND
@@ -11033,7 +11029,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
       a.StoreId = @storeId AND
       a.DeleteFlag = 0.0
     ORDER BY
-      a.DataType,
+      cast(a.DataType as int),
       cast(a.ItemLevel1 as int),
       cast(a.ItemLevel2 as int),
       cast(a.ItemLevel3 as int),

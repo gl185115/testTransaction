@@ -31,11 +31,12 @@
         <maven.skip.after.failure.count>0</maven.skip.after.failure.count>
 
         <build.number>0</build.number>
-        <svn.revision>0</svn.revision>
         <myGroupId>temp</myGroupId>
         <myVersion>temp</myVersion>
         <myArtifactId>temp</myArtifactId>
         <drive.path>C:</drive.path>
+		<svn.revision>0</svn.revision>
+        <svn.url>/res/RES MeX/Base/resTransaction/branches/3.3.0</svn.url>
     </properties>
 
     <repositories>
@@ -593,8 +594,8 @@
                         </manifest>
                         <manifestEntries>
                             <Implementation-Build>${project.version}(${buildNumber})</Implementation-Build>
-                            <svn-repository>${scmBranch}</svn-repository>
-                            <svn-revision>${buildNumber}</svn-revision>
+                            <svn-repository>${svn.url}</svn-repository>
+                            <svn-revision>${svn.revision}</svn-revision>
                         </manifestEntries>
                     </archive>
                     <containerConfigXML>WebContent\META-INF\context.xml</containerConfigXML>

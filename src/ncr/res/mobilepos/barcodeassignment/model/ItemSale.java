@@ -22,9 +22,6 @@ public class ItemSale {
 
     @XmlElement(name = "type")
     private String type;
-
-    @XmlElement(name = "symbol")
-    private String symbol;
     
     @XmlElement(name = "emergency")
     private boolean emergency = true;
@@ -59,14 +56,6 @@ public class ItemSale {
         this.type = type;
     }
 
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
-    }
-    
     public boolean getEmergency() {
         return emergency;
     }

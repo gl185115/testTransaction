@@ -1485,7 +1485,7 @@ ORDER BY Dpt
             CompanyId = @companyId
         ORDER BY
             DisplayOrder,
-            TenderType
+            cast(TenderType as int)
     </entry>
 
 <entry key="get-coupon-price-info">
@@ -12094,7 +12094,7 @@ LEFT JOIN (
     GROUP BY parment.TenderId
 ) B
 ON A.TenderId = B.TenderId
-ORDER BY A.DisplayOrder,A.TenderType DESC
+ORDER BY A.DisplayOrder,cast(A.TenderType as int)
 </entry>
 <entry key="get-payment-amt-by-txtype">
 DECLARE @companyId varchar(MAX),
@@ -12154,6 +12154,6 @@ SET @storeId = '0'
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
   GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
-  ORDER BY DisplayOrder,TenderType DESC
+  ORDER BY DisplayOrder,cast(TenderType as int)
 </entry>
 </properties>

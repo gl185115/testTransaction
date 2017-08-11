@@ -12154,6 +12154,6 @@ SET @storeId = '0'
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
   GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
-  ORDER BY DisplayOrder,cast(TenderType as int)
+  ORDER BY DisplayOrder,cast(tender.TenderType as int)
 </entry>
 </properties>

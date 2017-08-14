@@ -40,6 +40,11 @@ public class Till{
     @XmlElement(name = "BusinessDayDate")
     private String businessDayDate;
     /**
+     * Transaction save business day date.
+     */
+    @XmlElement(name = "SaveBusinessDayDate")
+    private String saveBusinessDayDate;
+    /**
      * Start of day flag. (0: not finished, 9: in SOD processing, 1: finished)
      */
     @XmlElement(name = "SodFlag")
@@ -110,7 +115,15 @@ public class Till{
 	public final void setTillId(String tillId) {
 		this.tillId = tillId;
 	}
-
+	
+    @ApiModelProperty(value="Œ»Žž“_‚Ì‹Æ–±“ú•t", notes="Œ»Žž“_‚Ì‹Æ–±“ú•t")
+	public final String getSaveBusinessDayDate() {
+		return saveBusinessDayDate;
+	}
+	public final void setSaveBusinessDayDate(String saveBusinessDayDate) {
+		this.saveBusinessDayDate = saveBusinessDayDate;
+	}
+	
     @ApiModelProperty(value="‰c‹Æ“ú", notes="‰c‹Æ“ú")
 	public final String getBusinessDayDate() {
 		return businessDayDate;

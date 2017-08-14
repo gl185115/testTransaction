@@ -115,6 +115,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                 till.setTillId(result.getString("TillId"));
                 till.setTerminalId(result.getString("TerminalId"));
                 till.setBusinessDayDate(result.getString("BusinessDayDate"));
+                till.setSaveBusinessDayDate(result.getString("SaveBusinessDayDate"));
                 till.setSodFlag(result.getString("SodFlag"));
                 till.setEodFlag(result.getString("EodFlag"));
                 // Ignores the rest of columns.
@@ -308,14 +309,15 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             updateTill.setInt(SQLStatement.PARAM2, updatingTill.getSodFlagAsShort());
             updateTill.setInt(SQLStatement.PARAM3, updatingTill.getEodFlagAsShort());
             updateTill.setString(SQLStatement.PARAM4, updatingTill.getBusinessDayDate());
-            updateTill.setString(SQLStatement.PARAM5, updatingTill.getUpdAppId());
-            updateTill.setString(SQLStatement.PARAM6, updatingTill.getUpdOpeCode());
+            updateTill.setString(SQLStatement.PARAM5, updatingTill.getSaveBusinessDayDate());
+            updateTill.setString(SQLStatement.PARAM6, updatingTill.getUpdAppId());
+            updateTill.setString(SQLStatement.PARAM7, updatingTill.getUpdOpeCode());
             // Where
-            updateTill.setString(SQLStatement.PARAM7, currentTill.getCompanyId());
-            updateTill.setString(SQLStatement.PARAM8, currentTill.getStoreId());
-            updateTill.setString(SQLStatement.PARAM9, currentTill.getTillId());
-            updateTill.setInt(SQLStatement.PARAM10, currentTill.getSodFlagAsShort());
-            updateTill.setInt(SQLStatement.PARAM11, currentTill.getEodFlagAsShort());
+            updateTill.setString(SQLStatement.PARAM8, currentTill.getCompanyId());
+            updateTill.setString(SQLStatement.PARAM9, currentTill.getStoreId());
+            updateTill.setString(SQLStatement.PARAM10, currentTill.getTillId());
+            updateTill.setInt(SQLStatement.PARAM11, currentTill.getSodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM12, currentTill.getEodFlagAsShort());
 
             int updateCount = updateTill.executeUpdate();
             if(updateCount == 0) {

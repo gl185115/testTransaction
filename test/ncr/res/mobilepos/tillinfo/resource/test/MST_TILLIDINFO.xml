@@ -6,6 +6,7 @@
 		<column>TillId</column>
 		<column>TerminalId</column>
 		<column>BusinessDayDate</column>
+		<column>SaveBusinessDayDate</column>
 		<column>SodFlag</column>
 		<column>EodFlag</column>
 		<column>DeleteFlag</column>
@@ -21,6 +22,7 @@
 			<value>es185</value>
 			<value>es134</value>
 			<value>es134</value>
+			<value>1989-03-02</value>
 			<value>1989-03-02</value>
 			<value>9</value>
 			<value>9</value>
@@ -39,6 +41,7 @@
 			<value>000031</value>
 			<value>000031</value>
 			<value>2014-11-14</value>
+			<value>2014-11-14</value>
 			<value>0</value>
 			<value>0</value>
 			<value>0</value>
@@ -56,6 +59,7 @@
 			<value>99995000</value>
 			<value>5000</value>
 			<value>2014-12-01</value>
+			<value>2014-11-14</value>
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
@@ -72,6 +76,7 @@
 			<value>9999</value>
 			<value>99995001</value>
 			<value>5001</value>
+			<value>2014-11-14</value>
 			<value>2014-11-14</value>
 			<value>1</value>
 			<value>9</value>
@@ -90,6 +95,7 @@
 			<value>99995002</value>
 			<value>5002</value>
 			<value>2014-11-14</value>
+			<value>2014-11-14</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>
@@ -106,6 +112,7 @@
 			<value>9999</value>
 			<value>99995003</value>
 			<value>5003</value>
+			<value>2014-11-14</value>
 			<value>2014-11-14</value>
 			<value>1</value>
 			<value>0</value>
@@ -124,6 +131,7 @@
 			<value>99995004</value>
 			<value>5004</value>
 			<value>2014-11-13</value>
+			<value>2014-11-14</value>
 			<value>1</value>
 			<value>0</value>
 			<value>0</value>

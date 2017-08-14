@@ -340,6 +340,7 @@ public class TillInfoResource {
 			updatingTill.setUpdAppId(appId);
 			updatingTill.setUpdOpeCode(operatorNo);
 			updatingTill.setBusinessDayDate(thisBusinessDay);
+			updatingTill.setSaveBusinessDayDate(updatingTill.getBusinessDayDate());
 
 			// SOD or EOD.
 			switch(processingType.toUpperCase()) {
@@ -592,7 +593,8 @@ public class TillInfoResource {
 			updatingTill.setTerminalId(terminalId);
 			updatingTill.setUpdAppId(appId);
 			updatingTill.setUpdOpeCode(operatorNo);
-			updatingTill.setBusinessDayDate(thisBusinessDay);
+			updatingTill.setBusinessDayDate(currentTill.getSaveBusinessDayDate());
+			updatingTill.setSaveBusinessDayDate(currentTill.getSaveBusinessDayDate());
 
 			// SOD or EOD
 			switch(processingType.toUpperCase()) {

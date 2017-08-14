@@ -5418,7 +5418,7 @@ ORDER BY
 
   <entry key="fetch-one-till">
     SELECT
-    	CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SodFlag, EodFlag,
+    	CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SaveBusinessDayDate, SodFlag, EodFlag,
     	DeleteFlag, DelDate, DelAppId, DelOpeCode, InsDate, InsAppId, InsOpeCode,
     	UpdCount, UpdDate, UpdAppId, UpdOpeCode
     FROM
@@ -5435,6 +5435,7 @@ ORDER BY
       SodFlag = ?,
       EodFlag = ?,
       BusinessDayDate = ?,
+      SaveBusinessDayDate = ?,
       UpdDate = GETDATE(),
       UpdAppId = ?,
       UpdOpeCode = ?

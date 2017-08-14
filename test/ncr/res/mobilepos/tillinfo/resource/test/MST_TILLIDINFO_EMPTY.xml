@@ -6,6 +6,7 @@
 		<column>TillId</column>
 		<column>TerminalId</column>
 		<column>BusinessDayDate</column>
+		<column>SaveBusinessDayDate</column>
 		<column>SodFlag</column>
 		<column>EodFlag</column>
 		<column>DeleteFlag</column>

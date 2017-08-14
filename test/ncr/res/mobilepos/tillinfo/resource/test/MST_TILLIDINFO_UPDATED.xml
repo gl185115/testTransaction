@@ -4,6 +4,7 @@
 		<column>StoreId</column>
 		<column>TillId</column>
 		<column>BusinessDayDate</column>
+		<column>SaveBusinessDayDate</column>
 		<column>SodFlag</column>
 		<column>EodFlag</column>
 		<column>InsDate</column>
@@ -20,6 +21,7 @@
 			<value>000031</value>
 			<value>000031</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>0</value>
 			<value>0</value>
 			<value>2014-11-14 00:00:00</value>
@@ -37,6 +39,7 @@
 			<value>000031</value>
 			<value>000032</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>0</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -54,6 +57,7 @@
 			<value>000031</value>
 			<value>000033</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>0</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -71,6 +75,7 @@
 			<value>000031</value>
 			<value>000034</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>1</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -88,6 +93,7 @@
 			<value>000031</value>
 			<value>000035</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>7</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -105,6 +111,7 @@
 			<value>000031</value>
 			<value>000036</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>9</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -122,6 +129,7 @@
 			<value>000031</value>
 			<value>000037</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>9</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -139,6 +147,7 @@
 			<value>000031</value>
 			<value>000038</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>9</value>
 			<value>0</value>
 			<value>2000-03-03 00:00:00</value>
@@ -156,6 +165,7 @@
 			<value>000031</value>
 			<value>000039</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>0</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>
@@ -173,6 +183,7 @@
 			<value>000031</value>
 			<value>000040</value>
 			<value>2014-11-14</value>
+			<value>2014-12-01</value>
 			<value>9</value>
 			<value>1</value>
 			<value>2000-03-03 00:00:00</value>

@@ -29,11 +29,11 @@ public class PriceDerivationRule {
     /** The Price ReplaceSupportCode. */
     @XmlElement(name = "ReplaceSupportCode")
     private String replaceSupportCode;
-    
+
     /** The Price PricePromCode. */
     @XmlElement(name = "PricePromCode")
     private String pricePromCode;
-    
+
     /** The PromotionCode. */
     @XmlElement(name = "PromotionCode")
     private String PromotionCode;
@@ -41,6 +41,10 @@ public class PriceDerivationRule {
     /** The PromotionName. */
     @XmlElement(name = "PromotionName")
     private String PromotionName;
+
+    /** The PromotionType. */
+    @XmlElement(name = "PromotionType")
+    private String PromotionType;
 
     /** The Description. */
     @XmlElement(name = "Description")
@@ -271,6 +275,21 @@ public class PriceDerivationRule {
      */
     public final void setPromotionCode(final String promotionCode) {
         PromotionCode = promotionCode;
+    }
+
+    /**
+     * @return the promotionType
+     */
+    public final String getPromotionType() {
+        return PromotionType;
+    }
+
+    /**
+     * @param promotionType
+     *            the promotionType to set
+     */
+    public final void setPromotionType(final String promotionType) {
+        PromotionType = promotionType;
     }
 
     /**

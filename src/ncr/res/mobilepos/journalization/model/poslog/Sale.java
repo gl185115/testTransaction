@@ -503,6 +503,18 @@ public class Sale {
     private String labelPrice;
 
     /**
+     * TaxTypeSource
+     */
+    @XmlElement(name = "TaxTypeSource")
+    private String taxTypeSource;
+
+    /**
+     * DiscountTypeSource
+     */
+    @XmlElement(name = "DiscountTypeSource")
+    private String discountTypeSource;
+
+    /**
      * @return the barReservationType
      */
     public BarReservationType getBarReservationType() {
@@ -1576,5 +1588,31 @@ public class Sale {
      */
     public final String getLabelPrice() {
         return labelPrice;
+    }
+
+    /**
+     * @param taxTypeSource the taxTypeSource to set
+     */
+    public final void setTaxTypeSource(final String taxTypeSource) {
+        this.taxTypeSource = taxTypeSource;
+    }
+    /**
+     * @return the taxTypeSource
+     */
+    public final String getTaxTypeSource() {
+        return taxTypeSource;
+    }
+
+    /**
+     * @param discountTypeSource the discountTypeSource to set
+     */
+    public final void setDiscountTypeSource(final String discountTypeSource) {
+        this.discountTypeSource = discountTypeSource;
+    }
+    /**
+     * @return the discountTypeSource
+     */
+    public final String getDiscountTypeSource() {
+        return discountTypeSource;
     }
 }

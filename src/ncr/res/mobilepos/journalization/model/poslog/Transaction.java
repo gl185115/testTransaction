@@ -145,7 +145,7 @@ public class Transaction {
      * being printed.
      */
     @XmlElement(name = "SummaryReceiptNo")
-    private ControlTransaction summaryReceiptNo;
+    private String summaryReceiptNo;
     /**
      * ControlTransaction of SummaryReceipt details for transaction that is
      * being printed.
@@ -479,11 +479,11 @@ public class Transaction {
         receiptDateTime = receiptDateTimeToSet;
     }
 
-    public ControlTransaction getSummaryReceiptNo() {
+    public String getSummaryReceiptNo() {
 		return summaryReceiptNo;
 	}
 
-	public void setSummaryReceiptNo(ControlTransaction summaryReceiptNo) {
+	public void setSummaryReceiptNo(String summaryReceiptNo) {
 		this.summaryReceiptNo = summaryReceiptNo;
 	}
 

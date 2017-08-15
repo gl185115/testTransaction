@@ -9,7 +9,7 @@ Then it should have an authorized code 0
 Then it should get cashonhand 0
 Then MST_TILLIDINFO should have the following:
 |CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|UpdOpeCode	|
-|01			|0247		|02470001	|0001		|2016-08-16			|9			|1			|9011011	|
+|01			|0247		|02470001	|0001		|2016-08-16			|9			|0			|9011011	|
 
 Scenario: Repeat SOD of Same Terminal But Different Operator
 Given that multiple SOD is {not allowed}
@@ -64,7 +64,7 @@ Then it should have an authorized code 0
 Then it should get cashonhand 0
 Then MST_TILLIDINFO should have the following:
 |CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|UpdOpeCode	|
-|01			|0247		|02470001	|0001		|2016-08-16			|9			|1			|9011011	|
+|01			|0247		|02470001	|0001		|2016-08-16			|9			|0			|9011011	|
 
 Scenario: Repeat SOD of Same Terminal But Different Operator
 Given that multiple SOD is allowed

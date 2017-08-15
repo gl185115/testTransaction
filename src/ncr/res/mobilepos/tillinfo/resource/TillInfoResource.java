@@ -341,12 +341,12 @@ public class TillInfoResource {
 			updatingTill.setUpdOpeCode(operatorNo);
 			updatingTill.setSaveBusinessDayDate(updatingTill.getBusinessDayDate());
 			updatingTill.setBusinessDayDate(thisBusinessDay);
-			
 
 			// SOD or EOD.
 			switch(processingType.toUpperCase()) {
 				case "SOD" :
 					updatingTill.setSodFlag(SOD_FLAG_PROCESSING);
+					updatingTill.setEodFlag(EOD_FLAG_UNFINISHED);
 
 					// If MultiSOD from SystemConfiguration is ON, it passes any SodFlag validation.
 					if (GlobalConstant.isMultiSOD()) {
@@ -366,7 +366,8 @@ public class TillInfoResource {
 
 				case "EOD" :
 					updatingTill.setEodFlag(EOD_FLAG_PROCESSING);
-
+					updatingTill.setSodFlag(SOD_FLAG_UNFINISHED);
+					
 					// Checks if eodFlag is valid for getting Eod authority.
 					ResultBase eodValidity = checkEodFlagValidity(currentTill, updatingTill, compulsory);
 					if (eodValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
@@ -602,6 +603,7 @@ public class TillInfoResource {
 				case "SOD" :
 					//change from 9 (processing) to 0 (unfinished) since SOD is cancelled
 					updatingTill.setSodFlag(SOD_FLAG_UNFINISHED);
+					updatingTill.setEodFlag(EOD_FLAG_FINISHED);
 
 					// Checks if sodFlag is valid for getting Sod authority.
 					ResultBase sodFlagValidity = checkReleaseSodFlagValidity(currentTill.getSodFlag());
@@ -615,6 +617,7 @@ public class TillInfoResource {
 				case "EOD" :
 					//change from 9 (processing) to 0 (unfinished) since EOD is cancelled
 					updatingTill.setEodFlag(EOD_FLAG_UNFINISHED);
+					updatingTill.setSodFlag(SOD_FLAG_FINISHED);
 
 					// Checks if eodFlag is valid for releasing Eod authority.
 					ResultBase eodFlagValidity = checkReleaseEodFlagValidity(currentTill.getEodFlag());

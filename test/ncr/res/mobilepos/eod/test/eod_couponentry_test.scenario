@@ -7,7 +7,7 @@ Given that execute authority is done for companyid:01 retailstoreid:0247 tillid:
 When getting till information of storeid:0247 tillid:02470001
 Then it should get the following:
 |NCRWSSResultCode	|StoreId	|TillId		|BusinessDayDate	|SodFlag	|EodFlag	|
-|0					|0247		|02470001	|2016-08-16			|1			|9			|
+|0					|0247		|02470001	|2016-08-16			|0			|9			|
 When releasing execute authority for EOD companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD
 Then it should get the NCRWSSResultCode:0
 Then MST_TILLIDINFO table should have:

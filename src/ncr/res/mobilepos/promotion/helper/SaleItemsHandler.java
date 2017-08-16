@@ -147,6 +147,7 @@ public final class SaleItemsHandler {
         saleRes.setMdType(item.getMdType());
         saleRes.setPromotionId(item.getPromotionId());
         saleRes.setPromotionNo(item.getPromotionNo());
+        saleRes.setPromotionType(item.getPromotionType());
         saleRes.setDptDiscountType(item.getDptDiscountType());
         saleRes.setMdNameLocal(item.getMdNameLocal());
         saleRes.setMdKanaName(item.getMdKanaName());

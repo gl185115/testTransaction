@@ -458,6 +458,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             searchedItem.setDiscountClass(Integer.parseInt(pricePromInfo.getDiscountClass()));
             searchedItem.setDiacountRate(pricePromInfo.getDiscountRate());
             searchedItem.setDiscountAmt((int)pricePromInfo.getDiscountAmt());
+            searchedItem.setPromotionType(pricePromInfo.getPromotionType());
     	}
     	return isHaveValue;
     }

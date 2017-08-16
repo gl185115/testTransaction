@@ -152,6 +152,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 			dptModel.setDiscountAmt(pricePromInfo.getDiscountAmt());
 			dptModel.setDiscountRate(pricePromInfo.getDiscountRate());
 			dptModel.setPromotionNo(pricePromInfo.getPromotionNo());
+			dptModel.setPromotionType(pricePromInfo.getPromotionType());
 		}
         tp.methodExit(dptModel.toString());
 	}

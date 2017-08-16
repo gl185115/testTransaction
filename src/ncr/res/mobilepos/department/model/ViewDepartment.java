@@ -53,6 +53,12 @@ public class ViewDepartment extends ResultBase {
      */
     @XmlElement(name = "DiscountClass")
     private String discountClass;
+    
+    /**
+     * Promotion Type.
+     */
+    @XmlElement(name = "PromotionType")
+    private String promotionType;
     /**
      * Gets the list of departments.
      *
@@ -165,6 +171,25 @@ public class ViewDepartment extends ResultBase {
      */
     public final void setDiscountClass(final String discountClassToSet) {
         this.discountClass = discountClassToSet;
+    }
+    
+	/**
+     * Gets the promotionType.
+     *
+     * @return promotionType
+     */
+    @ApiModelProperty( value="ê›íËãÊï™", notes="ê›íËãÊï™")
+    public final String getPromotionType() {
+        return promotionType;
+    }
+
+    /**
+     * Sets the promotionType.
+     *
+     * @param promotionType promotionType.
+     */
+    public final void setPromotionType(final String promotionType) {
+        this.promotionType = promotionType;
     }
     
     @Override

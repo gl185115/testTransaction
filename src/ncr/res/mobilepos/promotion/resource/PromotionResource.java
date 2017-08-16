@@ -528,6 +528,7 @@ public class PromotionResource {
 						saleOut.setDptDiscountAmt(departmentInfo.getDiscountAmt());
 						saleOut.setDptDiscountRate(departmentInfo.getDiscountRate());
 						saleOut.setDptPromotionNo(departmentInfo.getPromotionNo());
+						saleOut.setPromotionType(departmentInfo.getPromotionType());
 
 						String taxRate = departmentInfo.getDepartment().getTaxRate();
 						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : Integer.parseInt(taxRate));

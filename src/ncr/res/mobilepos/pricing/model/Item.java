@@ -107,6 +107,9 @@ public class Item {
     @XmlElement(name = "promotionNo")
     private String promotionNo;
     
+    @XmlElement(name = "PromotionType")
+    private String promotionType;
+    
     @XmlElement(name = "MdType")
     private String mdType = "";
     
@@ -1105,6 +1108,15 @@ public class Item {
 
     public void setPromotionNo(String promotionNo) {
         this.promotionNo = promotionNo;
+    }
+    
+    @ApiModelProperty(value="設定区分", notes="設定区分")
+    public String getPromotionType() {
+        return promotionType;
+    }
+
+    public void setPromotionType(String promotionType) {
+        this.promotionType = promotionType;
     }
 
     @ApiModelProperty(value="プレミアム商品NO", notes="プレミアム商品NO")

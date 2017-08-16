@@ -92,7 +92,7 @@ public class PointInfo {
 		this.pointFlag = pointFlag;
 	}
 	
-    @ApiModelProperty(value="ãƒã‚¤ãƒ³ãƒˆé‹ç”¨ãƒ•ãƒ©ã‚°", notes="ãƒã‚¤ãƒ³ãƒˆé‹ç”¨ãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="ƒ|ƒCƒ“ƒg‰^—pƒtƒ‰ƒO", notes="ƒ|ƒCƒ“ƒg‰^—pƒtƒ‰ƒO")
 	public final String getPointFlag() {
 		return pointFlag;
 	}
@@ -101,7 +101,7 @@ public class PointInfo {
 		this.pointType = pointType;
 	}
 	
-    @ApiModelProperty(value="ãƒã‚¤ãƒ³ãƒˆåŒºåˆ†", notes="ãƒã‚¤ãƒ³ãƒˆåŒºåˆ†")
+    @ApiModelProperty(value="ƒ|ƒCƒ“ƒg‹æ•ª", notes="ƒ|ƒCƒ“ƒg‹æ•ª")
 	public final String getPointType() {
 		return pointType;
 	}
@@ -109,7 +109,7 @@ public class PointInfo {
 		this.basePrice = basePrice;
 	}
 	
-    @ApiModelProperty(value="åŸºæº–é¡", notes="åŸºæº–é¡")
+    @ApiModelProperty(value="Šî€Šz", notes="Šî€Šz")
 	public final String getBasePrice() {
 		return basePrice;
 	}
@@ -117,7 +117,7 @@ public class PointInfo {
 		this.recordId = recordId;
 	}
 	
-    @ApiModelProperty(value="ç®¡ç†NO", notes="ç®¡ç†NO")
+    @ApiModelProperty(value="ŠÇ—NO", notes="ŠÇ—NO")
 	public final String getRecordId() {
 		return recordId;
 	}
@@ -125,7 +125,7 @@ public class PointInfo {
 		this.basePoint = basePoint;
 	}
 	
-    @ApiModelProperty(value="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ", notes="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ")
+    @ApiModelProperty(value="Šî€ƒ|ƒCƒ“ƒg", notes="Šî€ƒ|ƒCƒ“ƒg")
 	public final String getBasePoint() {
 		return basePoint;
 	}
@@ -133,7 +133,7 @@ public class PointInfo {
 		this.cashingUnit = cashingUnit;
 	}
 	
-    @ApiModelProperty(value="é‚„å…ƒé¡(1P)", notes="é‚„å…ƒé¡(1P)")
+    @ApiModelProperty(value="ŠÒŒ³Šz(1P)", notes="ŠÒŒ³Šz(1P)")
 	public final String getCashingUnit() {
 		return cashingUnit;
 	}
@@ -141,7 +141,7 @@ public class PointInfo {
 		this.pointTender = pointTender;
 	}
 	
-    @ApiModelProperty(value="ãƒã‚¤ãƒ³ãƒˆç¨®åˆ¥", notes="ãƒã‚¤ãƒ³ãƒˆç¨®åˆ¥")
+    @ApiModelProperty(value="ƒ|ƒCƒ“ƒgí•Ê", notes="ƒ|ƒCƒ“ƒgí•Ê")
 	public final String getPointTender() {
 		return pointTender;
 	}
@@ -149,7 +149,7 @@ public class PointInfo {
 		this.pointCalcType = pointCalcType;
 	}
 	
-    @ApiModelProperty(value="è¨ˆç®—å˜ä½åŒºåˆ†", notes="è¨ˆç®—å˜ä½åŒºåˆ†")
+    @ApiModelProperty(value="ŒvZ’PˆÊ‹æ•ª", notes="ŒvZ’PˆÊ‹æ•ª")
 	public final String getPointCalcType() {
 		return pointCalcType;
 	}
@@ -157,7 +157,7 @@ public class PointInfo {
 		this.taxCalcType = taxCalcType;
 	}
 	
-    @ApiModelProperty(value="ç¨è¨ˆç®—åŒºåˆ†", notes="ç¨è¨ˆç®—åŒºåˆ†")
+    @ApiModelProperty(value="ÅŒvZ‹æ•ª", notes="ÅŒvZ‹æ•ª")
 	public final String getTaxCalcType() {
 		return taxCalcType;
 	}
@@ -165,7 +165,7 @@ public class PointInfo {
 		this.roundType = roundType;
 	}
 	
-    @ApiModelProperty(value="ä¸¸ã‚æ–¹æ³•åŒºåˆ†", notes="ä¸¸ã‚æ–¹æ³•åŒºåˆ†")
+    @ApiModelProperty(value="ŠÛ‚ß•û–@‹æ•ª", notes="ŠÛ‚ß•û–@‹æ•ª")
 	public final String getRoundType() {
 		return roundType;
 	}
@@ -173,7 +173,7 @@ public class PointInfo {
 		this.tenderSettingFlag = tenderSettingFlag;
 	}
 	
-    @ApiModelProperty(value="é‡‘ç¨®è¨­å®šãƒ•ãƒ©ã‚°", notes="é‡‘ç¨®è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="‹àíİ’èƒtƒ‰ƒO", notes="‹àíİ’èƒtƒ‰ƒO")
 	public final String getTenderSettingFlag() {
 		return tenderSettingFlag;
 	}
@@ -181,7 +181,7 @@ public class PointInfo {
 		this.basePointCash = basePointCash;
 	}
 	
-    @ApiModelProperty(value="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ(ç¾é‡‘)", notes="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ(ç¾é‡‘)")
+    @ApiModelProperty(value="Šî€ƒ|ƒCƒ“ƒg(Œ»‹à)", notes="Šî€ƒ|ƒCƒ“ƒg(Œ»‹à)")
 	public final String getBasePointCash() {
 		return basePointCash;
 	}
@@ -189,7 +189,7 @@ public class PointInfo {
 		this.basePointAffiliate = basePointAffiliate;
 	}
 	
-    @ApiModelProperty(value="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ(ææº)", notes="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ(ææº)")
+    @ApiModelProperty(value="Šî€ƒ|ƒCƒ“ƒg(’ñŒg)", notes="Šî€ƒ|ƒCƒ“ƒg(’ñŒg)")
 	public final String getBasePointAffiliate() {
 		return basePointAffiliate;
 	}
@@ -197,7 +197,7 @@ public class PointInfo {
 		this.basePointNonAffiliate = basePointNonAffiliate;
 	}
 	
-    @ApiModelProperty(value="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ(ææºå¤–)", notes="åŸºæº–ãƒã‚¤ãƒ³ãƒˆ(ææºå¤–)")
+    @ApiModelProperty(value="Šî€ƒ|ƒCƒ“ƒg(’ñŒgŠO)", notes="Šî€ƒ|ƒCƒ“ƒg(’ñŒgŠO)")
 	public final String getBasePointNonAffiliate() {
 		return basePointNonAffiliate;
 	}
@@ -205,7 +205,7 @@ public class PointInfo {
 		this.cardSettingFlag = cardSettingFlag;
 	}
 	
-    @ApiModelProperty(value="ã‚«ãƒ¼ãƒ‰è¨­å®šãƒ•ãƒ©ã‚°", notes="ã‚«ãƒ¼ãƒ‰è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="ƒJ[ƒhİ’èƒtƒ‰ƒO", notes="ƒJ[ƒhİ’èƒtƒ‰ƒO")
 	public final String getCardSettingFlag() {
 		return cardSettingFlag;
 	}
@@ -213,7 +213,7 @@ public class PointInfo {
 		this.targetStoreType = targetStoreType;
 	}
 	
-    @ApiModelProperty(value="åº—è¨­å®šåŒºåˆ†", notes="åº—è¨­å®šåŒºåˆ†")
+    @ApiModelProperty(value="“Xİ’è‹æ•ª", notes="“Xİ’è‹æ•ª")
 	public final String getTargetStoreType() {
 		return targetStoreType;
 	}
@@ -221,7 +221,7 @@ public class PointInfo {
 		this.itemSettingFlag = itemSettingFlag;
 	}
 	
-    @ApiModelProperty(value="å•†å“åˆ¥è¨­å®šãƒ•ãƒ©ã‚°", notes="å•†å“åˆ¥è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="¤•i•Êİ’èƒtƒ‰ƒO", notes="¤•i•Êİ’èƒtƒ‰ƒO")
 	public final String getItemSettingFlag() {
 		return itemSettingFlag;
 	}
@@ -229,7 +229,7 @@ public class PointInfo {
 		this.dptSettingFlag = dptSettingFlag;
 	}
 	
-    @ApiModelProperty(value="éƒ¨é–€åˆ¥è¨­å®šãƒ•ãƒ©ã‚°", notes="éƒ¨é–€åˆ¥è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="•”–å•Êİ’èƒtƒ‰ƒO", notes="•”–å•Êİ’èƒtƒ‰ƒO")
 	public final String getDptSettingFlag() {
 		return dptSettingFlag;
 	}
@@ -238,7 +238,7 @@ public class PointInfo {
 		this.cardClassId = cardClassId;
 	}
 	
-    @ApiModelProperty(value="ã‚«ãƒ¼ãƒ‰åŒºåˆ†", notes="ã‚«ãƒ¼ãƒ‰åŒºåˆ†")
+    @ApiModelProperty(value="ƒJ[ƒh‹æ•ª", notes="ƒJ[ƒh‹æ•ª")
 	public final String getCardClassId() {
 		return cardClassId;
 	}
@@ -246,7 +246,7 @@ public class PointInfo {
 		this.tenderId = tenderId;
 	}
 	
-    @ApiModelProperty(value="ç¨®åˆ¥ã‚³ãƒ¼ãƒ‰", notes="ç¨®åˆ¥ã‚³ãƒ¼ãƒ‰")
+    @ApiModelProperty(value="í•ÊƒR[ƒh", notes="í•ÊƒR[ƒh")
 	public final String getTenderId() {
 		return tenderId;
 	}
@@ -254,7 +254,7 @@ public class PointInfo {
 		this.tenderType = tenderType;
 	}
 	
-    @ApiModelProperty(value="æ”¯æ‰•ç¨®åˆ¥", notes="æ”¯æ‰•ç¨®åˆ¥")
+    @ApiModelProperty(value="x•¥í•Ê", notes="x•¥í•Ê")
 	public final String getTenderType() {
 		return tenderType;
 	}
@@ -262,7 +262,7 @@ public class PointInfo {
 		this.groupTargetType = groupTargetType;
 	}
 	
-    @ApiModelProperty(value="ã‚°ãƒ«ãƒ¼ãƒ—è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°", notes="ã‚°ãƒ«ãƒ¼ãƒ—è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="ƒOƒ‹[ƒv•¡”İ’èƒtƒ‰ƒO", notes="ƒOƒ‹[ƒv•¡”İ’èƒtƒ‰ƒO")
 	public final String getGroupTargetType() {
 		return groupTargetType;
 	}
@@ -270,7 +270,7 @@ public class PointInfo {
 		this.groupIdStart = groupIdStart;
 	}
 	
-    @ApiModelProperty(value="ã‚°ãƒ«ãƒ¼ãƒ—FROM", notes="ã‚°ãƒ«ãƒ¼ãƒ—FROM")
+    @ApiModelProperty(value="ƒOƒ‹[ƒvFROM", notes="ƒOƒ‹[ƒvFROM")
 	public final String getGroupIdStart() {
 		return groupIdStart;
 	}
@@ -278,7 +278,7 @@ public class PointInfo {
 		this.groupIdEnd = groupIdEnd;
 	}
 	
-    @ApiModelProperty(value="ã‚°ãƒ«ãƒ¼ãƒ—TO", notes="ã‚°ãƒ«ãƒ¼ãƒ—TO")
+    @ApiModelProperty(value="ƒOƒ‹[ƒvTO", notes="ƒOƒ‹[ƒvTO")
 	public final String getGroupIdEnd() {
 		return groupIdEnd;
 	}
@@ -286,7 +286,7 @@ public class PointInfo {
 		this.dptTargetType = dptTargetType;
 	}
 	
-    @ApiModelProperty(value="éƒ¨é–€è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°", notes="éƒ¨é–€è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="•”–å•¡”İ’èƒtƒ‰ƒO", notes="•”–å•¡”İ’èƒtƒ‰ƒO")
 	public final String getDptTargetType() {
 		return dptTargetType;
 	}
@@ -294,7 +294,7 @@ public class PointInfo {
 		this.dptStart = dptStart;
 	}
 	
-    @ApiModelProperty(value="éƒ¨é–€FROM", notes="éƒ¨é–€FROM")
+    @ApiModelProperty(value="•”–åFROM", notes="•”–åFROM")
 	public final String getDptStart() {
 		return dptStart;
 	}
@@ -302,7 +302,7 @@ public class PointInfo {
 		this.dptEnd = dptEnd;
 	}
 	
-    @ApiModelProperty(value="éƒ¨é–€TO", notes="éƒ¨é–€TO")
+    @ApiModelProperty(value="•”–åTO", notes="•”–åTO")
 	public final String getDptEnd() {
 		return dptEnd;
 	}
@@ -310,7 +310,7 @@ public class PointInfo {
 		this.brandTargetType = brandTargetType;
 	}
 	
-    @ApiModelProperty(value="ãƒ–ãƒ©ãƒ³ãƒ‰è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°", notes="ãƒ–ãƒ©ãƒ³ãƒ‰è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="ƒuƒ‰ƒ“ƒh•¡”İ’èƒtƒ‰ƒO", notes="ƒuƒ‰ƒ“ƒh•¡”İ’èƒtƒ‰ƒO")
 	public final String getBrandTargetType() {
 		return brandTargetType;
 	}
@@ -318,7 +318,7 @@ public class PointInfo {
 		this.brandIdStart = brandIdStart;
 	}
 	
-    @ApiModelProperty(value="ãƒ–ãƒ©ãƒ³ãƒ‰FROM", notes="ãƒ–ãƒ©ãƒ³ãƒ‰FROM")
+    @ApiModelProperty(value="ƒuƒ‰ƒ“ƒhFROM", notes="ƒuƒ‰ƒ“ƒhFROM")
 	public final String getBrandIdStart() {
 		return brandIdStart;
 	}
@@ -326,7 +326,7 @@ public class PointInfo {
 		this.brandIdEnd = brandIdEnd;
 	}
 	
-    @ApiModelProperty(value="ãƒ–ãƒ©ãƒ³ãƒ‰TO", notes="ãƒ–ãƒ©ãƒ³ãƒ‰TO")
+    @ApiModelProperty(value="ƒuƒ‰ƒ“ƒhTO", notes="ƒuƒ‰ƒ“ƒhTO")
 	public final String getBrandIdEnd() {
 		return brandIdEnd;
 	}
@@ -334,7 +334,7 @@ public class PointInfo {
 		this.skuTargetType = skuTargetType;
 	}
 	
-    @ApiModelProperty(value="å•†å“ã‚³ãƒ¼ãƒ‰è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°", notes="å•†å“ã‚³ãƒ¼ãƒ‰è¤‡æ•°è¨­å®šãƒ•ãƒ©ã‚°")
+    @ApiModelProperty(value="¤•iƒR[ƒh•¡”İ’èƒtƒ‰ƒO", notes="¤•iƒR[ƒh•¡”İ’èƒtƒ‰ƒO")
 	public final String getSkuTargetType() {
 		return skuTargetType;
 	}
@@ -342,7 +342,7 @@ public class PointInfo {
 		this.skuStart = skuStart;
 	}
 	
-    @ApiModelProperty(value="å•†å“ã‚³ãƒ¼ãƒ‰FROM", notes="å•†å“ã‚³ãƒ¼ãƒ‰FROM")
+    @ApiModelProperty(value="¤•iƒR[ƒhFROM", notes="¤•iƒR[ƒhFROM")
 	public final String getSkuStart() {
 		return skuStart;
 	}
@@ -350,7 +350,7 @@ public class PointInfo {
 		this.skuEnd = skuEnd;
 	}
 	
-    @ApiModelProperty(value="å•†å“ã‚³ãƒ¼ãƒ‰TO", notes="å•†å“ã‚³ãƒ¼ãƒ‰TO")
+    @ApiModelProperty(value="¤•iƒR[ƒhTO", notes="¤•iƒR[ƒhTO")
 	public final String getSkuEnd() {
 		return skuEnd;
 	}
@@ -358,7 +358,7 @@ public class PointInfo {
 		this.infoBasePoint = infoBasePoint;
 	}
 	
-    @ApiModelProperty(value="ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³å•†å“ãƒã‚¹ã‚¿-åŸºæº–ãƒã‚¤ãƒ³ãƒˆ", notes="ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³å•†å“ãƒã‚¹ã‚¿åŸºæº–ãƒã‚¤ãƒ³ãƒˆ")
+    @ApiModelProperty(value="ƒLƒƒƒ“ƒy[ƒ“¤•iƒ}ƒXƒ^-Šî€ƒ|ƒCƒ“ƒg", notes="ƒLƒƒƒ“ƒy[ƒ“¤•iƒ}ƒXƒ^Šî€ƒ|ƒCƒ“ƒg")
 	public final String getInfoBasePoint() {
 		return infoBasePoint;
 	}
@@ -366,7 +366,7 @@ public class PointInfo {
 		this.detailBasePoint = detailBasePoint;
 	}
 	
-    @ApiModelProperty(value="ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³å•†å“æ˜ç´°ãƒã‚¹ã‚¿-åŸºæº–ãƒã‚¤ãƒ³ãƒˆ", notes="ã‚­ãƒ£ãƒ³ãƒšãƒ¼ãƒ³å•†å“æ˜ç´°ãƒã‚¹ã‚¿-åŸºæº–ãƒã‚¤ãƒ³ãƒˆ")
+    @ApiModelProperty(value="ƒLƒƒƒ“ƒy[ƒ“¤•i–¾×ƒ}ƒXƒ^-Šî€ƒ|ƒCƒ“ƒg", notes="ƒLƒƒƒ“ƒy[ƒ“¤•i–¾×ƒ}ƒXƒ^-Šî€ƒ|ƒCƒ“ƒg")
 	public final String getDetailBasePoint() {
 		return detailBasePoint;
 	}
@@ -374,7 +374,7 @@ public class PointInfo {
 		this.targetType = targetType;
 	}
 	
-    @ApiModelProperty(value="è¨­å®šåŒºåˆ†", notes="è¨­å®šåŒºåˆ†")
+    @ApiModelProperty(value="İ’è‹æ•ª", notes="İ’è‹æ•ª")
 	public final String getTargetType() {
 		return targetType;
 	}
@@ -382,7 +382,7 @@ public class PointInfo {
 		this.targetId = targetId;
 	}
 	
-    @ApiModelProperty(value="è¨­å®šã‚³ãƒ¼ãƒ‰", notes="è¨­å®šã‚³ãƒ¼ãƒ‰")
+    @ApiModelProperty(value="İ’èƒR[ƒh", notes="İ’èƒR[ƒh")
 	public final String getTargetId() {
 		return targetId;
 	}

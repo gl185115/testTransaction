@@ -516,12 +516,12 @@ public class TerminalItem {
                 ruleentryinfo1.setQuantity(remainder);
                 ruleList2.add(ruleentryinfo1);
                 detailinfo.addEntryList(ruleList2);
-                if(null != rule.getDecisionPrice3()){
+                // if(null != rule.getDecisionPrice3()){
                     map.put("lastDecisionPrice", rule.getDecisionPrice3());
-                    detailinfo.setAveragePrice(rule.getAveragePrice3() > rule.getDecisionPrice3() ? rule.getDecisionPrice3() : rule.getAveragePrice3());
-                }else{
+                    // detailinfo.setAveragePrice(rule.getAveragePrice3() > rule.getDecisionPrice3() ? rule.getDecisionPrice3() : rule.getAveragePrice3());
+                // }else{
                     detailinfo.setAveragePrice(rule.getAveragePrice3());
-                }
+                // }
                 if (map.containsKey("rule3")) {
                     ((DetailInfo) map.get("rule3")).addEntryList(ruleList2);
                     ((DetailInfo) map.get("rule3")).setTimes(((DetailInfo) map.get("rule3")).getTimes() + times);
@@ -574,11 +574,11 @@ public class TerminalItem {
                 if (rule.getDecisionPrice2() != null && !map.containsKey("lastDecisionPrice")) {
                     map.put("lastDecisionPrice", rule.getDecisionPrice2());
                 }
-                if(map.containsKey("lastDecisionPrice")){
-                    detailinfo.setAveragePrice(rule.getAveragePrice2() > (double)map.get("lastDecisionPrice") ? (double)map.get("lastDecisionPrice") : rule.getAveragePrice2());
-                } else{
+                // if(map.containsKey("lastDecisionPrice")){
+                //     detailinfo.setAveragePrice(rule.getAveragePrice2() > (double)map.get("lastDecisionPrice") ? (double)map.get("lastDecisionPrice") : rule.getAveragePrice2());
+                // } else{
                     detailinfo.setAveragePrice(rule.getAveragePrice2());
-                }
+                // }
                 int times = sumCount / rule.getConditionCount2();
                 sumCount = sumCount % rule.getConditionCount2();
                 remainder = mixMatchDetailInfo2.getQuantity() - sumCount;
@@ -633,11 +633,11 @@ public class TerminalItem {
                 if (rule.getDecisionPrice1() != null && !map.containsKey("lastDecisionPrice")) {
                     map.put("lastDecisionPrice", rule.getDecisionPrice1());
                 }
-                if(map.containsKey("lastDecisionPrice")){
-                    detailinfo.setAveragePrice(rule.getAveragePrice1() > (double)map.get("lastDecisionPrice") ? (double)map.get("lastDecisionPrice") : rule.getAveragePrice1());
-                } else{
+                // if(map.containsKey("lastDecisionPrice")){
+                //     detailinfo.setAveragePrice(rule.getAveragePrice1() > (double)map.get("lastDecisionPrice") ? (double)map.get("lastDecisionPrice") : rule.getAveragePrice1());
+                // } else{
                     detailinfo.setAveragePrice(rule.getAveragePrice1());
-                }
+                // }
                 int times = sumCount / rule.getConditionCount1();
                 sumCount = sumCount % rule.getConditionCount1();
                 remainder = mixMatchDetailInfo1.getQuantity() - sumCount;
@@ -678,6 +678,105 @@ public class TerminalItem {
     }
     
 
+    public Map<String, Map<String, Object>> getTheNewMap(Map<String, Map<String, Object>> map){
+        for(Map.Entry<String, Map<String, Object>> entryMap : map.entrySet()){
+            double beforeBmPrice = 0;
+            double bmPrice = 0;
+            String mmNo = entryMap.getKey();
+            Map<String, Object> childMap = entryMap.getValue();
+            double lastDecisionPrice =!isNullOrEmpty(childMap.get("lastDecisionPrice")) ? (Double)childMap.get("lastDecisionPrice") :0;
+            bmPrice += getPrice(childMap,"rule1",lastDecisionPrice);
+            bmPrice += getPrice(childMap,"rule2",lastDecisionPrice);
+            bmPrice += getPrice(childMap,"rule3",lastDecisionPrice);
+            bmPrice += getRemainderPrice(childMap,lastDecisionPrice);
+            if(!"".equals(mmNo)){
+                List<MixMatchDetailInfo> ruleList  = bmDetailMap.get(mmNo);
+                for(MixMatchDetailInfo info : ruleList){
+                    beforeBmPrice += info.getQuantity() * info.getTruePrice();
+                }
+                if(beforeBmPrice < bmPrice){
+                    childMap.put("hasMixMatch", "false");
+                    return map;
+                }
+            }
+        }
+        return map;
+    }
+    
+
+    
+    public boolean isDeleteBm(Map<String, Map<String, Object>> map){
+        String mmNo = "";
+        double beforeBmPrice = 0;
+        double bmPrice = 0;
+        for(Map.Entry<String, Map<String, Object>> entryMap : map.entrySet()){
+            mmNo = entryMap.getKey();
+            Map<String, Object> childMap = entryMap.getValue();
+            double lastDecisionPrice =!isNullOrEmpty(childMap.get("lastDecisionPrice")) ? (Double)childMap.get("lastDecisionPrice") :0;
+            bmPrice += getPrice(childMap,"rule1",lastDecisionPrice);
+            bmPrice += getPrice(childMap,"rule2",lastDecisionPrice);
+            bmPrice += getPrice(childMap,"rule3",lastDecisionPrice);
+            bmPrice += getRemainderPrice(childMap,lastDecisionPrice);
+        }
+        
+        if(!"".equals(mmNo)){
+            List<MixMatchDetailInfo> ruleList  = bmDetailMap.get(mmNo);
+            for(MixMatchDetailInfo info : ruleList){
+                beforeBmPrice += info.getQuantity() * info.getTruePrice();
+            }
+            if(beforeBmPrice < bmPrice){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    private double getPrice(Map<String, Object> map,String rule,double lastDecisionPrice){
+        double price = 0.0;
+        if(map.containsKey(rule)){
+            DetailInfo detailinfo = (DetailInfo)map.get(rule);
+            int times = detailinfo.getTimes();
+            double conditionPrice = detailinfo.getConditionPrice();
+            if(detailinfo.getAveragePrice() <= lastDecisionPrice || lastDecisionPrice == 0){
+                price = times * conditionPrice;
+            }else if(detailinfo.getAveragePrice() > lastDecisionPrice && lastDecisionPrice > 0) {
+                price = times * lastDecisionPrice * detailinfo.getConditionCount();
+            }
+           
+        }
+        return price;
+    }
+    
+    private double getRemainderPrice(Map<String, Object> map,double lastDecisionPrice){
+        DetailInfo remainder = (DetailInfo)map.get("remainder");
+        List<MixMatchDetailInfo> ruleList = remainder.getEntryList();
+        double price = 0.0;
+        for(MixMatchDetailInfo info : ruleList){
+            if(lastDecisionPrice > 0){
+                price += info.getQuantity() * lastDecisionPrice;
+            }else{
+                price += info.getQuantity() * info.getTruePrice();
+            }
+        }
+        return price;
+    }
+    /**
+     * Checks values if null or empty.
+     *
+     * @param values
+     *            optional variables.
+     * @return true if null/empty, false if not null/empty.
+     */
+    public static boolean isNullOrEmpty(final Object... values) {
+        boolean isNullEmpty = false;
+        for (int i = 0; i < values.length; i++) {
+            if (values[i] == null || "".equals(values[i])) {
+                isNullEmpty = true;
+                break;
+            }
+        }
+        return isNullEmpty;
+    }
     
     
     /**

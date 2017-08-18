@@ -587,7 +587,16 @@ public class PromotionResource {
 					if (!"false".equals(transactionIn.getEntryFlag())) {
 						terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
 						Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(), "");
-						promotion.setMap(map);
+						// promotion.setMap(map);
+						if(terminalItem.isDeleteBm(map)){
+						    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+						    Map<String, Object> childMap = new HashMap<String, Object>();
+						    childMap.put("hasMixMatch", "false");
+						    newMap.put(item.getMixMatchCode(), childMap);
+						    promotion.setMap(newMap);
+						} else {
+						    promotion.setMap(map);
+						}
 					}
 				}
 
@@ -1100,7 +1109,8 @@ public class PromotionResource {
 				}
 				Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap();
 				Promotion promotion = new Promotion();
-				promotion.setMap(map);
+				promotion.setMap(terminalItem.getTheNewMap(map));
+				// promotion.setMap(map);
 				response.setPromotion(promotion);
 			}
 		} catch (JsonParseException e) {
@@ -1612,7 +1622,15 @@ public class PromotionResource {
 				if (!StringUtility.isNullOrEmpty(mixMatchCode)) {
 					terminalItem.setBmDetailMap(mixMatchCode, info, true);
 					Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(mixMatchCode, "true");
-					promotion.setMap(map);
+					if(terminalItem.isDeleteBm(map)){
+					    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+					    Map<String, Object> childMap = new HashMap<String, Object>();
+					    childMap.put("hasMixMatch", "false");
+					    newMap.put(mixMatchCode, childMap);
+					    promotion.setMap(newMap);
+					} else {
+					    promotion.setMap(map);
+					}
 				} else {
 					promotion.setMap(new HashMap<String, Map<String, Object>>());
 				}

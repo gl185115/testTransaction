@@ -524,10 +524,16 @@ public class PromotionResource {
 						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
-						saleOut.setDptDiscountClass(departmentInfo.getDiscountClass());
-						saleOut.setDptDiscountAmt(departmentInfo.getDiscountAmt());
-						saleOut.setDptDiscountRate(departmentInfo.getDiscountRate());
-						saleOut.setDptPromotionNo(departmentInfo.getPromotionNo());
+						if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+						    saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+						}
+						if (departmentInfo.getDiscountAmt() != null) {
+						    saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+						}
+						if (departmentInfo.getDiscountRate() != null) {
+						    saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+						}
+						saleOut.setPromotionNo(departmentInfo.getPromotionNo());
 						saleOut.setPromotionType(departmentInfo.getPromotionType());
 
 						String taxRate = departmentInfo.getDepartment().getTaxRate();
@@ -608,6 +614,23 @@ public class PromotionResource {
 					String taxType = departmentInfo.getDepartment().getTaxType();
 					saleItem.setTaxType(Integer.parseInt(taxType));
 					saleItem.setTaxTypeSource("2");
+					if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+					    saleItem.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+					} else {
+					    saleItem.setDiscountClass(0);
+					}
+					if (departmentInfo.getDiscountAmt() != null) {
+					    saleItem.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+					} else {
+					    saleItem.setDiscountAmt(0);
+					}
+	                if (departmentInfo.getDiscountRate() != null) {
+	                    saleItem.setDiacountRate(departmentInfo.getDiscountRate());
+	                } else {
+	                    saleItem.setDiacountRate(0);
+	                }
+	                saleItem.setPromotionNo(departmentInfo.getPromotionNo());
+	                saleItem.setPromotionType(departmentInfo.getPromotionType());
 					if (barCodePrice != null) {
 						if ("1".equals(taxType)) {
 							barCodePrice = (double) Math.round(barCodePrice * 1.08);
@@ -630,10 +653,6 @@ public class PromotionResource {
 					discounttype = departmentInfo.getDepartment().getDiscountType();
 					saleItem.setDiscountTypeSource("2");
 				}
-				saleItem.setDptDiscountClass(departmentInfo.getDiscountClass());
-				saleItem.setDptDiscountAmt(departmentInfo.getDiscountAmt());
-				saleItem.setDptDiscountRate(departmentInfo.getDiscountRate());
-				saleItem.setDptPromotionNo(departmentInfo.getPromotionNo());
 				saleItem.setDiscountType(discounttype);
 				boolean flag = ("0".equals(discounttype));
 				saleItem.setDiscountable(flag);

@@ -58,11 +58,11 @@ public class Sale extends Item {
     
     private int rewardId;
     
-    @XmlElement(name = "DptDiscountClass")
-    private String dptDiscountClass;
+    @XmlElement(name = "DiscountClass")
+    private int discountClass;
     
-    @XmlElement(name = "DptDiscountAmt")
-    private Long dptDiscountAmt;
+    @XmlElement(name = "DiscountAmt")
+    private int discountAmt;
     
     @XmlElement(name = "DptDiscountRate")
     private Double dptDiscountRate;
@@ -203,17 +203,17 @@ public class Sale extends Item {
 		this.itemForm = itemForm;
 	}
 	
-    public String getDptDiscountClass() {
-        return dptDiscountClass;
+    public int getDiscountClass() {
+        return discountClass;
     }
-    public void setDptDiscountClass(String dptDiscountClass) {
-        this.dptDiscountClass = dptDiscountClass;
+    public void setDiscountClass(int discountClass) {
+        this.discountClass = discountClass;
     }
-    public Long getDptDiscountAmt() {
-        return dptDiscountAmt;
+    public int getDiscountAmt() {
+        return discountAmt;
     }
-    public void setDptDiscountAmt(Long dptDiscountAmt) {
-        this.dptDiscountAmt = dptDiscountAmt;
+    public void setDiscountAmt(int discountAmt) {
+        this.discountAmt = discountAmt;
     }
     public Double getDptDiscountRate() {
         return dptDiscountRate;

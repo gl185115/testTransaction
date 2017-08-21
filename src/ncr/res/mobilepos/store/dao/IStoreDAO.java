@@ -15,6 +15,7 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
+import ncr.res.mobilepos.store.model.StoreInfo;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
@@ -98,5 +99,17 @@ public interface IStoreDAO {
      * @throws DaoException The Exception of Sql
      */
     int updateSummaryReceiptNo(int SubNum1,String companyId,String storeId,String workStactionId, String traning) throws DaoException;
+    
+    /**
+     * add Store Total
+     * @param companyId
+     * @param storeId
+     * @param terminalId
+     * @param businessdaydate
+     * @param functionFlag
+     * @return StoreInfo
+     * @throws DaoException The Exception of Sql
+     */
+    StoreInfo storeTotal(String companyId, String storeId, String terminalId, String businessdaydate, String functionNameFlag) throws DaoException;
     
 }

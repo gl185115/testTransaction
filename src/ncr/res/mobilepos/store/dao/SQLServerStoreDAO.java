@@ -29,6 +29,7 @@ import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
+import ncr.res.mobilepos.store.model.StoreInfo;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
@@ -569,4 +570,43 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
         return storeData;
     }
+    
+	@Override
+	public StoreInfo storeTotal(String companyId, String storeId, String terminalId, String businessdaydate, String functionNameFlag) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
+				.println("businessdaydate", businessdaydate).println("functionNameFlag", functionNameFlag);
+
+		Connection conn = null;
+		PreparedStatement selectStmt = null;
+		ResultSet resultSet = null;
+		StoreInfo storeInfo = null;
+		try {
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			conn = dbManager.getConnection();
+			selectStmt = conn.prepareStatement(sqlStatement.getProperty("get-store-total"));
+			selectStmt.setString(SQLStatement.PARAM1, companyId);
+			selectStmt.setString(SQLStatement.PARAM2, storeId);
+			selectStmt.setString(SQLStatement.PARAM3, terminalId);
+			selectStmt.setString(SQLStatement.PARAM4, businessdaydate);
+			resultSet = selectStmt.executeQuery();
+			storeInfo = new StoreInfo();
+			if (resultSet.next()) {
+				if (functionNameFlag.equals("addStoreTotal")) {
+					storeInfo.setStoreSettleCount(resultSet.getInt(resultSet.findColumn("SubNum2")) + 1);
+				} else {
+					storeInfo.setStoreSettleCount(resultSet.getInt(resultSet.findColumn("SubNum2")));
+				}
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get subnum2" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+		} finally {
+			closeConnectionObjects(conn, selectStmt, resultSet);
+			tp.methodExit(storeInfo);
+		}
+		return storeInfo;
+	}
 }

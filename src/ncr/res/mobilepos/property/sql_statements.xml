@@ -11874,6 +11874,26 @@ DECLARE
     ORDER BY
       CompanyId
     </entry>
+    
+    <entry key="get-store-total">
+    DECLARE
+    @companyid varchar(12),
+    @storeid varchar(10),
+    @terminalid varchar(6),
+    @businessdaydate DATE
+
+    SET @companyid = ?
+    SET @storeid = ?
+    SET @terminalid = ?
+    SET @businessdaydate = ?
+
+    SELECT SubNum2
+      FROM RESMaster.dbo.MST_STOREINFO
+     WHERE
+      CompanyId = @companyid AND
+      StoreId = @storeid AND
+      DeleteFlag = 0
+    </entry>
 
     <!-- *************************  ENTRY KEY FOR DEVICE INFO  ************************* -->
     <entry key="get-posctrl-openclose-status">

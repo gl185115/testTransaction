@@ -310,6 +310,15 @@ public class StoreInfo extends ResultBase {
     public void setSubNum1(String subNum1) {
         this.subNum1 = subNum1;
     }
+    
+    @ApiModelProperty(value="精算回数", notes="精算回数")
+    public int getStoreSettleCount() {
+        return storeSettleCount;
+    }
+
+    public void setStoreSettleCount(int storeSettleCount) {
+        this.storeSettleCount = storeSettleCount;
+    }
 
     @ApiModelProperty(value="HOSTIF更新日時", notes="HOSTIF更新日時")
     public String getHostUpdDate() {
@@ -439,6 +448,9 @@ public class StoreInfo extends ResultBase {
 
     @XmlElement(name = "SubNum1")
     private String subNum1;
+    
+    @XmlElement(name = "StoreSettleCount")
+    private int storeSettleCount;
     
     @XmlElement(name = "SubSmallInt1")
     private String subSmallInt1;

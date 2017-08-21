@@ -12,7 +12,9 @@ package ncr.res.mobilepos.store.resource;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -38,6 +40,7 @@ import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.CMPresetInfos;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
+import ncr.res.mobilepos.store.model.StoreInfo;
 import ncr.res.mobilepos.store.model.Stores;
 import ncr.res.mobilepos.store.model.ViewStore;
 
@@ -412,4 +415,108 @@ public class StoreResource {
         }
         return json;
     }
+    
+	/**
+	 * The number of total settlement
+	 * 
+	 * @param companyId
+	 * @param storeId
+	 * @param terminalId
+	 * @param businessdaydate
+	 * @return The StoreInfo.
+	 */
+	@Path("/addstoretotal")
+	@POST
+	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value="精算回数を集計", response=Stores.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+		})
+	public final StoreInfo addStoreTotal(
+			@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId, 
+			@ApiParam(name="terminalid", value="ターミナル番号")@FormParam("terminalid") final String terminalId,
+			@ApiParam(name="businessdaydate", value="営業日付")@FormParam("businessdaydate") final String businessdaydate) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+			.println("companyid", companyId)
+			.println("storeid", storeId)
+			.println("terminalid", terminalId)
+			.println("businessdaydate", businessdaydate);
+		StoreInfo storeInfo = new StoreInfo();
+
+		try {
+			IStoreDAO storeDao = daoFactory.getStoreDAO();
+			storeInfo = storeDao.storeTotal(companyId, storeId, terminalId, businessdaydate, functionName);
+		} catch (DaoException ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_DAO,
+					"Failed to search Stores: " + ex.getMessage());
+			if (ex.getCause() instanceof SQLException) {
+				storeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			} else {
+				storeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to search Stores: " + ex.getMessage());
+			storeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(storeInfo);
+		}
+		return storeInfo;
+	}
+	
+	/**
+	 * get Store Total
+	 * 
+	 * @param companyId
+	 * @param storeId
+	 * @param terminalId
+	 * @param businessdaydate
+	 * @return The StoreInfo.
+	 */
+	@Path("/getstoretotal")
+	@POST
+	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value="精算回数を取得", response=Stores.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+		})
+	public final StoreInfo getStoreTotal(
+			@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
+			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId, 
+			@ApiParam(name="terminalid", value="ターミナル番号")@FormParam("terminalid") final String terminalId,
+			@ApiParam(name="businessdaydate", value="営業日付")@FormParam("businessdaydate") final String businessdaydate) {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+			.println("companyid", companyId)
+			.println("storeid", storeId)
+			.println("terminalid", terminalId)
+			.println("businessdaydate", businessdaydate);
+		StoreInfo storeInfo = new StoreInfo();
+
+		try {
+			IStoreDAO storeDao = daoFactory.getStoreDAO();
+			storeInfo = storeDao.storeTotal(companyId, storeId, terminalId, businessdaydate, functionName);
+		} catch (DaoException ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_DAO,
+					"Failed to search Stores: " + ex.getMessage());
+			if (ex.getCause() instanceof SQLException) {
+				storeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			} else {
+				storeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to search Stores: " + ex.getMessage());
+			storeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+		} finally {
+			tp.methodExit(storeInfo);
+		}
+		return storeInfo;
+	}
 }

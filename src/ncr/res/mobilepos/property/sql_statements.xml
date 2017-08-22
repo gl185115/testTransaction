@@ -9740,6 +9740,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
+    ORDER BY DisplayOrder
   </entry>
   <entry key="get-buyadditional-info-all">
     DECLARE
@@ -11878,14 +11879,10 @@ DECLARE
     <entry key="get-store-total">
     DECLARE
     @companyid varchar(12),
-    @storeid varchar(10),
-    @terminalid varchar(6),
-    @businessdaydate DATE
+    @storeid varchar(10)
 
     SET @companyid = ?
     SET @storeid = ?
-    SET @terminalid = ?
-    SET @businessdaydate = ?
 
     SELECT SubNum2
       FROM RESMaster.dbo.MST_STOREINFO
@@ -11895,6 +11892,16 @@ DECLARE
       DeleteFlag = 0
     </entry>
 
+	<entry key="update-store-total">
+    UPDATE
+    RESMaster.dbo.MST_STOREINFO
+    SET
+      SubNum2 = (CASE WHEN subnum2 IS NULL THEN 1 WHEN subnum2 IS NOT NULL THEN subnum2 + 1 END)
+    WHERE
+      StoreId = ? AND
+      CompanyId = ? AND
+      DeleteFlag = 0
+	</entry>
     <!-- *************************  ENTRY KEY FOR DEVICE INFO  ************************* -->
     <entry key="get-posctrl-openclose-status">
       SELECT

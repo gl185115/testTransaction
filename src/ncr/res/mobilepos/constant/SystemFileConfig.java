@@ -22,9 +22,14 @@ public class SystemFileConfig {
      * 2. StoreId
      */
     private String storeId;
+    /**
+     * 3. TerminalID
+     */
+    private String terminalId;
 
     private static final String COMPANYID_FILENAME = "COMPANYID";
     private static final String STOREID_FILENAME = "STOREID";
+    private static final String TERMINALID_FILENAME = "TERMINALID";
 
 
     private SystemFileConfig(String systemPath) throws IOException {
@@ -58,6 +63,14 @@ public class SystemFileConfig {
     public String getStoreId() {
         return storeId;
     }
+    
+    /**
+     * Returns terminal Id
+     * @return terminal Id
+     */
+    public String getTerminalId() {
+        return terminalId;
+    }
 
     /**
      * Returns the instance.
@@ -77,6 +90,8 @@ public class SystemFileConfig {
         companyId = readFirstLine(systemPath, COMPANYID_FILENAME);
         //2
         storeId = readFirstLine(systemPath, STOREID_FILENAME);
+        //3
+        terminalId = readFirstLine(systemPath, TERMINALID_FILENAME);
     }
 
     /**

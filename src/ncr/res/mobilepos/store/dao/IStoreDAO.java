@@ -100,16 +100,27 @@ public interface IStoreDAO {
      */
     int updateSummaryReceiptNo(int SubNum1,String companyId,String storeId,String workStactionId, String traning) throws DaoException;
     
+	
+    /**
+     * get the sunNum2
+     * @param companyId
+     * @param storeId
+     * @param terminalId
+     * @param businessdaydate
+     * @return The updated instance of StoreInfo.
+     * @throws DaoException The Exception of Sql
+     */
+	StoreInfo getStoreTotal(String companyId, String storeId, String terminalId, String businessDayDate) throws DaoException;
+	
     /**
      * add Store Total
      * @param companyId
      * @param storeId
      * @param terminalId
      * @param businessdaydate
-     * @param functionFlag
      * @return StoreInfo
      * @throws DaoException The Exception of Sql
      */
-    StoreInfo storeTotal(String companyId, String storeId, String terminalId, String businessdaydate, String functionNameFlag) throws DaoException;
+    StoreInfo addStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException;
     
 }

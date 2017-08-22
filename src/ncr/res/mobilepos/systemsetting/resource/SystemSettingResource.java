@@ -21,6 +21,7 @@ import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
@@ -32,6 +33,7 @@ import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.model.DateTime;
 import ncr.res.mobilepos.systemsetting.model.SystemSetting;
+import ncr.res.mobilepos.systemsetting.model.TerminalInfo;
 
 /**
  * SystemSettingResource class is a web resource which provides support
@@ -238,5 +240,43 @@ public class SystemSettingResource {
 			tp.methodExit(result);
 		}
 		return result;
+	}
+	
+    /**
+     * get mex host terminal info
+     * @return TerminalInfo
+     */
+	@GET
+	@Path("/getMeXHostTerminalInfo")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@ApiOperation(value = "MeXHostTerminalInfo", response = TerminalInfo.class)
+	@ApiResponses(value = {
+			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="îƒópÉGÉâÅ[")})
+	public final TerminalInfo getMeXHostTerminalInfo() {
+		String functionName = DebugLogger.getCurrentMethodName();
+		Trace.Printer tp = DebugLogger.getDbgPrinter(Thread.currentThread()
+				.getId(), getClass());
+		if (tp != null) {
+			tp.methodEnter(functionName);
+		}
+		TerminalInfo terminalInfo = new TerminalInfo();
+		SystemFileConfig systemFileConfig = SystemFileConfig.getInstance();
+		try {
+			String companyId = systemFileConfig.getCompanyId();
+			String storeId = systemFileConfig.getStoreId();
+			String terminalId = systemFileConfig.getTerminalId();
+			
+			terminalInfo.setCompanyId(companyId);
+			terminalInfo.setStoreId(storeId);
+			terminalInfo.setTerminalId(terminalId);
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get mex host terminalInfo\n" + e.getMessage());
+			terminalInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			terminalInfo.setMessage(e.getMessage());
+		} finally {
+			tp.methodExit(terminalInfo);
+		}
+		return terminalInfo;
 	}
 }

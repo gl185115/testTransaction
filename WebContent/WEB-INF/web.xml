@@ -81,7 +81,8 @@
       <url-pattern>/rest/POINTAPI/*</url-pattern>
       <url-pattern>/rest/QueueSignature/*</url-pattern>
       <url-pattern>/rest/QueueSuspend/*</url-pattern>
-      <url-pattern>/rest/SystemSettings/*</url-pattern>
+      <url-pattern>/rest/SystemSettings/DateSettings/*</url-pattern>
+      <url-pattern>/rest/SystemSettings/ping</url-pattern>
       <url-pattern>/rest/barcode/*</url-pattern>
       <url-pattern>/rest/cashaccount/*</url-pattern>
       <url-pattern>/rest/class/*</url-pattern>

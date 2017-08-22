@@ -449,7 +449,7 @@ public class StoreResource {
 
 		try {
 			IStoreDAO storeDao = daoFactory.getStoreDAO();
-			storeInfo = storeDao.storeTotal(companyId, storeId, terminalId, businessdaydate, functionName);
+			storeInfo = storeDao.addStoreTotal(companyId, storeId, terminalId, businessdaydate);
 		} catch (DaoException ex) {
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_DAO,
 					"Failed to search Stores: " + ex.getMessage());
@@ -501,7 +501,7 @@ public class StoreResource {
 
 		try {
 			IStoreDAO storeDao = daoFactory.getStoreDAO();
-			storeInfo = storeDao.storeTotal(companyId, storeId, terminalId, businessdaydate, functionName);
+			storeInfo = storeDao.getStoreTotal(companyId, storeId, terminalId, businessdaydate);
 		} catch (DaoException ex) {
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_DAO,
 					"Failed to search Stores: " + ex.getMessage());

@@ -570,41 +570,89 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
         return storeData;
     }
-    
+	
 	@Override
-	public StoreInfo storeTotal(String companyId, String storeId, String terminalId, String businessdaydate, String functionNameFlag) throws DaoException {
+	public StoreInfo addStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
-				.println("businessdaydate", businessdaydate).println("functionNameFlag", functionNameFlag);
+				.println("businessdaydate", businessdaydate);
 
 		Connection conn = null;
-		PreparedStatement selectStmt = null;
-		ResultSet resultSet = null;
-		StoreInfo storeInfo = null;
+		PreparedStatement select = null;
+		PreparedStatement update = null;
+		ResultSet result = null;
+		StoreInfo storeInfo = new StoreInfo();
 		try {
-			SQLStatement sqlStatement = SQLStatement.getInstance();
+			
 			conn = dbManager.getConnection();
-			selectStmt = conn.prepareStatement(sqlStatement.getProperty("get-store-total"));
-			selectStmt.setString(SQLStatement.PARAM1, companyId);
-			selectStmt.setString(SQLStatement.PARAM2, storeId);
-			selectStmt.setString(SQLStatement.PARAM3, terminalId);
-			selectStmt.setString(SQLStatement.PARAM4, businessdaydate);
-			resultSet = selectStmt.executeQuery();
-			storeInfo = new StoreInfo();
-			if (resultSet.next()) {
-				if (functionNameFlag.equals("addStoreTotal")) {
-					storeInfo.setStoreSettleCount(resultSet.getInt(resultSet.findColumn("SubNum2")) + 1);
-				} else {
-					storeInfo.setStoreSettleCount(resultSet.getInt(resultSet.findColumn("SubNum2")));
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			update = conn.prepareStatement(sqlStatement
+					.getProperty("update-store-total"));
+
+			update.setString(SQLStatement.PARAM1, storeId);
+			update.setString(SQLStatement.PARAM2, companyId);
+
+			int rowNum = update.executeUpdate();
+			conn.commit();
+			
+			select = conn.prepareStatement(sqlStatement
+					.getProperty("get-store-total"));
+			
+			select.setString(SQLStatement.PARAM1, companyId);
+			select.setString(SQLStatement.PARAM2, storeId);
+
+			if (rowNum == 1) {
+				result = select.executeQuery();
+				if (result.next()) {
+					storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
 				}
+			} else {
+				storeInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
+				tp.println("Store not found.");
+			} 
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get subnum2" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+		} finally {
+			closeConnectionObjects(conn, select, result);
+			tp.methodExit(storeInfo);
+		}
+		return storeInfo;
+	}
+	
+	@Override
+	public StoreInfo getStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
+				.println("businessdaydate", businessdaydate);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		StoreInfo storeInfo = new StoreInfo();
+		try {
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			
+			select = conn.prepareStatement(sqlStatement
+					.getProperty("get-store-total"));
+			
+			select.setString(SQLStatement.PARAM1, companyId);
+			select.setString(SQLStatement.PARAM2, storeId);
+
+			result = select.executeQuery();
+			if (result.next()) {
+				storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
 			}
 		} catch (Exception ex) {
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
 					"Failed to get subnum2" + " : " + ex.getMessage());
 			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
 		} finally {
-			closeConnectionObjects(conn, selectStmt, resultSet);
+			closeConnectionObjects(conn, select, result);
 			tp.methodExit(storeInfo);
 		}
 		return storeInfo;

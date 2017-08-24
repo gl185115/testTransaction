@@ -243,6 +243,8 @@ public class ListDepartmentsResourceSteps extends Steps {
                     tempDpt.get("SUBNUM4"), actualDept.getSubNum4());
             Assert.assertEquals("Compare the Department's SubCode1 " + i,
                     tempDpt.get("SUBCODE1"), actualDept.getSubCode1());
+            Assert.assertEquals("Compare the Department's InputSubCode1 " + i,
+                    tempDpt.get("INPUTTYPE"), actualDept.getInputType());
             i++;
         }
     }

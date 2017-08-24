@@ -92,6 +92,10 @@ public class DptConst {
 	public static final String ACTIVE_STATUS = "Active";
 	
 	/**
+	 * Column name for InputSubCode1
+	 */
+	public static final String COL_INPUTSUBCODE1_FLAG = "InputSubCode1";
+	/**
 	 * Temporary Values
 	 */
 	public static final String JIGYOBU_DEFAULT = "01";

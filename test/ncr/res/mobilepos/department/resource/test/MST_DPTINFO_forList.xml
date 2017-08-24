@@ -72,7 +72,7 @@
 			<value>0</value>
 			<null />
 			<value>5</value>
-			<value>12123</value>
+			<value>45678</value>
 			<value></value>
 			<value></value>
 			<value></value>
@@ -876,6 +876,254 @@
 			<value>2014-04-16 12:30:00.7179394</value>
 			<value>usp_IF_MaintDptInfo</value>
 			<value>system</value>
-		</row>		
+		</row>	
+	</table>
+	<table name="MST_GROUPINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>GroupId</column>
+		<column>GroupName</column>
+		<column>GroupKanaName</column>
+		<column>GroupShortName</column>
+		<column>GroupShortKanaName</column>
+		<column>DisplayOrder</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>12123</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>999999</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>45678</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>123456</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>12123</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>999999</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>45678</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>123456</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+            <value>02</value>
+            <value>0031</value>
+            <value>12123</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>0</value>
+            <value>999999</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>02</value>
+            <value>0032</value>
+            <value>12123</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>0</value>
+            <value>999999</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>02</value>
+            <value>0</value>
+            <value>12123</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>0</value>
+            <value>999999</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+        </row>
 	</table>
 </dataset>

@@ -5862,13 +5862,14 @@ ORDER BY
           SubNum2,
           SubNum3,
           SubNum4,
-          SubCode1
+          SubCode1,
+          InputSubCode1
 	   FROM (
         SELECT
           Dpt,
           DptName,
           DptNameLocal,
-          StoreId,
+          DPT.StoreId,
           InheritFlag,
           ExceptionFlag,
           DiscountType,
@@ -5877,19 +5878,24 @@ ORDER BY
           DiscountRate,
           TaxRate,
           TaxType,
-          SubNum1,
-          SubNum2,
-          SubNum3,
-          SubNum4,
-          SubCode1,
-          DisplayOrder
-        FROM RESMaster.dbo.MST_DPTINFO
+          DPT.SubNum1,
+          DPT.SubNum2,
+          DPT.SubNum3,
+          DPT.SubNum4,
+          DPT.SubCode1,
+          DPT.DisplayOrder,
+          GRP.SubCode1 InputSubCode1
+        FROM RESMaster.dbo.MST_DPTINFO DPT
+        LEFT JOIN RESMaster.dbo.MST_GROUPINFO GRP
+        ON DPT.SubCode1 = GRP.GroupId
+        AND DPT.CompanyId = GRP.CompanyId
+        AND DPT.StoreId = GRP.StoreId
         WHERE
     	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
-                CompanyId = @companyId
+                DPT.CompanyId = @companyId
               )) AND
           ((@storeid IS NULL OR LEN(@storeid) = 0) OR (
-                StoreId = @storeid
+                DPT.StoreId = @storeid
               )) AND
           ((@key IS NULL OR LEN(@key) = 0) OR (
                 Dpt LIKE @key  {ESCAPE '\'}
@@ -5905,7 +5911,7 @@ ORDER BY
           Dpt,
           DptName,
           DptNameLocal,
-          StoreId,
+          a.StoreId,
           InheritFlag,
           ExceptionFlag,
           DiscountType,
@@ -5914,18 +5920,23 @@ ORDER BY
           DiscountRate,
           TaxRate,
           TaxType,
-          SubNum1,
-          SubNum2,
-          SubNum3,
-          SubNum4,
-          SubCode1,
-          DisplayOrder
+          a.SubNum1,
+          a.SubNum2,
+          a.SubNum3,
+          a.SubNum4,
+          a.SubCode1,
+          a.DisplayOrder,
+          GRP.SubCode1 InputSubCode1
         FROM RESMaster.dbo.MST_DPTINFO a
+        LEFT JOIN RESMaster.dbo.MST_GROUPINFO GRP
+        ON a.SubCode1 = GRP.GroupId
+        AND a.CompanyId = GRP.CompanyId
+        AND a.StoreId = GRP.StoreId
         WHERE
     	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
-                CompanyId = @companyId
+                a.CompanyId = @companyId
               )) AND
-          StoreId = '0' AND
+          a.StoreId = '0' AND
           ((@key IS NULL OR LEN(@key) = 0) OR (
                 Dpt LIKE @key  {ESCAPE '\'}
               )) AND

@@ -118,6 +118,9 @@ public class Department {
     
     @XmlElement(name = "PriceDiscountRate")
     private double priceDiscountRate;
+    
+    @XmlElement(name = "InputType")
+    private String inputType;
     /**
      *Gets the retail store number.
      *
@@ -326,6 +329,13 @@ public class Department {
     }
     public void setPriceDiscountRate(double priceDiscountRate) {
         this.priceDiscountRate = priceDiscountRate;
+    }
+    @ApiModelProperty( value="inputType", notes="inputType")
+    public String getInputType() {
+        return inputType;
+    }
+    public void setInputType(String inputType) {
+        this.inputType = inputType;
     }
     
     @Override

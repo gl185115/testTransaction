@@ -451,7 +451,7 @@ public class PromotionResource {
 
 				// 部門コードを取得する
 				codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
-				
+
 				// 商品マスタから取得失敗の場合
 				if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
 					return response;
@@ -551,7 +551,7 @@ public class PromotionResource {
 								saleOut.setMagazineCode(cCode);
 							}
 						}
-						
+
 						Double barCodePrice = null;
 						barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 						if (twoStep && barcode_sec.length() == 4) {
@@ -614,7 +614,7 @@ public class PromotionResource {
 				if (barCodePrice != null) {
 					saleItem.setLabelPrice(barCodePrice);
 				}
-				
+
 				saleItem.setTaxTypeSource("1");
 				// バーコード価格を使用
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
@@ -1167,7 +1167,7 @@ public class PromotionResource {
             } else {
                 url = GlobalConstant.getEnterpriseServerUri() + '/' + ENTERPRISE_MDNAME_UTL;
             }
-            
+
             result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
             if (result != null) {
@@ -1182,7 +1182,7 @@ public class PromotionResource {
         }
         return saleMdName;
     }
-    
+
 	/**
 	 * get remote serverInfo
 	 *
@@ -1218,7 +1218,7 @@ public class PromotionResource {
 			} else {
 				url = GlobalConstant.getEnterpriseServerUri() + '/' + ENTERPRISE_DPT_UTL;
 			}
-			
+
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
 			if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
@@ -1269,7 +1269,7 @@ public class PromotionResource {
 			} else {
 				url = GlobalConstant.getEnterpriseServerUri() + '/' + REMOTE_UTL;
 			}
-			
+
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
 			if (result != null) {
@@ -1328,7 +1328,7 @@ public class PromotionResource {
 		mdName.setMdNameLocal(json.getString("mdNameLocal"));
 		return mdName;
 	}
-	
+
 	/**
 	 * JSONObject to Deparment
 	 *
@@ -1421,13 +1421,13 @@ public class PromotionResource {
 		item.setMdKanaName(json.getString("mdKanaName"));
 		item.setSalesPrice2(json.getDouble("salesPrice2"));
 		item.setPaymentType(json.getInt("paymentType"));
-		item.setPublishingCode(json.getString("venderCode"));
-		if (json.getString("posMdType") == null) {
-			item.setNonSales(json.getInt("exceptionFlag"));
-		} else {
-			item.setNonSales(json.getInt("posMdType"));
-		}
-		//item.setNonSales(json.getInt("nonSales"));
+		//item.setPublishingCode(json.getString("venderCode"));
+		//if (json.getString("posMdType") == null) {
+		//	item.setNonSales(json.getInt("exceptionFlag"));
+		//} else {
+		//	item.setNonSales(json.getInt("posMdType"));
+		//}
+		item.setNonSales(json.getInt("nonSales"));
 		item.setSubCode1(json.getString("subCode1"));
 		item.setSubCode2(json.getString("subCode2"));
 		item.setSubCode3(json.getString("subCode3"));
@@ -1722,7 +1722,7 @@ public class PromotionResource {
 
 			// get valid data
 			qrCodeInfoListTemp = getQrCodeInfo(transactionIn);
-			
+
 			int count = 0;
 			if (qrCodeInfoListTemp == null || qrCodeInfoListTemp.size() < 1) {
 				response.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
@@ -1732,7 +1732,7 @@ public class PromotionResource {
 				return response;
 			} else {
 				Collections.sort(qrCodeInfoListTemp, new Comparator<QrCodeInfo>() {
-					
+
 					@Override
 					public int compare(QrCodeInfo o1, QrCodeInfo o2) {
 						if(Integer.parseInt(o1.getDisplayOrder()) > Integer.parseInt(o2.getDisplayOrder())){
@@ -1777,7 +1777,7 @@ public class PromotionResource {
 			}
 
 			getQrCodeFileExist(qrCodeInfoListOut, companyId, retailStoreId, workStationId);
-			
+
 			response.setQrCodeInfoList(qrCodeInfoListOut);
 		} catch (JsonParseException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to send QrCodeInfoList.", e);
@@ -1821,7 +1821,7 @@ public class PromotionResource {
 			CustomerSexTypeIn = transactionIn.getCustomer().getSexType();
 			CustomerExistFlag = true;
 		}
-		
+
 		List<ItemList> itemListIns = transactionIn.getItemList();
 		List<ItemList> itemListOut = null;
 		List<QrCodeInfo> qrCodeInfoListTemp = null;
@@ -2004,7 +2004,7 @@ public class PromotionResource {
 		rightCustomerId = codeInfDAO.getCustomerQrCodeInfoList(companyId, promotionId, customerId);
 		return rightCustomerId;
 	}
-	
+
 	/**
 	 * get qrcode file exist
 	 *
@@ -2012,9 +2012,9 @@ public class PromotionResource {
 	 * @param companyId
 	 * @param storeId
 	 * @param terminalId
-	 * 
+	 *
 	 * @return List<QrCodeInfo>
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	private void getQrCodeFileExist(List<QrCodeInfo> qrCodeInfoListOut, String companyId, String storeId, String terminalId) throws Exception {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -2024,14 +2024,14 @@ public class PromotionResource {
 		ViewTerminalInfo terminalInfoResult = new ViewTerminalInfo();
 		DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 		String fileName = null;
-		
+
 		try {
 			IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
 			terminalInfoResult = iPerCtrlDao.getTerminalInfo(companyId, storeId, terminalId);
-			
+
 			if (terminalInfoResult.getNCRWSSResultCode() == ResultBase.RES_OK) {
 				String systemPath = terminalInfoResult.getTerminalInfo().getSubCode2();
-				
+
 				for (QrCodeInfo qrCodeInfo : qrCodeInfoListOut) {
 					int bmpFileCount = Integer.parseInt(qrCodeInfo.getBmpFileCount());
 					fileName = qrCodeInfo.getBmpFileName();

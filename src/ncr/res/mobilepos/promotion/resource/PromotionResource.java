@@ -1421,7 +1421,13 @@ public class PromotionResource {
 		item.setMdKanaName(json.getString("mdKanaName"));
 		item.setSalesPrice2(json.getDouble("salesPrice2"));
 		item.setPaymentType(json.getInt("paymentType"));
-		item.setNonSales(json.getInt("nonSales"));
+		item.setPublishingCode(json.getString("venderCode"));
+		if (json.getString("posMdType") == null) {
+			item.setNonSales(json.getInt("exceptionFlag"));
+		} else {
+			item.setNonSales(json.getInt("posMdType"));
+		}
+		//item.setNonSales(json.getInt("nonSales"));
 		item.setSubCode1(json.getString("subCode1"));
 		item.setSubCode2(json.getString("subCode2"));
 		item.setSubCode3(json.getString("subCode3"));
@@ -1430,6 +1436,11 @@ public class PromotionResource {
 		item.setDiacountRate(json.getDouble("diacountRate"));
 		item.setDiscountAmt(json.getInt("discountAmt"));
 		item.setDiscountClass(json.getInt("discountClass"));
+		item.setDptSubNum1(json.getString("dptSubNum1"));
+		item.setDptSubNum2(json.getString("dptSubNum2"));
+		item.setDptSubNum3(json.getString("dptSubNum3"));
+		item.setDptSubNum4(json.getString("dptSubNum4"));
+
 
 		List<PremiumInfo> premiumList = new ArrayList<PremiumInfo>();
 		if (json.get("premiumList") != null) {

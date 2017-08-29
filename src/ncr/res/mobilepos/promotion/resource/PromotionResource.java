@@ -1421,7 +1421,6 @@ public class PromotionResource {
 		item.setMdKanaName(json.getString("mdKanaName"));
 		item.setSalesPrice2(json.getDouble("salesPrice2"));
 		item.setPaymentType(json.getInt("paymentType"));
-		item.setPublishingCode(json.getString("publishingCode"));
 		item.setNonSales(json.getInt("nonSales"));
 		item.setSubCode1(json.getString("subCode1"));
 		item.setSubCode2(json.getString("subCode2"));

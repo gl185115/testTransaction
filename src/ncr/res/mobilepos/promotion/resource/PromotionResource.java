@@ -1378,62 +1378,62 @@ public class PromotionResource {
 	private Item jsonToItem(JSONObject json) throws NumberFormatException, JSONException {
 		Sale item = new Sale();
 		item.setActualSalesUnitPrice(json.getDouble("actualSalesUnitPrice"));
-		item.setItemId(json.getString("itemId"));
+		item.setItemId(StringUtility.convNullStringToNull(json.getString("itemId")));
 		Description description = new Description();
-		description.setEn(json.getJSONObject("description").getString("en"));
-		description.setJa(json.getJSONObject("description").getString("ja"));
+		description.setEn(StringUtility.convNullStringToNull(json.getJSONObject("description").getString("en")));
+		description.setJa(StringUtility.convNullStringToNull(json.getJSONObject("description").getString("ja")));
 		item.setDescription(description);
-		item.setRegularSalesUnitPrice(Double.parseDouble(json.getString("regularSalesUnitPrice")));
-		item.setDiscount(Double.parseDouble(json.getString("discount")));
-		item.setDiscountFlag(Integer.parseInt(json.getString("discountFlag")));
-		item.setDiscountAmount(Double.parseDouble(json.getString("discountAmount")));
-		item.setDepartment(json.getString("department"));
+		item.setRegularSalesUnitPrice(Double.parseDouble(StringUtility.convNullStringToNull(json.getString("regularSalesUnitPrice"))));
+		item.setDiscount(Double.parseDouble(StringUtility.convNullStringToNull(json.getString("discount"))));
+		item.setDiscountFlag(Integer.parseInt(StringUtility.convNullStringToNull(json.getString("discountFlag"))));
+		item.setDiscountAmount(Double.parseDouble(StringUtility.convNullStringToNull(json.getString("discountAmount"))));
+		item.setDepartment(StringUtility.convNullStringToNull(json.getString("department")));
 		item.setDiscountable(json.getBoolean("discountable"));
 		item.setTaxRate(json.getInt("taxRate"));
 		item.setTaxType(json.getInt("taxType"));
-		item.setDiscountType(json.getString("discountType"));
+		item.setDiscountType(StringUtility.convNullStringToNull(json.getString("discountType")));
 		item.setSubNum1(json.getInt("subNum1"));
 		item.setDptDiscountType(json.getInt("dptDiscountType"));
 		item.setNonSales(json.getInt("nonSales"));
 		item.setSubInt10(json.getInt("subInt10"));
-		item.setLine(json.getString("line"));
-		item.setCompanyId(json.getString("companyId"));
-		item.setPromotionNo(json.getString("promotionNo"));
-		item.setMdType(json.getString("mdType"));
-		item.setSku(json.getString("sku"));
-		item.setMd01(json.getString("md01"));
-		item.setMd02(json.getString("md02"));
-		item.setMd03(json.getString("md03"));
-		item.setMd04(json.getString("md04"));
-		item.setMd05(json.getString("md05"));
-		item.setMd06(json.getString("md06"));
-		item.setMd07(json.getString("md07"));
-		item.setMd08(json.getString("md08"));
-		item.setMd09(json.getString("md09"));
-		item.setMd10(json.getString("md10"));
-		item.setMd11(json.getString("md11"));
-		item.setMd12(json.getString("md12"));
-		item.setMd13(json.getString("md13"));
-		item.setMd14(json.getString("md14"));
-		item.setMd15(json.getString("md15"));
-		item.setMd16(json.getString("md16"));
-		item.setMdNameLocal(json.getString("mdNameLocal"));
-		item.setMdKanaName(json.getString("mdKanaName"));
+		item.setLine(StringUtility.convNullStringToNull(json.getString("line")));
+		item.setCompanyId(StringUtility.convNullStringToNull(json.getString("companyId")));
+		item.setPromotionNo(StringUtility.convNullStringToNull(json.getString("promotionNo")));
+		item.setMdType(StringUtility.convNullStringToNull(json.getString("mdType")));
+		item.setSku(StringUtility.convNullStringToNull(json.getString("sku")));
+		item.setMd01(StringUtility.convNullStringToNull(json.getString("md01")));
+		item.setMd02(StringUtility.convNullStringToNull(json.getString("md02")));
+		item.setMd03(StringUtility.convNullStringToNull(json.getString("md03")));
+		item.setMd04(StringUtility.convNullStringToNull(json.getString("md04")));
+		item.setMd05(StringUtility.convNullStringToNull(json.getString("md05")));
+		item.setMd06(StringUtility.convNullStringToNull(json.getString("md06")));
+		item.setMd07(StringUtility.convNullStringToNull(json.getString("md07")));
+		item.setMd08(StringUtility.convNullStringToNull(json.getString("md08")));
+		item.setMd09(StringUtility.convNullStringToNull(json.getString("md09")));
+		item.setMd10(StringUtility.convNullStringToNull(json.getString("md10")));
+		item.setMd11(StringUtility.convNullStringToNull(json.getString("md11")));
+		item.setMd12(StringUtility.convNullStringToNull(json.getString("md12")));
+		item.setMd13(StringUtility.convNullStringToNull(json.getString("md13")));
+		item.setMd14(StringUtility.convNullStringToNull(json.getString("md14")));
+		item.setMd15(StringUtility.convNullStringToNull(json.getString("md15")));
+		item.setMd16(StringUtility.convNullStringToNull(json.getString("md16")));
+		item.setMdNameLocal(StringUtility.convNullStringToNull(json.getString("mdNameLocal")));
+		item.setMdKanaName(StringUtility.convNullStringToNull(json.getString("mdKanaName")));
 		item.setSalesPrice2(json.getDouble("salesPrice2"));
 		item.setPaymentType(json.getInt("paymentType"));
 		item.setNonSales(json.getInt("nonSales"));
-		item.setSubCode1(json.getString("subCode1"));
-		item.setSubCode2(json.getString("subCode2"));
-		item.setSubCode3(json.getString("subCode3"));
-		item.setPromotionId(json.getString("promotionId"));
+		item.setSubCode1(StringUtility.convNullStringToNull(json.getString("subCode1")));
+		item.setSubCode2(StringUtility.convNullStringToNull(json.getString("subCode2")));
+		item.setSubCode3(StringUtility.convNullStringToNull(json.getString("subCode3")));
+		item.setPromotionId(StringUtility.convNullStringToNull(json.getString("promotionId")));
 		item.setDptDiscountType(json.getInt("dptDiscountType"));
 		item.setDiacountRate(json.getDouble("diacountRate"));
 		item.setDiscountAmt(json.getInt("discountAmt"));
 		item.setDiscountClass(json.getInt("discountClass"));
-		item.setDptSubNum1(json.getString("dptSubNum1"));
-		item.setDptSubNum2(json.getString("dptSubNum2"));
-		item.setDptSubNum3(json.getString("dptSubNum3"));
-		item.setDptSubNum4(json.getString("dptSubNum4"));
+		item.setDptSubNum1(StringUtility.convNullStringToNull(json.getString("dptSubNum1")));
+		item.setDptSubNum2(StringUtility.convNullStringToNull(json.getString("dptSubNum2")));
+		item.setDptSubNum3(StringUtility.convNullStringToNull(json.getString("dptSubNum3")));
+		item.setDptSubNum4(StringUtility.convNullStringToNull(json.getString("dptSubNum4")));
 
 
 		List<PremiumInfo> premiumList = new ArrayList<PremiumInfo>();
@@ -1442,28 +1442,28 @@ public class PromotionResource {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject itemJson = (JSONObject) jsonArray.get(i);
 				PremiumInfo premiumInfo = new PremiumInfo();
-				premiumInfo.setPremiumItemName(itemJson.getString("premiumItemName"));
-				premiumInfo.setPremiumItemNo(itemJson.getString("premiumItemNo"));
+				premiumInfo.setPremiumItemName(StringUtility.convNullStringToNull(itemJson.getString("premiumItemName")));
+				premiumInfo.setPremiumItemNo(StringUtility.convNullStringToNull(itemJson.getString("premiumItemNo")));
 				premiumInfo.setTargetCount(itemJson.getInt("targetCount"));
-				premiumInfo.setTargetPrice(itemJson.getString("targetPrice"));
+				premiumInfo.setTargetPrice(StringUtility.convNullStringToNull(itemJson.getString("targetPrice")));
 				premiumList.add(premiumInfo);
 			}
 		}
 		item.setPremiumList(premiumList);
 
-		item.setItemClass(json.getString("itemClass"));
+		item.setItemClass(StringUtility.convNullStringToNull(json.getString("itemClass")));
 		item.setAgeRestrictedFlag(json.getInt("ageRestrictedFlag"));
-		item.setCouponFlag(json.getString("couponFlag"));
-		item.setRetailStoreId(json.getString("retailStoreId"));
-		item.setEventId(json.getString("eventId"));
-		item.setEventName(json.getString("eventName"));
+		item.setCouponFlag(StringUtility.convNullStringToNull(json.getString("couponFlag")));
+		item.setRetailStoreId(StringUtility.convNullStringToNull(json.getString("retailStoreId")));
+		item.setEventId(StringUtility.convNullStringToNull(json.getString("eventId")));
+		item.setEventName(StringUtility.convNullStringToNull(json.getString("eventName")));
 		item.setEventSalesPrice(json.getDouble("eventSalesPrice"));
 		item.setEmpPrice1(json.getDouble("empPrice1"));
-		item.setPSType(json.getString("pstype"));
+		item.setPSType(StringUtility.convNullStringToNull(json.getString("pstype")));
 		item.setOrgSalesPrice1(json.getDouble("orgSalesPrice1"));
 		if (!"null".equals(json.getString("mixMatchCode"))) {
 			item.setMixMatchCode(json.getString("mixMatchCode"));
-			item.setInheritFlag(json.getString("inheritFlag"));
+			item.setInheritFlag(StringUtility.convNullStringToNull(json.getString("inheritFlag")));
 			item.setRuleQuantity1(json.getInt("ruleQuantity1"));
 			item.setRuleQuantity2(json.getInt("ruleQuantity2"));
 			item.setRuleQuantity3(json.getInt("ruleQuantity3"));
@@ -1482,41 +1482,41 @@ public class PromotionResource {
 			item.setAveragePrice1(json.getDouble("averagePrice1"));
 			item.setAveragePrice2(json.getDouble("averagePrice2"));
 			item.setAveragePrice3(json.getDouble("averagePrice3"));
-			item.setNote(json.getString("note"));
+			item.setNote(StringUtility.convNullStringToNull(json.getString("note")));
 		}
-		item.setMdVender(json.getString("mdVender"));
+		item.setMdVender(StringUtility.convNullStringToNull(json.getString("mdVender")));
 		item.setReplaceSupportdiscountAmt(json.getInt("replaceSupportdiscountAmt"));
 		item.setSubNum2(json.getInt("subNum2"));
-		item.setSalesPriceFrom(json.getString("salesPriceFrom"));
+		item.setSalesPriceFrom(StringUtility.convNullStringToNull(json.getString("salesPriceFrom")));
 		item.setOldPrice(json.getDouble("oldPrice"));
 		item.setCostPrice1(json.getDouble("costPrice1"));
 		item.setMakerPrice(json.getDouble("makerPrice"));
-		item.setConn1(json.getString("conn1"));
-		item.setConn2(json.getString("conn2"));
-		item.setPublishingCode(json.getString("publishingCode"));
+		item.setConn1(StringUtility.convNullStringToNull(json.getString("conn1")));
+		item.setConn2(StringUtility.convNullStringToNull(json.getString("conn2")));
+		item.setPublishingCode(StringUtility.convNullStringToNull(json.getString("publishingCode")));
 		item.setPluPrice(json.getDouble("pluPrice"));
-		item.setDptNameLocal(json.getString("dptNameLocal"));
-		item.setClassNameLocal(json.getString("classNameLocal"));
-		item.setGroupName(json.getString("groupName"));
-		item.setGroupID(json.getString("groupID"));
-		item.setNameText(json.getString("nameText"));
-		item.setDptSubCode1(json.getString("dptSubCode1"));
-		item.setOldSku(json.getString("oldSku"));
-		item.setSizeCode(json.getString("sizeCode"));
-		item.setColorCode(json.getString("colorCode"));
+		item.setDptNameLocal(StringUtility.convNullStringToNull(json.getString("dptNameLocal")));
+		item.setClassNameLocal(StringUtility.convNullStringToNull(json.getString("classNameLocal")));
+		item.setGroupName(StringUtility.convNullStringToNull(json.getString("groupName")));
+		item.setGroupID(StringUtility.convNullStringToNull(json.getString("groupID")));
+		item.setNameText(StringUtility.convNullStringToNull(json.getString("nameText")));
+		item.setDptSubCode1(StringUtility.convNullStringToNull(json.getString("dptSubCode1")));
+		item.setOldSku(StringUtility.convNullStringToNull(json.getString("oldSku")));
+		item.setSizeCode(StringUtility.convNullStringToNull(json.getString("sizeCode")));
+		item.setColorCode(StringUtility.convNullStringToNull(json.getString("colorCode")));
 		item.setDiscountRate(json.getDouble("discountRate"));
 		item.setDiscountCount(json.getInt("discountCount"));
 
 		if (!"null".equals(json.getString("qrPromotionId"))) {
-			item.setQrBmpFileCount(json.getString("qrBmpFileCount"));
-			item.setQrBmpFileFlag(json.getString("qrBmpFileFlag"));
-			item.setQrBmpFileName(json.getString("qrBmpFileName"));
+			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));
+			item.setQrBmpFileFlag(StringUtility.convNullStringToNull(json.getString("qrBmpFileFlag")));
+			item.setQrBmpFileName(StringUtility.convNullStringToNull(json.getString("qrBmpFileName")));
 			item.setQrMinimumPrice(
 					null == json.get("qrMinimumPrice") || "null".equals(json.get("qrMinimumPrice").toString()) ? null
 							: json.getDouble("qrMinimumPrice"));
-			item.setQrOutputTargetValue(json.getString("qrOutputTargetValue"));
-			item.setQrPromotionId(json.getString("qrPromotionId"));
-			item.setQrPromotionName(json.getString("qrPromotionName"));
+			item.setQrOutputTargetValue(StringUtility.convNullStringToNull(json.getString("qrOutputTargetValue")));
+			item.setQrPromotionId(StringUtility.convNullStringToNull(json.getString("qrPromotionId")));
+			item.setQrPromotionName(StringUtility.convNullStringToNull(json.getString("qrPromotionName")));
 		}
 
 		List<QrCodeInfo> list = new ArrayList<QrCodeInfo>();
@@ -1525,19 +1525,19 @@ public class PromotionResource {
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject itemJson = (JSONObject) jsonArray.get(i);
 				QrCodeInfo qr = new QrCodeInfo();
-				qr.setBmpFileCount(itemJson.getString("bmpFileCount"));
-				qr.setBmpFileFlag(itemJson.getString("bmpFileFlag"));
-				qr.setBmpFileName(itemJson.getString("bmpFileName"));
+				qr.setBmpFileCount(StringUtility.convNullStringToNull(itemJson.getString("bmpFileCount")));
+				qr.setBmpFileFlag(StringUtility.convNullStringToNull(itemJson.getString("bmpFileFlag")));
+				qr.setBmpFileName(StringUtility.convNullStringToNull(itemJson.getString("bmpFileName")));
 				qr.setMinimumPrice(itemJson.getDouble("minimumPrice"));
-				qr.setOutputTargetValue(itemJson.getString("outputTargetValue"));
-				qr.setPromotionId(itemJson.getString("promotionId"));
-				qr.setPromotionName(itemJson.getString("promotionName"));
-				qr.setOutputType(itemJson.getString("outputType"));
+				qr.setOutputTargetValue(StringUtility.convNullStringToNull(itemJson.getString("outputTargetValue")));
+				qr.setPromotionId(StringUtility.convNullStringToNull(itemJson.getString("promotionId")));
+				qr.setPromotionName(StringUtility.convNullStringToNull(itemJson.getString("promotionName")));
+				qr.setOutputType(StringUtility.convNullStringToNull(itemJson.getString("outputType")));
 				list.add(qr);
 			}
+			item.setQrCodeList(list);
 		}
-		item.setQrCodeList(list);
-
+		
 		if (!"null".equals(json.getString("couponNo"))) {
 			item.setCouponNo(json.getString("couponNo"));
 			item.setEvenetName(json.getString("evenetName"));

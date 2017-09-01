@@ -61,6 +61,8 @@ import ncr.res.mobilepos.pricing.model.CouponInfo;
 import ncr.res.mobilepos.pricing.model.Description;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
+import ncr.res.mobilepos.pricing.model.PriceMMInfo;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
@@ -454,6 +456,14 @@ public class PromotionResource {
 
 				// 商品マスタから取得失敗の場合
 				if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
+					// 各種特売情報を取得する
+					item = getRelatedInformation(itemIdTemp, item, retailStoreId, companyId, businessDate, dao);
+					if (item != null) {
+						item.setItemId(itemIdTemp);
+						Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
+						transactionOut.setSale(saleItem);
+						response.setTransaction(transactionOut);
+					}
 					return response;
 				} else {
 					if (codeTempConn.contains(" ")) {
@@ -522,18 +532,56 @@ public class PromotionResource {
 						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
-						if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
-						    saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+						
+						// 各種特売情報を取得する
+						item = getRelatedInformation(itemIdTemp, item, retailStoreId, companyId, businessDate, dao);
+						
+						if (item != null) {
+							if (item.getDiscountClass() != 0) {
+								saleOut.setDiscountClass(item.getDiscountClass());
+							} else {
+								if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+									saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+								}
+							}
+							if (item.getDiscountAmt() != 0) {
+								saleOut.setDiscountAmt(item.getDiscountAmt());
+							} else {
+								if (departmentInfo.getDiscountAmt() != null) {
+									saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+								}
+							}
+							if (item.getDiacountRate() != 0) {
+								saleOut.setDiacountRate(item.getDiacountRate());
+							} else {
+								if (departmentInfo.getDiscountRate() != null) {
+									saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+								}
+							}
+							if (item.getPromotionNo() != null) {
+								saleOut.setPromotionNo(item.getPromotionNo());
+							} else {
+								saleOut.setPromotionNo(departmentInfo.getPromotionNo());
+							}
+							if (item.getPromotionType() != null) {
+								saleOut.setPromotionType(item.getPromotionType());
+							} else {
+								saleOut.setPromotionType(departmentInfo.getPromotionType());
+							}
+						} else {
+							if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+								saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+							}
+							if (departmentInfo.getDiscountAmt() != null) {
+								saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+							} 
+							if (departmentInfo.getDiscountRate() != null) {
+								saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+							}
+							saleOut.setPromotionNo(departmentInfo.getPromotionNo());
+							saleOut.setPromotionType(departmentInfo.getPromotionType());
 						}
-						if (departmentInfo.getDiscountAmt() != null) {
-						    saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-						}
-						if (departmentInfo.getDiscountRate() != null) {
-						    saleOut.setDiacountRate(departmentInfo.getDiscountRate());
-						}
-						saleOut.setPromotionNo(departmentInfo.getPromotionNo());
-						saleOut.setPromotionType(departmentInfo.getPromotionType());
-
+						
 						String taxRate = departmentInfo.getDepartment().getTaxRate();
 						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : Integer.parseInt(taxRate));
 
@@ -555,7 +603,7 @@ public class PromotionResource {
 						Double barCodePrice = null;
 						barCodePrice = barCodePriceCalculation(varietiesName, itemId);
 						if (twoStep && barcode_sec.length() == 4) {
-						    saleOut.setLabelPrice(barCodePrice);
+							saleOut.setLabelPrice(barCodePrice);
 							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
 						} else {
 							// バーコード価格を使用
@@ -576,6 +624,9 @@ public class PromotionResource {
 					}
 				}
 
+				// 各種特売情報を取得する
+				item = getRelatedInformation(itemIdTemp, item, retailStoreId, companyId, businessDate, dao);
+				
 				info.setTruePrice(item.getRegularSalesUnitPrice());
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
@@ -587,13 +638,13 @@ public class PromotionResource {
 						Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(), "");
 						// promotion.setMap(map);
 						if(terminalItem.isDeleteBm(map)){
-						    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
-						    Map<String, Object> childMap = new HashMap<String, Object>();
-						    childMap.put("hasMixMatch", "false");
-						    newMap.put(item.getMixMatchCode(), childMap);
-						    promotion.setMap(newMap);
+							Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+							Map<String, Object> childMap = new HashMap<String, Object>();
+							childMap.put("hasMixMatch", "false");
+							newMap.put(item.getMixMatchCode(), childMap);
+							promotion.setMap(newMap);
 						} else {
-						    promotion.setMap(map);
+							promotion.setMap(map);
 						}
 					}
 				}
@@ -616,28 +667,27 @@ public class PromotionResource {
 				}
 
 				saleItem.setTaxTypeSource("1");
+				if (saleItem.getDiscountClass() == 0 && !StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+					saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+				}
+				if (saleItem.getDiscountAmt() == 0 && departmentInfo.getDiscountAmt() != null) {
+					saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+				} 
+				if (saleItem.getDiacountRate() == 0 && departmentInfo.getDiscountRate() != null) {
+					saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+				}
+				if (saleItem.getPromotionNo() == null) {
+					saleOut.setPromotionNo(departmentInfo.getPromotionNo());
+				}
+				if (saleItem.getPromotionType() == null) {
+					saleOut.setPromotionType(departmentInfo.getPromotionType());
+				}
+				
 				// バーコード価格を使用
 				if (saleItem.getRegularSalesUnitPrice() == 0.0) {
 					String taxType = departmentInfo.getDepartment().getTaxType();
 					saleItem.setTaxType(Integer.parseInt(taxType));
 					saleItem.setTaxTypeSource("2");
-					if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
-					    saleItem.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
-					} else {
-					    saleItem.setDiscountClass(0);
-					}
-					if (departmentInfo.getDiscountAmt() != null) {
-					    saleItem.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-					} else {
-					    saleItem.setDiscountAmt(0);
-					}
-	                if (departmentInfo.getDiscountRate() != null) {
-	                    saleItem.setDiacountRate(departmentInfo.getDiscountRate());
-	                } else {
-	                    saleItem.setDiacountRate(0);
-	                }
-	                saleItem.setPromotionNo(departmentInfo.getPromotionNo());
-	                saleItem.setPromotionType(departmentInfo.getPromotionType());
 					if (barCodePrice != null) {
 						if ("1".equals(taxType)) {
 							barCodePrice = (double) Math.round(barCodePrice * 1.08);
@@ -695,6 +745,58 @@ public class PromotionResource {
 		return list;
 	}
 
+	/**
+	 * get Related Information
+	 *
+	 * @param item
+	 * @param retailStoreId
+	 * @param companyId
+	 * @param businessDate
+	 * @param dao
+	 * @throws DaoException 
+	 */
+	private Item getRelatedInformation(String itemId, Item item , String retailStoreId, String companyId, String businessDate, IItemDAO dao) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("itemId", itemId).println("item", item).println("retailStoreId", retailStoreId)
+			.println("companyId", companyId).println("businessDate", businessDate).println("dao", dao);
+
+		ItemResource itemResource = new ItemResource();
+		PricePromInfo pricePromInfo;
+		PriceMMInfo priceMMInfo;
+		if (item == null) {
+			pricePromInfo = itemResource.getPricePromInfo(itemId, null, null);
+			priceMMInfo = itemResource.getPriceMMInfo(itemId);
+			if (pricePromInfo != null) {
+				item = new Item();
+			}
+		} else {
+			priceMMInfo = itemResource.getPriceMMInfo(item.getSku());
+			pricePromInfo = itemResource.getPricePromInfo(item.getSku(), item.getDepartment(), item.getLine());
+		}
+		
+		// 特売管理(PROM_INFO 自動割引)
+		if (!dao.isHasPromDetailInfoList(pricePromInfo, item)) {
+			if (item == null && priceMMInfo != null) {
+				item = new Item();
+			}
+			// バンドルミックス(PRICE_MM_INFO mixmatch)
+			if (!dao.isHasPriceMMInfoList(priceMMInfo, item)) {
+				if (item != null) {
+					// 買替サポート（REPLACESUPPORT_INFO）
+					dao.isHasReplaceSupportDetailInfo(retailStoreId, item, companyId, businessDate);
+				}
+			}
+		}
+		if (item != null) {
+			// 割引券発行管理（COUPON_INFO）
+			dao.getCouponInfo(retailStoreId, item, companyId, businessDate);
+			// プレミアム商品（PREMIUMITEM_INFO）
+			dao.getPremiumitemInfo(retailStoreId, item, companyId, businessDate);
+		}
+		
+		return item;
+	}
+	
 	/**
 	 * 部門コードを取得する
 	 *
@@ -886,8 +988,8 @@ public class PromotionResource {
 			break;
 		case BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD:
 		case BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD:
-		    commodityPrice = Double.parseDouble("0");
-		    break;
+			commodityPrice = Double.parseDouble("0");
+			break;
 		default:
 			break;
 		}
@@ -960,7 +1062,7 @@ public class PromotionResource {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("itemId", itemId);
 		if (itemId.length() < 18) {
-		    return Double.parseDouble("0");
+			return Double.parseDouble("0");
 		}
 		String endFour = itemId.substring(itemId.length() - 4);
 		Double price = Double.parseDouble(endFour);
@@ -984,7 +1086,7 @@ public class PromotionResource {
 		if (item[1].length() == 13) {
 			price = Double.parseDouble(item[1].substring(7, 12));
 		}else{
-		    price = Double.parseDouble("0");
+			price = Double.parseDouble("0");
 		}
 
 		tp.methodExit(price);
@@ -1009,7 +1111,7 @@ public class PromotionResource {
 		} else if ("192".equals(topThree) && item[1].length() == 13) {
 			price = Double.parseDouble(item[1].substring(7, 12));
 		}else{
-		    price = Double.parseDouble("0");
+			price = Double.parseDouble("0");
 		}
 
 		tp.methodExit(price);

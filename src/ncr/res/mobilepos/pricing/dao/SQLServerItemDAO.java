@@ -25,7 +25,6 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Description;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItem;
@@ -33,8 +32,6 @@ import ncr.res.mobilepos.pricing.model.PickListItemType;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
 import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
-import ncr.res.mobilepos.pricing.model.QrCodeInfo;
-import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.property.SQLStatement;
 
@@ -279,31 +276,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     // Compute the Actual Sales Price
                     searchedItem.setActualSalesUnitPrice(searchedItem.getRegularSalesUnitPrice());
                 }
-                
-                ItemResource itemResource = new ItemResource();
-                PricePromInfo pricePromInfo;
-                if (!StringUtility.isNullOrEmpty(searchedItem.getDepartment()) && !StringUtility.isNullOrEmpty(searchedItem.getLine())) {
-                    pricePromInfo = itemResource.getPricePromInfo(searchedItem.getSku(), searchedItem.getDepartment(), searchedItem.getLine());
-                } else {
-                    pricePromInfo = null;
-                }
-                PriceMMInfo priceMMInfo;
-                priceMMInfo = itemResource.getPriceMMInfo(searchedItem.getSku());
-                
-                // 特売管理(PROM_INFO 自動割引)
-                if (!isHasPromDetailInfoList(pricePromInfo, searchedItem)) {
-                    // バンドルミックス(PRICE_MM_INFO mixmatch)
-                    if (!isHasPriceMMInfoList(priceMMInfo, searchedItem)) {
-                        // 買替サポート（REPLACESUPPORT_INFO）
-                        isHasReplaceSupportDetailInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                    }
-                }
-                // 割引券発行管理（COUPON_INFO）
-                getCouponInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                // プレミアム商品（PREMIUMITEM_INFO）
-                getPremiumitemInfo(actualStoreid, searchedItem, companyId, bussinessDate);
-                //QRcode（QRCODE_INFO）
-                //getQrCodeInfo(actualStoreid, searchedItem, companyId, bussinessDate);
 
             } else {
                 tp.println("Item not found.");
@@ -382,70 +354,10 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     
     /**
      * 特売管理マスタ 情報取得
-     * @param storeid The ID of the Store where the items are located
-     * @param searchedItem the Item
-     * @param companyId The ID of the companyId
-     * @param bussinessDate the bussinessDate
-     * @throws DaoException   Exception thrown when getting the item information failed.
-     */
-    private boolean isHasPromDetailInfo(final String storeid, final Item searchedItem, final String companyId,
-            final String bussinessDate) throws DaoException {
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
-        .println("StoreID", storeid)
-        .println("searchedItem", searchedItem)
-        .println("CompanyId", companyId);
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        boolean isHaveValue = false;
-        String functionName = "SQLServerItemDAO.isHasPromDetailInfo";
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-price-prom-info"));
-            select.setString(SQLStatement.PARAM1, storeid);
-            select.setString(SQLStatement.PARAM2, companyId);
-            select.setString(SQLStatement.PARAM3, searchedItem.getSku());
-            select.setString(SQLStatement.PARAM4, bussinessDate);
-            select.setString(SQLStatement.PARAM5, searchedItem.getDepartment());
-            select.setString(SQLStatement.PARAM6, searchedItem.getMd07());
-            select.setString(SQLStatement.PARAM7, searchedItem.getItemClass());
-            result = select.executeQuery();
-            if(result.next()){
-                isHaveValue = true;
-              searchedItem.setPromotionNo(result.getString(result.findColumn("promotionNo")));
-              searchedItem.setDiscountClass(result.getInt(result.findColumn("DiscountClass")));
-              searchedItem.setDiacountRate(result.getDouble(result.findColumn("DiacountRate")));
-              searchedItem.setDiscountAmt(result.getInt(result.findColumn("DiscountAmt")));
-            }
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the prom information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @isHasPromDetailInfo ", sqlEx);
-        }
-        catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the prom information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @isHasPromDetailInfo ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @isHasPromDetailInfo ", e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-
-            tp.methodExit(searchedItem);
-        }
-        return isHaveValue;
-    }
-    
-    /**
-     * 特売管理マスタ 情報取得
      * @param searchedItem the Item
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private boolean isHasPromDetailInfoList(final PricePromInfo pricePromInfo, final Item searchedItem) throws DaoException {
+    public boolean isHasPromDetailInfoList(final PricePromInfo pricePromInfo, final Item searchedItem) throws DaoException {
     	tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("PricePromInfo", pricePromInfo)
         .println("searchedItem", searchedItem);
@@ -465,90 +377,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     
     /**
      * バンドルミックス 情報取得
-     * @param storeid The ID of the Store where the items are located
-     * @param searchedItem the Item
-     * @param companyId The ID of the companyId
-     * @param bussinessDate the bussinessDate
-     * @throws DaoException   Exception thrown when getting the item information failed.
-     */
-    private boolean isHasPriceMMInfo(final String storeid, final Item searchedItem, final String companyId,
-            final String bussinessDate) throws DaoException {
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
-        .println("StoreID", storeid)
-        .println("searchedItem", searchedItem)
-        .println("CompanyId", companyId);
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        boolean isHaveValue = false;
-        String functionName = "SQLServerItemDAO.isHasPriceMMInfo";
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-price-mm-info"));
-            select.setString(SQLStatement.PARAM1, storeid);
-            select.setString(SQLStatement.PARAM2, companyId);
-            select.setString(SQLStatement.PARAM3, searchedItem.getSku());
-            select.setString(SQLStatement.PARAM4, bussinessDate);
-            result = select.executeQuery();
-            if (result.next()) {
-                isHaveValue = true;
-                searchedItem.setMixMatchCode(result.getString(result.findColumn("MMNo")));
-                searchedItem.setRuleQuantity1(result.getInt(result.findColumn("ConditionCount1")));
-                searchedItem.setRuleQuantity2(result.getInt(result.findColumn("ConditionCount2")));
-                searchedItem.setRuleQuantity3(result.getInt(result.findColumn("ConditionCount3")));
-                
-                searchedItem.setConditionPrice3(result.getDouble(result.findColumn("ConditionPrice3")));
-                searchedItem.setConditionPrice2(result.getDouble(result.findColumn("ConditionPrice2")));
-                searchedItem.setConditionPrice1(result.getDouble(result.findColumn("ConditionPrice1")));
-                
-                if(result.getObject(result.findColumn("DecisionPrice1")) != null ){
-                    searchedItem.setDecisionPrice1(result.getDouble(result.findColumn("DecisionPrice1")));
-                }
-                
-                if(result.getObject(result.findColumn("DecisionPrice2")) != null ){
-                    searchedItem.setDecisionPrice2(result.getDouble(result.findColumn("DecisionPrice2")));
-                }
-                
-                if(result.getObject(result.findColumn("DecisionPrice3")) != null ){
-                    searchedItem.setDecisionPrice3(result.getDouble(result.findColumn("DecisionPrice3")));
-                }
-               
-                searchedItem.setAveragePrice1(result.getDouble(result.findColumn("AveragePrice1")));
-                searchedItem.setAveragePrice2(result.getDouble(result.findColumn("AveragePrice2")));
-                searchedItem.setAveragePrice3(result.getDouble(result.findColumn("AveragePrice3")));
-                
-                searchedItem.setNote(result.getString(result.findColumn("Note")));
-            }
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the prom information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @isHasPriceMMInfo ", sqlEx);
-        }
-        catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the prom information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @isHasPriceMMInfo ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the prom information.\n" + e.getMessage());
-            throw new DaoException("Exception: @isHasPriceMMInfo ", e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-
-            tp.methodExit(searchedItem);
-        }
-        return isHaveValue;
-    }
-    
-    /**
-     * バンドルミックス 情報取得
      * @param priceMMInfo 
      * @param searchedItem the Item
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private boolean isHasPriceMMInfoList(final PriceMMInfo priceMMInfo, final Item searchedItem) throws DaoException {
+    public boolean isHasPriceMMInfoList(final PriceMMInfo priceMMInfo, final Item searchedItem) throws DaoException {
     	tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("PriceMMInfo", priceMMInfo)
         .println("searchedItem", searchedItem);
@@ -587,7 +420,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param bussinessDate the bussinessDate
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private boolean isHasReplaceSupportDetailInfo(final String storeid, final Item searchedItem, final String companyId,
+    public boolean isHasReplaceSupportDetailInfo(final String storeid, final Item searchedItem, final String companyId,
             final String bussinessDate) throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
@@ -634,7 +467,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         return isHaveValue;
     }
     
-    
     /**
      * 割引券発行管理マスタ 情報取得
      * @param storeid The ID of the Store where the items are located
@@ -643,7 +475,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param bussinessDate the bussinessDate
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private void getCouponInfo(final String storeid, final Item searchedItem, final String companyId,
+    public void getCouponInfo(final String storeid, final Item searchedItem, final String companyId,
             final String bussinessDate) throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
@@ -701,7 +533,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param bussinessDate the bussinessDate
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    private void getPremiumitemInfo(final String storeid, final Item searchedItem, final String companyId,
+    public void getPremiumitemInfo(final String storeid, final Item searchedItem, final String companyId,
             final String bussinessDate) throws DaoException {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("StoreID", storeid)
@@ -747,70 +579,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get the prom information.\n" + e.getMessage());
             throw new DaoException("Exception: @getPremiumitemInfo ", e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            tp.methodExit(searchedItem);
-        }
-    }
-    
-    private void getQrCodeInfo(final String storeid, final Item searchedItem, final String companyId,
-            final String bussinessDate) throws DaoException{
-        
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
-        .println("StoreID", storeid)
-        .println("searchedItem", searchedItem)
-        .println("CompanyId", companyId);
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        String functionName = "SQLServerItemDAO.getQrCodeInfo";
-        List<QrCodeInfo> list = new ArrayList<QrCodeInfo>(); 
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-qrcode-info"));
-            select.setString(SQLStatement.PARAM1, companyId);
-            select.setString(SQLStatement.PARAM2, searchedItem.getDepartment());
-            select.setString(SQLStatement.PARAM3, searchedItem.getMd07());
-            select.setString(SQLStatement.PARAM4, searchedItem.getItemClass());
-            select.setString(SQLStatement.PARAM5, searchedItem.getSku());
-            select.setString(SQLStatement.PARAM6, storeid);
-            select.setString(SQLStatement.PARAM7, bussinessDate);
-            select.setString(SQLStatement.PARAM8, searchedItem.getConn1());
-            result = select.executeQuery();
-            while(result.next()){
-            	if(null == result.getObject(result.findColumn("ExclsionInfo"))){
-                QrCodeInfo qr = new QrCodeInfo();
-                qr.setBmpFileCount(result.getString(result.findColumn("BmpFileCount")));
-                qr.setBmpFileFlag(result.getString(result.findColumn("BmpFileFlag")));
-                qr.setBmpFileName(result.getString(result.findColumn("BmpFileName")));
-                if(null != result.getObject(result.findColumn("MinimumPrice"))){
-                    qr.setMinimumPrice(result.getDouble(result.findColumn("MinimumPrice")));
-                }else{
-                    qr.setMinimumPrice(null);
-                }
-                qr.setOutputTargetValue(result.getString(result.findColumn("OutputTargetValue")));
-                qr.setPromotionId(result.getString(result.findColumn("QRPromotionId")));
-                qr.setPromotionName(result.getString(result.findColumn("QRPromotionName")));
-                qr.setOutputType(result.getString(result.findColumn("OutputType")));
-                list.add(qr);
-              }
-            }
-            searchedItem.setQrCodeList(list);
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the qrcode information.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getQrCodeInfo ", sqlEx);
-        }
-        catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the qrcode information.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getQrCodeInfo ", nuEx);
-        } catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the qrcode information.\n" + e.getMessage());
-            throw new DaoException("Exception: @getQrCodeInfo ", e);
         } finally {
             closeConnectionObjects(connection, select, result);
             tp.methodExit(searchedItem);

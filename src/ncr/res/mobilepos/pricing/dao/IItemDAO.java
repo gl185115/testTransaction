@@ -13,13 +13,10 @@ package ncr.res.mobilepos.pricing.dao;
 import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.pricing.model.BrandProducts;
-import ncr.res.mobilepos.pricing.model.GroupLines;
-import ncr.res.mobilepos.pricing.model.ReasonDataList;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItemType;
-import ncr.res.mobilepos.pricing.model.SearchedProducts;
+import ncr.res.mobilepos.pricing.model.PriceMMInfo;
+import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.promotion.model.Sale;
 /**
  * IItemDAO is a DAO interface for Item.
@@ -93,4 +90,49 @@ public interface IItemDAO {
      * @throws DaoException The exception thrown when error occurred.
      */
     Sale getItemNameFromPluName(final String companyId, final String storeid, final String itemCode) throws DaoException;
+
+    /**
+     * 割引券発行管理マスタ 情報取得
+     * @param storeid The ID of the Store where the items are located
+     * @param searchedItem the Item
+     * @param companyId The ID of the companyId
+     * @param bussinessDate the bussinessDate
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	void getCouponInfo(String retailStoreId, Item item, String companyId, String businessDate) throws DaoException;
+
+    /**
+     * プレミアム商品管理マスタ 情報取得
+     * @param storeid The ID of the Store where the items are located
+     * @param searchedItem the Item
+     * @param companyId The ID of the companyId
+     * @param bussinessDate the bussinessDate
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	void getPremiumitemInfo(String retailStoreId, Item item, String companyId, String businessDate) throws DaoException;
+
+    /**
+     * 特売管理マスタ 情報取得
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	boolean isHasPromDetailInfoList(PricePromInfo pricePromInfo, Item item) throws DaoException;
+
+    /**
+     * バンドルミックス 情報取得
+     * @param priceMMInfo 
+     * @param searchedItem the Item
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	boolean isHasPriceMMInfoList(PriceMMInfo priceMMInfo, Item item) throws DaoException;
+
+    /**
+     * クラブ買替えサポート管理マスタ 情報取得
+     * @param storeid The ID of the Store where the items are located
+     * @param searchedItem the Item
+     * @param companyId The ID of the companyId
+     * @param bussinessDate the bussinessDate
+     * @throws DaoException   Exception thrown when getting the item information failed.
+     */
+	boolean isHasReplaceSupportDetailInfo(String retailStoreId, Item item, String companyId, String businessDate) throws DaoException;
 }

@@ -1539,7 +1539,7 @@ public class PromotionResource {
 
 
 		List<PremiumInfo> premiumList = new ArrayList<PremiumInfo>();
-		if (json.get("premiumList") != null) {
+		if (json.get("premiumList") != null && !"null".equals(json.getString("premiumList"))) {
 			JSONArray jsonArray = new JSONArray(json.getString("premiumList"));
 			for (int i = 0; i < jsonArray.length(); i++) {
 				JSONObject itemJson = (JSONObject) jsonArray.get(i);

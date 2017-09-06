@@ -612,7 +612,7 @@ WHERE info.DeleteFlag = 0.0
     AND info.CompanyId = @companyId
 	AND info.TargetStoreType = '1'
 
-ORDER BY info.UpdDate DESC
+ORDER BY detail.PromotionType DESC,info.UpdDate DESC
 
 </entry>
 

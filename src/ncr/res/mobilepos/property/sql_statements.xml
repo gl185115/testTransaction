@@ -157,9 +157,10 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          RESMaster.dbo.MST_PLU plu
          ON plu.CompanyId = brandInfo.CompanyId
         AND plu.Md07 = brandInfo.BrandId
+        AND brandInfo.DeleteFlag = 0.0
         AND brandInfo.StoreId = @brandStoreId
        WHERE
-         brandInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId
+         brandInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
          AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @brandStoreId = '0'
@@ -172,9 +173,10 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          RESMaster.dbo.MST_PLU plu
          ON plu.CompanyId = pluNameInfo.CompanyId
         AND plu.MdInternal = pluNameInfo.MdInternal
+        AND pluNameInfo.DeleteFlag = 0.0
         AND pluNameInfo.StoreId = @pluNameStoreId
        WHERE
-         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
          AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @pluNameStoreId = '0'
@@ -303,10 +305,12 @@ LEFT JOIN RESMaster.dbo.MST_BRANDINFO brandInfo
 ON plu.CompanyId = brandInfo.CompanyId
 AND brandInfo.StoreId = @brandStoreId
 AND plu.Md07 = brandInfo.BrandId
+AND brandInfo.DeleteFlag = 0.0
 LEFT JOIN RESMaster.dbo.MST_PLU_NAME pluNameInfo
 ON plu.CompanyId = pluNameInfo.CompanyId
 AND pluNameInfo.StoreId = @pluNameStoreId
 AND plu.MdInternal = pluNameInfo.MdInternal
+AND pluNameInfo.DeleteFlag = 0.0
 
 LEFT JOIN  (
     SELECT
@@ -349,7 +353,7 @@ DECLARE    @companyId VARCHAR(12),
        FROM
          RESMaster.dbo.MST_PLU_NAME
        WHERE
-         CompanyId = @companyId AND MdInternal = @mdInternal AND StoreId = @storeId
+         CompanyId = @companyId AND MdInternal = @mdInternal AND StoreId = @storeId AND DeleteFlag = 0.0
     )
     SET @storeId = '0'
 
@@ -357,7 +361,7 @@ DECLARE    @companyId VARCHAR(12),
     FROM
       RESMaster.dbo.MST_PLU_NAME
     WHERE
-      CompanyId = @companyId AND MdInternal = @mdInternal AND StoreId = @storeId
+      CompanyId = @companyId AND MdInternal = @mdInternal AND StoreId = @storeId AND DeleteFlag = 0.0
 </entry>
 
 <entry key="get-price-ReplaceSupport-info">

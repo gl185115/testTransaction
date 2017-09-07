@@ -461,6 +461,9 @@ public class PromotionResource {
 					if (item != null) {
 						item.setItemId(itemIdTemp);
 						Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
+						if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
+							terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
+						}
 						transactionOut.setSale(saleItem);
 						response.setTransaction(transactionOut);
 					}
@@ -567,6 +570,27 @@ public class PromotionResource {
 								saleOut.setPromotionType(item.getPromotionType());
 							} else {
 								saleOut.setPromotionType(departmentInfo.getPromotionType());
+							}
+							
+							// バンドルミックス(PRICE_MM_INFO mixmatch)
+							saleOut.setMixMatchCode(item.getMixMatchCode());
+							saleOut.setRuleQuantity1(item.getRuleQuantity1());
+							saleOut.setRuleQuantity2(item.getRuleQuantity2());
+							saleOut.setRuleQuantity3(item.getRuleQuantity3());
+							saleOut.setConditionPrice3(item.getConditionPrice3());
+							saleOut.setConditionPrice2(item.getConditionPrice2());
+							saleOut.setConditionPrice1(item.getConditionPrice1());
+							saleOut.setDecisionPrice1(item.getDecisionPrice1());
+							saleOut.setDecisionPrice2(item.getDecisionPrice2());
+							saleOut.setDecisionPrice3(item.getDecisionPrice3());
+							saleOut.setAveragePrice1(item.getAveragePrice1());
+							saleOut.setAveragePrice2(item.getAveragePrice2());
+							saleOut.setAveragePrice3(item.getAveragePrice3());
+							saleOut.setNote(item.getNote());
+							saleOut.setSku(item.getSku());
+							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
+								item.setItemId(itemIdTemp);
+								terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 							}
 						} else {
 							if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
@@ -1427,7 +1451,7 @@ public class PromotionResource {
 	 */
 	private Sale jsonToMdName(JSONObject json) throws NumberFormatException, JSONException {
 		Sale mdName = new Sale();
-		mdName.setMdNameLocal(json.getString("mdNameLocal"));
+		mdName.setMdNameLocal(StringUtility.convNullStringToNull(json.getString("mdNameLocal")));
 		return mdName;
 	}
 
@@ -1445,24 +1469,24 @@ public class PromotionResource {
 	private ViewDepartment jsonToDeparment(JSONObject json) throws NumberFormatException, JSONException {
 		ViewDepartment departmentInfo = new ViewDepartment();
 		Department dpt = new Department();
-		dpt.setDepartmentID(json.getString("departmentID"));
+		dpt.setDepartmentID(StringUtility.convNullStringToNull(json.getString("departmentID")));
 
 		// department name
 		DepartmentName departmentName = new DepartmentName();
-		departmentName.setEn(json.getJSONObject("departmentName").getString("en"));
-		departmentName.setJa(json.getJSONObject("departmentName").getString("ja"));
+		departmentName.setEn(StringUtility.convNullStringToNull(json.getJSONObject("departmentName").getString("en")));
+		departmentName.setJa(StringUtility.convNullStringToNull(json.getJSONObject("departmentName").getString("ja")));
 		dpt.setDepartmentName(departmentName);
-		dpt.setTaxRate(json.getString("taxRate"));
-		dpt.setTaxType(json.getString("taxType"));
-		dpt.setDiscountType(json.getString("discountType"));
+		dpt.setTaxRate(StringUtility.convNullStringToNull(json.getString("taxRate")));
+		dpt.setTaxType(StringUtility.convNullStringToNull(json.getString("taxType")));
+		dpt.setDiscountType(StringUtility.convNullStringToNull(json.getString("discountType")));
 		dpt.setNonSales(json.getInt("nonSales"));
-	    dpt.setSubCode1(json.getString("subCode1"));
-		dpt.setSubNum1(json.getString("subNum1"));
-		dpt.setSubNum2(json.getString("subNum2"));
-		dpt.setSubNum3(json.getString("subNum3"));
-		dpt.setSubNum4(json.getString("subNum4"));
+		dpt.setSubCode1(StringUtility.convNullStringToNull(json.getString("subCode1")));
+		dpt.setSubNum1(StringUtility.convNullStringToNull(json.getString("subNum1")));
+		dpt.setSubNum2(StringUtility.convNullStringToNull(json.getString("subNum2")));
+		dpt.setSubNum3(StringUtility.convNullStringToNull(json.getString("subNum3")));
+		dpt.setSubNum4(StringUtility.convNullStringToNull(json.getString("subNum4")));
 		departmentInfo.setDepartment(dpt);
-		departmentInfo.setRetailStoreID(json.getString("retailStoreID"));
+		departmentInfo.setRetailStoreID(StringUtility.convNullStringToNull(json.getString("retailStoreID")));
 		return departmentInfo;
 	}
 

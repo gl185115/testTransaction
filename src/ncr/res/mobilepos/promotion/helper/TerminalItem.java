@@ -316,6 +316,7 @@ public class TerminalItem {
                       } else{
                           inf.setQuantity(info.getQuantity());
                       }
+                      inf.setTruePrice(info.getTruePrice());
                   flag = true;
               }
           }
@@ -350,6 +351,7 @@ public class TerminalItem {
                       } else{
                           inf.setQuantity(info.getQuantity());
                       }
+                      inf.setTruePrice(info.getTruePrice());
                   flag = true;
               }
           }

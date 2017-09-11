@@ -215,28 +215,37 @@ public class SystemSettingResource {
 			tp.methodEnter(functionName);
 		}
 		ResultBase result = new ResultBase();
+		Process pingProc;
 		try {
-			InetAddress inet = InetAddress.getByName(ipAddress);
-			if (inet.isReachable(GlobalConstant.getServerPingTimeout())) {
-				result.setNCRWSSResultCode(ResultBase.RES_OK);
-			} else {
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
-				result.setMessage(ipAddress + " is not reachable.");
-			}
-		} catch (UnknownHostException ex) {
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
-            result.setMessage("Invalid IpAddress. This maybe a hostname.");
-		} catch (IOException e) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_IO,
-					"Failed to ping ipaddress.\n" + e.getMessage());
-			result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-			result.setMessage(e.getMessage());
-		} catch (Exception e) {
+		    int pingTimeout = 3000;
+		    if (GlobalConstant.getServerPingTimeout() > 0) {
+		        pingTimeout = GlobalConstant.getServerPingTimeout();
+		    }
+		    String cmd = "ping -n 1 -w " + pingTimeout + " " + ipAddress;
+		    
+		    pingProc = Runtime.getRuntime().exec(cmd);
+		    pingProc.waitFor();
+		    
+		    if (pingProc.exitValue() == 0){
+		        result.setNCRWSSResultCode(ResultBase.RES_OK);
+		    } else {
+		        result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);
+                result.setMessage(ipAddress + " ping failed.");
+		    }
+		    
+		    if (pingProc != null) {
+		        pingProc.destroy();
+		    }
+		}
+		catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
 					"Failed to ping ipaddress.\n" + e.getMessage());
 			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
 			result.setMessage(e.getMessage());
 		} finally {
+		    if (pingProc != null) {
+                pingProc.destroy();
+            }
 			tp.methodExit(result);
 		}
 		return result;

@@ -215,7 +215,7 @@ public class SystemSettingResource {
 			tp.methodEnter(functionName);
 		}
 		ResultBase result = new ResultBase();
-		Process pingProc;
+		Process pingProc = null;
 		try {
 		    int pingTimeout = 3000;
 		    if (GlobalConstant.getServerPingTimeout() > 0) {

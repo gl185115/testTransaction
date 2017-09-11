@@ -99,10 +99,10 @@ public class SystemSettingResourceSteps extends Steps {
 		assertEquals(ResultBase.RES_OK, resultBase.getNCRWSSResultCode());
 	}
 
-	@Then("Ping failed by UnknownHostException with RES_ERROR_PING")
+	@Then("Ping failed by with RES_ERROR_PING")
 	public void expectFailedPingWithUnknownHostException() {
 		assertEquals(ResultBase.RES_ERROR_PING, resultBase.getNCRWSSResultCode());
-		assertTrue(resultBase.getMessage().contains("Invalid IpAddress"));
+		assertTrue(resultBase.getMessage().contains("ping failed"));
 	}
 
 	@Then("Ping failed by timeout with RES_ERROR_PING")

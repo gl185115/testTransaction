@@ -657,7 +657,7 @@ public class PromotionResource {
 //				promotion.setQrCodeInfoList(terminalItem.getQrCodeInfoList(item));
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
 					terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-					if (!"false".equals(transactionIn.getEntryFlag())) {
+					if (!"false".equals(transactionIn.getEntryFlag()) && 0.0 != item.getRegularSalesUnitPrice()) {
 						terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
 						Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(), "");
 						// promotion.setMap(map);

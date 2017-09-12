@@ -1,6 +1,8 @@
 package ncr.res.mobilepos.systemsetting.resource;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -221,12 +223,20 @@ public class SystemSettingResource {
 		    if (GlobalConstant.getServerPingTimeout() > 0) {
 		        pingTimeout = GlobalConstant.getServerPingTimeout();
 		    }
-		    String cmd = "ping -n 1 -w " + pingTimeout + " " + ipAddress;
+		    // 送信バイト数　9999バイト
+		    String cmd = "ping -n 1 -l 9999 -w " + pingTimeout + " " + ipAddress;
 		    
 		    pingProc = Runtime.getRuntime().exec(cmd);
 		    pingProc.waitFor();
 		    
-		    if (pingProc.exitValue() == 0){
+		    BufferedReader in = new BufferedReader(new InputStreamReader(pingProc.getInputStream()));
+            String inputLine = "";
+            String tmp;
+            while ((tmp = in.readLine()) != null) {
+                inputLine += tmp;
+            }
+		    
+		    if (pingProc.exitValue() == 0 && inputLine.contains("=9999")){//応答バイト数　9999バイト
 		        result.setNCRWSSResultCode(ResultBase.RES_OK);
 		    } else {
 		        result.setNCRWSSResultCode(ResultBase.RES_ERROR_PING);

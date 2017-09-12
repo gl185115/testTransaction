@@ -11,6 +11,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
 import java.util.List;
 
 @Path("/uiconfig")
@@ -176,7 +178,19 @@ public class UiConfigResource {
 
         // 7, Filters Config.Tasks by StoreID, WorkStationID, and EffectiveDate.
 //        List<Task> effectiveTasks = typeConfig.getValidTasks(storeID, workstationID, csvStores);
-        List<Task> effectiveTasks = typeConfig.getValidTasksByDB(storeID, workstationID, storeEntryList);
+        String thisBusinessDay = new JournalizationResource().getBussinessDate(companyID, storeID);
+        List<Task> effectiveTasks = null;
+        try {
+            effectiveTasks = typeConfig.getValidTasksByDB(storeID, workstationID, storeEntryList, thisBusinessDay);
+        } catch (ParseException e) {
+            tp.methodExit("Date ParseException");
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestConfigFile",
+                    Logger.RES_EXCEP_PARSE,
+                    "Date ParseException");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         if (effectiveTasks.isEmpty()) {
             tp.methodExit("schedule.xml: No valid <task> "
                     + "configType:" + configType

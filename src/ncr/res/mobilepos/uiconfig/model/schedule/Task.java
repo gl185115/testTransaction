@@ -99,14 +99,23 @@ public class Task {
      * Returns if the task is effective.
      *
      * @return true: effective, false: ineffective.
+     * @throws ParseException 
      */
-    public boolean isEffective() {
+    public boolean isEffective(String thisBusinessDay) throws ParseException {
         Date effectiveDate = this.getEffectiveDate();
         if (effectiveDate == null) {
             return false;
         }
         // Compares with current date.
-        return new Date().after(effectiveDate);
+        
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String dateString = sdf.format(date);
+        String businessDate = thisBusinessDay + " " + dateString;
+        
+        SimpleDateFormat bizSdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date bizDate = bizSdf.parse(businessDate);
+        return bizDate.after(effectiveDate);
     }
 
     /**

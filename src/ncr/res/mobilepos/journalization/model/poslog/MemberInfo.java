@@ -135,6 +135,33 @@ public class MemberInfo {
     @XmlElement(name = "CouponDetail")
     private List<CouponDetail> couponDetail;
     /**
+     * The private member variable that holds the CouponDetail.
+     */
+    @XmlElement(name = "PointBackFlag")
+    private String PointBackFlag;
+    /**
+     * The private member variable that holds the CouponDetail.
+     */
+    @XmlElement(name = "PreCorrectionPoints")
+    private String PreCorrectionPoints;
+    
+    public String getPointBackFlag() {
+		return PointBackFlag;
+	}
+
+	public void setPointBackFlag(String pointBackFlag) {
+		PointBackFlag = pointBackFlag;
+	}
+
+	public String getPreCorrectionPoints() {
+		return PreCorrectionPoints;
+	}
+
+	public void setPreCorrectionPoints(String preCorrectionPoints) {
+		PreCorrectionPoints = preCorrectionPoints;
+	}
+
+	/**
      *
      * @return PointsMethod
      */

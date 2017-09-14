@@ -44,7 +44,80 @@ public class PointPosted {
 	/* the AfterPoint */
 	@XmlElement(name = "AfterPoint")
 	private String AfterPoint;
-    
+	
+	/* the BusinessDayDate */
+	@XmlElement(name = "BusinessDayDate")
+	private String businessDayDate ;
+	
+	/* the CompanyId */
+    @XmlElement(name = "CompanyId")
+	private String companyId ;
+
+	/* the RetailStoreId */
+	@XmlElement(name = "RetailStoreId")
+	private String retailStoreId ;
+
+	/* the WorkstationId */
+	@XmlElement(name = "WorkstationId")
+	private String workstationId ;
+
+	/* the SequenceNumber */
+	@XmlElement(name = "SequenceNumber")
+	private String sequenceNumber ;
+
+	/* the TrainingFlag */
+	@XmlElement(name = "TrainingFlag")
+	private int trainingFlag ;
+   
+   
+	public String getBusinessDayDate() {
+		return businessDayDate;
+	}
+
+	public void setBusinessDayDate(String businessDayDate) {
+		this.businessDayDate = businessDayDate;
+	}
+
+	public String getCompanyId() {
+	   return companyId;
+	}
+
+	public void setCompanyId(String companyId) {
+	   this.companyId = companyId;
+	}
+
+	public String getRetailStoreId() {
+	   return retailStoreId;
+	}
+
+	public void setRetailStoreId(String retailStoreId) {
+	   this.retailStoreId = retailStoreId;
+	}
+
+	public String getWorkstationId() {
+	   return workstationId;
+	}
+
+	public void setWorkstationId(String workstationId) {
+	   this.workstationId = workstationId;
+	}
+
+	public String getSequenceNumber() {
+	   return sequenceNumber;
+	}
+
+	public void setSequenceNumber(String sequenceNumber) {
+	   this.sequenceNumber = sequenceNumber;
+	}
+
+	public int getTrainingFlag() {
+	   return trainingFlag;
+	}
+
+	public void setTrainingFlag(int trainingFlag) {
+	   this.trainingFlag = trainingFlag;
+	}
+
     public boolean isPostPointed() {
         return PostPointed;
     }

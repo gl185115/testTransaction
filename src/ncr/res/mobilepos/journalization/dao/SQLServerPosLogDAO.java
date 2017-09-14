@@ -2441,6 +2441,12 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             	if(!StringUtility.isNullOrEmpty(originalSequence)) {
             		pointPosted.setPostPointed(true);
             		pointPosted.setMemberId(resultSet.getString("MemberId"));
+                    pointPosted.setCompanyId(resultSet.getString("CompanyId"));
+                    pointPosted.setRetailStoreId(resultSet.getString("RetailStoreId"));
+                    pointPosted.setWorkstationId(resultSet.getString("WorkstationId"));
+                    pointPosted.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
+                    pointPosted.setSequenceNumber(resultSet.getString("SequenceNumber"));
+                    pointPosted.setTrainingFlag(resultSet.getInt("TrainingFlag"));
             	}
             }
         } catch (Exception ex) {

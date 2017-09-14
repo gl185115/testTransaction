@@ -11797,20 +11797,28 @@ DECLARE
     SET @trainingFlag = ?
 
     SELECT
-      SalesAmt,
-      BusinessDayDate,
-      MemberId,
+      CompanyId,
+      RetailStoreId,
+      WorkstationId,
       SequenceNumber,
+      BusinessDayDate,
+      TrainingFlag,
+      SalesAmt,
+      ForPointAmt,
+      AddPoint,
+      BeforePoint,
+      AfterPoint,
+      MemberId,
       OriginalSequenceNumber
     FROM
       RESTransaction.dbo.TXL_POINT_AFTERADD
     WHERE
-      CompanyId = @companyId AND
-      RetailStoreId = @storeId AND
-      WorkStationId = @workstationId AND
-      BusinessDayDate = @businessDate AND
-      TrainingFlag = @trainingFlag AND
-      OriginalSequenceNumber = @txId
+        OriginalCompanyId = @companyId
+      AND  OriginalRetailStoreId = @storeId
+      AND  OriginalWorkStationId = @workstationId
+      AND  OriginalBusinessDayDate = @businessDate
+      AND  OriginalSequenceNumber = @txId
+      AND  TrainingFlag = @trainingFlag
   </entry>
 
   <entry key="get-store-info">

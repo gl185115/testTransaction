@@ -15,6 +15,7 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.naming.NamingException;
@@ -66,7 +67,9 @@ import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchGuestOrder;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
+import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
+import ncr.res.mobilepos.journalization.model.poslog.MemberInfo;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -314,6 +317,16 @@ public class JournalizationResource {
                 receiptCount = posLogDAO.getSummaryReceiptCount(companyid,storeid, workstationid, txid, businessdate);
                 info.setSummaryReceipt(String.valueOf(receiptCount));
                 pointPosted = posLogDAO.isPointPosted(companyid, storeid, workstationid, businessdate, txid, trainingflag);
+                if(pointPosted.isPostPointed()){
+                   String pointXML = posLogDAO.getPOSLogTransaction(pointPosted.getCompanyId(), pointPosted.getRetailStoreId(), pointPosted.getWorkstationId(), 
+                           pointPosted.getBusinessDayDate(), pointPosted.getSequenceNumber(), pointPosted.getTrainingFlag(), txtype);
+                   if (!StringUtility.isNullOrEmpty(pointXML)) {
+                       SearchedPosLog pointPoslog = new SearchedPosLog();
+                       pointPoslog = poslogSerializer.unMarshallXml(pointXML,
+                                       SearchedPosLog.class);
+                       setMemberInfo(poslog,pointPoslog);
+                   }
+                }
                 info.setPostPointed(pointPosted);
                 info.setLocked(String.valueOf(lockStatus));
                 info.setPoslogXML(poslogXML);
@@ -333,7 +346,18 @@ public class JournalizationResource {
         }
         return (SearchedPosLog)tp.methodExit(poslog);
     }
-
+    private void setMemberInfo(SearchedPosLog poslog, SearchedPosLog pointPoslog){
+        List<LineItem> pointPoslogLineItems = pointPoslog.getTransaction().getRetailTransaction().getLineItems();
+        MemberInfo memberInfo = null;
+        for(int j = 0; j < pointPoslogLineItems.size(); j++){
+            if(null !=pointPoslogLineItems.get(j).getPoints()){
+                memberInfo = pointPoslogLineItems.get(j).getPoints();
+                poslog.setMemberInfo(memberInfo);
+                break;
+            }
+        }
+        
+    }
     /**
      * Gets the Business day date set by the Administrator.
      * @param companyId the company ID

@@ -54,7 +54,7 @@ public class ControlTransaction {
     /**
      * The private member variable which holds the Operator auto sign off
      */
-    @XmlElement(name = "AutoSignoff")
+    @XmlElement(name = "AutoSignOff")
     private OperatorAutoSignOff autoSignOff;
 
     @XmlElement(name = "POSEOD")

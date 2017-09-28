@@ -633,7 +633,7 @@ public class PromotionResource {
 							// バーコード価格を使用
 							if (barCodePrice != null) {
 								if ("1".equals(taxType)) {
-									barCodePrice = (double) Math.round(barCodePrice * 1.08);
+									barCodePrice = (double) Math.floor(barCodePrice * 1.08);
 								}
 								saleOut.setLabelPrice(barCodePrice);
 								saleOut.setRegularSalesUnitPrice(barCodePrice);
@@ -714,7 +714,7 @@ public class PromotionResource {
 					saleItem.setTaxTypeSource("2");
 					if (barCodePrice != null) {
 						if ("1".equals(taxType)) {
-							barCodePrice = (double) Math.round(barCodePrice * 1.08);
+							barCodePrice = (double) Math.floor(barCodePrice * 1.08);
 						}
 						saleItem.setRegularSalesUnitPrice(barCodePrice);
 						saleItem.setActualSalesUnitPrice(barCodePrice);

@@ -170,7 +170,7 @@ Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
 |DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|MJROYAL BK465|MJROYAL BK465|1|9784987654321|1234|0|0|1|0|0|0|59546.0|59546.0|0029|59546.0|null|21111|
+|MJROYAL BK465|MJROYAL BK465|1|9784987654321|1234|0|0|1|0|0|0|59545.0|59545.0|0029|59545.0|null|21111|
 
 Scenario: Plu no corresponding commodity(janBook)
 Given ItemCode.xml file exist

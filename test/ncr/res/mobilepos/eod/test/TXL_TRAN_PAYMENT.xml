@@ -20,21 +20,21 @@
 		<column>CreditCompanyId</column>
 		<column>CreditPaymentMethod</column>
 		<column>CreditPaymentCount</column>
-		<column>CreditApprovalCode</column>
-		<column>CreditExpDate</column>
+<!-- 		<column>CreditApprovalCode</column>
+		<column>CreditExpDate</column> -->
 		<column>CreditSlipNo</column>
-		<column>CreditBonusMonth1</column>
+<!-- 		<column>CreditBonusMonth1</column>
 		<column>CreditBonusMonth2</column>
 		<column>CreditBonusAmt</column>
-		<column>CreditOwnCreditKind</column>
+		<column>CreditOwnCreditKind</column> -->
 		<column>Amt</column>
 		<column>ConvertAmt</column>
 		<column>SurplusAmt</column>
-		<column>ShoppingLoanApprovalCode</column>
+		<!-- <column>ShoppingLoanApprovalCode</column>
 		<column>ShoppingLoanMemberNo</column>
 		<column>ShoppingLoanAccountNo</column>
 		<column>ChargeSlipNo</column>
-		<column>PendingSlipNo</column>
+		<column>PendingSlipNo</column> -->
 		<column>CashFlowType</column>
 		<column>CashFlowRemarksId</column>
 		<column>CashFlowRemarksNote</column>
@@ -80,20 +80,9 @@
 			<null />
 			<null />
 			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
-			<null />
 			<value>1000</value>
 			<value>0</value>
 			<value>0</value>
-			<null />
-			<null />
-			<null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -140,20 +129,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>1000</value>
             <value>10</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -200,20 +178,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>1000</value>
             <value>0</value>
             <value>20</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -260,20 +227,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>2000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -320,20 +276,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>2000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -380,20 +325,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>2000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -440,20 +374,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>2000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -500,20 +423,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>4000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -560,20 +472,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>5000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -620,20 +521,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>100</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -680,20 +570,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>200</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -740,20 +619,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>1000</value>
             <value>0</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />
@@ -800,20 +668,9 @@
             <null />
             <null />
             <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <value>1000</value>
             <value>10</value>
             <value>0</value>
-            <null />
-            <null />
-            <null />
-            <null />
-            <null />
             <null />
             <null />
             <null />

@@ -456,7 +456,7 @@ public class SQLServerQueueBusterDao extends AbstractDao implements
 				List<LineItem> lineItem = retailTransaction.getLineItems();
 				LineItem lineItemFirst = lineItem.get(0);
 				Sale sale = lineItemFirst.getSale();
-				if (sale.getAssociate() != null) {
+				if (sale != null && sale.getAssociate() != null) {
 				    String salesPersonName = sale.getAssociate().getAssociateName();
 				    bustTransaction.setsalesPerson(salesPersonName);
 				}else {

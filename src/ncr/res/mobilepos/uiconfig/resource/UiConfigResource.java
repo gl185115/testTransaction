@@ -4,8 +4,6 @@ import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
@@ -21,12 +19,11 @@ import ncr.res.mobilepos.uiconfig.model.schedule.Config;
 import ncr.res.mobilepos.uiconfig.model.schedule.Deploy;
 import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
 import ncr.res.mobilepos.uiconfig.model.schedule.Task;
-import ncr.res.mobilepos.uiconfig.model.store.CSVStore;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
-import ncr.res.mobilepos.uiconfig.utils.StaticParameter;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
@@ -388,4 +385,54 @@ public class UiConfigResource {
         return rb.build();
     }
     
+    /**
+     * Returns custom image files.
+     *
+     * @param filenameParam
+     * @return
+     */
+    @Path("/customresourceexist")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="カスタムコンテント存在チェック", response=ResultBase.class)
+    public final ResultBase requestCustomResourceExist(
+            @ApiParam(name="filePath", value="ファイルアドレス") @QueryParam("filePath") String filePath,
+            @ApiParam(name="fileName", value="ファイル名") @QueryParam("fileName") String fileName) {
+        // Logs given parameters.
+        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        tp.methodEnter("/uiconfig/customresourceexist");
+        tp.println("filePath", filePath);
+        tp.println("fileName", fileName);
+        
+        ResultBase result = null;
+
+        // 1, Decodes filename.
+        String fileNameTemp = null;
+        try {
+            fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            // This exception is never thrown.
+        }
+
+        // 2, Searches a file with the given name in custom base path.
+        String customBasePath = configProperties.getCustomResourceBasePath();
+        File file = new File(customBasePath + filePath + File.separator + fileNameTemp);
+        if (file.isFile() || file.exists()) {
+         // 3, Returns file for the response.
+            result = new ResultBase(ResultBase.RESRPT_OK);
+        } else {
+            tp.methodExit("Custom Resource not found:" + customBasePath + filePath + "/" + fileNameTemp);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomResourceExist",
+                    Logger.RES_EXCEP_FILENOTFOUND,
+                    "Custom Resource not found:" + customBasePath + filePath + "/" + fileNameTemp);
+            result = new ResultBase();
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
+            result.setMessage("Custom Resource not found:" + customBasePath + filePath + "/" + fileNameTemp);
+        }
+        
+        return result;
+    }
 }

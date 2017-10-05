@@ -413,6 +413,7 @@ public class UiConfigResource {
         List<FileInfo> fileInfoList = null;
         String fileNameTemp = null;
         String filePathTemp = configProperties.getCustomResourceBasePath();
+        String filePathString = null;
         try {
             if (StringUtility.isNullOrEmpty(fileList)) {
                 String msg = "Parameter[s] is empty or null.";
@@ -435,10 +436,10 @@ public class UiConfigResource {
 
                 // 1, Decodes filename.
                 fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
-                filePathTemp = filePathTemp + filePath;
+                filePathString = filePathTemp + filePath;
                 
                 // 2, Check a file is exists of fileList
-                File file = new File(filePathTemp + File.separator + fileNameTemp);
+                File file = new File(filePathString + File.separator + fileNameTemp);
                 FileInfo fileInfo = new FileInfo();
                 fileInfo.setFilePath(filePath);
                 fileInfo.setFileName(fileName);
@@ -452,7 +453,7 @@ public class UiConfigResource {
             }
             result.setFileInfoList(fileInfoList);
         } catch (UnsupportedEncodingException e) {
-            String msg = "The custom fileName's encoding was unsupported:" + filePathTemp + "/" + fileNameTemp
+            String msg = "The custom fileName's encoding was unsupported:" + filePathString + "/" + fileNameTemp
                     + e.getMessage();
             LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_ENCODING,
                     msg);
@@ -460,13 +461,13 @@ public class UiConfigResource {
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNSUPPORTEDENCODING);
             result.setMessage(msg);
         } catch (JSONException e) {
-            String msg = "JsonObject data Parsing error:" + filePathTemp + "/" + fileNameTemp + e.getMessage();
+            String msg = "JsonObject data Parsing error:" + filePathString + "/" + fileNameTemp + e.getMessage();
             LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_PARSE, msg);
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
             result.setMessage(msg);
         } catch (Exception e) {
-            String msg = "General Exception:" + filePathTemp + "/" + fileNameTemp + e.getMessage();
+            String msg = "General Exception:" + filePathString + "/" + fileNameTemp + e.getMessage();
             LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_GENERAL,
                     msg);
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);

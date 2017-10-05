@@ -414,34 +414,43 @@ public class UiConfigResource {
         String fileNameTemp = null;
         String filePathTemp = configProperties.getCustomResourceBasePath();
         try {
-            if (!StringUtility.isNullOrEmpty(fileList)) {
-                JSONArray jsonArray = new JSONArray(fileList);
-                fileInfoList = new ArrayList<FileInfo>();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject json = (JSONObject) jsonArray.get(i);
-                    String filePath = json.getString("filePath");
-                    String fileName = json.getString("fileName");
-                    int index = json.getInt("index");
-
-                    // 1, Decodes filename.
-                    fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
-                    filePathTemp = filePathTemp + filePath;
-                    
-                    // 2, Check a file is exists of fileList
-                    File file = new File(filePathTemp + File.separator + fileNameTemp);
-                    FileInfo fileInfo = new FileInfo();
-                    fileInfo.setFilePath(filePath);
-                    fileInfo.setFileName(fileName);
-                    fileInfo.setIndex(index);
-                    if (file.isFile() || file.exists()) {
-                        fileInfo.setExistFlag(true);
-                    } else {
-                        fileInfo.setExistFlag(false);
-                    }
-                    fileInfoList.add(fileInfo);
-                }
-                result.setFileInfoList(fileInfoList);
+            if (StringUtility.isNullOrEmpty(fileList)) {
+                String msg = "Parameter[s] is empty or null.";
+                LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_PARA_ERR,
+                        msg);
+                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                result.setMessage(msg);
+                tp.println(msg);
+                return result;
             }
+            
+            JSONArray jsonArray = new JSONArray(fileList);
+            fileInfoList = new ArrayList<FileInfo>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = (JSONObject) jsonArray.get(i);
+                String filePath = json.getString("filePath");
+                String fileName = json.getString("fileName");
+                int index = json.getInt("index");
+
+                // 1, Decodes filename.
+                fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
+                filePathTemp = filePathTemp + filePath;
+                
+                // 2, Check a file is exists of fileList
+                File file = new File(filePathTemp + File.separator + fileNameTemp);
+                FileInfo fileInfo = new FileInfo();
+                fileInfo.setFilePath(filePath);
+                fileInfo.setFileName(fileName);
+                fileInfo.setIndex(index);
+                if (file.isFile() || file.exists()) {
+                    fileInfo.setExistFlag(true);
+                } else {
+                    fileInfo.setExistFlag(false);
+                }
+                fileInfoList.add(fileInfo);
+            }
+            result.setFileInfoList(fileInfoList);
         } catch (UnsupportedEncodingException e) {
             String msg = "The custom fileName's encoding was unsupported:" + filePathTemp + "/" + fileNameTemp
                     + e.getMessage();

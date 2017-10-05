@@ -5,16 +5,22 @@ import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
+import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
+import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.model.UiConfigType;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.Config;
 import ncr.res.mobilepos.uiconfig.model.schedule.Deploy;
 import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
@@ -30,6 +36,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/uiconfig")
@@ -386,53 +393,79 @@ public class UiConfigResource {
     }
     
     /**
-     * Returns custom image files.
+     * Returns custom resource fileList
      *
-     * @param filenameParam
+     * @param fileList
      * @return
      */
     @Path("/customresourceexist")
-    @GET
+    @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="カスタムコンテント存在チェック", response=ResultBase.class)
-    public final ResultBase requestCustomResourceExist(
-            @ApiParam(name="filePath", value="ファイルアドレス") @QueryParam("filePath") String filePath,
-            @ApiParam(name="fileName", value="ファイル名") @QueryParam("fileName") String fileName) {
+    @ApiOperation(value = "カスタムリソース存在チェック", response = ResultBase.class)
+    public final FileInfoList requestCustomResourceExist(
+            @ApiParam(name = "fileList", value = "ファイルリスト") @FormParam("fileList") String fileList) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/customresourceexist");
-        tp.println("filePath", filePath);
-        tp.println("fileName", fileName);
-        
-        ResultBase result = null;
+        tp.println("fileList", fileList);
 
-        // 1, Decodes filename.
+        FileInfoList result = new FileInfoList();
+        List<FileInfo> fileInfoList = null;
         String fileNameTemp = null;
+        String filePathTemp = configProperties.getCustomResourceBasePath();
         try {
-            fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
-        } catch (UnsupportedEncodingException e) {
-            // This exception is never thrown.
-        }
+            if (!StringUtility.isNullOrEmpty(fileList)) {
+                JSONArray jsonArray = new JSONArray(fileList);
+                fileInfoList = new ArrayList<FileInfo>();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject json = (JSONObject) jsonArray.get(i);
+                    String filePath = json.getString("filePath");
+                    String fileName = json.getString("fileName");
+                    int index = json.getInt("index");
 
-        // 2, Searches a file with the given name in custom base path.
-        String customBasePath = configProperties.getCustomResourceBasePath();
-        File file = new File(customBasePath + filePath + File.separator + fileNameTemp);
-        if (file.isFile() || file.exists()) {
-         // 3, Returns file for the response.
-            result = new ResultBase(ResultBase.RESRPT_OK);
-        } else {
-            tp.methodExit("Custom Resource not found:" + customBasePath + filePath + "/" + fileNameTemp);
-            LOGGER.logAlert(
-                    this.getClass().getSimpleName(),
-                    "requestCustomResourceExist",
-                    Logger.RES_EXCEP_FILENOTFOUND,
-                    "Custom Resource not found:" + customBasePath + filePath + "/" + fileNameTemp);
-            result = new ResultBase();
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_FILENOTFOUND);
-            result.setMessage("Custom Resource not found:" + customBasePath + filePath + "/" + fileNameTemp);
+                    // 1, Decodes filename.
+                    fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
+                    filePathTemp = filePathTemp + filePath;
+                    
+                    // 2, Check a file is exists of fileList
+                    File file = new File(filePathTemp + File.separator + fileNameTemp);
+                    FileInfo fileInfo = new FileInfo();
+                    fileInfo.setFilePath(filePath);
+                    fileInfo.setFileName(fileName);
+                    fileInfo.setIndex(index);
+                    if (file.isFile() || file.exists()) {
+                        fileInfo.setExistFlag(true);
+                    } else {
+                        fileInfo.setExistFlag(false);
+                    }
+                    fileInfoList.add(fileInfo);
+                }
+                result.setFileInfoList(fileInfoList);
+            }
+        } catch (UnsupportedEncodingException e) {
+            String msg = "The custom fileName's encoding was unsupported:" + filePathTemp + "/" + fileNameTemp
+                    + e.getMessage();
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_ENCODING,
+                    msg);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_UNSUPPORTEDENCODING);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNSUPPORTEDENCODING);
+            result.setMessage(msg);
+        } catch (JSONException e) {
+            String msg = "JsonObject data Parsing error:" + filePathTemp + "/" + fileNameTemp + e.getMessage();
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_PARSE, msg);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+            result.setMessage(msg);
+        } catch (Exception e) {
+            String msg = "General Exception:" + filePathTemp + "/" + fileNameTemp + e.getMessage();
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_GENERAL,
+                    msg);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(msg);
+        } finally {
+            tp.methodExit(result);
         }
-        
         return result;
     }
 }

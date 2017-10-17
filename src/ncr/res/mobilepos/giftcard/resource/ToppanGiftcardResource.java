@@ -428,9 +428,9 @@ public class ToppanGiftcardResource {
                 result.setExpirationDate(response.getExpiration());
                 String status = response.getCardStatus();
                 if(status != null && status.length() == 4){
-                	result.setActivationStatus(status.charAt(0) - '0');
-                    result.setExpirationStatus(status.charAt(1) - '0');
-                    result.setLostStatus(status.charAt(2) - '0');
+                	result.setActivationStatus(status.charAt(0));
+                    result.setExpirationStatus(status.charAt(1));
+                    result.setLostStatus(status.charAt(2));
                 }
             }
         } catch (CenterAccess.ConnectionException e) {

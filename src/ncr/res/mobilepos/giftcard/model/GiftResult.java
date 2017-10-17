@@ -34,11 +34,11 @@ public class GiftResult extends ResultBase {
     @XmlElement(name = "ExpirationDate")
     String expirationDate;
     @XmlElement(name = "ActivationStatus")
-    int activationStatus;
+    char activationStatus;
     @XmlElement(name = "ExpirationStatus")
-    int expirationStatus;
+    char expirationStatus;
     @XmlElement(name = "LostStatus")
-    int lostStatus;
+    char lostStatus;
 
     /**
      * Default success instance.
@@ -147,14 +147,14 @@ public class GiftResult extends ResultBase {
      * @return activationStatus
      */
     @ApiModelProperty(value="ActivationStatus", notes="ActivationStatus")
-    public int getActivationStatus() {
+    public char getActivationStatus() {
         return activationStatus;
     }
     
     /**
      * @param activationStatus セットする activationStatus
      */
-    public void setActivationStatus(int activationStatus) {
+    public void setActivationStatus(char activationStatus) {
         this.activationStatus = activationStatus;
     }
     
@@ -162,14 +162,14 @@ public class GiftResult extends ResultBase {
      * @return expirationStatus
      */
     @ApiModelProperty(value="ExpirationStatus", notes="ExpirationStatus")
-    public int getExpirationStatus() {
+    public char getExpirationStatus() {
         return expirationStatus;
     }
     
     /**
      * @param expirationStatus セットする expirationStatus
      */
-    public void setExpirationStatus(int expirationStatus) {
+    public void setExpirationStatus(char expirationStatus) {
         this.expirationStatus = expirationStatus;
     }
     
@@ -177,14 +177,14 @@ public class GiftResult extends ResultBase {
      * @return lostStatus
      */
     @ApiModelProperty(value="LostStatus", notes="LostStatus")
-    public int getLostStatus() {
+    public char getLostStatus() {
         return lostStatus;
     }
     
     /**
      * @param lostStatus セットする lostStatus
      */
-    public void setLostStatus(int lostStatus) {
+    public void setLostStatus(char lostStatus) {
         this.lostStatus = lostStatus;
     }
 

@@ -11961,6 +11961,13 @@ DECLARE
             AD.TerminalId = DI.TerminalId AND
             DI.Training = 0
     </entry>
+    
+    <entry key="get-device-indicators">
+      SELECT DisplayName,CheckInterval,NormalValue,Request,RequestType,ReturnKey,URL
+        FROM RESMaster.dbo.MST_DEVICE_INDICATOR
+       WHERE AttributeId = ?
+       ORDER BY DisplayOrder
+    </entry>
 
   <!-- *************************  ENTRY KEY FOR ConvertCode INFO  ************************* -->
   <entry key="convert-ccode-to-dpt">

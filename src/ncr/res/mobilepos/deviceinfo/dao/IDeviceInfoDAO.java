@@ -7,6 +7,7 @@ import java.util.List;
 
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
@@ -278,4 +279,12 @@ public interface IDeviceInfoDAO {
      * @throws DaoException - holds the exception that was thrown
      */
     List<TerminalStatus> getWorkingDeviceStatus() throws DaoException;
+    
+    /**
+     * Get indicatorInfo from MST_DEVICE_INDICATOR
+     * @param attributeid - attributeid
+     * @return Indicators
+     * @throws DaoException - holds the exception that was thrown
+     */
+    Indicators getDeviceIndicators(String attributeid) throws DaoException;
 }

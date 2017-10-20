@@ -60,5 +60,23 @@ Then printer should be not null
 Then printerid should be null 
 Then printername should be empty 
 Then description should be empty 
-Then linkposterminalid should be 1234 
+Then linkposterminalid should be 1234
 
+Scenario: Test Get the deviceIndicators where data is null
+Given a PeripheralDeviceControl service
+Given the table MST_DEVICE_INDICATOR database
+When I get deviceIndicators for attributeid 10
+Then the result base should be 0
+Then I should get the deviceIndicators size : 0
+
+Scenario: Test Get the deviceIndicators
+Given a PeripheralDeviceControl service
+Given the table MST_DEVICE_INDICATOR database
+When I get deviceIndicators for attributeid 1
+Then the result base should be 0
+Then I should get the deviceIndicators :
+|DisplayName|CheckInterval|NormalValue                   |Request                                                             |RequestType|ReturnKey|URL                                                             |
+|Enterprise |30           |T.B.D                         |T.B.D                                                               |GET        |T.B.D    |https://127.0.0.1:8443/resTransaction/rest/initialization/status|
+|Infox      |30           |T.B.D                         |T.B.D                                                               |EVENT      |T.B.D    |ws://127.0.0.1:15010/resSocket/socket                           |
+|ê}èëÉJÅ[Éh      |30           |T.B.D                         |T.B.D                                                               |EVENT      |T.B.D    |ws://127.0.0.1:15010/resSocket/socket                           |
+|íﬁëKã@           |30           |CashChanger.Status.Successful |{"event":"CashChanger.Status", "type":"request", "terminalId" : "?"}|WS         |event    |ws://127.0.0.1:15010/resSocket/socket                           |

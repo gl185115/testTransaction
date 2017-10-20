@@ -40,6 +40,7 @@ import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
 import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.POSLinkInfo;
 import ncr.res.mobilepos.deviceinfo.model.POSLinks;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
@@ -1803,6 +1804,60 @@ public class DeviceInfoResource {
             tp.methodExit(resultBase);
         }
         return resultBase;
+    }
+    
+    /**
+     * Gets all the Indicator from RESMaster.dbo.MST_DEVICE_INDICATOR
+     * @param attributeid - attribute ID
+     * @return Indicators
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON })
+    @Path("/getdeviceindicators")
+    @ApiOperation(value="インジケーター情報を得る", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="無効な営業日"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+    })
+    public final Indicators getDeviceIndicators(
+            @ApiParam(name="attributeid", value="ターミナル") @QueryParam("attributeid") final String attributeid) {
+        final String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("attributeid", attributeid);
+
+        Indicators indicatorList = new Indicators();
+
+        // 1, check for required parameters
+        if (StringUtility.isNullOrEmpty(attributeid)) {
+            indicatorList.setMessage("Required fields are empty");
+            indicatorList.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+            tp.println("A required parameter is null or empty.");
+            tp.methodExit(indicatorList);
+            return indicatorList;
+        }
+
+        try{
+            // 2, Gets all the deviceIndicators by selecting RESMaster.MST_DEVICE_INDICATOR
+            IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
+            indicatorList = deviceInfoDao.getDeviceIndicators(attributeid);
+
+        } catch (DaoException ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
+                    "DaoException thrown:"
+                            + ":attributeid:" + attributeid
+                            + ex.getMessage());
+            indicatorList.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Exception thrown:"
+                            + ":attributeid:" + attributeid
+                            + ex.getMessage());
+            indicatorList.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        } finally {
+            tp.methodExit(indicatorList);
+        }
+        return indicatorList;
     }
 
     /**

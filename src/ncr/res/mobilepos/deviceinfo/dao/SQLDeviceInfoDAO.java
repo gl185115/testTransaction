@@ -20,6 +20,8 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.IndicatorInfo;
+import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.PosControlOpenCloseStatus;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.TerminalInfo;
@@ -50,6 +52,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      * Abbreviation program name of the class.
      */
     private static final String PROG_NAME = "DevDao";
+    /**
+     * table not found error
+     */
+    private static final int SQL_ERROR_TABLE_NOT_FOUND = 208;
     /**
      * DB Access Handler.
      */
@@ -1915,6 +1921,54 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return terminals;
 	}
+	
+	/**
+     * Get indicatorInfo from MST_DEVICE_INDICATOR
+     * @param attributeid
+     * @return Indicators
+     * @throws DaoException - holds the exception that was thrown
+     */
+    @Override
+    public Indicators getDeviceIndicators(String attributeid) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter("getDeviceIndicators");
+        tp.methodEnter(functionName).println("attributeid", attributeid);;
 
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet resultSet = null;
+        List<IndicatorInfo> indicatorInfoList = new ArrayList<>();
+        Indicators indicators = new Indicators();
+        try {
+            connection = dbManager.getConnection();
+            selectStmt = connection.prepareStatement(sqlStatement.getProperty("get-device-indicators"));
+            selectStmt.setString(SQLStatement.PARAM1, attributeid);
+            
+            resultSet = selectStmt.executeQuery();
+            while(resultSet.next()) {
+                IndicatorInfo indicatorInfo = new IndicatorInfo();
+                indicatorInfo.setDisplayName(resultSet.getString("DisplayName"));
+                indicatorInfo.setCheckInterval(resultSet.getInt("CheckInterval"));
+                indicatorInfo.setNormalValue(resultSet.getString("NormalValue"));
+                indicatorInfo.setRequest(resultSet.getString("Request"));
+                indicatorInfo.setRequestType(resultSet.getString("RequestType"));
+                indicatorInfo.setReturnKey(resultSet.getString("ReturnKey"));
+                indicatorInfo.setUrl(resultSet.getString("URL"));
+                
+                indicatorInfoList.add(indicatorInfo);
+            }
+        } catch (SQLException sqle) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL, sqle.getMessage());
+            if (sqle.getErrorCode() != SQL_ERROR_TABLE_NOT_FOUND){
+                throw new DaoException("SQLException is thrown", sqle);
+            }
+        } finally {
+            closeConnectionObjects(connection, selectStmt, resultSet);
+            tp.methodExit(indicators);
+        }
+        indicators.setIndicatorsList(indicatorInfoList);
+        
+        return indicators;
+    }
 
 }

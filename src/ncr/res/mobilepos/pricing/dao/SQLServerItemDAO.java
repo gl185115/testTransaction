@@ -357,20 +357,23 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param searchedItem the Item
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-    public boolean isHasPromDetailInfoList(final PricePromInfo pricePromInfo, final Item searchedItem) throws DaoException {
+    public boolean isHasPromDetailInfoList(final PricePromInfo pricePromInfo, final Item searchedItem, final double salePrice) throws DaoException {
     	tp.methodEnter(DebugLogger.getCurrentMethodName())
         .println("PricePromInfo", pricePromInfo)
-        .println("searchedItem", searchedItem);
+        .println("searchedItem", searchedItem)
+        .println("salePrice", salePrice);
     	
     	boolean isHaveValue = false;
     	
     	if (null != pricePromInfo) {
-    		isHaveValue = true;
-            searchedItem.setPromotionNo(pricePromInfo.getPromotionNo());
-            searchedItem.setDiscountClass(Integer.parseInt(pricePromInfo.getDiscountClass()));
-            searchedItem.setDiacountRate(pricePromInfo.getDiscountRate());
-            searchedItem.setDiscountAmt((int)pricePromInfo.getDiscountAmt());
-            searchedItem.setPromotionType(pricePromInfo.getPromotionType());
+    	    if (salePrice == 0 || salePrice > pricePromInfo.getDiscountAmt()) {
+    	        isHaveValue = true;
+                searchedItem.setPromotionNo(pricePromInfo.getPromotionNo());
+                searchedItem.setDiscountClass(Integer.parseInt(pricePromInfo.getDiscountClass()));
+                searchedItem.setDiacountRate(pricePromInfo.getDiscountRate());
+                searchedItem.setDiscountAmt((int)pricePromInfo.getDiscountAmt());
+                searchedItem.setPromotionType(pricePromInfo.getPromotionType());
+    	    }
     	}
     	return isHaveValue;
     }

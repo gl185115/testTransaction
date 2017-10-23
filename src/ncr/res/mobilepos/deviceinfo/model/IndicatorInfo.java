@@ -34,6 +34,9 @@ public class IndicatorInfo {
 
     @XmlElement(name = "NormalValue")
     private String normalValue;
+    
+    @XmlElement(name = "DisplayOrder")
+    private int displayOrder;
 
     @ApiModelProperty(value="インジケーターの表示名", notes="インジケーターの表示名")
     public String getDisplayName() {
@@ -97,6 +100,15 @@ public class IndicatorInfo {
     public void setNormalValue(String normalValue) {
         this.normalValue = normalValue;
     }
+    
+    @ApiModelProperty(value="画面への表示順", notes="画面への表示順")
+    public int getDisplayOrder() {
+        return displayOrder;
+    }
+
+    public void setDisplayOrder(int displayOrder) {
+        this.displayOrder = displayOrder;
+    }
 
     @Override
     public String toString() {
@@ -109,6 +121,7 @@ public class IndicatorInfo {
         sb.append("Request: ").append(request);
         sb.append("ReturnKey: ").append(returnKey);
         sb.append("NormalValue: ").append(normalValue);
+        sb.append("DisplayOrder: ").append(displayOrder);
         return sb.toString();
     }
 }

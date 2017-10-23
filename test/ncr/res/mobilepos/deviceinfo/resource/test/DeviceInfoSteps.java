@@ -62,9 +62,9 @@ public class DeviceInfoSteps extends Steps {
         new DBInitiator("MST_PRINTERINFO", "test/ncr/res/mobilepos/deviceinfo/resource/test/MST_PRINTERINFO.xml", DATABASE.RESMaster);
     }
     
-    @Given("the table MST_DEVICE_INDICATOR database")
+    @Given("the table PRM_DEVICE_INDICATOR database")
     public final void indicatorInfoDB() throws Exception{
-        new DBInitiator("MST_DEVICE_INDICATOR", "test/ncr/res/mobilepos/deviceinfo/resource/test/MST_DEVICE_INDICATOR.xml", DATABASE.RESMaster);
+        new DBInitiator("PRM_DEVICE_INDICATOR", "test/ncr/res/mobilepos/deviceinfo/resource/test/PRM_DEVICE_INDICATOR.xml", DATABASE.RESMaster);
     }
     
     @Given("a PeripheralDeviceControl service")
@@ -196,6 +196,9 @@ public class DeviceInfoSteps extends Steps {
             assertThat("Compare the URL at row", ""
                     + indicatorList.getIndicators().get(i).getUrl(),
                     is(equalTo(expectedItem.get("URL"))));
+            assertThat("Compare the DisplayOrder at row", ""
+                    + indicatorList.getIndicators().get(i).getDisplayOrder(),
+                    is(equalTo(expectedItem.get("DisplayOrder"))));
             i++;
         }
     }

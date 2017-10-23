@@ -1807,7 +1807,7 @@ public class DeviceInfoResource {
     }
     
     /**
-     * Gets all the Indicator from RESMaster.dbo.MST_DEVICE_INDICATOR
+     * Gets all the Indicator from RESMaster.dbo.PRM_DEVICE_INDICATOR
      * @param attributeid - attribute ID
      * @return Indicators
      */
@@ -1838,7 +1838,7 @@ public class DeviceInfoResource {
         }
 
         try{
-            // 2, Gets all the deviceIndicators by selecting RESMaster.MST_DEVICE_INDICATOR
+            // 2, Gets all the deviceIndicators by selecting RESMaster.PRM_DEVICE_INDICATOR
             IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
             indicatorList = deviceInfoDao.getDeviceIndicators(attributeid);
 

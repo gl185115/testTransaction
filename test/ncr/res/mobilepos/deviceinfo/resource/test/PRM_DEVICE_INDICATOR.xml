@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-  <table name="MST_DEVICE_INDICATOR">
+  <table name="PRM_DEVICE_INDICATOR">
     <column>AttributeId</column>
     <column>DisplayName</column>
     <column>DisplayOrder</column>

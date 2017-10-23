@@ -11963,8 +11963,8 @@ DECLARE
     </entry>
     
     <entry key="get-device-indicators">
-      SELECT DisplayName,CheckInterval,NormalValue,Request,RequestType,ReturnKey,URL
-        FROM RESMaster.dbo.MST_DEVICE_INDICATOR
+      SELECT DisplayName,CheckInterval,NormalValue,Request,RequestType,ReturnKey,URL,DisplayOrder
+        FROM RESMaster.dbo.PRM_DEVICE_INDICATOR
        WHERE AttributeId = ?
        ORDER BY DisplayOrder
     </entry>

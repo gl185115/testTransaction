@@ -281,7 +281,7 @@ public interface IDeviceInfoDAO {
     List<TerminalStatus> getWorkingDeviceStatus() throws DaoException;
     
     /**
-     * Get indicatorInfo from MST_DEVICE_INDICATOR
+     * Get indicatorInfo from PRM_DEVICE_INDICATOR
      * @param attributeid - attributeid
      * @return Indicators
      * @throws DaoException - holds the exception that was thrown

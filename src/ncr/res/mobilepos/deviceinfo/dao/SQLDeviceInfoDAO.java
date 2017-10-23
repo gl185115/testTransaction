@@ -1923,7 +1923,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 	}
 	
 	/**
-     * Get indicatorInfo from MST_DEVICE_INDICATOR
+     * Get indicatorInfo from PRM_DEVICE_INDICATOR
      * @param attributeid
      * @return Indicators
      * @throws DaoException - holds the exception that was thrown
@@ -1954,6 +1954,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 indicatorInfo.setRequestType(resultSet.getString("RequestType"));
                 indicatorInfo.setReturnKey(resultSet.getString("ReturnKey"));
                 indicatorInfo.setUrl(resultSet.getString("URL"));
+                indicatorInfo.setDisplayOrder(resultSet.getInt("DisplayOrder"));
                 
                 indicatorInfoList.add(indicatorInfo);
             }

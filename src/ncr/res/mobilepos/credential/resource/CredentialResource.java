@@ -165,7 +165,6 @@ public class CredentialResource {
                 operator = credentialDAO.guestSignOnOperator(operatorNumber, terminalID);
             }
 
-            updateTod();
         } catch (DaoException ex) {
             LOGGER.logAlert(progName, className + "requestSignOn", Logger.RES_EXCEP_DAO,
                     "Failed to Sign On Operator# " + operatorNumber + ": " + ex.getMessage());
@@ -767,15 +766,5 @@ public class CredentialResource {
     private String getOpeCode() {
         return ((securityContext != null) && (securityContext.getUserPrincipal()) != null)
                 ? securityContext.getUserPrincipal().getName() : null;
-    }
-
-    void updateTod() {
-        // Enterprise server is TOD source. Therefore, it does not need to get TOD.
-        if(WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise()) {
-            return;
-        }
-
-        TodHelper helper = new TodHelper();
-        helper.adjust();
     }
 }

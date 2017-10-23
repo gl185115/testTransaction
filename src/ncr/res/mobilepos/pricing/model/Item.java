@@ -338,25 +338,6 @@ public class Item {
     @XmlElement(name = "PublishingCode")
     private String publishingCode;
     
-    @XmlElement(name = "TaxTypeSource")
-    private String taxTypeSource;
-    
-    @XmlElement(name = "DiscountTypeSource")
-    private String discountTypeSource;
-    
-    public String getTaxTypeSource() {
-        return taxTypeSource;
-    }
-    public void setTaxTypeSource(String taxTypeSource) {
-        this.taxTypeSource = taxTypeSource;
-    }
-    public String getDiscountTypeSource() {
-        return discountTypeSource;
-    }
-    public void setDiscountTypeSource(String discountTypeSource) {
-        this.discountTypeSource = discountTypeSource;
-    }
-    
     @ApiModelProperty(value="カラー名称(カナ)", notes="カラー名称(カナ)")
     public String getColorkananame() {
         return colorkananame;

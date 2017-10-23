@@ -113,12 +113,10 @@ public interface IItemDAO {
 
     /**
      * 特売管理マスタ 情報取得
-     * @param the pricePromInfo
      * @param searchedItem the Item
-     * @param the salePrice
      * @throws DaoException   Exception thrown when getting the item information failed.
      */
-	boolean isHasPromDetailInfoList(PricePromInfo pricePromInfo, Item item, double salePrice) throws DaoException;
+	boolean isHasPromDetailInfoList(PricePromInfo pricePromInfo, Item item) throws DaoException;
 
     /**
      * バンドルミックス 情報取得

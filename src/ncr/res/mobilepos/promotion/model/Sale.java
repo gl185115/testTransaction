@@ -70,6 +70,12 @@ public class Sale extends Item {
     @XmlElement(name = "DptPromotionNo")
     private String dptPromotionNo;
     
+    @XmlElement(name = "TaxTypeSource")
+    private String taxTypeSource;
+    
+    @XmlElement(name = "DiscountTypeSource")
+    private String discountTypeSource;
+    
     public Sale() {
         this.setDiscount(0);
         this.isPriceOverride = false;
@@ -221,7 +227,18 @@ public class Sale extends Item {
     public void setDptPromotionNo(String dptPromotionNo) {
         this.dptPromotionNo = dptPromotionNo;
     }
-
+    public String getTaxTypeSource() {
+        return taxTypeSource;
+    }
+    public void setTaxTypeSource(String taxTypeSource) {
+        this.taxTypeSource = taxTypeSource;
+    }
+    public String getDiscountTypeSource() {
+        return discountTypeSource;
+    }
+    public void setDiscountTypeSource(String discountTypeSource) {
+        this.discountTypeSource = discountTypeSource;
+    }
     //-----
     @Override
     public final Object clone() {

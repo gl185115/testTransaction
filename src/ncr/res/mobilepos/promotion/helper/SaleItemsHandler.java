@@ -240,9 +240,6 @@ public final class SaleItemsHandler {
         }
         saleRes.setAgeRestrictedFlag(item.getAgeRestrictedFlag());
         saleRes.setCouponFlag(item.getCouponFlag());
-        saleRes.setTaxTypeSource(item.getTaxTypeSource());
-        saleRes.setDiscountTypeSource(item.getDiscountTypeSource());
-        saleRes.setLabelPrice(item.getLabelPrice());
         return saleRes;
     }
 

@@ -235,11 +235,6 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setMd15(result.getString(result.findColumn("Md15")));
                 searchedItem.setMd16(result.getString(result.findColumn("Md16")));
                 searchedItem.setMdType(result.getString(result.findColumn("MdType")));
-                if (result.getObject(result.findColumn("HostFlag")) == null) {
-                    searchedItem.setHostFlag(1);
-                } else {
-                    searchedItem.setHostFlag(result.getInt(result.findColumn("HostFlag")));
-                }
                 searchedItem.setSku(result.getString(result.findColumn("Sku")));
                 searchedItem.setMdNameLocal(salesName);
                 searchedItem.setMdKanaName(result.getString(result.findColumn("MdKanaName")));

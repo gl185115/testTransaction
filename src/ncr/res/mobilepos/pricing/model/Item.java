@@ -113,18 +113,6 @@ public class Item {
     @XmlElement(name = "MdType")
     private String mdType = "";
     
-    @XmlElement(name = "HostFlag")
-    private int hostFlag;
-    
-    @ApiModelProperty(value="ホスト登録フラグ", notes="ホスト登録フラグ")
-    public int getHostFlag() {
-        return hostFlag;
-    }
-
-    public void setHostFlag(int hostFlag) {
-        this.hostFlag = hostFlag;
-    }
-    
     @ApiModelProperty(value="商品区分", notes="商品区分")
     public String getMdType() {
         return mdType;

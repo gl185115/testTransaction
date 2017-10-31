@@ -145,6 +145,7 @@ public final class SaleItemsHandler {
         saleRes.setMd16(item.getMd16());
         saleRes.setSku(item.getSku());
         saleRes.setMdType(item.getMdType());
+        saleRes.setHostFlag(item.getHostFlag());
         saleRes.setPromotionId(item.getPromotionId());
         saleRes.setPromotionNo(item.getPromotionNo());
         saleRes.setPromotionType(item.getPromotionType());

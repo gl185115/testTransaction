@@ -1526,6 +1526,7 @@ public class PromotionResource {
 		item.setCompanyId(StringUtility.convNullStringToNull(json.getString("companyId")));
 		item.setPromotionNo(StringUtility.convNullStringToNull(json.getString("promotionNo")));
 		item.setMdType(StringUtility.convNullStringToNull(json.getString("mdType")));
+		item.setHostFlag(json.getInt("hostFlag"));
 		item.setSku(StringUtility.convNullStringToNull(json.getString("sku")));
 		item.setMd01(StringUtility.convNullStringToNull(json.getString("md01")));
 		item.setMd02(StringUtility.convNullStringToNull(json.getString("md02")));

@@ -186,6 +186,7 @@ SELECT TOP 1
        plu.StoreId,
        plu.MdInternal,
        plu.MdType,
+       plu.HostFlag,
        plu.MdVender,
        plu.Dpt,
        plu.Line,

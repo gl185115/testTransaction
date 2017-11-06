@@ -464,6 +464,7 @@ public class PromotionResource {
 						if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
 							terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 						}
+						saleItem.setHostFlag(1);
 						transactionOut.setSale(saleItem);
 						response.setTransaction(transactionOut);
 					}
@@ -518,6 +519,7 @@ public class PromotionResource {
 				} else {
 					if (item == null) {
 						// ïîñÂèÓïÒÇñﬂÇÈ
+						saleOut.setHostFlag(1);
 						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
 						String taxType = departmentInfo.getDepartment().getTaxType();
 						if (StringUtility.isNullOrEmpty(mdName)) {

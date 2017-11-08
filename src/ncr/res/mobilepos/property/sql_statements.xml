@@ -12158,6 +12158,7 @@ ORDER BY A.DisplayOrder,cast(A.TenderType as int)
 <entry key="get-payment-amt-by-txtype">
 DECLARE @companyId varchar(MAX),
         @storeId varchar(MAX),
+		@tenderStoreId varchar(MAX),
         @businessDate DATE,
         @trainingflag tinyint,
         @txType varchar(6)
@@ -12167,16 +12168,18 @@ DECLARE @companyId varchar(MAX),
     SET @businessDate = ?;
     SET @trainingflag = ?;
     SET @txType = ?;
+	SET @tenderStoreId = @storeid;
 
 IF NOT EXISTS (
  SELECT *
    FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
      ON tender.CompanyId = parment.CompanyId
-    AND tender.StoreId = @storeId
+	AND parment.RetailStoreId = @storeid
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
   WHERE parment.CompanyId = @companyid
+    AND tender.StoreId = @tenderStoreId
     AND parment.BusinessDayDate = @businessDate
     AND parment.ValidFlag = '1'
     AND parment.CancelFlag = '0'
@@ -12187,7 +12190,7 @@ IF NOT EXISTS (
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
 )
-SET @storeId = '0'
+SET @tenderStoreId = '0'
 
  SELECT parment.TenderId,
         tender.TenderName,
@@ -12199,10 +12202,11 @@ SET @storeId = '0'
    FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
      ON tender.CompanyId = parment.CompanyId
-    AND tender.StoreId = @storeId
+	AND tender.StoreId = @tenderStoreId
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
   WHERE parment.CompanyId = @companyid
+	AND parment.RetailStoreId = @storeId
     AND parment.BusinessDayDate = @businessDate
     AND parment.ValidFlag = '1'
     AND parment.CancelFlag = '0'

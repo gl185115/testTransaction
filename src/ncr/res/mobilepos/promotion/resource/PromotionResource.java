@@ -524,8 +524,10 @@ public class PromotionResource {
 						String taxType = departmentInfo.getDepartment().getTaxType();
 						if (StringUtility.isNullOrEmpty(mdName)) {
 							saleOut.setMdNameLocal(dptName);
+							saleOut.setSalesNameSource("3");
 						} else {
 							saleOut.setMdNameLocal(mdName);
+							saleOut.setSalesNameSource("1");
 						}
 						saleOut.setTaxType(Integer.parseInt(taxType));
 						saleOut.setTaxTypeSource("2");
@@ -1529,6 +1531,7 @@ public class PromotionResource {
 		item.setPromotionNo(StringUtility.convNullStringToNull(json.getString("promotionNo")));
 		item.setMdType(StringUtility.convNullStringToNull(json.getString("mdType")));
 		item.setHostFlag(json.getInt("hostFlag"));
+		item.setSalesNameSource(json.getString("salesNameSource"));
 		item.setSku(StringUtility.convNullStringToNull(json.getString("sku")));
 		item.setMd01(StringUtility.convNullStringToNull(json.getString("md01")));
 		item.setMd02(StringUtility.convNullStringToNull(json.getString("md02")));

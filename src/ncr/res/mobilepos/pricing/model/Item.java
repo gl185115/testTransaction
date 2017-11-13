@@ -116,6 +116,9 @@ public class Item {
     @XmlElement(name = "HostFlag")
     private int hostFlag;
     
+    @XmlElement(name = "SalesNameSource")
+    private String salesNameSource;
+    
     @ApiModelProperty(value="ホスト登録フラグ", notes="ホスト登録フラグ")
     public int getHostFlag() {
         return hostFlag;
@@ -123,6 +126,15 @@ public class Item {
 
     public void setHostFlag(int hostFlag) {
         this.hostFlag = hostFlag;
+    }
+    
+    @ApiModelProperty(value="商品名取得フラグ", notes="商品名取得フラグ")
+    public String getSalesNameSource() {
+        return salesNameSource;
+    }
+
+    public void setSalesNameSource(String salesNameSource) {
+        this.salesNameSource = salesNameSource;
     }
     
     @ApiModelProperty(value="商品区分", notes="商品区分")

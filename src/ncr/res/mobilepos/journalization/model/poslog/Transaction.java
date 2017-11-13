@@ -10,6 +10,7 @@
 
 package ncr.res.mobilepos.journalization.model.poslog;
 
+import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -192,6 +193,12 @@ public class Transaction {
     @XmlElement(name = "APIErrorList")
     private APIErrorList apiErrorList;
 
+    /**
+     * The API List of Report.
+     */
+    @XmlElement(name = "APIInfo")
+    private List<APIInfo> apiInfo; 
+    
     /**
      * The private member variable that will hold the floorId of the Transaction.
      */
@@ -632,6 +639,21 @@ public class Transaction {
     }
 
     /**
+     * @return the apiInfoList
+     */
+    public List<APIInfo> getApiInfo() {
+		return apiInfo;
+	}
+
+    /**
+     * @param apiInfoList
+     *            the apiInfoList to set
+     */
+	public void setApiInfo(List<APIInfo> apiInfo) {
+		this.apiInfo = apiInfo;
+	}
+
+	/**
      * @return the beforeTransaction
      */
     public final BeforeTransaction getBeforeTransaction() {

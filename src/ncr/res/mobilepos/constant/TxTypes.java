@@ -107,4 +107,11 @@ public final class TxTypes {
     public static final String CASHOUTVOID = "CashOutVoid";
     public static final String SUSPEND = "Suspend";
     public static final String RESUME = "Resume";
+    public static final String STOREEOD = "StoreEod";
+    public static final String DAILYREPORT = "ReportDaily";
+    public static final String OPESUMDAY = "ReportOpeSumday";
+    public static final String SUMTIME = "ReportSumTime";
+    public static final String GROUPSUMDAY = "ReportGrpSumday";
+    public static final String DPTSUMDAY = "ReportDptSumday";
+    public static final String GUESTSUMDAY = "ReportGuestSumday";
 }

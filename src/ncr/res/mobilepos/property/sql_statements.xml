@@ -12074,6 +12074,7 @@ WHERE
 <entry key="get-payment-amt-by-terminalid">
 DECLARE @companyId varchar(MAX),
         @storeId varchar(MAX),
+		@tenderStoreId varchar(MAX),
         @businessDate DATE,
         @trainingflag tinyint,
         @terminalId varchar(6)
@@ -12083,6 +12084,7 @@ DECLARE @companyId varchar(MAX),
     SET @businessDate = ?;
     SET @trainingflag = ?;
     SET @terminalId = ?;
+	SET @tenderStoreId = @storeid;
 
 IF NOT EXISTS (
  SELECT *
@@ -12090,10 +12092,11 @@ IF NOT EXISTS (
    FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
      ON tender.CompanyId = parment.CompanyId
-    AND tender.StoreId = @storeId
+    AND tender.StoreId = @tenderStoreId
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
   WHERE parment.CompanyId = @companyid
+    AND parment.RetailStoreId = @storeid
     AND parment.WorkstationId = @terminalId
     AND parment.BusinessDayDate = @businessDate
     AND parment.ValidFlag = '1'
@@ -12102,7 +12105,7 @@ IF NOT EXISTS (
     AND parment.TrainingFlag = @trainingflag
     AND parment.TenderType IN ('8','9','10','11')
 )
-SET @storeId = '0'
+SET @tenderStoreId = '0'
 
 SELECT A.TenderId,A.TenderName,A.TenderType,A.TenderIdentification,A.SumAmt - ISNULL(B.SumAmt, 0)  AS SumAmt
 FROM (
@@ -12117,10 +12120,11 @@ FROM (
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
        ON tender.CompanyId = parment.CompanyId
-      AND tender.StoreId = @storeId
+      AND tender.StoreId = @tenderStoreId
       AND tender.TenderId = parment.TenderId
       AND tender.TenderType = parment.TenderType
     WHERE parment.CompanyId = @companyid
+	  AND parment.RetailStoreId = @storeid
       AND parment.WorkstationId = @terminalId
       AND parment.BusinessDayDate = @businessDate
       AND parment.ValidFlag = '1'
@@ -12138,10 +12142,11 @@ LEFT JOIN (
      FROM RESMaster.dbo.MST_TENDERINFO tender
     INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
        ON tender.CompanyId = parment.CompanyId
-      AND tender.StoreId = @storeId
+      AND tender.StoreId = @tenderStoreId
       AND tender.TenderId = parment.TenderId
       AND tender.TenderType = parment.TenderType
     WHERE parment.CompanyId = @companyid
+	  AND parment.RetailStoreId = @storeid
       AND parment.WorkstationId = @terminalId
       AND parment.BusinessDayDate = @businessDate
       AND parment.ValidFlag = '1'

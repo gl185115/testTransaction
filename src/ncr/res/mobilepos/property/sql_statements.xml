@@ -10042,6 +10042,28 @@ SET @partialFlag = LTRIM(RTRIM(?))
         term.StoreId = @storeId AND
         term.TerminalId = @terminalId
     </entry>
+    <entry key="check-floorid-exist">
+      DECLARE
+        @companyId varchar(max),
+        @storeId varchar(max),
+        @floorId varchar(max),
+        @terminalId varchar(max)
+
+      SET @companyId = ?
+      SET @storeId = ?
+      SET @floorId = ?
+      SET @terminalId = ?
+
+      SELECT
+        FloorId
+      FROM
+        RESMaster.dbo.MST_TERMINALINFO
+      WHERE
+        CompanyId = @companyId AND
+        StoreId = @storeId AND
+        FloorId = @floorId AND
+        TerminalId != @terminalId
+    </entry>
     <entry key="insert-eventlog">
       DECLARE
         @companyId varchar(8),

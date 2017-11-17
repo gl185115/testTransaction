@@ -1803,6 +1803,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     			terminalInfo.setSubCode2(result.getString("SubCode2"));
     			terminalInfo.setNote(result.getString("Note"));
     			terminalInfo.setCompanyName(result.getString("CompanyName"));
+    			checkFloorIdExist(terminalInfo);
+
     			viewTerminalInfo.setTerminalInfo(terminalInfo);
     		} else {
     			viewTerminalInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
@@ -1821,6 +1823,49 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     	return viewTerminalInfo;
     }
 
+    private TerminalInfo checkFloorIdExist(TerminalInfo terminalInfo) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("terminalInfo", terminalInfo);
+
+        ResultSet result = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("check-floorid-exist"));
+            statement.setString(SQLStatement.PARAM1, terminalInfo.getCompanyId());
+            statement.setString(SQLStatement.PARAM2, terminalInfo.getStoreId());
+            statement.setString(SQLStatement.PARAM3, terminalInfo.getFloorId());
+            statement.setString(SQLStatement.PARAM4, terminalInfo.getTerminalId());
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                terminalInfo.setSingleFloorId(0);
+            } else {
+                terminalInfo.setSingleFloorId(1);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to check the FloorId.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @checkFloorIdExist ", sqlEx);
+        } catch (NumberFormatException nuEx) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+                    "Failed to check the FloorId.\n" + nuEx.getMessage());
+            throw new DaoException("NumberFormatException: @checkFloorIdExist ", nuEx);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to check the FloorId.\n" + e.getMessage());
+            throw new DaoException("Exception: @checkFloorIdExist ", e);
+        } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(terminalInfo);
+        }
+        return terminalInfo;
+    }
 	/**
 	 * getPosCtrlOpenCloseStatus
 	 * @param companyId

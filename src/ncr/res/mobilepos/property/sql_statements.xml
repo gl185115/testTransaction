@@ -10062,7 +10062,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
         CompanyId = @companyId AND
         StoreId = @storeId AND
         FloorId = @floorId AND
-        TerminalId != @terminalId
+        TerminalId != @terminalId AND
+        DeleteFlag = 0.0
     </entry>
     <entry key="insert-eventlog">
       DECLARE

@@ -111,64 +111,69 @@ public class GiftCardSteps extends Steps {
 		}
     }
     
-	@When("I test queryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	@When("I test queryMember with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardQuery(
 			String storeId, String workstationId, String transactionId,
-			boolean test, String giftcard) {
+			boolean test, String giftcard, String cardFlag) {
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		workstationId = StringUtility.convNullOrEmptryString(workstationId);
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
 		
-		giftResult = toppanGiftcardResource.queryMember(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.queryMember(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
 	
-	@When("I test sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	@When("I test sales with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardSales(
 			String storeId, String workstationId, String transactionId,
-			boolean test, String giftcard) {
+			boolean test, String giftcard, String cardFlag) {
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		workstationId = StringUtility.convNullOrEmptryString(workstationId);
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
 		
-		giftResult = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.sales(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
 	
-	@When("I test cancel with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	@When("I test cancel with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardCancel(
 			String storeId, String workstationId, String transactionId,
-			boolean test, String giftcard) {
+			boolean test, String giftcard, String cardFlag) {
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		workstationId = StringUtility.convNullOrEmptryString(workstationId);
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
 		
-		giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.cancel(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
 	
-	@When("I test activate with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard")
+	@When("I test activate with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard privatebrand $privatebrand")
 	public final void giftCardActivate(
 			String storeId, String workstationId, String transactionId,
-			boolean test, String giftcard) {
+			boolean test, String giftcard, String cardFlag) {
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		workstationId = StringUtility.convNullOrEmptryString(workstationId);
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
 		
-		giftResult = toppanGiftcardResource.activate(storeId, workstationId, transactionId, test, giftcard);
+		giftResult = toppanGiftcardResource.activate(storeId, workstationId, transactionId, test, giftcard, cardFlag);
 	}
 	
-	@When("I test charge with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard campaign $campaign")
+	@When("I test charge with storeid $storeid workstationid $workstationid transactionid $transactionid test $test giftcard $giftcard campaign $campaign privatebrand $privatebrand")
 	public final void giftCardCharge(
 			String storeId, String workstationId, String transactionId,
-			boolean test, String giftcard, boolean campaign) {
+			boolean test, String giftcard, boolean campaign, String cardFlag) {
 		storeId = StringUtility.convNullOrEmptryString(storeId);
 		workstationId = StringUtility.convNullOrEmptryString(workstationId);
 		transactionId = StringUtility.convNullOrEmptryString(transactionId);
 		giftcard = StringUtility.convNullOrEmptryString(giftcard);
+		cardFlag = StringUtility.convNullOrEmptryString(cardFlag);
 		
-		giftResult = toppanGiftcardResource.charge(storeId, workstationId, transactionId, test, giftcard, campaign);
+		giftResult = toppanGiftcardResource.charge(storeId, workstationId, transactionId, test, giftcard, campaign, cardFlag);
 	}
 
 	@Given("I assume external library, CenterAccess returns normal result.")

@@ -1840,6 +1840,7 @@ public class PromotionResource {
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
 				response.setMessage("Not found Initial startup data.");
 				tp.println("Not found Initial startup data.");
+				return response;
 			}
 
 			JsonMarshaller<Transaction> jsonMarshall = new JsonMarshaller<Transaction>();

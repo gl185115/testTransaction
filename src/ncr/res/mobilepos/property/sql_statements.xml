@@ -1673,6 +1673,8 @@ IF NOT EXISTS (
     AND b.TenderId = @tenderId
     AND b.TenderType = @tenderType
     AND b.TenderId = a.CashFlowType
+	AND a.DeleteFlag = 0.0
+	AND b.DeleteFlag = 0.0
 )
 SET @storeIdUsual = '0'
 
@@ -1696,6 +1698,8 @@ AND a.CashFlowDirection = @cashFlowDirection
 AND b.TenderId = @tenderId
 AND b.TenderType = @tenderType
 AND b.TenderId = a.CashFlowType
+AND a.DeleteFlag = 0.0
+AND b.DeleteFlag = 0.0
 ORDER BY
     a.CashFlowDirection
 </entry>
@@ -12128,6 +12132,7 @@ IF NOT EXISTS (
     AND parment.DataKind = '0'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TenderType IN ('8','9','10','11')
+	AND tender.DeleteFlag = 0.0
 )
 SET @tenderStoreId = '0'
 
@@ -12157,6 +12162,7 @@ FROM (
       AND (parment.ReturnFlag = '0' AND parment.VoidFlag = '0')
       AND parment.TrainingFlag = @trainingflag
       AND parment.TenderType IN ('8','9','10','11')
+	  AND tender.DeleteFlag = 0.0
     GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
 ) A
 LEFT JOIN (
@@ -12179,6 +12185,7 @@ LEFT JOIN (
       AND (parment.ReturnFlag = '1' OR parment.VoidFlag = '1')
       AND parment.TrainingFlag = @trainingflag
       AND parment.TenderType IN ('8','9','10','11')
+	  AND tender.DeleteFlag = 0.0
     GROUP BY parment.TenderId
 ) B
 ON A.TenderId = B.TenderId
@@ -12218,6 +12225,7 @@ IF NOT EXISTS (
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
+	AND tender.DeleteFlag = 0.0
 )
 SET @tenderStoreId = '0'
 
@@ -12245,6 +12253,7 @@ SET @tenderStoreId = '0'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
+	AND tender.DeleteFlag = 0.0
   GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
   ORDER BY DisplayOrder,cast(tender.TenderType as int)
 </entry>

@@ -92,7 +92,9 @@ public final class SnapLogger extends MultiSnap {
      */
     @Override
     public Snap.SnapInfo write(final CharSequence comment, final CharSequence data) {
-        return super.write(comment, data);
+    	Snap.SnapInfo info = super.write(comment, data);
+        super.close();
+        return info;
     }
 
     /**
@@ -103,7 +105,9 @@ public final class SnapLogger extends MultiSnap {
      */
     @Override
     public Snap.SnapInfo write(final CharSequence comment, final Throwable data) {
-        return super.write(comment, data);
+    	Snap.SnapInfo info = super.write(comment, data);
+    	super.close();
+        return info;
     }
 
     /**
@@ -113,7 +117,9 @@ public final class SnapLogger extends MultiSnap {
      * @return the filename and offset pair to be logged.
      */
     public Snap.SnapInfo write(final CharSequence comment, final byte[] data) {
-        return this.write(comment, data, 0, data.length);
+    	Snap.SnapInfo info = this.write(comment, data, 0, data.length);
+    	super.close();
+        return info;
     }
 
     /**
@@ -126,7 +132,9 @@ public final class SnapLogger extends MultiSnap {
      */
     @Override
     public Snap.SnapInfo write(final CharSequence comment, final byte[] data, final int offset, final int length) {
-        return super.write(comment, data, offset, length);
+    	Snap.SnapInfo info = super.write(comment, data, offset, length);
+    	super.close();
+        return info;
     }
 
 }

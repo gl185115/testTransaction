@@ -94,7 +94,6 @@ public class SystemConfigurationResource {
     @SuppressWarnings("unchecked")
     @GET
     @Produces ({MediaType.APPLICATION_JSON })
-    @Path("")
     @ApiOperation(value="システム設定取得", response=Map.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),

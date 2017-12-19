@@ -75,12 +75,13 @@ public class RemoteItemResource {
     @Path("/item_getremoteinfo")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @ApiOperation(value="è§ïièÓïÒéÊìæ", response=Void.class)
-    public final void itemEntry(@Context HttpServletRequest request,@Context HttpServletResponse response) {
+    public final PromotionResponse itemEntry(@Context HttpServletRequest request,@Context HttpServletResponse response) {
         String functionName = DebugLogger.getCurrentMethodName();
         String retailStoreId = request.getParameter("storeId");
         String pluCode = request.getParameter("pluCode");
         String companyId = request.getParameter("companyId");
         String businessDate = request.getParameter("businessDate");
+        PromotionResponse promotionResponse = null;
         Item item = null;
             if (StringUtility.isNullOrEmpty(retailStoreId, pluCode, companyId, businessDate)) {
                 tp.println("Parameter[s] is empty or null.");
@@ -90,7 +91,7 @@ public class RemoteItemResource {
                 item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate);
                 Sale saleIn = new Sale();
                 Transaction transactionOut = new Transaction();
-                PromotionResponse promotionResponse = new PromotionResponse();
+                promotionResponse = new PromotionResponse();
                 try {
                     OutputStream out = response.getOutputStream();
                     if(item != null){
@@ -107,6 +108,7 @@ public class RemoteItemResource {
             } catch (DaoException e) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get item Info.", e); 
             }
+            return promotionResponse;
     }
     
     /**
@@ -125,11 +127,12 @@ public class RemoteItemResource {
     @Path("/mdName_getremoteinfo")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @ApiOperation(value="è§ïiñºéÊìæ", response=Void.class)
-    public final void getMdName(@Context HttpServletRequest request,@Context HttpServletResponse response) {
+    public final PromotionResponse getMdName(@Context HttpServletRequest request,@Context HttpServletResponse response) {
         String functionName = DebugLogger.getCurrentMethodName();
         String companyId = request.getParameter("companyId");
         String retailStoreId = request.getParameter("retailStoreId");
         String ItemCode = request.getParameter("ItemCode");
+        PromotionResponse promotionResponse = null;
             if (StringUtility.isNullOrEmpty(companyId, retailStoreId, ItemCode)) {
                 tp.println("Parameter[s] is empty or null.");
             }
@@ -137,7 +140,7 @@ public class RemoteItemResource {
                 SQLServerItemDAO sqlDao = new SQLServerItemDAO();
                 Sale saleMdName = sqlDao.getItemNameFromPluName(companyId, retailStoreId, ItemCode);
                 Transaction transactionOut = new Transaction();
-                PromotionResponse promotionResponse = new PromotionResponse();
+                promotionResponse = new PromotionResponse();
                 try {
                     OutputStream out = response.getOutputStream();
                     if(saleMdName != null){
@@ -153,5 +156,6 @@ public class RemoteItemResource {
             } catch (DaoException e) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get MdName Info.", e); 
             }
+            return promotionResponse;
     }
 }

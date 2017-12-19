@@ -72,7 +72,7 @@ public class EnterpriseDepartmentResource {
 	@Path("/department_getremoteinfo")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@ApiOperation(value="ïîñÂèÓïÒéÊìæ", response=Void.class)
-	public final void departmentInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
+	public final ViewDepartment departmentInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		String companyId = request.getParameter("companyId");
 		String retailStoreId = request.getParameter("retailStoreId");
@@ -100,5 +100,6 @@ public class EnterpriseDepartmentResource {
 		} catch (DaoException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get department Info.", e); 
 		}
+		return departmentInfo;
 	}
 }

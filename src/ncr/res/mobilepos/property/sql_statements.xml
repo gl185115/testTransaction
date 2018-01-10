@@ -40,8 +40,8 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
        INNER JOIN
          RESMaster.dbo.MST_PLU plu
          ON pluStore.CompanyId = plu.CompanyId
-         AND plustore.MdInternal = plu.MdInternal
-         AND plustore.DeleteFlag = 0.0
+         AND pluStore.MdInternal = plu.MdInternal
+         AND pluStore.DeleteFlag = 0.0
          AND pluStore.StoreId = @storeStoreId
        WHERE
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
@@ -77,6 +77,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
          ON dpt.SubCode1 = groupInfo.GroupId
          AND groupInfo.DeleteFlag = 0.0
          AND groupInfo.StoreId = @groupStoreId
+         AND dpt.DeleteFlag = 0.0
        WHERE
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
          AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
@@ -161,7 +162,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
         AND brandInfo.StoreId = @brandStoreId
        WHERE
          brandInfo.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
-         AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @brandStoreId = '0'
 
@@ -177,7 +178,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
         AND pluNameInfo.StoreId = @pluNameStoreId
        WHERE
          plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
-         AND plu.DeleteFlag = 0.0 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
     )
     SET @pluNameStoreId = '0'
 
@@ -1386,64 +1387,6 @@ ORDER BY Dpt
 
     </entry>
 
-  <entry key="get-item-without-enterprise">
-    DECLARE @plu varchar(32), @storeid varchar(10)
-    SET @plu = ?
-    SET @storeid = ?
-
-  IF NOT EXISTS (
-	SELECT *
-	FROM
-	  RESMaster.dbo.MST_PLU plu,
-	  RESMaster.dbo.MST_DPTINFO dpt
-	WHERE
-	  dpt.Dpt = plu.Dpt AND dpt.StoreId = plu.StoreId,
-	  plu.MdInternal= @plu AND plu.StoreId = @storeid
-   )
-   SET @storeid = '0'
-
-    SELECT DISTINCT
-      plu.Plu,
-      plu.StoreId,
-      plu.MdInternal
-    FROM
-      RESMaster.dbo.MST_PLU plu
-    LEFT JOIN
-      RESMaster.dbo.MST_DPTINFO dpt
-    ON
-      dpt.Dpt = plu.Dpt AND dpt.StoreId = plu.StoreId
-    WHERE
-      plu.MdInternal= @plu AND plu.StoreId = @storeid
-  </entry>
-
-  <entry key="count-item">
-    SELECT count(*) FROM RESMaster.dbo.MST_PLU
-          WHERE PLU LIKE ? AND CORPID = ? AND STOREID = ?;
-  </entry>
-
-  <entry key="get-all-items">
-    SELECT
-          MdInternal, item.StoreId, dpt.DptName,
-          CASE WHEN(LEN(item.MdName) > 0)
-            THEN COALESCE(item.MdName, '')
-            ELSE COALESCE(dpt.DptName, '')
-          END MdName,
-          CASE WHEN(LEN(item.MdNameLocal) > 0)
-            THEN COALESCE(item.MdNameLocal, '')
-            ELSE COALESCE(dpt.DptNameLocal, '')
-          END MdNameLocal,
-          SalesPrice1, item.Dpt, Line, Class, item.DiscountType, item.DiscountRate, item.DiscountAmt, DiscountFlag, item.TaxType,
-          item.MMCode, item.SubInt10, ROW_Number() OVER (PARTITION BY MdInternal ORDER BY item.StoreId DESC) AS rownumber, item.AgeRestrictedFlag, item.Md32
-        FROM
-          RESMaster.dbo.MST_PLU item
-        LEFT JOIN
-          RESMaster.dbo.MST_DPTINFO dpt
-        ON
-          dpt.Dpt = item.Dpt AND dpt.StoreId = item.StoreId
-        ORDER BY item.StoreId ASC, MdInternal ASC
-
-  </entry>
-
   <entry key="get-tenderinfo-alltype">
         DECLARE
         @companyId VARCHAR (12),
@@ -1703,100 +1646,6 @@ AND b.DeleteFlag = 0.0
 ORDER BY
     a.CashFlowDirection
 </entry>
-<entry key="get-items-by-plu-prefix">
-    DECLARE @plu varchar(max), @storeid varchar(max)
-    SET @plu = ?
-    SET @storeid = ?
-
-    ;WITH itemselectedtable AS
-    (
-      SELECT
-        item.MdInternal,
-        item.StoreId,
-        CASE WHEN(LEN(item.MdName) > 0) THEN COALESCE(item.MdName, '')
-          ELSE COALESCE(dpt.DptName, '')
-        END MdName,
-        CASE WHEN(LEN(item.MdNameLocal) > 0) THEN COALESCE(item.MdNameLocal, '')
-          ELSE COALESCE(dpt.DptNameLocal, '')
-        END MdNameLocal,
-        item.SalesPrice1,
-        item.Dpt,
-        item.Line,
-        item.Class,
-        item.DiscountRate,
-        item.DiscountType,
-        item.DiscountFlag,
-        item.DiscountAmt,
-        item.MMCode,
-        item.SubInt10,
-        item.TaxType,
-        ROW_Number() OVER (PARTITION BY item.MdInternal ORDER BY item.StoreId DESC) AS rownumber,
-        item.AgeRestrictedFlag,
-        item.Md32
-      FROM
-        RESMaster.dbo.MST_PLU item
-      LEFT JOIN
-        RESMaster.dbo.MST_DPTINFO dpt
-      ON
-        dpt.Dpt=item.Dpt AND dpt.StoreId=item.StoreId
-      WHERE
-        (item.MdInternal LIKE @plu) AND (item.StoreId = @storeid OR item.StoreId = '0')
-    )
-
-    SELECT TOP (?) MdInternal, StoreId, MdName, MdNameLocal, SalesPrice1, Dpt, Line, Class, DiscountType, DiscountRate, DiscountFlag, DiscountAmt, TaxType, MMCode, SubInt10, AgeRestrictedFlag, Md32
-      FROM  itemselectedtable WHERE rownumber = 1
-    ORDER BY MdInternal ASC;
-  </entry>
-
-  <entry key="get-items-by-mdname">
-    DECLARE @mdname varchar(max), @storeid varchar(max)
-    SET @mdname = ?
-    SET @storeid = ?
-
-    ;WITH itemselectedtable AS
-      (
-        SELECT
-          MdInternal, item.StoreId, dpt.DptName,
-          CASE WHEN(LEN(item.MdName) > 0)
-            THEN COALESCE(item.MdName, '')
-            ELSE COALESCE(dpt.DptName, '')
-          END MdName,
-          CASE WHEN(LEN(item.MdNameLocal) > 0)
-            THEN COALESCE(item.MdNameLocal, '')
-            ELSE COALESCE(dpt.DptNameLocal, '')
-          END MdNameLocal,
-          SalesPrice1, item.Dpt, Line, Class, item.DiscountType, item.DiscountRate, item.DiscountAmt, DiscountFlag, item.TaxType,
-          item.MMCode, item.SubInt10, ROW_Number() OVER (PARTITION BY MdInternal ORDER BY item.StoreId DESC) AS rownumber, item.AgeRestrictedFlag, item.Md32
-        FROM
-          RESMaster.dbo.MST_PLU item
-        LEFT JOIN
-          RESMaster.dbo.MST_DPTINFO dpt
-        ON
-          dpt.Dpt = item.Dpt AND dpt.StoreId = item.StoreId
-        WHERE
-          ((LOWER(MdName) LIKE '%' + LOWER(@mdname) + '%' OR LOWER(dpt.DptName) LIKE '%' + LOWER(@mdname) + '%') OR
-          (LOWER(MdNameLocal) LIKE '%' + LOWER(@mdname) + '%' OR LOWER(dpt.DptNameLocal) LIKE '%' + LOWER(@mdname) + '%')) AND
-          (item.StoreId = @storeid OR item.StoreId = '0')
-        )
-
-      SELECT
-        TOP (?) MdInternal, StoreId, MdName, MdNameLocal, SalesPrice1, Dpt, Line, Class, DiscountType, DiscountRate, DiscountFlag, DiscountAmt, TaxType, MMCode, SubInt10, AgeRestrictedFlag, Md32
-      FROM
-        itemselectedtable WHERE rownumber = 1
-      ORDER BY
-        MdName ASC;
-  </entry>
-
-	<entry key="get-items-paging">
-    SELECT * FROM (
-      SELECT top ? * FROM (
-        SELECT TOP ? *
-                 FROM RESMaster.dbo.MST_PLU
-                 WHERE PLU LIKE ? AND CORPID = ? AND STOREID = ?
-               ORDER BY PLU asc) as foo
-           ORDER BY PLU desc) as bar
-       ORDER BY PLU asc;
-  </entry>
 
   <!-- *************************  ENTRY KEY FOR POSLOG JOURNALIZATION     *************************  -->
 
@@ -1978,7 +1827,7 @@ ORDER BY
     FROM
       RESMaster.dbo.MST_BIZDAY
     WHERE
-      CompanyId = ? AND StoreId in (?, '0')
+      CompanyId = ? AND StoreId in (?, '0') AND DeleteFlag = 0.0
     ORDER BY
       StoreId DESC
   </entry>
@@ -2262,7 +2111,8 @@ ORDER BY
 		          ope.CompanyId = opesec.CompanyId AND
 				  ope.EmpCode = opesec.EmpCode AND
                   ope.CompanyId = LTRIM(RTRIM(?)) AND
-                  ope.EmpCode = LTRIM(RTRIM(?))
+                  ope.EmpCode = LTRIM(RTRIM(?)) AND
+                  opesec.DeleteFlag = 0.0
     </entry>
     <entry key="get-systemnames">
       DECLARE
@@ -2312,6 +2162,7 @@ ORDER BY
            DiscountReasonName
        FROM RESMaster.dbo.MST_PRICE_PROMOTION
        WHERE DiscountType = '2'
+         AND DeleteFlag = 0.0
        ORDER BY PromotionId;
   </entry>
 
@@ -3230,29 +3081,6 @@ ORDER BY
   GROUP BY
     derived.TimeZoneCode
   </entry>
-  <entry key="select-dptreport-bydevice">
-  SELECT
-      acnt.Dpt,
-      dptinfo.DptName,
-      acnt.WorkstationId,
-      acnt.BusinessDayDate,
-      acnt.RetailStoreId,
-      (SELECT
-        (SUM(SalesGuestCnt)-SUM(VoidGuestCnt))
-          FROM RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
-        WHERE BusinessDayDate = acnt.BusinessDayDate AND Dpt = acnt.Dpt
-            AND WorkstationId = acnt.WorkstationId AND RetailStoreId = acnt.RetailStoreId) GuestCnt,
-      SUM(SalesItemCnt) ItemCnt,
-      SUM(SalesSalesAmt) SalesAmt
-      FROM
-        RESTransaction.dbo.TXU_TOTAL_ACNTDAY acnt
-      LEFT JOIN
-        RESMaster.dbo.MST_DPTINFO dptinfo
-      ON dptinfo.Dpt = acnt.Dpt
-    WHERE acnt.WorkstationId = ? and acnt.BusinessDayDate = ? and acnt.RetailStoreId = ?
-    GROUP BY acnt.Dpt, dptinfo.DptName, acnt.WorkstationId, acnt.BusinessDayDate, acnt.RetailStoreId
-    ORDER BY acnt.Dpt
-  </entry>
 
   <entry key="select-detailreport">
   SELECT
@@ -3504,7 +3332,7 @@ ORDER BY
       UpdAppId = ?,
       UpdOpeCode = ?
     WHERE
-      StoreId=? AND TerminalId=?
+      StoreId=? AND TerminalId=? AND DeleteFlag = 0.0
 
   </entry>
 
@@ -3534,6 +3362,7 @@ ORDER BY
           AND deviceinfo.TerminalId = LTRIM(RTRIM(?))
           AND deviceinfo.CompanyId = LTRIM(RTRIM(?))
           AND deviceinfo.Training = ?
+          AND deviceinfo.DeleteFlag = 0.0
   </entry>
 
   <entry key="get-device-attribute-info">
@@ -3555,7 +3384,8 @@ ORDER BY
     LEFT JOIN RESMaster.dbo.MST_PRINTERINFO printinfo
         ON  deviceinfo.CompanyId = printinfo.CompanyId AND
             deviceinfo.StoreId = printinfo.StoreId AND
-            deviceinfo.PrinterId = printinfo.PrinterId
+            deviceinfo.PrinterId = printinfo.PrinterId AND
+            printinfo.DeleteFlag = 0.0
     LEFT JOIN RESMaster.dbo.MST_TILLIDINFO tillidinfo
         ON  deviceinfo.CompanyId = tillidinfo.CompanyId AND
             deviceinfo.StoreId = tillidinfo.StoreId AND
@@ -3566,6 +3396,7 @@ ORDER BY
     LEFT JOIN RESMaster.dbo.PRM_DEVICE_ATTRIBUTE device_attribute
         ON  deviceinfo.AttributeId = device_attribute.AttributeId
   WHERE deviceinfo.CompanyId = LTRIM(RTRIM(?)) AND deviceinfo.StoreId = LTRIM(RTRIM(?)) AND deviceinfo.TerminalId = LTRIM(RTRIM(?))
+    AND deviceinfo.DeleteFlag = 0.0
   </entry>
 
   <entry key="delete-printerinfo">
@@ -3577,7 +3408,7 @@ ORDER BY
       UpdAppId = ?,
       UpdOpeCode = ?
     WHERE
-      StoreId=? AND PrinterId=?
+      StoreId=? AND PrinterId=? AND DeleteFlag = 0.0
   </entry>
 
   <entry key="get-peripheraldeviceinfo">
@@ -3615,7 +3446,8 @@ ORDER BY
     ON
       devinfo.CompanyId = printinfo.CompanyId AND
       devinfo.StoreId = printinfo.StoreId AND
-      devinfo.PrinterId = printinfo.PrinterId
+      devinfo.PrinterId = printinfo.PrinterId AND
+      printinfo.DeleteFlag = 0.0
     LEFT JOIN
       RESMaster.dbo.PRM_SYSTEM_CONFIG syscon
     ON
@@ -3624,7 +3456,8 @@ ORDER BY
       devinfo.CompanyId = ? AND
       devinfo.StoreId = ? AND
       devinfo.TerminalId = ? AND
-      devinfo.Training = ?
+      devinfo.Training = ? AND
+      devinfo.DeleteFlag = 0.0
   </entry>
 
   <entry key="update-last-txid">
@@ -3637,7 +3470,8 @@ ORDER BY
       TerminalId = ? AND
       CompanyId = ? AND
       Training = ? AND
-      Status = 'Active'
+      Status = 'Active' AND
+      DeleteFlag = 0.0
   </entry>
 
   <entry key="update-last-suspendtxid">
@@ -3650,7 +3484,8 @@ ORDER BY
       TerminalId = ? AND
       CompanyId = ? AND
       Training = ? AND
-      Status = 'Active'
+      Status = 'Active' AND
+      DeleteFlag = 0.0
   </entry>
   <entry key="update-deviceinfo">
     DECLARE
@@ -3752,7 +3587,8 @@ ORDER BY
                   WHEN LEN(@StoreId) > 0
                   THEN @StoreId
                   ELSE RESMaster.dbo.MST_DEVICEINFO.StoreId
-                END
+                END AND
+              a.DeleteFlag = 0.0
           )
           THEN @PrinterId
           WHEN @PrinterId IS NULL AND EXISTS(
@@ -3765,7 +3601,8 @@ ORDER BY
                 WHEN LEN(@StoreId) > 0
                 THEN @StoreId
                 ELSE RESMaster.dbo.MST_DEVICEINFO.StoreId
-              END
+              END AND
+            a.DeleteFlag = 0.0
           )
           THEN PrinterId
           ELSE NULL
@@ -3850,7 +3687,8 @@ ORDER BY
       StoreId = ? AND
       TerminalId = ? AND
       Training = ? AND
-      Status = 'Active'
+      Status = 'Active' AND
+      DeleteFlag = 0.0
   </entry>
   <entry key="activate-deleted-deviceinfo">
     UPDATE
@@ -3863,7 +3701,7 @@ ORDER BY
     INSERTED.Status
 
     WHERE
-    CompanyId = ? AND StoreId = ? AND TerminalId = ?
+    CompanyId = ? AND StoreId = ? AND TerminalId = ? AND DeleteFlag = 0.0
   </entry>
 
   <entry key="update-printerinfo">
@@ -3942,7 +3780,7 @@ ORDER BY
     INSERTED.PortNumUdp
 
     WHERE
-    StoreId= ? AND PrinterId= ?
+    StoreId= ? AND PrinterId= ? AND DeleteFlag = 0.0
   </entry>
 
   <entry key="insert-printerinfo">
@@ -3965,7 +3803,8 @@ ORDER BY
     SELECT * from RESMaster.dbo.MST_PRINTERINFO
     WHERE StoreId like ? AND
     PrinterId = ? AND
-    Status = 'Active';
+    Status = 'Active' AND
+    DeleteFlag = 0.0;
   </entry>
 
   <entry key="get-all-printers">
@@ -3981,14 +3820,15 @@ ORDER BY
     SET @limit = (CASE
            WHEN(@limit > -1)
              THEN @limit
-             ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_PRINTERINFO)
+             ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_PRINTERINFO WHERE DeleteFlag = 0.0)
            END)
     SELECT TOP(@limit) *
     FROM RESMaster.dbo.MST_PRINTERINFO
     WHERE Status = 'Active'
     AND (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
     AND (@printerid IS NULL OR len(@printerid) = 0 OR (PrinterId like @printerid {ESCAPE '\'} ) )
-    AND (@printerdesc IS NULL OR len(@printerdesc) = 0 OR (LOWER(Description) like LOWER(@printerdesc) {ESCAPE '\'}) );
+    AND (@printerdesc IS NULL OR len(@printerdesc) = 0 OR (LOWER(Description) like LOWER(@printerdesc) {ESCAPE '\'}) )
+    AND DeleteFlag = 0.0;
   </entry>
 
   <entry key="set-printerid">
@@ -3997,7 +3837,7 @@ ORDER BY
       UpdAppId =?,
       UpdOpeCode = ?,
       UpdDate = GETDATE()
-    WHERE StoreId = ? AND TerminalId = ? AND Status = 'Active';
+    WHERE StoreId = ? AND TerminalId = ? AND Status = 'Active' AND DeleteFlag = 0.0;
   </entry>
 
   <entry key="set-tillid">
@@ -4006,7 +3846,7 @@ ORDER BY
         UpdAppId =?,
         UpdOpeCode = ?,
         UpdDate = GETDATE()
-    WHERE StoreId = ? AND TerminalId = ?;
+    WHERE StoreId = ? AND TerminalId = ? AND DeleteFlag = 0.0;
   </entry>
 
   <entry key="get-storeInfo">
@@ -4020,7 +3860,7 @@ ORDER BY
           , EventName
           , Ads
      FROM RESMaster.dbo.MST_STOREINFO
-     WHERE StoreId = ? ;
+     WHERE StoreId = ? AND DeleteFlag = 0.0;
   </entry>
 
     <entry key="get-store-bystoreIdandcomnpanyId">
@@ -4072,9 +3912,9 @@ ORDER BY
          INNER JOIN
            RESMaster.dbo.MST_DEVICEINFO  device
     ON
-      printer.StoreId = device.StoreId AND printer.PrinterId = device.PrinterId
+      printer.StoreId = device.StoreId AND printer.PrinterId = device.PrinterId AND device.DeleteFlag = 0.0
     WHERE
-      device.StoreId = ? AND device.TerminalId = ?
+      device.StoreId = ? AND device.TerminalId = ? AND printer.DeleteFlag = 0.0
   </entry>
 
   <entry key="create-peripheraldeviceinfo">
@@ -4253,34 +4093,6 @@ ORDER BY
             TxType,
             XmlDocument)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, CAST(? AS datetime), ?, ?, ?, ?);
-    </entry>
-
-    <entry key = "get-SummarySelect">
-                SELECT
-                     [SalesAmount]
-              ,[SalesCount]
-              ,[VoidAmount]
-              ,[VoidCount]
-              ,[RefundAmount]
-              ,[RefundCount]
-              ,[CancelAmount]
-              ,[CancelCount]
-              ,[PosSalesAmount]
-              ,[PosSalesCount]
-              ,[PosVoidAmount]
-              ,[PosVoidCount]
-              ,[PosRefundAmount]
-              ,[PosRefundCount]
-              ,[PosCancelAmount]
-              ,[PosCancelCount]
-
-                FROM   RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY
-                WITH (ROWLOCK)
-                WHERE  STOREID = ?
-                AND    TERMID = ?
-                AND    FINISHDATE =  CAST('2001-01-01' as datetime)
-                AND    FINISHPAYMENTSEQ = 99999
-                AND    FINISHFLAG = 0;
     </entry>
 
     <entry key = "save-SummaryInsert">
@@ -4700,6 +4512,7 @@ ORDER BY
       RESMaster.dbo.MST_COMPANYINFO company
     ON
       store.CompanyId = company.CompanyId
+      AND company.DeleteFlag = 0.0
     WHERE
       store.StoreId = ? AND store.CompanyId = ?
   </entry>
@@ -4767,7 +4580,7 @@ ORDER BY
       SELECT  store.StampTaxFilePath storedoctax,
            store.ElectroFilePath storelogo
       FROM    RESMaster.dbo.MST_STOREINFO store
-      WHERE  store.StoreId = ?
+      WHERE  store.StoreId = ? AND store.DeleteFlag = 0.0
   </entry>
 
 <!-- Entry key for QueueBuster implementation -->
@@ -5279,7 +5092,7 @@ ORDER BY
     FROM
       RESMaster.dbo.MST_STOREINFO
     WHERE
-      StoreId=?
+      StoreId=? AND DeleteFlag = 0.0
   </entry>
     <entry key="get-store-bystoreid">
       SELECT
@@ -5287,55 +5100,7 @@ ORDER BY
     FROM
       RESMaster.dbo.MST_STOREINFO
     WHERE
-      StoreId=? and Status = 'Active'
-    </entry>
-
-    <entry key="get-store-list">
-      SELECT
-        StoreId, StoreName, StoreAddr, StoreTel
-      FROM
-        RESMaster.dbo.MST_STOREINFO
-      WHERE
-        Status = 'Active'
-      ORDER BY
-        StoreId
-      ASC
-    </entry>
-
-    <entry key="get-store-list-with-limit">
-      SELECT TOP (?)
-        StoreId, StoreName, StoreAddr, StoreTel
-      FROM
-        RESMaster.dbo.MST_STOREINFO
-      WHERE
-        Status = 'Active'
-      ORDER BY
-        StoreId
-      ASC
-    </entry>
-
-    <entry key="get-store-list-by-id-prefix">
-      SELECT TOP(?)
-        StoreId, StoreName, StoreAddr, StoreTel
-      FROM
-        RESMaster.dbo.MST_STOREINFO
-      WHERE
-        StoreId like ? + '%' and Status = 'Active'
-      ORDER BY
-      StoreId
-      ASC
-    </entry>
-
-    <entry key="get-store-list-by-name">
-      SELECT TOP(?)
-        StoreId, StoreName, StoreAddr, StoreTel
-      FROM
-        RESMaster.dbo.MST_STOREINFO
-      WHERE
-        LOWER(StoreName) like LOWER('%' + ? + '%') and Status = 'Active'
-      ORDER BY
-        StoreName
-      ASC
+      StoreId=? and Status = 'Active' and DeleteFlag = 0.0
     </entry>
 
   <entry key="get-stores">
@@ -5353,7 +5118,7 @@ ORDER BY
     SET @limit = (CASE
       WHEN (@limit > -1)
         THEN @limit
-        ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_STOREINFO)
+        ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_STOREINFO WHERE DeleteFlag = 0.0)
       END)
 
     SELECT TOP(@limit) *
@@ -5363,7 +5128,8 @@ ORDER BY
       CompanyId = COALESCE(@companyId, CompanyId) AND
       StoreId = COALESCE(@storeId, StoreId) AND
       LOWER(StoreName) = LOWER(COALESCE(@storeName, StoreName)) AND
-      Status = 'Active'
+      Status = 'Active' AND
+      DeleteFlag = 0.0
       ORDER BY StoreName ASC
   </entry>
 
@@ -5747,6 +5513,7 @@ ORDER BY
         AND tillidinfo.StoreId = deviceinfo.StoreId
         AND tillidinfo.TerminalId = deviceinfo.TerminalId
         AND deviceinfo.Training = ?
+        AND deviceinfo.DeleteFlag = 0.0
         WHERE
             tillidinfo.CompanyId = ? AND
             tillidinfo.StoreId = ? AND
@@ -5771,6 +5538,7 @@ ORDER BY
         AND tillidinfo.StoreId = deviceinfo.StoreId
         AND tillidinfo.TerminalId = deviceinfo.TerminalId
         AND deviceinfo.Training = ?
+        AND deviceinfo.DeleteFlag = 0.0
         WHERE
             tillidinfo.CompanyId = ? AND
             tillidinfo.StoreId = ? AND
@@ -5801,7 +5569,8 @@ ORDER BY
         ON
           device.CompanyId = pos.CompanyId AND
             device.StoreId = pos.StoreId AND
-            device.TerminalId = pos.TerminalNo
+            device.TerminalId = pos.TerminalNo AND
+            device.DeleteFlag = 0.0
         WHERE
           device.CompanyId = @companyid AND
             device.StoreId = @storeid AND
@@ -5844,14 +5613,14 @@ ORDER BY
                   THEN @storeid
                WHEN ((len(@storeid) =0 OR @storeid IS NULL))
                    THEN @storeid
-               WHEN NOT EXISTS(SELECT Dpt, DptName FROM RESMaster.dbo.MST_DPTINFO WHERE StoreId= @storeid AND Dpt like @key {ESCAPE '\'} )
+               WHEN NOT EXISTS(SELECT Dpt, DptName FROM RESMaster.dbo.MST_DPTINFO WHERE DeleteFlag = 0.0 AND StoreId= @storeid AND Dpt like @key {ESCAPE '\'} )
                   THEN '0'
                ELSE @storeid
              END)
     SET @limit = (CASE
            WHEN(@limit > -1)
                THEN @limit
-               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_DPTINFO)
+               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_DPTINFO WHERE DeleteFlag = 0.0)
            END)
 
     SELECT TOP(@limit)
@@ -5899,6 +5668,7 @@ ORDER BY
         ON DPT.SubCode1 = GRP.GroupId
         AND DPT.CompanyId = GRP.CompanyId
         AND DPT.StoreId = GRP.StoreId
+        AND GRP.DeleteFlag = 0.0
         WHERE
     	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
                 DPT.CompanyId = @companyId
@@ -5913,7 +5683,8 @@ ORDER BY
                 ((LOWER(DptName) like LOWER(@name)  {ESCAPE '\'} ) OR
                 (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
               ))) AND
-          Status = 'Active'
+          Status = 'Active' AND
+          DPT.DeleteFlag = 0.0
 
     union
     	SELECT
@@ -5941,6 +5712,7 @@ ORDER BY
         ON a.SubCode1 = GRP.GroupId
         AND a.CompanyId = GRP.CompanyId
         AND a.StoreId = GRP.StoreId
+        AND GRP.DeleteFlag = 0.0
         WHERE
     	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
                 a.CompanyId = @companyId
@@ -5960,7 +5732,9 @@ ORDER BY
               WHERE a.CompanyId = b.CompanyId
                 AND b.StoreId = @storeid
                 AND a.dpt = b.dpt
+                AND b.DeleteFlag = 0.0
     	  )
+    	  AND a.DeleteFlag = 0.0
     ) DPT
 	  ORDER BY
       DisplayOrder,
@@ -6376,7 +6150,7 @@ DECLARE @operatorno varchar(MAX),
       UpdOpeCode = @updopecode
 
     WHERE
-    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training
+    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training AND DeleteFlag = 0.0
 
     IF(@@ROWCOUNT = 0)
       INSERT INTO RESMaster.dbo.MST_DEVICEINFO
@@ -6412,7 +6186,7 @@ DECLARE @operatorno varchar(MAX),
     UpdOpeCode = @updopecode
 
     WHERE
-    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training
+    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training AND DeleteFlag = 0.0
 
     IF(@@ROWCOUNT = 0)
       INSERT INTO RESMaster.dbo.MST_DEVICEINFO
@@ -6844,7 +6618,7 @@ DECLARE @operatorno varchar(MAX),
     SET @DISPLAYPLU = ?
     SET @STOCKTYPE = ?
 
-      IF EXISTS (SELECT Plu FROM RESMaster.dbo.MST_PLU WHERE Plu = @PLU AND StoreId = @STOREID)
+      IF EXISTS (SELECT Plu FROM RESMaster.dbo.MST_PLU WHERE Plu = @PLU AND StoreId = @STOREID AND DeleteFlag = 0.0)
         UPDATE
           RESMaster.dbo.MST_PLU
         SET
@@ -6945,7 +6719,7 @@ DECLARE @operatorno varchar(MAX),
         StockType = @STOCKTYPE
 
       WHERE
-        Plu = @PLU AND StoreId = @STOREID
+        Plu = @PLU AND StoreId = @STOREID AND DeleteFlag = 0.0
     ELSE
         INSERT INTO RESMaster.dbo.MST_PLU
              (
@@ -7088,7 +6862,7 @@ WHERE
 
     <entry key="check-printer-if-existing">
     SELECT Status FROM RESMaster.dbo.MST_PRINTERINFO
-          WHERE  StoreId = ? AND PrinterId = ? ;
+          WHERE  StoreId = ? AND PrinterId = ? AND DeleteFlag = 0.0;
   </entry>
 
   <entry key="update-deleted-printerinfo">
@@ -7126,7 +6900,7 @@ WHERE
       INSERTED.PortNumUdp
 
     WHERE
-    StoreId= @storeid AND PrinterId= @printerid AND Status = 'Deleted'
+    StoreId= @storeid AND PrinterId= @printerid AND Status = 'Deleted' AND DeleteFlag = 0.0
   </entry>
 
     <!-- ******************* Start of Classes **************** -->
@@ -7141,7 +6915,7 @@ WHERE
     SET @limit = (CASE
            WHEN(@limit > -1)
                THEN @limit
-               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_CLASSINFO)
+               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_CLASSINFO WHERE DeleteFlag = 0.0)
            END)
 
     SELECT TOP (@limit)
@@ -7171,6 +6945,7 @@ WHERE
         OR ( LOWER(ClassName) like LOWER(@name)  {ESCAPE '\'} )
         OR ( LOWER(ClassNameLocal) like LOWER(@name)  {ESCAPE '\'} )
       )
+      AND DeleteFlag = 0.0
   </entry>
   <entry key="delete-class">
       DECLARE
@@ -7238,6 +7013,7 @@ IF NOT EXISTS (
      AND Dpt = @Dpt
      AND Line = @Line
      AND Class = @Class
+     AND DeleteFlag = 0.0
 )
 SET @StoreId = '0'
 
@@ -7265,6 +7041,7 @@ WHERE
   AND Dpt = @Dpt
   AND Line = @Line
   AND Class = @Class
+  AND DeleteFlag = 0.0
 
 </entry>
 <entry key="update-class">
@@ -7369,7 +7146,7 @@ WHERE
         INSERTED.DiscountAmt, INSERTED.DiscountRate, INSERTED.AgeRestrictedFlag,
         INSERTED.InheritFlag, INSERTED.SubSmallInt5
       WHERE
-         StoreId = @oldstoreid AND Dpt = @olddpt AND  Line = @oldline AND  Class = @oldclass
+         StoreId = @oldstoreid AND Dpt = @olddpt AND  Line = @oldline AND  Class = @oldclass AND DeleteFlag = 0.0
     </entry>
 
 
@@ -7385,7 +7162,7 @@ DECLARE @line varchar(MAX), @storeid varchar(MAX),  @dpt varchar(MAX), @limit in
     SET @limit = (CASE
            WHEN(@limit > -1)
                THEN @limit
-               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_LINEINFO)
+               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_LINEINFO WHERE DeleteFlag = 0.0)
            END)
 IF NOT EXISTS (
    SELECT *
@@ -7399,6 +7176,7 @@ IF NOT EXISTS (
       OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} )
       OR ( LOWER(LineNameLocal) like LOWER(@name) {ESCAPE '\'} )
       )
+      AND DeleteFlag = 0.0
 )
 SET @StoreId = '0'
 
@@ -7427,6 +7205,7 @@ SELECT TOP (@limit)
       OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} )
       OR ( LOWER(LineNameLocal) like LOWER(@name) {ESCAPE '\'} )
       )
+      AND DeleteFlag = 0.0
   </entry>
     <entry key="delete-line">
       DECLARE
@@ -7470,7 +7249,7 @@ SELECT TOP (@limit)
        VALUES
            (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,GETDATE(),GETDATE());
     </entry>
-<entry key="get-accountancy-report">
+    <entry key="get-accountancy-report">
     DECLARE @storeid VARCHAR(6),@tillid VARCHAR(40),@businessdaydate VARCHAR(15)
         SET @storeid = LTRIM(RTRIM(?))
         SET @tillid = ?
@@ -9098,8 +8877,6 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
 ) AS NT
 ORDER BY SalesOrPay
 </entry>
-
-
   <entry key="get-guest-order-info-by-sequenceNo">
      DECLARE @RetailStoreId VARCHAR(20),
              @BusinessDate varchar(16),
@@ -9152,6 +8929,7 @@ IF NOT EXISTS (
      StoreId = @StoreId
      AND Dpt = @Dpt
      AND Line = @Line
+     AND DeleteFlag = 0.0
 )
 SET @StoreId = '0'
 
@@ -9177,6 +8955,7 @@ WHERE
   StoreId = @StoreId
   AND Dpt = @Dpt
   AND Line = @Line
+  AND DeleteFlag = 0.0
 </entry>
 
 <entry key="update-line">
@@ -9272,7 +9051,7 @@ WHERE
         INSERTED.DiscountAmt, INSERTED.DiscountRate, INSERTED.AgeRestrictedFlag,
         INSERTED.InheritFlag, INSERTED.SubSmallInt5
       WHERE
-         StoreId = @oldstoreid AND Dpt = @olddpt AND  Line = @oldline
+         StoreId = @oldstoreid AND Dpt = @olddpt AND  Line = @oldline AND DeleteFlag = 0.0
     </entry>
 
   <entry key="get-total-amount">
@@ -9659,7 +9438,8 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
        (typeInfo.PrefixCode16From = @membershipId OR
        typeInfo.PrefixCode16To = @membershipId OR
        typeInfo.PrefixCode13 = @membershipId) AND
-       typeInfo.DeleteFlag = 0.0
+       typeInfo.DeleteFlag = 0.0 AND
+       classInfo.DeleteFlag = 0.0
   )
   SET @classStoreId = '0'
 
@@ -9680,7 +9460,8 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
   LEFT JOIN RESMaster.dbo.MST_CARD_CLASSINFO classInfo
     ON typeInfo.CompanyId = classInfo.CompanyId AND
     classInfo.StoreId = @classStoreId AND
-    typeInfo.CardClassId = classInfo.CardClassId
+    typeInfo.CardClassId = classInfo.CardClassId AND
+    classInfo.DeleteFlag = 0.0
   WHERE
     typeInfo.CompanyId = @companyId AND
     typeInfo.StoreId = @storeId AND
@@ -9998,7 +9779,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       FROM
         RESMaster.dbo.MST_COMPANYINFO company
       WHERE
-        company.DeleteFlag = 0.
+        company.DeleteFlag = 0.0
     </entry>
     <entry key="get-terminal-info">
       DECLARE
@@ -10041,10 +9822,12 @@ SET @partialFlag = LTRIM(RTRIM(?))
         RESMaster.dbo.MST_COMPANYINFO company
       ON
       term.CompanyId = company.CompanyId
+      AND company.DeleteFlag = 0.0
       WHERE
         term.CompanyId = @companyId AND
         term.StoreId = @storeId AND
-        term.TerminalId = @terminalId
+        term.TerminalId = @terminalId AND
+        term.DeleteFlag = 0.0
     </entry>
     <entry key="check-floorid-exist">
       DECLARE
@@ -10566,7 +10349,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SET @bizCatId = (
               SELECT %s
               FROM RESMaster.dbo.MST_STOREINFO
-              WHERE CompanyId = @companyId AND StoreId = @storeId
+              WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0
             )
     SELECT
      TOP 1
@@ -10714,7 +10497,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TerminalId = ? AND
       CompanyId = ? AND
       Training = ? AND
-      Status = 'Active'
+      Status = 'Active' AND
+      DeleteFlag = 0.0
 </entry>
 
 <entry key="update-subNum1">
@@ -10727,7 +10511,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TerminalId = ? AND
       CompanyId = ? AND
       Training = ? AND
-      Status = 'Active'
+      Status = 'Active' AND
+      DeleteFlag = 0.0
 </entry>
 <entry key="get-item-byapidata">
 DECLARE    @companyId VARCHAR(12), @MdInternal VARCHAR(32)
@@ -10974,7 +10759,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
     SET @trainingFlag = ?
     SET @retailstoreid = @storeId
 
-    IF NOT EXISTS(SELECT DataType FROM RESMaster.dbo.MST_NAME_DAILYREPORT WHERE StoreId = @storeId)
+    IF NOT EXISTS(SELECT DataType FROM RESMaster.dbo.MST_NAME_DAILYREPORT WHERE StoreId = @storeId AND DeleteFlag = 0.0)
       SET @storeId = '0'
 
     SELECT
@@ -11024,7 +10809,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
                     CompanyId = @companyId and
                     StoreId = @retailstoreid and
                     Training = @trainingFlag and
-                    TillId = @tillId
+                    TillId = @tillId and
+                    DeleteFlag = 0.0
             )
         )
       END) AS ItemCnt,
@@ -11064,7 +10850,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
                     CompanyId = @companyId and
                     StoreId = @retailstoreid and
                     Training = @trainingFlag and
-                    TillId = @tillId
+                    TillId = @tillId and
+                    DeleteFlag = 0.0
             )
         )
       END) AS ItemAmt
@@ -11081,135 +10868,6 @@ insert into RESTransaction.dbo.TXL_offline_credit
       cast(a.ItemLevel3 as int),
       a.ItemLevel4,
       a.DisplayOrder ASC
-</entry>
-<entry key="get-point-item-rate">
-  DECLARE
-  @companyId varchar(12),
-  @bizCategoryId varchar(20),
-  @storeId varchar(10),
-  @targetType varchar(10),
-  @deptCode varchar(10),
-  @businessDate date
-
-  SET @companyId = ?
-  SET @storeId = ?
-  SET @businessDate = ?
-  SET @deptCode = ?
-  SET @bizCategoryId = '0000'
-
-  IF NOT EXISTS(
-    SELECT
-      base.RecordId
-    FROM
-      RESMaster.dbo.MST_POINT_INFO base
-    LEFT JOIN
-      RESMaster.dbo.MST_POINT_DPT dpt
-    ON
-      base.RecordId = dpt.RecordId
-    WHERE
-      base.TargetType = '3' AND base.StoreId = @storeId
-      AND base.DptSettingFlag = '1'
-      AND CONVERT(DATE,@businessDate) >= base.StartDate
-      AND @deptCode BETWEEN dpt.DptFrom AND dpt.DptTo)
-      BEGIN
-      IF NOT EXISTS(
-        SELECT
-          base.RecordId
-        FROM
-          RESMaster.dbo.MST_POINT_INFO base
-        LEFT JOIN
-          RESMaster.dbo.MST_POINT_DPT dpt
-        ON
-          base.RecordId = dpt.RecordId
-        WHERE
-          base.TargetType = '2' AND base.BizCatId = @bizCategoryId
-          AND base.DptSettingFlag = '1'
-          AND CONVERT(DATE,@businessDate) >= base.StartDate
-          AND @deptCode BETWEEN dpt.DptFrom AND dpt.DptTo)
-        BEGIN
-          SET @targetType = '1'
-          SET @bizCategoryId = '0000'
-          SET @storeId = '0'
-        END
-      ELSE
-        BEGIN
-        SET @targetType = '2'
-        SET @storeId = '0'
-        END
-      END
-    ELSE
-      BEGIN
-      SET @targetType = '3'
-      END
-    SELECT
-      base.PointFlag,
-      base.BasePrice,
-      base.BasePoint,
-      base.RecordId,
-      dept.BasePoint,
-      dept.CardSettingFlag,
-      dept.StoreSettingFlag,
-      class.CardClassId
-    FROM
-      RESMaster.dbo.MST_POINT_INFO base
-    LEFT JOIN
-      RESMaster.dbo.MST_POINT_DPT dept
-    ON
-      base.RecordId = dept.RecordId
-    LEFT JOIN
-      RESMaster.dbo.MST_POINT_DPT_CARD class
-    ON
-      base.RecordId = class.RecordId
-      AND
-      dept.CardSettingFlag = '1'
-    LEFT JOIN
-      RESMaster.dbo.MST_POINT_DPT_STORE store
-    ON
-      base.RecordId = store.RecordId
-    WHERE
-      base.CompanyId = @companyId
-      AND
-      base.TargetType = @targetType
-      AND
-      base.BizCatId = @bizCategoryId
-      AND
-      base.StoreId = @storeId
-      AND
-      CONVERT(DATE,@businessDate) >= base.StartDate
-      AND
-      base.DeleteFlag = 0.0
-      AND
-      base.DptSettingFlag = '1'
-      AND
-      dept.StoreSettingFlag = '0'
-      OR
-      (dept.StoreSettingFlag = '1' AND store.StoreId = @storeId)
-      AND
-      base.RecordId = dept.RecordId
-</entry>
-<entry key="get-point-cashing-unit">
-DECLARE
-  @companyId varchar(12),
-  @businessDate date
-
-  SET @companyId = ?
-  SET @businessDate = ?
-
-  SELECT
-    TOP 1 CashingUnit
-  FROM
-    RESMaster.dbo.MST_POINT_INFO base
-  WHERE
-    base.CompanyId = @companyId
-    AND
-    CONVERT(DATE,@businessDate) > base.StartDate OR CONVERT(DATE,@businessDate) = base.StartDate
-    AND
-    base.DeleteFlag = 0.0
-    AND
-    base.TargetType = '1'
-    AND
-    base.PointFlag = '1'
-  ORDER BY base.StartDate DESC
 </entry>
 <entry key="get-point-item-campaign-rate">
   DECLARE
@@ -11280,30 +10938,40 @@ DECLARE
     base.RecordId = iteminfo.RecordId
     AND
     base.CompanyId = iteminfo.CompanyId
+    AND
+    iteminfo.DeleteFlag = 0.0
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_ITEM_DETAIL itemdetail
   ON
     base.RecordId = itemdetail.RecordId
     AND
     base.CompanyId = itemdetail.CompanyId
+    AND
+    itemdetail.DeleteFlag = 0.0
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
   ON
     base.RecordId = pointcard.RecordId
     AND
     base.CompanyId = pointcard.CompanyId
+    AND
+    pointcard.DeleteFlag = 0.0
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_STORE store
   ON
     base.RecordId = store.RecordId
     AND
     base.CompanyId = store.CompanyId
+    AND
+    store.DeleteFlag = 0.0
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_TENDER tender
   ON
     base.RecordId = tender.RecordId
     AND
     base.CompanyId = tender.CompanyId
+    AND
+    tender.DeleteFlag = 0.0
   WHERE
     base.CompanyId = @companyId
     AND
@@ -11316,84 +10984,6 @@ DECLARE
     AND
     ((base.TargetStoreType = '1' AND store.StoreId = @storeId)
     OR base.TargetStoreType = '0' OR base.TargetStoreType = '2')
-</entry>
-<entry key="get-point-dpt-campaign-rate">
-  DECLARE
-  @companyId varchar(12),
-  @storeId varchar(10),
-  @targetType varchar(10),
-  @deptCode varchar(10),
-  @businessDate date
-
-  SET @companyId = ?
-  SET @storeId = ?
-  SET @businessDate = ?
-  SET @deptCode = ?
-
-  SELECT
-    base.PointType,
-    base.BasePrice,
-    base.BasePoint,
-    base.RecordId,
-    base.PointTender,
-    base.TenderSettingFlag,
-    base.TargetDaySettingFlag,
-    base.TargetDay1,
-    base.TargetDay2,
-    base.TargetDay3,
-    base.TargetDay4,
-    base.TargetDay5,
-    base.TargetDay6,
-    base.TargetDay7,
-    base.TargetDay8,
-    base.TargetDay9,
-    base.DayOfWeekSettingFlag,
-    base.DayOfWeekMonFlag,
-    base.DayOfWeekTueFlag,
-    base.DayOfWeekWedFlag,
-    base.DayOfWeekThuFlag,
-    base.DayOfWeekFriFlag,
-    base.DayOfWeekSatFlag,
-    base.DayOfWeekSunFlag,
-    dept.BasePoint,
-    dept.CardSettingFlag,
-    dept.StoreSettingFlag,
-    base.DptSettingFlag,
-    base.ItemSettingFlag,
-    base.TargetStoreType,
-    class.CardClassId
-  FROM
-    RESMaster.dbo.MST_CAMPAIGN_INFO base
-  LEFT JOIN
-    RESMaster.dbo.MST_CAMPAIGN_DPT dept
-  ON
-    base.RecordId = dept.RecordId
-  LEFT JOIN
-    RESMaster.dbo.MST_CAMPAIGN_DPT_CARD class
-  ON
-    base.RecordId = class.RecordId
-  LEFT JOIN
-    RESMaster.dbo.MST_CAMPAIGN_DPT_STORE store
-  ON
-    base.RecordId = store.RecordId
-    AND
-    ((dept.StoreSettingFlag = '1' AND store.StoreId = @storeId)
-    OR dept.StoreSettingFlag = '0')
-  WHERE
-    base.CompanyId = @companyId
-    AND
-    CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
-    AND
-    @deptCode BETWEEN dept.DptFrom AND dept.DptTo
-    AND
-    base.DeleteFlag = 0.0
-    AND
-    base.DptSettingFlag = '1'
-    AND
-    ((dept.StoreSettingFlag = '0') OR
-      (dept.StoreSettingFlag = '1' AND store.StoreId = @storeId))
-    AND
-    base.RecordId = dept.RecordId
 </entry>
 <entry key="get-point-tran-rate">
   DECLARE
@@ -11438,155 +11028,6 @@ DECLARE
       AND
       base.DeleteFlag = 0.0
     ORDER BY base.StartDate DESC
-</entry>
-<entry key="get-point-tran-rate-campaign">
-  DECLARE
-  @companyId varchar(12),
-  @bizCategoryId varchar(20),
-  @storeId varchar(10),
-  @targetType varchar(10),
-  @businessDate date,
-  @cardClassId varchar(10)
-
-  SET @companyId = ?
-  SET @storeId = ?
-  SET @businessDate = ?
-  SET @cardClassId = ?
-  SET @bizCategoryId = '00'
-  IF EXISTS(
-    SELECT
-      base.RecordId
-    FROM
-      RESMaster.dbo.MST_CAMPAIGN_INFO base
-    LEFT JOIN
-      RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
-    ON
-      base.RecordId = pointcard.RecordId
-    LEFT JOIN
-      RESMaster.dbo.MST_CAMPAIGN_STORE store
-    ON
-      base.RecordId = store.RecordId
-    WHERE
-    base.CompanyId = @companyId AND
-    ((base.TargetStoreType = '1' AND store.StoreId = @storeId) OR
-    base.TargetStoreType = '0' OR base.TargetStoreType = '2')
-    AND
-    (base.CardSettingFlag= '1' AND pointcard.CardClassId = @cardClassId)
-    AND
-    CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate)
-    BEGIN
-      SELECT
-        base.PointType,
-        base.BasePrice,
-        base.BasePoint,
-        base.RecordId,
-        base.PointTender,
-        base.CampaignName,
-        base.TargetDaySettingFlag,
-        base.TargetDay1,
-        base.TargetDay2,
-        base.TargetDay3,
-        base.TargetDay4,
-        base.TargetDay5,
-        base.TargetDay6,
-        base.TargetDay7,
-        base.TargetDay8,
-        base.TargetDay9,
-        base.DayOfWeekSettingFlag,
-        base.DayOfWeekMonFlag,
-        base.DayOfWeekTueFlag,
-        base.DayOfWeekWedFlag,
-        base.DayOfWeekThuFlag,
-        base.DayOfWeekFriFlag,
-        base.DayOfWeekSatFlag,
-        base.DayOfWeekSunFlag,
-        pointcard.BasePointCash,
-        pointcard.BasePointAffiliate,
-        pointcard.BasePointNonAffiliate,
-        base.TenderSettingFlag,
-        base.TargetStoreType,
-        base.CardSettingFlag,
-        base.DptSettingFlag,
-        base.ItemSettingFlag
-      FROM
-        RESMaster.dbo.MST_CAMPAIGN_INFO base
-      LEFT JOIN
-        RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
-      ON
-        base.RecordId = pointcard.RecordId
-      LEFT JOIN
-        RESMaster.dbo.MST_CAMPAIGN_STORE store
-      ON
-        base.RecordId = store.RecordId
-      WHERE
-        base.CompanyId = @companyId
-        AND
-        ((base.TargetStoreType  = '1' AND store.StoreId = @storeId) OR
-        base.TargetStoreType  = '0' OR base.TargetStoreType  = '2')
-        AND
-        base.CardSettingFlag = '1'
-        AND
-        pointcard.CardClassId = @cardClassId
-        AND
-        CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
-        AND
-        base.DeleteFlag = 0.0
-    END
-  ELSE
-    SELECT
-      base.PointType,
-      base.BasePrice,
-      base.RecordId,
-      base.BasePoint,
-      base.PointTender,
-      base.CampaignName,
-      base.TargetDaySettingFlag,
-      base.TargetDay1,
-      base.TargetDay2,
-      base.TargetDay3,
-      base.TargetDay4,
-      base.TargetDay5,
-      base.TargetDay6,
-      base.TargetDay7,
-      base.TargetDay8,
-      base.TargetDay9,
-      base.DayOfWeekSettingFlag,
-      base.DayOfWeekMonFlag,
-      base.DayOfWeekTueFlag,
-      base.DayOfWeekWedFlag,
-      base.DayOfWeekThuFlag,
-      base.DayOfWeekFriFlag,
-      base.DayOfWeekSatFlag,
-      base.DayOfWeekSunFlag,
-      base.BasePointCash,
-      base.BasePointAffiliate,
-      base.BasePointNonAffiliate,
-      base.TenderSettingFlag,
-      base.TargetStoreType,
-      base.CardSettingFlag,
-      base.DptSettingFlag,
-      base.ItemSettingFlag
-    FROM
-      RESMaster.dbo.MST_CAMPAIGN_INFO base
-    LEFT JOIN
-      RESMaster.dbo.MST_CAMPAIGN_CARD pointcard
-    ON
-      base.RecordId = pointcard.RecordId
-    LEFT JOIN
-      RESMaster.dbo.MST_CAMPAIGN_STORE store
-    ON
-      base.RecordId = store.RecordId
-    WHERE
-      base.CompanyId = @companyId
-      AND
-      ((base.TargetStoreType  = '1' AND store.StoreId = @storeId) OR
-      base.TargetStoreType  = '0' OR base.TargetStoreType  = '2')
-      AND
-      base.CardSettingFlag = '0'
-      AND
-      CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
-      AND
-      base.DeleteFlag = 0.0
 </entry>
 <entry key="get-report-item">
     DECLARE
@@ -11695,7 +11136,8 @@ DECLARE
 			CompanyID = @companyId and
 			StoreId = @storeId and
 			Training = @trainingFlag and
-			TillId = @tillId
+			TillId = @tillId and
+            DeleteFlag = 0.0
 	   ) AND
        a.BusinessDayDate = @businessDate  AND
        a.ItemType = @dataType AND
@@ -11790,7 +11232,8 @@ DECLARE
 			CompanyID = @companyId and
 			StoreId = @storeId and
 			Training = @trainingFlag and
-			TillId = @tillId
+			TillId = @tillId and
+			DeleteFlag = 0.0
 	   ) AND
        a.BusinessDayDate = @businessDate  AND
        a.ItemType = '2' AND
@@ -11923,7 +11366,7 @@ DECLARE
       RESMaster.dbo.MST_STOREINFO
     WHERE
       CompanyId = @companyid AND
-      DeleteFlag = 0.
+      DeleteFlag = 0.0
     ORDER BY
       CompanyId
     </entry>
@@ -11988,7 +11431,8 @@ DECLARE
             AD.CompanyId = DI.CompanyId AND
             AD.StoreId = DI.StoreId AND
             AD.TerminalId = DI.TerminalId AND
-            DI.Training = 0
+            DI.Training = 0 AND
+            DI.DeleteFlag = 0.0
     </entry>
     
     <entry key="get-device-indicators">
@@ -12013,6 +11457,7 @@ IF NOT EXISTS (
 	 WHERE CompanyId = @companyId
 	   AND CCode = @ccode
 	   AND StoreId = @storeId
+	   AND DeleteFlag = 0.0
 )
 SET @storeId = '0'
 
@@ -12021,6 +11466,7 @@ SELECT Dpt
  WHERE CompanyId = @companyId
    AND CCode = @ccode
    AND StoreId = @storeId
+   AND DeleteFlag = 0.0
 </entry>
 
 <entry key="convert-magcode-to-dpt">
@@ -12037,6 +11483,7 @@ IF NOT EXISTS (
 	 WHERE CompanyId = @companyId
 	   AND MagCode = @magcode
 	   AND StoreId = @storeId
+	   AND DeleteFlag = 0.0
 )
 SET @storeId = '0'
 
@@ -12045,6 +11492,7 @@ SELECT Dpt
  WHERE CompanyId = @companyId
    AND MagCode = @magcode
    AND StoreId = @storeId
+   AND DeleteFlag = 0.0
 </entry>
 
 <entry key="count-unsend-poslog">

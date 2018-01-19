@@ -93,7 +93,7 @@ public final class SnapLogger extends MultiSnap {
     @Override
     public Snap.SnapInfo write(final CharSequence comment, final CharSequence data) {
     	Snap.SnapInfo info = super.write(comment, data);
-        super.close();
+        super.moveHolder();
         return info;
     }
 
@@ -106,7 +106,7 @@ public final class SnapLogger extends MultiSnap {
     @Override
     public Snap.SnapInfo write(final CharSequence comment, final Throwable data) {
     	Snap.SnapInfo info = super.write(comment, data);
-    	super.close();
+    	super.moveHolder();
         return info;
     }
 
@@ -118,7 +118,7 @@ public final class SnapLogger extends MultiSnap {
      */
     public Snap.SnapInfo write(final CharSequence comment, final byte[] data) {
     	Snap.SnapInfo info = this.write(comment, data, 0, data.length);
-    	super.close();
+    	super.moveHolder();
         return info;
     }
 
@@ -133,7 +133,7 @@ public final class SnapLogger extends MultiSnap {
     @Override
     public Snap.SnapInfo write(final CharSequence comment, final byte[] data, final int offset, final int length) {
     	Snap.SnapInfo info = super.write(comment, data, offset, length);
-    	super.close();
+    	super.moveHolder();
         return info;
     }
 

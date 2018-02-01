@@ -106,7 +106,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     public static final int POS_CTRL_UPDATE_TYPE_EOD = 1;
     private static final short OPEN_CLOSE_STAT_SOD = 1;
     private static final short OPEN_CLOSE_STAT_EOD = 4;
-    private static final SimpleDateFormat BEGIN_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /**
      * Default Constructor for SQLServerPoslogDAO.
@@ -1615,7 +1614,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             // Concats the first part of BusinessDayDate and the last part of BeginDateTime.
             String concatBusinessDate = transaction.getBusinessDayDate()
                     + transaction.getBeginDateTime().substring(transaction.getBusinessDayDate().length());
-            Timestamp businessDateTime = new Timestamp(BEGIN_DATE_TIME_FORMAT.parse(concatBusinessDate).getTime());
+            Timestamp businessDateTime = new Timestamp(DateFormatUtility.parseDate(concatBusinessDate,"yyyy-MM-dd'T'HH:mm:ss").getTime());
             createUpdate.setTimestamp(SQLStatement.PARAM5, businessDateTime);
 
             createUpdate.setString(SQLStatement.PARAM6, transaction.getSequenceNo());

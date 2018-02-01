@@ -31,11 +31,6 @@ public final class POSLogHandler {
 	public final static String LAYAWAY_ITEMTYPE_STOCK = "Stock";
 	public final static String PREVIOUSLAYAWAY_ACTION_COMPLETED = "Completed";
 
-    // For Date format validation
-    private static final SimpleDateFormat BUSINESS_DAY_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
-    private static final SimpleDateFormat
-            BEGIN_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
     /** Default Constructor. */
     private POSLogHandler() {
     }
@@ -82,8 +77,8 @@ public final class POSLogHandler {
         }
 
         // Format check for required dates. If either date is not parsable, throws ParseException.
-        BUSINESS_DAY_FORMAT.parse(transaction.getBusinessDayDate());
-        BEGIN_DATE_TIME_FORMAT.parse(transaction.getBeginDateTime());
+        DateFormatUtility.parseDate(transaction.getBusinessDayDate(),"yyyy-MM-dd");
+        DateFormatUtility.parseDate(transaction.getBeginDateTime(),"yyyy-MM-dd'T'HH:mm:ss");
 
         // Successfully goes through the validation.
         return true;

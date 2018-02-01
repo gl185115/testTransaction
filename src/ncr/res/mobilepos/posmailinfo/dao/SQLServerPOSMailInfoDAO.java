@@ -24,6 +24,7 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.property.SQLStatement;
@@ -39,8 +40,9 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
 	private static final Logger LOGGER = (Logger) Logger.getInstance();
 	private static final String PROG_NAME = "POSMailInfoDAO";
 	private Trace.Printer tp;	
-	private static SimpleDateFormat inSDF = new SimpleDateFormat("yyyy-mm-dd");
-	private static SimpleDateFormat outSDF = new SimpleDateFormat("yyyy/mm/dd");
+	private static final String parse(Date date) throws ParseException {
+        return new SimpleDateFormat("yyyy/mm/dd").format(date);
+    }
 
 	public SQLServerPOSMailInfoDAO() throws DaoException {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
@@ -87,12 +89,12 @@ public class SQLServerPOSMailInfoDAO extends AbstractDao implements IPOSMailInfo
 				rowData.put("RegOpeCode", resultSet.getString("RegOpeCode"));
 				rowData.put("RegOpeName", resultSet.getString("RegOpeName"));
 
-				Date date = inSDF.parse(resultSet.getString("StartDate"));
-				String outputDate = outSDF.format(date);
+				Date date = DateFormatUtility.parse(resultSet.getString("StartDate"),"yyyy-mm-dd");
+				String outputDate = SQLServerPOSMailInfoDAO.parse(date);
 				rowData.put("StartDate", outputDate);
 
-				date = inSDF.parse(resultSet.getString("EndDate"));
-				outputDate = outSDF.format(date);
+				date = DateFormatUtility.parse(resultSet.getString("EndDate"),"yyyy-mm-dd");
+				outputDate = SQLServerPOSMailInfoDAO.parse(date);
 				rowData.put("EndDate", outputDate);
 
 				infoData.add(rowData);

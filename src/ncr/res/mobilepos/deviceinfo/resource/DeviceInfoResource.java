@@ -54,6 +54,7 @@ import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
@@ -139,10 +140,6 @@ public class DeviceInfoResource {
         return "peripheraldevicecontrol";
     }
 
-    /**
-     * DateFormat for Business Date.
-     */
-    private static final DateFormat BUSINESS_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
     /**
      * TXU_POS_CTRL OpenCloseStat.
      */
@@ -1876,7 +1873,7 @@ public class DeviceInfoResource {
                                          String storeId,
                                          String terminalId) throws ParseException {
         // Parses business day to Timestamp.
-        Timestamp thisBusinessDatetime = new Timestamp(BUSINESS_DATE_FORMAT.parse(thisBusinessDay).getTime());
+        Timestamp thisBusinessDatetime = new Timestamp(DateFormatUtility.parseDate(thisBusinessDay,"yyyy-MM-dd").getTime());
 
         // Stores all the active terminals.
         List<TerminalStatus> activeTerminals = new ArrayList<>();

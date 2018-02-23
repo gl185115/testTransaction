@@ -116,17 +116,6 @@ public interface IDeviceInfoDAO {
             DeviceInfo deviceinfo, int trainingmode, Connection connection) throws Exception;
 
     /**
-     * Update printer info.
-     * @param storeid - store identifier
-     * @param printerID The Printer ID.
-     * @param printerinfo - the model that contains the new values
-     * @return ViewPrinterInfo
-     * @throws Exception - exception
-     */
-    ViewPrinterInfo updatePrinterInfo(
-            String storeID, String printerID, PrinterInfo printerinfoToSet) throws Exception;
-
-    /**
      * Create Printer Information.
      * @param storeID   The Retail Store ID.
      * @param printerID The Printer ID.
@@ -136,16 +125,6 @@ public interface IDeviceInfoDAO {
      */
     ResultBase createPrinterInfo(String storeID, String printerID,
             PrinterInfo printerInfo) throws DaoException;
-
-    /**
-     * Delete Printer Information.
-     * @param storeId   The Retail Store ID.
-     * @param printerId The Printer ID.
-     * @param
-     * @return  The Result Base.
-     * @throws DaoException The exception thrown when error occur.
-     */
-    ResultBase deletePrinter(String storeId, String printerId, String updAppId, String updOpeCode) throws DaoException;
 
     /**
      * Set the Signature Link for the device.

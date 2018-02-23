@@ -3399,18 +3399,6 @@ ORDER BY
     AND deviceinfo.DeleteFlag = 0.0
   </entry>
 
-  <entry key="delete-printerinfo">
-    UPDATE
-      RESMaster.dbo.MST_PRINTERINFO
-    SET
-      Status='Deleted',
-      UpdDate = GETDATE(),
-      UpdAppId = ?,
-      UpdOpeCode = ?
-    WHERE
-      StoreId=? AND PrinterId=? AND DeleteFlag = 0.0
-  </entry>
-
   <entry key="get-peripheraldeviceinfo">
     SELECT
       devinfo.CompanyId,

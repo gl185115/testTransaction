@@ -3692,85 +3692,6 @@ ORDER BY
     CompanyId = ? AND StoreId = ? AND TerminalId = ? AND DeleteFlag = 0.0
   </entry>
 
-  <entry key="update-printerinfo">
-    DECLARE
-    @storeid varchar(MAX),
-    @printerid varchar(MAX),
-    @printername varchar(MAX),
-    @description varchar(MAX),
-    @ipaddress varchar(MAX),
-    @portnumtcp int,
-    @portnumudp int,
-    @updappid varchar(MAX),
-    @updopecode varchar(MAX)
-
-
-    SET @storeid = ?
-    SET @printerid = ?
-    SET @printername = ?
-    SET @description = ?
-    SET @ipaddress = ?
-    SET @portnumtcp = ?
-    SET @portnumudp = ?
-    SET @updappid = ?
-    SET @updopecode = ?
-
-    UPDATE
-    RESMaster.dbo.MST_PRINTERINFO
-    SET
-    StoreId=
-      CASE
-        WHEN len(@storeid) > 0 THEN @storeid
-        ELSE StoreId
-      END,
-    PrinterId=
-      CASE
-        WHEN len(@printerid) > 0 then @printerid
-        ELSE PrinterId
-      END,
-    PrinterName=
-      CASE
-        WHEN @printername IS NULL THEN PrinterName
-        ELSE @printername
-      END,
-    Description=
-      CASE
-        WHEN @description IS NULL THEN Description
-        ELSE @description
-      END,
-    IpAddress=
-      CASE
-        WHEN @ipaddress IS NULL THEN IpAddress
-        ELSE @ipaddress
-      END,
-    PortNumTcp=
-      CASE
-        WHEN @portnumtcp IS NULL THEN PortNumTcp
-        ELSE @portnumtcp
-      END,
-    PortNumUdp=
-      CASE
-        WHEN @portnumudp IS NULL THEN PortNumUdp
-        ELSE @portnumudp
-      END,
-    UpdAppId = @updappid,
-    UpdOpeCode = @updopecode,
-    UpdDate = GETDATE(),
-    Status = 'Active'
-
-    OUTPUT
-    INSERTED.StoreId,
-    INSERTED.PrinterId,
-    INSERTED.PrinterName,
-    INSERTED.Description,
-    INSERTED.IpAddress,
-    INSERTED.PortNumTcp,
-    INSERTED.PortNumUdp
-
-    WHERE
-    StoreId= ? AND PrinterId= ? AND DeleteFlag = 0.0
-  </entry>
-
   <entry key="insert-printerinfo">
     INSERT INTO RESMaster.dbo.MST_PRINTERINFO
     (StoreId,
@@ -6847,11 +6768,6 @@ WHERE
     RetailStoreId = @storeid
     AND TxType = 'SOD' order by SystemDateTime desc
     </entry>
-
-    <entry key="check-printer-if-existing">
-    SELECT Status FROM RESMaster.dbo.MST_PRINTERINFO
-          WHERE  StoreId = ? AND PrinterId = ? AND DeleteFlag = 0.0;
-  </entry>
 
   <entry key="update-deleted-printerinfo">
 

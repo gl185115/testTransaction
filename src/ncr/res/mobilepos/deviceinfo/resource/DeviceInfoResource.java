@@ -397,33 +397,6 @@ public class DeviceInfoResource {
         return viewDevInfo;
     }
 
-    private boolean deviceExists(String deviceID, String retailStoreID, int training, String companyId) {
-        ViewDeviceInfo viewDeviceInfo = getDeviceInfo(companyId, deviceID, retailStoreID, training);
-        if (viewDeviceInfo.getNCRWSSResultCode() != ResultBase.RES_OK ||
-    		"Deleted".equals(viewDeviceInfo.getDeviceInfo().getStatus())) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean deviceInUse(String deviceId, String storeId)  {
-        try {
-            SQLServerCredentialDAO credential = new SQLServerCredentialDAO();
-            List<Employee> employees = credential.listOperators(null, null, null, -1);//-1 means list All
-            for(Employee emp: employees){
-                if(deviceId.equals(emp.getWorkStationID()) && storeId.equals(emp.getRetailStoreID()) && "Active".equals(emp.getStatus())){
-                    return true;
-                }
-            }
-        } catch (DaoException ex) {
-        	String functionName = DebugLogger.getCurrentMethodName();
-        	LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to list operators.", ex);
-        }
-        return false;
-    }
-
-
     /**
      * Web Method call used to add a new Device Information in the DataBase.
      * @param deviceInfoJson    The new Device Information.
@@ -593,94 +566,6 @@ public class DeviceInfoResource {
 			tp.methodExit(viewInfo);
 		}
 		return viewInfo;
-	}
-
-    /**
-     * Creates the printer.
-     *
-     * @param storeId
-     *            the store id where the printer belongs.
-     * @param printerId
-     *            the printer identifier.
-     * @param jsonPrinterInfo
-     *            the printer information in json format.
-     * @return 0 for success, otherwise fail.
-     */
-    @POST
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Path("/printer/create")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="プリンターを作成する", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターが見つからない"),
-        @ApiResponse(code=ResultBase.RES_PRINTER_IS_DELETED, message="プリンタは既に存在しているが"),
-        @ApiResponse(code=ResultBase.RES_PRINTER_IS_ACTIVE, message="プリンタはすでに存在している"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
-        @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="SQLエラー")
-    })
-	public final ResultBase createPrinter(
-			@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
-			@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
-			@ApiParam(name="printerinfo", value="プリンター情報") @FormParam("printerinfo") final String jsonPrinterInfo) {
-
-    	String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("retailstoreid", storeId)
-                .println("printerid", printerId)
-                .println("printerinfo", jsonPrinterInfo);
-
-        ResultBase resultBase = new ResultBase();
-        if (StringUtility.isNullOrEmpty(storeId, printerId, jsonPrinterInfo)) {
-            resultBase
-                    .setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
-            tp.println("Parameter[s] is empty or null.");
-            tp.methodExit(resultBase);
-            return resultBase;
-        }
-
-
-        if(!storeExists(storeId)){
-            resultBase.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-            tp.println("Store does not exist");
-            tp.methodExit(resultBase);
-            return resultBase;
-        }
-
-        try {
-            IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-            JsonMarshaller<PrinterInfo> jsonMarshaller =
-                new JsonMarshaller<PrinterInfo>();
-            PrinterInfo printerInfo = jsonMarshaller.unMarshall(
-                    jsonPrinterInfo, PrinterInfo.class);
-            printerInfo.setUpdAppId(pathName.concat(".printer.create"));
-            printerInfo.setUpdOpeCode(getOpeCode());
-            resultBase = iPerCtrlDao.createPrinterInfo(storeId, printerId,
-                    printerInfo);
-
-        } catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": failed to create printer", ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_DB,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (IOException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO,
-					functionName + ": failed to create printer", ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_IOEXCEPTION,
-					ResultBase.RES_ERROR_IOEXCEPTION, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": failed to create printer", ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
 	}
 
     /**
@@ -1049,55 +934,6 @@ public class DeviceInfoResource {
         }
         return isExist;
     }
-
-    /**
-     * Checks if printer is existing.
-     *
-     * @param printerID the printer identifier.
-     * @return true, if printer exists.
-     */
-    private boolean printerExists(final String storeID, final String printerID){
-        boolean isExist = true;
-        tp.methodEnter(DebugLogger.getCurrentMethodName())
-        .println("retailstoreid", storeID)
-        .println("printerID", printerID);
-
-      PrinterInfo printerInfo = null;
-      String functionName = className + "isPrinterExisting";
-        try{
-        	SQLDeviceInfoDAO deviceInfoDao = new SQLDeviceInfoDAO();
-        	printerInfo = deviceInfoDao.getPrinterInfo(storeID, printerID);
-        	if (printerInfo == null) {
-        		isExist = false;
-        	}
-        } catch (DaoException ex) {
-        LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
-                "Failed to update PrinterInfo.\n" + ex.getMessage());
-        }catch (Exception ex) {
-        	LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-                "Failed to update PrinterInfo.\n" + ex.getMessage());
-        } finally {
-        	tp.methodExit(printerInfo);
-        }
-        return isExist;
-    }
-
-    /* Checks if store is existing.
-    *
-    * @param retailStoreID the store identifier.
-    * @return true, if store exist.
-    */
-   private boolean linkExists(final String storeId, final String linkType, final String posLinkId) {
-       boolean isExist = true;
-
-       ViewPosLinkInfo viewPosLinkInfo = getLinkItem(linkType, storeId, posLinkId);
-       if (viewPosLinkInfo.getPosLinkInfo() == null ||
-    		   "Deleted".equalsIgnoreCase(viewPosLinkInfo.getPosLinkInfo().getStatus())) {
-           isExist = false;
-       }
-       return isExist;
-   }
-
 
     private String getOpeCode(){
         return ((securityContext != null) && (securityContext.getUserPrincipal()) != null) ? securityContext

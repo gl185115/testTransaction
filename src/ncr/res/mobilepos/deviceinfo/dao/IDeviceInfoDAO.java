@@ -116,17 +116,6 @@ public interface IDeviceInfoDAO {
             DeviceInfo deviceinfo, int trainingmode, Connection connection) throws Exception;
 
     /**
-     * Create Printer Information.
-     * @param storeID   The Retail Store ID.
-     * @param printerID The Printer ID.
-     * @param printerInfo   The Printer Information.
-     * @return  The Result Base.
-     * @throws DaoException The exception thrown when error occur.
-     */
-    ResultBase createPrinterInfo(String storeID, String printerID,
-            PrinterInfo printerInfo) throws DaoException;
-
-    /**
      * Set the Signature Link for the device.
      * @param retailStoreID     The Retail Store ID.
      * @param terminalID        The Device ID.

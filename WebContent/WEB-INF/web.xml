@@ -85,7 +85,6 @@
       <url-pattern>/rest/SystemSettings/ping</url-pattern>
       <url-pattern>/rest/barcode/*</url-pattern>
       <url-pattern>/rest/cashaccount/*</url-pattern>
-      <url-pattern>/rest/class/*</url-pattern>
       <url-pattern>/rest/credential/changepasscode/*</url-pattern>
       <url-pattern>/rest/credential/create</url-pattern>
       <url-pattern>/rest/credential/createoperator/*</url-pattern>

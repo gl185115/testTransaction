@@ -29,8 +29,6 @@ import ncr.res.mobilepos.cashAbstract.dao.ICashAbstractDAO;
 import ncr.res.mobilepos.cashAbstract.dao.SQLServerCashAbstractDAO;
 import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
 import ncr.res.mobilepos.cashaccount.dao.SQLCashAccountDAO;
-import ncr.res.mobilepos.classinfo.dao.IClassInfoDAO;
-import ncr.res.mobilepos.classinfo.dao.SQLServerClassInfoDAO;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
@@ -148,11 +146,6 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public final IPoslogStatusDAO getPoslogStatusDAO() throws DaoException {
         return new SQLServerPoslogStatusDAO();
-    }
-
-    @Override
-    public final IClassInfoDAO getClassInfoDAO() throws DaoException {
-        return new SQLServerClassInfoDAO();
     }
 
     @Override

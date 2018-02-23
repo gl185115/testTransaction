@@ -3692,22 +3692,6 @@ ORDER BY
     CompanyId = ? AND StoreId = ? AND TerminalId = ? AND DeleteFlag = 0.0
   </entry>
 
-  <entry key="insert-printerinfo">
-    INSERT INTO RESMaster.dbo.MST_PRINTERINFO
-    (StoreId,
-    PrinterId,
-    PrinterName,
-    IpAddress,
-    PortNumTcp,
-    PortNumUdp,
-    Description,
-    Status,
-    UpdAppId,
-    UpdOpeCode,
-    UpdDate)
-    VALUES (?, ?, ?, ?, ?, ?, ?,'Active',?,?,GETDATE())
-  </entry>
-
   <entry key="get-printerinfo">
     SELECT * from RESMaster.dbo.MST_PRINTERINFO
     WHERE StoreId like ? AND
@@ -6768,44 +6752,6 @@ WHERE
     RetailStoreId = @storeid
     AND TxType = 'SOD' order by SystemDateTime desc
     </entry>
-
-  <entry key="update-deleted-printerinfo">
-
-    DECLARE
-    @storeid varchar(MAX),
-    @printerid varchar(MAX)
-
-    SET @storeid = ?
-    SET @printerid = ?
-
-    UPDATE
-    RESMaster.dbo.MST_PRINTERINFO
-
-    SET
-      StoreId=@storeid,
-      PrinterId=@printerid,
-      PrinterName=?,
-      IpAddress=?,
-      PortNumTcp=?,
-      PortNumUdp=?,
-      Description=?,
-      UpdAppId=?,
-      UpdOpeCode=?,
-      UpdDate = GETDATE(),
-      Status='Active'
-
-    OUTPUT
-      INSERTED.StoreId,
-      INSERTED.PrinterId,
-      INSERTED.PrinterName,
-      INSERTED.Description,
-      INSERTED.IpAddress,
-      INSERTED.PortNumTcp,
-      INSERTED.PortNumUdp
-
-    WHERE
-    StoreId= @storeid AND PrinterId= @printerid AND Status = 'Deleted' AND DeleteFlag = 0.0
-  </entry>
 
     <!-- ******************* Start of Classes **************** -->
 

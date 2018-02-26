@@ -11101,4 +11101,14 @@ SET @tenderStoreId = '0'
   GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
   ORDER BY DisplayOrder,cast(tender.TenderType as int)
 </entry>
+<entry key="get-employee-list-by-companyId">
+ SELECT empinfo.EmpCode,
+        empinfo.OpeCode,
+ 		empinfo.StoreId,
+ 		empinfo.OpeName
+  FROM RESMaster.dbo.MST_EMPINFO empinfo
+ WHERE empinfo.CompanyId = ?
+   AND empinfo.SecLevel2 = 1
+ORDER BY empinfo.EmpCode;
+</entry>
 </properties>

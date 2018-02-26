@@ -58,7 +58,8 @@
         ncr.res.mobilepos.initialization.resource,
         ncr.res.mobilepos.poslogstatus.resource,
         ncr.res.mobilepos.appserver.resource,
-        ncr.res.mobilepos.posmailinfo.resource
+        ncr.res.mobilepos.posmailinfo.resource,
+        ncr.res.mobilepos.employee.resource
     </param-value>
     </init-param>
     <init-param>

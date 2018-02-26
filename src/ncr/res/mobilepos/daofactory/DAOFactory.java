@@ -35,6 +35,7 @@ import ncr.res.mobilepos.devicelog.dao.IDeviceLogDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.DiscountPlanInfoCommomDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.IPremiumFlagDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
+import ncr.res.mobilepos.employee.dao.IEmployeeDao;
 import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
@@ -474,4 +475,6 @@ public abstract class DAOFactory {
 	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
 	
 	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
+	
+	public abstract IEmployeeDao getEmployeeDao() throws DaoException;
 }

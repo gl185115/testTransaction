@@ -57,6 +57,8 @@ import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.SQLServerDiscountPlanInfoCommonDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.SQLServerPremiumFlagDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.SQLServerPromotionInfoDAO;
+import ncr.res.mobilepos.employee.dao.IEmployeeDao;
+import ncr.res.mobilepos.employee.dao.SQLServerEmployeeDAO;
 import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.eventlog.dao.SQLServerEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
@@ -412,5 +414,10 @@ public class SQLServerDAOFactory extends DAOFactory {
 	@Override
 	public IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException {
 		return new SQLServerPOSMailInfoDAO();
+	}
+	
+	@Override
+	public IEmployeeDao getEmployeeDao() throws DaoException {
+		return new SQLServerEmployeeDAO();
 	}
 }

@@ -28,6 +28,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.SpmFileWriter;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 
@@ -43,7 +44,7 @@ public class InitializationStatusResource {
     /**
      * The program name.
      */
-    private static final String PROG_NAME = "InitializationStatus";
+    private static final String PROG_NAME = "initiali";
 
     /**
      * Default Constructor for JournalizationResource.
@@ -63,6 +64,11 @@ public class InitializationStatusResource {
 
     }
 
+    public void iowlogWrite(Logger LOGGER, String logName) {
+    	if (LOGGER != null) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_INITIALI, logName + " インスタンス無し。");
+		}
+    }
     /**
      * This method checks if resTransaction is properly initialized during tomcat startup.
      * @return OK
@@ -83,26 +89,57 @@ public class InitializationStatusResource {
             tp.methodEnter(functionName);
         }
         ResultBase result = new ResultBase();
+        Logger LOGGER = null;
+        String logName = "";
 
         // Failed to read parameters from web.xml.
-        boolean initFailed = false;
-        initFailed |= EnvironmentEntries.getInstance() == null;
-        initFailed |= Logger.getInstance() == null;
-        initFailed |= SnapLogger.getInstance() == null;
-        initFailed |= DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass()) == null;
-        initFailed |= SpmFileWriter.getInstance() == null;
-        initFailed |= SQLStatement.getInstance() == null;
-        initFailed |= JndiDBManagerMSSqlServer.getInstance() == null;
-        initFailed |= BarcodeAssignmentFactory.getInstance() == null;
-        initFailed |= WindowsEnvironmentVariables.getInstance() == null;
+        if (EnvironmentEntries.getInstance() == null) {
+    		logName = "EnvironmentEntries";
+    	}
+        if(Logger.getInstance() == null) {
+        	logName = "Logger";
+        } else {
+        	LOGGER = (Logger) Logger.getInstance();
+        }
+        if (SnapLogger.getInstance() == null) {
+    		logName = "SnapLogger";
+    		iowlogWrite(LOGGER, logName);
+    	}
+        if (DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass()) == null) {
+    		logName = "DebugLogger";
+    		iowlogWrite(LOGGER, logName);
+    	}
+        if (SpmFileWriter.getInstance() == null) {
+    		logName = "SpmFileWriter";
+    		iowlogWrite(LOGGER, logName);
+    	}
+        if (SQLStatement.getInstance() == null) {
+    		logName = "SQLStatement";
+    		iowlogWrite(LOGGER, logName);
+    	}
+        if (JndiDBManagerMSSqlServer.getInstance() == null) {
+    		logName = "JndiDBManagerMSSqlServer";
+    		iowlogWrite(LOGGER, logName);
+    	}
+        if (BarcodeAssignmentFactory.getInstance() == null) {
+    		logName = "BarcodeAssignmentFactory";
+    		iowlogWrite(LOGGER, logName);
+    	}
+        if (WindowsEnvironmentVariables.getInstance() == null) {
+    		logName = "WindowsEnvironmentVariables";
+    		iowlogWrite(LOGGER, logName);
+    	}
 
         try {
 			if(!WindowsEnvironmentVariables.initInstance().isServerTypeEnterprise()){
-				initFailed |= SystemFileConfig.getInstance() == null;
+				if (SystemFileConfig.getInstance() == null) {
+	        		logName = "SystemFileConfig";
+	        		iowlogWrite(LOGGER, logName);
+	        	}
 			}
 		} catch (NamingException e) {}
 
-        if(initFailed) {
+        if(!StringUtility.isNullOrEmpty(logName)) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_INITIALIZATION);
             result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INITIALIZATION);
             result.setMessage(ResultBase.RES_FAILED_MSG);

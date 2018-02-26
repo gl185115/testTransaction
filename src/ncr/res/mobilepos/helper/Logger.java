@@ -143,6 +143,10 @@ public final class Logger extends IoWriter {
      * The message id of json exception
      */
     public static final String RES_EXCEP_JSON = "109";
+    /**
+     * The message id of initiali exception
+     */
+    public static final String RES_EXCEP_INITIALI = "82";
 
     /**
      * Constructor.
@@ -465,6 +469,21 @@ public final class Logger extends IoWriter {
         try {
             this.write(IoWriter.ALERT, progName, code,
                     functionName + ": " + logMessage);
+        } catch (Exception e) {
+            // ignore logger exception
+        }
+    }
+    
+    /**
+     * Function to log an alert message.
+     * @param progName - the current class body name
+     * @param code error code to include in the log
+     * @param logMessage message to include in the log entry
+     */
+    public void logAlert(final String progName,final String code,
+            final String logMessage) {
+        try {
+            this.write(IoWriter.ALERT, progName, code, logMessage);
         } catch (Exception e) {
             // ignore logger exception
         }

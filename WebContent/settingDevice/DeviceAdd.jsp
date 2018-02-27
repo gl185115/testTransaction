@@ -455,14 +455,14 @@ window.onload = function() {
             </td>
           </tr>
           <tr>
-            <td align="right">領収証印紙ファイルパス ： </td>
+            <td align="right" width="175px">領収証印紙ファイルパス ： </td>
             <td align="left">
                 <input maxlength="100" type="text" name="ter_ReceiptCardInshiFilePath" id="ter_ReceiptCardInshiFilePath"
                        size=40 required pattern=".{1,100}">(100文字以内で入力してください)
             </td>
           </tr>
           <tr>
-            <td align="right">販促ビットマップパス ： </td>
+            <td align="right" valign="top">販促ビットマップパス ： </td>
             <td align="left">
                 <input maxlength="100" type="text" name="salesPromotionBMPPath" id="salesPromotionBMPPath"
                        size=40 required pattern=".{1,98}\\\\">(100文字以内で最後に\\をつけて入力してください)

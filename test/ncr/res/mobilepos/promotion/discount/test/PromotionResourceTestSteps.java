@@ -197,10 +197,10 @@ public class PromotionResourceTestSteps extends Steps {
 				transactionJson);
 	}
 
-	@When("a Item Entry at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId Businessdate $businessDate")
+	@When("a Item Entry at promotion with parameters RetailStoreID $retailStoreID WorkStationId $workStationID SequenceNo $seqNo TransactionJson $transactionJson CompanyId $companyId PriceCheck $priceCheck Businessdate $businessDate")
 	public final void aItemEntryAtPromotionWithParameters(String retailStoreId,
 			String workStationId, String sequenceNo, String transactionJson,
-			String companyId, String businessDate) throws Exception {
+			String companyId, String priceCheck, String businessDate) throws Exception {
 
 		if (retailStoreId.equals("NULL")) {
 			retailStoreId = null;
@@ -220,7 +220,7 @@ public class PromotionResourceTestSteps extends Steps {
 		}
 		
 		actualResultBase = testpromotionResource.itemEntry(retailStoreId,
-				workStationId, sequenceNo, transactionJson, companyId,
+				workStationId, sequenceNo, transactionJson, companyId, priceCheck,
 				businessDate);
 	}
 

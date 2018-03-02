@@ -96,6 +96,15 @@ public class DptConst {
 	 */
 	public static final String COL_INPUTSUBCODE1_FLAG = "InputSubCode1";
 	/**
+	 * Column for groupName
+	 */
+	public static final String COL_GROUPNAME = "groupName";
+	
+	/**
+	 * Column name for groupId
+	 */
+	public static final String COL_GROUPID = "groupId";
+	/**
 	 * Temporary Values
 	 */
 	public static final String JIGYOBU_DEFAULT = "01";

@@ -1,7 +1,7 @@
 Scenario: Add Item Test (AutoDiscount, NonDiscountable, NonDiscountable)
 Given the Web API Starts Up with test/ncr/res/mobilepos/additem/test/prm_system_config_12taxrate_roundup.xml System Configuration
 Given an items test/ncr/res/mobilepos/additem/test/data_items.xml in database
-Given a companyid 01 storeid 0247 workstationid 0004 businessdate 2016-07-21 seqno 1553
+Given a companyid 01 storeid 0247 workstationid 0004 businessdate 2016-07-21 seqno 1553 PriceCheck 1
 
 Scenario: Add Auto Discount Amount (500.0) Item
 When I add an item 4957669206754

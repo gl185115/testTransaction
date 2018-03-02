@@ -121,6 +121,12 @@ public class Department {
     
     @XmlElement(name = "InputType")
     private String inputType;
+    
+    @XmlElement(name = "GroupName")
+    private String groupName;
+    
+    @XmlElement(name = "GroupID")
+    private String groupID;
     /**
      *Gets the retail store number.
      *
@@ -336,6 +342,20 @@ public class Department {
     }
     public void setInputType(String inputType) {
         this.inputType = inputType;
+    }
+    @ApiModelProperty(value="グループコード", notes="グループコード")
+    public String getGroupID() {
+        return groupID;
+    }
+    public void setGroupID(String groupID) {
+        this.groupID = groupID;
+    }
+    @ApiModelProperty(value="グループ名称", notes="グループ名称")
+    public String getGroupName() {
+        return groupName;
+    }
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
     
     @Override

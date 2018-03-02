@@ -117,6 +117,8 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				dpt.setSubNum2(result.getString(DptConst.COL_SUBNUM2_FLAG));
 				dpt.setSubNum3(result.getString(DptConst.COL_SUBNUM3_FLAG));
 				dpt.setSubNum4(result.getString(DptConst.COL_SUBNUM4_FLAG));
+				dpt.setGroupID(result.getString(DptConst.COL_GROUPID));
+				dpt.setGroupName(result.getString(DptConst.COL_GROUPNAME));
 				dptModel.setDepartment(dpt);
 				dptModel.setRetailStoreID(searchRetailStoreID);
 				setPricePromInfo(dptModel);

@@ -344,11 +344,12 @@ public class PromotionResource {
 			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "priceCheck", value = "価格照会フラグ") @FormParam("priceCheck") final String priceCheck,
 			@ApiParam(name = "businessDate", value = "営業日") @FormParam("businessDate") final String businessDate) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
-				.println("businessDate", businessDate).println("companyId", companyId);
+				.println("businessDate", businessDate).println("companyId", companyId).println("priceCheck", priceCheck);
 		Transaction transactionOut = new Transaction();
 		Sale saleOut = new Sale();
 		PromotionResponse response = new PromotionResponse();
@@ -462,7 +463,7 @@ public class PromotionResource {
 					if (item != null) {
 						item.setItemId(itemIdTemp);
 						Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-						if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
+						if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 							terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 						}
 						saleItem.setHostFlag(1);
@@ -540,6 +541,8 @@ public class PromotionResource {
 						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
+						saleOut.setGroupID(departmentInfo.getDepartment().getGroupID());
+						saleOut.setGroupName(departmentInfo.getDepartment().getGroupName());
 
 						Double barCodePrice = null;
 						barCodePrice = barCodePriceCalculation(varietiesName, itemId);
@@ -611,7 +614,7 @@ public class PromotionResource {
 							saleOut.setAveragePrice3(item.getAveragePrice3());
 							saleOut.setNote(item.getNote());
 							saleOut.setSku(item.getSku());
-							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
+							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 								item.setItemId(itemIdTemp);
 								terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 							}
@@ -729,7 +732,7 @@ public class PromotionResource {
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
 //				promotion.setQrCodeInfoList(terminalItem.getQrCodeInfoList(item));
-				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode())) {
+				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 					terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 					if (setBmDetailMapItem(transactionIn,saleItem)) {
 						terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
@@ -1511,6 +1514,8 @@ public class PromotionResource {
 		dpt.setSubNum2(StringUtility.convNullStringToNull(json.getString("subNum2")));
 		dpt.setSubNum3(StringUtility.convNullStringToNull(json.getString("subNum3")));
 		dpt.setSubNum4(StringUtility.convNullStringToNull(json.getString("subNum4")));
+		dpt.setGroupID(StringUtility.convNullStringToNull(json.getString("groupID")));
+		dpt.setGroupName(StringUtility.convNullStringToNull(json.getString("groupName")));
 		departmentInfo.setDepartment(dpt);
 		departmentInfo.setRetailStoreID(StringUtility.convNullStringToNull(json.getString("retailStoreID")));
 		return departmentInfo;

@@ -43,6 +43,7 @@ public class AddItemSteps extends Steps {
 	private String seqNo = null;
 	private PromotionResponse itemEntryResponse = null;
 	private ViewDepartment departmentInfoResponse = null;
+	private String priceCheck = null;
 
 	@BeforeScenario
 	public final void SetUpClass() {
@@ -64,14 +65,15 @@ public class AddItemSteps extends Steps {
 		}
 	}
 
-	@Given("a companyid $companyid storeid $storeid workstationid $terminalid businessdate $businessdate seqno $seqno")
+	@Given("a companyid $companyid storeid $storeid workstationid $terminalid businessdate $businessdate seqno $seqno PriceCheck $priceCheck")
 	public final void givenParameters(String companyId, String storeId,
-			String terminalId, String businessDate, String seqNo) throws Exception {
+			String terminalId, String businessDate, String seqNo, String priceCheck) throws Exception {
 		this.companyId = companyId;
 		this.storeId = storeId;
 		this.terminalId = terminalId;
 		this.businessDate = businessDate;
 		this.seqNo = seqNo;
+		this.priceCheck = priceCheck;
 		PricePromInfoFactory.initialize(companyId, storeId);
 		PriceMMInfoFactory.initialize(companyId, storeId);
 	}
@@ -145,7 +147,7 @@ public class AddItemSteps extends Steps {
 				+ itemCode
 				+ "\",\"ItemIDType\":\"EAN13\",\"Department\":\"\",\"Quantity\":1}}";
 		itemEntryResponse = testpromotionResource.itemEntry(this.storeId,
-				this.terminalId, this.seqNo, itemEntryJson, this.companyId,
+				this.terminalId, this.seqNo, itemEntryJson, this.companyId, this.priceCheck,
 				this.businessDate);
 		departmentInfoResponse = testDepartmentResource.selectDepartmentDetail(
 				this.companyId, this.storeId, itemEntryResponse

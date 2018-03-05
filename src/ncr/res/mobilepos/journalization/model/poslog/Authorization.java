@@ -67,30 +67,30 @@ public class Authorization {
      * barApplicationIdentifier
      * Application Identifier (AID) ※ ICクレジットの場合のみ
      */
-    @XmlElement(name = "xebApplicationIdentifier")
-    private String xebApplicationIdentifier;
+    @XmlElement(name = "applicationIdentifier")
+    private String sportStoreApplicationIdentifier;
     /**
-     * xebApplicationIdentifier
+     * ApplicationIdentifier
      * Application Identifier (AID) ※ ICクレジットの場合のみ
      */
-    @XmlElement(name = "xebApplicationTransactionCounter")
-    private String xebApplicationTransactionCounter;
+    @XmlElement(name = "applicationTransactionCounter")
+    private String sportStoreApplicationTransactionCounter;
     /**
-     * xebApplicationTransactionCounter
+     * ApplicationTransactionCounter
      * Application Identifier (AID) ※ ICクレジットの場合のみ
      */
-    @XmlElement(name = "xebNPCSeqNo")
-    private String xebNPCSeqNo;
+    @XmlElement(name = "nPCSeqNo")
+    private String sportStoreNPCSeqNo;
     /**
      * NPC処理通番（伝票番号）
      */
-    @XmlElement(name = "xebCardseqno")
-    private String xebCardseqno;
+    @XmlElement(name = "cardseqno")
+    private String sportStoreCardseqno;
     /**
      * カードシーケンス番号
      */
-    @XmlElement(name = "xebApplicationname")
-    private String xebApplicationname;
+    @XmlElement(name = "applicationname")
+    private String sportStoreApplicationName;
     /**
      * アプリケーション名
      */
@@ -302,73 +302,73 @@ public class Authorization {
     }
 
     /**
-	 * @return the xebApplicationIdentifier
+	 * @return the ApplicationIdentifier
 	 */
-	public String getXebApplicationIdentifier() {
-		return xebApplicationIdentifier;
+	public String getSportStoreApplicationIdentifier() {
+		return sportStoreApplicationIdentifier;
 	}
 
 	/**
-	 * @param xebApplicationIdentifier the xebApplicationIdentifier to set
+	 * @param applicationIdentifier the ApplicationIdentifier to set
 	 */
-	public void setXebApplicationIdentifier(String xebApplicationIdentifier) {
-		this.xebApplicationIdentifier = xebApplicationIdentifier;
+	public void setSportStoreApplicationIdentifier(String applicationIdentifier) {
+		this.sportStoreApplicationIdentifier = applicationIdentifier;
 	}
 
 	/**
-	 * @return the xebApplicationTransactionCounter
+	 * @return the ApplicationTransactionCounter
 	 */
-	public String getXebApplicationTransactionCounter() {
-		return xebApplicationTransactionCounter;
+	public String getSportStoreApplicationTransactionCounter() {
+		return sportStoreApplicationTransactionCounter;
 	}
 
 	/**
-	 * @param xebApplicationTransactionCounter the xebApplicationTransactionCounter to set
+	 * @param ApplicationTransactionCounter the ApplicationTransactionCounter to set
 	 */
-	public void setXebApplicationTransactionCounter(String xebApplicationTransactionCounter) {
-		this.xebApplicationTransactionCounter = xebApplicationTransactionCounter;
+	public void setSportStoreApplicationTransactionCounter(String applicationTransactionCounter) {
+		this.sportStoreApplicationTransactionCounter = applicationTransactionCounter;
 	}
 
 	/**
-	 * @return the xebNPCSeqNo
+	 * @return the NPCSeqNo
 	 */
-	public String getXebNPCSeqNo() {
-		return xebNPCSeqNo;
+	public String getSportStoreNPCSeqNo() {
+		return sportStoreNPCSeqNo;
 	}
 
 	/**
-	 * @param xebNPCSeqNo the xebNPCSeqNo to set
+	 * @param NPCSeqNo the NPCSeqNo to set
 	 */
-	public void setXebNPCSeqNo(String xebNPCSeqNo) {
-		this.xebNPCSeqNo = xebNPCSeqNo;
+	public void setSportStoreNPCSeqNo(String nPCSeqNo) {
+		this.sportStoreNPCSeqNo = nPCSeqNo;
 	}
 
 	/**
-	 * @return the xebCardseqno
+	 * @return the Cardseqno
 	 */
-	public String getXebCardseqno() {
-		return xebCardseqno;
+	public String getSportStoreCardseqno() {
+		return sportStoreCardseqno;
 	}
 
 	/**
-	 * @param xebCardseqno the xebCardseqno to set
+	 * @param Cardseqno the Cardseqno to set
 	 */
-	public void setXebCardseqno(String xebCardseqno) {
-		this.xebCardseqno = xebCardseqno;
+	public void setSportStoreCardseqno(String cardseqno) {
+		this.sportStoreCardseqno = cardseqno;
 	}
 
 	/**
-	 * @return the xebApplicationname
+	 * @return the Applicationname
 	 */
-	public String getXebApplicationname() {
-		return xebApplicationname;
+	public String getSportStoreApplicationName() {
+		return sportStoreApplicationName;
 	}
 
 	/**
-	 * @param xebApplicationname the xebApplicationname to set
+	 * @param Applicationname the Applicationname to set
 	 */
-	public void setXebApplicationname(String xebApplicationname) {
-		this.xebApplicationname = xebApplicationname;
+	public void setSportStoreApplicationName(String applicationname) {
+		this.sportStoreApplicationName = applicationname;
 	}
 
 	/**

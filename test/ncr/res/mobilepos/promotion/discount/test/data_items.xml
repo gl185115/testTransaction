@@ -2208,7 +2208,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>ＦＩＧＡＲＯ Ｈ３ Ｗ３</value>
+			<value>MJROYAL BK465</value>
 			<value></value>
 			<value></value>
 			<value>FIGARO H3 W3</value>
@@ -2362,7 +2362,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>ＦＩＧＡＲＯ Ｈ３ Ｗ３</value>
+			<value>MJROYAL BK465</value>
 			<value></value>
 			<value></value>
 			<value>FIGARO H3 W3</value>
@@ -2516,7 +2516,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>ＦＩＧＡＲＯ Ｈ３ Ｗ３</value>
+			<value>MJROYAL BK465</value>
 			<value></value>
 			<value></value>
 			<value>FIGARO H3 W3</value>
@@ -3134,7 +3134,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>Ｍテニスパンツ</value>
+			<value>ＧＲＦバスケットボールオンリー</value>
 			<value></value>
 			<value></value>
 			<value>Mﾃﾆｽﾊﾟﾝﾂ</value>
@@ -3699,7 +3699,7 @@
 			<value>usp_IF_MaintPlu</value>
 			<value>system</value>
 		</row>
-		<!-- 紀伊国屋書店独自商品 -->
+		<!-- 書店独自商品 -->
 		<row>
 			<value>01</value>
 			<value>0</value>
@@ -3751,7 +3751,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>Ｍテニスパンツ</value>
+			<value>ＳＬＩＰＰＥＲ　ＣＨＵＫＫＡＣ</value>
 			<value></value>
 			<value></value>
 			<value>Mﾃﾆｽﾊﾟﾝﾂ</value>
@@ -4368,7 +4368,7 @@
 			<value></value>
 			<value></value>
 			<value></value>
-			<value>Ｍテニスパンツ</value>
+			<value>７Ｔ４０Ｇ　ＨＡＲＲＩＥＲ　１</value>
 			<value></value>
 			<value></value>
 			<value>Mﾃﾆｽﾊﾟﾝﾂ</value>
@@ -5449,7 +5449,7 @@
 			<value>oldbookTest1</value><!-- 48 [MdName]-->
 			<value></value><!-- [MdName1] -->
 			<value></value><!-- [MdName2] -->
-			<value>oldbookTestlocal1</value><!-- 51[MdNameLocal] -->
+			<value>テストー楽</value><!-- 51[MdNameLocal] -->
 			<value></value><!-- [MdNameLocal1] -->
 			<value></value><!-- [MdNameLocal2] -->
 			<value>FIGARO H3 W3</value><!-- [MdKanaName] -->
@@ -5914,7 +5914,7 @@
 			<value>oldbookTest1</value><!-- 48 [MdName]-->
 			<value></value><!-- [MdName1] -->
 			<value></value><!-- [MdName2] -->
-			<value>oldbookTestlocal1</value><!-- 51[MdNameLocal] -->
+			<value>テストー楽</value><!-- 51[MdNameLocal] -->
 			<value></value><!-- [MdNameLocal1] -->
 			<value></value><!-- [MdNameLocal2] -->
 			<value>FIGARO H3 W3</value><!-- [MdKanaName] -->
@@ -6686,10 +6686,10 @@
 			<null /><!-- [Md30] -->
 			<null /><!-- [Md31] -->
 			<null /><!-- [Md32] -->
-			<value>oldbookTest1</value><!-- 48 [MdName]-->
+			<value>テストー楽</value><!-- 48 [MdName]-->
 			<value></value><!-- [MdName1] -->
 			<value></value><!-- [MdName2] -->
-			<value>oldbookTestlocal1</value><!-- 51[MdNameLocal] -->
+			<value>テストー楽</value><!-- 51[MdNameLocal] -->
 			<value></value><!-- [MdNameLocal1] -->
 			<value></value><!-- [MdNameLocal2] -->
 			<value>FIGARO H3 W3</value><!-- [MdKanaName] -->
@@ -7618,7 +7618,7 @@
 			<value>oldbookTest1</value><!-- 48 [MdName]-->
 			<value></value><!-- [MdName1] -->
 			<value></value><!-- [MdName2] -->
-			<value>oldbookTestlocal1</value><!-- 51[MdNameLocal] -->
+			<value>テストー楽</value><!-- 51[MdNameLocal] -->
 			<value></value><!-- [MdNameLocal1] -->
 			<value></value><!-- [MdNameLocal2] -->
 			<value>FIGARO H3 W3</value><!-- [MdKanaName] -->
@@ -7770,10 +7770,10 @@
 			<null /><!-- [Md30] -->
 			<null /><!-- [Md31] -->
 			<null /><!-- [Md32] -->
-			<value>oldbookTest1</value><!-- 48 [MdName]-->
+			<value>テストー楽</value><!-- 48 [MdName]-->
 			<value></value><!-- [MdName1] -->
 			<value></value><!-- [MdName2] -->
-			<value>oldbookTestlocal1</value><!-- 51[MdNameLocal] -->
+			<value>テストー楽</value><!-- 51[MdNameLocal] -->
 			<value></value><!-- [MdNameLocal1] -->
 			<value></value><!-- [MdNameLocal2] -->
 			<value>FIGARO H3 W3</value><!-- [MdKanaName] -->
@@ -8380,7 +8380,7 @@
 		<row>
 			<value>01</value>
 			<value>0002</value>
-			<value>ゼビオ特売各店企画</value>
+			<value>特売各店企画</value>
 			<value>2015-01-01</value>
 			<value>2099-12-31</value>
 			<value>1</value>
@@ -9138,7 +9138,7 @@
 			<value>01</value>
 			<value>0</value>
 			<value>3970</value>
-			<null />
+			<value>Ｌ Balloughwood</value>
 			<value>Ｌバラウッド</value>
 			<value>Lﾊﾞﾗｳｯﾄﾞ</value>
 			<value>5</value>

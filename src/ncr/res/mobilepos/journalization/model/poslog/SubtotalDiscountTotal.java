@@ -19,8 +19,8 @@ public class SubtotalDiscountTotal {
 	@XmlElement(name = "CouponDiscount")
 	private CouponDiscount couponDiscount;
 	
-	@XmlElement(name = "PointTicketXebio")
-	private PointTicketXebio pointTicketXebio;
+	@XmlElement(name = "PointTicket")
+	private PointTicket pointTicket;
 	
 	@XmlElement(name = "PointMortgage")
 	private PointMortgage pointMortgage;
@@ -34,8 +34,8 @@ public class SubtotalDiscountTotal {
 	@XmlElement(name = "Discount_71")
 	private Discount_71 discount_71;
 	
-	@XmlElement(name = "CompanyEmployeeSpecialDiscountVictoria")
-	private CompanyEmployeeSpecialDiscountVictoria companyEmployeeSpecialDiscountVictoria;
+	@XmlElement(name = "CompanyEmployeeSpecialDiscount")
+	private CompanyEmployeeSpecialDiscount companyEmployeeSpecialDiscount;
 	
 	@XmlElement(name = "SpecialDiscountComplimentaryTickets")
 	private SpecialDiscountComplimentaryTickets specialDicountComplimentaryTickets;
@@ -61,11 +61,11 @@ public class SubtotalDiscountTotal {
 	@XmlElement(name = "LimitedSalesPromotion")
 	private LimitedSalesPromotion limitedSalesPromotion;
 	
-	@XmlElement(name = "StockholderPreferentialDiscountVictoria")
-	private StockholderPreferentialDiscountVictoria stockholderPreferentialDiscountVictoria;
+	@XmlElement(name = "StockholderPreferentialDiscount")
+	private StockholderPreferentialDiscount stockholderPreferentialDiscount;
 	
-	@XmlElement(name = "XebioDiscount")
-	private XebioDiscount xebioDiscount;
+	@XmlElement(name = "Discount_SS")
+	private SportStoreDiscount discount_ss;
 	
 	@XmlElement(name = "Discount_83")
 	private Discount_83 discount_83;
@@ -164,18 +164,18 @@ public class SubtotalDiscountTotal {
 		this.discount_83 = val;
 	}
 	
-	public final XebioDiscount getXebioDiscount() {
-		return this.xebioDiscount;
+	public final SportStoreDiscount getDiscount_SS() {
+		return this.discount_ss;
 	}
-	public final void setXebioDiscount(XebioDiscount val) {
-		this.xebioDiscount = val;
+	public final void setDiscount_SS(SportStoreDiscount val) {
+		this.discount_ss = val;
 	}
 	
-	public final StockholderPreferentialDiscountVictoria getStockholderPreferentialDiscountVictoria() {
-		return this.stockholderPreferentialDiscountVictoria;
+	public final StockholderPreferentialDiscount getStockholderPreferentialDiscount() {
+		return this.stockholderPreferentialDiscount;
 	}
-	public final void setStockholderPreferentialDiscountVictoria(StockholderPreferentialDiscountVictoria val) {
-		this.stockholderPreferentialDiscountVictoria = val;
+	public final void setStockholderPreferentialDiscount(StockholderPreferentialDiscount val) {
+		this.stockholderPreferentialDiscount = val;
 	}
 	
 	public final LimitedSalesPromotion getLimitedSalesPromotion() {
@@ -235,11 +235,11 @@ public class SubtotalDiscountTotal {
 		this.specialDicountComplimentaryTickets = val;
 	}
 	
-	public final CompanyEmployeeSpecialDiscountVictoria getCompanyEmployeeSpecialDiscountVictoria() {
-		return this.companyEmployeeSpecialDiscountVictoria;
+	public final CompanyEmployeeSpecialDiscount getCompanyEmployeeSpecialDiscount() {
+		return this.companyEmployeeSpecialDiscount;
 	}
-	public final void setCompanyEmployeeSpcialDiscountVictoria(CompanyEmployeeSpecialDiscountVictoria val) {
-		this.companyEmployeeSpecialDiscountVictoria = val;
+	public final void setCompanyEmployeeSpcialDiscount(CompanyEmployeeSpecialDiscount val) {
+		this.companyEmployeeSpecialDiscount = val;
 	}
 	
 	public final Discount_71 getDiscount_71() {
@@ -270,11 +270,11 @@ public class SubtotalDiscountTotal {
 		this.pointMortgage = val;
 	}
 	
-	public final PointTicketXebio getPointTicketXebio() {
-		return this.pointTicketXebio;
+	public final PointTicket getPointTicket() {
+		return this.pointTicket;
 	}
-	public final void setPointTicketXebio(PointTicketXebio val) {
-		this.pointTicketXebio = val;
+	public final void setPointTicket(PointTicket val) {
+		this.pointTicket = val;
 	}
 	
 	public final CouponDiscount getCouponDiscount() {

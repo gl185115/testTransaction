@@ -20,15 +20,15 @@ public class CreditPayment {
 	@XmlElement(name = "Sales")
 	private Sales sales;
 	
-	@XmlElement(name = "XebioCard")
-	private XebioCard xebioCard;
+	@XmlElement(name = "Card")
+	private Card card;
 	
-	public final XebioCard getXebioCard() {
-		return this.xebioCard;
+	public final Card getCard() {
+		return this.card;
 	}
 	
-	public final void setXebioCard(XebioCard xc) {
-		this.xebioCard = xc;
+	public final void setCard(Card card) {
+		this.card = card;
 	}
 	
 	public final Sales getSales() {

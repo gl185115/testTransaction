@@ -47,8 +47,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 180
 Then the Extended Result Code is 180
 
-!-- ITEM ENTRIES WITH KINOKUNIYA
-Scenario: Item Entry with KINOKUNIYA(itemName from MST_PLU_NAME, taxType and price from MST_PLU)
+!-- ITEM ENTRIES WITH BOOKCENTER
+Scenario: Item Entry with BOOKCENTER(itemName from MST_PLU_NAME, taxType and price from MST_PLU)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0201234567890","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -56,7 +56,7 @@ Then result should be :
 |MdNameLocal  	    |TaxType |RegularSalesPrice|ActualSalesPrice|description       |PublishingCode|dptSubCode1|
 |ÇrÇkÇhÇoÇoÇdÇqÅ@ÇbÇgÇtÇjÇjÇ`Çb  |1       |880.0    	       |880.0    	    |ÇrÇkÇhÇoÇoÇdÇqÅ@ÇbÇgÇtÇjÇjÇ`Çb|123456789|21111|
 
-Scenario: Item Entry with KINOKUNIYA(itemName and price from MST_PLU, taxType from MST_DPTINFO)
+Scenario: Item Entry with BOOKCENTER(itemName and price from MST_PLU, taxType from MST_DPTINFO)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0278154696210","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -64,7 +64,7 @@ Then result should be :
 |MdNameLocal        |TaxType |RegularSalesPrice|ActualSalesPrice|description        |PublishingCode|dptSubCode1|
 |ÇcÇ`ÇvÇmÅ@ÇoÇ`ÇsÇqÇnÇkÅ@ÇrÇkÇh  |0       |9999.0           |9999.0          |ÇcÇ`ÇvÇmÅ@ÇoÇ`ÇsÇqÇnÇkÅ@ÇrÇkÇh  |123456789|21111|
 
-Scenario: Item Entry with KINOKUNIYA(price from MST_PLU, taxType and itemName from MST_DPTINFO)
+Scenario: Item Entry with BOOKCENTER(price from MST_PLU, taxType and itemName from MST_DPTINFO)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0219234980254","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -72,13 +72,13 @@ Then result should be :
 |MdNameLocal |TaxType |RegularSalesPrice|ActualSalesPrice|description|PublishingCode|dptSubCode1|
 |ÇkÉoÉâÉEÉbÉh           |0       |456.0            |456.0           |ÇkÉoÉâÉEÉbÉh         |123456789|21111|
 
-Scenario: Item Entry with KINOKUNIYA(Not exist in MST_PLU, to error status)
+Scenario: Item Entry with BOOKCENTER(Not exist in MST_PLU, to error status)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","OperatorType":2,"Sale":{"ItemEntryID":1,"ItemID":"0281014565478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 801
 Then the Extended Result Code is 801
 
-Scenario: Item Entry with KINOKUNIYA(DptCode not exist)
+Scenario: Item Entry with BOOKCENTER(DptCode not exist)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0200014587412","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 180
@@ -353,28 +353,28 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0401234560161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : ÉeÉXÉgÅ[äy
+Then the MdNameLocal should be : ÉeÉXÉgÅ[äy
 
 Scenario: get name from MST_PLU
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0401234570161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : oldbookTestlocal1
+Then the MdNameLocal should be : oldbookTestlocal1
 
 Scenario: get name from MST_DPTINFO
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0401234580161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : ÇkÉoÉâÉEÉbÉh
+Then the MdNameLocal should be : ÇkÉoÉâÉEÉbÉh
 
 Scenario: can't get name from everywhere
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0401234590161","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : null
+Then the MdNameLocal should be : null
 
 Scenario: the salesPrice1 in PLU is 0
 Given ItemCode.xml file exist
@@ -446,28 +446,28 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30123456780026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : ÉeÉXÉgÅ[äy
+Then the MdNameLocal should be : ÉeÉXÉgÅ[äy
 
 Scenario: get name from MST_PLU
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30123456880026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : oldbookTestlocal1
+Then the MdNameLocal should be : oldbookTestlocal1
 
 Scenario: get name from MST_DPTINFO
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : ÇkÉoÉâÉEÉbÉh
+Then the MdNameLocal should be : ÇkÉoÉâÉEÉbÉh
 
 Scenario: can't get name from everywhere
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30123457080026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : null
+Then the MdNameLocal should be : null
 
 Scenario: Item Entry with normal code
 Given ItemCode.xml file exist
@@ -512,28 +512,28 @@ Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456780026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : ÉeÉXÉgÅ[äy
+Then the MdNameLocal should be : ÉeÉXÉgÅ[äy
 
 Scenario: get name from MST_PLU
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456880026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : oldbookTestlocal1
+Then the MdNameLocal should be : oldbookTestlocal1
 
 Scenario: get name from MST_DPTINFO
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : ÇkÉoÉâÉEÉbÉh
+Then the MdNameLocal should be : ÇkÉoÉâÉEÉbÉh
 
 Scenario: can't get name from everywhere
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123457080026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
-Then the Mdname should be : null
+Then the MdNameLocal should be : null
 
 Scenario: Item Entry with normal code
 Given ItemCode.xml file exist
@@ -543,3 +543,17 @@ Then the Extended Result Code is 0
 Then result should be :
 |MdNameLocal|TaxType|RegularSalesPrice|ActualSalesPrice|description|PublishingCode|CategoryCode|dptSubCode1|
 |ÉeÉXÉgÅ[äy          |0      |8888.0           |8888.0          |ÉeÉXÉgÅ[äy          |123456789|0026|21111|
+
+Scenario: Get DptName from MST_DPTINFO when MdName is null
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 0
+Then the Mdname should be : Çk Balloughwood
+
+Scenario: Get DptNameLocal from MST_DPTINFO when MdNameLocal is null
+Given ItemCode.xml file exist
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+Then the Result Code is 0
+Then the Extended Result Code is 0
+Then the MdNameLocal should be : ÇkÉoÉâÉEÉbÉh

@@ -59,7 +59,7 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount	|
-|1          |5957669206754|EAN-13    |1       |0397       |null         |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR	|7398.0    				|1				|30.0     		|0         	|7398.0              |7398.0			|
+|1          |5957669206754|EAN-13    |1       |0397       |            |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR	|7398.0    				|1				|30.0     		|0         	|7398.0              |7398.0			|
 
 Scenario: Item Entry with Auto Discount amount (multiple quantity)
 When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01
@@ -67,7 +67,7 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount|
-|1          |5957669206754|EAN-13    |3       |0397       |null         |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR	|7398.0    				|1				|30.0     		|0         	|7398.0              |22194.0		|
+|1          |5957669206754|EAN-13    |3       |0397       |            |ÇeÇhÇfÇ`ÇqÇn ÇgÇR ÇvÇR	|7398.0    				|1				|30.0     		|0         	|7398.0              |22194.0		|
 
 Scenario: Item Entry with auto discount amount (single quantity, but not discountable)
 When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01
@@ -75,7 +75,7 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice |ExtendedAmount	|
-|1          |6765545775555|EAN-13    |1       |0397      |null	       |ÉAÉCÉçÉ{ÉbÉg			|54000.0    			|0				|0.0     		|500         	|54000.0              |54000.0			|
+|1          |6765545775555|EAN-13    |1       |0397      |iRobot       |ÉAÉCÉçÉ{ÉbÉg			|54000.0    			|0				|0.0     		|500         	|54000.0              |54000.0			|
 
 Scenario: Item Entry with auto discount amount (multiple quantity, but not discountable)
 When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01
@@ -83,7 +83,7 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice |ExtendedAmount	|
-|1          |6765545775555|EAN-13    |2       |0397      |null	       |ÉAÉCÉçÉ{ÉbÉg			|54000.0    			|0				|0.0     		|500         	|54000.0              |108000.0			|
+|1          |6765545775555|EAN-13    |2       |0397      |iRobot       |ÉAÉCÉçÉ{ÉbÉg			|54000.0    			|0				|0.0     		|500         	|54000.0              |108000.0			|
 
 !-- ITEM ENTRIES WITH AUTO DISCOUNT RATE 
 Scenario: Item Entry with Auto Discount Rate
@@ -92,7 +92,7 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount	|
-|1          |7957669622196|EAN-13    |1       |0397       |null         |ÇlÇiÇqÇnÇxÇ`Çk ÇaÇjÇSÇUÇT|120000.0  				|1				|30.0     		|0	         	|120000.0            |120000.0			|
+|1          |7957669622196|EAN-13    |1       |0397       |            |ÇlÇiÇqÇnÇxÇ`Çk ÇaÇjÇSÇUÇT|120000.0  				|1				|30.0     		|0	         	|120000.0            |120000.0			|
 
 Scenario: Item Entry with Auto Discount Rate (multiple quantity)
 When a Begin Transaction at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2016-12-02T04:19:14.0Z"} CompanyId 01
@@ -100,4 +100,4 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then Sale data should be :
 |ItemEntryID|ItemID       |ItemIDType|Quantity|Department|DescriptionEN|DescriptionJP	|RegularSalesUnitPrice	|DiscountType	|DiacountRate	|DiscountAmt	|ActualSalesUnitPrice|ExtendedAmount	|
-|1          |7957669622196|EAN-13    |2       |0397       |null         |ÇlÇiÇqÇnÇxÇ`Çk ÇaÇjÇSÇUÇT|120000.0  				|1				|30.0     		|0	         	|120000.0            |240000.0			|
+|1          |7957669622196|EAN-13    |2       |0397       |            |ÇlÇiÇqÇnÇxÇ`Çk ÇaÇjÇSÇUÇT|120000.0  				|1				|30.0     		|0	         	|120000.0            |240000.0			|

@@ -195,7 +195,10 @@ public class Item {
     
     @XmlElement(name = "MdNameLocal")
     private String mdNameLocal = "";
-    
+
+    @XmlElement(name = "MdName")
+    private String mdName = "";
+
     @XmlElement(name = "MdKanaName")
     private String mdKanaName = "";
     
@@ -313,6 +316,9 @@ public class Item {
     
     @XmlElement(name = "DptNameLocal")
     private String dptNameLocal;
+
+    @XmlElement(name = "DptName")
+    private String dptName;
     
     @XmlElement(name = "ClassNameLocal")
     private String classNameLocal;
@@ -507,10 +513,19 @@ public class Item {
     @ApiModelProperty(value="日本語大分類名称", notes="日本語大分類名称")
     public String getDptNameLocal() {
         return dptNameLocal;
-    }
+    }    
 
     public void setDptNameLocal(String dptNameLocal) {
         this.dptNameLocal = dptNameLocal;
+    }
+
+	@ApiModelProperty(value="本語大分類名称", notes="本語大分類名称")
+	public String getDptName() {
+        return dptName;
+    }
+
+    public void setDptName(String dptName) {
+        this.dptName = dptName;
     }
 
     @ApiModelProperty(value="日本語クラス名称", notes="日本語クラス名称")
@@ -558,7 +573,7 @@ public class Item {
         this.dptSubNum1 = dptSubNum1;
     }
     
-    @ApiModelProperty(value="KPC付与対象フラグ", notes="KPC付与対象フラグ")
+    @ApiModelProperty(value="Point付与対象フラグ", notes="Point付与対象フラグ")
     public String getDptSubNum2() {
         return dptSubNum2;
     }
@@ -567,7 +582,7 @@ public class Item {
         this.dptSubNum2 = dptSubNum2;
     }
     
-    @ApiModelProperty(value="KPC利用対象フラグ", notes="KPC利用対象フラグ")
+    @ApiModelProperty(value="Point利用対象フラグ", notes="Point利用対象フラグ")
     public String getDptSubNum3() {
         return dptSubNum3;
     }
@@ -576,7 +591,7 @@ public class Item {
         this.dptSubNum3 = dptSubNum3;
     }
     
-    @ApiModelProperty(value="KPC累計購入金額連携対象フラグ", notes="KPC累計購入金額連携対象フラグ")
+    @ApiModelProperty(value="Point累計購入金額連携対象フラグ", notes="Point累計購入金額連携対象フラグ")
     public String getDptSubNum4() {
         return dptSubNum4;
     }
@@ -1072,6 +1087,15 @@ public class Item {
         this.mdNameLocal = mdNameLocal;
     }
 
+    @ApiModelProperty(value="本語商品名", notes="本語商品名")
+    public String getMdName() {
+        return mdName;
+    }
+
+    public void setMdName(String mdName) {
+        this.mdName = mdName;
+    }
+
     @ApiModelProperty(value="半角カナ商品名", notes="半角カナ商品名")
     public String getMdKanaName() {
         return mdKanaName;
@@ -1281,6 +1305,7 @@ public class Item {
         this.md15 = item.getMd15();
         this.md16 = item.getMd16();
         this.mdNameLocal = item.getMdNameLocal();
+		this.mdName = item.getMdName();
         this.mdKanaName = item.getMdKanaName();
         this.salesPrice2 =item.getSalesPrice2();
         this.paymentType = item.getPaymentType();

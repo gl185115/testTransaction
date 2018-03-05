@@ -156,6 +156,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         Item searchedItem = null;
         String functionName = "SQLServerItemDAO.getItemByPLUWithStoreFixation";
         String actualStoreid = storeid;
+        String salesNameLocal = "";
         String salesName = "";
         try {
             connection = dbManager.getConnection();
@@ -174,9 +175,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
                 // get item description
                 Description description = new Description();
-                salesName = chooseMdNameLocal(result.getString(result.findColumn("MdName")),result.getString(result.findColumn("MdNameLocal")),
+                salesNameLocal = chooseMdNameLocal(null,result.getString(result.findColumn("MdNameLocal")),
                         result.getString(result.findColumn("DptNameLocal")));
-                description.setJa(salesName);
+                salesName = chooseMdNameLocal(result.getString(result.findColumn("MdName")),null,
+                        result.getString(result.findColumn("DptName")));
+                description.setJa(salesNameLocal);
+                description.setEn(salesName);
                 searchedItem.setDescription(description);
                 
                 if (result.getString(result.findColumn("MdName")) != null) {
@@ -249,7 +253,8 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                     searchedItem.setHostFlag(result.getInt(result.findColumn("HostFlag")));
                 }
                 searchedItem.setSku(result.getString(result.findColumn("Sku")));
-                searchedItem.setMdNameLocal(salesName);
+                searchedItem.setMdNameLocal(salesNameLocal);
+                searchedItem.setMdName(salesName);
                 searchedItem.setMdKanaName(result.getString(result.findColumn("MdKanaName")));
                 searchedItem.setSalesPrice2(result.getLong(result.findColumn("SalesPrice2")));
                 searchedItem.setPaymentType(result.getInt(result.findColumn("PaymentType")));
@@ -271,6 +276,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setPublishingCode(result.getString(result.findColumn("VenderCode")));
                 
                 searchedItem.setDptNameLocal(result.getString(result.findColumn("DptNameLocal")));
+                searchedItem.setDptName(result.getString(result.findColumn("DptName")));
                 searchedItem.setClassNameLocal(result.getString(result.findColumn("ClassNameLocal")));
                 searchedItem.setGroupName(result.getString(result.findColumn("GroupName")));
                 searchedItem.setNameText(result.getString(result.findColumn("NameText")));

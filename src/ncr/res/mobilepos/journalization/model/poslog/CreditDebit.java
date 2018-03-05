@@ -142,13 +142,13 @@ public class CreditDebit {
     private String difference;
     /**
      *
-     * barExpirationDate
+     * Sport Store ExpirationDate
      */
-    @XmlElement(name = "xebExpirationDate")
-    private String xebExpirationDate;
+    @XmlElement(name = "ExpirationDate_SS")
+    private String sportStoreExpirationDate;
     /**
     *
-    * xebExpirationDate
+    * ExpirationDate
     */
    @XmlElement(name = "barExpirationDate")
    private String barExpirationDate;
@@ -461,16 +461,16 @@ public class CreditDebit {
 		PaymentMethodName = paymentMethodName;
 	}
 	/**
-	 * @return the xebExpirationDate
+	 * @return the ExpirationDate
 	 */
-	public String getXebExpirationDate() {
-		return xebExpirationDate;
+	public String getSportStoreExpirationDate() {
+		return sportStoreExpirationDate;
 	}
 	/**
-	 * @param xebExpirationDate the xebExpirationDate to set
+	 * @param ExpirationDate the ExpirationDate to set
 	 */
-	public void setXebExpirationDate(String xebExpirationDate) {
-		this.xebExpirationDate = xebExpirationDate;
+	public void setSportStoreExpirationDate(String sportStoreExpirationDate) {
+		this.sportStoreExpirationDate = sportStoreExpirationDate;
 	}
 	/**
      * Overrides the toString() Method.

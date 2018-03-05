@@ -108,7 +108,7 @@ public class TranPointRate {
 		this.cashingUnit = cashingUnit;
 	}
 	
-	@ApiModelProperty(value="KPC計算単位", notes="KPC計算単位")
+	@ApiModelProperty(value="Point計算単位", notes="Point計算単位")
 	public final String getCashingUnit() {
 		return cashingUnit;
 	}

@@ -263,10 +263,10 @@
 		<column>UpdOpeCode</column>
 		<row>
 			<value>01</value>
-			<value>ゼビオ株式会社</value>
-			<value>ｾﾞﾋﾞｵ</value>
-			<value>ゼビオ</value>
-			<value>ｾﾞﾋﾞｵ</value>
+			<value>株式会社</value>
+			<value>NCR</value>
+			<value>NCR</value>
+			<value>NCR</value>
 			<value>0</value>
 			<value></value>
 			<value></value>
@@ -368,12 +368,12 @@
 			<value>1</value>
 			<value>1</value>
 			<value>1</value>
-			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\logo\\01_Xebio\\B.bmp</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\logo\\01_SportStore\\B.bmp</value>
 			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\Stamp\\Stamp01.bmp</value>
 			<value></value>
 			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
 			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
-			<value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_Xebio\XSE”Å.bmp</value>
+			<value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_SportStore\XSE”Å.bmp</value>
 			<value></value>
 			<value></value>
 			<null />

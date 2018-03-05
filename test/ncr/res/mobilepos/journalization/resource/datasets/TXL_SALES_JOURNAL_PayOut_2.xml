@@ -33,7 +33,7 @@
 				<POSLog>
 					<Transaction TrainingModeFlag="false">
 						<TransactionType>PayOut</TransactionType>
-						<OrganizationHierarchy Level="ゼビオ株式会社" ID="01" />
+						<OrganizationHierarchy Level="株式会社" ID="01" />
 						<RetailStoreID>0247</RetailStoreID>
 						<WorkstationID TerminalType="1">0004</WorkstationID>
 						<SequenceNumber>1555</SequenceNumber>
@@ -235,7 +235,7 @@
 				<POSLog>
 					<Transaction TrainingModeFlag="false">
 						<TransactionType>PayOut</TransactionType>
-						<OrganizationHierarchy Level="ゼビオ株式会社" ID="01" />
+						<OrganizationHierarchy Level="株式会社" ID="01" />
 						<RetailStoreID>0247</RetailStoreID>
 						<WorkstationID TerminalType="1">0004</WorkstationID>
 						<SequenceNumber>1554</SequenceNumber>

@@ -16,8 +16,8 @@ public class OtherDepositsTotal {
 	@XmlElement(name = "Amount")
 	private Amount amount;
 	
-	@XmlElement(name = "XebioGroupTicketSales")
-	private XebioGroupTicketSales xebioGroupTicketSales;
+	@XmlElement(name = "GroupTicketSales")
+	private GroupTicketSales groupTicketSales;
 	
 	@XmlElement(name = "TaxFreeMiscIncome")
 	private TaxFreeMiscIncome taxFreeMiscIncome;
@@ -70,11 +70,11 @@ public class OtherDepositsTotal {
 		this.taxFreeMiscIncome = val;
 	}
 	
-	public final XebioGroupTicketSales getXebioGroupTicketSales() {
-		return this.xebioGroupTicketSales;
+	public final GroupTicketSales getGroupTicketSales() {
+		return this.groupTicketSales;
 	}
-	public final void setXebioGroupTicketSales(XebioGroupTicketSales xb) {
-		this.xebioGroupTicketSales = xb;
+	public final void setGroupTicketSales(GroupTicketSales xb) {
+		this.groupTicketSales = xb;
 	}
 	
 	public final Amount getAmount() {

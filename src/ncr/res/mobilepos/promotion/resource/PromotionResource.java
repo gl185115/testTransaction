@@ -404,7 +404,7 @@ public class PromotionResource {
 				DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 				ICodeConvertDAO codeCvtDAO = daoFactory.getCodeConvertDAO();
 				IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
-				IItemDAO dao = new SQLServerItemDAO();
+				IItemDAO dao = daoFactory.getItemDAO();
 				ViewDepartment departmentInfo = new ViewDepartment();
 
 				// 二段バーコード判断
@@ -984,7 +984,7 @@ public class PromotionResource {
 				codeTemp = dpt;
 			}
 			break;
-		case BarcodeAssignmentConstant.VARIETIES_KINOKUNIYA:
+		case BarcodeAssignmentConstant.VARIETIES_BOOKCENTER:
 			if (StringUtility.isNullOrEmpty(dpt)) {
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);

@@ -296,8 +296,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　三郎"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": "ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": "SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -384,8 +384,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　移行元"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -472,8 +472,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　移行先"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -560,8 +560,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　付与不可4"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -648,8 +648,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　付与不可5"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -736,8 +736,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　利用打ち切り"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -824,8 +824,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　付与不可5"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -912,8 +912,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　テスト"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -1000,8 +1000,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　退会"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -1088,8 +1088,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　エラー"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｻﾌﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA SABURO"
+,"KAIIN_NM_KANA": " ｻﾌﾞﾛｳ"
+,"KAIIN_NM_EN": " SABURO"
 ,"BIRTH_YMD": 19601231
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -1176,8 +1176,8 @@
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
 ,"KAIIN_NM": "ヴィクトリア　次郎"
-,"KAIIN_NM_KANA": "ｳﾞｨｸﾄﾘｱ ｼﾞﾛｳ"
-,"KAIIN_NM_EN": "VICTORIA JIRO"
+,"KAIIN_NM_KANA": "ｼﾞﾛｳ"
+,"KAIIN_NM_EN": " JIRO"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
 ,"YUBIN1": "104"
@@ -1215,7 +1215,7 @@
 }
 }
     <% } else if (body.has("KAIIN_CD") && body.get("KAIIN_CD").equals("6020000000019")){ %>
-//ゼビオメンバーズ
+//メンバーズ
 {
 "BODY": {
  "TKAIIN_CD": "00000006020000000019"
@@ -1263,8 +1263,8 @@
 ,"PIN_NBR": null
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
-,"KAIIN_NM": "ゼビオ　太郎"
-,"KAIIN_NM_KANA": "ｾﾞﾋﾞｵ ﾀﾛｳ"
+,"KAIIN_NM": "　太郎"
+,"KAIIN_NM_KANA": "ﾀﾛｳ"
 ,"KAIIN_NM_EN": "SAMPLE TARO"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
@@ -1967,8 +1967,8 @@
 ,"PIN_NBR": null
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
-,"KAIIN_NM": "ゼビオ　次郎"
-,"KAIIN_NM_KANA": "ｾﾞﾋﾞｵ ｼﾞﾛｳ"
+,"KAIIN_NM": "次郎"
+,"KAIIN_NM_KANA": "ｼﾞﾛｳ"
 ,"KAIIN_NM_EN": "SAMPLE JIRO"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
@@ -2055,8 +2055,8 @@
 ,"PIN_NBR": null
 ,"WEB_KAIIN_ID": null
 ,"WEB_KAIIN_PASSWD": null
-,"KAIIN_NM": "ゼビオ　ネクスト"
-,"KAIIN_NM_KANA": "ｾﾞﾋﾞｵ ﾈｸｽﾄ"
+,"KAIIN_NM": "　ネクスト"
+,"KAIIN_NM_KANA": "ﾈｸｽﾄ"
 ,"KAIIN_NM_EN": "SAMPLE NEXT"
 ,"BIRTH_YMD": 19560114
 ,"SEX": "1"
@@ -2506,7 +2506,7 @@
 }
 ,{
   "KAISYA_CD": "988669384"
-  ,"MEISYO_EN": "VICTORIA"
+  ,"MEISYO_EN": "SportStore02"
   ,"UNYOYMD": 20150601
   ,"SOSIKI": "0001"
   ,"TENCD": "0221"

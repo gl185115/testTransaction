@@ -2,6 +2,8 @@ package ncr.res.mobilepos.additem.test;
 
 import junit.framework.Assert;
 
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.ITable;
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
@@ -10,8 +12,8 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
-
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -181,6 +183,47 @@ public class AddItemSteps extends Steps {
 			Assert.assertEquals("Compare Plu " + i, data.get("DptNameLocal")
 					.trim(), departmentInfoResponse.getDepartment()
 					.getDepartmentName().getJa());
+			i++;
+		}
+	}
+	
+	 /**
+     * Then Step: Compare the existing data in the database.
+     * @param expecteditems The expected items in the database.
+     * @throws DataSetException The Exception thrown when test fail.
+     */
+	@Then("the data in MST_PLU should have the following: $expecteditems")
+	public final void theFollowingItemsInTheDatabaseShouldBe(
+			final ExamplesTable expecteditems) throws DataSetException {
+		List<Map<String, String>> expectedItemRows = expecteditems.getRows();
+		ITable actualItemRows = dbInit.getTableSnapshot("MST_PLU");
+
+		Assert.assertEquals("Compare that the number "
+				+ "of rows in Items are exact: ", expecteditems.getRowCount(),
+				actualItemRows.getRowCount());
+		int i = 0;
+		for (Map<String, String> expItem : expectedItemRows) {
+			Assert.assertEquals("Compare the CompanyId row " + i + ": ",
+					expItem.get("CompanyId"),
+					actualItemRows.getValue(i, "CompanyId").toString());
+			Assert.assertEquals("Compare the StoreId row " + i + ": ",
+					expItem.get("StoreId"),
+					actualItemRows.getValue(i, "StoreId").toString());
+			Assert.assertEquals("Compare the MdInternal row " + i + ": ",
+					expItem.get("MdInternal"),
+					actualItemRows.getValue(i, "MdInternal").toString());
+			Assert.assertEquals("Compare the Dpt row " + i + ": ",
+					expItem.get("Dpt"),
+					actualItemRows.getValue(i, "Dpt").toString());
+			Assert.assertEquals("Compare the SalesPrice1 row " + i + ": ",
+					expItem.get("SalesPrice1"),
+					actualItemRows.getValue(i, "SalesPrice1").toString());
+			Assert.assertEquals("Compare the MdNameLocal row " + i + ": ",
+					expItem.get("MdNameLocal"),
+					actualItemRows.getValue(i, "MdNameLocal").toString());
+			Assert.assertEquals("Compare the TaxType row " + i + ": ", expItem
+					.get("TaxType"), actualItemRows.getValue(i, "TaxType")
+					.toString());
 			i++;
 		}
 	}

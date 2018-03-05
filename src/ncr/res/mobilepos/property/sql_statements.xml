@@ -249,6 +249,7 @@ SELECT TOP 1
        classInfo.ClassNameLocal,
        dpt.DiscountType dptDiscountType,
        dpt.DptNameLocal,
+	   dpt.DptName,
        dpt.TaxType dptTaxType,
        dpt.SubCode1 dptSubCode1,
        dpt.SubNum1 dptSubNum1,
@@ -263,7 +264,7 @@ SELECT TOP 1
        colorInfo.ColorKanaName,
        sizeInfo.SizeKanaName,
        brandInfo.BrandName,
-       pluNameInfo.MdName
+       plu.MdName
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore

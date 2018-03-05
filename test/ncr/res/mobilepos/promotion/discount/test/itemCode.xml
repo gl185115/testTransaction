@@ -70,8 +70,8 @@
                 <format>04[0-9]{11}</format>
             </item>
             <item>
-                <description>紀伊国屋書店独自商品</description>
-                <id>kinokuniya</id>
+                <description>書店独自商品</description>
+                <id>bookcenter</id>
                 <type>single</type>
                 <symbol>EAN</symbol>
                 <format>02([0-4]|[6-9]){1}[0-9]{10}</format>

@@ -277,7 +277,7 @@ public class Department {
     public void setSubNum3(String subNum3) {
         this.subNum3 = subNum3;
     }
-    @ApiModelProperty( value="KPC—İŒvw“ü‹àŠz˜AŒg‘ÎÛƒtƒ‰ƒO", notes="KPC—İŒvw“ü‹àŠz˜AŒg‘ÎÛƒtƒ‰ƒO")
+    @ApiModelProperty( value="Point—İŒvw“ü‹àŠz˜AŒg‘ÎÛƒtƒ‰ƒO", notes="Point—İŒvw“ü‹àŠz˜AŒg‘ÎÛƒtƒ‰ƒO")
     public String getSubNum4() {
         return subNum4;
     }

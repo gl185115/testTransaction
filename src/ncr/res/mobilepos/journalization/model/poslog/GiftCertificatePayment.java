@@ -2,7 +2,6 @@ package ncr.res.mobilepos.journalization.model.poslog;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -17,14 +16,14 @@ public class GiftCertificatePayment {
 	@XmlElement(name = "Sales")
 	private Sales sales;
 	
-	@XmlElement(name = "XebioGroup")
-	private XebioGroup xebioGroup;
+	@XmlElement(name = "Group")
+	private Group group;
 	
-	public final XebioGroup getXebioGroup() {
-		return this.xebioGroup;
+	public final Group getGroup() {
+		return this.group;
 	}
-	public final void setXebioGroup(XebioGroup xg) {
-		this.xebioGroup = xg;
+	public final void setGroup(Group group) {
+		this.group = group;
 	}
 	
 	public final Sales getSales() {

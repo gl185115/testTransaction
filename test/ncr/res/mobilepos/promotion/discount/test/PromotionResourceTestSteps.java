@@ -428,8 +428,17 @@ public class PromotionResourceTestSteps extends Steps {
 		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
 		Transaction transactionResult = promotionResponse.getTransaction();
 		Sale sale = transactionResult.getSale();
-		assertThat("Compare the ItemID row ", "" + sale.getMdNameLocal(),
+		assertThat("Compare the MdName row ", "" + sale.getMdName(),
 				is(equalTo(MdName)));
+	}
+
+	@Then("the MdNameLocal should be : $MdNameLocal")
+	public final void mdNameLocalShouldBe(final String MdNameLocal) {
+		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
+		Transaction transactionResult = promotionResponse.getTransaction();
+		Sale sale = transactionResult.getSale();
+		assertThat("Compare the MdNameLocal row ", "" + sale.getMdNameLocal(),
+				is(equalTo(MdNameLocal)));
 	}
 	
 	@Then("the RegularSalesPrice should be : $RegularSalesPrice")

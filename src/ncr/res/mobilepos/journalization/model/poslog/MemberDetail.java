@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Xeb Member Points Info Model Object.
+ * Sport Store Member Points Info Model Object.
  *
  * <P>
  * A MemberDetail Node in POSLog XML.
@@ -370,7 +370,7 @@ public class MemberDetail {
 
     @Override
     public String toString() {
-        return "KinopMemberInfo [MemberCode=" + memberCode + "RankStart=" + rankStart + "RankEnd=" + rankEnd + "Rank="
+        return "BookCenterMemberInfo [MemberCode=" + memberCode + "RankStart=" + rankStart + "RankEnd=" + rankEnd + "Rank="
                 + rank + "RankName=" + rankName + "SalesAmountByRankStart=" + salesAmountByRankStart
                 + "SalesAmountByRankEnd=" + salesAmountByRankEnd + "SalesAmountByRank=" + salesAmountByRank
                 + "SalesAmountByRankExpiration=" + salesAmountByRankExpiration + "RankApplyAmount=" + rankApplyAmount

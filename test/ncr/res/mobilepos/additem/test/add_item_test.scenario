@@ -1,28 +1,61 @@
 Scenario: Add Item Test (AutoDiscount, NonDiscountable, NonDiscountable)
 Given the Web API Starts Up with test/ncr/res/mobilepos/additem/test/prm_system_config_12taxrate_roundup.xml System Configuration
-Given an items test/ncr/res/mobilepos/additem/test/data_items.xml in database
+Given an items test/ncr/res/mobilepos/additem/test/items_autodiscount.xml in database
 Given a companyid 01 storeid 0247 workstationid 0004 businessdate 2016-07-21 seqno 1553 PriceCheck 1
 
 Scenario: Add Auto Discount Amount (500.0) Item
 When I add an item 4957669206754
 Then I should get the following:
-|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
-|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R		|7398.0				|4957669206754	|1			|0.0			|500		|397		|‚kƒoƒ‰ƒEƒbƒh		|
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R		|7398.0					|4957669206754	|1			|0.0			|500		|397		|‚kƒoƒ‰ƒEƒbƒh		|0			|
 
 Scenario: Add Auto Discount Rate (30%) Item
 When I add an item 4957669622196
 Then I should get the following:
-|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
-|‚l‚i‚q‚n‚x‚`‚k ‚a‚j‚S‚U‚T	|120000.0				|4957669622196	|1			|30.0			|0			|393		|‚lƒoƒ‰ƒEƒEƒbƒh		|
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|‚l‚i‚q‚n‚x‚`‚k ‚a‚j‚S‚U‚T	|120000.0				|4957669622196	|1			|30.0			|0			|393		|‚lƒoƒ‰ƒEƒEƒbƒh		|0			|
 
 Scenario: Add NonDiscountable Item
 When I add an item 0000906404728
 Then I should get the following:
-|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
-|ƒu[ƒc				|23000.0				|0000906404728	|1			|0.0			|0			|811		|‚lƒJƒWƒ…ƒAƒ‹ƒVƒ…[ƒY	|
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|ƒu[ƒc				|23000.0				|0000906404728	|1			|0.0			|0			|811		|‚lƒJƒWƒ…ƒAƒ‹ƒVƒ…[ƒY	|0			|
 
 Scenario: Add Discountable Item
 When I add an item 4908094832094
 Then I should get the following:
-|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|
-|‚v‚‚‚Œ ‚a‚’‚‚‚„ ‚a‚‚‚	|4900.0					|4908094832094	|1			|0.0			|0			|570		|ƒgƒŒƒbƒLƒ“ƒO¬•¨		|
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|‚v‚‚‚Œ ‚a‚’‚‚‚„ ‚a‚‚‚	|4900.0					|4908094832094	|1			|0.0			|0			|570		|ƒgƒŒƒbƒLƒ“ƒO¬•¨		|0			|
+
+Scenario: Add Tax Inclusive Item
+!-- TaxType is 1. ActualSalesPrice has no tax computation (computation is done in UI).
+Given an items test/ncr/res/mobilepos/additem/test/items_taxinclusive.xml in database
+Then the data in MST_PLU should have the following:
+|CompanyId	|StoreId	|MdInternal		|Dpt	|SalesPrice1	|MdNameLocal	|TaxType	|
+|01			|0			|0012345670022	|9999	|3000			|LOCAL_PLU_89	|1			|
+When I add an item 0012345670022
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|LOCAL_PLU_89		|3000.0					|0012345670022	|1			|0.0			|0			|9999		|ŠY“––³i‹³‰È‘j	|1			|
+
+Scenario: Add Tax Exclusive Item
+!-- TaxType is 0. ActualSalesPrice has no tax computation (computation is done in UI).
+Given an items test/ncr/res/mobilepos/additem/test/items_taxexclusive.xml in database
+Then the data in MST_PLU should have the following:
+|CompanyId	|StoreId	|MdInternal		|Dpt	|SalesPrice1	|MdNameLocal	|TaxType	|
+|01			|0			|0012345670015	|0198	|2000			|LOCAL_PLU_88	|0			|
+When I add an item 0012345670015
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|LOCAL_PLU_88		|2000.0					|0012345670015	|1			|0.0			|0			|0198		|‚»‚Ì‘¼‘Ğ		|0			|
+
+Scenario: Add Tax Free Item
+!-- TaxType is 2. ActualSalesPrice has no tax computation (computation is done in UI).
+Given an items test/ncr/res/mobilepos/additem/test/items_taxfree.xml in database
+Then the data in MST_PLU should have the following:
+|CompanyId	|StoreId	|MdInternal		|Dpt	|SalesPrice1	|MdNameLocal	|TaxType	|
+|01			|0			|0012345670039	|0195	|3000			|LOCAL_PLU_90	|2			|
+When I add an item 0012345670039
+Then I should get the following:
+|Description(ja)	|ActualSalesUnitPrice	|ItemID			|Quantity	|DiacountRate	|DiscountAmt|Department	|DptNameLocal	|TaxType	|
+|LOCAL_PLU_90		|3000.0					|0012345670039	|1			|0.0			|0			|0195		|•¶ŒÉ/ƒRƒ~ƒbƒN		|2			|

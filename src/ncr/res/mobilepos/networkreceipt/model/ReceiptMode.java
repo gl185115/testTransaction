@@ -439,8 +439,8 @@ public class ReceiptMode {
     private String creditPaymentAmt;
     private String creditPaymentSalesCnt;
     private String creditPaymentSalesAmt;
-    private String xebioCardCnt;
-    private String xebioCardAmt;
+    private String cardCnt;
+    private String cardAmt;
     private String contractCreditPaymentCnt;
     private String contractCreditPaymentAmt;
     private String contractCreditPaymentSalesCnt;
@@ -461,8 +461,8 @@ public class ReceiptMode {
     private String giftCertPaymentAmt;
     private String giftCertPaymentSalesCnt;
     private String giftCertPaymentSalesAmt;
-    private String giftCertPaymentXebioGrpCnt;
-    private String giftCertPaymentXebioGrpAmt;
+    private String giftCertPaymentGrpCnt;
+    private String giftCertPaymentGrpAmt;
     private String otherPaymentCnt;
     private String otherPaymentAmt;
     private String otherOtherGiftCertCnt;
@@ -490,8 +490,8 @@ public class ReceiptMode {
     private String depositsCashRetTotResDownPaymentRetAmt;
     private String otherDepositsTotalCnt;
     private String otherDepositsTotalAmt;
-    private String otherDepositsTotXebioGrpTicketSalesCnt;
-    private String otherDepositsTotXebioGrpTicketSalesAmt;
+    private String otherDepositsTotGrpTicketSalesCnt;
+    private String otherDepositsTotGrpTicketSalesAmt;
     private String otherDepositsTotTaxFreeMiscIncomeCnt;
     private String otherDepositsTotTaxFreeMiscIncomeAmt;
     private String otherDepositsTotMiscIncomeTicketBalCnt;
@@ -568,8 +568,8 @@ public class ReceiptMode {
     private String subTotDiscountAmt;
     private String subTotDiscountCoupon11Cnt;
     private String subTotDiscountCoupon11Amt;
-    private String subTotDiscountPointTicketXebio13Cnt;
-    private String subTotDiscountPointTicketXebio13Amt;
+    private String subTotDiscountPointTicket13Cnt;
+    private String subTotDiscountPointTicket13Amt;
     private String subTotDiscountPointMortgage16Cnt;
     private String subTotDiscountPointMortgage16Amt;
     private String subTotDiscountGCoupon32Cnt;
@@ -598,8 +598,8 @@ public class ReceiptMode {
     private String subTotDiscountLimitedSales80Amt;
     private String subTotDiscountStockholderPreferential81Cnt;
     private String subTotDiscountStockholderPreferential81Amt;
-    private String subTotDiscountXebio82Cnt;
-    private String subTotDiscountXebio82Amt;
+    private String subTotDiscount82Cnt;
+    private String subTotDiscount82Amt;
     private String subTotDiscount83Cnt;
     private String subTotDiscount83Amt;
     private String subTotDiscountStudent84Cnt;
@@ -2966,17 +2966,17 @@ public class ReceiptMode {
     public void setCreditPaymentSalesAmt(String val) {
         this.creditPaymentSalesAmt=val;
     }
-    public String getXebioCardCnt() {
-        return this.xebioCardCnt;
+    public String getCardCnt() {
+        return this.cardCnt;
     }
-    public void setXebioCardCnt(String val) {
-        this.xebioCardCnt=val;
+    public void setCardCnt(String val) {
+        this.cardCnt=val;
     }
-    public String getXebioCardAmt() {
-        return this.xebioCardAmt;
+    public String getCardAmt() {
+        return this.cardAmt;
     }
-    public void setXebioCardAmt(String val) {
-        this.xebioCardAmt=val;
+    public void setCardAmt(String val) {
+        this.cardAmt=val;
     }
     public String getContractCreditPaymentCnt() {
         return this.contractCreditPaymentCnt;
@@ -3098,17 +3098,17 @@ public class ReceiptMode {
     public void setGiftCertPaymentSalesAmt(String val) {
         this.giftCertPaymentSalesAmt=val;
     }
-    public String getGiftCertPaymentXebioGrpCnt() {
-        return this.giftCertPaymentXebioGrpCnt;
+    public String getGiftCertPaymentGrpCnt() {
+        return this.giftCertPaymentGrpCnt;
     }
-    public void setGiftCertPaymentXebioGrpCnt(String val) {
-        this.giftCertPaymentXebioGrpCnt=val;
+    public void setGiftCertPaymentGrpCnt(String val) {
+        this.giftCertPaymentGrpCnt=val;
     }
-    public String getGiftCertPaymentXebioGrpAmt() {
-        return this.giftCertPaymentXebioGrpAmt;
+    public String getGiftCertPaymentGrpAmt() {
+        return this.giftCertPaymentGrpAmt;
     }
-    public void setGiftCertPaymentXebioGrpAmt(String val) {
-        this.giftCertPaymentXebioGrpAmt=val;
+    public void setGiftCertPaymentGrpAmt(String val) {
+        this.giftCertPaymentGrpAmt=val;
     }
     public String getOtherPaymentCnt() {
         return this.otherPaymentCnt;
@@ -3272,17 +3272,17 @@ public class ReceiptMode {
     public void setOtherDepositsTotalAmt(String val) {
         this.otherDepositsTotalAmt=val;
     }
-    public String getOtherDepositsTotXebioGrpTicketSalesCnt() {
-        return this.otherDepositsTotXebioGrpTicketSalesCnt;
+    public String getOtherDepositsTotGrpTicketSalesCnt() {
+        return this.otherDepositsTotGrpTicketSalesCnt;
     }
-    public void setOtherDepositsTotXebioGrpTicketSalesCnt(String val) {
-        this.otherDepositsTotXebioGrpTicketSalesCnt=val;
+    public void setOtherDepositsTotGrpTicketSalesCnt(String val) {
+        this.otherDepositsTotGrpTicketSalesCnt=val;
     }
-    public String getOtherDepositsTotXebioGrpTicketSalesAmt() {
-        return this.otherDepositsTotXebioGrpTicketSalesAmt;
+    public String getOtherDepositsTotGrpTicketSalesAmt() {
+        return this.otherDepositsTotGrpTicketSalesAmt;
     }
-    public void setOtherDepositsTotXebioGrpTicketSalesAmt(String val) {
-        this.otherDepositsTotXebioGrpTicketSalesAmt=val;
+    public void setOtherDepositsTotGrpTicketSalesAmt(String val) {
+        this.otherDepositsTotGrpTicketSalesAmt=val;
     }
     public String getOtherDepositsTotTaxFreeMiscIncomeCnt() {
         return this.otherDepositsTotTaxFreeMiscIncomeCnt;
@@ -3740,17 +3740,17 @@ public class ReceiptMode {
     public void setSubTotDiscountCoupon11Amt(String val) {
         this.subTotDiscountCoupon11Amt=val;
     }
-    public String getSubTotDiscountPointTicketXebio13Cnt() {
-        return this.subTotDiscountPointTicketXebio13Cnt;
+    public String getSubTotDiscountPointTicket13Cnt() {
+        return this.subTotDiscountPointTicket13Cnt;
     }
-    public void setSubTotDiscountPointTicketXebio13Cnt(String val) {
-        this.subTotDiscountPointTicketXebio13Cnt=val;
+    public void setSubTotDiscountPointTicket13Cnt(String val) {
+        this.subTotDiscountPointTicket13Cnt=val;
     }
-    public String getSubTotDiscountPointTicketXebio13Amt() {
-        return this.subTotDiscountPointTicketXebio13Amt;
+    public String getSubTotDiscountPointTicket13Amt() {
+        return this.subTotDiscountPointTicket13Amt;
     }
-    public void setSubTotDiscountPointTicketXebio13Amt(String val) {
-        this.subTotDiscountPointTicketXebio13Amt=val;
+    public void setSubTotDiscountPointTicket13Amt(String val) {
+        this.subTotDiscountPointTicket13Amt=val;
     }
     public String getSubTotDiscountPointMortgage16Cnt() {
         return this.subTotDiscountPointMortgage16Cnt;
@@ -3920,17 +3920,17 @@ public class ReceiptMode {
     public void setSubTotDiscountStockholderPreferential81Amt(String val) {
         this.subTotDiscountStockholderPreferential81Amt=val;
     }
-    public String getSubTotDiscountXebio82Cnt() {
-        return this.subTotDiscountXebio82Cnt;
+    public String getSubTotDiscount82Cnt() {
+        return this.subTotDiscount82Cnt;
     }
-    public void setSubTotDiscountXebio82Cnt(String val) {
-        this.subTotDiscountXebio82Cnt=val;
+    public void setSubTotDiscount82Cnt(String val) {
+        this.subTotDiscount82Cnt=val;
     }
-    public String getSubTotDiscountXebio82Amt() {
-        return this.subTotDiscountXebio82Amt;
+    public String getSubTotDiscount82Amt() {
+        return this.subTotDiscount82Amt;
     }
-    public void setSubTotDiscountXebio82Amt(String val) {
-        this.subTotDiscountXebio82Amt=val;
+    public void setSubTotDiscount82Amt(String val) {
+        this.subTotDiscount82Amt=val;
     }
     public String getSubTotDiscount83Cnt() {
         return this.subTotDiscount83Cnt;

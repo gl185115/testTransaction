@@ -6,7 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- * Xeb Member Points Info Model Object.
+ * Sport Store Member Points Info Model Object.
  *
  * <P>
  * A MemberInfoDetail Node in POSLog XML.

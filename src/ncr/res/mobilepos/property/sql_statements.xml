@@ -3701,48 +3701,6 @@ ORDER BY
     DeleteFlag = 0.0;
   </entry>
 
-  <entry key="get-all-printers">
-    DECLARE
-      @storeid varchar(max),
-      @printerid varchar(max),
-      @printerdesc varchar(max),
-      @limit int
-    SET @storeid=?
-    SET @printerid=?
-    SET @printerdesc=?
-    SET @limit=?
-    SET @limit = (CASE
-           WHEN(@limit > -1)
-             THEN @limit
-             ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_PRINTERINFO WHERE DeleteFlag = 0.0)
-           END)
-    SELECT TOP(@limit) *
-    FROM RESMaster.dbo.MST_PRINTERINFO
-    WHERE Status = 'Active'
-    AND (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
-    AND (@printerid IS NULL OR len(@printerid) = 0 OR (PrinterId like @printerid {ESCAPE '\'} ) )
-    AND (@printerdesc IS NULL OR len(@printerdesc) = 0 OR (LOWER(Description) like LOWER(@printerdesc) {ESCAPE '\'}) )
-    AND DeleteFlag = 0.0;
-  </entry>
-
-  <entry key="set-printerid">
-    UPDATE RESMaster.dbo.MST_DEVICEINFO
-    SET PrinterId = ?,
-      UpdAppId =?,
-      UpdOpeCode = ?,
-      UpdDate = GETDATE()
-    WHERE StoreId = ? AND TerminalId = ? AND Status = 'Active' AND DeleteFlag = 0.0;
-  </entry>
-
-  <entry key="set-tillid">
-    UPDATE RESMaster.dbo.MST_DEVICEINFO
-    SET TillId = ?,
-        UpdAppId =?,
-        UpdOpeCode = ?,
-        UpdDate = GETDATE()
-    WHERE StoreId = ? AND TerminalId = ? AND DeleteFlag = 0.0;
-  </entry>
-
   <entry key="get-storeInfo">
      SELECT StoreId
           , StoreName
@@ -3794,21 +3752,6 @@ ORDER BY
      SELECT CompanyName
      FROM   RESMaster.dbo.PRM_CREDIT_COMPANY
      WHERE CompanyCode = ? ;
-  </entry>
-
-  <entry key="get-netprinterinfo">
-    SELECT
-      printer.IpAddress ipaddress,
-      printer.PortNumTcp portnumtcp,
-      printer.PortNumUdp portnumudp
-         FROM
-           RESMaster.dbo.MST_PRINTERINFO printer
-         INNER JOIN
-           RESMaster.dbo.MST_DEVICEINFO  device
-    ON
-      printer.StoreId = device.StoreId AND printer.PrinterId = device.PrinterId AND device.DeleteFlag = 0.0
-    WHERE
-      device.StoreId = ? AND device.TerminalId = ? AND printer.DeleteFlag = 0.0
   </entry>
 
   <entry key="create-peripheraldeviceinfo">
@@ -4469,12 +4412,6 @@ ORDER BY
       RESMaster.dbo.AUT_DEVICES
     WHERE
     CompanyId=? AND StoreId=? AND TerminalId=? AND Udid=? AND Uuid=?
-  </entry>
-  <entry key="get-stamp-tax-path">
-      SELECT  store.StampTaxFilePath storedoctax,
-           store.ElectroFilePath storelogo
-      FROM    RESMaster.dbo.MST_STOREINFO store
-      WHERE  store.StoreId = ? AND store.DeleteFlag = 0.0
   </entry>
 
 <!-- Entry key for QueueBuster implementation -->
@@ -6045,73 +5982,6 @@ DECLARE @operatorno varchar(MAX),
     StoreId = ? AND Id = ? AND (Status = 'Active' OR Status = 'Inactive')
     </entry>
 
-    <!-- FOR SETTING DEVICE INFO LINKS -->
-    <entry key="set-queuebusterlink">
-    DECLARE @storeid varchar(MAX), @termid varchar(MAX), @queuelink varchar(MAX), @upddate datetime, @updappid varchar(MAX), @updopecode varchar(MAX), @companyId varchar(MAX) ,@training varchar(MAX)
-    SET @queuelink=?
-    SET @storeid=?
-    SET @termid=?
-    SET @upddate=GETDATE()
-    SET @updappid=?
-    SET @updopecode=?
-    SET @companyId=?
-    SET @training=?
-
-    UPDATE
-      RESMaster.dbo.MST_DEVICEINFO
-    SET
-      LinkQueueBuster = @queuelink,
-      UpdDate = @upddate,
-      UpdAppId = @updappid,
-      UpdOpeCode = @updopecode
-
-    WHERE
-    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training AND DeleteFlag = 0.0
-
-    IF(@@ROWCOUNT = 0)
-      INSERT INTO RESMaster.dbo.MST_DEVICEINFO
-    (StoreId,TerminalId,LinkQueueBuster,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode,SubNum1,CompanyId,Training,DeleteFlag,InsDate,InsAppId,InsOpeCode,UpdCount)
-      VALUES
-    (@storeid,@termid,@queuelink,3,40,0,@upddate,@updappid,@updopecode,1,@companyId,@training,0,@upddate,@updappid,@updopecode,0)
-    </entry>
-
-  <entry key="set-authorizationlink">
-    DECLARE @storeid varchar(MAX), @termid varchar(MAX),
-    @linkauthorization varchar(MAX),
-    @upddate datetime,
-    @updappid varchar(MAX),
-    @updopecode varchar(MAX),
-    @companyId varchar(MAX),
-    @training varchar(MAX)
-
-    SET @linkauthorization=?
-    SET @storeid=?
-    SET @termid=?
-    SET @upddate= GETDATE()
-    SET @updappid= ?
-    SET @updopecode= ?
-    SET @companyId=?
-    SET @training=?
-
-    UPDATE
-      RESMaster.dbo.MST_DEVICEINFO
-    SET
-    LinkAuthorization = @linkauthorization,
-    UpdDate = @upddate,
-    UpdAppId = @updappid,
-    UpdOpeCode = @updopecode
-
-    WHERE
-    StoreId = @storeid AND TerminalId = @termid AND CompanyId = @companyId AND Training = @training AND DeleteFlag = 0.0
-
-    IF(@@ROWCOUNT = 0)
-      INSERT INTO RESMaster.dbo.MST_DEVICEINFO
-    (StoreId,TerminalId,LinkAuthorization,SendLogFile,SaveLogFile,AutoUpload,UpdDate,UpdAppId,UpdOpeCode,SubNum1,CompanyId,Training,DeleteFlag,InsDate,InsAppId,InsOpeCode,UpdCount)
-      VALUES
-    (@storeid,@termid,@linkauthorization,3,40,0,@upddate,@updappid,@updopecode,1,@companyId,@training,0,@upddate,@updappid,@updopecode,0)
-
-  </entry>
-
   <!-- FOR GROUP FUNCTIONS-->
   <entry key="view-GroupDetail">
     SELECT GroupName,Transactions,Reports,Settings,Merchandise,Administration,Drawer
@@ -6777,62 +6647,6 @@ WHERE
     </entry>
 
     <!-- ******************* Start of Line **************** -->
-
-    <entry key="get-line-list">
-DECLARE @line varchar(MAX), @storeid varchar(MAX),  @dpt varchar(MAX), @limit int, @name varchar(MAX)
-    SET @limit = ?
-    SET @storeid = ?
-    SET @dpt = ?
-    SET @line = ?
-    SET @name = ?
-    SET @limit = (CASE
-           WHEN(@limit > -1)
-               THEN @limit
-               ELSE (SELECT COUNT(*) FROM RESMaster.dbo.MST_LINEINFO WHERE DeleteFlag = 0.0)
-           END)
-IF NOT EXISTS (
-   SELECT *
-   FROM
-     RESMaster.dbo.MST_LINEINFO
-   WHERE
-     (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
-      AND (@dpt IS NULL OR len(@dpt) = 0 OR Dpt = @dpt)
-      AND (@line IS NULL OR len(@line) = 0 OR ( Line like @line {ESCAPE '\'} ))
-      AND (@name IS NULL OR len(@name) = 0
-      OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} )
-      OR ( LOWER(LineNameLocal) like LOWER(@name) {ESCAPE '\'} )
-      )
-      AND DeleteFlag = 0.0
-)
-SET @StoreId = '0'
-
-SELECT TOP (@limit)
-      StoreId,
-      Line,
-      LineName,
-      LineNameLocal,
-      Dpt,
-      TaxType,
-      TaxRate,
-      DiscountType,
-      ExceptionFlag,
-      DiscountFlag,
-      DiscountAmt,
-      DiscountRate,
-      AgeRestrictedFlag,
-      InheritFlag
-    FROM
-      RESMaster.dbo.MST_LINEINFO
-    WHERE
-      (@storeid IS NULL OR len(@storeid) = 0 OR StoreId = @storeid)
-      AND (@dpt IS NULL OR len(@dpt) = 0 OR Dpt = @dpt)
-      AND (@line IS NULL OR len(@line) = 0 OR ( Line like @line {ESCAPE '\'} ))
-      AND (@name IS NULL OR len(@name) = 0
-      OR ( LOWER(LineName) like LOWER(@name) {ESCAPE '\'} )
-      OR ( LOWER(LineNameLocal) like LOWER(@name) {ESCAPE '\'} )
-      )
-      AND DeleteFlag = 0.0
-  </entry>
 
     <entry key="get-accountancy-report">
     DECLARE @storeid VARCHAR(6),@tillid VARCHAR(40),@businessdaydate VARCHAR(15)
@@ -8847,7 +8661,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     DECLARE
       @companyId varchar(12),
       @storeId varchar(6),
-      @membershipId varchar(16)
+      @membershipId varchar(16),
       @classStoreId varchar(6)
 
   SET @companyId = ?

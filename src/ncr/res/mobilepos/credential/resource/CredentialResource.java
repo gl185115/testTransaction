@@ -10,7 +10,6 @@ package ncr.res.mobilepos.credential.resource;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
@@ -47,8 +46,6 @@ import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.store.resource.StoreResource;
 
 /**
  * CredentialResource Class is a Web Resource which support MobilePOS Credential
@@ -554,83 +551,6 @@ public class CredentialResource {
     }
    
     /**
-     * Creates a new employee.
-     *
-     * @param retailStoreID
-     *            - id of the store
-     * @param operatorID
-     *            - id of the operator to create
-     * @param jsonEmployee
-     *            - json string form of an employee model that contains the
-     *            details of the employee to create
-     * @return ResultBase - class that contains the result of the request
-     */
-    @Path("/create")
-    @POST
-    @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ユーザー(従業員)新規作成", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESCREDL_ERROR_INVALID_PARAM, message="無効なパラメータ"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗未検出"),
-        @ApiResponse(code=ResultBase.RESCREDL_ERROR_EXISTS, message="ユーザー(従業員)もう存在")
-    })
-    public final ResultBase createEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
-    		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorID,
-    		@ApiParam(name="employee", value="従業員情報") @FormParam("employee") final String jsonEmployee) {
-
-        tp.methodEnter("createEmployee");
-        tp.println("retailStoreID", retailStoreID).println("operatorID", operatorID).println("jsonEmployee",
-                jsonEmployee);
-
-        ResultBase resultBase = new ResultBase();
-
-        if (StringUtility.isNullOrEmpty(retailStoreID, operatorID, jsonEmployee) || hasNonAlpha(operatorID)) {
-            resultBase.setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_INVALID_PARAM);
-            resultBase.setMessage(
-                    "storeid:" + retailStoreID + " operatorid:" + operatorID + " employee string:" + jsonEmployee);
-            tp.methodExit("One of the parameters is invalid.");
-            return resultBase;
-        }
-
-        StoreResource storeRes = new StoreResource();
-        ViewStore store = storeRes.viewStore(retailStoreID);
-        if (store.getNCRWSSResultCode() != ResultBase.RES_STORE_OK) {
-            resultBase.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-            tp.methodExit("retailStoreID does not exist in database.");
-            return resultBase;
-        }
-
-        try {
-            JsonMarshaller<Employee> jsonMarshall = new JsonMarshaller<Employee>();
-            Employee employee = jsonMarshall.unMarshall(jsonEmployee, Employee.class);
-            ICredentialDAO credentialDAO = daoFactory.getCredentialDAO();
-            employee.setUpdAppId(pathName.concat(".create"));
-            employee.setUpdOpeCode(getOpeCode());
-            resultBase = credentialDAO.createEmployee(retailStoreID, operatorID, employee);
-
-        } catch (DaoException ex) {
-            LOGGER.logAlert(progName, className + "createEmployee", Logger.RES_EXCEP_DAO,
-                    "Failed to Create Employee# " + operatorID + ": " + ex.getMessage());
-            if (ex.getCause() instanceof SQLException) {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-            } else {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-            }
-        } catch (Exception ex) {
-            LOGGER.logAlert(progName, className + "createEmployee", Logger.RES_EXCEP_GENERAL,
-                    "Failed to Create Employee# " + operatorID + ": " + ex.getMessage());
-            resultBase.setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_NG);
-            resultBase.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
-        } finally {
-            tp.methodExit(resultBase.toString());
-        }
-        return resultBase;
-    }
-
-    /**
      * deletes an employee.
      *
      * @param storeId
@@ -749,18 +669,6 @@ public class CredentialResource {
         return viewEmployee;
     }
     
-    /**
-     * check if the string has non-alpha numeric characters.
-     *
-     * @param str
-     *            - the string to check
-     * @return true if there are present, false if not
-     */
-    private boolean hasNonAlpha(final String str) {
-        Pattern p = Pattern.compile("[^a-zA-Z0-9]");
-        return p.matcher(str).find();
-    }
-
     private String getOpeCode() {
         return ((securityContext != null) && (securityContext.getUserPrincipal()) != null)
                 ? securityContext.getUserPrincipal().getName() : null;

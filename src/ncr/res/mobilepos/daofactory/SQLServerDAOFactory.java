@@ -69,8 +69,6 @@ import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.dao.SQLServerCommonDAO;
 import ncr.res.mobilepos.journalization.dao.SQLServerPosLogDAO;
-import ncr.res.mobilepos.line.dao.ILineDAO;
-import ncr.res.mobilepos.line.dao.SQLServerLineDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.SQLServerMasterMaintenanceDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
@@ -148,11 +146,6 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public final IPoslogStatusDAO getPoslogStatusDAO() throws DaoException {
         return new SQLServerPoslogStatusDAO();
-    }
-
-    @Override
-    public final ILineDAO getLineDAO() throws DaoException {
-        return new SQLServerLineDAO();
     }
 
     @Override

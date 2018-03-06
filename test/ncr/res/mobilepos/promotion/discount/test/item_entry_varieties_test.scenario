@@ -546,14 +546,14 @@ Then result should be :
 
 Scenario: Get DptName from MST_DPTINFO when MdName is null
 Given ItemCode.xml file exist
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then the Mdname should be : ‚k Balloughwood
 
 Scenario: Get DptNameLocal from MST_DPTINFO when MdNameLocal is null
 Given ItemCode.xml file exist
-When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 Businessdate 2016-08-16
+When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"40123456980026","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then the MdNameLocal should be : ‚kƒoƒ‰ƒEƒbƒh

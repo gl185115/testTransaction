@@ -42,7 +42,6 @@ import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.dao.SQLServerForwardItemListDAO;
 import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
-import ncr.res.mobilepos.line.dao.ILineDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
@@ -110,16 +109,6 @@ public abstract class DAOFactory {
      * @see IItemDAO
      */
     public abstract IItemDAO getItemDAO() throws DaoException;
-
-    /**
-     * Gets the DAO object for manipulating Line in the database.
-     *
-     * @return DAO Object for Line
-     * @throws DaoException
-     *             - Exception thrown when getting the DAO object fails
-     * @see ILineDAO
-     */
-    public abstract ILineDAO getLineDAO() throws DaoException;
 
     /**
      * Gets the DAO object for poslog status in the database.

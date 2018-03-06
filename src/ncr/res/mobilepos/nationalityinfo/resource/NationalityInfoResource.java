@@ -20,7 +20,6 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.line.model.SearchedLine;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.nationalityinfo.model.NationalityInfoList;

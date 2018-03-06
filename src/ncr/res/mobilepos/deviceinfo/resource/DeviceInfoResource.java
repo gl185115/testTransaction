@@ -1,11 +1,8 @@
 package ncr.res.mobilepos.deviceinfo.resource;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,24 +29,19 @@ import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
-import ncr.res.mobilepos.credential.model.Employee;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
 import ncr.res.mobilepos.deviceinfo.dao.ILinkDAO;
-import ncr.res.mobilepos.deviceinfo.dao.SQLDeviceInfoDAO;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.POSLinkInfo;
 import ncr.res.mobilepos.deviceinfo.model.POSLinks;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
-import ncr.res.mobilepos.deviceinfo.model.Printers;
 import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
 import ncr.res.mobilepos.deviceinfo.model.TerminalTillGroup;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewPosLinkInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.deviceinfo.model.WorkingDevices;
 import ncr.res.mobilepos.exception.DaoException;
@@ -65,7 +57,6 @@ import ncr.res.mobilepos.store.model.ViewStore;
 import ncr.res.mobilepos.store.resource.StoreResource;
 import ncr.res.mobilepos.tillinfo.model.Till;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
-import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 /**
  * DeviceInfoResource Web Resource Class.
@@ -156,158 +147,6 @@ public class DeviceInfoResource {
     }
 
     /**
-     * Service resource to set the Printer
-     * association for the device identified
-     * by the terminal id.
-     *
-     *  @param storeId the current storeid
-     *  @param terminalId the target terminal to set
-     *                  the pos terminal link
-     *  @param printerId the printerid to link
-     *
-     * @return ResultBase indicates result of operation
-     */
-    @POST
-    @Produces({MediaType.APPLICATION_JSON })
-    @Path("/setprinterid")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末にプリンターを設定する", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOPRINTERFOUND, message="プリンターを見つからない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOPOSTERMINALLINK, message="端末接続の設備は発見されていない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している")
-    })
-    public final ResultBase setPrinterId(
-    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
-    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
-    		@ApiParam(name="printerid", value="プリンターID") @FormParam("printerid") final String printerId,
-    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId) {
-
-    	String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("retailstoreid", storeId)
-            .println("terminalid", terminalId)
-            .println("printerid", printerId)
-            .println("companyid", companyId);
-
-        ResultBase result = new ResultBase();
-
-        try {
-            IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-            // printerid = 0  local printer.
-            // printerid = -1 clear the link of printer and device.
-            if(!"0".equals(printerId) && !"-1".equals(printerId)  &&
-            		!StringUtility.isNullOrEmpty(printerId)){
-                PrinterInfo printInfo =
-                        iPerCtrlDao.getPrinterInfo(storeId, printerId);
-                if (printInfo == null) {
-                    result.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
-                    result.setMessage("printer does not exist");
-                    return result;
-                }
-            }
-            String updAppId = pathName.concat(".setprinterid");
-            result = iPerCtrlDao.setPrinterId(storeId,
-                    terminalId, printerId,updAppId,getOpeCode());
-            if (ResultBase.RESDEVCTL_NOPOSTERMINALLINK
-                    == result.getNCRWSSResultCode()) {
-                DeviceInfo newDeviceInfo = new DeviceInfo();
-                newDeviceInfo.setDeviceId(terminalId);
-                newDeviceInfo.setRetailStoreId(storeId);
-                newDeviceInfo.setLinkPOSTerminalId("");
-                newDeviceInfo.setUpdAppId(pathName.concat(".setprinterid"));
-                newDeviceInfo.setUpdOpeCode(getOpeCode());
-                newDeviceInfo.setPrinterId(printerId);
-                newDeviceInfo.setCompanyId(companyId);
-                result = iPerCtrlDao.createPeripheralDeviceInfo(newDeviceInfo);
-            }
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to set printerid.", ex);
-			result = new ResultBase(ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to set printerid.", ex);
-			result = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(result);
-		}
-
-		return result;
-    }
-    /**
-     * Service resource to set retrieve
-     * all the registered printers
-     * in the store configuration.
-     *
-     *  @param storeid the current storeid
-     *  @param key the current search key
-     *  @param name the current search for printer description
-     *
-     * @return Printers indicates result of operation
-     */
-    @GET
-    @Produces({MediaType.APPLICATION_JSON })
-    @Path("/getallprinters")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="認証のプリンタを検索する", response=Printers.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
-    })
-    public final Printers getAllPrinters(
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
-    		@ApiParam(name="key", value="検索キー") @QueryParam("key") final String key,
-    		@ApiParam(name="name", value="プリンタ記述") @QueryParam("name") final String name,
-    		@ApiParam(name="limit", value="制限数") @QueryParam("limit") final int limit) {
-
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeid", storeid)
-				.println("key", key).println("name", name)
-				.println("limit", limit);
-
-        Printers result = new Printers();
-
-        try {
-            IDeviceInfoDAO iPerCtrlDao =
-                daoFactory.getDeviceInfoDAO();
-
-            List<PrinterInfo> allprinter =
-                iPerCtrlDao.getAllPrinterInfo(storeid,key,name,limit);
-
-            if (!allprinter.isEmpty()) {
-                PrinterInfo[] arrayPrinters =
-                    new PrinterInfo[allprinter.size()];
-                allprinter.toArray(arrayPrinters);
-                result.setPrinters(arrayPrinters);
-                result.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-                result.setMessage("retrieved printers");
-            }
-
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to get Peripheral Device Info.",
-					ex);
-			result = new Printers(ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to get Peripheral Device Info.",
-					ex);
-			result = new Printers(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(result);
-		}
-
-		return result;
-	}
-    /**
      * Service resource to set retrieve
      * the device info.
      *
@@ -395,97 +234,6 @@ public class DeviceInfoResource {
 			tp.methodExit(viewDevInfo);
 		}
         return viewDevInfo;
-    }
-
-    /**
-     * Web Method call used to add a new Device Information in the DataBase.
-     * @param deviceInfoJson    The new Device Information.
-     * @return The ResultBase
-     */
-    @POST
-    @Produces({MediaType.APPLICATION_JSON })
-    @Path("/add")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末を作成する", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_DEVICEID, message="既にデータベースにデータが存在しています。"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALID_STOREID, message="無効な設備のstoreId"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している")
-    })
-	public final ResultBase createDevice(
-			@ApiParam(name="deviceinfo", value="端末情報相関") @FormParam("deviceinfo") final String deviceInfoJson) {
-
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("deviceinfo", deviceInfoJson);
-
-        ResultBase resultBase = new ResultBase();
-
-        try {
-            JsonMarshaller<DeviceInfo> jsonMarshall =
-                new JsonMarshaller<DeviceInfo>();
-            DeviceInfo deviceInfo = jsonMarshall.unMarshall(deviceInfoJson,
-                    DeviceInfo.class);
-            String storeid = deviceInfo.getRetailStoreId();
-
-            if (StringUtility.isNullOrEmpty(storeid)) {
-                tp.println("Invalid Store ID.");
-                resultBase.setNCRWSSResultCode(
-                        ResultBase.RESDEVCTL_INVALID_STOREID);
-                return resultBase;
-            }
-
-            if(!storeExists(storeid)){
-                tp.println("Store does not exist");
-                resultBase.setNCRWSSResultCode(
-                        ResultBase.RES_STORE_NOT_EXIST);
-                return resultBase;
-            }
-
-            String deviceID = deviceInfo.getDeviceId();
-            if (!StringUtility.isNullOrEmpty(deviceID)
-                    && StringUtility
-                        .isNumberFormatted(deviceInfo.getDeviceId())) {
-                IDeviceInfoDAO deviceInfoDao =
-                    daoFactory.getDeviceInfoDAO();
-                deviceInfo.setUpdAppId(pathName.concat(".add"));
-                deviceInfo.setUpdOpeCode(getOpeCode());
-                resultBase =
-                    deviceInfoDao.createPeripheralDeviceInfo(deviceInfo);
-            } else {
-                resultBase.setNCRWSSResultCode(
-                        ResultBase.RESDEVCTL_INVALID_DEVICEID);
-                tp.println("DeviceID for the new device is invalid.");
-            }
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to create device with "
-							+ deviceInfoJson, ex);
-			resultBase = new ResultBase(
-					(ex.getCause() instanceof SQLException) ? ResultBase.RES_ERROR_DB
-							: ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DAO, ex);
-		} catch (IOException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_IO,
-					functionName + ": Failed to create device with "
-							+ deviceInfoJson, ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_IOEXCEPTION,
-					ResultBase.RESDEVCTL_INVALIDPARAMETER, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to create device with "
-							+ deviceInfoJson, ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(resultBase.toString());
-		}
-        return resultBase;
     }
 
     /**
@@ -775,151 +523,6 @@ public class DeviceInfoResource {
 	}
 
     /**
-     * Web Method call used to set AuthorizationLink to a device.
-     * @param retailStoreId     The Retail Store ID.
-     * @param terminalId        The Device ID.
-     * @param authorizationLink     The POS Link ID for Signature.
-     * @return ResultBase with result code.
-     */
-    @POST
-    @Produces({MediaType.APPLICATION_JSON })
-    @Path("/setauthorizationlink")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末に認可リンクを設置する", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データは見つからない")
-    })
-    public final ResultBase setAuthorizationLink(
-    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreId,
-    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
-    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
-    		@ApiParam(name="training", value="トレーニングフラグ") @FormParam("training") final String training,
-    		@ApiParam(name="authorizationlink", value="認可リンク") @FormParam("authorizationlink") final String authorizationLink) {
-
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("retailstoreid", retailStoreId)
-				.println("terminalid", terminalId)
-				.println("companyid", companyId)
-				.println("training", training)
-				.println("authorizationlink", authorizationLink);
-
-		ResultBase resultBase = new ResultBase();
-
-		try {
-
-			if (!StringUtility.isNullOrEmpty(authorizationLink)) {
-				ViewPosLinkInfo qbInfo = this.getLinkItem(CREDITAUTH_LINK_TYPE,
-						retailStoreId, authorizationLink);
-				if (qbInfo.getNCRWSSResultCode() != ResultBase.RES_OK) {
-					tp.println("Authorization Link to set does not exist");
-					resultBase
-							.setNCRWSSResultCode(ResultBase.RES_LINK_NOTFOUND);
-					return resultBase;
-				}
-			}
-
-			IDeviceInfoDAO deviceInfoDao = daoFactory.getDeviceInfoDAO();
-			String appId = pathName.concat(".setauthlink");
-			resultBase = deviceInfoDao.setAuthorizationLink(retailStoreId,
-					terminalId, authorizationLink, appId, getOpeCode(),companyId,training);
-
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to set the authorization link.",
-					ex);
-			resultBase = new ResultBase(
-					(ex.getCause() instanceof SQLException) ? ResultBase.RES_ERROR_DB
-							: ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to set the authorization link.",
-					ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(resultBase.toString());
-		}
-		return resultBase;
-	}
-
-    /**
-     * Web Method call used to set QueueBuster Link
-     * to a device.
-     * @param storeid    The storeid.
-     * @param terminalid    The terminal to link to.
-     * @param queuebusterlink    The queuebuster link.
-     * @return The ResultBase
-     */
-    @POST
-    @Produces({MediaType.APPLICATION_JSON })
-    @Path("/setqueuebusterlink")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="端末にBluetoothプリンターリンクを設置する", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクを見つからない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データは見つからない")
-    })
-    public final ResultBase setQueueBusterLink(
-    		@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
-    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalid,
-    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
-    		@ApiParam(name="training", value="トレーニングフラグ") @FormParam("training") final String training,
-    		@ApiParam(name="queuebusterlink", value="Bluetoothプリンター") @FormParam("queuebusterlink") final String queuebusterlink) {
-
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("retailstoreid", storeid)
-				.println("terminalid", terminalid)
-				.println("companyid", companyId)
-				.println("queuebusterlink", queuebusterlink)
-				.println("training", training);
-
-        ResultBase resultBase = new ResultBase();
-        try {
-
-            if (!StringUtility.isNullOrEmpty(queuebusterlink)) {
-                ViewPosLinkInfo qbInfo = this.getLinkItem(
-                        QUEUEBUSTER_LINK_TYPE, storeid, queuebusterlink);
-                if (qbInfo.getNCRWSSResultCode() != ResultBase.RES_OK) {
-                    tp.println("queuebusterlink to set does not exist.");
-                    resultBase.setNCRWSSResultCode(
-                            ResultBase.RES_LINK_NOTFOUND);
-                    return resultBase;
-                }
-            }
-
-            IDeviceInfoDAO deviceInfoDao = daoFactory
-                    .getDeviceInfoDAO();
-            String appId = pathName.concat(".setqueuebusterlink");
-            resultBase = deviceInfoDao.setQueueBusterLink(
-                    storeid, terminalid, queuebusterlink, appId, getOpeCode(),companyId,training);
-
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to set queuebusterlink.", ex);
-			resultBase = new ResultBase(
-					(ex.getCause() instanceof SQLException) ? ResultBase.RES_ERROR_DB
-							: ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to set queuebusterlink.", ex);
-			resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(resultBase.toString());
-		}
-		return resultBase;
-	}
-
-    /**
      * Checks if store is existing.
      *
      * @param retailStoreID the store identifier.
@@ -999,111 +602,6 @@ public class DeviceInfoResource {
 		}
 		return result;
 	}
-    /**
-     * Service resource to set the Till/Drawer
-     * association for the device identified
-     * by the terminal id.
-     * @param storeId		- The store identifier.
-     * @param terminalId	- The terminal/device identifier.
-     * @param tillId		- The till/drawer identifier.
-     * @return ResultBase	- The result of this operation.
-     */
-    @POST
-    @Produces({MediaType.APPLICATION_JSON })
-    @Path("/settillid")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="ドゥローアを設置する", response=ResultBase.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効のドゥローアコード"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはデータベースにおいてすでに存在している")
-    })
-    public final ResultBase setTillId(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
-    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalId,
-    		@ApiParam(name="tillid", value="ドゥローアコード") @FormParam("tillid") final String tillId,
-    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId) {
-    	String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("storeid", storeId)
-            .println("terminalid", terminalId)
-            .println("tillid", tillId)
-            .println("companyid", companyId);
-
-        ResultBase result = new ResultBase();
-        String updAppId = pathName.concat(".settillid");
-        String opeCode = getOpeCode();
-
-        try {
-            IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-
-            if(StringUtility.isNullOrEmpty(storeId)) {
-            	tp.println("Invalid value for StoreId.");
-            	result.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
-            	result.setMessage("Invalid value for StoreId.");
-            	tp.methodExit(result);
-            	return result;
-            }
-
-            if(StringUtility.isNullOrEmpty(terminalId)) {
-            	tp.println("Invalid value for TerminalId.");
-            	result.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
-            	result.setMessage("Invalid value for TerminalId.");
-            	tp.methodExit(result);
-            	return result;
-            }
-
-            if(tillId != null) {
-            	if(tillId.trim().isEmpty()) {
-            		tp.println("Invalid value for TillId. TillId should not be empty.");
-                	result.setNCRWSSResultCode(ResultBase.RES_TILL_INVALIDPARAMS);
-                	result.setMessage("Invalid value for TillId. TillId should not be empty.");
-                	tp.methodExit(result);
-                	return result;
-            	} else {
-            		ViewTill viewTill = new TillInfoResource().viewTill(storeId, tillId);
-
-            		if(viewTill.getNCRWSSResultCode() != ResultBase.RES_OK) {
-            			tp.println("Till does not exist.");
-            			result.setNCRWSSResultCode(viewTill.getNCRWSSResultCode());
-            			result.setMessage("Till does not exist.");
-            			tp.methodExit(result);
-            			return result;
-            		}
-            	}
-            }
-
-            result = iPerCtrlDao.setTillId(storeId,
-                    terminalId, tillId, updAppId, opeCode);
-
-            if (ResultBase.RESDEVCTL_NOTFOUND
-                    == result.getNCRWSSResultCode()) {
-                DeviceInfo newDeviceInfo = new DeviceInfo();
-                newDeviceInfo.setDeviceId(terminalId);
-                newDeviceInfo.setRetailStoreId(storeId);
-                newDeviceInfo.setLinkPOSTerminalId("");
-                newDeviceInfo.setUpdAppId(updAppId);
-                newDeviceInfo.setUpdOpeCode(opeCode);
-                newDeviceInfo.setTillId(tillId);
-                newDeviceInfo.setCompanyId(companyId);
-                result = iPerCtrlDao.createPeripheralDeviceInfo(newDeviceInfo);
-            }
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to set TillId.", ex);
-			result = new ResultBase(ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to set TillId.", ex);
-			result = new ResultBase(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(result);
-		}
-		return result;
-    }
 
     /**
      * GetAttribute.

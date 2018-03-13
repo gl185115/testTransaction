@@ -264,7 +264,8 @@ SELECT TOP 1
        colorInfo.ColorKanaName,
        sizeInfo.SizeKanaName,
        brandInfo.BrandName,
-       plu.MdName
+       plu.MdName,
+       pluNameInfo.MdName pluMdName
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore

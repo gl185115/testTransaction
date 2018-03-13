@@ -25,6 +25,7 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.pricing.model.Description;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PickListItem;
@@ -158,6 +159,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         String actualStoreid = storeid;
         String salesNameLocal = "";
         String salesName = "";
+        String pluMdName = "";
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -179,8 +181,14 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                         result.getString(result.findColumn("DptNameLocal")));
                 salesName = chooseMdNameLocal(result.getString(result.findColumn("MdName")),null,
                         result.getString(result.findColumn("DptName")));
-                description.setJa(salesNameLocal);
-                description.setEn(salesName);
+                pluMdName = result.getString(result.findColumn("pluMdName"));
+                if(StringUtility.isNullOrEmpty(pluMdName)) {
+                    description.setJa(salesNameLocal);
+                    description.setEn(salesName);
+                } else {
+                    description.setJa(pluMdName);
+                    description.setEn(pluMdName);
+                }
                 searchedItem.setDescription(description);
                 
                 if (result.getString(result.findColumn("MdName")) != null) {

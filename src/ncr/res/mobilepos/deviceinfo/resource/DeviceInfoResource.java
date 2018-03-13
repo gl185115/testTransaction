@@ -10,9 +10,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -48,13 +46,10 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.store.resource.StoreResource;
 import ncr.res.mobilepos.tillinfo.model.Till;
 import ncr.res.mobilepos.tillinfo.model.ViewTill;
 
@@ -75,10 +70,6 @@ public class DeviceInfoResource {
      * Progname assignment for PeripheralDeviceControl.
      */
     private static final String PROG_NAME = "DvInfo";
-    /**
-     * PeripheralDeviceControl classname.
-     */
-    private String className = "DeviceInfoResource.";
     /**
      * instance of the trace debug printer.
      */
@@ -120,8 +111,6 @@ public class DeviceInfoResource {
      */
     private static final String CREDITAUTH_LINK_TYPE = "creditauthorization";
 
-    private String pathName = "deviceinfo";
-
     /**
      * PeripheralDeviceControl resource name.
      *
@@ -134,7 +123,6 @@ public class DeviceInfoResource {
     /**
      * TXU_POS_CTRL OpenCloseStat.
      */
-    private static int POSCTRL_OPEN_CLOSE_STAT_OPENED = 1;
     private static int POSCTRL_OPEN_CLOSE_STAT_CLOSED = 4;
 
     /**
@@ -235,86 +223,6 @@ public class DeviceInfoResource {
 		}
         return viewDevInfo;
     }
-
-    /**
-     * Updates device entry in MST_DEVICEINFO.
-     *
-     * @param deviceID
-     *            The device to delete.
-     * @param retailStoreID
-     *            The storeid where the device belongs.
-     * @param jsonDeviceInfo
-     *            The device info model containing the new values
-     * @return ViewDeviceInfo - contains the DeviceInfo and result codes
-     *
-     */
-    @POST
-    @Produces({ MediaType.APPLICATION_JSON })
-    @Path("/maintenance")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="更新端末情報", response=ViewDeviceInfo.class)
-    @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_ALREADY_EXIST, message="設備データはすでにデータベースに存在している"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="設備データを発見していない")
-    })
-    public final ViewDeviceInfo updateDevice(
-    	@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
-    	@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
-    	@ApiParam(name="deviceid", value="端末番号") @FormParam("deviceid") final String deviceID,
-    	@ApiParam(name="deviceinfo", value="端末情報") @FormParam("deviceinfo") final String jsonDeviceInfo,
-    	@ApiParam(name="trainingmode", value="トレーニングフラグ") @FormParam("trainingmode") final int trainingMode) {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName)
-	        .println("companyid", companyID)
-	        .println("retailstoreid", retailStoreID)
-	        .println("deviceid", deviceID)
-			.println("deviceinfo", jsonDeviceInfo)
-			.println("trainingmode", trainingMode);
-
-        ViewDeviceInfo viewInfo = new ViewDeviceInfo();
-		if (StringUtility.isNullOrEmpty(deviceID, companyID, retailStoreID, jsonDeviceInfo)) {
-			viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_INVALIDPARAMETER);
-			tp.println("Parameter is null or empty.");
-			tp.methodExit(viewInfo);
-			return viewInfo;
-		}
-        try {
-			JsonMarshaller<DeviceInfo> jsonMarshaller = new JsonMarshaller<DeviceInfo>();
-			DeviceInfo newDeviceInfo = jsonMarshaller.unMarshall(
-					jsonDeviceInfo, DeviceInfo.class);
-			if (!StringUtility.isNullOrEmpty(newDeviceInfo.getRetailStoreId()) &&
-				!storeExists(newDeviceInfo.getRetailStoreId())) {
-				tp.println("New StoreId does not exist");
-				viewInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-				return viewInfo;
-			}
-			IDeviceInfoDAO iPerCtrlDao = daoFactory.getDeviceInfoDAO();
-			newDeviceInfo.setUpdAppId(pathName.concat(".maintenance"));
-			newDeviceInfo.setUpdOpeCode(getOpeCode());
-			viewInfo = iPerCtrlDao.updateDevice(companyID, retailStoreID, deviceID,
-					newDeviceInfo, trainingMode, null);
-		} catch (DaoException ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
-					functionName + ": Failed to update device.", ex);
-			viewInfo = new ViewDeviceInfo(
-					(ex.getCause() instanceof SQLException) ? ResultBase.RES_ERROR_DB
-							: ResultBase.RES_ERROR_DAO,
-					ResultBase.RES_ERROR_DB, ex);
-		} catch (Exception ex) {
-			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-					functionName + ": Failed to update device.", ex);
-			viewInfo = new ViewDeviceInfo(ResultBase.RES_ERROR_GENERAL,
-					ResultBase.RES_ERROR_GENERAL, ex);
-		} finally {
-			tp.methodExit(viewInfo);
-		}
-		return viewInfo;
-	}
 
     /**
      * Service resource to set retrieve
@@ -521,27 +429,6 @@ public class DeviceInfoResource {
 		}
 		return poslinks;
 	}
-
-    /**
-     * Checks if store is existing.
-     *
-     * @param retailStoreID the store identifier.
-     * @return true, if store exist.
-     */
-    private boolean storeExists(final String retailStoreID) {
-        boolean isExist = true;
-        StoreResource storeResource = new StoreResource();
-        ViewStore viewStore = storeResource.viewStore(retailStoreID);
-        if (viewStore.getNCRWSSResultCode() != ResultBase.RES_OK) {
-            isExist = false;
-        }
-        return isExist;
-    }
-
-    private String getOpeCode(){
-        return ((securityContext != null) && (securityContext.getUserPrincipal()) != null) ? securityContext
-                .getUserPrincipal().getName() : null;
-    }
 
     /**
      * Service resource to retrieve

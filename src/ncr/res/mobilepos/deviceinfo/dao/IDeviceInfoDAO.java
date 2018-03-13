@@ -9,7 +9,6 @@ import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
-import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
@@ -63,20 +62,6 @@ public interface IDeviceInfoDAO {
      */
     ResultBase deleteDevice(String deviceID, String retailStoreID, String appId, String opeCode)
             throws DaoException;
-
-    /**
-     * Update device.
-     * @param companyid  - company identifier
-     * @param storeid    - store identifier
-     * @param terminalid - terminal identifier
-     * @param deviceinfo - the model that contains the new values
-     * @param connection - connection for sql query
-     * @return ViewDeviceInfo
-     * @throws Exception - exception
-     */
-    ViewDeviceInfo updateDevice(String companyid,
-            String storeid, String terminalid,
-            DeviceInfo deviceinfo, int trainingmode, Connection connection) throws Exception;
 
     /**
      * Update last txid at journal service.

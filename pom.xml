@@ -208,7 +208,7 @@
         <dependency>
             <groupId>ncr.res.base.javalib</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>1.0.0.1</version>
+            <version>3.3.1.2</version>
             <scope>compile</scope>
         </dependency>
 

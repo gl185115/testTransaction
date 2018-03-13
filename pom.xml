@@ -205,6 +205,12 @@
             <version>1.0.5.11</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>ncr.res.base.javalib</groupId>
+            <artifactId>poslog-binding</artifactId>
+            <version>1.0.0.1</version>
+            <scope>compile</scope>
+        </dependency>
 
         <!-- For Test -->
         <dependency>
@@ -538,30 +544,6 @@
                 </configuration>
             </plugin>
 
-            <!-- jar for poslog-binding in compile and package -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-                <executions>
-                    <execution>
-                        <id>library</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>poslog-binding</finalName>
-                            <outputDirectory>${project.build.directory}/${myArtifactId}/WEB-INF/lib</outputDirectory>
-                            <includes>
-                                <include>**/ncr/res/mobilepos/helper/XmlSerializer.class</include>
-                                <include>**/ncr/res/mobilepos/journalization/model/poslog/*.class</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <!-- war in package -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -569,12 +551,6 @@
                 <version>2.3</version>
                 <configuration>
                 	<encoding>${project.build.sourceEncoding}</encoding>
-                    <!-- Excludes classes in poslog-binding.jar -->
-                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
-                    <packagingExcludes>
-                        **/ncr/res/mobilepos/helper/XmlSerializer.class,
-                        **/ncr/res/mobilepos/journalization/model/poslog/*.class
-                    </packagingExcludes>
                     <webXml>WebContent\WEB-INF\web.xml</webXml>
                     <webResources>
                         <resource>
@@ -620,25 +596,6 @@
                         <!-- default-deploy goal is bound to deploy, so unbinds it. -->
                         <id>default-deploy</id>
                         <phase>none</phase>
-                    </execution>
-                    <execution>
-                        <id>poslogbinding</id>
-                        <phase>deploy</phase>
-                        <goals>
-                            <goal>deploy-file</goal>
-                        </goals>
-                        <configuration>
-                            <repositoryId>resmex-snapshots</repositoryId>
-                            <groupId>${project.groupId}</groupId>
-                            <artifactId>poslog-binding</artifactId>
-                            <version>${project.version}</version>
-                            <packaging>jar</packaging>
-                            <file>${project.build.directory}/${myArtifactId}/WEB-INF/lib/poslog-binding.jar</file>
-                            <pomFile>pom.xml</pomFile>
-                            <generatePom>true</generatePom>
-                            <uniqueVersion>false</uniqueVersion>
-                            <url>${project.distributionManagement.snapshotRepository.url}</url>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>${myArtifactId}</id>

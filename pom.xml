@@ -36,7 +36,7 @@
         <myArtifactId>temp</myArtifactId>
         <drive.path>C:</drive.path>
 		<svn.revision>0</svn.revision>
-        <svn.url>/res/RES MeX/Base/resTransaction/branches/3.3.0</svn.url>
+        <svn.url>/res/RES MeX/Base/resTransaction/branches/3.3.2</svn.url>
     </properties>
 
     <repositories>

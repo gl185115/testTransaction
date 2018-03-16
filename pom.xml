@@ -551,6 +551,7 @@
                 <version>2.3</version>
                 <configuration>
                 	<encoding>${project.build.sourceEncoding}</encoding>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
                     <webXml>WebContent\WEB-INF\web.xml</webXml>
                     <webResources>
                         <resource>

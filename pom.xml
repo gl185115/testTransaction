@@ -580,8 +580,8 @@
                         <resource>
                             <!-- Copies All the files under WebContent -->
                             <directory>WebContent</directory>
-                            <!-- Enabled property -Dwebxml.drive.path when running mvn -->
-                            <filtering>true</filtering>
+                            <!-- Enabled property -Dwebxml.drive.path when running mvn
+                            	 <filtering>true</filtering>  -->
                             <!-- Excludes some files -->
                             <excludes>
                                 <exclude>res.manifest</exclude>

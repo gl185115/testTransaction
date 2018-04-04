@@ -22,15 +22,6 @@ import ncr.res.mobilepos.store.model.ViewStore;
  * Interface class for Store maintenance DAO implementation.
  */
 public interface IStoreDAO {
-    /**
-     * View Store Details.
-     *
-     * @param retailStoreID Store's id
-     * @throws DaoException if error occurred.
-     * @return Store instance of Store class.
-     */
-    ViewStore viewStore(String retailStoreID) throws DaoException;
-    
     
     /**
      * View Store Details.

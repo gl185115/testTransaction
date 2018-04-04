@@ -92,65 +92,6 @@ public class StoreResource {
      *            storeid to lookup.
      * @return JSON type of Store.
      */
-    @Path("/detail")
-    @GET
-    @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ビュー店", response=ViewStore.class)
-    @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
-            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        })
-    public final ViewStore viewStore(
-    		@ApiParam(name="retailstoreid", value="店舗コード")@QueryParam("retailstoreid") final String retailStoreID) {
-
-        String functionName = "StoreResource.viewStore";
-
-        tp.methodEnter("viewStore");
-        tp.println("RetailStoreID", retailStoreID);
-        ViewStore store = new ViewStore();
-
-        try {
-
-            IStoreDAO storeDAO = daoFactory.getStoreDAO();
-            store = storeDAO.viewStore(retailStoreID);
-
-        } catch (DaoException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_DAO,
-                    "Failed to view Store# " + retailStoreID + ": "
-                            + ex.getMessage());
-            if (ex.getCause() instanceof SQLException) {
-                store.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-            } else {
-                store.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-            }
-        } catch (Exception ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to view Store# " + retailStoreID + ": "
-                            + ex.getMessage());
-            store.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-        } finally {
-            tp.methodExit(store.toString());
-        }
-
-        return store;
-    }
-    
-    
-    /**
-     * Service to view store details of given parameter storeid.
-     * 
-     * @param retailStoreID
-     *            storeid to lookup.
-     * @return JSON type of Store.
-     */
     @Path("/getstoredetailinfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })

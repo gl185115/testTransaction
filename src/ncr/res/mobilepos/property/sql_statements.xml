@@ -4913,15 +4913,6 @@ ORDER BY
     WHERE
       StoreId=? AND DeleteFlag = 0.0
   </entry>
-    <entry key="get-store-bystoreid">
-      SELECT
-      StoreId, StoreName, StoreAddr, StoreTel, StoreUrl, SalesSpaceName, EventName, Ads, ElectroFilePath, StampTaxFilePath
-    FROM
-      RESMaster.dbo.MST_STOREINFO
-    WHERE
-      StoreId=? and Status = 'Active' and DeleteFlag = 0.0
-    </entry>
-
   <entry key="get-stores">
     DECLARE
       @companyId varchar(MAX),

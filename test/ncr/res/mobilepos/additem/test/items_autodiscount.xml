@@ -234,7 +234,7 @@
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
 			<value><![CDATA[0]]></value>
-			<value><![CDATA[.000]]></value>
+			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
 			<value><![CDATA[0]]></value>
@@ -388,7 +388,7 @@
 			<value>2016-09-30 00:00:00.000</value>
 			<null />
 			<value>0</value>
-			<value>.000</value>
+			<value>8.000</value>
 			<value>1</value>
 			<null />
 			<value>0</value>
@@ -542,7 +542,7 @@
 			<value>2016-09-30 00:00:00.000</value>
 			<value>22000</value>
 			<value>0</value>
-			<value>.000</value>
+			<value>8.000</value>
 			<value>0</value>
 			<null />
 			<value>0</value>
@@ -696,7 +696,7 @@
 			<value>2016-03-31 00:00:00.000</value>
 			<value>4900</value>
 			<value>0</value>
-			<value>.000</value>
+			<value>8.000</value>
 			<value>1</value>
 			<null />
 			<null />

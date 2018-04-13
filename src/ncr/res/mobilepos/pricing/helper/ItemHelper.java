@@ -89,7 +89,7 @@ public final class ItemHelper {
      * @param rounding
      * @return
      */
-	private static long getSalesPriceWithTaxRounding(long salesprice, int taxRate,
+	private static long getSalesPriceWithTaxRounding(long salesprice, double taxRate,
 			int rounding) {
 
 		double salespricewithtaxAmount = salesprice + salesprice
@@ -113,7 +113,7 @@ public final class ItemHelper {
 	 * @param rounding
 	 * @return
 	 */
-	private static long getSalesUnitPriceWithTaxRounding(long regSalesUnitPrice, int taxRate,
+	private static long getSalesUnitPriceWithTaxRounding(long regSalesUnitPrice, double taxRate,
 			int rounding) {
 
 		double salesprice =

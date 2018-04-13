@@ -221,7 +221,7 @@ SELECT TOP 1
        plu.SalesDate,
        plu.MakerPrice,
        plu.TaxType,
-       plu.TaxRate,
+       CAST(plu.TaxRate/100 AS numeric(8,3)) AS TaxRate,
        plu.DiscountType,
        plu.PaymentType,
        plu.PosMdType,
@@ -961,23 +961,20 @@ UNION
 
 <entry key="get-taxrate-info">
   DECLARE @businessDate VARCHAR(32)
+  SET  @businessDate = LTRIM(RTRIM(?))
 
-    SET  @businessDate = LTRIM(RTRIM(?))
+  SELECT CAST(TaxRate/100 AS numeric(8,3)) AS TaxRate, 2 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
+   WHERE CONVERT(DATE,@businessDate) BETWEEN StartDate AND EndDate
+   UNION ALL
 
-  SELECT TaxRate , 2 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
-  WHERE
-    CONVERT(DATE,@businessDate) BETWEEN StartDate AND EndDate
-  UNION ALL
-
- SELECT TaxRate , 3 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
-  WHERE  CONVERT(DATE,@businessDate) &lt; StartDate
- UNION ALL
- SELECT TaxRate , 1 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
-  WHERE  CONVERT(DATE,@businessDate) &gt; EndDate
-
-
-
+  SELECT CAST(TaxRate/100 AS numeric(8,3)) AS TaxRate, 3 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
+   WHERE CONVERT(DATE,@businessDate) &lt; StartDate
+   UNION ALL
+   
+  SELECT CAST(TaxRate/100 AS numeric(8,3)) AS TaxRate, 1 as TaxRateFlag FROM  RESMaster.dbo.MST_TAXRATE
+   WHERE CONVERT(DATE,@businessDate) &gt; EndDate
 </entry>
+
 <entry key="get-qrcode-info-list">
 DECLARE @companyId VARCHAR(32),
         @storeId VARCHAR(32),
@@ -5415,7 +5412,7 @@ ORDER BY
     SET @groupStoreId = '0'
     
     SELECT
-      dpt.StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, dpt.SubNum1, dpt.SubNum2, dpt.SubNum3, dpt.SubNum4, dpt.SubCode1, grop.GroupName, grop.GroupId
+      dpt.StoreId, Dpt, DptName, DptNameLocal, TaxType, CAST(TaxRate/100 AS numeric(8,3)) AS TaxRate, DiscountType, ExceptionFlag, dpt.SubNum1, dpt.SubNum2, dpt.SubNum3, dpt.SubNum4, dpt.SubCode1, grop.GroupName, grop.GroupId
     FROM
       RESMaster.dbo.MST_DPTINFO dpt
     LEFT JOIN
@@ -5486,7 +5483,7 @@ ORDER BY
           DiscountFlag,
           DiscountAmt,
           DiscountRate,
-          TaxRate,
+          CAST(TaxRate/100 AS numeric(8,3)) AS TaxRate,
           TaxType,
           DPT.SubNum1,
           DPT.SubNum2,
@@ -5530,7 +5527,7 @@ ORDER BY
           DiscountFlag,
           DiscountAmt,
           DiscountRate,
-          TaxRate,
+          CAST(TaxRate/100 AS numeric(8,3)) AS TaxRate,
           TaxType,
           a.SubNum1,
           a.SubNum2,
@@ -9789,7 +9786,7 @@ SELECT
        plu.SalesDate,
        plu.MakerPrice,
        plu.TaxType,
-       plu.TaxRate,
+       CAST(plu.TaxRate/100 AS numeric(8,3)) AS TaxRate,
        plu.DiscountType,
        plu.PaymentType,
        plu.Conn1,
@@ -9916,7 +9913,7 @@ DECLARE    @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32)
        plu.SalesDate,
        plu.MakerPrice,
        plu.TaxType,
-       plu.TaxRate,
+       CAST(plu.TaxRate/100 AS numeric(8,3)) AS TaxRate,
        plu.DiscountType,
        plu.PaymentType,
        plu.Conn1,

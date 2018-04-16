@@ -205,7 +205,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 } else {
                 	searchedItem.setTaxType(result.getInt(result.findColumn("dptTaxType")));
                 }
-                searchedItem.setTaxRate(result.getDouble(result.findColumn("TaxRate")));
+                searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
                 searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
                 searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));
 
@@ -845,7 +845,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setDescription(description);
 
                 searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
-                searchedItem.setTaxRate(result.getDouble(result.findColumn("TaxRate")));
+                searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
                 searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
                 searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));
 

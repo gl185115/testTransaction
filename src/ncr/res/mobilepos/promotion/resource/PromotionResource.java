@@ -633,7 +633,7 @@ public class PromotionResource {
 						}
 						
 						String taxRate = departmentInfo.getDepartment().getTaxRate();
-						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : Double.parseDouble(taxRate));
+						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : (int)Double.parseDouble(taxRate));
 
 						saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
 
@@ -1546,7 +1546,7 @@ public class PromotionResource {
 		item.setDiscountAmount(Double.parseDouble(StringUtility.convNullStringToNull(json.getString("discountAmount"))));
 		item.setDepartment(StringUtility.convNullStringToNull(json.getString("department")));
 		item.setDiscountable(json.getBoolean("discountable"));
-		item.setTaxRate(json.getDouble("taxRate"));
+		item.setTaxRate(json.getInt("taxRate"));
 		item.setTaxType(json.getInt("taxType"));
 		item.setDiscountType(StringUtility.convNullStringToNull(json.getString("discountType")));
 		item.setSubNum1(json.getInt("subNum1"));

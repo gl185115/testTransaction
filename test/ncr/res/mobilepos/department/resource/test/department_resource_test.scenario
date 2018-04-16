@@ -26,28 +26,28 @@ Given I have Department Resource
 When I get Department with companyid 01 storeid 0031 and dptid 001
 Then I should get department model with properties:
 |RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
-|0031	        |001	|dpttest1	|部門テスト1	 |5			|5				|5.0			|0.050		|5		|0|0|1|0|12123|
+|0031	        |001	|dpttest1	|部門テスト1	 |5			|5				|5.0			|5.000  |5		|0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- Department exist in the Enterprise Store
 When I get Department with companyid 01 storeid 0031 and dptid 004
 Then I should get department model with properties:
 |RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
-|0031		    |004	|dpttest4	|部門テスト4	 |5			|5				|5.0			|0.050		|5		|0|0|1|0|12123|
+|0031		    |004	|dpttest4	|部門テスト4	 |5			|5				|5.0			|5.000	|5		|0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- Department exist both in Store and Enterprise Store
 When I get Department with companyid 01 storeid 0031 and dptid 003
 Then I should get department model with properties:
 |RETAILSTOREID	|DPT	|DPTNAME	|DPTNAMELOCAL|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
-|0031	        |003	|dpttest3	|部門テスト3	 |5			|5				|5.0			|0.050		|5		|0|0|1|0|12123|
+|0031	        |003	|dpttest3	|部門テスト3	 |5			|5				|5.0			|5.000	|5		|0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 !-- StoreId and DepartmentId equals in the Store and Enterprise Store
 When I get Department with companyid 01 storeid 000031 and dptid 01234567890123456789
 Then I should get department model with properties:
 |RETAILSTOREID	|DPT					|DPTNAME					|DPTNAMELOCAL				|NONSALES	|DISCOUNTTYPE	|DISCOUNTRATE	|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|
-|000031	        |01234567890123456789	|Dpt 01234567890123456789	|部門01234567890123456789	|5			|5				|5.0			|0.050		|5		|0|0|1|0|12123|
+|000031	        |01234567890123456789	|Dpt 01234567890123456789	|部門01234567890123456789	|5			|5				|5.0			|5.000		|5		|0|0|1|0|12123|
 Then the resultcode should be 0 and extendedResultCode should be 0
 
 Scenario: Not Active Departments Should Not Be Viewed

@@ -62,7 +62,7 @@ public class Item {
     private boolean discountable;
 
     @XmlElement(name = "TaxRate")
-    private double taxRate;
+    private int taxRate;
 
     @XmlElement(name = "TaxType")
     private int taxType;
@@ -1422,11 +1422,11 @@ public class Item {
     }
 
     @ApiModelProperty(value="è¡îÔê≈ó¶", notes="è¡îÔê≈ó¶")
-    public final double getTaxRate() {
+    public final int getTaxRate() {
         return taxRate;
     }
 
-    public final void setTaxRate(final double taxRate) {
+    public final void setTaxRate(final int taxRate) {
         this.taxRate = taxRate;
     }
 

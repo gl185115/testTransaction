@@ -1,10 +1,7 @@
 package ncr.res.mobilepos.systemsetting.resource;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
@@ -31,6 +28,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
 import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
 import ncr.res.mobilepos.systemsetting.model.DateTime;
@@ -298,4 +296,48 @@ public class SystemSettingResource {
 		}
 		return terminalInfo;
 	}
+	
+    /**
+     * get reloadMasterTables
+     * @return ResultBase
+     */
+    @GET
+    @Path("/ReloadMasterTables")
+    @Produces({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="メモリー再展開チェック", response=DateTime.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final ResultBase reloadMasterTables() {
+        String functionname = "SystemSettingResource.reloadMasterTables";
+        tp.methodEnter("reloadMasterTables");
+        ResultBase result = new ResultBase();
+        WebContextListener listener = new WebContextListener();
+        String logName = "";
+        try {
+        	logName = "initializeEnvironmentVariables";
+            listener.initializeEnvironmentVariables();
+            logName = "initializeLoggers";
+            listener.initializeLoggers();
+            logName = "initializeDBInstances";
+            listener.initializeDBInstances();
+            logName = "preloadDBRecord";
+            listener.preloadDBRecord();
+            logName = "initializeBusinessLogicFactories";
+            listener.initializeBusinessLogicFactories();
+
+            result.setNCRWSSResultCode(ResultBase.RES_OK);
+            result.setMessage("Success");
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, functionname, Logger.RES_EXCEP_GENERAL,
+            		"\n" + logName 
+            		+ " error has happend.\nFailed to get the Master table data. \n"
+                    + e.getMessage());
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(logName + " error has happend. " + e.getMessage());
+        } finally {
+            tp.methodExit(result.toString());
+        }
+        return result;
+    }
 }

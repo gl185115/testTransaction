@@ -328,6 +328,8 @@ public class SystemSettingResource {
 
             result.setNCRWSSResultCode(ResultBase.RES_OK);
             result.setMessage("Success");
+            LOGGER.logWarning(PROG_NAME, functionname, Logger.RES_SUCCESS,
+            		"\nマスターテーブル再読込完了。");
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, functionname, Logger.RES_EXCEP_GENERAL,
             		"\n" + logName 

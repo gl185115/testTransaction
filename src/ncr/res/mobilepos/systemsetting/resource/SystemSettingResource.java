@@ -315,12 +315,6 @@ public class SystemSettingResource {
         WebContextListener listener = new WebContextListener();
         String logName = "";
         try {
-        	logName = "initializeEnvironmentVariables";
-            listener.initializeEnvironmentVariables();
-            logName = "initializeLoggers";
-            listener.initializeLoggers();
-            logName = "initializeDBInstances";
-            listener.initializeDBInstances();
             logName = "preloadDBRecord";
             listener.preloadDBRecord();
             logName = "initializeBusinessLogicFactories";

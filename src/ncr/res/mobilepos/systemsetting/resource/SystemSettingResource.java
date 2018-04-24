@@ -28,6 +28,11 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.factory.PointRateFactory;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
+import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
+import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
 import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
 import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
@@ -317,8 +322,20 @@ public class SystemSettingResource {
         try {
             logName = "preloadDBRecord";
             listener.preloadDBRecord();
-            logName = "initializeBusinessLogicFactories";
-            listener.initializeBusinessLogicFactories();
+            logName = "SystemFileConfig";
+            SystemFileConfig systemFileConfig = SystemFileConfig.getInstance();
+            String companyId =  systemFileConfig.getCompanyId();
+            String storeId = systemFileConfig.getStoreId();
+            logName = "QrCodeInfoFactory";
+            QrCodeInfoFactory.initialize(companyId, storeId);
+            logName = "PointRateFactory";
+        	PointRateFactory.initialize(companyId, storeId);
+        	logName = "PricePromInfoFactory";
+        	PricePromInfoFactory.initialize(companyId, storeId);
+        	logName = "PriceMMInfoFactory";
+        	PriceMMInfoFactory.initialize(companyId, storeId);
+        	logName = "PromotionMsgInfoFactory";
+        	PromotionMsgInfoFactory.initialize(companyId, storeId);
 
             result.setNCRWSSResultCode(ResultBase.RES_OK);
             result.setMessage("Success");

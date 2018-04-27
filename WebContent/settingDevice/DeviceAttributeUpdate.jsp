@@ -35,6 +35,8 @@ ArrayList<String> ATT8_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add("スワイプ式");}};
 ArrayList<String> ATT9_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリーダーを接続しない"); add("図書カードリーダーを接続する");}};
+ArrayList<String> ATT10_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェアキーボードが付かない"); add("ハードウェアキーボードが付く");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -73,7 +75,7 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
 	// ATTAttribute9
 	String ATTAttribute9 = request.getParameter("ATTAttribute9");
 	// ATTAttribute10
-//	String ATTAttribute10 = request.getParameter("Attribute10");
+	String ATTAttribute10 = request.getParameter("ATTAttribute10");
 
     String errString = "";
 	String infoString = "";
@@ -98,7 +100,7 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
                 + " Attribute7=?,"
                 + " Attribute8=?"
                 + ", Attribute9=?"
-//              + ", Attribute10=?"
+                + ", Attribute10=?"
                 + " WHERE AttributeId=?; "
                 ;
         PreparedStatement psIns = conn.prepareStatement(sqlStr);
@@ -118,7 +120,7 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
         psIns.setString(13, ATTAttribute7);
         psIns.setString(14, ATTAttribute8);
         psIns.setString(15, ATTAttribute9);
-//      psIns.setString(16, ATTAttribute10);
+        psIns.setString(16, ATTAttribute10);
         psIns.setString(16, ATTAttributeId);
 
         try {
@@ -245,9 +247,7 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
 					<th>属性７(Attribute7)</th>
 					<th>属性８(Attribute8)</th>
 					<th>属性９(Attribute9)</th>
-<!--
                     <th>属性１０(Attribute10)</th>
--->
 				</tr>
 			</thead>
 			<tbody id="logs">
@@ -453,6 +453,18 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
 						%>
 				</select></td>
 			</tr>
+			<tr>
+                <td align="right">属性１０(Attribute10) ：</td>
+                <td align="left"><select name="ATTAttribute10"
+                    id="ATTAttribute10" required>
+                        <%
+                            for (int i = 0; i < ATT10_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
+                                out.println(">" + ATT10_VAL.get(i) + " : " + ATT10_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>
@@ -529,8 +541,8 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
 		StrId = 'attribute9' + InValue;
 		document.getElementById('ATTAttribute9').value = document.getElementById(StrId).value || false;
 		// ATTATTAttribute10
-//		StrId = 'attribute10' + InValue;
-//		document.getElementById('ATTAttribute10').value = document.getElementById(StrId).value || false;
+		StrId = 'attribute10' + InValue;
+		document.getElementById('ATTAttribute10').value = document.getElementById(StrId).value || false;
 
 		document.getElementById('updateArea').style.display = "block";
 	}
@@ -559,6 +571,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute7').value);
         valueList.push(document.getElementById('ATTAttribute8').value);
         valueList.push(document.getElementById('ATTAttribute9').value);
+        valueList.push(document.getElementById('ATTAttribute10').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(
@@ -646,9 +659,9 @@ jQuery(function ($) {
 				log += '<td><input type="text" id="attribute9' + i
 						+ '" name="attribute9' + i + '" disabled value="'
 						+ (currentLog[i].Attribute9 || '&nbsp;' ) + '"></td>';
-//				log += '<td><input type="text" id="attribute10' + i
-//						+ '" name="attribute10' + i + '" disabled value="'
-//						+ (currentLog[i].Attribute10 || '&nbsp;' ) + '"></td>';
+				log += '<td><input type="text" id="attribute10' + i
+						+ '" name="attribute10' + i + '" disabled value="'
+						+ (currentLog[i].Attribute10 || '&nbsp;' ) + '"></td>';
 
 			}
 			document.getElementById('logs').innerHTML = log;

@@ -39,6 +39,8 @@ ArrayList<String> ATT8_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT8_NAME = new ArrayList<String>() {{add("ボタン式"); add("スワイプ式");}};
 ArrayList<String> ATT9_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリーダーを接続しない"); add("図書カードリーダーを接続する");}};
+ArrayList<String> ATT10_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェアキーボードが付かない"); add("ハードウェアキーボードが付く");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -66,10 +68,8 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
 			sqlStr = "INSERT INTO RESMaster.dbo.PRM_DEVICE_ATTRIBUTE"
 					+ "(AttributeId, Description, Printer, Till, CreditTerminal, MSR, CashChanger, "
 					+ "Attribute1, Attribute2, Attribute3, Attribute4, Attribute5, "
-					+ "Attribute6, Attribute7, Attribute8, Attribute9)"
-//					+ "Attribute6, Attribute7, Attribute8, Attribute9, Attribute10)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-//					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ "Attribute6, Attribute7, Attribute8, Attribute9, Attribute10)"
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			Date nowDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String today = formatter.format(nowDate);
@@ -91,7 +91,7 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
 			psIns.setString(14, request.getParameter("Attribute7"));
 			psIns.setString(15, request.getParameter("Attribute8"));
 			psIns.setString(16, request.getParameter("Attribute9"));
-//			psIns.setString(17, request.getParameter("Attribute10"));
+			psIns.setString(17, request.getParameter("Attribute10"));
 
 			try {
 				int rsIns = psIns.executeUpdate();
@@ -320,6 +320,18 @@ ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリ�
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td align="right">属性１０ ：</td>
+                <td align="left"><select name="Attribute10"
+                    id="Attribute10" required>
+                        <%
+                            for (int i = 0; i < ATT10_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
+                                out.println(">" + ATT10_VAL.get(i) + " : " + ATT10_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
 <!--		<tr>
 				<td class="center">属性９</td>
 				<td><input maxlength="4" type="text" name="Attribute9" id="Attribute9" size=4></td>
@@ -364,6 +376,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('Attribute7').value);
         valueList.push(document.getElementById('Attribute8').value);
         valueList.push(document.getElementById('Attribute9').value);
+        valueList.push(document.getElementById('Attribute10').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

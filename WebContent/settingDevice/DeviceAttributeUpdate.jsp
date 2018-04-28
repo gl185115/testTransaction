@@ -121,7 +121,7 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
         psIns.setString(14, ATTAttribute8);
         psIns.setString(15, ATTAttribute9);
         psIns.setString(16, ATTAttribute10);
-        psIns.setString(16, ATTAttributeId);
+        psIns.setString(17, ATTAttributeId);
 
         try {
             int rsIns = psIns.executeUpdate();
@@ -454,17 +454,17 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 				</select></td>
 			</tr>
 			<tr>
-                <td align="right">属性１０(Attribute10) ：</td>
-                <td align="left"><select name="ATTAttribute10"
-                    id="ATTAttribute10" required>
-                        <%
-                            for (int i = 0; i < ATT10_VAL.size(); i++) {
-                                out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
-                                out.println(">" + ATT10_VAL.get(i) + " : " + ATT10_NAME.get(i) + "</option>");
-                            }
-                        %>
-                </select></td>
-            </tr>
+				<td align="right">属性１０(Attribute10) ：</td>
+				<td align="left"><select name="ATTAttribute10"
+					id="ATTAttribute10" required>
+						<%
+						    for (int i = 0; i < ATT10_VAL.size(); i++) {
+						        out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
+						        out.println(">" + ATT10_VAL.get(i) + " : " + ATT10_NAME.get(i) + "</option>");
+						    }
+						%>
+				</select></td>
+			</tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>

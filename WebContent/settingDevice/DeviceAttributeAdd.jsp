@@ -321,16 +321,17 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
                 </td>
             </tr>
             <tr>
-                <td align="right">属性１０ ：</td>
-                <td align="left"><select name="Attribute10"
-                    id="Attribute10" required>
-                        <%
-                            for (int i = 0; i < ATT10_VAL.size(); i++) {
-                                out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
-                                out.println(">" + ATT10_VAL.get(i) + " : " + ATT10_NAME.get(i) + "</option>");
-                            }
-                        %>
-                </select></td>
+                <td align="right">属性１０ ： </td>
+                <td align="left">
+                    <select name="Attribute10" id="Attribute10" required>
+                    <%
+                        for (int i=0;i<ATT10_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
+                            out.println(">" + ATT10_VAL.get(i) +" : " + ATT10_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
             </tr>
 <!--		<tr>
 				<td class="center">属性９</td>

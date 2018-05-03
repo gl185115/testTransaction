@@ -788,7 +788,16 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td><input type="text" id="pda_Attribute8" name="pda_Attribute8" value="<%=PrmDeviceAttributeLists.get(0).get(14)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_pda_Attribute4" name="tra_pda_Attribute4" value="<%=PrmDeviceAttributeLists.get(1).get(14)%>"  disabled style="width: 100%" ></td>
                 </tr>
-
+				<tr>
+                    <td colspan="2" class="orangetd">属性９(Attribute9)</td>
+                    <td><input type="text" id="pda_Attribute9" name="pda_Attribute9" value="<%=PrmDeviceAttributeLists.get(0).get(15)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute9" name="tra_pda_Attribute9" value="<%=PrmDeviceAttributeLists.get(1).get(15)%>"  disabled style="width: 100%" ></td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="orangetd">属性１０(Attribute10)</td>
+                    <td><input type="text" id="pda_Attribute10" name="pda_Attribute10" value="<%=PrmDeviceAttributeLists.get(0).get(16)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute10" name="tra_pda_Attribute10" value="<%=PrmDeviceAttributeLists.get(1).get(16)%>"  disabled style="width: 100%" ></td>
+                </tr>
 <!--
                 <tr>
                     <td colspan="2" class="orangetd">属性８(Attribute8)</td>

@@ -10924,4 +10924,96 @@ SET @tenderStoreId = '0'
    AND empinfo.SecLevel2 = 1
 ORDER BY empinfo.EmpCode;
 </entry>
+<entry key="update-bussiness-date">
+    DECLARE
+     @companyId varchar(12)
+    ,@storeId varchar(10)
+	,@bizDate date
+	,@clsName varchar(40)
+
+    set @companyId=?
+    set @storeId=?
+    set @bizDate=?
+    set @clsName=?
+
+	IF @storeId = '0'
+		IF EXISTS (SELECT CompanyId FROM RESMaster.dbo.MST_BIZDAY WHERE DeleteFlag = 0.0)
+			UPDATE RESMaster.dbo.MST_BIZDAY
+			SET
+			TodayDate = @bizDate
+			,UpdCount = UpdCount + 1
+			,UpdDate = getdate()
+			,UpdAppId = @clsName
+			WHERE DeleteFlag = 0.0
+		ELSE
+			INSERT INTO RESMaster.dbo.MST_BIZDAY(
+			CompanyId
+			,StoreId
+			,TodayDate
+			,SwitchTime
+			,Skip
+			,DeleteFlag
+			,InsDate
+			,InsAppId
+			,InsOpeCode
+			,UpdCount
+			,UpdDate
+			,UpdAppId
+			,UpdOpeCode
+			) VALUES (
+			@companyId
+			,@storeId
+			,@bizDate
+			,'00:00am'
+			,'0'
+			,0
+			,getdate()
+			,@clsName
+			,'system'
+			,0
+			,getdate()
+			,@clsName
+			,'system'
+			);
+	ELSE
+		IF EXISTS (SELECT CompanyId FROM RESMaster.dbo.MST_BIZDAY
+				WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0)
+			UPDATE RESMaster.dbo.MST_BIZDAY
+			SET
+			TodayDate = @bizDate
+			,UpdCount = UpdCount + 1
+			,UpdDate = getdate()
+			,UpdAppId = @clsName
+			WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0
+		ELSE
+			INSERT INTO RESMaster.dbo.MST_BIZDAY(
+			CompanyId
+			,StoreId
+			,TodayDate
+			,SwitchTime
+			,Skip
+			,DeleteFlag
+			,InsDate
+			,InsAppId
+			,InsOpeCode
+			,UpdCount
+			,UpdDate
+			,UpdAppId
+			,UpdOpeCode
+			) VALUES (
+			@companyId
+			,@storeId
+			,@bizDate
+			,'00:00am'
+			,'0'
+			,0
+			,getdate()
+			,@clsName
+			,'system'
+			,0
+			,getdate()
+			,@clsName
+			,'system'
+			);
+</entry>
 </properties>

@@ -19,4 +19,15 @@ public interface ISystemSettingDAO {
      * @throws DaoException        The Exception when the method failed
      */
     DateSetting getDateSetting(String companyid, String storeid) throws DaoException;
+    
+    /**
+     * Update the Date Setting of the Web Store Server.
+     *
+     * @param companyid            The company id
+     * @param storeid              The store id
+     * @param bizdate              The business date
+     * @return                     Updated count
+     * @throws DaoException        The Exception when the method failed
+     */
+    int updateDateSetting(String companyid, String storeid, String bizdate) throws DaoException;
 }

@@ -103,4 +103,48 @@ extends AbstractDao implements ISystemSettingDAO {
         }
         return retDateSetting;
     }
+    
+    @Override
+	public int updateDateSetting(String companyid, String storeid, String bizdate) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        Connection connection = null;
+        int resultCode = 0;
+        PreparedStatement update = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            update = connection.prepareStatement(sqlStatement
+                    .getProperty("update-bussiness-date"));
+            update.setString(SQLStatement.PARAM1, companyid);
+            update.setString(SQLStatement.PARAM2, storeid);
+            update.setString(SQLStatement.PARAM3, bizdate);
+            update.setString(SQLStatement.PARAM4, this.getClass().getName().substring(this.getClass().getName().lastIndexOf(".")+1));
+            resultCode = update.executeUpdate();
+            // commit codes here!
+            connection.commit();
+        } catch (SQLException ex) {
+            LOGGER.logAlert(
+            		PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_SQLSTATEMENT,
+                    "Failed to Update DateSetting: "
+                            + ex.getMessage());
+            throw new DaoException("SQLException: SQLServerSystemSettingDAO"
+                    + ".updateDateSetting - Error Update DateSetting process", ex);
+        } catch (Exception ex) {
+            LOGGER.logAlert(
+            		PROG_NAME,
+                    functionName,
+                    Logger.RES_EXCEP_SQLSTATEMENT,
+                    "Failed to Update DateSetting: "
+                            + ex.getMessage());
+            throw new DaoException("Exception: SQLServerSystemSettingDAO"
+                    + ".updateDateSetting - Error Update DateSetting process", ex);
+        } finally {
+            closeConnectionObjects(connection, update, null);
+            tp.methodExit(resultCode);
+        }
+        return resultCode;
+	}
 }

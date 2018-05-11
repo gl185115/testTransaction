@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.systemsetting.resource;
 
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 
 import javax.servlet.ServletContext;
@@ -9,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -309,7 +311,7 @@ public class SystemSettingResource {
     @GET
     @Path("/ReloadMasterTables")
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="メモリー再展開チェック", response=DateTime.class)
+    @ApiOperation(value="メモリー再展開チェック", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -350,6 +352,58 @@ public class SystemSettingResource {
             result.setMessage(logName + " error has happend. " + e.getMessage());
         } finally {
             tp.methodExit(result.toString());
+        }
+        return result;
+    }
+    
+    /**
+     * Update BizDate
+     *
+     * @param companyid
+     * 			会社コード
+     * @param storeid
+     * 			店番号
+     * @param bizdate
+	 *          業務日付
+     */
+    @Path("/set")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value="業務日付更新", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final ResultBase setBizDate(
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="bizdate", value="業務日付") @QueryParam("bizdate") final String bizDate) {
+
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        ResultBase result = new ResultBase();
+        tp.println("CompanyId", companyId)
+	        .println("StoreId", storeId)
+	        .println("BizDate", bizDate);
+        try {
+        	String fileName = System.getenv("SYS") + "\\BIZDATE";
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            ISystemSettingDAO systemSettingDAO = sqlServer.getSystemSettingDAO();
+            systemSettingDAO.updateDateSetting(companyId, storeId, bizDate);
+
+            FileWriter writer = new FileWriter(fileName, false);
+            writer.write(bizDate.replace("-", ""));
+            writer.close();
+
+            result.setNCRWSSResultCode(ResultBase.RES_OK);
+            result.setMessage("Success");
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+            		"error has happend.\nFailed to update bizdate. \n"
+                    + e.getMessage());
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage("error has happend. " + e.getMessage());
+        }  finally {
+            tp.methodExit();
         }
         return result;
     }

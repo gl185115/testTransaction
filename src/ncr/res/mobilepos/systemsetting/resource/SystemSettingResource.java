@@ -2,6 +2,7 @@ package ncr.res.mobilepos.systemsetting.resource;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import javax.servlet.ServletContext;
@@ -373,29 +374,46 @@ public class SystemSettingResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
-    public final ResultBase setBizDate(
+    public final ResultBase updateDateSetting(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
     		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
     		@ApiParam(name="bizdate", value="業務日付") @QueryParam("bizdate") final String bizDate) {
-
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        ResultBase result = new ResultBase();
         tp.println("CompanyId", companyId)
 	        .println("StoreId", storeId)
 	        .println("BizDate", bizDate);
+    	String strCheck = "";
+    	FileWriter writer = null;
+        ResultBase result = new ResultBase();
+    	if(StringUtility.isNullOrEmpty(companyId)){
+    		strCheck += "," + "companyId";
+    	}
+    	if(StringUtility.isNullOrEmpty(storeId)){
+    		strCheck += "," + "storeId";
+    	}
+    	if(StringUtility.isNullOrEmpty(bizDate)){
+    		strCheck += "," + "bizDate";
+    	}
         try {
-        	String fileName = System.getenv("SYS") + "\\BIZDATE";
-            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            ISystemSettingDAO systemSettingDAO = sqlServer.getSystemSettingDAO();
-            systemSettingDAO.updateDateSetting(companyId, storeId, bizDate);
+        	if(!StringUtility.isNullOrEmpty(strCheck)){
+        		strCheck = strCheck.substring(1);
+                LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+                		"リクエストパラメータエラー。 \n"
+                        + "Queryパラメータが不正です。(" + strCheck +")");
+                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+        	}else{
+                DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+                ISystemSettingDAO systemSettingDAO = sqlServer.getSystemSettingDAO();
+                systemSettingDAO.updateDateSetting(companyId, storeId, bizDate);
 
-            FileWriter writer = new FileWriter(fileName, false);
-            writer.write(bizDate.replace("-", ""));
-            writer.close();
+                String fileName = System.getenv("SYS") + "\\BIZDATE";
+                writer = new FileWriter(fileName, false);
+                writer.write(bizDate.replace("-", ""));
 
-            result.setNCRWSSResultCode(ResultBase.RES_OK);
-            result.setMessage("Success");
+                result.setNCRWSSResultCode(ResultBase.RES_OK);
+                result.setMessage("Success");
+        	}
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
             		"error has happend.\nFailed to update bizdate. \n"
@@ -404,6 +422,12 @@ public class SystemSettingResource {
             result.setMessage("error has happend. " + e.getMessage());
         }  finally {
             tp.methodExit();
+            if(writer != null){
+            	try {
+					writer.close();
+				} catch (IOException e) {
+				}
+            }
         }
         return result;
     }

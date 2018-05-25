@@ -4585,6 +4585,31 @@ ORDER BY
       AND TrainingFlag = @TrainingFlag
       AND WorkstationId = @WorkstationId
   </entry>
+  <entry key="get-forward-items-posLog-whit-tag">
+    DECLARE
+      @CompanyId varchar(12),
+      @RetailStoreId varchar(MAX),
+      @Queue VARCHAR(MAX),
+      @BusinessDayDate VARCHAR(MAX),
+      @tag VARCHAR(MAX)
+
+    SET @CompanyId = ?
+    SET @RetailStoreId = ?
+    SET @Queue = ?
+    SET @BusinessDayDate = ?
+    SET @tag = ?
+
+    SELECT
+      Status,
+      Tx
+    FROM RESTransaction.dbo.TXL_FORWARD_ITEM
+    WHERE CompanyId = @CompanyId
+      AND RetailStoreId = @RetailStoreId
+      AND Queue = @Queue
+      AND BusinessDayDate = @BusinessDayDate
+      AND Ext1 = @tag
+      AND Status = 0
+  </entry>
   <entry key="update-forward-status">
         UPDATE RESTransaction.dbo.TXL_FORWARD_ITEM
         SET Status = ?
@@ -11015,5 +11040,83 @@ ORDER BY empinfo.EmpCode;
 			,@clsName
 			,'system'
 			);
-</entry>
+  </entry>
+  <entry key="save-forward-poslog-include-tag">
+    DECLARE
+      @CompanyId varchar(12),
+      @RetailStoreId varchar(MAX),
+      @WorkstationId varchar(MAX),
+      @SequenceNumber varchar(MAX),
+      @Queue varchar(MAX),
+      @BusinessDayDate varchar(MAX),
+      @TrainingFlag NUMERIC(1,0),
+      @BusinessDateTime varchar(MAX),
+      @OperatorId varchar(MAX),
+      @SalesTotalAmt NUMERIC(15,0),
+      @SalesTotalQty NUMERIC(15,0),
+      @PosTermId varchar(MAX),
+      @Status varchar(MAX),
+      @Tx varchar(MAX),
+      @LayawayFlag NUMERIC(1,0),
+      @TxType varchar(50),
+      @Tag varchar(50)
+
+    SET @CompanyId = ?
+    SET @RetailStoreId = ?
+    SET @WorkstationId = ?
+    SET @SequenceNumber = ?
+    SET @Queue = ?
+    SET @BusinessDayDate = ?
+    SET @TrainingFlag = ?
+    SET @BusinessDateTime = ?
+    SET @OperatorId = ?
+    SET @SalesTotalAmt = ?
+    SET @PosTermId = ?
+    SET @Status = ?
+    SET @Tx = ?
+    SET @LayawayFlag = ?
+    SET @TxType = ?
+    SET @SalesTotalQty = ?
+    SET @Tag = ?
+
+		IF NOT EXISTS (SELECT CompanyId FROM RESTransaction.dbo.TXL_FORWARD_ITEM
+		WHERE CompanyId = @CompanyId AND RetailStoreId = @RetailStoreId
+		AND BusinessDayDate = @BusinessDayDate AND Ext1 = @Tag AND Status IN ('0','1') )
+			INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
+			(CompanyId
+			,RetailStoreId
+			,WorkstationId
+			,SequenceNumber
+			,Queue
+			,BusinessDayDate
+			,TrainingFlag
+			,BusinessDateTime
+			,OperatorId
+			,SalesTotalAmt
+			,SalesTotalQty
+			,PosTermId
+			,Status
+			,Tx
+			,LayawayFlag
+			,TxType
+			,Ext1)
+			VALUES
+			(@CompanyId
+			,@RetailStoreId
+			,@WorkstationId
+			,@SequenceNumber
+			,@Queue
+			,@BusinessDayDate
+			,@TrainingFlag
+			,@BusinessDateTime
+			,@OperatorId
+			,@SalesTotalAmt
+			,@SalesTotalQty
+			,@PosTermId
+			,@Status
+			,@Tx
+			,@LayawayFlag
+			,@TxType
+			,@Tag)
+  </entry>
 </properties>

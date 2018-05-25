@@ -733,6 +733,11 @@ public class ResultBase {
      *Queue full per a store.
      */
     public static final int RESSYS_ERROR_QB_QUEUEFULL = 346;
+    /**
+     * Value : {@value}<br>
+     *Tag in use.
+     */
+    public static final int RESSYS_ERROR_QB_TAG_INUSE = 347;
     //NetworkReceipt Results
     /**
      * Value : {@value}<br>

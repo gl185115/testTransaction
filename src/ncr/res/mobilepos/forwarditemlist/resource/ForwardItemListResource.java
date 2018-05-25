@@ -670,4 +670,173 @@ public class ForwardItemListResource {
     	
         return operator;
     }
+
+    /**
+     * タグ番号で前捌きデータ登録
+     * @param companyid
+     * @param retailstoreid
+     * @param queue
+     * @param workstationid
+     * @param trainingmode
+     * @param tag
+     * @param total
+     * @param poslogxml
+     * @return ResultBase
+     */
+    @POST
+    @Path("/SuspendWithTag")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="タグ番号で前捌きデータ登録", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="無効なキュー番号"),
+    })
+    public final ResultBase saveForwardPosLogIncludeTag(
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="queue", value="キュー番号") @FormParam("queue") final String queue,
+    		@ApiParam(name="workstationid", value="POSコード") @FormParam("workstationid") final String workstationId,
+    		@ApiParam(name="trainingmode", value="トレーニングモード") @FormParam("trainingmode") final String trainingMode,
+    		@ApiParam(name="tag", value="タグ番号") @FormParam("tag") final String tag,
+    		@ApiParam(name="total", value="合計金額") @FormParam("total") final String total,
+    		@ApiParam(name="poslogxml", value="Poslog Xml") @FormParam("poslogxml") final String posLogXml) {
+
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+          .println("companyid", companyId)
+          .println("retailstoreid", retailStoreId)
+          .println("queue", queue)
+          .println("workstationid", workstationId)
+          .println("trainingmode", trainingMode)
+          .println("tag", tag)
+          .println("total", total)
+          .println("poslogxml", posLogXml);
+
+        if (snap == null) {
+            snap = (SnapLogger) SnapLogger.getInstance();
+        }
+
+        ResultBase resultBase = new ResultBase();
+
+        try {
+            // unmarshall poslog xml
+            XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
+            PosLog posLog = poslogSerializer.unMarshallXml(posLogXml, PosLog.class);
+
+            // check if valid poslog
+            if (!POSLogHandler.isValid(posLog)) {
+                tp.println("Required POSLog elements are missing.");
+                Snap.SnapInfo info = snap.write("Required POSLog elements are missing.", posLogXml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Invalid POSLog Transaction to snap file", info);
+                resultBase.setMessage("Required POSLog elements are missing.");
+                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                return resultBase;
+            }
+
+            // check if valid business date format
+            String businessDate = posLog.getTransaction().getBusinessDayDate();
+            if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+                tp.println("BusinessDayDate should be in yyyy-MM-dd format.");
+                resultBase.setNCRWSSResultCode(ResultBase.RESSYS_ERROR_QB_DATEINVALID);
+                resultBase.setMessage("BusinessDayDate should be in yyyy-MM-dd format.");
+                return resultBase;
+            }
+
+            // save poslog
+            DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IPosLogDAO quebusterDAO = dao.getPOSLogDAO();
+            int result = quebusterDAO.saveForwardPosLogIncludeTag(posLog, posLogXml, queue, tag, total);
+
+            if (result == SQLResultsConstants.ROW_DUPLICATE) {
+                result = 0;
+                LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
+                        "Duplicate suspended transaction. It writes out to a snap file.");
+                Snap.SnapInfo duplicatePOSLog = snap.write("Duplicate POSLog Transaction", posLogXml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
+            }
+
+            resultBase.setNCRWSSResultCode(result);
+
+        } catch (DaoException ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", posLogXml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_DAO, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_DB, ResultBase.RES_ERROR_DB, ex);
+        } catch (JAXBException ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", posLogXml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_JAXB, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_JAXB, ResultBase.RES_ERROR_JAXB, ex);
+        } catch (Exception ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", posLogXml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, ex);
+        } finally {
+            tp.methodExit(resultBase.toString());
+        }
+        return resultBase;
+    }
+    
+    /**
+     * 	タグ番号で前捌きデータ取得
+     *
+     * @param companyId     	The Company ID
+     * @param retailStoreId		The Retail Store ID
+     * @param queue     		The Queue from POS
+     * @param businessDayDate	The BusinessDay Date
+     * @param tag				The Ext1
+     * @return SearchForwardPosLog
+     */
+    @GET
+    @Path("/ResumeWithTag")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="タグ番号で前捌きデータ取得", response=SearchForwardPosLog.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引データ未検出")
+        })
+    public final SearchForwardPosLog getForwardItemsWithTag(
+    		@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="RetailStoreId", value="小売店コード") @QueryParam("RetailStoreId") final String retailStoreId,
+    		@ApiParam(name="Queue", value="キュー番号") @QueryParam("Queue") final String queue,
+    		@ApiParam(name="Businessdaydate", value="業務日付") @QueryParam("Businessdaydate") final String businessDayDate,
+    		@ApiParam(name="tag", value="タグ番号") @QueryParam("tag") final String tag) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.println("CompanyId", companyId);
+        tp.println("RetailStoreId", retailStoreId);
+        tp.println("Queue", queue);
+        tp.println("Businessdaydate", businessDayDate);
+        tp.println("tag", tag);
+
+        SearchForwardPosLog poslog = new SearchForwardPosLog();
+        try {
+               DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+               IPosLogDAO posLogDAO = sqlServer.getPOSLogDAO();
+               poslog = posLogDAO.getForwardItemsPosLogWithTag(companyId, retailStoreId,
+                		queue, businessDayDate, tag);
+
+               if (StringUtility.isNullOrEmpty(poslog.getPosLogXml())) {
+                    poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+                    tp.println("Forward poslog with tag not found.");
+               } else {
+                    XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
+                    poslog.setPoslog(poslogSerializer.unMarshallXml(poslog.getPosLogXml(), PosLog.class));
+               }
+		} catch (DaoException ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get poslog xml with tag", ex);
+            poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get poslog xml with tag", ex);
+            poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        }
+        return (SearchForwardPosLog) tp.methodExit(poslog);
+    }
+
 }

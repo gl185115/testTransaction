@@ -2465,4 +2465,127 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 		return pointPosted;
 	}
 
+	@Override
+	public int saveForwardPosLogIncludeTag(PosLog posLog, String posLogXml, String queue, String tag, String total)
+			throws DaoException {
+		String functioName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functioName).println("queue", queue).println("tag",tag).println("total", total);
+
+        int result = 0;
+        Connection connection = null;
+        PreparedStatement saveForwardPosLogPrepStmnt = null;
+
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            Transaction transaction = posLog.getTransaction();
+            Double amount = null;
+
+            for(Total totalType : transaction.getRetailTransaction().getTotal()){
+                if (("TransactionPurchaseQuantity").equals(totalType.getTotalType())) {
+                    amount = new Double(totalType.getAmount());
+                }
+            }
+
+            saveForwardPosLogPrepStmnt = connection.prepareStatement(sqlStatement.getProperty("save-forward-poslog-include-tag"));
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM3, transaction.getWorkStationID().getValue());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM4, transaction.getSequenceNo());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM5, queue);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM6, transaction.getBusinessDayDate());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM7,
+                    ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM8, transaction.getBeginDateTime());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM9, transaction.getOperatorID().getValue());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM10, Integer.parseInt(total));
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM11, transaction.getWorkStationID().getValue());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM12, "0");
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM13, posLogXml);
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM14,
+                    "true".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 1 : 0);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM15, transaction.getTransactionType());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM16, amount.intValue());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM17, tag);
+            if (saveForwardPosLogPrepStmnt.executeUpdate() != 1) {
+                result = ResultBase.RESSYS_ERROR_QB_TAG_INUSE;
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName + ": Failed to save forward poslog.", e);
+                rollBack(connection, functioName, e);
+                throw new DaoException("SQLException: @" + functioName, e);
+            }
+            Snap.SnapInfo duplicateSuspend = snap.write("Poslogxml to suspend", posLogXml);
+            LOGGER.logSnap(PROG_NAME, functioName, "Duplicate suspend transaction to snap file", duplicateSuspend);
+            result = SQLResultsConstants.ROW_DUPLICATE;
+            tp.println("Duplicate Entry of Transaction.");
+        } catch (Exception e) {
+            rollBack(connection, functioName, e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functioName + ": Failed to save forward poslog.", e);
+            throw new DaoException("Exception: @" + functioName, e);
+        } finally {
+            closeConnectionObjects(connection, saveForwardPosLogPrepStmnt);
+            tp.methodExit(result);
+        }
+
+        return result;
+	}
+	
+    /**
+     * É^ÉOî‘çÜÇ≈ëOéJè§ïiñæç◊ PosLog åüçı
+     * @param companyId
+     * @param retailStoreId
+     * @param queue
+     * @param businessDayDate
+     * @param tag
+     * @return ëOéJìoò^ PosLog
+     * @throws DaoException
+     */
+    @Override
+    public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
+    		String queue, String businessDayDate, String tag) throws DaoException{
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+        		.println("CompanyId", companyId)
+        		.println("RetailStoreId", retailStoreId)
+                .println("Queue", queue)
+                .println("BusinessDayDate", businessDayDate)
+                .println("tag", tag);
+
+        SearchForwardPosLog searchForwardPosLog = new SearchForwardPosLog();
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet result = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement.getProperty("get-forward-items-posLog-whit-tag"));
+
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, retailStoreId);
+            select.setString(SQLStatement.PARAM3, queue);
+            select.setString(SQLStatement.PARAM4, businessDayDate);
+            select.setString(SQLStatement.PARAM5, tag);
+
+            result = select.executeQuery();
+            if (result.next()) {
+                searchForwardPosLog.setPosLogXml(result.getString(result.findColumn("tx")));
+                searchForwardPosLog.setStatus(result.getInt(result.findColumn("Status")));
+            } else {
+                tp.println("No forward items poslog with tag found.");
+            }
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward items poslog with tag.",
+                    ex);
+            throw new DaoException("Exception: @getForwardItemsPosLogWithTag - " + ex.getMessage(), ex);
+        } finally {
+            closeConnectionObjects(connection, select, result);
+            tp.methodExit(searchForwardPosLog.getPosLogXml());
+        }
+        return searchForwardPosLog;
+    }
 }

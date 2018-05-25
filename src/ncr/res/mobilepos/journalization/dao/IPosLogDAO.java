@@ -185,4 +185,29 @@ public interface IPosLogDAO {
 
     public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
             throws SQLException, SQLStatementException, DaoException;
+
+    /**
+     * タグ番号で前捌商品明細 PosLog 保存
+     * @param posLog
+     * @param posLogXml
+     * @param queue
+     * @param tag
+     * @param total
+     * @return
+     * @throws DaoException
+     */
+    public int saveForwardPosLogIncludeTag(PosLog posLog, String posLogXml, String queue, String tag, String total) throws DaoException;
+	
+	/**
+     * タグ番号で前捌商品明細 PosLog 検索
+     * @param companyId
+     * @param retailStoreId
+     * @param queue
+     * @param businessDayDate
+     * @param tag
+     * @return 前捌登録 PosLog
+     * @throws DaoException
+     */
+    public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
+    		String queue, String businessDayDate, String tag) throws DaoException;
 }

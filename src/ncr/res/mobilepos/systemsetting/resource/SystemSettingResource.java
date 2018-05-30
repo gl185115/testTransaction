@@ -367,7 +367,7 @@ public class SystemSettingResource {
      * @param bizdate
 	 *          業務日付
      */
-    @Path("/set")
+    @Path("/DateSettings/set")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value="業務日付更新", response=ResultBase.class)

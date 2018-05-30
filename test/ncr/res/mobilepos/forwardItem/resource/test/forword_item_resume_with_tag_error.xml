@@ -1,0 +1,59 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+  <table name="TXL_FORWARD_ITEM">
+    <column>CompanyId</column>
+    <column>RetailStoreId</column>
+    <column>WorkstationId</column>
+    <column>SequenceNumber</column>
+    <column>Queue</column>
+    <column>BusinessDayDate</column>
+    <column>TrainingFlag</column>
+    <column>TxType</column>
+    <column>BusinessDateTime</column>
+    <column>OperatorId</column>
+    <column>LayawayFlag</column>
+    <column>SalesTotalAmt</column>
+    <column>PosTermId</column>
+    <column>Status</column>
+    <column>Tx</column>
+    <column>SalesTotalQty</column>
+    <column>Ext1</column>
+    <column>Ext2</column>
+    <column>Ext3</column>
+    <column>Ext4</column>
+    <column>Ext5</column>
+    <column>Ext6</column>
+    <column>Ext7</column>
+    <column>Ext8</column>
+    <column>Ext9</column>
+    <column>Ext10</column>
+    <row>
+    <value>01</value>
+    <value>0016</value>
+    <value>0002</value>
+    <value>440</value>
+    <value>0001</value>
+    <value>2018-03-04</value>
+    <value>0</value>
+    <value>Sales</value>
+    <value>2018-05-24 17:34:34.000</value>
+    <value>0000006</value>
+    <value>0</value>
+    <value>3001</value>
+    <value>0002</value>
+    <value>0</value>
+    <null/>
+    <value>2</value>
+    <value>0001</value>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    <null/>
+    </row>
+  </table>
+</dataset>

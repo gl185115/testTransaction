@@ -4585,7 +4585,7 @@ ORDER BY
       AND TrainingFlag = @TrainingFlag
       AND WorkstationId = @WorkstationId
   </entry>
-  <entry key="get-forward-items-posLog-whit-tag">
+  <entry key="get-forward-items-posLog-with-tag">
     DECLARE
       @CompanyId varchar(12),
       @RetailStoreId varchar(MAX),

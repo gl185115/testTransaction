@@ -1,5 +1,9 @@
 package ncr.res.mobilepos.forwardItem.resource.test;
 
+import java.lang.reflect.Field;
+
+import javax.servlet.ServletContext;
+
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
@@ -10,9 +14,6 @@ import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.mockito.Mock;
 
-import java.lang.reflect.Field;
-import javax.servlet.ServletContext;
-
 import junit.framework.Assert;
 import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -20,6 +21,7 @@ import ncr.res.mobilepos.forwarditemlist.resource.ForwardItemListResource;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.model.ResultBase;
 
 public class ForwardItemSteps extends Steps {
@@ -32,6 +34,8 @@ public class ForwardItemSteps extends Steps {
 
 	private ForwardItemListResource forwardItemResource;
 	private Operator operatorModel = null;
+	private ResultBase resultBase = null;
+	private SearchForwardPosLog poslog = null;
 
 	/**
 	 * Method to test the database connection.
@@ -39,7 +43,6 @@ public class ForwardItemSteps extends Steps {
 	@BeforeScenario
 	public final void setUpClass() {
 		Requirements.SetUp();
-		dbInit = new DBInitiator("ForwardItemSteps", DATABASE.RESMaster);
 		ServletContext mockContext = Requirements.getMockServletContext();
 		forwardItemResource = new ForwardItemListResource();
 		try {
@@ -57,11 +60,12 @@ public class ForwardItemSteps extends Steps {
 		Requirements.TearDown();
 	}
 
-	@Given("entries for $operator in database")
-	public final void initOperator(final String operator) {
+	@Given("entries for $forwarditem in $database")
+	public final void initDatabase(final String forwarditem,final String database) {
+		dbInit = new DBInitiator("ForwardItemSteps", "RESMaster".equals(database)?DATABASE.RESMaster:DATABASE.RESTransaction);
 		try {
 			dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
-					"test/ncr/res/mobilepos/forwardItem/resource/test/" + operator + ".xml");
+					"test/ncr/res/mobilepos/forwardItem/resource/test/" + forwarditem + ".xml");
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -84,5 +88,39 @@ public class ForwardItemSteps extends Steps {
 				String.valueOf(operatorModel.getOperatorType()));
 		Assert.assertEquals("Expect the Securitylevel", examplesResult.getRow(0).get("Securitylevel"),
 				String.valueOf(operatorModel.getSecuritylevel()));
+	}
+
+	@When("I get ResultBase with companyid $companyid retailstoreid $retailstoreid queue $queue workstationid $workstationid trainingmode $trainingmode tag $tag total $total and poslogxml $poslogxml")
+	public final void getForwardPosLogWithTagInsertResult(final String companyid, final String retailstoreid, final String queue,
+			final String workstationid, final String trainingmode, final String tag, final String total, final String poslogxml) {
+		resultBase= new ResultBase();
+		resultBase = forwardItemResource.saveForwardPosLogIncludeTag(companyid, retailstoreid, queue, workstationid, trainingmode
+				, tag, total, poslogxml);
+	}
+
+	@Then("I should get the ResultCode : $examplesResult")
+	public final void ForwardPosLogWithTagInsertResult(final ExamplesTable examplesResult) {
+		Assert.assertEquals("Expect the ResultCode", examplesResult.getRow(0).get("ResultCode"),
+				String.valueOf(resultBase.getNCRWSSResultCode()));
+	}
+
+	@When("I get forwardItem with companyId $companyId retailStoreId $retailStoreId queue $queue businessDayDate $businessDayDate and tag $tag")
+	public final void getForwardItemsWithTagSelectResult(final String companyId, final String retailStoreId, final String queue,
+			final String businessDayDate, final String tag) {
+		poslog = new SearchForwardPosLog();
+		poslog = forwardItemResource.getForwardItemsWithTag(companyId, retailStoreId, queue, businessDayDate, tag);
+	}
+
+	@Then("I should get the forwardItemSuccessResult : $examplesResultWithTag")
+	public final void ForwardItemsWithTagSelectResultSuccess(final ExamplesTable examplesResultWithTag) {
+		Assert.assertEquals("Expect the result Status", examplesResultWithTag.getRow(0).get("Status"), String.valueOf(poslog.getStatus()));
+		Assert.assertEquals("Expect the result NCRWSSResultCode", examplesResultWithTag.getRow(0).get("NCRWSSResultCode"), String.valueOf(poslog.getNCRWSSResultCode()));
+		Assert.assertEquals("Expect the result NCRWSSExtendedResultCode", examplesResultWithTag.getRow(0).get("NCRWSSExtendedResultCode"), String.valueOf(poslog.getNCRWSSExtendedResultCode()));
+		Assert.assertEquals("Expect the result Tx", examplesResultWithTag.getRow(0).get("Tx"), poslog.getPosLogXml());
+	}
+
+	@Then("I should get the forwardItemErrorResult : $examplesResultWithTag")
+	public final void ForwardItemsWithTagSelectResultError(final ExamplesTable examplesResultWithTag) {
+		Assert.assertEquals("Expect the result NCRWSSResultCode", examplesResultWithTag.getRow(0).get("NCRWSSResultCode"), String.valueOf(poslog.getNCRWSSResultCode()));
 	}
 }

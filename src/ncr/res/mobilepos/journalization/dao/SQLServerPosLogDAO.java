@@ -2563,7 +2563,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-forward-items-posLog-whit-tag"));
+            select = connection.prepareStatement(sqlStatement.getProperty("get-forward-items-posLog-with-tag"));
 
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, retailStoreId);

@@ -34,6 +34,9 @@ public class BarcodeAssignment extends ResultBase{
 	@XmlElement(name = "tradeSequenceReceipt")
 	private TradeSequenceReceipt tradeSequenceReceipt;
 
+	@XmlElement(name = "multiForwardRecallCard")
+	private MultiForwardRecallCard multiForwardRecallCard;
+
 	public Sale getSale() {
 		return sale;
 	}
@@ -80,6 +83,14 @@ public class BarcodeAssignment extends ResultBase{
 
 	public void setTradeSequenceReceipt(TradeSequenceReceipt tradeSequenceReceipt) {
 		this.tradeSequenceReceipt = tradeSequenceReceipt;
+	}
+
+	public MultiForwardRecallCard getMultiForwardRecallCard() {
+		return multiForwardRecallCard;
+	}
+
+	public void setMultiForwardRecallCard(MultiForwardRecallCard multiForwardRecallCard) {
+		this.multiForwardRecallCard = multiForwardRecallCard;
 	}
 	
     public final String toString() {

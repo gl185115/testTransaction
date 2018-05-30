@@ -6,6 +6,9 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.helper.DBInitiator;
@@ -21,6 +24,9 @@ import ncr.res.mobilepos.pricing.model.ItemMaintenance;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.model.SearchedProducts;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
+import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.barcodeassignment.model.MultiForwardRecallCard;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -29,6 +35,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
+import org.jbehave.core.model.ExamplesTable;
 import org.junit.Assert;
 
 import static org.junit.Assert.*;
@@ -46,6 +53,7 @@ public class ItemResourceSteps extends Steps {
     SQLServerItemDAO dptdao;
     int expctdResultCode;
     ItemMaintenance itemmaintenance;
+    BarcodeAssignment barcodeAssignment;
 
     public static boolean ResourceHasErrors(final SearchedProducts sd) {
         return !((0 != sd.getNCRWSSExtendedResultCode())
@@ -186,5 +194,57 @@ public class ItemResourceSteps extends Steps {
     public final void testResultCode(final int actualResultCode) {
         Assert.assertEquals("Assert the expected resultcode",
                 expctdResultCode, actualResultCode);
+    }
+
+    @Given("ItemCode.xml file exist")
+    public final void iHaveItemCodeXML() {
+        Field barcodeAssignmentField;
+        try {
+            File configFile = new File("test\\ncr\\res\\mobilepos\\pricing\\resource\\datasets" + File.separator + "itemCode.xml");
+            XmlSerializer<BarcodeAssignment> serializer = new XmlSerializer<BarcodeAssignment>();
+            BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile, BarcodeAssignment.class);
+            
+            barcodeAssignmentField = itemres.getClass().getDeclaredField("barcodeAssignment");
+            barcodeAssignmentField.setAccessible(true);
+            barcodeAssignmentField.set(itemres, barcodeAssignment);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("I get barcode info")
+    public final void getBarcodeInfo() {
+        this.barcodeAssignment = itemres.getBarcodeInfo();
+    }
+
+    @Then("I should get the following: $expectedBarcodeInfo")
+    public final void testBarcodeInfo(final ExamplesTable expectedBarcodeInfo) {
+        int i = 0;
+        MultiForwardRecallCard multiForwardRecallCard = this.barcodeAssignment.getMultiForwardRecallCard();
+        Assert.assertEquals("Compare the size of multiForwardRecallCard", multiForwardRecallCard.getMultiForwardRecallCards().size(), expectedBarcodeInfo.getRowCount());
+
+        for (Map<String, String> expectedItem : expectedBarcodeInfo.getRows()) {
+            assertThat("Compare the id",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getId(),
+                    is(equalTo(expectedItem.get("id"))));
+            assertThat("Compare the description",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getDescription(),
+                    is(equalTo(expectedItem.get("description"))));
+            assertThat("Compare the type",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getType(),
+                    is(equalTo(expectedItem.get("type"))));
+            assertThat("Compare the format",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getFormat(),
+                    is(equalTo(expectedItem.get("format"))));
+            i++;
+        }
     }
 }

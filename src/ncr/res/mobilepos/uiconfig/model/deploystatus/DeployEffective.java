@@ -9,6 +9,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "DeployEffective")
 public class DeployEffective {
 
+    @XmlElement(name = "Phrases")
+    private EPhrases phrases;
+
     @XmlElement(name = "PickList")
     private EPickList pickList;
 
@@ -24,6 +27,14 @@ public class DeployEffective {
     @XmlElement(name = "Notices")
     private ENotices notices;
 
+    public EPhrases getPhrases() {
+        return phrases;
+    }
+
+    public void setPhrases(EPhrases phrases) {
+        this.phrases = phrases;
+    }
+    
     public EPickList getPickList() {
         return pickList;
     }

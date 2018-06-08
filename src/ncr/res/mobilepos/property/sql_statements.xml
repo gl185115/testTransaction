@@ -2145,13 +2145,22 @@ ORDER BY
         NameCategory,
         NameId,
         NameText,
-        NameIdName
+        NameIdName,
+        SubCode1,
+		SubCode2
       FROM
         RESMaster.dbo.MST_NAME_SYSTEM
       WHERE
         CompanyId = @companyId AND
         StoreId = @storeId AND
-        NameCategory = @nameCategory AND
+        NameCategory IN (
+        SELECT
+            NameCategory
+        FROM
+            RESMaster.dbo.MST_NAME_SYSTEM
+        WHERE
+            CHARINDEX(NameCategory,@nameCategory)  &gt;  0
+        ) AND
         DeleteFlag = 0.0
       ORDER BY DisplayOrder
     </entry>

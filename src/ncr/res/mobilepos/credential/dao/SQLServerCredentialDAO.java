@@ -501,6 +501,8 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 namemasterinfo.setNameId(result.getString("NameId"));
                 namemasterinfo.setNameText(result.getString("NameText"));
                 namemasterinfo.setNameIdName(result.getString("NameIdName"));
+                namemasterinfo.setSubCode1(result.getString("SubCode1"));
+                namemasterinfo.setSubCode2(result.getString("SubCode2"));
                 nmMstInfoLst.add(namemasterinfo);
             }
         } catch (SQLException sqlEx) {

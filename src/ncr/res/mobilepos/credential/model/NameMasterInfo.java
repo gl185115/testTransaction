@@ -29,7 +29,13 @@ public class NameMasterInfo {
 
 	@XmlElement(name = "NameIdName")
 	private String nameIdName;
+	
+	@XmlElement(name = "SubCode1")
+	private String subCode1;
 
+	@XmlElement(name = "SubCode2")
+	private String subCode2;
+	
 	@ApiModelProperty(value="会社コード", notes="会社コード")
 	public final String getCompanyId() {
 		return companyId;
@@ -82,5 +88,23 @@ public class NameMasterInfo {
 
 	public final void setNameIdName(String nameIdName) {
 		this.nameIdName = nameIdName;
+	}
+	
+	@ApiModelProperty(value="SubCode1", notes="SubCode1")
+	public final String getSubCode1() {
+		return subCode1;
+	}
+
+	public final void setSubCode1(String subCode1) {
+		this.subCode1 = subCode1;
+	}
+
+	@ApiModelProperty(value="SubCode2", notes="SubCode2")
+	public final String getSubCode2() {
+		return subCode2;
+	}
+
+	public final void setSubCode2(String subCode2) {
+		this.subCode2 = subCode2;
 	}
 }

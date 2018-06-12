@@ -160,15 +160,23 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
         String salesNameLocal = "";
         String salesName = "";
         String pluMdName = "";
+        String sizeId = "";
+        String mdInternal = "";
+        if (pluCode.contains(" ")) {
+        	mdInternal = pluCode.split(" ")[0];
+        	sizeId = pluCode.split(" ")[1].substring(4, 7);
+		} else {
+			mdInternal = pluCode;
+		}
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(sqlStatement.getProperty("get-item"));
             select.setString(SQLStatement.PARAM1, actualStoreid);
             select.setString(SQLStatement.PARAM2, companyId);
-            select.setString(SQLStatement.PARAM3, pluCode);
+            select.setString(SQLStatement.PARAM3, mdInternal);
             select.setString(SQLStatement.PARAM4, bussinessDate);
-
+            select.setString(SQLStatement.PARAM5, sizeId);
             result = select.executeQuery();
 
             if (result.next()) {
@@ -297,6 +305,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setColorkananame(result.getString(result.findColumn("Colorkananame")));
                 searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
                 searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
+                searchedItem.setBrandSaleName(result.getString(result.findColumn("BrandSaleName")));
+                searchedItem.setSaleSizeCode(StringUtility.isNullOrEmpty(result.getString(result.findColumn("SizePatternName")))?"":
+                	result.getString(result.findColumn("SizePatternName")) + "(" + result.getString(result.findColumn("SizePatternId")) + " " + sizeId + ")");
+                searchedItem.setPointAddFlag(result.getString(result.findColumn("PointAddFlag")));
+                searchedItem.setPointUseFlag(result.getString(result.findColumn("PointUseFlag")));
+                searchedItem.setTaxFreeFlag(result.getString(result.findColumn("TaxFreeFlag")));
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));

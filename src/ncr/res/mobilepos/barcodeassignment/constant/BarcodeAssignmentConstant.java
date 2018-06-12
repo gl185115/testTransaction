@@ -17,5 +17,6 @@ public class BarcodeAssignmentConstant {
     public static final String VARIETIES_FOREIGNBOOKOLD = "foreignBookOld";
     public static final String VARIETIES_JANMAGAZINEOLD1 = "janMagazineOld1";
     public static final String VARIETIES_JANMAGAZINEOLD2 = "janMagazineOld2";
+    public static final String VARIETIES_DOUBLEJANSALES = "doubleJanSales";
 
 }

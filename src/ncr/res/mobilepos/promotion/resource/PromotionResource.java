@@ -359,7 +359,6 @@ public class PromotionResource {
 		String codeTempConn = null;
 		String dptCode = null;
 		String barcode_fst = null;
-		String barcode_sec = null;
 		String cCode = null;
 		double salePrice = 0.0;
 
@@ -411,7 +410,6 @@ public class PromotionResource {
 				if (itemId.contains(" ")) {
 					twoStep = Boolean.parseBoolean(ResultBase.TRUE);
 					barcode_fst = itemId.split(" ")[0];
-					barcode_sec = itemId.split(" ")[1];
 				} else {
 					twoStep = Boolean.parseBoolean(ResultBase.FALSE);
 				}
@@ -419,6 +417,14 @@ public class PromotionResource {
 				// 品目名を取得する
 				String varietiesName = BarcodeAssignmentUtility.getBarcodeAssignmentItemId(itemId, barcodeAssignment);
 
+				if (StringUtility.isNullOrEmpty(varietiesName)) {
+					tp.println("Item entry has no matching Sale in itemCode.xml!");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.LOG_MSGID,
+							"Item entry has no matching Sale in itemCode.xml.\n");
+					response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+					return response;
+				}
+				
 				info.setQuantity(saleIn.getQuantity());
 				info.setEntryId(saleIn.getItemEntryId());
 
@@ -427,7 +433,7 @@ public class PromotionResource {
 
 				// バーコード桁数変換
 				String itemIdTemp = null;
-				if (twoStep){
+				if (twoStep && !BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)){
 					itemIdTemp = barcode_fst;
 				} else if (BarcodeAssignmentConstant.VARIETIES_JANBOOKOLD.equals(varietiesName) ||
 						BarcodeAssignmentConstant.VARIETIES_FOREIGNBOOKOLD.equals(varietiesName)){
@@ -453,232 +459,114 @@ public class PromotionResource {
 					item = searchedProd.getItem();
 				}
 
-				// 部門コードを取得する
-				codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
-
-				// 商品マスタから取得失敗の場合
-				if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
-					// 各種特売情報を取得する
-					item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-					if (item != null) {
-						item.setItemId(itemIdTemp);
-						Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-						if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
-							terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-						}
-						saleItem.setHostFlag(1);
-						transactionOut.setSale(saleItem);
-						response.setTransaction(transactionOut);
-					}
-					return response;
-				} else {
-					if (codeTempConn.contains(" ")) {
-						codeTemp = codeTempConn.split(" ")[0];
-						cCode = codeTempConn.split(" ")[1];
-					} else {
-						codeTemp = codeTempConn;
-					}
-				}
-				String mdName = null;
-				Sale saleMdName = null;
-				if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
-					// サーバーから部門情報を取得する
-					departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
-					saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
-					mdName = saleMdName.getMdNameLocal();
-				} else {
-					// ローカルから部門情報を取得する
-					departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
-					saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
-					mdName = saleMdName.getMdNameLocal();
-					if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
-						tp.println("departmentInfo was not found!");
-						try {
-							// サーバーから部門情報を取得する
-							departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
-							saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
-							mdName = saleMdName.getMdNameLocal();
-						} catch (Exception e) {
-							LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-									functionName + ": Failed to send item entry.", e);
-						}
-					}
-				}
-
-				// 部門コードを部門マスタテーブルに存在チェック
-				if (departmentInfo == null) {
-					dptCode = null;
-				} else {
-					dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
-				}
-
-				if (StringUtility.isNullOrEmpty(dptCode)) {
-					response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-					response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
-					response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
-					tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
-					return response;
-				} else {
-					if (item == null) {
-						// 部門情報を戻る
-						saleOut.setHostFlag(1);
-						String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
-						String taxType = departmentInfo.getDepartment().getTaxType();
-						if (StringUtility.isNullOrEmpty(mdName)) {
-							saleOut.setMdNameLocal(dptName);
-							saleOut.setSalesNameSource("3");
-						} else {
-							saleOut.setMdNameLocal(mdName);
-							saleOut.setSalesNameSource("1");
-						}
-						saleOut.setTaxType(Integer.parseInt(taxType));
-						saleOut.setTaxTypeSource("2");
-						saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
-						saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
-						saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
-						saleOut.setDptSubCode1(departmentInfo.getDepartment().getSubCode1());
-						saleOut.setDptSubNum1(departmentInfo.getDepartment().getSubNum1());
-						saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
-						saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
-						saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
-						saleOut.setGroupID(departmentInfo.getDepartment().getGroupID());
-						saleOut.setGroupName(departmentInfo.getDepartment().getGroupName());
-
-						Double barCodePrice = null;
-						barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-						if (twoStep && barcode_sec.length() == 4) {
-							saleOut.setLabelPrice(barCodePrice);
-							response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
-						} else {
-							// バーコード価格を使用
-							if (barCodePrice != null) {
-								if ("1".equals(taxType)) {
-									barCodePrice = (double) Math.floor(barCodePrice * 1.08);
-								}
-								saleOut.setLabelPrice(barCodePrice);
-								saleOut.setRegularSalesUnitPrice(barCodePrice);
-								saleOut.setActualSalesUnitPrice(barCodePrice);
-							}
-						}
-						
-						salePrice = saleOut.getRegularSalesUnitPrice();
-						// 各種特売情報を取得する
-						item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
-						
-						if (item != null) {
-							if (item.getDiscountClass() != 0) {
-								saleOut.setDiscountClass(item.getDiscountClass());
-							} else {
-								if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
-									saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
-								}
-							}
-							if (item.getDiscountAmt() != 0) {
-								saleOut.setDiscountAmt(item.getDiscountAmt());
-							} else {
-								if (departmentInfo.getDiscountAmt() != null) {
-									saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-								}
-							}
-							if (item.getDiacountRate() != 0) {
-								saleOut.setDiacountRate(item.getDiacountRate());
-							} else {
-								if (departmentInfo.getDiscountRate() != null) {
-									saleOut.setDiacountRate(departmentInfo.getDiscountRate());
-								}
-							}
-							if (item.getPromotionNo() != null) {
-								saleOut.setPromotionNo(item.getPromotionNo());
-							} else {
-								saleOut.setPromotionNo(departmentInfo.getPromotionNo());
-							}
-							if (item.getPromotionType() != null) {
-								saleOut.setPromotionType(item.getPromotionType());
-							} else {
-								saleOut.setPromotionType(departmentInfo.getPromotionType());
-							}
-							
-							// バンドルミックス(PRICE_MM_INFO mixmatch)
-							saleOut.setMixMatchCode(item.getMixMatchCode());
-							saleOut.setRuleQuantity1(item.getRuleQuantity1());
-							saleOut.setRuleQuantity2(item.getRuleQuantity2());
-							saleOut.setRuleQuantity3(item.getRuleQuantity3());
-							saleOut.setConditionPrice3(item.getConditionPrice3());
-							saleOut.setConditionPrice2(item.getConditionPrice2());
-							saleOut.setConditionPrice1(item.getConditionPrice1());
-							saleOut.setDecisionPrice1(item.getDecisionPrice1());
-							saleOut.setDecisionPrice2(item.getDecisionPrice2());
-							saleOut.setDecisionPrice3(item.getDecisionPrice3());
-							saleOut.setAveragePrice1(item.getAveragePrice1());
-							saleOut.setAveragePrice2(item.getAveragePrice2());
-							saleOut.setAveragePrice3(item.getAveragePrice3());
-							saleOut.setNote(item.getNote());
-							saleOut.setSku(item.getSku());
-							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
-								item.setItemId(itemIdTemp);
-								terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-							}
-						} else {
-							if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
-								saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
-							}
-							if (departmentInfo.getDiscountAmt() != null) {
-								saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-							} 
-							if (departmentInfo.getDiscountRate() != null) {
-								saleOut.setDiacountRate(departmentInfo.getDiscountRate());
-							}
-							saleOut.setPromotionNo(departmentInfo.getPromotionNo());
-							saleOut.setPromotionType(departmentInfo.getPromotionType());
-						}
-						
-						String taxRate = departmentInfo.getDepartment().getTaxRate();
-						saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : (int)Double.parseDouble(taxRate));
-
-						saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
-
-						saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
-						saleOut.setDiscountTypeSource("2");
-						saleOut.setItemId(itemIdTemp);
-						saleOut.setDepartment(dptCode);
-
-						if (!StringUtility.isNullOrEmpty(cCode)) {
-							if (cCode.length() == 4) {
-								saleOut.setCategoryCode(cCode);
-							} else {
-								saleOut.setMagazineCode(cCode);
-							}
-						}
-
-						transactionOut.setSale(saleOut);
-						response.setDepartmentName(dptName);
-						response.setTransaction(transactionOut);
+				if (BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
+					if(item == null){
+						tp.println("Item is not found");
+						LOGGER.logAlert(PROG_NAME, functionName, Logger.LOG_MSGID,
+								"Item is not found.\n");
+						response.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
 						return response;
 					}
+					if("3".equals(item.getSalesNameSource())){
+						item.setMdName("");
+					}
+				} else {
+					// 部門コードを取得する
+					codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);
+	
+					// 商品マスタから取得失敗の場合
+					if (ResultBase.RES_OK != response.getNCRWSSResultCode() || ResultBase.RES_OK != response.getNCRWSSExtendedResultCode()){
+						// 各種特売情報を取得する
+						item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
+						if (item != null) {
+							item.setItemId(itemIdTemp);
+							Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
+							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
+								terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
+							}
+							saleItem.setHostFlag(1);
+							transactionOut.setSale(saleItem);
+							response.setTransaction(transactionOut);
+						}
+						return response;
+					} else {
+						if (codeTempConn.contains(" ")) {
+							codeTemp = codeTempConn.split(" ")[0];
+							cCode = codeTempConn.split(" ")[1];
+						} else {
+							codeTemp = codeTempConn;
+						}
+					}
+					String mdName = null;
+					Sale saleMdName = null;
+					if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
+						// サーバーから部門情報を取得する
+						departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+						saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+						mdName = saleMdName.getMdNameLocal();
+					} else {
+						// ローカルから部門情報を取得する
+						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
+						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
+						mdName = saleMdName.getMdNameLocal();
+						if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
+							tp.println("departmentInfo was not found!");
+							try {
+								// サーバーから部門情報を取得する
+								departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+								saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+								mdName = saleMdName.getMdNameLocal();
+							} catch (Exception e) {
+								LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+										functionName + ": Failed to send item entry.", e);
+							}
+						}
+					}
+	
+					// 部門コードを部門マスタテーブルに存在チェック
+					if (departmentInfo == null) {
+						dptCode = null;
+					} else {
+						dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
+					}
+	
+					if (StringUtility.isNullOrEmpty(dptCode)) {
+						response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+						response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
+						response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
+						tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
+						return response;
+					} else {
+						if (item == null) {
+							// 部門情報を戻る
+							getDptPromotion(companyId,retailStoreId,itemId,varietiesName,response,
+									item,departmentInfo,businessDate,dao,itemIdTemp,mdName,priceCheck,saleIn,terminalItem,transactionOut,dptCode,cCode);
+							return response;
+						}
+					}
+	
+					item.setTaxTypeSource("1");
+					
+					Double barCodePrice = null;
+	                barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+	                if (barCodePrice != null) {
+	                    item.setLabelPrice(barCodePrice);
+	                }
+	                
+					// バーコード価格を使用
+	                if (item.getRegularSalesUnitPrice() == 0.0) {
+	                    String taxType = departmentInfo.getDepartment().getTaxType();
+	                    item.setTaxType(Integer.parseInt(taxType));
+	                    item.setTaxTypeSource("2");
+	                    if (barCodePrice != null) {
+	                        if ("1".equals(taxType)) {
+	                            barCodePrice = (double) Math.floor(barCodePrice * 1.08);
+	                        }
+	                        item.setRegularSalesUnitPrice(barCodePrice);
+	                        item.setActualSalesUnitPrice(barCodePrice);
+	                    }
+	                }
 				}
-
-				item.setTaxTypeSource("1");
-				
-				Double barCodePrice = null;
-                barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-                if (barCodePrice != null) {
-                    item.setLabelPrice(barCodePrice);
-                }
-                
-				// バーコード価格を使用
-                if (item.getRegularSalesUnitPrice() == 0.0) {
-                    String taxType = departmentInfo.getDepartment().getTaxType();
-                    item.setTaxType(Integer.parseInt(taxType));
-                    item.setTaxTypeSource("2");
-                    if (barCodePrice != null) {
-                        if ("1".equals(taxType)) {
-                            barCodePrice = (double) Math.floor(barCodePrice * 1.08);
-                        }
-                        item.setRegularSalesUnitPrice(barCodePrice);
-                        item.setActualSalesUnitPrice(barCodePrice);
-                    }
-                }
-                
                 salePrice = item.getRegularSalesUnitPrice();
 				// 各種特売情報を取得する
 				item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
@@ -687,47 +575,49 @@ public class PromotionResource {
 
 				discounttype = item.getDiscountType();
 				Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-
-				if (saleItem.isPriceOverride()) {
-					saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
-					double price = saleIn.getActualSalesUnitPrice() * saleIn.getQuantity();
-					saleItem.setExtendedAmount(price);
-					saleItem.setDiscount(0);
-					saleItem.setDiscountAmount(0);
-				}
-
-				if (saleItem.getDiscountClass() == 0 && !StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
-					saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
-				}
-				if (saleItem.getDiscountAmt() == 0 && departmentInfo.getDiscountAmt() != null) {
-					saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
-				} 
-				if (saleItem.getDiacountRate() == 0 && departmentInfo.getDiscountRate() != null) {
-					saleOut.setDiacountRate(departmentInfo.getDiscountRate());
-				}
-				if (saleItem.getPromotionNo() == null) {
-					saleOut.setPromotionNo(departmentInfo.getPromotionNo());
-				}
-				if (saleItem.getPromotionType() == null) {
-					saleOut.setPromotionType(departmentInfo.getPromotionType());
-				}
 				
-				if (!StringUtility.isNullOrEmpty(cCode)) {
-					if (cCode.length() == 4) {
-						saleItem.setCategoryCode(cCode);
-					} else {
-						saleItem.setMagazineCode(cCode);
+				if (!BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)) {
+					if (saleItem.isPriceOverride()) {
+						saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
+						double price = saleIn.getActualSalesUnitPrice() * saleIn.getQuantity();
+						saleItem.setExtendedAmount(price);
+						saleItem.setDiscount(0);
+						saleItem.setDiscountAmount(0);
 					}
-				}
+					
+					if (saleItem.getDiscountClass() == 0 && !StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+						saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+					}
+					if (saleItem.getDiscountAmt() == 0 && departmentInfo.getDiscountAmt() != null) {
+						saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+					}
+					if (saleItem.getDiacountRate() == 0 && departmentInfo.getDiscountRate() != null) {
+						saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+					}
+					if (saleItem.getPromotionNo() == null) {
+						saleOut.setPromotionNo(departmentInfo.getPromotionNo());
+					}
+					if (saleItem.getPromotionType() == null) {
+						saleOut.setPromotionType(departmentInfo.getPromotionType());
+					}
 
-				saleItem.setDiscountTypeSource("1");
-				if (discounttype == null) {
-					discounttype = departmentInfo.getDepartment().getDiscountType();
-					saleItem.setDiscountTypeSource("2");
+					if (!StringUtility.isNullOrEmpty(cCode)) {
+						if (cCode.length() == 4) {
+							saleItem.setCategoryCode(cCode);
+						} else {
+							saleItem.setMagazineCode(cCode);
+						}
+					}
+
+					saleItem.setDiscountTypeSource("1");
+					if (discounttype == null) {
+						discounttype = departmentInfo.getDepartment().getDiscountType();
+						saleItem.setDiscountTypeSource("2");
+					}
+					saleItem.setDiscountType(discounttype);
+					boolean flag = ("0".equals(discounttype));
+					saleItem.setDiscountable(flag);
 				}
-				saleItem.setDiscountType(discounttype);
-				boolean flag = ("0".equals(discounttype));
-				saleItem.setDiscountable(flag);
 
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
@@ -772,6 +662,185 @@ public class PromotionResource {
 			tp.methodExit(response);
 		}
 		return response;
+	}
+	
+	/**
+	 * 部門情報を取得する
+	 *
+	 * @param companyId
+	 * @param retailStoreId
+	 * @param itemId
+	 * @param varietiesName
+	 * @param response
+	 * @param item
+	 * @param departmentInfo
+	 * @param businessDate
+	 * @param dao
+	 * @param itemIdTemp
+	 * @param mdName
+	 * @param priceCheck
+	 * @param saleIn
+	 * @param terminalItem
+	 * @param transactionOut
+	 * @param dptCode
+	 * @param cCode
+	 * @return codeTemp
+	 * @throws DaoException
+	 */
+	private void getDptPromotion(String companyId,String retailStoreId,String itemId,String varietiesName,
+			PromotionResponse response,Item item,ViewDepartment departmentInfo,String businessDate,IItemDAO dao,
+			String itemIdTemp,String mdName,String priceCheck,Sale saleIn,TerminalItem terminalItem,
+			Transaction transactionOut,String dptCode,String cCode) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("companyId", companyId).println("retailStoreId", retailStoreId).println("itemId", itemId).println("varietiesName", varietiesName)
+			.println("response", response).println("item", item).println("departmentInfo", departmentInfo).println("businessDate", businessDate).println("dao", dao)
+			.println("itemIdTemp", itemIdTemp).println("mdName", mdName).println("priceCheck", priceCheck).println("saleIn", saleIn)
+			.println("terminalItem", terminalItem).println("transactionOut", transactionOut).println("dptCode", dptCode).println("cCode", cCode);
+
+		Sale saleOut = new Sale();
+		boolean twoStep = false;
+		String barcode_sec = "";
+				
+		if (itemId.contains(" ")) {
+			twoStep = Boolean.parseBoolean(ResultBase.TRUE);
+			barcode_sec = itemId.split(" ")[1];
+		} else {
+			twoStep = Boolean.parseBoolean(ResultBase.FALSE);
+		}
+		
+		// 部門情報を戻る
+		saleOut.setHostFlag(1);
+		String dptName = departmentInfo.getDepartment().getDepartmentName().getJa();
+		String taxType = departmentInfo.getDepartment().getTaxType();
+		if (StringUtility.isNullOrEmpty(mdName)) {
+			saleOut.setMdNameLocal(dptName);
+			saleOut.setSalesNameSource("3");
+		} else {
+			saleOut.setMdNameLocal(mdName);
+			saleOut.setSalesNameSource("1");
+		}
+		saleOut.setTaxType(Integer.parseInt(taxType));
+		saleOut.setTaxTypeSource("2");
+		saleOut.setMd11(departmentInfo.getDepartment().getSubNum1());
+		saleOut.setMd12(departmentInfo.getDepartment().getSubNum2());
+		saleOut.setMd13(departmentInfo.getDepartment().getSubNum3());
+		saleOut.setDptSubCode1(departmentInfo.getDepartment().getSubCode1());
+		saleOut.setDptSubNum1(departmentInfo.getDepartment().getSubNum1());
+		saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
+		saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
+		saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
+		saleOut.setGroupID(departmentInfo.getDepartment().getGroupID());
+		saleOut.setGroupName(departmentInfo.getDepartment().getGroupName());
+
+		Double barCodePrice = null;
+		barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+		if (twoStep && barcode_sec.length() == 4) {
+			saleOut.setLabelPrice(barCodePrice);
+			response.setNCRWSSExtendedResultCode(ResultBase.PRICE_INPUT_REQUEST);
+		} else {
+			// バーコード価格を使用
+			if (barCodePrice != null) {
+				if ("1".equals(taxType)) {
+					barCodePrice = (double) Math.floor(barCodePrice * 1.08);
+				}
+				saleOut.setLabelPrice(barCodePrice);
+				saleOut.setRegularSalesUnitPrice(barCodePrice);
+				saleOut.setActualSalesUnitPrice(barCodePrice);
+			}
+		}
+		
+		double salePrice = saleOut.getRegularSalesUnitPrice();
+		// 各種特売情報を取得する
+		item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
+		
+		if (item != null) {
+			if (item.getDiscountClass() != 0) {
+				saleOut.setDiscountClass(item.getDiscountClass());
+			} else {
+				if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+					saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+				}
+			}
+			if (item.getDiscountAmt() != 0) {
+				saleOut.setDiscountAmt(item.getDiscountAmt());
+			} else {
+				if (departmentInfo.getDiscountAmt() != null) {
+					saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+				}
+			}
+			if (item.getDiacountRate() != 0) {
+				saleOut.setDiacountRate(item.getDiacountRate());
+			} else {
+				if (departmentInfo.getDiscountRate() != null) {
+					saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+				}
+			}
+			if (item.getPromotionNo() != null) {
+				saleOut.setPromotionNo(item.getPromotionNo());
+			} else {
+				saleOut.setPromotionNo(departmentInfo.getPromotionNo());
+			}
+			if (item.getPromotionType() != null) {
+				saleOut.setPromotionType(item.getPromotionType());
+			} else {
+				saleOut.setPromotionType(departmentInfo.getPromotionType());
+			}
+			
+			// バンドルミックス(PRICE_MM_INFO mixmatch)
+			saleOut.setMixMatchCode(item.getMixMatchCode());
+			saleOut.setRuleQuantity1(item.getRuleQuantity1());
+			saleOut.setRuleQuantity2(item.getRuleQuantity2());
+			saleOut.setRuleQuantity3(item.getRuleQuantity3());
+			saleOut.setConditionPrice3(item.getConditionPrice3());
+			saleOut.setConditionPrice2(item.getConditionPrice2());
+			saleOut.setConditionPrice1(item.getConditionPrice1());
+			saleOut.setDecisionPrice1(item.getDecisionPrice1());
+			saleOut.setDecisionPrice2(item.getDecisionPrice2());
+			saleOut.setDecisionPrice3(item.getDecisionPrice3());
+			saleOut.setAveragePrice1(item.getAveragePrice1());
+			saleOut.setAveragePrice2(item.getAveragePrice2());
+			saleOut.setAveragePrice3(item.getAveragePrice3());
+			saleOut.setNote(item.getNote());
+			saleOut.setSku(item.getSku());
+			if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
+				item.setItemId(itemIdTemp);
+				terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
+			}
+		} else {
+			if (!StringUtility.isNullOrEmpty(departmentInfo.getDiscountClass())) {
+				saleOut.setDiscountClass(Integer.parseInt(departmentInfo.getDiscountClass()));
+			}
+			if (departmentInfo.getDiscountAmt() != null) {
+				saleOut.setDiscountAmt(departmentInfo.getDiscountAmt().intValue());
+			} 
+			if (departmentInfo.getDiscountRate() != null) {
+				saleOut.setDiacountRate(departmentInfo.getDiscountRate());
+			}
+			saleOut.setPromotionNo(departmentInfo.getPromotionNo());
+			saleOut.setPromotionType(departmentInfo.getPromotionType());
+		}
+		
+		String taxRate = departmentInfo.getDepartment().getTaxRate();
+		saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : (int)Double.parseDouble(taxRate));
+
+		saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
+
+		saleOut.setDiscountType(departmentInfo.getDepartment().getDiscountType());
+		saleOut.setDiscountTypeSource("2");
+		saleOut.setItemId(itemIdTemp);
+		saleOut.setDepartment(dptCode);
+
+		if (!StringUtility.isNullOrEmpty(cCode)) {
+			if (cCode.length() == 4) {
+				saleOut.setCategoryCode(cCode);
+			} else {
+				saleOut.setMagazineCode(cCode);
+			}
+		}
+
+		transactionOut.setSale(saleOut);
+		response.setDepartmentName(dptName);
+		response.setTransaction(transactionOut);
 	}
 
 	private List<CouponInfo> makeCouponInfoList(Map<String, CouponInfo> map) {
@@ -1007,6 +1076,10 @@ public class PromotionResource {
 			}
 			break;
 		default:
+			response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+			response.setMessage("Not found in the PLU.");
+			tp.println("Not found in the PLU.");
 			break;
 		}
 
@@ -1403,7 +1476,7 @@ public class PromotionResource {
 			throws Exception {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("pluCode", pluCode)
-				.println("businessDate", businessDate).println("companyId", companyId);
+		.println("companyId", companyId).println("businessDate", businessDate);
 		JSONObject result = null;
 		Sale sale = null;
 		try {

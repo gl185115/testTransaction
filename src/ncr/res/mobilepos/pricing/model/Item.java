@@ -1684,8 +1684,67 @@ public class Item {
     public final void setPublishingCode(String publishingCode) {
         this.publishingCode = publishingCode;
     }
-    
-    
+
+    @XmlElement(name = "PointAddFlag")
+    private String pointAddFlag;
+
+    @XmlElement(name = "PointUseFlag")
+    private String pointUseFlag;
+
+    @XmlElement(name = "TaxFreeFlag")
+    private String taxFreeFlag;
+
+    @XmlElement(name = "SaleSizeCode")
+    private String saleSizeCode;
+
+    @XmlElement(name ="BrandSaleName")
+    private String brandSaleName;
+
+    @ApiModelProperty(value="ポイント付与対象フラグ", notes="ポイント付与対象フラグ")
+    public final String getPointAddFlag() {
+        return pointAddFlag;
+    }
+
+    public final void setPointAddFlag(String pointAddFlag) {
+        this.pointAddFlag = pointAddFlag;
+    }
+
+    @ApiModelProperty(value="ポイント利用対象フラグ", notes="ポイント利用対象フラグ")
+    public final String getPointUseFlag() {
+        return pointUseFlag;
+    }
+
+    public final void setPointUseFlag(String pointUseFlag) {
+        this.pointUseFlag = pointUseFlag;
+    }
+
+    @ApiModelProperty(value="免税対象フラグ", notes="免税対象フラグ")
+    public final String getTaxFreeFlag() {
+        return taxFreeFlag;
+    }
+
+    public final void setTaxFreeFlag(String taxFreeFlag) {
+        this.taxFreeFlag = taxFreeFlag;
+    }
+
+    @ApiModelProperty(value="コードサイズ", notes="コードサイズ")
+    public final String getSaleSizeCode() {
+        return saleSizeCode;
+    }
+
+    public final void setSaleSizeCode(final String saleSizeCode) {
+        this.saleSizeCode = saleSizeCode;
+    }
+
+    @ApiModelProperty(value="ブランド名称", notes="ブランド名称")
+    public final String getBrandSaleName() {
+		return brandSaleName;
+	}
+
+	public final void setBrandSaleName(String brandSaleName) {
+		this.brandSaleName = brandSaleName;
+	}
+
 	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();

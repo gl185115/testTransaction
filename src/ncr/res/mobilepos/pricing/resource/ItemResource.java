@@ -192,7 +192,7 @@ public class ItemResource {
         // If 0, continue searching.
         if (!isNormalPricing()) {
             Item item = new Item();
-            item.setItemId(pluCode);
+            item.setItemId(pluCode.contains(" ")?pluCode.split(" ")[0]:pluCode);
             item.setAgeRestrictedFlag(0);
             searchedProduct.setItem(item);
             tp.println("Pricing is not normal.");
@@ -224,7 +224,7 @@ public class ItemResource {
         } finally {
             if (null == returnItem) {
                 returnItem = new Item();
-                returnItem.setItemId(pluCode);
+                returnItem.setItemId(pluCode.contains(" ")?pluCode.split(" ")[0]:pluCode);
                 returnItem.setAgeRestrictedFlag(0);
                 searchedProduct.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
             }

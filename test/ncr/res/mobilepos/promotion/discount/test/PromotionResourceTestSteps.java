@@ -741,4 +741,33 @@ public class PromotionResourceTestSteps extends Steps {
 			i++;
 		}
 	}
+
+	@Then("Sale data with double jean sales should be :$expectedItems")
+	public final void saleDataWithDoubleJeanSalesShouldBe(final ExamplesTable expectedItems) {
+		PromotionResponse promotionResponse = (PromotionResponse) actualResultBase;
+		Transaction transactionResult = promotionResponse.getTransaction();
+		assertThat("transactionResult is equal to null",
+				transactionResult == null, is(equalTo(false)));
+		Sale actualSale = transactionResult.getSale();
+		assertThat("sale is equal to null", actualSale == null,
+				is(equalTo(false)));
+		for (Map<String, String> expectedItem : expectedItems.getRows()) {
+			assertThat("Compare the ItemBrandName at row ",
+					"" + actualSale.getBrandSaleName(),
+					is(equalTo(expectedItem.get("ItemBrandName"))));
+			assertThat("Compare the ItemSizeCode at row ",
+					"" + actualSale.getSaleSizeCode(),
+					is(equalTo(expectedItem.get("ItemSizeCode"))));
+			assertThat("Compare the PointAddFlag at row ",
+					"" + actualSale.getPointAddFlag(),
+					is(equalTo(expectedItem.get("PointAddFlag"))));
+			assertThat("Compare the PointUseFlag at row ",
+					actualSale.getPointUseFlag(),
+					is(equalTo(expectedItem.get("PointUseFlag"))));
+			assertThat("Compare the TaxFreeFlag at row", ""
+					+ actualSale.getTaxFreeFlag(),
+					is(equalTo(expectedItem.get("TaxFreeFlag"))));
+		}
+	}
+
 }

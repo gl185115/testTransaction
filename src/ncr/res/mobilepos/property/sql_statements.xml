@@ -5,14 +5,15 @@
     <!-- 前受金番号 -->
  <entry key="get-item">
 
-DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),
+DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),@sizeId VARCHAR(10),
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
         @systemStoreId VARCHAR(10), @colorStoreId VARCHAR(10), @sizeStoreId VARCHAR(10), @brandStoreId VARCHAR(10),
-        @pluNameStoreId VARCHAR(10)
+        @pluNameStoreId VARCHAR(10), @sizePtnStoreId VARCHAR(10)
     SET @storeId = LTRIM(RTRIM(?))
     SET @companyId = LTRIM(RTRIM(?))
     SET @MdInternal = LTRIM(RTRIM(?))
     SET @businessDate = LTRIM(RTRIM(?))
+    SET @sizeId = LTRIM(RTRIM(?))
     SET @storeStoreId = @storeId
     SET @dptStoreId = @storeId
     SET @groupStoreId = @storeId
@@ -22,6 +23,7 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     SET @sizeStoreId = @storeId
     SET @brandStoreId = @storeId
     SET @pluNameStoreId = @storeId
+    SET @sizePtnStoreId = @storeId
 
     IF NOT EXISTS (
        SELECT *
@@ -182,6 +184,23 @@ DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @
     )
     SET @pluNameStoreId = '0'
 
+    IF NOT EXISTS (
+       SELECT *
+       FROM
+         RESMaster.dbo.MST_SIZEPATTERNINFO sizePtnInfo
+       INNER JOIN
+         RESMaster.dbo.MST_PLU plu
+         ON plu.CompanyId = sizePtnInfo.CompanyId
+        AND sizePtnInfo.DeleteFlag = 0.0
+        AND sizePtnInfo.StoreId = @sizePtnStoreId
+        AND sizePtnInfo.SizePatternId = plu.ItemSize
+        AND sizePtnInfo.SizeId = @sizeId
+       WHERE
+         plu.CompanyId = @companyId AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
+         AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2
+    )
+    SET @sizePtnStoreId = '0'
+
 SELECT TOP 1
        plu.CompanyId,
        plu.StoreId,
@@ -265,7 +284,13 @@ SELECT TOP 1
        sizeInfo.SizeKanaName,
        brandInfo.BrandName,
        plu.MdName,
-       pluNameInfo.MdName pluMdName
+       pluNameInfo.MdName pluMdName,
+       sizePtnInfo.SizePatternName SizePatternName,
+       plu.SubCode5 BrandSaleName,
+       classInfo.SubNum2 PointAddFlag,
+       classInfo.SubNum3 PointUseFlag,
+       classInfo.SubNum4 TaxFreeFlag,
+       sizePtnInfo.SizePatternId
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -337,6 +362,13 @@ LEFT JOIN  (
 plu.CompanyId  = urgent.CompanyId
 AND plu.Sku  = urgent.Sku
 AND plu.Md01 = urgent.ColorId
+
+LEFT JOIN RESMaster.dbo.MST_SIZEPATTERNINFO sizePtnInfo
+ON plu.CompanyId = sizePtnInfo.CompanyId
+AND sizePtnInfo.StoreId = @storeId
+AND plu.ItemSize = sizePtnInfo.SizePatternId
+AND sizePtnInfo.SizeId = @sizeId
+AND sizePtnInfo.DeleteFlag = 0.0
 
 WHERE plu.CompanyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 AND CONVERT(DATE, @businessDate) BETWEEN plu.SalesPriceChgDate1 AND plu.SalesPriceChgDate2

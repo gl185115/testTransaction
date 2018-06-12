@@ -246,6 +246,11 @@ public final class SaleItemsHandler {
         saleRes.setTaxTypeSource(item.getTaxTypeSource());
         saleRes.setDiscountTypeSource(item.getDiscountTypeSource());
         saleRes.setLabelPrice(item.getLabelPrice());
+        saleRes.setBrandSaleName(item.getBrandSaleName());
+        saleRes.setSaleSizeCode(item.getSaleSizeCode());
+        saleRes.setPointAddFlag(item.getPointAddFlag());
+        saleRes.setPointUseFlag(item.getPointUseFlag());
+        saleRes.setTaxFreeFlag(item.getTaxFreeFlag());
         return saleRes;
     }
 

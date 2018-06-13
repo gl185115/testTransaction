@@ -5,6 +5,7 @@
 <%!
 final String ERR_01_UPDATE = "属性の更新に失敗しました。<br>システム担当者に確認してください。";
 final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
+final String ERR_03_ATTRIBUTE = "属性１と属性１０<br>の整合性がとれていません。";
 final String INFO_01_UPDATE = "属性の更新に成功しました。";
 final String CONFIRM_01_UPDATE = "属性を更新してよろしいですか。";
 
@@ -584,7 +585,17 @@ jQuery(function ($) {
                 );
             return;
         }
-
+        if(document.getElementById('ATTAttribute1').value !='1' && document.getElementById('ATTAttribute10').value == '1') {
+            showDialog(
+                    "タイトル：未使用",
+                    <%='\'' + ERR_03_ATTRIBUTE + '\''%>,
+                    ButtonOK,
+                    function() {
+                        //「はい」を押したときの処理
+                    }
+                );
+        	return;
+        }
         showDialog(
             "タイトル：未使用",
             <%='\'' + CONFIRM_01_UPDATE + '\''%>,

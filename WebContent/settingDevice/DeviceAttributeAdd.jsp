@@ -8,6 +8,7 @@
 <%!
 final String ERR_01_TERMINALID = "属性番号が既に存在します。<br>属性番号を確認後、再度登録を実行してください。";
 final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
+final String ERR_03_ATTRIBUTE = "属性１と属性１０<br>の整合性がとれていません。";
 final String INFO_01_INSERT = "属性の新規登録に成功しました。";
 final String INFO_02_CHECK = "属性の整合性がとれていません。";
 final String CONFIRM_01_INSERT = "属性を登録してよろしいですか。";
@@ -390,7 +391,17 @@ jQuery(function ($) {
                 );
         	return;
         }
-
+        if(document.getElementById('Attribute1').value !='1' && document.getElementById('Attribute10').value == '1') {
+            showDialog(
+                    "タイトル：未使用",
+                    <%='\'' + ERR_03_ATTRIBUTE + '\''%>,
+                    ButtonOK,
+                    function() {
+                        //「はい」を押したときの処理
+                    }
+                );
+        	return;
+        }
         showDialog(
             "タイトル：未使用",
             <%='\'' + CONFIRM_01_INSERT + '\''%>,

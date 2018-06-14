@@ -2,6 +2,22 @@
 <barcode>
     <sale>
         <items>
+             <item>
+                <description>JAN・EAN (2段)</description>    
+                <id>doubleJanSales</id>　　　　　　　　　　　　　　
+                <type>double</type>
+                <symbol>EAN</symbol>
+                <format>30[0-9]{11}</format>
+                <nextformat>6000[0-9]{4}</nextformat>
+            </item>
+            <item>
+                <description>一段目二段目</description>
+                <id>section</id>
+                <type>single</type>
+                <symbol>EAN</symbol>
+                <format>30[0-9]{11}(\\s)6000[0-9]{4}</format>
+            </item>
+            <item>
             <item>
                 <description>和書</description>
                 <id>janBook</id>

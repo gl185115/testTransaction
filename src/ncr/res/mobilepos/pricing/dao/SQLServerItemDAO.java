@@ -306,11 +306,11 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setSizeKanaName(result.getString(result.findColumn("SizeKanaName")));
                 searchedItem.setBrandName(result.getString(result.findColumn("BrandName")));
                 searchedItem.setBrandSaleName(result.getString(result.findColumn("BrandSaleName")));
-                searchedItem.setSaleSizeCode(StringUtility.isNullOrEmpty(result.getString(result.findColumn("SizePatternName")))?"":
-                	result.getString(result.findColumn("SizePatternName")) + "(" + result.getString(result.findColumn("SizePatternId")) + " " + sizeId + ")");
+                searchedItem.setSaleSizeCode(result.getString(result.findColumn("SizePatternName")));
+                searchedItem.setSizePatternId(result.getString(result.findColumn("SizePatternId")));
                 searchedItem.setPointAddFlag(result.getString(result.findColumn("PointAddFlag")));
                 searchedItem.setPointUseFlag(result.getString(result.findColumn("PointUseFlag")));
-                searchedItem.setTaxFreeFlag(result.getString(result.findColumn("TaxFreeFlag")));
+                searchedItem.setTaxExemptFlag(result.getString(result.findColumn("TaxFreeFlag")));
                 if (storeFixation) {
                     searchedItem.setLine(result.getString(result.findColumn("Line")));
                     searchedItem.setItemClass(result.getString(result.findColumn("Class")));

@@ -758,15 +758,18 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the ItemSizeCode at row ",
 					"" + actualSale.getSaleSizeCode(),
 					is(equalTo(expectedItem.get("ItemSizeCode"))));
+			assertThat("Compare the SizePatternId at row ",
+					"" + actualSale.getSizePatternId(),
+					is(equalTo(expectedItem.get("SizePatternId"))));
 			assertThat("Compare the PointAddFlag at row ",
 					"" + actualSale.getPointAddFlag(),
 					is(equalTo(expectedItem.get("PointAddFlag"))));
 			assertThat("Compare the PointUseFlag at row ",
 					actualSale.getPointUseFlag(),
 					is(equalTo(expectedItem.get("PointUseFlag"))));
-			assertThat("Compare the TaxFreeFlag at row", ""
-					+ actualSale.getTaxFreeFlag(),
-					is(equalTo(expectedItem.get("TaxFreeFlag"))));
+			assertThat("Compare the TaxExemptFlag at row", ""
+					+ actualSale.getTaxExemptFlag(),
+					is(equalTo(expectedItem.get("TaxExemptFlag"))));
 		}
 	}
 

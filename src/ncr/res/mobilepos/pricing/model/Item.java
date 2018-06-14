@@ -1691,11 +1691,14 @@ public class Item {
     @XmlElement(name = "PointUseFlag")
     private String pointUseFlag;
 
-    @XmlElement(name = "TaxFreeFlag")
-    private String taxFreeFlag;
+    @XmlElement(name = "TaxExemptFlag")
+    private String taxExemptFlag;
 
     @XmlElement(name = "SaleSizeCode")
     private String saleSizeCode;
+
+    @XmlElement(name = "SizePatternId")
+    private String sizePatternId;
 
     @XmlElement(name ="BrandSaleName")
     private String brandSaleName;
@@ -1719,12 +1722,12 @@ public class Item {
     }
 
     @ApiModelProperty(value="免税対象フラグ", notes="免税対象フラグ")
-    public final String getTaxFreeFlag() {
-        return taxFreeFlag;
+    public final String getTaxExemptFlag() {
+        return taxExemptFlag;
     }
 
-    public final void setTaxFreeFlag(String taxFreeFlag) {
-        this.taxFreeFlag = taxFreeFlag;
+    public final void setTaxExemptFlag(String taxExemptFlag) {
+        this.taxExemptFlag = taxExemptFlag;
     }
 
     @ApiModelProperty(value="コードサイズ", notes="コードサイズ")
@@ -1734,6 +1737,15 @@ public class Item {
 
     public final void setSaleSizeCode(final String saleSizeCode) {
         this.saleSizeCode = saleSizeCode;
+    }
+
+    @ApiModelProperty(value="コードサイズID", notes="コードサイズID")
+    public final String getSizePatternId() {
+        return sizePatternId;
+    }
+
+    public final void setSizePatternId(final String sizePatternId) {
+        this.sizePatternId = sizePatternId;
     }
 
     @ApiModelProperty(value="ブランド名称", notes="ブランド名称")

@@ -18,7 +18,6 @@
                 <format>30[0-9]{11}(\\s)6000[0-9]{4}</format>
             </item>
             <item>
-            <item>
                 <description>和書</description>
                 <id>janBook</id>
                 <type>double</type>

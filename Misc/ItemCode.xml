@@ -3,8 +3,8 @@
     <sale>
         <items>
              <item>
-                <description>JAN・EAN (2段)</description>    
-                <id>doubleJanSales</id>　　　　　　　　　　　　　　
+                <description>JAN・EAN (2段)</description>
+                <id>doubleJanSales</id>
                 <type>double</type>
                 <symbol>EAN</symbol>
                 <format>30[0-9]{11}</format>

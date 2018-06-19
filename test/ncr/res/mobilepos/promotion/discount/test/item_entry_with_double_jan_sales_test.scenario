@@ -13,3 +13,10 @@ Then Sale data with double jean sales should be :
 Scenario:Test Item Entry with Double Jan Sales Error
 When a Item Entry at promotion with parameters RetailStoreID 0001 WorkStationId 0001 SequenceNo 0001 TransactionJson {"EntryFlag":"false","Sale":{"ItemEntryID":1,"ItemID":"3078154696211 60001111","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 0 Businessdate 2017-11-11
 Then the Result Code is 157
+
+Scenario:Test Item Entry with Double Jan Sales Normal No Exist Size Pattern Info
+Given a loaded dataset test/ncr/res/mobilepos/promotion/discount/test/no_exist_mst_plu_pluname_sizepatterinfo_classinfo.xml
+When a Item Entry at promotion with parameters RetailStoreID 0001 WorkStationId 0001 SequenceNo 0001 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"3078154696210 60000013","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 0 Businessdate 2017-11-11
+Then Sale data with double jean sales should be :
+|ItemBrandName  |ItemSizeCode |SizePatternId |PointAddFlag |PointUseFlag |TaxExemptFlag|
+|01             |null         |null          |1            |1            |1

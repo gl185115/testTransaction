@@ -17,6 +17,7 @@
                 <symbol>EAN</symbol>
                 <format>30[0-9]{11}(\\s)6000[0-9]{4}</format>
             </item>
+<!--             <item>
             <item>
                 <description>和書</description>
                 <id>janBook</id>
@@ -150,7 +151,7 @@
                 <type>single</type>
                 <symbol>EAN128</symbol>
                 <format>[0-9a-zA-Z]{32}</format>
-            </item>
+            </item> -->
         </items>
     </sale>
     <payment>
@@ -160,14 +161,14 @@
                 <id>discount</id>
                 <type>single</type>
                 <symbol>NW7</symbol>
-                <format>(B|b){1}(?&lt;ReasonId&gt;\d{2})(?&lt;PromotionId&gt;\d{3})((?&lt;Transaction&gt;1)|(?&lt;Item&gt;3))((?&lt;AmountOff&gt;2)|(?&lt;PercentOff&gt;1))(?&lt;Value&gt;\d{7})(?&lt;Date&gt;\d{6})(C|c){1}</format>
+                <format>(?&lt;Front&gt;B|b){1}(?&lt;ReasonId&gt;\\d{2})(?&lt;PromotionId&gt;\\d{3})((?&lt;Transaction&gt;1)|(?&lt;Item&gt;3))((?&lt;AmountOff&gt;2)|(?&lt;PercentOff&gt;1))(?&lt;Value&gt;\\d{7})(?&lt;Date&gt;\\d{6})(?&lt;End&gt;C|c){1}</format>
             </item>
             <item>
                 <description>クーポンQRコード</description>
                 <id>discount</id>
                 <type>single</type>
                 <symbol>NW7</symbol>
-                <format>(CPN){1}(?&lt;ReasonId&gt;\d{2})(?&lt;BizcardId&gt;\d{2})(?&lt;TagetValue&gt;\d{7})((?&lt;Item&gt;1)|(?&lt;Transaction&gt;2)|(?&lt;Point&gt;3))((?&lt;PercentOff&gt;1)|(?&lt;AmountOff&gt;2)|(?&lt;PointOff&gt;3))(?&lt;Value&gt;\d{7})(?&lt;Date&gt;\d{6})(?&lt;CouponDeletFlag&gt;\d{1})(?&lt;CouponId&gt;\d{16}?)</format>
+                <format>(?&lt;Front&gt;CPN){1}(?&lt;ReasonId&gt;\\d{2})(?&lt;BizcardId&gt;\\d{2})(?&lt;TagetValue&gt;\\d{7})((?&lt;Item&gt;1)|(?&lt;Transaction&gt;2)|(?&lt;Point&gt;3))((?&lt;PercentOff&gt;1)|(?&lt;AmountOff&gt;2)|(?&lt;PointOff&gt;3))(?&lt;Value&gt;\\d{7})(?&lt;Date&gt;\\d{6})(?&lt;CouponDeletFlag&gt;\\d{1})(?&lt;CouponId&gt;\\d{16}?)</format>
             </item>
             <item>
                 <description>QR値引割引</description>

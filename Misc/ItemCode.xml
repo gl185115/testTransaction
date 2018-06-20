@@ -17,7 +17,6 @@
                 <symbol>EAN</symbol>
                 <format>30[0-9]{11}(\\s)6000[0-9]{4}</format>
             </item>
-<!--             <item>
             <item>
                 <description>和書</description>
                 <id>janBook</id>
@@ -151,7 +150,7 @@
                 <type>single</type>
                 <symbol>EAN128</symbol>
                 <format>[0-9a-zA-Z]{32}</format>
-            </item> -->
+            </item>
         </items>
     </sale>
     <payment>

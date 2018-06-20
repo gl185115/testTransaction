@@ -167,7 +167,7 @@
                 <id>discount</id>
                 <type>single</type>
                 <symbol>NW7</symbol>
-                <format>(?&lt;Front&gt;CPN){1}(?&lt;ReasonId&gt;\\d{2})(?&lt;BizcardId&gt;\\d{2})(?&lt;TagetValue&gt;\\d{7})((?&lt;Item&gt;1)|(?&lt;Transaction&gt;2)|(?&lt;Point&gt;3))((?&lt;PercentOff&gt;1)|(?&lt;AmountOff&gt;2)|(?&lt;PointOff&gt;3))(?&lt;Value&gt;\\d{7})(?&lt;Date&gt;\\d{6})((?&lt;CouponDeletFlag&gt;\\d{1})(?&lt;CouponId&gt;\\d{16}))?</format>
+                <format>(?&lt;Front&gt;CPN){1}(?&lt;ReasonId&gt;\\d{2})(?&lt;BizcardId&gt;\\d{2})(?&lt;TagetValue&gt;\\d{7})((?&lt;Item&gt;1)|(?&lt;Transaction&gt;2)|(?&lt;Point&gt;3))((?&lt;PercentOff&gt;1)|(?&lt;AmountOff&gt;2)|(?&lt;PointOff&gt;3))(?&lt;Value&gt;\\d{7})(?&lt;Date&gt;\\d{6})(?&lt;CouponDeletFlag&gt;\\d{1})(?&lt;CouponId&gt;\\d{16})?</format>
             </item>
             <item>
                 <description>QR値引割引</description>

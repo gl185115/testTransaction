@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
@@ -56,6 +57,7 @@ public class Requirements {
             mockWindowsEnvironmentVariables();
             EnvironmentEntries.initInstance(new InitialContext());
             SystemFileConfig.initInstance(WindowsEnvironmentVariables.getInstance().getSystemPath());
+            BarcodeAssignmentFactory.initialize("test\\resources\\para");
             listener.initializeLoggers();
             listener.initializeDBInstances();
             listener.preloadDBRecord();

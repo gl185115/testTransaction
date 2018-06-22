@@ -185,6 +185,21 @@ public interface IPosLogDAO {
 
     public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
             throws SQLException, SQLStatementException, DaoException;
+    
+    /**
+     * Gets the number of count the transaction printed a gift receipt.
+     * @param companyId original transaction's companyId.
+     * @param retailStoreId original transaction's storeId.
+     * @param workStationId original transaction's terminalId.
+     * @param sequenceNo original transaction's sequenceNo.
+     * @param businessDayDate original transaction's businessDate.
+     * @return count int
+     * @throws SQLException sql error.
+     * @throws SQLStatementException sql query error.
+     * @throws DaoException database error.
+     */
+    public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId,String sequenceNo, String businessDayDate)
+            throws SQLException, SQLStatementException, DaoException;
 
     /**
      * タグ番号で前捌商品明細 PosLog 保存

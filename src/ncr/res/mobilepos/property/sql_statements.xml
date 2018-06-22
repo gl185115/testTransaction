@@ -2098,7 +2098,35 @@ ORDER BY
       SequenceNumber = ? AND
       BusinessDayDate = ?;
   </entry>
-
+<!-- *************************  ENTRY KEY FOR GIFT RECEIPT  ************************* -->  
+  <entry key="save-gift-receipt-details">
+    INSERT INTO RESTransaction.dbo.TXL_GIFTRECEIPT_HISTORY
+      (CompanyId,
+       RetailStoreId,
+       WorkstationId,
+       SequenceNumber,
+       BusinessDayDate,
+       TrainingFlag,
+       IssuedRetailStoreId,
+       IssuedWorkstationId,
+       IssuedSequenceNumber,
+       IssuedBusinessDayDate,
+       InsDateTime)
+    VALUES
+      (?,?,?,?,?,?,?,?,?,?,?);
+  </entry>
+  <entry key="get-gift-receipt-count">
+    SELECT
+      COUNT(*) as count
+    FROM
+      RESTransaction.dbo.TXL_GIFTRECEIPT_HISTORY
+    WHERE
+      CompanyId = ? AND
+      RetailStoreId = ? AND
+      WorkstationId = ? AND
+      SequenceNumber = ? AND
+      BusinessDayDate = ?;
+  </entry>
 <!-- *************************  ENTRY KEY FOR CUSTOMER INFORMATION      ************************* -->
   <entry key="get-customer-partial">
       SELECT TOP 1 * FROM RESMaster.dbo.MST_CUSTINFO

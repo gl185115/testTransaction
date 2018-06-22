@@ -37,7 +37,9 @@ import ncr.realgate.util.Guid;
 import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.constant.TxIdCharSymbols;
 import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
@@ -899,6 +901,53 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
+     * Saves GiftReceipt POSLog
+     * @param transaction transation object of poslog.
+     * @param posLogXml poslog in xml.
+     * @param connection database connnection object.
+     * @param savePOSLogStmt preparestatement.
+     * @param saveGiftReceiptDetailsStmt preparestatement.
+     * @param trainingMode 0 or 1.
+     * @throws SQLException sql error.
+     * @throws SQLStatementException sql query error.
+     * @throws DaoException database error.
+     * @throws NamingException
+     */
+    private void doGiftReceiptTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt,
+            final PreparedStatement saveGiftReceiptDetailsStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, NamingException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName());
+
+        savePosLogXML(transaction, posLogXml, TxTypes.GIFT_RECEIPT, savePOSLogStmt, connection, trainingMode);
+
+        String format = BarcodeAssignmentFactory.getInstance().getTradeSequenceReceipt().getReceipts().get(0).getFormat().get(0),
+        		transactionId = transaction.getControlTransaction().getReceiptReprint().getTransactionLink().getTransactionId(),
+        		companyId = transactionId.substring(format.indexOf(TxIdCharSymbols.COMPANY), format.lastIndexOf(TxIdCharSymbols.COMPANY) + 1),
+        		storeId = transactionId.substring(format.indexOf(TxIdCharSymbols.STORE), format.lastIndexOf(TxIdCharSymbols.STORE) + 1),
+        		terminalId = transactionId.substring(format.indexOf(TxIdCharSymbols.TERMINAL), format.lastIndexOf(TxIdCharSymbols.TERMINAL) + 1),
+        		businessDate = transactionId.substring(format.indexOf(TxIdCharSymbols.BUSINESSDATE), format.indexOf(TxIdCharSymbols.BUSINESSDATE) + 
+        				TxIdCharSymbols.BUSINESSDATE.length()),
+        		sequenceNo = transactionId.substring(format.indexOf(TxIdCharSymbols.SEQUENCENUMBER), format.lastIndexOf(TxIdCharSymbols.SEQUENCENUMBER) + 1);
+        
+        // insert giftreceipt details to TXL_GIFTRECEIPT_HISTORY
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM1, companyId);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM2, storeId);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM3, terminalId);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM4, sequenceNo);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM5, businessDate);
+        saveGiftReceiptDetailsStmt.setInt(SQLStatement.PARAM6, ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM7, transaction.getRetailStoreID());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM8, transaction.getWorkStationID().getValue());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM9, transaction.getSequenceNo());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM10, transaction.getBusinessDayDate());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM11, transaction.getBeginDateTime());
+        saveGiftReceiptDetailsStmt.executeUpdate();
+
+        tp.methodExit();
+    }
+
+    /**
      * Private Method for ReceiptReprint Transaction
      *
      * @param transaction
@@ -1188,7 +1237,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         PreparedStatement saveVoidDetailsStmt = null;
         PreparedStatement saveSummaryReceiptDetailsStmt = null;
         PreparedStatement saveTxuTotalGuestTillDayStmt = null;
-
+        PreparedStatement saveGiftReceiptDetailsStmt = null;        
         Transaction transaction = posLog.getTransaction();
 
         try {
@@ -1200,7 +1249,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     .prepareStatement(sqlStatement.getProperty("save-summary-receipt-details"));
             saveTxuTotalGuestTillDayStmt = connection
                     .prepareStatement(sqlStatement.getProperty("save-TxuTotalGuestTillDay-details"));
-
+            saveGiftReceiptDetailsStmt = connection.prepareStatement(sqlStatement.getProperty("save-gift-receipt-details"));
+            
             // String transactionType =
             // POSLogHandler.getTransactionType(posLog);
             String transactionType = transaction.getTransactionType();
@@ -1274,6 +1324,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     doSummaryReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
                             saveSummaryReceiptDetailsStmt, trainingMode);
                     break;
+                case TxTypes.GIFT_RECEIPT:
+                	doGiftReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt, saveGiftReceiptDetailsStmt, trainingMode);
+                	break;
                 case TxTypes.PAYIN:
                     doDonationTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
@@ -1388,6 +1441,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         } finally {
             closeConnectionObjects(null, savePOSLogStmt, null);
             closeConnectionObjects(null, saveSummaryReceiptDetailsStmt, null);
+            closeConnectionObjects(null, saveGiftReceiptDetailsStmt, null);
             closeConnectionObjects(null, saveTxuTotalGuestTillDayStmt, null);
             closeConnectionObjects(connection, saveVoidDetailsStmt, null);
 
@@ -2034,7 +2088,38 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         return result;
     }
+    
+    @Override
+	public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId, String sequenceNo, String businessDayDate)
+			throws SQLException, SQLStatementException, DaoException {
+		int result = 0;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		try {
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			statement = connection.prepareStatement(sqlStatement.getProperty("get-gift-receipt-count"),
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			statement.setString(SQLStatement.PARAM1, companyId);
+			statement.setString(SQLStatement.PARAM2, retailStoreId);
+			statement.setString(SQLStatement.PARAM3, workStationId);
+			statement.setString(SQLStatement.PARAM4, sequenceNo);
+			statement.setString(SQLStatement.PARAM5, businessDayDate);
 
+			resultSet = statement.executeQuery();
+
+			if (resultSet.last()) {
+				result = resultSet.getInt("count");
+			}
+		} catch (SQLException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "getGiftReceiptCount: Error in getting gift receipt counts.", e);
+			throw e;
+		} finally {
+			closeConnectionObjects(connection, statement, resultSet);
+		}
+		return result;
+	}
 
     private void saveVoidDetails(final PreparedStatement saveVoidDetailsStmt, TransactionLink transactionLink,
             String companyId, int trainingMode) throws SQLException {

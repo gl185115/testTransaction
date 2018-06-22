@@ -255,11 +255,11 @@ public class JournalizationResource {
     /**
      * The method called by the Web Service to retrieve the
      * POSLog of a transaction in JSON format.
-     * @param companyid
-     * @param storeid        The StoreID
-     * @param workstationid    The Terminal ID
-     * @param businessdate
-     * @param txid            The Transaction Number
+     * @param companyId
+     * @param storeId        The StoreID
+     * @param workstationId    The Terminal ID
+     * @param businessDate
+     * @param txId            The Transaction Number
      * @param trainingflag
      * @param txtype
      * @return                The POSLog Object of a given transaction
@@ -274,21 +274,21 @@ public class JournalizationResource {
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final SearchedPosLog getPOSLogTransactionByNumber(
-    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyid") final String companyid,
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
-    		@ApiParam(name="deviceid", value="ターミナル番号") @QueryParam("deviceid") final String workstationid,
-    		@ApiParam(name="businessdate", value="営業日") @QueryParam("businessdate") final String businessdate,
-    		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txid,
+    		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="deviceid", value="ターミナル番号") @QueryParam("deviceid") final String workstationId,
+    		@ApiParam(name="businessdate", value="営業日") @QueryParam("businessdate") final String businessDate,
+    		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txId,
     		@ApiParam(name="trainingmode", value="トレーニングモード") @QueryParam("trainingmode") final int trainingflag,
     		@ApiParam(name="txtype", value="取引種別") @QueryParam("txtype") final String txtype) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
-          .println("CompanyId", companyid)
-          .println("StoreID", storeid)
-          .println("WorkstationId", workstationid)
-          .println("BusinessDate", businessdate)
-          .println("Transaction Number", txid)
+          .println("CompanyId", companyId)
+          .println("StoreID", storeId)
+          .println("WorkstationId", workstationId)
+          .println("BusinessDate", businessDate)
+          .println("Transaction Number", txId)
           .println("TrainingMode", trainingflag)
-          .println("txtype", txtype);
+          .println("Txtype", txtype);
         SearchedPosLog poslog = new SearchedPosLog();
         String poslogXML = "";
         AdditionalInformation info = null;
@@ -300,7 +300,7 @@ public class JournalizationResource {
                 DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IPosLogDAO posLogDAO = sqlServer.getPOSLogDAO();
             poslogXML =
-                posLogDAO.getPOSLogTransaction(companyid, storeid, workstationid, businessdate, txid, trainingflag, txtype);
+                posLogDAO.getPOSLogTransaction(companyId, storeId, workstationId, businessDate, txId, trainingflag, txtype);
 
             if (poslogXML.isEmpty()) {
                 poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
@@ -312,11 +312,12 @@ public class JournalizationResource {
                     poslogSerializer.unMarshallXml(poslogXML,
                             SearchedPosLog.class);
 
-                info = posLogDAO.getVoidedAndReturned(companyid, storeid, workstationid, businessdate, txid, trainingflag, txtype);
-                lockStatus = posLogDAO.getOrUpdLockStatus(companyid, storeid, workstationid, businessdate, Integer.parseInt(txid), trainingflag, "", "", "", "getLockStatus");
-                receiptCount = posLogDAO.getSummaryReceiptCount(companyid,storeid, workstationid, txid, businessdate);
+                info = posLogDAO.getVoidedAndReturned(companyId, storeId, workstationId, businessDate, txId, trainingflag, txtype);
+                lockStatus = posLogDAO.getOrUpdLockStatus(companyId, storeId, workstationId, businessDate, Integer.parseInt(txId), trainingflag, "", "", "", "getLockStatus");
+                receiptCount = posLogDAO.getSummaryReceiptCount(companyId,storeId, workstationId, txId, businessDate);
                 info.setSummaryReceipt(String.valueOf(receiptCount));
-                pointPosted = posLogDAO.isPointPosted(companyid, storeid, workstationid, businessdate, txid, trainingflag);
+                info.setGiftReceipt(String.valueOf(posLogDAO.getGiftReceiptCount(companyId, storeId, workstationId, txId, businessDate)));
+                pointPosted = posLogDAO.isPointPosted(companyId, storeId, workstationId, businessDate, txId, trainingflag);
                 if(pointPosted.isPostPointed()){
                    String pointXML = posLogDAO.getPOSLogTransaction(pointPosted.getCompanyId(), pointPosted.getRetailStoreId(), pointPosted.getWorkstationId(), 
                            pointPosted.getBusinessDayDate(), pointPosted.getSequenceNumber(), pointPosted.getTrainingFlag(), txtype);

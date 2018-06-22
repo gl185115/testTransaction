@@ -145,6 +145,13 @@ public class JournalizationResourceSteps extends Steps {
                 "test/ncr/res/mobilepos/journalization/resource/datasets/"
                         + "TXL_SALES_JOURNAL.xml");
     }
+    
+    @Given("TXL_GIFTRECEIPT_HISTORY is empty")
+    public final void emptyGiftReceiptHistory() throws Exception {
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_GIFTRECEIPT_HISTORY.xml");
+    }
 
     @Given("a TXL_POSLOG_COMPLETE_Search table database")
     public final void comnpleteDatabase() throws Exception {
@@ -296,19 +303,24 @@ public class JournalizationResourceSteps extends Steps {
         System.setProperty("SERVERTYPE", "ENTERPRISE");
     }
 
-    @When("querying transaction POSLOG with"
-            + " terminalid$terminalid storeid$storeid txid$txid")
-    public final void queryTransactionPOSLog(final String companyId, final int trainingMode, final String terminalid,
-                                             final String storeid, final String txid) {
-        poslog = journalizationResource.getPOSLogTransactionByNumber(companyId, terminalid, storeid, txid, txid, trainingMode, txid);
-        result = poslog;
-    }
+    
 
     @When("executing journal log with xml $poslogxml"
             + " and trainingmode $trainingmode")
     public final void executeJournalLog(final String poslogXml, final int trainingMode) {
         journalResp = journalizationResource.journalize(poslogXml, trainingMode);
         result = journalResp;
+    }
+    
+    @When("I request to get the gift receipt printed counts for companyid:$1 storeid:$2 trainingmode:$3 businessdate:$4 deviceid:$5 txid:$6")
+	public final void whenGetGiftReceiptCounts(final String companyId, final String storeId, final int isTraining,
+			final String businessDate, final String deviceId, final String txId) {
+    	poslog = journalizationResource.getPOSLogTransactionByNumber(companyId, storeId, deviceId, businessDate, txId, isTraining, null);
+    }
+    
+    @Then("count should be $1")
+    public final void thenCount(final String expectedCount) {
+    	Assert.assertEquals(expectedCount, poslog.getAdditionalInformation().getGiftReceipt());
     }
 
     @When("business date is retrieved")

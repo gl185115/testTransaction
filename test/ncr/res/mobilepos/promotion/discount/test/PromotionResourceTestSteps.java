@@ -770,6 +770,12 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the TaxExemptFlag at row", ""
 					+ actualSale.getTaxExemptFlag(),
 					is(equalTo(expectedItem.get("TaxExemptFlag"))));
+			assertThat("Compare the DiscountType at row", ""
+					+ actualSale.getDiscountType(),
+					is(equalTo(expectedItem.get("DiscountType"))));
+			assertThat("Compare the DiscountTypeSource at row", ""
+					+ actualSale.getDiscountTypeSource(),
+					is(equalTo(expectedItem.get("DiscountTypeSource"))));
 		}
 	}
 

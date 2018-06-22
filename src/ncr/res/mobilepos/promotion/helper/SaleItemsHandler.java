@@ -252,6 +252,7 @@ public final class SaleItemsHandler {
         saleRes.setPointAddFlag(item.getPointAddFlag());
         saleRes.setPointUseFlag(item.getPointUseFlag());
         saleRes.setTaxExemptFlag(item.getTaxExemptFlag());
+        saleRes.setClsDiscountType(item.getClsDiscountType());
         return saleRes;
     }
 

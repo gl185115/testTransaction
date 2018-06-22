@@ -1756,7 +1756,19 @@ public class Item {
 	public final void setBrandSaleName(String brandSaleName) {
 		this.brandSaleName = brandSaleName;
 	}
+	
+    @XmlElement(name = "clsDiscountType")
+    private String clsDiscountType;
 
+    @ApiModelProperty(value="クラス割引タイプ", notes="クラス割引タイプ")
+    public String getClsDiscountType() {
+        return clsDiscountType;
+    }
+
+    public void setClsDiscountType(String clsDiscountType) {
+        this.clsDiscountType = clsDiscountType;
+    }
+    
 	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();

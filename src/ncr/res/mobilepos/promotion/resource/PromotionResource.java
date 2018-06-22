@@ -470,6 +470,15 @@ public class PromotionResource {
 					if("3".equals(item.getSalesNameSource())){
 						item.setMdName("");
 					}
+	                if (item.getDiscountType() != null) {
+	                	item.setDiscountTypeSource("1");
+	                } else if (item.getClsDiscountType() != null) {
+	                	item.setDiscountTypeSource("2");
+	                	item.setDiscountType(item.getClsDiscountType());
+	                } else if (item.getDptDiscountType() != 0) {
+	                	item.setDiscountTypeSource("3");
+	                	item.setDiscountType(String.valueOf(item.getDptDiscountType()));
+	                }
 				} else {
 					// ïîñÂÉRÅ[ÉhÇéÊìæÇ∑ÇÈ
 					codeTempConn = getDptCode(codeCvtDAO,itemId,varietiesName,companyId,retailStoreId,response,item);

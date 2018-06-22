@@ -290,7 +290,8 @@ SELECT TOP 1
        classInfo.SubNum2 PointAddFlag,
        classInfo.SubNum3 PointUseFlag,
        classInfo.SubNum4 TaxFreeFlag,
-       sizePtnInfo.SizePatternId
+       sizePtnInfo.SizePatternId,
+       classInfo.DiscountType clsDiscountType
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore

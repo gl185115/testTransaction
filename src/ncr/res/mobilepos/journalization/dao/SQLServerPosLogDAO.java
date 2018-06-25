@@ -37,9 +37,7 @@ import ncr.realgate.util.Guid;
 import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
-import ncr.res.mobilepos.constant.TxIdCharSymbols;
 import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
@@ -921,21 +919,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         savePosLogXML(transaction, posLogXml, TxTypes.GIFT_RECEIPT, savePOSLogStmt, connection, trainingMode);
 
-        String format = BarcodeAssignmentFactory.getInstance().getTradeSequenceReceipt().getReceipts().get(0).getFormat().get(0),
-        		transactionId = transaction.getControlTransaction().getReceiptReprint().getTransactionLink().getTransactionId(),
-        		companyId = transactionId.substring(format.indexOf(TxIdCharSymbols.COMPANY), format.lastIndexOf(TxIdCharSymbols.COMPANY) + 1),
-        		storeId = transactionId.substring(format.indexOf(TxIdCharSymbols.STORE), format.lastIndexOf(TxIdCharSymbols.STORE) + 1),
-        		terminalId = transactionId.substring(format.indexOf(TxIdCharSymbols.TERMINAL), format.lastIndexOf(TxIdCharSymbols.TERMINAL) + 1),
-        		businessDate = transactionId.substring(format.indexOf(TxIdCharSymbols.BUSINESSDATE), format.indexOf(TxIdCharSymbols.BUSINESSDATE) + 
-        				TxIdCharSymbols.BUSINESSDATE.length()),
-        		sequenceNo = transactionId.substring(format.indexOf(TxIdCharSymbols.SEQUENCENUMBER), format.lastIndexOf(TxIdCharSymbols.SEQUENCENUMBER) + 1);
-        
+        TransactionLink transactionLink = transaction.getControlTransaction().getReceiptReprint().getTransactionLink();
         // insert giftreceipt details to TXL_GIFTRECEIPT_HISTORY
-        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM1, companyId);
-        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM2, storeId);
-        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM3, terminalId);
-        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM4, sequenceNo);
-        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM5, businessDate);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM1, transactionLink.getOrganizationHierarchy().getId());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM2, transactionLink.getRetailStoreID());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM3, transactionLink.getWorkStationID().getValue());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM4, transactionLink.getSequenceNo());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM5, transactionLink.getBusinessDayDate());
         saveGiftReceiptDetailsStmt.setInt(SQLStatement.PARAM6, ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
         saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM7, transaction.getRetailStoreID());
         saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM8, transaction.getWorkStationID().getValue());

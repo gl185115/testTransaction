@@ -11153,8 +11153,11 @@ ORDER BY empinfo.EmpCode;
     SET @Tag = ?
 
 		IF NOT EXISTS (SELECT CompanyId FROM RESTransaction.dbo.TXL_FORWARD_ITEM
-		WHERE CompanyId = @CompanyId AND RetailStoreId = @RetailStoreId
-		AND BusinessDayDate = @BusinessDayDate AND Ext1 = @Tag AND Status IN ('0','1') )
+		WHERE CompanyId = @CompanyId 
+		AND RetailStoreId = @RetailStoreId
+		AND BusinessDayDate = @BusinessDayDate 
+		AND Ext1 = @Tag AND Status IN ('0','1') 
+		AND TrainingFlag = @TrainingFlag)
 			INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
 			(CompanyId
 			,RetailStoreId

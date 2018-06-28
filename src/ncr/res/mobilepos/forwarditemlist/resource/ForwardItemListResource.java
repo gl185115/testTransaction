@@ -791,6 +791,7 @@ public class ForwardItemListResource {
      * @param queue     		The Queue from POS
      * @param businessDayDate	The BusinessDay Date
      * @param tag				The Ext1
+     * @param trainingflag		The TrainingFlag
      * @return SearchForwardPosLog
      */
     @GET
@@ -807,20 +808,22 @@ public class ForwardItemListResource {
     		@ApiParam(name="RetailStoreId", value="小売店コード") @QueryParam("RetailStoreId") final String retailStoreId,
     		@ApiParam(name="Queue", value="キュー番号") @QueryParam("Queue") final String queue,
     		@ApiParam(name="Businessdaydate", value="業務日付") @QueryParam("Businessdaydate") final String businessDayDate,
-    		@ApiParam(name="tag", value="タグ番号") @QueryParam("tag") final String tag) {
+    		@ApiParam(name="tag", value="タグ番号") @QueryParam("tag") final String tag,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final String trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", companyId);
         tp.println("RetailStoreId", retailStoreId);
         tp.println("Queue", queue);
         tp.println("Businessdaydate", businessDayDate);
         tp.println("tag", tag);
+        tp.println("trainingflag", trainingFlag);
 
         SearchForwardPosLog poslog = new SearchForwardPosLog();
         try {
                DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
                IPosLogDAO posLogDAO = sqlServer.getPOSLogDAO();
                poslog = posLogDAO.getForwardItemsPosLogWithTag(companyId, retailStoreId,
-                		queue, businessDayDate, tag);
+                		queue, businessDayDate, tag, trainingFlag);
 
                if (StringUtility.isNullOrEmpty(poslog.getPosLogXml())) {
                     poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);

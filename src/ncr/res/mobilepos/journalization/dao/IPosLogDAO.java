@@ -224,5 +224,5 @@ public interface IPosLogDAO {
      * @throws DaoException
      */
     public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
-    		String queue, String businessDayDate, String tag) throws DaoException;
+    		String queue, String businessDayDate, String tag, String trainingFlag) throws DaoException;
 }

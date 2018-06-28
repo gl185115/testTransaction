@@ -4661,13 +4661,15 @@ ORDER BY
       @RetailStoreId varchar(MAX),
       @Queue VARCHAR(MAX),
       @BusinessDayDate VARCHAR(MAX),
-      @tag VARCHAR(MAX)
+      @tag VARCHAR(MAX),
+      @trainingFlag NUMERIC(1,0)
 
     SET @CompanyId = ?
     SET @RetailStoreId = ?
     SET @Queue = ?
     SET @BusinessDayDate = ?
     SET @tag = ?
+    SET @trainingFlag = ?
 
     SELECT
       Status,
@@ -4679,6 +4681,7 @@ ORDER BY
       AND BusinessDayDate = @BusinessDayDate
       AND Ext1 = @tag
       AND Status = 0
+      AND TrainingFlag = @trainingFlag
   </entry>
   <entry key="update-forward-status">
         UPDATE RESTransaction.dbo.TXL_FORWARD_ITEM

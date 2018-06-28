@@ -2621,7 +2621,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      */
     @Override
     public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
-    		String queue, String businessDayDate, String tag) throws DaoException{
+    		String queue, String businessDayDate, String tag, String trainingFlag) throws DaoException{
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -2629,7 +2629,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         		.println("RetailStoreId", retailStoreId)
                 .println("Queue", queue)
                 .println("BusinessDayDate", businessDayDate)
-                .println("tag", tag);
+                .println("tag", tag)
+                .println("trainingFlag", trainingFlag);
 
         SearchForwardPosLog searchForwardPosLog = new SearchForwardPosLog();
         Connection connection = null;
@@ -2645,6 +2646,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             select.setString(SQLStatement.PARAM3, queue);
             select.setString(SQLStatement.PARAM4, businessDayDate);
             select.setString(SQLStatement.PARAM5, tag);
+            select.setInt(SQLStatement.PARAM6, Integer.valueOf(trainingFlag));
 
             result = select.executeQuery();
             if (result.next()) {

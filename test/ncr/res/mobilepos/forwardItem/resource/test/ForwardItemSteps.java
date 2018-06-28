@@ -104,11 +104,11 @@ public class ForwardItemSteps extends Steps {
 				String.valueOf(resultBase.getNCRWSSResultCode()));
 	}
 
-	@When("I get forwardItem with companyId $companyId retailStoreId $retailStoreId queue $queue businessDayDate $businessDayDate and tag $tag")
+	@When("I get forwardItem with companyId $companyId retailStoreId $retailStoreId queue $queue businessDayDate $businessDayDate tag $tag and trainingFlag $trainingFlag")
 	public final void getForwardItemsWithTagSelectResult(final String companyId, final String retailStoreId, final String queue,
-			final String businessDayDate, final String tag) {
+			final String businessDayDate, final String tag, final String trainingFlag) {
 		poslog = new SearchForwardPosLog();
-		poslog = forwardItemResource.getForwardItemsWithTag(companyId, retailStoreId, queue, businessDayDate, tag);
+		poslog = forwardItemResource.getForwardItemsWithTag(companyId, retailStoreId, queue, businessDayDate, tag, trainingFlag);
 	}
 
 	@Then("I should get the forwardItemSuccessResult : $examplesResultWithTag")

@@ -2126,7 +2126,8 @@ ORDER BY
       RetailStoreId = ? AND
       WorkstationId = ? AND
       SequenceNumber = ? AND
-      BusinessDayDate = ?;
+      BusinessDayDate = ? AND 
+      TrainingFlag = ?;
   </entry>
 <!-- *************************  ENTRY KEY FOR CUSTOMER INFORMATION      ************************* -->
   <entry key="get-customer-partial">

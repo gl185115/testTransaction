@@ -260,7 +260,7 @@ public class JournalizationResource {
      * @param workstationId    The Terminal ID
      * @param businessDate
      * @param txId            The Transaction Number
-     * @param trainingflag
+     * @param trainingFlag
      * @param txtype
      * @return                The POSLog Object of a given transaction
      */
@@ -279,7 +279,7 @@ public class JournalizationResource {
     		@ApiParam(name="deviceid", value="ターミナル番号") @QueryParam("deviceid") final String workstationId,
     		@ApiParam(name="businessdate", value="営業日") @QueryParam("businessdate") final String businessDate,
     		@ApiParam(name="txid", value="取引番号") @QueryParam("txid") final String txId,
-    		@ApiParam(name="trainingmode", value="トレーニングモード") @QueryParam("trainingmode") final int trainingflag,
+    		@ApiParam(name="trainingmode", value="トレーニングモード") @QueryParam("trainingmode") final int trainingFlag,
     		@ApiParam(name="txtype", value="取引種別") @QueryParam("txtype") final String txtype) {
         tp.methodEnter(DebugLogger.getCurrentMethodName())
           .println("CompanyId", companyId)
@@ -287,7 +287,7 @@ public class JournalizationResource {
           .println("WorkstationId", workstationId)
           .println("BusinessDate", businessDate)
           .println("Transaction Number", txId)
-          .println("TrainingMode", trainingflag)
+          .println("TrainingMode", trainingFlag)
           .println("Txtype", txtype);
         SearchedPosLog poslog = new SearchedPosLog();
         String poslogXML = "";
@@ -300,7 +300,7 @@ public class JournalizationResource {
                 DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IPosLogDAO posLogDAO = sqlServer.getPOSLogDAO();
             poslogXML =
-                posLogDAO.getPOSLogTransaction(companyId, storeId, workstationId, businessDate, txId, trainingflag, txtype);
+                posLogDAO.getPOSLogTransaction(companyId, storeId, workstationId, businessDate, txId, trainingFlag, txtype);
 
             if (poslogXML.isEmpty()) {
                 poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
@@ -312,12 +312,12 @@ public class JournalizationResource {
                     poslogSerializer.unMarshallXml(poslogXML,
                             SearchedPosLog.class);
 
-                info = posLogDAO.getVoidedAndReturned(companyId, storeId, workstationId, businessDate, txId, trainingflag, txtype);
-                lockStatus = posLogDAO.getOrUpdLockStatus(companyId, storeId, workstationId, businessDate, Integer.parseInt(txId), trainingflag, "", "", "", "getLockStatus");
+                info = posLogDAO.getVoidedAndReturned(companyId, storeId, workstationId, businessDate, txId, trainingFlag, txtype);
+                lockStatus = posLogDAO.getOrUpdLockStatus(companyId, storeId, workstationId, businessDate, Integer.parseInt(txId), trainingFlag, "", "", "", "getLockStatus");
                 receiptCount = posLogDAO.getSummaryReceiptCount(companyId,storeId, workstationId, txId, businessDate);
                 info.setSummaryReceipt(String.valueOf(receiptCount));
-                info.setGiftReceipt(String.valueOf(posLogDAO.getGiftReceiptCount(companyId, storeId, workstationId, txId, businessDate)));
-                pointPosted = posLogDAO.isPointPosted(companyId, storeId, workstationId, businessDate, txId, trainingflag);
+                info.setGiftReceipt(String.valueOf(posLogDAO.getGiftReceiptCount(companyId, storeId, workstationId, txId, businessDate, trainingFlag)));
+                pointPosted = posLogDAO.isPointPosted(companyId, storeId, workstationId, businessDate, txId, trainingFlag);
                 if(pointPosted.isPostPointed()){
                    String pointXML = posLogDAO.getPOSLogTransaction(pointPosted.getCompanyId(), pointPosted.getRetailStoreId(), pointPosted.getWorkstationId(), 
                            pointPosted.getBusinessDayDate(), pointPosted.getSequenceNumber(), pointPosted.getTrainingFlag(), txtype);

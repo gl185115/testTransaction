@@ -193,12 +193,13 @@ public interface IPosLogDAO {
      * @param workStationId original transaction's terminalId.
      * @param sequenceNo original transaction's sequenceNo.
      * @param businessDayDate original transaction's businessDate.
+     * @param trainingFlag training mode (1 or 0)
      * @return count int
      * @throws SQLException sql error.
      * @throws SQLStatementException sql query error.
      * @throws DaoException database error.
      */
-    public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId,String sequenceNo, String businessDayDate)
+    public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId,String sequenceNo, String businessDayDate, int trainingFlag)
             throws SQLException, SQLStatementException, DaoException;
 
     /**

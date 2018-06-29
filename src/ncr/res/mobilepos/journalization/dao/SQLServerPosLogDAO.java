@@ -2080,7 +2080,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
     
     @Override
-	public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId, String sequenceNo, String businessDayDate)
+	public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId, String sequenceNo, String businessDayDate, int trainingFlag)
 			throws SQLException, SQLStatementException, DaoException {
 		int result = 0;
 		PreparedStatement statement = null;
@@ -2096,6 +2096,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 			statement.setString(SQLStatement.PARAM3, workStationId);
 			statement.setString(SQLStatement.PARAM4, sequenceNo);
 			statement.setString(SQLStatement.PARAM5, businessDayDate);
+			statement.setInt(SQLStatement.PARAM6, trainingFlag);
 
 			resultSet = statement.executeQuery();
 

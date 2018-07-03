@@ -146,10 +146,14 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes < FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (GlobalConstant.getMemberServerDebug()) {
-                    File file = new File(
-                            EnvironmentEntries.getInstance().getParaBasePath() + FuturePayConstants.MEMBERINFO_TEST);
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + crd_no
+                            + FuturePayConstants.MEMBERINFO_TEST);
+                    if (!file.isDirectory()) {
+                        file = new File(EnvironmentEntries.getInstance().getParaBasePath()
+                                + FuturePayConstants.MEMBERINFO_TEST);
+                    }
                     InputStream in = new FileInputStream(file);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in,"utf-8"));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
                     StringBuilder strbReturn = new StringBuilder();
                     String strReadLine = "";
                     lstReturn.add("200");
@@ -183,20 +187,11 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            if (intReturnStatus != 200) {
-                futurePayReturnBean.setRequestJSON(request.toString());
-                futurePayReturnBean.setResponseJSON(strReturn);
-                futurePayReturnBean.setNCRWSSResultCode(intReturnStatus);
-                futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
-                futurePayReturnBean.setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
-            } else {
-                futurePayReturnBean.setRequestJSON(request.toString());
-                futurePayReturnBean.setResponseJSON(strReturn);
-                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-                futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
-            }
-
+            futurePayReturnBean.setRequestJSON(request.toString());
+            futurePayReturnBean.setResponseJSON(strReturn);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
+            futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to Member information.", e);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
@@ -370,10 +365,14 @@ public class FuturePayResource {
                     request.put("deal_serial_no", deal_serial_no);
                 }
                 if (GlobalConstant.getMemberServerDebug()) {
-                    File file = new File(
-                            EnvironmentEntries.getInstance().getParaBasePath() + FuturePayConstants.MEMBERINFO_TEST);
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + crd_no
+                            + FuturePayConstants.MEMBERINFO_TEST);
+                    if (!file.isDirectory()) {
+                        file = new File(EnvironmentEntries.getInstance().getParaBasePath()
+                                + FuturePayConstants.MEMBERINFO_TEST);
+                    }
                     InputStream in = new FileInputStream(file);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in,"utf-8"));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
                     StringBuilder strbReturn = new StringBuilder();
                     String strReadLine = "";
                     lstReturn.add("200");
@@ -411,20 +410,11 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            if (intReturnStatus != 200) {
-                futurePayReturnBean.setRequestJSON(request.toString());
-                futurePayReturnBean.setResponseJSON(strReturn);
-                futurePayReturnBean.setNCRWSSResultCode(intReturnStatus);
-                futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
-                futurePayReturnBean.setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
-            } else {
-                futurePayReturnBean.setRequestJSON(request.toString());
-                futurePayReturnBean.setResponseJSON(strReturn);
-                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-                futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
-            }
-
+            futurePayReturnBean.setRequestJSON(request.toString());
+            futurePayReturnBean.setResponseJSON(strReturn);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
+            futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to update Member.", e);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
@@ -561,10 +551,14 @@ public class FuturePayResource {
                     request.put("deal_serial_no", deal_serial_no);
                 }
                 if (GlobalConstant.getMemberServerDebug()) {
-                    File file = new File(
-                            EnvironmentEntries.getInstance().getParaBasePath() + FuturePayConstants.MEMBERINFO_TEST);
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + crd_no
+                            + FuturePayConstants.MEMBERINFO_TEST);
+                    if (!file.isDirectory()) {
+                        file = new File(EnvironmentEntries.getInstance().getParaBasePath()
+                                + FuturePayConstants.MEMBERINFO_TEST);
+                    }
                     InputStream in = new FileInputStream(file);
-                    BufferedReader br = new BufferedReader(new InputStreamReader(in,"utf-8"));
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
                     StringBuilder strbReturn = new StringBuilder();
                     String strReadLine = "";
                     lstReturn.add("200");
@@ -598,20 +592,11 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            if (intReturnStatus != 200) {
-                futurePayReturnBean.setRequestJSON(request.toString());
-                futurePayReturnBean.setResponseJSON(strReturn);
-                futurePayReturnBean.setNCRWSSResultCode(intReturnStatus);
-                futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
-                futurePayReturnBean.setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
-            } else {
-                futurePayReturnBean.setRequestJSON(request.toString());
-                futurePayReturnBean.setResponseJSON(strReturn);
-                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
-                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
-                futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
-            }
-
+            futurePayReturnBean.setRequestJSON(request.toString());
+            futurePayReturnBean.setResponseJSON(strReturn);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
+            futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
         } catch (DaoException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get Member history.", e);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);

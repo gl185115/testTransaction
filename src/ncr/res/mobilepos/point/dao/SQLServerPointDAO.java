@@ -440,10 +440,7 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                     skuhit = true;
                 }
             }
-        } else if (FLAG_MULTI.equals(skuflag) && "4".equals(targettype)) {
-            // if (barCode.startsWith(targetid)) {
-            //     skuhit = true;
-            // }
+        } else if ((FLAG_MULTI.equals(skuflag) || StringUtility.isNullOrEmpty(skuflag)) && "4".equals(targettype)) {
             if (!StringUtility.isNullOrEmpty(targetid)) {
                 if (targetid.contains("*")) {
                     if (barCode.startsWith(targetid.replace("*", ""))) {
@@ -475,11 +472,10 @@ public class SQLServerPointDAO extends AbstractDao implements IPointDAO {
                 brandhit = true;
             }
         }
-
         if (grouphit || dpthit || skuhit) {
             if (brandhit) {
                 return true;
-            } else if (FLAG_OFF.equals(brandidflag) && StringUtility.isNullOrEmpty(brandidstart)
+            } else if ((FLAG_OFF.equals(brandidflag) || StringUtility.isNullOrEmpty(brandidflag)) && StringUtility.isNullOrEmpty(brandidstart)
                     && StringUtility.isNullOrEmpty(brandidend)) {
                 return true;
             }

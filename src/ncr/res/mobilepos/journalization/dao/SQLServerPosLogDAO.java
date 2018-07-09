@@ -1270,6 +1270,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     doNormalTransaction(transaction, posLogXml, savePOSLogStmt, connection,
                             saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
                     break;
+                case TxTypes.CASHINVOID:
                 case TxTypes.RETURN:
                 case TxTypes.ECRETURN:
                 case TxTypes.EXCHANGERETURN:
@@ -1364,7 +1365,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.PURCHASE:
                 case TxTypes.PURCHASERETURN:
                 case TxTypes.CASHIN:
-                case TxTypes.CASHINVOID:
                 case TxTypes.CASHOUT:
                 case TxTypes.CASHOUTVOID:
                 case TxTypes.CHARGESALES:

@@ -676,9 +676,15 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         savePosLogXML(transaction, posLogXml, txType, savePOSLogStmt, connection, trainingMode);
 
-        // insert return details to TXL_SALES_VOIDED
-        saveReturnDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
-
+        // when TxTypes is Rrturn , insert return details to TXL_SALES_VOIDED
+        if((TxTypes.RETURN).equals(txType)){
+            // insert return details to TXL_SALES_VOIDED
+            saveReturnDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
+        }else{
+        	// insert void details to TXL_SALES_VOIDED
+        	saveVoidDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
+        }
+        
         // insert return details to TXU_TOTAL_GUESTTILLDAY
         // saveTxuTotalGuestTillDay(transaction, TxTypes.RETURN,
         // saveTxuTotalGuestTillDayStmt, connection);

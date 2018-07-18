@@ -77,8 +77,8 @@ public class FuturePayResource {
      * 
      * @param terminal_code
      *            : terminal_code
-     * @param crd_no
-     *            : crd_no
+     * @param card_no
+     *            : card_no
      * @param extend_expiration
      *            : extend_expiration
      * @return the JSON of member information
@@ -96,18 +96,18 @@ public class FuturePayResource {
             @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
     public final FuturePayReturnBean get(
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
-            @ApiParam(name = "crd_no", value = "カード番号") @QueryParam("crd_no") final String crd_no,
+            @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
             @ApiParam(name = "extend_expiration", value = "有効期限延長") @QueryParam("extend_expiration") final int extend_expiration) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("terminal_code", terminal_code).println("crd_no", crd_no).println("extend_expiration",
+        tp.println("terminal_code", terminal_code).println("card_no", card_no).println("extend_expiration",
                 extend_expiration);
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
         JSONObject request = new JSONObject();
         try {
             // param check
-            if (StringUtility.isNullOrEmpty(crd_no)) {
+            if (StringUtility.isNullOrEmpty(card_no)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
                 futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -137,7 +137,7 @@ public class FuturePayResource {
 
             JSONObject attributes = new JSONObject();
             request.put("terminal_code", terminal_code);
-            request.put("crd_no", crd_no);
+            request.put("card_no", card_no);
             attributes.put("extend_expiration", extend_expiration);
             request.put("attributes", attributes);
             // basic authenticate
@@ -146,7 +146,7 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes < FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (GlobalConstant.getMemberServerDebug()) {
-                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + crd_no
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + card_no
                             + FuturePayConstants.MEMBERINFO_TEST);
                     if (!file.isDirectory()) {
                         file = new File(EnvironmentEntries.getInstance().getParaBasePath()
@@ -232,8 +232,8 @@ public class FuturePayResource {
      *            : api
      * @param terminal_code
      *            : terminal_code
-     * @param crd_no
-     *            : crd_no
+     * @param card_no
+     *            : card_no
      * @param businessDate
      *            : businessDate
      * @param sequenceNumber
@@ -269,27 +269,27 @@ public class FuturePayResource {
             @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
     public final FuturePayReturnBean update(@ApiParam(name = "api", value = "API") @QueryParam("api") final String api,
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
-            @ApiParam(name = "crd_no", value = "カード番号") @QueryParam("crd_no") final String crd_no,
+            @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
             @ApiParam(name = "businessDate", value = "日付") @QueryParam("businessDate") final String businessDate,
             @ApiParam(name = "sequenceNumber", value = "取引No") @QueryParam("sequenceNumber") final String sequenceNumber,
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
-            @ApiParam(name = "operation_type", value = "操作種別") @QueryParam("operation_type") final String operation_type,
-            @ApiParam(name = "amount", value = "ポイント") @QueryParam("amount") final String amount,
+            @ApiParam(name = "operation_type", value = "操作種別") @QueryParam("operation_type") final int operation_type,
+            @ApiParam(name = "amount", value = "ポイント") @QueryParam("amount") final int amount,
             @ApiParam(name = "terminal_deal_time", value = "端末取引日時") @QueryParam("terminal_deal_time") final String terminal_deal_time,
             @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
             @ApiParam(name = "attributes", value = "付加属性") @QueryParam("attributes") final String attributes) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("terminal_code", terminal_code).println("crd_no", crd_no);
+        tp.println("terminal_code", terminal_code).println("card_no", card_no);
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
         JSONObject request = new JSONObject();
         Boolean dealSerialNoFlag = false;
         try {
             // param check
-            if (StringUtility.isNullOrEmpty(crd_no) || StringUtility.isNullOrEmpty(api)) {
+            if (StringUtility.isNullOrEmpty(card_no) || StringUtility.isNullOrEmpty(api)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
                 futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -317,7 +317,7 @@ public class FuturePayResource {
             StringBuilder deal_serial_no = new StringBuilder();
             strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI));
             request.put("terminal_code", terminal_code);
-            request.put("crd_no", crd_no);
+            request.put("card_no", card_no);
             request.put("slip_no", slip_no);
             request.put("pin_code", pin_code);
             request.put("operation_type", operation_type);
@@ -365,7 +365,7 @@ public class FuturePayResource {
                     request.put("deal_serial_no", deal_serial_no);
                 }
                 if (GlobalConstant.getMemberServerDebug()) {
-                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + crd_no
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + card_no
                             + FuturePayConstants.MEMBERINFO_TEST);
                     if (!file.isDirectory()) {
                         file = new File(EnvironmentEntries.getInstance().getParaBasePath()
@@ -383,9 +383,9 @@ public class FuturePayResource {
                     JSONObject response = new JSONObject(strbReturn.toString());
                     String responseCurrent = response.getString(api);
                     if (null != responseCurrent) {
-                        if (null != operation_type) {
+                        if (0 != operation_type) {
                             response = new JSONObject(responseCurrent);
-                            responseCurrent = response.getString(operation_type);
+                            responseCurrent = response.getString(String.valueOf(operation_type));
                         }
                         lstReturn.add(responseCurrent.toString());
                     }
@@ -453,8 +453,8 @@ public class FuturePayResource {
      * 
      * @param terminal_code
      *            : terminal_code
-     * @param crd_no
-     *            : crd_no
+     * @param card_no
+     *            : card_no
      * @param businessDate
      *            : businessDate
      * @param sequenceNumber
@@ -486,24 +486,24 @@ public class FuturePayResource {
             @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
     public final FuturePayReturnBean update(
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
-            @ApiParam(name = "crd_no", value = "カード番号") @QueryParam("crd_no") final String crd_no,
+            @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
             @ApiParam(name = "businessDate", value = "日付") @QueryParam("businessDate") final String businessDate,
             @ApiParam(name = "sequenceNumber", value = "取引No") @QueryParam("sequenceNumber") final String sequenceNumber,
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
-            @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
+            @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final int limit,
             @ApiParam(name = "attributes", value = "付加属性") @QueryParam("attributes") final String attributes) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("terminal_code", terminal_code).println("crd_no", crd_no);
+        tp.println("terminal_code", terminal_code).println("card_no", card_no);
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
         JSONObject request = new JSONObject();
         Boolean dealSerialNoFlag = false;
         try {
             // param check
-            if (StringUtility.isNullOrEmpty(crd_no)) {
+            if (StringUtility.isNullOrEmpty(card_no)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
                 futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -532,7 +532,7 @@ public class FuturePayResource {
             strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(FuturePayConstants.INQUIRY_HISTORY);
             request.put("terminal_code", terminal_code);
-            request.put("crd_no", crd_no);
+            request.put("card_no", card_no);
             request.put("slip_no", slip_no);
             request.put("pin_code", pin_code);
             request.put("attributes", attributes);
@@ -551,7 +551,7 @@ public class FuturePayResource {
                     request.put("deal_serial_no", deal_serial_no);
                 }
                 if (GlobalConstant.getMemberServerDebug()) {
-                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + crd_no
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + card_no
                             + FuturePayConstants.MEMBERINFO_TEST);
                     if (!file.isDirectory()) {
                         file = new File(EnvironmentEntries.getInstance().getParaBasePath()

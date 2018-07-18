@@ -10271,6 +10271,8 @@ insert into RESTransaction.dbo.TXL_offline_credit
     AND
     base.CompanyId = iteminfo.CompanyId
     AND
+    base.ItemSettingFlag = '1'
+    AND
     iteminfo.DeleteFlag = 0.0
   LEFT JOIN
     RESMaster.dbo.MST_CAMPAIGN_ITEM_DETAIL itemdetail
@@ -10310,9 +10312,6 @@ insert into RESTransaction.dbo.TXL_offline_credit
     CONVERT(DATE,@businessDate) BETWEEN base.StartDate AND base.EndDate
     AND
     base.DeleteFlag = 0.0
-    AND
-    ((base.RecordId = iteminfo.RecordId)
-    OR base.ItemSettingFlag = '0')
     AND
     ((base.TargetStoreType = '1' AND store.StoreId = @storeId)
     OR base.TargetStoreType = '0' OR base.TargetStoreType = '2')

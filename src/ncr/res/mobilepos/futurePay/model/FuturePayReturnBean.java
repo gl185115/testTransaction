@@ -35,6 +35,4 @@ public class FuturePayReturnBean extends ResultBase {
     public void setRequestJSON(String requestJSON) {
         this.requestJSON = requestJSON;
     }
-
-
 }

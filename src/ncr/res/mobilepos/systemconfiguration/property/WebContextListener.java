@@ -229,7 +229,12 @@ public class WebContextListener implements ServletContextListener {
         } else {
             GlobalConstant.setMemberServerDebug(false);
         }
-
+        String debugCouponServer = sysParams.get(GlobalConstant.KEY_COUPON_SERVER_DEBUG);
+        if (!StringUtility.isNullOrEmpty(debugCouponServer) && "1".equalsIgnoreCase(debugCouponServer)) {
+            GlobalConstant.setCouponServerDebug(true);
+        } else {
+            GlobalConstant.setCouponServerDebug(false);
+        }
         //global variable for credential day left warning
         GlobalConstant.setCredentialDaysLeft(sysParams.get(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING));
         //global variable for credential expiry

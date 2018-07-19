@@ -173,6 +173,8 @@ public final class GlobalConstant {
     public static final String KEY_TOD_READ_TIMEOUT = "TodReadTimeout";
     /** Key to debug SmartP from SystemConfig **/
     public static final String KEY_TOD_SMARTP_DEBUG = "MemberServerDebug";
+
+    public static final String KEY_COUPON_SERVER_DEBUG = "CouponServerDebug";
     /** Keys to retrieve InStoreParams **/
     public static final String KEY_INSTORE_PARAM_1 = "InStoreParam1";
     public static final String KEY_INSTORE_PARAM_2 = "InStoreParam2";
@@ -214,6 +216,8 @@ public final class GlobalConstant {
     private static int todReadTimeout = 1000;
 
     private static boolean memberServerDebug = false;
+
+    private static boolean couponServerDebug = false;
     /**  Instore params. **/
     private static String inStoreParam1;
     private static String inStoreParam2;
@@ -413,6 +417,14 @@ public final class GlobalConstant {
      */
     public static boolean getMemberServerDebug() {
         return GlobalConstant.memberServerDebug;
+    }
+
+    public static void setCouponServerDebug(boolean couponServerDebug) {
+        GlobalConstant.couponServerDebug = couponServerDebug;
+    }
+
+    public static boolean getCouponServerDebug() {
+        return GlobalConstant.couponServerDebug;
     }
 
     /**

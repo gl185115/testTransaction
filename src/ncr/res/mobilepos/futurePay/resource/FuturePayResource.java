@@ -15,7 +15,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -64,6 +66,7 @@ public class FuturePayResource {
     private static final String SALES_REWARD = "sales_reward";
     private static final String DEPOSIT_POINT = "deposit_point";
     private static final String INQUIRY_HISTORY = "inquiry_history";
+    private static final String COUPON_DELETE = "coupondelete";
 
     /**
      * constructor.
@@ -118,7 +121,7 @@ public class FuturePayResource {
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.CATEGORY);
+            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.MEMBER_CATEGORY);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI))
@@ -300,7 +303,7 @@ public class FuturePayResource {
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.CATEGORY);
+            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.MEMBER_CATEGORY);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI))
@@ -514,7 +517,7 @@ public class FuturePayResource {
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.CATEGORY);
+            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.MEMBER_CATEGORY);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI))
@@ -627,6 +630,176 @@ public class FuturePayResource {
         } finally {
             tp.methodExit(futurePayReturnBean);
         }
+        return futurePayReturnBean;
+    }
+
+    /**
+     * Clearing of Coupon used by member.
+     * 
+     * @param companyId
+     *            : companyId
+     * @param storeId
+     *            : storeId
+     * @param terminalId
+     *            : terminalId
+     * @param couponId:
+     *            : couponId
+     * @param memberId:
+     *            : memberId
+     * @return the result of the clearing of the coupon
+     */
+    @Path("/coupondelete")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
+    @ApiOperation(value = "クーポン消し込み処理", response = FuturePayReturnBean.class)
+    @ApiResponses(value = {@ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
+            @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
+            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
+            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データは見つからない"),
+            @ApiResponse(code = ResultBase.RES_MALFORMED_URL_EXCEPTION, message = "URL異常"),
+            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "失敗したリモートホストへの接続を作成します"),
+            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
+    public final FuturePayReturnBean couponDelete(
+    		@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+    		@ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
+            @ApiParam(name = "terminalId", value = "端末コード") @FormParam("terminalId") final String terminalId,
+            @ApiParam(name = "couponId", value = "クーポン番号") @FormParam("couponId") final String couponId,
+            @ApiParam(name = "memberId", value = "会員番号") @FormParam("memberId") final String memberId) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+        	.println("storeId", storeId)
+        	.println("terminalId", terminalId)
+        	.println("couponId", couponId)
+        	.println("memberId", memberId);
+
+        FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
+
+        try {
+            // param check
+        	if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, couponId, memberId)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                futurePayReturnBean.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return futurePayReturnBean;
+            }
+
+            // get common url
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
+            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.COUPONSERVER_CATEGORY);
+
+            if (mapReturn == null
+                    || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_DEBUG))
+                    || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_USER))
+                    || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_PASS))
+                    || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_CONNECT_TIMEOUT))
+                    || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_TIMEOUT))
+                    || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_URI))) {
+                tp.println(ResultBase.RES_NODATAFOUND_MSG);
+                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                futurePayReturnBean.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+                return futurePayReturnBean;
+            }
+            
+            StringBuilder strbUrl = new StringBuilder();
+            strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_URI));
+
+            JSONObject request = new JSONObject();
+            request.put("futurepay_id", memberId);
+            request.put("coupon_code", couponId);
+
+            SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            request.put("used_dt", sdfDate.format(new Date()));
+            // basic authenticate
+            // send url
+            List<String> lstReturn = null;
+            for (int retryTimes = 0; retryTimes < FuturePayConstants.RETRYTOTAL; retryTimes++) {
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getCouponServerDebug()) {
+                	File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + couponId
+                            + FuturePayConstants.COUPON_DELETE_TEST);
+                    if (!file.isDirectory()) {
+                        file = new File(EnvironmentEntries.getInstance().getParaBasePath()
+                                + FuturePayConstants.COUPON_DELETE_TEST);
+                    }
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in, "utf-8"));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while ((strReadLine = br.readLine()) != null) {
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    JSONObject response = new JSONObject(strbReturn.toString());
+                    String responseCurrent = response.getString(COUPON_DELETE);
+                    if (null != responseCurrent) {
+                        lstReturn.add(responseCurrent.toString());
+                    }
+                } else {
+                	lstReturn = HTTPBasicAuthorization.connection(
+            			strbUrl.toString(), 
+            			request.toString(),
+                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_USER),
+                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_PASS),
+                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_TIMEOUT),
+                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_CONNECT_TIMEOUT)
+                    ); 
+                }
+
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)))
+                    break;
+            }
+
+            // sorting the returned data
+            if (lstReturn == null || lstReturn.size() == 0) {
+                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                futurePayReturnBean.setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return futurePayReturnBean;
+            }
+            int intReturnStatus = Integer.parseInt(lstReturn.get(0));
+            String strReturn = lstReturn.get(1);
+            futurePayReturnBean.setRequestJSON(request.toString());
+            futurePayReturnBean.setResponseJSON(strReturn);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
+            futurePayReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to perform coupon delete.", e);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            futurePayReturnBean.setMessage(e.getMessage());
+        } catch (MalformedURLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to perform coupon delete.", e);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            futurePayReturnBean.setMessage(e.getMessage());
+        } catch (IOException e) {
+            if (e instanceof UnknownHostException) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to perform coupon delete.", e);
+                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                futurePayReturnBean.setMessage(e.getMessage());
+            } else {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName + ": Failed to perform coupon delete.", e);
+                futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                futurePayReturnBean.setMessage(e.getMessage());
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to perform coupon delete.", e);
+            futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            futurePayReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(futurePayReturnBean);
+        }
+
         return futurePayReturnBean;
     }
 }

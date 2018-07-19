@@ -2184,7 +2184,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM8, transaction.getBeginDateTime());
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM9, transaction.getOperatorID().getValue());
-            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM10, Integer.parseInt(total));
+            saveForwardPosLogPrepStmnt.setLong(SQLStatement.PARAM10, Long.parseLong(total));
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM11, transaction.getWorkStationID().getValue());
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM12, "0");
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM13, posLogXml);

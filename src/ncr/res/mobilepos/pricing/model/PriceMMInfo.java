@@ -57,6 +57,9 @@ public class PriceMMInfo {
 	
 	@XmlElement(name = "sku")
 	private String sku;
+	
+	@XmlElement(name = "targetStoreType")
+	private String targetStoreType;
 
 	@ApiModelProperty(value="BMNO", notes="BMNO")
 	public String getMMNo() {
@@ -191,5 +194,14 @@ public class PriceMMInfo {
 
 	public void setSku(String sku) {
 		this.sku = sku;
+	}
+	
+	@ApiModelProperty(value="商品コード", notes="商品コード")
+	public String getTargetStoreType() {
+		return targetStoreType;
+	}
+
+	public void setTargetStoreType(String targetStoreType) {
+		this.targetStoreType = targetStoreType;
 	}
 }

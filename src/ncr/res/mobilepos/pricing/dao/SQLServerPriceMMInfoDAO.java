@@ -108,6 +108,7 @@ public class SQLServerPriceMMInfoDAO extends AbstractDao implements IPriceMMInfo
 				
 				priceMMInfo.setNote(result.getString(result.findColumn("Note")));
 				priceMMInfo.setSku(result.getString(result.findColumn("Sku")));
+				priceMMInfo.setTargetStoreType(result.getString(result.findColumn("TargetStoreType")));
 				pricePromList.add(priceMMInfo);
 
 			}

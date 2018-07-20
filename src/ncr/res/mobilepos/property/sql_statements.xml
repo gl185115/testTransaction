@@ -768,6 +768,7 @@ SELECT
     info.DecisionPrice3,
     info.AveragePrice3,
     info.MMNo,
+    info.TargetStoreType,
     detail.Sku
 FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
     INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail
@@ -798,6 +799,7 @@ SELECT
     info.DecisionPrice3,
     info.AveragePrice3,
     info.MMNo,
+    info.TargetStoreType,
     detail.Sku
     FROM  RESMaster.dbo.MST_PRICE_MM_INFO info
     INNER  JOIN RESMaster.dbo.MST_PRICE_MM_DETAIL detail

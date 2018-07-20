@@ -450,24 +450,35 @@ public class ItemResource {
      */
     public final PriceMMInfo getPriceMMInfo(final String sku) {
 
-		if (priceMMInfoList == null){
+		if (priceMMInfoList == null || StringUtility.isNullOrEmpty(sku)){
 			return null;
 		}
+		
+		List<PriceMMInfo> priceMMInfoListTemp = new ArrayList<PriceMMInfo>();
 		for (PriceMMInfo priceMMInfo : priceMMInfoList) {
 			String priceMMSku = priceMMInfo.getSku();
-			String itemSku = sku;
 			if (!StringUtility.isNullOrEmpty(priceMMSku)) {
 				if (priceMMSku.contains("*")) {
-					if (itemSku.startsWith(priceMMSku.replace("*", ""))) {
-						return priceMMInfo;
+					if (sku.startsWith(priceMMSku.replace("*", ""))) {
+						priceMMInfoListTemp.add(priceMMInfo);
 					}
 				} else {
-					if (itemSku.equals(priceMMSku)) {
-						return priceMMInfo;
+					if (sku.equals(priceMMSku)) {
+						priceMMInfoListTemp.add(priceMMInfo);
 					}
 				}
 			}
 		}
-		return null;
+		
+		if (!(priceMMInfoListTemp.size() > 0)){
+			return null;
+		}
+		
+		for(PriceMMInfo priceMMInfoTemp : priceMMInfoListTemp) {
+			if ("1".equals(priceMMInfoTemp.getTargetStoreType())) {
+				return priceMMInfoTemp;
+			}
+		}
+		return priceMMInfoListTemp.get(0);
 	}
 }

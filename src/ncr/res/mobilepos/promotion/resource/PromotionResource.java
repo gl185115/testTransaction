@@ -631,20 +631,32 @@ public class PromotionResource {
 				Promotion promotion = new Promotion();
 				promotion.setCouponInfoList(makeCouponInfoList(terminalItem.getCouponInfoMap(item)));
 //				promotion.setQrCodeInfoList(terminalItem.getQrCodeInfoList(item));
+				
+				boolean runFlag = true;
+				if(BarcodeAssignmentConstant.VARIETIES_DOUBLEJANSALES.equals(varietiesName)){
+					if(!StringUtility.isNullOrEmpty(item.getSaleSizeCode()) && !StringUtility.isNullOrEmpty(item.getSizePatternId())){
+						runFlag = true;
+					}else{
+						runFlag = false;
+					}
+				}
+
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
-					terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
-					if (setBmDetailMapItem(transactionIn,saleItem)) {
-						terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
-						Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(), "");
-						// promotion.setMap(map);
-						if(terminalItem.isDeleteBm(map)){
-							Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
-							Map<String, Object> childMap = new HashMap<String, Object>();
-							childMap.put("hasMixMatch", "false");
-							newMap.put(item.getMixMatchCode(), childMap);
-							promotion.setMap(newMap);
-						} else {
-							promotion.setMap(map);
+					if(runFlag){
+						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
+						if (setBmDetailMapItem(transactionIn,saleItem)) {
+							terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
+							Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(), "");
+							// promotion.setMap(map);
+							if(terminalItem.isDeleteBm(map)){
+								Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
+								Map<String, Object> childMap = new HashMap<String, Object>();
+								childMap.put("hasMixMatch", "false");
+								newMap.put(item.getMixMatchCode(), childMap);
+								promotion.setMap(newMap);
+							} else {
+								promotion.setMap(map);
+							}
 						}
 					}
 				}

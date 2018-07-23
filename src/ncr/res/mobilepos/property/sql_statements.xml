@@ -10874,7 +10874,7 @@ WHERE
         PMS.DeleteFlag = PMI.DeleteFlag
   WHERE
     @companyId = PMI.CompanyId AND
-    (PMI.TargetStoreType = '0' OR (PMI.TargetStoreType = '1' AND PMS.StoreId = @retailStoreId)) AND
+    (PMI.TargetStoreType = '0' OR PMI.TargetStoreType = '2' OR (PMI.TargetStoreType = '1' AND PMS.StoreId = @retailStoreId)) AND
     @businessDate BETWEEN PMI.StartDate AND PMI.EndDate AND
     PMI.DeleteFlag = 0.0
   ORDER BY

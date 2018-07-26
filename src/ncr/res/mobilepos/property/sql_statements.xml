@@ -366,7 +366,7 @@ AND plu.Md01 = urgent.ColorId
 
 LEFT JOIN RESMaster.dbo.MST_SIZEPATTERNINFO sizePtnInfo
 ON plu.CompanyId = sizePtnInfo.CompanyId
-AND sizePtnInfo.StoreId = @storeId
+AND sizePtnInfo.StoreId = @sizePtnStoreId
 AND plu.ItemSize = sizePtnInfo.SizePatternId
 AND sizePtnInfo.SizeId = @sizeId
 AND sizePtnInfo.DeleteFlag = 0.0

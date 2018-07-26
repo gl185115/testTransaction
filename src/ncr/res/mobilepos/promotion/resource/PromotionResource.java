@@ -1502,6 +1502,10 @@ public class PromotionResource {
 		Sale sale = null;
 		try {
 			JSONObject valueResult = new JSONObject();
+	        if (pluCode.contains(" ")) {
+	        	pluCode = pluCode.replace(" ", "%20");
+			}
+
 			valueResult.put("storeId", retailStoreId);
 			valueResult.put("pluCode", pluCode);
 			valueResult.put("companyId", companyId);

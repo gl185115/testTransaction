@@ -1763,6 +1763,13 @@ public class PromotionResource {
 		item.setColorCode(StringUtility.convNullStringToNull(json.getString("colorCode")));
 		item.setDiscountRate(json.getDouble("discountRate"));
 		item.setDiscountCount(json.getInt("discountCount"));
+		item.setClsDiscountType(StringUtility.convNullStringToNull(json.getString("clsDiscountType")));
+		item.setBrandSaleName(StringUtility.convNullStringToNull(json.getString("brandSaleName")));
+		item.setSaleSizeCode(StringUtility.convNullStringToNull(json.getString("saleSizeCode")));
+		item.setSizePatternId(StringUtility.convNullStringToNull(json.getString("sizePatternId")));
+		item.setPointAddFlag(StringUtility.convNullStringToNull(json.getString("pointAddFlag")));
+		item.setPointUseFlag(StringUtility.convNullStringToNull(json.getString("pointUseFlag")));
+		item.setTaxExemptFlag(StringUtility.convNullStringToNull(json.getString("taxExemptFlag")));
 
 		if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));

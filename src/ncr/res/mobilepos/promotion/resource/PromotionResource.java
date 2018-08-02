@@ -881,9 +881,9 @@ public class PromotionResource {
 		if (NOT_DISCOUNTABLE.equals(item.getDiscountType())) {
 			return false;
 		}
-		if (null != item.getPromotionNo()) {
-			return false;
-		}
+		// if (null != item.getPromotionNo()) {
+		// 	return false;
+		// }
 		return true;
 	}
 

@@ -408,14 +408,12 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     	boolean isHaveValue = false;
     	
     	if (null != pricePromInfo) {
-    	    if (salePrice == 0 || salePrice > pricePromInfo.getDiscountAmt()) {
-    	        isHaveValue = true;
-                searchedItem.setPromotionNo(pricePromInfo.getPromotionNo());
-                searchedItem.setDiscountClass(Integer.parseInt(pricePromInfo.getDiscountClass()));
-                searchedItem.setDiacountRate(pricePromInfo.getDiscountRate());
-                searchedItem.setDiscountAmt((int)pricePromInfo.getDiscountAmt());
-                searchedItem.setPromotionType(pricePromInfo.getPromotionType());
-    	    }
+	        isHaveValue = true;
+            searchedItem.setPromotionNo(pricePromInfo.getPromotionNo());
+            searchedItem.setDiscountClass(Integer.parseInt(pricePromInfo.getDiscountClass()));
+            searchedItem.setDiacountRate(pricePromInfo.getDiscountRate());
+            searchedItem.setDiscountAmt((int)pricePromInfo.getDiscountAmt());
+            searchedItem.setPromotionType(pricePromInfo.getPromotionType());
     	}
     	return isHaveValue;
     }

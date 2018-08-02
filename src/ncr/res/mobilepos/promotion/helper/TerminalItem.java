@@ -311,12 +311,8 @@ public class TerminalItem {
       if(bmDetailMap.containsKey(mixmatchCode)){
           for(MixMatchDetailInfo inf : bmDetailMap.get(mixmatchCode)){
               if(inf.getEntryId().equals(info.getEntryId())){
-                      if(!isUpdate){
-                          inf.setQuantity(inf.getQuantity() + info.getQuantity());
-                      } else{
-                          inf.setQuantity(info.getQuantity());
-                      }
-                      inf.setTruePrice(info.getTruePrice());
+                  inf.setQuantity(info.getQuantity());
+                  inf.setTruePrice(info.getTruePrice());
                   flag = true;
               }
           }

@@ -190,7 +190,6 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            futurePayReturnBean.setRequestJSON(request.toString());
             futurePayReturnBean.setResponseJSON(strReturn);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
@@ -223,6 +222,7 @@ public class FuturePayResource {
             futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             futurePayReturnBean.setMessage(e.getMessage());
         } finally {
+            futurePayReturnBean.setRequestJSON(request.toString());
             tp.methodExit(futurePayReturnBean);
         }
 
@@ -413,7 +413,6 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            futurePayReturnBean.setRequestJSON(request.toString());
             futurePayReturnBean.setResponseJSON(strReturn);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
@@ -446,6 +445,7 @@ public class FuturePayResource {
             futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             futurePayReturnBean.setMessage(e.getMessage());
         } finally {
+            futurePayReturnBean.setRequestJSON(request.toString());
             tp.methodExit(futurePayReturnBean);
         }
         return futurePayReturnBean;
@@ -595,7 +595,6 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            futurePayReturnBean.setRequestJSON(request.toString());
             futurePayReturnBean.setResponseJSON(strReturn);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
@@ -628,6 +627,7 @@ public class FuturePayResource {
             futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             futurePayReturnBean.setMessage(e.getMessage());
         } finally {
+            futurePayReturnBean.setRequestJSON(request.toString());
             tp.methodExit(futurePayReturnBean);
         }
         return futurePayReturnBean;
@@ -675,7 +675,7 @@ public class FuturePayResource {
         	.println("memberId", memberId);
 
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
-
+        JSONObject request = new JSONObject();
         try {
             // param check
         	if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, couponId, memberId)) {
@@ -708,7 +708,6 @@ public class FuturePayResource {
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_URI));
 
-            JSONObject request = new JSONObject();
             request.put("futurepay_id", memberId);
             request.put("coupon_code", couponId);
 
@@ -764,7 +763,6 @@ public class FuturePayResource {
             }
             int intReturnStatus = Integer.parseInt(lstReturn.get(0));
             String strReturn = lstReturn.get(1);
-            futurePayReturnBean.setRequestJSON(request.toString());
             futurePayReturnBean.setResponseJSON(strReturn);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             futurePayReturnBean.setNCRWSSExtendedResultCode(intReturnStatus);
@@ -797,6 +795,7 @@ public class FuturePayResource {
             futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             futurePayReturnBean.setMessage(e.getMessage());
         } finally {
+            futurePayReturnBean.setRequestJSON(request.toString());
             tp.methodExit(futurePayReturnBean);
         }
 

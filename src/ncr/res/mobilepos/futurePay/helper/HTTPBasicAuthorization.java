@@ -34,6 +34,7 @@ public class HTTPBasicAuthorization {
         String author = "Basic " + Base64.encode((username + ":" + password).getBytes());
         conn.setRequestProperty("Authorization", author);
         conn.setRequestProperty("Content-Length", String.valueOf(params.length()));
+        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
         conn.setDoOutput(true);
         conn.setDoInput(true);
         if (!StringUtility.isNullOrEmpty(intTimeout)) {
@@ -71,6 +72,7 @@ public class HTTPBasicAuthorization {
         String author = "Basic " + Base64.encode((username + ":" + password).getBytes());
         conn.setRequestProperty("Authorization", author);
         conn.setRequestProperty("Content-Length", String.valueOf(params.length()));
+        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
         conn.setDoOutput(true);
         conn.setDoInput(true);
         if (!StringUtility.isNullOrEmpty(connectTimeout)) {

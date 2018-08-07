@@ -718,6 +718,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     			terminalInfo.setInshiFileName(result.getString("InshiFileName"));
     			terminalInfo.setSubCode1(result.getString("SubCode1"));
     			terminalInfo.setSubCode2(result.getString("SubCode2"));
+    			terminalInfo.setSubCode5(result.getString("SubCode5"));
     			terminalInfo.setNote(result.getString("Note"));
     			terminalInfo.setCompanyName(result.getString("CompanyName"));
     			checkFloorIdExist(terminalInfo);

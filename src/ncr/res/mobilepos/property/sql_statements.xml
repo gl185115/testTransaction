@@ -9148,6 +9148,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
         term.InshiFileName,
         term.SubCode1,
         term.SubCode2,
+        term.SubCode5,
         term.Note,
         company.SubCode2 As CompanyName
       FROM

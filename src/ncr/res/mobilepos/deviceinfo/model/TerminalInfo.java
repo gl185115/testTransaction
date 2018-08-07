@@ -67,6 +67,7 @@ public class TerminalInfo {
 	private String subCode2;
 	private String subCode3;
 	private String subCode4;
+	@XmlElement(name = "SubCode5")
 	private String subCode5;
 	private int subNum1;
 	private int subNum2;

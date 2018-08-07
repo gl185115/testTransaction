@@ -503,7 +503,7 @@ public class FuturePayResource {
         tp.println("terminal_code", terminal_code).println("card_no", card_no);
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
         JSONObject request = new JSONObject();
-        Boolean dealSerialNoFlag = false;
+        Boolean dealSerialNoFlag = true;
         try {
             // param check
             if (StringUtility.isNullOrEmpty(card_no)) {

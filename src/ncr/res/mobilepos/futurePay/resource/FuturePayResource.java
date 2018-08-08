@@ -279,6 +279,7 @@ public class FuturePayResource {
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
             @ApiParam(name = "operation_type", value = "操作種別") @QueryParam("operation_type") final int operation_type,
+            @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final int retryTime,
             @ApiParam(name = "amount", value = "ポイント") @QueryParam("amount") final int amount,
             @ApiParam(name = "terminal_deal_time", value = "端末取引日時") @QueryParam("terminal_deal_time") final String terminal_deal_time,
             @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
@@ -361,9 +362,13 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes <= FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (dealSerialNoFlag) {
+                    int times = retryTime + retryTimes + 1;
+                    if (times > 999) {
+                        times = 1;
+                    }
                     deal_serial_no.append(businessDate);
                     deal_serial_no.append(sequenceNumber);
-                    deal_serial_no.append(String.format("%03d", retryTimes + 1));
+                    deal_serial_no.append(String.format("%03d", times));
                     deal_serial_no.append(transactionType);
                     request.put("deal_serial_no", deal_serial_no);
                 }
@@ -493,6 +498,7 @@ public class FuturePayResource {
             @ApiParam(name = "businessDate", value = "日付") @QueryParam("businessDate") final String businessDate,
             @ApiParam(name = "sequenceNumber", value = "取引No") @QueryParam("sequenceNumber") final String sequenceNumber,
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
+            @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final int retryTime,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
             @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final int limit,
@@ -547,9 +553,13 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes <= FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (dealSerialNoFlag) {
+                    int times = retryTime + retryTimes + 1;
+                    if (times > 999) {
+                        times = 1;
+                    }
                     deal_serial_no.append(businessDate);
                     deal_serial_no.append(sequenceNumber);
-                    deal_serial_no.append(String.format("%03d", retryTimes + 1));
+                    deal_serial_no.append(String.format("%03d", times));
                     deal_serial_no.append(transactionType);
                     request.put("deal_serial_no", deal_serial_no);
                 }

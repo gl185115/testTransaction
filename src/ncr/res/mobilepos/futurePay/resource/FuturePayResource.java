@@ -23,13 +23,14 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.json.JSONObject;
+
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -74,7 +75,6 @@ public class FuturePayResource {
     public FuturePayResource() {
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
     }
-
     /**
      * Get Member Info API
      * 
@@ -100,7 +100,7 @@ public class FuturePayResource {
     public final FuturePayReturnBean get(
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
             @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
-            @ApiParam(name = "extend_expiration", value = "有効期限延長") @QueryParam("extend_expiration") final int extend_expiration) {
+            @ApiParam(name = "extend_expiration", value = "有効期限延長") @QueryParam("extend_expiration") final String extend_expiration) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -139,10 +139,14 @@ public class FuturePayResource {
             strbUrl.append(FuturePayConstants.INQUIRY_CARD_INFO);
 
             JSONObject attributes = new JSONObject();
-            request.put("terminal_code", terminal_code);
-            request.put("card_no", card_no);
-            attributes.put("extend_expiration", extend_expiration);
-            request.put("attributes", attributes);
+            request.put("terminal_code", StringUtility.isNullOrEmpty(terminal_code) ? JSONObject.NULL : terminal_code);
+            request.put("card_no", StringUtility.isNullOrEmpty(card_no) ? JSONObject.NULL : card_no);
+            if (StringUtility.isNullOrEmpty(extend_expiration)) {
+                attributes.put("extend_expiration", JSONObject.NULL);
+            } else {
+                attributes.put("extend_expiration", Integer.parseInt(extend_expiration));
+            }
+            request.put("attributes", attributes == null ? JSONObject.NULL : attributes);
             // basic authenticate
             // send url
             List<String> lstReturn = null;
@@ -229,7 +233,6 @@ public class FuturePayResource {
         return futurePayReturnBean;
     }
     /**
-     * Get Member Info API
      * 
      * @param api
      *            : api
@@ -278,9 +281,9 @@ public class FuturePayResource {
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
-            @ApiParam(name = "operation_type", value = "操作種別") @QueryParam("operation_type") final int operation_type,
-            @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final int retryTime,
-            @ApiParam(name = "amount", value = "ポイント") @QueryParam("amount") final int amount,
+            @ApiParam(name = "operation_type", value = "操作種別") @QueryParam("operation_type") final String operation_type,
+            @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final String retryTime,
+            @ApiParam(name = "amount", value = "ポイント") @QueryParam("amount") final String amount,
             @ApiParam(name = "terminal_deal_time", value = "端末取引日時") @QueryParam("terminal_deal_time") final String terminal_deal_time,
             @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
             @ApiParam(name = "attributes", value = "付加属性") @QueryParam("attributes") final String attributes) {
@@ -320,17 +323,25 @@ public class FuturePayResource {
             StringBuilder strbUrl = new StringBuilder();
             StringBuilder deal_serial_no = new StringBuilder();
             strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI));
-            request.put("terminal_code", terminal_code);
-            request.put("card_no", card_no);
-            request.put("slip_no", slip_no);
-            request.put("pin_code", pin_code);
-            request.put("operation_type", operation_type);
-            request.put("attributes", attributes);
+            request.put("terminal_code", StringUtility.isNullOrEmpty(terminal_code) ? JSONObject.NULL : terminal_code);
+            request.put("card_no", StringUtility.isNullOrEmpty(card_no) ? JSONObject.NULL : card_no);
+            request.put("slip_no", StringUtility.isNullOrEmpty(slip_no) ? JSONObject.NULL : slip_no);
+            request.put("pin_code", StringUtility.isNullOrEmpty(pin_code) ? JSONObject.NULL : pin_code);
+            if (StringUtility.isNullOrEmpty(operation_type)) {
+                request.put("operation_type",JSONObject.NULL);
+            } else {
+                request.put("operation_type",Integer.parseInt(operation_type));
+            }
+            request.put("attributes", StringUtility.isNullOrEmpty(attributes) ? JSONObject.NULL : attributes);
             switch (api) {
                 case WITHDRAW_POINT :
                     dealSerialNoFlag = true;
                     strbUrl.append(FuturePayConstants.WITHDRAW_POINT);
-                    request.put("amount", amount);
+                    if (StringUtility.isNullOrEmpty(amount)) {
+                        request.put("amount",JSONObject.NULL);
+                    } else {
+                        request.put("amount",Integer.parseInt(amount));
+                    }
                     break;
                 case SALES_REWARD :
                     String terminalDealTime = null;
@@ -342,17 +353,30 @@ public class FuturePayResource {
                     } else {
                         terminalDealTime = terminal_deal_time;
                     }
-                    request.put("terminal_deal_time", terminalDealTime);
-                    request.put("amount", amount);
+                    request.put("terminal_deal_time",
+                            StringUtility.isNullOrEmpty(terminalDealTime) ? JSONObject.NULL : terminalDealTime);
+                    if (StringUtility.isNullOrEmpty(amount)) {
+                        request.put("amount",JSONObject.NULL);
+                    } else {
+                        request.put("amount",Integer.parseInt(amount));
+                    }
                     break;
                 case DEPOSIT_POINT :
                     dealSerialNoFlag = true;
                     strbUrl.append(FuturePayConstants.DEPOSIT_POINT);
-                    request.put("amount", amount);
+                    if (StringUtility.isNullOrEmpty(amount)) {
+                        request.put("amount",JSONObject.NULL);
+                    } else {
+                        request.put("amount",Integer.parseInt(amount));
+                    }
                     break;
                 case INQUIRY_HISTORY :
                     strbUrl.append(FuturePayConstants.INQUIRY_HISTORY);
-                    request.put("limit", limit);
+                    if (StringUtility.isNullOrEmpty(amount)) {
+                        request.put("amount",JSONObject.NULL);
+                    } else {
+                        request.put("amount",Integer.parseInt(amount));
+                    }
                     break;
             }
 
@@ -362,7 +386,7 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes <= FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (dealSerialNoFlag) {
-                    int times = retryTime + retryTimes + 1;
+                    int times = Integer.parseInt(retryTime) + retryTimes + 1;
                     if (times > 999) {
                         times = 1;
                     }
@@ -370,7 +394,7 @@ public class FuturePayResource {
                     deal_serial_no.append(sequenceNumber);
                     deal_serial_no.append(String.format("%03d", times));
                     deal_serial_no.append(transactionType);
-                    request.put("deal_serial_no", deal_serial_no);
+                    request.put("deal_serial_no", deal_serial_no == null ? JSONObject.NULL : deal_serial_no);
                 }
                 if (GlobalConstant.getMemberServerDebug()) {
                     File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + card_no
@@ -391,7 +415,7 @@ public class FuturePayResource {
                     JSONObject response = new JSONObject(strbReturn.toString());
                     String responseCurrent = response.getString(api);
                     if (null != responseCurrent) {
-                        if (0 != operation_type) {
+                        if (0 != Integer.parseInt(operation_type)) {
                             response = new JSONObject(responseCurrent);
                             responseCurrent = response.getString(String.valueOf(operation_type));
                         }
@@ -498,10 +522,10 @@ public class FuturePayResource {
             @ApiParam(name = "businessDate", value = "日付") @QueryParam("businessDate") final String businessDate,
             @ApiParam(name = "sequenceNumber", value = "取引No") @QueryParam("sequenceNumber") final String sequenceNumber,
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
-            @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final int retryTime,
+            @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final String retryTime,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
-            @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final int limit,
+            @ApiParam(name = "limit", value = "最大件数") @QueryParam("limit") final String limit,
             @ApiParam(name = "attributes", value = "付加属性") @QueryParam("attributes") final String attributes) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -540,12 +564,18 @@ public class FuturePayResource {
             StringBuilder deal_serial_no = new StringBuilder();
             strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI));
             strbUrl.append(FuturePayConstants.INQUIRY_HISTORY);
-            request.put("terminal_code", terminal_code);
-            request.put("card_no", card_no);
-            request.put("slip_no", slip_no);
-            request.put("pin_code", pin_code);
-            request.put("attributes", attributes);
-            request.put("limit", limit);
+            request.put("terminal_code", StringUtility.isNullOrEmpty(terminal_code)
+                    ? JSONObject.NULL
+                    : StringUtility.isNullOrEmpty(terminal_code) ? JSONObject.NULL : terminal_code);
+            request.put("card_no", StringUtility.isNullOrEmpty(card_no) ? JSONObject.NULL : card_no);
+            request.put("slip_no", StringUtility.isNullOrEmpty(slip_no) ? JSONObject.NULL : slip_no);
+            request.put("pin_code", StringUtility.isNullOrEmpty(pin_code) ? JSONObject.NULL : pin_code);
+            request.put("attributes", StringUtility.isNullOrEmpty(attributes) ? JSONObject.NULL : attributes);
+            if (StringUtility.isNullOrEmpty(limit)) {
+                request.put("limit",JSONObject.NULL);
+            } else {
+                request.put("limit",Integer.parseInt(limit));
+            }
 
             // basic authenticate
             // send url
@@ -553,7 +583,7 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes <= FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (dealSerialNoFlag) {
-                    int times = retryTime + retryTimes + 1;
+                    int times = Integer.parseInt(retryTime) + retryTimes + 1;
                     if (times > 999) {
                         times = 1;
                     }
@@ -561,7 +591,7 @@ public class FuturePayResource {
                     deal_serial_no.append(sequenceNumber);
                     deal_serial_no.append(String.format("%03d", times));
                     deal_serial_no.append(transactionType);
-                    request.put("deal_serial_no", deal_serial_no);
+                    request.put("deal_serial_no", deal_serial_no == null ? JSONObject.NULL : deal_serial_no);
                 }
                 if (GlobalConstant.getMemberServerDebug()) {
                     File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + card_no
@@ -670,25 +700,22 @@ public class FuturePayResource {
             @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "失敗したリモートホストへの接続を作成します"),
             @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
     public final FuturePayReturnBean couponDelete(
-    		@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
-    		@ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
+            @ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+            @ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
             @ApiParam(name = "terminalId", value = "端末コード") @FormParam("terminalId") final String terminalId,
             @ApiParam(name = "couponId", value = "クーポン番号") @FormParam("couponId") final String couponId,
             @ApiParam(name = "memberId", value = "会員番号") @FormParam("memberId") final String memberId) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        tp.println("companyId", companyId)
-        	.println("storeId", storeId)
-        	.println("terminalId", terminalId)
-        	.println("couponId", couponId)
-        	.println("memberId", memberId);
+        tp.println("companyId", companyId).println("storeId", storeId).println("terminalId", terminalId)
+                .println("couponId", couponId).println("memberId", memberId);
 
         FuturePayReturnBean futurePayReturnBean = new FuturePayReturnBean();
         JSONObject request = new JSONObject();
         try {
             // param check
-        	if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, couponId, memberId)) {
+            if (StringUtility.isNullOrEmpty(companyId, storeId, terminalId, couponId, memberId)) {
                 tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
                 futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
                 futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
@@ -699,7 +726,8 @@ public class FuturePayResource {
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.COUPONSERVER_CATEGORY);
+            Map<String, String> mapReturn = iFuturePayDAO
+                    .getPrmSystemConfigValue(FuturePayConstants.COUPONSERVER_CATEGORY);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_DEBUG))
@@ -714,12 +742,12 @@ public class FuturePayResource {
                 futurePayReturnBean.setMessage(ResultBase.RES_NODATAFOUND_MSG);
                 return futurePayReturnBean;
             }
-            
+
             StringBuilder strbUrl = new StringBuilder();
             strbUrl.append(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_URI));
 
-            request.put("futurepay_id", memberId);
-            request.put("coupon_code", couponId);
+            request.put("futurepay_id", StringUtility.isNullOrEmpty(memberId) ? JSONObject.NULL : memberId);
+            request.put("coupon_code", StringUtility.isNullOrEmpty(couponId) ? JSONObject.NULL : couponId);
 
             SimpleDateFormat sdfDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             request.put("used_dt", sdfDate.format(new Date()));
@@ -729,7 +757,7 @@ public class FuturePayResource {
             for (int retryTimes = 0; retryTimes < FuturePayConstants.RETRYTOTAL; retryTimes++) {
                 lstReturn = new ArrayList<String>();
                 if (GlobalConstant.getCouponServerDebug()) {
-                	File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + couponId
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + couponId
                             + FuturePayConstants.COUPON_DELETE_TEST);
                     if (!file.isDirectory()) {
                         file = new File(EnvironmentEntries.getInstance().getParaBasePath()
@@ -750,14 +778,11 @@ public class FuturePayResource {
                         lstReturn.add(responseCurrent.toString());
                     }
                 } else {
-                	lstReturn = HTTPBasicAuthorization.connection(
-            			strbUrl.toString(), 
-            			request.toString(),
-                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_USER),
-                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_PASS),
-                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_TIMEOUT),
-                        mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_CONNECT_TIMEOUT)
-                    ); 
+                    lstReturn = HTTPBasicAuthorization.connection(strbUrl.toString(), request.toString(),
+                            mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_USER),
+                            mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_PASS),
+                            mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_TIMEOUT),
+                            mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_CONNECT_TIMEOUT));
                 }
 
                 if (!StringUtility.isNullOrEmpty(lstReturn.get(0)))
@@ -800,7 +825,8 @@ public class FuturePayResource {
                 futurePayReturnBean.setMessage(e.getMessage());
             }
         } catch (Exception e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to perform coupon delete.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to perform coupon delete.",
+                    e);
             futurePayReturnBean.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
             futurePayReturnBean.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             futurePayReturnBean.setMessage(e.getMessage());

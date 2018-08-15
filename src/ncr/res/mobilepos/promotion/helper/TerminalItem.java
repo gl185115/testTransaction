@@ -229,7 +229,7 @@ public class TerminalItem {
         try {
             int mixMatchType = MixMatchItemFactory.UNKNOWN;
 
-            if (Item.TAX_FREE == itemToAdd.getTaxType()) {
+            if (Item.TAX_FREE.equals(itemToAdd.getTaxType())) {
                 mmCode = MixMatchItem.GENERAL_PROMOTION;
             } else if (mixMatchCode != null) {
                 mmCode = mixMatchCode;
@@ -243,7 +243,7 @@ public class TerminalItem {
 
                 if (mixMatchData != null
                         && itemToAdd.getDiscountable()
-                        && Item.TAX_FREE != itemToAdd.getTaxType()) {
+                        && !Item.TAX_FREE.equals(itemToAdd.getTaxType()) ) {
                     mixMatchType = mixMatchData.getType();
                 } else {
                     mmCode = MixMatchItem.GENERAL_PROMOTION;

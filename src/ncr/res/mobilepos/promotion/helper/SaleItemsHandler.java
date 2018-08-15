@@ -253,6 +253,12 @@ public final class SaleItemsHandler {
         saleRes.setPointUseFlag(item.getPointUseFlag());
         saleRes.setTaxExemptFlag(item.getTaxExemptFlag());
         saleRes.setClsDiscountType(item.getClsDiscountType());
+        saleRes.setCategoryCode(item.getCategoryCode());
+        saleRes.setMagazineCode(item.getMagazineCode());
+        saleRes.setDptTaxType(item.getDptTaxType());
+        saleRes.setClsTaxType(item.getClsTaxType());
+        saleRes.setLineTaxType(item.getLineTaxType());
+        saleRes.setLineDiscountType(item.getLineDiscountType());
         return saleRes;
     }
 

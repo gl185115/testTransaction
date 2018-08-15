@@ -199,20 +199,24 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 }
                 searchedItem.setDescription(description);
                 
-                if (result.getString(result.findColumn("MdName")) != null) {
+                if (result.getString(result.findColumn("pluMdName")) != null) {
                 	searchedItem.setSalesNameSource("1");
-                } else if (result.getString(result.findColumn("MdNameLocal")) != null) {
+                } else if (result.getString(result.findColumn("pluMdName")) == null
+                		&& result.getString(result.findColumn("MdNameLocal")) != null) {
                 	searchedItem.setSalesNameSource("2");
-                } else {
+                } else if (result.getString(result.findColumn("pluMdName")) == null
+                		&& result.getString(result.findColumn("MdNameLocal")) == null
+                		&& result.getString(result.findColumn("DptNameLocal")) != null){
                 	searchedItem.setSalesNameSource("3");
                 }
 
                 if (result.getObject(result.findColumn("TaxType")) != null && 
                 		result.getDouble(result.findColumn("SalesPrice1")) != 0) {
-                	searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
-                } else {
-                	searchedItem.setTaxType(result.getInt(result.findColumn("dptTaxType")));
+                	searchedItem.setTaxType(result.getString(result.findColumn("TaxType")));
                 }
+                searchedItem.setDptTaxType(result.getString(result.findColumn("dptTaxType")));
+                searchedItem.setClsTaxType(result.getString(result.findColumn("clsTaxType")));
+                searchedItem.setLineTaxType(result.getString(result.findColumn("lineTaxType")));
                 searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
                 searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
                 searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));
@@ -246,8 +250,9 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 }
                 searchedItem.setDepartment(result.getString(result.findColumn("Dpt")));
                 searchedItem.setDiscountType(result.getString(result.findColumn("DiscountType")));
-                searchedItem.setDptDiscountType(result.getInt(result.findColumn("dptDiscountType")));
+                searchedItem.setDptDiscountType(result.getString(result.findColumn("dptDiscountType")));
                 searchedItem.setClsDiscountType(result.getString(result.findColumn("clsDiscountType")));
+                searchedItem.setLineDiscountType(result.getString(result.findColumn("lineDiscountType")));
                 searchedItem.setMd02(result.getString(result.findColumn("Md02")));
                 searchedItem.setMd03(result.getString(result.findColumn("Md03")));
                 searchedItem.setMd04(result.getString(result.findColumn("Md04")));
@@ -857,7 +862,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 description.setJa(result.getString(result.findColumn("MdNameLocal")));
                 searchedItem.setDescription(description);
 
-                searchedItem.setTaxType(result.getInt(result.findColumn("TaxType")));
+                searchedItem.setTaxType(result.getString(result.findColumn("TaxType")));
                 searchedItem.setTaxRate(result.getInt(result.findColumn("TaxRate")));
                 searchedItem.setSubNum1(result.getInt(result.findColumn("SubNum1")));
                 searchedItem.setSubNum2(result.getInt(result.findColumn("SubNum2")));

@@ -30,9 +30,9 @@ public class Item {
     public static final int ROUND_OFF = 3;
 
     // tax options
-    public static final int TAX_EXCLUDED = 0;
-    public static final int TAX_INCLUDED = 1;
-    public static final int TAX_FREE = 2;
+    public static final String TAX_EXCLUDED = "0";
+    public static final String TAX_INCLUDED = "1";
+    public static final String TAX_FREE = "2";
     
     @XmlElement(name = "ItemID")
     private String itemId;
@@ -65,8 +65,17 @@ public class Item {
     private int taxRate;
 
     @XmlElement(name = "TaxType")
-    private int taxType;
+    private String taxType;
 
+    @XmlElement(name = "DptTaxType")
+    private String dptTaxType;
+    
+    @XmlElement(name = "LineTaxType")
+    private String lineTaxType;
+    
+    @XmlElement(name = "ClsTaxType")
+    private String clsTaxType;
+    
     @XmlElement(name = "DiscountType")
     private String discountType;
     
@@ -74,11 +83,11 @@ public class Item {
     private int subNum1 = 0;
 
     @ApiModelProperty(value="部門割引タイプ", notes="部門割引タイプ")
-    public int getDptDiscountType() {
+    public String getDptDiscountType() {
         return dptDiscountType;
     }
 
-    public void setDptDiscountType(int dptDiscountType) {
+    public void setDptDiscountType(String dptDiscountType) {
         this.dptDiscountType = dptDiscountType;
     }
 
@@ -236,7 +245,7 @@ public class Item {
     }
 
     @XmlElement(name = "DptDiscountType")
-    private int dptDiscountType = 0;
+    private String dptDiscountType;
     
     @XmlElement(name = "DiacountRate")
     private double diacountRate = 0;
@@ -1431,12 +1440,39 @@ public class Item {
     }
 
     @ApiModelProperty(value="課税区分", notes="課税区分")
-    public final int getTaxType() {
+    public final String getTaxType() {
         return this.taxType;
     }
 
-    public final void setTaxType(final int taxType) {
+    public final void setTaxType(final String taxType) {
         this.taxType = taxType;
+    }
+    
+    @ApiModelProperty(value="部門課税区分", notes="部門課税区分")
+    public final String getDptTaxType() {
+        return this.dptTaxType;
+    }
+
+    public final void setDptTaxType(final String dptTaxType) {
+        this.dptTaxType = dptTaxType;
+    }
+    
+    @ApiModelProperty(value="クラス課税区分", notes="クラス課税区分")
+    public final String getClsTaxType() {
+        return this.clsTaxType;
+    }
+
+    public final void setClsTaxType(final String clsTaxType) {
+        this.clsTaxType = clsTaxType;
+    }
+    
+    @ApiModelProperty(value="中分類課税区分", notes="中分類課税区分")
+    public final String getLineTaxType() {
+        return this.lineTaxType;
+    }
+
+    public final void setLineTaxType(final String lineTaxType) {
+        this.lineTaxType = lineTaxType;
     }
 
     @ApiModelProperty(value="値引許可フラグ", notes="値引許可フラグ")
@@ -1759,7 +1795,19 @@ public class Item {
 	
     @XmlElement(name = "clsDiscountType")
     private String clsDiscountType;
+	
+    @XmlElement(name = "lineDiscountType")
+    private String lineDiscountType;
+    
+    @ApiModelProperty(value="中分類割引タイプ", notes="中分類割引タイプ")
+    public String getLineDiscountType() {
+        return lineDiscountType;
+    }
 
+    public void setLineDiscountType(String lineDiscountType) {
+        this.lineDiscountType = lineDiscountType;
+    }
+    
     @ApiModelProperty(value="クラス割引タイプ", notes="クラス割引タイプ")
     public String getClsDiscountType() {
         return clsDiscountType;

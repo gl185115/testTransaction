@@ -45,9 +45,8 @@ import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 @SuppressWarnings("deprecation")
 public class PromotionResourceTestSteps extends Steps {
@@ -552,7 +551,7 @@ public class PromotionResourceTestSteps extends Steps {
 					is(equalTo(expecedItem.get("MdNameLocal"))));
 			assertThat("Compare the TaxType row ", 
 					sale.getTaxType(),
-					is(equalTo(Integer.parseInt(expecedItem.get("TaxType")))));
+					is(equalTo(expecedItem.get("TaxType"))));
 			assertThat("Compare the RegularSalesUnitPrice row ", ""
 					+ sale.getRegularSalesUnitPrice(),
 					is(equalTo(expecedItem.get("RegularSalesPrice"))));
@@ -596,7 +595,7 @@ public class PromotionResourceTestSteps extends Steps {
 					is(equalTo(expecedItem.get("MdNameLocal"))));
 			assertThat("Compare the TaxType row ", 
 					sale.getTaxType(),
-					is(equalTo(Integer.parseInt(expecedItem.get("TaxType")))));
+					is(equalTo(expecedItem.get("TaxType"))));
 			assertThat("Compare the ItemId row ", ""
 					+ sale.getItemId(),
 					is(equalTo(expecedItem.get("ItemId"))));

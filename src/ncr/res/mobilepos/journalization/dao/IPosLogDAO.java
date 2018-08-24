@@ -183,7 +183,7 @@ public interface IPosLogDAO {
     public PointPosted isPointPosted(String companyid, String storeid, String workstationid,
             String businessdate, String txid, int trainingflag) throws DaoException;
 
-    public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
+    public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate,int trainingFlag)
             throws SQLException, SQLStatementException, DaoException;
     
     /**

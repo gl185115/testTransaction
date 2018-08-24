@@ -314,7 +314,7 @@ public class JournalizationResource {
 
                 info = posLogDAO.getVoidedAndReturned(companyId, storeId, workstationId, businessDate, txId, trainingFlag, txtype);
                 lockStatus = posLogDAO.getOrUpdLockStatus(companyId, storeId, workstationId, businessDate, Integer.parseInt(txId), trainingFlag, "", "", "", "getLockStatus");
-                receiptCount = posLogDAO.getSummaryReceiptCount(companyId,storeId, workstationId, txId, businessDate);
+                receiptCount = posLogDAO.getSummaryReceiptCount(companyId,storeId, workstationId, txId, businessDate, trainingFlag);
                 info.setSummaryReceipt(String.valueOf(receiptCount));
                 info.setGiftReceipt(String.valueOf(posLogDAO.getGiftReceiptCount(companyId, storeId, workstationId, txId, businessDate, trainingFlag)));
                 pointPosted = posLogDAO.isPointPosted(companyId, storeId, workstationId, businessDate, txId, trainingFlag);

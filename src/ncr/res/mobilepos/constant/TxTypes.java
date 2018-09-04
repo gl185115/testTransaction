@@ -46,6 +46,7 @@ public final class TxTypes {
      */
     public static final String NOTAVAILABLE = "NA";
 
+    public static final String EODCASHOUT = "EodCashOut";
     public static final String OTHER = "Other";
     public static final String SALES = "Sales";
     public static final String GIFTCARDINQUIRY = "GiftCardInquiry";

@@ -213,14 +213,18 @@ public class UiConfigResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Task effectiveTask = new Task();
-        if(effectiveTasks.size()>1){
-        	for(int i=0;i<effectiveTasks.size();i++){
-            	if(effectiveTasks.get(i).getTarget().getStore().equals(storeID)){
-            		 effectiveTask = effectiveTasks.get(i);	
-            	}
+        Boolean getted = false;
+        if (effectiveTasks.size() > 1) {
+            for (int i = 0; i < effectiveTasks.size(); i++) {
+                if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
+                    effectiveTask = effectiveTasks.get(i);
+                    getted = true;
+                    break;
+                }
             }
-        }else{
-        	effectiveTask = effectiveTasks.get(0);
+        }
+        if (!getted) {
+            effectiveTask = effectiveTasks.get(0);
         }
         
         if (effectiveTask.getFilename() == null) {

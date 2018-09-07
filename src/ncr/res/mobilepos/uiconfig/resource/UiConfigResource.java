@@ -216,10 +216,17 @@ public class UiConfigResource {
         Boolean getted = false;
         if (effectiveTasks.size() > 1) {
             for (int i = 0; i < effectiveTasks.size(); i++) {
-                if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
+                if (effectiveTasks.get(i).getTarget().getWorkstation().equals(workstationID)) {
                     effectiveTask = effectiveTasks.get(i);
                     getted = true;
                     break;
+                }
+                if (getted) {
+                    continue;
+                }
+                if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
+                    effectiveTask = effectiveTasks.get(i);
+                    getted = true;
                 }
             }
         }

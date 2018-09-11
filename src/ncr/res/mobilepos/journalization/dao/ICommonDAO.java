@@ -50,11 +50,14 @@ public interface ICommonDAO {
     * @param CompanyId
     * @param RetailStoreId
     * @param TrainingFlag
+    * @param LayawayFlag
     * @param Queue
+    * @param TxType
+    * @param BussinessDayDate
     * @return　一覧リスト
     * @throws DaoException
     */
-   public List<ForwardListInfo> getForwardList (String CompanyId, String RetailStoreId, String TrainingFlag, String LayawayFlag, String Queue, String TxType) throws DaoException;
+   public List<ForwardListInfo> getForwardList (String CompanyId, String RetailStoreId, String TrainingFlag, String LayawayFlag, String Queue, String TxType, String BussinessDayDate) throws DaoException;
 
    /**
     * 前捌レコード　ステータスの更新

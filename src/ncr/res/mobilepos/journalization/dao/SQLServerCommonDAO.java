@@ -131,13 +131,15 @@ public class SQLServerCommonDAO extends AbstractDao implements
      */
     @Override
     public List<ForwardListInfo> getForwardList(String CompanyId, String RetailStoreId,
-            String TrainingFlag, String LayawayFlag, String Queue, String TxType) throws DaoException {
+            String TrainingFlag, String LayawayFlag, String Queue, String TxType, String BussinessDayDate) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("CompanyId", CompanyId).println("RetailStoreId", RetailStoreId)
                 .println("TrainingFlag", TrainingFlag)
                 .println("LayawayFlag", LayawayFlag)
-                .println("Queue", Queue);
+                .println("Queue", Queue)
+                .println("TxType", TxType)
+                .println("BussinessDayDate", BussinessDayDate);
 
         ArrayList<ForwardListInfo> forwardList = null;
         ResultSet result = null;
@@ -155,6 +157,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
             select.setString(SQLStatement.PARAM4, LayawayFlag);
             select.setString(SQLStatement.PARAM5, Queue);
             select.setString(SQLStatement.PARAM6, TxType);
+            select.setString(SQLStatement.PARAM7, BussinessDayDate);
             result = select.executeQuery();
             while (result.next()) {
                 if (forwardList == null) {
@@ -174,6 +177,7 @@ public class SQLServerCommonDAO extends AbstractDao implements
                 forwardListInfo.setStatus(result.getString("Status"));
                 forwardListInfo.setSalesTotalAmt(result.getString("SalesTotalAmt"));
                 forwardListInfo.setSalesTotalQty(result.getString("SalesTotalQty"));
+                forwardListInfo.setTag(result.getString("Ext1"));
                 forwardList.add(forwardListInfo);
             }
         } catch (SQLException sqlEx) {

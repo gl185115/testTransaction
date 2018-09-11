@@ -54,6 +54,8 @@ import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.webserviceif.model.JSONData;
+import ncr.res.mobilepos.systemsetting.model.DateSetting;
+import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
 
 /**
  * Transfer transactions between smart phone and POS.
@@ -473,11 +475,19 @@ public class ForwardItemListResource {
                 result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return result;
             }
+            
+            SystemSettingResource sysSetting = new SystemSettingResource();       
+            DateSetting dateSetting = sysSetting.getDateSetting(CompanyId, RetailStoreId).getDateSetting();
+            if (dateSetting == null) {
+                tp.println("Business date is not set!");
+                throw new DaoException("Business date is not set!");
+            }
+            String BussinessDayData = dateSetting.getToday();
 
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             ICommonDAO iCommonDAO = sqlServer.getCommonDAO();
             List<ForwardListInfo> forwardList = iCommonDAO.getForwardList(CompanyId, RetailStoreId,
-                    TrainingFlag, LayawayFlag, Queue, TxType);
+                    TrainingFlag, LayawayFlag, Queue, TxType, BussinessDayData);
             result.setForwardListInfo(forwardList);
             result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);

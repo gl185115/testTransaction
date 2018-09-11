@@ -4621,13 +4621,15 @@ ORDER BY
         @TrainingFlag VARCHAR (MAX),
         @LayawayFlag VARCHAR (MAX),
         @Queue VARCHAR (MAX),
-        @TxType VARCHAR (50)
+        @TxType VARCHAR (50),
+        @BusinessDayDate VARCHAR (MAX)
     SET @CompanyId = ?
     SET @RetailStoreId = ?
     SET @TrainingFlag = ?
     SET @LayawayFlag = ?
     SET @Queue = ?
     SET @TxType = ?
+    SET @BusinessDayDate = ?
     SELECT
         A.CompanyId,
         A.RetailStoreId,
@@ -4641,7 +4643,8 @@ ORDER BY
         ISNULL(B.OpeName, B.OpeKanaName) AS OperatorName,
         A.SalesTotalAmt,
         A.SalesTotalQty,
-        A.Status
+        A.Status,
+        A.Ext1
     FROM
         RESTransaction.dbo.TXL_FORWARD_ITEM A
     LEFT JOIN RESMaster.dbo.MST_EMPINFO B ON A.CompanyId = B.CompanyId
@@ -4654,6 +4657,7 @@ ORDER BY
     AND A.Status = 0
     AND A.LayawayFlag = @LayawayFlag
     AND A.TxType = ISNULL(@Txtype,A.TxType)
+    AND A.BusinessDayDate = @BusinessDayDate
     ORDER BY A.BusinessDayDate DESC, A.BusinessDateTime DESC
   </entry>
   <entry key="get-forward-items-posLog">

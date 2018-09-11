@@ -50,6 +50,10 @@ public class ForwardListInfo {
 
     @XmlElement(name = "Status")
     private String Status;
+
+    @XmlElement(name = "Tag")
+    private String Tag;
+
     @ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyId() {
         return CompanyId;
@@ -154,6 +158,14 @@ public class ForwardListInfo {
     public void setStatus(String status) {
         Status = status;
     }
+    @ApiModelProperty(value="TAG番号", notes="TAG番号")
+    public String getTag() {
+        return Tag;
+    }
+
+    public void setTag(String tag) {
+    	Tag = tag;
+    }
 
     @Override
     public String toString() {
@@ -172,7 +184,8 @@ public class ForwardListInfo {
                 .append("Status: ").append(this.Status).append(crlf)
                 .append("OperatorId: ").append(this.OperatorId).append(crlf)
                 .append("OperatorName: ").append(this.OperatorName).append(crlf)
-                .append("SalesTotalAmt: ").append(this.SalesTotalAmt);
+                .append("SalesTotalAmt: ").append(this.SalesTotalAmt)
+                .append("Tag: ").append(this.Tag);
 
         return sb.toString();
     }

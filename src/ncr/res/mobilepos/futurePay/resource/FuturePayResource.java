@@ -775,7 +775,11 @@ public class FuturePayResource {
                     JSONObject response = new JSONObject(strbReturn.toString());
                     String responseCurrent = response.getString(COUPON_DELETE);
                     if (null != responseCurrent) {
-                        lstReturn.add(responseCurrent.toString());
+                        response = new JSONObject(responseCurrent);
+                        String responseCouponId = response.getString(couponId);
+                        if (null != responseCouponId) {
+                            lstReturn.add(responseCouponId.toString());
+                        }
                     }
                 } else {
                     lstReturn = HTTPBasicAuthorization.connection(strbUrl.toString(), request.toString(),

@@ -117,7 +117,6 @@ public class FuturePayResource {
                 futurePayReturnBean.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return futurePayReturnBean;
             }
-
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
             IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();

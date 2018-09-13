@@ -29,7 +29,7 @@ public class MultiForwardRecallCard {
      *
      * @return multiForwardRecallCards
      */
-    @ApiModelProperty(value="ãƒãƒ«ãƒãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰ãƒªã‚³ãƒ¼ãƒ«ã‚«ãƒ¼ãƒ‰ãƒãƒ¼ã‚³ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãƒªã‚¹ãƒˆ", notes="ãƒãƒ«ãƒãƒ•ã‚©ãƒ¯ãƒ¼ãƒ‰ãƒªã‚³ãƒ¼ãƒ«ã‚«ãƒ¼ãƒ‰ãƒãƒ¼ã‚³ãƒ¼ãƒ‰ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆãƒªã‚¹ãƒˆ")
+    @ApiModelProperty(value="ƒ}ƒ‹ƒ`ƒtƒHƒ[ƒhƒŠƒR[ƒ‹ƒJ[ƒhƒo[ƒR[ƒhƒtƒH[ƒ}ƒbƒgƒŠƒXƒg", notes="ƒ}ƒ‹ƒ`ƒtƒHƒ[ƒhƒŠƒR[ƒ‹ƒJ[ƒhƒo[ƒR[ƒhƒtƒH[ƒ}ƒbƒgƒŠƒXƒg")
     public List<ItemSale> getMultiForwardRecallCards() {
         return multiForwardRecallCards;
     }

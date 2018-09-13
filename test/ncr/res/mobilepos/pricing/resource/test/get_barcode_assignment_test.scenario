@@ -4,4 +4,4 @@ Given ItemCode.xml file exist
 When I get barcode info
 Then I should get the following:
 |id|description|type|format|
-|multiForwardRecallCard|繝槭Ν繝√し繧ｹ繝壹Φ繝峨き繝ｼ繝峨�ｮ繝舌�ｼ繧ｳ繝ｼ繝牙ｽ｢蠑楯single|^[Bb](\d{4})[Aa]$|
+|multiForwardRecallCard|マルチサスペンドカードのバーコード形式|single|[^[Bb](\d{4})[Aa]$]|

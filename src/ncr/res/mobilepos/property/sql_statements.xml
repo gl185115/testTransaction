@@ -11230,4 +11230,48 @@ ORDER BY empinfo.EmpCode;
 			,@TxType
 			,@Tag)
   </entry>
+
+	<entry key="get-columnname">
+		SELECT value
+		FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
+		WHERE Category = 'StoreEODCount'
+		AND
+		KeyId = 'Column'
+	</entry>
+
+	<entry key="get-tablename">
+		SELECT value
+		FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
+		WHERE Category = 'StoreEODCount'
+		AND
+		KeyId = 'Table'
+	</entry>
+
+	<entry key="get-store-total-param">
+		DECLARE @TableName VARCHAR(max),@ColumnName VARCHAR(max),@companyid
+		VARCHAR(12), @storeid VARCHAR(10),@sql NVARCHAR(max);
+		SET @TableName = '[RESMaster].[dbo].' + QUOTENAME(?)
+		SET @ColumnName = QUOTENAME(?)
+		SET @companyid = ?
+		SET @storeid = ?
+		SET @sql = 'SELECT' + @ColumnName + 'FROM' + @TableName + ' WHERE
+		CompanyId = '+CAST(@companyid AS VARCHAR(12)) +'AND StoreId = '+
+		CAST(@storeid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
+		EXEC sp_executesql @sql
+	</entry>
+
+	<entry key="update-store-total-param">
+		DECLARE @TableName VARCHAR(max),@ColumnName VARCHAR(max),@companyid
+		VARCHAR(12), @storeid VARCHAR(10),@sql NVARCHAR(max);
+		SET @TableName = '[RESMaster].[dbo].' + QUOTENAME(?)
+		SET @ColumnName = QUOTENAME(?)
+		SET @companyid = ?
+		SET @storeid = ?
+		SET @sql = 'UPDATE' + @TableName + 'SET' + @ColumnName
+		+ '= (CASE WHEN' + @ColumnName + 'IS NULL THEN 1 WHEN' + @ColumnName
+		+'IS NOT NULL THEN' + @ColumnName + ' + 1 END)'
+		+ 'WHERE StoreId =' + CAST(@storeid AS VARCHAR(10)) + 'AND CompanyId ='
+		+ CAST(@companyid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
+		EXEC sp_executesql @sql
+	</entry>
 </properties>

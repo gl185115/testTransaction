@@ -24,6 +24,7 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.store.model.CMPresetInfo;
@@ -492,7 +493,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
         return storeData;
     }
-	
+
 	@Override
 	public StoreInfo addStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -505,45 +506,91 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 		PreparedStatement update = null;
 		ResultSet result = null;
 		StoreInfo storeInfo = new StoreInfo();
+
+		String TableName = null;
+		String ColumnName = null;
+
 		try {
-			
+
 			conn = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
-			update = conn.prepareStatement(sqlStatement
-					.getProperty("update-store-total"));
 
-			update.setString(SQLStatement.PARAM1, storeId);
-			update.setString(SQLStatement.PARAM2, companyId);
+			TableName = getTableName();
+			ColumnName = getColumnName();
 
-			int rowNum = update.executeUpdate();
-			conn.commit();
-			
-			select = conn.prepareStatement(sqlStatement
-					.getProperty("get-store-total"));
-			
-			select.setString(SQLStatement.PARAM1, companyId);
-			select.setString(SQLStatement.PARAM2, storeId);
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				update = conn.prepareStatement(sqlStatement
+						.getProperty("update-store-total-param"));
 
-			if (rowNum == 1) {
-				result = select.executeQuery();
-				if (result.next()) {
-					storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
+				update.setString(SQLStatement.PARAM1, TableName);
+				update.setString(SQLStatement.PARAM2, ColumnName);
+				update.setString(SQLStatement.PARAM3, companyId);
+				update.setString(SQLStatement.PARAM4, storeId);
+
+				int rowNum = update.executeUpdate();
+				conn.commit();
+
+				select = conn.prepareStatement(sqlStatement
+						.getProperty("get-store-total-param"));
+
+				select.setString(SQLStatement.PARAM1, TableName);
+				select.setString(SQLStatement.PARAM2, ColumnName);
+				select.setString(SQLStatement.PARAM3, companyId);
+				select.setString(SQLStatement.PARAM4, storeId);
+
+				if (rowNum == 1) {
+					result = select.executeQuery();
+					if (result.next()) {
+						storeInfo.setStoreSettleCount(result.getInt(ColumnName));
+					}
+				} else {
+					storeInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
+					tp.println("Store not found.");
 				}
-			} else {
-				storeInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-				tp.println("Store not found.");
-			} 
+			}else{
+				update = conn.prepareStatement(sqlStatement
+						.getProperty("update-store-total"));
+
+				update.setString(SQLStatement.PARAM1, storeId);
+				update.setString(SQLStatement.PARAM2, companyId);
+
+				int rowNum = update.executeUpdate();
+				conn.commit();
+
+				select = conn.prepareStatement(sqlStatement
+						.getProperty("get-store-total"));
+
+				select.setString(SQLStatement.PARAM1, companyId);
+				select.setString(SQLStatement.PARAM2, storeId);
+
+				if (rowNum == 1) {
+					result = select.executeQuery();
+					if (result.next()) {
+						storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
+					}
+				} else {
+					storeInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
+					tp.println("Store not found.");
+				}
+			}
+
 		} catch (Exception ex) {
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+						"Failed to get"  + ColumnName + " : " + ex.getMessage());
+				throw new DaoException("Exception: @" + functionName + " - Error get" + ColumnName , ex);
+			}else{
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
 					"Failed to get subnum2" + " : " + ex.getMessage());
 			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+			}
 		} finally {
 			closeConnectionObjects(conn, select, result);
 			tp.methodExit(storeInfo);
 		}
 		return storeInfo;
 	}
-	
+
 	@Override
 	public StoreInfo getStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -555,28 +602,115 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 		PreparedStatement select = null;
 		ResultSet result = null;
 		StoreInfo storeInfo = new StoreInfo();
+
+		String TableName = null;
+		String ColumnName = null;
+
 		try {
 			conn = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
-			
-			select = conn.prepareStatement(sqlStatement
-					.getProperty("get-store-total"));
-			
-			select.setString(SQLStatement.PARAM1, companyId);
-			select.setString(SQLStatement.PARAM2, storeId);
 
-			result = select.executeQuery();
-			if (result.next()) {
-				storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
+			TableName = getTableName();
+			ColumnName = getColumnName();
+
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				select = conn.prepareStatement(sqlStatement.getProperty("get-store-total-param"));
+
+				select.setString(SQLStatement.PARAM1, TableName);
+				select.setString(SQLStatement.PARAM2, ColumnName);
+				select.setString(SQLStatement.PARAM3, companyId);
+				select.setString(SQLStatement.PARAM4, storeId);
+
+				result = select.executeQuery();
+				if (result.next()) {
+					storeInfo.setStoreSettleCount(result.getInt(ColumnName));
+				}
+			}
+			else{
+				select = conn.prepareStatement(sqlStatement.getProperty("get-store-total"));
+
+				select.setString(SQLStatement.PARAM1, companyId);
+				select.setString(SQLStatement.PARAM2, storeId);
+
+				result = select.executeQuery();
+				if (result.next()) {
+					storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
+				}
 			}
 		} catch (Exception ex) {
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+						"Failed to get"  + ColumnName + " : " + ex.getMessage());
+				throw new DaoException("Exception: @" + functionName + " - Error get" + ColumnName , ex);
+			}else{
 			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
 					"Failed to get subnum2" + " : " + ex.getMessage());
 			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+			}
 		} finally {
 			closeConnectionObjects(conn, select, result);
 			tp.methodExit(storeInfo);
 		}
 		return storeInfo;
+	}
+
+	public String getTableName() throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		String tableName = null;
+		try {
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			select = conn.prepareStatement(sqlStatement
+					.getProperty("get-tablename"));
+
+			result = select.executeQuery();
+			if (result.next()) {
+				tableName =  result.getString("value");
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get tableName" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get tableName ", ex);
+		} finally {
+			closeConnectionObjects(conn, select, result);
+		}
+		return tableName;
+
+	}
+
+	public String getColumnName() throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		String columnName = null;
+		try {
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			select = conn.prepareStatement(sqlStatement
+					.getProperty("get-columnname"));
+
+			result = select.executeQuery();
+			if (result.next()) {
+				columnName =  result.getString("value");
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get columnName" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get columnName ", ex);
+		} finally {
+			closeConnectionObjects(conn, select, result);
+		}
+		return columnName;
+
 	}
 }

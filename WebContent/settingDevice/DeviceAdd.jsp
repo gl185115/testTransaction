@@ -40,6 +40,9 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
     ArrayList<String> queueIdList = new ArrayList<String>();
     ArrayList<String> queueNameList = new ArrayList<String>();
 
+    // tillid
+    ArrayList<String> tillIdList = new ArrayList<String>();
+
     // プリンタータイプの値をとる
     String formPrinterType = request.getParameter("printerType");
     if(PRINTER_TYPE.contains(formPrinterType)){
@@ -76,6 +79,19 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
         	queueIdList.add(rsSelect.getString("Id"));
         	queueNameList.add(rsSelect.getString("DisplayName"));
         }
+        psSelect.close();
+
+        sqlStr = "SELECT TillId"
+        		+ " FROM RESMaster.dbo.MST_TILLIDINFO"
+        		+ " WHERE CompanyId=? and StoreId=?;";
+        psSelect = connection.prepareStatement(sqlStr);
+        psSelect.setString(1, request.getParameter("searchCompanyID").toString());
+        psSelect.setString(2, request.getParameter("searchStoreID").toString());
+        rsSelect = psSelect.executeQuery();
+        while(rsSelect.next()) {
+        	tillIdList.add(rsSelect.getString("TillId"));
+        }
+        psSelect.close();
 
         isUpdateAreaHide = false;
 
@@ -147,13 +163,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                         /* MST_TILLIDINFO */
                         + " UPDATE RESMaster.dbo.MST_TILLIDINFO"
                         + "  SET TerminalId=?, BusinessDayDate=?, SodFlag='1', EodFlag='0', DeleteFlag='0', UpdCount=UpdCount+1, UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice', UpdOpeCode=?"
-                        + "  WHERE CompanyId=? AND StoreId=? AND TillId=?"
-                        + "  IF @@ROWCOUNT = 0"
-                        + "  BEGIN"
-                        + "  INSERT INTO RESMaster.dbo.MST_TILLIDINFO"
-                        + "  (CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SodFlag, EodFlag, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + "  VALUES (?, ?, ?, ?, ?, '1', '0', '0', CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
-                        + "  END";
+                        + "  WHERE CompanyId=? AND StoreId=? AND TillId=?;";
                 PreparedStatement psIns = connection.prepareStatement(sqlStr);
                 // MST_DEVICEINFO(normal)
                 psIns.setString(1, request.getParameter("addCompanyID"));
@@ -162,7 +172,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 psIns.setString(4, request.getParameter("terminalName"));
                 psIns.setString(5, request.getParameter("attributeList"));
                 psIns.setString(6, request.getParameter("terminalID"));
-                psIns.setString(7, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(7, request.getParameter("tillList"));
                 psIns.setString(8, request.getParameter("queueList"));
                 psIns.setString(9, user);
                 psIns.setString(10, user);
@@ -173,7 +183,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 psIns.setString(14, request.getParameter("terminalName"));
                 psIns.setString(15, request.getParameter("attributeList"));
                 psIns.setString(16, request.getParameter("terminalID"));
-                psIns.setString(17, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(17, request.getParameter("tillList"));
                 psIns.setString(18, request.getParameter("queueList"));
                 psIns.setString(19, user);
                 psIns.setString(20, user);
@@ -247,15 +257,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 psIns.setString(71, user);
                 psIns.setString(72, request.getParameter("addCompanyID"));
                 psIns.setString(73, request.getParameter("addStoreID"));
-                psIns.setString(74, request.getParameter("addStoreID") + request.getParameter("terminalID"));
-                // MST_TILLIDINFO(insert)
-                psIns.setString(75, request.getParameter("addCompanyID"));
-                psIns.setString(76, request.getParameter("addStoreID"));
-                psIns.setString(77, request.getParameter("addStoreID") + request.getParameter("terminalID"));
-                psIns.setString(78, request.getParameter("terminalID"));
-                psIns.setString(79, today);
-                psIns.setString(80, user);
-                psIns.setString(81, user);
+                psIns.setString(74, request.getParameter("tillList"));
 
                 try {
                     int rsIns = psIns.executeUpdate();
@@ -375,6 +377,19 @@ window.onload = function() {
             <td align="right">ドロワータイプ ： </td>
             <td align="left">
               <input maxlength="1" type="text" name="tillType" id="tillType" size=1 required pattern="\d{1}">(半角数字1桁で入力してください)
+            </td>
+          </tr>
+          <tr>
+            <td align="right">ドロワーID ： </td>
+            <td align="left">
+              <select name="tillList" id="tillList" required style="width:50%">
+              <%
+                for (int i=0;i<tillIdList.size();i++) {
+                  out.print("<option value=\"" + tillIdList.get(i) + "\"");
+                  out.println(">" + tillIdList.get(i) + "</option>");
+                }
+              %>
+              </select>
             </td>
           </tr>
           <tr>

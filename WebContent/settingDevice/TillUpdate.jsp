@@ -44,7 +44,7 @@
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
         Connection connection = dbManager.getConnection();
 
-        String sqlStr = 
+        String sqlStr =
             "SELECT"
           + "  tillinfo.CompanyId"
           + " ,tillinfo.StoreId"
@@ -61,7 +61,7 @@
         ps.setString(1, request.getParameter("r1").toString());
         ps.setString(2, request.getParameter("s1").toString());
         ResultSet rs = ps.executeQuery();
-        
+
         java.util.List<String> SelectData = new java.util.ArrayList<String>();
         while (rs.next()) {
             String tillId = rs.getString("TillId");
@@ -76,7 +76,7 @@
               .append("\"SodFlag\": \"").append(sodFlag).append("\", ")
               .append("\"EodFlag\": \"").append(eodFlag).append("\", ")
               .append("\"TillDeleteFlag\": \"").append(DeleteFlag).append("\"}");
-            
+
             SelectData.add(sb.toString());
          }
          out.print(SelectData.toString());
@@ -120,7 +120,7 @@
                  } else if (request.getParameter("action").toString().equals("delete")) {
                      JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
                      Connection connection = dbManager.getConnection();
-                     
+
                      String sqlStr = "SELECT COUNT(devinfo.companyid) AS useCount"
                                     + " FROM RESMaster.dbo.MST_DEVICEINFO devinfo"
                                     + " WHERE devinfo.CompanyId=? AND devinfo.StoreId=? AND devinfo.TillId=?"
@@ -130,7 +130,7 @@
                      psSelect.setString(2, request.getParameter("storeID"));
                      psSelect.setString(3, request.getParameter("tillID"));
                      ResultSet rsSelect = psSelect.executeQuery();
-                     
+
                      if(!rsSelect.next() || rsSelect.getInt("useCount") > 0) {
                          psSelect.close();
                          errString = ERR_01_TILL;
@@ -145,7 +145,7 @@
                          psUpd.setString(2, request.getParameter("companyID"));
                          psUpd.setString(3, request.getParameter("storeID"));
                          psUpd.setString(4, request.getParameter("tillID"));
-                  
+
                          try {
                              int rsUpd = psUpd.executeUpdate();
                              if(rsUpd > 0){
@@ -175,7 +175,7 @@
                      psUpd.setString(2, request.getParameter("companyID"));
                      psUpd.setString(3, request.getParameter("storeID"));
                      psUpd.setString(4, request.getParameter("tillID"));
-              
+
                      try {
                          int rsUpd = psUpd.executeUpdate();
                          if(rsUpd > 0){
@@ -223,7 +223,7 @@
   </div>
 
   <div style="padding:10px 10px;"></div>
-  
+
   <div class="table-scroll-area-v table-scroll-area-h" id="tablearea" style="display:none; height:338px">
     <table class="res-tbl">
       <thead>
@@ -269,7 +269,7 @@
           <tr>
             <td align="right">稼働営業日 ： </td>
             <td>
-              <input maxlength="10" type="text" name="CheckedBusinessDayDate" id="CheckedBusinessDayDate" size=10 required pattern="\d{4}-\d{1,2}-\d{1,2}">('yyyy-mm-dd'形式で入力してください。)
+              <input maxlength="10" type="text" name="CheckedBusinessDayDate" id="CheckedBusinessDayDate" size=10 required pattern="(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)">('yyyy-mm-dd'形式で入力してください。)
             </td>
           </tr>
           <tr>
@@ -316,7 +316,7 @@ function check(inValue) {
     var strId = 'TillId' + inValue;
     document.getElementById('CheckedTillId').value = document.getElementById(strId).value || false;
     document.getElementById('tillID').value = document.getElementById(strId).value || false;
-    
+
     // BusinessDayDate
     strId = 'BusinessDayDate' + inValue;
     document.getElementById('CheckedBusinessDayDate').value = document.getElementById(strId).value || false;
@@ -328,7 +328,7 @@ function check(inValue) {
     // EodFlag
     strId = 'EodFlag' + inValue;
     document.getElementById('CheckedEodFlag').value = document.getElementById(strId).value || false;
-    
+
     strId = 'TillDeleted' + inValue;
     var deleted = document.getElementById(strId).value || false;
     if (deleted == 'Deleted') {
@@ -370,12 +370,12 @@ function changeAnotherSelect(obj) {
     if (obj.id == 'CheckedSodFlag') {
         var anotherObjId = 'CheckedEodFlag';
     }
-    
+
     var anotherValue = '0';
     if(obj.value == '0') {
         anotherValue = '1';
     }
-    
+
     var pulldown_option = document.getElementById(anotherObjId).getElementsByTagName('option');
     for(i=0; i<pulldown_option.length;i++){
         if(pulldown_option[i].value == anotherValue){
@@ -413,7 +413,7 @@ jQuery(function ($) {
         var action = document.getElementById('DeleteButton').innerText;
         var message = "";
         if (action == <%='\''+ BUTTON_02_REUSE + '\''%>) {
-        	// 
+        	//
             document.getElementById('action').value = "reuse";
             message = <%='\'' + CONFIRM_03_REUSE + '\''%>;
         } else {
@@ -437,51 +437,51 @@ jQuery(function ($) {
 
 (function() {
     var currentLog = null;
-    
+
     var SelectLog = function() {
         if (currentLog === null) return;
 
         var log = '';
         for (var i = 0; i < currentLog.length; i++) {
             if (currentLog[i].TillDeleteFlag=='1') {
-                log += '<tr class="deleted-row">' 
+                log += '<tr class="deleted-row">'
             } else {
-                log += '<tr>' 
+                log += '<tr>'
             }
-            log += '<td align="center">'+ '<input type="radio" name="q1" id="' 
+            log += '<td align="center">'+ '<input type="radio" name="q1" id="'
                     + i + '" onclick="check(id)">' + '</td>';
-            log += '<td><input type="text" id="TillId' + i 
+            log += '<td><input type="text" id="TillId' + i
                     + '" name="TillId' + i + '" disabled value="'
                     + (currentLog[i].TillId || '&nbsp;' ) + '" >' + '</td>';
-            log += '<td><input type="text" id="BusinessDayDate' + i 
+            log += '<td><input type="text" id="BusinessDayDate' + i
                 + '" name="BusinessDayDate' + i + '" disabled value="'
                 + (currentLog[i].BusinessDayDate || '&nbsp;' ) + '">' + '</td>';
-            log += '<td><input type="text" id="SodFlag' + i  
+            log += '<td><input type="text" id="SodFlag' + i
                 + '" name="SodFlag' + i + '" disabled value="'
                 + (currentLog[i].SodFlag || '&nbsp;' ) + '">' + '</td>';
-                log += '<td><input type="text" id="EodFlag' + i  
+                log += '<td><input type="text" id="EodFlag' + i
                 + '" name="EodFlag' + i + '" disabled value="'
                 + (currentLog[i].EodFlag || '&nbsp;' ) + '">' + '</td>';
             if (currentLog[i].TillDeleteFlag=='1') {
-                log += '<td><input type="text" id="TillDeleted' + i  
+                log += '<td><input type="text" id="TillDeleted' + i
                 + '" name="TillDeleted' + i + '" disabled value="'
                 + 'Deleted' + '">';
             } else {
-                log += '<td><input type="text" id="TillDeleted' + i  
+                log += '<td><input type="text" id="TillDeleted' + i
                 + '" name="TillDeleted' + i + '" disabled value="'
                 + '&nbsp;' + '">';
             }
-            log += '</td>'; 
+            log += '</td>';
         }
         document.getElementById('logs').innerHTML = log;
-        
+
         if (log == '') {
             document.getElementById('tablearea').style.display = "none";
         } else {
             document.getElementById('tablearea').style.display = "block";
         }
     };
-    
+
     document.getElementById('select').addEventListener('click', function() {
         var xhr = new XMLHttpRequest();
 
@@ -491,7 +491,7 @@ jQuery(function ($) {
                     document.getElementById('logs').innerHTML = '';
                     return false;
                 }
-                
+
                 currentLog = eval("("+xhr.responseText+")");
                 if (currentLog.ErrorMsg == undefined) {
                     SelectLog();
@@ -508,7 +508,7 @@ jQuery(function ($) {
             alert(e);
         };
         document.getElementById('updateArea').style.display = "none";
-        
+
         document.getElementById('CheckedCompanyID').value = storesearch.document.getElementById('companyidlist').value;
         document.getElementById('CheckedStoreID').value = storesearch.document.getElementById('storeidlist').value;
         document.getElementById('companyID').value = storesearch.document.getElementById('companyidlist').value;
@@ -536,7 +536,7 @@ jQuery(function ($) {
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>
 <%
 }

@@ -1,9 +1,11 @@
-<%@ page language="java" pageEncoding="utf-8"%><%@page
+<%@ page language="java" pageEncoding="utf-8"%>
+<%@page
 	import="java.sql.*"%><%@page
 	import="ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer"
 	import="java.util.Date"
     import="java.util.ArrayList"
-	import="java.text.SimpleDateFormat"%>
+	import="java.text.SimpleDateFormat"
+%>
 <%!
 final String ERR_01_TERMINALID = "ドロワーIDが既に存在します。<br>ドロワーIDを確認後、再度登録を実行してください。";
 final String ERR_02_INTERNAL = "内部エラーが発生しました。<br>システム担当者に確認してください。";
@@ -152,13 +154,13 @@ window.onload = function() {
           <tr>
             <td align="right">ドロワーID ： </td>
             <td align="left">
-              <input maxlength="8" type="text"  name="CheckTillId" id="CheckTillId" size=8 required pattern="\d{8}">(半角数字8桁を入力してください。)
+              <input maxlength="20" type="text"  name="CheckTillId" id="CheckTillId" size=20 required pattern="^[a-zA-Z0-9]{0,20}$">(半角英数字20桁以内で入力してください。)
             </td>
           </tr>
           <tr>
             <td align="right">稼働営業日 ： </td>
             <td>
-              <input maxlength="10" type="text" name="CheckedBusinessDayDate" id="CheckedBusinessDayDate" size=10 required pattern="\d{4}-\d{2}-\d{2}">('yyyy-mm-dd'形式で入力してください。)
+              <input maxlength="10" type="text" name="CheckedBusinessDayDate" id="CheckedBusinessDayDate" size=10 required pattern="(([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8]))))|((([0-9]{2})(0[48]|[2468][048]|[13579][26])|((0[48]|[2468][048]|[3579][26])00))-02-29)">('yyyy-mm-dd'形式で入力してください。)
             </td>
           </tr>
           <tr>

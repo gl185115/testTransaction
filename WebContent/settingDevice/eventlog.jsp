@@ -18,13 +18,29 @@ if (request.getParameter("s") != null) {
    ResultSet rs = ps.executeQuery();
    if (rs.next()) {
      String tx = rs.getString(1);
-     if (tx.length() > 0) {
+     if (tx.length() > 0 && tx.indexOf("<EventLog>") >= 0) {
          int begin = tx.indexOf("<EventLog>") + 10;
          int end = tx.indexOf("</EventLog>");
 
          if (end >= 0) {
              sb.append(tx, begin, end);
          }
+     } else {
+    	 ps.close();
+    	 ps = conn.prepareStatement("select Log "
+    			 + "from TXL_OPE_EVENT "
+    			 + "where CompanyId=? and RetailStoreId=? and WorkstationId=? and SequenceNumber=? and TrainingFlag=? "
+    			 + "order by InsDateTime desc");
+    	 for (int i = 0; i < params.length; i++) {
+    		 ps.setString(i + 1, request.getParameter(params[i]));
+    	 }
+    	 rs = ps.executeQuery();
+    	 if(rs.next()){
+    		 String log = rs.getString(1);
+    		 if (log.length() > 0) {
+    				 sb.append(log);
+    		 }
+    	 }
      }
    }
    rs.close();

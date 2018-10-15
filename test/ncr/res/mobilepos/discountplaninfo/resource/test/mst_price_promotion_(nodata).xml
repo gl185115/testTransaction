@@ -1,0 +1,43 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_PRICE_PROMOTION">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>PromotionId</column>
+		<column>PromotionName</column>
+		<column>ReceiptName</column>
+		<column>DiscountReason</column>
+		<column>DiscountReasonName</column>
+		<column>PromotionType</column>
+		<column>DiscountType</column>
+		<column>InputFlag</column>
+		<column>PartialFlag</column>
+		<column>RateDiscountFlag</column>
+		<column>PriceDiscountFlag</column>
+		<column>ButtonFlag</column>
+		<column>BarcodeFlag</column>
+		<column>BarcodeDigit</column>
+		<column>BarcodeStartCode</column>
+		<column>BarcodeEndCode</column>
+		<column>BarcodeIdCode1</column>
+		<column>BarcodeIdStartIndex1</column>
+		<column>BarcodeIdStartDigit1</column>
+		<column>BarcodeIdCode2</column>
+		<column>BarcodeIdStartIndex2</column>
+		<column>BarcodeIdStartDigit2</column>
+		<column>PointCombinationUseFlag</column>
+		<column>PointAddFlag</column>
+		<column>DiscountBarcodeType</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+	</table>
+</dataset>

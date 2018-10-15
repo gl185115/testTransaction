@@ -1,0 +1,7 @@
+Scenario: Get Barcode Format for Multi Forward/Recall Card
+Given I have Item resource
+Given ItemCode.xml file exist
+When I get barcode info
+Then I should get the following:
+|id|description|type|format|
+|multiForwardRecallCard|マルチサスペンドカードのバーコード形式|single|[^[Bb](\d{4})[Aa]$]|

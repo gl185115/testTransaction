@@ -94,12 +94,6 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                 resultBase.setMessage("Failed to create queue buster link");
                 tp.println("Failed to create queue buster link");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to create queuebusterlink.", ex);
-			throw new DaoException(
-					"SQLStatementException: @SQLQueueBusterLinkDAO."
-							+ functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to create queuebusterlink.", ex);
@@ -191,15 +185,6 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 
                 connection.commit();
 
-            } catch (SQLStatementException ex) {
-                LOGGER.logAlert(
-                        PROG_NAME,
-                        functionName,
-                        Logger.RES_EXCEP_SQLSTATEMENT,
-                        "Failed to update queuebuster information: "
-                                + ex.getMessage());
-                throw new DaoException("SQLStatementException:"
-                        + " @SQLQueueBusterLinkDAO.updateLink", ex);
             } catch (SQLException ex) {
                 LOGGER.logAlert(
                         PROG_NAME,
@@ -305,12 +290,6 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                 resultBase.setMessage("Failed to delete queue buster link");
                 tp.println("Failed to delete queue buster link");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete queuebusterlink.", ex);
-			throw new DaoException(
-					"SQLStatementException: @SQLQueueBusterLinkDAO."
-							+ functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to delete queuebusterlink.", ex);
@@ -366,12 +345,6 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
             } else {
                 tp.println("Failed to retrieve QueueBuster Link.");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get queuebusterlink.", ex);
-			throw new DaoException(
-					"SQLStatementException: @SQLQueueBusterLinkDAO."
-							+ functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get queuebusterlink.", ex);
@@ -427,15 +400,6 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
 
             connection.commit();
             activate.close();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to activate queuebuster information: "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLQueueBusterLinkDAO.activateLink", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     PROG_NAME,
@@ -497,13 +461,6 @@ public class SQLQueueBusterLinkDAO extends AbstractDao implements ILinkDAO {
                             result.findColumn("StoreId")).trim());
                 links.add(posLinkInfo);
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get list of queuebusterlinks.",
-					ex);
-			throw new DaoException(
-					"SQLStatementException: @SQLQueueBusterLinkDAO."
-							+ functionName, ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get list of queuebusterlinks.", ex);

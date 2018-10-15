@@ -1,5 +1,12 @@
 package ncr.res.mobilepos.deviceinfo.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Snap;
@@ -12,15 +19,14 @@ import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.model.DeviceAttribute;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.IndicatorInfo;
+import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.PosControlOpenCloseStatus;
 import ncr.res.mobilepos.deviceinfo.model.PrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.TerminalInfo;
 import ncr.res.mobilepos.deviceinfo.model.TerminalStatus;
-import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
-import ncr.res.mobilepos.deviceinfo.model.ViewPrinterInfo;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.SnapLogger;
@@ -30,14 +36,6 @@ import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.tillinfo.model.Till;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 /**
  * PeripheralControl data access object.
  * @see IDeviceInfoDAO
@@ -52,6 +50,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     private static final String PROG_NAME = "DevDao";
     /**
+     * table not found error
+     */
+    private static final int SQL_ERROR_TABLE_NOT_FOUND = 208;
+    /**
      * DB Access Handler.
      */
     private DBManager dbManager;
@@ -60,7 +62,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
      */
     private Trace.Printer tp = null;
     /**
-     *  Snap Logger. 
+     *  Snap Logger.
      */
     private SnapLogger snap;
 	/**
@@ -75,288 +77,11 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     public SQLDeviceInfoDAO() throws DaoException {
         dbManager = JndiDBManagerMSSqlServer.getInstance();
         tp = DebugLogger.getDbgPrinter(
-                Thread.currentThread().getId(), getClass());
-		try {
-			// Gets Singleton reference from the factory.
-			this.sqlStatement = SQLStatement.getInstance();
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, "SQLDeviceInfoDAO.SQLDeviceInfoDAO",
-					Logger.RES_EXCEP_SQLSTATEMENT, "Failed to instantiate SQLStatement:" + e.getMessage());
-			throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO.SQLDeviceInfoDAO", e);
-		}
+            Thread.currentThread().getId(), getClass());
+        // Gets Singleton reference from the factory.
+        this.sqlStatement = SQLStatement.getInstance();
 	}
 
-	/**
-	 * Set the Pos Terminal Link association for a device.
-	 * @param storeid - store identifier
-	 * @param terminalid - terminal identifier
-	 * @param linkposterminalid - pos terminal identifier to associate to device
-	 * @return ResultBase
-	 * @throws DaoException
-     */
-	public final ResultBase setLinkPosTerminalId(final String storeid,
-			final String terminalid, final String linkposterminalid)
-			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeid", storeid)
-				.println("terminalid", terminalid)
-				.println("linkposterminalid", linkposterminalid);
-
-		ResultBase resultBase = new ResultBase();
-		int result = 0;
-		Connection connection = null;
-		PreparedStatement update = null;
-
-		try {
-			connection = dbManager.getConnection();
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			update = connection.prepareStatement(sqlStatement
-					.getProperty("set-LinkPosTerminalId"));
-			update.setString(SQLStatement.PARAM1, linkposterminalid);
-			update.setString(SQLStatement.PARAM2, storeid);
-			update.setString(SQLStatement.PARAM3, terminalid);
-
-			result = update.executeUpdate();
-
-			if (1 == result) {
-				resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-				resultBase.setMessage("Success");
-				connection.commit();
-			} else if (1 < result) {
-				resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-				resultBase.setMessage("An error has occurred");
-				tp.println("Failed to set the POS Terminal Link.");
-			} else {
-				resultBase
-						.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPOSTERMINALLINK);
-				resultBase.setMessage("Does not exist");
-				tp.println("Unknown error in updating POS Terminal Link.",
-						result);
-			}
-
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set linkposterminalid.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set linkposterminalid.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set linkposterminalid.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, update);
-			
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
-	}
-    /**
-     * Set the Printer Id association for a device.
-     * @param storeid     store identifier
-     * @param terminalid  terminal identifier
-     * @param printerid  printer identifier to associate to device
-     * @return ResultBase
-     * @throws SQLException The exception thrown when SQL related issue fail.
-     * @throws DaoException The exception thrown for non-SQL related issue.
-     */
-	public final ResultBase setPrinterId(final String storeid,
-			final String terminalid, final String printerid,
-			final String updAppId, final String updOpeCode)
-			throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("printerid", printerid)
-				.println("storeid", storeid).println("terminalid", terminalid)
-				.println("updAppId", updAppId)
-				.println("updOpeCode", updOpeCode);
-
-		ResultBase resultBase = new ResultBase();
-        int result = 0;
-        Connection connection = null;
-        PreparedStatement update = null;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            update = connection.prepareStatement(
-                    sqlStatement.getProperty("set-printerid"));
-            update.setString(SQLStatement.PARAM1, printerid);
-            update.setString(SQLStatement.PARAM2,updAppId);
-            update.setString(SQLStatement.PARAM3, updOpeCode);
-            update.setString(SQLStatement.PARAM4, storeid);           
-            update.setString(SQLStatement.PARAM5, terminalid);
-            
-            result = update.executeUpdate();
-			if (SQLResultsConstants.ONE_ROW_AFFECTED == result) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-                resultBase.setMessage("Success");
-                connection.commit();
-			} else if (SQLResultsConstants.ONE_ROW_AFFECTED < result) {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-                resultBase.setMessage("An error has occurred");
-                tp.println("Failed to set the Printer.");
-            } else {
-                resultBase.setNCRWSSResultCode(
-                        ResultBase.RESDEVCTL_NOPOSTERMINALLINK);
-                resultBase.setMessage("Does not exist");
-                tp.println("Unknown error occured in setting the"
-                        + "Printer.", result);
-            }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set PrinterId.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set PrinterId.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set PrinterId.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, update);
-			
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
-	}
-    /**
-     * Create peripheral device association for a terminal/device.
-     * @param newDeviceInfo  The new Device Information to be added.
-     * @return ResultBase
-     * @throws SQLException - sql
-     * @throws DaoException - dao
-     * @throws IOException 
-     */
-	public final ResultBase createPeripheralDeviceInfo(final DeviceInfo newDeviceInfo) 
-			throws DaoException, IOException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName)
-			.println("DeviceInfo", newDeviceInfo.toString());
-
-        ResultBase resultBase = new ResultBase();
-        int result = 0;
-        Connection connection = null;
-        PreparedStatement create = null;
-        
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            create = connection.prepareStatement(
-                    sqlStatement.getProperty("create-peripheraldeviceinfo"));
-            create.setString(SQLStatement.PARAM1,
-                    newDeviceInfo.getRetailStoreId());
-            create.setString(SQLStatement.PARAM2, 
-            		newDeviceInfo.getDeviceId());
-            create.setString(SQLStatement.PARAM3, 
-            		newDeviceInfo.getPrinterId());
-            create.setString(SQLStatement.PARAM4, 
-            		newDeviceInfo.getTillId());
-            create.setString(SQLStatement.PARAM5,
-                    newDeviceInfo.getLinkPOSTerminalId());
-            create.setString(SQLStatement.PARAM6, 
-            		newDeviceInfo.getLogSize());
-            create.setString(SQLStatement.PARAM7,
-                    newDeviceInfo.getSaveLogFile());
-            create.setString(SQLStatement.PARAM8,
-                    newDeviceInfo.getLogAutoUpload());
-            create.setString(SQLStatement.PARAM9,
-                    newDeviceInfo.getQueuebusterlink());
-            create.setString(SQLStatement.PARAM10,
-                    newDeviceInfo.getAuthorizationlink());
-            create.setString(SQLStatement.PARAM11,
-                    newDeviceInfo.getSignaturelink());
-            create.setString(SQLStatement.PARAM12,
-                    newDeviceInfo.getTxid());
-            create.setString(SQLStatement.PARAM13,
-                    newDeviceInfo.getSuspendtxid());
-            create.setInt(SQLStatement.PARAM14,
-                    newDeviceInfo.getEjSequence());
-            create.setString(SQLStatement.PARAM15,
-                    newDeviceInfo.getDeviceName());
-            create.setString(SQLStatement.PARAM16,
-                    newDeviceInfo.getAppId());
-            create.setString(SQLStatement.PARAM17,
-                    newDeviceInfo.getOpeCode());
-            create.setString(SQLStatement.PARAM18,
-                    newDeviceInfo.getCompanyId());
-            create.setInt(SQLStatement.PARAM19,
-                    newDeviceInfo.getTrainingMode());
-            create.setString(SQLStatement.PARAM20,
-                    newDeviceInfo.getAppId());
-            create.setString(SQLStatement.PARAM21,
-                    newDeviceInfo.getOpeCode());
-            create.setString(SQLStatement.PARAM22, 
-            		newDeviceInfo.getAttributeId());
-            result = create.executeUpdate();
-            connection.commit();
-
-            if (result == SQLResultsConstants.ONE_ROW_AFFECTED) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-                resultBase.setMessage("Success Creation of Device.");
-            } else {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-                resultBase.setMessage(
-                        "Failed to create peripheral device information");
-                tp.println("Failed to create peripheral device"
-                        + "information.");
-            }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to create Peripheral Info.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to create Peripheral Info.", ex);
-			
-			if (ex.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
-				throw new DaoException("SQLException: @" + functionName, ex);
-			}
-			resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
-			tp.println("Duplicate Entry of Device Information.");
-
-			DeviceInfo deviceInfo = getDeviceInfo(newDeviceInfo.getCompanyId(),
-					newDeviceInfo.getRetailStoreId(), newDeviceInfo.getDeviceId(),
-					newDeviceInfo.getTrainingMode());
-			if ("Deleted".equalsIgnoreCase(deviceInfo.getStatus())) {
-				closeConnectionObjects(connection, create);
-				try {
-					connection = dbManager.getConnection();
-				} catch (SQLException e) {
-					LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-							+ ": Failed to create Peripheral Info.", ex);
-				}
-				String companyIdToSet = newDeviceInfo.getCompanyId(),
-				        storeIdToSet = newDeviceInfo.getRetailStoreId(),
-				        deviceIdToSet = newDeviceInfo.getDeviceId();
-				ResultBase activateResult = activateDevice(companyIdToSet, storeIdToSet,
-						deviceIdToSet, connection);
-				if (activateResult.getNCRWSSResultCode() == 0) {
-					ViewDeviceInfo viewDeviceInfo = updateDevice(companyIdToSet, storeIdToSet,
-							deviceIdToSet, newDeviceInfo, newDeviceInfo.getTrainingMode(), connection);
-					if (viewDeviceInfo.getNCRWSSResultCode() == 0) {
-						resultBase.setNCRWSSResultCode(viewDeviceInfo
-								.getNCRWSSResultCode());
-					} else {
-						rollBack(connection, functionName, null);
-					}
-				}
-			}
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to create Peripheral Info.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, create);
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
     /**
      * Get Printer Information for a Printer Id.
      * @param storeid store identifier
@@ -405,10 +130,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 printerInfo = null;
                 tp.println("Failed to find printer information.");
             }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get Printer Info.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to get Printer Info.", ex);
@@ -419,92 +140,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, select, result);
-			
+
 			tp.methodExit(printerInfo);
 		}
 		return printerInfo;
-	} 
-    
-    /**
-     * Get Printers registered in the store configuration.
-     * @param storeId - store identifier
-     * @param key - the search key identifier
-     * @param name - the search identifier for printer description
-     * @param limit - if 0, use the systemConfig defined limit
-     *                if -1, no limit
-     *                if any int value, search limit
-     * @return ArrayList<PrinterInfo> array of PrinterInfo
-     * @throws SQLException - sql
-     * @throws DaoException - dao
-     */
-	public final List<PrinterInfo> getAllPrinterInfo(final String storeId,
-			final String key, final String name, final int limit)
-			throws SQLException, DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeid", storeId)
-				.println("key", key).println("name", name)
-				.println("limit", limit);
-
-		List<PrinterInfo> allprintinfo = new ArrayList<PrinterInfo>();
-        ResultSet result = null;
-        Connection connection = null;
-        PreparedStatement select = null;
-        try {  
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(
-                    sqlStatement.getProperty("get-all-printers"));
-			select.setString(SQLStatement.PARAM1,
-					StringUtility.isNullOrEmpty(storeId) ? null : storeId);
-			select.setString(SQLStatement.PARAM2,
-					StringUtility.isNullOrEmpty(key) ? null : StringUtility
-							.escapeCharatersForSQLqueries(key.trim()) + "%");
-			select.setString(
-					SQLStatement.PARAM3,
-					StringUtility.isNullOrEmpty(name) ? null : "%"
-							+ StringUtility.escapeCharatersForSQLqueries(name
-									.trim()) + "%");
-           
-			tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
-			int searchLimit = (limit == 0) ? GlobalConstant
-					.getMaxSearchResults() : limit;
-			select.setInt(SQLStatement.PARAM4, searchLimit);
-            
-            result = select.executeQuery();
-            while (result.next()) {
-                PrinterInfo printinfo = new PrinterInfo();
-                printinfo.setRetailStoreId(result.getString(result.findColumn("StoreId")));
-                printinfo.setPrinterId(
-                        result.getString(result.findColumn("PrinterId")));
-                printinfo.setPrinterName(
-                        result.getString(result.findColumn("PrinterName")));
-                printinfo.setPrinterDescription(
-                        result.getString(result.findColumn("Description")));
-                printinfo.setIpAddress(result.getString(result.findColumn("IpAddress")));
-                printinfo.setPortNumTcp(result.getString(result.findColumn("PortNumTcp")));
-                printinfo.setPortNumUdp(result.getString(result.findColumn("PortNumUdp")));
-
-                allprintinfo.add(printinfo);
-            }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get all printers.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to get all printers.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to get all printers.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, select, result);
-			
-			tp.methodExit(allprintinfo);
-		}
-
-		return allprintinfo;
 	}
 
     /**** FOR NEW DEVICE INFO FUNCTIONS ****/
@@ -517,7 +156,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			.println("storeid", storeid)
 			.println("terminalid", terminalid)
 			.println("trainingmode", trainingmode);
-        
+
     	DeviceInfo devInfo = new DeviceInfo();
         PrinterInfo printerInfo = new PrinterInfo();
         ResultSet result = null;
@@ -563,8 +202,8 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                         result.findColumn("LinkSignature")));
                 devInfo.setLinkPOSTerminalId(StringUtility.convNullToEmpty(
                 		result.getString(result.findColumn("LinkPosTerminalId"))));
-                devInfo.setPricingType(result.getString("PricingType"));                                
-                devInfo.setTxid(result.getString("LastTxId"));                 
+                devInfo.setPricingType(result.getString("PricingType"));
+                devInfo.setTxid(result.getString("LastTxId"));
                 devInfo.setSuspendtxid(result.getString("LastSuspendTxId"));
                 devInfo.setStatus(result.getString(
                 		result.findColumn("Status")));
@@ -587,13 +226,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 devInfo.setAttributeId(result.getString(
                 		result.findColumn("AttributeId")));
             } else {
-                devInfo.setLinkPOSTerminalId("");               
+                devInfo.setLinkPOSTerminalId("");
             }
             devInfo.setPrinterInfo(printerInfo);
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to retrieve DeviceInfo.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to retrieve DeviceInfo.", ex);
@@ -636,11 +271,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             deleteDeviceStmt.executeUpdate();
             connection.commit();
 
-		} catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete device.", ex);
-			throw new DaoException(ex);
 		} catch (SQLException ex) {
 			rollBack(connection, functionName, ex);
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
@@ -653,879 +283,13 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			throw new DaoException(ex);
 		} finally {
 			closeConnectionObjects(connection, deleteDeviceStmt);
-			
+
 			tp.methodExit(resultBase);
 		}
 		return resultBase;
 	}
 
-	@Override
-	public final List<DeviceInfo> listDevices(final String storeId,
-			final String key, final String name, final int limit)
-			throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("key", key)
-				.println("storeId", storeId).println("name", name)
-				.println("limit", limit);
-        
-		List<DeviceInfo> devices = new ArrayList<DeviceInfo>();
-        ResultSet resultSet = null;
-        Connection connection = null;
-        PreparedStatement select = null;
-        try {
-			connection = dbManager.getConnection();
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			select = connection.prepareStatement(sqlStatement
-					.getProperty("get-all-devices"));
-			select.setInt(SQLStatement.PARAM1, (limit < 0) ? 10000 : limit);
-			select.setString(SQLStatement.PARAM2, getStoreIdToSet(storeId));
-			select.setString(
-					SQLStatement.PARAM3,
-					StringUtility.isNullOrEmpty(key) ? "%" : StringUtility
-							.escapeCharatersForSQLqueries(key.trim()) + "%");
-			select.setString(
-					SQLStatement.PARAM4,
-					StringUtility.isNullOrEmpty(name) ? "%" : "%"
-							+ StringUtility.escapeCharatersForSQLqueries(name
-									.trim()) + "%");
-
-            resultSet = select.executeQuery();
-            while (resultSet.next()) {
-                DeviceInfo device = new DeviceInfo();
-                device.setDeviceId(resultSet.getString("TerminalId"));
-                device.setDeviceName(resultSet.getString("DevName"));
-                device.setPrinterId(resultSet.getString("PrinterId"));
-                device.setTillId(resultSet.getString("TillId"));
-                device.setQueuebusterlink(resultSet.getString("LinkQueuebuster"));
-                device.setSignaturelink(resultSet.getString("LinkSignature"));
-                device.setRetailStoreId(resultSet.getString("StoreId"));
-                device.setStatus(resultSet.getString("Status"));
-                devices.add(device);
-            }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get devices.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to get devices.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to get devices.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, select, resultSet);
-			
-			tp.methodExit(devices.size());
-		}
-		return devices;
-	}
-	
-	private String getStoreIdToSet(final String storeId) {
-        return (StringUtility.isNullOrEmpty(storeId)) ? "%" : storeId;
-    }
-    
-    @Override
-	public final ResultBase deleteRegisteredDevice(final String deviceID,
-			final String retailStoreID) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("deviceid", deviceID)
-            .println("retailstoreid", retailStoreID);
-            
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement deleteAutDeviceStmt = null;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            deleteAutDeviceStmt = connection
-                .prepareStatement(sqlStatement.getProperty("delete-autdevice"));
-            deleteAutDeviceStmt.setString(SQLStatement.PARAM1, retailStoreID);
-            deleteAutDeviceStmt.setString(SQLStatement.PARAM2, deviceID);
-
-            int noOfAffectedRows = deleteAutDeviceStmt.executeUpdate();
-
-            if (noOfAffectedRows == SQLResultsConstants.NO_ROW_AFFECTED) {
-                resultBase
-                        .setNCRWSSResultCode(ResultBase.RESREG_DEVICENOTEXIST);
-                tp.println("No registered device was deleted.");
-            } else {
-                connection.commit();
-            }
-		} catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete registered device.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to delete registered device.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to delete registered device.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, deleteAutDeviceStmt);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-
-    @Override
-	public final ViewDeviceInfo updateDevice(final String companyID, final String retailStoreID,
-			final String deviceID, final DeviceInfo deviceInfoToSet, 
-			final int trainingMode, Connection connection) throws DaoException{
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName);		
-		tp.println("companyid", companyID)
-			.println("retailstoreid", retailStoreID)
-			.println("deviceid", deviceID)
-			.println("deviceinfo", deviceInfoToSet.toString())
-			.println("trainingflag", trainingMode)
-			.println("connection", connection);
-
-        boolean isNewConnection = false;
-        PreparedStatement updateStatement = null;
-        ResultSet result = null;
-        ViewDeviceInfo viewInfo = new ViewDeviceInfo();
-        DeviceInfo devInfoToReturn = new DeviceInfo();
-        PrinterInfo printerInfo = new PrinterInfo();
-
-        //start update after determining if printer exists
-        try {
-        	if (connection == null) {
-        		connection = dbManager.getConnection();
-        		isNewConnection = true;
-        	}
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            updateStatement = connection.prepareStatement(
-                       sqlStatement.getProperty("update-deviceinfo"));
-            updateStatement.setString(SQLStatement.PARAM1,
-                    deviceInfoToSet.getCompanyId());
-            updateStatement.setString(SQLStatement.PARAM2,
-            		deviceInfoToSet.getRetailStoreId());
-            updateStatement.setString(SQLStatement.PARAM3, 
-            		deviceInfoToSet.getDeviceId());  
-            updateStatement.setString(SQLStatement.PARAM4, 
-            		deviceInfoToSet.getPrinterId());
-            updateStatement.setString(SQLStatement.PARAM5,
-                    deviceInfoToSet.getTillId());
-            updateStatement.setString(SQLStatement.PARAM6,
-            		deviceInfoToSet.getLinkPOSTerminalId());
-            updateStatement.setString(SQLStatement.PARAM7, 
-            		deviceInfoToSet.getLogSize());
-            updateStatement.setString(SQLStatement.PARAM8,
-            		deviceInfoToSet.getSaveLogFile());
-            updateStatement.setString(SQLStatement.PARAM9,
-            		deviceInfoToSet.getLogAutoUpload());
-            updateStatement.setString(SQLStatement.PARAM10,
-            		deviceInfoToSet.getQueuebusterlink());
-            updateStatement.setString(SQLStatement.PARAM11,
-            		deviceInfoToSet.getAuthorizationlink());
-            updateStatement.setString(SQLStatement.PARAM12,
-            		deviceInfoToSet.getSignaturelink());
-            updateStatement.setString(SQLStatement.PARAM13,
-            		deviceInfoToSet.getTxid());
-            updateStatement.setString(SQLStatement.PARAM14,
-            		deviceInfoToSet.getSuspendtxid());
-            updateStatement.setInt(SQLStatement.PARAM15,
-            		deviceInfoToSet.getEjSequence());
-            updateStatement.setString(SQLStatement.PARAM16,
-            		deviceInfoToSet.getDeviceName());
-            updateStatement.setString(SQLStatement.PARAM17,
-                    deviceInfoToSet.getUpdAppId());
-            updateStatement.setString(SQLStatement.PARAM18,
-                    deviceInfoToSet.getUpdOpeCode());
-            updateStatement.setString(
-                    SQLStatement.PARAM19, companyID);
-            updateStatement.setString(
-                    SQLStatement.PARAM20, retailStoreID);
-            updateStatement.setString(
-                    SQLStatement.PARAM21, deviceID);
-            updateStatement.setInt(
-                    SQLStatement.PARAM22, trainingMode);
-            result = updateStatement.executeQuery();
-            if (result.next()) {
-            	devInfoToReturn.setCompanyId(
-            			result.getString(result.findColumn("CompanyId")).trim());
-            	devInfoToReturn.setDeviceId(
-            			result.getString(result.findColumn("TerminalId")).trim());                             
-            	devInfoToReturn.setRetailStoreId(
-            			result.getString(result.findColumn("StoreId")).trim());                             
-            	devInfoToReturn.setLogSize(
-            			result.getString(result.findColumn("SendLogFile")).trim());                             
-            	devInfoToReturn.setDeviceName(
-            			result.getString(result.findColumn("DeviceName")));
-            	devInfoToReturn.setLogSize(
-            			result.getString(result.findColumn("SendLogFile")).trim());
-            	devInfoToReturn.setSaveLogFile(
-            			result.getString(result.findColumn("SaveLogFile")).trim());
-            	devInfoToReturn.setLogAutoUpload(
-            			result.getString(result.findColumn("AutoUpload")).trim());
-            	devInfoToReturn.setQueuebusterlink(
-            			result.getString(result.findColumn("LinkQueueBuster")));
-            	devInfoToReturn.setAuthorizationlink(
-            			result.getString(result.findColumn("LinkAuthorization")));
-            	devInfoToReturn.setSignaturelink(
-            			result.getString(result.findColumn("LinkSignature")));
-            	devInfoToReturn.setLinkPOSTerminalId(
-            			result.getString(result.findColumn("LinkPosTerminalId")));
-            	devInfoToReturn.setTillId(
-            			result.getString(result.findColumn("TillId")));             
-            	devInfoToReturn.setTxid(
-            			result.getString(result.findColumn("LastTxid")));  
-            	devInfoToReturn.setSuspendtxid(
-            			result.getString(result.findColumn("LastSuspendTxId")));
-            	devInfoToReturn.setPrinterId(
-            			result.getString(result.findColumn("PrinterId")));
-            	devInfoToReturn.setTrainingMode(
-            			result.getInt(result.findColumn("Training")));
-            	//if the printerid has a value, get printerInfo of the printer
-            	if (!StringUtility.isNullOrEmpty(devInfoToReturn.getPrinterId())) {
-            		printerInfo = this.getPrinterInfo(
-            				devInfoToReturn.getRetailStoreId(), devInfoToReturn.getPrinterId());
-            	} else {
-            		printerInfo = new PrinterInfo();
-            	}             
-            	viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-            	viewInfo.setMessage("Success");
-            } else {
-            	viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-            	devInfoToReturn.setLinkPOSTerminalId("");
-            	viewInfo.setMessage("The info with given storeid,"
-            			+ " and terminalid does not exist");
-            	//reset the printer info if no device found
-            	devInfoToReturn.setPrinterInfo(new PrinterInfo());
-            }
-            devInfoToReturn.setPrinterInfo(printerInfo);
-            viewInfo.setDeviceInfo(devInfoToReturn);
-            connection.commit();
-        } catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to update device.", ex);
-            throw new DaoException(ex);
-        } catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to update device.", ex);
-            if (ex.getErrorCode() == Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
-                viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
-                DeviceInfo prevdeviceInfo = getDeviceInfo(companyID, retailStoreID, 
-                		deviceID, trainingMode);
-                String companyIdToSet = deviceInfoToSet.getCompanyId() != null ? 
-                		deviceInfoToSet.getCompanyId() : companyID;
-                String storeIdToSet = deviceInfoToSet.getRetailStoreId() != null ? 
-                		deviceInfoToSet.getRetailStoreId() : retailStoreID;
-                String deviceIdToSet = deviceInfoToSet.getDeviceId() != null ? 
-                		deviceInfoToSet.getDeviceId() : deviceID;
-                DeviceInfo deviceInfo = getDeviceInfo(companyID, storeIdToSet, 
-                		deviceIdToSet, trainingMode);
-                
-            	if ("Deleted".equalsIgnoreCase(deviceInfo.getStatus())) {
-            		closeConnectionObjects(connection, updateStatement);
-            		try {
-            			connection = dbManager.getConnection();
-					} catch (SQLException e) {
-						LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-								+ ": Failed to update device.", ex);
-					}
-            		setDeviceInfo(deviceInfoToSet, prevdeviceInfo);
-                    ResultBase activateResult = activateDevice(companyIdToSet, storeIdToSet, 
-                    		deviceIdToSet, connection);
-                    if (activateResult.getNCRWSSResultCode() == ResultBase.RES_OK) {
-                    	ViewDeviceInfo viewDeviceInfo = updateDevice(companyIdToSet, storeIdToSet, 
-                    			deviceIdToSet, deviceInfoToSet, trainingMode, connection);
-                        ResultBase deleteResult = deleteDevice(deviceID, retailStoreID, 
-                        		deviceInfoToSet.getUpdAppId(), deviceInfoToSet.getUpdOpeCode());
-                        if (deleteResult.getNCRWSSResultCode() == ResultBase.RES_OK) {
-                        	viewInfo.setDeviceInfo(viewDeviceInfo.getDeviceInfo());
-                            viewInfo.setNCRWSSResultCode(viewDeviceInfo.getNCRWSSResultCode());
-                        } else {
-                        	rollBack(connection, "updateDevice", null);
-                        }
-                    }
-                    closeConnectionObjects(connection, updateStatement);
-                }
-            } else {
-                throw new DaoException(ex);
-            }
-		} catch (Exception ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to update device.", ex);
-			throw new DaoException(ex);
-		} finally {
-			if (isNewConnection) {
-				closeConnectionObjects(connection, updateStatement, result);
-			} else {
-				closeConnectionObjects(null, updateStatement, result);
-			}
-			tp.methodExit(viewInfo);
-		}
-		return viewInfo;
-	}
-    
-	private void setDeviceInfo(final DeviceInfo deviceInfoToSet,
-			DeviceInfo prevdeviceInfo) {
-		if (deviceInfoToSet.getDeviceName() == null) {
-			deviceInfoToSet.setDeviceName(prevdeviceInfo.getDeviceName());
-		}
-		if (deviceInfoToSet.getLinkPOSTerminalId() == null) {
-			deviceInfoToSet.setLinkPOSTerminalId(prevdeviceInfo
-					.getLinkPOSTerminalId());
-		}
-		if (deviceInfoToSet.getLogAutoUpload() == null) {
-			deviceInfoToSet.setLogAutoUpload(prevdeviceInfo.getLogAutoUpload());
-		}
-		if (deviceInfoToSet.getLogSize() == null) {
-			deviceInfoToSet.setLogSize(prevdeviceInfo.getLogSize());
-		}
-		if (deviceInfoToSet.getPricingType() == null) {
-			deviceInfoToSet.setPricingType(prevdeviceInfo.getPricingType());
-		}
-		if (deviceInfoToSet.getPrinterId() == null) {
-			deviceInfoToSet.setPrinterId(prevdeviceInfo.getPrinterId());
-		}
-		if (deviceInfoToSet.getQueuebusterlink() == null) {
-			deviceInfoToSet.setQueuebusterlink(prevdeviceInfo
-					.getQueuebusterlink());
-		}
-		if (deviceInfoToSet.getSignaturelink() == null) {
-			deviceInfoToSet.setSignaturelink(prevdeviceInfo.getSignaturelink());
-		}
-		if (deviceInfoToSet.getAuthorizationlink() == null) {
-			deviceInfoToSet.setAuthorizationlink(prevdeviceInfo
-					.getAuthorizationlink());
-		}
-		if (deviceInfoToSet.getAuthorizationlink() == null) {
-			deviceInfoToSet.setAuthorizationlink(prevdeviceInfo
-					.getAuthorizationlink());
-		}
-		if (deviceInfoToSet.getTillId() == null) {
-			deviceInfoToSet.setTillId(prevdeviceInfo.getTillId());
-		}
-		if (deviceInfoToSet.getSaveLogFile() == null) {
-			deviceInfoToSet.setSaveLogFile(prevdeviceInfo.getSaveLogFile());
-		}		
-		if (deviceInfoToSet.getTxid() == null) {
-			deviceInfoToSet.setTxid(prevdeviceInfo.getTxid());
-		}
-		if (deviceInfoToSet.getSuspendtxid() == null) {
-			deviceInfoToSet.setSuspendtxid(prevdeviceInfo.getSuspendtxid());
-		}
-		if (deviceInfoToSet.getEjSequence() < 0) {
-			deviceInfoToSet.setEjSequence(prevdeviceInfo.getEjSequence());
-		}
-		
-	}
-    
-    private ResultBase activateDevice(final String companyID, final String retailStoreID,
-            final String deviceID, Connection connection) throws DaoException {
-        
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName)
-		        .println("companyid", companyID)
-		        .println("retailstoreid", retailStoreID)
-		        .println("deviceid", deviceID)
-		        .println("connection", connection);
-
-		PreparedStatement activateStatement = null;
-		ResultSet result = null;
-		ResultBase resultBase = new ResultBase();
-		try {
-			if (connection == null) {
-				connection = dbManager.getConnection();
-			}
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			activateStatement = connection.prepareStatement(sqlStatement
-					.getProperty("activate-deleted-deviceinfo"));
-			activateStatement.setString(SQLStatement.PARAM1, companyID);
-			activateStatement.setString(SQLStatement.PARAM2, retailStoreID);
-			activateStatement.setString(SQLStatement.PARAM3, deviceID);
-
-			result = activateStatement.executeQuery();
-			if (result.next()) {
-				resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-				resultBase.setMessage("Success");
-			} else {
-				resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-				resultBase.setMessage("The info with given storeid,"
-						+ " and terminalid does not exist");
-			}
-			connection.commit();
-			
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to activate device.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to activate device.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to activate device.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(null, activateStatement, result);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-
-    
-	public ViewPrinterInfo updatePrinterInfo(String storeID, String printerID,
-			PrinterInfo printerinfoToSet) throws Exception {
-    	
-		String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("printerid", printerID)
-        	.println("retailstoreid", storeID)
-            .println("printerinfo", printerinfoToSet.toString());
-        
-        Connection connection = null;
-        PreparedStatement updateStatement = null;
-        ResultSet result = null;
-        ViewPrinterInfo viewInfo = new ViewPrinterInfo();
-        PrinterInfo printerInfoToReturn = new PrinterInfo();
-        PrinterInfo oldPrinterInfo = null;
-        boolean isValidForUpdate = true;
-        String strPrinterIdToBeSaved = null;
-        String strStoreIdToBeSaved = null;
-        
-        //start update after determining if printer exists
-        try {         	
-        	connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-        	ResultBase oldPrinterStatus = this.checkPrinterIfExisting(storeID, printerID);
-        	
-        	if(oldPrinterStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND || oldPrinterStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){//not existing ||  existing but deleted
-        		viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
-        		isValidForUpdate = false;
-		    }else { 
-		    	ResultBase newPrinterStatus = this.checkPrinterIfExisting(printerinfoToSet.getRetailStoreId(), ""+printerinfoToSet.getPrinterId());
-		    	
-		    	//not the same storeid and printerid and is active
-		    	if( !(storeID.equalsIgnoreCase(printerinfoToSet.getRetailStoreId()) && printerID.equalsIgnoreCase(""+printerinfoToSet.getPrinterId()))
-		    			&& newPrinterStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_ACTIVE){
-		    		viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
-	        		isValidForUpdate = false;
-		    	}else if( !(storeID.equalsIgnoreCase(printerinfoToSet.getRetailStoreId()) && printerID.equalsIgnoreCase(""+printerinfoToSet.getPrinterId()))
-		    			&& newPrinterStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){
-		    		strPrinterIdToBeSaved = ""+printerinfoToSet.getPrinterId();
-		    		strStoreIdToBeSaved   = printerinfoToSet.getRetailStoreId();
-		    		oldPrinterInfo = this.getPrinterInfo(storeID, printerID);	
-		    		if(oldPrinterInfo != null){
-		    			printerinfoToSet = this.mergePrinterDetails(printerinfoToSet,oldPrinterInfo);
-		    		}		    		
-		    		//delete printer
-		    		ResultBase resultBaseDelete = this.deletePrinter(storeID, printerID, printerinfoToSet.getUpdAppId(), printerinfoToSet.getUpdOpeCode());
-		    		if(resultBaseDelete.getNCRWSSResultCode() != ResultBase.RESCREDL_OK){
-		    			viewInfo.setNCRWSSResultCode(resultBaseDelete.getNCRWSSResultCode());
-		    			isValidForUpdate = false;
-		    		}
-		    	}   	
-		    }        	
-        	if(isValidForUpdate){ 
-	            updateStatement = connection.prepareStatement(
-	                       sqlStatement.getProperty("update-printerinfo"));           
-	            updateStatement.setString(SQLStatement.PARAM1,
-	            		printerinfoToSet.getRetailStoreId());
-	            updateStatement.setString(SQLStatement.PARAM2, printerinfoToSet.getPrinterId());
-	            updateStatement.setString(SQLStatement.PARAM3, printerinfoToSet.getPrinterName());
-	            updateStatement.setString(SQLStatement.PARAM4, printerinfoToSet.getPrinterDescription());
-	            updateStatement.setString(SQLStatement.PARAM5, printerinfoToSet.getIpAddress());
-	            updateStatement.setString(SQLStatement.PARAM6, printerinfoToSet.getPortNumTcp());
-	            updateStatement.setString(SQLStatement.PARAM7, printerinfoToSet.getPortNumUdp());
-	            updateStatement.setString(SQLStatement.PARAM8, printerinfoToSet.getUpdAppId());
-	            updateStatement.setString(SQLStatement.PARAM9, printerinfoToSet.getUpdOpeCode());
-	            updateStatement.setString(SQLStatement.PARAM10, (strStoreIdToBeSaved != null)?strStoreIdToBeSaved:storeID);
-	            updateStatement.setString(SQLStatement.PARAM11, (strPrinterIdToBeSaved != null)?strPrinterIdToBeSaved:printerID);
-	           
-	            result = updateStatement.executeQuery();
-	
-	         if (result.next()) {
-	             printerInfoToReturn.setRetailStoreId(
-	                     result.getString(
-	                             result.findColumn("StoreId")).trim());
-	             printerInfoToReturn.setPrinterId(
-	                     result.getString(
-	                             result.findColumn("PrinterId")));
-	             printerInfoToReturn.setPrinterName(
-	                     result.getString(
-	                             result.findColumn("PrinterName")).trim());
-	             printerInfoToReturn.setPrinterDescription(
-	                     result.getString(
-	                             result.findColumn("Description")).trim());
-	             printerInfoToReturn.setIpAddress(
-	                     result.getString(
-	                             result.findColumn("IpAddress")).trim());
-	             printerInfoToReturn.setPortNumTcp(result.getString(
-	                     result.findColumn("PortNumTcp")).trim());
-	             printerInfoToReturn.setPortNumUdp(result.getString(
-	                     result.findColumn("PortNumUdp")).trim());
-	             viewInfo.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-	             viewInfo.setMessage("Success");
-	         } else {
-	             viewInfo.setNCRWSSResultCode(
-	                     ResultBase.RES_PRINTER_NO_UPDATE);
-	             viewInfo.setMessage("The info with given storeid,"
-	                     + " and printerid does not exist");
-	         }
-         }    
-         viewInfo.setPrinterInfo(printerInfoToReturn);
-         connection.commit();
-	
-        } catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to update printer info.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to update printer info.", ex);
-			if (ex.getErrorCode() == Math
-					.abs(SQLResultsConstants.ROW_DUPLICATE)) {
-				viewInfo = new ViewPrinterInfo(
-						ResultBase.RESDEVCTL_ALREADY_EXIST,
-						ResultBase.RES_ERROR_SQL, ex);
-			} else {
-				rollBack(connection, functionName, ex);
-				throw new DaoException(ex);
-			}
-		} catch (Exception ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to update printer info.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, updateStatement, result);
-			
-			tp.methodExit(viewInfo);
-		}
-		return viewInfo;
-	}
-
-    @Override
-	public final ResultBase createPrinterInfo(final String storeID,
-			final String printerID, final PrinterInfo printerInfo)
-			throws DaoException {
-		
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeID", storeID)
-				.println("printerID", printerID)
-				.println("printerInfo", printerInfo);
-
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement create = null;
-        
-        try {
-        	
-        	//check if valid for insertion
-        	ResultBase printerResultBaseStatus = this.checkPrinterIfExisting(storeID, printerID);
-        
-        	if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND || printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){// 1 = not existing; 2 = existing but deleted
-		        connection = dbManager.getConnection();
-		        SQLStatement sqlStatement = SQLStatement.getInstance();	       
-		        
-		        if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND){ //insert directly since not-existing	         
-		        	create = connection.prepareStatement(
-		                    sqlStatement.getProperty("insert-printerinfo"));
-		        }else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){//update deleted printer
-		        	create = connection.prepareStatement(
-		                    sqlStatement.getProperty("update-deleted-printerinfo"));	       
-		        }	              
-		            
-	            create.setString(SQLStatement.PARAM1, storeID);
-	            create.setString(SQLStatement.PARAM2, printerID);
-	            create.setString(SQLStatement.PARAM3, printerInfo.getPrinterName());
-	            create.setString(SQLStatement.PARAM4, printerInfo.getIpAddress());
-	            create.setString(SQLStatement.PARAM5, printerInfo.getPortNumTcp());
-	            create.setString(SQLStatement.PARAM6, printerInfo.getPortNumUdp());
-	            create.setString(SQLStatement.PARAM7,
-	                    printerInfo.getPrinterDescription());
-	            create.setString(SQLStatement.PARAM8, printerInfo.getUpdAppId());
-	            create.setString(SQLStatement.PARAM9, printerInfo.getUpdOpeCode());
-	            
-	            if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RESDEVCTL_NOPRINTERFOUND){
-	            	create.executeUpdate();	            	
-	            }else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_DELETED){            	
-	            	create.executeQuery();            	
-	            }  
-	            connection.commit();
-        	}else if(printerResultBaseStatus.getNCRWSSResultCode() == ResultBase.RES_PRINTER_IS_ACTIVE){//duplicate
-        		resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_ALREADY_EXIST);
-        	}
-     	} catch (SQLStatementException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to create printer.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to create printer.", ex);
-			if (ex.getErrorCode() != Math
-					.abs(SQLResultsConstants.ROW_DUPLICATE)) {
-				rollBack(connection, functionName, ex);
-				throw new DaoException(functionName, ex);
-			}
-			resultBase = new ResultBase(ResultBase.RESDEVCTL_ALREADY_EXIST,
-					ResultBase.RES_ERROR_SQL, ex);
-			tp.println("Duplicate Entry of Printer Information.");
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to create printer.", ex);
-			throw new DaoException(functionName, ex);
-		} finally {
-			closeConnectionObjects(connection, create);
-			
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
-	}
-
-    @Override
-	public final ResultBase setQueueBusterLink(final String storeid,
-			final String terminalid, final String queuebusterlink,
-			final String appId, final String opeCode) throws SQLException,
-			DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeID", storeid)
-				.println("queuebusterlink", queuebusterlink)
-				.println("terminalid", terminalid).println("updappid", appId)
-				.println("updopecode", opeCode);
-
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement setQueueBusterLink = null;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            setQueueBusterLink = connection.prepareStatement(
-                    sqlStatement.getProperty("set-queuebusterlink"));
-            setQueueBusterLink.setString(SQLStatement.PARAM1, queuebusterlink);
-            setQueueBusterLink.setString(SQLStatement.PARAM2, storeid);
-            setQueueBusterLink.setString(SQLStatement.PARAM3, terminalid);
-            setQueueBusterLink.setString(SQLStatement.PARAM4, appId);
-            setQueueBusterLink.setString(SQLStatement.PARAM5, opeCode);
-
-            int result = setQueueBusterLink.executeUpdate();
-            connection.commit();
-
-            if (result == 0) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-                tp.println("no device found");
-            }
-
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set queuebusterlink.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set queuebusterlink.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set queuebusterlink.", ex);
-			throw new DaoException(functionName, ex);
-		} finally {
-			closeConnectionObjects(connection, setQueueBusterLink);
-			
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
-	}
-    
-    /**
-     * Delete Printer Information.
-     * @param storeid   The Retail Store ID.
-     * @param printerid The Printer ID.
-     * @return  The Result Base.
-     * @throws DaoException The exception thrown when error occur.
-     */
-	@Override
-	public ResultBase deletePrinter(String storeid, String printerid,
-			String updAppId, String updOpeCode) throws DaoException {
-
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("StoreId", storeid)
-				.println("PrinterId", printerid).println("UpdAppId", updAppId)
-				.println("UpdOpeCode", updOpeCode);
-
-        ResultBase resultBase = new ResultBase();
-        int result = 0;
-        Connection connection = null;
-        PreparedStatement delete = null;
-
-        try { 
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();            
-            //check if printer is not Active
-        	ResultBase printerResultBaseStatus = this.checkPrinterIfExisting(storeid, printerid);
-        	if(printerResultBaseStatus.getNCRWSSResultCode() != ResultBase.RES_PRINTER_IS_ACTIVE){
-        		resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
-        	}else{
-	            delete = connection.prepareStatement(sqlStatement
-	                    .getProperty("delete-printerinfo"));
-	            delete.setString(SQLStatement.PARAM1, updAppId);
-	            delete.setString(SQLStatement.PARAM2, updOpeCode);
-	            delete.setString(SQLStatement.PARAM3, storeid);
-	            delete.setString(SQLStatement.PARAM4, printerid);
-	
-	            result = delete.executeUpdate();
-	            connection.commit();
-	
-	            if (result == SQLResultsConstants.ONE_ROW_AFFECTED) {
-	                resultBase.setNCRWSSResultCode(ResultBase.RES_OK);
-	                resultBase.setMessage("Success Delete of PrinterInfo.");
-	            }else{
-	            	resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_NOT_DELETED);
-	                resultBase.setMessage("Delete of PrinterInfo Failed.");	            	
-	            }
-        	}
-            	
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to delete printer.", ex);
-			throw new DaoException(ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to delete printer.", ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to delete printer.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, delete);
-			
-			tp.methodExit(resultBase);
-		}
-
-		return resultBase;
-	}
-	
-    @Override
-	public final ResultBase setSignatureLink(final String retailStoreID,
-			final String terminalID, final String signatureLink,
-			final String appId, final String opeCode) throws DaoException {
-        
-    	String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("RetailStoreID", retailStoreID)
-				.println("TerminalID", terminalID)
-				.println("SignatureLink", signatureLink)
-				.println("UpdAppId", appId).println("UpdOpeCode", opeCode);
-
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement setSignatureLink = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            setSignatureLink = connection.prepareStatement(
-                    sqlStatement.getProperty("set-signaturelink"));
-            setSignatureLink.setString(SQLStatement.PARAM1, signatureLink);
-            setSignatureLink.setString(SQLStatement.PARAM2, retailStoreID);
-            setSignatureLink.setString(SQLStatement.PARAM3, terminalID);
-            setSignatureLink.setString(SQLStatement.PARAM4, appId);
-            setSignatureLink.setString(SQLStatement.PARAM5, opeCode);
-
-            int result = setSignatureLink.executeUpdate();
-            connection.commit();
-
-            if (result == 0) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-                tp.println("No device found.");
-            }
-
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set signaturelink.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set signaturelink.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set signaturelink.", ex);
-			throw new DaoException(functionName, ex);
-		} finally {
-			closeConnectionObjects(connection, setSignatureLink);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-
-    @Override
-	public final ResultBase setAuthorizationLink(final String retailStoreID,
-			final String terminalID, final String authorizationLink,
-			final String appId, final String opeCode) throws DaoException {
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("RetailStoreID", retailStoreID)
-				.println("TerminalID", terminalID)
-				.println("AuthorizationLink", authorizationLink)
-				.println("UpdAppId", appId).println("UpdOpeCode", opeCode);
-        
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement setAuthorizationLink = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            setAuthorizationLink = connection.prepareStatement(
-                    sqlStatement.getProperty("set-authorizationlink"));
-            setAuthorizationLink.setString(SQLStatement.PARAM1,
-                    authorizationLink);
-            setAuthorizationLink.setString(SQLStatement.PARAM2, retailStoreID);
-            setAuthorizationLink.setString(SQLStatement.PARAM3, terminalID);
-            setAuthorizationLink.setString(SQLStatement.PARAM4, appId);
-            setAuthorizationLink.setString(SQLStatement.PARAM5, opeCode);
-
-            int result = setAuthorizationLink.executeUpdate();
-            connection.commit();
-
-            if (result == 0) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-                tp.println("No device found.");
-            }
-
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set authorizationlink.", ex);
-			throw new DaoException(functionName, ex);
-		} catch (SQLException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set authorizationlink.", ex);
-			throw new DaoException("SQLException: @" + functionName, ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set authorizationlink.", ex);
-			throw new DaoException("SQLException: @" + functionName, ex);
-		} finally {
-			closeConnectionObjects(connection, setAuthorizationLink);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-    
-    public final boolean updateLastTxidAtJournal(final Transaction transaction, 
+    public final boolean updateLastTxidAtJournal(final Transaction transaction,
     		final Connection connection, int trainingMode) throws DaoException {
         if (snap == null) {
             snap = (SnapLogger) SnapLogger.getInstance();
@@ -1535,16 +299,16 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     Thread.currentThread().getId(), getClass());
         }
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
+
 		boolean updated = this.updateLastTxidOfDeviceInfo(transaction.getOrganizationHierarchy().getId(),
 				transaction.getRetailStoreID(), transaction.getWorkStationID().getValue(),
-				transaction.getSequenceNo(), trainingMode, connection) == 
+				transaction.getSequenceNo(), trainingMode, connection) ==
 				SQLResultsConstants.ONE_ROW_AFFECTED;
-		
-		tp.methodExit(updated);        
+
+		tp.methodExit(updated);
         return updated;
     }
-    
+
 	public final boolean updateLastTxidAtCreditAuth(final String jsonStr)
 			throws DaoException {
 		if (snap == null) {
@@ -1554,10 +318,10 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
 					getClass());
 		}
-		
+
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("jsonStr", jsonStr);
-		
+
 		boolean updated = false;
 		Connection connection = null;
 		try {
@@ -1566,9 +330,9 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			updated = (this.updateLastTxidOfDeviceInfo(
 			        jsonObj.getString("companyid"),
 					jsonObj.getString("storeid"),
-					jsonObj.getString("terminalid"), 
+					jsonObj.getString("terminalid"),
 					jsonObj.getString("txid"),
-					jsonObj.getInt("trainingMode"),connection) == 
+					jsonObj.getInt("trainingMode"),connection) ==
 					SQLResultsConstants.ONE_ROW_AFFECTED);
 			connection.commit();
 		} catch (JSONException e) {
@@ -1596,25 +360,25 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return updated;
 	}
-    
-    public final boolean updateLastSuspendTxidAtQueueBuster(final PosLog 
+
+    public final boolean updateLastSuspendTxidAtQueueBuster(final PosLog
     		posLog, final Connection connection) throws DaoException {
         if (tp == null) {
             tp = DebugLogger.getDbgPrinter(
                     Thread.currentThread().getId(), getClass());
         }
         tp.methodEnter(DebugLogger.getCurrentMethodName());
-        
+
 		Transaction transaction = posLog.getTransaction();
 		boolean updated = this.updateLastSuspendTxidOfDeviceInfo(transaction.getOrganizationHierarchy().getId(),
 				transaction.getRetailStoreID(), transaction.getWorkStationID().getValue(),
-				transaction.getSequenceNo(), transaction.getTrainingModeFlag(), connection) == 
+				transaction.getSequenceNo(), transaction.getTrainingModeFlag(), connection) ==
 				SQLResultsConstants.ONE_ROW_AFFECTED;
-		
+
 		tp.methodExit(updated);
         return updated;
     }
-    
+
 	private final int updateLastTxidOfDeviceInfo(final String companyid, final String storeid,
 			final String deviceid, final String lasttxid, int trainingMode,
 			final Connection connection) throws DaoException {
@@ -1647,12 +411,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update last transaction number.", e);
 			throw new DaoException(e);
-	
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName
-							+ ": Failed to update last transaction number.", e);
-			throw new DaoException(e);
+
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update last transaction number.", e);
@@ -1663,7 +422,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return affectedRow;
 	}
-    
+
 	private final int updateLastSuspendTxidOfDeviceInfo(final String companyid, final String storeid,
 			final String deviceid, final String lasttxid, final String trainingFlag,
 			final Connection connection) throws DaoException {
@@ -1696,121 +455,35 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to update last suspend transaction number.", e);
 			throw new DaoException(e);
-	
-		} catch (SQLStatementException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName 
-					+ ": Failed to update last suspend transaction number.", e);
-			throw new DaoException(e);
+
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
 					+ ": Failed to update last suspend transaction number.", e);
 			throw new DaoException(e);
 		} finally {
 			closeConnectionObjects(null, updateTxidStmt);
-			
+
 			tp.methodExit(affectedRow);
 		}
 		return affectedRow;
 	}
-	
-	/**
-	 * Checks if printer is existing in DB using storeid and printerid
-	 * 
-	 * @param storeID
-	 * @param printerID
-	 * @return ResultBase with NCRWSSResultCode being set	
-	 * @throws DaoException
-	 */
-	public ResultBase checkPrinterIfExisting(final String storeID,
-			final String printerID) throws DaoException {
-		
-		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeID", storeID)
-				.println("printerID", printerID);
-       
-        String strStatus = null;
-        ResultBase resultBase = new ResultBase();
-        ResultSet resultSet = null;
-        Connection connection = null;
-        PreparedStatement check = null;
 
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            check = connection.prepareStatement(
-                    sqlStatement.getProperty("check-printer-if-existing"));
-            check.setString(SQLStatement.PARAM1, storeID);
-            check.setString(SQLStatement.PARAM2, printerID);           
-            resultSet = check.executeQuery();            
-           
-            if (resultSet.next()) {
-            	strStatus = resultSet.getString("Status");
-            	if(strStatus != null && "active".equalsIgnoreCase(strStatus)){
-            		resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_IS_ACTIVE);            		
-            	}else{
-        			resultBase.setNCRWSSResultCode(ResultBase.RES_PRINTER_IS_DELETED);
-        		} 
-            }else{//not existing
-            	resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOPRINTERFOUND);
-            }
-                        
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to check if printer is existing.",
-					ex);
-			throw new DaoException(ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to check if printer is existing.", ex);
-			throw new DaoException(ex);
-		} finally {
-			closeConnectionObjects(connection, check, resultSet);
-			
-			tp.methodExit(resultBase);
-		}
-		return resultBase;
-	}
-	 
-    
-    private PrinterInfo mergePrinterDetails(PrinterInfo newPrinterInfo, PrinterInfo oldPrinterInfo){
-    	if(newPrinterInfo.getRetailStoreId() == null){
-    		newPrinterInfo.setRetailStoreId(oldPrinterInfo.getRetailStoreId());
-    	}
-    	if(newPrinterInfo.getPrinterName() == null){
-    		newPrinterInfo.setPrinterName(oldPrinterInfo.getPrinterName());
-    	}
-    	if(newPrinterInfo.getPrinterDescription() == null){
-    		newPrinterInfo.setPrinterDescription(oldPrinterInfo.getPrinterDescription());
-    	}
-    	if(newPrinterInfo.getIpAddress() == null){
-    		newPrinterInfo.setIpAddress(oldPrinterInfo.getIpAddress());
-    	}
-    	if(newPrinterInfo.getPortNumTcp() == null){
-    		newPrinterInfo.setPortNumTcp(oldPrinterInfo.getPortNumTcp());
-    	}
-    	if(newPrinterInfo.getPortNumUdp() == null){
-    		newPrinterInfo.setPortNumUdp(oldPrinterInfo.getPortNumUdp());
-    	}
-    	return newPrinterInfo;
-    }
-    
     /*
      * (non-Javadoc)
      * @see ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO#getAllTills(java.lang.String, java.lang.String, int)
      */
-    public final List<Till> getAllTills(final String storeId, final String key, 
+    public final List<Till> getAllTills(final String storeId, final String key,
             final int limit) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("storeid", storeId)
                 .println("key", key).println("limit", limit);
-        
+
         List<Till> tillList = new ArrayList<>();
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
-        try {  
+
+        try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             select = connection.prepareStatement(
@@ -1819,12 +492,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     StringUtility.isNullOrEmpty(storeId) ? null : storeId);
             select.setString(SQLStatement.PARAM2,
                     StringUtility.isNullOrEmpty(key) ? null : key.trim() + "%");
-                   
+
             tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
             int searchLimit = (limit == 0) ? GlobalConstant
                     .getMaxSearchResults() : limit;
             select.setInt(SQLStatement.PARAM3, searchLimit);
-            
+
             result = select.executeQuery();
             while (result.next()) {
                 Till aTill = new Till();
@@ -1838,11 +511,6 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 
                 tillList.add(aTill);
             }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to retrieve tills.", ex);
-            throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to retrieve tills.", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to retrieve tills.", ex);
@@ -1854,80 +522,11 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to retrieve tills.", ex);
         } finally {
-            closeConnectionObjects(connection, select, result);     
+            closeConnectionObjects(connection, select, result);
             tp.methodExit(tillList);
         }
         return tillList;
     }
-    /*
-     * (non-Javadoc)
-     * @see ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO#setTillId(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
-    public final ResultBase setTillId(final String storeId, final String terminalId, 
-    		final String tillId, final String updAppId, final String updOpeCode) 
-    				throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("storeid", storeId)
-			.println("terminalid", terminalId)
-			.println("tillid", tillId)
-			.println("updAppId", updAppId)
-			.println("updOpeCode", updOpeCode);
-		
-		ResultBase resultBase = new ResultBase();
-		int result = 0;
-		Connection connection = null;
-		PreparedStatement update = null;
-		
-		try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            update = connection.prepareStatement(
-                    sqlStatement.getProperty("set-tillid"));
-            update.setString(SQLStatement.PARAM1, tillId);
-            update.setString(SQLStatement.PARAM2,updAppId);
-            update.setString(SQLStatement.PARAM3, updOpeCode);
-            update.setString(SQLStatement.PARAM4, storeId);           
-            update.setString(SQLStatement.PARAM5, terminalId);
-            
-            result = update.executeUpdate();
-            
-			if (SQLResultsConstants.ONE_ROW_AFFECTED == result) {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_OK);
-                resultBase.setMessage("Successfully set TillId.");
-                connection.commit();
-			} else if (SQLResultsConstants.ONE_ROW_AFFECTED < result) {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-                resultBase.setMessage("Affected row is greater than 1." + 
-                		" There should only be one unique StoreId and TerminalId of device.");
-                tp.println("Failed to set TillId.");
-            } else {
-                resultBase.setNCRWSSResultCode(ResultBase.RESDEVCTL_NOTFOUND);
-                resultBase.setMessage("No device data found for the given StoreId and TerminalId.");
-                tp.println("Unknown error occured in setting the"
-                        + "TillId.", result);
-            }
-		} catch (SQLStatementException ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to set TillId.", ex);
-			 throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-					+ "." + functionName + " - Failed to set TillId.", ex);
-		} catch (SQLException ex) {
-			rollBack(connection, functionName, ex);
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to set TillId.", ex);
-			throw new DaoException("SQLException: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to set TillId.", ex);
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
-					+ ": Failed to set TillId.", ex);
-			throw new DaoException("Exception: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to set TillId.", ex);
-		} finally {
-			closeConnectionObjects(connection, update);		
-			tp.methodExit(resultBase);
-		}     
-    	return resultBase;   	
-    }   
 
 	/**
 	 * Gets the Device Attribute.
@@ -1946,10 +545,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                 .println("terminalId", terminalId)
                 .println("companyId", companyId)
                 .println("training", training);
-
         ResultBase returnData = null;
-        SQLStatement sqlStatement;
-
         try (Connection con = dbManager.getConnection();
              PreparedStatement ps = con.prepareStatement(this.sqlStatement.getProperty("get-attribute-info"))) {
             ps.setString(SQLStatement.PARAM1, storeId);
@@ -2016,22 +612,22 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         tp.println("companyid", companyId)
             .println("storeid", storeId)
             .println("terminalId", terminalId);
-        
+
         DeviceAttribute deviceAttributeInfo = new DeviceAttribute();
         ResultSet resultSet = null;
         Connection connection = null;
         PreparedStatement select = null;
-        
-        try {  
+
+        try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            
+
             select = connection.prepareStatement(
                     sqlStatement.getProperty("get-device-attribute-info"));
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, storeId);
             select.setString(SQLStatement.PARAM3, terminalId);
-                               
+
             resultSet = select.executeQuery();
 
             if (resultSet.next()) {
@@ -2053,16 +649,11 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             	deviceAttributeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             	deviceAttributeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
             }else{
-            	
+
             	deviceAttributeInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	deviceAttributeInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
             	deviceAttributeInfo.setMessage(ResultBase.RES_NODATAFOUND_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to Get the Device attribute Info.", sqlStmtEx);
-            throw new DaoException("SQLStatementException: @SQLDeviceInfoDAO"
-                    + "." + functionName + " - Failed to  Get the Device attribute Info.", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to Get the Device attribute Info.", sqlEx);
@@ -2074,12 +665,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
             throw new DaoException("Exception: @SQLDeviceInfoDAO"
                     + "." + functionName + " - Failed to Get the Device attribute Info.", ex);
         } finally {
-            closeConnectionObjects(connection, select, resultSet);     
+            closeConnectionObjects(connection, select, resultSet);
             tp.methodExit(deviceAttributeInfo);
         }
         return deviceAttributeInfo;
     }
-    
+
     public final ViewTerminalInfo getTerminalInfo(String companyId, String storeId,
     		String terminalId) throws Exception {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -2087,12 +678,12 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
         tp.println("companyId", companyId)
         	.println("storeId", storeId)
         	.println("terminalId", terminalId);
-         
+
         ResultSet result = null;
         Connection connection = null;
         PreparedStatement statement = null;
     	ViewTerminalInfo viewTerminalInfo = new ViewTerminalInfo();
-    	
+
     	try {
     		connection = dbManager.getConnection();
     		SQLStatement sqlStatement = SQLStatement.getInstance();
@@ -2102,7 +693,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     		statement.setString(SQLStatement.PARAM2, storeId);
     		statement.setString(SQLStatement.PARAM3, terminalId);
     		result = statement.executeQuery();
-    		
+
     		if (result.next()) {
     			TerminalInfo terminalInfo = new TerminalInfo();
     			terminalInfo.setCompanyId(result.getString("CompanyId"));
@@ -2127,8 +718,11 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     			terminalInfo.setInshiFileName(result.getString("InshiFileName"));
     			terminalInfo.setSubCode1(result.getString("SubCode1"));
     			terminalInfo.setSubCode2(result.getString("SubCode2"));
+    			terminalInfo.setSubCode5(result.getString("SubCode5"));
     			terminalInfo.setNote(result.getString("Note"));
     			terminalInfo.setCompanyName(result.getString("CompanyName"));
+    			checkFloorIdExist(terminalInfo);
+
     			viewTerminalInfo.setTerminalInfo(terminalInfo);
     		} else {
     			viewTerminalInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
@@ -2136,7 +730,7 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     			tp.println("Terminal info not found.");
     		}
     	} catch (Exception e) {
-    		LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+    		LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
     				+ ": Failed to get terminal info.", e);
     		throw new Exception(e.getCause() + ": @SQLServerDeviceInfoDAO."
     				+ functionName, e);
@@ -2147,6 +741,49 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
     	return viewTerminalInfo;
     }
 
+    private TerminalInfo checkFloorIdExist(TerminalInfo terminalInfo) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("terminalInfo", terminalInfo);
+
+        ResultSet result = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("check-floorid-exist"));
+            statement.setString(SQLStatement.PARAM1, terminalInfo.getCompanyId());
+            statement.setString(SQLStatement.PARAM2, terminalInfo.getStoreId());
+            statement.setString(SQLStatement.PARAM3, terminalInfo.getFloorId());
+            statement.setString(SQLStatement.PARAM4, terminalInfo.getTerminalId());
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                terminalInfo.setSingleFloorId(0);
+            } else {
+                terminalInfo.setSingleFloorId(1);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+                    "Failed to check the FloorId.\n" + sqlEx.getMessage());
+            throw new DaoException("SQLException: @checkFloorIdExist ", sqlEx);
+        } catch (NumberFormatException nuEx) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+                    "Failed to check the FloorId.\n" + nuEx.getMessage());
+            throw new DaoException("NumberFormatException: @checkFloorIdExist ", nuEx);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "Failed to check the FloorId.\n" + e.getMessage());
+            throw new DaoException("Exception: @checkFloorIdExist ", e);
+        } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(terminalInfo);
+        }
+        return terminalInfo;
+    }
 	/**
 	 * getPosCtrlOpenCloseStatus
 	 * @param companyId
@@ -2247,5 +884,55 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
 		}
 		return terminals;
 	}
+	
+	/**
+     * Get indicatorInfo from PRM_DEVICE_INDICATOR
+     * @param attributeid
+     * @return Indicators
+     * @throws DaoException - holds the exception that was thrown
+     */
+    @Override
+    public Indicators getDeviceIndicators(String attributeid) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter("getDeviceIndicators");
+        tp.methodEnter(functionName).println("attributeid", attributeid);;
+
+        Connection connection = null;
+        PreparedStatement selectStmt = null;
+        ResultSet resultSet = null;
+        List<IndicatorInfo> indicatorInfoList = new ArrayList<>();
+        Indicators indicators = new Indicators();
+        try {
+            connection = dbManager.getConnection();
+            selectStmt = connection.prepareStatement(sqlStatement.getProperty("get-device-indicators"));
+            selectStmt.setString(SQLStatement.PARAM1, attributeid);
+            
+            resultSet = selectStmt.executeQuery();
+            while(resultSet.next()) {
+                IndicatorInfo indicatorInfo = new IndicatorInfo();
+                indicatorInfo.setDisplayName(resultSet.getString("DisplayName"));
+                indicatorInfo.setCheckInterval(resultSet.getInt("CheckInterval"));
+                indicatorInfo.setNormalValue(resultSet.getString("NormalValue"));
+                indicatorInfo.setRequest(resultSet.getString("Request"));
+                indicatorInfo.setRequestType(resultSet.getString("RequestType"));
+                indicatorInfo.setReturnKey(resultSet.getString("ReturnKey"));
+                indicatorInfo.setUrl(resultSet.getString("URL"));
+                indicatorInfo.setDisplayOrder(resultSet.getInt("DisplayOrder"));
+                
+                indicatorInfoList.add(indicatorInfo);
+            }
+        } catch (SQLException sqle) {
+            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL, sqle.getMessage());
+            if (sqle.getErrorCode() != SQL_ERROR_TABLE_NOT_FOUND){
+                throw new DaoException("SQLException is thrown", sqle);
+            }
+        } finally {
+            closeConnectionObjects(connection, selectStmt, resultSet);
+            tp.methodExit(indicators);
+        }
+        indicators.setIndicatorsList(indicatorInfoList);
+        
+        return indicators;
+    }
 
 }

@@ -10,23 +10,21 @@
 
 package ncr.res.mobilepos.journalization.helper;
 
-import javax.xml.bind.JAXBException;
+import java.text.ParseException;
 
-import ncr.realgate.util.Snap;
+import javax.naming.NamingException;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.JournalizationException;
+import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.POSLogHandler;
-import ncr.res.mobilepos.helper.SnapLogger;
-import ncr.res.mobilepos.helper.XmlSerializer;
 import ncr.res.mobilepos.journalization.constants.PosLogRespConstants;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.model.ResultBase;
 
 
 /**
@@ -54,8 +52,9 @@ public class PosLogLogger {
      * @throws Exception        Thrown when logging transaction
      *                               exception occurred
      */
-    public final PosLogResp log(final PosLog posLog, final String posLogXml, final int trainingMode) 
-    		throws Exception {
+    public final PosLogResp log(final PosLog posLog, final String posLogXml, final int trainingMode)
+            throws DaoException, JournalizationException, TillException, SQLStatementException,
+                    ParseException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
         
         PosLogResp posLogresp = null;

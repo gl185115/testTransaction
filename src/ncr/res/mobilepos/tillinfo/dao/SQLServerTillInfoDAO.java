@@ -4,10 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import ncr.realgate.util.Trace;
@@ -16,11 +13,9 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.tillinfo.model.Till;
@@ -53,7 +48,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     private static final String SOD_FLAG_PROCESSING= "9";
 
     private static final String SOD_FLAG_FINISHED = "1";
-    
+
     private static final String SOD_STATE_ALLOW = "1";
 
     private static final String SOD_STATE_FINISHED = "2";
@@ -61,26 +56,20 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     private static final String SOD_STATE_OTHER_PROCESSING = "3";
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
     public SQLServerTillInfoDAO() throws DaoException {
         this.dbManager = JndiDBManagerMSSqlServer.getInstance();
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
-        try {
-            // Gets Singleton reference from the factory.
-            this.sqlStatement = SQLStatement.getInstance();
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, "SQLServerTillInfoDAO.SQLServerTillInfoDAO",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to instantiate SQLStatement:" + e.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerTillInfoDAO.SQLServerTillInfoDAO", e);
-        }
+        // Gets Singleton reference from the factory.
+        this.sqlStatement = SQLStatement.getInstance();
     }
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
@@ -126,6 +115,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                 till.setTillId(result.getString("TillId"));
                 till.setTerminalId(result.getString("TerminalId"));
                 till.setBusinessDayDate(result.getString("BusinessDayDate"));
+                till.setSaveBusinessDayDate(result.getString("SaveBusinessDayDate"));
                 till.setSodFlag(result.getString("SodFlag"));
                 till.setEodFlag(result.getString("EodFlag"));
                 // Ignores the rest of columns.
@@ -149,7 +139,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 
     /*
      * view till details.
-     * 
+     *
      * @see ncr.res.mobilepos.store.dao.ITillInfoDAO#viewTill(java.lang.String)
      */
     @Override
@@ -179,21 +169,21 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 
             select.setString(SQLStatement.PARAM1, storeID);
             select.setString(SQLStatement.PARAM2, tillID);
-            
+
             result = select.executeQuery();
 
             if (result.next()) {
-                
+
                 till.setStoreId(result.getString("StoreId"));
                 till.setTillId(result.getString("TillId"));
                 till.setBusinessDayDate(result.getString("BusinessDayDate"));
                 till.setSodFlag(result.getString("SodFlag"));
-                till.setEodFlag(result.getString("EodFlag"));                
-                               
+                till.setEodFlag(result.getString("EodFlag"));
+
             } else {
                 till.setStoreId(storeID);
                 till.setTillId(tillID);
-                
+
                 viewTill.setNCRWSSResultCode(ResultBase.RES_TILL_NOT_EXIST);
                 tp.println("Till not found.");
             }
@@ -208,12 +198,6 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerTillInfoDAO"
                     + ".viewTill - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View Till#"
-                            + storeID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".viewTill - Error view till", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     PROG_NAME,
@@ -225,16 +209,16 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                     + ".viewTill - Error view till", ex);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(till);
         }
-        
+
         viewTill.setTill(till);
         return viewTill;
     }
     /*
      * create till info.
-     * 
+     *
      * @see ncr.res.mobilepos.store.dao.ITillInfoDAO#createTill(java.lang.String)
      */
 	@Override
@@ -245,17 +229,17 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
         tp.println("storeId", storeId);
         tp.println("tillId", tillId);
         tp.println("till", till);
-        
+
         Connection connection = null;
         PreparedStatement insert = null;
-        ResultBase res = new ResultBase();     
+        ResultBase res = new ResultBase();
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
 
             insert = connection.prepareStatement(sqlStatement
                     .getProperty("create-till-info"));
-            
+
             insert.setString(SQLStatement.PARAM1, storeId);
             insert.setString(SQLStatement.PARAM2, tillId);
             insert.setString(SQLStatement.PARAM3, till.getBusinessDayDate());
@@ -281,13 +265,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             	throw new DaoException("SQLException:"
                         + "@SQLServerTillInfoDAO.createTill ", e);
             }
-                      
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to add Till\n " + e.getMessage());
-            rollBack(connection, "SQLServerTillInfoDAO: @createTill ", e);
-            throw new DaoException("SQLServerTillInfoDAO: @createTill ", e);
+
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to add Store\n " + e.getMessage());
@@ -296,115 +274,11 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                     + "@SQLServerTillInfoDAO.createTill ", e);
         } finally {
             closeConnectionObjects(connection, insert);
-            
+
             tp.methodExit(res);
         }
         return res;
 	}
-	
-    /*
-     * update till info.
-     * 
-     * @see ncr.res.mobilepos.store.dao.ITillInfoDAO#updateTill(java.lang.String)
-     */
-    @Override
-	public final ViewTill updateTill(String storeId, String tillId, Till till) 
-			throws DaoException {
-        String functionName = "SQLServerStoreDAO.updateTill";
-
-        tp.methodEnter("updateTill");
-        tp.println("StoreId", storeId);
-
-        Connection conn = null;
-        PreparedStatement updateTillStmnt = null;
-        ResultSet result = null;
-		Till newTill = null;
-        ViewTill viewTill = new ViewTill();
-        boolean hasErrorOccur = false;
-        try {
-
-			SQLStatement sqlStatement = SQLStatement.getInstance();
-			conn = dbManager.getConnection();
-			updateTillStmnt = conn.prepareStatement(sqlStatement.getProperty("select-till-updlock"));
-			updateTillStmnt.setString(SQLStatement.PARAM1,
-					storeId);
-			updateTillStmnt.setString(SQLStatement.PARAM2,
-					tillId);
-			updateTillStmnt.setString(SQLStatement.PARAM3,
-					till.getBusinessDayDate());
-			updateTillStmnt.setString(SQLStatement.PARAM4,
-					till.getSodFlag());
-			updateTillStmnt.setString(SQLStatement.PARAM5,
-					till.getEodFlag());
-
-			result = updateTillStmnt.executeQuery();
-			
-			newTill = new Till();
-			if(result.next()){
-				newTill.setStoreId(result.getString("StoreId"));
-				newTill.setTillId(result.getString("TillId"));
-				newTill.setBusinessDayDate(result.getString("BusinessDayDate"));
-				newTill.setSodFlag(result.getString("SodFlag"));
-				newTill.setEodFlag(result.getString("EodFlag"));
-				
-				if(newTill.getSodFlag().equalsIgnoreCase(SOD_FLAG_PROCESSING)){
-					newTill.setState(SOD_STATE_ALLOW);
-				}				
-				
-				if(newTill.getSodFlag().equalsIgnoreCase(SOD_FLAG_FINISHED)){
-					newTill.setState(SOD_STATE_FINISHED);
-				}
-				
-				
-			}else {
-				viewTill
-						.setNCRWSSResultCode(ResultBase.RES_TILL_NO_UPDATE);
-				
-				newTill.setState(SOD_STATE_OTHER_PROCESSING);
-				tp.println("Till update was not successful. "
-						+ "Other tablet is in the SOD processing");
-			}
-			conn.commit();
-			
-        } catch (SQLException ex) {
-            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to Update Till with TillID#" + tillId + " : "
-                            + ex.getMessage());
-            
-        } catch (SQLStatementException ex) {
-            rollBack(conn, functionName, ex);
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Update Store with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + " - Error update store", ex);
-        } catch (Exception ex) {
-            rollBack(conn, functionName, ex);
-            
-            LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to Update Stores with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            throw new DaoException("Exception: @" + functionName
-                    + " - Error update store", ex);
-        } finally {
-            hasErrorOccur = closeConnectionObjects(conn,
-            		updateTillStmnt, result);            
-        }
-        
-        if (hasErrorOccur) {
-            LOGGER.logAlert(PROG_NAME, functionName,
-                    Logger.RES_EXCEP_GENERAL, "@" + functionName
-                            + " - Error Closing object");
-            tp.methodExit(newTill);
-            throw new DaoException("SQLException:@" + functionName
-                    + " - Error Closing object");
-        }
-        
-        tp.methodExit(newTill);       
-        viewTill.setTill(newTill);
-        return viewTill;
-    }
 
     /**
      * Updates specific fields of Till when daily operations are triggered, SOD or EOD.
@@ -435,14 +309,15 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             updateTill.setInt(SQLStatement.PARAM2, updatingTill.getSodFlagAsShort());
             updateTill.setInt(SQLStatement.PARAM3, updatingTill.getEodFlagAsShort());
             updateTill.setString(SQLStatement.PARAM4, updatingTill.getBusinessDayDate());
-            updateTill.setString(SQLStatement.PARAM5, updatingTill.getUpdAppId());
-            updateTill.setString(SQLStatement.PARAM6, updatingTill.getUpdOpeCode());
+            updateTill.setString(SQLStatement.PARAM5, updatingTill.getSaveBusinessDayDate());
+            updateTill.setString(SQLStatement.PARAM6, updatingTill.getUpdAppId());
+            updateTill.setString(SQLStatement.PARAM7, updatingTill.getUpdOpeCode());
             // Where
-            updateTill.setString(SQLStatement.PARAM7, currentTill.getCompanyId());
-            updateTill.setString(SQLStatement.PARAM8, currentTill.getStoreId());
-            updateTill.setString(SQLStatement.PARAM9, currentTill.getTillId());
-            updateTill.setInt(SQLStatement.PARAM10, currentTill.getSodFlagAsShort());
-            updateTill.setInt(SQLStatement.PARAM11, currentTill.getEodFlagAsShort());
+            updateTill.setString(SQLStatement.PARAM8, currentTill.getCompanyId());
+            updateTill.setString(SQLStatement.PARAM9, currentTill.getStoreId());
+            updateTill.setString(SQLStatement.PARAM10, currentTill.getTillId());
+            updateTill.setInt(SQLStatement.PARAM11, currentTill.getSodFlagAsShort());
+            updateTill.setInt(SQLStatement.PARAM12, currentTill.getEodFlagAsShort());
 
             int updateCount = updateTill.executeUpdate();
             if(updateCount == 0) {
@@ -472,18 +347,18 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
     @Override
     public void updateTillOnJourn(Connection connection,Till currentTill, Till updatingTill, boolean isEnterprise)
     		throws DaoException, TillException {
-    	String functionName = DebugLogger.getCurrentMethodName();            
+    	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("updateTillOnJourn");
         tp.println("Updating till", updatingTill);
         tp.println("oldSodFlag", currentTill.getSodFlag());
         tp.println("oldEodFlag", currentTill.getEodFlag());
-        
+
         PreparedStatement updateTill = null;
-        ResultSet result = null; 
+        ResultSet result = null;
 
         try {
             String stringSqlStatement = isEnterprise ? "update-till-on-journ-updlock-ent" : "update-till-on-journ-updlock";
-            
+
             updateTill = connection.prepareStatement(
                     this.sqlStatement.getProperty(stringSqlStatement));
             updateTill.setString(SQLStatement.PARAM1, currentTill.getStoreId());
@@ -496,10 +371,10 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             updateTill.setString(SQLStatement.PARAM8, updatingTill.getUpdOpeCode());
             updateTill.setString(SQLStatement.PARAM9, currentTill.getCompanyId());
 
-            result = updateTill.executeQuery();     
+            result = updateTill.executeQuery();
             if(!result.next()) {
                 //Concurrent access scenario. Failed to update till.
-                throw new TillException("TillException: @SQLServerTillInfoDAO." + functionName + 
+                throw new TillException("TillException: @SQLServerTillInfoDAO." + functionName +
                         " Failed to update till. Other terminal is processing the current till.",
                         ResultBase.RES_TILL_NO_UPDATE);
             }
@@ -513,47 +388,47 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
         } catch (TillException ex) {
         	LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName
                     + ": Failed to update till. Other terminal is processing the current till.", ex);
-        	throw new TillException("TillException: @SQLServerTillInfoDAO." + functionName, ex, 
+        	throw new TillException("TillException: @SQLServerTillInfoDAO." + functionName, ex,
         			ex.getErrorCode());
         } finally {
             //rollback functionlity will work on same connection. it's neccessary not to close it until
             //saving of poslog is done.
-            closeConnectionObjects(null, updateTill, result);         
+            closeConnectionObjects(null, updateTill, result);
             tp.methodExit();
-        }   	
+        }
     }
-    
+
     @Override
-    public ResultBase searchLogonUsers(String companyId, String storeId, String tillId, 
+    public ResultBase searchLogonUsers(String companyId, String storeId, String tillId,
     		String terminalId) throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();            
+    	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)
         	.println("storeId", storeId)
         	.println("tillId", tillId)
         	.println("terminalId", terminalId);
-        
+
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet result = null;
         ResultBase resultBase = new ResultBase();
-        
+
         try {
         	connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
             statement = connection.prepareStatement(
                     sqlStatement.getProperty("search-logon-users"));
-            
+
             statement.setString(SQLStatement.PARAM1, companyId);
             statement.setString(SQLStatement.PARAM2, storeId);
             statement.setString(SQLStatement.PARAM3, tillId);
             statement.setString(SQLStatement.PARAM4, terminalId);
-            
+
             result = statement.executeQuery();
-            
+
             if (result.next()) {
                 resultBase.setNCRWSSResultCode(
-                		ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON);             
+                		ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON);
                 resultBase.setMessage("Other users connected to till are "
                 		+ "still signed on.");
                 tp.println("Other users connected to till are still "
@@ -564,26 +439,21 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
                     + ": Failed to search for logon users.", e);
             throw new DaoException("SQLException: @SQLServerTillInfoDAO."
             		+ functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to search for logon users.", e);
-            throw new DaoException("SQLStatementException: "
-            		+ "@SQLServerTillInfoDAO." + functionName, e);
         } finally {
         	closeConnectionObjects(connection, statement, result);
         	tp.methodExit(resultBase);
         }
-        
+
     	return resultBase;
     }
-    
+
     /*
      * get till information.
-     * 
+     *
      * @see ncr.res.mobilepos.store.dao.ITillInfoDAO#getTillInfoList(java.lang.String)
      */
     @Override
-	public  List<Till> getTillInformation(String storeId) 
+	public  List<Till> getTillInformation(String storeId)
 			throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
 
@@ -594,7 +464,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
         List<Till> tillInfoList = null;
-        
+
         try {
 
         	connection = dbManager.getConnection();
@@ -602,7 +472,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
             selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-till-information-list"));
             selectStmnt.setString(SQLStatement.PARAM1,storeId);
 			result = selectStmnt.executeQuery();
-			
+
 			while(result.next()){
 				if(tillInfoList == null){
 					tillInfoList = new ArrayList<Till>();
@@ -616,12 +486,7 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
 				till.setEodFlag(result.getString("EodFlag"));
 				tillInfoList.add(till);
 			}
-			
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get till infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerTillInfoDAO.getTillInformation", sqlStmtEx);
+
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get till infomation.", sqlEx);
@@ -638,5 +503,175 @@ public class SQLServerTillInfoDAO  extends AbstractDao implements ITillInfoDAO{
         }
         return tillInfoList;
     }
-    
+
+    /**
+     * Populates a list of Tills from ResultSet
+     * @param resultSet
+     * @return List of Tills
+     */
+	protected List<Till> populateResultTillList(ResultSet resultSet) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		List<Till> resultList = new ArrayList<Till>();
+		try {
+			while(resultSet.next()){
+				Till till = new Till();
+				till.setCompanyId(resultSet.getString("CompanyId"));
+				till.setStoreId(resultSet.getString("StoreId"));
+				till.setTillId(resultSet.getString("TillId"));
+				till.setTerminalId(resultSet.getString("TerminalId"));
+				till.setDeviceName(resultSet.getString("DeviceName"));
+				till.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
+				till.setSodFlag(resultSet.getString("SodFlag"));
+				till.setEodFlag(resultSet.getString("EodFlag"));
+				
+				if ("0".equals(till.getEodFlag())) {
+					till.setEodSummary("0");
+				} else {
+					getEodSummary(till);
+				}
+				resultList.add(till);
+			}
+		} catch (SQLException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+					+ ": Failed to get populateResultTillList infomation.", e);
+			throw new DaoException("SQLException:"
+					+ " @SQLServerTillInfoDAO.populateResultTillList", e);
+		}
+		return resultList;
+	}
+	
+	/**
+	 * Get EodSummary from TXL_SALES_JOURNAL
+	 * @param till
+	 * @return Till
+	 */
+	private void getEodSummary(Till till) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+
+		tp.methodEnter(functionName);
+		tp.println("Till", till);
+
+		Connection connection = null;
+		PreparedStatement selectStmnt = null;
+		ResultSet result = null;
+
+		try {
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-eodsummary"));
+			selectStmnt.setString(SQLStatement.PARAM1,till.getCompanyId());
+			selectStmnt.setString(SQLStatement.PARAM2,till.getStoreId());
+			selectStmnt.setString(SQLStatement.PARAM3,till.getTerminalId());
+			selectStmnt.setString(SQLStatement.PARAM4,till.getBusinessDayDate());
+			result = selectStmnt.executeQuery();
+
+			while(result.next()){
+				till.setEodSummary(result.getString("Status"));
+			}
+
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+					+ ": Failed to get eodsummary infomation.", sqlEx);
+			throw new DaoException("SQLException:"
+					+ " @SQLServerTillInfoDAO.getEodSummary", sqlEx);
+		} catch (Exception ex) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+					+ ": Failed to get eodsummary infomation.", ex);
+			throw new DaoException("Exception:"
+					+ " @SQLServerTillInfoDAO.getEodSummary", ex);
+		} finally {
+			closeConnectionObjects(connection, selectStmnt, result);
+			tp.methodExit(till);
+		}
+	}
+
+    /**
+     * Populates PreparedStatement with given SQL name.
+     * @param connection DB-connection
+     * @param sqlName SQL name in sql_statement.xml.
+     * @param companyId
+     * @param storeId
+     * @param businessDate with yyyy-MM-dd format.
+     * @param trainingFlag
+     * @return
+     * @throws SQLException
+     */
+    protected PreparedStatement prepareStatementTillsOnBusinessDay(
+                                                            Connection connection,
+                                                            String sqlName,
+                                                            String companyId,
+                                                            String storeId,
+                                                            String businessDate,
+                                                            int trainingFlag) throws SQLException {
+        // Creates PreparedStatement from SQL name.
+        PreparedStatement statement = connection.prepareStatement(sqlStatement.getProperty(sqlName));
+        statement.setInt(SQLStatement.PARAM1, trainingFlag);
+        statement.setString(SQLStatement.PARAM2, companyId);
+        statement.setString(SQLStatement.PARAM3, storeId);
+        statement.setString(SQLStatement.PARAM4, businessDate);
+        return statement;
+    }
+
+    /**
+     * Returns activated (done SOD) tills on the given business day regardless it is still open or closed.
+     * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#getActivatedTillsOnBusinessDay(String, String, String, int)
+     */
+    @Override
+    public  List<Till> getActivatedTillsOnBusinessDay(String companyId, String storeId, String businessDate, int trainingFlag)
+            throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("CompanyId", companyId);
+        tp.println("StoreId", storeId);
+        tp.println("BusinessDate", businessDate);
+
+        List<Till> tillInfoList = null;
+        try(Connection connection = dbManager.getConnection();
+            PreparedStatement statement = prepareStatementTillsOnBusinessDay(connection,
+                    "get-activated-tills-on-businessday", companyId, storeId, businessDate, trainingFlag);
+            ResultSet result = statement.executeQuery()){
+            tillInfoList = populateResultTillList(result);
+        } catch (SQLException sqlEx) {
+            // From SQLException to DaoException.
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to get till infomation.", sqlEx);
+            throw new DaoException("SQLException:"
+                    + " @SQLServerTillInfoDAO.getTillInformation", sqlEx);
+        } finally {
+            tp.methodExit(tillInfoList);
+        }
+        return tillInfoList;
+    }
+
+    /*
+     * Select unclosed (before EOD) tills on a given businessDate.
+     * @see ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO#getUnclosedTillsOnBusinessDay(String, String, String, int)
+     */
+    @Override
+    public List<Till> getUnclosedTillsOnBusinessDay(String companyId, String storeId, String businessDate, int trainingFlag)
+            throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("CompanyId", companyId);
+        tp.println("StoreId", storeId);
+        tp.println("BusinessDate", businessDate);
+
+        List<Till> tillInfoList = null;
+        try(Connection connection = dbManager.getConnection();
+            PreparedStatement statement = prepareStatementTillsOnBusinessDay(connection,
+                    "get-unclosed-tills-on-businessday", companyId, storeId, businessDate, trainingFlag);
+            ResultSet result = statement.executeQuery()){
+            tillInfoList = populateResultTillList(result);
+        } catch (SQLException sqlEx) {
+            // From SQLException to DaoException.
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
+                    + ": Failed to get till infomation.", sqlEx);
+            throw new DaoException("SQLException:"
+                    + " @SQLServerTillInfoDAO.getTillInformation", sqlEx);
+        } finally {
+            tp.methodExit(tillInfoList);
+        }
+        return tillInfoList;
+    }
+
 }

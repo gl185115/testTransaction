@@ -1,0 +1,28 @@
+Scenario: test PriceMMInfo.
+Given a loaded dataset test/ncr/res/mobilepos/pricing/pricemminfo/test/data_PriceMM.xml
+
+Scenario: COMPANYID exist but STOREID not exist.
+When the tomcat startUp with companyId 01 and storeId null
+Then the Result Code is 2
+
+Scenario: STOREID exist but COMPANYID not exist.
+When the tomcat startUp with companyId null and storeId 0001
+Then the Result Code is 2
+
+Scenario: Business date is not set.
+When the tomcat startUp with companyId 02 and storeId 0002
+Then the Result Code is 2
+
+Scenario: can't find rigth info because deleteFlag is 1.
+When the tomcat startUp with companyId 03 and storeId 0003
+Then the Result Code is 0
+Then the emptyResult is []
+
+Scenario: get the right info.
+When the tomcat startUp with companyId 01 and storeId 0001
+Then the Result Code is 0
+Then I should get the PricePromInfo :
+|MMNo|ConditionCount1|ConditionCount2|ConditionCount3  |ConditionPrice1  |ConditionPrice2|ConditionPrice3|DecisionPrice1|DecisionPrice2|DecisionPrice3|AveragePrice1|AveragePrice2|AveragePrice3|Note |Sku     |
+|1   |1              |2              |3                |100.0            |100.0          |100.0          |200.0         |200.0         |200.0         |150.0        |150.0        |150.0        |‘S“X11|11000001|
+|1   |1              |2              |3                |100.0            |100.0          |100.0          |200.0         |200.0         |200.0         |150.0        |150.0        |150.0        |‘S“X11|11000002|
+|1   |1              |2              |3                |100.0            |100.0          |100.0          |200.0         |200.0         |200.0         |150.0        |150.0        |150.0        |‘S“X11|1110000*|

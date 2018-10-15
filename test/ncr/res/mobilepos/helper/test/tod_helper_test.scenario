@@ -1,4 +1,0 @@
-Scenario: Perform TodHelperTest
-Given url {http://127.0.0.1:9153/test}
-When asked tod to {9153} and got {2015-08-26T12:01:51.3533339+09:00}
-Then param should be {2015-08-26} and {12:01:51}

@@ -45,8 +45,15 @@ public class ForwardListInfo {
     @XmlElement(name = "SalesTotalAmt")
     private String SalesTotalAmt;
 
+    @XmlElement(name = "SalesTotalQty")
+    private String SalesTotalQty;
+
     @XmlElement(name = "Status")
     private String Status;
+
+    @XmlElement(name = "Tag")
+    private String Tag;
+
     @ApiModelProperty(value="会社コード", notes="会社コード")
     public String getCompanyId() {
         return CompanyId;
@@ -135,6 +142,14 @@ public class ForwardListInfo {
     public void setSalesTotalAmt(String salesTotalAmt) {
         SalesTotalAmt = salesTotalAmt;
     }
+    @ApiModelProperty(value="取引合計点数", notes="取引合計点数")
+    public String getSalesTotalQty() {
+        return SalesTotalQty;
+    }
+
+    public void setSalesTotalQty(String salesTotalQty) {
+        SalesTotalQty = salesTotalQty;
+    }
     @ApiModelProperty(value="取引状態", notes="取引状態")
     public String getStatus() {
         return Status;
@@ -142,6 +157,14 @@ public class ForwardListInfo {
 
     public void setStatus(String status) {
         Status = status;
+    }
+    @ApiModelProperty(value="TAG番号", notes="TAG番号")
+    public String getTag() {
+        return Tag;
+    }
+
+    public void setTag(String tag) {
+    	Tag = tag;
     }
 
     @Override
@@ -161,7 +184,8 @@ public class ForwardListInfo {
                 .append("Status: ").append(this.Status).append(crlf)
                 .append("OperatorId: ").append(this.OperatorId).append(crlf)
                 .append("OperatorName: ").append(this.OperatorName).append(crlf)
-                .append("SalesTotalAmt: ").append(this.SalesTotalAmt);
+                .append("SalesTotalAmt: ").append(this.SalesTotalAmt)
+                .append("Tag: ").append(this.Tag);
 
         return sb.toString();
     }

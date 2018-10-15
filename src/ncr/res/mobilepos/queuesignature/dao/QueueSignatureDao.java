@@ -136,12 +136,6 @@ extends AbstractDao implements IQueueSignatureDao {
             }
 
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to add Signature Request: error in SQLStatement :"
-                    + ex.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @QueueSignature.queueSignature", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to add Signature Request: error in SQLException :"
@@ -189,13 +183,6 @@ extends AbstractDao implements IQueueSignatureDao {
                trans.setTotal(rs.getDouble("Amount"));
                transactions.add(trans);
            }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get Signature Request List:"
-                    + " error in SQLStatement :" + ex.getMessage());
-            throw new DaoException("SQLStatementException:"
-                    + " @QueueSignature.getPendingSignatureRequests", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get Signature Request List:"
@@ -356,13 +343,6 @@ extends AbstractDao implements IQueueSignatureDao {
                result.setStatus(TRANSACTION_PROCESSED);
                tp.println("Transaction is in Processed state.");
            }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get Signature Request List:"
-                    + " error in SQLStatement :" + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + "QueueSignature.getSignatureRequest", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get Signature Request List:"
@@ -426,13 +406,6 @@ extends AbstractDao implements IQueueSignatureDao {
                 tp.println("Signature Request was not updated.");
             }
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to update Signature Request:"
-                    + " error in SQLStatement :" + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + "QueueSignature.updateSignatureRequest", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to update Signature Request:"

@@ -43,33 +43,6 @@ public final class ApiRestriction {
     public static final int FAIL_OPERATORNOTFOUND = 5006;
 
     /**
-     * checks the status of authentication of the terminal.
-     * @param deviceid - the terminal id to check
-     * @return int - the appropriate result code that
-     * describes the terminal status
-     */
-    private static int checkAuthentication(final String deviceid) {
-        AuthenticationResource ar = new AuthenticationResource();
-        DeviceStatus rb = ar.getDeviceStatus(deviceid);
-
-        int resultCode = rb.getNCRWSSResultCode();
-
-         //unexpected error occurred
-        if (DeviceStatus.RES_ERROR_GENERAL == resultCode) {
-            return FAIL_ABNORMALOPERATION;
-        } else if (DeviceStatus.STATUS_DEVICENOTFOUND == resultCode) {
-          //device id has not been registered
-            return FAIL_DEVICENOTFOUND;
-        } else if (DeviceStatus.STATUS_DEVICEONLINE == resultCode) {
-            return OK;
-        } else if (ResultBase.RES_ERROR_DB == resultCode) {
-            return FAIL_ABNORMALOPERATION;
-        }
-
-        return FAIL_AUTHENTICATION; //fail to authenticate
-    }
-
-    /**
      * checks the status of the operator.
      * @param operatorNo - the operator id to check
      * @return int - the appropriate result code that

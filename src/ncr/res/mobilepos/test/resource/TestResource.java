@@ -52,7 +52,7 @@ public class TestResource {
     @Path("/GetConnectionResult")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="接続の結果を取得する", response=ResultBase.class)
+    @ApiOperation(value="コネクション情報取得", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })

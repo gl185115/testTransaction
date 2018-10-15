@@ -1,0 +1,34 @@
+Scenario: With Other Working Devices
+Given that has working devices 
+When getting working devices companyId:01 storeId:0247 terminalId:0004
+Then it should get the following terminals:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0001			|02470001	|POS#1			|1				|2016-08-16 15:55:39.0	|NULL		|
+|01			|0247		|0002			|02470002	|POS#2			|1				|2016-08-16 02:52:24.0	|NULL		|
+|01			|0247		|0003			|02470002	|POS#3			|1				|2016-08-16 13:56:40.0	|NULL		|
+|01			|0247		|0004			|02470004	|POS#4テスト		|1				|2016-08-16 16:42:09.0	|NULL		|
+Then it should get the following group:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0004			|02470004	|POS#4テスト		|1				|2016-08-16 16:42:09.0	|NULL		|
+Then it should get the following groups of 02470004:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0004			|02470004	|POS#4テスト		|1				|2016-08-16 16:42:09.0	|NULL		|
+Then it should get the following groups of 02470002:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0002			|02470002	|POS#2			|1				|2016-08-16 02:52:24.0	|NULL		|
+|01			|0247		|0003			|02470002	|POS#3			|1				|2016-08-16 13:56:40.0	|NULL		|
+Then it should get the following groups of 02470001:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0001			|02470001	|POS#1			|1				|2016-08-16 15:55:39.0	|NULL		|
+Scenario: With Working Devices
+Given that has no other working devices
+When getting working devices companyId:01 storeId:0247 terminalId:0004
+Then it should get the following terminals:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0004			|02470004	|POS#4テスト		|1				|2016-08-16 16:42:09.0	|NULL		|
+Then it should get the following group:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0004			|02470004	|POS#4テスト		|1				|2016-08-16 16:42:09.0	|NULL		|
+Then it should get the following groups of 02470004:
+|companyid	|storeid	|terminalid		|tillid		|terminalname	|openclosestat	|sodtime				|eodtime	|
+|01			|0247		|0004			|02470004	|POS#4テスト		|1				|2016-08-16 16:42:09.0	|NULL		|

@@ -16,7 +16,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotionInfoDAO {
     /**
@@ -101,7 +101,7 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
                         && (rateDiscountFlag.indexOf(resultSet.getString("RateDiscountFlag")) > -1)) {
                     promotioninfo = new JSONObject();
                     promotioninfo.put("companyId", resultSet.getString("CompanyId"));
-                    promotioninfo.put("storeId", resultSet.getString("StoreId"));
+                    promotioninfo.put("storeId", storeId);
                     promotioninfo.put("promotionId", resultSet.getString("PromotionId"));
                     promotioninfo.put("promotionName", resultSet.getString("PromotionName"));
                     promotioninfo.put("receiptName", resultSet.getString("ReceiptName"));
@@ -140,10 +140,6 @@ public class SQLServerPromotionInfoDAO extends AbstractDao implements IPromotion
             promotion.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             promotion.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             promotion.setMessage(ResultBase.RES_SUCCESS_MSG);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get promotion infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerPromotionDAO.getpromotionInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get promotion infomation.",
                     sqlEx);

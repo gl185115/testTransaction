@@ -309,7 +309,7 @@ public class ReceiptVoidFormatter extends Formatter {
 
             // Add total discount
             sb.setLength(0);
-            if (!StringUtility.isNullOrEmpty(this.receipt.getTotalPercent())) {
+            if (this.receipt.getTotalPercent() != 0) {
                 sb.append(this.receipt.getTotalPercent());
                 sb.append("%");
                 if ("en".equals(this.rb.getLocale().getLanguage())) {
@@ -390,116 +390,116 @@ public class ReceiptVoidFormatter extends Formatter {
         }
         
         // for fantamiliar points system        
-        MemberInfo member = receipt.getMemberInfo();
-        if (member != null) {
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptline"), ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,"", ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointtarget"),
-    			    member.getAmountForPoints() +
-    			    this.rb.getString("recptpointamountsymble")));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointscorea"),
-    			    member.getCorrectionPoints() +
-    			    this.rb.getString("recptpointsymble")));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointuse"),
-    			    "0" + this.rb.getString("recptpointsymble")));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointscoreb"),
-        			member.getPointsPrior() + this.rb.getString("recptpointsymble")));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            String recpttotal =  this.rb.getString("recptpointtotal");          
-            String businessDate = receipt.getBusinessDayDate();
-            recpttotal = recpttotal.replace("0000/00/00",
-         		     businessDate.substring(0,4) + "/12/31");
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		recpttotal,
-        			member.getLostPoints() +
-        			this.rb.getString("recptpointsymble")));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,"", ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointmemberno"),
-            		member.getInputtedMembershipId().getElementValue()));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            String sDate = member.getExpirationDate();
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointexpirationdate"),
-            		sDate.substring(0,4) + "/" + sDate.substring(4,6) +
-            		"/" + sDate.substring(6,8)));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointremark1"), ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointremark2"), ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,"", ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptline"), ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-        	line.setLength(0);
-        	line.append(this.formatLine(0, 1,
-        			this.rb.getString("recptpointCancelHeader"), ""));
-        	this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		rb.getString("recptpointcommserialnumber"),
-            		member.getPointsAcknowledgeId()));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointtranseqnumber"),
-            		member.getPiontsTransactionId()));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointresponse"),
-            		member.getServerStatusCode()));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointmemberstat"),
-            		member.getStatusCode()));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            long total = Long.valueOf( member.getPointsPrior()) ; 
-            total += Long.valueOf(member.getCorrectionPoints());
-            if (total < 0 ) {
-            	total = 0;
-            }
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptpointbalance"),
-            		String.valueOf(total)));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-            line.setLength(0);
-            line.append(this.formatLine(0, 1,
-            		this.rb.getString("recptline"), ""));
-            this.addLineToReceipt(0, 0, 0, line.toString());
-        }
+        // MemberInfo member = receipt.getMemberInfo();
+        // if (member != null) {
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptline"), ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,"", ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointtarget"),
+    			 //    member.getAmountForPoints() +
+    			 //    this.rb.getString("recptpointamountsymble")));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointscorea"),
+    			 //    member.getCorrectionPoints() +
+    			 //    this.rb.getString("recptpointsymble")));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointuse"),
+    			 //    "0" + this.rb.getString("recptpointsymble")));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointscoreb"),
+        // 			member.getPointsPrior() + this.rb.getString("recptpointsymble")));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     String recpttotal =  this.rb.getString("recptpointtotal");          
+        //     String businessDate = receipt.getBusinessDayDate();
+        //     recpttotal = recpttotal.replace("0000/00/00",
+        //  		     businessDate.substring(0,4) + "/12/31");
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		recpttotal,
+        // 			member.getLostPoints() +
+        // 			this.rb.getString("recptpointsymble")));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,"", ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointmemberno"),
+        //     		member.getInputtedMembershipId()));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     String sDate = member.getExpirationDate();
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointexpirationdate"),
+        //     		sDate.substring(0,4) + "/" + sDate.substring(4,6) +
+        //     		"/" + sDate.substring(6,8)));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointremark1"), ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointremark2"), ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,"", ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptline"), ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        // 	line.setLength(0);
+        // 	line.append(this.formatLine(0, 1,
+        // 			this.rb.getString("recptpointCancelHeader"), ""));
+        // 	this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		rb.getString("recptpointcommserialnumber"),
+        //     		member.getPointsAcknowledgeId()));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointtranseqnumber"),
+        //     		member.getPiontsTransactionId()));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointresponse"),
+        //     		member.getServerStatusCode()));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointmemberstat"),
+        //     		member.getStatusCode()));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     long total = Long.valueOf( member.getPointsPrior()) ; 
+        //     total += Long.valueOf(member.getCorrectionPoints());
+        //     if (total < 0 ) {
+        //     	total = 0;
+        //     }
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptpointbalance"),
+        //     		String.valueOf(total)));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        //     line.setLength(0);
+        //     line.append(this.formatLine(0, 1,
+        //     		this.rb.getString("recptline"), ""));
+        //     this.addLineToReceipt(0, 0, 0, line.toString());
+        // }
         // Add tranNo, storeID, TerminalID
         sb.setLength(0);
         sb.append(this.receipt.getStoreID());

@@ -6,26 +6,36 @@ import javax.servlet.ServletContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import java.io.File;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import ncr.res.mobilepos.credential.dao.SQLServerCredentialDAO;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
+import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Department;
 import ncr.res.mobilepos.pricing.model.ItemMaintenance;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.pricing.model.SearchedProducts;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
+import ncr.res.mobilepos.helper.XmlSerializer;
+import ncr.res.mobilepos.barcodeassignment.model.MultiForwardRecallCard;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
+import org.jbehave.core.model.ExamplesTable;
 import org.junit.Assert;
 
 import static org.junit.Assert.*;
@@ -43,6 +53,7 @@ public class ItemResourceSteps extends Steps {
     SQLServerItemDAO dptdao;
     int expctdResultCode;
     ItemMaintenance itemmaintenance;
+    BarcodeAssignment barcodeAssignment;
 
     public static boolean ResourceHasErrors(final SearchedProducts sd) {
         return !((0 != sd.getNCRWSSExtendedResultCode())
@@ -56,10 +67,12 @@ public class ItemResourceSteps extends Steps {
         dbInit = new DBInitiator("ItemResourceSteps", DATABASE.RESMaster);
     }
 
-    @Given("entries for {$dataset} in database")
+    @Given("entries for $dataset in database")
     public final void initdatasets(final String dataset) throws Exception {
         dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
-                "test/ncr/res/mobilepos/pricing/dao/test/" + dataset + ".xml");
+                "test/ncr/res/mobilepos/pricing/resource/datasets/" + dataset + ".xml");
+        dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+				"test/resources/para/mst_bizday.xml");
     }
 
     @AfterScenario
@@ -69,8 +82,8 @@ public class ItemResourceSteps extends Steps {
 
     @Given("I have Item resource")
     public final void IHaveItemResource() {
+    	this.context = Requirements.getMockServletContext();
         itemres = new ItemResource();
-        this.context = Requirements.getMockServletContext();        
         try 
         {
         	this.context = Requirements.getMockServletContext();
@@ -82,24 +95,34 @@ public class ItemResourceSteps extends Steps {
         }
     }
 
-    @When("I get item by plu using {$storeid} {$pluCode} {$deviceid}")
-    public final void getItemByPLUCoderesource(String storeid, String pluCode,
-            String companyId, String businessDay) {
+    @When("I get item by plu using $storeid $plucode $deviceid $businessday")
+    public final void getItemByPLUCoderesource(String storeid, String pluCode, String companyId, String businessDay) throws Exception {
         if (storeid.equals("null")) {
             storeid = null;
         }
         if (pluCode.equals("null")) {
             pluCode = null;
         }
-
+        
+        if (!StringUtility.isNullOrEmpty(companyId) && !StringUtility.isNullOrEmpty(storeid)) {
+			PricePromInfoFactory.initialize(companyId,storeid);
+			PriceMMInfoFactory.initialize(companyId,storeid);
+		}
+        
         actualProduct = itemres.getItemByPLUcode(storeid, pluCode, companyId, businessDay);
         expctdResultCode = actualProduct.getNCRWSSResultCode();
     }
     
-    @Then("I should have item with promo values {$tagcode}, {$taxtype}, {$discounttype}, {$mustbuyflag}, {$salesitemflag}")
-    public final void checkPromotionValues(String tagcode, int taxtype, int discounttype, int mustbuyflag, int salesitemflag) {
+    @Then("I should have item with promo values $tagcode, $taxtype, $discounttype, $mustbuyflag, $salesitemflag")
+    public final void checkPromotionValues(String tagcode, String taxtype, String discounttype, int mustbuyflag, int salesitemflag) {
         if (tagcode.equals("null")) {
             tagcode = null;
+        }
+        if (discounttype.equals("null")) {
+        	discounttype = null;
+        }
+        if (taxtype.equals("null")){
+        	taxtype = null;
         }
         assertThat(actualProduct.getItem().getMixMatchCode(), is(equalTo(tagcode)));
         assertThat(actualProduct.getItem().getTaxType(), is(equalTo(taxtype)));
@@ -108,23 +131,7 @@ public class ItemResourceSteps extends Steps {
         assertThat(actualProduct.getItem().getNonSales(), is(equalTo(salesitemflag)));
     }
 
-    @When("I get the list of items using {$storeid} {$key} {$deviceid} {$name}")
-    public final void getListOfItems(final String storeid,final String key,final String deviceid,final String name) {
-        String storeidTemp = storeid.equals("null") ? null : storeid;
-        String keyTemp = key.equals("null") ? null : key;
-        String nameTemp = name.equals("null") ? null : name;      
-        searchedprod = itemres.list(storeidTemp, keyTemp, deviceid, 0, nameTemp); 
-        expctdResultCode = searchedprod.getNCRWSSResultCode();
-    }
-
-    @When("I change the price of item {$storeid} {$pluCode} to {$unitPrice}")
-    public final void IChangeThePrice(final String storeid,
-            final String pluCode, final String unitPrice) {
-        itemmaintenance = itemres.changePrice(storeid, pluCode, unitPrice);
-        expctdResultCode = itemmaintenance.getNCRWSSResultCode();
-    }
-
-    @Then("I should have {$count} items")
+    @Then("I should have $count items")
     public final void IHaveItemsof(final int count) {
 
         assertThat(searchedprod.getItems().size() - 1, is(equalTo(count)));
@@ -135,9 +142,7 @@ public class ItemResourceSteps extends Steps {
         try {
             StringWriter writer = new StringWriter();
             JAXBContext jaxbcontext;
-
             jaxbcontext = JAXBContext.newInstance(SearchedProducts.class);
-
             Marshaller m = jaxbcontext.createMarshaller();
             m.marshal(searchedprod, writer);
             Assert.assertEquals("Assert the xml String",
@@ -192,5 +197,57 @@ public class ItemResourceSteps extends Steps {
     public final void testResultCode(final int actualResultCode) {
         Assert.assertEquals("Assert the expected resultcode",
                 expctdResultCode, actualResultCode);
+    }
+
+    @Given("ItemCode.xml file exist")
+    public final void iHaveItemCodeXML() {
+        Field barcodeAssignmentField;
+        try {
+            File configFile = new File("test\\ncr\\res\\mobilepos\\pricing\\resource\\datasets" + File.separator + "itemCode.xml");
+            XmlSerializer<BarcodeAssignment> serializer = new XmlSerializer<BarcodeAssignment>();
+            BarcodeAssignment barcodeAssignment = serializer.unMarshallXml(configFile, BarcodeAssignment.class);
+            
+            barcodeAssignmentField = itemres.getClass().getDeclaredField("barcodeAssignment");
+            barcodeAssignmentField.setAccessible(true);
+            barcodeAssignmentField.set(itemres, barcodeAssignment);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @When("I get barcode info")
+    public final void getBarcodeInfo() {
+        this.barcodeAssignment = itemres.getBarcodeInfo();
+    }
+
+    @Then("I should get the following: $expectedBarcodeInfo")
+    public final void testBarcodeInfo(final ExamplesTable expectedBarcodeInfo) {
+        int i = 0;
+        MultiForwardRecallCard multiForwardRecallCard = this.barcodeAssignment.getMultiForwardRecallCard();
+        Assert.assertEquals("Compare the size of multiForwardRecallCard", multiForwardRecallCard.getMultiForwardRecallCards().size(), expectedBarcodeInfo.getRowCount());
+
+        for (Map<String, String> expectedItem : expectedBarcodeInfo.getRows()) {
+            assertThat("Compare the id",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getId(),
+                    is(equalTo(expectedItem.get("id"))));
+            assertThat("Compare the description",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getDescription(),
+                    is(equalTo(expectedItem.get("description"))));
+            assertThat("Compare the type",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getType(),
+                    is(equalTo(expectedItem.get("type"))));
+            assertThat("Compare the format",
+                    "" + multiForwardRecallCard.getMultiForwardRecallCards().get(i).getFormat(),
+                    is(equalTo(expectedItem.get("format"))));
+            i++;
+        }
     }
 }

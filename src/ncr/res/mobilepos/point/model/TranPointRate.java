@@ -22,6 +22,10 @@ public class TranPointRate {
 	private String baseprice;
 	@XmlElement(name = "RecordId")
 	private String recordid;
+	@XmlElement(name = "BasePoint")
+	private String basepoint;
+	@XmlElement(name = "CashingUnit")
+	private String cashingUnit;
 	@XmlElement(name = "BasePointCash")
 	private String basepointcash;
 	@XmlElement(name = "BasePointAffiliate")
@@ -82,6 +86,15 @@ public class TranPointRate {
 		return baseprice;
 	}
 	
+	public final void setBasePoint(String basepoint) {
+		this.basepoint = basepoint;
+	}
+	
+    @ApiModelProperty(value="基準ポイント", notes="基準ポイント")
+	public final String getBasePoint() {
+		return basepoint;
+	}
+
 	public final void setRecordId(String recordid) {
 		this.recordid = recordid;
 	}
@@ -89,6 +102,15 @@ public class TranPointRate {
     @ApiModelProperty(value="管理NO", notes="管理NO")
 	public final String getRecordId() {
 		return recordid;
+	}
+	
+	public final void setCashingUnit(String cashingUnit) {
+		this.cashingUnit = cashingUnit;
+	}
+	
+	@ApiModelProperty(value="Point計算単位", notes="Point計算単位")
+	public final String getCashingUnit() {
+		return cashingUnit;
 	}
 	
 	public final void setBasePointCash(String basepointcash) {

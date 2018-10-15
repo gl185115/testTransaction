@@ -75,8 +75,9 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-
-            if (membershipId == null) {
+            if (cardClassId == null && membershipId == null) {
+                statement = connection.prepareStatement(sqlStatement.getProperty("get-card-class-info-list"));
+            } else if (membershipId == null) {
                 statement = connection.prepareStatement(sqlStatement.getProperty("get-card-class-info-all"));
                 statement.setString(SQLStatement.PARAM3, cardClassId);
             } else {
@@ -100,7 +101,9 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
                 cardClassInfo.setCreditType(result.getString("CreditType"));
                 cardClassInfo.setMainCardDigitType(result.getString("MaincardDigitType"));
                 cardClassInfo.setRankType(result.getString("RankType"));
-
+                if (cardClassId == null && membershipId == null) {
+                    cardClassInfo.setSubCode1(result.getString("SubCode1"));
+                }
                 if (membershipId != null) {
                     cardClassInfo.setCardStatusType(result.getString("CardStatusType"));
                 }
@@ -109,10 +112,6 @@ public class SQLServerCardInfoDAO extends AbstractDao implements ICardInfoDAO {
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get card class info.", e);
             throw new Exception("SQLException: @SQLServerCardInfoDAO." + functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get card class info.",
-                    e);
-            throw new Exception("SQLStatementException: @SQLServerCardInfoDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(cardClassInfoList);

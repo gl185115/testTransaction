@@ -180,21 +180,6 @@ implements IMasterMaintenanceDAO  {
             if (SQLResultsConstants.NO_ROW_AFFECTED < rowaffected) {
                 rs.setNCRWSSResultCode(ResultBase.RES_OK);
             }
-        } catch (SQLStatementException e) {
-            tp.println("SQL Statement Exception error occured.");
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "SQL Statement Exception error occured."
-                    + e.getMessage());
-            Snap.SnapInfo info =
-                this.snapLogger.write(
-                        "Error occured when SQLStatementException",
-                        opemasttbl.toString());
-            LOGGER.logSnap(PROG_NAME, "addUpdateOperator",
-                "Output error OPE_MAST_TABLE in JSON object representation"
-                    + " data to snap file.", info);
-            throw new DaoException(e);
         } catch (SQLException e) {
             tp.println("SQL Exception error occured.");
             LOGGER.logAlert(PROG_NAME,
@@ -243,21 +228,6 @@ implements IMasterMaintenanceDAO  {
             if (SQLResultsConstants.NO_ROW_AFFECTED < rowaffected) {
                 rs.setNCRWSSResultCode(ResultBase.RES_OK);
             }
-        } catch (SQLStatementException e) {
-            tp.println("SQL Statement Exception error occured.");
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "SQL Statement Exception error occured."
-                    + e.getMessage());
-            Snap.SnapInfo info =
-                this.snapLogger.write(
-                        "Error occured when SQLStatementException",
-                        opemasttbl.toString());
-            LOGGER.logSnap(PROG_NAME, "addUpdateCredential",
-              "Output error MST_USER_CREDENTIALS in JSON object representation"
-                    + " data to snap file.", info);
-            throw new DaoException(e);
         } catch (SQLException e) {
             tp.println("SQL Exception error occured.");
             LOGGER.logAlert(PROG_NAME,
@@ -583,21 +553,6 @@ implements IMasterMaintenanceDAO  {
             if (SQLResultsConstants.NO_ROW_AFFECTED < rowaffected) {
                 rs.setNCRWSSResultCode(ResultBase.RES_OK);
             }
-        } catch (SQLStatementException e) {
-            tp.println("SQL Statement Exception error occured.");
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "SQL Statement Exception error occured."
-                    + e.getMessage());
-            Snap.SnapInfo info =
-                this.snapLogger.write(
-                        "Error occured when SQLStatementException",
-                        mdmastbl.toString());
-            LOGGER.logSnap(PROG_NAME, "addUpdateItem",
-                "Output error MD_MAST_TBL in JSON object representation"
-                    + " data to snap file.", info);
-            throw new DaoException(e);
         } catch (SQLException e) {
             tp.println("SQL Exception error occured.");
             LOGGER.logAlert(PROG_NAME,

@@ -13,7 +13,7 @@ import ncr.res.mobilepos.tillinfo.model.ViewTill;
  * Interface class for Store maintenance DAO implementation.
  */
 public interface ITillInfoDAO {
-	
+
     /**
      * View Till Details.
      *
@@ -22,7 +22,7 @@ public interface ITillInfoDAO {
      * @throws DaoException if error occurred.
      * @return Till instance of Till class.
      */
-	ViewTill viewTill(String storeid, String tillId) 
+	ViewTill viewTill(String storeid, String tillId)
     		throws DaoException;
     /**
      * Creates Till.
@@ -34,19 +34,7 @@ public interface ITillInfoDAO {
      * @return ResultBase
      */
     ResultBase createTill(String storeId, String tillId, Till till)
-             throws DaoException;    
-    /**
-     * Updates Till.
-     *
-     * @param storeID - Store number
-     * @param tillID - till number
-     * @param till - Till
-     * @throws DaoException if error occurred
-     * @return ResultBase
-     */
-    ViewTill updateTill(String storeId, String tillId, Till till)
-             throws DaoException;   
-    
+             throws DaoException;
     /**
      * Updates specific fields of Till after successful SOD/EOD.
      * @param connection db connection
@@ -59,9 +47,9 @@ public interface ITillInfoDAO {
     void updateTillOnJourn(Connection connection, Till currentTill, Till updatingTill, boolean isEnterprise)
             throws DaoException, TillException;
 
-    ResultBase searchLogonUsers(String companyId, String storeId, String tillId, 
+    ResultBase searchLogonUsers(String companyId, String storeId, String tillId,
     		String terminalId) throws DaoException;
-    
+
     /**
      * get Till information list.
      * @param storeID - Store number
@@ -87,5 +75,23 @@ public interface ITillInfoDAO {
      * @throws DaoException
      */
     ResultBase updateTillDailyOperation(Till currentTill, Till updatingTill) throws DaoException;
+
+    /**
+     * Returns activated (done SOD) tills on the given business day regardless it is still open or closed.
+     * @param companyId
+     * @param storeId
+     * @param businessDate yyyy-MM-dd format
+     * @return
+     */
+    List<Till> getActivatedTillsOnBusinessDay(String companyId, String storeId, String businessDate, int trainingFlag)  throws DaoException;
+
+    /**
+     * Returns unclosed (before EOD) tills on the given business day. It is activated on the day and still open.
+     * @param companyId
+     * @param storeId
+     * @param businessDate yyyy-MM-dd format
+     * @return
+     */
+    List<Till> getUnclosedTillsOnBusinessDay(String companyId, String storeId, String businessDate, int trainingFlag)  throws DaoException;
 
 }

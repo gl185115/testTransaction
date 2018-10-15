@@ -1,0 +1,59 @@
+Scenario: Successfully get terminal info
+Given I have a DeviceInfo resource and other resources
+When I request to get terminal info of companyId 01, storeId 0031 and terminalId 0001
+Then I should have the following data:
+|Key|Value|
+|companyId|01|
+|storeId|0031|
+|terminalId|0001|
+|floorId|0001|
+|terminalName|Terminal1|
+|ipAddress|127.0.0.1|
+|storeClass|1|
+|terminalType|1|
+|tillType|1|
+|relationType|1|
+|connectionFlag1|0|
+|connectionFlag2|0|
+|connectionFlag3|0|
+|connectionFlag4|0|
+|connectionFlag5|0|
+|connectionFlag6|0|
+|connectionFlag7|0|
+|connectionFlag8|0|
+|logoFileName|logofile|
+|inshiFileName|inshifile|
+|note|note|
+Then the result should be RES_OK
+
+
+
+Scenario: Get terminal info where companyId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get terminal info of companyId , storeId 0031 and terminalId 0002  
+Then TerminalInfo should be null
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get terminal info where storeId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get terminal info of companyId 01, storeId null and terminalId 0002  
+Then TerminalInfo should be null
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get terminal info where storeId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get terminal info of companyId 01, storeId  and terminalId 0002 
+Then TerminalInfo should be null
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get terminal info where terminalId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get terminal info of companyId 01, storeId 0031 and terminalId null  
+Then TerminalInfo should be null
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get terminal info where terminalId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get terminal info of companyId 01, storeId 0031 and terminalId empty 
+Then TerminalInfo should be null
+Then the result should be RES_ERROR_INVALIDPARAMETER

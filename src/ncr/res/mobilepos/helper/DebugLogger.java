@@ -1,13 +1,8 @@
 package ncr.res.mobilepos.helper;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
+import java.util.concurrent.ConcurrentHashMap;
 
 import ncr.realgate.util.Trace;
 
@@ -17,66 +12,79 @@ import ncr.realgate.util.Trace;
  */
 public final class DebugLogger {
     /**
-     * the class instance of the path to output file.
+     * the class instance of the destinationDirPath to output file.
      */
-    private static String path = null;
+    private static String destinationDirPath;
     /**
-     * the class instance of the level.
+     * the class instance of the logLevel.
      */
-    private static Integer level = null;
+    private static Integer logLevel;
     /**
-     * Store Trace for every thread.
+     * Store Trace for every thread. <ThreadId, Trace>
      */
-    private static Map<Integer, Trace> traceMap
-                                            = new HashMap<Integer, Trace>();
+    private static Map<Long, Trace> traceMap;
     /**
-     * Logging handler.
+     * File extension for trace log.
      */
-    private static final Logger LOGGER = (Logger) Logger.getInstance(); //Get the Logger
+    private static final String TRACE_FILE_EXTENSION = ".txt";
+    /**
+     * Filename prefix.
+     */
+    private static final String TRACE_FILENAME_PREFIX = "debug_threadid_";
 
     private static final String PROG_NAME = "DebugLogger";
 
+    /**
+     * Gets true after initialization.
+     */
+    private static boolean isInitialized = false;
+
     /** The default constructor.  */
-    private DebugLogger() { 
-    	
+    private DebugLogger() {
     }
 
     /**
-     * @param threadID - the id of the thread that the
-     * logger is running on.
-     * @return Trace
+     * Initializes this debug logger.
+     * @param tracePath Path to store log
+     * @param debugLevel Debug logLevel
      */
-    private static Trace createTrace(final int threadID) {
-        Trace tr = null;
-        try {
-            synchronized (traceMap) {
-                if (path == null || level == null) {
-                    Context env =
-                        (Context) new InitialContext().lookup("java:comp/env");
-
-                    path = (String) env.lookup("tracePath");
-                    level = (Integer) env.lookup("debugLevel");
-
-                    File directory = new File(path);
-                    if (!directory.exists()) {
-                        directory.mkdir();                       
-                    }
-                }
-            }
-            // Get Trace from hash map.
-            tr = traceMap.get(threadID);
-            if (tr == null) {
-                tr = new Trace(path + "\\"
-                        + "debug_threadid_" + threadID + ".txt");
-                tr.setDebugLevel(level);
-                synchronized (traceMap) {
-                    traceMap.put(threadID, tr);
-                }
-            }
-        } catch (NamingException e) {
-        	LOGGER.logAlert(PROG_NAME, PROG_NAME+".createTrace", Logger.RES_EXCEP_GENERAL, "Failed to lookup path. "+e.getMessage());
+    public static void initInstance(String tracePath, int debugLevel) {
+        isInitialized = false;
+        // Creates parent directory if necessary.
+        File directory = new File(tracePath);
+        if(!directory.isDirectory() && !directory.mkdirs()) {
+            // If directory doesn't exist and mkdirs fails.
+            throw new IllegalStateException("Failed to create directory for MethodTraceLogger" +
+                    " Path:" + tracePath);
         }
-        return tr;
+        destinationDirPath = tracePath;
+        logLevel = debugLevel;
+        traceMap = new ConcurrentHashMap<>();
+        isInitialized = true;
+    }
+
+
+    /**
+     * getTrace can be accessed by multi-threads. But each thread has different key, threadid.
+     * @param threadID
+     * @return
+     */
+    private static Trace getTrace(final long threadID) {
+        // If given threadID doesn't exist in the map, then create new one and put it into map.
+        // This is performed atomically.
+        return traceMap.computeIfAbsent(threadID, key -> newTrace(key));
+    }
+
+    /**
+     * Creates new Trace.
+     * @param threadId threadId.
+     * @return created instance.
+     */
+    private static Trace newTrace(long threadId) {
+        Trace trace = new Trace(destinationDirPath +  File.separator
+                + TRACE_FILENAME_PREFIX + threadId + TRACE_FILE_EXTENSION);
+        trace.setDebugLevel(logLevel);
+        return trace;
     }
 
     /**
@@ -85,27 +93,46 @@ public final class DebugLogger {
      * @param cls - class to create the printer from
      * @return instance of the trace printer
      */
-    public static Trace.Printer getDbgPrinter(
-            final long threadID, final Class cls) {
-        Trace tr = createTrace((int) threadID);
+    public static Trace.Printer getDbgPrinter(final long threadID, final Class cls) {
+        if(!isInitialized) {
+            return null;
+        }
+        Trace tr = getTrace(threadID);
         Trace.Printer tp = tr.createPrinter(cls);
         tp.setTimestampMode(true);
         return tp;
     }
+
     /**
-     * sets the debug level.
-     * @param dbgLevel - the level of the debug to set
+     * Explicitly close the Trace instance.
+     * @param threadID
      */
-    @SuppressWarnings("rawtypes")
+    public static void closeDbgPrinter(final long threadID) {
+        Trace tr = traceMap.remove(threadID);
+        if(tr != null) {
+            tr.close();
+        }
+    }
+
+    /**
+     * Explicitly close all the Trace instance.
+     */
+    public static void closeAllDbgPrinter() {
+        for(Trace tr : traceMap.values()) {
+            tr.close();
+        }
+        traceMap.clear();
+    }
+
+    /**
+     * sets the debug logLevel.
+     * @param dbgLevel - the logLevel of the debug to set
+     */
     public static void setDebugLevel(final int dbgLevel) {
         synchronized (traceMap) {
-            level = dbgLevel;
-            Iterator iter = traceMap.entrySet().iterator();
-            while (iter.hasNext()) {
-                Map.Entry entry = (Map.Entry) iter.next();
-                Trace tr = (Trace) entry.getValue();
-                tr.setDebugLevel(dbgLevel);
-                traceMap.put((Integer) entry.getKey(), tr);
+            logLevel = dbgLevel;
+            for(Trace trace : traceMap.values()) {
+                trace.setDebugLevel(dbgLevel);
             }
         }
     }
@@ -115,8 +142,10 @@ public final class DebugLogger {
      * @return  The Method Name.
      */
     public static String getCurrentMethodName() {
-        return Thread.currentThread()
-        .getStackTrace()[2].getMethodName(); //The method calling this function
-                                             //is in third depth from the stack
+        // Magic number for getStackTrace()[n].
+        // 0 to expect 'getStackTrace()'
+        // 1 to expect 'getCurrentMethodName()'
+        // 2 to expect invoking method.
+        return Thread.currentThread().getStackTrace()[2].getMethodName();
     }
 }

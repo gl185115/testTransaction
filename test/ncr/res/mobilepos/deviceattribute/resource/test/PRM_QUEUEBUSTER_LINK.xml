@@ -1,0 +1,24 @@
+<!DOCTYPE dataset SYSTEM "/test/resource/test/dataset.dtd">
+<dataset>
+	<table name="PRM_QUEUEBUSTER_LINK">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>Id</column>
+		<column>DisplayName</column>
+		<column>Status</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0001</value>
+			<value>Device0001</value>
+			<value>Active</value>
+			<value>2016-03-14 14:05:39.2600
+			000</value>
+			<value>system</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

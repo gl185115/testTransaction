@@ -1,3 +1,0 @@
-Scenario: ActivationKey model test
-Given an ActivationKey object with key{ABC12345} and tid{XXXXX00011234}
-Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><activationKey><signActivationKey>ABC12345</signActivationKey><signTid>XXXXX00011234</signTid></activationKey>}

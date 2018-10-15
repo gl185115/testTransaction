@@ -1,0 +1,21 @@
+Scenario: test PriceMMInfo.
+Given a loaded dataset test/ncr/res/mobilepos/pricing/pricemminfo/test/data_PriceMM.xml
+
+Scenario: when the sku is not exist in DB
+When get the priceMMInfo with sku 20000001
+Then the Result Code is 0
+Then the emptyResult is null
+
+Scenario: when the priceMMSku not contains "*"
+When get the priceMMInfo with sku 11000002
+Then the Result Code is 0
+Then I should get the PriceMMInfo :
+|MMNo|ConditionCount1|ConditionCount2|ConditionCount3|ConditionPrice1|ConditionPrice2|ConditionPrice3|DecisionPrice1|DecisionPrice2|DecisionPrice3|AveragePrice1|AveragePrice2|AveragePrice3|Note  |Sku     |
+|1   |1              |2              |3              |100.0          |100.0          |100.0          |200.0         |200.0         |200.0         |150.0        |150.0        |150.0        |‘S“X11|11000002|
+
+Scenario: when the priceMMSku contains "*"
+When get the priceMMInfo with sku 11100003
+Then the Result Code is 0
+Then I should get the PriceMMInfo :
+|MMNo|ConditionCount1|ConditionCount2|ConditionCount3|ConditionPrice1|ConditionPrice2|ConditionPrice3|DecisionPrice1|DecisionPrice2|DecisionPrice3|AveragePrice1|AveragePrice2|AveragePrice3|Note  |Sku     |
+|1   |1              |2              |3              |100.0          |100.0          |100.0          |200.0         |200.0         |200.0         |150.0        |150.0        |150.0        |‘S“X11|1110000*|

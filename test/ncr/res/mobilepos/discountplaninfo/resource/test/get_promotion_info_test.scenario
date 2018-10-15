@@ -1,0 +1,21 @@
+Scenario: If no common/specific store, response with 157 error code 
+Given an empty table in MST_PRICE_PROMOTION
+When I get promotion information of companyid:01 storeid:0247 discreason:61 discbarcodetype:19 partialflag:0 pricediscflag:1,0 ratedisc:1,0
+Then I should get NCRWSSResultCode:157
+Then the JSON should have the following format: {"message":"No Rows Available","NCRWSSResultCode":157,"NCRWSSExtendedResultCode":157}
+
+Scenario: If specific store only, gets discount information of specific store then response should have specific storeid
+Given data in table MST_PRICE_PROMOTION
+When I get promotion information of companyid:01 storeid:0247 discreason:61 discbarcodetype:19 partialflag:0 pricediscflag:1,0 ratedisc:1,0
+Then I should get NCRWSSResultCode:0
+Then the JSON should have the following format: {"message":"Success","JSONObject":"{\"companyId\":\"01\",\"storeId\":\"0247\",\"promotionId\":\"61\",\"promotionName\":\"“Á•ÊŠ„ˆø\",\"receiptName\":\"“Á•ÊŠ„ˆø\",\"discountReason\":\"61\",\"discountReasonName\":\"“Á•ÊŠ„ˆø\",\"promotionType\":\"6\",\"discountType\":\"2\",\"inputFlag\":\"0\",\"partialFlag\":\"0\",\"rateDiscountFlag\":\"1\",\"priceDiscountFlag\":\"0\",\"buttonFlag\":\"0\",\"barcodeFlag\":\"0\",\"barcodeStartCode\":\"\",\"barcodeEndCode\":\"\",\"barcodeIdCode1\":\"\",\"barcodeIdCode2\":\"\",\"pointCombinationUseFlag\":\"1\",\"pointAddFlag\":\"1\",\"discountBarcodeType\":\"19\"}","NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: If common store only, gets discount information of common store but response should have specific storeid
+When I get promotion information of companyid:02 storeid:0247 discreason:61 discbarcodetype:19 partialflag:0 pricediscflag:1,0 ratedisc:1,0
+Then I should get NCRWSSResultCode:0
+Then the JSON should have the following format: {"message":"Success","JSONObject":"{\"companyId\":\"02\",\"storeId\":\"0247\",\"promotionId\":\"61\",\"promotionName\":\"“Á•ÊŠ„ˆø\",\"receiptName\":\"“Á•ÊŠ„ˆø\",\"discountReason\":\"61\",\"discountReasonName\":\"“Á•ÊŠ„ˆø\",\"promotionType\":\"6\",\"discountType\":\"2\",\"inputFlag\":\"0\",\"partialFlag\":\"0\",\"rateDiscountFlag\":\"1\",\"priceDiscountFlag\":\"0\",\"buttonFlag\":\"0\",\"barcodeFlag\":\"0\",\"barcodeStartCode\":\"\",\"barcodeEndCode\":\"\",\"barcodeIdCode1\":\"\",\"barcodeIdCode2\":\"\",\"pointCombinationUseFlag\":\"1\",\"pointAddFlag\":\"1\",\"discountBarcodeType\":\"19\"}","NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}
+
+Scenario: If both common and specific store, gets discount information of specific store then response should have specific storeid
+When I get promotion information of companyid:03 storeid:0247 discreason:61 discbarcodetype:19 partialflag:0 pricediscflag:1,0 ratedisc:1,0
+Then I should get NCRWSSResultCode:0
+Then the JSON should have the following format: {"message":"Success","JSONObject":"{\"companyId\":\"03\",\"storeId\":\"0247\",\"promotionId\":\"61\",\"promotionName\":\"“Á•ÊŠ„ˆø\",\"receiptName\":\"“Á•ÊŠ„ˆø\",\"discountReason\":\"61\",\"discountReasonName\":\"“Á•ÊŠ„ˆø\",\"promotionType\":\"6\",\"discountType\":\"2\",\"inputFlag\":\"0\",\"partialFlag\":\"0\",\"rateDiscountFlag\":\"1\",\"priceDiscountFlag\":\"0\",\"buttonFlag\":\"0\",\"barcodeFlag\":\"0\",\"barcodeStartCode\":\"\",\"barcodeEndCode\":\"\",\"barcodeIdCode1\":\"\",\"barcodeIdCode2\":\"\",\"pointCombinationUseFlag\":\"1\",\"pointAddFlag\":\"1\",\"discountBarcodeType\":\"19\"}","NCRWSSResultCode":0,"NCRWSSExtendedResultCode":0}

@@ -1,0 +1,56 @@
+Scenario: BusinessDate is null/empty
+Given that no businessdate
+When getting device status companyId:01 storeId:0247 terminalId:0001
+Then it should get NCRWSSResultCode:1518
+
+Scenario: companyId is null/empty
+Given that has businessdate
+When getting device status companyId:null storeId:0247 terminalId:0001
+Then it should get NCRWSSResultCode:1518
+When getting device status companyId:empty storeId:0247 terminalId:0001
+Then it should get NCRWSSResultCode:1518
+When getting device status companyId:01 storeId:null terminalId:0001
+Then it should get NCRWSSResultCode:154
+When getting device status companyId:01 storeId:empty terminalId:0001
+Then it should get NCRWSSResultCode:154
+When getting device status companyId:01 storeId:0247 terminalId:null
+Then it should get NCRWSSResultCode:154
+When getting device status companyId:01 storeId:0247 terminalId:empty
+Then it should get NCRWSSResultCode:154
+
+Scenario: Get Device Status (Unused)
+Given that has businessdate
+Given that has no data in txu_pos_ctrl
+When getting device status companyId:01 storeId:0247 terminalId:0001
+Then it should get NCRWSSResultCode:1800
+
+Scenario: Get Device Status (SodTime is before BusinessDate)
+Given that has businessdate
+Given that has no data in txu_pos_ctrl
+When getting device status companyId:01 storeId:0247 terminalId:0012
+Then it should get NCRWSSResultCode:1800
+
+Scenario: Get Device Status (1: Opening)
+Given that has businessdate
+Given that has data in txu_pos_ctrl
+When getting device status companyId:01 storeId:0247 terminalId:0001
+Then it should get OpenCloseStat:1
+Then it should get NCRWSSResultCode:0
+
+Scenario: Get Device Status (2: Daily Settlement)
+Given that has businessdate
+When getting device status companyId:01 storeId:0247 terminalId:0002
+Then it should get OpenCloseStat:2
+Then it should get NCRWSSResultCode:0
+
+Scenario: Get Device Status (3: Monthly Settlement)
+Given that has businessdate
+When getting device status companyId:01 storeId:0247 terminalId:0003
+Then it should get OpenCloseStat:3
+Then it should get NCRWSSResultCode:0
+
+Scenario: Get Device Status (4: Closed)
+Given that has businessdate
+When getting device status companyId:01 storeId:0247 terminalId:0004
+Then it should get OpenCloseStat:4
+Then it should get NCRWSSResultCode:0

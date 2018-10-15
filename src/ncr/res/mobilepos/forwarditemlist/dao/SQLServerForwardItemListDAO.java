@@ -123,12 +123,6 @@ extends AbstractDao implements IForwardItemListDAO {
 				tp.println("No shopping cart data found.");
 				return null;
 			}
-        } catch (SQLStatementException sqlStmtEx) {
-            result = false;
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "SQL Statement Error occured. \n" + sqlStmtEx.getMessage());
         } catch (SQLException sqlEx) {
             result = false;
             LOGGER.logAlert(PROG_NAME,
@@ -247,12 +241,6 @@ extends AbstractDao implements IForwardItemListDAO {
                 forwardCountData.setStatus("0");
                 forwardCountData.setForwardCount(rs.getString("count"));
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            forwardCountData.setStatus("1");
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "SQL Statement Error occured. \n" + sqlStmtEx.getMessage());
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME,
                     functionName,
@@ -342,15 +330,6 @@ extends AbstractDao implements IForwardItemListDAO {
             rollBack(connection,
                     functionName,
                     sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            rollBack(connection,
-            		functionName,
-                    sqlStmtEx);
-            LOGGER.logAlert(PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to save transaction in the database.\n"
-                    + sqlStmtEx.getMessage());
         } catch (JAXBException e) {
             LOGGER.logAlert(PROG_NAME,
                     functionName,
@@ -412,10 +391,6 @@ extends AbstractDao implements IForwardItemListDAO {
             if (resultset.next()) {
                 resultCnt = resultset.getString("count");
             }
-        } catch (SQLStatementException stmntEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName
-                    + ": Failed to Select Forward Item Count.", stmntEx);
-            throw new DaoException("SQLStatementException: @" + functionName, stmntEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to Select Forward Item Count.", sqlEx);

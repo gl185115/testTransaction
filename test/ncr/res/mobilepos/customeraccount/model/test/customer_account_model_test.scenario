@@ -1,7 +1,0 @@
-Scenario: Display Customer Resource
-Given I have a Customer Resource
-When I Search for customerNumber {11111} 
-and deviceNumber {testFF1}
-and operatorNumber {111}
-Then Display Customer Info
-Then it should succeed

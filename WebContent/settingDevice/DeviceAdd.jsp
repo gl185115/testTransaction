@@ -25,7 +25,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
     String infoString = "";
     Boolean isUpdateAreaHide = true;
     String user = ""; //ログインユーザー名
-    
+
     //ログインユーザー名取得
 	try {
 	    user = request.getRemoteUser() != null ? request.getRemoteUser() : "";
@@ -39,6 +39,9 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
     // queue
     ArrayList<String> queueIdList = new ArrayList<String>();
     ArrayList<String> queueNameList = new ArrayList<String>();
+
+    // tillid
+    ArrayList<String> tillIdList = new ArrayList<String>();
 
     // プリンタータイプの値をとる
     String formPrinterType = request.getParameter("printerType");
@@ -76,17 +79,30 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
         	queueIdList.add(rsSelect.getString("Id"));
         	queueNameList.add(rsSelect.getString("DisplayName"));
         }
-        
+        psSelect.close();
+
+        sqlStr = "SELECT TillId"
+        		+ " FROM RESMaster.dbo.MST_TILLIDINFO"
+        		+ " WHERE CompanyId=? and StoreId=?;";
+        psSelect = connection.prepareStatement(sqlStr);
+        psSelect.setString(1, request.getParameter("searchCompanyID").toString());
+        psSelect.setString(2, request.getParameter("searchStoreID").toString());
+        rsSelect = psSelect.executeQuery();
+        while(rsSelect.next()) {
+        	tillIdList.add(rsSelect.getString("TillId"));
+        }
+        psSelect.close();
+
         isUpdateAreaHide = false;
-        
+
         psSelect.close();
         connection.close();
-        
+
     } else if (request.getParameter("addCompanyID") != null && request.getParameter("addCompanyID").length() != 0) {
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
         Connection connection = dbManager.getConnection();
         if (request.getParameter("terminalID") != null) {
-        	
+
         	sqlStr = "SELECT COUNT(terminalid) terminalIdNum"
         			+ " FROM RESMaster.dbo.MST_DEVICEINFO"
         			+ " WHERE companyID=? and storeID=? and terminalId=?";
@@ -102,14 +118,14 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 connection.close();
             } else {
                 psSelect.close();
-                
+
                 sqlStr = "SELECT TodayDate"
                         + " FROM RESMaster.dbo.MST_BIZDAY"
                         + " WHERE companyID=?";
                 psSelect = connection.prepareStatement(sqlStr);
                 psSelect.setString(1, request.getParameter("addCompanyID").toString());
                 rsSelect = psSelect.executeQuery();
-                
+
                 Date nowDate = new Date();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 String today = formatter.format(nowDate);
@@ -120,19 +136,19 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 sqlStr = /* MST_DEVICEINFO */
                         "INSERT INTO RESMaster.dbo.MST_DEVICEINFO"
                         + " (CompanyId, StoreId, TerminalId, Training, DeviceName, AttributeId, PrinterId, TillId, LinkPosTerminalId, LinkQueueBuster, SendLogFile, SaveLogFile, AutoUpload, Status, subNum1, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + " VALUES (?, ?, ?, 0, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?),"
-                        + "        (?, ?, ?, 1, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 0, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
+                        + " VALUES (?, ?, ?, 0, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 1, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?),"
+                        + "        (?, ?, ?, 1, ?, ?, ?, ?, '0', ?, 3, 40, 0, 'Active', 1, 0, CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
                         /* MST_TERMINALINFO */
                         + " UPDATE RESMaster.dbo.MST_TERMINALINFO"
-                        + "  SET FloorId=?, TerminalName=?, IPAddress=?, StoreClass=?, TerminalType=?, TillType=?, RelationType=?, LogoFileName=?, InshiFileName=?, UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice',UpdOpeCode=?"
+                        + "  SET FloorId=?, TerminalName=?, IPAddress=?, StoreClass=?, TerminalType=?, TillType=?, RelationType=?, LogoFileName=?, InshiFileName=?, SubCode2=?, UpdCount=UpdCount+1,UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice',UpdOpeCode=?,SubCode1=?"
                         + "  WHERE CompanyId=? AND StoreId=? AND TerminalId=?"
                         + "  IF @@ROWCOUNT = 0"
                         + "  BEGIN"
                         + "  INSERT INTO RESMaster.dbo.MST_TERMINALINFO"
-                        + "  (CompanyId, StoreId, TerminalId, FloorId, TerminalName, IPAddress, StoreClass, TerminalType, TillType, RelationType, LogoFileName, InshiFileName, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode,"
-                        + "   ConnectionFlag1,ConnectionFlag2,ConnectionFlag3,ConnectionFlag4,ConnectionFlag5,ConnectionFlag6,ConnectionFlag7,ConnectionFlag8,ConnectionFlag9,ConnectionFlag10,ConnectionFlag11,ConnectionFlag12,ConnectionFlag13,ConnectionFlag14,ConnectionFlag15)"
-                        + "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '0', CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?,"
-                        + "         '0','0','0','0','0','0','0','0','0','0','0','0','0','0','0')"
+                        + "  (CompanyId, StoreId, TerminalId, FloorId, TerminalName, IPAddress, StoreClass, TerminalType, TillType, RelationType, LogoFileName, InshiFileName, SubCode2, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode,"
+                        + "   ConnectionFlag1,ConnectionFlag2,ConnectionFlag3,ConnectionFlag4,ConnectionFlag5,ConnectionFlag6,ConnectionFlag7,ConnectionFlag8,ConnectionFlag9,ConnectionFlag10,ConnectionFlag11,ConnectionFlag12,ConnectionFlag13,ConnectionFlag14,ConnectionFlag15,SubCode1)"
+                        + "  VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, '0', CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?,"
+                        + "         '0','0','0','0','0','0','0','0','0','0','0','0','0','0','0',?)"
                         + "  END"
                         /* MST_PRINTERINFO */
                         + " UPDATE RESMaster.dbo.MST_PRINTERINFO"
@@ -147,13 +163,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                         /* MST_TILLIDINFO */
                         + " UPDATE RESMaster.dbo.MST_TILLIDINFO"
                         + "  SET TerminalId=?, BusinessDayDate=?, SodFlag='1', EodFlag='0', DeleteFlag='0', UpdCount=UpdCount+1, UpdDate=CURRENT_TIMESTAMP, UpdAppId='settingDevice', UpdOpeCode=?"
-                        + "  WHERE CompanyId=? AND StoreId=? AND TillId=?"
-                        + "  IF @@ROWCOUNT = 0"
-                        + "  BEGIN"
-                        + "  INSERT INTO RESMaster.dbo.MST_TILLIDINFO"
-                        + "  (CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SodFlag, EodFlag, DeleteFlag, InsDate, InsAppId, InsOpeCode, UpdCount, UpdDate, UpdAppId, UpdOpeCode)"
-                        + "  VALUES (?, ?, ?, ?, ?, '1', '0', '0', CURRENT_TIMESTAMP, 'settingDevice', ?, 0, CURRENT_TIMESTAMP, 'settingDevice', ?)"
-                        + "  END";
+                        + "  WHERE CompanyId=? AND StoreId=? AND TillId=?;";
                 PreparedStatement psIns = connection.prepareStatement(sqlStr);
                 // MST_DEVICEINFO(normal)
                 psIns.setString(1, request.getParameter("addCompanyID"));
@@ -162,7 +172,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 psIns.setString(4, request.getParameter("terminalName"));
                 psIns.setString(5, request.getParameter("attributeList"));
                 psIns.setString(6, request.getParameter("terminalID"));
-                psIns.setString(7, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(7, request.getParameter("tillList"));
                 psIns.setString(8, request.getParameter("queueList"));
                 psIns.setString(9, user);
                 psIns.setString(10, user);
@@ -173,7 +183,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 psIns.setString(14, request.getParameter("terminalName"));
                 psIns.setString(15, request.getParameter("attributeList"));
                 psIns.setString(16, request.getParameter("terminalID"));
-                psIns.setString(17, request.getParameter("addStoreID") + request.getParameter("terminalID"));
+                psIns.setString(17, request.getParameter("tillList"));
                 psIns.setString(18, request.getParameter("queueList"));
                 psIns.setString(19, user);
                 psIns.setString(20, user);
@@ -187,70 +197,67 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
                 psIns.setString(27, request.getParameter("relationType"));
                 psIns.setString(28, request.getParameter("logPath"));
                 psIns.setString(29, request.getParameter("inshiPath"));
-                psIns.setString(30, user);
-                psIns.setString(31, request.getParameter("addCompanyID"));
-                psIns.setString(32, request.getParameter("addStoreID"));
-                psIns.setString(33, request.getParameter("terminalID"));
-                // MST_TERMINALINFO(insert)
-                psIns.setString(34, request.getParameter("addCompanyID"));
-                psIns.setString(35, request.getParameter("addStoreID"));
-                psIns.setString(36, request.getParameter("terminalID"));
-                psIns.setString(37, request.getParameter("floorId"));
-                psIns.setString(38, request.getParameter("terminalName"));
-                psIns.setString(39, request.getParameter("ipAddress"));
-                psIns.setString(40, request.getParameter("storeClass"));
-                psIns.setString(41, request.getParameter("terminalType"));
-                psIns.setString(42, request.getParameter("tillType"));
-                psIns.setString(43, request.getParameter("relationType"));
-                psIns.setString(44, request.getParameter("logPath"));
-                psIns.setString(45, request.getParameter("inshiPath"));
-                psIns.setString(46, user);
-                psIns.setString(47, user);
-                // MST_PRINTERINFO(update)
-                psIns.setString(48, request.getParameter("printerName"));
-                psIns.setString(49, request.getParameter("printerDescription"));
-                if (request.getParameter("ipAddressPrint") == null) {
-                    psIns.setString(50, "");
-                } else {
-                    psIns.setString(50, request.getParameter("ipAddressPrint"));
-                }
-                psIns.setInt(51, defaultPrinterPort);
+                psIns.setString(30, request.getParameter("salesPromotionBMPPath"));
 
-                psIns.setString(52, user);
-                psIns.setString(53, request.getParameter("addCompanyID"));
-                psIns.setString(54, request.getParameter("addStoreID"));
-                psIns.setString(55, request.getParameter("terminalID")); // printerid
-                // MST_PRINTERINFO(insert)
-                psIns.setString(56, request.getParameter("addCompanyID"));
-                psIns.setString(57, request.getParameter("addStoreID"));
-                psIns.setString(58, request.getParameter("terminalID")); // printerid
-                psIns.setString(59, request.getParameter("printerName"));
-                psIns.setString(60, request.getParameter("printerDescription"));
+                psIns.setString(31, user);
+                psIns.setString(32, request.getParameter("ter_ReceiptCardInshiFilePath"));
+                psIns.setString(33, request.getParameter("addCompanyID"));
+                psIns.setString(34, request.getParameter("addStoreID"));
+                psIns.setString(35, request.getParameter("terminalID"));
+                // MST_TERMINALINFO(insert)
+                psIns.setString(36, request.getParameter("addCompanyID"));
+                psIns.setString(37, request.getParameter("addStoreID"));
+                psIns.setString(38, request.getParameter("terminalID"));
+                psIns.setString(39, request.getParameter("floorId"));
+                psIns.setString(40, request.getParameter("terminalName"));
+                psIns.setString(41, request.getParameter("ipAddress"));
+                psIns.setString(42, request.getParameter("storeClass"));
+                psIns.setString(43, request.getParameter("terminalType"));
+                psIns.setString(44, request.getParameter("tillType"));
+                psIns.setString(45, request.getParameter("relationType"));
+                psIns.setString(46, request.getParameter("logPath"));
+                psIns.setString(47, request.getParameter("inshiPath"));
+                psIns.setString(48, request.getParameter("salesPromotionBMPPath"));
+                psIns.setString(49, user);
+                psIns.setString(50, user);
+                psIns.setString(51, request.getParameter("ter_ReceiptCardInshiFilePath"));
+                // MST_PRINTERINFO(update)
+                psIns.setString(52, request.getParameter("printerName"));
+                psIns.setString(53, request.getParameter("printerDescription"));
                 if (request.getParameter("ipAddressPrint") == null) {
-                    psIns.setString(61, "");
+                    psIns.setString(54, "");
                 } else {
-                    psIns.setString(61, request.getParameter("ipAddressPrint"));
+                    psIns.setString(54, request.getParameter("ipAddressPrint"));
                 }
-                
-                psIns.setInt(62, defaultPrinterPort);
-                
-                psIns.setString(63, user);
-                psIns.setString(64, user);
-                // MST_TILLIDINFO(update)
-                psIns.setString(65, request.getParameter("terminalID"));
-                psIns.setString(66, today);
+                psIns.setInt(55, defaultPrinterPort);
+
+                psIns.setString(56, user);
+                psIns.setString(57, request.getParameter("addCompanyID"));
+                psIns.setString(58, request.getParameter("addStoreID"));
+                psIns.setString(59, request.getParameter("terminalID")); // printerid
+                // MST_PRINTERINFO(insert)
+                psIns.setString(60, request.getParameter("addCompanyID"));
+                psIns.setString(61, request.getParameter("addStoreID"));
+                psIns.setString(62, request.getParameter("terminalID")); // printerid
+                psIns.setString(63, request.getParameter("printerName"));
+                psIns.setString(64, request.getParameter("printerDescription"));
+                if (request.getParameter("ipAddressPrint") == null) {
+                    psIns.setString(65, "");
+                } else {
+                    psIns.setString(65, request.getParameter("ipAddressPrint"));
+                }
+
+                psIns.setInt(66, defaultPrinterPort);
+
                 psIns.setString(67, user);
-                psIns.setString(68, request.getParameter("addCompanyID"));
-                psIns.setString(69, request.getParameter("addStoreID"));
-                psIns.setString(70, request.getParameter("addStoreID") + request.getParameter("terminalID"));
-                // MST_TILLIDINFO(insert)
-                psIns.setString(71, request.getParameter("addCompanyID"));
-                psIns.setString(72, request.getParameter("addStoreID"));
-                psIns.setString(73, request.getParameter("addStoreID") + request.getParameter("terminalID"));
-                psIns.setString(74, request.getParameter("terminalID"));
-                psIns.setString(75, today);
-                psIns.setString(76, user);
-                psIns.setString(77, user);
+                psIns.setString(68, user);
+                // MST_TILLIDINFO(update)
+                psIns.setString(69, request.getParameter("terminalID"));
+                psIns.setString(70, today);
+                psIns.setString(71, user);
+                psIns.setString(72, request.getParameter("addCompanyID"));
+                psIns.setString(73, request.getParameter("addStoreID"));
+                psIns.setString(74, request.getParameter("tillList"));
 
                 try {
                     int rsIns = psIns.executeUpdate();
@@ -282,7 +289,7 @@ ArrayList<String> PRINTER_TYPE = new ArrayList<String>() {{add("USBプリンタ�
 function searchDev(obj) {
     var companyId = storesearch.document.getElementById('companyidlist').value;
     var storeId = storesearch.document.getElementById('storeidlist').value;
-    document.getElementById('searchCompanyID').value = companyId; 
+    document.getElementById('searchCompanyID').value = companyId;
     document.getElementById('searchStoreID').value = storeId;
 
     var myform = document.getElementById('searchform');
@@ -373,22 +380,22 @@ window.onload = function() {
             </td>
           </tr>
           <tr>
+            <td align="right">ドロワーID ： </td>
+            <td align="left">
+              <select name="tillList" id="tillList" required style="width:50%">
+              <%
+                for (int i=0;i<tillIdList.size();i++) {
+                  out.print("<option value=\"" + tillIdList.get(i) + "\"");
+                  out.println(">" + tillIdList.get(i) + "</option>");
+                }
+              %>
+              </select>
+            </td>
+          </tr>
+          <tr>
             <td align="right">関連タイプ ： </td>
             <td align="left">
               <input maxlength="1" type="text" name="relationType" id="relationType" size=1 required pattern="\d{1}">(半角数字1桁で入力してください)
-            </td>
-          </tr>
-
-          <tr>
-            <td align="right">ロゴファイルパス ： </td>
-            <td align="left">
-              <input maxlength="255" type="text" name="logPath" id="logPath" size=40 required pattern=".{1,255}">(255文字以内で入力してください)
-            </td>
-          </tr>
-          <tr>
-            <td align="right">印紙ファイルパス ： </td>
-            <td align="left">
-              <input maxlength="255" type="text" name="inshiPath" id="inshiPath" size=40 required pattern=".{1,255}">(255文字以内で入力してください)
             </td>
           </tr>
 
@@ -449,16 +456,43 @@ window.onload = function() {
               </select>
             </td>
           </tr>
+          
+          <tr>
+            <td align="right">ロゴファイルパス ： </td>
+            <td align="left">
+              <input maxlength="255" type="text" name="logPath" id="logPath" size=40 required pattern=".{1,255}">(255文字以内で入力してください)
+            </td>
+          </tr>
+          <tr>
+            <td align="right">印紙ファイルパス ： </td>
+            <td align="left">
+              <input maxlength="255" type="text" name="inshiPath" id="inshiPath" size=40 required pattern=".{1,255}">(255文字以内で入力してください)
+            </td>
+          </tr>
+          <tr>
+            <td align="right" width="175px">領収証印紙ファイルパス ： </td>
+            <td align="left">
+                <input maxlength="100" type="text" name="ter_ReceiptCardInshiFilePath" id="ter_ReceiptCardInshiFilePath"
+                       size=40 required pattern=".{1,100}">(100文字以内で入力してください)
+            </td>
+          </tr>
+          <tr>
+            <td align="right" valign="top">販促ビットマップパス ： </td>
+            <td align="left">
+                <input maxlength="100" type="text" name="salesPromotionBMPPath" id="salesPromotionBMPPath"
+                       size=40 required pattern=".{1,98}\\\\">(100文字以内で最後に\\をつけて入力してください)
+            </td>
+          </tr>
         </table>
       </div>
       <div align="right">
-        <input type="button" value="登録" id="insertDev" name="insertDev" class="res-big-green"> 
+        <input type="button" value="登録" id="insertDev" name="insertDev" class="res-big-green">
       </div>
     </div>
     <button id="fakeButton" style="display:none"></button>
   </form>
 
-  
+
 </body>
 <script type="text/javascript">
 function changePrinterType(obj) {
@@ -497,7 +531,7 @@ jQuery(function ($) {
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>
 <%--
 	}

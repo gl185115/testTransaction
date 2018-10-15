@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.uiconfig.model;
 
 public enum UiConfigType {
+    PHRASES("phrases"),
     PICKLIST("pickList"),
     OPTIONS("options"),
     IMAGES("images"),
@@ -40,6 +41,7 @@ public enum UiConfigType {
     // Request API types.
     private static final String API_OPTIONS = "options";
     private static final String AIP_USABILITY = "usability";
+    private static final String API_PHRASES = "phrases";
     private static final String API_PICKLIST = "picklist";
     private static final String API_ADVERTISES = "advertise";
 
@@ -56,6 +58,9 @@ public enum UiConfigType {
             case AIP_USABILITY:
                 configType = UiConfigType.USABILITY;
                 break;
+            case API_PHRASES:
+                configType = UiConfigType.PHRASES;
+                break;
             case API_PICKLIST:
                 configType = UiConfigType.PICKLIST;
                 break;
@@ -69,6 +74,3 @@ public enum UiConfigType {
     }
 
 }
-
-
-

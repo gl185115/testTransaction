@@ -2,7 +2,7 @@ package ncr.res.mobilepos.barcode.dao;
 
 import atg.taglib.json.util.JSONObject;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 public interface IBarCodeDAO {
 

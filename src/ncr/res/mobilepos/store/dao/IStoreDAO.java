@@ -12,26 +12,16 @@ package ncr.res.mobilepos.store.dao;
 import java.util.List;
 
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
-import ncr.res.mobilepos.store.model.StoreInternSys;
+import ncr.res.mobilepos.store.model.StoreInfo;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
  * Interface class for Store maintenance DAO implementation.
  */
 public interface IStoreDAO {
-    /**
-     * View Store Details.
-     *
-     * @param retailStoreID Store's id
-     * @throws DaoException if error occurred.
-     * @return Store instance of Store class.
-     */
-    ViewStore viewStore(String retailStoreID) throws DaoException;
-    
     
     /**
      * View Store Details.
@@ -42,17 +32,6 @@ public interface IStoreDAO {
      */
     ViewStore getStoreDetaiInfo(String retailStoreID,String companyId) throws DaoException;
 
-    /**
-     * Delete Store.
-     *
-     * @param retailStoreID Store's id
-     * @param updAppId application ID
-     * @param updOpeCode operator Code
-     * @throws DaoException if error occurred.
-     * @return Result of the request.
-     */
-    ResultBase deleteStore(String retailStoreID, String updAppId, String updOpeCode) throws DaoException;
-   
     /**
      * List all stores details.
      *
@@ -66,37 +45,6 @@ public interface IStoreDAO {
     List<Store> listStores(String companyId, String key, String name, 
     		int limit) throws DaoException;
 
-    /**
-     * Creates Store.
-     *
-     * @param retailStoreID - Store number
-     * @param store - Store
-     * @throws DaoException if error occurred
-     * @return ResultBase
-     */
-    ResultBase createStore(String retailStoreID, Store store)
-              throws DaoException;
-
-    /**
-     * Update Store.
-     *
-     * @param storeid The retail storeid
-     * @param store The updates for store.
-     * @return The updated instance of Store.
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    ViewStore updateStore(String storeid, Store store) throws DaoException;
-    
-    /**
-     * Update Store.
-     *
-     * @param storecode The field of Store_Inter_Sys.
-     * @param usage The  field of Store_Inter_Sys.
-     * @return The updated instance of StoreInternSys.
-     * @throws DaoException The exception thrown when error occurred.
-     */
-    StoreInternSys getStoreInterSys(String storecode, int usage) throws DaoException;
-    
     /**
      * List all CM preset info.
      *
@@ -142,5 +90,28 @@ public interface IStoreDAO {
      * @throws DaoException The Exception of Sql
      */
     int updateSummaryReceiptNo(int SubNum1,String companyId,String storeId,String workStactionId, String traning) throws DaoException;
+    
+	
+    /**
+     * get the sunNum2
+     * @param companyId
+     * @param storeId
+     * @param terminalId
+     * @param businessdaydate
+     * @return The updated instance of StoreInfo.
+     * @throws DaoException The Exception of Sql
+     */
+	StoreInfo getStoreTotal(String companyId, String storeId, String terminalId, String businessDayDate) throws DaoException;
+	
+    /**
+     * add Store Total
+     * @param companyId
+     * @param storeId
+     * @param terminalId
+     * @param businessdaydate
+     * @return StoreInfo
+     * @throws DaoException The Exception of Sql
+     */
+    StoreInfo addStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException;
     
 }

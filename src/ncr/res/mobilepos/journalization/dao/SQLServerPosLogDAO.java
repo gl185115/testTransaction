@@ -34,12 +34,13 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
 import ncr.realgate.util.Guid;
+import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
-import ncr.res.mobilepos.constant.ServerTypes;
 import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.TxTypes;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -53,6 +54,7 @@ import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.EasyJson;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
@@ -63,6 +65,7 @@ import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
 import ncr.res.mobilepos.journalization.model.poslog.Tender;
+import ncr.res.mobilepos.journalization.model.poslog.Total;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
 import ncr.res.mobilepos.journalization.model.poslog.TransactionSearch;
@@ -103,7 +106,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     public static final int POS_CTRL_UPDATE_TYPE_EOD = 1;
     private static final short OPEN_CLOSE_STAT_SOD = 1;
     private static final short OPEN_CLOSE_STAT_EOD = 4;
-    private static final SimpleDateFormat BEGIN_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
     /**
      * Default Constructor for SQLServerPoslogDAO.
@@ -172,9 +174,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             }
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get poslog type.", e);
-            throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get poslog type.", e);
             throw e;
         } finally {
             closeConnectionObjects(null, selectPosLogTxType, resultTxType);
@@ -259,35 +258,31 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         long ReturnGuestCnt = 0;
         long VoidGuestCnt = 0;
 
-        // ëOéÛã‡ÅAHoldÅAãqíçÇÃÇ¢Ç∏ÇÍÇ©Ç™í˘ê≥ÇÃèÍçáÅAãqêîÇÕåvè„ÇµÇ»Ç¢
         if (null != transaction.getRetailTransaction()) {
             if (null != transaction.getRetailTransaction().getTransactionLink()) {
-                TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+
+            	TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
+
                 if (TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())
-                        || TxTypes.HOLD.equals(transactionLink.getReasonCode())
-                        || TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())) {
-                    returnFlag = true;
+                            || TxTypes.HOLD.equals(transactionLink.getReasonCode())
+                            || TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())) {
+                        returnFlag = true;
                 }
             }
         }
 
         if (!returnFlag) {
-            // îÑè„ÇÃèÍçá
             if (txType.equalsIgnoreCase(TxTypes.SALES)) {
                 SalesGuestCnt = 1;
-                // ï‘ïiÇÃèÍçá
             } else if (txType.equalsIgnoreCase(TxTypes.RETURN)) {
                 ReturnGuestCnt = 1;
-                // éÊè¡ÇÃèÍçá
             } else {
-                // í èÌîÑè„Ç™éÊè¡ÇÃèÍçá
                 if (null != transaction.getRetailTransaction()) {
                     if (null != transaction.getRetailTransaction().getLineItems()) {
                         List<LineItem> lineItems = transaction.getRetailTransaction().getLineItems();
 
                         for (LineItem lineItem : lineItems) {
                             if (lineItem.getRetrn() != null) {
-                                // í èÌîÑè„Ç™éÊè¡ï‘ïiÇÃèÍçá
                                 isVoidReturnFlag = true;
                                 break;
                             }
@@ -401,7 +396,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
         String companyId = transaction.getOrganizationHierarchy().getId();
         String returnedType = "";
 
@@ -473,7 +468,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
         String companyId = transaction.getOrganizationHierarchy().getId();
         String txtType = getTransactionType(connection, transactionLink.getRetailStoreID(),
                 transactionLink.getWorkStationID().getValue(), transactionLink.getSequenceNo(),
@@ -545,6 +540,34 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         tp.methodExit();
     }
+    
+    /**
+     * Private Method for charge cancel
+     *
+     * @param transaction
+     *            The current transaction.
+     * @param posLogXml
+     *            The POSLog XML.
+     * @param connection
+     *            The database connection
+     * @param savePOSLogStmt
+     *            The Prepared Statement for inserting the POSLog XML for Return
+     *            in the TXL_POSLOG
+     *
+     * @return void
+     *
+     * @throws Exception
+     *             The Exception thrown when the process fails
+     */
+    private void doChargeCancelTransaction(final Transaction transaction, final String posLogXml, final Connection connection,
+            final PreparedStatement savePOSLogStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, NamingException, DaoException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName());
+
+        savePosLogXML(transaction, posLogXml, TxTypes.CHARGECANCEL, savePOSLogStmt, connection, trainingMode);
+
+        tp.methodExit();
+    }
 
     /**
      * Private Method that implement the chkPOSLogDuplicate of transaction.
@@ -585,10 +608,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "chkPOSLogDuplicate: Failed to check duplication.", e);
             throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "chkPOSLogDuplicate: Failed to check duplication.", e);
-            throw e;
         } finally {
             closeConnectionObjects(null, statement, resultSet);
         }
@@ -624,7 +643,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     throws SQLException, SQLStatementException, DaoException, JournalizationException, NamingException {
         tp.methodEnter(DebugLogger.getCurrentMethodName());
 
-        TransactionLink transactionLink = transaction.getRetailTransaction().getTransactionLink();
+        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
         // String txtType = getTransactionType(connection,
         // transactionLink.getRetailStoreID(),
         // transactionLink.getWorkStationID().getValue(),
@@ -657,9 +676,15 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         savePosLogXML(transaction, posLogXml, txType, savePOSLogStmt, connection, trainingMode);
 
-        // insert return details to TXL_SALES_VOIDED
-        saveReturnDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
-
+        // when TxTypes is Rrturn , insert return details to TXL_SALES_VOIDED
+        if((TxTypes.RETURN).equals(txType)){
+            // insert return details to TXL_SALES_VOIDED
+            saveReturnDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
+        }else{
+        	// insert void details to TXL_SALES_VOIDED
+        	saveVoidDetails(saveVoidDetailsStmt, transactionLink, companyId, trainingMode);
+        }
+        
         // insert return details to TXU_TOTAL_GUESTTILLDAY
         // saveTxuTotalGuestTillDay(transaction, TxTypes.RETURN,
         // saveTxuTotalGuestTillDayStmt, connection);
@@ -704,31 +729,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
     }
 
     /**
-     * Private Method for Getting the Server Type in the System Environment
-     *
-     * @return Server Type ("STORE", "ENTERPRISE")
-     *
-     * @throws DaoException
-     *             The Exception thrown when the process fails
-     */
-    private String getServerType() throws DaoException {
-        String serverType = "";
-        try {
-            // check value for environment variable SERVERTYPE
-            serverType = System.getenv("SERVERTYPE");
-            if (StringUtility.isNullOrEmpty(serverType)) {
-                serverType = DEFAULT_SERVERTYPE;
-            }
-        } catch (SecurityException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO,
-                    "getServerType" + ": Failed to get SERVERTYPE system property.", e);
-            throw new DaoException("DaoException: @SQLServerPosLogDAO." + "getServerType:"
-                    + " Failed to get SERVERTYPE system property.", e, ResultBase.RES_SYSTEM_PROP_ERROR);
-        }
-        return serverType;
-    }
-
-    /**
      * Private Method for Start of Day Transaction
      * This method updates RESMaster.dbo.MST_TILLIDINFO.SodFlag to 1.
      * @param transaction The current transaction.
@@ -756,7 +756,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         // Checks if SOD is not finished yet.
-        boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
+        boolean isEnterprise = WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise();
         if (!isEnterprise && TillInfoResource.SOD_FLAG_FINISHED.equals(currentTill.getSodFlag())) {
             tp.methodExit();
             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
@@ -772,27 +772,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
         tillInfoDAO.updateTillOnJourn(connection, currentTill, updatingTill, isEnterprise);
         tp.methodExit();
-    }
-
-    /**
-     * Compares environment "SERVERTYPE" to serverType parameter.
-     *
-     * @param serverType
-     * @return true/false.
-     */
-    private boolean isServerType(String serverType) {
-        boolean isServer = false;
-        String server = "";
-        try {
-            server = this.getServerType();
-        } catch (DaoException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, "isServerType" + ": Failed to validate servertype.", e);
-        } finally {
-            if (server.equalsIgnoreCase(serverType)) {
-                isServer = true;
-            }
-        }
-        return isServer;
     }
 
     /**
@@ -823,7 +802,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         }
 
         // Checks if EOD is not finished yet.
-        boolean isEnterprise = isServerType(ServerTypes.ENTERPRISE);
+        boolean isEnterprise = WindowsEnvironmentVariables.getInstance().isServerTypeEnterprise();
         if (!isEnterprise && TillInfoResource.EOD_FLAG_FINISHED.equals(currentTill.getEodFlag())) {
             tp.methodExit();
             throw new TillException("TillException: @SQLServerPosLogDAO." + functionName
@@ -921,6 +900,45 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM10, transaction.getBusinessDayDate());
         saveSummaryReceiptDetailsStmt.setString(SQLStatement.PARAM11, transaction.getBeginDateTime());
         saveSummaryReceiptDetailsStmt.executeUpdate();
+
+        tp.methodExit();
+    }
+
+    /**
+     * Saves GiftReceipt POSLog
+     * @param transaction transation object of poslog.
+     * @param posLogXml poslog in xml.
+     * @param connection database connnection object.
+     * @param savePOSLogStmt preparestatement.
+     * @param saveGiftReceiptDetailsStmt preparestatement.
+     * @param trainingMode 0 or 1.
+     * @throws SQLException sql error.
+     * @throws SQLStatementException sql query error.
+     * @throws DaoException database error.
+     * @throws NamingException
+     */
+    private void doGiftReceiptTransaction(final Transaction transaction, final String posLogXml,
+            final Connection connection, final PreparedStatement savePOSLogStmt,
+            final PreparedStatement saveGiftReceiptDetailsStmt, final int trainingMode)
+                    throws SQLException, SQLStatementException, DaoException, NamingException {
+        tp.methodEnter(DebugLogger.getCurrentMethodName());
+
+        savePosLogXML(transaction, posLogXml, TxTypes.GIFT_RECEIPT, savePOSLogStmt, connection, trainingMode);
+
+        TransactionLink transactionLink = transaction.getControlTransaction().getReceiptReprint().getTransactionLink();
+        // insert giftreceipt details to TXL_GIFTRECEIPT_HISTORY
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM1, transactionLink.getOrganizationHierarchy().getId());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM2, transactionLink.getRetailStoreID());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM3, transactionLink.getWorkStationID().getValue());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM4, transactionLink.getSequenceNo());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM5, transactionLink.getBusinessDayDate());
+        saveGiftReceiptDetailsStmt.setInt(SQLStatement.PARAM6, ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM7, transaction.getRetailStoreID());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM8, transaction.getWorkStationID().getValue());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM9, transaction.getSequenceNo());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM10, transaction.getBusinessDayDate());
+        saveGiftReceiptDetailsStmt.setString(SQLStatement.PARAM11, transaction.getBeginDateTime());
+        saveGiftReceiptDetailsStmt.executeUpdate();
 
         tp.methodExit();
     }
@@ -1205,7 +1223,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
      *             The exception thrown when the process fail.
      */
     public final void savePOSLog(final PosLog posLog, final String posLogXml, final int trainingMode)
-            throws DaoException, JournalizationException, TillException {
+            throws DaoException, JournalizationException, TillException,
+            ParseException,SQLStatementException, NamingException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("poslogxml", posLogXml);
 
@@ -1214,7 +1233,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         PreparedStatement saveVoidDetailsStmt = null;
         PreparedStatement saveSummaryReceiptDetailsStmt = null;
         PreparedStatement saveTxuTotalGuestTillDayStmt = null;
-
+        PreparedStatement saveGiftReceiptDetailsStmt = null;        
         Transaction transaction = posLog.getTransaction();
 
         try {
@@ -1226,7 +1245,8 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     .prepareStatement(sqlStatement.getProperty("save-summary-receipt-details"));
             saveTxuTotalGuestTillDayStmt = connection
                     .prepareStatement(sqlStatement.getProperty("save-TxuTotalGuestTillDay-details"));
-
+            saveGiftReceiptDetailsStmt = connection.prepareStatement(sqlStatement.getProperty("save-gift-receipt-details"));
+            
             // String transactionType =
             // POSLogHandler.getTransactionType(posLog);
             String transactionType = transaction.getTransactionType();
@@ -1251,17 +1271,24 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.SALES:
                 case TxTypes.ECSALES:
                 case TxTypes.EXCHANGESALES:
+                case TxTypes.GIFTCARDINQUIRY:
+                case TxTypes.GIFTCARDRECHARGE:
                     doNormalTransaction(transaction, posLogXml, savePOSLogStmt, connection,
                             saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
                     break;
+                case TxTypes.CASHINVOID:
                 case TxTypes.RETURN:
                 case TxTypes.ECRETURN:
                 case TxTypes.EXCHANGERETURN:
-                    if (transaction.getRetailTransaction().getTransactionLink() != null) { // return
-                                                                                           // with
-                                                                                           // receipt
-                        doReturnWithReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
-                                saveVoidDetailsStmt, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                    if (transaction.getRetailTransaction().getTransactionLink() != null) { // return with receipt
+                        TransactionLink transactionLink = POSLogHandler.getNormalTransactionLink(transaction.getRetailTransaction().getTransactionLink());
+                        if (transactionLink.getSequenceNo() == null) {
+                            doReturnNoReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
+                                    saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                        } else {
+                            doReturnWithReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
+                                    saveVoidDetailsStmt, saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
+                        }
                     } else { // return without receipt
                         doReturnNoReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
                                 saveTxuTotalGuestTillDayStmt, trainingMode, transactionType);
@@ -1269,6 +1296,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     break;
                 case TxTypes.CANCEL:
                     doCancelTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
+                    break;
+                case TxTypes.CHARGECANCEL:
+                    doChargeCancelTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
                 case TxTypes.VOID:
                 case TxTypes.RETURNVOID:
@@ -1291,6 +1321,9 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     doSummaryReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt,
                             saveSummaryReceiptDetailsStmt, trainingMode);
                     break;
+                case TxTypes.GIFT_RECEIPT:
+                	doGiftReceiptTransaction(transaction, posLogXml, connection, savePOSLogStmt, saveGiftReceiptDetailsStmt, trainingMode);
+                	break;
                 case TxTypes.PAYIN:
                     doDonationTransaction(transaction, posLogXml, connection, savePOSLogStmt, trainingMode);
                     break;
@@ -1338,11 +1371,18 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 case TxTypes.PURCHASE:
                 case TxTypes.PURCHASERETURN:
                 case TxTypes.CASHIN:
-                case TxTypes.CASHINVOID:
                 case TxTypes.CASHOUT:
                 case TxTypes.CASHOUTVOID:
                 case TxTypes.CHARGESALES:
                 case TxTypes.SUSPEND:
+                case TxTypes.STOREEOD:
+                case TxTypes.DAILYREPORT:
+                case TxTypes.OPESUMDAY:
+                case TxTypes.SUMTIME:
+                case TxTypes.GROUPSUMDAY:
+                case TxTypes.DPTSUMDAY:
+                case TxTypes.GUESTSUMDAY:
+                case TxTypes.EODCASHOUT:
                     savePosLogXML(transaction, posLogXml, transactionType, savePOSLogStmt, connection, trainingMode);
                     break;
                 default:
@@ -1360,26 +1400,26 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                 LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
                         "Duplicate POSLog Transaction");
                 Snap.SnapInfo duplicatePOSLog = snap.write("Duplicate POSLog Transaction", posLogXml);
-                LOGGER.logSnap(PROG_NAME, functionName, "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
+                LOGGER.logSnap(IoWriter.WARNING, PROG_NAME, functionName,
+                        "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
             }
         } catch (SQLStatementException sqlStmtEx) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlStmtEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to save transaction.",
                     sqlStmtEx);
-            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " + sqlStmtEx.getMessage(),
-                    sqlStmtEx);
+            throw sqlStmtEx;
         } catch (SQLException sqlEx) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to save transaction.", sqlEx);
             throw new DaoException("SQLException: @doPOSLogJournalization - " + sqlEx.getMessage(), sqlEx);
         } catch (NamingException e) {
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to save transaction.", e);
-            throw new DaoException("Unable to find serverID from context parameters.", e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_NAMINGEXC, functionName + ": Unable to find serverID from context parameters.", e);
+            throw e;
         } catch (TillException tEx) {
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", tEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_TILL, functionName + ": Failed to update Till.", tEx);
-            throw new TillException("Failed to update Till. - " + tEx.getMessage(), tEx, tEx.getErrorCode());
+            throw tEx;
         } catch (DaoException e) {
             if (e.getErrorCode() == ResultBase.RES_SYSTEM_PROP_ERROR) {
                 rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", e);
@@ -1390,10 +1430,15 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             // Failed by ParseException thrown by invalid format of BusinessDayDate or BeginDateTime .
             rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", parseEx);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_PARSE, functionName + ": Failed to update PosCtrl.", parseEx);
-            throw new TillException("Failed to update PosCtrl. - " + parseEx.getMessage(), parseEx);
+            throw parseEx;
+        } catch (JournalizationException je) {
+            rollBack(connection, "SQLServerPosLogDAO:" + " @doPOSLogJournalization()", je);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_JOURNAL, functionName + ": Failed to update PosCtrl.", je);
+            throw je;
         } finally {
             closeConnectionObjects(null, savePOSLogStmt, null);
             closeConnectionObjects(null, saveSummaryReceiptDetailsStmt, null);
+            closeConnectionObjects(null, saveGiftReceiptDetailsStmt, null);
             closeConnectionObjects(null, saveTxuTotalGuestTillDayStmt, null);
             closeConnectionObjects(connection, saveVoidDetailsStmt, null);
 
@@ -1558,12 +1603,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "isTransactionVoidedOrReturned: Error in checking if "
                     + "transaction was already voided or returned.", e);
             throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "isTransactionVoidedOrReturned: Error in checking if "
-                            + "transaction was already voided or returned.",
-                    e);
-            throw e;
         } finally {
             closeConnectionObjects(null, statement, resultSet);
         }
@@ -1626,7 +1665,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             // Concats the first part of BusinessDayDate and the last part of BeginDateTime.
             String concatBusinessDate = transaction.getBusinessDayDate()
                     + transaction.getBeginDateTime().substring(transaction.getBusinessDayDate().length());
-            Timestamp businessDateTime = new Timestamp(BEGIN_DATE_TIME_FORMAT.parse(concatBusinessDate).getTime());
+            Timestamp businessDateTime = new Timestamp(DateFormatUtility.parseDate(concatBusinessDate,"yyyy-MM-dd'T'HH:mm:ss").getTime());
             createUpdate.setTimestamp(SQLStatement.PARAM5, businessDateTime);
 
             createUpdate.setString(SQLStatement.PARAM6, transaction.getSequenceNo());
@@ -1777,50 +1816,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             closeConnectionObjects(connection, selectStmnt, resultSet);
         }
         return tp.methodExit(strResult);
-    }
-
-    /**
-     * Get the latest available Normal POSlog Transaction.
-     *
-     * @param terminalid
-     *            The terminal ID for the transaction
-     * @param storeid
-     *            The store ID for the transaction
-     * @return Returns a POSLog Xml of the latest available POSLog
-     * @throws DaoException
-     *             The exception thrown when getting the last Transaction
-     *             Information fails
-     */
-    @Override
-    public final String getLastNormalTransaction(final String terminalid, final String storeid) throws DaoException {
-        String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName).println("Terminal ID", terminalid).println("Store ID", storeid);
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        String posLogXML = "";
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-last-transaction-poslog"));
-
-            select.setString(SQLStatement.PARAM1, storeid);
-            select.setString(SQLStatement.PARAM2, terminalid);
-            result = select.executeQuery();
-            if (result.next()) {
-                posLogXML = result.getString(result.findColumn("tx"));
-            } else {
-                tp.println("No last normal transaction found.");
-            }
-        } catch (Exception ex) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-                    functionName + ": Failed to get last normal transaction.", ex);
-            throw new DaoException("Exception: @getLastNormalTransaction - " + ex.getMessage(), ex);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-        }
-        return tp.methodExit(posLogXML);
     }
 
     @Override
@@ -1996,7 +1991,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
 				int summaryReceiptCount = getSummaryReceiptCount(company, transaction.getRetailStoreID(),
 						transaction.getWorkStationID().getValue(), transaction.getSequenceNo(),
-						transaction.getBusinessDayDate());
+						transaction.getBusinessDayDate(), trainingMode);
                 info.setSummaryReceipt(String.valueOf(summaryReceiptCount));
 
                 // TODO: get number of times a receipt was printed
@@ -2059,7 +2054,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         return voidable;
     }
 
-    public int getSummaryReceiptCount(String companyid, String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
+    public int getSummaryReceiptCount(String companyid, String retailStoreID,String workStationID,String sequenceNo,String businessDayDate,int trainingFlag)
     throws SQLException, SQLStatementException, DaoException {
         int result = 0;
         PreparedStatement statement = null;
@@ -2075,6 +2070,7 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             statement.setString(SQLStatement.PARAM3, workStationID);
             statement.setString(SQLStatement.PARAM4, sequenceNo);
             statement.setString(SQLStatement.PARAM5, businessDayDate);
+            statement.setInt(SQLStatement.PARAM6, trainingFlag);
 
             resultSet = statement.executeQuery();
             if (resultSet.last()) {
@@ -2084,17 +2080,45 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL,
                 "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
             throw e;
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                "getSummaryReceiptCount: Error in getting summary receipt counts.", e);
-            throw e;
         } finally {
             closeConnectionObjects(connection, statement, resultSet);
         }
 
         return result;
     }
+    
+    @Override
+	public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId, String sequenceNo, String businessDayDate, int trainingFlag)
+			throws SQLException, SQLStatementException, DaoException {
+		int result = 0;
+		PreparedStatement statement = null;
+		ResultSet resultSet = null;
+		Connection connection = null;
+		try {
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			statement = connection.prepareStatement(sqlStatement.getProperty("get-gift-receipt-count"),
+					ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			statement.setString(SQLStatement.PARAM1, companyId);
+			statement.setString(SQLStatement.PARAM2, retailStoreId);
+			statement.setString(SQLStatement.PARAM3, workStationId);
+			statement.setString(SQLStatement.PARAM4, sequenceNo);
+			statement.setString(SQLStatement.PARAM5, businessDayDate);
+			statement.setInt(SQLStatement.PARAM6, trainingFlag);
 
+			resultSet = statement.executeQuery();
+
+			if (resultSet.last()) {
+				result = resultSet.getInt("count");
+			}
+		} catch (SQLException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, "getGiftReceiptCount: Error in getting gift receipt counts.", e);
+			throw e;
+		} finally {
+			closeConnectionObjects(connection, statement, resultSet);
+		}
+		return result;
+	}
 
     private void saveVoidDetails(final PreparedStatement saveVoidDetailsStmt, TransactionLink transactionLink,
             String companyId, int trainingMode) throws SQLException {
@@ -2128,9 +2152,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         saveVoidDetailsStmt.executeUpdate();
     }
 
-    /**
-     * ëOéJÇÃPosLogÇÃï€ë∂
-     */
     @Override
     public int saveForwardPosLog(PosLog posLog, String posLogXml, String queue, String total) throws DaoException {
 
@@ -2146,6 +2167,13 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 
             SQLStatement sqlStatement = SQLStatement.getInstance();
             Transaction transaction = posLog.getTransaction();
+            Double amount = null;
+
+            for(Total totalType : transaction.getRetailTransaction().getTotal()){
+                if (("TransactionPurchaseQuantity").equals(totalType.getTotalType())) {
+                    amount = new Double(totalType.getAmount());
+                }
+            }
 
             saveForwardPosLogPrepStmnt = connection.prepareStatement(sqlStatement.getProperty("save-forward-poslog"));
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
@@ -2158,22 +2186,19 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
                     ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM8, transaction.getBeginDateTime());
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM9, transaction.getOperatorID().getValue());
-            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM10, Integer.parseInt(total));
+            saveForwardPosLogPrepStmnt.setLong(SQLStatement.PARAM10, Long.parseLong(total));
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM11, transaction.getWorkStationID().getValue());
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM12, "0");
             saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM13, posLogXml);
             saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM14,
                     "true".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 1 : 0);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM15, transaction.getTransactionType());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM16, amount.intValue());
 
             if (saveForwardPosLogPrepStmnt.executeUpdate() != 1) {
                 result = ResultBase.RESSYS_ERROR_QB_QUEUEFULL;
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functioName + ": Failed to save forward poslog",
-                    e);
-            rollBack(connection, functioName, e);
-            throw new DaoException("SQLStatementException: @" + functioName, e);
         } catch (SQLException e) {
             if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
                 LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName + ": Failed to save forward poslog.", e);
@@ -2196,9 +2221,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         return result;
     }
 
-    /**
-     * ëOéJPosLog ÇÃéÊìæ
-     */
     @Override
     public SearchForwardPosLog getForwardItemsPosLog(String CompanyId, String RetailStoreId, String WorkstationId,
             String SequenceNumber, String Queue, String BusinessDayDate, String TrainingFlag) throws DaoException {
@@ -2280,10 +2302,42 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
         } catch (SQLException e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get last pay tx poslog.", e);
             throw new Exception("SQLException: @SQLServerPosLogDAO." + functionName, e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get last pay tx poslog.", e);
-            throw new Exception("SQLStatementException: @SQLServerPosLogDAO." + functionName, e);
+        } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(poslog);
+        }
+        return poslog;
+    }
+
+    public String getLastBalancingTxPoslog(String companyId, String storeId, String terminalId, String businessDate,
+            int trainingFlag) throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("companyid", companyId).println("storeId", storeId)
+                .println("terminalId", terminalId).println("businessDate", businessDate)
+                .println("trainingFlag", trainingFlag);
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        String poslog = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(sqlStatement.getProperty("get-last-balancing-tx-poslog"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, terminalId);
+            statement.setString(SQLStatement.PARAM4, businessDate);
+            statement.setInt(SQLStatement.PARAM5, trainingFlag);
+            result = statement.executeQuery();
+
+            if (result.next()) {
+                poslog = result.getString("Tx");
+            }
+        } catch (SQLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get last balancing tx poslog.", e);
+            throw new Exception("SQLException: @SQLServerPosLogDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, statement, result);
             tp.methodExit(poslog);
@@ -2424,11 +2478,6 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get or update lock status.",
                     sqlE);
             throw new DaoException("SQLException: @doPOSLogJournalization - " + sqlE.getMessage(), sqlE);
-        } catch (SQLStatementException sqlsE) {
-            rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", sqlsE);
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get or update lock status.", sqlsE);
-            throw new DaoException("SQLStatementException: @doPOSLogJournalization - " + sqlsE.getMessage(), sqlsE);
         } catch (Exception e) {
             rollBack(connection, "SQLServerPosLogDAO: @doPOSLogJournalization()", e);
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
@@ -2482,6 +2531,12 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
             	if(!StringUtility.isNullOrEmpty(originalSequence)) {
             		pointPosted.setPostPointed(true);
             		pointPosted.setMemberId(resultSet.getString("MemberId"));
+                    pointPosted.setCompanyId(resultSet.getString("CompanyId"));
+                    pointPosted.setRetailStoreId(resultSet.getString("RetailStoreId"));
+                    pointPosted.setWorkstationId(resultSet.getString("WorkstationId"));
+                    pointPosted.setBusinessDayDate(resultSet.getString("BusinessDayDate"));
+                    pointPosted.setSequenceNumber(resultSet.getString("SequenceNumber"));
+                    pointPosted.setTrainingFlag(resultSet.getInt("TrainingFlag"));
             	}
             }
         } catch (Exception ex) {
@@ -2494,4 +2549,129 @@ public class SQLServerPosLogDAO extends AbstractDao implements IPosLogDAO {
 		return pointPosted;
 	}
 
+	@Override
+	public int saveForwardPosLogIncludeTag(PosLog posLog, String posLogXml, String queue, String tag, String total)
+			throws DaoException {
+		String functioName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functioName).println("queue", queue).println("tag",tag).println("total", total);
+
+        int result = 0;
+        Connection connection = null;
+        PreparedStatement saveForwardPosLogPrepStmnt = null;
+
+        try {
+            connection = dbManager.getConnection();
+
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            Transaction transaction = posLog.getTransaction();
+            Double amount = null;
+
+            for(Total totalType : transaction.getRetailTransaction().getTotal()){
+                if (("TransactionPurchaseQuantity").equals(totalType.getTotalType())) {
+                    amount = new Double(totalType.getAmount());
+                }
+            }
+
+            saveForwardPosLogPrepStmnt = connection.prepareStatement(sqlStatement.getProperty("save-forward-poslog-include-tag"));
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM1, transaction.getOrganizationHierarchy().getId());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM2, transaction.getRetailStoreID());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM3, transaction.getWorkStationID().getValue());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM4, transaction.getSequenceNo());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM5, queue);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM6, transaction.getBusinessDayDate());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM7,
+                    ("false".equals(transaction.getTrainingModeFlag())) ? 0 : 1);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM8, transaction.getBeginDateTime());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM9, transaction.getOperatorID().getValue());
+            saveForwardPosLogPrepStmnt.setLong(SQLStatement.PARAM10, Long.parseLong(total));
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM11, transaction.getWorkStationID().getValue());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM12, "0");
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM13, posLogXml);
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM14,
+                    "true".equals(transaction.getRetailTransaction().getLayawayFlag()) ? 1 : 0);
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM15, transaction.getTransactionType());
+            saveForwardPosLogPrepStmnt.setInt(SQLStatement.PARAM16, amount.intValue());
+            saveForwardPosLogPrepStmnt.setString(SQLStatement.PARAM17, tag);
+            if (saveForwardPosLogPrepStmnt.executeUpdate() != 1) {
+                result = ResultBase.RESSYS_ERROR_QB_TAG_INUSE;
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            if (e.getErrorCode() != Math.abs(SQLResultsConstants.ROW_DUPLICATE)) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functioName + ": Failed to save forward poslog.", e);
+                rollBack(connection, functioName, e);
+                throw new DaoException("SQLException: @" + functioName, e);
+            }
+            Snap.SnapInfo duplicateSuspend = snap.write("Poslogxml to suspend", posLogXml);
+            LOGGER.logSnap(PROG_NAME, functioName, "Duplicate suspend transaction to snap file", duplicateSuspend);
+            result = SQLResultsConstants.ROW_DUPLICATE;
+            tp.println("Duplicate Entry of Transaction.");
+        } catch (Exception e) {
+            rollBack(connection, functioName, e);
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functioName + ": Failed to save forward poslog.", e);
+            throw new DaoException("Exception: @" + functioName, e);
+        } finally {
+            closeConnectionObjects(connection, saveForwardPosLogPrepStmnt);
+            tp.methodExit(result);
+        }
+
+        return result;
+	}
+	
+    /**
+     * É^ÉOî‘çÜÇ≈ëOéJè§ïiñæç◊ PosLog åüçı
+     * @param companyId
+     * @param retailStoreId
+     * @param queue
+     * @param businessDayDate
+     * @param tag
+     * @return ëOéJìoò^ PosLog
+     * @throws DaoException
+     */
+    @Override
+    public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
+    		String queue, String businessDayDate, String tag, String trainingFlag) throws DaoException{
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+        		.println("CompanyId", companyId)
+        		.println("RetailStoreId", retailStoreId)
+                .println("Queue", queue)
+                .println("BusinessDayDate", businessDayDate)
+                .println("tag", tag)
+                .println("trainingFlag", trainingFlag);
+
+        SearchForwardPosLog searchForwardPosLog = new SearchForwardPosLog();
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet result = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            select = connection.prepareStatement(sqlStatement.getProperty("get-forward-items-posLog-with-tag"));
+
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, retailStoreId);
+            select.setString(SQLStatement.PARAM3, queue);
+            select.setString(SQLStatement.PARAM4, businessDayDate);
+            select.setString(SQLStatement.PARAM5, tag);
+            select.setInt(SQLStatement.PARAM6, Integer.valueOf(trainingFlag));
+
+            result = select.executeQuery();
+            if (result.next()) {
+                searchForwardPosLog.setPosLogXml(result.getString(result.findColumn("tx")));
+                searchForwardPosLog.setStatus(result.getInt(result.findColumn("Status")));
+            } else {
+                tp.println("No forward items poslog with tag found.");
+            }
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get forward items poslog with tag.",
+                    ex);
+            throw new DaoException("Exception: @getForwardItemsPosLogWithTag - " + ex.getMessage(), ex);
+        } finally {
+            closeConnectionObjects(connection, select, result);
+            tp.methodExit(searchForwardPosLog.getPosLogXml());
+        }
+        return searchForwardPosLog;
+    }
 }

@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -65,13 +66,14 @@ public class Config {
      * @param givenWorkstationID
      * @param csvStores
      * @return
+     * @throws ParseException 
      */
-    public List<Task> getValidTasks(String givenStoreID, String givenWorkstationID, List<CSVStore> csvStores) {
+    public List<Task> getValidTasks(String givenStoreID, String givenWorkstationID, List<CSVStore> csvStores, String thisBusinessDay) throws ParseException {
         // Prepares TreeMap to sort tasks by effective date. Oldest comes first.
         List<Task> validTasks = new ArrayList<Task>();
         // Puts effective tasks into the map.
         for (Task aTask : task) {
-            if (Config.isValidTask(givenStoreID, givenWorkstationID, csvStores, aTask)) {
+            if (Config.isValidTask(givenStoreID, givenWorkstationID, csvStores, aTask, thisBusinessDay)) {
                 validTasks.add(aTask);
             }
         }
@@ -80,8 +82,8 @@ public class Config {
         return validTasks;
     }
 
-    private static boolean isValidTask(String givenStoreID, String givenWorkstationID, List<CSVStore> csvStores, Task task) {
-        return task.isEffective()
+    private static boolean isValidTask(String givenStoreID, String givenWorkstationID, List<CSVStore> csvStores, Task task, String thisBusinessDay) throws ParseException {
+        return task.isEffective(thisBusinessDay)
                 && task.getTarget().hasStoreID(givenStoreID, csvStores)
                 && task.getTarget().hasWorkstationID(givenWorkstationID);
     }
@@ -93,13 +95,14 @@ public class Config {
      * @param givenWorkstationID
      * @param dbStores
      * @return
+     * @throws ParseException 
      */
-    public List<Task> getValidTasksByDB(String givenStoreID, String givenWorkstationID, List<StoreEntry> dbStores) {
+    public List<Task> getValidTasksByDB(String givenStoreID, String givenWorkstationID, List<StoreEntry> dbStores, String thisBusinessDay) throws ParseException {
         // Prepares TreeMap to sort tasks by effective date. Oldest comes first.
         List<Task> validTasks = new ArrayList<Task>();
         // Puts effective tasks into the map.
         for (Task aTask : task) {
-            if (Config.isValidTaskByDB(givenStoreID, givenWorkstationID, dbStores, aTask)) {
+            if (Config.isValidTaskByDB(givenStoreID, givenWorkstationID, dbStores, aTask, thisBusinessDay)) {
                 validTasks.add(aTask);
             }
         }
@@ -108,8 +111,8 @@ public class Config {
         return validTasks;
     }
 
-    private static boolean isValidTaskByDB(String givenStoreID, String givenWorkstationID, List<StoreEntry> dbStores, Task task) {
-        return task.isEffective()
+    private static boolean isValidTaskByDB(String givenStoreID, String givenWorkstationID, List<StoreEntry> dbStores, Task task, String thisBusinessDay) throws ParseException {
+        return task.isEffective(thisBusinessDay)
                 && task.getTarget().hasStoreIDByDB(givenStoreID, dbStores)
                 && task.getTarget().hasWorkstationID(givenWorkstationID);
     }

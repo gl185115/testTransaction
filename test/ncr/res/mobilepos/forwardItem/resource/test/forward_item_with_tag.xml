@@ -1,0 +1,59 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+  <table name="TXL_FORWARD_ITEM">
+    <column>CompanyId</column>
+    <column>RetailStoreId</column>
+    <column>WorkstationId</column>
+    <column>SequenceNumber</column>
+    <column>Queue</column>
+    <column>BusinessDayDate</column>
+    <column>TrainingFlag</column>
+    <column>TxType</column>
+    <column>BusinessDateTime</column>
+    <column>OperatorId</column>
+    <column>LayawayFlag</column>
+    <column>SalesTotalAmt</column>
+    <column>PosTermId</column>
+    <column>Status</column>
+    <column>Tx</column>
+    <column>SalesTotalQty</column>
+    <column>Ext1</column>
+    <column>Ext2</column>
+    <column>Ext3</column>
+    <column>Ext4</column>
+    <column>Ext5</column>
+    <column>Ext6</column>
+    <column>Ext7</column>
+    <column>Ext8</column>
+    <column>Ext9</column>
+    <column>Ext10</column>
+    <row>
+      <value>01</value>
+      <value>0031</value>
+      <value>0001</value>
+      <value>6438</value>
+      <value>1324</value>
+      <value>2016-02-02</value>
+      <value>0</value>
+      <value>Sales</value>
+      <value>2018-05-2417:34:34.000</value>
+      <value>0000006</value>
+      <value>0</value>
+      <value>10001</value>
+      <value>0002</value>
+      <value>0</value>
+      <value><![CDATA[<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction TrainingModeFlag="false"><TransactionType>Sales</TransactionType><OrganizationHierarchy Level="株式会社　紀伊國屋書店" ID="01" /><RetailStoreID>0016</RetailStoreID><WorkstationID TerminalType="2">0002</WorkstationID><SequenceNumber>0440</SequenceNumber><BusinessDayDate>2018-03-04</BusinessDayDate><BeginDateTime>2018-05-24T17:34:34</BeginDateTime><OperatorID OperatorName="店舗　ＢＣ" OperatorNameKana="ﾃｽﾄﾀﾝﾄｳｼｬ5"OperatorGroup="5">0000006</OperatorID><ReceiptDateTime>2018-05-24T17:34:34</ReceiptDateTime><TillID>00160002</TillID><SummaryReceiptNo></SummaryReceiptNo><FloorID>01</FloorID><SummaryReceiptReservation>0</SummaryReceiptReservation><BusinessUnit Name="新宿本店" VoucherName="新宿本店"><Telephone><FullTelephoneNumber>03-3354-0131</FullTelephoneNumber><VoucherTelephoneNumber>03-3354-0131</VoucherTelephoneNumber></Telephone><Address></Address></BusinessUnit><RetailTransaction OutsideSalesFlag="false"><Customer><CustomerDemographic></CustomerDemographic></Customer><PointsLater>0</PointsLater><Associate><AssociateID></AssociateID><AssociateName></AssociateName><AssociateKanaName></AssociateKanaName></Associate><TeamOrder>False</TeamOrder><PurSubsidy>0</PurSubsidy><AllPointExp>False</AllPointExp><ItemCount>3</ItemCount><LineItem><SequenceNumber>1</SequenceNumber><Sale TaxType="0" Department="0026" Line="0026" Class="0026"ItemType="0"><UrgentEntryFlag>0</UrgentEntryFlag><ItemID Type="Manual">4910112341211</ItemID><ScanBarCode>4910112341211</ScanBarCode><Description>和雑誌ー商品一覧</Description><MdKanaName>ｼｮｳﾋﾝｲﾁﾗﾝ1</MdKanaName><Sku>4910112341211</Sku><SkuType></SkuType><MdVender></MdVender><SupplierCode></SupplierCode><SubSupplierCode></SubSupplierCode><ColorId>2</ColorId><ColorName></ColorName><SizeId>26</SizeId><SizeName></SizeName><GroupCode>0011</GroupCode><DptNameLocal>和雑誌</DptNameLocal><SalesPriceFrom>0</SalesPriceFrom><OldSizeId>0</OldSizeId><SizePatternId1>26</SizePatternId1><SizePatternId2>26</SizePatternId2><BrandId></BrandId><BrandName></BrandName><OldSku></OldSku><RepSku></RepSku><RegularSalesUnitPrice>1000</RegularSalesUnitPrice><ActualSalesUnitPrice>1000</ActualSalesUnitPrice><ExtendedAmount>1000</ExtendedAmount><ExtendedDiscountAmount>0</ExtendedDiscountAmount><CostPrice>0</CostPrice><ItemSellingRule ItemDiscountFlag="1"TotalDiscountFlag="1" NonItemFlag="1" PointFlag="1" /><Quantity>1</Quantity><Tax TaxType="VAT"><Amount>1</Amount><Percent>0.1</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">1000</TaxableAmount></Tax><PointDiscountFlag>1</PointDiscountFlag><PointFlag>1</PointFlag><AggregateFlag>1</AggregateFlag><ItemAmount>1001</ItemAmount><CategoryCode></CategoryCode><LabelPrice>1000</LabelPrice><BeforeDpt></BeforeDpt><ExceptionFlag>0</ExceptionFlag><MagazineCode>49101</MagazineCode><ElectronicMoneyFlag>1</ElectronicMoneyFlag><TaxTypeSource>1</TaxTypeSource><DiscountTypeSource>1</DiscountTypeSource><Associate><AssociateID></AssociateID><AssociateName></AssociateName><AssociateKanaName></AssociateKanaName></Associate><SizeChange>False</SizeChange><SizeChanged>False</SizeChanged><PointExp>False</PointExp><DiscountExp>False</DiscountExp><GuaranteeFlag>False</GuaranteeFlag><Coupon><CouponFlag>False</CouponFlag></Coupon><RestockFlag>0</RestockFlag></Sale></LineItem><LineItem><SequenceNumber>2</SequenceNumber><Sale TaxType="1" Department="0161" Line="0161" Class="0161"ItemType="0"><UrgentEntryFlag>0</UrgentEntryFlag><ItemID Type="Manual">0401230011000</ItemID><ScanBarCode>0401230011000</ScanBarCode><Description>洋雑誌ー商品一覧</Description><MdKanaName>ｼｮｳﾋﾝｲﾁﾗﾝ2</MdKanaName><Sku>0401230011000</Sku><SkuType></SkuType><MdVender></MdVender><SupplierCode></SupplierCode><SubSupplierCode></SubSupplierCode><ColorId>3</ColorId><ColorName></ColorName><SizeId>61</SizeId><SizeName></SizeName><GroupCode>0022</GroupCode><DptNameLocal>洋雑誌INTER MAX</DptNameLocal><SalesPriceFrom>0</SalesPriceFrom><OldSizeId>0</OldSizeId><SizePatternId1>22</SizePatternId1><SizePatternId2>01</SizePatternId2><BrandId></BrandId><BrandName></BrandName><OldSku></OldSku><RepSku></RepSku><RegularSalesUnitPrice>2000</RegularSalesUnitPrice><ActualSalesUnitPrice>2000</ActualSalesUnitPrice><ExtendedAmount>2000</ExtendedAmount><ExtendedDiscountAmount>0</ExtendedDiscountAmount><CostPrice>0</CostPrice><ItemSellingRule ItemDiscountFlag="1"TotalDiscountFlag="1" NonItemFlag="1" PointFlag="1" /><Quantity>1</Quantity><Tax TaxType="VAT"><Amount>1</Amount><Percent>0.1</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">1999</TaxableAmount></Tax><PointDiscountFlag>1</PointDiscountFlag><PointFlag>1</PointFlag><AggregateFlag>1</AggregateFlag><ItemAmount>2000</ItemAmount><CategoryCode></CategoryCode><LabelPrice>1000</LabelPrice><BeforeDpt></BeforeDpt><ExceptionFlag>0</ExceptionFlag><ElectronicMoneyFlag>1</ElectronicMoneyFlag><TaxTypeSource>1</TaxTypeSource><DiscountTypeSource>1</DiscountTypeSource><Associate><AssociateID></AssociateID><AssociateName></AssociateName><AssociateKanaName></AssociateKanaName></Associate><SizeChange>False</SizeChange><SizeChanged>False</SizeChanged><PointExp>False</PointExp><DiscountExp>False</DiscountExp><GuaranteeFlag>False</GuaranteeFlag><Coupon><CouponFlag>False</CouponFlag></Coupon><RestockFlag>0</RestockFlag></Sale></LineItem><LineItem><SequenceNumber>3</SequenceNumber><Tax TaxType="VAT"><Amount>2</Amount><TaxIncludeAmount>1</TaxIncludeAmount><TaxExcludeAmount>1</TaxExcludeAmount><Percent>0.1</Percent><TaxableAmount TaxIncludedInTaxableAmountFlag="false">2999</TaxableAmount></Tax></LineItem><Total TotalType="TransactionPurchaseQuantity">2</Total><Total TotalType="TransactionSubtotal">3000</Total><Total TotalType="TransactionGrandAmount">3001</Total></RetailTransaction></Transaction></POSLog>]]></value>
+      <value>2</value>
+      <value>0001</value>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+      <null/>
+    </row>
+  </table>
+</dataset>

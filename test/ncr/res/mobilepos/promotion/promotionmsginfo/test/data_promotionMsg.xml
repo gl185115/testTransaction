@@ -1,0 +1,1412 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+<table name="MST_BIZDAY">
+	<column>CompanyId</column>
+	<column>StoreId</column>
+	<column>TodayDate</column>
+	<column>SwitchTime</column>
+	<column>Skip</column>
+	<column>NextDate</column>
+	<column>PrevDate</column>
+	<column>SubCode1</column>
+	<column>SubCode2</column>
+	<column>SubCode3</column>
+	<column>SubCode4</column>
+	<column>SubCode5</column>
+	<column>SubNum1</column>
+	<column>SubNum2</column>
+	<column>SubNum3</column>
+	<column>SubNum4</column>
+	<column>SubNum5</column>
+	<column>DeleteFlag</column>
+	<column>DelDate</column>
+	<column>DelAppId</column>
+	<column>DelOpeCode</column>
+	<column>InsDate</column>
+	<column>InsAppId</column>
+	<column>InsOpeCode</column>
+	<column>UpdCount</column>
+	<column>UpdDate</column>
+	<column>UpdAppId</column>
+	<column>UpdOpeCode</column>				
+	<row>
+		<value>01</value>
+		<value>0247</value>
+		<value>2017-06-02</value>			
+		<value>01:00am</value>			
+		<value>1</value>
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<value>0</value>			
+		<null />
+		<null />
+		<null />
+		<value>2015-08-10 16:11:00.0000000</value>			
+		<value>NCR-POS</value>
+		<value>0009999</value>			
+		<value>1</value>
+		<value>2017-02-10 18:50:10.5130000</value>
+		<value>rejchdat.vbs</value>
+		<value>system</value>				
+	</row>
+	<row>
+		<value>02</value>
+		<value>0001</value>
+		<value>2017-06-02</value>			
+		<value>01:00am</value>			
+		<value>1</value>
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<value>0</value>			
+		<null />
+		<null />
+		<null />
+		<value>2015-08-10 16:11:00.0000000</value>			
+		<value>NCR-POS</value>
+		<value>0009999</value>			
+		<value>1</value>
+		<value>2017-02-10 18:50:10.5130000</value>
+		<value>rejchdat.vbs</value>
+		<value>system</value>				
+	</row> 
+	<row>
+		<value>03</value>
+		<value>0001</value>
+		<value>2017-06-02</value>			
+		<value>01:00am</value>			
+		<value>1</value>
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<null />
+		<value>0</value>			
+		<null />
+		<null />
+		<null />
+		<value>2015-08-10 16:11:00.0000000</value>			
+		<value>NCR-POS</value>
+		<value>0009999</value>			
+		<value>1</value>
+		<value>2017-02-10 18:50:10.5130000</value>
+		<value>rejchdat.vbs</value>
+		<value>system</value>				
+	</row> 
+</table>
+<table name="MST_PROMOTIONMSG_INFO">
+	<column>CompanyId</column>
+	<column>RecordId</column>
+	<column>Subject</column>
+	<column>StartDate</column>
+	<column>EndDate</column>
+	<column>TargetStoreType</column>
+	<column>MinimunPrice</column>
+	<column>MessageBody</column>
+	<column>SubCode1</column>
+	<column>SubCode2</column>
+	<column>SubCode3</column>
+	<column>SubCode4</column>
+	<column>SubCode5</column>
+	<column>SubNum1</column>
+	<column>SubNum2</column>
+	<column>SubNum3</column>
+	<column>SubNum4</column>
+	<column>SubNum5</column>
+	<column>DeleteFlag</column>
+	<column>DelDate</column>
+	<column>DelAppId</column>
+	<column>DelOpeCode</column>
+	<column>InsDate</column>
+	<column>InsAppId</column>
+	<column>InsOpeCode</column>
+	<column>UpdCount</column>
+	<column>UpdDate</column>
+	<column>UpdAppId</column>
+	<column>UpdOpeCode</column>
+	<row>
+	　　<value>01</value>
+	　　<value>1</value>
+	　　<value>タイトル　０１－１</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－１</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>2</value>
+	　　<value>タイトル　０１－２</value>
+	　　<value>2017-05-01</value>
+	　　<value>2017-05-31</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－２</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>3</value>
+	　　<value>タイトル　０１－３</value>
+	　　<value>2017-07-01</value>
+	　　<value>2017-07-31</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－３</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>4</value>
+	　　<value>タイトル　０１－４</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>3000</value>
+	　　<value>メッセージ　０１－４</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>5</value>
+	　　<value>タイトル　０１－５</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－５</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>6</value>
+	　　<value>タイトル　０１－６</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>1</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－６</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>7</value>
+	　　<value>タイトル　０１－７</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>1</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－７</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>8</value>
+	　　<value>タイトル　０１－８</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－８</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>9</value>
+	　　<value>タイトル　０１－９</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－９</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>タイトル　０１－１０</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０１－１０</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>02</value>
+	　　<value>1</value>
+	　　<value>タイトル　０２－１</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０２－１</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>02</value>
+	　　<value>2</value>
+	　　<value>タイトル　０２－２</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０２－２</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>02</value>
+	　　<value>3</value>
+	　　<value>タイトル　０２－３</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０２－３</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>03</value>
+	　　<value>1</value>
+	　　<value>タイトル　０３－１</value>
+	　　<value>2017-06-01</value>
+	　　<value>2017-06-30</value>
+	　　<value>0</value>
+	　　<value>1000</value>
+	　　<value>メッセージ　０３－１</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+</table>
+<table name="MST_PROMOTIONMSG_STORE">
+	<column>CompanyId</column>
+	<column>RecordId</column>
+	<column>StoreId</column>
+	<column>SubCode1</column>
+	<column>SubCode2</column>
+	<column>SubCode3</column>
+	<column>SubCode4</column>
+	<column>SubCode5</column>
+	<column>SubNum1</column>
+	<column>SubNum2</column>
+	<column>SubNum3</column>
+	<column>SubNum4</column>
+	<column>SubNum5</column>
+	<column>DeleteFlag</column>
+	<column>DelDate</column>
+	<column>DelAppId</column>
+	<column>DelOpeCode</column>
+	<column>InsDate</column>
+	<column>InsAppId</column>
+	<column>InsOpeCode</column>
+	<column>UpdCount</column>
+	<column>UpdDate</column>
+	<column>UpdAppId</column>
+	<column>UpdOpeCode</column>
+	<row>
+	　　<value>01</value>
+	　　<value>6</value>
+	　　<value>0246</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>7</value>
+	　　<value>0247</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>7</value>
+	　　<value>0248</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>0247</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>03</value>
+	　　<value>1</value>
+	　　<value>0247</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+</table>
+<table name="MST_PROMOTIONMSG_DPT">
+	<column>CompanyId</column>
+	<column>RecordId</column>
+	<column>Dpt</column>
+	<column>SubCode1</column>
+	<column>SubCode2</column>
+	<column>SubCode3</column>
+	<column>SubCode4</column>
+	<column>SubCode5</column>
+	<column>SubNum1</column>
+	<column>SubNum2</column>
+	<column>SubNum3</column>
+	<column>SubNum4</column>
+	<column>SubNum5</column>
+	<column>DeleteFlag</column>
+	<column>DelDate</column>
+	<column>DelAppId</column>
+	<column>DelOpeCode</column>
+	<column>InsDate</column>
+	<column>InsAppId</column>
+	<column>InsOpeCode</column>
+	<column>UpdCount</column>
+	<column>UpdDate</column>
+	<column>UpdAppId</column>
+	<column>UpdOpeCode</column>
+	<row>
+	　　<value>01</value>
+	　　<value>8</value>
+	　　<value>0002</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>9</value>
+	　　<value>0003</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>9</value>
+	　　<value>0002</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>0002</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>0003</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>03</value>
+	　　<value>1</value>
+	　　<value>0002</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+</table>
+<table name="MST_PROMOTIONMSG_DETAIL">
+	<column>CompanyId</column>
+	<column>RecordId</column>
+	<column>DetailNo</column>
+	<column>MdInternal</column>
+	<column>SubCode1</column>
+	<column>SubCode2</column>
+	<column>SubCode3</column>
+	<column>SubCode4</column>
+	<column>SubCode5</column>
+	<column>SubNum1</column>
+	<column>SubNum2</column>
+	<column>SubNum3</column>
+	<column>SubNum4</column>
+	<column>SubNum5</column>
+	<column>DeleteFlag</column>
+	<column>DelDate</column>
+	<column>DelAppId</column>
+	<column>DelOpeCode</column>
+	<column>InsDate</column>
+	<column>InsAppId</column>
+	<column>InsOpeCode</column>
+	<column>UpdCount</column>
+	<column>UpdDate</column>
+	<column>UpdAppId</column>
+	<column>UpdOpeCode</column>
+	<row>
+	　　<value>01</value>
+	　　<value>1</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>2</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>3</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>4</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>4</value>
+	　　<value>2</value>
+	　　<value>222222222222</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>5</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>6</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>7</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>8</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>9</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>2</value>
+	　　<value>222222222222</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>01</value>
+	　　<value>10</value>
+	　　<value>3</value>
+	　　<value>33333*</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>02</value>
+	　　<value>1</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>02</value>
+	　　<value>2</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>0</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+	<row>
+　　　　<value>02</value>
+　　　　<value>3</value>
+　　　　<value>1</value>
+　　　　<value>111111111111</value>
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<value>0</value>
+　　　　<null />
+　　　　<null />
+　　　　<null />
+　　　　<value>2017-06-01</value>
+　　　　<value>SYSTEM</value>
+　　　　<value>SYSTEM</value>
+　　　　<value>0</value>
+　　　　<value>2017-06-01</value>
+　　　　<value>SYSTEM</value>
+　　　　<value>SYSTEM</value>
+	</row>
+	<row>
+	　　<value>03</value>
+	　　<value>1</value>
+	　　<value>1</value>
+	　　<value>111111111111</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>1</value>
+	　　<null />
+	　　<null />
+	　　<null />
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	　　<value>0</value>
+	　　<value>2017-06-01</value>
+	　　<value>SYSTEM</value>
+	　　<value>SYSTEM</value>
+	</row>
+</table>
+</dataset>

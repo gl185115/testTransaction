@@ -1,11 +1,5 @@
 package ncr.res.mobilepos.helper;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.sql.SQLException;
-import java.util.Map;
-
 import org.dbunit.DBTestCase;
 import org.dbunit.DatabaseUnitException;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
@@ -16,39 +10,66 @@ import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.ITable;
 import org.dbunit.dataset.ReplacementDataSet;
+import org.dbunit.dataset.datatype.IDataTypeFactory;
 import org.dbunit.dataset.filter.IColumnFilter;
 import org.dbunit.dataset.xml.FlatXmlDataSet;
 import org.dbunit.dataset.xml.XmlDataSet;
 import org.dbunit.ext.mssql.InsertIdentityOperation;
+import org.dbunit.ext.mssql.MsSqlDataTypeFactory;
 import org.dbunit.operation.DatabaseOperation;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.SQLException;
+import java.util.Map;
+
 
 public class DBInitiator  extends DBTestCase {
+
+	private static final String DBUNIT_SERVER_IP = "localhost";
+
+    private static final String DBUNIT_DRIVER_CLASS_SQLS =
+                        "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static final String DBUNIT_CONNECTION_URL_SQLS =
+                        "jdbc:sqlserver://" + DBUNIT_SERVER_IP + ":1433;databaseName=";
+
+    private static final String DBUNIT_DRIVER_CLASS_HSQLDB = "org.hsqldb.jdbcDriver";
+    private static final String DBUNIT_CONNECTION_URL_HSQLDB =
+                        "jdbc:hsqldb:file:testdb/testdb;shutdown=true";
+
+    private static final IDataTypeFactory DEFAULT_DATA_TYPEFACTORY = new MsSqlDataTypeFactory();
+
     private IDataSet dataset;
     public enum DATABASE { RESMaster, RESTransaction }
+    public DBInitiator(String name) {
+		super(name);
+	}
     public DBInitiator(final String name, DATABASE dbName)
     {
         super(name);
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS,
-                "com.microsoft.sqlserver.jdbc.SQLServerDriver" );
+                DBUNIT_DRIVER_CLASS_SQLS );
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL,
-                "jdbc:sqlserver://149.25.136.82:1433;databaseName=" + dbName.toString());
+                DBUNIT_CONNECTION_URL_SQLS + dbName.name());
+
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME,
                 "entsvr");
+
         System.setProperty(
                 PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD,
-                "ncrsa_ora" );            
+                "ncrsa_ora" );
     }
     public DBInitiator(final String name, final String dataSetXml, final DATABASE dbName)
     {
         this(name, dbName);
-        try {            
-            System.out.println("DataSet:" + dataSetXml);     
-            IDatabaseConnection connection = getConnection();
+        try {
+            System.out.println("DataSet:" + dataSetXml);
+            IDatabaseConnection connection = getConfiguredConnection();
             connection
                 .getConfig()
                 .setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN , "[?]");
@@ -58,8 +79,17 @@ public class DBInitiator  extends DBTestCase {
             e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
-        }    
+        }
     }
+
+    protected final IDatabaseConnection getConfiguredConnection() throws Exception {
+        IDatabaseConnection connection = getConnection();
+        DatabaseConfig config = connection.getConfig();
+        config.setProperty(DatabaseConfig.PROPERTY_DATATYPE_FACTORY, DEFAULT_DATA_TYPEFACTORY);
+        config.setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN , "[?]");
+        return connection;
+    }
+
     @Override
     protected void setUp() throws Exception {
     }
@@ -71,10 +101,9 @@ public class DBInitiator  extends DBTestCase {
     }
     public final void ExecuteOperation(final DatabaseOperation operation,
             final String dataSetXml)
-    throws DatabaseUnitException, SQLException, Exception
+    throws Exception
     {               
-        System.out.println("DataSet:" + dataSetXml);   
-        IDatabaseConnection connection = getConnection();
+        IDatabaseConnection connection = getConfiguredConnection();
         connection
             .getConfig()
             .setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN , "[?]");
@@ -85,10 +114,10 @@ public class DBInitiator  extends DBTestCase {
     
     public final void ExecuteOperationNoKey(final DatabaseOperation operation,
             final String primaryKey, final String dataSetXml)
-    throws DatabaseUnitException, SQLException, Exception
+    throws Exception
     {               
         System.out.println("NoKey DataSet:" + dataSetXml);   
-        IDatabaseConnection connection = getConnection();
+        IDatabaseConnection connection = getConfiguredConnection();
         connection
             .getConfig()
             .setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN , "[?]");
@@ -104,13 +133,13 @@ public class DBInitiator  extends DBTestCase {
     public final void ExecuteIdentityInsertOperation(
             final DatabaseOperation operation,
             final String dataSetXml)
-    throws DatabaseUnitException, SQLException, Exception
+    throws Exception
     {               
         System.out.println("IdentityInsert DataSet:" + dataSetXml);
         IDataSet datasetOperation =
             new XmlDataSet(new FileInputStream(dataSetXml));
         new InsertIdentityOperation(operation)
-            .execute(getConnection(), datasetOperation);                
+            .execute(getConfiguredConnection(), datasetOperation);
     }
     
     @Override
@@ -124,7 +153,7 @@ public class DBInitiator  extends DBTestCase {
     
     public final void exportTable(final String tableName) throws Exception
     {
-      IDataSet dataSet = getConnection().createDataSet(new String[]
+      IDataSet dataSet = getConfiguredConnection().createDataSet(new String[]
       {
               tableName
       });
@@ -139,8 +168,8 @@ public class DBInitiator  extends DBTestCase {
         ITable table = null;
         IDataSet dataSet = null;
         
-        try {      
-             dataSet = getConnection()
+        try {
+             dataSet = getConfiguredConnection()
              .createDataSet(new String[]
                  {
                          tableName
@@ -156,11 +185,11 @@ public class DBInitiator  extends DBTestCase {
         }        
         return table;
     }
-    
+
     public final ITable getQuery(final String tableName, final String query){
         ITable table = null;
         try {
-             table = getConnection().createQueryTable(tableName, query);
+             table = getConfiguredConnection().createQueryTable(tableName, query);
         } catch (DataSetException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -188,7 +217,7 @@ public class DBInitiator  extends DBTestCase {
       ReplacementDataSet rDataSet = null;
 
       try {
-        IDatabaseConnection connection = getConnection();
+        IDatabaseConnection connection = getConfiguredConnection();
         connection
             .getConfig()
             .setProperty(DatabaseConfig.PROPERTY_ESCAPE_PATTERN , "[?]");

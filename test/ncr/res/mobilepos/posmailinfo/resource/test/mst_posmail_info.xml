@@ -1,0 +1,431 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_POSMAIL_INFO">
+		<column>CompanyId</column>
+		<column>RecordId</column>
+		<column>MailSubject</column>
+		<column>StartDate</column>
+		<column>EndDate</column>
+		<column>TargetStoreType</column>
+		<column>MailBody</column>
+		<column>RegOpeCode</column>
+		<column>RegOpeName</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<!-- 2 Rows: CompanyId=01, TargetStoreType=0 & 1  -->
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>Message 01_1</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>0</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバ</value>
+			スケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>2</value>
+			<value>Message 01_2</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>1</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバスケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。</value>
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<!-- 2 Rows: CompanyId=02, TargetStoreType=1  -->
+		<row>
+			<value>02</value>
+			<value>1</value>
+			<value>Message 02_1</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>1</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバ</value>
+			スケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>2</value>
+			<value>Message 02_2</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>1</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバスケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。</value>
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<!-- 2 Rows: CompanyId=03, TargetStoreType=0  -->
+		<row>
+			<value>03</value>
+			<value>1</value>
+			<value>Message 03_1</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>0</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバ</value>
+			スケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>2</value>
+			<value>Message 03_2</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>0</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバスケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。</value>
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<!-- 2 Rows: CompanyId=04, TargetStoreType=1 & 2  -->
+		<row>
+			<value>04</value>
+			<value>1</value>
+			<value>Message 04_1</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>1</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバ</value>
+			スケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>04</value>
+			<value>2</value>
+			<value>Message 04_2</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>2</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバスケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。</value>
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<!-- 2 Rows: CompanyId=05, TargetStoreType=0 & 2  -->
+		<row>
+			<value>05</value>
+			<value>1</value>
+			<value>Message 05_1</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>0</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバ</value>
+			スケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>05</value>
+			<value>2</value>
+			<value>Message 05_2</value>
+			<value>2016-08-15</value>
+			<value>2016-08-15</value>
+			<value>2</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバスケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。</value>
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<!-- 2 Rows: CompanyId=06, TargetStoreType=1  -->
+		<row>
+			<value>06</value>
+			<value>1</value>
+			<value>Message 06_1</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>1</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバ</value>
+			スケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+		<row>
+			<value>06</value>
+			<value>2</value>
+			<value>Message 06_2</value>
+			<value>2016-08-15</value>
+			<value>2016-08-17</value>
+			<value>1</value>
+			<value>のイプサムの嘆きの座ります。しかし、サッカーは強化されます。矢筒の週末を置くこと。交流性排出物今、あなたのサッカーをする必要があります。パフォーマンスの宣伝。交流ののバスケットボール教室での宣伝車。前庭は履歴書のののを。湖で悲しい音が、テレビの価格。はで視床枕のの座ります。借り換え履歴書のの。のイプサムの嘆きの座ります。しかし、サッカーは強化されます。置くこと。物今、サッカーをする必要があります。</value>
+			<value>1</value>
+			<value>橋本</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2012-12-12 00:00:00.0000000</value>
+			<value>1</value>
+			<value>1</value>
+		</row>
+	</table>
+</dataset>

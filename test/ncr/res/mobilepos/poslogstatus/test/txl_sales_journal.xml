@@ -1,0 +1,80 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<!-- ITEMS -->
+	<table name="TXL_SALES_JOURNAL">
+		<column>CompanyId</column>
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>SequenceNumber</column>
+		<column>BusinessDayDate</column>
+		<column>TrainingFlag</column>
+		<column>SystemDateTime</column>
+		<column>Guid</column>
+		<column>TxType</column>
+		<column>ServerId</column>
+		<column>Tx</column>
+		<column>Status</column>
+		<column>SendStatus1</column>
+		<column>SendStatus2</column>
+		<column>EjSequence</column>
+		<column>EjStatus</column>
+		<column>InsDateTime</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0004</value>
+			<value>236</value>
+			<value>2016-06-20</value>
+			<value>0</value>
+			<value>2017-04-11 18:43:27.000</value>
+			<null />
+			<value>sale</value>
+			<value>A010</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>2017-04-11 18:43:23.1108437</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0004</value>
+			<value>237</value>
+			<value>2016-06-20</value>
+			<value>0</value>
+			<value>2017-04-11 18:43:27.000</value>
+			<null />
+			<value>AutoSignOff</value>
+			<value>A010</value>
+			<value></value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>2017-04-11 18:43:23.1108437</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0004</value>
+			<value>238</value>
+			<value>2016-06-20</value>
+			<value>0</value>
+			<value>2017-04-11 18:43:27.000</value>
+			<null />
+			<value>return</value>
+			<value>A010</value>
+			<value></value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<value>0</value>
+			<value>2017-04-11 18:43:23.1108437</value>
+		</row>
+	</table>
+</dataset>

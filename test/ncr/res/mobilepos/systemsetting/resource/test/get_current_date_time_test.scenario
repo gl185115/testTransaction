@@ -1,4 +1,0 @@
-When a request to get the Server's current Date and Time
-Then Date and Time should not be empty.
-Then Time Of Day data should be in yyyyMMddHHmmss format
-Then resultcode should be 0

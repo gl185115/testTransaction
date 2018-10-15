@@ -43,6 +43,9 @@ function selectPage(id){
     case "QueuebusterAdd":
         mainiframe.src = "QueuebusterLinkAdd.jsp";
         break;
+    case "TillAdd":
+        mainiframe.src = "TillAdd.jsp";
+        break;
     default:
     	break;
 	}
@@ -67,6 +70,7 @@ function selectPage(id){
       <a href="javascript:void(0)" title="Add" onclick="treeMenu('indexAdd')">登録</a>
       <div id="indexAdd" style="display:none; text-indent:1em">
         <a href="javascript:void(0)" title="Add Device" onclick="selectPage('AddDevice')">端末登録</a>
+        <a href="javascript:void(0)" title="TillAdd" onclick="selectPage('TillAdd')">ドロワー登録</a>
         <a href="javascript:void(0)" title="DeviceAttributeAdd" onclick="selectPage('DeviceAttributeAdd')">属性登録</a>
         <a href="javascript:void(0)" title="QueuebusterAdd" onclick="selectPage('QueuebusterAdd')">前捌登録</a>
       </div>
@@ -86,5 +90,5 @@ function selectPage(id){
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>

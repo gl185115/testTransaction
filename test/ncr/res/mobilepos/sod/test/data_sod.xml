@@ -1,0 +1,103 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_TILLIDINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TillId</column>
+		<column>TerminalId</column>
+		<column>BusinessDayDate</column>
+		<column>SodFlag</column>
+		<column>EodFlag</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>02470001</value>
+			<value>0001</value>
+			<value>2016-08-16</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-14 14:05:34.2670000</value>
+			<value>system</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-07-28 15:17:11.5630000</value>
+			<value>till.releaseexecuteauthority</value>
+			<value>9011011</value>
+		</row>
+	</table>
+	<table name="MST_BIZDAY">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TodayDate</column>
+		<column>SwitchTime</column>
+		<column>Skip</column>
+		<column>NextDate</column>
+		<column>PrevDate</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>2016-08-16</value>
+			<value>01:00am</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-08-10 16:11:00.0000000</value>
+			<value>NCR-POS</value>
+			<value>0009999</value>
+			<value>1</value>
+			<value>2015-08-10 16:11:00.0000000</value>
+			<value>NCR-POS</value>
+			<value>0009999</value>
+		</row>
+	</table>
+</dataset>

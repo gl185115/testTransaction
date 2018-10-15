@@ -1,6 +1,6 @@
 Scenario: View detail of an existing till
 Given a TillResource
-When I view till detail of storeid: {es185} and tillid:	{es134}				
+When I view till detail of storeid: es185 and tillid:	es134				
 Then I should get resultcode equal to 0					
 Then I should get till details: 
 |storeid |tillid |businessdaydate|sodflag|eodflag|
@@ -8,7 +8,7 @@ Then I should get till details:
 
 Scenario: View detail of non-existing till
 Given a TillResource
-When I view till detail of storeid: {10000} and tillid: {es134}				
+When I view till detail of storeid: 10000 and tillid: es134				
 Then I should get resultcode equal to 1500
 Then I should get till details:
 |storeid |tillid |businessdaydate|sodflag|eodflag|
@@ -16,7 +16,7 @@ Then I should get till details:
 
 Scenario: View detail with null parameters
 Given a TillResource
-When I view till detail of storeid: {null} and tillid:	{null}				
+When I view till detail of storeid: null and tillid:	null				
 Then I should get resultcode equal to 1500					
 Then I should get till details: 
 |storeid |tillid |businessdaydate|sodflag|eodflag|

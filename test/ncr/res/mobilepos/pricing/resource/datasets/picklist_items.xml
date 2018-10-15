@@ -1,0 +1,213 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_PRESET_TOUCHITEM">
+		<column>CompanyId</column>
+		<column>ItemType</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>RecordId</column>
+		<column>ItemName</column>
+		<column>DisplayOrder</column>
+		<column>ItemCodeType</column>
+		<column>ItemCode</column>
+		<column>ItemColor</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>送料</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2088990199988</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>2</value>
+			<value>箱代</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2063418800011</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>予約:ウインター部門</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019031800013</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>2</value>
+			<value>予約:アウトドア部門</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019031900010</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>不明:ウインター部門</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019031000017</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>2</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>2</value>
+			<value>不明:アウトドア部門</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019031100014</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4170000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>3</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>縫製工賃</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019029900015</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>3</value>
+			<value>0</value>
+			<value>0001</value>
+			<value>2</value>
+			<value>チューンナップ工賃</value>
+			<value>0</value>
+			<value>1</value>
+			<value>2019030000018</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4200000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+
+</dataset>
+
+			

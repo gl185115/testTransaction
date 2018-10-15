@@ -93,10 +93,6 @@ public class SQLServerNationalityInfoDAO extends AbstractDao implements INationa
 				nationalityInfo.setShortKanaName(result.getString("NationalityShortKanaName"));
 				nationalityInfoList.add(nationalityInfo);
 			}
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get nationality info.", sqlStmtEx);
-			throw new DaoException("SQLStatementException: @SQLServerNationalityInfoDAO.getNationalityInfo", sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get nationality info.", sqlEx);
 			throw new DaoException("SQLException: @SQLServerNationalityInfoDAO.getNationalityInfo", sqlEx);

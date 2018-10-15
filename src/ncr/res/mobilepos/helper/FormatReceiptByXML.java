@@ -971,7 +971,7 @@ public class FormatReceiptByXML extends Formatter {
                     "invokeMethod: Failed to call method " + sb.toString(), e);
         }
 
-        if (!StringUtility.isNullOrEmpty(res)) {
+        if (res != null) {
             sb.setLength(0);
             sb.append(res);
             return sb.toString();
@@ -1001,7 +1001,7 @@ public class FormatReceiptByXML extends Formatter {
     /**
      *
      */
-    private int compareTo(Object obj1, Object obj2) {
+    private int compareTo(String obj1, String obj2) {
 
         int result = BOTH_OBJECT_NULL;
         if (StringUtility.isNullOrEmpty(obj1)

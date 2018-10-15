@@ -1,10 +1,8 @@
 package ncr.res.mobilepos.department.dao;
 
-import ncr.res.mobilepos.department.model.Department;
 import ncr.res.mobilepos.department.model.DepartmentList;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.model.ResultBase;
 /**
  * 改定履歴
  * バージョン         改定日付       担当者名           改定内容
@@ -26,21 +24,7 @@ public interface IDepartmentDAO {
     * @throws DaoException - exception
     */
     ViewDepartment selectDepartmentDetail(String companyID, String retailStoreID,
-        String departmentID) throws DaoException;
-     /**
-     * interface for deleteDepartment.
-     *
-     * @param storeid
-     *            - id of the store
-     * @param department
-     *            - department object details
-     * @return ResultBase
-     * @throws DaoException
-     *             - exception
-     */
-    ResultBase deleteDepartment(String storeid, Department department)
-            throws DaoException;
-
+        String departmentID, String searchRetailStoreID) throws DaoException;
     /**
      * Gets the list of active departments of a store.
      *
@@ -56,41 +40,6 @@ public interface IDepartmentDAO {
      * @throws DaoException
      *             if error exists.
      */
-    DepartmentList listDepartments(String retailStoreID, String key, String name, int searchLimit)
+    DepartmentList listDepartments(String companyId, String retailStoreID, String key, String name, int searchLimit)
     throws DaoException;
-
-     /**
-      * interface for createDepartment.
-      * @param storeid				id of the store
-      * @param departmentid			id of the department
-      * @param department			department object
-      * 
-      * @return ResultBase
-      * 
-      * @throws DaoException		exception
-      */
-     ResultBase createDepartment(String storeid,
-             String departmentid, Department department)throws DaoException;
-
-     /**
-      * interface for updateDepartment.
-      * @param storeid - id of the store
-      * @param departmentid - id of department to update
-      * @param department - the department data to update
-      * @return ViewDepartment - contains the new department model
-      * @throws DaoException - exception
-      */
-     ViewDepartment updateDepartment(String storeid,
-             String departmentid, Department department) throws DaoException;  
-     // 1.01  2014.12.11 LiQian DIV存在チェックを対応   ADD START
-     /**
-      * interface for getDepartmentInfo.
-      * @param retailStoreID - store number
-      * @param departmentID - department number
-      * @return ViewDepartment - the department info
-      * @throws DaoException - exception
-      */
-     ViewDepartment getDepartmentInfo(String retailStoreID, String departmentID)throws DaoException;
-     // 1.01  2014.12.11 LiQian DIV存在チェックを対応   ADD END
-
 }

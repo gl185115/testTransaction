@@ -1,372 +1,1129 @@
 <!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
 <dataset>
-    <table name="MST_DPTINFO">
-        <column>StoreId</column>
-        <column>Dpt</column>
-        <column>DptName</column>
-        <column>DptNameLocal</column>
-        <column>Jigyobu</column>
-        <column>Gyoshu</column>
-        <column>Bumon</column>
-        <column>Uriba</column>
-        <column>Category</column>
-        <column>InheritFlag</column>
-        <column>ExceptionFlag</column>
-        <column>SubSmallInt5</column>
-        <column>DiscountType</column>
-        <column>DiscountFlag</column>
-        <column>DiscountAmt</column>
-        <column>DiscountRate</column>
-        <column>TaxRate</column>
-        <column>TaxType</column>
-        <column>InsDate</column>
-        <column>UpdDate</column>
-        <column>Status</column>
+	<table name="MST_DPTINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>Dpt</column>
+		<column>DptName</column>
+		<column>DptNameLocal</column>
+		<column>DptKanaName</column>
+		<column>DisplayOrder</column>
+		<column>Jigyobu</column>
+		<column>Gyoshu</column>
+		<column>Bumon</column>
+		<column>Uriba</column>
+		<column>Category</column>
+		<column>StockType</column>
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>ExceptionFlag</column>
+		<column>CostRateFlag</column>
+		<column>CostRate</column>
+		<column>DiscountFlag</column>
+		<column>DiscountAmt</column>
+		<column>DiscountRate</column>
+		<column>AgeRestrictedFlag</column>
+		<column>InheritFlag</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>Status</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
 		<row>
+			<value>01</value>
 			<value>0</value>
 			<value>101</value>
 			<value>Department 101</value>
 			<value>部門101</value>
-			<value>101</value>		
+			<value>部門101</value>
+			<value>15</value>
 			<value>101</value>
 			<value>101</value>
 			<value>101</value>
 			<value>101</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>101</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>5</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>5</value>
+			<value>45678</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0</value>
 			<value>102</value>
 			<value>Department 102</value>
 			<value>部門102</value>
-			<value>102</value>		
+			<value>部門102</value>
+			<value>14</value>
 			<value>102</value>
 			<value>102</value>
 			<value>102</value>
 			<value>102</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>102</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0</value>
 			<value>103</value>
 			<value>Department 103</value>
 			<value>部門103</value>
-			<value>103</value>		
+			<value>部門103</value>
+			<value>13</value>
 			<value>103</value>
 			<value>103</value>
 			<value>103</value>
 			<value>103</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>103</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0</value>
 			<value>104</value>
 			<value>Department 104</value>
 			<value>部門104</value>
-			<value>104</value>		
+			<value>部門104</value>
+			<value>12</value>
 			<value>104</value>
 			<value>104</value>
 			<value>104</value>
 			<value>104</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>104</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0</value>
 			<value>105</value>
 			<value>Department 105</value>
 			<value>部門105</value>
-			<value>105</value>		
+			<value>部門105</value>
+			<value>11</value>
 			<value>105</value>
 			<value>105</value>
 			<value>105</value>
 			<value>105</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>105</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>201</value>
 			<value>Department 201</value>
 			<value>部門201</value>
-			<value>201</value>		
+			<value>部門201</value>
+			<value>10</value>
 			<value>201</value>
 			<value>201</value>
 			<value>201</value>
 			<value>201</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>201</value>
+			<null />
+
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+
+			<null />
+
+			<null />
+
+			<value>0</value>
+			<value>0</value>
+			<null />
+
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+
 			<value>Active</value>
+			<value>0</value>
+			<null />
+
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>202</value>
 			<value>Department 202</value>
 			<value>部門202</value>
-			<value>202</value>		
+			<value>部門202</value>
+			<value>9</value>
 			<value>202</value>
 			<value>202</value>
 			<value>202</value>
 			<value>202</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>201</value>
+			<null />
+
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+
+			<null />
+
+			<null />
+
+			<value>0</value>
+			<value>0</value>
+			<null />
+
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+
 			<value>Active</value>
+			<value>0</value>
+			<null />
+
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>203</value>
 			<value>Department 203</value>
 			<value>部門203</value>
-			<value>203</value>		
+			<value>部門203</value>
+			<value>8</value>
 			<value>203</value>
 			<value>203</value>
 			<value>203</value>
 			<value>203</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>203</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>204</value>
 			<value>Department 204</value>
 			<value>部門204</value>
-			<value>204</value>		
+			<value>部門204</value>
+			<value>7</value>
 			<value>204</value>
 			<value>204</value>
 			<value>204</value>
 			<value>204</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>204</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>205</value>
 			<value>Department 205</value>
 			<value>部門205</value>
-			<value>205</value>		
+			<value>部門205</value>
+			<value>6</value>
 			<value>205</value>
 			<value>205</value>
 			<value>205</value>
 			<value>205</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>205</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>306</value>
 			<value>Department 306</value>
 			<value>部門306</value>
-			<value>306</value>		
+			<value>部門306</value>
+			<value>5</value>
 			<value>306</value>
 			<value>306</value>
 			<value>306</value>
 			<value>306</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>306</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Deleted</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>307</value>
 			<value>Department 307</value>
 			<value>部門307</value>
-			<value>307</value>		
+			<value>部門307</value>
+			<value>4</value>
 			<value>307</value>
 			<value>307</value>
 			<value>307</value>
 			<value>307</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>307</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>308</value>
 			<value>Department 308</value>
 			<value>部門308</value>
-			<value>308</value>		
+			<value>部門308</value>
+			<value>3</value>
 			<value>308</value>
 			<value>308</value>
 			<value>308</value>
 			<value>308</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>308</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>309</value>
 			<value>Department 309</value>
 			<value>部門309</value>
-			<value>309</value>		
+			<value>部門309</value>
+			<value>2</value>
 			<value>309</value>
 			<value>309</value>
 			<value>309</value>
 			<value>309</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>309</value>
+			<null />
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
 		<row>
+			<value>01</value>
 			<value>0031</value>
 			<value>310</value>
 			<value>Department 310</value>
-			<value>310</value>		
-			<value>310</value>
-			<value>310</value>
-			<value>310</value>
-			<value>310</value>
-			<value>310</value>
-			<value>0</value>
-			<value>0</value>
-			<value>0</value>
+			<value>部門310</value>
+			<value>部門310</value>
 			<value>1</value>
-			<null/>
-			<value>0</value>
-			<value>0</value>
+			<value>310</value>
+			<value>310</value>
+			<value>310</value>
+			<value>310</value>
+			<value>310</value>
+			<null />
+			<value>1</value>
 			<value>8</value>
 			<value>1</value>
-			<value>2014-04-16 12:30:00</value>
-			<value>2014-04-16 12:30:00</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>0</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
 			<value>Deleted</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
 		</row>
-		
-    </table>
+		<row>
+			<value>02</value>
+			<value>0</value>
+			<value>901</value>
+			<value>Department 901</value>
+			<value>部門901</value>
+			<value>部門901</value>
+			<value>15</value>
+			<value>901</value>
+			<value>901</value>
+			<value>901</value>
+			<value>901</value>
+			<value>901</value>
+			<null />
+			<value>1</value>
+			<value>8</value>
+			<value>1</value>
+			<value>5</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>0031</value>
+			<value>902</value>
+			<value>Department 902</value>
+			<value>部門902</value>
+			<value>部門902</value>
+			<value>15</value>
+			<value>902</value>
+			<value>902</value>
+			<value>902</value>
+			<value>902</value>
+			<value>902</value>
+			<null />
+			<value>1</value>
+			<value>8</value>
+			<value>1</value>
+			<value>5</value>
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>5</value>
+			<value>12123</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2014-04-16 12:30:00.7179394</value>
+			<value>usp_IF_MaintDptInfo</value>
+			<value>system</value>
+		</row>	
+	</table>
+	<table name="MST_GROUPINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>GroupId</column>
+		<column>GroupName</column>
+		<column>GroupKanaName</column>
+		<column>GroupShortName</column>
+		<column>GroupShortKanaName</column>
+		<column>DisplayOrder</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>12123</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>999999</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>45678</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>123456</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>12123</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>999999</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0031</value>
+			<value>45678</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>スキーグッズ</value>
+			<value>0</value>
+			<value>123456</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:50:39.3274634</value>
+			<value>usp_IF_MaintGroupInfo</value>
+			<value>system</value>
+		</row>
+		<row>
+            <value>02</value>
+            <value>0031</value>
+            <value>12123</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>0</value>
+            <value>999999</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>02</value>
+            <value>0032</value>
+            <value>12123</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>0</value>
+            <value>999999</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>02</value>
+            <value>0</value>
+            <value>12123</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>スキーグッズ</value>
+            <value>0</value>
+            <value>999999</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:39.3274634</value>
+            <value>usp_IF_MaintGroupInfo</value>
+            <value>system</value>
+        </row>
+	</table>
 </dataset>

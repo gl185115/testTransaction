@@ -16,6 +16,8 @@ import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -83,7 +85,7 @@ public class BoInterface {
     @Path("/TP010A01.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="会員検索カード",response=MemberResponse.class)
+    @ApiOperation(value="カード会員検索",response=MemberResponse.class)
     public MemberResponse memberRequest(MemberRequest request) {
         tp.methodEnter("memberRequest");
         tp.println("request", request);
@@ -98,7 +100,7 @@ public class BoInterface {
     @Path("/TP010A02.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="属性によってメンバーを検索する",response=MemberSearchResponse.class)
+    @ApiOperation(value="属性会員検索",response=MemberSearchResponse.class)
     public MemberSearchResponse memberSearchRequest(MemberSearchRequest request) {
         tp.methodEnter("memberSearchRequest");
         tp.println("request", request);
@@ -113,7 +115,7 @@ public class BoInterface {
     @Path("/TP010A03.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="POS販売", response=MemberResponse.class)
+    @ApiOperation(value="POS売上", response=MemberResponse.class)
     public Message posSalesRequest(PosSales request) {
         tp.methodEnter("posSales");
         tp.println("request", request);
@@ -136,7 +138,7 @@ public class BoInterface {
     @Path("/TP010A04.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="追加ポイント", response=MemberResponse.class)
+    @ApiOperation(value="後日ポイント", response=MemberResponse.class)
     public Message postPointsRequest(PostPoints request) {
         tp.methodEnter("postPoints");
         tp.println("request", request);
@@ -151,7 +153,7 @@ public class BoInterface {
     @Path("/TP010A05.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="カードを交換する", response=MemberResponse.class)
+    @ApiOperation(value="カード切替", response=MemberResponse.class)
     public Message cardChangeRequest(CardChangeRequest request) {
         tp.methodEnter("cardChange");
         tp.println("request", request);
@@ -166,7 +168,7 @@ public class BoInterface {
     @Path("/TP010A06.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="統合カード", response=MemberResponse.class)
+    @ApiOperation(value="カード合算", response=MemberResponse.class)
     public Message cardMergeRequest(CardMergeRequest request) {
         tp.methodEnter("cardMerge");
         tp.println("request", request);
@@ -181,7 +183,7 @@ public class BoInterface {
     @Path("/TP010A07.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="カードの停止", response=MemberResponse.class)
+    @ApiOperation(value="カード停止", response=MemberResponse.class)
     public Message cardStopRequest(CardStopRequest request) {
         tp.methodEnter("cardStop");
         tp.println("request", request);
@@ -196,7 +198,7 @@ public class BoInterface {
     @Path("/TP010A08.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="カードを出す", response=MemberResponse.class)
+    @ApiOperation(value="新規会員登録", response=MemberResponse.class)
     public Message cardIssueRequest(NewMemberRequest request) {
         tp.methodEnter("cardIssue");
         tp.println("request", request);
@@ -211,7 +213,7 @@ public class BoInterface {
     @Path("/TP010A09.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="歴史を検索する", response=MemberResponse.class)
+    @ApiOperation(value="購買履歴一覧照会", response=MemberResponse.class)
     public HistoryResponse historySearchRequest(HistoryRequest request) {
         tp.methodEnter("historySearchRequest");
         tp.println("request", request);
@@ -226,7 +228,7 @@ public class BoInterface {
     @Path("/TP010A10.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="歴史によって歴史プロジェクトを検索する", response=MemberResponse.class)
+    @ApiOperation(value="購買履歴明細照会", response=MemberResponse.class)
     public HistoryItemResponse historyItemSearchRequest(HistoryItemRequest request) {
         tp.methodEnter("historyItemSearchRequest");
         tp.println("request", request);
@@ -241,7 +243,7 @@ public class BoInterface {
     @Path("/TP010A11.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="券の発行", response=MemberResponse.class)
+    @ApiOperation(value="ポイント券発行", response=MemberResponse.class)
     public Message ticketRequest(IssueTicket request) {
         tp.methodEnter("ticketRequest");
         tp.println("request", request);
@@ -256,6 +258,10 @@ public class BoInterface {
     @Path("/store")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="ポイントシステムオフラインデータ登録", response=Message.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データーベースエラー"),
+    })
     public Message fromStore(PosSales request) {
         assert(config != null);
         SQLServerPointRequest spr = new SQLServerPointRequest(config);

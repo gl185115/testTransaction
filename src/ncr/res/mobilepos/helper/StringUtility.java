@@ -243,33 +243,37 @@ public final class StringUtility {
 
     /**
      * Checks values if null or empty.
-     *
-     * @param values
-     *            optional variables.
-     * @return true if null/empty, false if not null/empty.
+     * This accepts multiple args and requires at least one arg.
+     * @oaram value1 String to check.
+     * @param values (optional) String variables.
+     * @return true if one of the args is null/empty, false if all the args are not null/empty.
      */
-    public static boolean isNullOrEmpty(final Object... values) {
-        boolean isNullEmpty = false;
+    public static boolean isNullOrEmpty(final String value1, final String... values) {
+        if(isNullOrEmptySingleValue(value1)) {
+            return true;
+        }
+        // values can be null, when 2nd arg is just null.
+        if(values == null) {
+            return true;
+        }
         for (int i = 0; i < values.length; i++) {
-            if (values[i] == null || "".equals(values[i])) {
-                isNullEmpty = true;
-                break;
+            if(isNullOrEmptySingleValue(values[i])) {
+                return true;
             }
         }
-        return isNullEmpty;
+        return false;
     }
-    
-    /**
-     * Check string is null or empty
-     * @param str
-     * @return
-     */
-    public static boolean isNullOrEmpty(final String str) {
-        boolean isNullEmpty = false;
+
+        /**
+         * Check string is null or empty
+         * @param str String to check.
+         * @return true: if the arg is null or empty, false: otherwise.
+         */
+    private static boolean isNullOrEmptySingleValue(final String str) {
         if (str == null || "".equals(str)) {
-            isNullEmpty = true;
+            return true;
         }
-        return isNullEmpty;
+        return false;
     }
 
     /**
@@ -335,7 +339,7 @@ public final class StringUtility {
      * @param param
      * @return parameter or empty
      */
-    public static String convNullToEmpty(Object param) {
+    public static String convNullToEmpty(String param) {
         if (isNullOrEmpty(param)) {
             return "";
         } else {
@@ -349,7 +353,7 @@ public final class StringUtility {
      * @param param
      * @return parameter or "null" String.
      */
-    public static String convNullToString(Object param) {
+    public static String convNullToString(String param) {
         if (isNullOrEmpty(param)) {
             return "null";
         } else {
@@ -384,7 +388,7 @@ public final class StringUtility {
      */
     public static String escapeCharatersForSQLqueries(final String strQuery){
     	String strNewQuery = strQuery;
-    	if(!isNullOrEmpty(strQuery)){  
+    	if(!isNullOrEmpty(strQuery)){
     		strNewQuery = strQuery.replaceAll("%", "\\\\%").replaceAll("_", "\\\\_").replaceAll("\\[", "\\\\[");    		
     	}    	
     	return strNewQuery;
@@ -419,4 +423,21 @@ public final class StringUtility {
     	}
     	return value;
     }
+
+    /**
+     * Converts the 'empty' String literal to null String
+     * @param value the 'empty' String literal
+     * @return null if satisfies the condition, returns the original value otherwise
+     */
+    public static String convEmptyStringToEmpty(String value) {
+        return "empty".equalsIgnoreCase(value) ? "" : value;
+    }
+
+    /**
+     * Converts "null" or "emptry" to null or "".
+     */
+    public static String convNullOrEmptryString(String value) {
+        return convNullStringToNull(convEmptyStringToEmpty(value));
+    }
+
 }

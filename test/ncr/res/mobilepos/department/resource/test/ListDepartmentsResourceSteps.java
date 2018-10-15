@@ -1,11 +1,26 @@
 package ncr.res.mobilepos.department.resource.test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
 
 import java.sql.SQLException;
 import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import org.dbunit.dataset.DataSetException;
+import org.dbunit.dataset.ITable;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
 import junit.framework.Assert;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -16,22 +31,8 @@ import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-
-import org.dbunit.dataset.DataSetException;
-import org.dbunit.dataset.ITable;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import ncr.res.mobilepos.helper.Requirements;
 
 /**
  * Test for list departments service in DepartmentResource class.
@@ -78,25 +79,18 @@ public class ListDepartmentsResourceSteps extends Steps {
      */
     @Given("a Department Resource")
     public final void givenDepartmentResource() {
+    	ServletContext servletContext = Requirements.getMockServletContext();
         departmentResource = new DepartmentResource();
-        departmentResource.setContext(Requirements.getMockServletContext());
+        departmentResource.setContext(servletContext);
     }
 
-
-    @Given("a database table with special characters")
-    public final void aDatabaseTableForListOfClassInfos(String filename) {
-    	 dbInit = new DBInitiator("DepartmentResource",
-                 "test/ncr/res/mobilepos/department/resource/test/"
-                         + "MST_DPTINFO_forSearchSpChars.xml", DATABASE.RESMaster);
-    }
-    
     /**
      * List all departments of given storeid.
      *
      * @param retailStoreID The Retail Store ID.
      * @param key The Department Key to be search.
      */
-    @When("I list all departments of storeid {$retailStoreID} with key {$key}")
+    @When("I list all departments of storeid $retailStoreID with key $key")
     public final void listDepartmentOfStoreIDWithKey(final String retailStoreID,
             String key, String name) {
         if (key.equals("null")) {
@@ -104,8 +98,8 @@ public class ListDepartmentsResourceSteps extends Steps {
         } else if (key.equals("empty")) {
             key = "";
         }
-        dptList = departmentResource.listDepartments(retailStoreID, key, null, 0);
-        
+        dptList = departmentResource.listDepartments(null,retailStoreID, key, null, 0);
+
     }
 
     /**
@@ -113,9 +107,38 @@ public class ListDepartmentsResourceSteps extends Steps {
      *
      * @param retailStoreID The Retail Store ID.
      */
-    @When("I list all departments of storeid {$retailStoreID}")
+    @When("I list all departments of storeid $retailStoreID")
     public final void listDepartmentOfStoreID(final String retailStoreID) {
-            dptList = departmentResource.listDepartments(retailStoreID, null, null, 0);
+    	dptList = departmentResource.listDepartments(null,retailStoreID, null, null, 0);
+    }
+
+    /**
+     * List all departments of given companyid and storeid.
+     *
+     * @param companyID The Company ID.
+     * @param retailStoreID The Retail Store ID.
+     */
+    @When("I list all departments of companyid $companyid storeid $retailStoreID")
+    public final void listDepartmentOfCompanyIDAndStoreID(final String companyID,final String retailStoreID) {
+    	dptList = departmentResource.listDepartments(companyID,retailStoreID, null, null, 0);
+    }
+
+    /**
+     * List all departments of given storeid.
+     *
+     * @param retailStoreID The Retail Store ID.
+     * @param key The Department Key to be search.
+     */
+    @When("I list all departments of companyid $companyid storeid $retailStoreID with key $key")
+    public final void listDepartmentOfCompanyIDAndStoreIDWithKey(final String companyID,final String retailStoreID,
+            String key, String name) {
+        if (key.equals("null")) {
+            key = null;
+        } else if (key.equals("empty")) {
+            key = "";
+        }
+        dptList = departmentResource.listDepartments(companyID,retailStoreID, key, null, 0);
+
     }
 
     /**
@@ -126,13 +149,13 @@ public class ListDepartmentsResourceSteps extends Steps {
      * @param length
      *            size of list.
      */
-    @Then("I should get resultcode {$resultCode} and {$length} department list")
+    @Then("I should get resultcode $resultCode and $length department list")
     public final void shouldGetResults(final int resultCode,
             final int length) {
         Assert.assertEquals(resultCode, dptList.getNCRWSSResultCode());
-        Assert.assertEquals(length, dptList.getDepartments().size());        
+        Assert.assertEquals(length, dptList.getDepartments().size());
     }
-    @Then("I should get resultcode {$resultCode}")
+    @Then("I should get resultcode $resultCode")
     public final void shouldGetResultCode(final int resultCode) {
         Assert.assertEquals(resultCode, dptList.getNCRWSSResultCode());
     }
@@ -172,11 +195,9 @@ public class ListDepartmentsResourceSteps extends Steps {
                     tempDpt.get("INHERITFLAG"), actualDept.getInheritFlag());
             Assert.assertEquals("Compare the Department's NonSales Flag " + i,
                     tempDpt.get("EXCEPTIONFLAG"), actualDept.getNonSales()+"");
-            Assert.assertEquals("Compare the Department's Allow Yen Flag " + i,
-                    tempDpt.get("SUBSMALLINT5"), actualDept.getSubSmallInt5()+"");
             Assert.assertEquals("Compare the Department's Discount Type " + i,
                     tempDpt.get("DISCOUNTTYPE"), actualDept.getDiscountType());
-            
+
             if (tempDpt.get("DISCOUNTFLAG").equals("null")) {
                 Assert.assertNull("Assume that Discount Flag is "
                         + "null for row" + i + ":",
@@ -186,7 +207,7 @@ public class ListDepartmentsResourceSteps extends Steps {
                         + ": ", Integer.parseInt(tempDpt.get("DISCOUNTFLAG")),
                           actualDept.getDiscountFlag());
             }
-            
+
             if (tempDpt.get("DISCOUNTAMT").equals("null")) {
                 Assert.assertNull("Assume that Discountamount is "
                         + "null for row" + i + ":",
@@ -196,56 +217,68 @@ public class ListDepartmentsResourceSteps extends Steps {
                         + ": ", Integer.parseInt(tempDpt.get("DISCOUNTAMT")),
                           java.math.BigDecimal.valueOf(actualDept.getDiscountAmt()).intValue());
             }
-            
-            
+
+
             if (tempDpt.get("DISCOUNTRATE").equals("null")) {
                 Assert.assertNull("Assume that Discount Rate is "
                         + "null for row" + i + ":",
-                        actualDept.getDiscounRate());
+                        actualDept.getDiscountRate());
             } else {
             	Assert.assertEquals("Compare the Discount Rate row" + i
                         + ": ", Integer.parseInt(tempDpt.get("DISCOUNTRATE")),
-                          java.math.BigDecimal.valueOf(actualDept.getDiscounRate()).intValue());
+                          java.math.BigDecimal.valueOf(actualDept.getDiscountRate()).intValue());
             }
-            
+
             Assert.assertEquals("Compare the Department's Tax Rate " + i,
                     tempDpt.get("TAXRATE"), actualDept.getTaxRate());
             Assert.assertEquals("Compare the Department's TaxType " + i,
                     tempDpt.get("TAXTYPE"), actualDept.getTaxType());
+            Assert.assertEquals("Compare the Department's SubNum1 " + i,
+                    tempDpt.get("SUBNUM1"), actualDept.getSubNum1());
+            Assert.assertEquals("Compare the Department's SubNum2 " + i,
+                    tempDpt.get("SUBNUM2"), actualDept.getSubNum2());
+            Assert.assertEquals("Compare the Department's SubNum3 " + i,
+                    tempDpt.get("SUBNUM3"), actualDept.getSubNum3());
+            Assert.assertEquals("Compare the Department's SubNum4 " + i,
+                    tempDpt.get("SUBNUM4"), actualDept.getSubNum4());
+            Assert.assertEquals("Compare the Department's SubCode1 " + i,
+                    tempDpt.get("SUBCODE1"), actualDept.getSubCode1());
+            Assert.assertEquals("Compare the Department's InputSubCode1 " + i,
+                    tempDpt.get("INPUTTYPE"), actualDept.getInputType());
             i++;
         }
     }
-    
+
     @Then("I should have the following departments: $expecteddepartments")
     public final void iShouldHaveTheFollowingDepartments(
             final ExamplesTable expecteddepartments) throws DataSetException{
         ITable actualTable =  dbInit.getTableSnapshot("MST_DPTINFO");
-        
+
         assertThat("Compare the actual number of rows in MST_DPTINFO",
-                actualTable.getRowCount(), 
+                actualTable.getRowCount(),
                 is(equalTo(expecteddepartments.getRowCount())));
-        
-        int i = 0;        
+
+        int i = 0;
         for (Map<String, String> deparments : expecteddepartments.getRows()) {
             String storeid = (String)actualTable.getValue(i, "StoreId");
             String dpt = (String)actualTable.getValue(i, "Dpt");
             String status = (String)actualTable.getValue(i, "Status");
-            
+
             assertThat("MST_DPTINFO (row"+i+" - STOREID",
-                    storeid.trim(), 
+                    storeid.trim(),
                     is(equalTo(deparments.get("STOREID").trim())));
             assertThat("MST_DPTINFO (row"+i+" - DPT",
-                    dpt.trim(), 
+                    dpt.trim(),
                     is(equalTo(deparments.get("DPT").trim())));
             assertThat("MST_DPTINFO (row"+i+" - STATUS",
-                    status == null ? status : status.trim(), 
+                    status == null ? status : status.trim(),
 					is(equalTo(deparments.get("STATUS").trim().equals("NULL") ? null
-							: deparments.get("STATUS").trim())));       
+							: deparments.get("STATUS").trim())));
             i++;
         }
     }
-    
-    @Given("that database is throwing an unexpected {$exception}")
+
+    @Given("that database is throwing an unexpected $exception")
 	public final void givenThrownException(String exception) {
 		MockitoAnnotations.initMocks(this);
 		Exception ex = new Exception();
@@ -257,7 +290,7 @@ public class ListDepartmentsResourceSteps extends Steps {
 			ex = new DaoException(new SQLException());
 		if (exception.equalsIgnoreCase("SQLStatementException"))
 			ex = new DaoException(new SQLStatementException());
-		
+
 		try {
 			Mockito.stub(daoFactory.getDepartmentDAO()).toThrow(ex);
 		} catch (Exception e) {

@@ -1,29 +1,32 @@
 package ncr.res.mobilepos.credential.resource.test;
 
-import static org.junit.Assert.assertEquals;
+import junit.framework.Assert;
 
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.Assert;
+import javax.servlet.ServletContext;
+
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.credential.model.Employee;
 import ncr.res.mobilepos.credential.model.Employees;
 import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.model.ResultBase;
 
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Steps class for listOperators in CredentialResource class.
@@ -55,7 +58,7 @@ public class ListOperatorsSteps extends Steps {
     public final void setUpClass() {
         Requirements.SetUp();
         dbInit = new DBInitiator("CredentialResourceSteps", DATABASE.RESMaster);
-        testCredentialResource = new CredentialResource();
+        initResources();
     }
 
     /**
@@ -65,13 +68,28 @@ public class ListOperatorsSteps extends Steps {
     public final void tearDownClass() {
         Requirements.TearDown();
     }
+    
+	private void initResources() {
+		ServletContext context = Requirements.getMockServletContext();
+		testCredentialResource = new CredentialResource();
+		try {
+			Field contextField = testCredentialResource.getClass()
+					.getDeclaredField("context");
+			contextField.setAccessible(true);
+			contextField.set(testCredentialResource, context);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			Assert.fail("Cant load Mock Servlet Context.");
+		}
+	}
 
     /**
      * A Given step, initialize database raw data.
      *
      * @param dataset   The xml filename.
      */
-    @Given("a table entry named {$dataset} in the database")
+    @Given("a table entry named $dataset in the database")
     public final void aTableEntryNamedInTheDatabase(final String dataset) {
         try {
             dbInit.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, datasetpath
@@ -88,7 +106,7 @@ public class ListOperatorsSteps extends Steps {
      * 
      * @param limit
      */
-    @When("I set the search limit to {$limit}")
+    @When("I set the search limit to $limit")
     public final void setMaxLimit(String limit){
         limit = (limit.equals("null"))?"0":limit;
         GlobalConstant.setMaxSearchResults(Integer.parseInt(limit));
@@ -101,7 +119,7 @@ public class ListOperatorsSteps extends Steps {
      * @param key           The key to search.
      */
     @When("a request to list all the operators with"
-            + " RetailStoreID{$retailStoreid} and Key{$key} and Name{$name} and limit{$limit}")
+            + " RetailStoreID $retailStoreid and Key $key and Name $name and limit $limit")
     public final void aRequestToListAllTheOperatorsWithRetailStoreID(
             final String retailStoreid, final String key, final String name, final int limit) {
         actualEmployeeTransactionList = testCredentialResource
@@ -121,6 +139,7 @@ public class ListOperatorsSteps extends Steps {
         List<Employee> actualEmployees = actualEmployeeTransactionList
                 .getEmployeeList();
 
+        
         Assert.assertEquals("Must exact number of Employee from the List",
                 expectedEmployees.getRowCount(), actualEmployees.size());
 
@@ -161,7 +180,7 @@ public class ListOperatorsSteps extends Steps {
      * @param xml           The expected xml string representation of employee.
      * @throws Exception    Thrown when exception occurs.
      */
-    @Then("xml string should be {$xml}")
+    @Then("xml string should be $xml")
     public final void seriallize(final String xml) throws Exception {
         XmlSerializer<Employees> posLogRespSrlzr =
             new XmlSerializer<Employees>();
@@ -178,7 +197,7 @@ public class ListOperatorsSteps extends Steps {
      *          The expected retail store id.
      */
     @Then("TransactionList should have RetailStoreID"
-            + " of {$expectedRetailStoreID}")
+            + " of $expectedRetailStoreID")
     public final void transactionListShouldHaveRetailStoreIDOf(
             final String expectedRetailStoreID) {
         Assert.assertEquals("Compare the Retail Store ID",

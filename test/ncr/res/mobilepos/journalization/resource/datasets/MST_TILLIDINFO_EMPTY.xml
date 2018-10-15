@@ -10,5 +10,10 @@
 		<column>UpdDate</column>
 		<column>UpdAppId</column>
 		<column>UpdOpeCode</column>
+		<column>CompanyId</column>
+		<column>DeleteFlag</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
 	</table>
 </dataset>

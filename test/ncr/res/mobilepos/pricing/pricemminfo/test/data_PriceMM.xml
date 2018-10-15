@@ -1,0 +1,395 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+<table name="MST_PRICE_MM_INFO">
+		<column>CompanyId</column>
+		<column>MMNo</column>
+		<column>Note</column>
+		<column>StartDate</column>
+		<column>EndDate</column>
+		<column>ConditionCount1</column>
+		<column>ConditionPrice1</column>
+		<column>DecisionPrice1</column>
+		<column>AveragePrice1</column>
+		<column>ConditionCount2</column>
+		<column>ConditionPrice2</column>
+		<column>DecisionPrice2</column>
+		<column>AveragePrice2</column>
+		<column>ConditionCount3</column>
+		<column>ConditionPrice3</column>
+		<column>DecisionPrice3</column>
+		<column>AveragePrice3</column>
+		<column>TargetStoreType</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>全店11</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>2</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>3</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>2</value>
+			<value>全店11</value>
+			<value>2016-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>2</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>3</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>3</value>
+			<value>全店11</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>2</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>3</value>
+			<value>100</value>
+			<value>200</value>
+			<value>150</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+</table>
+
+<table name="MST_PRICE_MM_DETAIL">
+		<column>CompanyId</column>
+		<column>MMNo</column>
+		<column>MMDetailNo</column>
+		<column>Sku</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>1</value>
+			<value>11000001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>2</value>
+			<value>11000002</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>3</value>
+			<value>1110000*</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>3</value>
+			<value>1</value>
+			<value>11000001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+</table>
+
+<table name="MST_PRICE_MM_STORE">
+		<column>CompanyId</column>
+		<column>MMNo</column>
+		<column>StoreId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>1</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>3</value>
+			<value>0003</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+</table>
+
+<table name="PRM_SYSTEM_CONFIG">
+		<column>Category</column>
+		<column>KeyId</column>
+		<column>Value</column>
+		<column>Description</column>
+		<row>
+			<value>Promotion</value>
+			<value>MaxQRCodePrintNum</value>
+			<value>7</value>
+			<value>The Tax rate</value>
+		</row>
+</table>
+</dataset>

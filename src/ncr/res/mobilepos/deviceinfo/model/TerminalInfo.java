@@ -67,6 +67,7 @@ public class TerminalInfo {
 	private String subCode2;
 	private String subCode3;
 	private String subCode4;
+	@XmlElement(name = "SubCode5")
 	private String subCode5;
 	private int subNum1;
 	private int subNum2;
@@ -75,6 +76,8 @@ public class TerminalInfo {
 	private int subNum5;
 	@XmlElement(name = "CompanyName")
 	private String companyName;
+	@XmlElement(name = "SingleFloorId")
+	private int singleFloorId;
 	
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
@@ -425,5 +428,14 @@ public class TerminalInfo {
 	@ApiModelProperty(value="予約", notes="予約")
 	public int getSubNum5() {
 		return subNum5;
+	}
+	
+	@ApiModelProperty(value="カウンター番号", notes="カウンター番号")
+	public int getSingleFloorId() {
+		return singleFloorId;
+	}
+
+	public void setSingleFloorId(int singleFloorId) {
+		this.singleFloorId = singleFloorId;
 	}
 }

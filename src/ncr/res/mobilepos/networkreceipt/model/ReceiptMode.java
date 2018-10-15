@@ -439,8 +439,8 @@ public class ReceiptMode {
     private String creditPaymentAmt;
     private String creditPaymentSalesCnt;
     private String creditPaymentSalesAmt;
-    private String xebioCardCnt;
-    private String xebioCardAmt;
+    private String cardCnt;
+    private String cardAmt;
     private String contractCreditPaymentCnt;
     private String contractCreditPaymentAmt;
     private String contractCreditPaymentSalesCnt;
@@ -461,8 +461,8 @@ public class ReceiptMode {
     private String giftCertPaymentAmt;
     private String giftCertPaymentSalesCnt;
     private String giftCertPaymentSalesAmt;
-    private String giftCertPaymentXebioGrpCnt;
-    private String giftCertPaymentXebioGrpAmt;
+    private String giftCertPaymentGrpCnt;
+    private String giftCertPaymentGrpAmt;
     private String otherPaymentCnt;
     private String otherPaymentAmt;
     private String otherOtherGiftCertCnt;
@@ -490,8 +490,8 @@ public class ReceiptMode {
     private String depositsCashRetTotResDownPaymentRetAmt;
     private String otherDepositsTotalCnt;
     private String otherDepositsTotalAmt;
-    private String otherDepositsTotXebioGrpTicketSalesCnt;
-    private String otherDepositsTotXebioGrpTicketSalesAmt;
+    private String otherDepositsTotGrpTicketSalesCnt;
+    private String otherDepositsTotGrpTicketSalesAmt;
     private String otherDepositsTotTaxFreeMiscIncomeCnt;
     private String otherDepositsTotTaxFreeMiscIncomeAmt;
     private String otherDepositsTotMiscIncomeTicketBalCnt;
@@ -568,8 +568,8 @@ public class ReceiptMode {
     private String subTotDiscountAmt;
     private String subTotDiscountCoupon11Cnt;
     private String subTotDiscountCoupon11Amt;
-    private String subTotDiscountPointTicketXebio13Cnt;
-    private String subTotDiscountPointTicketXebio13Amt;
+    private String subTotDiscountPointTicket13Cnt;
+    private String subTotDiscountPointTicket13Amt;
     private String subTotDiscountPointMortgage16Cnt;
     private String subTotDiscountPointMortgage16Amt;
     private String subTotDiscountGCoupon32Cnt;
@@ -598,8 +598,8 @@ public class ReceiptMode {
     private String subTotDiscountLimitedSales80Amt;
     private String subTotDiscountStockholderPreferential81Cnt;
     private String subTotDiscountStockholderPreferential81Amt;
-    private String subTotDiscountXebio82Cnt;
-    private String subTotDiscountXebio82Amt;
+    private String subTotDiscount82Cnt;
+    private String subTotDiscount82Amt;
     private String subTotDiscount83Cnt;
     private String subTotDiscount83Amt;
     private String subTotDiscountStudent84Cnt;
@@ -1541,172 +1541,172 @@ public class ReceiptMode {
         return memberinfo;
     }
 
-    /**
-     * @param member memberinfo
-     */
-    public void setMemberInfo(MemberInfo member) {
+    // /**
+    //  * @param member memberinfo
+    //  */
+    // public void setMemberInfo(MemberInfo member) {
 
-        this.memberinfo = member;
-    }
+    //     this.memberinfo = member;
+    // }
 
-    public final String toString() {
-        StringBuilder sb = new StringBuilder();
-        return sb.toString();
-    }
+    // public final String toString() {
+    //     StringBuilder sb = new StringBuilder();
+    //     return sb.toString();
+    // }
 
-    /**
-     * Gets the AmountForPoints under LineItem.
-     *
-     * @return        The AmountForPoints under LineItem.
-     */
-    public final String getMiAmountForPoints() {
-        return this.memberinfo != null ? this.memberinfo.getAmountForPoints() : null;
-    }
-    /**
-     * Gets the PointRate under LineItem.
-     *
-     * @return        The PointRate under LineItem.
-     */
-    public final String getMiPointRate() {
-        return this.memberinfo != null ? this.memberinfo.getPointRate() : null;
-    }
-    /**
-     * Gets the CorrectionPoints under LineItem.
-     *
-     * @return        The CorrectionPoints under LineItem.
-     */
-    public final String getMiCorrectionPoints() {
-        return this.memberinfo != null ? this.memberinfo.getCorrectionPoints() : null;
-    }
-    /**
-     * Gets the ExpirationDate under LineItem.
-     *
-     * @return        The ExpirationDate under LineItem.
-     */
-    public final String getMiExpirationDate() {
-        String expirationDate = null;
-        if(this.memberinfo != null){
-            expirationDate = this.memberinfo.getExpirationDate();
-            if(!StringUtility.isNullOrEmpty(expirationDate) && expirationDate.length() == 8){
-                expirationDate = expirationDate.substring(0,4) + "/" + expirationDate.substring(4,6) +
-                         "/" + expirationDate.substring(6,8);
-            }
-        }
-        return expirationDate;
-    }
-    /**
-     * Gets the MemberShipId under LineItem.
-     *
-     * @return        The MemberShipId under LineItem.
-     */
-    public final String getMiMemberShipId() {
-        return this.memberinfo != null ? this.memberinfo.getInputtedMembershipId().getElementValue() : null;
-    }
-    /**
-     * Gets the tMediaId under LineItem.
-     *
-     * @return        The tMediaId under LineItem.
-     */
-    public final String getMiMediaId() {
-        return this.memberinfo != null ? this.memberinfo.getMediaId() : null;
-    }
-    /**
-     * Gets the PointsAcknowledgeId under LineItem.
-     *
-     * @return        The PointsAcknowledgeId under LineItem.
-     */
-    public final String getMiPointsAcknowledgeId() {
-        return this.memberinfo != null ? this.memberinfo.getPointsAcknowledgeId() : null;
-    }
-    /**
-     * Gets the PiontsTransactionId under LineItem.
-     *
-     * @return        The PiontsTransactionIdId under LineItem.
-     */
-    public final String getMiPiontsTransactionId() {
-        return this.memberinfo != null ? this.memberinfo.getPiontsTransactionId() : null;
-    }
-    /**
-     * Gets the PointsMethod under LineItem.
-     *
-     * @return        The PointsMethod under LineItem.
-     */
-    public final String getMiPointsMethod() {
-        return this.memberinfo != null ? this.memberinfo.getPointsMethod() : null;
-    }
-    /**
-     * Gets the StatusCode under LineItem.
-     *
-     * @return        The StatusCode under LineItem.
-     */
-    public final String getMiStatusCode() {
-        return this.memberinfo != null ? this.memberinfo.getStatusCode() : null;
-    }
-    /**
-     * Gets the ServerStatusCode under LineItem.
-     *
-     * @return        The ServerStatusCode under LineItem.
-     */
-    public final String getMiServerStatusCode() {
-        return this.memberinfo != null ? this.memberinfo.getServerStatusCode() : null;
-    }
-    /**
-     * Gets the PointsPrior under LineItem.
-     *
-     * @return        The PointsPrior under LineItem.
-     */
-    public final String getMiPointsPrior() {
-        return this.memberinfo != null ? this.memberinfo.getPointsPrior() : null;
-    }
-    /**
-     * Gets the TotalPoints under LineItem.
-     *
-     * @return        The TotalPoints under LineItem.
-     */
-    public final String getMiTotalPoints() {
-        return this.memberinfo != null ? this.memberinfo.getTotalPoints() : null;
-    }
-    /**
-     * Gets the LostPoints under LineItem.
-     *
-     * @return        The LostPoints under LineItem.
-     */
-    public final String getMiLostPoints() {
-        return this.memberinfo != null ? this.memberinfo.getLostPoints() : null;
-    }
+    // /**
+    //  * Gets the AmountForPoints under LineItem.
+    //  *
+    //  * @return        The AmountForPoints under LineItem.
+    //  */
+    // public final String getMiAmountForPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getAmountForPoints() : null;
+    // }
+    // /**
+    //  * Gets the PointRate under LineItem.
+    //  *
+    //  * @return        The PointRate under LineItem.
+    //  */
+    // public final String getMiPointRate() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointRate() : null;
+    // }
+    // /**
+    //  * Gets the CorrectionPoints under LineItem.
+    //  *
+    //  * @return        The CorrectionPoints under LineItem.
+    //  */
+    // public final String getMiCorrectionPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getCorrectionPoints() : null;
+    // }
+    // /**
+    //  * Gets the ExpirationDate under LineItem.
+    //  *
+    //  * @return        The ExpirationDate under LineItem.
+    //  */
+    // public final String getMiExpirationDate() {
+    //     String expirationDate = null;
+    //     if(this.memberinfo != null){
+    //         expirationDate = this.memberinfo.getExpirationDate();
+    //         if(!StringUtility.isNullOrEmpty(expirationDate) && expirationDate.length() == 8){
+    //             expirationDate = expirationDate.substring(0,4) + "/" + expirationDate.substring(4,6) +
+    //                      "/" + expirationDate.substring(6,8);
+    //         }
+    //     }
+    //     return expirationDate;
+    // }
+    // /**
+    //  * Gets the MemberShipId under LineItem.
+    //  *
+    //  * @return        The MemberShipId under LineItem.
+    //  */
+    // public final String getMiMemberShipId() {
+    //     return this.memberinfo != null ? this.memberinfo.getInputtedMembershipId() : null;
+    // }
+    // /**
+    //  * Gets the tMediaId under LineItem.
+    //  *
+    //  * @return        The tMediaId under LineItem.
+    //  */
+    // public final String getMiMediaId() {
+    //     return this.memberinfo != null ? this.memberinfo.getMediaId() : null;
+    // }
+    // /**
+    //  * Gets the PointsAcknowledgeId under LineItem.
+    //  *
+    //  * @return        The PointsAcknowledgeId under LineItem.
+    //  */
+    // public final String getMiPointsAcknowledgeId() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointsAcknowledgeId() : null;
+    // }
+    // /**
+    //  * Gets the PiontsTransactionId under LineItem.
+    //  *
+    //  * @return        The PiontsTransactionIdId under LineItem.
+    //  */
+    // public final String getMiPiontsTransactionId() {
+    //     return this.memberinfo != null ? this.memberinfo.getPiontsTransactionId() : null;
+    // }
+    // /**
+    //  * Gets the PointsMethod under LineItem.
+    //  *
+    //  * @return        The PointsMethod under LineItem.
+    //  */
+    // public final String getMiPointsMethod() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointsMethod() : null;
+    // }
+    // /**
+    //  * Gets the StatusCode under LineItem.
+    //  *
+    //  * @return        The StatusCode under LineItem.
+    //  */
+    // public final String getMiStatusCode() {
+    //     return this.memberinfo != null ? this.memberinfo.getStatusCode() : null;
+    // }
+    // /**
+    //  * Gets the ServerStatusCode under LineItem.
+    //  *
+    //  * @return        The ServerStatusCode under LineItem.
+    //  */
+    // public final String getMiServerStatusCode() {
+    //     return this.memberinfo != null ? this.memberinfo.getServerStatusCode() : null;
+    // }
+    // /**
+    //  * Gets the PointsPrior under LineItem.
+    //  *
+    //  * @return        The PointsPrior under LineItem.
+    //  */
+    // public final String getMiPointsPrior() {
+    //     return this.memberinfo != null ? this.memberinfo.getPointsPrior() : null;
+    // }
+    // /**
+    //  * Gets the TotalPoints under LineItem.
+    //  *
+    //  * @return        The TotalPoints under LineItem.
+    //  */
+    // public final String getMiTotalPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getTotalPoints() : null;
+    // }
+    // /**
+    //  * Gets the LostPoints under LineItem.
+    //  *
+    //  * @return        The LostPoints under LineItem.
+    //  */
+    // public final String getMiLostPoints() {
+    //     return this.memberinfo != null ? this.memberinfo.getLostPoints() : null;
+    // }
 
-    /**
-     * Gets the PointsPrior add the CorrectionPoints.
-     *
-     * @return
-     */
-    public final String getPointsPriorAddCorrectionPoints() {
+    // /**
+    //  * Gets the PointsPrior add the CorrectionPoints.
+    //  *
+    //  * @return
+    //  */
+    // public final String getPointsPriorAddCorrectionPoints() {
 
-        String strValue = null;
+    //     String strValue = null;
 
-        if (this.memberinfo != null) {
-            String strPointsPrior = this.memberinfo.getPointsPrior();
-            String strCorrectionPoints = this.memberinfo.getCorrectionPoints();
+    //     if (this.memberinfo != null) {
+    //         String strPointsPrior = this.memberinfo.getPointsPrior();
+    //         String strCorrectionPoints = this.memberinfo.getCorrectionPoints();
 
-            if (StringUtility
-                    .isNullOrEmpty(strPointsPrior, strCorrectionPoints)) {
-                strValue = "0";
-            } else if (StringUtility.isNullOrEmpty(strPointsPrior)) {
-                strValue = String
-                        .valueOf(Long.valueOf(strCorrectionPoints) < 0 ? 0
-                                : Long.valueOf(strCorrectionPoints));
-            } else if (StringUtility.isNullOrEmpty(strCorrectionPoints)) {
-                strValue = String.valueOf(Long.valueOf(strPointsPrior) < 0 ? 0
-                        : Long.valueOf(strPointsPrior));
-            } else {
-                strValue = String.valueOf((Long.valueOf(strPointsPrior) + Long
-                        .valueOf(strCorrectionPoints)) < 0 ? 0 : (Long
-                        .valueOf(strPointsPrior) + Long
-                        .valueOf(strCorrectionPoints)));
-            }
-        }
-        return strValue;
-    }
+    //         if (StringUtility
+    //                 .isNullOrEmpty(strPointsPrior, strCorrectionPoints)) {
+    //             strValue = "0";
+    //         } else if (StringUtility.isNullOrEmpty(strPointsPrior)) {
+    //             strValue = String
+    //                     .valueOf(Long.valueOf(strCorrectionPoints) < 0 ? 0
+    //                             : Long.valueOf(strCorrectionPoints));
+    //         } else if (StringUtility.isNullOrEmpty(strCorrectionPoints)) {
+    //             strValue = String.valueOf(Long.valueOf(strPointsPrior) < 0 ? 0
+    //                     : Long.valueOf(strPointsPrior));
+    //         } else {
+    //             strValue = String.valueOf((Long.valueOf(strPointsPrior) + Long
+    //                     .valueOf(strCorrectionPoints)) < 0 ? 0 : (Long
+    //                     .valueOf(strPointsPrior) + Long
+    //                     .valueOf(strCorrectionPoints)));
+    //         }
+    //     }
+    //     return strValue;
+    // }
 
     /**
      *
@@ -2966,17 +2966,17 @@ public class ReceiptMode {
     public void setCreditPaymentSalesAmt(String val) {
         this.creditPaymentSalesAmt=val;
     }
-    public String getXebioCardCnt() {
-        return this.xebioCardCnt;
+    public String getCardCnt() {
+        return this.cardCnt;
     }
-    public void setXebioCardCnt(String val) {
-        this.xebioCardCnt=val;
+    public void setCardCnt(String val) {
+        this.cardCnt=val;
     }
-    public String getXebioCardAmt() {
-        return this.xebioCardAmt;
+    public String getCardAmt() {
+        return this.cardAmt;
     }
-    public void setXebioCardAmt(String val) {
-        this.xebioCardAmt=val;
+    public void setCardAmt(String val) {
+        this.cardAmt=val;
     }
     public String getContractCreditPaymentCnt() {
         return this.contractCreditPaymentCnt;
@@ -3098,17 +3098,17 @@ public class ReceiptMode {
     public void setGiftCertPaymentSalesAmt(String val) {
         this.giftCertPaymentSalesAmt=val;
     }
-    public String getGiftCertPaymentXebioGrpCnt() {
-        return this.giftCertPaymentXebioGrpCnt;
+    public String getGiftCertPaymentGrpCnt() {
+        return this.giftCertPaymentGrpCnt;
     }
-    public void setGiftCertPaymentXebioGrpCnt(String val) {
-        this.giftCertPaymentXebioGrpCnt=val;
+    public void setGiftCertPaymentGrpCnt(String val) {
+        this.giftCertPaymentGrpCnt=val;
     }
-    public String getGiftCertPaymentXebioGrpAmt() {
-        return this.giftCertPaymentXebioGrpAmt;
+    public String getGiftCertPaymentGrpAmt() {
+        return this.giftCertPaymentGrpAmt;
     }
-    public void setGiftCertPaymentXebioGrpAmt(String val) {
-        this.giftCertPaymentXebioGrpAmt=val;
+    public void setGiftCertPaymentGrpAmt(String val) {
+        this.giftCertPaymentGrpAmt=val;
     }
     public String getOtherPaymentCnt() {
         return this.otherPaymentCnt;
@@ -3272,17 +3272,17 @@ public class ReceiptMode {
     public void setOtherDepositsTotalAmt(String val) {
         this.otherDepositsTotalAmt=val;
     }
-    public String getOtherDepositsTotXebioGrpTicketSalesCnt() {
-        return this.otherDepositsTotXebioGrpTicketSalesCnt;
+    public String getOtherDepositsTotGrpTicketSalesCnt() {
+        return this.otherDepositsTotGrpTicketSalesCnt;
     }
-    public void setOtherDepositsTotXebioGrpTicketSalesCnt(String val) {
-        this.otherDepositsTotXebioGrpTicketSalesCnt=val;
+    public void setOtherDepositsTotGrpTicketSalesCnt(String val) {
+        this.otherDepositsTotGrpTicketSalesCnt=val;
     }
-    public String getOtherDepositsTotXebioGrpTicketSalesAmt() {
-        return this.otherDepositsTotXebioGrpTicketSalesAmt;
+    public String getOtherDepositsTotGrpTicketSalesAmt() {
+        return this.otherDepositsTotGrpTicketSalesAmt;
     }
-    public void setOtherDepositsTotXebioGrpTicketSalesAmt(String val) {
-        this.otherDepositsTotXebioGrpTicketSalesAmt=val;
+    public void setOtherDepositsTotGrpTicketSalesAmt(String val) {
+        this.otherDepositsTotGrpTicketSalesAmt=val;
     }
     public String getOtherDepositsTotTaxFreeMiscIncomeCnt() {
         return this.otherDepositsTotTaxFreeMiscIncomeCnt;
@@ -3740,17 +3740,17 @@ public class ReceiptMode {
     public void setSubTotDiscountCoupon11Amt(String val) {
         this.subTotDiscountCoupon11Amt=val;
     }
-    public String getSubTotDiscountPointTicketXebio13Cnt() {
-        return this.subTotDiscountPointTicketXebio13Cnt;
+    public String getSubTotDiscountPointTicket13Cnt() {
+        return this.subTotDiscountPointTicket13Cnt;
     }
-    public void setSubTotDiscountPointTicketXebio13Cnt(String val) {
-        this.subTotDiscountPointTicketXebio13Cnt=val;
+    public void setSubTotDiscountPointTicket13Cnt(String val) {
+        this.subTotDiscountPointTicket13Cnt=val;
     }
-    public String getSubTotDiscountPointTicketXebio13Amt() {
-        return this.subTotDiscountPointTicketXebio13Amt;
+    public String getSubTotDiscountPointTicket13Amt() {
+        return this.subTotDiscountPointTicket13Amt;
     }
-    public void setSubTotDiscountPointTicketXebio13Amt(String val) {
-        this.subTotDiscountPointTicketXebio13Amt=val;
+    public void setSubTotDiscountPointTicket13Amt(String val) {
+        this.subTotDiscountPointTicket13Amt=val;
     }
     public String getSubTotDiscountPointMortgage16Cnt() {
         return this.subTotDiscountPointMortgage16Cnt;
@@ -3920,17 +3920,17 @@ public class ReceiptMode {
     public void setSubTotDiscountStockholderPreferential81Amt(String val) {
         this.subTotDiscountStockholderPreferential81Amt=val;
     }
-    public String getSubTotDiscountXebio82Cnt() {
-        return this.subTotDiscountXebio82Cnt;
+    public String getSubTotDiscount82Cnt() {
+        return this.subTotDiscount82Cnt;
     }
-    public void setSubTotDiscountXebio82Cnt(String val) {
-        this.subTotDiscountXebio82Cnt=val;
+    public void setSubTotDiscount82Cnt(String val) {
+        this.subTotDiscount82Cnt=val;
     }
-    public String getSubTotDiscountXebio82Amt() {
-        return this.subTotDiscountXebio82Amt;
+    public String getSubTotDiscount82Amt() {
+        return this.subTotDiscount82Amt;
     }
-    public void setSubTotDiscountXebio82Amt(String val) {
-        this.subTotDiscountXebio82Amt=val;
+    public void setSubTotDiscount82Amt(String val) {
+        this.subTotDiscount82Amt=val;
     }
     public String getSubTotDiscount83Cnt() {
         return this.subTotDiscount83Cnt;

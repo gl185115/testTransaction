@@ -117,7 +117,7 @@ public final class SaleItemsHandler {
         saleRes.setDepartment(item.getDepartment());
         saleRes.setDescription(item.getDescription());
         saleRes.setItemId(item.getItemId());
-        saleRes.setDiscountable(item.getDiscountType() == 0);
+        saleRes.setDiscountable("0".equals(item.getDiscountType()));
         saleRes.setQuantity(saleIn.getQuantity());
         saleRes.setLine(item.getLine());
         saleRes.setItemClass(item.getItemClass());
@@ -145,14 +145,22 @@ public final class SaleItemsHandler {
         saleRes.setMd16(item.getMd16());
         saleRes.setSku(item.getSku());
         saleRes.setMdType(item.getMdType());
+        saleRes.setHostFlag(item.getHostFlag());
         saleRes.setPromotionId(item.getPromotionId());
         saleRes.setPromotionNo(item.getPromotionNo());
+        saleRes.setPromotionType(item.getPromotionType());
         saleRes.setDptDiscountType(item.getDptDiscountType());
         saleRes.setMdNameLocal(item.getMdNameLocal());
+        saleRes.setSalesNameSource(item.getSalesNameSource());
+        saleRes.setMdName(item.getMdName());
         saleRes.setMdKanaName(item.getMdKanaName());
         saleRes.setSalesPrice2(item.getSalesPrice2());
         saleRes.setPaymentType(item.getPaymentType());
         saleRes.setSubNum2(item.getSubNum2());
+        saleRes.setDptSubNum1(item.getDptSubNum1());
+        saleRes.setDptSubNum2(item.getDptSubNum2());
+        saleRes.setDptSubNum3(item.getDptSubNum3());
+        saleRes.setDptSubNum4(item.getDptSubNum4());
         saleRes.setRuleQuantity1(item.getRuleQuantity1());
         saleRes.setRuleQuantity2(item.getRuleQuantity2());
         saleRes.setRuleQuantity3(item.getRuleQuantity3());
@@ -185,6 +193,7 @@ public final class SaleItemsHandler {
         saleRes.setMakerPrice(item.getMakerPrice());
         saleRes.setConn1(item.getConn1());
         saleRes.setConn2(item.getConn2());
+        saleRes.setPublishingCode(item.getPublishingCode());
         saleRes.setPluPrice(item.getPluPrice());
         saleRes.setDptNameLocal(item.getDptNameLocal());
         saleRes.setClassNameLocal(item.getClassNameLocal());
@@ -234,6 +243,22 @@ public final class SaleItemsHandler {
         }
         saleRes.setAgeRestrictedFlag(item.getAgeRestrictedFlag());
         saleRes.setCouponFlag(item.getCouponFlag());
+        saleRes.setTaxTypeSource(item.getTaxTypeSource());
+        saleRes.setDiscountTypeSource(item.getDiscountTypeSource());
+        saleRes.setLabelPrice(item.getLabelPrice());
+        saleRes.setBrandSaleName(item.getBrandSaleName());
+        saleRes.setSaleSizeCode(item.getSaleSizeCode());
+        saleRes.setSizePatternId(item.getSizePatternId());
+        saleRes.setPointAddFlag(item.getPointAddFlag());
+        saleRes.setPointUseFlag(item.getPointUseFlag());
+        saleRes.setTaxExemptFlag(item.getTaxExemptFlag());
+        saleRes.setClsDiscountType(item.getClsDiscountType());
+        saleRes.setCategoryCode(item.getCategoryCode());
+        saleRes.setMagazineCode(item.getMagazineCode());
+        saleRes.setDptTaxType(item.getDptTaxType());
+        saleRes.setClsTaxType(item.getClsTaxType());
+        saleRes.setLineTaxType(item.getLineTaxType());
+        saleRes.setLineDiscountType(item.getLineDiscountType());
         return saleRes;
     }
 

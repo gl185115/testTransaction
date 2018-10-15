@@ -1,8 +1,14 @@
 package ncr.res.mobilepos.customerSearch.resource;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -19,7 +25,8 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.credential.model.Operator;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
 import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.customerSearch.helper.HTTPBasicAuthorization;
@@ -111,7 +118,7 @@ public class CustomerSearchResource {
             Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
                     CustomerSearchConstants.CATEGORY);
 
-			if (StringUtility.isNullOrEmpty(mapReturn)
+			if (mapReturn == null
 					|| StringUtility
 							.isNullOrEmpty(mapReturn
 									.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))
@@ -312,7 +319,7 @@ public class CustomerSearchResource {
             Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
                     CustomerSearchConstants.CATEGORY);
 
-			if (StringUtility.isNullOrEmpty(mapReturn)
+			if (mapReturn == null
 					|| StringUtility
 							.isNullOrEmpty(mapReturn
 									.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))
@@ -439,6 +446,556 @@ public class CustomerSearchResource {
             customerSearchReturnBean
                     .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
             customerSearchReturnBean.setMessage(e.getMessage());
+        }
+
+        return customerSearchReturnBean;
+    }
+    
+    /**
+     * Login Key Change API
+     * @param loginKey : Login Key
+     * @return the Xml of Changed Login Key
+     */
+    @Path("/getChangedLoginKey")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="変換ログインキーを取得する", response=CustomerSearchReturnBean.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+        })
+    public final CustomerSearchReturnBean getChangedLoginKey(
+            @ApiParam(name="loginKey", value="ログインキー") @FormParam("loginKey") final String loginKey) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("loginKey", loginKey);
+        CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
+
+        try {
+            // param check
+            if (StringUtility.isNullOrEmpty(loginKey)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return customerSearchReturnBean;
+            }
+
+            // get common url
+            DAOFactory sqlServer = DAOFactory
+                    .getDAOFactory(DAOFactory.SQLSERVER);
+            ICustomerSearthDAO iCustomerSearthDAO = sqlServer
+                    .getCustomerSearthDAO();
+            Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
+                    CustomerSearchConstants.CATEGORY);
+
+            if (mapReturn == null
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER))
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS))) {
+                tp.println(ResultBase.RES_NODATAFOUND_MSG);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_NODATAFOUND_MSG);
+                return customerSearchReturnBean;
+            }
+
+            StringBuilder strbUrl = new StringBuilder();
+            strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
+            strbUrl.append(CustomerSearchConstants.API_B0001);
+            
+            StringBuilder strbParams = new StringBuilder();
+            // add loginKey
+            strbParams.append("loginKey=");
+            strbParams.append(loginKey);
+
+            // basic authenticate
+            // send url
+            List<String> lstReturn = null;
+            
+            for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getMemberServerDebug()){
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.LOGINKEYXML);
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while((strReadLine = br.readLine()) != null){
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    lstReturn.add(strbReturn.toString());
+                } else {
+                    lstReturn = HTTPBasicAuthorization.connection(
+                            strbUrl.toString(), strbParams.toString(),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
+                }
+                
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
+            }
+
+            // sorting the returned data
+            if (lstReturn == null || lstReturn.size() == 0) {
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return customerSearchReturnBean;
+            }
+            int intReturnStatus = Integer.parseInt(lstReturn.get(0));
+            if (intReturnStatus != 200) {
+                customerSearchReturnBean.setNCRWSSResultCode(intReturnStatus);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(intReturnStatus);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return customerSearchReturnBean;
+            } else {
+                String strReturn = lstReturn.get(1);
+                customerSearchReturnBean.setStrResultXml(strReturn);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                customerSearchReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
+            }
+
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
+                    + ": Failed to get LoginKey.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } catch (MalformedURLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                    + ": Failed to get LoginKey.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } catch (IOException e) {
+            if (e instanceof UnknownHostException) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + ": Failed to get LoginKey.", e);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                customerSearchReturnBean.setMessage(e.getMessage());
+            }else{
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + ": Failed to get LoginKey.", e);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                customerSearchReturnBean.setMessage(e.getMessage());
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+                    + ": Failed to get LoginKey.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(customerSearchReturnBean);
+        }
+
+        return customerSearchReturnBean;
+    }
+    
+    /**
+     * Get Rank Info API
+     * @param memberCode : Member Code
+     * @return the Xml of rank information
+     */
+    @Path("/getRankInfo")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="ランク情報取得する", response=CustomerSearchReturnBean.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+        })
+    public final CustomerSearchReturnBean getRankInfo(
+            @ApiParam(name="memberCode", value="会員コード") @FormParam("memberCode") final String memberCode) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("memberCode", memberCode);
+        CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
+
+        try {
+            // param check
+            if (StringUtility.isNullOrEmpty(memberCode)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return customerSearchReturnBean;
+            }
+
+            // get common url
+            DAOFactory sqlServer = DAOFactory
+                    .getDAOFactory(DAOFactory.SQLSERVER);
+            ICustomerSearthDAO iCustomerSearthDAO = sqlServer
+                    .getCustomerSearthDAO();
+            Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
+                    CustomerSearchConstants.CATEGORY);
+
+            if (mapReturn == null
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER))
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS))) {
+                tp.println(ResultBase.RES_NODATAFOUND_MSG);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_NODATAFOUND_MSG);
+                return customerSearchReturnBean;
+            }
+
+            StringBuilder strbUrl = new StringBuilder();
+            strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
+            strbUrl.append(CustomerSearchConstants.API_B2001);
+            
+            StringBuilder strbParams = new StringBuilder();
+            // add memberCode
+            strbParams.append("memberCode=");
+            strbParams.append(memberCode);
+
+            // basic authenticate
+            // send url
+            List<String> lstReturn = null;
+            
+            for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getMemberServerDebug()){
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.RANKINFOXML);
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while((strReadLine = br.readLine()) != null){
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    lstReturn.add(strbReturn.toString());
+                } else {
+                    lstReturn = HTTPBasicAuthorization.connection(
+                            strbUrl.toString(), strbParams.toString(),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
+                }
+                
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
+            }
+            
+
+            // sorting the returned data
+            if (lstReturn == null || lstReturn.size() == 0) {
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return customerSearchReturnBean;
+            }
+            int intReturnStatus = Integer.parseInt(lstReturn.get(0));
+            if (intReturnStatus != 200) {
+                customerSearchReturnBean.setNCRWSSResultCode(intReturnStatus);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(intReturnStatus);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return customerSearchReturnBean;
+            } else {
+                String strReturn = lstReturn.get(1);
+                customerSearchReturnBean.setStrResultXml(strReturn);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                customerSearchReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
+            }
+
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
+                    + ": Failed to get rank information.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } catch (MalformedURLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                    + ": Failed to get rank information.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } catch (IOException e) {
+            if (e instanceof UnknownHostException) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + ": Failed to get rank information.", e);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                customerSearchReturnBean.setMessage(e.getMessage());
+            }else{
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + ": Failed to get rank information.", e);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                customerSearchReturnBean.setMessage(e.getMessage());
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+                    + ": Failed to get rank information.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(customerSearchReturnBean);
+        }
+
+        return customerSearchReturnBean;
+    }
+    
+    /**
+     * Get Member Info API
+     * @param memberCode : Member Code
+     * @return the Xml of member information
+     */
+    @Path("/getMemberInfo")
+    @POST
+    @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="会員情報取得する", response=CustomerSearchReturnBean.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+        })
+    public final CustomerSearchReturnBean getMemberInfo(
+            @ApiParam(name="memberCode", value="会員コード") @FormParam("memberCode") final String memberCode) {
+
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("memberCode", memberCode);
+        CustomerSearchReturnBean customerSearchReturnBean = new CustomerSearchReturnBean();
+
+        try {
+            // param check
+            if (StringUtility.isNullOrEmpty(memberCode)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return customerSearchReturnBean;
+            }
+
+            // get common url
+            DAOFactory sqlServer = DAOFactory
+                    .getDAOFactory(DAOFactory.SQLSERVER);
+            ICustomerSearthDAO iCustomerSearthDAO = sqlServer
+                    .getCustomerSearthDAO();
+            Map<String, String> mapReturn = iCustomerSearthDAO.getPrmSystemConfigValue(
+                    CustomerSearchConstants.CATEGORY);
+
+            if (mapReturn == null
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERURI))
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER))
+                    || StringUtility
+                            .isNullOrEmpty(mapReturn
+                                    .get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS))) {
+                tp.println(ResultBase.RES_NODATAFOUND_MSG);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_NODATAFOUND_MSG);
+                return customerSearchReturnBean;
+            }
+
+            StringBuilder strbUrl = new StringBuilder();
+            strbUrl.append(mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERURI));
+            strbUrl.append(CustomerSearchConstants.API_B0102);
+            
+            StringBuilder strbParams = new StringBuilder();
+            // add memberCode
+            strbParams.append("memberCode=");
+            strbParams.append(memberCode);
+
+            // basic authenticate
+            // send url
+            List<String> lstReturn = null;
+            for (int retryTimes = 0; retryTimes < CustomerSearchConstants.RETRYTOTAL; retryTimes++){
+                lstReturn = new ArrayList<String>();
+                if (GlobalConstant.getMemberServerDebug()){
+                    File file = new File(EnvironmentEntries.getInstance().getParaBasePath() + CustomerSearchConstants.MEMBERINFOXML);
+                    InputStream in = new FileInputStream(file);
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+                    StringBuilder strbReturn = new StringBuilder();
+                    String strReadLine = "";
+                    lstReturn.add("200");
+                    while((strReadLine = br.readLine()) != null){
+                        strbReturn.append(strReadLine.trim());
+                    }
+                    br.close();
+                    lstReturn.add(strbReturn.toString());
+                } else {
+                    lstReturn = HTTPBasicAuthorization.connection(
+                            strbUrl.toString(), strbParams.toString(),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERUSER),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERPASS),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERTIMEOUT),
+                            mapReturn.get(CustomerSearchConstants.KEYID_MEMBERSERVERCONNECTTIMEOUT));
+                }
+                
+                if (!StringUtility.isNullOrEmpty(lstReturn.get(0)) && Integer.parseInt(lstReturn.get(0)) == 200) break;
+            }
+            
+
+            // sorting the returned data
+            if (lstReturn == null || lstReturn.size() == 0) {
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return customerSearchReturnBean;
+            }
+            int intReturnStatus = Integer.parseInt(lstReturn.get(0));
+            if (intReturnStatus != 200) {
+                customerSearchReturnBean.setNCRWSSResultCode(intReturnStatus);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(intReturnStatus);
+                customerSearchReturnBean
+                        .setMessage(ResultBase.RES_HTTPCONNECTIONFAILED_MSG);
+                return customerSearchReturnBean;
+            } else {
+                String strReturn = lstReturn.get(1);
+                customerSearchReturnBean.setStrResultXml(strReturn);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                customerSearchReturnBean.setMessage(ResultBase.RES_SUCCESS_MSG);
+            }
+
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName
+                    + ": Failed to Member information.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } catch (MalformedURLException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                    + ": Failed to Member information.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_MALFORMED_URL_EXCEPTION);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } catch (IOException e) {
+            if (e instanceof UnknownHostException) {
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + ": Failed to member information.", e);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+                customerSearchReturnBean.setMessage(e.getMessage());
+            }else{
+                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_IO, functionName
+                        + ": Failed to Member information.", e);
+                customerSearchReturnBean
+                        .setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                customerSearchReturnBean
+                        .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
+                customerSearchReturnBean.setMessage(e.getMessage());
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
+                    + ": Failed to Member information.", e);
+            customerSearchReturnBean
+                    .setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            customerSearchReturnBean
+                    .setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            customerSearchReturnBean.setMessage(e.getMessage());
+        } finally {
+            tp.methodExit(customerSearchReturnBean);
         }
 
         return customerSearchReturnBean;

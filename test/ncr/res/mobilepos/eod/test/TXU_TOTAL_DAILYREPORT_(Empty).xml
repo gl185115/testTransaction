@@ -1,0 +1,25 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXU_TOTAL_DAILYREPORT">
+		<column>CompanyId</column>
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>BusinessDayDate</column>
+		<column>ItemType</column>
+		<column>ItemLevel1</column>
+		<column>ItemLevel2</column>
+		<column>ItemLevel3</column>
+		<column>ItemLevel4</column>
+		<column>TrainingFlag</column>
+		<column>ItemCnt</column>
+		<column>GestCnt</column>
+		<column>TranCnt</column>
+		<column>ItemAmt</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>		
+	</table>
+</dataset>

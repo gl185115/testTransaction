@@ -1,9 +1,0 @@
-!- Please define the DepartmentModel with the following properties:
-!- |Dpt	|DptName				|DptKanaName	|Category	|
-!- it is required that it is serializable 
-Given a department model
-Then its DPT is {0120}
-Then its DptName is {dptname}
-Then its DptKanaName is {dptKanaName}
-Then its Category is {category}
-Then xml string should be {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Department><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><Category>category</Category><Dpt>0120</Dpt><DptKanaName>dptKanaName</DptKanaName><DptName>dptname</DptName></Department>}

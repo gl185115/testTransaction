@@ -93,12 +93,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
     				"Failed to get cash balance.\n" + e.getMessage());
     		throw new DaoException("SQLException: "
     				+ "@SQLCashAccountDAO.getCashBalance() - " + e.getMessage(), e);
-    	} catch (SQLStatementException e) {
-    		LOGGER.logAlert(progName, "SQLCashAccountDAO.getCashBalance()", 
-    				Logger.RES_EXCEP_SQLSTATEMENT, 
-    				"Failed to get cash balance.\n" + e.getMessage());
-    		throw new DaoException("SQLStatementException: "
-    				+ "@SQLCashAccountDAO.getCashBalance() - " + e.getMessage(), e);
     	} finally {
             closeConnectionObjects(connection, statement, result);
             
@@ -114,7 +108,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
      */
     @Override
     public GetCashBalance getCashBalance(String companyId, String storeId, String terminalId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws DaoException {
+            int trainingFlag, String dataType, String itemLevel1) throws DaoException {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -124,8 +118,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
         
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
@@ -143,7 +136,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             selectStmnt.setString(SQLStatement.PARAM6, dataType);
             selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
-            selectStmnt.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = selectStmnt.executeQuery();
             
@@ -163,10 +155,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
                 cashBalance.setTillId(tillId);
                 
                 getCashBalance.setCashBalance(cashBalance);
-            } else {
-                getCashBalance.setNCRWSSResultCode(
-                        ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
-                tp.println("Cash balance not retrieved.");
             }
          } catch (Exception e) {
              LOGGER.logAlert(functionName,
@@ -188,7 +176,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
      */
     @Override
     public GetCashBalance getCashBalanceByTillId(String companyId, String storeId, String tillId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws DaoException {
+            int trainingFlag, String dataType, String itemLevel1) throws DaoException {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -198,8 +186,7 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
         
         PreparedStatement selectStmnt = null;
         ResultSet result = null;
@@ -217,7 +204,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
             selectStmnt.setInt(SQLStatement.PARAM5, trainingFlag);
             selectStmnt.setString(SQLStatement.PARAM6, dataType);
             selectStmnt.setString(SQLStatement.PARAM7, itemLevel1);
-            selectStmnt.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = selectStmnt.executeQuery();
             
@@ -236,10 +222,6 @@ public class SQLCashAccountDAO extends AbstractDao implements ICashAccountDAO {
                 cashBalance.setTillId(tillId);
                 
                 getCashBalance.setCashBalance(cashBalance);
-            } else {
-                getCashBalance.setNCRWSSResultCode(
-                        ResultBase.RES_CASH_ACCOUNT_NO_CASH_BALANCE);
-                tp.println("Cash balance not retrieved.");
             }
          } catch (Exception e) {
              LOGGER.logAlert(functionName,

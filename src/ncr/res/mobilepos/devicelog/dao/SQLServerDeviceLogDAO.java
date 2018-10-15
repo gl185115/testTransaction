@@ -127,10 +127,6 @@ implements IDeviceLogDAO {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_SQL);
             result.setMessage(e.getMessage());
             rollBack(connection, "@SQLServerDeviceLogDAO#saveLogFile", e);
-        } catch (SQLStatementException e) {
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_SQLSTATEMENT);
-            result.setMessage(e.getMessage());
-            rollBack(connection, "@SQLServerDeviceLogDAO#saveLogFile", e);
         } finally {
             closeConnectionObjects(connection, saveStatement, rs);
             
@@ -199,10 +195,6 @@ implements IDeviceLogDAO {
                     + "\n\nPossible Cause: Invalid rowId=" + rowId, e);
         } catch (IOException e) {
             result.setNCRWSSResultCode(ResultBase.RES_ERROR_IOEXCEPTION);
-            result.setMessage(e.getMessage());
-            rollBack(connection, "@SQLServerDeviceLogDAO#updateLogFile", e);
-        } catch (SQLStatementException e) {
-            result.setNCRWSSResultCode(ResultBase.RES_ERROR_SQLSTATEMENT);
             result.setMessage(e.getMessage());
             rollBack(connection, "@SQLServerDeviceLogDAO#updateLogFile", e);
         } finally {
@@ -305,9 +297,6 @@ implements IDeviceLogDAO {
 
         } catch (SQLException e) {
             throw new DaoException("SQLException: @getLogsOfDevice - "
-                    + e.getMessage());
-        } catch (SQLStatementException e) {
-            throw new DaoException("SQLStatementException: @getLogsOfDevice - "
                     + e.getMessage());
         } finally {
             closeConnectionObjects(connection, selectStatement, rs);

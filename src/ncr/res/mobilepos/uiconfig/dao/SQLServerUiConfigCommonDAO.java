@@ -83,10 +83,6 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements IUiConfig
 				companyInfo.setCompanyName(result.getString("CompanyShortKanaName"));
 				companylist.add(companyInfo);
 			}
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-					functionName + ": Failed to get CompanyInfo list.", sqlStmtEx);
-			throw new DaoException("SQLStatementException:" + " @SQLServerUiConfigCommonDAO.getCompanyInfo", sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get CompanyInfo list.", sqlEx);
 			throw new DaoException("SQLException:" + " @SQLServerUiConfigCommonDAO.getCompanyInfo", sqlEx);
@@ -196,10 +192,6 @@ public class SQLServerUiConfigCommonDAO extends AbstractDao implements IUiConfig
 				storeEntry.setSubNum15(result.getString("SubNum15"));
 				storeEntryList.add(storeEntry);
 			}
-		} catch (SQLStatementException sqlStmtEx) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT, functionName + ": Failed to get storeEntry list.",
-					sqlStmtEx);
-			throw new DaoException("SQLStatementException:" + " @SQLServerUiConfigCommonDAO.getStoreEntryList", sqlStmtEx);
 		} catch (SQLException sqlEx) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get storeEntry list.", sqlEx);
 			throw new DaoException("SQLException:" + " @SQLServerUiConfigCommonDAO.getStoreEntryList", sqlEx);

@@ -1,0 +1,96 @@
+Scenario: Successful Test Initialization Status
+Given Web application was initialized
+Given Business logic factories were initialized
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG
+
+Scenario: Initialization Status returns Error with WindowsEnvironmentVariables failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given WindowsEnvironmentVariables failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with EnvironmentEntries failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given EnvironmentEntries failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with Logger failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given Logger failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with SnapLogger failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given SnapLogger failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with DebugLogger failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given DebugLogger failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with SpmFileWriter failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given SpmFileWriter failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with SQLStatement failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given SQLStatement failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with JndiDBManagerMSSqlServer failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given JndiDBManagerMSSqlServer failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns OK even with ToppanGiftCardConfigFactory failure, because it is optional.
+Given Web application was initialized
+Given Business logic factories were initialized
+Given ToppanGiftCardConfigFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG
+
+Scenario: Initialization Status returns OK even with QrCodeInfoFactory failure, because it is optional.
+Given Web application was initialized
+Given Business logic factories were initialized
+Given QrCodeInfoFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG
+
+Scenario: Initialization Status returns Error with BarcodeAssignmentFactory failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given BarcodeAssignmentFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_ERROR_INITIALIZATION and extendedResultCode should be RES_ERROR_INITIALIZATION and message should be RES_FAILED_MSG
+
+Scenario: Initialization Status returns Error with PricePromInfoFactory failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given PricePromInfoFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG
+
+Scenario: Initialization Status returns Error with PriceMMInfoFactory failure
+Given Web application was initialized
+Given Business logic factories were initialized
+Given PriceMMInfoFactory failed to instantiate
+When the status check API are called
+Then the resultcode should be RES_OK_INITIALIZATION and extendedResultCode should be RES_OK_INITIALIZATION and message should be RES_SUCCESS_MSG

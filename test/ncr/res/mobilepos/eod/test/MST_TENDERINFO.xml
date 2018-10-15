@@ -1,0 +1,493 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_TENDERINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TenderType</column>
+		<column>TenderId</column>
+		<column>TenderName</column>
+		<column>TenderKanaName</column>
+		<column>StampType</column>
+		<column>PointType</column>
+		<column>ChangeType</column>
+        <column>TenderIdentification</column>
+		<column>UnitPrice</column>
+		<column>DisplayOrder</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0101</value>
+			<value>商品券１</value>
+			<value>JCB</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0102</value>
+			<value>商品券２</value>
+			<value>UC</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0103</value>
+			<value>商品券３</value>
+			<value>VISA</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0104</value>
+			<value>商品券４</value>
+			<value>DC/UFJ NICOS</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0106</value>
+			<value>商品券５</value>
+			<value>ﾆﾎﾝﾀﾞｲﾅｰｽ</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0109</value>
+			<value>商品券６</value>
+			<value>ﾆｯｾﾝﾚﾝ</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0110</value>
+			<value>商品券７</value>
+			<value>NCｶｰﾄﾞ</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0111</value>
+			<value>商品券８</value>
+			<value>ｼｮｳﾅｲｼﾝﾊﾟﾝ</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0112</value>
+			<value>商品券９</value>
+			<value>ｴｽｺｰﾄ</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0115</value>
+			<value>商品券１０</value>
+			<value>OCS</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0118</value>
+			<value>グループ券</value>
+			<value>ｸﾞﾙｰﾌﾞｹﾝ</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>1000</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0161</value>
+			<value>その他券１</value>
+			<value>ｿﾉﾀｹﾝ 1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>10</value>
+			<value>0162</value>
+			<value>その他券２</value>
+			<value>ｿﾉﾀｹﾝ 2</value>
+			<value>1</value>
+			<value>1</value>
+			<value>2</value>
+            <value>2</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+</dataset>

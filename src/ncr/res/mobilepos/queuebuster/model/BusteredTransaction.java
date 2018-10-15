@@ -34,6 +34,9 @@ public class BusteredTransaction {
     /** The Sequence Number. */
     @XmlElement(name = "SequenceNumber")
     private String sequencenumber;
+    /** The SummaryReceiptReservation. */
+    @XmlElement(name = "SummaryReceiptReservation")
+    private int summaryReceiptReservation;
     /** The Total. */
     @XmlElement(name = "Total")
     private Double total;
@@ -78,7 +81,7 @@ public class BusteredTransaction {
      * Get the workstation ID.
      * @return  The Workstation ID.
      */
-    @ApiModelProperty(value="作業台コード", notes="作業台コード")
+    @ApiModelProperty(value="ターミナル番号", notes="ターミナル番号")
     public final String getWorkstationid() {
         return workstationid;
     }
@@ -106,6 +109,23 @@ public class BusteredTransaction {
      */
     public final void setSequencenumber(final String sequencenumberToSet) {
         this.sequencenumber = sequencenumberToSet;
+    }
+    
+    /**
+     * Get the SummaryReceiptReservation.
+     * @return The SummaryReceiptReservation.
+     */
+    @ApiModelProperty(value="領収証予約", notes="領収証予約")
+    public final int getSummaryReceiptReservation() {
+        return summaryReceiptReservation;
+    }
+    
+    /**
+     * Set the SummaryReceiptReservation.
+     * @param summaryReceiptReservationToSet The SummaryReceiptReservation to set.
+     */
+    public final void setSummaryReceiptReservation(final int summaryReceiptReservation) {
+        this.summaryReceiptReservation = summaryReceiptReservation;
     }
 
     /**

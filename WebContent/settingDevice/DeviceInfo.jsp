@@ -58,7 +58,7 @@ final String INFO_01_03 = "端末情報の再利用に成功しました。";
     	if( "3".equals(infoFlg)) infoString = INFO_01_03;
     }
     
-    if (request.getMethod() == "GET" && "select".equals(request.getParameter("y1"))) {
+    if ("GET".equals(request.getMethod()) && "select".equals(request.getParameter("y1"))) {
         JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
         Connection connection = dbManager.getConnection();
         String sqlStr = "SELECT"

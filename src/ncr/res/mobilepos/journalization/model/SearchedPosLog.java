@@ -18,6 +18,7 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
+import ncr.res.mobilepos.journalization.model.poslog.MemberInfo;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
 import ncr.res.mobilepos.model.ResultBase;
 
@@ -46,6 +47,20 @@ public class SearchedPosLog extends ResultBase {
      */
     @XmlElement(name = "AdditionalInformation")
     private AdditionalInformation additionalInformation;
+    
+    /**
+     * The private member variable that will hold the MemberInfo information.
+     */
+    @XmlElement(name = "MemberInfo")
+    private MemberInfo memberInfo;
+
+    public MemberInfo getMemberInfo() {
+        return memberInfo;
+    }
+
+    public void setMemberInfo(MemberInfo memberInfo) {
+        this.memberInfo = memberInfo;
+    }
 
     /**
      * Default Constructor for PosLog.

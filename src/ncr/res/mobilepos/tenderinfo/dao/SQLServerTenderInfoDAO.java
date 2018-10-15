@@ -4,26 +4,28 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
 import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDAO {
     /**
@@ -128,7 +130,7 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
             while (resultSet.next()) {
                 tenderInfo = new JSONObject();
                 tenderInfo.put("companyId", resultSet.getString("CompanyId"));
-                tenderInfo.put("storeId", resultSet.getString("StoreId"));
+                tenderInfo.put("storeId", storeId);
                 tenderInfo.put("tenderType", resultSet.getString("TenderType"));
                 tenderInfo.put("tenderId", resultSet.getString("TenderId"));
                 tenderInfo.put("code", resultSet.getString("TenderId"));
@@ -197,10 +199,6 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
                 tender.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 tender.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get tender infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerTenderInfoDAO.getTenderInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get tender infomation.",
                     sqlEx);
@@ -215,7 +213,156 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
         }
         return tender;
     }
+    /**
+     * /**
+     * 
+     * @param companyId
+     * @param storeId
+     * @param tenderType
+     * @return tender
+     * @throws DaoException
+     */
+    @Override
+    public JSONData getAllTenderInfo(String companyId, String storeId) throws DaoException {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId);
 
+        PreparedStatement selectStmnt = null;
+        ResultSet resultSet = null;
+        Connection connection = null;
+
+        JSONData tender = new JSONData();
+        HashMap<String, JSONArray> tenderList = new HashMap<String, JSONArray>();
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            selectStmnt = connection.prepareStatement(sqlStatement.getProperty("get-tenderinfo-alltype"));
+            selectStmnt.setString(SQLStatement.PARAM1, storeId);
+            selectStmnt.setString(SQLStatement.PARAM2, companyId);
+            resultSet = selectStmnt.executeQuery();
+
+            JSONObject tenderInfo = null;
+            JSONObject labelValue = null;
+            JSONArray erlectronicList = null;
+            while (resultSet.next()) {
+                tenderInfo = new JSONObject();
+                tenderInfo.put("companyId", resultSet.getString("CompanyId"));
+                tenderInfo.put("storeId", storeId);
+                tenderInfo.put("tenderType", resultSet.getString("TenderType"));
+                tenderInfo.put("tenderId", resultSet.getString("TenderId"));
+                tenderInfo.put("code", resultSet.getString("TenderId"));
+                labelValue = new JSONObject();
+                labelValue.put("ja", resultSet.getString("TenderName"));
+                labelValue.put("en", resultSet.getString("TenderKanaName"));
+                tenderInfo.put("label", labelValue);
+                tenderInfo.put("stampType", resultSet.getString("StampType"));
+                tenderInfo.put("pointType", resultSet.getString("PointType"));
+                tenderInfo.put("changeType", resultSet.getString("ChangeType"));
+                tenderInfo.put("tenderIdentification", resultSet.getString("TenderIdentification"));
+                tenderInfo.put("unitPrice", resultSet.getString("UnitPrice"));
+                tenderInfo.put("tranVoid", resultSet.getString("SubNum1"));
+                tenderInfo.put("tranReturn", resultSet.getString("SubNum2"));
+                tenderInfo.put("tenderVoid", resultSet.getString("SubNum3"));
+                tenderInfo.put("displayOrder", resultSet.getString("DisplayOrder"));
+                
+                getCouponPriceInfo(storeId, tenderInfo, companyId);
+                if (tenderList.containsKey(resultSet.getString("TenderType"))) {
+                    tenderList.get(resultSet.getString("TenderType")).add(tenderInfo);
+                } else {
+                    erlectronicList = new JSONArray();
+                    erlectronicList.add(tenderInfo);
+                    tenderList.put(resultSet.getString("TenderType"), erlectronicList);
+                }
+            }
+            if (tenderList.isEmpty()) {
+                tender.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                tender.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                tender.setMessage(ResultBase.RES_NODATAFOUND_MSG);
+                return tender;
+            } else {
+                JSONObject valueResult = new JSONObject();
+                for (Iterator<Entry<String, JSONArray>> it = tenderList.entrySet().iterator(); it.hasNext();) {
+                    Entry<String, JSONArray> e = it.next();
+                    valueResult.put(e.getKey().toString(), e.getValue());
+                }
+                tender.setJsonObject(valueResult.toString());
+                tender.setNCRWSSResultCode(ResultBase.RESRPT_OK);
+                tender.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
+                tender.setMessage(ResultBase.RES_SUCCESS_MSG);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get tender infomation.",
+                    sqlEx);
+            throw new DaoException("SQLException:" + " @SQLServerTenderInfoDAO.getTenderInfo", sqlEx);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get tender infomation.",
+                    ex);
+            throw new DaoException("Exception:" + " @SQLServerTenderInfoDAO.getTenderInfo", ex);
+        } finally {
+            closeConnectionObjects(connection, selectStmnt, resultSet);
+            tp.methodExit(tender);
+        }
+        return tender;
+    }
+    
+    /**
+     * åîóﬁ(ã‡éÌï )ÇÃéÌóﬁÅ^íPâøèÓïÒÇéÊìæÇ∑ÇÈ
+     * @param storeid
+     * @param tenderInfo
+     * @param companyId The ID of the companyId
+     * @throws DaoException   Exception thrown when the failed.
+     */
+	private void getCouponPriceInfo(final String storeId, final JSONObject tenderInfo, final String companyId)
+			throws DaoException {
+		tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeId)
+				.println("tenderInfo", tenderInfo).println("CompanyId", companyId);
+
+		Connection connection = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		String functionName = "SQLServerTenderInfoDAO.getCouponPriceInfo";
+		try {
+			String tenderId = tenderInfo.getString("tenderId").toString();
+			String tenderType = tenderInfo.getString("tenderType").toString();
+			connection = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			select = connection.prepareStatement(sqlStatement.getProperty("get-coupon-price-info"));
+			select.setString(SQLStatement.PARAM1, companyId);
+			select.setString(SQLStatement.PARAM2, storeId);
+			select.setString(SQLStatement.PARAM3, tenderId);
+			select.setString(SQLStatement.PARAM4, tenderType);
+			result = select.executeQuery();
+			
+			JSONArray couponPriceList = null;
+			JSONObject couponPriceInfo = null;
+			while(result.next()){
+				if (couponPriceList == null) {
+					couponPriceList = new JSONArray();
+				}
+				couponPriceInfo = new JSONObject();
+				couponPriceInfo.put("nameText", result.getString("NameText"));
+				couponPriceInfo.put("unitPrice", result.getString("UnitPrice"));
+				couponPriceList.add(couponPriceInfo);
+			}
+			tenderInfo.put("couponPriceList", couponPriceList);
+		} catch (SQLException sqlEx) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_SQL,
+					"Failed to get the prom information.\n" + sqlEx.getMessage());
+			throw new DaoException("SQLException: @getCouponPriceInfo ", sqlEx);
+		} catch (NumberFormatException nuEx) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_PARSE,
+					"Failed to get the prom information.\n" + nuEx.getMessage());
+			throw new DaoException("NumberFormatException: @getCouponPriceInfo ", nuEx);
+		} catch (Exception e) {
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get the prom information.\n" + e.getMessage());
+			throw new DaoException("Exception: @getCouponPriceInfo ", e);
+		} finally {
+			closeConnectionObjects(connection, select, result);
+			tp.methodExit(tenderInfo);
+		}
+	}
+    
     @Override
     public JSONData getTenderInfoByType(String companyId, String storeId, String tenderType, String tenderId)
             throws DaoException {
@@ -261,10 +408,6 @@ public class SQLServerTenderInfoDAO extends AbstractDao implements ITenderInfoDA
             tender.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             tender.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             tender.setMessage(ResultBase.RES_SUCCESS_MSG);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get tender infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerTenderInfoDAO.getTenderInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get tender infomation.",
                     sqlEx);

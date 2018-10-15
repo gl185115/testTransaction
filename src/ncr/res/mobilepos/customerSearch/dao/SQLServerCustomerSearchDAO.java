@@ -76,12 +76,6 @@ public class SQLServerCustomerSearchDAO extends AbstractDao implements
             while (resultSet.next()) {
             	mapReturn.put(resultSet.getString("KeyId").trim(), resultSet.getString("Value").trim());
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get Value.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:"
-                    + " @SQLServerCustomerSearchDAO.getPrmSystemConfigValue",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get Value.", sqlEx);

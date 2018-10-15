@@ -5,25 +5,22 @@ package ncr.res.mobilepos.helper;
  * 1.01    2014.12.26      LiQian    PosLogìoò^
  */
 import java.lang.reflect.Field;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
-import ncr.res.mobilepos.constant.TransactionVariable;
 import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.journalization.model.poslog.ControlTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.Discount;
 import ncr.res.mobilepos.journalization.model.poslog.LineItem;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
-import ncr.res.mobilepos.journalization.model.poslog.Sale;
-import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
-import ncr.res.mobilepos.journalization.model.poslog.TenderSummary;
-import ncr.res.mobilepos.journalization.model.poslog.TillSettle;
-import ncr.res.mobilepos.journalization.model.poslog.Transaction;
-import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
+import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
 import ncr.res.mobilepos.journalization.model.poslog.StoredValueFund;
-import ncr.res.mobilepos.journalization.model.poslog.Tender;
+import ncr.res.mobilepos.journalization.model.poslog.TenderControlTransaction;
+import ncr.res.mobilepos.journalization.model.poslog.TenderExchange;
+import ncr.res.mobilepos.journalization.model.poslog.Transaction;
+import ncr.res.mobilepos.journalization.model.poslog.TransactionLink;
 
 /**
  * A Helper Class that handles the information of a given POSLog.
@@ -31,61 +28,11 @@ import ncr.res.mobilepos.journalization.model.poslog.Tender;
 public final class POSLogHandler {
 
     public final static String TRANSACTION_STATUS_VOIDED = "Voided";
-    // 1.01    2014.12.26      LiQian    PosLogìoò^  Start
 	public final static String LAYAWAY_ITEMTYPE_STOCK = "Stock";
 	public final static String PREVIOUSLAYAWAY_ACTION_COMPLETED = "Completed";
-	// 1.01    2014.12.26      LiQian    PosLogìoò^  End
 
     /** Default Constructor. */
     private POSLogHandler() {
-    }
-
-    /**
-     * Get the SalesTotal from a given POSLog.
-     * @param poslog    The POSLog object
-     * @return            The SalesTotal
-     */
-    public static double calculateSaleTotal(final PosLog poslog) {
-        double saletotal = 0;
-
-        if (!POSLogHandler.isValid(poslog)) {
-            return saletotal;
-        }
-
-        List<LineItem> lineItems = poslog
-                                    .getTransaction()
-                                    .getRetailTransaction()
-                                    .getLineItems();
-
-        if (null == lineItems) {
-            return saletotal;
-        }
-
-        for (LineItem lineItem : lineItems) {
-            Sale sale = lineItem.getSale();
-            Discount discount  = lineItem.getDiscount();
-            double amount = 0;
-
-            //Computation for Sale
-            if (null != sale) {
-                amount = sale.getExtendedDiscountAmount();
-
-                //Is there Extended Amount from Discount?
-                //If no, then the amount should be from the Extended Amount only
-                if (0 == amount) {
-                    amount = sale.getExtendedAmt();
-                }
-            }
-
-            //Computation for Discount
-            if (null != discount) {
-                amount -= Double.valueOf(discount.getAmount());
-            }
-
-            saletotal += amount;
-        }
-
-        return saletotal;
     }
 
     /**
@@ -109,27 +56,32 @@ public final class POSLogHandler {
      *
      * @return            TRUE, when POSLog is correct, else FALSE
      */
-    public static boolean isValid(final PosLog poslog) {
+    public static boolean isValid(final PosLog poslog) throws ParseException {
         if (poslog == null) {
             return false;
         }
 
-        boolean result = true;
         Transaction transaction = poslog.getTransaction();
         if (transaction == null) {
-            result = false;
+            return false;
+        }
 
         // check for required elements
         // elements will be used in saving of poslog to db
-        } else if (transaction.getRetailStoreID() == null ||
-                transaction.getWorkStationID() == null ||
-                transaction.getSequenceNo() == null ||
-                transaction.getBusinessDayDate() == null ||
-                transaction.getBeginDateTime() == null) {
-            result = false;
+        if (transaction.getRetailStoreID() == null ||
+            transaction.getWorkStationID() == null ||
+            transaction.getSequenceNo() == null ||
+            transaction.getBusinessDayDate() == null ||
+            transaction.getBeginDateTime() == null) {
+            return false;
         }
 
-        return result;
+        // Format check for required dates. If either date is not parsable, throws ParseException.
+        DateFormatUtility.parseDate(transaction.getBusinessDayDate(),"yyyy-MM-dd");
+        DateFormatUtility.parseDate(transaction.getBeginDateTime(),"yyyy-MM-dd'T'HH:mm:ss");
+
+        // Successfully goes through the validation.
+        return true;
     }
 
     /**
@@ -191,8 +143,7 @@ public final class POSLogHandler {
 
         return false;
     }
-    // 1.01    2014.12.26      LiQian    PosLogìoò^  Start
-    
+
     /**
      * Checks whether a POSLog transaction is a Layaway or not
      *
@@ -204,7 +155,7 @@ public final class POSLogHandler {
     public static boolean isLayawayTransaction(Transaction transaction) {
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
-		
+
 		if (lineItems != null && lineItems.size() > 0) {
 			for (LineItem lineItem : lineItems) {
 				if (lineItem.getLayaway() != null) {
@@ -217,16 +168,16 @@ public final class POSLogHandler {
 				}
 			}
 		}
-		
+
         return false;
     }
-     
+
     /**
      * Checks whether a POSLog transaction is a hold or not
-     * 
+     *
      * @param transaction
      *            the transaction to be checked
-     * 
+     *
      * @return TRUE, if transaction is hold, else FALSE
      */
     public static boolean isHoldTransaction(Transaction transaction) {
@@ -252,10 +203,10 @@ public final class POSLogHandler {
 
     /**
      * Checks whether a POSLog transaction is a reservation or not
-     * 
+     *
      * @param transaction
      *            the transaction to be checked
-     * 
+     *
      * @return TRUE, if transaction is reservation, else FALSE
      */
     public static boolean isReservationTransaction(Transaction transaction) {
@@ -281,14 +232,14 @@ public final class POSLogHandler {
 
     /**
      * Checks whether a POSLog transaction is a customerOrder or not
-     * 
+     *
      * @param transaction
      *            the transaction to be checked
-     * 
+     *
      * @return TRUE, if transaction is customerOrder, else FALSE
      */
     public static boolean isCustomerOrderTransaction(Transaction transaction) {
-        
+
         boolean result = false;
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
@@ -307,7 +258,7 @@ public final class POSLogHandler {
         }
         return result;
     }
-    
+
     /**
      * Checks whether a POSLog transaction is a Previous Layaway or not
      *
@@ -319,7 +270,7 @@ public final class POSLogHandler {
     public static boolean isPreviousLayawayTransaction(Transaction transaction) {
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
-        
+
 		if (lineItems != null && lineItems.size() > 0) {
 			for (LineItem lineItem : lineItems) {
 				if (lineItem.getPreviousLayaway() != null) {
@@ -330,7 +281,7 @@ public final class POSLogHandler {
 				}
 			}
 		}
-		
+
         return false;
     }
     // 1.01    2014.12.26      LiQian    PosLogìoò^   End
@@ -421,13 +372,16 @@ public final class POSLogHandler {
 
             if (transactionStatus == null) {
                 if (retailTransaction.getTransactionLink() != null) {
-                	if(TxTypes.LAYAWAY.equals(retailTransaction.getTransactionLink().getReasonCode())){
+
+                	TransactionLink transactionLink = getNormalTransactionLink(retailTransaction.getTransactionLink());
+
+                	if(TxTypes.LAYAWAY.equals(transactionLink.getReasonCode())){
                 		result = TxTypes.LAYAWAY;  // ëOéÛã‡í˘ê≥
-                	} else if(TxTypes.HOLD.equals(retailTransaction.getTransactionLink().getReasonCode())){
+                	} else if(TxTypes.HOLD.equals(transactionLink.getReasonCode())){
                         result = TxTypes.HOLD;  // Holdí˘ê≥
-                    } else if(TxTypes.CUSTOMERORDER.equals(retailTransaction.getTransactionLink().getReasonCode())){
+                    } else if(TxTypes.CUSTOMERORDER.equals(transactionLink.getReasonCode())){
                         result = TxTypes.CUSTOMERORDER;  // ãqíçí˘ê≥
-                    } else if(TxTypes.RESERVATION.equals(retailTransaction.getTransactionLink().getReasonCode())){
+                    } else if(TxTypes.RESERVATION.equals(transactionLink.getReasonCode())){
                         result = TxTypes.RESERVATION;  // ó\ñÒí˘ê≥
                 	} else {
                 		result = TxTypes.RETURN;   // return with receipt
@@ -443,7 +397,7 @@ public final class POSLogHandler {
                     } else if (isReservationTransaction(transaction)) {
                     	result = TxTypes.RESERVATION;
                     } else if (isCustomerOrderTransaction(transaction)) {
-                    	result = TxTypes.CUSTOMERORDER;                    
+                    	result = TxTypes.CUSTOMERORDER;
                     } else if (isPreviousLayawayTransaction(transaction)
                             || isNormalSaleTransaction(transaction)) {
                         result = TxTypes.SALES;
@@ -521,7 +475,7 @@ public final class POSLogHandler {
     private static boolean isPostPoint(Transaction transaction) {
         List<LineItem> lineItems = transaction.getRetailTransaction()
                 .getLineItems();
-        
+
         if (lineItems != null && lineItems.size() > 0) {
             for (LineItem lineItem : lineItems) {
                 if (lineItem.getPostPoint() != null) {
@@ -564,7 +518,7 @@ public final class POSLogHandler {
         }
         return updateType;
     }
-    
+
     private static String getMatchingTxType(String dayPart)  {
     	String result = "";
     	try {
@@ -598,4 +552,21 @@ public final class POSLogHandler {
     }
     //Add More POSLog helper functions here
 
+    /**
+     * static function that will get not resume TransactionLink
+     * @param transactionLinks
+     * @return TransactionLink
+     */
+    public static TransactionLink getNormalTransactionLink(List<TransactionLink> transactionLinks) {
+    	TransactionLink result = new TransactionLink();
+        if (transactionLinks != null && transactionLinks.size() > 0) {
+            for (TransactionLink transactionLink : transactionLinks) {
+            	if (!TxTypes.RESUME.equals(transactionLink.getReasonCode())){
+            		result = transactionLink;
+            		break;
+            	}
+            }
+        }
+        return result;
+    }
 }

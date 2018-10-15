@@ -1,30 +1,33 @@
 package ncr.res.mobilepos.authentication.resource.test;
 
-import java.util.List;
-import java.util.Map;
-
 import junit.framework.Assert;
 
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import ncr.res.mobilepos.authentication.model.DeviceStatus;
+import ncr.res.mobilepos.authentication.resource.RegistrationResource;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.model.ResultBase;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import ncr.res.mobilepos.authentication.model.DeviceStatus;
-import ncr.res.mobilepos.authentication.resource.RegistrationResource;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.model.ResultBase;
 
 @SuppressWarnings("deprecation")
 public class RegistrationResourceSteps extends Steps {
@@ -46,43 +49,36 @@ public class RegistrationResourceSteps extends Steps {
 
     @Given("a Registration Resource")
     public final void createResource() {
+    	ServletContext servletContext = Requirements.getMockServletContext();
         registrationresource = new RegistrationResource();
-        registrationresource.setContext(Requirements.getMockServletContext());
+        registrationresource.setContext(servletContext);
     }
 
-    @Given("dataset {$xml} is loaded")
+    @Given("dataset $xml is loaded")
     public final void loadXml(final String xml) throws Exception {
-        db = new DBInitiator("DeviceReg",
-                "test/ncr/res/mobilepos/authentication/resource/datasets/"
-                        + xml, DATABASE.RESMaster);
+		db = new DBInitiator("DeviceReg",
+				"test/ncr/res/mobilepos/authentication/resource/datasets/"
+						+ xml, DATABASE.RESMaster);
     }
 
-    @Given("AUT_DEVICES is empty")
-    public final void emptyAutDevices() throws Exception {
-        new DBInitiator("DeviceReg", "test/ncr/res/mobilepos/authentication/"
-                + "resource/datasets/AUTH_DEVICES_Empty.xml", DATABASE.RESMaster);
-    }
+	@Given("AUT_DEVICES is empty")
+	public final void emptyAutDevices() throws Exception {
+		new DBInitiator("DeviceReg", "test/ncr/res/mobilepos/authentication/"
+				+ "resource/datasets/AUTH_DEVICES_Empty.xml",
+				DATABASE.RESMaster);
+	}
 
-	@When("I register a device of storeid{$storeid} deviceid{$deviceid} devicename{$devicename} passcode{$passcode}")
-	public final void registerDevice(final String companyid, final String storeid,
-			final String deviceid, final String devicename,
-			final String passcode,
-			final String udid, final String uuid,
-			final int signstatus, final String signtid, final String signactivationkey) {
-        String devicename_ = devicename.equalsIgnoreCase("null") ? null
-                : devicename;
-        result = registrationresource.registerDevice(companyid, storeid, deviceid, 
-                devicename, passcode, udid, uuid, signstatus, signtid, signactivationkey);
-        isDeregistrationResult = false;
-    }
-
-    @When("I unregister device of storeid{$storeid} deviceid{$deviceid}")
-	public final void removeDevice(final String companyid, final String storeid, final String deviceid)
-			throws Exception {
-    	deregistrationresult = registrationresource.unregisterDevice(companyid, storeid,
-				deviceid);
-    	isDeregistrationResult = true;
-    }
+	@When("I register a device of companyid $companyid storeid $storeid deviceid $deviceid devicename $devicename passcode $passcode udid $udid uuid $uuid signstatus $signstatus signtid $signtid signactivationkey $signactivationkey")
+	public final void registerDevice(final String companyid,
+			final String storeid, final String deviceid,
+			final String devicename, final String passcode, final String udid,
+			final String uuid, final int signstatus, final String signtid,
+			final String signactivationkey) {
+		result = registrationresource.registerDevice(companyid, storeid,
+				deviceid, devicename, passcode, udid, uuid, signstatus,
+				signtid, signactivationkey);
+		isDeregistrationResult = false;
+	}
 
     @Then("result should be $result")
     public final void validateResult(final int result) {
@@ -112,30 +108,28 @@ public class RegistrationResourceSteps extends Steps {
      * @param expecteditems The expected items in the database.
      * @throws DataSetException The Exception thrown when test fail.
      */
-    @Then("the following authenticated devices in the database should be: $expecteditems")
-    public final void theFollowingItemsInTheDatabaseShouldBe(
-            final ExamplesTable expecteditems) throws DataSetException {
-    	List<Map<String, String>> expectedItemRows = expecteditems.getRows();
-    	ITable actualItemRows = db.getTableSnapshot("AUT_DEVICES");
-    	
-    	Assert.assertEquals("Compare that the number "
-                + "of rows in Items are exact: ",
-                expecteditems.getRowCount(),
-                actualItemRows.getRowCount());
-    	int i = 0;
-    	for(Map<String, String> expItem: expectedItemRows){
+	@Then("the following authenticated devices in the database should be: $expecteditems")
+	public final void theFollowingItemsInTheDatabaseShouldBe(
+			final ExamplesTable expecteditems) throws DataSetException {
+		List<Map<String, String>> expectedItemRows = expecteditems.getRows();
+		ITable actualItemRows = db.getTableSnapshot("AUT_DEVICES");
+
+		Assert.assertEquals("Compare that the number "
+				+ "of rows in Items are exact: ", expecteditems.getRowCount(),
+				actualItemRows.getRowCount());
+		int i = 0;
+		for (Map<String, String> expItem : expectedItemRows) {
 			Assert.assertEquals("Compare the storeid row " + i + ": ",
 					expItem.get("storeid"),
 					actualItemRows.getValue(i, "StoreId").toString());
 			Assert.assertEquals("Compare the terminalid row " + i + ": ",
 					expItem.get("terminalid"),
 					actualItemRows.getValue(i, "TerminalId").toString());
-			Assert.assertEquals("Compare the state row " + i + ": ",
-					expItem.get("state"),
-					actualItemRows.getValue(i, "State").toString());
+			Assert.assertEquals("Compare the state row " + i + ": ", expItem
+					.get("state"), actualItemRows.getValue(i, "State")
+					.toString());
 			i++;
-    	}
-    	
-    }
+		}
+	}
     
 }

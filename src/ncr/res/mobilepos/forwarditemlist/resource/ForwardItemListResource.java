@@ -31,6 +31,8 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.SQLResultsConstants;
+import ncr.res.mobilepos.credential.model.Operator;
+import ncr.res.mobilepos.credential.resource.CredentialResource;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
@@ -43,7 +45,7 @@ import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.helper.XmlSerializer;
-import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
+import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
 import ncr.res.mobilepos.journalization.model.ForwardList;
 import ncr.res.mobilepos.journalization.model.ForwardListInfo;
@@ -51,7 +53,9 @@ import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
+import ncr.res.mobilepos.systemsetting.model.DateSetting;
+import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
 
 /**
  * Transfer transactions between smart phone and POS.
@@ -162,9 +166,13 @@ public class ForwardItemListResource {
     @Path("/getCount")
     @GET
     @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
-    public final String getCount(@QueryParam("storeid") final String storeid,
-            @QueryParam("terminalid") final String terminalid,
-            @QueryParam("txdate") final String txdate) {
+    @ApiOperation(value="前捌きデータ数カウント", response=String.class)
+    @ApiResponses(value={
+    })
+    public final String getCount(
+            @ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="端末コード") @QueryParam("terminalid") final String terminalid,
+            @ApiParam(name="txdate", value="営業日") @QueryParam("txdate") final String txdate) {
 
         tp.methodEnter("getCount");
         tp.println("StoreID", storeid).println("TerminalID", terminalid).
@@ -448,13 +456,15 @@ public class ForwardItemListResource {
     		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
     		@ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag,
     		@ApiParam(name="LayawayFlag", value="予約フラグ") @FormParam("LayawayFlag") String LayawayFlag,
-    		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue) {
+    		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
+            @ApiParam(name="TxType", value="取引タイプ") @FormParam("TxType") String TxType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("StoreCode", RetailStoreId);
         tp.println("Training", TrainingFlag);
         tp.println("LayawayFlag", LayawayFlag);
         tp.println("Queue", Queue);
+        tp.println("TxType", TxType);
 
         ForwardList result = new ForwardList();
         try {
@@ -465,11 +475,19 @@ public class ForwardItemListResource {
                 result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return result;
             }
+            
+            SystemSettingResource sysSetting = new SystemSettingResource();       
+            DateSetting dateSetting = sysSetting.getDateSetting(CompanyId, RetailStoreId).getDateSetting();
+            if (dateSetting == null) {
+                tp.println("Business date is not set!");
+                throw new DaoException("Business date is not set!");
+            }
+            String BussinessDayData = dateSetting.getToday();
 
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
-            List<ForwardListInfo> forwardList = iBarneysCommenDAO.getForwardList(CompanyId, RetailStoreId,
-                    TrainingFlag, LayawayFlag, Queue);
+            ICommonDAO iCommonDAO = sqlServer.getCommonDAO();
+            List<ForwardListInfo> forwardList = iCommonDAO.getForwardList(CompanyId, RetailStoreId,
+                    TrainingFlag, LayawayFlag, Queue, TxType, BussinessDayData);
             result.setForwardListInfo(forwardList);
             result.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             result.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
@@ -608,8 +626,8 @@ public class ForwardItemListResource {
         ResultBase resultBase = new ResultBase();
         try {
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IBarneysCommonDAO iBarneysCommenDAO = sqlServer.getBarneysCommonDAO();
-            int result = iBarneysCommenDAO.updateForwardStatus(CompanyId, RetailStoreId, WorkstationId, SequenceNumber,
+            ICommonDAO iCommonDAO = sqlServer.getCommonDAO();
+            int result = iCommonDAO.updateForwardStatus(CompanyId, RetailStoreId, WorkstationId, SequenceNumber,
                     Queue, BusinessDayDate, TrainingFlag, Status);
 
             if (result == SQLResultsConstants.ROW_DUPLICATE) {
@@ -632,4 +650,206 @@ public class ForwardItemListResource {
         }
         return resultBase;
     }
+    
+    /**
+     * 前捌き ユーザーの権限を取得
+     *
+     * @param CompanyId
+     * @param RetailStoreId
+     * @param WorkstationId
+     * @param OperatorId
+     */
+    @POST
+    @Path("/userPermission")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="前捌き ユーザーの権限を取得", response=Operator.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+    })
+    public final Operator UserPermission(
+    		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
+    		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
+    		@ApiParam(name="WorkstationId", value="レジ番号") @FormParam("WorkstationId") String WorkstationId,
+    		@ApiParam(name="OperatorId", value="ユーザーID") @FormParam("OperatorId") String OperatorId) {
+    	
+    	CredentialResource CredenRou = new CredentialResource();
+    	Operator operator = CredenRou.getStatusOfOperator(CompanyId,OperatorId);
+    	operator.setOperatorNo(OperatorId);
+    	
+        return operator;
+    }
+
+    /**
+     * タグ番号で前捌きデータ登録
+     * @param companyid
+     * @param retailstoreid
+     * @param queue
+     * @param workstationid
+     * @param trainingmode
+     * @param tag
+     * @param total
+     * @param poslogxml
+     * @return ResultBase
+     */
+    @POST
+    @Path("/SuspendWithTag")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="タグ番号で前捌きデータ登録", response=ResultBase.class)
+    @ApiResponses(value={
+        @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="無効なキュー番号"),
+    })
+    public final ResultBase saveForwardPosLogIncludeTag(
+    		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="queue", value="キュー番号") @FormParam("queue") final String queue,
+    		@ApiParam(name="workstationid", value="POSコード") @FormParam("workstationid") final String workstationId,
+    		@ApiParam(name="trainingmode", value="トレーニングモード") @FormParam("trainingmode") final String trainingMode,
+    		@ApiParam(name="tag", value="タグ番号") @FormParam("tag") final String tag,
+    		@ApiParam(name="total", value="合計金額") @FormParam("total") final String total,
+    		@ApiParam(name="poslogxml", value="Poslog Xml") @FormParam("poslogxml") final String posLogXml) {
+
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+          .println("companyid", companyId)
+          .println("retailstoreid", retailStoreId)
+          .println("queue", queue)
+          .println("workstationid", workstationId)
+          .println("trainingmode", trainingMode)
+          .println("tag", tag)
+          .println("total", total)
+          .println("poslogxml", posLogXml);
+
+        if (snap == null) {
+            snap = (SnapLogger) SnapLogger.getInstance();
+        }
+
+        ResultBase resultBase = new ResultBase();
+
+        try {
+            // unmarshall poslog xml
+            XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
+            PosLog posLog = poslogSerializer.unMarshallXml(posLogXml, PosLog.class);
+
+            // check if valid poslog
+            if (!POSLogHandler.isValid(posLog)) {
+                tp.println("Required POSLog elements are missing.");
+                Snap.SnapInfo info = snap.write("Required POSLog elements are missing.", posLogXml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Invalid POSLog Transaction to snap file", info);
+                resultBase.setMessage("Required POSLog elements are missing.");
+                resultBase.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+                return resultBase;
+            }
+
+            // check if valid business date format
+            String businessDate = posLog.getTransaction().getBusinessDayDate();
+            if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+                tp.println("BusinessDayDate should be in yyyy-MM-dd format.");
+                resultBase.setNCRWSSResultCode(ResultBase.RESSYS_ERROR_QB_DATEINVALID);
+                resultBase.setMessage("BusinessDayDate should be in yyyy-MM-dd format.");
+                return resultBase;
+            }
+
+            // save poslog
+            DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            IPosLogDAO quebusterDAO = dao.getPOSLogDAO();
+            int result = quebusterDAO.saveForwardPosLogIncludeTag(posLog, posLogXml, queue, tag, total);
+
+            if (result == SQLResultsConstants.ROW_DUPLICATE) {
+                result = 0;
+                LOGGER.logWarning(PROG_NAME, functionName, Logger.RES_ERROR_RESTRICTION,
+                        "Duplicate suspended transaction. It writes out to a snap file.");
+                Snap.SnapInfo duplicatePOSLog = snap.write("Duplicate POSLog Transaction", posLogXml);
+                LOGGER.logSnap(PROG_NAME, functionName, "Duplicate POSLog Transaction to snap file", duplicatePOSLog);
+            }
+
+            resultBase.setNCRWSSResultCode(result);
+
+        } catch (DaoException ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", posLogXml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_DAO, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_DB, ResultBase.RES_ERROR_DB, ex);
+        } catch (JAXBException ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", posLogXml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_JAXB, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_JAXB, ResultBase.RES_ERROR_JAXB, ex);
+        } catch (Exception ex) {
+            Snap.SnapInfo[] infos = new Snap.SnapInfo[] { snap.write("poslog xml data", posLogXml), snap.write("Exception", ex) };
+            LOGGER.logSnap(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName,
+                    "Failed to suspend transaction. Output error transaction data to snap file.",
+                    infos);
+            resultBase = new ResultBase(ResultBase.RES_ERROR_GENERAL, ResultBase.RES_ERROR_GENERAL, ex);
+        } finally {
+            tp.methodExit(resultBase.toString());
+        }
+        return resultBase;
+    }
+    
+    /**
+     * 	タグ番号で前捌きデータ取得
+     *
+     * @param companyId     	The Company ID
+     * @param retailStoreId		The Retail Store ID
+     * @param queue     		The Queue from POS
+     * @param businessDayDate	The BusinessDay Date
+     * @param tag				The Ext1
+     * @param trainingflag		The TrainingFlag
+     * @return SearchForwardPosLog
+     */
+    @GET
+    @Path("/ResumeWithTag")
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="タグ番号で前捌きデータ取得", response=SearchForwardPosLog.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引データ未検出")
+        })
+    public final SearchForwardPosLog getForwardItemsWithTag(
+    		@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="RetailStoreId", value="小売店コード") @QueryParam("RetailStoreId") final String retailStoreId,
+    		@ApiParam(name="Queue", value="キュー番号") @QueryParam("Queue") final String queue,
+    		@ApiParam(name="Businessdaydate", value="業務日付") @QueryParam("Businessdaydate") final String businessDayDate,
+    		@ApiParam(name="tag", value="タグ番号") @QueryParam("tag") final String tag,
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final String trainingFlag) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.println("CompanyId", companyId);
+        tp.println("RetailStoreId", retailStoreId);
+        tp.println("Queue", queue);
+        tp.println("Businessdaydate", businessDayDate);
+        tp.println("tag", tag);
+        tp.println("trainingflag", trainingFlag);
+
+        SearchForwardPosLog poslog = new SearchForwardPosLog();
+        try {
+               DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+               IPosLogDAO posLogDAO = sqlServer.getPOSLogDAO();
+               poslog = posLogDAO.getForwardItemsPosLogWithTag(companyId, retailStoreId,
+                		queue, businessDayDate, tag, trainingFlag);
+
+               if (StringUtility.isNullOrEmpty(poslog.getPosLogXml())) {
+                    poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_TXNOTFOUND);
+                    tp.println("Forward poslog with tag not found.");
+               } else {
+                    XmlSerializer<PosLog> poslogSerializer = new XmlSerializer<PosLog>();
+                    poslog.setPoslog(poslogSerializer.unMarshallXml(poslog.getPosLogXml(), PosLog.class));
+               }
+		} catch (DaoException ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get poslog xml with tag", ex);
+            poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get poslog xml with tag", ex);
+            poslog.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+        }
+        return (SearchForwardPosLog) tp.methodExit(poslog);
+    }
+
 }

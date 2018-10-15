@@ -1,0 +1,73 @@
+Scenario: EOD With Suspended Transactions
+Given that has no last payin/payout transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0001 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|NCRWSSExtendedResultCode	|TrainingModeFlag	|CancelFlag	|
+|157				|0							|null				|null		|
+Given that has suspended transactions
+When getting suspended transactions companyid:01 storeid:0247 queue:0001 trainingflag:0 layawayflag:0 txtype:0
+Then it should get the following:
+|CompanyId	|RetailStoreId	|WorkstationId	|SequenceNumber	|Queue	|BusinessDayDate	|TrainingFlag	|BusinessDateTime		|OperatorId	|OperatorName	|SalesTotalAmt	|SalesTotalQty	|Status	|
+|01			|0247			|0001			|0001			|0001	|2016-08-16			|0				|2017-03-02 16:03:32.0	|9011011	|汎用販売員3		|6292			|1		|0		|
+!-- RETRY
+When getting suspended transactions companyid:01 storeid:0247 queue:0001 trainingflag:0 layawayflag:0 txtype:0
+Then it should get the following:
+|CompanyId	|RetailStoreId	|WorkstationId	|SequenceNumber	|Queue	|BusinessDayDate	|TrainingFlag	|BusinessDateTime		|OperatorId	|OperatorName	|SalesTotalAmt	|SalesTotalQty	|Status	|
+|01			|0247			|0001			|0001			|0001	|2016-08-16			|0				|2017-03-02 16:03:32.0	|9011011	|汎用販売員3		|6292			|1		|0		|
+!-- CONTINUE
+Given that has no other working devices
+When getting execute authority companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD compulsoryflag:false
+Then it should get the following:
+|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|0					|0							|
+When getting working devices companyId:01 storeId:0247 terminalId:0001
+Then it should get the NCRWSSResultCode:0
+Then it should get the following group.terminals:
+|terminalName	|terminalid	|
+|POS#0001テスト	|0001		|
+
+!-- CANCEL
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0001 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|NCRWSSExtendedResultCode	|TrainingModeFlag	|CancelFlag	|
+|157				|0							|null				|null		|
+When getting suspended transactions companyid:01 storeid:0247 queue:0001 trainingflag:0 layawayflag:0 txtype:0
+Then it should get the following:
+|CompanyId	|RetailStoreId	|WorkstationId	|SequenceNumber	|Queue	|BusinessDayDate	|TrainingFlag	|BusinessDateTime		|OperatorId	|OperatorName	|SalesTotalAmt	|SalesTotalQty	|Status	|
+|01			|0247			|0001			|0001			|0001	|2016-08-16			|0				|2017-03-02 16:03:32.0	|9011011	|汎用販売員3		|6292			|1		|0		|
+When getting till information of storeid:0247 tillid:02470001
+Then it should get the following:
+|NCRWSSResultCode	|StoreId	|TillId		|BusinessDayDate	|SodFlag	|EodFlag	|
+|0					|0247		|02470001	|2016-08-16			|0			|9			|
+When releasing execute authority for EOD companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD
+Then it should get the NCRWSSResultCode:0	
+Then MST_TILLIDINFO table should have:
+|CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|
+|01			|0247		|02470001	|0001		|2016-08-16			|1			|0			|
+When getting the device status of companyId:01 storeId:0247 terminalId:0001
+Then it should get the following:
+|OpenCloseStatus	|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|1					|0					|0							|
+
+Scenario: EOD Without Suspended Transactions
+Given that has no last payin/payout transactions
+Given that has no suspended transactions
+When getting last payin/payout transactions companyid:01 storeid:0247 terminalid:0001 businessdate:2016-08-16 trainingflag:0
+Then it should get the following:
+|NCRWSSResultCode	|NCRWSSExtendedResultCode	|TrainingModeFlag	|CancelFlag	|
+|157				|0							|null				|null		|
+When getting suspended transactions companyid:01 storeid:0247 queue:0001 trainingflag:0 layawayflag:0 txtype:0
+Then it should get the following:
+|CompanyId	|RetailStoreId	|WorkstationId	|SequenceNumber	|Queue	|BusinessDayDate	|TrainingFlag	|BusinessDateTime		|OperatorId	|OperatorName	|SalesTotalAmt	|SalesTotalQty	|Status	|
+!-- WITH NO OTHER WORKING DEVICES
+Given that has no other working devices
+When getting execute authority companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD compulsoryflag:false
+Then it should get the following:
+|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|0					|0							|
+When getting working devices companyId:01 storeId:0247 terminalId:0001
+Then it should get the NCRWSSResultCode:0
+Then it should get the following group.terminals:
+|terminalName	|terminalid	|
+|POS#0001テスト	|0001		|
+

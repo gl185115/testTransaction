@@ -1,32 +1,46 @@
 package ncr.res.mobilepos.uiconfig.resource;
 
 import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+
+import atg.taglib.json.util.JSONArray;
+import atg.taglib.json.util.JSONException;
+import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.journalization.resource.JournalizationResource;
+import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.uiconfig.constants.UiConfigProperties;
 import ncr.res.mobilepos.uiconfig.dao.IUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.dao.SQLServerUiConfigCommonDAO;
 import ncr.res.mobilepos.uiconfig.model.UiConfigType;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfo;
+import ncr.res.mobilepos.uiconfig.model.fileInfo.FileInfoList;
 import ncr.res.mobilepos.uiconfig.model.schedule.Config;
 import ncr.res.mobilepos.uiconfig.model.schedule.Deploy;
 import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
 import ncr.res.mobilepos.uiconfig.model.schedule.Task;
-import ncr.res.mobilepos.uiconfig.model.store.CSVStore;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
-import ncr.res.mobilepos.uiconfig.utils.StaticParameter;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Path("/uiconfig")
+@Api(value="/uiconfig", description="カスタムリソースAPI")
 public class UiConfigResource {
     // Extensions for custom images.
     private static final String EXTENSION_CUSTOM_IMAGE_JPG = ".jpg";
@@ -56,14 +70,15 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}")
     @GET
     @Produces({"application/javascript;charset=UTF-8"})
+    @ApiOperation(value="リソースファイル取得", response=Response.class)
     /**
      * Finds appropriate config file and returns the content as String.
      */
     public final Response requestConfigFile(
-            @PathParam("typeParam") final String typeParam,
-            @QueryParam("companyID") final String companyID,
-            @QueryParam("storeID") final String storeID,
-            @QueryParam("workstationID") final String workstationID) {
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="companyID", value="企業コード") @QueryParam("companyID") final String companyID,
+            @ApiParam(name="storeID", value="店舗コード") @QueryParam("storeID") final String storeID,
+            @ApiParam(name="workstationID", value="端末ID") @QueryParam("workstationID") final String workstationID) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/custom/" + typeParam);
@@ -167,7 +182,19 @@ public class UiConfigResource {
 
         // 7, Filters Config.Tasks by StoreID, WorkStationID, and EffectiveDate.
 //        List<Task> effectiveTasks = typeConfig.getValidTasks(storeID, workstationID, csvStores);
-        List<Task> effectiveTasks = typeConfig.getValidTasksByDB(storeID, workstationID, storeEntryList);
+        String thisBusinessDay = new JournalizationResource().getBussinessDate(companyID, storeID);
+        List<Task> effectiveTasks = null;
+        try {
+            effectiveTasks = typeConfig.getValidTasksByDB(storeID, workstationID, storeEntryList, thisBusinessDay);
+        } catch (ParseException e) {
+            tp.methodExit("Date ParseException");
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestConfigFile",
+                    Logger.RES_EXCEP_PARSE,
+                    "Date ParseException");
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
         if (effectiveTasks.isEmpty()) {
             tp.methodExit("schedule.xml: No valid <task> "
                     + "configType:" + configType
@@ -186,14 +213,25 @@ public class UiConfigResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
         Task effectiveTask = new Task();
-        if(effectiveTasks.size()>1){
-        	for(int i=0;i<effectiveTasks.size();i++){
-            	if(effectiveTasks.get(i).getTarget().getStore().equals(storeID)){
-            		 effectiveTask = effectiveTasks.get(i);	
-            	}
+        Boolean getted = false;
+        if (effectiveTasks.size() > 1) {
+            for (int i = 0; i < effectiveTasks.size(); i++) {
+                if (effectiveTasks.get(i).getTarget().getWorkstation().equals(workstationID)) {
+                    effectiveTask = effectiveTasks.get(i);
+                    getted = true;
+                    break;
+                }
+                if (getted) {
+                    continue;
+                }
+                if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
+                    effectiveTask = effectiveTasks.get(i);
+                    getted = true;
+                }
             }
-        }else{
-        	effectiveTask = effectiveTasks.get(0);
+        }
+        if (!getted) {
+            effectiveTask = effectiveTasks.get(0);
         }
         
         if (effectiveTask.getFilename() == null) {
@@ -253,9 +291,10 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}/images/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
+    @ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
     public final Response requestTypeParamCustomImage(
-    		@PathParam("typeParam") final String typeParam,
-    		@PathParam("filename") final String filenameParam) {
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/custom/" + typeParam + "/images/" + filenameParam);
@@ -313,9 +352,10 @@ public class UiConfigResource {
     @Path("/custom/images/{typeParam}/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
+    @ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
     public final Response requestCustomTypeParamImage(
-    		@PathParam("typeParam") final String typeParam,
-    		@PathParam("filename") final String filenameParam) {
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
         // Logs given parameters.
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
         tp.methodEnter("/uiconfig/custom/images/" + typeParam + "/" + filenameParam);
@@ -363,4 +403,90 @@ public class UiConfigResource {
         return rb.build();
     }
     
+    /**
+     * Returns custom resource fileList
+     *
+     * @param fileList
+     * @return
+     */
+    @Path("/customresourceexist")
+    @POST
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value = "カスタムリソース存在チェック", response = ResultBase.class)
+    public final FileInfoList requestCustomResourceExist(
+            @ApiParam(name = "fileList", value = "ファイルリスト") @FormParam("fileList") String fileList) {
+        // Logs given parameters.
+        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        tp.methodEnter("/uiconfig/customresourceexist");
+        tp.println("fileList", fileList);
+
+        FileInfoList result = new FileInfoList();
+        List<FileInfo> fileInfoList = null;
+        String fileNameTemp = null;
+        String filePathTemp = configProperties.getCustomResourceBasePath();
+        String filePathString = null;
+        try {
+            if (StringUtility.isNullOrEmpty(fileList)) {
+                String msg = "Parameter[s] is empty or null.";
+                LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_PARA_ERR,
+                        msg);
+                result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                result.setMessage(msg);
+                tp.println(msg);
+                return result;
+            }
+            
+            JSONArray jsonArray = new JSONArray(fileList);
+            fileInfoList = new ArrayList<FileInfo>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject json = (JSONObject) jsonArray.get(i);
+                String filePath = json.getString("filePath");
+                String fileName = json.getString("fileName");
+                int index = json.getInt("index");
+
+                // 1, Decodes filename.
+                fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
+                filePathString = filePathTemp + filePath;
+                
+                // 2, Check a file is exists of fileList
+                File file = new File(filePathString + File.separator + fileNameTemp);
+                FileInfo fileInfo = new FileInfo();
+                fileInfo.setFilePath(filePath);
+                fileInfo.setFileName(fileName);
+                fileInfo.setIndex(index);
+                if (file.isFile() || file.exists()) {
+                    fileInfo.setExistFlag(true);
+                } else {
+                    fileInfo.setExistFlag(false);
+                }
+                fileInfoList.add(fileInfo);
+            }
+            result.setFileInfoList(fileInfoList);
+        } catch (UnsupportedEncodingException e) {
+            String msg = "The custom fileName's encoding was unsupported:" + filePathString + "/" + fileNameTemp
+                    + e.getMessage();
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_ENCODING,
+                    msg);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_UNSUPPORTEDENCODING);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNSUPPORTEDENCODING);
+            result.setMessage(msg);
+        } catch (JSONException e) {
+            String msg = "JsonObject data Parsing error:" + filePathString + "/" + fileNameTemp + e.getMessage();
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_PARSE, msg);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+            result.setMessage(msg);
+        } catch (Exception e) {
+            String msg = "General Exception:" + filePathString + "/" + fileNameTemp + e.getMessage();
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestCustomResourceExist", Logger.RES_EXCEP_GENERAL,
+                    msg);
+            result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            result.setMessage(msg);
+        } finally {
+            tp.methodExit(result);
+        }
+        return result;
+    }
 }

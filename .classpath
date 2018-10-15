@@ -1,45 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
+	<classpathentry kind="src" output="target/test-classes" path="test"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="src" path="test"/>
-	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="lib" path="external library/com.springsource.com.lowagie.text-2.0.8.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
-	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
-	<classpathentry kind="lib" path="external library/commons-collections-3.2.jar"/>
-	<classpathentry kind="lib" path="external library/commons-lang-2.1.jar"/>
-	<classpathentry kind="lib" path="external library/jbehave-core-2.5.9.jar"/>
-	<classpathentry kind="lib" path="external library/jersey-test-framework-core-1.8.jar"/>
-	<classpathentry kind="lib" path="external library/mockito-all-1.8.5.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jsoup-1.6.1.jar"/>
-	<classpathentry kind="lib" path="external library/tomcat-juli-7.0.25.jar"/>
-	<classpathentry kind="lib" path="external library/spring-mock-1.2.6.jar"/>
-	<classpathentry kind="lib" path="external library/spring-core-3.1.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="external library/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="external library/dbunit-2.4.8.jar"/>
-	<classpathentry kind="lib" path="external library/slf4j-api-1.6.4.jar"/>
-	<classpathentry kind="lib" path="external library/slf4j-nop-1.6.4.jar"/>
-	<classpathentry kind="lib" path="external library/jsonassert-1.2.0.jar"/>
-	<classpathentry kind="lib" path="external library/java-json.jar"/>
-	<classpathentry kind="lib" path="D:/software/tomcat/apache-tomcat-8.0.12/lib/servlet-api.jar"/>
-	<classpathentry kind="lib" path="D:/software/tomcat/apache-tomcat-8.0.12/lib/mail-1.4.1.jar"/>
-	<classpathentry kind="lib" path="D:/software/tomcat/apache-tomcat-8.0.12/lib/realgate-common.jar"/>
-	<classpathentry kind="lib" path="D:/software/tomcat/apache-tomcat-8.0.12/lib/tomcat-dbcp.jar"/>
-	<classpathentry kind="lib" path="D:/software/tomcat/apache-tomcat-8.0.12/lib/tomcat-util.jar"/>
-	<classpathentry kind="lib" path="D:/software/tomcat/apache-tomcat-8.0.12/lib/websocket-api.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.tomcat.runtimeTarget/Apache Tomcat v8.0">
-		<attributes>
-			<attribute name="owner.project.facets" value="jst.web;#system#"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_51">
-		<attributes>
-			<attribute name="owner.project.facets" value="java"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="external library/swagger-annotations-1.3.13.jar"/>
-	<classpathentry kind="lib" path="external library/swagger-core_2.10-1.3.13.jar"/>
-	<classpathentry kind="output" path="build/classes"/>
+	<classpathentry excluding="**/*.java" including="*.properties" kind="src" path="resources"/>
+	<classpathentry kind="var" path="M2_REPO/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-server/1.8/jersey-server-1.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/asm/asm/3.1/asm-3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-core/1.8/jersey-core-1.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jsoup/jsoup/1.6.1/jsoup-1.6.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-taglib-0.4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/com.springsource.com.lowagie.text-2.0.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-mapper-asl/1.9.13/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/RXTXcomm.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-fileupload/commons-fileupload/1.2.2/commons-fileupload-1.2.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-io/commons-io/2.3/commons-io-2.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-xc/1.9.13/jackson-xc-1.9.13.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-coyote/8.0.24/tomcat-coyote-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-servlet-api/8.0.24/tomcat-servlet-api-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-jni/8.0.24/tomcat-jni-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-juli/8.0.24/tomcat-juli-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-util/8.0.24/tomcat-util-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jsefa/jsefa/0.9.3.RELEASE/jsefa-0.9.3.RELEASE.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xmlpull/xmlpull/1.1.2.1/xmlpull-1.1.2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/wordnik/swagger-annotations/1.3.13/swagger-annotations-1.3.13.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/json/json/20070829/json-20070829.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/skyscreamer/jsonassert/1.2.0/jsonassert-1.2.0.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-collections/commons-collections/3.0/commons-collections-3.0.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/pointserver-interface-mobile.jar"/>
+	<classpathentry kind="var" path="M2_REPO/junit/junit/4.8.2/junit-4.8.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-lang/commons-lang/2.1/commons-lang-2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/jbehave/jbehave-core/4.1/jbehave-core-4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-library/1.3/hamcrest-library-1.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/hamcrest/hamcrest-integration/1.3/hamcrest-integration-1.3.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-collections4/4.1/commons-collections4-4.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.4/commons-lang3-3.4.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/codehaus/plexus/plexus-utils/3.0.22/plexus-utils-3.0.22.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/freemarker/freemarker/2.3.23/freemarker-2.3.23.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/paranamer/paranamer/2.8/paranamer-2.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/com/thoughtworks/xstream/xstream/1.4.9/xstream-1.4.9.jar"/>
+	<classpathentry kind="var" path="M2_REPO/xpp3/xpp3_min/1.1.4c/xpp3_min-1.1.4c.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/dbunit/dbunit/2.4.8/dbunit-2.4.8.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.6/slf4j-api-1.5.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/3.1.1.RELEASE/spring-core-3.1.1.RELEASE.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-asm/3.1.1.RELEASE/spring-asm-3.1.1.RELEASE.jar"/>
+	<classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1.1/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/springframework/spring-mock/1.2.6/spring-mock-1.2.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-simple/1.5.6/slf4j-simple-1.5.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-catalina/8.0.24/tomcat-catalina-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-jsp-api/8.0.24/tomcat-jsp-api-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-el-api/8.0.24/tomcat-el-api-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-annotations-api/8.0.24/tomcat-annotations-api-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-api/8.0.24/tomcat-api-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-util-scan/8.0.24/tomcat-util-scan-8.0.24.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-dbcp/8.0.24/tomcat-dbcp-8.0.24.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sqljdbc42.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ncr/res/base/mex-common/1.0.2.1/mex-common-1.0.2.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ncr/res/base/javalib/toppan-giftcard-mobile/1.0.1.6/toppan-giftcard-mobile-1.0.1.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-module-junit4/1.6.6/powermock-module-junit4-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-mockito-common/1.6.6/powermock-api-mockito-common-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-core/1.6.6/powermock-core-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-support/1.6.6/powermock-api-support-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-module-junit4-common/1.6.6/powermock-module-junit4-common-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-reflect/1.6.6/powermock-reflect-1.6.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.10.19/mockito-core-1.10.19.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-mockito/1.6.6/powermock-api-mockito-1.6.6.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

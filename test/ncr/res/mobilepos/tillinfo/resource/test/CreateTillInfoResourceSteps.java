@@ -3,18 +3,29 @@ package ncr.res.mobilepos.tillinfo.resource.test;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+
+import java.lang.reflect.Field;
+import java.security.Principal;
+
+import javax.servlet.ServletContext;
+import javax.ws.rs.core.SecurityContext;
+
+import junit.framework.Assert;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.steps.Steps;
+import org.mockito.Mockito;
+
+import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * @author RD185102
@@ -26,7 +37,7 @@ public class CreateTillInfoResourceSteps extends Steps {
     /**
      *  Store Resource object.
      */
-     private TillInfoResource tillRes;
+     private TillInfoResource tillInfoResource;
 
      /**
       * Store object.
@@ -61,7 +72,52 @@ public class CreateTillInfoResourceSteps extends Steps {
      */
     @Given("I have a Till Info Resource")
      public final void iHaveTillInfoResource() {
-         tillRes = new TillInfoResource();
+         ServletContext context = Requirements.getMockServletContext();
+         tillInfoResource = new TillInfoResource();
+         try {
+             Field tillContext = tillInfoResource.getClass().getDeclaredField("servletContext");
+             tillContext.setAccessible(true);
+             tillContext.set(tillInfoResource, context);
+             
+             SecurityContext securityContext = new SecurityContext() {
+				@Override
+				public Principal getUserPrincipal() {
+					Principal principal = new Principal() {
+						
+						@Override
+						public String getName() {
+							return "System";
+						}
+					};
+					return principal;
+				};
+				
+				@Override
+				public String getAuthenticationScheme() {
+					// TODO Auto-generated method stub
+					return null;
+				}
+
+				@Override
+				public boolean isSecure() {
+					// TODO Auto-generated method stub
+					return false;
+				}
+
+				@Override
+				public boolean isUserInRole(String arg0) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+             };
+             Field tillSecContext = tillInfoResource.getClass().getDeclaredField("context");
+             tillSecContext.setAccessible(true);
+             tillSecContext.set(tillInfoResource, securityContext);
+          
+         } catch (Exception e) {
+             e.printStackTrace();
+             Assert.fail("Cant load Mock Servlet Context.");
+         } 
          resultBase = new ResultBase();
     }
 
@@ -82,7 +138,7 @@ public class CreateTillInfoResourceSteps extends Steps {
      * @param till - Till
      */
 
-    @When("I add a till with storeid {$storeID} and tillid {$tillID} and  till [$till]")
+    @When("I add a till with storeid $storeID and tillid $tillID and  till [$till]")
       public final void createTill(String storeID, String tillID,
         final String store) {
 
@@ -92,14 +148,14 @@ public class CreateTillInfoResourceSteps extends Steps {
           if (tillID.equals("null")) {
         	  tillID = null;
           }
-          resultBase =  tillRes.createTill(storeID, tillID, store);
+          resultBase =  tillInfoResource.createTill(storeID, tillID, store);
     }
     
     /**
      * Shows the result code.
      * @param result - Result Code
      */
-    @Then("the result should be {$Result}")
+    @Then("the result should be $Result")
      public final void resultShouldBe(final int result) {
         assertThat(resultBase.getNCRWSSResultCode(), is(equalTo(result)));
      }

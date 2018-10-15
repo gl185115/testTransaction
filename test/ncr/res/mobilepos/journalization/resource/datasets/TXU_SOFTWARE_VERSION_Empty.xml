@@ -1,0 +1,18 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXU_SOFTWARE_VERSION">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Container</column>
+		<column>MobileShop</column>
+		<column>RESTransaction</column>
+		<column>RESTabletUI</column>
+		<column>RESUiConfig</column>
+		<column>Misc1</column>
+		<column>Misc2</column>
+		<column>Misc3</column>
+		<column>Misc4</column>
+		<column>Misc5</column>
+	</table>
+</dataset>

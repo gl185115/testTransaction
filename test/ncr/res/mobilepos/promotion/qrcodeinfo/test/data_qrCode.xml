@@ -1,0 +1,1588 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+<table name="MST_QRCODE_INFO">
+		<column>CompanyId</column>
+		<column>PromotionId</column>
+		<column>PromotionName</column>
+		<column>StartDate</column>
+		<column>EndDate</column>
+		<column>DisplayOrder</column>
+		<column>MinimumPrice</column>
+		<column>OutputType</column>
+		<column>OutputTargetValue</column>
+		<column>BMPFileName</column>
+		<column>BMPFileFlag</column>
+		<column>BMPFileCount</column>
+		<column>TargetStoreType</column>
+		<column>TargetMemberType</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>全店11type1</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>1</value>
+			<value>1011</value>
+			<value>全店11type1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0012</value>
+			<value>全店112type1</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>1</value>
+			<value>1112</value>
+			<value>全店112type1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>全店12type2</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<value>1012</value>
+			<value>全店12type2</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0003</value>
+			<value>全店13</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100000</value>
+			<value>1</value>
+			<value>1013</value>
+			<value>全店13</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0004</value>
+			<value>全店14type4</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>3</value>
+			<value>1014</value>
+			<value>全店14type4</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0005</value>
+			<value>全店15type5</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<value>1015</value>
+			<value>全店15type5</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0006</value>
+			<value>全店16type3</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>1</value>
+			<value>1016</value>
+			<value>全店16type3</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0007</value>
+			<value>全店17type6</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<value>1017</value>
+			<value>全店17type6</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0008</value>
+			<value>全店18type3</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<value>1018</value>
+			<value>全店18type3</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0009</value>
+			<value>全店19type4</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>3</value>
+			<value>1019</value>
+			<value>全店19type4</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0010</value>
+			<value>全店110type6</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<value>1110</value>
+			<value>全店110type6</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>全店111type2</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100</value>
+			<value>2</value>
+			<value>1111</value>
+			<value>全店111type2</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>0001</value>
+			<value>全店21</value>
+			<value>2015-01-03</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100000</value>
+			<value>1</value>
+			<value>1021</value>
+			<value>全店21</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>0001</value>
+			<value>全店31</value>
+			<value>2015-01-01</value>
+			<value>2099-12-31</value>
+			<value>1</value>
+			<value>100000</value>
+			<value>1</value>
+			<value>1031</value>
+			<value>全店31</value>
+			<value>0</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+</table>
+<table name="MST_QRCODE_STORE">
+		<column>CompanyId</column>
+		<column>PromotionId</column>
+		<column>StoreId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0003</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>0001</value>
+			<value>0002</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>0001</value>
+			<value>0003</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+</table>
+<table name="MST_QRCODE_DETAIL">
+		<column>CompanyId</column>
+		<column>PromotionId</column>
+		<column>PromotionDetailNo</column>
+		<column>PromotionType</column>
+		<column>Dpt</column>
+		<column>Line</column>
+		<column>Class</column>
+		<column>Sku</column>
+		<column>ConnCode</column>
+		<column>BrandId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>1</value>
+			<value>394</value>
+			<value>0001</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0012</value>
+			<value>1</value>
+			<value>1</value>
+			<value>394</value>
+			<value>0001</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>1</value>
+			<value>2</value>
+			<value>394</value>
+			<value>0002</value>
+			<value>39401</value>
+			<value>04627788</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>2</value>
+			<value>2</value>
+			<value>395</value>
+			<value>0002</value>
+			<value>39401</value>
+			<value>04627788</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0003</value>
+			<value>1</value>
+			<value>3</value>
+			<value>394</value>
+			<value>0003</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0004</value>
+			<value>1</value>
+			<value>4</value>
+			<value>394</value>
+			<value>0004</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<value>00001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0005</value>
+			<value>1</value>
+			<value>5</value>
+			<value>394</value>
+			<value>0005</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0006</value>
+			<value>1</value>
+			<value>3</value>
+			<value>394</value>
+			<value>0006</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0007</value>
+			<value>1</value>
+			<value>6</value>
+			<value>394</value>
+			<value>0007</value>
+			<value>39401</value>
+			<value>4920001001230</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0008</value>
+			<value>1</value>
+			<value>3</value>
+			<value>394</value>
+			<value>0008</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<value>0001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0009</value>
+			<value>1</value>
+			<value>4</value>
+			<value>394</value>
+			<value>0009</value>
+			<value>39401</value>
+			<value>04627787</value>
+			<null />
+			<value>00001</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0010</value>
+			<value>1</value>
+			<value>6</value>
+			<value>394</value>
+			<value>0010</value>
+			<value>39401</value>
+			<value>492000100999*</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>1</value>
+			<value>2</value>
+			<value>394</value>
+			<value>0002</value>
+			<value>39401</value>
+			<value>04627788</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+</table>
+<table name="MST_QRCODE_MEMBER">
+		<column>CompanyId</column>
+		<column>PromotionId</column>
+		<column>MemberRank</column>
+		<column>MemberTargetType</column>
+		<column>SexType</column>
+		<column>BirthMonth</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0001</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0002</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0003</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0004</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0005</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0006</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0007</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0008</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0009</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0010</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>01</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+</table>
+<table name="MST_QRCODE_MEMBERID">
+		<column>CompanyId</column>
+		<column>PromotionId</column>
+		<column>MemberId</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0011</value>
+			<value>11111111111110</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2017-01-01 00:00:00.0000000</value>
+			<value>000001</value>
+			<value>001</value>
+			<value>0</value>
+			<value>2017-02-02 00:00:00.0000000</value>
+			<value>000002</value>
+			<value>002</value>
+		</row>
+</table>
+<table name="PRM_SYSTEM_CONFIG">
+		<column>Category</column>
+		<column>KeyId</column>
+		<column>Value</column>
+		<column>Description</column>
+		<row>
+			<value>Promotion</value>
+			<value>MaxQRCodePrintNum</value>
+			<value>7</value>
+			<value>The Tax rate</value>
+		</row>
+</table>
+</dataset>

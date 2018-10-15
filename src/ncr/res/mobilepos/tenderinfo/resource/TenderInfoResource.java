@@ -22,7 +22,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 @Path("/tenderinfo")
 @Api(value="/tenderinfo", description="差し出す情報API")
@@ -46,7 +46,7 @@ public class TenderInfoResource {
     @Path("/getTenderInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="差し出す情報を得る", response=JSONData.class)
+    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -88,7 +88,55 @@ public class TenderInfoResource {
         }
         return tender;
     }
-    
+    /**
+     * @param companyId
+     * @param storeId
+     * @param tenderType
+     * @return tender
+     */
+    @Path("/getAllTenderInfo")
+    @GET
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+        })
+    public final JSONData getAllTenderInfo(
+            @ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
+            @ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId) {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId);
+
+        JSONData tender = new JSONData();
+        try {
+            if (StringUtility.isNullOrEmpty(companyId, storeId)) {
+                tp.println(ResultBase.RES_INVALIDPARAMETER_MSG);
+                tender.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                tender.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+                tender.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+                return tender;
+            }
+            DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            ITenderInfoDAO iTenderInfoDAO = sqlServer.getTenderInfoDAO();
+            tender = iTenderInfoDAO.getAllTenderInfo(companyId, storeId);
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get tender infomation.", e);
+            tender.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+            tender.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+            tender.setMessage(e.getMessage());
+        } catch (Exception ex) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get tender infomation.", ex);
+            tender.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+            tender.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+            tender.setMessage(ex.getMessage());
+        } finally {
+            tp.methodExit(tender);
+        }
+        return tender;
+    }
     /**
      * @param companyId
      * @param storeId
@@ -98,7 +146,7 @@ public class TenderInfoResource {
     @Path("/gettenderinfobytype")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="タイプによって差し出す情報を得る", response=JSONData.class)
+    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),

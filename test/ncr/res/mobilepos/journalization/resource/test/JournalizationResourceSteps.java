@@ -1,43 +1,46 @@
 package ncr.res.mobilepos.journalization.resource.test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Map;
-
 import junit.framework.Assert;
 
 import org.dbunit.dataset.ITable;
 import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.JsonMarshaller;
 import ncr.res.mobilepos.helper.POSLogHandler;
 import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.journalization.model.PosLogResp;
 import ncr.res.mobilepos.journalization.model.SearchedPosLog;
 import ncr.res.mobilepos.journalization.model.SearchedPosLogs;
 import ncr.res.mobilepos.journalization.resource.JournalizationResource;
 import ncr.res.mobilepos.model.ResultBase;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
 @SuppressWarnings("deprecation")
-public class JournalizationResourceSteps extends Steps{
+public class JournalizationResourceSteps extends Steps {
     private JournalizationResource journalizationResource;
     private SearchedPosLog poslog;
     private PosLogResp journalResp;
@@ -77,7 +80,7 @@ public class JournalizationResourceSteps extends Steps{
         } else if ("ALREADY_PROCESSED".equals(condition)){
             res = ResultBase.RES_ERROR_TXALREADY;
         } else if ("ERROR_END".equals(condition)){
-        	res = 1;
+            res = 1;
         } else if ("GENERAL_ERROR".equals(condition)){
             res = ResultBase.RES_ERROR_GENERAL;
         } else if ("INVALID_TRANSACTION".equals(condition)){
@@ -87,224 +90,237 @@ public class JournalizationResourceSteps extends Steps{
         } else if ("JAXB_ERROR".equals(condition)){
             res = ResultBase.RES_ERROR_JAXB;
         } else if ("TILL_NO_UPDATE".equals(condition)) {
-        	res = ResultBase.RES_TILL_NO_UPDATE;
+            res = ResultBase.RES_TILL_NO_UPDATE;
         } else if ("TILL_NOT_EXIST".equals(condition)) {
-        	res = ResultBase.RES_TILL_NOT_EXIST;
+            res = ResultBase.RES_TILL_NOT_EXIST;
         } else if ("TILL_INVALID_BIZDATE".equals(condition)) {
-        	res = ResultBase.RES_TILL_INVALID_BIZDATE;
+            res = ResultBase.RES_TILL_INVALID_BIZDATE;
         } else if ("TILL_SOD_FINISHED".equals(condition)) {
-        	res = ResultBase.RES_TILL_SOD_FINISHED;
+            res = ResultBase.RES_TILL_SOD_FINISHED;
         } else if ("TILL_EOD_FINISHED".equals(condition)) {
-        	res = ResultBase.RES_TILL_EOD_FINISHED;
+            res = ResultBase.RES_TILL_EOD_FINISHED;
+        } else if ("PARSE_ERROR".equals(condition)) {
+            res = ResultBase.RES_ERROR_PARSE;
         }
         return res;
     }
 
-    @Given("an {$pathname} file path is {$path}")
+    @Given("an $pathname file path is $path")
     public final void setIOWLog(String pathName, String path){
-    	Requirements.updateEnvironmentEntry("java:comp/env/" + pathName, path);
+        Requirements.updateEnvironmentEntry("java:comp/env/" + pathName, path);
     }
-    
+
     @Given("a Journalization Resource")
     public final void createResource() {
+        ServletContext context = Requirements.getMockServletContext();
         journalizationResource = new JournalizationResource();
+        try {
+            Field journalizationContext = journalizationResource.getClass().getDeclaredField("context");
+            journalizationContext.setAccessible(true);
+            journalizationContext.set(journalizationResource, context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Cant load Mock Servlet Context.");
+        }
     }
 
     @Given("a RESMaster DBInitiator")
     public final void createDBInitiatorRESMaster() {
-        dbInitMaster = new DBInitiator("RESMaster", DATABASE.RESMaster);
+        dbInitMaster = new DBInitiator("JournalizationResourceSteps", DATABASE.RESMaster);
     }
 
     @Given("a RESTransaction DBInitiator")
     public final void createDBInitiatorRESTransaction() {
-        dbInitTransaction = new DBInitiator("RESTransaction", DATABASE.RESTransaction);
+        dbInitTransaction = new DBInitiator("JournalizationResourceSteps", DATABASE.RESTransaction);
     }
 
-    @Given("a corpid{$corpid}")
+    @Given("a corpid$corpid")
     public final void givenCorpid(final String corpid) {
-    	GlobalConstant.setCorpid(corpid);
+        GlobalConstant.setCorpid(corpid);
     }
-    
+
     @Given("TXL_SALES_JOURNAL is empty")
     public final void emptyDatabase() throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "TXL_SALES_JOURNAL.xml");
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_SALES_JOURNAL.xml");
     }
     
+    @Given("TXL_GIFTRECEIPT_HISTORY is empty")
+    public final void emptyGiftReceiptHistory() throws Exception {
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_GIFTRECEIPT_HISTORY.xml");
+    }
+
     @Given("a TXL_POSLOG_COMPLETE_Search table database")
     public final void comnpleteDatabase() throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "TXL_POSLOG_COMPLETE_Search.xml");
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_POSLOG_COMPLETE_Search.xml");
     }
-    
+
     @Given("TXL_SALES_VOIDED is empty")
     public final void emptyDatabaseSalesVoided() throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "TXL_SALES_VOIDED.xml");
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_SALES_VOIDED.xml");
     }
-    
+
     @Given("TXL_SUMMARYRECEIPT_HISTORY is empty")
     public final void emptyDatabaseSummaryReceiptHistory() throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    	    			+ "TXL_SUMMARYRECEIPT_HISTORY.xml");
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_SUMMARYRECEIPT_HISTORY.xml");
     }
 
     @Given("a batch of values for POSLOGs named $dataset")
     public final void setPoslogDatabase(final String dataset) throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ dataset);
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + dataset);
     }
 
     @Given("RESMaster $dataset table")
     public final void insertRESMasterDatabase(String dataset) throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ dataset + ".xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + dataset + ".xml");
     }
 
     @Given("$device is registered")
     public final void insertDeviceToDatabase(final String device) throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "AUT_DEVICES_" + device + ".xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "AUT_DEVICES_" + device + ".xml");
     }
 
     @Given("device $device is $status")
-    public final void updateDeviceOnline(final String device, final String status) 
-    		throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "AUT_DEVICES_" + device + "_" + status + ".xml");
+    public final void updateDeviceOnline(final String device, final String status)
+            throws Exception {
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "AUT_DEVICES_" + device + "_" + status + ".xml");
     }
 
     @Given("MST_DEVICEINFO table")
     public final void insertDeviceInfoToDatabase() throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "MST_DEVICEINFO.xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "MST_DEVICEINFO.xml");
     }
 
     @Given("operator $operator is $status")
-    public final void updateOperatorOnline(final String operator, final String status) 
-    		throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "MST_USER_CREDENTIALS_" + operator + "_" + status + ".xml");
+    public final void updateOperatorOnline(final String operator, final String status)
+            throws Exception {
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "MST_USER_CREDENTIALS_" + operator + "_" + status + ".xml");
     }
 
     @Given("compute business date flag is $state")
     public final void updateBusinessDateFlag(final String state) throws Exception {
         dbInitMaster.ExecuteOperationNoKey(DatabaseOperation.UPDATE, "keyid",
                 "test/ncr/res/mobilepos/journalization/resource/datasets/"
-                + "PRM_SYSTEM_CONFIG_BusinessDateComputeFlag_" + state + ".xml");
+                        + "PRM_SYSTEM_CONFIG_BusinessDateComputeFlag_" + state + ".xml");
     }
 
     @Given("manual business date is $bizdate")
     public final void updateBusinessDate(final String bizdate) throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "MST_BIZDAY_" + bizdate + ".xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "MST_BIZDAY_" + bizdate + ".xml");
     }
 
     @Given("normal transaction $txid is inserted")
     public final void normTxInsert(final String txid) throws Exception {
-    	dbInitTransaction.ExecuteIdentityInsertOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "TXL_POSLOG_Normal_" + txid + ".xml");
+        dbInitTransaction.ExecuteIdentityInsertOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_POSLOG_Normal_" + txid + ".xml");
     }
 
     @Given("returned transaction $txid is inserted")
     public final void returnedTxInsert(final String txid) throws Exception {
-    	dbInitTransaction.ExecuteIdentityInsertOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "TXL_POSLOG_Returned_" + txid + ".xml");
+        dbInitTransaction.ExecuteIdentityInsertOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_POSLOG_Returned_" + txid + ".xml");
     }
 
     @Given("voided transaction $txid is inserted")
     public final void voidedTxInsert(final String txid) throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ "TXL_POSLOG_Voided_" + txid + ".xml");
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + "TXL_POSLOG_Voided_" + txid + ".xml");
     }
-    
+
     @Given("a $filename table database")
     public final void givenDSFile(final String fileName) throws Exception {
-    	dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/"
-    			+ fileName + ".xml");
+        dbInitTransaction.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/"
+                        + fileName + ".xml");
         GlobalConstant.setMaxSearchResults(5);
     }
 
-    @Given("a system configuration has {$limit} key limit")
+    @Given("a system configuration has $limit key limit")
     public final void setConfigurationLimit(String limit) {
         if (limit.equals("null")) {
             limit = "0";
         }
         GlobalConstant.setMaxSearchResults(Integer.parseInt(limit));
     }
-    
+
     @Given("MST_TILLIDINFO is empty")
     public final void tillInfoCleared() throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-    			"test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_EMPTY.xml");    	
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_EMPTY.xml");
     }
-    
+
     @Given("a MST_TILLIDINFO with OK data")
     public final void tillInfoWithOKData() throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-         		"test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_OK.xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_OK.xml");
     }
-    
+
     @Given("a MST_TILLIDINFO where storeId doesn't exist")
     public final void tillInfoWithNGStoreIdData() throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-         		"test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_NG_STORE_ID.xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_NG_STORE_ID.xml");
     }
-    
+
     @Given("a MST_TILLIDINFO where sod and eod flags are invalid for SOD")
     public final void tillInfoWithNGFlagsData() throws Exception {
-    	dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT, 
-         		"test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_NG_FLAGS.xml");
+        dbInitMaster.ExecuteOperation(DatabaseOperation.CLEAN_INSERT,
+                "test/ncr/res/mobilepos/journalization/resource/datasets/MST_TILLIDINFO_NG_FLAGS.xml");
     }
-    
+
     @Given("that SERVERTYPE is set to STORE")
-    public final void setStore() throws Exception {   	
-    	System.setProperty("SERVERTYPE", "STORE");
+    public final void setStore() throws Exception {
+        System.setProperty("SERVERTYPE", "STORE");
+    }
+
+    @Given("that SERVERTYPE is set to ENTERPRISE")
+    public final void setEnterprise() throws Exception {
+        System.setProperty("SERVERTYPE", "ENTERPRISE");
+    }
+
+    
+
+    @When("executing journal log with xml $poslogxml"
+            + " and trainingmode $trainingmode")
+    public final void executeJournalLog(final String poslogXml, final int trainingMode) {
+        journalResp = journalizationResource.journalize(poslogXml, trainingMode);
+        result = journalResp;
     }
     
-    @Given("that SERVERTYPE is set to ENTERPRISE")
-    public final void setEnterprise() throws Exception {   	
-    	System.setProperty("SERVERTYPE", "ENTERPRISE");
+    @When("I request to get the gift receipt printed counts for companyid:$1 storeid:$2 trainingmode:$3 businessdate:$4 deviceid:$5 txid:$6")
+	public final void whenGetGiftReceiptCounts(final String companyId, final String storeId, final int isTraining,
+			final String businessDate, final String deviceId, final String txId) {
+    	poslog = journalizationResource.getPOSLogTransactionByNumber(companyId, storeId, deviceId, businessDate, txId, isTraining, null);
     }
-
-    @When("querying transaction POSLOG with"
-            + " terminalid{$terminalid} storeid{$storeid} txid{$txid}")
-    public final void queryTransactionPOSLog(final String companyId, final int trainingMode, final String terminalid,
-            final String storeid, final String txid) {
-        poslog = journalizationResource.getPOSLogTransactionByNumber(companyId, terminalid, storeid, txid, txid, trainingMode, txid);
-        result = poslog;
-    }
-
-    @When("a request for last transaction to a storeid{$storeid}"
-            + " and terminalid{$terminald}")
-    public final void getLastTransaction(final String storeid,
-            final String terminalid) {
-        poslog = journalizationResource
-                    .getLastNormalTransaction(terminalid, storeid);
-        result = poslog;
-    }
-
-    @When("executing journal log with xml{$poslogxml}"
-            + " and operatorno{$operatorno}")
-    public final void executeJournalLog(final String poslogxml, 
-    		final String operatorno, final int trainingmode) {
-        journalResp = journalizationResource.journalize(poslogxml, trainingmode);
-        result = journalResp;
+    
+    @Then("count should be $1")
+    public final void thenCount(final String expectedCount) {
+    	Assert.assertEquals(expectedCount, poslog.getAdditionalInformation().getGiftReceipt());
     }
 
     @When("business date is retrieved")
@@ -312,36 +328,24 @@ public class JournalizationResourceSteps extends Steps{
         businessDate = journalizationResource.getBussinessDate(companyid, storeid);
     }
 
-    String transactionNum = "";
-    @When("I request for new transaction number")
-    public final void getTransactionNumber() {
-        transactionNum = journalizationResource.getTransactionNumber();
-    }
-
-    String transactionNumTemp2 = "";
-    @When("I request another new transaction number")
-    public final void getAnotherTransactionNumber(){
-        transactionNumTemp2 = journalizationResource.getTransactionNumber();
-    }
-
     /*
-    @When("I search transactions with limit:{$limit}, from:{$from}, line:{$line}, storeId:{$storeId}, terminalId:{$deviceid}, itemName:{$itemName}, subcode4:{$subcode4}, itemNumber:{$itemNumber}, transactionNumberFrom:{$transactionNumberFrom}, transactionNumberTo:{$transactionNumberTo}, businessDate:{$businessDate}, fromDate:{$fromDate}, fromTime:{$fromTime}, toDate:{$toDate}, toTime:{$toTime}, type:{$type}, lang:{$language}, companyid:{$companyid}, trainingmode:{$traningmode}")
+    @When("I search transactions with limit:$limit}, from:$from}, line:$line}, storeId:$storeId}, terminalId:$deviceid}, itemName:$itemName}, subcode4:$subcode4}, itemNumber:$itemNumber}, transactionNumberFrom:$transactionNumberFrom}, transactionNumberTo:$transactionNumberTo}, businessDate:$businessDate}, fromDate:$fromDate}, fromTime:$fromTime}, toDate:$toDate}, toTime:$toTime}, type:$type}, lang:$language}, companyid:$companyid}, trainingmode:$traningmode}")
     public final void searchTransactions(
     		final String limit,
     		final String from,
     		final String line,
-    		final String storeId, 
-    		final String deviceid, 
-    		final String itemName, 
+    		final String storeId,
+    		final String deviceid,
+    		final String itemName,
     		final String subcode4,
     		final String itemid,
-    		final String transactionNumberFrom, 
-    		final String transactionNumberTo, 
-    		final String businessDate, 
-    		final String fromDate, 
-    		final String fromTime, 
-    		final String toDate, 
-    		final String toTime, 
+    		final String transactionNumberFrom,
+    		final String transactionNumberTo,
+    		final String businessDate,
+    		final String fromDate,
+    		final String fromTime,
+    		final String toDate,
+    		final String toTime,
     		final String type,
     		final String language,
     		final String companyid,
@@ -368,14 +372,14 @@ public class JournalizationResourceSteps extends Steps{
         		terminalIdTemp,
         		itemNameTemp,
         		subcode4,
-          		itemNumberTemp, 
-        		transactionNumberFromTemp, 
-        		transactionNumberToTemp, 
-        		businessDateTemp, 
-        		fromDateTemp, 
-        		fromTimeTemp, 
-        		toDateTemp, 
-        		toTimeTemp, 
+          		itemNumberTemp,
+        		transactionNumberFromTemp,
+        		transactionNumberToTemp,
+        		businessDateTemp,
+        		fromDateTemp,
+        		fromTimeTemp,
+        		toDateTemp,
+        		toTimeTemp,
         		typeTemp,
         		language,
         		companyid,
@@ -383,7 +387,7 @@ public class JournalizationResourceSteps extends Steps{
     }
     */
 
-    @Then("result should be {$condition}")
+    @Then("result should be $condition")
     public final void validateResult(final String condition) {
         int res = getResult(condition);
         assertThat("Assert Transaction was "
@@ -398,7 +402,7 @@ public class JournalizationResourceSteps extends Steps{
     @Then("export the table please")
     public final void export() {
         try {
-        	dbInitTransaction.exportTable("TXL_SALES_JOURNAL");
+            dbInitTransaction.exportTable("TXL_SALES_JOURNAL");
         } catch(Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -416,7 +420,7 @@ public class JournalizationResourceSteps extends Steps{
         assertThat("POSLOg should be empty", actualdatetime, is(equalTo(null)));
     }
 
-    @Then("the POSLOG should should have BeginDateTime{$beginDateTime}")
+    @Then("the POSLOG should should have BeginDateTime$beginDateTime")
     public final void validatePOSLogBeginDateTime(final String beginDateTime) {
         String actualdatetime = poslog.getTransaction().getBeginDateTime();
 
@@ -424,7 +428,7 @@ public class JournalizationResourceSteps extends Steps{
                 actualdatetime, is(equalTo(beginDateTime)));
     }
 
-    @Then("the POSLOG should should have Transaction ID{$txid}")
+    @Then("the POSLOG should should have Transaction ID$txid")
     public final void validatePOSLogTxid(final String txid) {
         String actualSeqNum = poslog.getTransaction().getSequenceNo();
 
@@ -437,7 +441,7 @@ public class JournalizationResourceSteps extends Steps{
         assertEquals(txid, journalResp.getTxID());
     }
 
-    @Then("status should be {$condition}")
+    @Then("status should be $condition")
     public final void checkStatus(final String condition) {
         int res = this.getResult(condition);
         assertThat("The Journal Response",
@@ -455,56 +459,43 @@ public class JournalizationResourceSteps extends Steps{
             assertEquals("Calculated Business date ", dateNow, businessDate);
         }
     }
-    
+
     @Then("I should have an empty business date")
     public final void emptyBizDate() {
-    	assertThat("Bussiness date should be empty ", businessDate, is(equalTo(null)));       
-    }
-
-    @Then("transaction number is generated")
-    public final void validateTransactionNumber() {
-        Assert.assertTrue("Transaction number is not empty", !transactionNum.isEmpty());
-    }
-
-    @Then("new transaction number is increase by 1")
-    public final void validateAnotherTransactionNumber() {
-        int transactionNumTemp = Integer.valueOf(transactionNum);
-        transactionNumTemp++;
-        Assert.assertTrue("The new transaction number is increase by 1",
-                Integer.valueOf(transactionNumTemp2)== transactionNumTemp);
+        assertThat("Bussiness date should be empty ", businessDate, is(equalTo(null)));
     }
 
     @Then("the $dbTableName database table should have the following row(s): "
-    		+ "$deviceTables")
-    public final void showTableValues(String dbTableName, 
-    		ExamplesTable expectedDataTable) {
+            + "$deviceTables")
+    public final void showTableValues(String dbTableName,
+                                      ExamplesTable expectedDataTable) {
         try {
             ITable actualDataTable = dbInitTransaction.getTableSnapshot(dbTableName);
-            assertEquals("Compare the number of rows in " + dbTableName, 
-            		expectedDataTable.getRowCount(),
+            assertEquals("Compare the number of rows in " + dbTableName,
+                    expectedDataTable.getRowCount(),
                     actualDataTable.getRowCount());
 
             if (dbTableName.equals("TXL_SALES_JOURNAL")) {
                 int i = 0;
                 for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
-                    assertEquals("Compare the RetailStoreId in TXL_SALES_JOURNAL row " 
-                    		+ i, expectedInfo.get("RetailStoreId"), 
-                    		String.valueOf(actualDataTable.getValue(i, "RetailStoreId"))
-                    		.trim());
+                    assertEquals("Compare the RetailStoreId in TXL_SALES_JOURNAL row "
+                                    + i, expectedInfo.get("RetailStoreId"),
+                            String.valueOf(actualDataTable.getValue(i, "RetailStoreId"))
+                                    .trim());
                     assertEquals("Compare the WorkstationId in TXL_SALES_JOURNAL row "
-                            + i, expectedInfo.get("WorkstationId"), 
+                                    + i, expectedInfo.get("WorkstationId"),
                             String.valueOf(actualDataTable.getValue(i, "WorkstationId")));
                     assertEquals("Compare the SequenceNumber in TXL_SALES_JOURNAL row "
-                            + i, expectedInfo.get("SequenceNumber"),
+                                    + i, expectedInfo.get("SequenceNumber"),
                             String.valueOf(actualDataTable.getValue(i, "SequenceNumber")));
-                    assertEquals("Compare the BusinessDayDate in TXL_SALES_JOURNAL row" 
-                    		+ i, expectedInfo.get("BusinessDayDate"), 
-                    		String.valueOf(actualDataTable.getValue(i, "BusinessDayDate")));
-                    assertEquals("Compare the SystemDateTime in TXL_SALES_JOURNAL row" 
-                    		+ i, expectedInfo.get("SystemDateTime"), 
-                    		String.valueOf(actualDataTable.getValue(i, "SystemDateTime")));
-                    assertEquals("Compare the TxType in TXL_SALES_JOURNAL row " + i, 
-                    		expectedInfo.get("TxType"), 
+                    assertEquals("Compare the BusinessDayDate in TXL_SALES_JOURNAL row"
+                                    + i, expectedInfo.get("BusinessDayDate"),
+                            String.valueOf(actualDataTable.getValue(i, "BusinessDayDate")));
+                    assertEquals("Compare the SystemDateTime in TXL_SALES_JOURNAL row"
+                                    + i, expectedInfo.get("SystemDateTime"),
+                            String.valueOf(actualDataTable.getValue(i, "SystemDateTime")));
+                    assertEquals("Compare the TxType in TXL_SALES_JOURNAL row " + i,
+                            expectedInfo.get("TxType"),
                             String.valueOf(actualDataTable.getValue(i, "TxType")));
                     assertEquals("Compare the ServerId in TXL_SALES_JOURNAL row" + i,
                             expectedInfo.get("ServerId"),
@@ -515,85 +506,118 @@ public class JournalizationResourceSteps extends Steps{
                     i++;
                 }
             } else if (dbTableName.equals("TXL_SALES_VOIDED")) {
-            	int i  = 0;
-            	for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
-            		assertEquals("Compare RetailStoreId in TXL_SALES_VOIDED row " + i, 
-            				expectedInfo.get("RetailStoreId"), 
-            				String.valueOf(actualDataTable.getValue(i, "RetailStoreId"))
-            				.trim());
-            		assertEquals("Compare WorkstationId in TXL_SALES_VOIDED row " + i, 
-            				expectedInfo.get("WorkstationId"), 
-            				String.valueOf(actualDataTable.getValue(i, "WorkstationId"))
-            				.trim());
-            		assertEquals("Compare SequenceNumber in TXL_SALES_VOIDED row " + i, 
-            				expectedInfo.get("SequenceNumber"), 
-            				String.valueOf(actualDataTable.getValue(i, "SequenceNumber"))
-            				.trim());
-            		assertEquals("Compare BusinessDayDate in TXL_SALES_VOIDED row " + i, 
-            				expectedInfo.get("BusinessDayDate"), 
-            				String.valueOf(actualDataTable.getValue(i, "BusinessDayDate"))
-            				.trim());
-            		assertEquals("Compare TxType in TXL_SALES_VOIDED row " + i, 
-            				expectedInfo.get("TxType"), 
-            				String.valueOf(actualDataTable.getValue(i, "TxType"))
-            				.trim());
-            		i++;
-            	}
+                int i  = 0;
+                for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+                    assertEquals("Compare RetailStoreId in TXL_SALES_VOIDED row " + i,
+                            expectedInfo.get("RetailStoreId"),
+                            String.valueOf(actualDataTable.getValue(i, "RetailStoreId"))
+                                    .trim());
+                    assertEquals("Compare WorkstationId in TXL_SALES_VOIDED row " + i,
+                            expectedInfo.get("WorkstationId"),
+                            String.valueOf(actualDataTable.getValue(i, "WorkstationId"))
+                                    .trim());
+                    assertEquals("Compare SequenceNumber in TXL_SALES_VOIDED row " + i,
+                            expectedInfo.get("SequenceNumber"),
+                            String.valueOf(actualDataTable.getValue(i, "SequenceNumber"))
+                                    .trim());
+                    assertEquals("Compare BusinessDayDate in TXL_SALES_VOIDED row " + i,
+                            expectedInfo.get("BusinessDayDate"),
+                            String.valueOf(actualDataTable.getValue(i, "BusinessDayDate"))
+                                    .trim());
+                    assertEquals("Compare TxType in TXL_SALES_VOIDED row " + i,
+                            expectedInfo.get("TxType"),
+                            String.valueOf(actualDataTable.getValue(i, "TxType"))
+                                    .trim());
+                    i++;
+                }
             } else if (dbTableName.equals("TXL_SUMMARYRECEIPT_HISTORY")) {
-            	int i  = 0;
-            	for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
-            		assertEquals("Compare RetailStoreId in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("RetailStoreId"), 
-            				String.valueOf(actualDataTable.getValue(i, "RetailStoreId"))
-            				.trim());
-            		assertEquals("Compare WorkstationId in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("WorkstationId"), 
-            				String.valueOf(actualDataTable.getValue(i, "WorkstationId"))
-            				.trim());
-            		assertEquals("Compare SequenceNumber in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("SequenceNumber"), 
-            				String.valueOf(actualDataTable.getValue(i, "SequenceNumber"))
-            				.trim());
-            		assertEquals("Compare BusinessDayDate in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("BusinessDayDate"), 
-            				String.valueOf(actualDataTable.getValue(i, "BusinessDayDate"))
-            				.trim());
-            		assertEquals("Compare RetailStoreId in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("IssuedRetailStoreId"), 
-            				String.valueOf(actualDataTable.getValue(i, "IssuedRetailStoreId"))
-            				.trim());
-            		assertEquals("Compare WorkstationId in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("IssuedWorkstationId"), 
-            				String.valueOf(actualDataTable.getValue(i, "IssuedWorkstationId"))
-            				.trim());
-            		assertEquals("Compare SequenceNumber in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("IssuedSequenceNumber"), 
-            				String.valueOf(actualDataTable.getValue(i, "IssuedSequenceNumber"))
-            				.trim());
-            		assertEquals("Compare BusinessDayDate in TXL_SUMMARYRECEIPT_HISTORY row " + i, 
-            				expectedInfo.get("IssuedBusinessDayDate"), 
-            				String.valueOf(actualDataTable.getValue(i, "IssuedBusinessDayDate"))
-            				.trim());
-            		i++;
-            	}
+                int i  = 0;
+                for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+                    assertEquals("Compare RetailStoreId in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("RetailStoreId"),
+                            String.valueOf(actualDataTable.getValue(i, "RetailStoreId"))
+                                    .trim());
+                    assertEquals("Compare WorkstationId in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("WorkstationId"),
+                            String.valueOf(actualDataTable.getValue(i, "WorkstationId"))
+                                    .trim());
+                    assertEquals("Compare SequenceNumber in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("SequenceNumber"),
+                            String.valueOf(actualDataTable.getValue(i, "SequenceNumber"))
+                                    .trim());
+                    assertEquals("Compare BusinessDayDate in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("BusinessDayDate"),
+                            String.valueOf(actualDataTable.getValue(i, "BusinessDayDate"))
+                                    .trim());
+                    assertEquals("Compare RetailStoreId in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("IssuedRetailStoreId"),
+                            String.valueOf(actualDataTable.getValue(i, "IssuedRetailStoreId"))
+                                    .trim());
+                    assertEquals("Compare WorkstationId in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("IssuedWorkstationId"),
+                            String.valueOf(actualDataTable.getValue(i, "IssuedWorkstationId"))
+                                    .trim());
+                    assertEquals("Compare SequenceNumber in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("IssuedSequenceNumber"),
+                            String.valueOf(actualDataTable.getValue(i, "IssuedSequenceNumber"))
+                                    .trim());
+                    assertEquals("Compare BusinessDayDate in TXL_SUMMARYRECEIPT_HISTORY row " + i,
+                            expectedInfo.get("IssuedBusinessDayDate"),
+                            String.valueOf(actualDataTable.getValue(i, "IssuedBusinessDayDate"))
+                                    .trim());
+                    i++;
+                }
             } else if (dbTableName.equals("TXU_POS_CTRL")) {
-            	int i  = 0;
-            	// |StoreId|TerminalNo|OpeCode|
-            	for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
-            		assertEquals("Compare StoreId in TXU_POS_CTRL row " + i, 
-            				expectedInfo.get("StoreId"), 
-            				String.valueOf(actualDataTable.getValue(i, "StoreId"))
-            				.trim());
-            		assertEquals("Compare TerminalNo in TXU_POS_CTRL row " + i, 
-            				expectedInfo.get("TerminalNo"), 
-            				String.valueOf(actualDataTable.getValue(i, "TerminalNo"))
-            				.trim());
-            		assertEquals("Compare OpeCode in TXU_POS_CTRL row " + i, 
-            				expectedInfo.get("OpeCode"), 
-            				String.valueOf(actualDataTable.getValue(i, "OpeCode"))
-            				.trim());
-            		i++;
-            	}
+                int i  = 0;
+                // |StoreId|TerminalNo|OpeCode|
+                for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+                    assertEquals("Compare StoreId in TXU_POS_CTRL row " + i,
+                            expectedInfo.get("StoreId"),
+                            String.valueOf(actualDataTable.getValue(i, "StoreId"))
+                                    .trim());
+                    assertEquals("Compare TerminalNo in TXU_POS_CTRL row " + i,
+                            expectedInfo.get("TerminalNo"),
+                            String.valueOf(actualDataTable.getValue(i, "TerminalNo"))
+                                    .trim());
+                    assertEquals("Compare OpeCode in TXU_POS_CTRL row " + i,
+                            expectedInfo.get("OpeCode"),
+                            String.valueOf(actualDataTable.getValue(i, "OpeCode")).toUpperCase()
+                                    .trim());
+                    i++;
+                }
+            } else if (dbTableName.equals("TXU_SOFTWARE_VERSION")) {
+                int i  = 0;
+                // |CompanyId|StoreId|TerminalId|Container|MobileShop|RESTransaction|RESTabletUI|RESUiConfig|
+                for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+                    assertEquals("Compare CompanyId in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("CompanyId"),
+                            String.valueOf(actualDataTable.getValue(i, "CompanyId"))
+                                    .trim());
+                    assertEquals("Compare StoreId in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("StoreId"),
+                            String.valueOf(actualDataTable.getValue(i, "StoreId"))
+                                    .trim());
+                    assertEquals("Compare TerminalId in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("TerminalId"),
+                            String.valueOf(actualDataTable.getValue(i, "TerminalId"))
+                                    .trim());
+                    assertEquals("Compare Container in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("Container"),
+                            String.valueOf(actualDataTable.getValue(i, "Container")).trim());
+                    assertEquals("Compare MobileShop in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("MobileShop"),
+                            String.valueOf(actualDataTable.getValue(i, "MobileShop")).trim());
+                    assertEquals("Compare RESTransaction in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("RESTransaction"),
+                            String.valueOf(actualDataTable.getValue(i, "RESTransaction")).trim());
+                    assertEquals("Compare RESTabletUI in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("RESTabletUI"),
+                            String.valueOf(actualDataTable.getValue(i, "RESTabletUI")).trim());
+                    assertEquals("Compare RESUiConfig in TXU_SOFTWARE_VERSION row " + i,
+                            expectedInfo.get("RESUiConfig"),
+                            String.valueOf(actualDataTable.getValue(i, "RESTabletUI")).trim());
+                    i++;
+                }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -601,30 +625,73 @@ public class JournalizationResourceSteps extends Steps{
         }
     }
 
-    @Then("I should get the following: $expected")
-    public final void testPOSLogs(ExamplesTable expectedDataTable) throws IOException {
+    @Then("RESMaster $dbTableName database table should have the following row(s): $expected")
+    public final void testPOSLogs(String dbTableName, ExamplesTable expectedDataTable) throws IOException {
         try {
-            assertEquals("Compare the number of rows in TXL_SALES_JOURNAL", 
-            		expectedDataTable.getRowCount(), 
-            		searchedPosLogs.getPosLogs().size());
+            ITable actualDataTable = dbInitMaster.getTableSnapshot(dbTableName);
+            //|StoreId|TerminalId|CompanyId||LastTxId|Training|Status|
+            assertEquals("Compare the number of rows in " + dbTableName,
+                    expectedDataTable.getRowCount(),
+                    actualDataTable.getRowCount());
 
             int i = 0;
             for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
-                assertEquals("Compare the WorkstationId in TXL_SALES_JOURNAL row" + i, 
-                		expectedInfo.get("WorkstationId"), 
-                		searchedPosLogs.getPosLogs().get(i).getPosLog().getTransaction()
-                		.getWorkStationID());
-                assertEquals("Compare the SequenceNumber in TXL_SALES_JOURNAL row" + i, 
-                		expectedInfo.get("SequenceNumber"), 
-                		searchedPosLogs.getPosLogs().get(i).getPosLog().getTransaction()
-                		.getSequenceNo());
-                assertEquals("Compare the BusinessDayDate in TXL_SALES_JOURNAL row" + i, 
-                		expectedInfo.get("BusinessDayDate"), 
-                		searchedPosLogs.getPosLogs().get(i).getPosLog().getTransaction()
-                		.getBusinessDayDate());
-                assertEquals("Compare the TxType in TXL_SALES_JOURNAL row" + i, 
-                		expectedInfo.get("TxType"), 
-                		POSLogHandler.getTransactionType(searchedPosLogs.getPosLogs().get(i).getPosLog()));                
+                assertEquals("Compare StoreId in MST_DEVICEINFO row " + i,
+                        expectedInfo.get("StoreId"),
+                        String.valueOf(actualDataTable.getValue(i, "StoreId"))
+                                .trim());
+                assertEquals("Compare TerminalId in MST_DEVICEINFO row " + i,
+                        expectedInfo.get("TerminalId"),
+                        String.valueOf(actualDataTable.getValue(i, "TerminalId"))
+                                .trim());
+                assertEquals("Compare CompanyId in MST_DEVICEINFO row " + i,
+                        expectedInfo.get("CompanyId"),
+                        String.valueOf(actualDataTable.getValue(i, "CompanyId"))
+                                .trim());
+                assertEquals("Compare LastTxId in MST_DEVICEINFO row " + i,
+                        expectedInfo.get("LastTxId"),
+                        String.valueOf(actualDataTable.getValue(i, "LastTxId"))
+                                .trim());
+                assertEquals("Compare Training in MST_DEVICEINFO row " + i,
+                        expectedInfo.get("Training"),
+                        String.valueOf(actualDataTable.getValue(i, "Training"))
+                                .trim());
+                assertEquals("Compare Status in MST_DEVICEINFO row " + i,
+                        expectedInfo.get("Status"),
+                        String.valueOf(actualDataTable.getValue(i, "Status"))
+                                .trim());
+                i++;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Assert.fail("Fail to test the entry in TXL_SALES_JOURNAL.");
+        }
+    }
+
+    @Then("I should get the following: $expected")
+    public final void testPOSLogs(ExamplesTable expectedDataTable) throws IOException {
+        try {
+            assertEquals("Compare the number of rows in TXL_SALES_JOURNAL",
+                    expectedDataTable.getRowCount(),
+                    searchedPosLogs.getPosLogs().size());
+
+            int i = 0;
+            for (Map<String, String> expectedInfo : expectedDataTable.getRows()) {
+                assertEquals("Compare the WorkstationId in TXL_SALES_JOURNAL row" + i,
+                        expectedInfo.get("WorkstationId"),
+                        searchedPosLogs.getPosLogs().get(i).getPosLog().getTransaction()
+                                .getWorkStationID());
+                assertEquals("Compare the SequenceNumber in TXL_SALES_JOURNAL row" + i,
+                        expectedInfo.get("SequenceNumber"),
+                        searchedPosLogs.getPosLogs().get(i).getPosLog().getTransaction()
+                                .getSequenceNo());
+                assertEquals("Compare the BusinessDayDate in TXL_SALES_JOURNAL row" + i,
+                        expectedInfo.get("BusinessDayDate"),
+                        searchedPosLogs.getPosLogs().get(i).getPosLog().getTransaction()
+                                .getBusinessDayDate());
+                assertEquals("Compare the TxType in TXL_SALES_JOURNAL row" + i,
+                        expectedInfo.get("TxType"),
+                        POSLogHandler.getTransactionType(searchedPosLogs.getPosLogs().get(i).getPosLog()));
                 i++;
             }
         } catch (Exception ex) {
@@ -637,13 +704,13 @@ public class JournalizationResourceSteps extends Steps{
     public final void theJsonShouldHaveTheFollowingJSONFormat(
             String expectedJson) {
         try {
-            JsonMarshaller<ResultBase> jsonMarshaller = 
-            		new JsonMarshaller<ResultBase>();
+            JsonMarshaller<ResultBase> jsonMarshaller =
+                    new JsonMarshaller<ResultBase>();
 
             String actualJson = jsonMarshaller.marshall(searchedPosLogs);
-            
+
             System.out.println(actualJson);
-            
+
             // compare to json strings regardless of property ordering
             JSONAssert.assertEquals(expectedJson, actualJson, JSONCompareMode.NON_EXTENSIBLE);
         } catch (Exception e) {
@@ -652,22 +719,22 @@ public class JournalizationResourceSteps extends Steps{
         }
     }
 
-    @Then("I should get {$noOfResult} list")
+    @Then("I should get $noOfResult list")
     public final void testListSize(int expected){
         assertEquals(expected, searchedPosLogs.getPosLogs().size());
     }
 
-    @Then("I should get {$code} resultcode")
+    @Then("I should get $code resultcode")
     public final void testResultCode(int expected){
         assertEquals(expected, searchedPosLogs.getNCRWSSResultCode());
     }
 
-    @Then("table {$tableName} will have {$rowCount} row(s)")
+    @Then("table $tableName will have $rowCount row(s)")
     public final void getTableRowCount(String tableName, String rowCount) {
-    	ITable table = dbInitTransaction.getTableSnapshot(tableName);
-    	
-    	int rows = table.getRowCount();
-    	
-    	assertEquals(tableName + " rowCount", Integer.parseInt(rowCount), rows);
+        ITable table = dbInitTransaction.getTableSnapshot(tableName);
+
+        int rows = table.getRowCount();
+
+        assertEquals(tableName + " rowCount", Integer.parseInt(rowCount), rows);
     }
 }

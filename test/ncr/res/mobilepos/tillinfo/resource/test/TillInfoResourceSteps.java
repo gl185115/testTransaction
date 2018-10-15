@@ -1,26 +1,27 @@
 package ncr.res.mobilepos.tillinfo.resource.test;
 
+import org.dbunit.dataset.ITable;
+import org.dbunit.operation.DatabaseOperation;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
+import org.junit.Assert;
+
+import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
 
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
-
-import org.dbunit.dataset.ITable;
-import org.dbunit.operation.DatabaseOperation;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
-import org.junit.Assert;
 
 
 public class TillInfoResourceSteps extends Steps {
@@ -72,28 +73,33 @@ public class TillInfoResourceSteps extends Steps {
         if ("OK".equals(condition)){
             res = 0;
         } else if ("STORE_INVALID_PARAMS".equals(condition)){
-            res = ResultBase.RES_STORE_INVALIDPARAMS;
+            res = ResultBase.RES_STORE_INVALIDPARAMS; // 701
         } else if ("TILL_NOT_EXIST".equals(condition)){
-            res = ResultBase.RES_TILL_NOT_EXIST;
+            res = ResultBase.RES_TILL_NOT_EXIST; // 1500
         } else if ("TILL_INVALID_PARAMS".equals(condition)){
-            res = ResultBase.RES_TILL_INVALIDPARAMS;
+            res = ResultBase.RES_TILL_INVALIDPARAMS; // 1501
         } else if ("SOD_PROCESSING".equals(condition)){
-            res = ResultBase.RES_TILL_SOD_PROCESSING;
+            res = ResultBase.RES_TILL_SOD_PROCESSING; // 1504
         } else if ("SOD_FINISHED".equals(condition)){
-            res = ResultBase.RES_TILL_SOD_FINISHED;
+            res = ResultBase.RES_TILL_SOD_FINISHED; // 1505
+        } else if ("SOD_UNFINISHED".equals(condition)){
+            res = ResultBase.RES_TILL_SOD_UNFINISHED; // 1508
         } else if ("INVALID_SOD_FLAG".equals(condition)){
-            res = ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL;
+            res = ResultBase.RES_TILL_INVALID_SOD_FLAG_VAL; // 1506
         } else if ("INVALID_BIZDATE".equals(condition)){
-            res = ResultBase.RES_TILL_INVALID_BIZDATE;
+            res = ResultBase.RES_TILL_INVALID_BIZDATE; // 1507
         } else if ("DATABASE_ERROR".equals(condition)){
-            res = ResultBase.RES_ERROR_DB;
+            res = ResultBase.RES_ERROR_DB; // 134
         } else if ("DAO_ERROR".equals(condition)) {
-        	res = ResultBase.RES_ERROR_DAO;
+        	res = ResultBase.RES_ERROR_DAO; // 139
         } else if ("GENERAL_ERROR".equals(condition)){
-            res = ResultBase.RES_ERROR_GENERAL;
+            res = ResultBase.RES_ERROR_GENERAL; // 133
         } else if ("RES_ERROR_INVALIDPARAMETER".equals(condition)){
-            res = ResultBase.RES_ERROR_INVALIDPARAMETER;
-        } 
+            res = ResultBase.RES_ERROR_INVALIDPARAMETER; // 154
+        } else if ("RES_ERROR_NO_BIZDATE".equals(condition)){
+            res = ResultBase.RES_NO_BIZDATE;  // 1518
+        }  
+        
         return res;
     }
     
@@ -102,7 +108,16 @@ public class TillInfoResourceSteps extends Steps {
      */
     @Given("I have a Till Info Resource and other resources")
     public final void iHaveTillInfoResource() throws Exception {   	
+        ServletContext context = Requirements.getMockServletContext();
         tillRes = new TillInfoResource();
+        try {
+            Field tillContext = tillRes.getClass().getDeclaredField("servletContext");
+            tillContext.setAccessible(true);
+            tillContext.set(tillRes, context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Cant load Mock Servlet Context.");
+        } 
         resultBase = new ResultBase(); 
     }
     
@@ -183,8 +198,8 @@ public class TillInfoResourceSteps extends Steps {
     	String processingType = "";
     	
     	for(Map<String, String> tempData : exampleTables.getRows()) {
-    	    companyId = "null".equals(tempData.get("companyId")) ?
-                    null : tempData.get("companyId");
+    	    companyId = "null".equals(tempData.get("companyId")) || null == tempData.get("companyId") ?
+                    "01" : tempData.get("companyId");
     		storeId = "null".equals(tempData.get("storeId")) ?
     				null : tempData.get("storeId");
     		tillId = "null".equals(tempData.get("tillId")) ?
@@ -253,7 +268,7 @@ public class TillInfoResourceSteps extends Steps {
     	}
     }
     
-	@Then("the result should be {$result}")
+	@Then("the result should be $result")
     public final void testResultCode(String result) {
     	 Assert.assertEquals(getResult(result), resultBase.getNCRWSSResultCode());
     }

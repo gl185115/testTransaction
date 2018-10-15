@@ -7,6 +7,7 @@ public enum RESConfigEnum {
     DIR_ADVERTISE("dir_advertise"),
     DIR_IMAGES("dir_images"),
     DIR_NOTICES("dir_notices"),
+    DIR_PHRASES("dir_phrases"),
     DIR_PICKLIST("dir_pickList"),
     DIR_OPTIONS("dir_options"),
     DIR_USABILITY("dir_usability"),

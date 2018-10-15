@@ -65,10 +65,25 @@ public class ResultBase {
      */
     public static final int RES_OK = 0x00;
     /**
+     * Value : {@value}
+     * Error on Ping IPAddress.
+     */
+    public static final int RES_ERROR_PING = 100;
+    /**
      * Value : {@value}<br>
      *Authentication success result code.
      */
     public static final int RESAUTH_OK = 0x00;
+    /**
+     * Value : {@value}<br>
+     *The item belongs to two-step item.
+     */
+    public static final int TWOSTEPITEM_VARIETIES = 1;
+    /**
+     * Value : {@value}<br>
+     *The request of price input.
+     */
+    public static final int PRICE_INPUT_REQUEST = 2;
     /**
      * Value : {@value}<br>
      *Device was not found during authentication.
@@ -188,6 +203,16 @@ public class ResultBase {
      *Reports success result code.
      */
     public static final int RESRPT_OK = 0;
+    /**
+     * Value : {@value}<br>
+     *POS Mail Info success result code.
+     */
+    public static final int RES_POSMAIL_INFO_OK = 0;
+    /**
+     * Value : {@value}<br>
+     *The Emergency registration.
+     */
+    public static final int EMERGENCY_REGISTRATION = 116;
     /**
      * Value : {@value}<br>
      *The ReportType provided is invalid.
@@ -347,6 +372,21 @@ public class ResultBase {
      * Event Check failed because EventKbn not equals to resultset's EventKbn.
      */
     public static final int RES_ERROR_EVENTKBNCHECKFAILED = 161;
+    /**
+     * Value : {@value}<br>
+     * InitializationStatus found resTransaction was initialized successfully.
+     */
+    public static final int RES_OK_INITIALIZATION = 0;
+    /**
+     * Value : {@value}<br>
+     * InitializationStatus found resTransaction was failed to initialize.
+     */
+    public static final int RES_ERROR_INITIALIZATION = 162;
+    /**
+     * Value : {@value}<br>
+     * Xml file information get failed.
+     */
+    public static final int RES_ERROR_FILENOINFORMATION = 163;
     /**************** Start: Generic Client Error Messages ****************/
     /**
      * Value : {@value}<br>
@@ -693,6 +733,11 @@ public class ResultBase {
      *Queue full per a store.
      */
     public static final int RESSYS_ERROR_QB_QUEUEFULL = 346;
+    /**
+     * Value : {@value}<br>
+     *Tag in use.
+     */
+    public static final int RESSYS_ERROR_QB_TAG_INUSE = 347;
     //NetworkReceipt Results
     /**
      * Value : {@value}<br>

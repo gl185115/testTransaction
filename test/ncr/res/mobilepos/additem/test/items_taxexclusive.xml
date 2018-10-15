@@ -1,0 +1,409 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<!-- ITEMS -->
+	<table name="MST_PLU">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>Plu</column>
+		<column>DisplayPlu</column>
+		<column>MdInternal</column>
+		<column>MdType</column>
+		<column>HostFlag</column>
+		<column>MdVender</column>
+		<column>Dpt</column>
+		<column>Line</column>
+		<column>Class</column>
+		<column>Sku</column>
+		<column>ItemSize</column>
+		<column>Package</column>
+		<column>KeyPlu</column>
+		<column>Md01</column>
+		<column>Md02</column>
+		<column>Md03</column>
+		<column>Md04</column>
+		<column>Md05</column>
+		<column>Md06</column>
+		<column>Md07</column>
+		<column>Md08</column>
+		<column>Md09</column>
+		<column>Md10</column>
+		<column>Md11</column>
+		<column>Md12</column>
+		<column>Md13</column>
+		<column>Md14</column>
+		<column>Md15</column>
+		<column>Md16</column>
+		<column>Md17</column>
+		<column>Md18</column>
+		<column>Md19</column>
+		<column>Md20</column>
+		<column>Md21</column>
+		<column>Md22</column>
+		<column>Md23</column>
+		<column>Md24</column>
+		<column>Md25</column>
+		<column>Md26</column>
+		<column>Md27</column>
+		<column>Md28</column>
+		<column>Md29</column>
+		<column>Md30</column>
+		<column>Md31</column>
+		<column>Md32</column>
+		<column>MdName</column>
+		<column>MdName1</column>
+		<column>MdName2</column>
+		<column>MdNameLocal</column>
+		<column>MdNameLocal1</column>
+		<column>MdNameLocal2</column>
+		<column>MdKanaName</column>
+		<column>MdKanaName1</column>
+		<column>MdKanaName2</column>
+		<column>MdShortName</column>
+		<column>OrgSalesPrice1</column>
+		<column>SalesPrice1</column>
+		<column>SalesPrice2</column>
+		<column>SalesPriceChgDate1</column>
+		<column>SalesPriceChgDate2</column>
+		<column>EmpPrice1</column>
+		<column>EmpPrice2</column>
+		<column>EmpPrice3</column>
+		<column>PuPrice1</column>
+		<column>PuPrice2</column>
+		<column>PuPriceChgDate1</column>
+		<column>PuPriceChgDate2</column>
+		<column>OrgCostPrice1</column>
+		<column>CostPrice1</column>
+		<column>CostPrice2</column>
+		<column>CostPriceChgDate1</column>
+		<column>CostPriceChgDate2</column>
+		<column>CostRateFlag</column>
+		<column>CostRate</column>
+		<column>SalesDate</column>
+		<column>MakerPrice</column>
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>SeasonType</column>
+		<column>PaymentType</column>
+		<column>OrderType</column>
+		<column>PosMdType</column>
+		<column>CatType</column>
+		<column>OrderUnit</column>
+		<column>OrderPoint</column>
+		<column>BaseStockCnt</column>
+		<column>Conn1</column>
+		<column>ConnType1</column>
+		<column>Conn2</column>
+		<column>ConnType2</column>
+		<column>VenderCode</column>
+		<column>VenderType</column>
+		<column>StockType</column>
+		<column>MMCode</column>
+		<column>TagCode1</column>
+		<column>TagCode2</column>
+		<column>TagCode3</column>
+		<column>PointRate</column>
+		<column>PictureFileName1</column>
+		<column>PictureFileName2</column>
+		<column>LastSalesDate</column>
+		<column>DiscountFlag</column>
+		<column>DiscountAmt</column>
+		<column>DiscountRate</column>
+		<column>AgeRestrictedFlag</column>
+		<column>MustBuyFlag</column>
+		<column>ValidFlag</column>
+		<column>InheritFlag</column>
+		<column>SubMoney1</column>
+		<column>SubMoney2</column>
+		<column>SubMoney3</column>
+		<column>SubMoney4</column>
+		<column>SubMoney5</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubCode6</column>
+		<column>SubCode7</column>
+		<column>SubCode8</column>
+		<column>SubCode9</column>
+		<column>SubCode10</column>
+		<column>SubCode11</column>
+		<column>SubCode12</column>
+		<column>SubCode13</column>
+		<column>SubCode14</column>
+		<column>SubCode15</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>SubNum6</column>
+		<column>SubNum7</column>
+		<column>SubNum8</column>
+		<column>SubNum9</column>
+		<column>SubNum10</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value></value>
+			<null />
+			<value>0012345670015</value>
+			<value>1</value>
+			<null />
+			<null />
+			<value>0198</value>
+			<value>0198</value>
+			<value>0198</value>
+			<value>0012345670015</value>
+			<null />
+			<null />
+			<null />
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>LOCAL_PLU_88</value>
+			<null />
+			<null />
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<value>2000</value>
+			<value>2000</value>
+			<null />
+			<value>2000-01-01 00:00:00.000</value>
+			<value>9999-12-31 00:00:00.000</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0325</value>
+			<null />
+			<value>0000</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:54.7633716</value>
+			<value>usp_IF_MaintPlu</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:54.7633716</value>
+			<value>usp_IF_MaintPlu</value>
+			<value>system</value>
+		</row>
+	</table>
+
+	<table name="MST_DPTINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>Dpt</column>
+		<column>DptName</column>
+		<column>DptNameLocal</column>
+		<column>DptKanaName</column>
+		<column>DisplayOrder</column>
+		<column>Jigyobu</column>
+		<column>Gyoshu</column>
+		<column>Bumon</column>
+		<column>Uriba</column>
+		<column>Category</column>
+		<column>StockType</column>
+		<column>TaxType</column>
+		<column>TaxRate</column>
+		<column>DiscountType</column>
+		<column>ExceptionFlag</column>
+		<column>CostRateFlag</column>
+		<column>CostRate</column>
+		<column>DiscountFlag</column>
+		<column>DiscountAmt</column>
+		<column>DiscountRate</column>
+		<column>AgeRestrictedFlag</column>
+		<column>InheritFlag</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>Status</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0</value>
+			<value>0198</value>
+			<null />
+			<value>その他書籍</value>
+			<value>ｱ</value>
+			<value>36</value>
+			<value>00</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<value>2</value>
+			<value>8.000</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<null />
+			<null />
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 15:51:32.7258249</value>
+			<value>usp_IF_MaintLineInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 15:51:32.7258249</value>
+			<value>usp_IF_MaintLineInfo</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

@@ -1,27 +1,55 @@
 <!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
 <dataset>
-    <table name="AUT_DEVICES">    
-    	<column>StoreId</column>
-        <column>TerminalId</column>
-        <column>State</column>
-        <column>LastActiveTime</column>
+	<table name="AUT_DEVICES">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Uuid</column>
+		<column>Udid</column>
+		<column>State</column>
+		<column>LastActiveTime</column>
+		<column>ActiveValidUntil</column>
+		<column>SignStatus</column>
+		<column>SignTid</column>
+		<column>SignActivationKey</column>
         <row>        	
+        	<value>01</value>
         	<value>000031</value>
             <value>1111</value>
+            <value>2c15dd87-e576-461a-bc1f-6f62be7b57a9</value>
+            <value>0000000000000000000000000000000000000000</value>
             <value>0</value>
             <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+            <value><![CDATA[2016-08-16 09:56:46.797]]></value>
+            <value>1</value>
+            <null/>
+            <null/>
         </row>  
         <row>
+        	<value>01</value>
         	<value>000031</value>
             <value>2222</value>
+            <value>2c15dd87-e576-461a-bc1f-6f62be7b57a9</value>
+            <value>0000000000000000000000000000000000000000</value>
             <value>1</value>
             <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+            <value><![CDATA[2016-08-16 09:56:46.797]]></value>
+            <value>1</value>
+            <null/>
+            <null/>
         </row>   
         <row>
+        	<value>01</value>
         	<value>000031</value>
             <value>3333</value>
+            <value>2c15dd87-e576-461a-bc1f-6f62be7b57a9</value>
+            <value>0000000000000000000000000000000000000000</value>
             <value>1</value>
             <value><![CDATA[2012-04-06 21:35:08.497]]></value>
+            <value><![CDATA[2016-08-16 09:56:46.797]]></value>
+            <value>1</value>
+            <null/>
+            <null/>
         </row>       
     </table>        
 </dataset>

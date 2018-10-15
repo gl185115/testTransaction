@@ -47,19 +47,7 @@ public interface ICredentialDAO {
      */
     Operator signOnOperator(String companyId, String operatorNumber, String passCode,
             String terminalID) throws DaoException;
-    /**
-     * Creates a new operator.
-     *
-     * @param operatorNumber
-     *            The operator number.
-     * @param passCode
-     *            The operator passcode.
-     * @return Error code if error occurred otherwise 0
-     * @throws DaoException
-     *             Thrown when error occurs.
-     */
-    int createOperator(String operatorNumber, String passCode) throws DaoException;
-
+    
     /**
      * Signs Off an operator by specifying the operator number.
      *
@@ -141,38 +129,6 @@ public interface ICredentialDAO {
             throws Exception;
 
     /**
-     * Reset the operators Passcode.
-     *
-     * @param retailstoreid
-     *            The retail store id.
-     * @param operatoreno
-     *            The operator id.
-     * @return int The number of rows affected.
-     * @throws Exception
-     *             Thrown when error occurs.
-     */
-    int resetOperatorPasscode(String retailstoreid, String operatoreno)
-            throws Exception;
-
-    /**
-     * Gets employee detail.
-     *
-     * @param retailStoreID
-     *            The storeid where the employee belongs to.
-     * @param operatorID
-     *            The employee number.
-     * @param isPasscodeHidden
-     *            true if not to include passcode in return. false, if to
-     *            include.
-     * @return viewEmployee The Object containing resultcode and Employee
-     *         details.
-     * @throws DaoException
-     *             Thrown when exception occurs.
-     */
-    ViewEmployee viewEmployee(String retailStoreID, String operatorID,
-            boolean isPasscodeHidden) throws DaoException;
-
-    /**
      * Creates employee detail.
      *
      * @param retailStoreID
@@ -220,34 +176,9 @@ public interface ICredentialDAO {
      */
     ResultBase deleteEmployee(String retailStoreID, String operatorID, String updOpeCode, String updAppId)
             throws DaoException;
-
-    /**
-     * Updates operator's old passcode to a new passcode.
-     *
-     * @param operatorID
-     *            the operatorid which passcode should be change.
-     * @param oldPasscode
-     *            the operators's old passcode.
-     * @param newPasscode
-     *            the operator's new passcode.
-     * @return
-     *            the ResultBase. If resultcode is zero(0), it is success.
-     * @throws DaoException
-     *             the exception thrown when process fail.
-     */
-    ResultBase changePasscode(String operatorID,
-            String oldPasscode, String newPasscode, String updAppId, String updOpeCode) throws DaoException;
-
-    /**
-     * Signs on an operator from SPART.
-     * @param empCode Employee Id used to log in.
-     * @param password Operator's password.
-     * @param terminalId of the device where the operator account is signed on.
-     * @return Errorcode if error occurred otherwise 0
-     * @throws DaoException the exception thrown when process fail.
-     */
-    Operator credentialSpartLogin(String empCode, String password,
-        String terminalId) throws DaoException;
     
-    public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException;
+    /** CHG BGN íSìñé“å†å¿ÇÃåüèÿ **/
+    //public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException;
+    public Authorization getOperatorAuthorization(String companyId, String opeCode, String opePass) throws DaoException;
+    /** CHG END íSìñé“å†å¿ÇÃåüèÿ **/
 }

@@ -1,0 +1,5 @@
+Scenario: Given ipAddress is invalid and failed with UnknownHostException
+Given ipAddress, 1231.456.789.1111 is invalid and cannot be resolved
+Given Timeout is defined as 1000 ms
+When I make a ping to ipAddress, 1231.456.789.1111
+Then Ping failed with RES_ERROR_PING

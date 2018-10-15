@@ -14,8 +14,12 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
+import javax.naming.NamingException;
+
 import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.JournalizationException;
 import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.exception.TillException;
 import ncr.res.mobilepos.journalization.model.PointPosted;
 import ncr.res.mobilepos.journalization.model.SearchForwardPosLog;
 import ncr.res.mobilepos.journalization.model.poslog.AdditionalInformation;
@@ -32,12 +36,14 @@ public interface IPosLogDAO {
      * @param posLog         The POSLog which holds the transaction
      *                        to be processed.
      * @param posLogXml      The same POSLog but in xml format.
-     * 
+     *
      * @return               Return the number of rows affected in the database.
      * @throws Exception     The exception thrown when the process fail.
      */
-	void savePOSLog(PosLog posLog, String posLogXml, int trainingMode) 
-			throws Exception;
+	void savePOSLog(PosLog posLog, String posLogXml, int trainingMode)
+			throws DaoException, JournalizationException, TillException, SQLStatementException,
+					ParseException, NamingException;
+
 	/**
      * Get the transaction POSLog XML in the TXL_POSLOG table.
      * by specifying the company id, trainingmode, transaction number.
@@ -54,7 +60,7 @@ public interface IPosLogDAO {
      */
 	String getPOSLogTransaction(String companyid, String storeid , String workstationid,
 			                    String businessdate, String txid, int trainingflag, String txtype) throws DaoException;
-	
+
 	/**
      * Gets a POSLog XML by specifying the transaction number.
      *
@@ -67,7 +73,7 @@ public interface IPosLogDAO {
      *                                the POSLog XML failed.
      */
 	String getTransaction(String txDeviceNumber, String txNumber) throws DaoException;
-	
+
 	/**
      * Get the BussinessDate from Administrator Database.
      * @param switchTime          The SwitchTime. Can be an empty string.
@@ -75,19 +81,7 @@ public interface IPosLogDAO {
      * @throws DaoException The exception thrown when error occur.
      */
 	String getBussinessDate(String companyId, String storeId, String switchTime) throws DaoException;
-	
-	/**
-     * Get the most latest available Normal POSlog Transaction.
-     * @param terminalid      The terminal ID for the transaction
-     * @param storeid         The store ID for the transaction
-     * @return                Returns a POSLog Xml of the
-     *                            latest available POSLog
-     * @throws DaoException   The exception thrown when getting
-     *                            the last Transaction Information fails
-     */
-	String getLastNormalTransaction(String terminalid, String storeid) 
-			throws DaoException;
-	
+
 	/**
      * Search transactions.
      *
@@ -106,19 +100,19 @@ public interface IPosLogDAO {
      * @param toDate				the to/end date
      * @param toTime				the to/end time
      * @param type					the transaction type
-     *            
+     *
      * @return 						the list of poslogxml string.
-     * 
+     *
      * @throws DaoException			thrown when database error occurs.
-     * @throws ParseException		thrown when search key is not numeric 
+     * @throws ParseException		thrown when search key is not numeric
      * 									or valid date format.
      */
 	List<TransactionSearch> searchTransactions(String limit, String from, String line,
-	        String storeId, String deviceId, String itemName, String subCode4, String itemId, 
-	        String sequenceNumberFrom, String sequenceNumberTo, String businessDate, String fromDate, 
-			String fromTime, String toDate, String toTime, String type, String companyId, int trainingMode) 
+	        String storeId, String deviceId, String itemName, String subCode4, String itemId,
+	        String sequenceNumberFrom, String sequenceNumberTo, String businessDate, String fromDate,
+			String fromTime, String toDate, String toTime, String type, String companyId, int trainingMode)
 					throws Exception;
-	
+
     /**
      * ëOéJè§ïiñæç◊ PosLog ï€ë∂
      * @param posLog
@@ -145,11 +139,15 @@ public interface IPosLogDAO {
     public SearchForwardPosLog getForwardItemsPosLog(String CompanyId, String RetailStoreId,
             String WorkstationId, String SequenceNumber, String Queue,
             String BusinessDayDate, String TrainingFlag) throws DaoException;
-    
-    public String getLastPayTxPoslog(String companyId, String storeId, 
-    		String terminalId, String businessDate, 
+
+    public String getLastPayTxPoslog(String companyId, String storeId,
+    		String terminalId, String businessDate,
     		int trainingFlag) throws Exception;
-    
+
+    public String getLastBalancingTxPoslog(String companyId, String storeId,
+    		String terminalId, String businessDate,
+    		int trainingFlag) throws Exception;
+
     public AdditionalInformation getVoidedAndReturned(String companyid, String storeid, String workstationid,
             String businessdate, String txid, int trainingflag, String txtype) throws DaoException;
 
@@ -162,14 +160,14 @@ public interface IPosLogDAO {
      * @param SequenceNumber
      * @param BusinessDayDate
      * @param TrainingFlag
-     * @param callType 
-     * @param appId 
-     * @param opeCode 
+     * @param callType
+     * @param appId
+     * @param opeCode
      * @return ResultBase
      */
     public int getOrUpdLockStatus(String companyId, String retailStoreId, String workstationId, String businessDayDate,
             int sequenceNumber, int trainingFlag, String callType, String appId, String opeCode, String type) throws Exception;
-    
+
     /**
      * additional info for transaction to identify
      * if the sales is already post pointed.
@@ -184,7 +182,48 @@ public interface IPosLogDAO {
      */
     public PointPosted isPointPosted(String companyid, String storeid, String workstationid,
             String businessdate, String txid, int trainingflag) throws DaoException;
-    
-    public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate)
+
+    public int getSummaryReceiptCount(String companyid,String retailStoreID,String workStationID,String sequenceNo,String businessDayDate,int trainingFlag)
             throws SQLException, SQLStatementException, DaoException;
+    
+    /**
+     * Gets the number of count the transaction printed a gift receipt.
+     * @param companyId original transaction's companyId.
+     * @param retailStoreId original transaction's storeId.
+     * @param workStationId original transaction's terminalId.
+     * @param sequenceNo original transaction's sequenceNo.
+     * @param businessDayDate original transaction's businessDate.
+     * @param trainingFlag training mode (1 or 0)
+     * @return count int
+     * @throws SQLException sql error.
+     * @throws SQLStatementException sql query error.
+     * @throws DaoException database error.
+     */
+    public int getGiftReceiptCount(String companyId, String retailStoreId, String workStationId,String sequenceNo, String businessDayDate, int trainingFlag)
+            throws SQLException, SQLStatementException, DaoException;
+
+    /**
+     * É^ÉOî‘çÜÇ≈ëOéJè§ïiñæç◊ PosLog ï€ë∂
+     * @param posLog
+     * @param posLogXml
+     * @param queue
+     * @param tag
+     * @param total
+     * @return
+     * @throws DaoException
+     */
+    public int saveForwardPosLogIncludeTag(PosLog posLog, String posLogXml, String queue, String tag, String total) throws DaoException;
+	
+	/**
+     * É^ÉOî‘çÜÇ≈ëOéJè§ïiñæç◊ PosLog åüçı
+     * @param companyId
+     * @param retailStoreId
+     * @param queue
+     * @param businessDayDate
+     * @param tag
+     * @return ëOéJìoò^ PosLog
+     * @throws DaoException
+     */
+    public SearchForwardPosLog getForwardItemsPosLogWithTag(String companyId, String retailStoreId,
+    		String queue, String businessDayDate, String tag, String trainingFlag) throws DaoException;
 }

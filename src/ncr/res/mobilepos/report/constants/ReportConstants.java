@@ -27,9 +27,9 @@ public final class ReportConstants {
 	// 1.04 2015.1.30 MAJINHUI 点検・精算レポート出力変更を対応 add start
     public static final String CASH_TOTAL = "cashTotal";
     // cash in drawer 買物券
-    public static final String CASH_BARNEYSVOUCHER = "91";
+    public static final String CASH_COMMONVOUCHER = "91";
     // cash in drawer  ギフト券
-    public static final String CASH_BARNEYSGIFT = "92";
+    public static final String CASH_COMMONGIFT = "92";
     // cash in drawer  伊勢丹
     public static final String CASH_ISETANGIFT = "93";
     // cash in drawer  DC
@@ -158,9 +158,9 @@ public final class ReportConstants {
 
     // ＜商品券内訳＞
     // 買物券
-    public static final String ATYREPORT_SHOPPINGTICKET = "BarneysVoucher";
+    public static final String ATYREPORT_SHOPPINGTICKET = "CommonVoucher";
     // ギフト券
-    public static final String ATYREPORT_GIFTVOUCHER = "BarneysGift";
+    public static final String ATYREPORT_GIFTVOUCHER = "CommonGift";
     // 伊勢丹
     public static final String ATYREPORT_ISETAN = "IsetanGift";
     // DC

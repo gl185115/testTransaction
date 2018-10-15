@@ -1,0 +1,25 @@
+Scenario: Device Registration
+Given the Web API Starts Up with test/ncr/res/mobilepos/authentication/test/prm_system_config_12taxrate_roundup.xml System Configuration
+Given a deviceinfo test/ncr/res/mobilepos/authentication/test/data_devices.xml in database
+
+Scenario: Register device(Failed registration - Non-Existing StoredId)
+When I get device attribute companyid 01 storeid 0001 terminalid 0001
+Then I should get the resultcode resultCode 157
+
+Scenario: Register device(Successful registration)
+When I get device attribute companyid 01 storeid 0247 terminalid 0003
+Then I should get the following:
+|Message	|CompanyId	|StoreId  |TerminalId	|DeviceName |NCRWSSResultCode |
+|Success	|01			|0247	  |0003			|POS#3		|0		          |
+
+
+When I register device companyid 01 storeid 0247 terminalid 0003 devicename  passcode  uuid 834b647f-bda7-4f5c-b1a9-42ab6b27b356 udid 0000000000000000000000000000000000000000 signstatus 1
+Then I should get the following registration response:
+|Message	            |StoreID	|CorpID  |TerminalId	|NCRWSSResultCode |
+|Registration Success	|0247       |01	     |0003			|0		          |
+
+Then I should get the following attribute message Success
+Then I should get the following terminal info response 0
+
+
+

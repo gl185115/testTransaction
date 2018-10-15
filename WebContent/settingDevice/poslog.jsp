@@ -1,5 +1,7 @@
 <%@ page language="java" pageEncoding="utf-8"%><%@page import="javax.xml.transform.*,javax.xml.transform.stream.*,java.io.*,java.sql.*"%><%@page import="ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer"%><%!
 final String ERR_01_NOTFOUND = "データが存在しません。";
+final String COPY_SUCCESS = "クリップボードへコピーしました。";
+final String COPY_FAIL = "コピー失敗。";
 %><%
 if (request.getParameter("s") != null) {
    JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer)JndiDBManagerMSSqlServer.getInstance();
@@ -54,6 +56,7 @@ POSログ照会<br><br>
    </table>
   <div>
     <button type="button" id="start" class="res-small-green">検索</button>
+    <button type="button" id="copy" class="res-small-green" style="display:none">コピー</button>
   </div>
     <button id="fakeButton" style="display:none"></button>
   <div class="panel" style="height:670px">
@@ -68,6 +71,7 @@ POSログ照会<br><br>
 <script type="text/javascript" src="../sharedlib/jquery-ui.min.js"></script>
 <!-- ダイアログ共通 -->
 <script type="text/javascript" src="./js/DialogMessage.js"></script>
+<script type="text/javascript" src="./js/clipboard.min.js"></script>
 <script type="text/javascript">
 window.onload = function() {
     storesearch.document.getElementById('companyidlist').addEventListener('change', function(){
@@ -80,6 +84,7 @@ window.onload = function() {
 };
 
 (function(inValue) {
+  var poslogCopy;
   document.getElementById('start').addEventListener('click', function() {
     var myform = document.getElementById('searchform');
     if (myform.checkValidity() == false) {
@@ -94,6 +99,8 @@ window.onload = function() {
     xhr.onload = function() {
     try {
       if (!xhr.responseText || xhr.responseText.length == 0) {
+    	document.getElementById('copy').style.display = "none";
+    	document.getElementById('resultData').innerHTML = "";
         showDialog(
                   "タイトル：未使用",
                   <%='\'' + ERR_01_NOTFOUND + '\''%>,
@@ -103,7 +110,9 @@ window.onload = function() {
               );
         return false;
       }
+      document.getElementById('copy').style.display = "";
       var poslog = xhr.responseText;
+      poslogCopy = poslog;
       document.getElementById('resultData').innerHTML
       = '<pre>' + poslog.replace(/&/gm, '&amp;').replace(/</gm, '&lt;').replace(/>/gm, '&gt;') + '</pre>';
     } catch (e) {
@@ -126,6 +135,36 @@ window.onload = function() {
     } catch (e) {
       alert(e.name + ':' + e.message + ':' + e.stack);
     }
+  });
+  
+  document.getElementById('copy').addEventListener('click', function() {
+	  var clipboard = new Clipboard('#copy', {
+		    text: function() {
+		        return poslogCopy;
+		    }
+	  });
+	  
+	  clipboard.on('success', function(e) {
+		  showDialog(
+	              "タイトル：未使用",
+	              <%='\'' + COPY_SUCCESS + '\''%>,
+	              ButtonOK,
+	              function() {
+	              }
+	          );
+		  clipboard.destroy();
+      });
+	  
+	  clipboard.on('error', function(e) {
+		  showDialog(
+	              "タイトル：未使用",
+	              <%='\'' + COPY_FAIL + '\''%>,
+	              ButtonOK,
+	              function() {
+	              }
+	          );
+		  clipboard.destroy();
+	  });
   });
 })();
 </script>

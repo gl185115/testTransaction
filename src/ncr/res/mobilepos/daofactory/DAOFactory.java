@@ -11,6 +11,8 @@
 
 package ncr.res.mobilepos.daofactory;
 
+import ncr.res.giftcard.toppan.dao.ITxlCardFailureDAO;
+import ncr.res.mobilepos.appserver.dao.IAppServerDAO;
 import ncr.res.mobilepos.authentication.dao.IAuthAdminDao;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.dao.ICorpStoreDAO;
@@ -20,7 +22,6 @@ import ncr.res.mobilepos.buyadditionalinfo.dao.IBuyadditionalInfoDAO;
 import ncr.res.mobilepos.cardinfo.dao.ICardInfoDAO;
 import ncr.res.mobilepos.cashAbstract.dao.ICashAbstractDAO;
 import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
-import ncr.res.mobilepos.classinfo.dao.IClassInfoDAO;
 import ncr.res.mobilepos.credential.dao.ICredentialDAO;
 import ncr.res.mobilepos.credential.dao.IGroupDAO;
 import ncr.res.mobilepos.creditcard.dao.ICreditCardAbstractDAO;
@@ -34,20 +35,28 @@ import ncr.res.mobilepos.devicelog.dao.IDeviceLogDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.DiscountPlanInfoCommomDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.IPremiumFlagDAO;
 import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
+import ncr.res.mobilepos.employee.dao.IEmployeeDao;
 import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.forwarditemlist.dao.IForwardItemListDAO;
 import ncr.res.mobilepos.forwarditemlist.dao.SQLServerForwardItemListDAO;
-import ncr.res.mobilepos.journalization.dao.IBarneysCommonDAO;
+import ncr.res.mobilepos.futurePay.dao.IFuturePayDAO;
+import ncr.res.mobilepos.journalization.dao.ICommonDAO;
 import ncr.res.mobilepos.journalization.dao.IPosLogDAO;
-import ncr.res.mobilepos.line.dao.ILineDAO;
 import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.nationalityinfo.dao.INationalityInfoDAO;
 import ncr.res.mobilepos.networkreceipt.dao.IReceiptDAO;
 import ncr.res.mobilepos.offlinecredit.dao.IOfflineCreditDAO;
 import ncr.res.mobilepos.point.dao.IPointDAO;
+import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
+import ncr.res.mobilepos.posmailinfo.dao.IPOSMailInfoDAO;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
+import ncr.res.mobilepos.pricing.dao.IPriceMMInfoDAO;
+import ncr.res.mobilepos.pricing.dao.IPricePromInfoDAO;
+import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
+import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
+import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
@@ -103,24 +112,14 @@ public abstract class DAOFactory {
     public abstract IItemDAO getItemDAO() throws DaoException;
 
     /**
-     * Gets the DAO object for manipulating Line in the database.
+     * Gets the DAO object for poslog status in the database.
      *
-     * @return DAO Object for Line
+     * @return DAO Object for poslog status
      * @throws DaoException
      *             - Exception thrown when getting the DAO object fails
-     * @see ILineDAO
+     * @see IPoslogStatusDAO
      */
-    public abstract ILineDAO getLineDAO() throws DaoException;
-
-    /**
-     * Gets the DAO object for manipulating Class in the database.
-     *
-     * @return DAO Object for Class
-     * @throws DaoException
-     *             - Exception thrown when getting the DAO object fails
-     * @see IClassInfoDAO
-     */
-    public abstract IClassInfoDAO getClassInfoDAO() throws DaoException;
+    public abstract IPoslogStatusDAO getPoslogStatusDAO() throws DaoException;
 
     /**
      * Gets the DAO object for manipulating PosLog in the database.
@@ -145,7 +144,7 @@ public abstract class DAOFactory {
     /**
      * Gets the DAO object for manipulating Admin information in the database
      * for Authentication.
-     * 
+     *
      * @return DAO Object for Admin of Authentication
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -166,7 +165,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations for Credential Service.
-     * 
+     *
      * @return CredentialDao
      * @throws DaoException
      *             - Exception
@@ -175,7 +174,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Report Generation.
-     * 
+     *
      * @return IReportDAO object
      * @throws DaoException
      *             - Exception
@@ -184,7 +183,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Receipt Generation.
-     * 
+     *
      * @return IReceiptDAO object
      * @throws DaoException
      *             -Exception
@@ -193,7 +192,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on System Configuration.
-     * 
+     *
      * @return The DAO object for SystemConfig
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -203,7 +202,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on Store.
-     * 
+     *
      * @return The DAO object for Store
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -213,7 +212,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on Store.
-     * 
+     *
      * @return The DAO object for CorpStore
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -223,7 +222,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on QueueBustering.
-     * 
+     *
      * @return The DAO object for QueueBuster
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -242,7 +241,7 @@ public abstract class DAOFactory {
     /**
      * Gets the DAO object for Transfer transactions between smart phone and
      * POS.
-     * 
+     *
      * @return IForwardItemListDAO The DAO object
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -251,8 +250,18 @@ public abstract class DAOFactory {
     public abstract IForwardItemListDAO getForwardItemListDAO() throws DaoException;
 
     /**
+     * Gets the DAO object for Transfer transactions between smart phone and
+     * POS.
+     *
+     * @return ITxlCardFailureDAO The DAO object
+     * @throws DaoException
+     *             Exception thrown when getting the DAO object fails.
+     */
+    public abstract ITxlCardFailureDAO getTxlCardFailureDAO();
+
+    /**
      * Gets the DAO object for Peripheral Controls.
-     * 
+     *
      * @return IPeripheralControlDAO The DAO object
      * @throws DaoException
      *             Exception
@@ -261,7 +270,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for mobile device log upload/download.
-     * 
+     *
      * @return IDeviceLogDAO The DAO object
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -270,7 +279,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the QueueSignatureDao.
-     * 
+     *
      * @return IQueueSignatureDao The DAO object
      * @throws DaoException
      *             - Exception
@@ -279,7 +288,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DepartmentDao.
-     * 
+     *
      * @return IDepartmentDao The DAO object
      * @throws DaoException
      *             - Exception
@@ -288,7 +297,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for QueueBuster Link.
-     * 
+     *
      * @return ILinkDAO The DAO object
      * @throws DaoException
      *             Exception
@@ -297,7 +306,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Credential User Group.
-     * 
+     *
      * @return {@link IGroupDAO} The DAO object
      * @throws DaoException
      *             Exception
@@ -306,7 +315,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for CreditAuthorization Link.
-     * 
+     *
      * @return ILinkDAO The DAO object
      * @throws DaoException
      *             Exception
@@ -315,7 +324,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for Signature Link.
-     * 
+     *
      * @return ILinkDAO The DAO object.
      * @throws DaoException
      *             Exception
@@ -324,7 +333,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO Object for MixMatch.
-     * 
+     *
      * @return IMixMatchDAO
      * @throws DaoException
      *             exception
@@ -333,18 +342,36 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO Object for MixMatch.
-     * 
+     *
      * @return IMixMatchDAO
      * @throws DaoException
      *             exception
      */
     public abstract IMasterMaintenanceDAO getMasterMaintenanceDAO() throws DaoException;
 
+    /**
+     * Gets the DAO Object for Code Convert.
+     *
+     * @return ICodeConvertDAO
+     * @throws DaoException
+     *             exception
+     */
+    public abstract ICodeConvertDAO getCodeConvertDAO() throws DaoException;
+
+    /**
+     * Gets the DAO Object for QrCodeInfo.
+     *
+     * @return QrCodeInfoDAO
+     * @throws DaoException
+     *             exception
+     */
+    public abstract IQrCodeInfoDAO getQrCodeInfoDAO() throws DaoException;
+
     public abstract ICashAccountDAO getCashAccountDAO() throws DaoException;
 
     /**
      * Gets the DAO object for Till Info.
-     * 
+     *
      * @return ITillInfoDAO The DAO object.
      * @throws DaoException
      *             Exception
@@ -353,7 +380,7 @@ public abstract class DAOFactory {
 
     /**
      * Retrieves the concrete Factory for the DAO.
-     * 
+     *
      * @param whichFactory
      *            Identifies which storage implementation the DAO Factory to
      *            retrieve is specific to.
@@ -374,9 +401,11 @@ public abstract class DAOFactory {
         }
     }
 
-    public abstract IBarneysCommonDAO getBarneysCommonDAO() throws DaoException;
+    public abstract ICommonDAO getCommonDAO() throws DaoException;
 
     public abstract ICustomerSearthDAO getCustomerSearthDAO() throws DaoException;
+    
+    public abstract IFuturePayDAO getFuturePayDAO() throws DaoException;
 
     public abstract ICardInfoDAO getCardInfoDAO() throws Exception;
 
@@ -406,7 +435,7 @@ public abstract class DAOFactory {
 
     /**
      * Gets the DAO object for performing operations on Store.
-     * 
+     *
      * @return The DAO object for CM Preset Info.
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
@@ -416,7 +445,7 @@ public abstract class DAOFactory {
 
     /**
      * Get Offline Credit data DAO. return the DAO.
-     * 
+     *
      * @throws DaoException
      *             Exception thrown when getting the DAO object fails.
      * @see SQLServerStoreDAO
@@ -426,6 +455,18 @@ public abstract class DAOFactory {
     public abstract ICardInfoDAO getMemberInfo() throws Exception;
 
 	public abstract ICardInfoDAO getStatusInfo() throws Exception;
-	
+
 	public abstract ICreditCardAbstractDAO getCreditCardInfo() throws Exception;
+
+	public abstract IAppServerDAO getAppServerDAO() throws DaoException;
+
+	public abstract IPricePromInfoDAO getPricePromInfoDAO() throws DaoException;
+	
+	public abstract IPriceMMInfoDAO getPriceMMInfoDAO() throws DaoException;
+
+	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
+	
+	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
+	
+	public abstract IEmployeeDao getEmployeeDao() throws DaoException;
 }

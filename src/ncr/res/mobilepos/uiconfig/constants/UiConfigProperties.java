@@ -1,10 +1,10 @@
 package ncr.res.mobilepos.uiconfig.constants;
 
-import ncr.res.mobilepos.helper.Logger;
-
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+
+import ncr.res.mobilepos.helper.Logger;
 
 
 /**
@@ -22,16 +22,12 @@ public class UiConfigProperties {
     private static final String KEY_CUSTOM_MAINTENANCE_BASE_PATH = "customMaintenanceBasePath";
     private static final String KEY_CUSTOM_RESOURCE_BASE_PATH = "customResourceBasePath";
     private static final String KEY_SCHEDULE_FILE_PATH = "scheduleFilePath";
-    private static final String KEY_STORES_CSV_FILE_PATH = "storesCsvFilePath";
-    private static final String KEY_DEPLOY_STATUS_FILE_PATH = "deployStatusFilePath";
 
     // Absolute path to 'custom'.
     private String customMaintenanceBasePath;
     private String customResourceBasePath;
     // Relative paths.
     private String scheduleFilePath;
-    private String storesCsvFilePath;
-    private String deployStatusFilePath;
 
     /**
      * Constructor.
@@ -52,9 +48,6 @@ public class UiConfigProperties {
         customMaintenanceBasePath = loadProperty(KEY_CUSTOM_MAINTENANCE_BASE_PATH, context);
         customResourceBasePath = loadProperty(KEY_CUSTOM_RESOURCE_BASE_PATH, context);
         scheduleFilePath = loadProperty(KEY_SCHEDULE_FILE_PATH, context);
-
-        storesCsvFilePath = loadProperty(KEY_STORES_CSV_FILE_PATH, context);
-        deployStatusFilePath = loadProperty(KEY_DEPLOY_STATUS_FILE_PATH, context);
     }
 
     /**
@@ -97,29 +90,8 @@ public class UiConfigProperties {
         return customResourceBasePath;
     }
 
-    public String getStoreCsvFilePath() {
-        return storesCsvFilePath;
-    }
-
-    public String getDeployStatusFileName() {
-        return deployStatusFilePath;
-    }
-
     public String getScheduleFilePath() {
         return scheduleFilePath;
-    }
-
-    // Getters for full paths.
-    public String getStoresCsvFileFullPath() {
-        return customResourceBasePath + storesCsvFilePath;
-    }
-
-    public String getScheduleFileFullPath() {
-        return customResourceBasePath + scheduleFilePath;
-    }
-
-    public String getDeployStatusFileFullPath() {
-        return customResourceBasePath + deployStatusFilePath;
     }
 
 }

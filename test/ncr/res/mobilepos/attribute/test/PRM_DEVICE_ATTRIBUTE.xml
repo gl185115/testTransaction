@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<table name="PRM_DEVICE_ATTRIBUTE">
+		<column>AttributeId</column>
+		<column>Description</column>
+		<column>Printer</column>
+		<column>Till</column>
+		<column>CreditTerminal</column>
+		<column>MSR</column>
+		<column>CashChanger</column>
+		<column>Attribute1</column>
+		<column>Attribute2</column>
+		<column>Attribute3</column>
+		<column>Attribute4</column>
+		<column>Attribute5</column>
+		<column>Attribute6</column>
+		<column>Attribute7</column>
+		<column>Attribute8</column>
+		<column>Attribute9</column>
+		<column>Attribute10</column>
+
+		<row>
+			<value>1</value>
+			<value>??????</value>
+			<value>1</value>
+			<value>Auto</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<null />
+			<null />
+		</row>
+	</table>
+</dataset>

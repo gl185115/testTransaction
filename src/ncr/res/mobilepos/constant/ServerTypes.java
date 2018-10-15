@@ -1,17 +1,29 @@
 package ncr.res.mobilepos.constant;
 /**
- * Server Types.
+ * Server Types enum for SERVERTYPE on Windows Environment Variables.
  */
-public final class ServerTypes {
-	/** Default Constructor. */
-    private ServerTypes() {    	
-    }
+public enum ServerTypes {
+	ENTERPRISE("ENTERPRISE"), STORE("STORE");
+
 	/**
-	 * Enterprise Server
+	 * Server type.
 	 */
-    public static final String ENTERPRISE = "ENTERPRISE";
+	private final String serverType;
+
 	/**
-	 * Host/Store Server
+	 * ServerType constructor.
+	 * @param serverType
 	 */
-    public static final String STORE = "STORE";
+	ServerTypes(String serverType) {
+		this.serverType = serverType;
+	}
+
+	/**
+	 *
+	 * @param serverType
+	 * @return
+	 */
+	public boolean equalsIgnoreCase(String serverType) {
+		return this.serverType.equalsIgnoreCase(serverType);
+	}
 }

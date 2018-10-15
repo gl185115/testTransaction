@@ -30,10 +30,20 @@ public class Till{
     @XmlElement(name = "TillId")
     private String tillId;
     /**
+     * Device Name
+     */
+    @XmlElement(name = "DeviceName")
+    private String deviceName;
+    /**
      * Transaction business day date.
      */
     @XmlElement(name = "BusinessDayDate")
     private String businessDayDate;
+    /**
+     * Transaction save business day date.
+     */
+    @XmlElement(name = "SaveBusinessDayDate")
+    private String saveBusinessDayDate;
     /**
      * Start of day flag. (0: not finished, 9: in SOD processing, 1: finished)
      */
@@ -60,12 +70,12 @@ public class Till{
      * Update operator code
      */
     @XmlElement(name = "OperatorId")
-    private String updOpeCode;   
+    private String updOpeCode;
     /**
-     * Update SOD flag state. 
+     * Update SOD flag state.
      * (1) Allow "SOD" processing
      * (2) Already finish "SOD"
-     * (3) Other tablet is in the "SOD" processing. 
+     * (3) Other tablet is in the "SOD" processing.
      */
     @XmlElement(name = "State")
     private String state;
@@ -75,6 +85,12 @@ public class Till{
     @XmlElement(name = "TerminalId")
     private String terminalId;
     
+    /**
+     * EodSummary
+     */
+    @XmlElement(name = "EodSummary")
+    private String eodSummary;
+
     @ApiModelProperty(value="会社コード", notes="会社コード")
 	public String getCompanyId() {
 		return companyId;
@@ -82,12 +98,12 @@ public class Till{
 	public void setCompanyId(String companyId) {
 		this.companyId = companyId;
 	}
-	
+
     @ApiModelProperty(value="店舗コード", notes="店舗コード")
 	public final String getStoreId() {
 		return storeId;
 	}
-	
+
 	public final void setStoreId(String storeId) {
 		this.storeId = storeId;
 	}
@@ -99,7 +115,15 @@ public class Till{
 	public final void setTillId(String tillId) {
 		this.tillId = tillId;
 	}
-
+	
+    @ApiModelProperty(value="現時点の業務日付", notes="現時点の業務日付")
+	public final String getSaveBusinessDayDate() {
+		return saveBusinessDayDate;
+	}
+	public final void setSaveBusinessDayDate(String saveBusinessDayDate) {
+		this.saveBusinessDayDate = saveBusinessDayDate;
+	}
+	
     @ApiModelProperty(value="営業日", notes="営業日")
 	public final String getBusinessDayDate() {
 		return businessDayDate;
@@ -119,7 +143,7 @@ public class Till{
     @ApiModelProperty(value="短いSODフラグ", notes="短いSODフラグ")
     public final short getSodFlagAsShort() {
         return Short.parseShort(this.sodFlag);
-    }	
+    }
 
     @ApiModelProperty(value="EODフラグ", notes="EODフラグ")
 	public final String getEodFlag() {
@@ -128,12 +152,12 @@ public class Till{
 	public final void setEodFlag(String eodFlag) {
 		this.eodFlag = eodFlag;
 	}
-	
+
     @ApiModelProperty(value="短いEODフラグ", notes="短いEODフラグ")
     public final short getEodFlagAsShort() {
         return Short.parseShort(this.eodFlag);
     }
-	
+
     @ApiModelProperty(value="登録日時", notes="登録日時")
 	public final String getInsDate() {
 		return insDate;
@@ -178,9 +202,27 @@ public class Till{
 	public final String getTerminalId() {
 		return this.terminalId;
 	}
-	
+
 	public final void setTerminalId(String terminalId) {
 		this.terminalId = terminalId;
+	}
+
+    @ApiModelProperty(value="端末名称", notes="端末名称")
+	public final String getDeviceName() {
+		return this.deviceName;
+	}
+
+	public final void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
+	
+    @ApiModelProperty(value="集計済フラグ", notes="集計済フラグ")
+	public final String getEodSummary() {
+		return this.eodSummary;
+	}
+
+	public final void setEodSummary(String eodSummary) {
+		this.eodSummary = eodSummary;
 	}
 
     /**
@@ -196,6 +238,7 @@ public class Till{
         this.companyId = sourceTill.companyId;
         this.storeId = sourceTill.storeId;
         this.tillId = sourceTill.tillId;
+        this.deviceName = sourceTill.deviceName;
         this.businessDayDate = sourceTill.businessDayDate;
         this.sodFlag = sourceTill.sodFlag;
         this.eodFlag = sourceTill.eodFlag;

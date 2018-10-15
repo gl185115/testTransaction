@@ -33,8 +33,8 @@ if (request.getParameter("s") != null) {
 <div>
   <label>企業番号
     <select name="companyID" id="companyID">
-      <option value="01" selected>XEBIO</option>
-      <option value="02">VICTORIA</option>
+      <option value="01" selected>SAMPLE</option>
+      <option value="02">SPORTSTORE02</option>
     </select>
   </label>
   <label>店番号

@@ -1,0 +1,19 @@
+Scenario: Get Item Price (Single Sale)
+Given entries for item_price in database
+Given I have Item resource
+When I get item by plu using 01 0247 2017-02-28 ({"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2017-02-28T23:37:17","Status":"","EndDateTime":"2017-02-28T23:37:17","Sales": [{"ItemID":"0000906082902"}]})
+Then I should get the following:
+|actualprice|
+|24000.0|
+
+When I get item by plu using 01 0247 2017-02-28 ({"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2017-02-28T23:37:17","Status":"","EndDateTime":"2017-02-28T23:37:17","Sales": [{"ItemID":"0000906086610"}]})
+Then I should get the following:
+|actualprice|
+|23000.0|
+
+Scenario: Get Item Price (Multiple Sale)
+When I get item by plu using 01 0247 2017-02-28 ({"TransactionMode":"0","OperatorID":"9011011","BeginDateTime":"2017-02-28T23:37:17","Status":"","EndDateTime":"2017-02-28T23:37:17","Sales": [{"ItemID":"0000906082902"}, {"ItemID":"0000906086610"}]})
+Then I should get the following:
+|actualprice|
+|24000.0|
+|23000.0|

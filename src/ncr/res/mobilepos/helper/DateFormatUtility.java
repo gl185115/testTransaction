@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.helper;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -117,5 +118,9 @@ public final class DateFormatUtility {
         	myCalendar.add(Calendar.DATE, daysToAdd);     	
         	return dateFormatter.format(myCalendar.getTime());
         } 	
+    }
+    
+    public static final Date parseDate(String date,String format) throws ParseException {
+        return new SimpleDateFormat(format).parse(date);
     }
 }

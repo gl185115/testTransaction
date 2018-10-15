@@ -46,8 +46,12 @@ public final class TxTypes {
      */
     public static final String NOTAVAILABLE = "NA";
 
+    public static final String EODCASHOUT = "EodCashOut";
     public static final String OTHER = "Other";
     public static final String SALES = "Sales";
+    public static final String GIFTCARDINQUIRY = "GiftCardInquiry";
+    public static final String GIFTCARDRECHARGE = "GiftCardRecharge";
+    public static final String CHARGECANCEL = "ChargeCancel";
     public static final String ECSALES = "ECSales";
     public static final String RETURN = "Return";
     public static final String ECRETURN = "ECReturn";
@@ -59,6 +63,7 @@ public final class TxTypes {
     public static final String PICKUP = "Pickup";
     public static final String SUMMARY_RECEIPT = "SummaryReceipt";
     public static final String RECEIPT_REPRINT = "ReceiptReprint";
+    public static final String GIFT_RECEIPT = "GiftReceipt";
     public static final String PAYIN = "PayIn";
     public static final String SIGNON = "SignOn";
     public static final String SIGNOFF = "SignOff";
@@ -103,4 +108,12 @@ public final class TxTypes {
     public static final String CASHINVOID = "CashInVoid";
     public static final String CASHOUTVOID = "CashOutVoid";
     public static final String SUSPEND = "Suspend";
+    public static final String RESUME = "Resume";
+    public static final String STOREEOD = "StoreEod";
+    public static final String DAILYREPORT = "ReportDaily";
+    public static final String OPESUMDAY = "ReportOpeSumday";
+    public static final String SUMTIME = "ReportSumTime";
+    public static final String GROUPSUMDAY = "ReportGrpSumday";
+    public static final String DPTSUMDAY = "ReportDptSumday";
+    public static final String GUESTSUMDAY = "ReportGuestSumday";
 }

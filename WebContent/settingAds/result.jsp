@@ -15,7 +15,7 @@ public static String trimToEmpty(String str) {
 <%!
 //String型をsql.Date型に変換する
 public static java.sql.Date toDate(String value) {
-    if ( value == null || value == "" ) {
+    if ( value == null || value.isEmpty() ) {
         return null;
     }
     String format = "yyyy/MM/dd";

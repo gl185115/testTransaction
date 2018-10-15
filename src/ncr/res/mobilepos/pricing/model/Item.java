@@ -30,9 +30,9 @@ public class Item {
     public static final int ROUND_OFF = 3;
 
     // tax options
-    public static final int TAX_EXCLUDED = 0;
-    public static final int TAX_INCLUDED = 1;
-    public static final int TAX_FREE = 2;
+    public static final String TAX_EXCLUDED = "0";
+    public static final String TAX_INCLUDED = "1";
+    public static final String TAX_FREE = "2";
     
     @XmlElement(name = "ItemID")
     private String itemId;
@@ -65,20 +65,29 @@ public class Item {
     private int taxRate;
 
     @XmlElement(name = "TaxType")
-    private int taxType;
+    private String taxType;
 
+    @XmlElement(name = "DptTaxType")
+    private String dptTaxType;
+    
+    @XmlElement(name = "LineTaxType")
+    private String lineTaxType;
+    
+    @XmlElement(name = "ClsTaxType")
+    private String clsTaxType;
+    
     @XmlElement(name = "DiscountType")
-    private int discountType = 0;
+    private String discountType;
     
     @XmlElement(name = "SubNum1")
     private int subNum1 = 0;
 
     @ApiModelProperty(value="部門割引タイプ", notes="部門割引タイプ")
-    public int getDptDiscountType() {
+    public String getDptDiscountType() {
         return dptDiscountType;
     }
 
-    public void setDptDiscountType(int dptDiscountType) {
+    public void setDptDiscountType(String dptDiscountType) {
         this.dptDiscountType = dptDiscountType;
     }
 
@@ -107,8 +116,35 @@ public class Item {
     @XmlElement(name = "promotionNo")
     private String promotionNo;
     
+    @XmlElement(name = "PromotionType")
+    private String promotionType;
+    
     @XmlElement(name = "MdType")
     private String mdType = "";
+    
+    @XmlElement(name = "HostFlag")
+    private int hostFlag;
+    
+    @XmlElement(name = "SalesNameSource")
+    private String salesNameSource;
+    
+    @ApiModelProperty(value="ホスト登録フラグ", notes="ホスト登録フラグ")
+    public int getHostFlag() {
+        return hostFlag;
+    }
+
+    public void setHostFlag(int hostFlag) {
+        this.hostFlag = hostFlag;
+    }
+    
+    @ApiModelProperty(value="商品名取得フラグ", notes="商品名取得フラグ")
+    public String getSalesNameSource() {
+        return salesNameSource;
+    }
+
+    public void setSalesNameSource(String salesNameSource) {
+        this.salesNameSource = salesNameSource;
+    }
     
     @ApiModelProperty(value="商品区分", notes="商品区分")
     public String getMdType() {
@@ -168,7 +204,10 @@ public class Item {
     
     @XmlElement(name = "MdNameLocal")
     private String mdNameLocal = "";
-    
+
+    @XmlElement(name = "MdName")
+    private String mdName = "";
+
     @XmlElement(name = "MdKanaName")
     private String mdKanaName = "";
     
@@ -206,7 +245,7 @@ public class Item {
     }
 
     @XmlElement(name = "DptDiscountType")
-    private int dptDiscountType = 0;
+    private String dptDiscountType;
     
     @XmlElement(name = "DiacountRate")
     private double diacountRate = 0;
@@ -286,6 +325,9 @@ public class Item {
     
     @XmlElement(name = "DptNameLocal")
     private String dptNameLocal;
+
+    @XmlElement(name = "DptName")
+    private String dptName;
     
     @XmlElement(name = "ClassNameLocal")
     private String classNameLocal;
@@ -322,6 +364,37 @@ public class Item {
     
     @XmlElement(name ="BrandName")
     private String brandName;
+    
+    @XmlElement(name ="CategoryCode")
+    private String categoryCode;
+
+    @XmlElement(name ="LabelPrice")
+    private Double labelPrice;
+    
+    @XmlElement(name = "MagazineCode")
+    private String magazineCode;
+    
+    @XmlElement(name = "PublishingCode")
+    private String publishingCode;
+    
+    @XmlElement(name = "TaxTypeSource")
+    private String taxTypeSource;
+    
+    @XmlElement(name = "DiscountTypeSource")
+    private String discountTypeSource;
+    
+    public String getTaxTypeSource() {
+        return taxTypeSource;
+    }
+    public void setTaxTypeSource(String taxTypeSource) {
+        this.taxTypeSource = taxTypeSource;
+    }
+    public String getDiscountTypeSource() {
+        return discountTypeSource;
+    }
+    public void setDiscountTypeSource(String discountTypeSource) {
+        this.discountTypeSource = discountTypeSource;
+    }
     
     @ApiModelProperty(value="カラー名称(カナ)", notes="カラー名称(カナ)")
     public String getColorkananame() {
@@ -434,13 +507,34 @@ public class Item {
     @XmlElement(name = "dptSubCode1")
     private String dptSubCode1;
     
+    @XmlElement(name = "dptSubNum1")
+    private String dptSubNum1;
+    
+    @XmlElement(name = "dptSubNum2")
+    private String dptSubNum2;
+    
+    @XmlElement(name = "dptSubNum3")
+    private String dptSubNum3;
+    
+    @XmlElement(name = "dptSubNum4")
+    private String dptSubNum4;
+    
     @ApiModelProperty(value="日本語大分類名称", notes="日本語大分類名称")
     public String getDptNameLocal() {
         return dptNameLocal;
-    }
+    }    
 
     public void setDptNameLocal(String dptNameLocal) {
         this.dptNameLocal = dptNameLocal;
+    }
+
+	@ApiModelProperty(value="本語大分類名称", notes="本語大分類名称")
+	public String getDptName() {
+        return dptName;
+    }
+
+    public void setDptName(String dptName) {
+        this.dptName = dptName;
     }
 
     @ApiModelProperty(value="日本語クラス名称", notes="日本語クラス名称")
@@ -477,6 +571,42 @@ public class Item {
 
     public void setDptSubCode1(String dptSubCode1) {
         this.dptSubCode1 = dptSubCode1;
+    }
+    
+    @ApiModelProperty(value="電子マネー利用可否フラグ", notes="電子マネー利用可否フラグ")
+    public String getDptSubNum1() {
+        return dptSubNum1;
+    }
+
+    public void setDptSubNum1(String dptSubNum1) {
+        this.dptSubNum1 = dptSubNum1;
+    }
+    
+    @ApiModelProperty(value="Point付与対象フラグ", notes="Point付与対象フラグ")
+    public String getDptSubNum2() {
+        return dptSubNum2;
+    }
+
+    public void setDptSubNum2(String dptSubNum2) {
+        this.dptSubNum2 = dptSubNum2;
+    }
+    
+    @ApiModelProperty(value="Point利用対象フラグ", notes="Point利用対象フラグ")
+    public String getDptSubNum3() {
+        return dptSubNum3;
+    }
+
+    public void setDptSubNum3(String dptSubNum3) {
+        this.dptSubNum3 = dptSubNum3;
+    }
+    
+    @ApiModelProperty(value="Point累計購入金額連携対象フラグ", notes="Point累計購入金額連携対象フラグ")
+    public String getDptSubNum4() {
+        return dptSubNum4;
+    }
+
+    public void setDptSubNum4(String dptSubNum4) {
+        this.dptSubNum4 = dptSubNum4;
     }
 
     @ApiModelProperty(value="JANコード価格", notes="JANコード価格")
@@ -966,6 +1096,15 @@ public class Item {
         this.mdNameLocal = mdNameLocal;
     }
 
+    @ApiModelProperty(value="本語商品名", notes="本語商品名")
+    public String getMdName() {
+        return mdName;
+    }
+
+    public void setMdName(String mdName) {
+        this.mdName = mdName;
+    }
+
     @ApiModelProperty(value="半角カナ商品名", notes="半角カナ商品名")
     public String getMdKanaName() {
         return mdKanaName;
@@ -1045,6 +1184,15 @@ public class Item {
 
     public void setPromotionNo(String promotionNo) {
         this.promotionNo = promotionNo;
+    }
+    
+    @ApiModelProperty(value="設定区分", notes="設定区分")
+    public String getPromotionType() {
+        return promotionType;
+    }
+
+    public void setPromotionType(String promotionType) {
+        this.promotionType = promotionType;
     }
 
     @ApiModelProperty(value="プレミアム商品NO", notes="プレミアム商品NO")
@@ -1166,6 +1314,7 @@ public class Item {
         this.md15 = item.getMd15();
         this.md16 = item.getMd16();
         this.mdNameLocal = item.getMdNameLocal();
+		this.mdName = item.getMdName();
         this.mdKanaName = item.getMdKanaName();
         this.salesPrice2 =item.getSalesPrice2();
         this.paymentType = item.getPaymentType();
@@ -1291,24 +1440,51 @@ public class Item {
     }
 
     @ApiModelProperty(value="課税区分", notes="課税区分")
-    public final int getTaxType() {
+    public final String getTaxType() {
         return this.taxType;
     }
 
-    public final void setTaxType(final int taxType) {
+    public final void setTaxType(final String taxType) {
         this.taxType = taxType;
+    }
+    
+    @ApiModelProperty(value="部門課税区分", notes="部門課税区分")
+    public final String getDptTaxType() {
+        return this.dptTaxType;
+    }
+
+    public final void setDptTaxType(final String dptTaxType) {
+        this.dptTaxType = dptTaxType;
+    }
+    
+    @ApiModelProperty(value="クラス課税区分", notes="クラス課税区分")
+    public final String getClsTaxType() {
+        return this.clsTaxType;
+    }
+
+    public final void setClsTaxType(final String clsTaxType) {
+        this.clsTaxType = clsTaxType;
+    }
+    
+    @ApiModelProperty(value="中分類課税区分", notes="中分類課税区分")
+    public final String getLineTaxType() {
+        return this.lineTaxType;
+    }
+
+    public final void setLineTaxType(final String lineTaxType) {
+        this.lineTaxType = lineTaxType;
     }
 
     @ApiModelProperty(value="値引許可フラグ", notes="値引許可フラグ")
-    public final int getDiscountType() {
+    public final String getDiscountType() {
         return this.discountType;
     }
 
-    public final void setDiscountType(final int discountType) {
+    public final void setDiscountType(final String discountType) {
         this.discountType = discountType;
 
         // set discountable
-        this.discountable = (this.discountType == 0);
+        this.discountable = ("0".equals(this.discountType));
     }
 
     @ApiModelProperty(value="非販売", notes="非販売")
@@ -1508,7 +1684,139 @@ public class Item {
 	public final void setBrandName(String brandName) {
 		this.brandName = brandName;
 	}
+	
+    @ApiModelProperty(value="Cコード", notes="Cコード")
+    public final String getCategoryCode() {
+        return categoryCode;
+    }
 
+    public final void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+    
+    @ApiModelProperty(value="アベル価格", notes="アベル価格")
+    public final Double getLabelPrice() {
+        return labelPrice;
+    }
+
+    public final void setLabelPrice(Double labelPrice) {
+        this.labelPrice = labelPrice;
+    }
+
+    @ApiModelProperty(value="雑誌コード", notes="雑誌コード")
+    public final String getMagazineCode() {
+        return magazineCode;
+    }
+
+    public final void setMagazineCode(String magazineCode) {
+        this.magazineCode = magazineCode;
+    }
+    
+    @ApiModelProperty(value="出版社コード", notes="出版社コード")
+    public final String getPublishingCode() {
+        return publishingCode;
+    }
+
+    public final void setPublishingCode(String publishingCode) {
+        this.publishingCode = publishingCode;
+    }
+
+    @XmlElement(name = "PointAddFlag")
+    private String pointAddFlag;
+
+    @XmlElement(name = "PointUseFlag")
+    private String pointUseFlag;
+
+    @XmlElement(name = "TaxExemptFlag")
+    private String taxExemptFlag;
+
+    @XmlElement(name = "SaleSizeCode")
+    private String saleSizeCode;
+
+    @XmlElement(name = "SizePatternId")
+    private String sizePatternId;
+
+    @XmlElement(name ="BrandSaleName")
+    private String brandSaleName;
+
+    @ApiModelProperty(value="ポイント付与対象フラグ", notes="ポイント付与対象フラグ")
+    public final String getPointAddFlag() {
+        return pointAddFlag;
+    }
+
+    public final void setPointAddFlag(String pointAddFlag) {
+        this.pointAddFlag = pointAddFlag;
+    }
+
+    @ApiModelProperty(value="ポイント利用対象フラグ", notes="ポイント利用対象フラグ")
+    public final String getPointUseFlag() {
+        return pointUseFlag;
+    }
+
+    public final void setPointUseFlag(String pointUseFlag) {
+        this.pointUseFlag = pointUseFlag;
+    }
+
+    @ApiModelProperty(value="免税対象フラグ", notes="免税対象フラグ")
+    public final String getTaxExemptFlag() {
+        return taxExemptFlag;
+    }
+
+    public final void setTaxExemptFlag(String taxExemptFlag) {
+        this.taxExemptFlag = taxExemptFlag;
+    }
+
+    @ApiModelProperty(value="コードサイズ", notes="コードサイズ")
+    public final String getSaleSizeCode() {
+        return saleSizeCode;
+    }
+
+    public final void setSaleSizeCode(final String saleSizeCode) {
+        this.saleSizeCode = saleSizeCode;
+    }
+
+    @ApiModelProperty(value="コードサイズID", notes="コードサイズID")
+    public final String getSizePatternId() {
+        return sizePatternId;
+    }
+
+    public final void setSizePatternId(final String sizePatternId) {
+        this.sizePatternId = sizePatternId;
+    }
+
+    @ApiModelProperty(value="ブランド名称", notes="ブランド名称")
+    public final String getBrandSaleName() {
+		return brandSaleName;
+	}
+
+	public final void setBrandSaleName(String brandSaleName) {
+		this.brandSaleName = brandSaleName;
+	}
+	
+    @XmlElement(name = "clsDiscountType")
+    private String clsDiscountType;
+	
+    @XmlElement(name = "lineDiscountType")
+    private String lineDiscountType;
+    
+    @ApiModelProperty(value="中分類割引タイプ", notes="中分類割引タイプ")
+    public String getLineDiscountType() {
+        return lineDiscountType;
+    }
+
+    public void setLineDiscountType(String lineDiscountType) {
+        this.lineDiscountType = lineDiscountType;
+    }
+    
+    @ApiModelProperty(value="クラス割引タイプ", notes="クラス割引タイプ")
+    public String getClsDiscountType() {
+        return clsDiscountType;
+    }
+
+    public void setClsDiscountType(String clsDiscountType) {
+        this.clsDiscountType = clsDiscountType;
+    }
+    
 	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();

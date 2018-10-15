@@ -1,7 +1,0 @@
-Given an uninitialized Report result
-Then I should have a xml report result {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><reportResult><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode></reportResult>}
-When I set its Message {message}
-Then its Message is : {message}
-When I set its Report {report}
-Then its Report is : {report}
-Then I should have a xml report result {<?xml version="1.0" encoding="UTF-8" standalone="yes"?><reportResult><message>message</message><NCRWSSExtendedResultCode>0</NCRWSSExtendedResultCode><NCRWSSResultCode>0</NCRWSSResultCode><report>report</report></reportResult>}

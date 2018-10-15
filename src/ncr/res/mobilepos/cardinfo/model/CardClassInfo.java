@@ -34,6 +34,8 @@ public class CardClassInfo {
 	private String rankType;
 	@XmlElement(name = "CardStatusType")
 	private String cardStatusType;
+	@XmlElement(name = "SubCode1")
+	private String subcode1;
 	
 	public final void setCompanyId(String companyId) {
 		this.companyId = companyId;
@@ -133,6 +135,16 @@ public class CardClassInfo {
 	@ApiModelProperty(value="カード状態区分", notes="カード状態区分")
     public final String getCardStatusType() {
         return cardStatusType;
+        
+    }
+    public final void setSubCode1(String subcode1) {
+        this.subcode1 = subcode1;
+        
+    }
+
+	@ApiModelProperty(value="カード番号先頭", notes="カード番号先頭")
+    public final String getSubCode1() {
+        return subcode1;
         
     }
 }

@@ -58,6 +58,10 @@ public class DptConst {
 	 */
 	public static final String COL_TAX_TYPE = "TaxType";
 	/**
+	 * Column name for SubCode1
+	 */
+	public static final String COL_SUBCODE1_FLAG = "SubCode1";
+	/**
 	 * Column name for SubNum1
 	 */
 	public static final String COL_SUBNUM1_FLAG = "SubNum1";
@@ -69,6 +73,10 @@ public class DptConst {
 	 * Column name for SubNum3
 	 */
 	public static final String COL_SUBNUM3_FLAG = "SubNum3";
+	/**
+	 * Column name for DptSubNum4
+	 */
+	public static final String COL_SUBNUM4_FLAG = "SubNum4";
 	
 	/**
 	 * Column name for Status
@@ -83,6 +91,19 @@ public class DptConst {
 	 */
 	public static final String ACTIVE_STATUS = "Active";
 	
+	/**
+	 * Column name for InputSubCode1
+	 */
+	public static final String COL_INPUTSUBCODE1_FLAG = "InputSubCode1";
+	/**
+	 * Column for groupName
+	 */
+	public static final String COL_GROUPNAME = "groupName";
+	
+	/**
+	 * Column name for groupId
+	 */
+	public static final String COL_GROUPID = "groupId";
 	/**
 	 * Temporary Values
 	 */

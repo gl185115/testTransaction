@@ -1,9 +1,12 @@
 package ncr.res.mobilepos.tillinfo.resource.test;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import javax.servlet.ServletContext;
 
 import junit.framework.Assert;
 import ncr.res.mobilepos.helper.DBInitiator;
@@ -15,13 +18,13 @@ import ncr.res.mobilepos.tillinfo.resource.TillInfoResource;
 
 import org.dbunit.dataset.DataSetException;
 import org.dbunit.dataset.ITable;
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.definition.ExamplesTable;
-import org.jbehave.scenario.steps.Steps;
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 
 public class ViewTillInfoResourceSteps extends Steps{
 	
@@ -29,7 +32,7 @@ public class ViewTillInfoResourceSteps extends Steps{
     /**
      * StoreResource instance.
      */
-    private TillInfoResource tillResource = null;
+    private TillInfoResource tillInfoResource = null;
     /**
      * Holds store information.
      */
@@ -64,7 +67,16 @@ public class ViewTillInfoResourceSteps extends Steps{
      */
     @Given("a TillResource")
     public final void givenTillResource() {
-    	tillResource = new TillInfoResource();
+    	ServletContext context = Requirements.getMockServletContext();
+    	tillInfoResource = new TillInfoResource();
+        try {
+            Field tillContext = tillInfoResource.getClass().getDeclaredField("servletContext");
+            tillContext.setAccessible(true);
+            tillContext.set(tillInfoResource, context);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Cant load Mock Servlet Context.");
+        } 
     }
 
     /**
@@ -75,7 +87,7 @@ public class ViewTillInfoResourceSteps extends Steps{
      * @param tillID
      *            tillid to lookup.
      */
-    @When("I view till detail of storeid: {$storeID} and tillid: {$tillID}")
+    @When("I view till detail of storeid: $storeID and tillid: $tillID")
     public final void viewStore(String storeID, String tillID) {
     	if(storeID.equalsIgnoreCase("null")){
     		storeID = null;
@@ -83,7 +95,7 @@ public class ViewTillInfoResourceSteps extends Steps{
     	if(tillID.equalsIgnoreCase("null")){
     		tillID = null;
     	}
-        viewTill = tillResource.viewTill(storeID, tillID);
+        viewTill = tillInfoResource.viewTill(storeID, tillID);
     }
 
     /**

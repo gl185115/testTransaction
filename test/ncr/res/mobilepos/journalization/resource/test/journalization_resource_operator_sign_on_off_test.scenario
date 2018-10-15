@@ -1,111 +1,158 @@
-Scenario:  Save journal for Operator Sign On Transaction (with creating new entry in TXU_POS_CTRL)
-Given a Journalization Resource
+!-- SIGN-ON SCENARIO with Existing Device
+Scenario: New entry in TXU_POS_CTRL, Update LastTxId of Device
+Given a RESMaster DBInitiator
+Given MST_DEVICEINFO table
+Then RESMaster MST_DEVICEINFO database table should have the following row(s):
+|StoreId	|TerminalId	|CompanyId	|LastTxId	|Training	|Status		|
+|0031   	|1111      	|01    		|0			|0			|Active		|
+|0031   	|4567      	|01    		|0			|0			|Active		|
+|0031   	|5001      	|01    		|0			|0			|Active		|
+|0031   	|5002      	|01    		|0			|0			|Active		|
 Given a RESTransaction DBInitiator
 Given TXL_SALES_JOURNAL is empty
 Given a TXU_POS_CTRL_Empty table database
-When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator"/></ControlTransaction></Transaction></POSLog>}
-	and operatorno{111}
-Then result should be {OK}
+Then the TXU_POS_CTRL database table should have the following row(s):
+|StoreId|TerminalNo|OpeCode|
+Given a Journalization Resource
+When executing journal log with xml <POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID OperatorName="îƒópîÃîÑàı3" OperatorNameKana=" ›÷≥ › ﬁ≤≤›3">001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
 Then txid should be 1234
-Then status should be {OK}
-Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
 Then the TXL_SALES_JOURNAL database table should have the following row(s):
 |RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
-|0031         |1111         |1234          |2014-04-07     |2014-04-07 09:00:42.0|SignOn|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
+|0031         |1111         |1234          |2014-04-07     |2014-04-07 09:00:42.0|SignOn|A010    |<POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID OperatorName="îƒópîÃîÑàı3" OperatorNameKana=" ›÷≥ › ﬁ≤≤›3">001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog>|
 Then the TXU_POS_CTRL database table should have the following row(s):
 |StoreId|TerminalNo|OpeCode|
 |0031   |1111      |001    |
+Then RESMaster MST_DEVICEINFO database table should have the following row(s):
+|StoreId	|TerminalId	|CompanyId	|LastTxId	|Training	|Status		|
+|0031   	|1111      	|01    		|1234		|0			|Active		|
+|0031   	|4567      	|01    		|0			|0			|Active		|
+|0031   	|5001      	|01    		|0			|0			|Active		|
+|0031   	|5002      	|01    		|0			|0			|Active		|
 
-Scenario:  Save journal for Operator Sign On Transaction (with updating an entry in TXU_POS_CTRL)
-Given a Journalization Resource
-Given a RESTransaction DBInitiator
+!-- SIGN-ON SCENARIOS with Non-Existing Device
+Scenario: New entry in TXU_POS_CTRL, Ignore update LastTxId of device
+Given RESMaster MST_DEVICEINFO_Empty table
+Then RESMaster MST_DEVICEINFO database table should have the following row(s):
+|StoreId	|TerminalId	|CompanyId	|LastTxId	|Training	|Status		|
 Given TXL_SALES_JOURNAL is empty
-Given a TXU_POS_CTRL_SignOnSignOff table database
-When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator"/></ControlTransaction></Transaction></POSLog>}
-    and operatorno{111}
-Then result should be {OK}
+Given a TXU_POS_CTRL_Empty table database
+When executing journal log with xml <POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID OperatorName="îƒópîÃîÑàı3" OperatorNameKana=" ›÷≥ › ﬁ≤≤›3">001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
 Then txid should be 1234
-Then status should be {OK}
-Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
 Then the TXL_SALES_JOURNAL database table should have the following row(s):
 |RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
-|0031         |1111         |1234          |2014-04-07     |2014-04-07 09:00:42.0|SignOn|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
+|0031         |1111         |1234          |2014-04-07     |2014-04-07 09:00:42.0|SignOn|A010    |<POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID OperatorName="îƒópîÃîÑàı3" OperatorNameKana=" ›÷≥ › ﬁ≤≤›3">001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog>|
+Then the TXU_POS_CTRL database table should have the following row(s):
+|StoreId|TerminalNo|OpeCode|
+|0031   |1111      |001    |
+Then RESMaster MST_DEVICEINFO database table should have the following row(s):
+|StoreId	|TerminalId	|CompanyId	|LastTxId	|Training	|Status		|
+
+Scenario: Updating entry in TXU_POS_CTRL
+Given TXL_SALES_JOURNAL is empty
+Given a TXU_POS_CTRL_SignOnSignOff table database
+Then the TXU_POS_CTRL database table should have the following row(s):
+|StoreId|TerminalNo|OpeCode|
+|0031   |1111      |NULL   |
+|0031   |2222      |111    |
+When executing journal log with xml <?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
+Then txid should be 1234
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx
+|0031         |1111         |1234          |2014-04-07     |2014-04-07 09:00:42.0|SignOn|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog>
 Then the TXU_POS_CTRL database table should have the following row(s):
 |StoreId|TerminalNo|OpeCode|
 |0031   |1111      |001    |
 |0031   |2222      |111    |
 
-Scenario:  Save journal for Operator Sign Off Transaction (with creating new entry in TXU_POS_CTRL)
-Given a Journalization Resource
-Given a RESTransaction DBInitiator
+Scenario: With SoftwareVersion BusinessUnit and EventLog
+Given a TXU_SOFTWARE_VERSION_Empty table database
+When executing journal log with xml <?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0247</RetailStoreID><WorkstationID TerminalType="1">0004</WorkstationID><SequenceNumber>1071</SequenceNumber><BusinessDayDate>2016-08-16</BusinessDayDate><BeginDateTime>2017-01-26T20:59:48</BeginDateTime><OperatorID OperatorName="îƒópîÃîÑàı3" OperatorNameKana=" ›÷≥ › ﬁ≤≤›3">9011011</OperatorID><ReceiptDateTime>2017-01-26T20:59:48</ReceiptDateTime><TillID>02470004</TillID><BusinessUnit Name="äùèÍí¨ìX" VoucherName="äùèÍí¨ìX"><Telephone><FullTelephoneNumber>000-1111-2222</FullTelephoneNumber><VoucherTelephoneNumber>000-1111-2222</VoucherTelephoneNumber></Telephone><Address>ìåãûìsíÜâõãÊêVêÏ 0-0-0</Address></BusinessUnit><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator"><SoftwareVersion>{&quot;Container&quot;:&quot;5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&quot;,&quot;RESTabletUI&quot;:&quot;3.2.0.13.&quot;,&quot;RESUiConfig&quot;:&quot;3.2.0.13.&quot;,&quot;RESTransaction&quot;:&quot;3.2.0.7-SNAPSHOT(2016/10/12)&quot;}</SoftwareVersion></OperatorSignOn></ControlTransaction></Transaction><EventLog>[{"to":"https://localhost:8443/resTransaction/rest/transaction/saveposlogxml","count":1,"stamp":1485431960518,"response":"&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;&lt;POSLogResp&gt;&lt;NCRWSSExtendedResultCode&gt;0&lt;/NCRWSSExtendedResultCode&gt;&lt;NCRWSSResultCode&gt;0&lt;/NCRWSSResultCode&gt;&lt;Status&gt;0&lt;/Status&gt;&lt;TxID&gt;1070&lt;/TxID&gt;&lt;/POSLogResp&gt;"},{"source":"core","context":"Credential","event":"credential.signOut.successful","stamp":1485431960519,"data":"null"}]</EventLog></POSLog> and trainingmode 0
+Then result should be OK 
+Then txid should be 1071
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 2 row(s)
+Then the TXL_SALES_JOURNAL database table should have the following row(s):
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType|ServerId|Tx|
+|0031         |1111         |1234          |2014-04-07     |2014-04-07 09:00:42.0|SignOn|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1234</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator" /></ControlTransaction></Transaction></POSLog>|
+|0247         |0004         |1071          |2016-08-16     |2017-01-26 20:59:48.0|SignOn|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOn</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0247</RetailStoreID><WorkstationID TerminalType="1">0004</WorkstationID><SequenceNumber>1071</SequenceNumber><BusinessDayDate>2016-08-16</BusinessDayDate><BeginDateTime>2017-01-26T20:59:48</BeginDateTime><OperatorID OperatorName="îƒópîÃîÑàı3" OperatorNameKana=" ›÷≥ › ﬁ≤≤›3">9011011</OperatorID><ReceiptDateTime>2017-01-26T20:59:48</ReceiptDateTime><TillID>02470004</TillID><BusinessUnit Name="äùèÍí¨ìX" VoucherName="äùèÍí¨ìX"><Telephone><FullTelephoneNumber>000-1111-2222</FullTelephoneNumber><VoucherTelephoneNumber>000-1111-2222</VoucherTelephoneNumber></Telephone><Address>ìåãûìsíÜâõãÊêVêÏ 0-0-0</Address></BusinessUnit><ControlTransaction Version="2.2"><OperatorSignOn Accountability="Operator"><SoftwareVersion>{&quot;Container&quot;:&quot;5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36&quot;,&quot;RESTabletUI&quot;:&quot;3.2.0.13.&quot;,&quot;RESUiConfig&quot;:&quot;3.2.0.13.&quot;,&quot;RESTransaction&quot;:&quot;3.2.0.7-SNAPSHOT(2016/10/12)&quot;}</SoftwareVersion></OperatorSignOn></ControlTransaction></Transaction><EventLog>[{"to":"https://localhost:8443/resTransaction/rest/transaction/saveposlogxml","count":1,"stamp":1485431960518,"response":"&lt;?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?&gt;&lt;POSLogResp&gt;&lt;NCRWSSExtendedResultCode&gt;0&lt;/NCRWSSExtendedResultCode&gt;&lt;NCRWSSResultCode&gt;0&lt;/NCRWSSResultCode&gt;&lt;Status&gt;0&lt;/Status&gt;&lt;TxID&gt;1070&lt;/TxID&gt;&lt;/POSLogResp&gt;"},{"source":"core","context":"Credential","event":"credential.signOut.successful","stamp":1485431960519,"data":"null"}]</EventLog></POSLog>|
+Then the TXU_POS_CTRL database table should have the following row(s):
+|StoreId|TerminalNo|OpeCode|
+|0031   |1111      |001    |
+|0031   |2222      |111    |
+|0247   |0004      |9011011|
+Then the TXU_SOFTWARE_VERSION database table should have the following row(s):
+|CompanyId|StoreId|TerminalId|Container|MobileShop|RESTransaction|RESTabletUI|RESUiConfig|
+|01			|0247	|0004	|5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.89 Safari/537.36|null|3.2.0.7-SNAPSHOT(2016/10/12)|3.2.0.13.|3.2.0.13.|
+
+!-- SIGN-OFF SCENARIOS
+Scenario: New entry in TXU_POS_CTRL, Ignore update LastTxId of device
 Given TXL_SALES_JOURNAL is empty
 Given a TXU_POS_CTRL_Empty table database
-When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>}
-	and operatorno{111}
-Then result should be {OK}
+When executing journal log with xml <?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator" /></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
 Then txid should be 1235
-Then status should be {OK}
-Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
 Then the TXL_SALES_JOURNAL database table should have the following row(s):
-|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType |ServerId|Tx
-|0031         |1111          |1235          |2014-04-07    |2014-04-07 09:00:42.0|SignOff|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
+|RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType |ServerId|Tx|
+|0031         |1111          |1235          |2014-04-07    |2014-04-07 09:00:42.0|SignOff|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator" /></ControlTransaction></Transaction></POSLog>|
 Then the TXU_POS_CTRL database table should have the following row(s):
 |StoreId|TerminalNo|OpeCode|
-|0031   |1111      |null   |
+|0031   |1111      |NULL   |
 
-Scenario:  Save journal for Operator Sign Off Transaction (with updating an entry in TXU_POS_CTRL)
-Given a Journalization Resource
-Given a RESTransaction DBInitiator
+Scenario: Updating entry in TXU_POS_CTRL
 Given TXL_SALES_JOURNAL is empty
 Given a TXU_POS_CTRL_SignOnSignOff table database
-When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>}
-    and operatorno{111}
-Then result should be {OK}
+When executing journal log with xml <?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator" /></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
 Then txid should be 1235
-Then status should be {OK}
-Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
 Then the TXL_SALES_JOURNAL database table should have the following row(s):
 |RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType |ServerId|Tx
-|0031         |1111          |1235          |2014-04-07    |2014-04-07 09:00:42.0|SignOff|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
+|0031         |1111          |1235          |2014-04-07    |2014-04-07 09:00:42.0|SignOff|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>SignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1235</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><OperatorSignOff Accountability="Operator" /></ControlTransaction></Transaction></POSLog>
 Then the TXU_POS_CTRL database table should have the following row(s):
 |StoreId|TerminalNo|OpeCode|
-|0031   |1111      |null   |
+|0031   |1111      |NULL   |
 |0031   |2222      |111    |
 
-Scenario:  Save journal for Operator Auto Sign Off Transaction (with creating new entry in TXU_POS_CTRL)
-Given a Journalization Resource
-Given a RESTransaction DBInitiator
+!-- AUTOMATIC SIGN-OFF SCENARIOS
+Scenario: New entry in TXU_POS_CTRL, Ignore update LastTxId of device
 Given TXL_SALES_JOURNAL is empty
 Given a TXU_POS_CTRL_Empty table database
-When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>}
-	and operatorno{111}
-Then result should be {OK}
+When executing journal log with xml <?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>AutoSignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
 Then txid should be 1236
-Then status should be {OK}
-Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
 Then the TXL_SALES_JOURNAL database table should have the following row(s):
 |RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType     |ServerId|Tx
-|0031         |1111          |1236          |2014-04-07    |2014-04-07 09:00:42.0|AutoOff    |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
+|0031         |1111          |1236          |2014-04-07    |2014-04-07 09:00:42.0|AutoSignOff|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>AutoSignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
 Then the TXU_POS_CTRL database table should have the following row(s):
 |StoreId|TerminalNo|OpeCode|
-|0031   |1111      |null   |
+|0031   |1111      |NULL   |
 
-Scenario:  Save journal for Operator Auto Sign Off Transaction (with updating an entry in TXU_POS_CTRL)
-Given a Journalization Resource
-Given a RESTransaction DBInitiator
+Scenario: Updating entry in TXU_POS_CTRL
 Given TXL_SALES_JOURNAL is empty
 Given a TXU_POS_CTRL_SignOnSignOff table database
-When executing journal log with xml{<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>}
-    and operatorno{111}
-Then result should be {OK}
+When executing journal log with xml <?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>AutoSignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog> and trainingmode 0
+Then result should be OK 
 Then txid should be 1236
-Then status should be {OK}
-Then table {TXL_SALES_JOURNAL} will have {1} row(s)
+Then status should be OK 
+Then table TXL_SALES_JOURNAL will have 1 row(s)
 Then the TXL_SALES_JOURNAL database table should have the following row(s):
 |RetailStoreId|WorkstationId|SequenceNumber|BusinessDayDate|SystemDateTime       |TxType     |ServerId|Tx
-|0031         |1111          |1236          |2014-04-07    |2014-04-07 09:00:42.0|AutoOff    |A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
+|0031         |1111          |1236          |2014-04-07    |2014-04-07 09:00:42.0|AutoSignOff|A010    |<?xml version="1.0" encoding="UTF-8" ?><POSLog><Transaction><TransactionType>AutoSignOff</TransactionType><OrganizationHierarchy Level="äîéÆâÔé–" ID="01" /><RetailStoreID>0031</RetailStoreID><WorkstationID>1111</WorkstationID><SequenceNumber>1236</SequenceNumber><BusinessDayDate>2014-04-07</BusinessDayDate><BeginDateTime>2014-04-07T09:00:42</BeginDateTime><OperatorID>001</OperatorID><ReceiptDateTime>2014-04-07T09:00:44</ReceiptDateTime><TillID>0</TillID><ControlTransaction Version="2.2"><AutoSignoff Accountability="Operator"/></ControlTransaction></Transaction></POSLog>
 Then the TXU_POS_CTRL database table should have the following row(s):
 |StoreId|TerminalNo|OpeCode|
-|0031   |1111      |null   |
+|0031   |1111      |NULL   |
 |0031   |2222      |111    |
-

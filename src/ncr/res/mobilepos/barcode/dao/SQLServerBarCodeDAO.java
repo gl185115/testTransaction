@@ -19,7 +19,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
 	/**
@@ -102,7 +102,7 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
                 }
                 JSONObject valueResult = new JSONObject();
                 valueResult.put("companyId", resultSet.getString("CompanyId"));
-                valueResult.put("storeId", resultSet.getString("StoreId"));
+                valueResult.put("storeId", storeId);
                 valueResult.put("cardType", resultSet.getString("CardType"));
                 valueResult.put("seqNo", resultSet.getString("SeqNo"));
                 valueResult.put("subNo", resultSet.getString("SubNo"));
@@ -129,10 +129,6 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
             barcodeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);
             barcodeInfo.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
             barcodeInfo.setMessage(ResultBase.RES_SUCCESS_MSG);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get Discount infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerBarCodeDAO.getDiscountInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Discount infomation.",
                     sqlEx);
@@ -198,10 +194,6 @@ public class SQLServerBarCodeDAO extends AbstractDao implements IBarCodeDAO{
             }
             flagArray.put("flag",flag);
             flagArray.put("newRegistFlag",newRegistFlag);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get Discount infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerBarCodeDAO.getDiscountInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get Discount infomation.",
                     sqlEx);

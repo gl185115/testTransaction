@@ -1,0 +1,68 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="AUT_DEVICES">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Uuid</column>
+		<column>Udid</column>
+		<column>State</column>
+		<column>LastActiveTime</column>
+		<column>ActiveValidUntil</column>
+		<column>SignStatus</column>
+		<column>SignTid</column>
+		<column>SignActivationKey</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0001</value>
+			<value>07435e7b-8838-4b35-9f63-94ba567b9cc7</value>
+			<value>0000000000000000000000000000000000000000</value>
+			<value>1</value>
+			<value>2017-03-10 11:08:05.373</value>
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0002</value>
+			<value>a8aac8e5-8e4f-4c7d-9fcc-c1ef56448e96</value>
+			<value>0000000000000000000000000000000000000000</value>
+			<value>1</value>
+			<value>2017-03-07 11:41:05.187</value>
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0003</value>
+			<value>3f6230e5-05e9-4d79-8553-e82fdf928b84</value>
+			<value>0000000000000000000000000000000000000000</value>
+			<value>1</value>
+			<value>2017-03-10 15:38:05.417</value>
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<value>2d557f24-1de8-4573-887f-56bde0dbdd9f</value>
+			<value>0000000000000000000000000000000000000000</value>
+			<value>1</value>
+			<value>2017-03-10 16:11:44.963</value>
+			<null />
+			<value>1</value>
+			<null />
+			<null />
+		</row>
+	</table>
+</dataset>

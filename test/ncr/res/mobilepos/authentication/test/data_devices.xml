@@ -1,0 +1,455 @@
+<dataset>
+	<!-- ITEMS -->
+	<table name="AUT_DEVICES">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Uuid</column>
+		<column>Udid</column>
+		<column>State</column>
+		<column>LastActiveTime</column>
+		<column>ActiveValidUntil</column>
+		<column>SignStatus</column>
+		<column>SignTid</column>
+		<column>SignActivationKey</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<value>3248bf2c-17ff-4481-8270-aadf0b766934</value>
+			<value>0000000000000000000000000000000000000000</value>
+			<value>1</value>
+			<value>2016-06-20 10:23:48.220</value>
+			<null />
+			<value>1</value>
+			<value></value>
+			<value></value>
+		</row>
+	</table>
+
+	<table name="MST_DEVICEINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Training</column>
+		<column>DeviceName</column>
+		<column>AttributeId</column>
+		<column>PrinterId</column>
+		<column>TillId</column>
+		<column>LinkPosTerminalId</column>
+		<column>LinkQueueBuster</column>
+		<column>LinkAuthorization</column>
+		<column>LinkSignature</column>
+		<column>SendLogFile</column>
+		<column>SaveLogFile</column>
+		<column>AutoUpload</column>
+		<column>LastTxId</column>
+		<column>LastSuspendTxId</column>
+		<column>EjSequence</column>
+		<column>Status</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<value>0</value>
+			<value>POS#4</value>
+			<value>4</value>
+			<value>0001</value>
+			<value>02470003</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value></value>
+			<value>3</value>
+			<value>40</value>
+			<value>0</value>
+			<value>1335</value>
+			<value>2</value>
+			<value>0</value>
+			<value>Active</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2016-03-14 13:54:24.6462188</value>
+			<value>system</value>
+			<value>system</value>
+			<value>4</value>
+			<value>2016-06-14 15:28:40.6230000</value>
+			<value>system</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0003</value>
+			<value>0</value>
+			<value>POS#3</value>
+			<value>3</value>
+			<value>0003</value>
+			<value>02470003</value>
+			<value>0</value>
+			<value>0001</value>
+			<value></value>
+			<value></value>
+			<value>3</value>
+			<value>40</value>
+			<value>0</value>
+			<value>545</value>
+			<value>36</value>
+			<value>0</value>
+			<value>Active</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>20</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2016-03-14 13:54:24.6462188</value>
+			<value>system</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-14 14:05:29.3422373</value>
+			<value>system</value>
+			<value>system</value>
+		</row>
+	</table>
+
+	<table name="MST_PRINTERINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>PrinterId</column>
+		<column>PrinterName</column>
+		<column>IpAddress</column>
+		<column>PortNumTcp</column>
+		<column>PortNumUdp</column>
+		<column>Description</column>
+		<column>Status</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0004</value>
+			<value>NCR Printer</value>
+			<value>192.168.11.146</value>
+			<value>9100</value>
+			<value>0</value>
+			<value>NCR 7197</value>
+			<value>Active</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2016-03-14 11:13:58.7975517</value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-14 13:57:47.5158841</value>
+			<value>usp_IF_MaintPrinterInfo</value>
+			<value>system</value>
+		</row>
+	</table>
+
+	<table name="MST_CORP_STORE">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>StoreName</column>
+		<column>PassCode</column>
+		<column>Permission</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>NCR港北</value>
+			<value></value>
+			<value>1</value>
+		</row>
+	</table>
+	<table name="MST_COMPANYINFO">
+		<column>CompanyId</column>
+		<column>CompanyName</column>
+		<column>CompanyKanaName</column>
+		<column>CompanyShortName</column>
+		<column>CompanyShortKanaName</column>
+		<column>DisplayOrder</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>株式会社</value>
+			<value>NCR</value>
+			<value>NCR</value>
+			<value>NCR</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2015-11-01 00:00:00.0000000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+		</row>
+	</table>
+	<table name="MST_TERMINALINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>FloorId</column>
+		<column>TerminalName</column>
+		<column>IPAddress</column>
+		<column>StoreClass</column>
+		<column>TerminalType</column>
+		<column>TillType</column>
+		<column>RelationType</column>
+		<column>ConnectionFlag1</column>
+		<column>ConnectionFlag2</column>
+		<column>ConnectionFlag3</column>
+		<column>ConnectionFlag4</column>
+		<column>ConnectionFlag5</column>
+		<column>ConnectionFlag6</column>
+		<column>ConnectionFlag7</column>
+		<column>ConnectionFlag8</column>
+		<column>ConnectionFlag9</column>
+		<column>ConnectionFlag10</column>
+		<column>ConnectionFlag11</column>
+		<column>ConnectionFlag12</column>
+		<column>ConnectionFlag13</column>
+		<column>ConnectionFlag14</column>
+		<column>ConnectionFlag15</column>
+		<column>LogoFileName</column>
+		<column>InshiFileName</column>
+		<column>Note</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0003</value>
+			<value>03</value>
+			<value>POS#3</value>
+			<value>
+			</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>1</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\logo\\01_SportStore\\B.bmp</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\Stamp\\Stamp01.bmp</value>
+			<value></value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\ReceiptStamp\\ReceiptStamp01.bmp</value>
+			<value>C:\\software\\ncr\\res\\cust\\para\\bitmap\\QRCode\\</value>
+			<value>\\MeXEntDB1Xbo\BitmapFile\Logo\01_SportStore\XSE”Å.bmp</value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-01-28 14:59:44.3970000</value>
+			<value>manual</value>
+			<value>manual</value>
+			<value>0</value>
+			<value>2016-01-28 14:59:44.3970000</value>
+			<value>manual</value>
+			<value>manual</value>
+		</row>
+	</table>
+	<table name="PRM_DEVICE_ATTRIBUTE">
+		<column>AttributeId</column>
+		<column>Description</column>
+		<column>Printer</column>
+		<column>Till</column>
+		<column>CreditTerminal</column>
+		<column>MSR</column>
+		<column>CashChanger</column>
+		<column>Attribute1</column>
+		<column>Attribute2</column>
+		<column>Attribute3</column>
+		<column>Attribute4</column>
+		<column>Attribute5</column>
+		<column>Attribute6</column>
+		<column>Attribute7</column>
+		<column>Attribute8</column>
+		<column>Attribute9</column>
+		<column>Attribute10</column>
+		<row>
+			<value>3</value>
+			<value>iPad</value>
+			<value>1</value>
+			<value>Auto</value>
+			<value>1</value>
+			<value>2</value>
+			<value>0</value>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value></value>
+		</row>
+		<row>
+			<value>4</value>
+			<value>iPad</value>
+			<value>1</value>
+			<value>Auto</value>
+			<value>1</value>
+			<value>2</value>
+			<value>0</value>
+			<value>2</value>
+			<value>1</value>
+			<value>1</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value></value>
+		</row>
+
+	</table>
+</dataset>

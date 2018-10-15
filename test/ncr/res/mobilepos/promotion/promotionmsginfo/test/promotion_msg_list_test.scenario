@@ -1,0 +1,94 @@
+Scenario: test PromotionMsgInfo 
+Given a loaded dataset test/ncr/res/mobilepos/promotion/promotionmsginfo/test/data_promotionMsg.xml
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+
+Scenario: check retailStoreId or workStationId or sequenceNumber or transaction or companyId or businessDate isNullOrEmpty.
+When check the list with companyId  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":1000,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":2,"Amount":1200,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 154
+
+Scenario: the transaction is wrong.
+When check the list with companyId 01 retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Item":[{"itemcode":"111111111111","Qty":1,"Amount":1000,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":2,"Amount":1200,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 151
+
+Scenario: promotionMsgInfoList.size() < 1.
+Given I have PromotionMsg Resource companyid 03 storeid 0001
+When check the list with companyId 03 retailstoreid 0001 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":1000,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":2,"Amount":1200,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 0
+
+Scenario: the PromotionType is 1 and Price > MinimumPrice.
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":1000,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":2,"Amount":1200,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody         |MdName|
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇP|XXXXX |
+
+Scenario: the one item hits one promotion message
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":1000,"Dpt":"3333","MdName":"XXXXX"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody         |MdName|
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇP|XXXXX |
+
+Scenario: the one item hits two promotion message
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":3000,"Dpt":"3333","MdName":"XXXXX"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody         |MdName|
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇP|XXXXX |
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|XXXXX |
+
+Scenario: the two item hits same promotion message
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":3000,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":1,"Amount":3000,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody         |MdName|
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇP|XXXXX |
+|222222222222|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|YYYYY |
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|XXXXX |
+
+Scenario: same item exists another records hits only one time
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":3000,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":1,"Amount":3000,"Dpt":"3333","MdName":"YYYYY"},{"itemcode":"111111111111","Qty":2,"Amount":6000,"Dpt":"3333","MdName":"XXXXX"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody         |MdName|
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇP|XXXXX |
+|222222222222|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|YYYYY |
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|XXXXX |
+
+
+Scenario: all items amount < minimumprice
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":999,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":1,"Amount":2999,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 0
+
+Scenario: the two items amount >= minimumprice
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"111111111111","Qty":1,"Amount":999,"Dpt":"3333","MdName":"XXXXX"},{"itemcode":"222222222222","Qty":1,"Amount":2001,"Dpt":"3333","MdName":"YYYYY"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody         |MdName|
+|222222222222|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|YYYYY |
+|111111111111|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇS|XXXXX |
+
+Scenario: hits the itemcode by wild card
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"333339999999","Qty":1,"Amount":1000,"Dpt":"0003","MdName":"xxxxx"},{"itemcode":"333330000000","Qty":1,"Amount":1000,"Dpt":"0002","MdName":"yyyyy"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody           |MdName|
+|333339999999|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇPÇO|xxxxx |
+|333330000000|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇPÇO|yyyyy |
+
+
+Scenario: hits the itemcode by dpt
+Given I have PromotionMsg Resource companyid 01 storeid 0247
+When check the list with companyId 01  retailstoreid 0247 workstationid 1 sequencenumber 123 businessDate 2017-06-01 transaction {"Items":[{"itemcode":"333339999999","Qty":1,"Amount":1000,"Dpt":"0003","MdName":"xxxxx"},{"itemcode":"333330000000","Qty":1,"Amount":1000,"Dpt":"0001","MdName":"yyyyy"}]}
+Then the Result Code is 0
+Then I should get the PromotionMsgInfoList : 
+|itemCode    |MessageBody           |MdName|
+|333339999999|ÉÅÉbÉZÅ[ÉWÅ@ÇOÇPÅ|ÇPÇO|xxxxx |

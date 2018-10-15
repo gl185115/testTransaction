@@ -1,0 +1,89 @@
+Scenario: GiftCard test (QueryMember) for toppan-gift.xml file does not exist.
+Given toppan-gift.xml file does not exist.
+When I test queryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 138
+
+Scenario: GiftCard test (sales) for toppan-gift.xml file does not exist.
+Given toppan-gift.xml file does not exist.
+When I test sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 138
+
+Scenario: GiftCard test (cancel) for toppan-gift.xml file does not exist.
+Given toppan-gift.xml file does not exist.
+When I test cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 138
+
+Scenario: GiftCard test (activate) for toppan-gift.xml file does not exist.
+Given toppan-gift.xml file does not exist.
+When I test activate with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 138
+
+Scenario: GiftCard test (charge) for toppan-gift.xml file does not exist.
+Given toppan-gift.xml file does not exist.
+When I test charge with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} campaign true privatebrand 1
+Then I should get the result: 138
+
+Scenario: GiftCard test (queryMember) for toppan-gift.xml file exists and giftcard service not started.
+Given toppan-gift.xml file exists.
+When I test queryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 151
+
+Scenario: GiftCard test (sales) for toppan-gift.xml file and giftcard service not started.
+Given toppan-gift.xml file exists.
+When I test sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 151
+
+Scenario: GiftCard test (cancel) for toppan-gift.xml file and giftcard service not started.
+Given toppan-gift.xml file exists.
+When I test cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 151
+
+Scenario: GiftCard test (activate) for toppan-gift.xml file and giftcard service not started.
+Given toppan-gift.xml file exists.
+When I test activate with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the result: 151
+
+Scenario: GiftCard test (charge) for toppan-gift.xml file and giftcard service not started.
+Given toppan-gift.xml file exists.
+When I test charge with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} campaign true privatebrand 1
+Then I should get the result: 151
+
+Scenario: GiftCard test (queryMember) for toppan-gift.xml exists and mockito giftcard service started.
+Given toppan-gift.xml file exists.
+Given I assume external library, CenterAccess returns normal result.
+When I test queryMember with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand null
+Then I should get the GiftResult :
+|PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
+|100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
+
+Scenario: GiftCard test (sales) for toppan-gift.xml and mockito giftcard service started.
+Given toppan-gift.xml file exists.
+Given I assume external library, CenterAccess returns normal result.
+When I test sales with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the GiftResult :
+|PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
+|100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
+
+Scenario: GiftCard test (cancel) for toppan-gift.xml and mockito giftcard service started.
+Given toppan-gift.xml file exists.
+Given I assume external library, CenterAccess returns normal result.
+When I test cancel with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the GiftResult :
+|PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
+|100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
+
+Scenario: GiftCard test (activate) for toppan-gift.xml and mockito giftcard service started.
+Given toppan-gift.xml file exists.
+Given I assume external library, CenterAccess returns normal result.
+When I test activate with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} privatebrand 1
+Then I should get the GiftResult :
+|PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
+|100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |
+
+Scenario: GiftCard test (charge) for toppan-gift.xml and mockito giftcard service started.
+Given toppan-gift.xml file exists.
+Given I assume external library, CenterAccess returns normal result.
+When I test charge with storeid 001 workstationid 0001 transactionid 1 test false giftcard {"JIS1":"JIS1-39 9012345678901234567890123456789","JIS2":"JIS2","Amount":"100","PIN":"PIN","TransactionId":"1"} campaign true privatebrand 1
+Then I should get the GiftResult :
+|PriorAmount|CurrentAmount|ErrorCode|SubErrorCode|AuthorizationNumber|ExpirationDate|ActivationStatus|ExpirationStatus|LostStatus|
+|100        |200          |0        |0           |01                 |2017-04-18    |0               |0               |0         |

@@ -1,0 +1,57 @@
+!-- check required parameters
+
+Scenario: Check required parameters - storeId is null
+Given a TillInfoResource Resource
+When I get list of tills with retailstoreid:null
+Then ResultCode should be 154
+!-- 154 = invalid parameter
+
+Scenario: Check required parameters - retailstoreid is empty
+Given a TillInfoResource Resource
+When I get list of tills with retailstoreid:{}
+Then ResultCode should be 154
+!-- 154 = invalid parameter
+
+Scenario: Success (Empty Table)
+Given a RESMaster DBInitiator
+Given a MST_TILLIDINFO_EMPTY dataset
+When I get list of tills with retailstoreid:9999
+Then ResultCode should be 157
+!-- 157 = database data was not found
+Then MST_TILLIDINFO should have the following row(s): 
+|CompanyId	|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|DeleteFlag	|
+
+Scenario: Success (Deleted Tills)
+Given a MST_TILLIDINFO_DELETED dataset
+Then MST_TILLIDINFO should have the following row(s): 
+|CompanyId	|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|DeleteFlag	|
+|01			|9999		|99995000	|5000		|2014-12-01		|0		|1		|1			|
+|01			|9999		|99995001	|5001		|2014-11-14		|1		|9		|0			|
+When I get list of tills with retailstoreid:9999
+Then ResultCode should be 0
+Then I should get the following tills: 
+|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|9999		|99995001	|5001		|2014-11-14		|1		|9		|
+
+
+Scenario: Success (Active Tills)
+Given a MST_TILLIDINFO dataset
+Then MST_TILLIDINFO should have the following row(s): 
+|CompanyId	|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|DeleteFlag	|
+|01			|000031		|000031		|000031		|2014-11-14		|0		|0		|0			|
+|01			|9999		|99995000	|5000		|2014-12-01		|0		|1		|0			|
+|01			|9999		|99995001	|5001		|2014-11-14		|1		|9		|0			|
+|01			|9999		|99995002	|5002		|2014-11-14		|1		|0		|0			|
+|01			|9999		|99995003	|5003		|2014-11-14		|1		|0		|0			|
+|01			|9999		|99995004	|5004		|2014-11-13		|1		|0		|0			|
+|01			|es185		|es134		|es134		|1989-03-02		|9		|9		|0			|
+When I get list of tills with retailstoreid:9999
+Then ResultCode should be 0
+Then I should get the following tills: 
+|StoreId	|TillId  	|TerminalId	|BusinessDayDate|SodFlag|EodFlag|
+|9999		|99995000	|5000		|2014-12-01		|0		|1		|
+|9999		|99995001	|5001		|2014-11-14		|1		|9		|
+|9999		|99995002	|5002		|2014-11-14		|1		|0		|
+|9999		|99995003	|5003		|2014-11-14		|1		|0		|
+|9999		|99995004	|5004		|2014-11-13		|1		|0		|
+

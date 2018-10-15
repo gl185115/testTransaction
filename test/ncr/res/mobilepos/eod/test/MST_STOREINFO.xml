@@ -1,0 +1,153 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_STOREINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>StoreName</column>
+		<column>StoreShortName</column>
+		<column>StoreType</column>
+		<column>StoreKubun</column>
+		<column>StoreZip</column>
+		<column>StoreAddr</column>
+		<column>StoreAddr1</column>
+		<column>StoreAddr2</column>
+		<column>StoreTel</column>
+		<column>StoreFax</column>
+		<column>StoreUrl</column>
+		<column>SalesSpaceName</column>
+		<column>EventName</column>
+		<column>Ads</column>
+		<column>CdMsg</column>
+		<column>ElectroFilePath</column>
+		<column>StampTaxFilePath</column>
+		<column>StoreCompCode</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubCode6</column>
+		<column>SubCode7</column>
+		<column>SubCode8</column>
+		<column>SubCode9</column>
+		<column>SubCode10</column>
+		<column>SubCode11</column>
+		<column>SubCode12</column>
+		<column>SubCode13</column>
+		<column>SubCode14</column>
+		<column>SubCode15</column>
+		<column>SubCode16</column>
+		<column>SubCode17</column>
+		<column>SubCode18</column>
+		<column>SubCode19</column>
+		<column>SubCode20</column>
+		<column>SubCode21</column>
+		<column>SubCode22</column>
+		<column>SubCode23</column>
+		<column>SubCode24</column>
+		<column>SubCode25</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>SubNum6</column>
+		<column>SubNum7</column>
+		<column>SubNum8</column>
+		<column>SubNum9</column>
+		<column>SubNum10</column>
+		<column>SubNum11</column>
+		<column>SubNum12</column>
+		<column>SubNum13</column>
+		<column>SubNum14</column>
+		<column>SubNum15</column>
+		<column>HostUpdDate</column>
+		<column>Status</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>茅場町</value>
+			<value>カヤバチョウ</value>
+			<null />
+			<value>3</value>
+			<value>111-1111</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value>000-1111-2222</value>
+			<value>000-1111-3333</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>01</value>
+			<value>1102</value>
+			<value></value>
+			<value>062</value>
+			<value>0053</value>
+			<value>茅場町店</value>
+			<value>000-1111-2222</value>
+			<value>990</value>
+			<value>【店舗控え】</value>
+			<value>【商品添付】</value>
+			<value></value>
+			<value></value>
+			<value>19991111</value>
+			<value>0700</value>
+			<value>茅場町店</value>
+			<value>東京都中央区新川</value>
+			<value>0-0-0</value>
+			<value>02</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>2</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>2015-11-12 07:31:37.280</value>
+			<value>Active</value>
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2015-11-12 07:31:37.0957695</value>
+			<value>usp_IF_MaintStoreInfo</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2015-11-12 07:31:37.0957695</value>
+			<value>usp_IF_MaintStoreInfo</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

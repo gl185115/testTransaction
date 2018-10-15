@@ -1,15 +1,21 @@
 <!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
 <dataset>
 	<table name="MST_TILLIDINFO">
+		<column>CompanyId</column>
 		<column>StoreId</column>
 		<column>TillId</column>
 		<column>TerminalId</column>
 		<column>BusinessDayDate</column>
+		<column>SaveBusinessDayDate</column>
 		<column>SodFlag</column>
 		<column>EodFlag</column>
+		<column>DeleteFlag</column>
 		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
 		<column>UpdDate</column>
 		<column>UpdAppId</column>
 		<column>UpdOpeCode</column>
+		<column>UpdCount</column>
 	</table>
 </dataset>

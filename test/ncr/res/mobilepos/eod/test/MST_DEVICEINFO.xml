@@ -1,0 +1,87 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_DEVICEINFO">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>TerminalId</column>
+		<column>Training</column>
+		<column>DeviceName</column>
+		<column>AttributeId</column>
+		<column>PrinterId</column>
+		<column>TillId</column>
+		<column>LinkPosTerminalId</column>
+		<column>LinkQueueBuster</column>
+		<column>LinkAuthorization</column>
+		<column>LinkSignature</column>
+		<column>SendLogFile</column>
+		<column>SaveLogFile</column>
+		<column>AutoUpload</column>
+		<column>LastTxId</column>
+		<column>LastSuspendTxId</column>
+		<column>EjSequence</column>
+		<column>Status</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>0001</value>
+			<value>0</value>
+			<value>POS#0001テスト</value>
+			<value>4</value>
+			<value>0001</value>
+			<value>02470001</value>
+			<value>0</value>
+			<value>1</value>
+			<value></value>
+			<value></value>
+			<value>3</value>
+			<value>40</value>
+			<value>0</value>
+			<value>1335</value>
+			<value>2</value>
+			<value>0</value>
+			<value>Active</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<value></value>
+			<value></value>
+			<value>2016-03-14 13:54:24.6462188</value>
+			<value>system</value>
+			<value>system</value>
+			<value>4</value>
+			<value>2016-06-14 15:28:40.6230000</value>
+			<value>system</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

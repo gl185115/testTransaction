@@ -1,0 +1,27 @@
+Scenario: TXL_SALES_JOURNAL no data.
+Given a loaded dataset txl_sales_journal_nodata
+When a check status with consolidation true transfer true
+Then a consolidationResult is 0
+Then a transferResult is 0
+
+Scenario: consolidation is true and transfer is true
+Given a loaded dataset txl_sales_journal
+When a check status with consolidation true transfer true
+Then a consolidationResult is 1
+Then a transferResult is 2
+
+Scenario: consolidation is false and transfer is true
+Given a loaded dataset txl_sales_journal
+When a check status with consolidation false transfer true
+Then a transferResult is 2
+
+Scenario: consolidation is true and transfer is false
+Given a loaded dataset txl_sales_journal
+When a check status with consolidation true transfer false
+Then a consolidationResult is 1
+
+Scenario: consolidation is false and transfer is false
+Given a loaded dataset txl_sales_journal
+When a check status with consolidation false transfer false
+Then a resultCode is 154
+Then a resultExtendedCode is 154

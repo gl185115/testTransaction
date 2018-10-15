@@ -87,15 +87,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
     /** The Trace Printer. */
     private Trace.Printer tp;
-    /** Number of millisecond per second. */
-    private static final double MILLISECONDS = 1000;
-    /** Number of Seconds per minute. */
-    private static final double SECONDS = 60;
-    /** Number of minutes per hour. */
-    private static final double MINUTES = 60;
-    /** Number of hours per day. */
-    private static final double HOURS = 24;
-
     /**
      * Default constructor. Initializes dbManager and iowriter.
      *
@@ -146,7 +137,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         ResultSet result = null;
         String passcodeDB = "";
         String operatorName = "";
-        String opeName = "", opeNameKana = "";
+        String opeNameKana = "";
 
         try {
             connection = dbManager.getConnection();
@@ -225,17 +216,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 tp.println("Operator not found");
             }
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign on Operator#" + operatorNumber + " : "
-                            + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".signOnOperator - Error SignOn process", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     progName,
@@ -264,72 +244,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         }
 
         return operator;
-    }
-
-    /**
-     * Creates a new operator.
-     *
-     * @param operatorNumber
-     *            The Number of the new Operator
-     * @param passCode
-     *            The Operator's Passcode
-     * @return Error code when error occurred otherwise 0
-     * @throws DaoException
-     *             The Exception thrown when the method fails
-     */
-    public final int createOperator(final String operatorNumber,
-            final String passCode) throws DaoException {
-
-        String functionName = className + "createOperator";
-        tp.methodEnter("createOperator");
-        tp.println("operatorNumber", operatorNumber).println("passCode",
-                passCode);
-
-        int resultCode = 0;
-        Connection connection = null;
-        PreparedStatement insertInto = null;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            insertInto = connection.prepareStatement(sqlStatement
-                    .getProperty("create-operator"));
-
-            insertInto.setString(SQLStatement.PARAM1, operatorNumber);
-            insertInto.setString(SQLStatement.PARAM2, passCode);
-            insertInto.setString(SQLStatement.PARAM3, "NCR");
-            insertInto.setString(SQLStatement.PARAM4, "");
-            insertInto.setString(SQLStatement.PARAM5, "");
-            insertInto.executeUpdate();
-
-            connection.commit();
-
-        /*} catch (DaoException daoEx) {
-            resultCode = 1;
-            iowriter.logAlert(progName, functionName, Logger.RES_EXCEP_DAO,
-                    daoEx.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:createOperator",
-                    daoEx);*/
-        } catch (SQLException sqlEx) {
-            resultCode = 1;
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
-                    sqlEx.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:createOperator",
-                    sqlEx);
-
-        } catch (Exception ex) {
-            resultCode = 1;
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    ex.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:createOperator", ex);
-        } finally {
-            closeConnectionObjects(connection, insertInto, null);
-
-            tp.methodExit(resultCode);
-        }
-
-        return resultCode;
-    }
+    }   
 
     /**
      * Signs Off an operator by specifying the operator number.
@@ -374,16 +289,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             // commit codes here!
             connection.commit();
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign off Operator#" + operatorNumber + ": "
-                            + ex.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".signOffOperator - Error Sign Off process", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(
                     progName,
@@ -463,14 +368,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             }
 
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to check Status of Operator#" + operatorNumber
-                            + ": " + ex.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".checkOperatorStatus", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to check Status of Operator#" + operatorNumber
@@ -545,13 +442,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 operator.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 operator.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get Status of Operator.",
-                    sqlStmtEx);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO.getStatusOfOperator",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progName, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to to get Status of Operator.", sqlEx);
@@ -611,16 +501,11 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 namemasterinfo.setNameId(result.getString("NameId"));
                 namemasterinfo.setNameText(result.getString("NameText"));
                 namemasterinfo.setNameIdName(result.getString("NameIdName"));
+                namemasterinfo.setSubCode1(result.getString("SubCode1"));
+                namemasterinfo.setSubCode2(result.getString("SubCode2"));
                 nmMstInfoLst.add(namemasterinfo);
             }
-        }catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get system name list.",
-                    sqlStmtEx);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO.getSystemNameMaster",
-                    sqlStmtEx);
-        }catch (SQLException sqlEx) {
+        } catch (SQLException sqlEx) {
             LOGGER.logAlert(progName, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get system name list.", sqlEx);
             throw new DaoException(
@@ -728,15 +613,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             operator.setOperatorType(operatorType);
             operator.setPermissions(permission);
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign on Guest Operator#" + operatorNumber
-                            + " : " + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".signOnOperator - Error SignOn process", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to Sign on Guest Operator#" + operatorNumber
@@ -830,12 +706,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 // Add the operator in the list
                 operators.add(operator);
             }
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "List Operators: " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @" + functionName,
-                    ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "List Operators: " + ex.getMessage());
@@ -848,130 +718,7 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
         return operators;
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public final int resetOperatorPasscode(final String retailStoreid,
-            final String operatoreno) throws DaoException {
-
-        int result = 0;
-        String functionName = "SQLServerCredentialDAO.resetOperator";
-        tp.methodEnter("resetOperatorPasscode");
-        tp.println("retailStoreid", retailStoreid).println("operatoreno",
-                operatoreno);
-
-        Connection connection = null;
-        PreparedStatement updOptPasscodePrpStmnt = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            updOptPasscodePrpStmnt = connection.prepareStatement(sqlStatement
-                    .getProperty("reset-operator-passcode"));
-            updOptPasscodePrpStmnt
-                    .setString(SQLStatement.PARAM1, retailStoreid);
-            updOptPasscodePrpStmnt.setString(SQLStatement.PARAM2, operatoreno);
-
-            result = updOptPasscodePrpStmnt.executeUpdate();
-
-            connection.commit();
-
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Resetting Operator Failed: " + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException("SQLStatementException: @" + functionName,
-                    ex);
-        } catch (SQLException ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
-                    "Resetting Operator Failed: " + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException("SQLException: @" + functionName, ex);
-        } finally {
-            closeConnectionObjects(connection, updOptPasscodePrpStmnt, null);
-
-            tp.methodExit(result);
-        }
-
-        return result;
-    }
-
-    @Override
-    public final ViewEmployee viewEmployee(final String retailStoreID,
-            final String operatorID, final boolean isPasscodeHidden)
-            throws DaoException {
-
-        tp.methodEnter("viewEmployee");
-        tp.println("retailStoreID", retailStoreID).println("operatorID",
-                operatorID);
-
-        ViewEmployee empData = new ViewEmployee();
-        Employee employee = new Employee();
-        employee.setNumber(operatorID);
-        employee.setRetailStoreID(retailStoreID);
-
-        Connection connection = null;
-        PreparedStatement selectStmt = null;
-        ResultSet result = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            selectStmt = connection.prepareStatement(sqlStatement
-                    .getProperty("get-employee"));
-            setValues(selectStmt, retailStoreID, operatorID);
-
-            result = selectStmt.executeQuery();
-
-            if (result.next()) {
-                employee.setName(result.getString("OperatorName"));
-                employee.setOperatorType(result.getString("OperatorType"));
-                employee.setWorkStationID(result.getString("TerminalId"));
-
-                if (!isPasscodeHidden) {
-                    employee.setPasscode(result.getString("PassCode"));
-                }
-
-            } else {
-                empData.setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND);
-                tp.println("Operator not found.");
-            }
-
-            empData.setEmployee(employee);
-
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progName, "SQLServerCredentialDAO.viewEmployee",
-                    Logger.RES_EXCEP_SQL, "Failed to view employee# "
-                            + operatorID + " : " + sqlEx.getMessage());
-            throw new DaoException("SQLException: @SQLServerCredentialDAO"
-                    + ".viewEmployee - Error view employee", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, "SQLServerCredentialDAO.viewEmployee",
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to view employee#"
-                            + operatorID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".viewEmployee - Error view employee", sqlStmtEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(progName, "SQLServerCredentialDAO.viewEmployee",
-                    Logger.RES_EXCEP_GENERAL, "Failed to view employee#"
-                            + operatorID + " : " + ex.getMessage());
-            throw new DaoException("Exception: @SQLServerCredentialDAO"
-                    + ".viewEmployee - Error view employee", ex);
-        } finally {
-            closeConnectionObjects(connection, selectStmt, result);
-
-            tp.methodExit(empData.toString());
-        }
-
-        return empData;
-    }
-
+   
     @Override
     public final ResultBase createEmployee(final String retailStoreID,
             final String operatorID, final Employee employee)
@@ -1110,14 +857,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 tp.println("Operator not found.");
             }
             connection.commit();
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName,
-                    "SQLServerCredentialDAO.deleteEmployee",
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to delete employee\n " + e.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO.deleteEmployee", e);
-            throw new DaoException("SQLServerCredentialDAO: @deleteEmployee ",
-                    e);
         } catch (SQLException e) {
             LOGGER.logAlert(progName,
                     "SQLServerCredentialDAO.deleteEmployee",
@@ -1243,13 +982,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 connection.commit();
             }
             newEmpInfo.setEmployee(newEmp);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, sqlStmtEx.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:updateEmployee",
-                    sqlStmtEx);
-            throw new DaoException("SQLStatementException: @updateEmployee ",
-                    sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     sqlEx.getMessage());
@@ -1283,85 +1015,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         }
 
         return newEmpInfo;
-    }
-
-    @Override
-    public final ResultBase changePasscode(final String operatorID,
-            final String oldPasscode, final String newPasscode, String updAppId, String updOpeCode)
-            throws DaoException {
-
-        String functionName = "changePasscode";
-        tp.methodEnter(functionName).println("operatorid", operatorID)
-                .println("oldpasscode", oldPasscode)
-                .println("newpasscode", newPasscode);
-
-        ResultBase resultBase = new ResultBase();
-        ResultSet result = null;
-        Connection connection = null;
-        PreparedStatement updateStmt = null;
-
-        if (1 == checkOperatorStatus(operatorID)) {
-            tp.methodExit("Employee " + operatorID
-                    + " is currently logged on. Delete operation aborted.");
-            resultBase
-                    .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE);
-            return resultBase;
-        }
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            updateStmt = connection.prepareStatement(sqlStatement
-                    .getProperty("update-store-operator-passcode"));
-
-            String trimNewPasscode = newPasscode;
-            if (null != newPasscode) {
-                trimNewPasscode = newPasscode.trim();
-            }
-
-            setValues(updateStmt, operatorID, oldPasscode, trimNewPasscode, updAppId,updOpeCode);
-            result = updateStmt.executeQuery();
-
-            if (!result.next()) {
-                resultBase
-                        .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND);
-                tp.println("Operator not found.");
-            } else {
-                String savedPasscode = result.getString("PassCode");
-
-                // Is the passcode updated with the new one?
-                // If no, the old passcode is probably incorrect.
-                if (!savedPasscode.equals(trimNewPasscode)) {
-                    resultBase
-                            .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_PASSCODE_INVALID);
-                    tp.println("Old passcode is incorrect.");
-                }
-            }
-            connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, ex.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:changePasscode", ex);
-            throw new DaoException("SQLStatementException:"
-                    + " @changePasscode", ex);
-        } catch (SQLException ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
-                    ex.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:changePasscode", ex);
-            throw new DaoException("SQLException:" + " @changePasscode", ex);
-        } catch (Exception ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    ex.getMessage());
-            rollBack(connection, "@SQLServerCredentialDAO:changePasscode", ex);
-            throw new DaoException("SQLException:" + " @changePasscode", ex);
-        } finally {
-            closeConnectionObjects(connection, updateStmt, result);
-
-            tp.methodExit(resultBase);
-        }
-
-        return resultBase;
     }
 
     /**
@@ -1407,11 +1060,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                         "No User Group Permission with GroupCode of "
                                 + groupcode);
             }
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to retrieve User Group Permission"
-                            + " with GroupCode of " + groupcode);
         } catch (SQLException e) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to retrieve User Group Permission"
@@ -1429,200 +1077,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         }
         return permission;
     }
-
-    /**
-     * Signs on a SPART operator.
-     *
-     * @param empCode
-     *            Employee's code.
-     * @param password
-     *            Employee's password.
-     * @param terminalId
-     *            ID of the device where the operator account is signed on
-     * @return The number of rows affected in the database during the Signing On
-     * @throws DaoException
-     *             Exception thrown when method fails.
-     */
-    @Override
-    public final Operator credentialSpartLogin(final String empCode,
-            final String password, final String terminalId) throws DaoException {
-
-        String functionName = className + "credentialSpartLogin";
-        tp.methodEnter("credentialSpartLogin");
-        tp.println("EmployeeCode", empCode).println("Password", password)
-                .println("TerminalID", terminalId);
-
-        Operator spartOperator = new Operator();
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        PreparedStatement update = null;
-        PreparedStatement updateTerminal = null;
-        ResultSet result = null;
-        ResultSet resultSubChar = null;
-        String passwordDB = null;
-        String empName = null;
-        String passwordExpiry = null;
-        String configDaysLeft = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-operator-from-spart"));
-            select.setString(SQLStatement.PARAM1, empCode);
-
-            result = select.executeQuery();
-
-            if (!result.next()) {
-                spartOperator
-                        .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND);
-                tp.println("Operator not found");
-                return spartOperator;
-            }
-            int secLevel2Val = result.getInt(result.findColumn("SecLevel2"));
-
-            if (secLevel2Val == Operator.STATUS_INACTIVE) {
-                spartOperator
-                        .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_INACTIVE);
-                tp.println("Spart Operator status is "
-                        + "Inactive with SecLevel2 =  " + secLevel2Val);
-                return spartOperator;
-            }
-            if (secLevel2Val == Operator.STATUS_DELETED) {
-                spartOperator
-                        .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_DELETED);
-                tp.println("Spart Operator status is Deleted"
-                        + "with SecLevel2 =  " + secLevel2Val);
-                return spartOperator;
-            }
-
-            if (secLevel2Val == Operator.STATUS_ACTIVE) {
-                passwordDB = result.getString(result.findColumn("Password"));
-                empName = result.getString(result.findColumn("OpeName"));
-
-                if (passwordDB == null || !passwordDB.equals(password)) {
-                    spartOperator
-                            .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_PASSCODE_INVALID);
-                    tp.println("Invalid passcode");
-                    return spartOperator;
-                }
-
-                int operatorType = result.getInt(result.findColumn("OpeType"));
-                Permissions permissions = new Permissions();
-                permissions.setAdministration(true);
-                permissions.setDrawer(true);
-                permissions.setMerchandise(true);
-                permissions.setReports(true);
-                permissions.setSettings(true);
-                permissions.setTransactions(true);
-
-                updateTerminal = connection.prepareStatement(sqlStatement
-                        .getProperty("update-operator-terminalid"));
-                updateTerminal.setString(SQLStatement.PARAM1, terminalId);
-                updateTerminal.setString(SQLStatement.PARAM2, empCode);
-                updateTerminal.setString(SQLStatement.PARAM3, password);
-                updateTerminal.executeUpdate();
-                update = connection.prepareStatement(sqlStatement
-                        .getProperty("update-sign-on-at-spart"));
-                update.setString(SQLStatement.PARAM1, empCode);
-                resultSubChar = update.executeQuery();
-
-                if (resultSubChar.next()) {
-                    String loggedIn = resultSubChar.getString(resultSubChar
-                            .findColumn("SubChar2"));
-                    configDaysLeft = GlobalConstant.getCredentialDaysLeft();
-                    passwordExpiry = result.getString(result
-                            .findColumn("SubChar1"));
-                    int credentialdayleftwarning = Integer
-                            .valueOf(configDaysLeft);
-                    int daysDifference = 0;
-                    Date expDate = null;
-                    DateFormat formatter = null;
-                    Date today = DateFormatUtility.parse(loggedIn,
-                            "yyyyMMddHHmmss");
-                    if (null == passwordExpiry
-                            || passwordExpiry.isEmpty()
-                            || !DateFormatUtility.isLegalFormat(passwordExpiry,
-                                    "yyyyMMdd")) {
-                        daysDifference = credentialdayleftwarning + 1;
-                        tp.println("Password Expiration Date is invalid.");
-                    } else {
-                        formatter = new SimpleDateFormat("yyyyMMdd");
-                        expDate = (Date) formatter.parse(passwordExpiry);
-                        long d1 = expDate.getTime();
-                        long d2 = today.getTime();
-                        if (today.before(expDate)) {
-                            daysDifference = (int) Math
-                                    .ceil((double) (d1 - d2)
-                                            / (MILLISECONDS * SECONDS * MINUTES * HOURS));
-
-                            // Set Up the necessary information
-                            // during Operator SignOn
-                        } else {
-                            spartOperator
-                                    .setNCRWSSResultCode(ResultBase.RESCREDL_ERROR_OPERATOR_EXPIRED);
-                            tp.println("Password has expired.");
-                            return spartOperator;
-                        }
-                    }
-                    spartOperator.setPermissions(permissions);
-                    spartOperator.setOperatorNo(empCode);
-                    spartOperator.setName(empName);
-                    spartOperator.setOperatorType(operatorType);
-                    spartOperator.setDaysPwdBeforeExpire(String
-                            .valueOf(daysDifference));
-                    // compute number of days left before password expiration
-                    formatter = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-                    spartOperator.setSignOnAt(formatter.format(today));
-                    ((SimpleDateFormat) formatter).applyPattern("MMM dd, ''yy");
-                    spartOperator.setDate(formatter.format(today));
-                }
-            }
-            connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Sign on Operator#" + empCode + " : "
-                            + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException(
-                    "SQLStatementException: @SQLServerCredentialDAO"
-                            + ".credentialSpartLogin - Error SignOn process",
-                    ex);
-        } catch (SQLException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQL,
-                    "Failed to Sign on Operator#" + empCode + " : "
-                            + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException("SQLException: @SQLServerCredentialDAO"
-                    + ".credentialSpartLogin - Error SignOn process", ex);
-        } catch (Exception ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to Sign on Operator#" + empCode + " : "
-                            + ex.getMessage());
-            rollBack(connection, functionName, ex);
-            throw new DaoException("Exception: @SQLServerCredentialDAO"
-                    + ".credentialSpartLogin - Error SignOn process", ex);
-        } finally {
-            closeConnectionObjects(null, select, null);
-            closeConnectionObjects(null, updateTerminal, resultSubChar);
-            closeConnectionObjects(connection, update, result);
-
-            tp.methodExit(spartOperator.toString());
-        }
-        return spartOperator;
-    }
-
 
     private Employee getEmployeeDetails(String strOperatorNo) throws DaoException {
         String functionName = className + "getEmployeeDetails";
@@ -1655,11 +1109,6 @@ public class SQLServerCredentialDAO extends AbstractDao implements
 
             }
 
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to get employee details\n "
-                            + ex.getMessage());
-            throw new DaoException(functionName, ex);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to get employee details: " + ex.getMessage());
@@ -1707,7 +1156,10 @@ public class SQLServerCredentialDAO extends AbstractDao implements
      * @param opeCode
      * @return Authorization
      */
-    public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException {
+    /** CHG BGN íSìñé“å†å¿ÇÃåüèÿ **/
+    //public Authorization getOperatorAuthorization(String companyId, String opeCode) throws DaoException {
+    public Authorization getOperatorAuthorization(String companyId, String opeCode, String opePass) throws DaoException {
+    /** CHG END íSìñé“å†å¿ÇÃåüèÿ **/
         ResultSet resultSet = null;
         Connection connection = null;
         PreparedStatement authorizationStmt = null;
@@ -1715,10 +1167,24 @@ public class SQLServerCredentialDAO extends AbstractDao implements
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            authorizationStmt = connection.prepareStatement(
-                    sqlStatement.getProperty("view-authorization"));
-            authorizationStmt.setString(SQLStatement.PARAM1, companyId);
-            authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
+            /** CHG BGN íSìñé“å†å¿ÇÃåüèÿ **/
+//            authorizationStmt = connection.prepareStatement(
+//                    sqlStatement.getProperty("view-authorization"));
+//            authorizationStmt.setString(SQLStatement.PARAM1, companyId);
+//            authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
+            if (opePass == null) {
+            	authorizationStmt = connection.prepareStatement(
+                        sqlStatement.getProperty("view-authorization"));
+                authorizationStmt.setString(SQLStatement.PARAM1, companyId);
+                authorizationStmt.setString(SQLStatement.PARAM2, opeCode);            	
+            } else {
+            	authorizationStmt = connection.prepareStatement(
+                        sqlStatement.getProperty("view-authorization-with-passcode"));
+                authorizationStmt.setString(SQLStatement.PARAM1, companyId);
+                authorizationStmt.setString(SQLStatement.PARAM2, opeCode);
+                authorizationStmt.setString(SQLStatement.PARAM3, opePass);
+            }
+            /** CHG END íSìñé“å†å¿ÇÃåüèÿ **/
             resultSet = authorizationStmt.executeQuery();
             if (resultSet.next()) {
                 authorization = new Authorization();
@@ -1732,6 +1198,11 @@ public class SQLServerCredentialDAO extends AbstractDao implements
                 authorization.setSecLevel8(resultSet.getBoolean("SecLevel8"));
                 authorization.setSecLevel9(resultSet.getBoolean("SecLevel9"));
                 authorization.setSecLevel10(resultSet.getBoolean("SecLevel10"));
+                authorization.setSecLevel11(resultSet.getBoolean("SecLevel11"));
+                authorization.setSecLevel12(resultSet.getBoolean("SecLevel12"));
+                authorization.setSecLevel13(resultSet.getBoolean("SecLevel13"));
+                authorization.setSecLevel14(resultSet.getBoolean("SecLevel14"));
+                authorization.setSecLevel15(resultSet.getBoolean("SecLevel15"));
             }
 
         } catch (Exception ex) {
@@ -1743,8 +1214,61 @@ public class SQLServerCredentialDAO extends AbstractDao implements
             tp.methodExit(authorization);
         }
         return authorization;
-        
     }
+    
+    /**
+     * Creates a new operator.
+     *
+     * @param operatorNumber
+     *            The Number of the new Operator
+     * @param passCode
+     *            The Operator's Passcode
+     * @return Error code when error occurred otherwise 0
+     * @throws DaoException
+     *             The Exception thrown when the method fails
+     */
+    public final int createOperator(final String operatorNumber,
+            final String passCode) throws DaoException {
 
+        String functionName = className + "createOperator";
+        tp.methodEnter("createOperator");
+        tp.println("operatorNumber", operatorNumber).println("passCode",
+                passCode);
 
+        int resultCode = 0;
+        Connection connection = null;
+        PreparedStatement insertInto = null;
+
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            insertInto = connection.prepareStatement(sqlStatement
+                    .getProperty("create-operator"));
+            insertInto.setString(SQLStatement.PARAM1, operatorNumber);
+            insertInto.setString(SQLStatement.PARAM2, passCode);
+            insertInto.setString(SQLStatement.PARAM3, "NCR");
+            insertInto.setString(SQLStatement.PARAM4, "");
+            insertInto.setString(SQLStatement.PARAM5, "");
+            insertInto.executeUpdate();
+            connection.commit();
+        } catch (SQLException sqlEx) {
+            resultCode = 1;
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
+                    sqlEx.getMessage());
+            rollBack(connection, "@SQLServerCredentialDAO:createOperator",
+                    sqlEx);
+
+        } catch (Exception ex) {
+            resultCode = 1;
+            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+                    ex.getMessage());
+            rollBack(connection, "@SQLServerCredentialDAO:createOperator", ex);
+        } finally {
+            closeConnectionObjects(connection, insertInto, null);
+
+            tp.methodExit(resultCode);
+        }
+
+        return resultCode;
+    }
 }

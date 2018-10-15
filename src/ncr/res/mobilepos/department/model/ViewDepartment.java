@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
@@ -28,6 +30,35 @@ public class ViewDepartment extends ResultBase {
     @XmlElement(name = "RetailStoreID")
     private String retailStoreID;
 
+   /**
+     * Promotion No.
+     */
+    @XmlElement(name = "promotionNo")
+    private String promotionNo;
+
+    /**
+     * Discount Rate.
+     */
+    @XmlElement(name = "DiscountRate")
+    private Double discountRate;
+
+    /**
+     * Discount Amt.
+     */
+    @XmlElement(name = "DiscountAmt")
+    private Long discountAmt;
+
+    /**
+     * Discount Class.
+     */
+    @XmlElement(name = "DiscountClass")
+    private String discountClass;
+    
+    /**
+     * Promotion Type.
+     */
+    @XmlElement(name = "PromotionType")
+    private String promotionType;
     /**
      * Gets the list of departments.
      *
@@ -66,4 +97,110 @@ public class ViewDepartment extends ResultBase {
         this.retailStoreID = retailStoreIDToSet;
     }
 
+   /**
+     * Gets the promotionNo .
+     *
+     * @return promotionNo
+     */
+    @ApiModelProperty( value="äÈâÊNo", notes="äÈâÊNo")
+    public final String getPromotionNo() {
+        return promotionNo;
+    }
+
+    /**
+     * Sets the promotionNo.
+     *
+     * @param promotionNoToSet promotionNo.
+     */
+    public final void setPromotionNo(final String promotionNoToSet) {
+        this.promotionNo = promotionNoToSet;
+    }
+
+	/**
+     * Gets the DiscountRate.
+     *
+     * @return discountRate
+     */
+    @ApiModelProperty( value="äÑà¯ó¶", notes="äÑà¯ó¶")
+    public final Double getDiscountRate() {
+        return discountRate;
+    }
+
+    /**
+     * Sets the DiscountRate.
+     *
+     * @param discountRateToSet discountRate.
+     */
+    public final void setDiscountRate(final Double discountRateToSet) {
+        this.discountRate = discountRateToSet;
+    }
+
+    /**
+     * Gets the DiscountAmt.
+     *
+     * @return discountAmt
+     */
+    @ApiModelProperty( value="ílà¯äz", notes="ílà¯äz")
+    public final Long getDiscountAmt() {
+        return discountAmt;
+    }
+
+    /**
+     * Sets the discountAmt.
+     *
+     * @param discountAmtToSet discountAmt.
+     */
+    public final void setDiscountAmt(final long discountAmtToSet) {
+        this.discountAmt = discountAmtToSet;
+    }
+
+	/**
+     * Gets the discountClass.
+     *
+     * @return discountClass
+     */
+    @ApiModelProperty( value="äÑà¯ãÊï™", notes="äÑà¯ãÊï™")
+    public final String getDiscountClass() {
+        return discountClass;
+    }
+
+    /**
+     * Sets the discountClass.
+     *
+     * @param discountClassToSet discountClass.
+     */
+    public final void setDiscountClass(final String discountClassToSet) {
+        this.discountClass = discountClassToSet;
+    }
+    
+	/**
+     * Gets the promotionType.
+     *
+     * @return promotionType
+     */
+    @ApiModelProperty( value="ê›íËãÊï™", notes="ê›íËãÊï™")
+    public final String getPromotionType() {
+        return promotionType;
+    }
+
+    /**
+     * Sets the promotionType.
+     *
+     * @param promotionType promotionType.
+     */
+    public final void setPromotionType(final String promotionType) {
+        this.promotionType = promotionType;
+    }
+    
+    @Override
+    public final String toString() {
+        ObjectMapper mapper = new ObjectMapper();
+        String ret = "";
+        try {
+            ret += mapper.writeValueAsString(this);
+        } catch (Exception ex) {
+            ret = super.toString();
+        }
+        return ret;
+    }
 }

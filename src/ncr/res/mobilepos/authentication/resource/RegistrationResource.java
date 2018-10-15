@@ -88,13 +88,13 @@ public class RegistrationResource {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="新しい端末を登録する", response=DeviceStatus.class)
+    @ApiOperation(value="新規端末登録", response=DeviceStatus.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
         @ApiResponse(code=ResultBase.RESREG_DEVICEEXIST, message="既に存在する"),
-        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="設備の標識は無効にする"),
+        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスID不正文字エラー"),
         @ApiResponse(code=ResultBase.RESAUTH_PASSCODE_INVALID, message="パスコードはCORP証明書が一致しない"),
         @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="データベース中で企業コードと店舗コードがない"),
     })
@@ -184,111 +184,7 @@ public class RegistrationResource {
 		}
 		return result;
 	}
-
-    /**
-     * Unregisters a terminal.
-     * @method POST
-     * @param terminalId - the terminal id
-     * @param storeId - the store id
-     * @return ResulBase - contains the result of the operation
-     */
-    @Path("{terminalid}/unregister")
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final ResultBase unregisterDevice(
-            @FormParam("companyid") final String companyId,
-            @FormParam("storeid") final String storeId,
-            @PathParam("terminalid") final String terminalId) {
-		tp.methodEnter("unregisterDevice")
-		        .println("companyid", companyId)
-		        .println("storeid", storeId)
-				.println("terminalid", terminalId);
-        ResultBase result = new ResultBase(ResultBase.RESREG_OK, "");
-        try {
-            if (hasNonAlpha(terminalId)) {
-                tp.println("terminalid is invalid");
-                return new ResultBase(ResultBase.RESREG_INVALIDPARAMETER_DEVID,
-                        "Device Id contains invalid characters");
-            }
-			result = removeDevice(companyId, storeId, terminalId);
-        } catch (DaoException e) {
-            LOGGER.logAlert("RegRes", "unregisterDevice",
-                    Logger.RES_EXCEP_DAO, e.getMessage());
-            result =  new ResultBase(ResultBase.RES_ERROR_DB, e.getMessage());
-        } catch (Exception e) {
-            LOGGER.logAlert("RegRes", "unregisterDevice",
-                    Logger.RES_EXCEP_GENERAL, e.getMessage());
-            result =  new ResultBase(ResultBase.RES_ERROR_GENERAL,
-                                        e.getMessage());
-        } finally {
-            tp.methodExit(result);
-        }
-        return result;
-    }
-
-    /**
-     * Delete other device (Device B) by valid device (Device A).
-     * @param deviceid device id of Device B.
-     * @param corpid corp id of Device B.
-     * @param storeid store id of Device B.
-     * @param udid udid of Device A.
-     * @param uuid uuid of Device A.
-     * @return
-     */
-    @Path("{deviceid}/otherunregister")
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public ResultBase unregisterOtherDevice(
-            @PathParam("deviceid") final String deviceid,
-            @FormParam("corpid") final String corpid,
-            @FormParam("storeid") final String storeid,
-            @FormParam("udid") final String udid,
-            @FormParam("uuid") final String uuid){
-        tp.methodEnter("unregisterDevice");
-        tp.println("corpid", corpid).println("storeid", storeid)
-            .println("deviceid", deviceid).println("udid", udid)
-            .println("uuid", uuid);
-
-        ResultBase result = new ResultBase(ResultBase.RESREG_OK, "");
-
-        if (hasNonAlpha(deviceid)) {
-            tp.println("deviceid is invalid");
-            tp.methodExit();
-            return new ResultBase(ResultBase.RESREG_INVALIDPARAMETER_DEVID,
-                    "Device Id contains invalid characters");
-        }
-        try {
-            // Check Device A is existing or not.
-            DAOFactory daoFactory =
-                    DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IAuthDeviceDao device = daoFactory.getAuthDeviceDAO();
-            if (!device.isDeviceExisting(uuid, udid)) {
-                result.setNCRWSSResultCode(ResultBase.RESREG_DEVICENOTEXIST);
-                result.setMessage("uuid and udid is not valid.");
-                return result;
-            }
-            // Delete Device B.
-            // Use the method of DeviceInfoResource which is existed.
-            DeviceInfoResource deviceInfoResource = new DeviceInfoResource();
-            ResultBase deleteResult = deviceInfoResource.deleteRegisteredDevice(
-                    deviceid, storeid);
-            if (deleteResult.getNCRWSSResultCode() != ResultBase.RES_OK) {
-                tp.methodExit("Failed to delete device.");
-                return deleteResult;
-            }
-        } catch (DaoException e) {
-            LOGGER.logAlert("RegRes", "unregisterOtherDevice",
-                    Logger.RES_EXCEP_DAO, e.getMessage());
-            result =  new ResultBase(ResultBase.RES_ERROR_DB, e.getMessage());
-        } finally {
-            tp.methodExit();
-        }
-
-        return result;
-    }
-
+    
 	/**
 	 * Adds new device.
 	 *
@@ -335,36 +231,6 @@ public class RegistrationResource {
         tp.methodExit(result);
         return result;
     }
-    /**
-     * Removes a terminal.
-     * @param terminalId - the terminal id
-     * @param storeId - the store id
-     * @return DeviceStatus - contains the details of the new terminal
-     * @throws DaoException - error thrown if exception occurs
-     */
-	private ResultBase removeDevice(final String companyId, final String storeId,
-			final String terminalId) throws DaoException {
-		tp.methodEnter("removeDevice")
-		        .println("companyid", companyId)
-		        .println("storeid", storeId)
-				.println("terminalid", terminalId);
-        ResultBase result = null;
-
-        DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        IAuthDeviceDao device = daoFactory.getAuthDeviceDAO();
-
-        if (device.isDeviceExisting(companyId, storeId, terminalId, true)) {
-			int ret = device.deregisterTerminal(storeId, terminalId);
-            result = new ResultBase(ResultBase.RESREG_OK,
-                    "Deregistration result: " + ret);
-        } else {
-			result = new ResultBase(ResultBase.RESREG_DEVICENOTEXIST,
-					"Device does not exist.");
-        }
-
-        tp.methodExit(result);
-        return result;
-    }
 
     /**
      * check if the string has non-alpha numeric characters.
@@ -375,77 +241,5 @@ public class RegistrationResource {
         Pattern p = Pattern.compile("[^a-zA-Z0-9]");
         return p.matcher(str).find();
     }
-
-    /**
-     * Gets the names of the company and the store.
-     * @method POST
-     * @param corpid - the company id
-     * @param storeid - the store id
-     * @return DeviceStatus - contains the names retrieved
-     * @throws DaoException - thrown when an exception occurs
-     */
-    @Path("getcorpstorenames")
-    @POST
-    @Produces(MediaType.APPLICATION_JSON)
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    public final DeviceStatus getCorpStoreNames(
-            @FormParam("corpid") final String corpid,
-            @FormParam("storeid") final String storeid)
-            throws DaoException {
-        tp.methodEnter("getCorpStoreNames");
-        tp.println("corpid", corpid).println("storeid", storeid);
-
-        String thisStoreId = storeid;
-        DeviceStatus result = null;
-
-        try {
-            DAOFactory daoFactory =
-                DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IAuthDeviceDao device = daoFactory.getAuthDeviceDAO();
-
-            String corpname = device.getCorpName(corpid);
-            if (corpname == null) {
-                tp.println("CORP identity was not found.");
-                result = new DeviceStatus(ResultBase.RESAUTH_CORPID_NOTEXIST,
-                            "corpid does not exist");
-                return result;
-            }
-
-            //for guest account, needs only storename of 00001 no
-            //matter what storeid is inputted
-            if (corpid.equals(GUEST_CORP_ID)) {
-                thisStoreId = storeid;
-            }
-
-            String storename = device.getStoreName(corpid, thisStoreId);
-            if (storename == null) {
-                tp.println("Store identity was not found.");
-                result = new DeviceStatus(
-                        ResultBase.RESAUTH_STOREID_NOTEXIST,
-                        "storeid does not exist in the corp.");
-                return result;
-            }
-
-            result = new DeviceStatus(ResultBase.RESAUTH_OK,
-                    "names retrieved");
-            result.setCorpName(corpname);
-            result.setStoreName(storename);
-
-        } catch (DaoException e) {
-            LOGGER.logAlert("RegRes", "getNames",
-                    Logger.RES_EXCEP_DAO, e.getMessage());
-            result =  new DeviceStatus(ResultBase.RES_ERROR_DB, e.getMessage());
-        } catch (Exception e) {
-            LOGGER.logAlert("RegRes", "getNames",
-                    Logger.RES_EXCEP_GENERAL, e.getMessage());
-            result =  new DeviceStatus(ResultBase.RES_ERROR_GENERAL,
-                    e.getMessage());
-        } finally {
-            tp.methodExit(result);
-        }
-
-        return result;
-    }
-
-
+    
 }

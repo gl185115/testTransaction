@@ -28,6 +28,7 @@
         ncr.res.mobilepos.eventlog.resource,
         ncr.res.mobilepos.exception.provider,
         ncr.res.mobilepos.forwarditemlist.resource,
+        ncr.res.mobilepos.futurePay.resource,
         ncr.res.mobilepos.journalization.resource,
         ncr.res.mobilepos.line.resource,
         ncr.res.mobilepos.mastermaintenance.resource,
@@ -49,11 +50,17 @@
         ncr.res.mobilepos.taxrate.resource,
         ncr.res.mobilepos.tenderinfo.resource,
         ncr.res.mobilepos.test.resource,
+        ncr.res.mobilepos.giftcard.resource,
         ncr.res.mobilepos.tillinfo.resource,
-        ncr.res.mobilepos.xebioapi.resource,
+        ncr.res.mobilepos.webserviceif.resource,
         ncr.res.mobilepos.point.resource,
         ncr.res.mobilepos.uiconfig.resource,
-        ncr.res.mobilepos.creditcard.resource
+        ncr.res.mobilepos.creditcard.resource,
+        ncr.res.mobilepos.initialization.resource,
+        ncr.res.mobilepos.poslogstatus.resource,
+        ncr.res.mobilepos.appserver.resource,
+        ncr.res.mobilepos.posmailinfo.resource,
+        ncr.res.mobilepos.employee.resource
     </param-value>
     </init-param>
     <init-param>
@@ -76,10 +83,10 @@
       <url-pattern>/rest/POINTAPI/*</url-pattern>
       <url-pattern>/rest/QueueSignature/*</url-pattern>
       <url-pattern>/rest/QueueSuspend/*</url-pattern>
-      <url-pattern>/rest/SystemSettings/*</url-pattern>
+      <url-pattern>/rest/SystemSettings/DateSettings/*</url-pattern>
+      <url-pattern>/rest/SystemSettings/ping</url-pattern>
       <url-pattern>/rest/barcode/*</url-pattern>
       <url-pattern>/rest/cashaccount/*</url-pattern>
-      <url-pattern>/rest/class/*</url-pattern>
       <url-pattern>/rest/credential/changepasscode/*</url-pattern>
       <url-pattern>/rest/credential/create</url-pattern>
       <url-pattern>/rest/credential/createoperator/*</url-pattern>
@@ -91,8 +98,9 @@
       <url-pattern>/rest/credential/reset</url-pattern>
       <url-pattern>/rest/creditauthorization/*</url-pattern>
       <url-pattern>/rest/customerSearch/*</url-pattern>
+      <url-pattern>/rest/futurePay/*</url-pattern>
       <url-pattern>/rest/customeraccount/*</url-pattern>
-      <url-pattern>/rest/departmentinfo/*</url-pattern>
+      <url-pattern>/rest/departmentinfo/detail</url-pattern>
       <url-pattern>/rest/deviceinfo/add</url-pattern>
       <url-pattern>/rest/deviceinfo/delete/*</url-pattern>
       <url-pattern>/rest/deviceinfo/getallprinters</url-pattern>
@@ -111,8 +119,9 @@
       <url-pattern>/rest/discountplaninfo/*</url-pattern>
       <url-pattern>/rest/eventlog/*</url-pattern>
       <url-pattern>/rest/line/*</url-pattern>
-      <url-pattern>/rest/networkreceipt/*</url-pattern>
-      <url-pattern>/rest/pricing/*</url-pattern>
+      <url-pattern>/rest/pricing/getpicklistitems</url-pattern>
+      <url-pattern>/rest/pricing/getItemPrice</url-pattern>
+      <url-pattern>/rest/pricing/*/*</url-pattern>
       <url-pattern>/rest/promotion/*</url-pattern>
       <url-pattern>/rest/report/*</url-pattern>
       <url-pattern>/rest/searchapi/*</url-pattern>
@@ -123,9 +132,12 @@
       <url-pattern>/rest/test/*</url-pattern>
       <url-pattern>/rest/till/*</url-pattern>
       <url-pattern>/rest/transaction/*</url-pattern>
-      <url-pattern>/rest/xebioapi/*</url-pattern>
+      <url-pattern>/rest/WebServiceIf/*</url-pattern>
       <url-pattern>/rest/ItemForward/*</url-pattern>
       <url-pattern>/rest/creditcard/*</url-pattern>
+      <url-pattern>/rest/poslogstatus/*</url-pattern>
+      <url-pattern>/rest/servertable/*</url-pattern>
+      <url-pattern>/rest/posmailinfo/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -160,13 +172,19 @@
     <description>Path to custom Maintenance base directory. This needs '/' at the end.</description>
     <env-entry-name>customMaintenanceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:/software/ncr/res/custom/</env-entry-value>
+    <env-entry-value>${drive.path}/software/ncr/res/custom/</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Path to custom base directory. This needs '/' at the end.</description>
     <env-entry-name>customResourceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:/software/ncr/res/custom/</env-entry-value>
+    <env-entry-value>${drive.path}/software/ncr/res/custom/</env-entry-value>
+  </env-entry>
+  <env-entry>
+    <description>Path to store custom parameter files.</description>
+    <env-entry-name>customParamBasePath</env-entry-name>
+    <env-entry-type>java.lang.String</env-entry-type>
+    <env-entry-value>${drive.path}/software/ncr/res/cust/para</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to schedule.xml from custom base.</description>
@@ -175,34 +193,22 @@
     <env-entry-value>/schedule.xml</env-entry-value>
   </env-entry>
   <env-entry>
-    <description>Relative path to stores.csv from custom base.</description>
-    <env-entry-name>storesCsvFilePath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>/stores.csv</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <description>Relative path to deployStatus.xml.</description>
-    <env-entry-name>deployStatusFilePath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>/deployStatus.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
     <description>Logger output file</description>
     <env-entry-name>iowPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\log</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\log</env-entry-value>
   </env-entry>
   <env-entry>
     <description>UI Console Log File Path</description>
     <env-entry-name>UiConsoleLogPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\log\UiConsoleLog.txt</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\log\UiConsoleLog.txt</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Device Log</description>
     <env-entry-name>deviceLogPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\log</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\log</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Identification of the Server</description>
@@ -211,148 +217,51 @@
     <env-entry-value>A010</env-entry-value>
   </env-entry>
   <env-entry>
-    <description>Device Number</description>
-    <env-entry-name>devicenoxml</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\tmp\\deviceno.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
     <env-entry-name>tracePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\dbg</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\dbg</env-entry-value>
   </env-entry>
   <env-entry>
     <description>SPM file Path</description>
     <env-entry-name>Journalization/spmPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\log\SPM_DIR</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\log\SPM_DIR</env-entry-value>
+  </env-entry>
+  <env-entry>
+  	<description>POSLog Transfer status column name</description>
+  	<env-entry-name>POSLogTransferStatusColumn</env-entry-name>
+  	<env-entry-type>java.lang.String</env-entry-type>
+  	<env-entry-value>SendStatus1</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>debugLevel</env-entry-name>
     <env-entry-type>java.lang.Integer</env-entry-type>
-    <env-entry-value>5</env-entry-value>
+    <env-entry-value>0</env-entry-value>
   </env-entry>
   <env-entry>
     <env-entry-name>snapPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\log\snap_dir</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <env-entry>
-    <env-entry-name>reportFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReportFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>ReportForZPFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReportForZPFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 売上表レポート利用のファーマットXMLファイル -->
+  <!-- 売上表レポ�Eト利用のファーマッチEMLファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReportFormatNew.xml</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\custom\ReportFormatNew.xml</env-entry-value>
   </env-entry>
-  <!-- クレジットカード会社控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>creditSlipRcptCardCompFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\CreditSlipReceiptCardCompFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- クレジット商品控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>creditSlipRcptShopFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\CreditSlipReceiptShopFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- クレジット商品控レシート利用のファーマットXMLファイル 2-->
-  <env-entry>
-    <env-entry-name>creditSlipRcptShopFormatPath2</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\CreditSlipReceiptShopFormat2.xml</env-entry-value>
-  </env-entry>
-  <!-- 前受金商品貼付レシート利用のファーマットXMLファイル  -->
-  <env-entry>
-    <env-entry-name>advRcptCommodityFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\AdvanceReceiptCommodityFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 通常買上レシート利用のファーマットXMLファイル -->
+  <!-- 通常買上レシート利用のファーマッチEMLファイル -->
   <env-entry>
     <env-entry-name>nrRcptFormatPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\NormalReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 一括取消レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>vdRcptFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\VoidReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- BARNEYS_前受金一括取消レシート利用のファーマットXMLファイル -->
-   <env-entry>
-    <env-entry-name>advanceVoidRcptFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\AdvanceVoidReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品顧客控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForCustFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptCustFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品商店控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForShopFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptShopFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品商店控レシート利用のファーマットXMLファイル 2-->
-  <env-entry>
-    <env-entry-name>rnRcptForShopFormatPath2</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptShopFormat2.xml</env-entry-value>
-  </env-entry>
-  <!-- 返品カード会社控レシート利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForCardCompanyFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\ReturnReceiptCardCompFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 領収証利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>rnRcptForSummaryFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\SummaryReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-	<env-entry-name>rnRcptForSummaryForShopFormatPath</env-entry-name>
-	<env-entry-type>java.lang.String</env-entry-type>
-	<env-entry-value>c:\software\ncr\res\custom\SummaryReceiptForShopFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>rnRcptForPointTicketFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\PointTicketReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <env-entry>
-    <env-entry-name>rnRcptForPointTicketBarcodeFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\PointTicketBarcodeReceiptFormat.xml</env-entry-value>
-  </env-entry>
-  <!-- 出金と入金と両替利用のファーマットXMLファイル -->
-  <env-entry>
-    <env-entry-name>tcRcptFormatPath</env-entry-name>
-    <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\custom\TenderControlReceiptFormat.xml</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\custom\NormalReceiptFormat.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Default Printer Setting</description>
     <env-entry-name>localPrinter</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\link\systemconfig\interface.xml</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\link\systemconfig\interface.xml</env-entry-value>
   </env-entry>
-  <!-- fs add start 53mmと80mm紙の変換フラグ
+  <!-- fs add start 53mmと80mm紙�E変換フラグ
        1 is Flag for 53mm receipt paper
        2 is Flag for 80mm receipt paper.-->
   <env-entry>
@@ -362,36 +271,36 @@
     <env-entry-value>2</env-entry-value>
   </env-entry>
   <env-entry>
-    <description>Summary Receipt Misc File Path</description>
-    <env-entry-name>SummaryReceiptMiscFilePath</env-entry-name>
+    <description>Path to store parameter files.</description>
+    <env-entry-name>paraBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>c:\software\ncr\res\para\images\Misc.bmp</env-entry-value>
+    <env-entry-value>${drive.path}\software\ncr\res\para\</env-entry-value>
   </env-entry>
   <filter>
 	<filter-name>compression</filter-name>
 	<filter-class>ncr.realgate.servlet.filter.CompressionFilter</filter-class>
   </filter>
   <filter>
-    <filter-name>CORS</filter-name>
-    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+    <filter-name>CorsFilter</filter-name>
+    <filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
     <init-param>
-      <param-name>cors.supportedHeaders</param-name>
+      <param-name>cors.allowed.headers</param-name>
       <param-value>Authorization, Origin, Accept, Content-Type</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.supportedMethods</param-name>
+      <param-name>cors.allowed.methods</param-name>
       <param-value>GET, POST, PUT, DELETE, OPTIONS</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.exposedHeaders</param-name>
+      <param-name>cors.exposed.headers</param-name>
       <param-value>Authorization, Accept, Content-Type</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.supportsCredentials</param-name>
+      <param-name>cors.support.credentials</param-name>
       <param-value>true</param-value>
     </init-param>
     <init-param>
-      <param-name>cors.maxAge</param-name>
+      <param-name>cors.preflight.maxage</param-name>
       <param-value>3600</param-value>
     </init-param>
   </filter>
@@ -400,7 +309,7 @@
     <servlet-name>resTransaction</servlet-name>
   </filter-mapping>
   <filter-mapping>
-    <filter-name>CORS</filter-name>
+    <filter-name>CorsFilter</filter-name>
     <servlet-name>resTransaction</servlet-name>
   </filter-mapping>
 </web-app>

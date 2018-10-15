@@ -2,6 +2,7 @@ package ncr.res.mobilepos.deviceinfo.resource.test;
 
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.deviceinfo.model.DeviceInfo;
+import ncr.res.mobilepos.deviceinfo.model.Indicators;
 import ncr.res.mobilepos.deviceinfo.model.ViewDeviceInfo;
 import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
 import ncr.res.mobilepos.helper.DBInitiator;
@@ -9,12 +10,22 @@ import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.model.ResultBase;
 
-import org.jbehave.scenario.annotations.AfterScenario;
-import org.jbehave.scenario.annotations.BeforeScenario;
-import org.jbehave.scenario.annotations.Given;
-import org.jbehave.scenario.annotations.Then;
-import org.jbehave.scenario.annotations.When;
-import org.jbehave.scenario.steps.Steps;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+
+import org.jbehave.core.annotations.AfterScenario;
+import org.jbehave.core.annotations.BeforeScenario;
+import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
+import org.jbehave.core.model.ExamplesTable;
+import org.jbehave.core.steps.Steps;
 import org.junit.Assert;
 
 public class DeviceInfoSteps extends Steps {
@@ -24,6 +35,7 @@ public class DeviceInfoSteps extends Steps {
     ResultBase resBase = null;
     DeviceInfo resPDI = null;
     ViewDeviceInfo viewInfo = null;
+    Indicators indicatorList = null;
     
     @BeforeScenario
     public final void setUp() {
@@ -37,44 +49,69 @@ public class DeviceInfoSteps extends Steps {
     
     @Given("an initial deviceinfo entry in database")
     public final void addDeviceInfoInDB() throws Exception{
-    	new DBInitiator("Mst_DeviceInfo",
-                "test/ncr/res/mobilepos/deviceinfo/"
-                + "datasets/MST_DEVICE_INFO_9999_000031_9999_1_9876.xml", DATABASE.RESMaster);
+    	new DBInitiator("MST_DEVICEINFO", "test/ncr/res/mobilepos/deviceinfo/resource/test/MST_DEVICE_INFO_9999_000031_9999_1_9876.xml", DATABASE.RESMaster);
     }
     
     @Given("an empty MST_PRINTERINFO database table")
     public final void emptyPrinterInfoDB() throws Exception{
-        new DBInitiator("Mst_PrinterInfo", "test/ncr/res/mobilepos/"
-                + "deviceinfo/datasets/MST_PRINTERINFO_EMPTY.xml", DATABASE.RESMaster);
+        new DBInitiator("MST_PRINTERINFO", "test/ncr/res/mobilepos/device/resource/test/MST_PRINTERINFO_EMPTY.xml", DATABASE.RESMaster);
     }
     
     @Given("entries in MST_PRINTERINFO database table")
     public final void entriesPrinterInfoDB() throws Exception{
-        new DBInitiator("Mst_PrinterInfo",
-                "test/ncr/res/mobilepos/deviceinfo/"
-                + "datasets/MST_PRINTERINFO.xml", DATABASE.RESMaster);
+        new DBInitiator("MST_PRINTERINFO", "test/ncr/res/mobilepos/deviceinfo/resource/test/MST_PRINTERINFO.xml", DATABASE.RESMaster);
+    }
+    
+    @Given("the table PRM_DEVICE_INDICATOR database")
+    public final void indicatorInfoDB() throws Exception{
+        new DBInitiator("PRM_DEVICE_INDICATOR", "test/ncr/res/mobilepos/deviceinfo/resource/test/PRM_DEVICE_INDICATOR.xml", DATABASE.RESMaster);
     }
     
     @Given("a PeripheralDeviceControl service")
     public final void getPeripheralDeviceService()
     {
+ 
+        ServletContext context = Requirements.getMockServletContext();
         pdc = new DeviceInfoResource();
-        pdc.setContext(Requirements.getMockServletContext());
-        GlobalConstant.setCorpid("9999");
-        Assert.assertNotNull(pdc);
+        
+        try {
+           Field Context = pdc.getClass().getDeclaredField("context");
+            Context.setAccessible(true);
+           Context.set(pdc, context);
+           GlobalConstant.setCorpid("9999");
+           Assert.assertNotNull(pdc);
+           
+           
+       } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Cant load Mock Servlet Context.");
+        }
+    	
     }
-    
-    @When("I get PeripheralDeviceInfo for"
-            + " storeid{$storeid} and deviceid{$deviceid}")
+
+    @When("I get PeripheralDeviceInfo for companyid $companyid, storeid $storeid, deviceid $deviceid and trainingmode $trainingmode")
     public final void getPeripheralDeviceInfo(
-            final String storeid, final String deviceid)
+    		final String companyid, final String storeid, final String deviceid,final int trainingmode)
     {
         if(pdc == null){
+        	
             pdc = new DeviceInfoResource();
+           
         }
         
-        viewInfo = pdc.getDeviceInfo(null, deviceid, storeid, 0);
-        resPDI = viewInfo.getDeviceInfo();
+        viewInfo = pdc.getDeviceInfo(companyid, storeid, deviceid, trainingmode);
+          resPDI = viewInfo.getDeviceInfo();
+    }
+    
+    @When("I get deviceIndicators for attributeid $attributeid")
+    public final void getDeviceIndicators(final String attributeid)
+    {
+        if(pdc == null){
+            
+            pdc = new DeviceInfoResource();
+           
+        }
+        indicatorList = pdc.getDeviceIndicators(attributeid);
     }
     
     @Then ("ResultCode should be $result")
@@ -83,7 +120,7 @@ public class DeviceInfoSteps extends Steps {
         Assert.assertEquals(result, viewInfo.getNCRWSSResultCode());
     }
     
-    @Then ("printer should be notnull")
+    @Then ("printer should be not null")
     public final void checkPrinter()
     {
         Assert.assertNotNull(resPDI.getPrinterInfo());
@@ -97,37 +134,20 @@ public class DeviceInfoSteps extends Steps {
     
     @Then ("linkposterminalid should be $result")
     public final void checkLinkPosTerminalId(String result) {
-        if("{empty}".equals(result)) {
+        if("empty".equals(result)) {
             result = "";
         }
         
         Assert.assertEquals(result, resPDI.getLinkPOSTerminalId());
     }
     
-    @When ("I set posterminal link of corpid{$corpid}, storeid{$storeid}"
-            + " and deviceid{$deviceid} to {$linkposterminalid}")
-    public final void setposterminalid(
-            final String corpid, String storeid,
-            String deviceid, String linkposterminalid) {
-        if(pdc == null) {
-            pdc = new DeviceInfoResource();
-        }
-        
-        storeid = "null".equals(storeid) ? null : storeid;
-        deviceid = "null".equals(deviceid) ? null : deviceid;
-        linkposterminalid = "null".equals(linkposterminalid) ? null : linkposterminalid;
-        
-        resBase = pdc.setLinkPosTerminalId(storeid,
-                deviceid, linkposterminalid);
-    }
-    
     @Then ("the result base should be $result")
     public final void checkResultBase(final int result)
     {
-        Assert.assertEquals(result, resBase.getNCRWSSResultCode());
+        Assert.assertEquals(result, indicatorList.getNCRWSSResultCode());
     }
     
-    @Then ("printername should be {$result}")
+    @Then ("printername should be  $result")
     public final void checkPrinterName(String result) {
         if("empty".equals(result) || "null".equals(result) ) {
             result = null;
@@ -136,7 +156,7 @@ public class DeviceInfoSteps extends Steps {
         Assert.assertEquals(result, resPDI.getPrinterInfo().getPrinterName());
     }
     
-    @Then ("description should be {$result}")
+    @Then ("description should be $result")
     public final void checkPrinterDescription(String result) {
     	 if("empty".equals(result) || "null".equals(result) ) {
              result = null;
@@ -144,6 +164,43 @@ public class DeviceInfoSteps extends Steps {
         
         Assert.assertEquals(result,
                 resPDI.getPrinterInfo().getPrinterDescription());
+    }
+    
+    @Then("I should get the deviceIndicators size : $result")
+    public final void deviceIndicatorsSizeShouldBe(final int result) {
+        Assert.assertEquals(result, indicatorList.getIndicators().size());
+    }
+    
+    @Then("I should get the deviceIndicators : $expectedJson")
+    public final void deviceIndicatorsShouldBe(final ExamplesTable expectedItems) {
+        int i = 0;
+        for (Map<String, String> expectedItem : expectedItems.getRows()) {
+            assertThat("Compare the DisplayName at row", ""
+                    + indicatorList.getIndicators().get(i).getDisplayName(),
+                    is(equalTo(expectedItem.get("DisplayName"))));
+            assertThat("Compare the CheckInterval at row", ""
+                    + indicatorList.getIndicators().get(i).getCheckInterval(),
+                    is(equalTo(expectedItem.get("CheckInterval"))));
+            assertThat("Compare the NormalValue at row", ""
+                    + indicatorList.getIndicators().get(i).getNormalValue(),
+                    is(equalTo(expectedItem.get("NormalValue"))));
+            assertThat("Compare the Request at row", ""
+                    + indicatorList.getIndicators().get(i).getRequest(),
+                    is(equalTo(expectedItem.get("Request"))));
+            assertThat("Compare the RequestType at row", ""
+                    + indicatorList.getIndicators().get(i).getRequestType(),
+                    is(equalTo(expectedItem.get("RequestType"))));
+            assertThat("Compare the ReturnKey at row", ""
+                    + indicatorList.getIndicators().get(i).getReturnKey(),
+                    is(equalTo(expectedItem.get("ReturnKey"))));
+            assertThat("Compare the URL at row", ""
+                    + indicatorList.getIndicators().get(i).getUrl(),
+                    is(equalTo(expectedItem.get("URL"))));
+            assertThat("Compare the DisplayOrder at row", ""
+                    + indicatorList.getIndicators().get(i).getDisplayOrder(),
+                    is(equalTo(expectedItem.get("DisplayOrder"))));
+            i++;
+        }
     }
 
 }

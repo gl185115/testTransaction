@@ -1,19 +1,28 @@
 package ncr.res.mobilepos.helper;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-
 import junit.framework.Assert;
 
 import org.apache.tomcat.dbcp.dbcp2.BasicDataSource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.mock.web.MockServletContext;
 
+import java.lang.reflect.Field;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+
+import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
+import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.SystemFileConfig;
+import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.JndiDBManager;
 import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @SuppressWarnings("deprecation")
 public class Requirements {
@@ -26,7 +35,7 @@ public class Requirements {
     
     /**
      * Gets the mock servlet context.
-     *
+     * This doesn't initialize business logic factories.
      * @return the mock servlet context
      */
     public static ServletContext getMockServletContext() {
@@ -39,10 +48,46 @@ public class Requirements {
                 "AESKeyStoreGenDateAlias");
         servletContextEvent = new ServletContextEvent(servletContext);
         listener = new WebContextListener();
-        listener.contextInitialized(servletContextEvent);
-
+        initializeWebServiceForTest();
         return servletContext;
     }
+
+    public static void initializeWebServiceForTest() {
+        try {
+            mockWindowsEnvironmentVariables();
+            EnvironmentEntries.initInstance(new InitialContext());
+            SystemFileConfig.initInstance(WindowsEnvironmentVariables.getInstance().getSystemPath());
+            BarcodeAssignmentFactory.initialize("test\\resources\\para");
+            listener.initializeLoggers();
+            listener.initializeDBInstances();
+            listener.preloadDBRecord();
+
+        } catch (Exception e) {
+            // In case Logger is failed to initialize.
+            Assert.fail("resTransaction failed to initialize caused by:" + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Mocks WindowsEnvironmentVariables.
+     * Since System.getenv is hard to mock, then mock the container instead.
+     */
+    public static void mockWindowsEnvironmentVariables() {
+        try {
+            // WindowsEnvironmentalVariables.
+            WindowsEnvironmentVariables environmentVariable = mock(WindowsEnvironmentVariables.class);
+            Field fieldContext = WindowsEnvironmentVariables.class.getDeclaredField("instance");
+            fieldContext.setAccessible(true);
+            fieldContext.set(null, environmentVariable);
+
+            // Mock the variables.
+            when(environmentVariable.getSystemPath()).thenReturn("test/resources/sys/normal");
+        } catch(NoSuchFieldException | IllegalAccessException ex) {
+            Assert.fail("Mocking failed for WindowsEnvironmentVariables.");
+        }
+    }
+
     /**
      * Stops the server.
      */
@@ -83,20 +128,31 @@ public class Requirements {
                 initContext.createSubcontext("java:comp/env/jdbc");
                 initContext.createSubcontext("java:comp/env/Journalization");
 
-                //initContext.bind("java:comp/env/jdbc/ENTSVR",
-                //        new SQLServerConnectionPoolDataSource());
-                //SQLServerConnectionPoolDataSource ds = new SQLServerConnectionPoolDataSource();
-                initContext.bind("java:comp/env/iowPath", "c:/ncr");
                 initContext.bind("java:comp/env/serverID", "A010");
+                initContext.bind("java:comp/env/debugLevel", 2);
+                initContext.bind("java:comp/env/Printpaperlength", "2");
+                initContext.bind("java:comp/env/customMaintenanceBasePath", "c:/ncr/res/custom/");
+                initContext.bind("java:comp/env/customResourceBasePath", "c:/ncr/res/custom/");
+
+                initContext.bind("java:comp/env/iowPath", "c:/ncr/res/log");
+                initContext.bind("java:comp/env/UiConsoleLogPath", "c:/ncr/res/log/UiConsoleLog.txt");
+                initContext.bind("java:comp/env/deviceLogPath", "c:/ncr/res/log");
                 initContext.bind("java:comp/env/tracePath", "c:/ncr/res/dbg");
                 initContext.bind("java:comp/env/Journalization/spmPath", "c:/ncr/res/log/SPM_DIR");
-                initContext.bind("java:comp/env/debugLevel", 2);
-                initContext.bind("java:comp/env/deviceLogPath",
-                        "c:/ncr/res/log");
-                initContext.bind("java:comp/env/snapPath",
-                        "c:/ncr/res/log/snap_dir");
+
+                initContext.bind("java:comp/env/snapPath","c:/ncr/res/log/snap_dir");
+                initContext.bind("java:comp/env/ReportFormatNewPath","c:/ncr/res/custom/ReportFormatNew.xml");
+                initContext.bind("java:comp/env/nrRcptFormatPath","c:/ncr/res/custom/NormalReceiptFormat.xml");
+                initContext.bind("java:comp/env/localPrinter","c:/ncr/res/link/systemconfig/interface.xml");
+                initContext.bind("java:comp/env/scheduleFilePath","/schedule.xml");
+
+                initContext.bind("java:comp/env/customParamBasePath", "test/resources/cust/para");
+                initContext.bind("java:comp/env/paraBasePath", "test/resources/para");
+                initContext.bind("java:comp/env/POSLogTransferStatusColumn", "SendStatus1");
+
                 BasicDataSource dsMsSqlServer = new BasicDataSource();
-                dsMsSqlServer.setUrl("jdbc:sqlserver://149.25.136.82:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");
+                dsMsSqlServer.setUrl("jdbc:sqlserver://localhost:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");
+//                dsMsSqlServer.setUrl("jdbc:sqlserver://153.59.128.97:1433;selectMethod=cursor;sendStringParametersAsUnicode=false");
                 dsMsSqlServer.setUsername("entsvr");
                 dsMsSqlServer.setPassword("ncrsa_ora");
                 initContext.bind("java:comp/env/jdbc/MSSQLSERVER", dsMsSqlServer);

@@ -1,0 +1,43 @@
+Scenario: Normal case 1
+Given the system path is test/resources/sys/normal
+When SystemFileConfig is instantiated
+Then it sucessfully instantiates
+Then no Exception is thrown
+Then the result should be CompanyID:01 and StoreID:0001
+
+Scenario: Normal case 2
+Given the system path is test/resources/sys/datenotset
+When SystemFileConfig is instantiated
+Then it sucessfully instantiates
+Then no Exception is thrown
+Then the result should be CompanyID:02 and StoreID:0002
+
+Scenario: No CompanyID
+Given the system path is test/resources/sys/nocompanyid
+When SystemFileConfig is instantiated
+Then it fails to instantiate
+Then IOException is thrown
+
+Scenario: No StoreID
+Given the system path is test/resources/sys/nostoreid
+When SystemFileConfig is instantiated
+Then it fails to instantiate
+Then IOException is thrown
+
+Scenario: Invalid path
+Given the system path is xxx/xxx/xxx/xxx
+When SystemFileConfig is instantiated
+Then it fails to instantiate
+Then IOException is thrown
+
+Scenario: Empty CompanyID
+Given the system path is test/resources/sys/emptycompanyid
+When SystemFileConfig is instantiated
+Then it fails to instantiate
+Then IOException is thrown
+
+Scenario: Empty StoreID
+Given the system path is test/resources/sys/emptystoreid
+When SystemFileConfig is instantiated
+Then it fails to instantiate
+Then IOException is thrown

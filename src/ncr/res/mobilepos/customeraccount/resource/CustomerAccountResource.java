@@ -10,11 +10,13 @@
 */
 package ncr.res.mobilepos.customeraccount.resource;
 
+import javax.servlet.ServletContext;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
@@ -26,10 +28,12 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.customeraccount.dao.ICustomerDAO;
 import ncr.res.mobilepos.customeraccount.model.Customer;
+import ncr.res.mobilepos.customeraccount.model.LoyaltyAccountInfo;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -43,6 +47,9 @@ public class CustomerAccountResource {
      * Logger.
      */
     private static final Logger LOGGER = (Logger) Logger.getInstance();
+
+    @Context
+    private ServletContext servletContext;
     /**
      * Default Constructor.
      */
@@ -110,4 +117,51 @@ public class CustomerAccountResource {
         }
         return customerData;
     }
+    
+	@Path("/getLoyaltyAccountList")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "売掛、売上外の顧客検索する。", response = LoyaltyAccountInfo.class)
+	@ApiResponses(value={
+	        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+	    })
+	public final LoyaltyAccountInfo getLoyaltyAccountInfo(
+			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
+			@ApiParam(name = "connName", value = "顧客名") @FormParam("connName") final String connName,
+			@ApiParam(name = "connKanaName", value = "顧客カナ名") @FormParam("connKanaName") final String connKanaName,
+			@ApiParam(name = "connTel", value = "顧客電話番号") @FormParam("connTel") final String connTel) {
+
+		tp.methodEnter("getLoyaltyAccountList");
+		tp.println("companyId", companyId).println("storeId", storeId).println("connName", connName)
+				.println("connKanaName", connKanaName).println("connTel", connTel);
+
+		LoyaltyAccountInfo loyaltyAccountInfo = new LoyaltyAccountInfo();
+		if (StringUtility.isNullOrEmpty(companyId, storeId)) {
+			loyaltyAccountInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			tp.methodExit("Parameter[s] is empty or null.");
+			return loyaltyAccountInfo;
+		}
+		
+		try {
+			ICustomerDAO customerDAO;
+			customerDAO = sqlServerDAO.getCustomerDAO();
+
+			if (!StringUtility.isNullOrEmpty(connName) || !StringUtility.isNullOrEmpty(connKanaName)
+					|| !StringUtility.isNullOrEmpty(connTel)) {
+				loyaltyAccountInfo = customerDAO.getLoyaltyAccountInfo(companyId, storeId, connName, connKanaName,
+						connTel);
+			}
+
+		} catch (DaoException ex) {
+			LOGGER.logAlert("CustAcnt", "CustomerAccountResource.getLoyaltyAccountInfo", Logger.RES_EXCEP_DAO,
+					"Failed to get getLoyaltyAccountInfo: \n" + ex.getMessage());
+		} catch (Exception ex) {
+			LOGGER.logAlert("CustAcnt", "CustomerAccountResource.getLoyaltyAccountInfo", Logger.RES_EXCEP_GENERAL,
+					"Failed to get getLoyaltyAccountInfo: \n" + ex.getMessage());
+		} finally {
+			tp.methodExit(loyaltyAccountInfo);
+		}
+		return loyaltyAccountInfo;
+	}
 }

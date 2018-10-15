@@ -1,0 +1,28 @@
+Scenario: Successfully instantiated, ENTERPRISE
+Given System Variables has key SYS, value C:\\software\\ncr\\res\\sys
+Given System Variables has key SERVERTYPE, value ENTERPRISE
+When Initialization is triggered
+Then No NamingException should be thrown
+Then Instance should be created
+Then getSystemPath returns C:\\software\\ncr\\res\\sys
+Then server type is ENTERPRISE
+
+Scenario: Successfully instantiated, HOST
+Given System Variables has key SYS, value C:\\software\\ncr\\res\\sys
+Given System Variables has key SERVERTYPE, value HOST
+When Initialization is triggered
+Then No NamingException should be thrown
+Then Instance should be created
+Then getSystemPath returns C:\\software\\ncr\\res\\sys
+Then server type is HOST
+
+Scenario: instantiation failed.
+When Initialization is triggered
+Then NamingException should be thrown
+Then Instance should not be created
+
+Scenario: instantiation failed, SERVERTYPE is missing.
+Given System Variables has key SYS, value C:\\software\\ncr\\res\\sys
+When Initialization is triggered
+Then NamingException should be thrown
+Then Instance should not be created

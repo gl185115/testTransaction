@@ -1,0 +1,22 @@
+Scenario: Cancelled EOD @Noncash summary report screen (without non-cash transaction within the business day)
+!-- Expected: EodFlag becomes 0 from 9
+Given that has no other working devices
+Given that execute authority is done for companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD compulsoryflag:false
+When getting till information of storeid:0247 tillid:02470001
+Then it should get the following:
+|NCRWSSResultCode	|StoreId	|TillId		|BusinessDayDate	|SodFlag	|EodFlag	|
+|0					|0247		|02470001	|2016-08-16			|0			|9			|
+When releasing execute authority for EOD companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD
+Then it should get the NCRWSSResultCode:0
+When getting the device status of companyId:01 storeId:0247 terminalId:0001
+Then it should get the following:
+|OpenCloseStatus	|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|1					|0					|0							|
+
+Scenario: Continue EOD @Noncash summary report screen (without non-cash transaction within the business day)
+!-- ItemType3 - Purchase, Deposit / Withdrawal, Others
+Given that has cashbalance data in TXU_TOTAL_DAILYREPORT
+When getting daily sales report for companyId:01 storeId:0247 tillId:02470001 terminalId:empty businessDate:2016-08-09 trainingFlag:0 dataType:3 itemLevel1:07 itemLevel2:05
+Then it should get the following:
+|NCRWSSResultCode	|CashOnHand	|
+|0					|203321		|

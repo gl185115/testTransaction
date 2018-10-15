@@ -5,10 +5,14 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
+
+import ncr.res.mobilepos.customeraccount.model.Customer;
+import ncr.res.mobilepos.customerclass.model.CustomerClassInfo;
 
 /**
  * Transaction Model Object.
@@ -25,6 +29,9 @@ public class Transaction {
     /** The Operator ID. */
     @XmlElement(name = "OperatorID")
     private String operatorID;
+    /** The Operator Type. */
+    @XmlElement(name = "OperatorType")
+    private String operatorType;
     /** The Begin Date Time in yyyy-MM-dd'T'HH:mm:ss.SS format.*/
     @XmlElement(name = "BeginDateTime")
     private String beginDateTime;
@@ -47,7 +54,21 @@ public class Transaction {
     /** The Company ID. */
     @XmlElement(name = "CompanyId")
     private String companyId;
-
+    /** The Item ID. */
+    @XmlElement(name = "ItemId")
+    private String itemId;
+    
+    /** The Promotion CustomerClass. */
+    @XmlElement(name = "CustomerClass")
+    private CustomerClassInfo customerClass;
+    /** The Promotion Customer. */
+    @XmlElement(name = "Customer")
+    private Customer customer;
+    /** The Promotion Items. */
+    @XmlElementWrapper(name = "Items")
+    @XmlElement(name ="ItemList")
+    private List<ItemList> itemList;
+    
     /**
      * @return the  companyId
      */
@@ -88,6 +109,19 @@ public class Transaction {
         this.operatorID = operatorIDToSet;
     }
     /**
+     * @return the operatorType
+     */
+    @ApiModelProperty(value="オペレーター区分", notes="オペレーター区分")
+    public String getOperatorType() {
+		return operatorType;
+	}
+    /**
+     * @param operatorTypeToSet the operatorType to set
+     */
+	public void setOperatorType(String operatorType) {
+		this.operatorType = operatorType;
+	}
+	/**
      * @return the beginDateTime
      */
     @ApiModelProperty(value="日付を開始", notes="日付を開始")
@@ -168,5 +202,61 @@ public class Transaction {
     @ApiModelProperty(value="入口マーク", notes="入口マーク")
     public final String getEntryFlag() {
         return entryFlag;
+    }
+    /**
+     * Get Item Id.
+     * @return  Item Id.
+     */
+	public String getItemId() {
+		return itemId;
+	}
+	/**
+     * Set Item Id.
+     * @param Item Id to set
+     */
+	public void setItemId(String itemId) {
+		this.itemId = itemId;
+	}
+    /**
+     * Get Customer Class.
+     * @return  Customer Class
+     */
+    public CustomerClassInfo getCustomerClass() {
+        return customerClass;
+    }
+    /**
+     * Set Customer Class
+     * @param Customer Class to set
+     */
+    public void setCustomerClass(CustomerClassInfo customerClass) {
+        this.customerClass = customerClass;
+    }
+    /**
+     * Get Customer
+     * @return  Customer
+     */
+    public Customer getCustomer() {
+        return customer;
+    }
+    /**
+     * Set Customer
+     * @param Customer to set
+     */
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
+    /**
+     * Get ItemList
+     * @return  itemList
+     */
+    public List<ItemList> getItemList() {
+        return itemList;
+    }
+    /**
+     * Set ItemList
+     * @param itemList to set
+     */
+    public void setItemList(List<ItemList> itemList) {
+        this.itemList = itemList;
     }
 }

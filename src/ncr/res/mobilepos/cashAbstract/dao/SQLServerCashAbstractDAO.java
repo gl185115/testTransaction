@@ -20,7 +20,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstractDAO {
     /**
@@ -129,10 +129,6 @@ public class SQLServerCashAbstractDAO extends AbstractDao implements ICashAbstra
                 tender.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 tender.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get cashAbstract infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerCashAbstractDAO.getcashAbstract", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get cashAbstract infomation.",
                     sqlEx);

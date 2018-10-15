@@ -24,6 +24,12 @@ public class ItemPointRate {
 	private String recordid;
 	@XmlElement(name = "BasePoint")
 	private String basepoint;
+	@XmlElement(name = "TenderSettingFlag")
+	private String tenderSettingFlag;		
+	@XmlElement(name = "TenderId")
+	private String tenderId;		
+	@XmlElement(name = "TenderType")
+	private String tenderType;		
 	@XmlElement(name = "DptSettingFlag")
 	private String dptsettingflag;		
 	@XmlElement(name = "ItemSettingFlag")
@@ -36,6 +42,8 @@ public class ItemPointRate {
 	private String cardclassid;
 	@XmlElement(name = "Type")
 	private String type;
+	@XmlElement(name = "PointTender")
+	private String pointTender;
 	@XmlElement(name = "BasePointCash")
 	private String basepointcash;
 	@XmlElement(name = "BasePointAffiliate")
@@ -98,6 +106,32 @@ public class ItemPointRate {
 		return basepoint;
 	}
 
+	public final void setTenderSettingFlag(String tenderSettingFlag) {
+		this.tenderSettingFlag = tenderSettingFlag;
+	}
+
+    @ApiModelProperty(value="金種設定フラグ", notes="金種設定フラグ")
+	public final String getTenderSettingFlag() {
+		return tenderSettingFlag;
+	}
+
+	public final void setTenderId(String tenderId) {
+		this.tenderId = tenderId;
+	}
+
+    @ApiModelProperty(value="金種種別コード", notes="金種種別コード")
+	public final String getTenderId() {
+		return tenderId;
+	}
+	public final void setTenderType(String tenderType) {
+		this.tenderType = tenderType;
+	}
+
+    @ApiModelProperty(value="支払種別", notes="支払種別")
+	public final String getTenderType() {
+		return tenderType;
+	}
+
 	public final void setDptSettingFlag(String dptsettingflag) {
 		this.dptsettingflag = dptsettingflag;
 	}
@@ -141,6 +175,15 @@ public class ItemPointRate {
     @ApiModelProperty(value="カード区分コード", notes="カード区分コード")
 	public final String getCardClassId() {
 		return cardclassid;
+	}
+
+	public final void setPointTender(String pointTender) {
+		this.pointTender = pointTender;
+	}
+	
+    @ApiModelProperty(value="ポイント種別", notes="ポイント種別")
+	public final String getPointTender() {
+		return pointTender;
 	}
 
 	public final void setType(String type) {

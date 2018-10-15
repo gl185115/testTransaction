@@ -1,0 +1,87 @@
+Scenario: MANIFEST.MF does not exist
+Given Web API Service SofwareInfo
+Given that the MANIFEST.MF file is not available in the META-INF
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer	|NA						|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario: MANIFEST.MF has only Implementation-Title
+Given Web API Service SofwareInfo
+Given the MANIFEST_NO_VERSION.MF file 
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer2|NA						|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario: MANIFEST.MF has only Implementation-Build
+Given Web API Service SofwareInfo
+Given the MANIFEST_NO_NAME.MF file 
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer |s23wip					|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario: MANIFEST.MF has no Implementation-Title & Implementation-Build
+Given Web API Service SofwareInfo
+Given the MANIFEST_NO_VERSION_NAME.MF file 
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer |NA						|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario: MANIFEST.MF has invalid key Implementation-Build
+Given Web API Service SofwareInfo
+Given the MANIFEST_INVALID_VERSION.MF file 
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer |NA						|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario: MANIFEST.MF has invalid key Implementation-Title
+Given Web API Service SofwareInfo
+Given the MANIFEST_INVALID_NAME.MF file 
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer |NA						|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario: MANIFEST.MF has invalid keys Implementation-Title & Implementation-Build
+Given Web API Service SofwareInfo
+Given the MANIFEST_INVALID_NAME.MF file 
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer |NA						|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|
+
+Scenario:  Gets All software Information
+Given Web API Service SofwareInfo
+Given the MANIFEST_VALID_NAME_VERSION.MF file
+When I get all Software Information
+Then I should get the following software version:
+|software	|name			|version				|
+|service	|WebStoreServer3|s30wip					|
+|server		|Tomcat			|Actual					|
+|java		|J2EE			|Actual					|
+|os			|OperatingSystem|Windows 7(amd64)Actual	|

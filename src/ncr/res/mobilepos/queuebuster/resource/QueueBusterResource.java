@@ -57,7 +57,7 @@ import ncr.res.mobilepos.queuesignature.model.SignatureRequestBill;
  *
  */
 @Path("/QueueSuspend")
-@Api(value="/QueueSuspend", description="Bluetooth機器接続情報API")
+@Api(value="/QueueSuspend", description="保留API")
 public class QueueBusterResource {
     /**
      * The IOWriter for Log.
@@ -115,11 +115,11 @@ public class QueueBusterResource {
     @POST
     @Path("/suspend")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="機械の接続情報取り引き過程", response=ResultBase.class)
+    @ApiOperation(value="TXL_INPROGRESS_ITEM", response=ResultBase.class)
     @ApiResponses(value={
     	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="取引の期日を無効にする"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="日付無効"),
             @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
         })
     public final ResultBase suspend(
@@ -253,14 +253,14 @@ public class QueueBusterResource {
     @GET
     @Path("/resume")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="機械の接続情報回復の取引", response=SearchedPosLog.class)
+    @ApiOperation(value="保留取引の再開", response=SearchedPosLog.class)
     @ApiResponses(value={
         	@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_TXINVALID, message="無効な事務タイプ"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="既に取引を再開した"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="キューバスターパラメータが見つかりませんでした"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXINVALID, message="無効な取引"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXALREADYRESUMED, message="再開済み取引"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクション未検出"),
+            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_INVLDPRM, message="無効な要求"),
             @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
         })
     public final SearchedPosLog resume(
@@ -270,7 +270,7 @@ public class QueueBusterResource {
     		@ApiParam(name="workstationid", value="POSコード") @QueryParam("workstationid") final String workstationId,
     		@ApiParam(name="sequencenumber", value="取引番号") @QueryParam("sequencenumber") final String sequenceNumber,
     		@ApiParam(name="businessdaydate", value="POS業務日付") @QueryParam("businessdaydate") final String businessDayDate,
-    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final int trainingFlag) {
+    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final Integer trainingFlag) {
         SearchedPosLog poslog = new SearchedPosLog();
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -290,7 +290,7 @@ public class QueueBusterResource {
 
         try {
         	if (StringUtility.isNullOrEmpty(companyId, retailStoreId, queue,
-        	        workstationId, sequenceNumber, businessDayDate, trainingFlag)) {
+        	        workstationId, sequenceNumber, businessDayDate) || trainingFlag == null  ) {
         		tp.println("Some of the parameters are null or empty.");
         		poslog.setNCRWSSResultCode(
         				ResultBase.RESSYS_ERROR_QB_INVLDPRM);
@@ -349,7 +349,7 @@ public class QueueBusterResource {
     @GET
     @Path("/list")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="取引リストを得る", response=BusteredTransactionList.class)
+    @ApiOperation(value="　取引リストを得る", response=BusteredTransactionList.class)
     @ApiResponses(value={
     	@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -358,7 +358,7 @@ public class QueueBusterResource {
     public final BusteredTransactionList list(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
     		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreId,
-    		@ApiParam(name="workstationid", value="作業台コード") @QueryParam("workstationid") final String workstationId,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @QueryParam("workstationid") final String workstationId,
     		@ApiParam(name="queue", value="署名要請の列標識") @QueryParam("queue") final String queue,
     		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final int trainingFlag) {
 
@@ -424,8 +424,15 @@ public class QueueBusterResource {
     @POST
     @Path("/uploadforward")
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="保留取引アップロード", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_TXALREADY, message="取引重複エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_JAXB, message="JAXBエラー")
+    })
     public final PosLogResp suspendTransactionToQueue(
-                    @FormParam("poslogxml") final String poslogxml) {
+            @ApiParam(name="poslogxml", value="POSLOG情報") @FormParam("poslogxml") final String poslogxml) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("poslogxml", poslogxml);
 
@@ -494,10 +501,10 @@ public class QueueBusterResource {
     @GET
     @Path("/request")
     @Produces({ MediaType.APPLICATION_XML })
-    @ApiOperation(value="Web方法の呼び出し要求、取り消し、機器接続情報過程で完成取引", response=SuspendData.class)
+    @ApiOperation(value="取引の取得・取消・完了要求", response=SuspendData.class)
     @ApiResponses(value={
-    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="トランザクションキューバスターから見つかりませんでした"),
-        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="キューバスタートランザクション要求が無効です")
+    	@ApiResponse(code=ResultBase.RESSYS_ERROR_QB_TXNOTFOUND, message="取引未検出"),
+        @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_REQINVALID, message="無効な要求")
     })
     public final SuspendData requestToQueue(
     		@ApiParam(name="method", value="方法") @QueryParam("method") final String method,
@@ -583,7 +590,7 @@ public class QueueBusterResource {
     @GET
     @Path("/deleteforwarditem")
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="プロジェクト前のネットワークの方法を削除する", response=ResultBase.class)
+    @ApiOperation(value="前捌き商品削除", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
@@ -626,7 +633,7 @@ public class QueueBusterResource {
     @Path("/getpreviousamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="検索前の金額", response=CashDrawer.class)
+    @ApiOperation(value="SOD前金額取得", response=CashDrawer.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")

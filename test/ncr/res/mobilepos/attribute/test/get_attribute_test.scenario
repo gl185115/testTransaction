@@ -1,0 +1,32 @@
+Scenario: Get attribute info where companyId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get attribute info of companyId empty, storeId 0247, terminalId 0001 and training 0
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get attribute info where storeId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get attribute info of companyId 01, storeId null, terminalId 0001 and training 0
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get attribute info where storeId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get attribute info of companyId 01, storeId , terminalId 0001 and training 0
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get attribute info where terminalId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get attribute info of companyId 01, storeId 0247, terminalId null and training 0
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get attribute info where terminalId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get attribute info of companyId 01, storeId 0247, terminalId  and training 0
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Successfully get attribute info
+Given I have a DeviceInfo resource and other resources
+When I request to get attribute info of companyId 01, storeId 0247, terminalId 0001 and training 0
+Then I should have the following data:
+|attributeId|printer|till	|creditTerminal	|MSR	|cashChanger	|attribute1	|attribute2	|attribute3	|attribute4	|attribute5	|attribute6	|attribute7	|attribute8 |training  |
+|1			|1		|Auto	|1				|1		|0				|1			|1			|1			|0			|0			|1			|1			|0		    |0 	       |
+Then the result should be RES_OK

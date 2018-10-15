@@ -3,9 +3,29 @@
     <table name="MST_BIZDAY">
         <column>todaydate</column>
          <column>switchtime</column>
+         <column>UpdOpeCode</column>
+         <column>CompanyId</column>
+         <column>StoreId</column>
+         <column>DeleteFlag</column>
+         <column>InsDate</column>
+	  <column>InsAppId</column>
+	  <column>InsOpeCode</column>
+	  <column>UpdCount</column>
+	  <column>UpdDate</column>
+	  <column>UpdAppId</column>
         <row>
             <value>2012-01-31</value>
             <value>11:00</value>
+            <value>9011011</value>
+            <value>01</value>
+            <value>0031</value>
+            <value>0</value>
+            <value>2012-01-31</value>
+            <value>System</value>
+            <value>9011011</value>
+            <value>0</value>
+            <value>2012-01-31</value>
+            <value>System</value>
         </row>
     </table>        
 </dataset>

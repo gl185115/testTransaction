@@ -1,6 +1,7 @@
 package ncr.res.mobilepos.tillinfo.resource;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -13,6 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.SecurityContext;
+
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -99,7 +101,7 @@ public class TillInfoResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ドロワ明細を得る", response=ViewTill.class)
+    @ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -229,156 +231,9 @@ public class TillInfoResource {
         return result;
     }
 
-    /**
-     * Web Method called to update a store.
-     *
-     * @param storeID
-     *            The retail Store id
-	 * @param tillID
-	 *            - till number
-     * @param tillJson
-     *            The new values for store.
-     * @return The Stores JSON Object containing the list of stores.
-     */
-    @Path("/maintenance")
-    @POST
-    @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ドロワを更新する", response=ViewTill.class)
-    @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_TILL_INVALIDPARAMS, message="無効なドロワコード"),
-    @ApiResponse(code=ResultBase.RES_STORE_INVALIDPARAMS, message="無効な店舗コード"),
-    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_TILL_NO_UPDATE, message="ドロワを更新して失敗します")
-    })
-    public final ViewTill updateTill(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeID,
-    		@ApiParam(name="tillid", value="ドロワーコード") @FormParam("tillid") final String tillID,
-    		@ApiParam(name="till", value="ドロワ") @FormParam("till") final String tillJson) {
-        String functionName = "TillInfoResource.updateTill";
-
-        tp.methodEnter("updateTill");
-        tp.println("storeID", storeID).println("till", tillJson);
-        tp.println("tillID", tillID);
-
-        Till till = new Till();
-        ViewTill viewTill = new ViewTill();
-
-        if (StringUtility.isNullOrEmpty(storeID)) {
-            tp.println("Invalid value for storeid");
-            viewTill.setNCRWSSResultCode(ResultBase.RES_STORE_INVALIDPARAMS);
-            tp.methodExit(viewTill);
-            return viewTill;
-        }
-
-        if (StringUtility.isNullOrEmpty(tillID)) {
-            tp.println("Invalid value for tillid");
-            viewTill.setNCRWSSResultCode(ResultBase.RES_TILL_INVALIDPARAMS);
-            tp.methodExit(viewTill);
-            return viewTill;
-        }
-
-        try {
-            String appID = pathName.concat(".maintenance");
-            JsonMarshaller<Till> tillJsonMarshaller = new JsonMarshaller<Till>();
-            till = tillJsonMarshaller
-                    .unMarshall(tillJson, Till.class);
-
-            if(!DateFormatUtility.
-            		isLegalFormat(till.getBusinessDayDate(), "yyyy-MM-dd")){
-                tp.println("Invalid value for till info");
-                viewTill.setNCRWSSResultCode(ResultBase.RES_TILL_INVALIDPARAMS);
-                tp.methodExit(viewTill);
-                return viewTill;
-            }
-            ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-            till.setUpdAppId(appID);
-            till.setUpdOpeCode(getOpeCode());
-            viewTill = tillInfoDAO.updateTill(storeID, tillID, till);
-        } catch (DaoException ex) {
-            LOGGER.logAlert(
-                    PROG_NAME,
-                    functionName,
-                    Logger.RES_EXCEP_DAO,
-                    "Failed to update store# " + storeID + " and till#"+ tillID+":"
-                            + ex.getMessage());
-
-			if (ex.getCause() instanceof SQLException) {
-				viewTill.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-			}
-		} catch (Exception ex) {
-			LOGGER.logAlert(
-					PROG_NAME,
-					functionName,
-					Logger.RES_EXCEP_GENERAL,
-					"Failed to update store# " + storeID + " and till#"+ tillID+":"
-							+ ex.getMessage());
-			viewTill.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-		} finally {
-			tp.methodExit(viewTill);
-		}
-		return viewTill;
-	}
-
 	private String getOpeCode(){
 		return ((context != null) && (context.getUserPrincipal()) != null) ? context
 				.getUserPrincipal().getName() : null;
-	}
-
-	/**
-	 * Fetch one till by primaty key combination, companyId, storeId and tillId.
-	 *
-	 * @param companyId
-	 * @param storeId
-	 * @param tillId
-	 * @return ViewTill
-	 */
-	@Path("/fetchone")
-	@GET
-	@Produces({MediaType.APPLICATION_JSON})
-	public final ViewTill fetchOne(
-			@QueryParam("companyid") final String companyId,
-			@QueryParam("storeid") final String storeId,
-			@QueryParam("tillid") final String tillId) {
-		String functionName = "TillInfoResource.fetchOne";
-		tp.methodEnter("viewTill");
-		tp.println("companyId", companyId);
-		tp.println("storeId", storeId);
-		tp.println("tillId", tillId);
-
-		ViewTill result = new ViewTill();
-
-		try {
-			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
-			Till till = tillInfoDAO.fetchOne(companyId, storeId, tillId);
-			if (till != null) {
-				// Found.
-				result.setTill(till);
-			} else {
-				// Not found.
-				result.setNCRWSSResultCode(ResultBase.RES_TILL_NOT_EXIST);
-			}
-		} catch (DaoException ex) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_DAO,
-					"Failed to fetch one till#"
-							+ "CompanyId:" + companyId + ":StoreId:" + storeId + ":TillId:" + tillId + ":"
-							+ ex.getMessage());
-			if (ex.getCause() instanceof SQLException) {
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
-			} else {
-				result.setNCRWSSResultCode(ResultBase.RES_ERROR_DAO);
-			}
-		} catch (Exception ex) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
-					"Failed to fetch one till#"
-							+ "CompanyId:" + companyId + ":StoreId:" + storeId + ":TillId:" + tillId + ":"
-							+ ex.getMessage());
-			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
-		} finally {
-			tp.methodExit(result.toString());
-		}
-
-		return result;
 	}
 
     /**
@@ -397,7 +252,7 @@ public class TillInfoResource {
     @Path("/getexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="実行権限を取得する", response=ResultBase.class)
+    @ApiOperation(value="SOD/EOD実行権限取得", response=ResultBase.class)
     @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
@@ -484,12 +339,14 @@ public class TillInfoResource {
 			updatingTill.setTerminalId(terminalId);
 			updatingTill.setUpdAppId(appId);
 			updatingTill.setUpdOpeCode(operatorNo);
+			updatingTill.setSaveBusinessDayDate(updatingTill.getBusinessDayDate());
 			updatingTill.setBusinessDayDate(thisBusinessDay);
 
 			// SOD or EOD.
 			switch(processingType.toUpperCase()) {
 				case "SOD" :
 					updatingTill.setSodFlag(SOD_FLAG_PROCESSING);
+					updatingTill.setEodFlag(EOD_FLAG_UNFINISHED);
 
 					// If MultiSOD from SystemConfiguration is ON, it passes any SodFlag validation.
 					if (GlobalConstant.isMultiSOD()) {
@@ -509,7 +366,8 @@ public class TillInfoResource {
 
 				case "EOD" :
 					updatingTill.setEodFlag(EOD_FLAG_PROCESSING);
-
+					updatingTill.setSodFlag(SOD_FLAG_UNFINISHED);
+					
 					// Checks if eodFlag is valid for getting Eod authority.
 					ResultBase eodValidity = checkEodFlagValidity(currentTill, updatingTill, compulsory);
 					if (eodValidity.getNCRWSSResultCode() == ResultBase.RES_OK) {
@@ -652,13 +510,13 @@ public class TillInfoResource {
      * @param processingType - The processing type: SOD or EOD.
      * @return ResultBase
      */
-	
+
     @Path("/releaseexecuteauthority")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="権限を解除する", response=ResultBase.class)
+    @ApiOperation(value="SOD/EOD実行権限破棄", response=ResultBase.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),   
+    @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="データベースには、データベースに対応する日付を見つける"),
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_TILL_NOT_EXIST, message="ドロワは存在しない"),
     @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -737,13 +595,15 @@ public class TillInfoResource {
 			updatingTill.setTerminalId(terminalId);
 			updatingTill.setUpdAppId(appId);
 			updatingTill.setUpdOpeCode(operatorNo);
-			updatingTill.setBusinessDayDate(thisBusinessDay);
+			updatingTill.setBusinessDayDate(currentTill.getSaveBusinessDayDate());
+			updatingTill.setSaveBusinessDayDate(currentTill.getSaveBusinessDayDate());
 
 			// SOD or EOD
 			switch(processingType.toUpperCase()) {
 				case "SOD" :
 					//change from 9 (processing) to 0 (unfinished) since SOD is cancelled
 					updatingTill.setSodFlag(SOD_FLAG_UNFINISHED);
+					updatingTill.setEodFlag(EOD_FLAG_FINISHED);
 
 					// Checks if sodFlag is valid for getting Sod authority.
 					ResultBase sodFlagValidity = checkReleaseSodFlagValidity(currentTill.getSodFlag());
@@ -757,6 +617,7 @@ public class TillInfoResource {
 				case "EOD" :
 					//change from 9 (processing) to 0 (unfinished) since EOD is cancelled
 					updatingTill.setEodFlag(EOD_FLAG_UNFINISHED);
+					updatingTill.setSodFlag(SOD_FLAG_FINISHED);
 
 					// Checks if eodFlag is valid for releasing Eod authority.
 					ResultBase eodFlagValidity = checkReleaseEodFlagValidity(currentTill.getEodFlag());
@@ -863,17 +724,17 @@ public class TillInfoResource {
      * @param terminalId - The terminal ID of the POS where SOD/EOD is executed.
      * @return ResultBase
      */
-	
-	
+
+
     @Path("/search")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
     @ApiOperation(value="ユーザーがドロワーを使用するかをチェックする", response=ResultBase.class)
-    @ApiResponses(value={   
+    @ApiResponses(value={
     @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
     @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")  
+    @ApiResponse(code=ResultBase.RES_TILL_OTHER_USERS_SIGNED_ON, message="その他のユーザーの接続にはマークが必要")
     })
     public final ResultBase search(
     		@ApiParam(name="companyid",value="ドロワーコード") @FormParam("companyid") final String companyid,
@@ -995,5 +856,147 @@ public class TillInfoResource {
         return result;
     }
 
+	/**
+	 * API to return all the activated tills on the business day.
+	 * @param companyId
+	 * @param storeId
+	 * @param businessDate yyyy-MM-dd
+	 * @param trainingFlag
+	 * @return ViewTill
+	 */
+	@Path("/alltillinfo")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なパラメータ"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+	})
+	public final ViewTill getActivatedTillsOnBusinessDay(
+			@ApiParam(name="companyId", value="企業コード") @QueryParam("companyId") final String companyId,
+			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+			@ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
+		// Trace Logging
+		final String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+		tp.println("companyId", companyId);
+		tp.println("storeId", storeId);
+		tp.println("businessDate", businessDate);
+
+		// Initializes response holder
+		ViewTill result = new ViewTill();
+		result.setTillList(Collections.emptyList());
+
+		// Checks if required fields are present.
+		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate, trainingFlag)) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Required fields are missing.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+		// Checks if businessDate has valid date format
+		if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Invalid BusinessDayDate format.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+
+		try {
+			// Selects from DB.
+			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
+			List<Till> activatedTills = tillInfoDAO.getActivatedTillsOnBusinessDay(companyId, storeId, businessDate, Integer.parseInt(trainingFlag));
+			result.setTillList(activatedTills);
+		} catch (DaoException ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			result.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(ex.getMessage());
+		}
+		return (ViewTill)tp.methodExit(result);
+	}
+
+	/**
+	 * API to return unclosed tills on the business day.
+	 * @param companyId
+	 * @param storeId
+	 * @param businessDate yyyy-MM-dd
+	 * @param trainingFlag
+	 * @return ViewTill
+	 */
+	@Path("/unfinishedeodinfo")
+	@GET
+	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+	@ApiOperation(value="ドロワ情報取得", response=ViewTill.class)
+	@ApiResponses(value={
+			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なパラメータ"),
+			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
+	})
+	public final ViewTill getUnclosedTillsOnBusinessDay(
+			@ApiParam(name="companyId", value="企業コード") @QueryParam("companyId") final String companyId,
+			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+			@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+			@ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
+		// Trace Logging
+		final String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+		tp.println("companyId", companyId);
+		tp.println("storeId", storeId);
+		tp.println("businessDate", businessDate);
+		tp.println("trainingFlag", trainingFlag);
+
+		// Initializes response holder
+		ViewTill result = new ViewTill();
+		result.setTillList(Collections.emptyList());
+
+		// Checks if required fields are present.
+		if (StringUtility.isNullOrEmpty(storeId, companyId, businessDate, trainingFlag) ) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Required fields are missing.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+		// Checks if businessDate has valid date format
+		if (!DateFormatUtility.isLegalFormat(businessDate, "yyyy-MM-dd")) {
+			tp.println(ResultBase.RES_INVALIDPARAMETER_MSG + ":Invalid BusinessDayDate format.");
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
+			result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
+			return result;
+		}
+
+		try {
+			// Selects from DB.
+			ITillInfoDAO tillInfoDAO = daoFactory.getTillInfoDAO();
+			List<Till> unclosedTills = tillInfoDAO.getUnclosedTillsOnBusinessDay(companyId, storeId, businessDate, Integer.parseInt(trainingFlag));
+			result.setTillList(unclosedTills);
+		} catch (DaoException ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_DAO,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_DB);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DB);
+			result.setMessage(ex.getMessage());
+		} catch (Exception ex) {
+			LOGGER.logSnapException(PROG_NAME, Logger.RES_EXCEP_GENERAL,
+					functionName + ": Failed to get till infomation list.", ex);
+			result.setNCRWSSResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_GENERAL);
+			result.setMessage(ex.getMessage());
+		}
+		return (ViewTill)tp.methodExit(result);
+	}
 
 }

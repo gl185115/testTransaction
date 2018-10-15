@@ -9,6 +9,12 @@
 
 package ncr.res.mobilepos.authentication.resource;
 
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -40,7 +46,8 @@ import ncr.res.mobilepos.model.ResultBase;
  * @author AP185142
  */
 @Path("/registration/corpstore")
-public class CorpStoreResource {	
+@Api(value="/registration/corpstore", description="端末/設備の登録のサービスAPI")
+public class CorpStoreResource {
 	/**
      * the servelet context.
      */
@@ -83,10 +90,16 @@ public class CorpStoreResource {
     @Path("/create")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
+    @ApiOperation(value="店舗パスコード登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_CORPSTORE_INVALID_PARAM, message="無効なパラメータ"),
+    })
     public final ResultBase createCorpStore(
-                  @FormParam("companyid") final String companyID,
-                  @FormParam("retailstoreid") final String retailStoreID,
-                  @FormParam("store") final String store) {
+            @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="store", value="店舗情報") @FormParam("store") final String store) {
 
         tp.methodEnter("createCorpStore");
         tp.println("CompanyID", companyID).
@@ -155,9 +168,15 @@ public class CorpStoreResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="店舗パスコード詳細取得", response=ViewCorpStore.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ViewCorpStore viewCorpStore(
-            @QueryParam("companyid") final String companyID,
-            @QueryParam("retailstoreid") final String retailStoreID) {
+            @ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyID,
+            @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID) {
 
         String functionName = "StoreResource.viewStore";
 
@@ -210,9 +229,14 @@ public class CorpStoreResource {
     @Path("/delete")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="店舗パスコード削除", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase deleteCorpStore(
-            @FormParam("companyid") final String companyID,
-            @FormParam("retailstoreid") final String retailStoreID) {
+            @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID) {
 
         String functionName = "CorpStoreResource.deleteCorpStore";
 
@@ -264,10 +288,17 @@ public class CorpStoreResource {
     @Path("/maintenance")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
+    @ApiOperation(value="店舗パスコード登録", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_CORPSTORE_INVALID_PARAM, message="無効なパラメータ"),
+    })
     public final ViewCorpStore updateCorpStore(
-            @FormParam("companyid") final String companyid,
-            @FormParam("retailstoreid") final String storeid,
-            @FormParam("store") final String storeJson) {
+            @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyid,
+            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+            @ApiParam(name="store", value="店舗情報") @FormParam("store") final String storeJson) {
         String functionName = "StoreResource.updateStores";
 
         tp.methodEnter("updateCorpStore");

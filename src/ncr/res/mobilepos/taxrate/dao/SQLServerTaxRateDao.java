@@ -99,11 +99,7 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
             LOGGER.logAlert(progname, "SQLServerTaxRateDao.getTaxRateByDate()", Logger.RES_EXCEP_SQL,
                     "Failed to get the taxRate Data.\n" + e.getMessage());
             throw new DaoException("SQLException: @getTaxRateByDate ", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progname, "SQLServerTaxRateDao.getTaxRateByDate()", Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to get the taxRate Data.\n" + e.getMessage());
-            throw new DaoException("SQLStatementException: @getTaxRateByDate ", e);
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             LOGGER.logAlert(progname,"SQLServerTaxRateDao.getTaxRateByDate()", Logger.RES_EXCEP_GENERAL,
                     "Failed to get taxRate class info.",
                     ex);

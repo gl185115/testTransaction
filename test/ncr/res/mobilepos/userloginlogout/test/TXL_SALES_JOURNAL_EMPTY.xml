@@ -1,0 +1,23 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="TXL_SALES_JOURNAL">
+		<column>CompanyId</column>
+		<column>RetailStoreId</column>
+		<column>WorkstationId</column>
+		<column>SequenceNumber</column>
+		<column>BusinessDayDate</column>
+		<column>TrainingFlag</column>
+		<column>SystemDateTime</column>
+		<column>Guid</column>
+		<column>JournalLine</column>
+		<column>TxType</column>
+		<column>ServerId</column>
+		<column>Tx</column>
+		<column>Status</column>
+		<column>SendStatus1</column>
+		<column>SendStatus2</column>
+		<column>EjSequence</column>
+		<column>EjStatus</column>
+		<column>InsDateTime</column>
+	</table>
+</dataset>

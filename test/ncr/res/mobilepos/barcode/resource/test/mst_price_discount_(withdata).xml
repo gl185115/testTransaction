@@ -1,0 +1,198 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_PRICE_DISCOUNT">
+		<column>CompanyId</column>
+		<column>StoreId</column>
+		<column>CardType</column>
+		<column>SeqNo</column>
+		<column>SubNo</column>
+		<column>DiscountType</column>
+		<column>DiscountClass</column>
+		<column>Dpt</column>
+		<column>MdInternal</column>
+		<column>DiscountRefType</column>
+		<column>DiscountValue</column>
+		<column>StartDate</column>
+		<column>EndDateRefType</column>
+		<column>EndDate</column>
+		<column>EntryDate</column>
+		<column>DiscountName</column>
+		<column>SubCode1</column>
+		<column>SubCode2</column>
+		<column>SubCode3</column>
+		<column>SubCode4</column>
+		<column>SubCode5</column>
+		<column>SubNum1</column>
+		<column>SubNum2</column>
+		<column>SubNum3</column>
+		<column>SubNum4</column>
+		<column>SubNum5</column>
+		<column>DeleteFlag</column>
+		<column>DelDate</column>
+		<column>DelAppId</column>
+		<column>DelOpeCode</column>
+		<column>InsDate</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
+		<column>UpdDate</column>
+		<column>UpdAppId</column>
+		<column>UpdOpeCode</column>
+		<row>
+			<value>01</value>
+			<value>0247</value>
+			<value>86</value>
+			<value>15</value>
+			<value>1</value>
+			<value>3</value>
+			<value>1</value>
+			<value>000</value>
+			<null />
+			<value>1</value>
+			<value>20</value>
+			<value>2011-12-01</value>
+			<value>1</value>
+			<value>2099-12-31</value>
+			<value>2011-11-11</value>
+			<value>DM部門割引</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>02</value>
+			<value>0247</value>
+			<value>86</value>
+			<value>15</value>
+			<value>1</value>
+			<value>3</value>
+			<value>1</value>
+			<value>000</value>
+			<null />
+			<value>1</value>
+			<value>20</value>
+			<value>2011-12-01</value>
+			<value>1</value>
+			<value>2099-12-31</value>
+			<value>2011-11-11</value>
+			<value>DM部門割引</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>0</value>
+			<value>86</value>
+			<value>15</value>
+			<value>1</value>
+			<value>3</value>
+			<value>1</value>
+			<value>000</value>
+			<null />
+			<value>1</value>
+			<value>20</value>
+			<value>2011-12-01</value>
+			<value>1</value>
+			<value>2099-12-31</value>
+			<value>2011-11-11</value>
+			<value>DM部門割引</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+		</row>
+		<row>
+			<value>03</value>
+			<value>0247</value>
+			<value>86</value>
+			<value>15</value>
+			<value>1</value>
+			<value>3</value>
+			<value>1</value>
+			<value>000</value>
+			<null />
+			<value>1</value>
+			<value>20</value>
+			<value>2011-12-01</value>
+			<value>1</value>
+			<value>2099-12-31</value>
+			<value>2011-11-11</value>
+			<value>DM部門割引</value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+			<value>0</value>
+			<value>2016-03-11 11:51:39.2788052</value>
+			<value>usp_IF_MaintPriceDiscount</value>
+			<value>system</value>
+		</row>
+	</table>
+</dataset>

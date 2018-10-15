@@ -18,25 +18,24 @@ import java.util.List;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.constant.SQLResultsConstants;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.store.model.CMPresetInfo;
 import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
-import ncr.res.mobilepos.store.model.StoreInternSys;
+import ncr.res.mobilepos.store.model.StoreInfo;
 import ncr.res.mobilepos.store.model.ViewStore;
 
 /**
  * Access database for store CRUD manipulations.
- * 
+ *
  */
 public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     /**
@@ -66,7 +65,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
     /**
      * Initializes DBManager.
-     * 
+     *
      * @throws DaoException
      *             if error exists.
      */
@@ -78,337 +77,18 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
     /**
      * Retrieves DBManager.
-     * 
+     *
      * @return dbManager instance of DBManager.
      */
     public final DBManager getDBManager() {
         return dbManager;
     }
 
-    /*
-     * view store details of storeid.
-     * 
-     * @see ncr.res.mobilepos.store.dao.IStoreDAO#viewStore(java.lang.String)
-     */
-    @Override
-    public final ViewStore viewStore(final String retailStoreID)
-            throws DaoException {
-
-        String functionName = "SQLServerStoreDAO.viewStore";
-
-        tp.methodEnter("viewStore");
-        tp.println("RetailStoreID", retailStoreID);
-
-        ViewStore storeData = new ViewStore();
-        Store store = new Store();
-        store.setRetailStoreID(retailStoreID);
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-store-bystoreid"));
-
-            select.setString(SQLStatement.PARAM1, retailStoreID);
-
-            result = select.executeQuery();
-
-            if (result.next()) {
-                store.setRetailStoreID(result.getString("StoreId"));
-                store.setStoreName(result.getString("StoreName"));
-                store.setAddress(result.getString("StoreAddr"));
-                store.setTel(result.getString("StoreTel"));
-                store.setUrl(result.getString("StoreUrl"));
-                store.setSalesSpaceName(result.getString("SalesSpaceName"));
-                store.setEventName(result.getString("EventName"));
-                store.setAds(result.getString("Ads"));
-                store.setElectroFilePath(result.getString("ElectroFilePath"));
-                store.setStampTaxFilePath(result.getString("StampTaxFilePath"));
-            } else {
-                storeData.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-                tp.println("Store not found.");
-            }
-
-            storeData.setStore(store);
-
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQL,
-                    "Failed to View Store#" + retailStoreID + " : "
-                            + sqlEx.getMessage());
-            throw new DaoException("SQLException: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View Store#"
-                            + retailStoreID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", sqlStmtEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to View Store#" + retailStoreID + " : "
-                            + ex.getMessage());
-            throw new DaoException("Exception: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", ex);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            
-            tp.methodExit(storeData);
-        }
-
-        return storeData;
-    }
-
-    /*
-     * RES-5500 Spart Store_Intern_Sys
-     * 
-     * @see
-     * ncr.res.mobilepos.store.dao.IStoreDAO#getStoreInterSys(java.lang.String)
-     */
-
-    @Override
-    public final StoreInternSys getStoreInterSys(final String storecode,
-            final int usage) throws DaoException {
-
-        String functionName = "SQLServerStoreDAO.getStoreInterSys";
-
-        tp.methodEnter("StoreStatus");
-        tp.println("StoreCode", storecode);
-        tp.println("StoreCode", usage);
-
-        StoreInternSys storeIn = new StoreInternSys();
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-
-        try {
-            connection = dbManager.getConnection();
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement
-                    .getProperty("get-storeInternalSystem"));
-
-            select.setString(SQLStatement.PARAM1, storecode);
-            select.setInt(SQLStatement.PARAM2, usage);
-
-            result = select.executeQuery();
-
-            if (result.next()) {
-                storeIn.setValue(result.getString("value"));
-            } else {
-                storeIn.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-                tp.println("Store not found.");
-            }
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get value for " + storecode + " And " + usage
-                            + sqlEx.getMessage());
-            throw new DaoException("SQLException: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Failed to get value for " + storecode + " And "
-                            + usage + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".viewStore - Error view store", sqlStmtEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get Value for " + storecode + " And " + usage
-                            + ex.getMessage());
-            throw new DaoException("Exception: @SQLServerStoreDAO"
-                    + ".getStoreInterSys - Error StoreInterSys", ex);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            
-            tp.methodExit(storeIn);
-        }
-
-        return storeIn;
-    }
-
-    /**
-     * Creates store record for Store Table Maintenance.
-     * 
-     * @param storeId
-     *            - Store number
-     * @param store
-     *            - Store
-     * @throws DaoException
-     *             - Exception if error
-     * @return ResultBase
-     */
-    @Override
-    public final ResultBase createStore(final String storeId, final Store store)
-            throws DaoException {
-
-        String functionName = "SQLServerStoreDAO.createStore";
-        tp.methodEnter("createStore");
-        tp.println("StoreId", storeId);
-
-        Connection connection = null;
-        PreparedStatement insert = null;
-        ResultBase res = new ResultBase();     
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-
-            int storeStatus = this.getStoreStatus(storeId);
-
-            switch (storeStatus) {
-                case STATUS_ACTIVE:
-                    res.setNCRWSSResultCode(ResultBase.RES_STORE_EXISTS);
-                    tp.println("Store to be added is currently active.");
-                    return res;
-                case STORE_NOT_FOUND:
-                    insert = connection.prepareStatement(sqlStatement
-                            .getProperty("create-store"));
-                    break;
-                case STATUS_DELETED:
-                case STATUS_UNKNOWN:
-                    insert = connection.prepareStatement(sqlStatement
-                            .getProperty("update-store"));
-                    insert.setString(SQLStatement.PARAM13, storeId);
-                    break;
-                default:{
-                	break;
-                }
-            }
-
-            insert.setString(SQLStatement.PARAM1, storeId);
-            insert.setString(SQLStatement.PARAM2, store.getStoreName());
-            insert.setString(SQLStatement.PARAM3, store.getAddress());
-            insert.setString(SQLStatement.PARAM4, store.getTel());
-            insert.setString(SQLStatement.PARAM5, store.getUrl());
-            insert.setString(SQLStatement.PARAM6, store.getSalesSpaceName());
-            insert.setString(SQLStatement.PARAM7, store.getEventName());
-            insert.setString(SQLStatement.PARAM8, store.getAds());
-            insert.setString(SQLStatement.PARAM9, store.getElectroFilePath());
-            insert.setString(SQLStatement.PARAM10, store.getStampTaxFilePath());
-            insert.setString(SQLStatement.PARAM11, store.getUpdAppId());
-            insert.setString(SQLStatement.PARAM12, store.getUpdOpeCode());
-
-            ResultSet resultset = insert.executeQuery();
-            if (resultset.getFetchSize() > 0) {
-                res.setNCRWSSResultCode(ResultBase.RES_STORE_OK);
-            }
-
-            connection.commit();
-        } catch (SQLException e) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to add Store\n " + e.getMessage());
-            rollBack(connection, "@SQLServerStoreDAO.createStore ", e);
-            throw new DaoException("SQLException:"
-                    + "@SQLServerStoreDAO.createStore ", e);
-        } catch (SQLStatementException e) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to add Store\n " + e.getMessage());
-            rollBack(connection, "SQLServerStoreDAO: @createStore ", e);
-            throw new DaoException("SQLServerStoreDAO: @createStore ", e);
-        } catch (Exception e) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to add Store\n " + e.getMessage());
-            rollBack(connection, "@SQLServerStoreDAO.createStore ", e);
-            throw new DaoException("SQLException:"
-                    + "@SQLServerStoreDAO.createStore ", e);
-        } finally {
-            closeConnectionObjects(connection, insert);
-            
-            tp.methodExit(res);
-        }
-        return res;
-    }
-
-    @Override
-    public final ResultBase deleteStore(final String retailStoreID,
-            final String updAppId, final String updOpeCode) throws DaoException {
-
-        String functionName = "SQLServerStoreDAO.deleteStore";
-        tp.methodEnter("deleteStore");
-        tp.println("RetailStoreID", retailStoreID);
-
-        ResultBase resultBase = new ResultBase();
-        Connection connection = null;
-        PreparedStatement delete = null;
-        int result = 0;
-
-        try {
-            connection = dbManager.getConnection();
-            ViewStore viewStore = this.viewStore(retailStoreID);
-            if (ResultBase.RES_STORE_NOT_EXIST == viewStore
-                    .getNCRWSSResultCode()) {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-                tp.println("Store not found.");
-                viewStore.setStore(new Store());
-                return resultBase;
-            }
-
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            delete = connection.prepareStatement(sqlStatement
-                    .getProperty("delete-store"));
-            delete.setString(SQLStatement.PARAM1, updAppId);
-            delete.setString(SQLStatement.PARAM2, updOpeCode);
-            delete.setString(SQLStatement.PARAM3, retailStoreID);
-
-            result = delete.executeUpdate();
-
-            if (result == SQLResultsConstants.ONE_ROW_AFFECTED) {
-                resultBase.setNCRWSSResultCode(ResultBase.RES_STORE_OK);
-            }
-            connection.commit();
-        } catch (SQLException sqlEx) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQL,
-                    "Failed to Delete Store#" + retailStoreID + " : "
-                            + sqlEx.getMessage());
-            rollBack(connection, "@SQLServerStoreDAO:deleteStore", sqlEx);
-            throw new DaoException("SQLException: @SQLServerStoreDAO"
-                    + ".deleteStore - Error delete store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to Delete Store#"
-                            + retailStoreID + " : " + sqlStmtEx.getMessage());
-            rollBack(connection, "@SQLServerStoreDAO:deleteStore", sqlStmtEx);
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".deleteStore - Error delete store", sqlStmtEx);
-        } catch (Exception ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_GENERAL,
-                    "Failed to Delete Store#" + retailStoreID + " : "
-                            + ex.getMessage());
-            rollBack(connection, "@SQLServerStoreDAO:deleteStore", ex);
-            throw new DaoException("Exception: @SQLServerStoreDAO"
-                    + ".deleteStore - Error delete store", ex);
-        } finally {
-            closeConnectionObjects(connection, delete);
-            
-            tp.methodExit(resultBase);
-        }
-
-        return resultBase;
-    }    
-
     /**
      * {@inheritDoc}
      */
     @Override
-    public final List<Store> listStores(final String companyId, final String key, 
+    public final List<Store> listStores(final String companyId, final String key,
     		final String name, final int limit) throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("listStores")
@@ -428,14 +108,14 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             selectStoresStmt = conn.prepareStatement(sqlStatement
                     .getProperty("get-stores"));
             tp.println("searchlimit", GlobalConstant.getMaxSearchResults());
-            int searchLimit = (limit == 0) ? 
-            		GlobalConstant.getMaxSearchResults() : limit;             
+            int searchLimit = (limit == 0) ?
+            		GlobalConstant.getMaxSearchResults() : limit;
             selectStoresStmt.setString(SQLStatement.PARAM1, companyId);
             selectStoresStmt.setString(SQLStatement.PARAM2, key);
             selectStoresStmt.setString(SQLStatement.PARAM3, name);
-            selectStoresStmt.setInt(SQLStatement.PARAM4, searchLimit);  
+            selectStoresStmt.setInt(SQLStatement.PARAM4, searchLimit);
             resultset = selectStoresStmt.executeQuery();
-            
+
             while (resultset.next()) {
                 Store store = new Store();
                 store.setCompanyId(resultset.getString("CompanyId"));
@@ -450,12 +130,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                     "Failed to List Stores" + " : " + ex.getMessage());
             throw new DaoException("SQLException: @" + functionName
                     + " - Error list store", ex);
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to List Stores " + GlobalConstant.getCorpid()
-                    + " : " + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + " - Error list store", ex);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to List Stores" + " : " + ex.getMessage());
@@ -469,155 +143,9 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     }
 
     /**
-     * {@inheritDoc}
-     */
-    @Override
-	public final ViewStore updateStore(final String oldStoreId,
-            final Store store) throws DaoException {
-        String functionName = "SQLServerStoreDAO.updateStore";
-
-        tp.methodEnter("updateStore");
-        tp.println("StoreId", oldStoreId);
-
-        Connection conn = null;
-        PreparedStatement updateStoreStmnt = null;
-        ViewStore viewStore = null;
-        ResultSet result = null;
-        String storeId = oldStoreId;
-        try {
-            viewStore = this.viewStore(storeId);
-            boolean updateDeletedStore = false;
-            String newStoreId = store.getRetailStoreID();
-            int newStoreStatus;
-
-            if (newStoreId != null && !newStoreId.equals(storeId)) {
-                newStoreStatus = getStoreStatus(store.getRetailStoreID());
-                if (newStoreStatus == STATUS_DELETED) {
-                    updateDeletedStore = true;
-                    storeId = newStoreId;
-                } else if (newStoreStatus == STATUS_ACTIVE) {
-                    viewStore.setNCRWSSResultCode(ResultBase.RES_STORE_EXISTS);
-                    viewStore.setStore(new Store());
-                    tp.println("Store already exist.");
-                    return viewStore;
-                }
-            } else {
-                newStoreId = storeId;
-            }
-
-            int storeStatus = getStoreStatus(oldStoreId);                  	
-			if (storeStatus == STATUS_ACTIVE) {
-				SQLStatement sqlStatement = SQLStatement.getInstance();
-				conn = dbManager.getConnection();
-				updateStoreStmnt = conn.prepareStatement(sqlStatement
-						.getProperty("update-store"));
-				updateStoreStmnt.setString(SQLStatement.PARAM1,
-						store.getRetailStoreID());
-				updateStoreStmnt.setString(SQLStatement.PARAM2,
-						store.getStoreName());
-				updateStoreStmnt.setString(SQLStatement.PARAM3,
-						store.getAddress());
-				updateStoreStmnt.setString(SQLStatement.PARAM4, store.getTel());
-				updateStoreStmnt.setString(SQLStatement.PARAM5, store.getUrl());
-				updateStoreStmnt.setString(SQLStatement.PARAM6,
-						store.getSalesSpaceName());
-				updateStoreStmnt.setString(SQLStatement.PARAM7,
-						store.getEventName());
-				updateStoreStmnt.setString(SQLStatement.PARAM8, store.getAds());
-				updateStoreStmnt.setString(SQLStatement.PARAM9,
-						store.getElectroFilePath());
-				updateStoreStmnt.setString(SQLStatement.PARAM10,
-						store.getStampTaxFilePath());
-				updateStoreStmnt.setString(SQLStatement.PARAM11,
-						store.getUpdAppId());
-				updateStoreStmnt.setString(SQLStatement.PARAM12,
-						store.getUpdOpeCode());
-				updateStoreStmnt.setString(SQLStatement.PARAM13, storeId);
-				result = updateStoreStmnt.executeQuery();
-
-				Store newStore = new Store();
-				if (result.next()) {
-					newStore.setAddress(result.getString(result
-							.findColumn("StoreAddr")));
-					newStore.setAds(result.getString(result.findColumn("Ads")));
-					newStore.setElectroFilePath(result.getString(result
-							.findColumn("ElectroFilePath")));
-					newStore.setEventName(result.getString(result
-							.findColumn("EventName")));
-					newStore.setRetailStoreID(result.getString(result
-							.findColumn("StoreId")));
-					newStore.setSalesSpaceName(result.getString(result
-							.findColumn("SalesSpaceName")));
-					newStore.setStampTaxFilePath(result.getString(result
-							.findColumn("StampTaxFilePath")));
-					newStore.setStoreName(result.getString(result
-							.findColumn("StoreName")));
-					newStore.setTel(result.getString(result
-							.findColumn("StoreTel")));
-					newStore.setUrl(result.getString(result
-							.findColumn("StoreUrl")));
-				} else {
-					viewStore
-							.setNCRWSSResultCode(ResultBase.RES_STORE_NO_UPDATE);
-					tp.println("Store update was not successful.");
-				}
-				updateStoreStmnt.close();
-				conn.commit();
-				viewStore.setStore(newStore);
-
-				if (updateDeletedStore) {
-					deleteStore(oldStoreId, store.getUpdAppId(),
-							store.getUpdOpeCode());
-				}
-			} else if (storeStatus == STATUS_DELETED
-					|| storeStatus == STORE_NOT_FOUND
-					|| storeStatus == STATUS_UNKNOWN) {
-				return this.setStoreNotExistReturn(viewStore);
-			}
-
-        } catch (SQLException ex) {
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to Update Store with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            if (Math.abs(SQLResultsConstants.ROW_DUPLICATE) == ex
-                    .getErrorCode()) {
-                viewStore = new ViewStore();
-                Store errStore = new Store();
-                viewStore.setStore(errStore);
-                viewStore.setNCRWSSResultCode(ResultBase.RES_STORE_EXISTS);
-                tp.println("Store entry is duplicated.");
-            } else {
-                rollBack(conn, functionName, ex);
-                throw new DaoException("SQLException: @" + functionName
-                        + " - Error update store", ex);
-            }
-        } catch (SQLStatementException ex) {
-            rollBack(conn, functionName, ex);
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to Update Store with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @"
-                    + " - Error update store", ex);
-        } catch (Exception ex) {
-            rollBack(conn, functionName, ex);
-            LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to Update Stores with StoreID#" + storeId + " : "
-                            + ex.getMessage());
-            throw new DaoException("Exception: @" + functionName
-                    + " - Error update store", ex);
-        } finally {
-            closeConnectionObjects(conn, updateStoreStmnt, result);
-            
-            tp.methodExit(viewStore);
-        }
-        return viewStore;
-    }
-
-    /**
      * This is to get the current status of the Store 1 - Active 2 - Deleted -1
      * - Not Found
-     * 
+     *
      * @param storeId
      * @return
      * @throws DaoException
@@ -658,15 +186,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             }
 
             connection.commit();
-        } catch (SQLStatementException ex) {
-            LOGGER.logAlert(
-                    progName,
-                    functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT,
-                    "Failed to check Status of Store" + storeId + ": "
-                            + ex.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".getDepartmentStatus", ex);
         } catch (SQLException ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to check Status of Department" + storeId + ": "
@@ -682,26 +201,18 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
         } finally {
             closeConnectionObjects(null, select, result);
             closeConnectionObjects(connection, update);
-            
+
             tp.methodExit(status);
         }
 
         return status;
 
-    }    
-    private ViewStore setStoreNotExistReturn(ViewStore viewStore){
-    	 viewStore.setStore(new Store());
-         viewStore
-                 .setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
-         tp.println("Store does not exist");
-         return viewStore;    	
     }
-    
     /**
      * {@inheritDoc}
      */
     @Override
-    public final List<CMPresetInfo> listCMPresetInfo(final String companyId, final String storeId, 
+    public final List<CMPresetInfo> listCMPresetInfo(final String companyId, final String storeId,
             final String terminalId, final String businessDayDate) throws DaoException {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("listCMPresetInfo")
@@ -718,18 +229,15 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
         try {
             SQLStatement sqlStatement = SQLStatement.getInstance();
             conn = dbManager.getConnection();
-            selectStmt = conn.prepareStatement(sqlStatement
-                    .getProperty("get-preset-cm-info"));
-           
+            selectStmt = conn.prepareStatement(String.format(sqlStatement.getProperty("get-preset-cm-info") ,GlobalConstant.getBizCatIdColumnOfStoreInfo()));
             selectStmt.setString(SQLStatement.PARAM1, companyId);
             selectStmt.setString(SQLStatement.PARAM2, storeId);
             selectStmt.setString(SQLStatement.PARAM3, terminalId);
-            selectStmt.setString(SQLStatement.PARAM4, businessDayDate);  
+            selectStmt.setString(SQLStatement.PARAM4, businessDayDate);
             resultSet = selectStmt.executeQuery();
 
             while (resultSet.next()) {
                 CMPresetInfo cmPresetInfo = new CMPresetInfo();
-
                 cmPresetInfo.setCompanyId(resultSet.getString("CompanyId"));
                 cmPresetInfo.setCMId(resultSet.getInt("CMId"));
                 cmPresetInfo.setCMName(resultSet.getString("CMName"));
@@ -861,7 +369,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
             SQLStatement sqlStatement = SQLStatement.getInstance();
             conn = dbManager.getConnection();
             selectStmt = conn.prepareStatement(sqlStatement.getProperty("get-subNum1"));
-           
+
             selectStmt.setString(SQLStatement.PARAM1, storeId);
             selectStmt.setString(SQLStatement.PARAM2, workStactionId);
             selectStmt.setString(SQLStatement.PARAM3, companyId);
@@ -968,12 +476,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                             + sqlEx.getMessage());
             throw new DaoException("SQLException: @SQLServerStoreDAO"
                     + ".getStoreDetaiInfo - Error view store", sqlEx);
-        } catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(progName, functionName,
-                    Logger.RES_EXCEP_SQLSTATEMENT, "Failed to View Store#"
-                            + retailStoreID + " : " + sqlStmtEx.getMessage());
-            throw new DaoException("SQLStatementException: @SQLServerStoreDAO"
-                    + ".getStoreDetaiInfo - Error view store", sqlStmtEx);
         } catch (Exception ex) {
             LOGGER.logAlert(
                     progName,
@@ -985,10 +487,230 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                     + ".getStoreDetaiInfo - Error view store", ex);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(storeData);
         }
 
         return storeData;
     }
+
+	@Override
+	public StoreInfo addStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
+				.println("businessdaydate", businessdaydate);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		PreparedStatement update = null;
+		ResultSet result = null;
+		StoreInfo storeInfo = new StoreInfo();
+
+		String TableName = null;
+		String ColumnName = null;
+
+		try {
+
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			TableName = getTableName();
+			ColumnName = getColumnName();
+
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				update = conn.prepareStatement(sqlStatement
+						.getProperty("update-store-total-param"));
+
+				update.setString(SQLStatement.PARAM1, TableName);
+				update.setString(SQLStatement.PARAM2, ColumnName);
+				update.setString(SQLStatement.PARAM3, companyId);
+				update.setString(SQLStatement.PARAM4, storeId);
+
+				int rowNum = update.executeUpdate();
+				conn.commit();
+
+				select = conn.prepareStatement(sqlStatement
+						.getProperty("get-store-total-param"));
+
+				select.setString(SQLStatement.PARAM1, TableName);
+				select.setString(SQLStatement.PARAM2, ColumnName);
+				select.setString(SQLStatement.PARAM3, companyId);
+				select.setString(SQLStatement.PARAM4, storeId);
+
+				if (rowNum == 1) {
+					result = select.executeQuery();
+					if (result.next()) {
+						storeInfo.setStoreSettleCount(result.getInt(ColumnName));
+					}
+				} else {
+					storeInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
+					tp.println("Store not found.");
+				}
+			}else{
+				update = conn.prepareStatement(sqlStatement
+						.getProperty("update-store-total"));
+
+				update.setString(SQLStatement.PARAM1, storeId);
+				update.setString(SQLStatement.PARAM2, companyId);
+
+				int rowNum = update.executeUpdate();
+				conn.commit();
+
+				select = conn.prepareStatement(sqlStatement
+						.getProperty("get-store-total"));
+
+				select.setString(SQLStatement.PARAM1, companyId);
+				select.setString(SQLStatement.PARAM2, storeId);
+
+				if (rowNum == 1) {
+					result = select.executeQuery();
+					if (result.next()) {
+						storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
+					}
+				} else {
+					storeInfo.setNCRWSSResultCode(ResultBase.RES_STORE_NOT_EXIST);
+					tp.println("Store not found.");
+				}
+			}
+
+		} catch (Exception ex) {
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+						"Failed to get"  + ColumnName + " : " + ex.getMessage());
+				throw new DaoException("Exception: @" + functionName + " - Error get" + ColumnName , ex);
+			}else{
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get subnum2" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+			}
+		} finally {
+			closeConnectionObjects(conn, select, result);
+			tp.methodExit(storeInfo);
+		}
+		return storeInfo;
+	}
+
+	@Override
+	public StoreInfo getStoreTotal(String companyId, String storeId, String terminalId, String businessdaydate) throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName)
+				.println("companyId",companyId).println("storeId", storeId).println("terminalId", terminalId)
+				.println("businessdaydate", businessdaydate);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		StoreInfo storeInfo = new StoreInfo();
+
+		String TableName = null;
+		String ColumnName = null;
+
+		try {
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			TableName = getTableName();
+			ColumnName = getColumnName();
+
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				select = conn.prepareStatement(sqlStatement.getProperty("get-store-total-param"));
+
+				select.setString(SQLStatement.PARAM1, TableName);
+				select.setString(SQLStatement.PARAM2, ColumnName);
+				select.setString(SQLStatement.PARAM3, companyId);
+				select.setString(SQLStatement.PARAM4, storeId);
+
+				result = select.executeQuery();
+				if (result.next()) {
+					storeInfo.setStoreSettleCount(result.getInt(ColumnName));
+				}
+			}
+			else{
+				select = conn.prepareStatement(sqlStatement.getProperty("get-store-total"));
+
+				select.setString(SQLStatement.PARAM1, companyId);
+				select.setString(SQLStatement.PARAM2, storeId);
+
+				result = select.executeQuery();
+				if (result.next()) {
+					storeInfo.setStoreSettleCount(result.getInt("SubNum2"));
+				}
+			}
+		} catch (Exception ex) {
+			if(!StringUtility.isNullOrEmpty(TableName, ColumnName)){
+				LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+						"Failed to get"  + ColumnName + " : " + ex.getMessage());
+				throw new DaoException("Exception: @" + functionName + " - Error get" + ColumnName , ex);
+			}else{
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get subnum2" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get subnum2 ", ex);
+			}
+		} finally {
+			closeConnectionObjects(conn, select, result);
+			tp.methodExit(storeInfo);
+		}
+		return storeInfo;
+	}
+
+	public String getTableName() throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		String tableName = null;
+		try {
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			select = conn.prepareStatement(sqlStatement
+					.getProperty("get-tablename"));
+
+			result = select.executeQuery();
+			if (result.next()) {
+				tableName =  result.getString("value");
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get tableName" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get tableName ", ex);
+		} finally {
+			closeConnectionObjects(conn, select, result);
+		}
+		return tableName;
+
+	}
+
+	public String getColumnName() throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
+
+		Connection conn = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		String columnName = null;
+		try {
+			conn = dbManager.getConnection();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+
+			select = conn.prepareStatement(sqlStatement
+					.getProperty("get-columnname"));
+
+			result = select.executeQuery();
+			if (result.next()) {
+				columnName =  result.getString("value");
+			}
+		} catch (Exception ex) {
+			LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
+					"Failed to get columnName" + " : " + ex.getMessage());
+			throw new DaoException("Exception: @" + functionName + " - Error get columnName ", ex);
+		} finally {
+			closeConnectionObjects(conn, select, result);
+		}
+		return columnName;
+
+	}
 }

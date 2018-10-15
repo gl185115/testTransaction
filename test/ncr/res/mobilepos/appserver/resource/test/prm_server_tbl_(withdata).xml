@@ -1,0 +1,18 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="PRM_SERVER_TBL">
+		<column>Name</column>
+		<column>Type</column>
+		<column>Url</column>
+		<row>
+			<value>AP Server (IIS)</value>
+			<value>WOApi</value>
+			<value>http://localhost:8086/WOApi/HealthCheckAPI/</value>
+		</row>
+		<row>
+			<value>AP Server (TOMCAT)</value>
+			<value>resTransaction</value>
+			<value>http://localhost:8080/resTransaction/rest/initialization/status</value>
+		</row>
+	</table>
+</dataset>

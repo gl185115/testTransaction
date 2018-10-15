@@ -63,7 +63,7 @@ import ncr.res.mobilepos.model.ResultBase;
  */
 
 @Path("/devicelog")
-@Api(value="/devicelog", description="日誌情報API")
+@Api(value="/devicelog", description="デバイスログAPI")
 public class DeviceLogResource {
 
 
@@ -138,8 +138,6 @@ public class DeviceLogResource {
      * uploads logs from device to server
      * 
      * @param request - the servlet request
-     * @param storeid - store id
-     * @param termid - terminal id
      * @param data - contents of log itself
      * @return ResultBase, which contains: NCRWSSResultCode,
      *         NCRWSSExtendedResultCode and Message.
@@ -208,11 +206,16 @@ public class DeviceLogResource {
     @POST
     @Produces(MediaType.APPLICATION_ATOM_XML)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @ApiOperation(value="デバイスログのアップロード", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+            @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
+    })
     public final DeviceLog upload(
             @Context final HttpServletRequest request,
-            @PathParam("udid") final String udid,
-            @PathParam("logDate") final String logDate,
-            @QueryParam("rowId") final String rowId) {
+            @ApiParam(name="udid", value="端末UUID") @PathParam("udid") final String udid,
+            @ApiParam(name="logDate", value="ログ日付") @PathParam("logDate") final String logDate,
+            @ApiParam(name="rowId", value="行ID") @QueryParam("rowId") final String rowId) {
 
         DeviceLog result = new DeviceLog();
 
@@ -313,12 +316,16 @@ public class DeviceLogResource {
     @POST
     @Produces(MediaType.APPLICATION_ATOM_XML)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @ApiOperation(value="デバイスログのアップロード", response=ResultBase.class)
+    @ApiResponses(value={
+            @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
+    })
     public final ResultBase uploadFile(
             @Context final HttpServletRequest request,
-            @PathParam("storeid") final String storeid,
-            @PathParam("termid") final String termid,
-            @PathParam("logDate") final String logDate,
-            @QueryParam("seqnum") final String seqnum) {
+            @ApiParam(name="storeid", value="店舗コード") @PathParam("storeid") final String storeid,
+            @ApiParam(name="termid", value="端末コード") @PathParam("termid") final String termid,
+            @ApiParam(name="logDate", value="ログ日付") @PathParam("logDate") final String logDate,
+            @ApiParam(name="seqnum", value="ログ連番") @QueryParam("seqnum") final String seqnum) {
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
         tp.methodEnter("uploadFile");

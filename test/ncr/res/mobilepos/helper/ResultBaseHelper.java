@@ -20,4 +20,20 @@ public class ResultBaseHelper {
 		}
 		return res;
 	}
+
+	public static String getErrorMessage(String error) {
+		String res = null;
+
+		try {
+			for (Field f : ResultBase.class.getDeclaredFields()) {
+				if (error.equalsIgnoreCase(f.getName())) {
+					res = (String)f.get(f);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return res;
+	}
+
 }

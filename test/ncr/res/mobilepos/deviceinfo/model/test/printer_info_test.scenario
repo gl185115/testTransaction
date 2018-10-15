@@ -1,4 +1,0 @@
-Scenario: Test PeripheralDeviceInfo  
-Given a PrinterInfo instance
-When I marshall xml {<printerinfo><printerid>4567</printerid><printername>MyPrinter</printername><printerdescription>This is my printer</printerdescription></printerinfo>} 
-Then printerid={4567}, printername={MyPrinter}, and printerdescription={This is my printer}  

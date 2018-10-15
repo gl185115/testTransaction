@@ -1,0 +1,67 @@
+<!DOCTYPE dataset SYSTEM "/test/ncr/res/mobilepos/helper/dataset.dtd">
+<dataset>
+	<table name="MST_CUSTOMERCLASS">
+		<column>CompanyId</column>
+  		<column>StoreId</column>
+  		<column>CustomerClassId</column>
+  		<column>CustomerClassName</column>
+  		<column>CustomerClassKanaName</column>
+  		<column>GenerationType</column>
+  		<column>SexType</column>
+  		<column>OtherType</column>
+  		<column>DisplayOrder</column>
+  		<column>SubCode1</column>
+  		<column>SubCode2</column>
+  		<column>SubCode3</column>
+  		<column>SubCode4</column>
+  		<column>SubCode5</column>
+  		<column>SubNum1</column>
+  		<column>SubNum2</column>
+  		<column>SubNum3</column>
+  		<column>SubNum4</column>
+  		<column>SubNum5</column>
+  		<column>DeleteFlag</column>
+  		<column>DelDate</column>
+  		<column>DelAppId</column>
+  		<column>DelOpeCode</column>
+  		<column>InsDate</column>
+  		<column>InsAppId</column>
+  		<column>InsOpeCode</column>
+  		<column>UpdCount</column>
+  		<column>UpdDate</column>
+  		<column>UpdAppId</column>
+  		<column>UpdOpeCode</column>
+  		<row>
+  			<value>01</value>
+			<value>0123</value>
+			<value>01</value>
+			<value>女性１０代</value>
+			<value>01</value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value>0</value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<value></value>
+			<null />
+			<null />
+			<null />
+			<null />
+			<null />
+			<value>0</value>
+			<null />
+			<null />
+			<null />
+			<value>2016-03-11 14:02:27.4030000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+			<value>0</value>
+			<value>2016-03-11 14:02:27.4030000</value>
+			<value>SYSTEM</value>
+			<value>SYSTEM</value>
+  		</row>
+	</table>
+</dataset>

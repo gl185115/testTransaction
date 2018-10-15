@@ -16,8 +16,8 @@ if (request.getParameter("c") != null) {
 <div>
   <label>企業番号
     <select name="companyID" id="companyID">
-      <option value="01" selected>XEBIO</option>
-      <option value="02">VICTORIA</option>
+      <option value="01" selected>SAMPLE</option>
+      <option value="02">SportStore02</option>
     </select>
   </label>
   <label>店番号

@@ -1,0 +1,37 @@
+Scenario: Successfully get device attribute info
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId 01, storeId 0247 and terminalId 0001
+Then I should have the following data:
+|companyId	|storeId	|terminalId	|training	|deviceName	|attributeId  |printerId	|tillId		|linkQueueBuster	|printDes	|drawerId	|displayName	|attributeDes	|
+|01			|0247		|0001		|0			|POS#1		|1		      |0001			|02470001	|0001 				|			|02470001	|Device0001		|??????			|
+Then the result should be RES_OK
+
+Scenario: Get device attribute info where companyId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId null, storeId 0001 and terminalId 01
+Then the result should be RES_ERROR_NODATAFOUND
+
+Scenario: Get device attribute info where companyId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId empty, storeId 01 and terminalId 0001
+Then the result should be RES_ERROR_NODATAFOUND 
+
+Scenario: Get device attribute info where terminalId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId 0001, storeId 01 and terminalId null
+Then the result should be RES_ERROR_INVALIDPARAMETER
+
+Scenario: Get device attribute info where terminalId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId 01, storeId 0001 and terminalId empty
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get device attribute info where storeId is null
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId 0001, storeId null and terminalId 0247
+Then the result should be RES_ERROR_INVALIDPARAMETER 
+
+Scenario: Get device attribute info where storeId is empty
+Given I have a DeviceInfo resource and other resources
+When I request to get device attribute info of companyId 0001, storeId empty and terminalId 01
+Then the result should be RES_ERROR_INVALIDPARAMETER 

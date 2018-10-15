@@ -23,7 +23,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.xebioapi.model.JSONData;
+import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 /**
  * SQLServerCreditCardDAO is a Data Access Object implementation for CreditCard information
@@ -128,10 +128,6 @@ public class SQLServerCreditCardDAO extends AbstractDao implements ICreditCardAb
                 cardcompanies.setNCRWSSExtendedResultCode(ResultBase.RESRPT_OK);
                 cardcompanies.setMessage(ResultBase.RES_SUCCESS_MSG);
             }
-		}catch (SQLStatementException sqlStmtEx) {
-            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQLSTATEMENT,
-                    functionName + ": Failed to get credit card company infomation.", sqlStmtEx);
-            throw new DaoException("SQLStatementException:" + " @SQLServerCreditCardDAO.getCreditCardCompayInfo", sqlStmtEx);
         } catch (SQLException sqlEx) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get credit card company infomation.",
                     sqlEx);

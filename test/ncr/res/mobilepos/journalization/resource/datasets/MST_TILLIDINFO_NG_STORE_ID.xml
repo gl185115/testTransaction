@@ -10,6 +10,11 @@
 		<column>UpdDate</column>
 		<column>UpdAppId</column>
 		<column>UpdOpeCode</column>
+		<column>CompanyId</column>
+		<column>DeleteFlag</column>
+		<column>InsAppId</column>
+		<column>InsOpeCode</column>
+		<column>UpdCount</column>
 		<row>
 			<value>0032</value>
 			<value>0</value>
@@ -20,6 +25,11 @@
 			<value>2014-11-14 00:00:00</value>
 			<value>1</value>
 			<value>2</value>
+			<value>01</value>
+			<value>0</value>
+			<value>System</value>
+			<value>9011011</value>
+			<value>0</value>
 		</row>
 	</table>
 </dataset>

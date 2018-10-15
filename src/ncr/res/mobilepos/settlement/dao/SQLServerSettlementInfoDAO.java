@@ -16,6 +16,7 @@ import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.settlement.model.CreditInfo;
+import ncr.res.mobilepos.settlement.model.PaymentAmtInfo;
 import ncr.res.mobilepos.settlement.model.SettlementInfo;
 import ncr.res.mobilepos.settlement.model.VoucherDetails;
 import ncr.res.mobilepos.settlement.model.VoucherInfo;
@@ -61,57 +62,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     }
     
     @Override
-    public SettlementInfo getCreditSummary(String companyId, String storeId, 
-    		String businessDayDate, int trainingFlag) throws Exception {
-    	String functionName = DebugLogger.getCurrentMethodName();
-    	tp.methodEnter(functionName)
-    		.println("companyId", companyId)
-    		.println("storeId", storeId)
-    		.println("businessDayDate", businessDayDate)
-    		.println("trainingFlag", trainingFlag);
-    
-    	Connection connection = null;
-    	PreparedStatement statement = null;
-    	ResultSet result = null;
-    	SettlementInfo settlement = new SettlementInfo();
-    
-    	try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            statement = connection.prepareStatement(
-            		sqlStatement.getProperty("get-credit-summary"));
-            statement.setString(SQLStatement.PARAM1, companyId);
-            statement.setString(SQLStatement.PARAM2, storeId);
-            statement.setString(SQLStatement.PARAM3, businessDayDate);
-            statement.setInt(SQLStatement.PARAM4, trainingFlag);
-            result = statement.executeQuery();
-            if (result.next()) {
-            	CreditInfo creditInfo = new CreditInfo();
-            	creditInfo.setCompanyId(result.getString("CompanyId"));
-            	creditInfo.setStoreId(result.getString("RetailStoreId"));
-            	creditInfo.setBusinessDayDate(result.getString("BusinessDayDate"));
-            	creditInfo.setTrainingFlag(result.getInt("TrainingFlag"));
-            	creditInfo.setSalesCntSum(result.getInt("CntSum"));
-            	creditInfo.setSalesAmtSum(result.getDouble("AmtSum"));
-            	settlement.setCreditInfo(creditInfo);
-            } else {
-            	tp.println("Credit summary not found.");
-            	settlement.setNCRWSSResultCode(ResultBase.RES_CREDIT_SUMMARY_NOT_FOUND);
-            	settlement.setMessage("Credit summary not found.");
-            }
-    	} catch (Exception e) {
-    		LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
-    				+ ": Failed to get credit summary.", e);
-    		throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
-    				+ functionName, e);
-        }  finally {
-        	closeConnectionObjects(connection, statement, result);
-        	tp.methodExit(settlement);
-        }
-    	return settlement;
-    }
-    
-    @Override
     public SettlementInfo getVoucherList(String companyId, String storeId, 
     		String businessDayDate, String terminalId, int trainingFlag) throws Exception {
     	String functionName = DebugLogger.getCurrentMethodName();
@@ -140,7 +90,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             while (result.next()) {
             	VoucherInfo voucherInfo = new VoucherInfo();
             	voucherInfo.setCompanyId(result.getString("CompanyId"));
-            	voucherInfo.setStoreId(result.getString("StoreId"));
+            	voucherInfo.setStoreId(storeId);
             	voucherInfo.setVoucherCompanyId(result.getString("TenderId"));
             	voucherInfo.setVoucherType(result.getString(("TenderType")));
             	voucherInfo.setVoucherName(result.getString("TenderName"));
@@ -195,7 +145,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             while (result.next()) {
             	VoucherInfo voucherInfo = new VoucherInfo();
             	voucherInfo.setCompanyId(result.getString("CompanyId"));
-            	voucherInfo.setStoreId(result.getString("StoreId"));
+            	voucherInfo.setStoreId(storeId);
             	voucherInfo.setVoucherCompanyId(result.getString("TenderId"));
             	voucherInfo.setVoucherType(result.getString(("TenderType")));
             	voucherInfo.setVoucherName(result.getString("TenderName"));
@@ -268,9 +218,62 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
         return settlement;
     }
     
+    /* (non-Javadoc)
+     * @see ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO#getTxCountByBusinessDate(java.lang.String,
+     * java.lang.String, java.lang.String, java.lang.String, java.lang.String, int)
+     */
+    @Override
+    public SettlementInfo getTxCountByBusinessDate(String companyId, String storeId, String workStationId,
+    		String txtype, String businessDate, int trainingFlag)throws Exception {
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName)
+        .println("companyId", companyId)
+        .println("storeId", storeId)
+        .println("workStationId", workStationId)
+        .println("txtype", txtype)
+        .println("businessDate", businessDate)
+        .println("trainingFlag", trainingFlag);
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        SettlementInfo settlement = new SettlementInfo();
+        
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-tx-count-by-businessdate"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, workStationId);
+            statement.setString(SQLStatement.PARAM4, txtype);
+            statement.setString(SQLStatement.PARAM5, businessDate);
+            statement.setInt(SQLStatement.PARAM6, trainingFlag);
+            result = statement.executeQuery();
+            
+            if (result.next()) {
+                settlement.setTxCount(result.getInt("TxCount"));
+            } else {
+                tp.println("EOD count not found.");
+                settlement.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+                settlement.setMessage("Tx count not found.");
+            }
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get Tx count.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        }  finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
+    
     @Override
     public SettlementInfo getCredit(String companyId, String storeId, String terminalId, String businessDate,
-            int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws Exception {
+            int trainingFlag, String dataType, String itemLevel1) throws Exception {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -280,8 +283,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
     
         Connection connection = null;
         PreparedStatement statement = null;
@@ -300,7 +302,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             statement.setInt(SQLStatement.PARAM5, trainingFlag);
             statement.setString(SQLStatement.PARAM6, dataType);
             statement.setString(SQLStatement.PARAM7, itemLevel1);
-            statement.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = statement.executeQuery();
             if (result.next()) {
@@ -330,7 +331,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     }
     @Override
     public SettlementInfo getCreditByTillId(String companyId, String storeId, String tilleId,
-    		String businessDate, int trainingFlag, String dataType, String itemLevel1, String itemLevel2) throws Exception {
+    		String businessDate, int trainingFlag, String dataType, String itemLevel1) throws Exception {
         
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -340,8 +341,7 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
           .println("businessDate", businessDate)
           .println("trainingFlag", trainingFlag)
           .println("dataType", dataType)
-          .println("itemLevel1", itemLevel1)
-          .println("itemLevel2", itemLevel2);
+          .println("itemLevel1", itemLevel1);
     
         Connection connection = null;
         PreparedStatement statement = null;
@@ -360,7 +360,6 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
             statement.setInt(SQLStatement.PARAM5, trainingFlag);
             statement.setString(SQLStatement.PARAM6, dataType);
             statement.setString(SQLStatement.PARAM7, itemLevel1);
-            statement.setString(SQLStatement.PARAM8, itemLevel2);
             
             result = statement.executeQuery();
             if (result.next()) {
@@ -505,4 +504,111 @@ public class SQLServerSettlementInfoDAO extends AbstractDao implements ISettleme
     return voucherDetails;
     }
     
+    @Override
+    public SettlementInfo getPaymentAmtByTerminalId(String companyId, String storeId, String businessDate, int trainingFlag, String terminalId) throws Exception {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("businessDate", businessDate)
+          .println("trainingFlag", trainingFlag)
+          .println("terminalId", terminalId);
+    
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        List<PaymentAmtInfo> paymentAmtList = null;
+        SettlementInfo settlement = null;
+        PaymentAmtInfo paymentAmtInfo = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-payment-amt-by-terminalid"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
+            statement.setString(SQLStatement.PARAM5, terminalId);
+            
+            result = statement.executeQuery();
+            settlement = new SettlementInfo();
+            paymentAmtList = new ArrayList<PaymentAmtInfo>();
+            while (result.next()){
+                paymentAmtInfo = new PaymentAmtInfo();
+                paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setTenderName(result.getString("TenderName"));
+                paymentAmtInfo.setTenderType(result.getString("TenderType"));
+                paymentAmtInfo.setTenderIdentification(result.getString("TenderIdentification"));
+                paymentAmtInfo.setSumAmt(result.getInt("SumAmt"));
+                paymentAmtList.add(paymentAmtInfo);
+            }
+            settlement.setPaymentAmtList(paymentAmtList);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get payment amt.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        } finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
+    
+    @Override
+    public SettlementInfo getPaymentAmtByTxType(String companyId, String storeId, String businessDate, int trainingFlag, String txType) throws Exception {
+        
+        String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        tp.println("companyId", companyId)
+          .println("storeId", storeId)
+          .println("businessDate", businessDate)
+          .println("trainingFlag", trainingFlag)
+          .println("txType", txType);
+    
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet result = null;
+        List<PaymentAmtInfo> paymentAmtList = null;
+        SettlementInfo settlement = null;
+        PaymentAmtInfo paymentAmtInfo = null;
+        try {
+            connection = dbManager.getConnection();
+            SQLStatement sqlStatement = SQLStatement.getInstance();
+            statement = connection.prepareStatement(
+                    sqlStatement.getProperty("get-payment-amt-by-txtype"));
+            statement.setString(SQLStatement.PARAM1, companyId);
+            statement.setString(SQLStatement.PARAM2, storeId);
+            statement.setString(SQLStatement.PARAM3, businessDate);
+            statement.setInt(SQLStatement.PARAM4, trainingFlag);
+            statement.setString(SQLStatement.PARAM5, txType);
+            
+            result = statement.executeQuery();
+            settlement = new SettlementInfo();
+            paymentAmtList = new ArrayList<PaymentAmtInfo>();
+            while (result.next()){
+                paymentAmtInfo = new PaymentAmtInfo();
+                paymentAmtInfo.setTenderId(result.getString("TenderId"));
+                paymentAmtInfo.setTenderName(result.getString("TenderName"));
+                paymentAmtInfo.setTenderType(result.getString("TenderType"));
+                paymentAmtInfo.setTenderIdentification(result.getString("TenderIdentification"));
+                paymentAmtInfo.setSumBalancingRegisterAmt(result.getInt("SumBalancingRegisterAmt"));
+                paymentAmtInfo.setSumBalancingCurrentAmt(result.getInt("SumBalancingCurrentAmt"));
+                paymentAmtInfo.setSumBalancingDifferenceAmt(result.getInt("SumBalancingDifferenceAmt")); 
+                paymentAmtList.add(paymentAmtInfo);
+            }
+            settlement.setPaymentAmtList(paymentAmtList);
+        } catch (Exception e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName 
+                    + ": Failed to get payment amt.", e);
+            throw new Exception(e.getCause() + ": @SQLServerSettlementInfoDAO."
+                    + functionName, e);
+        }  finally {
+            closeConnectionObjects(connection, statement, result);
+            tp.methodExit(settlement);
+        }
+        return settlement;
+    }
 }

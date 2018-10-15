@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Calendar;
 
-import ncr.res.mobilepos.constant.TxTypes;
 import ncr.res.mobilepos.journalization.model.poslog.PosLog;
 import ncr.res.mobilepos.journalization.model.poslog.RetailTransaction;
 import ncr.res.mobilepos.journalization.model.poslog.Transaction;
@@ -23,7 +22,7 @@ public class JrnSpm {
 	/**
 	 * Header titles column of Spm file.
 	 */
-	public static final String HEADER = "STORE  TERM TX   TYPE           ITEM  ST START         END           ProcTime\n";
+	public static final String HEADER = "COMP   STORE  TERM TX   TYPE             ITEM  ST START         END           ProcTime\n";
 	/**
 	 * For Unknown data.
 	 */
@@ -102,6 +101,7 @@ public class JrnSpm {
 		if (tran == null){
 			return sb.toString();
 		}
+		String companyId = tran.getOrganizationHierarchy().getId();
         String storeId = tran.getRetailStoreID();
 		String workStationId = tran.getWorkStationID().getValue();
 		String txId = tran.getSequenceNo();
@@ -114,7 +114,7 @@ public class JrnSpm {
 	    DecimalFormat nf = new DecimalFormat("00");
 		DecimalFormat nf3 = new DecimalFormat("000");
 	
-		String txType = POSLogHandler.getTransactionType(poslog);
+		String txType = tran.getTransactionType();
 		
 		// get item count
 		RetailTransaction retailTransaction = tran.getRetailTransaction();
@@ -124,13 +124,15 @@ public class JrnSpm {
 			itemCnt = retailTransaction.getItemCount();
 		}
 		
-		sb.append(String.format("%6s", (storeId != null) ? storeId: NA).replace(" ", "0"))
+		sb.append(String.format("%6s", (companyId != null) ? companyId: NA).replace(" ", "0"))
+            .append(" ")
+            .append(String.format("%6s", (storeId != null) ? storeId: NA).replace(" ", "0"))
 		    .append(" ")
 		    .append(String.format("%4s", (workStationId != null) ? workStationId: NA).replace(" ", "0"))
 		    .append(" ")
 		    .append(String.format("%4s", (txId != null) ? txId: NA).replace(" ", "0"))
 		    .append(" ")
-		    .append(String.format("%1$-" + 14 + "s", txType))
+		    .append(String.format("%1$-" + 16 + "s", txType))
 		    .append(" ")
 		    .append(String.format("%3s", itemCnt).replace(" ", "0"))	    
 		    .append("   ")

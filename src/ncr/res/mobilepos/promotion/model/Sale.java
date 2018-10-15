@@ -46,6 +46,9 @@ public class Sale extends Item {
     
     @XmlElement(name = "ColorCode")
     private String colorCode;
+
+    @XmlElement(name = "ItemForm")
+    private String itemForm;
     
     private boolean isPriceOverride;
     
@@ -54,6 +57,18 @@ public class Sale extends Item {
     private int discountCount;
     
     private int rewardId;
+    
+    @XmlElement(name = "DiscountClass")
+    private int discountClass;
+    
+    @XmlElement(name = "DiscountAmt")
+    private int discountAmt;
+    
+    @XmlElement(name = "DptDiscountRate")
+    private Double dptDiscountRate;
+    
+    @XmlElement(name = "DptPromotionNo")
+    private String dptPromotionNo;
     
     public Sale() {
         this.setDiscount(0);
@@ -173,6 +188,40 @@ public class Sale extends Item {
      public final void setColorCode(final String colorCode) {
          this.colorCode = colorCode;
      }
+
+    @ApiModelProperty(value="çÄñ⁄å`éÆ", notes="çÄñ⁄å`éÆ")
+    public String getItemForm() {
+		return itemForm;
+	}
+	public void setItemForm(String itemForm) {
+		this.itemForm = itemForm;
+	}
+	
+    public int getDiscountClass() {
+        return discountClass;
+    }
+    public void setDiscountClass(int discountClass) {
+        this.discountClass = discountClass;
+    }
+    public int getDiscountAmt() {
+        return discountAmt;
+    }
+    public void setDiscountAmt(int discountAmt) {
+        this.discountAmt = discountAmt;
+    }
+    public Double getDptDiscountRate() {
+        return dptDiscountRate;
+    }
+    public void setDptDiscountRate(Double dptDiscountRate) {
+        this.dptDiscountRate = dptDiscountRate;
+    }
+    public String getDptPromotionNo() {
+        return dptPromotionNo;
+    }
+    public void setDptPromotionNo(String dptPromotionNo) {
+        this.dptPromotionNo = dptPromotionNo;
+    }
+
     //-----
     @Override
     public final Object clone() {

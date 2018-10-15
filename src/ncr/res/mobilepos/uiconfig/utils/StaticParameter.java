@@ -37,6 +37,7 @@ public class StaticParameter {
 	public static File dir_imagesPickList = null;
 	public static File dir_notices = null;
 	public static File dir_options = null;
+	public static File dir_phrases = null;
 	public static File dir_pickList = null;
 	public static File dir_schedule = null;
 	public static File dir_usability = null;
@@ -114,6 +115,7 @@ public class StaticParameter {
 	public static final String key_images = RESConfigEnum.DIR_IMAGES.getValue();
 	public static final String key_notices = RESConfigEnum.DIR_NOTICES.getValue();
 	public static final String key_options = RESConfigEnum.DIR_OPTIONS.getValue();
+	public static final String key_phrases = RESConfigEnum.DIR_PHRASES.getValue();
 	public static final String key_pickList = RESConfigEnum.DIR_PICKLIST.getValue();
 	public static final String key_schedule = RESConfigEnum.DIR_SCHEDULE.getValue();
 	public static final String key_usability = RESConfigEnum.DIR_USABILITY.getValue();

@@ -1,0 +1,29 @@
+Scenario: Cancelled EOD @Coupon Summary Screen (Without Coupon Transaction Within Businessday)
+!-- Expected: EodFlag becomes 0 from 9
+Given that has no other working devices
+Given that has no last payin/payout transactions
+Given that has suspended transactions
+When getting execute authority companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD compulsoryflag:false
+Then it should get the following:
+|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|0					|0							|
+When getting till information of storeid:0247 tillid:02470001
+Then it should get the following:
+|NCRWSSResultCode	|StoreId	|TillId		|BusinessDayDate	|SodFlag	|EodFlag	|
+|0					|0247		|02470001	|2016-08-16			|0			|9			|
+When releasing execute authority for EOD companyid:01 retailstoreid:0247 tillid:02470001 terminalid:0001 operatorno:9011011 processing:EOD
+Then it should get the NCRWSSResultCode:0
+Then MST_TILLIDINFO table should have:
+|CompanyId	|StoreId	|TillId		|TerminalId	|BusinessDayDate	|SodFlag	|EodFlag	|
+|01			|0247		|02470001	|0001		|2016-08-16			|1			|0			|
+When getting the device status of companyId:01 storeId:0247 terminalId:0001
+Then it should get the following:
+|OpenCloseStatus	|NCRWSSResultCode	|NCRWSSExtendedResultCode	|
+|1					|0					|0							|
+
+Scenario: Continue EOD @Coupon Summary Screen (Without Coupon Transaction Within Businessday)
+Given that has credit payments
+When getting credit companyId:01 storeId:0247 businessDate:2016-08-16 trainingFlag:0 dataType:2 itemLevel1:01 tillId:02470001 terminalId:null
+Then it should get the following:
+|CompanyId	|RetailStoreId	|BusinessDayDate	|TrainingFlag	|SalesCntSum	|SalesItemAmt	|SalesItemCnt	|SalesAmtSum	|
+|01			|0247			|2016-08-16			|0				|1				|0.0			|0				|1080.0			|

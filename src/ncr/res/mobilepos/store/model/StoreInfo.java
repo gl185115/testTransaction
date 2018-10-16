@@ -471,6 +471,15 @@ public class StoreInfo extends ResultBase {
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
+    
+    @ApiModelProperty(value="éñã∆é“ìoò^î‘çÜ", notes="éñã∆é“ìoò^î‘çÜ")
+    public String getBusinessRegistrationNo() {
+        return businessRegistrationNo;
+    }
+
+    public void setBusinessRegistrationNo(String businessRegistrationNo) {
+        this.businessRegistrationNo = businessRegistrationNo;
+    }
 
     @XmlElement(name = "HostUpdDate")
     private String hostUpdDate;
@@ -481,6 +490,7 @@ public class StoreInfo extends ResultBase {
     @XmlElement(name = "CompanyName")
     private String companyName;
 
-
+    @XmlElement(name = "BusinessRegistrationNo")
+    private String businessRegistrationNo;
 
 }

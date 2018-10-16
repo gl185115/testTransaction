@@ -342,6 +342,11 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                 presetSroreInfo.setHostUpdDate(resultSet.getString(resultSet.findColumn("HostUpdDate")));
                 presetSroreInfo.setStatus(resultSet.getString(resultSet.findColumn("Status")));
                 presetSroreInfo.setCompanyName(resultSet.getString(resultSet.findColumn("CompanyName")));
+                if(null != resultSet.getString(resultSet.findColumn("businessRegistrationNo"))){
+                    presetSroreInfo.setBusinessRegistrationNo(resultSet.getString(resultSet.findColumn("businessRegistrationNo")));
+                } else{
+                    presetSroreInfo.setBusinessRegistrationNo("");
+                }
             }
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,

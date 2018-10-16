@@ -9781,6 +9781,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
 
     SELECT
     company.CompanyName,
+    company.SubCode1 businessRegistrationNo, 
     CASE WHEN
     presetStore.ReceiptStoreName IS NOT NULL
     THEN presetStore.ReceiptStoreName

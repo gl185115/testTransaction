@@ -11,7 +11,6 @@ import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
@@ -111,5 +110,42 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
         return map;
     }
 
-	
+    /**
+     * get dpt.SubNum5
+     * @param companyId ,retailstoreId ,departmentId
+     * @return TaxRate
+     * @exception DaoException the exception of sql
+     */
+    @Override
+    public String getTaxRateByDptId(String companyId ,String retailstoreId ,String departmentId) throws DaoException {
+        tp.methodEnter("getTaxRateByDptId");
+        tp.println("companyId", companyId)
+        .println("retailstoreId", retailstoreId)
+        .println("departmentId", departmentId);
+
+        Connection connection = null;
+        PreparedStatement select = null;
+        ResultSet resultSet = null;
+        SQLStatement sqlStatement = null;
+        String subNum5 = null;
+        try {
+            sqlStatement = SQLStatement.getInstance();
+            connection = dbManager.getConnection();
+            select = connection.prepareStatement(sqlStatement.getProperty("get-dptinfo-subnum5"));
+            select.setString(SQLStatement.PARAM1, companyId);
+            select.setString(SQLStatement.PARAM2, retailstoreId);
+            select.setString(SQLStatement.PARAM3, departmentId);
+            resultSet = select.executeQuery();
+            if (resultSet.next()) {subNum5 = resultSet.getString(resultSet.findColumn("SubNum5"));}
+
+        } catch (SQLException e) {
+            LOGGER.logAlert(progname, "SQLServerTaxRateDao.getTaxRateByDptId()", Logger.RES_EXCEP_SQL,
+                    "Failed to get the subNum5.\n" + e.getMessage());
+            throw new DaoException("SQLException: @getTaxRateByDptId ", e);
+        }finally {
+            closeConnectionObjects(connection, select, resultSet);
+            tp.methodExit(subNum5);
+        }
+        return subNum5;
+    }
 }

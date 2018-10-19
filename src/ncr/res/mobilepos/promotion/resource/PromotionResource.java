@@ -57,7 +57,9 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.IItemDAO;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
+import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
 import ncr.res.mobilepos.pricing.model.CouponInfo;
+import ncr.res.mobilepos.pricing.model.DefaultTaxRate;
 import ncr.res.mobilepos.pricing.model.Description;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.pricing.model.PremiumInfo;
@@ -65,12 +67,14 @@ import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
+import ncr.res.mobilepos.pricing.model.TaxRateInfo;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
 import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.helper.TerminalItemsHandler;
@@ -131,6 +135,8 @@ public class PromotionResource {
 
 	private final List<PromotionMsgInfo> promotionMsgInfoList;
 
+	private final List<TaxRateInfo> taxRateInfoList;
+
 	public static final String PROMOTIONTYPE_ALL = "1";
 	public static final String PROMOTIONTYPE_DPT = "2";
 	public static final String PROMOTIONTYPE_DPT_CONN = "3";
@@ -158,6 +164,7 @@ public class PromotionResource {
 		barcodeAssignment = BarcodeAssignmentFactory.getInstance();
 		qrCodeInfoList = QrCodeInfoFactory.getInstance();
 		promotionMsgInfoList = PromotionMsgInfoFactory.getInstance();
+		taxRateInfoList = TaxRateInfoFactory.getInstance();
 	}
 
 	/**
@@ -655,6 +662,12 @@ public class PromotionResource {
 					}
 				}
 
+				// 商品の税率情報を取得する
+				getSaleTaxRateInfo(saleItem ,response);
+				if(response.getNCRWSSResultCode() != ResultBase.RES_OK){
+					return response;
+				}
+
 				response.setPromotion(promotion);
 				transactionOut.setSale(saleItem);
 				response.setTransaction(transactionOut);
@@ -705,7 +718,97 @@ public class PromotionResource {
 		}
 		return saleItem;
 	}
-	
+
+	/**
+	 * 税率区分の値を取得したマスターテーブルの番号
+	 *
+	 * @param saleItem
+	 */
+	private Sale chooseTaxSource(Sale saleItem) {
+		if(!StringUtility.isNullOrEmpty(saleItem.getPluSubNum1())){
+			saleItem.setTaxSource(PRIORITY_ONE);
+			saleItem.setTaxId(saleItem.getPluSubNum1());
+			return saleItem;
+		}
+		if(!StringUtility.isNullOrEmpty(saleItem.getClassInfoSubNum1())){
+			saleItem.setTaxSource(PRIORITY_TWO);
+			saleItem.setTaxId(saleItem.getClassInfoSubNum1());
+			return saleItem;
+		}
+		if(!StringUtility.isNullOrEmpty(saleItem.getLineInfoSubNum1())){
+			saleItem.setTaxSource(PRIORITY_THREE);
+			saleItem.setTaxId(saleItem.getLineInfoSubNum1());
+			return saleItem;
+		}
+		if(!StringUtility.isNullOrEmpty(saleItem.getDptSubNum5())){
+			saleItem.setTaxSource(PRIORITY_FOUR);
+			saleItem.setTaxId(saleItem.getDptSubNum5());
+		}
+		return saleItem;
+	}
+
+	/**
+	 * 税率の情報を取得する
+	 *
+	 * @param saleItem
+	 * @return
+	 */
+	private void getSaleTaxRateInfo(Sale saleItem ,PromotionResponse response){
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("Sale", saleItem).println("response", response);
+		
+		List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
+		DefaultTaxRate defaultTaxRate = null;
+		ChangeableTaxRate changeableTaxRate = null;
+		saleItem = chooseTaxSource(saleItem);
+		
+		if(taxRateInfoList != null){
+			for(TaxRateInfo TaxInfo : taxRateInfoList){
+				if(TaxInfo.getTaxId().equals(saleItem.getTaxId())){
+					taxInfoList.add(TaxInfo);
+				}
+			}
+		}
+		if(taxInfoList.size() > 0){
+			for(TaxRateInfo TaxInfo : taxInfoList){
+				if(TaxInfo.getSubNum1() == 0 && TaxInfo.getSubNum2() == 1){
+					if(defaultTaxRate != null){
+						LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_TABLE_DATA_ERR,"The data in MST_TAXRATE is error.\n");
+						response.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
+						response.setMessage("The data in MST_TAXRATE is error.");
+					}else {
+						defaultTaxRate = new DefaultTaxRate();
+						defaultTaxRate.setRate(TaxInfo.getTaxRate());
+					}
+				}
+				if(TaxInfo.getSubNum1() == 0 && TaxInfo.getSubNum2() == 0){
+					changeableTaxRate = new ChangeableTaxRate();
+					changeableTaxRate.setRate(TaxInfo.getTaxRate());
+				}
+				if(TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 1){
+					if(defaultTaxRate != null){
+						LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_TABLE_DATA_ERR,"The data in MST_TAXRATE is error.\n");
+						response.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
+						response.setMessage("The data in MST_TAXRATE is error.");
+					}else{
+						defaultTaxRate = new DefaultTaxRate();
+						defaultTaxRate.setRate(TaxInfo.getTaxRate());
+						defaultTaxRate.setReceiptMark(TaxInfo.getSubCode1());
+						defaultTaxRate.setReducedTaxRate(String.valueOf(TaxInfo.getSubNum1()));
+					}
+				}
+				if(TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 0){
+					changeableTaxRate = new ChangeableTaxRate();
+					changeableTaxRate.setRate(TaxInfo.getTaxRate());
+					changeableTaxRate.setReceiptMark(TaxInfo.getSubCode1());
+					changeableTaxRate.setReducedTaxRate(String.valueOf(TaxInfo.getSubNum1()));
+				}
+			}
+		}
+		saleItem.setChangeableTaxRate(changeableTaxRate);
+		saleItem.setDefaultTaxRate(defaultTaxRate);
+	}
+
 	/**
 	 * 値引・割引除外区分を取得する
 	 *

@@ -61,6 +61,18 @@ public class Item {
     @XmlElement(name = "Discountable")
     private boolean discountable;
 
+    @XmlElement(name = "DefaultTaxRate")
+    private DefaultTaxRate defaultTaxRate;
+
+    @XmlElement(name = "ChangeableTaxRate")
+    private ChangeableTaxRate changeableTaxRate;
+
+    @XmlElement(name = "TaxSource")
+    private String taxSource;
+
+    @XmlElement(name = "TaxId")
+    private String taxId;
+
     @XmlElement(name = "TaxRate")
     private int taxRate;
 
@@ -1430,6 +1442,42 @@ public class Item {
         this.discountable = discountable;
     }
 
+    @ApiModelProperty(value="デフォルトで使う税率", notes="デフォルトで使う税率")
+    public final DefaultTaxRate getDefaultTaxRate() {
+        return this.defaultTaxRate;
+    }
+
+    public final void setDefaultTaxRate(final DefaultTaxRate defaultTaxRate) {
+        this.defaultTaxRate = defaultTaxRate;
+    }
+
+    @ApiModelProperty(value="変更可能な税率", notes="変更可能な税率")
+    public final ChangeableTaxRate getChangeableTaxRate() {
+        return this.changeableTaxRate;
+    }
+
+    public final void setChangeableTaxRate(final ChangeableTaxRate changeableTaxRate) {
+        this.changeableTaxRate = changeableTaxRate;
+    }
+
+    @ApiModelProperty(value="実際に税率区分の値", notes="実際に税率区分の値")
+    public final String getTaxSource() {
+        return this.taxSource;
+    }
+
+    public final void setTaxSource(final String taxSource) {
+        this.taxSource = taxSource;
+    }
+
+    @ApiModelProperty(value="実際に税率区分", notes="実際に税率区分")
+    public final String getTaxId() {
+        return this.taxId;
+    }
+
+    public final void setTaxId(final String taxId) {
+        this.taxId = taxId;
+    }
+
     @ApiModelProperty(value="消費税率", notes="消費税率")
     public final int getTaxRate() {
         return taxRate;
@@ -1816,7 +1864,55 @@ public class Item {
     public void setClsDiscountType(String clsDiscountType) {
         this.clsDiscountType = clsDiscountType;
     }
-    
+
+    @XmlElement(name = "pluSubNum1")
+    private String pluSubNum1 = "";
+
+    @ApiModelProperty(value="商品マスタの税率区分", notes="商品マスタの税率区分")
+    public String getPluSubNum1() {
+        return pluSubNum1;
+    }
+
+    public void setPluSubNum1(String pluSubNum1) {
+        this.pluSubNum1 = pluSubNum1;
+    }
+
+    @XmlElement(name = "lineInfoSubNum1")
+    private String lineInfoSubNum1 = "";
+
+    @ApiModelProperty(value="中分類マスタの税率区分", notes="中分類マスタの税率区分")
+    public String getLineInfoSubNum1() {
+        return lineInfoSubNum1;
+    }
+
+    public void setLineInfoSubNum1(String lineInfoSubNum1) {
+        this.lineInfoSubNum1 = lineInfoSubNum1;
+    }
+
+    @XmlElement(name = "dptSubNum5")
+    private String dptSubNum5 = "";
+
+    @ApiModelProperty(value="大分類マスタの税率区分", notes="大分類マスタの税率区分")
+    public String getDptSubNum5() {
+        return dptSubNum5;
+    }
+
+    public void setDptSubNum5(String dptSubNum5) {
+        this.dptSubNum5 = dptSubNum5;
+    }
+
+    @XmlElement(name = "classInfoSubNum1")
+    private String classInfoSubNum1 = "";
+
+    @ApiModelProperty(value="小分類マスタの税率区分", notes="小分類マスタの税率区分")
+    public String getClassInfoSubNum1() {
+        return classInfoSubNum1;
+    }
+
+    public void setClassInfoSubNum1(String classInfoSubNum1) {
+        this.classInfoSubNum1 = classInfoSubNum1;
+    }
+
 	@Override
     public final String toString() {
       StringBuilder str = new StringBuilder();

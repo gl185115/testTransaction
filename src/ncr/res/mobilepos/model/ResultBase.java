@@ -1205,6 +1205,11 @@ public class ResultBase {
      * Referring TXU_POS_CTRL, Terminal is not working.
      */
     public static final int RES_TERMINAL_NOT_WORKING = 1800;
+    /**
+     * Value : {@value}<br>
+     * Data in DataBase is error.
+     */
+    public static final int RES_TABLE_DATA_ERR = 1900;
 
     /** True string for UI */
     public static final String TRUE = "True";

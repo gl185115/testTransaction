@@ -287,6 +287,7 @@ SELECT TOP 1
        plu.MdName,
        pluNameInfo.MdName pluMdName,
        plu.SubCode5 BrandSaleName,
+       classInfo.SubNum1 classInfoSubNum1,
        classInfo.ClassNameLocal,
        classInfo.SubNum2 PointAddFlag,
        classInfo.SubNum3 PointUseFlag,
@@ -302,6 +303,7 @@ SELECT TOP 1
        dpt.SubNum2 dptSubNum2,
        dpt.SubNum3 dptSubNum3,
        dpt.SubNum4 dptSubNum4,
+       dpt.SubNum5 dptSubNum5,
        dpt.ExceptionFlag ExceptionFlag,
        groupInfo.GroupName,
        groupInfo.GroupId,
@@ -312,7 +314,8 @@ SELECT TOP 1
        sizePtnInfo.SizePatternName SizePatternName,
        sizePtnInfo.SizePatternId,
        lineInfo.TaxType lineTaxType, 
-       lineInfo.discountType lineDiscountType
+       lineInfo.discountType lineDiscountType,
+       lineInfo.SubNum1 lineInfoSubNum1
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore
@@ -11275,4 +11278,37 @@ ORDER BY empinfo.EmpCode;
 		+ CAST(@companyid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
 		EXEC sp_executesql @sql
 	</entry>
+	
+	<entry key="get-taxrate-info-list">
+	DECLARE @businessDate VARCHAR(32)
+	SET @businessDate = LTRIM(RTRIM(?))
+	
+	SELECT TaxId
+	       ,StartDate
+	       ,EndDate
+	       ,TaxRate
+	       ,SubCode1
+	       ,SubNum1
+	       ,SubNum2
+	FROM [RESMaster].[dbo].[MST_TAXRATE]
+	WHERE CONVERT(DATE, @businessDate) BETWEEN StartDate AND EndDate
+	</entry>
+
+    <entry key="get-dptinfo-subnum5">
+    DECLARE @storeId VARCHAR(10),@companyId VARCHAR(12),@dpt VARCHAR(20)
+    SET @companyId = LTRIM(RTRIM(?))
+    SET @storeId = LTRIM(RTRIM(?))
+    SET @dpt = LTRIM(RTRIM(?))
+
+    IF NOT EXISTS (
+        SELECT SubNum5
+	    FROM [RESMaster].[dbo].[MST_DPTINFO]
+	    WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
+    )
+    SET @storeId = '0'
+    
+    SELECT SubNum5
+    FROM [RESMaster].[dbo].[MST_DPTINFO]
+    WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
+    </entry>
 </properties>

@@ -40,6 +40,7 @@ import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
@@ -172,6 +173,8 @@ public class WebContextListener implements ServletContextListener {
         	PriceMMInfoFactory.initialize(companyId, storeId);
         	// Only HOST loads PromotionMsg Information
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
+        	// Only HOST loads TaxRate Information
+        	TaxRateInfoFactory.initialize(companyId, storeId);
         }
     }
 

@@ -57,6 +57,7 @@ import ncr.res.mobilepos.promotion.dao.ICodeConvertDAO;
 import ncr.res.mobilepos.promotion.dao.IMixMatchDAO;
 import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
+import ncr.res.mobilepos.promotion.dao.ITaxRateInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
@@ -366,6 +367,15 @@ public abstract class DAOFactory {
      *             exception
      */
     public abstract IQrCodeInfoDAO getQrCodeInfoDAO() throws DaoException;
+
+    /**
+     * Gets the DAO Object for TaxRateInfo.
+     *
+     * @return TaxRateInfoDAO
+     * @throws DaoException
+     *             exception
+     */
+    public abstract ITaxRateInfoDAO getTaxRateInfoDAO() throws DaoException;
 
     public abstract ICashAccountDAO getCashAccountDAO() throws DaoException;
 

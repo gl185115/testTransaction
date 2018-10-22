@@ -1397,7 +1397,7 @@ public class Item {
         this.description = description;
     }
 
-    @ApiModelProperty(value="定期販売単価", notes="定期販売単価")
+    @ApiModelProperty(value="標準単価", notes="標準単価")
     public final double getRegularSalesUnitPrice() {
         return this.regularSalesUnitPrice;
     }
@@ -1433,7 +1433,7 @@ public class Item {
         this.actualSalesUnitPrice = actualSalesUnitPrice;
     }
 
-    @ApiModelProperty(value="可能性割り引き", notes="可能性割り引き")
+    @ApiModelProperty(value="割引許可フラグ", notes="割引許可フラグ")
     public final boolean getDiscountable() {
         return this.discountable;
     }
@@ -1460,7 +1460,7 @@ public class Item {
         this.changeableTaxRate = changeableTaxRate;
     }
 
-    @ApiModelProperty(value="実際に税率区分の値", notes="実際に税率区分の値")
+    @ApiModelProperty(value="税率区分を取得したマスターテーブルの識別子", notes="税率区分を取得したマスターテーブルの識別子")
     public final String getTaxSource() {
         return this.taxSource;
     }
@@ -1469,7 +1469,7 @@ public class Item {
         this.taxSource = taxSource;
     }
 
-    @ApiModelProperty(value="実際に税率区分", notes="実際に税率区分")
+    @ApiModelProperty(value="税率区分", notes="税率区分")
     public final String getTaxId() {
         return this.taxId;
     }

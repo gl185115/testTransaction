@@ -172,19 +172,19 @@
     <description>Path to custom Maintenance base directory. This needs '/' at the end.</description>
     <env-entry-name>customMaintenanceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>d:/software/ncr/res/custom/</env-entry-value>
+    <env-entry-value>${drive.path}\software/ncr/res/custom/</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Path to custom base directory. This needs '/' at the end.</description>
     <env-entry-name>customResourceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>d:/software/ncr/res/custom/</env-entry-value>
+    <env-entry-value>${drive.path}\software/ncr/res/custom/</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Path to store custom parameter files.</description>
     <env-entry-name>customParamBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>d:/software/ncr/res/cust/para</env-entry-value>
+    <env-entry-value>${drive.path}\software/ncr/res/cust/para</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to schedule.xml from custom base.</description>

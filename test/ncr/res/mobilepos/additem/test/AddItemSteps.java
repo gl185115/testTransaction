@@ -20,6 +20,7 @@ import javax.servlet.ServletContext;
 
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.department.resource.DepartmentResource;
 import ncr.res.mobilepos.helper.DBInitiator;
@@ -28,6 +29,7 @@ import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
 
@@ -78,6 +80,7 @@ public class AddItemSteps extends Steps {
 		this.priceCheck = priceCheck;
 		PricePromInfoFactory.initialize(companyId, storeId);
 		PriceMMInfoFactory.initialize(companyId, storeId);
+		TaxRateInfoFactory.initialize(companyId, storeId);
 	}
 
 	@Given("the Web API Starts Up with $systemConDataSet System Configuration")
@@ -87,6 +90,7 @@ public class AddItemSteps extends Steps {
 		try {
 			servletContext = Requirements.getMockServletContext();
 			BarcodeAssignmentFactory.initialize(EnvironmentEntries.getInstance().getParaBasePath());
+			TaxRateInfoFactory.initialize(SystemFileConfig.getInstance().getCompanyId(), SystemFileConfig.getInstance().getStoreId());
 			testpromotionResource = new PromotionResource();
 			testDepartmentResource = new DepartmentResource();
 			Field promotioncontext;

@@ -5548,7 +5548,7 @@ ORDER BY
     SET @groupStoreId = '0'
     
     SELECT
-      dpt.StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, dpt.SubNum1, dpt.SubNum2, dpt.SubNum3, dpt.SubNum4, dpt.SubCode1, grop.GroupName, grop.GroupId
+      dpt.StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, dpt.SubNum1, dpt.SubNum2, dpt.SubNum3, dpt.SubNum4, dpt.SubNum5, dpt.SubCode1, grop.GroupName, grop.GroupId
     FROM
       RESMaster.dbo.MST_DPTINFO dpt
     LEFT JOIN
@@ -11302,12 +11302,14 @@ ORDER BY empinfo.EmpCode;
 
     IF NOT EXISTS (
         SELECT SubNum5
+               ,TaxType
 	    FROM [RESMaster].[dbo].[MST_DPTINFO]
 	    WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
     )
     SET @storeId = '0'
-    
+
     SELECT SubNum5
+           ,TaxType
     FROM [RESMaster].[dbo].[MST_DPTINFO]
     WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
     </entry>

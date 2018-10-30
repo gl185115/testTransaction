@@ -172,19 +172,19 @@
     <description>Path to custom Maintenance base directory. This needs '/' at the end.</description>
     <env-entry-name>customMaintenanceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}/software/ncr/res/custom/</env-entry-value>
+    <env-entry-value>d:/software/ncr/res/custom/</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Path to custom base directory. This needs '/' at the end.</description>
     <env-entry-name>customResourceBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}/software/ncr/res/custom/</env-entry-value>
+    <env-entry-value>d:/software/ncr/res/custom/</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Path to store custom parameter files.</description>
     <env-entry-name>customParamBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}/software/ncr/res/cust/para</env-entry-value>
+    <env-entry-value>d:/software/ncr/res/cust/para</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Relative path to schedule.xml from custom base.</description>
@@ -196,19 +196,19 @@
     <description>Logger output file</description>
     <env-entry-name>iowPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\log</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\log</env-entry-value>
   </env-entry>
   <env-entry>
     <description>UI Console Log File Path</description>
     <env-entry-name>UiConsoleLogPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\log\UiConsoleLog.txt</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\log\UiConsoleLog.txt</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Device Log</description>
     <env-entry-name>deviceLogPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\log</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\log</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Identification of the Server</description>
@@ -219,13 +219,13 @@
   <env-entry>
     <env-entry-name>tracePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\dbg</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\dbg</env-entry-value>
   </env-entry>
   <env-entry>
     <description>SPM file Path</description>
     <env-entry-name>Journalization/spmPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\log\SPM_DIR</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\log\SPM_DIR</env-entry-value>
   </env-entry>
   <env-entry>
   	<description>POSLog Transfer status column name</description>
@@ -241,27 +241,27 @@
   <env-entry>
     <env-entry-name>snapPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\log\snap_dir</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <!-- 売上表レポ�Eト利用のファーマッチEMLファイル -->
+  <!-- 売上表レポート利用のファーマッチEMLファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\custom\ReportFormatNew.xml</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\custom\ReportFormatNew.xml</env-entry-value>
   </env-entry>
   <!-- 通常買上レシート利用のファーマッチEMLファイル -->
   <env-entry>
     <env-entry-name>nrRcptFormatPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\custom\NormalReceiptFormat.xml</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\custom\NormalReceiptFormat.xml</env-entry-value>
   </env-entry>
   <env-entry>
     <description>Default Printer Setting</description>
     <env-entry-name>localPrinter</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\link\systemconfig\interface.xml</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\link\systemconfig\interface.xml</env-entry-value>
   </env-entry>
-  <!-- fs add start 53mmと80mm紙�E変換フラグ
+  <!-- fs add start 53mmと80mm紙�E変換フラグ
        1 is Flag for 53mm receipt paper
        2 is Flag for 80mm receipt paper.-->
   <env-entry>
@@ -274,7 +274,7 @@
     <description>Path to store parameter files.</description>
     <env-entry-name>paraBasePath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
-    <env-entry-value>${drive.path}\software\ncr\res\para\</env-entry-value>
+    <env-entry-value>d:\software\ncr\res\para\</env-entry-value>
   </env-entry>
   <filter>
 	<filter-name>compression</filter-name>

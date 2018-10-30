@@ -362,7 +362,6 @@ public class PromotionResource {
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
 				.println("businessDate", businessDate).println("companyId", companyId).println("priceCheck", priceCheck);
 		Transaction transactionOut = new Transaction();
-		Sale saleOut = new Sale();
 		PromotionResponse response = new PromotionResponse();
 		String discounttype = "0";
 		boolean twoStep = false;
@@ -662,8 +661,19 @@ public class PromotionResource {
 					}
 				}
 
-				// 商品の税率情報を取得する
-				getSaleTaxRateInfo(saleItem ,response);
+				// 非課税の場合、商品の税率情報を取得する
+				if(("2").equals(saleItem.getTaxType())){
+					DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+					defaultTaxRate.setRate(0);
+					saleItem.setDefaultTaxRate(defaultTaxRate);
+				}else{
+					saleItem.setCompanyId(companyId);
+					saleItem.setStoreId(retailStoreId);
+
+					// 税率の情報を取得する
+					getSaleTaxRateInfo(saleItem ,response);
+				}
+
 				if(response.getNCRWSSResultCode() != ResultBase.RES_OK){
 					return response;
 				}
@@ -727,22 +737,22 @@ public class PromotionResource {
 	private Sale chooseTaxSource(Sale saleItem) {
 		if(!StringUtility.isNullOrEmpty(saleItem.getPluSubNum1())){
 			saleItem.setTaxSource(PRIORITY_ONE);
-			saleItem.setTaxId(saleItem.getPluSubNum1());
+			saleItem.setTaxId(Integer.parseInt(saleItem.getPluSubNum1()));
 			return saleItem;
 		}
 		if(!StringUtility.isNullOrEmpty(saleItem.getClassInfoSubNum1())){
 			saleItem.setTaxSource(PRIORITY_TWO);
-			saleItem.setTaxId(saleItem.getClassInfoSubNum1());
+			saleItem.setTaxId(Integer.parseInt(saleItem.getClassInfoSubNum1()));
 			return saleItem;
 		}
 		if(!StringUtility.isNullOrEmpty(saleItem.getLineInfoSubNum1())){
 			saleItem.setTaxSource(PRIORITY_THREE);
-			saleItem.setTaxId(saleItem.getLineInfoSubNum1());
+			saleItem.setTaxId(Integer.parseInt(saleItem.getLineInfoSubNum1()));
 			return saleItem;
 		}
 		if(!StringUtility.isNullOrEmpty(saleItem.getDptSubNum5())){
 			saleItem.setTaxSource(PRIORITY_FOUR);
-			saleItem.setTaxId(saleItem.getDptSubNum5());
+			saleItem.setTaxId(Integer.parseInt(saleItem.getDptSubNum5()));
 		}
 		return saleItem;
 	}
@@ -794,19 +804,26 @@ public class PromotionResource {
 						defaultTaxRate = new DefaultTaxRate();
 						defaultTaxRate.setRate(TaxInfo.getTaxRate());
 						defaultTaxRate.setReceiptMark(TaxInfo.getSubCode1());
-						defaultTaxRate.setReducedTaxRate(String.valueOf(TaxInfo.getSubNum1()));
+						defaultTaxRate.setReducedTaxRate(TaxInfo.getSubNum1());
 					}
 				}
 				if(TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 0){
 					changeableTaxRate = new ChangeableTaxRate();
 					changeableTaxRate.setRate(TaxInfo.getTaxRate());
 					changeableTaxRate.setReceiptMark(TaxInfo.getSubCode1());
-					changeableTaxRate.setReducedTaxRate(String.valueOf(TaxInfo.getSubNum1()));
+					changeableTaxRate.setReducedTaxRate(TaxInfo.getSubNum1());
 				}
 			}
 		}
-		saleItem.setChangeableTaxRate(changeableTaxRate);
-		saleItem.setDefaultTaxRate(defaultTaxRate);
+		if(changeableTaxRate != null || defaultTaxRate != null){
+			saleItem.setChangeableTaxRate(changeableTaxRate);
+			saleItem.setDefaultTaxRate(defaultTaxRate);
+		}else{
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR,
+					"税率取得エラー。\n" + "Company=" + saleItem.getCompanyId() + ",Store=" + saleItem.getStoreId() + ",ItemID=" + saleItem.getItemId());
+			response.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+			response.setMessage("The data is not found.");
+		}
 	}
 
 	/**
@@ -902,6 +919,7 @@ public class PromotionResource {
 		saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 		saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 		saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
+		saleOut.setTaxId(departmentInfo.getDepartment().getSubNum5());
 		saleOut.setGroupID(departmentInfo.getDepartment().getGroupID());
 		saleOut.setGroupName(departmentInfo.getDepartment().getGroupName());
 
@@ -1011,9 +1029,24 @@ public class PromotionResource {
 			}
 		}
 
-		transactionOut.setSale(saleOut);
-		response.setDepartmentName(dptName);
-		response.setTransaction(transactionOut);
+		// 非課税の場合、商品の税率情報を取得する
+		if(("2").equals(saleOut.getTaxType())){
+			DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+			defaultTaxRate.setRate(0);
+			saleOut.setDefaultTaxRate(defaultTaxRate);
+		}else{
+			saleOut.setCompanyId(companyId);
+			saleOut.setStoreId(retailStoreId);
+
+			// 税率の情報を取得する
+			getSaleTaxRateInfo(saleOut, response);
+		}
+
+		if(response.getNCRWSSResultCode() == ResultBase.RES_OK){
+			transactionOut.setSale(saleOut);
+			response.setDepartmentName(dptName);
+			response.setTransaction(transactionOut);
+		}
 	}
 
 	private List<CouponInfo> makeCouponInfoList(Map<String, CouponInfo> map) {
@@ -1764,6 +1797,7 @@ public class PromotionResource {
 		dpt.setSubNum2(StringUtility.convNullStringToNull(json.getString("subNum2")));
 		dpt.setSubNum3(StringUtility.convNullStringToNull(json.getString("subNum3")));
 		dpt.setSubNum4(StringUtility.convNullStringToNull(json.getString("subNum4")));
+		dpt.setSubNum5(Integer.parseInt(StringUtility.convNullStringToNull(json.getString("subNum5"))));
 		dpt.setGroupID(StringUtility.convNullStringToNull(json.getString("groupID")));
 		dpt.setGroupName(StringUtility.convNullStringToNull(json.getString("groupName")));
 		departmentInfo.setDepartment(dpt);
@@ -1842,6 +1876,11 @@ public class PromotionResource {
 		item.setDptSubNum2(StringUtility.convNullStringToNull(json.getString("dptSubNum2")));
 		item.setDptSubNum3(StringUtility.convNullStringToNull(json.getString("dptSubNum3")));
 		item.setDptSubNum4(StringUtility.convNullStringToNull(json.getString("dptSubNum4")));
+
+		item.setPluSubNum1(StringUtility.convNullStringToNull(json.getString("pluSubNum1")));
+		item.setLineInfoSubNum1(StringUtility.convNullStringToNull(json.getString("lineInfoSubNum1")));
+		item.setDptSubNum5(StringUtility.convNullStringToNull(json.getString("dptSubNum5")));
+		item.setClassInfoSubNum1(StringUtility.convNullStringToNull(json.getString("classInfoSubNum1")));
 
 
 		List<PremiumInfo> premiumList = new ArrayList<PremiumInfo>();

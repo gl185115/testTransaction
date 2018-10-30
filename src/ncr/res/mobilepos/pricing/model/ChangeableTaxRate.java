@@ -15,7 +15,7 @@ public class ChangeableTaxRate {
     private int rate;
 
     @XmlElement(name = "ReducedTaxRate")
-    private String reducedTaxRate;
+    private Integer reducedTaxRate;
 
     @XmlElement(name = "ReceiptMark")
     private String receiptMark;
@@ -30,11 +30,11 @@ public class ChangeableTaxRate {
 	}
 
 	@ApiModelProperty( value="軽減税率フラグ", notes="軽減税率フラグ")
-	public final String getReducedTaxRate() {
+	public final Integer getReducedTaxRate() {
 		return reducedTaxRate;
 	}
 
-	public final void setReducedTaxRate(String reducedTaxRate) {
+	public final void setReducedTaxRate(Integer reducedTaxRate) {
 		this.reducedTaxRate = reducedTaxRate;
 	}
 

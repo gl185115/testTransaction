@@ -26,6 +26,7 @@ import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.constant.EnvironmentEntries;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
 import ncr.res.mobilepos.helper.JsonMarshaller;
@@ -36,6 +37,7 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.resource.ItemResource;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
 import ncr.res.mobilepos.promotion.model.Discount;
 import ncr.res.mobilepos.promotion.model.MixMatchItem;
@@ -163,6 +165,7 @@ public class PromotionResourceTestSteps extends Steps {
 					systemConDataSet);
 			servletContext = Requirements.getMockServletContext();
 			BarcodeAssignmentFactory.initialize(EnvironmentEntries.getInstance().getParaBasePath());
+			TaxRateInfoFactory.initialize(SystemFileConfig.getInstance().getCompanyId(), SystemFileConfig.getInstance().getStoreId());
 		} catch (/* RuntimeError */Exception ex) {
 			Assert.fail("Can't Start Up WebStoreServer");
 		}

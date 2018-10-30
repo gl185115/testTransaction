@@ -14,7 +14,7 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 public class TaxRateInfo {
 
     @XmlElement(name = "taxId")
-    private String taxId;
+    private Integer taxId;
 
     @XmlElement(name = "startDate")
     private String startDate;
@@ -35,11 +35,11 @@ public class TaxRateInfo {
     private int subNum2;
 
     @ApiModelProperty(value="Å—¦‹æ•ª", notes="Å—¦‹æ•ª")
-    public String getTaxId() {
+    public Integer getTaxId() {
         return taxId;
     }
 
-    public void setTaxId(String taxId) {
+    public void setTaxId(Integer taxId) {
         this.taxId = taxId;
     }
 

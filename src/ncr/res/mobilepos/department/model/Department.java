@@ -100,6 +100,9 @@ public class Department {
     @XmlElement(name = "SubNum4")
     private String subNum4;
     
+    @XmlElement(name = "SubNum5")
+    private Integer subNum5;
+
     private String updAppId;
     
     private String updOpeCode;
@@ -283,6 +286,13 @@ public class Department {
     }
     public void setSubNum4(String subNum4) {
         this.subNum4 = subNum4;
+    }
+    @ApiModelProperty( value="税率区分", notes="税率区分")
+    public Integer getSubNum5() {
+        return subNum5;
+    }
+    public void setSubNum5(Integer subNum5) {
+        this.subNum5 = subNum5;
     }
     @ApiModelProperty( value="最終更新プログラムID", notes="最終更新プログラムID")
     public final String getUpdAppId() {

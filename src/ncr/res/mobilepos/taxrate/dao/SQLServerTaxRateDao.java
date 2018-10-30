@@ -128,6 +128,7 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
         ResultSet resultSet = null;
         SQLStatement sqlStatement = null;
         String subNum5 = null;
+        String taxType = null;
         try {
             sqlStatement = SQLStatement.getInstance();
             connection = dbManager.getConnection();
@@ -136,8 +137,10 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
             select.setString(SQLStatement.PARAM2, retailstoreId);
             select.setString(SQLStatement.PARAM3, departmentId);
             resultSet = select.executeQuery();
-            if (resultSet.next()) {subNum5 = resultSet.getString(resultSet.findColumn("SubNum5"));}
-
+            if (resultSet.next()) {
+            	subNum5 = resultSet.getString(resultSet.findColumn("SubNum5"));
+            	taxType = resultSet.getString(resultSet.findColumn("TaxType"));
+            }
         } catch (SQLException e) {
             LOGGER.logAlert(progname, "SQLServerTaxRateDao.getTaxRateByDptId()", Logger.RES_EXCEP_SQL,
                     "Failed to get the subNum5.\n" + e.getMessage());
@@ -146,6 +149,10 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
             closeConnectionObjects(connection, select, resultSet);
             tp.methodExit(subNum5);
         }
-        return subNum5;
+        if(StringUtility.isNullOrEmpty(subNum5)){
+        	return taxType;
+        }else{
+        	return subNum5 + "," + taxType;
+        }
     }
 }

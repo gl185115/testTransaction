@@ -35,7 +35,9 @@ import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.pricing.model.PriceMMInfo;
 import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.QrCodeInfo;
+import ncr.res.mobilepos.pricing.model.TaxRateInfo;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.property.SQLStatement;
 
 import static org.junit.Assert.assertEquals;
@@ -100,6 +102,12 @@ public class InitializationStatusResourceSteps extends Steps {
         // Mocks PriceMMInfo.
         List<PriceMMInfo> priceMMInfosMock = mock(List.class);
         Field priceMMInfosInstance = PriceMMInfoFactory.class.getDeclaredField("instance");
+        priceMMInfosInstance.setAccessible(true);
+        priceMMInfosInstance.set(null, priceMMInfosMock);
+        
+        // Mocks TaxRateInfo.
+        List<TaxRateInfo> TaxRateInfosMock = mock(List.class);
+        Field taxRateInfosInstance = TaxRateInfoFactory.class.getDeclaredField("instance");
         priceMMInfosInstance.setAccessible(true);
         priceMMInfosInstance.set(null, priceMMInfosMock);
     }
@@ -184,6 +192,12 @@ public class InitializationStatusResourceSteps extends Steps {
                 
             case "BarcodeAssignmentFactory":
                 targetClass = BarcodeAssignmentFactory.class;
+                targetField = PowerMockito.field(targetClass, "instance");
+                targetField.set(null, null);
+                break;
+                
+            case "TaxRateInfoFactory":
+                targetClass = TaxRateInfoFactory.class;
                 targetField = PowerMockito.field(targetClass, "instance");
                 targetField.set(null, null);
                 break;

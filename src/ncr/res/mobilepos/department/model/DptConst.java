@@ -79,6 +79,11 @@ public class DptConst {
 	public static final String COL_SUBNUM4_FLAG = "SubNum4";
 	
 	/**
+	 * Column name for DptSubNum5
+	 */
+	public static final String COL_SUBNUM5_FLAG = "SubNum5";
+
+	/**
 	 * Column name for Status
 	 */
 	public static final String COL_STATUS = "Status";

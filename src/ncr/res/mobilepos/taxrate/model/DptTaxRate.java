@@ -18,7 +18,7 @@ import ncr.res.mobilepos.pricing.model.DefaultTaxRate;
 public class DptTaxRate extends ResultBase{
 
     @XmlElement(name = "TaxId")
-    private String taxId;
+    private Integer taxId;
 
     @XmlElement(name = "DepartmentId")
     private String departmentId;
@@ -30,11 +30,11 @@ public class DptTaxRate extends ResultBase{
     private DefaultTaxRate defaultTaxRate;
 
     @ApiModelProperty(value="Å—¦‹æ•ª", notes="Å—¦‹æ•ª")
-    public String getTaxId() {
+    public Integer getTaxId() {
         return taxId;
     }
 
-    public void setTaxId(String taxId) {
+    public void setTaxId(Integer taxId) {
         this.taxId = taxId;
     }
 

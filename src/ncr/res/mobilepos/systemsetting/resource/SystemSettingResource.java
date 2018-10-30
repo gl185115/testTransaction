@@ -36,6 +36,7 @@ import ncr.res.mobilepos.pricing.factory.PriceMMInfoFactory;
 import ncr.res.mobilepos.pricing.factory.PricePromInfoFactory;
 import ncr.res.mobilepos.promotion.factory.PromotionMsgInfoFactory;
 import ncr.res.mobilepos.promotion.factory.QrCodeInfoFactory;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 import ncr.res.mobilepos.systemconfiguration.property.WebContextListener;
 import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.model.DateSetting;
@@ -339,6 +340,8 @@ public class SystemSettingResource {
         	PriceMMInfoFactory.initialize(companyId, storeId);
         	logName = "PromotionMsgInfoFactory";
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
+        	logName = "TaxRateInfoFactory";
+        	TaxRateInfoFactory.initialize(companyId, storeId);
 
             result.setNCRWSSResultCode(ResultBase.RES_OK);
             result.setMessage("Success");

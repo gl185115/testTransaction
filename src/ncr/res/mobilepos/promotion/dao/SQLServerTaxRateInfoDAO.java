@@ -85,7 +85,7 @@ public class SQLServerTaxRateInfoDAO extends AbstractDao implements ITaxRateInfo
                 	TaxRateInfoList = new ArrayList<TaxRateInfo>();
                 }
                 taxRateInfo = new TaxRateInfo();
-                taxRateInfo.setTaxId(result.getString(result.findColumn("TaxId")));
+                taxRateInfo.setTaxId(result.getInt(result.findColumn("TaxId")));
                 taxRateInfo.setStartDate(result.getString(result.findColumn("StartDate")));
                 taxRateInfo.setEndDate(result.getString(result.findColumn("EndDate")));
                 taxRateInfo.setTaxRate(result.getInt(result.findColumn("TaxRate")));

@@ -8974,7 +8974,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9022,7 +9022,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9070,7 +9070,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9119,7 +9119,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9168,7 +9168,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9217,7 +9217,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9265,7 +9265,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9313,7 +9313,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9361,7 +9361,7 @@
 			<value>0</value>
 			<value>1</value>
 			<value>0</value>
-			<null />
+			<value>4</value>
 			<value>Active</value>
 			<value>0</value>
 			<null />
@@ -9828,4 +9828,165 @@
 
 		</row>
 	</table>
+	<table name="MST_TAXRATE">
+        <column>TaxId</column>
+        <column>StartDate</column>
+        <column>EndDate</column>
+        <column>TaxRate</column>
+        <column>SubCode1</column>
+        <column>SubCode2</column>
+        <column>SubCode3</column>
+        <column>SubCode4</column>
+        <column>SubCode5</column>
+        <column>SubNum1</column>
+        <column>SubNum2</column>
+        <column>SubNum3</column>
+        <column>SubNum4</column>
+        <column>SubNum5</column>
+        <column>InsDate</column>
+        <column>InsAppId</column>
+        <column>InsOpeCode</column>
+        <column>UpdCount</column>
+        <column>UpdDate</column>
+        <column>UpdAppId</column>
+        <column>UpdOpeCode</column>
+        <row>
+            <value>1</value>
+            <value>2015-01-01</value>
+            <value>9999-12-31</value>
+            <value>8.000</value>
+            <value>※</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>1</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>1</value>
+            <value>2015-01-01</value>
+            <value>9999-12-31</value>
+            <value>10.000</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>1</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>2015-01-01</value>
+            <value>9999-12-31</value>
+            <value>8.000</value>
+            <value>★</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>1</value>
+            <value>1</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>2</value>
+            <value>2015-01-01</value>
+            <value>9999-12-31</value>
+            <value>10.000</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>0</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>3</value>
+            <value>2015-01-01</value>
+            <value>9999-12-31</value>
+            <value>8.000</value>
+            <value>％</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>1</value>
+            <value>1</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+        </row>
+        <row>
+            <value>4</value>
+            <value>2015-01-01</value>
+            <value>9999-12-31</value>
+            <value>10.000</value>
+            <null />
+            <null />
+            <null />
+            <null />
+            <null />
+            <value>0</value>
+            <value>1</value>
+            <null />
+            <null />
+            <null />
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+            <value>0</value>
+            <value>2016-03-11 11:50:44.7179394</value>
+            <value>usp_IF_MaintDptInfo</value>
+            <value>system</value>
+        </row>
+    </table>
 </dataset>

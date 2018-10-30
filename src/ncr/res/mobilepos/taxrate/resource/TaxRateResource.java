@@ -149,8 +149,18 @@ public class TaxRateResource {
 			List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
 			DefaultTaxRate defaultTaxRate = null;
 			ChangeableTaxRate changeableTaxRate = null;
+			String taxId_Type = dao.getTaxRateByDptId(companyId, retailstoreId, departmentId);
+			String taxId = null;
+			String taxType = null;
 
-			taxRateInfo.setTaxId(dao.getTaxRateByDptId(companyId, retailstoreId, departmentId));
+			if(taxId_Type.contains(",")){
+				taxId = taxId_Type.split(",")[0];
+				taxType = taxId_Type.split(",")[1];
+
+				taxRateInfo.setTaxId(Integer.parseInt(taxId));
+			}else{
+				taxRateInfo.setTaxId(null);
+			}
 			if (taxRateInfoList != null) {
 				for (TaxRateInfo TaxInfo : taxRateInfoList) {
 					if (TaxInfo.getTaxId().equals(taxRateInfo.getTaxId())) {
@@ -187,22 +197,32 @@ public class TaxRateResource {
 							defaultTaxRate = new DefaultTaxRate();
 							defaultTaxRate.setRate(TaxInfo.getTaxRate());
 							defaultTaxRate.setReceiptMark(TaxInfo.getSubCode1());
-							defaultTaxRate.setReducedTaxRate(String.valueOf(TaxInfo.getSubNum1()));
+							defaultTaxRate.setReducedTaxRate(TaxInfo.getSubNum1());
 						}
 					}
 					if (TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 0) {
 						changeableTaxRate = new ChangeableTaxRate();
 						changeableTaxRate.setRate(TaxInfo.getTaxRate());
 						changeableTaxRate.setReceiptMark(TaxInfo.getSubCode1());
-						changeableTaxRate.setReducedTaxRate(String.valueOf(TaxInfo.getSubNum1()));
+						changeableTaxRate.setReducedTaxRate(TaxInfo.getSubNum1());
 					}
 				}
 				taxRateInfo.setDepartmentId(departmentId);
 				taxRateInfo.setChangeableTaxRate(changeableTaxRate);
 				taxRateInfo.setDefaultTaxRate(defaultTaxRate);
 			} else {
-				taxRateInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-				taxRateInfo.setMessage("The data is not found.");
+				// 非課税の場合、商品の税率情報を取得する
+				if(("2").equals(taxType)){
+					defaultTaxRate = new DefaultTaxRate();
+					defaultTaxRate.setRate(0);
+					taxRateInfo.setTaxId(null);
+					taxRateInfo.setDefaultTaxRate(defaultTaxRate);
+				}else{
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR,
+						"税率取得エラー。\n"+"Company="+ companyId +",Store="+ retailstoreId + ",DPT=" + departmentId);
+					taxRateInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+					taxRateInfo.setMessage("The data is not found.");
+				}
 			}
 		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get taxRate.", ex);

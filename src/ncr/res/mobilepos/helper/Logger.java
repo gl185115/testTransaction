@@ -151,6 +151,10 @@ public final class Logger extends IoWriter {
      * The message id of table data exception
      */
     public static final String RES_TABLE_DATA_ERR = "83";
+    /**
+     * The message id of get data exception
+     */
+    public static final String RES_GET_DATA_ERR = "84";
 
     /**
      * Constructor.

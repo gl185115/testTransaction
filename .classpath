@@ -10,12 +10,6 @@
 	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-core/1.8/jersey-core-1.8.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/jsoup/jsoup/1.6.1/jsoup-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/json-taglib-0.4.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/javassist-3.18.2-GA.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mex-common-1.0.3.12.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mockito-all-1.8.5.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mockito-core-1.10.19.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/toppan-giftcard-mobile-1.0.5.11.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/poslog-binding-3.3.1.39.jar"/>
 	<classpathentry kind="var" path="M2_REPO/dom4j/dom4j/1.6.1/dom4j-1.6.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/xml-apis/xml-apis/1.4.01/xml-apis-1.4.01.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/codehaus/jackson/jackson-core-asl/1.9.13/jackson-core-asl-1.9.13.jar"/>

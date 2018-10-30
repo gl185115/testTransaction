@@ -243,7 +243,7 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>${drive.path}\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <!-- 売上表レポート利用のファーマッチEMLファイル -->
+  <!-- 売上表レポ�Eト利用のファーマッチEMLファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>

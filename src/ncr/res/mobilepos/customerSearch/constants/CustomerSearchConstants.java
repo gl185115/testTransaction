@@ -23,6 +23,9 @@ public class CustomerSearchConstants {
     /** the Category column of the table PRM_SYSTEM_CONFIG  */
     public static final String CATEGORY = "MemberServer";
 
+    /** the Category column of the table PRM_SYSTEM_CONFIG  */
+    public static final String CATEGORY_TAX = "TaxId";
+
     /** Url the KeyId column of the table PRM_SYSTEM_CONFIG */
     public static final String KEYID_MEMBERSERVERURI = "MemberServerUri";
 

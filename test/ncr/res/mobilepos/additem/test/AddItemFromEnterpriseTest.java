@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
@@ -28,7 +29,9 @@ import atg.taglib.json.util.JSONObject;
 public class AddItemFromEnterpriseTest {
 	PromotionResource testpromotionResource = new PromotionResource();
 	SQLServerItemDAO sqlItemDaoMock = null;
+	ICustomerSearthDAO iCustomerSearthDAOMock = null;
 	
+	@SuppressWarnings("unchecked")
 	@PrepareForTest({UrlConnectionHelper.class, DAOFactory.class})
 	@Test
 	public void test() {
@@ -39,7 +42,7 @@ public class AddItemFromEnterpriseTest {
 			
 			// set barcodeassignment
 			BarcodeAssignmentFactory.initialize("test\\resources\\para");
-			MemberModifier.field(PromotionResource .class, "barcodeAssignment").set(testpromotionResource, BarcodeAssignmentFactory.getInstance());
+			MemberModifier.field(PromotionResource.class, "barcodeAssignment").set(testpromotionResource, BarcodeAssignmentFactory.getInstance());
 		
 			// Mock http response from enterprise url
 			GlobalConstant.setEnterpriseServerUri("https://localhost:8443/resTransaction/rest/");
@@ -63,7 +66,7 @@ public class AddItemFromEnterpriseTest {
 			// Mock SQLServerItemDAO to make local db returns with item not found
 			GlobalConstant.setPriceIncludeTaxKey("0");
 			sqlItemDaoMock = PowerMockito.mock(SQLServerItemDAO.class);
-			PowerMockito.when(sqlItemDaoMock.getItemByPLU(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyInt(), Matchers.anyString())).thenReturn(null);
+			PowerMockito.when(sqlItemDaoMock.getItemByPLU(Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.anyInt(), Matchers.anyString(), Matchers.anyMap())).thenReturn(null);
 			
 			// Mock dao calls to proceed
 			PowerMockito.doNothing().when(sqlItemDaoMock).getPremiumitemInfo(Matchers.anyString(), Matchers.any(Item.class), Matchers.anyString(), Matchers.anyString());
@@ -73,6 +76,10 @@ public class AddItemFromEnterpriseTest {
 			PowerMockito.when(daoFacMock.getItemDAO()).thenReturn(sqlItemDaoMock);
 			PowerMockito.mockStatic(DAOFactory.class);
 			PowerMockito.when(DAOFactory.getDAOFactory(DAOFactory.SQLSERVER)).thenReturn(daoFacMock);
+			
+			iCustomerSearthDAOMock = PowerMockito.mock(ICustomerSearthDAO.class);
+			PowerMockito.when(iCustomerSearthDAOMock.getPrmSystemConfigValue(Matchers.anyString())).thenReturn(null);
+			PowerMockito.when(daoFacMock.getCustomerSearthDAO()).thenReturn(iCustomerSearthDAOMock);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

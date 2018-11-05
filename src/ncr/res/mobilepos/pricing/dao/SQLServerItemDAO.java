@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.AbstractDao;
@@ -59,6 +60,16 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * The Trace Printer.
      */
     private Trace.Printer tp;
+
+	private static final String COLUMN_OF_DPT = "ColumnOfDpt";
+	private static final String COLUMN_OF_LINE = "ColumnOfLine";
+	private static final String COLUMN_OF_CLASS = "ColumnOfClass";
+	private static final String COLUMN_OF_PLU = "ColumnOfPlu";
+
+	private String dptTaxId = "";
+	private String clsTaxId = "";
+	private String lineTaxId = "";
+	private String pluTaxId = "";
 
     /**
      * Default Constructor for SQLServerItemDAO
@@ -114,17 +125,21 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
      * @param pluCode
      *            The Item's Price Look Up Code
      * @param bussinessDate
-     *            The date 
-     * @param EventId
-     *            The EventId
+     *            The bussinessDate
+     * @param companyId
+     *            The companyId
+     * @param priceIncludeTax
+     *            The priceIncludeTax
+     * @param mapTaxId
+     *            The mapTaxId
      * @return The details of the particular item
      * @throws DaoException
      *             Exception thrown when getting the item information failed.
      */
     @Override
-    public Item getItemByPLU(String storeid, String pluCode, String companyId, int priceIncludeTax, String bussinessDate)
+    public Item getItemByPLU(String storeid, String pluCode, String companyId, int priceIncludeTax, String bussinessDate, Map<String, String> mapTaxId)
             throws DaoException {
-        return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate);
+        return this.getItemByPLUWithStoreFixation(storeid, pluCode, true, companyId, priceIncludeTax,bussinessDate,mapTaxId);
     }
 
     
@@ -139,14 +154,18 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
     *            Flag that tells that should be fixed.
     * @param bussinessDate
     *            The bussinessDate
-    * @param EventId
-    *            The EventId
+    * @param companyId
+    *            The companyId
+    * @param priceIncludeTax
+    *            The priceIncludeTax
+    * @param mapTaxId
+    *            The mapTaxId
     * @return The details of the particular item
     * @throws DaoException
     *             Exception thrown when getting the item information failed.
     */
     private Item getItemByPLUWithStoreFixation(final String storeid, final String pluCode, final boolean storeFixation,
-            final String companyId, final int priceIncludeTax, final String bussinessDate) throws DaoException {
+            final String companyId, final int priceIncludeTax, final String bussinessDate, final Map<String, String> mapTaxId) throws DaoException {
 
         tp.methodEnter(DebugLogger.getCurrentMethodName()).println("StoreID", storeid).println("PLU", pluCode)
                 .println("IsStoreFixation", storeFixation).println("CompanyId", companyId);
@@ -168,10 +187,15 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 		} else {
 			mdInternal = pluCode;
 		}
+
+        // ê≈ó¶ãÊï™ÇÃèÓïÒÇéÊìæÇ∑ÇÈ
+        getSaleTaxIdInfo(mapTaxId);
+
         try {
             connection = dbManager.getConnection();
             SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-item"));
+            String query = String.format(sqlStatement.getProperty("get-item"), pluTaxId, clsTaxId ,dptTaxId ,lineTaxId);
+            select = connection.prepareStatement(query);
             select.setString(SQLStatement.PARAM1, actualStoreid);
             select.setString(SQLStatement.PARAM2, companyId);
             select.setString(SQLStatement.PARAM3, mdInternal);
@@ -297,10 +321,10 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 searchedItem.setConn2(result.getString(result.findColumn("Conn2")));
                 searchedItem.setPublishingCode(result.getString(result.findColumn("VenderCode")));
 
-                searchedItem.setPluSubNum1(result.getString(result.findColumn("SubNum1")));
-                searchedItem.setClassInfoSubNum1(result.getString(result.findColumn("classInfoSubNum1")));
-                searchedItem.setDptSubNum5(result.getString(result.findColumn("dptSubNum5")));
-                searchedItem.setLineInfoSubNum1(result.getString(result.findColumn("lineInfoSubNum1")));
+                searchedItem.setPluSubNum1(result.getString(result.findColumn(pluTaxId.split(" ")[1])));
+                searchedItem.setClassInfoSubNum1(result.getString(result.findColumn(clsTaxId.split(" ")[1])));
+                searchedItem.setDptSubNum5(result.getString(result.findColumn(dptTaxId.split(" ")[1])));
+                searchedItem.setLineInfoSubNum1(result.getString(result.findColumn(lineTaxId.split(" ")[1])));
                 searchedItem.setDptNameLocal(result.getString(result.findColumn("DptNameLocal")));
                 searchedItem.setDptName(result.getString(result.findColumn("DptName")));
                 searchedItem.setClassNameLocal(result.getString(result.findColumn("ClassNameLocal")));
@@ -976,7 +1000,49 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
 
         return searchedItem;
     }
-    
-    
-    
+
+    /**
+	 * ê≈ó¶ãÊï™ÇÃèÓïÒÇéÊìæÇ∑ÇÈ
+	 *
+	 * @param mapReturn
+	 */
+	private void getSaleTaxIdInfo(Map<String, String> mapTaxId) {
+		if (mapTaxId != null ) {
+			for (String key : mapTaxId.keySet()) {
+				if ((COLUMN_OF_DPT).equals(key)) {
+					if (!StringUtility.isNullOrEmpty(mapTaxId.get(COLUMN_OF_DPT))) {
+						dptTaxId = "dpt." + mapTaxId.get(COLUMN_OF_DPT) + " dpt" + mapTaxId.get(COLUMN_OF_DPT);
+					}
+				}
+				if ((COLUMN_OF_CLASS).equals(key)) {
+					if (!StringUtility.isNullOrEmpty(mapTaxId.get(COLUMN_OF_CLASS))) {
+						clsTaxId = "classInfo." + mapTaxId.get(COLUMN_OF_CLASS) + " classInfo"
+								+ mapTaxId.get(COLUMN_OF_CLASS);
+					}
+				}
+				if ((COLUMN_OF_LINE).equals(key)) {
+					if (!StringUtility.isNullOrEmpty(mapTaxId.get(COLUMN_OF_LINE))) {
+						lineTaxId = "lineInfo." + mapTaxId.get(COLUMN_OF_LINE) + " lineInfo" + mapTaxId.get(COLUMN_OF_LINE);
+					}
+				}
+				if ((COLUMN_OF_PLU).equals(key)) {
+					if (!StringUtility.isNullOrEmpty(mapTaxId.get(COLUMN_OF_PLU))) {
+						pluTaxId = "plu." + mapTaxId.get(COLUMN_OF_PLU) + " plu" + mapTaxId.get(COLUMN_OF_PLU);
+					}
+				}
+			}
+		}
+		if (StringUtility.isNullOrEmpty(dptTaxId)) {
+			dptTaxId = "dpt.SubNum5 dptSubNum5";
+		}
+		if (StringUtility.isNullOrEmpty(clsTaxId)) {
+			clsTaxId = "classInfo.SubNum1 clsSubNum1";
+		}
+		if (StringUtility.isNullOrEmpty(lineTaxId)) {
+			lineTaxId = "lineInfo.SubNum1 lineSubNum1";
+		}
+		if (StringUtility.isNullOrEmpty(pluTaxId)) {
+			pluTaxId = "plu.SubNum1 pluSubNum1";
+		}
+	}
 }

@@ -88,7 +88,7 @@ public class RemoteItemResource {
             }
             try {
                 SQLServerItemDAO sqlDao = new SQLServerItemDAO();
-                item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate);
+                item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate,null);
                 Sale saleIn = new Sale();
                 Transaction transactionOut = new Transaction();
                 promotionResponse = new PromotionResponse();

@@ -287,7 +287,8 @@ SELECT TOP 1
        plu.MdName,
        pluNameInfo.MdName pluMdName,
        plu.SubCode5 BrandSaleName,
-       classInfo.SubNum1 classInfoSubNum1,
+       %s,
+       %s,
        classInfo.ClassNameLocal,
        classInfo.SubNum2 PointAddFlag,
        classInfo.SubNum3 PointUseFlag,
@@ -303,7 +304,7 @@ SELECT TOP 1
        dpt.SubNum2 dptSubNum2,
        dpt.SubNum3 dptSubNum3,
        dpt.SubNum4 dptSubNum4,
-       dpt.SubNum5 dptSubNum5,
+       %s,
        dpt.ExceptionFlag ExceptionFlag,
        groupInfo.GroupName,
        groupInfo.GroupId,
@@ -313,9 +314,9 @@ SELECT TOP 1
        brandInfo.BrandName,
        sizePtnInfo.SizePatternName SizePatternName,
        sizePtnInfo.SizePatternId,
-       lineInfo.TaxType lineTaxType, 
+       lineInfo.TaxType lineTaxType,
        lineInfo.discountType lineDiscountType,
-       lineInfo.SubNum1 lineInfoSubNum1
+       %s
 FROM
   RESMaster.dbo.MST_PLU plu
 LEFT JOIN RESMaster.dbo.MST_PLU_STORE plustore

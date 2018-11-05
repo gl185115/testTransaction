@@ -11,6 +11,7 @@
 package ncr.res.mobilepos.pricing.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.pricing.model.Item;
@@ -32,12 +33,13 @@ public interface IItemDAO {
      * @param   priceIncludeTax The Price Include Tax
      * @param   companyId The companyId Id 
      * @param   bussinessDate The bussinessDate
+     * @param   mapTaxId The mapTaxId
      * @return  The details of the particular item
      * @throws  DaoException    Exception thrown when
      *                  getting the item information failed.
      */
 
-    Item getItemByPLU(String storeid, String pluCode, String companyId,int priceIncludeTax,String bussinessDate) throws DaoException;
+    Item getItemByPLU(String storeid, String pluCode, String companyId,int priceIncludeTax,String bussinessDate,Map<String, String> mapTaxId) throws DaoException;
 
     /**
      * get the mixmatchInfo by sku

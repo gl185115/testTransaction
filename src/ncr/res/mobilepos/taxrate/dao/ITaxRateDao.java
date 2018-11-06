@@ -19,8 +19,8 @@ public interface ITaxRateDao {
 
     /**
      * get the taxId by companyId and retailstoreId and departmentId
-     * @param companyId ,retailstoreId ,departmentId
+     * @param companyId ,retailstoreId ,departmentId ,mapTaxId
      * @return MST_DPTINFO.SubNum5
      */
-    public String getTaxRateByDptId(String companyId ,String retailstoreId ,String departmentId) throws DaoException;
+    public String getTaxRateByDptId(String companyId ,String retailstoreId ,String departmentId , Map<String, String> mapTaxId) throws DaoException;
 }

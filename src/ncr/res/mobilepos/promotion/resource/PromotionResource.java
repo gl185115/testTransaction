@@ -661,8 +661,21 @@ public class PromotionResource {
 					}
 				}
 
+				// 税率区分の値を取得したマスターテーブルの番号
+				saleItem = chooseTaxSource(saleItem);
+				String taxTypeTemp = null;
+				if(PRIORITY_ONE.equals(saleItem.getTaxSource())){
+					taxTypeTemp = saleItem.getPluTaxType();
+				}else if(PRIORITY_TWO.equals(saleItem.getTaxSource())){
+					taxTypeTemp = saleItem.getClsTaxType();
+				}else if(PRIORITY_THREE.equals(saleItem.getTaxSource())){
+					taxTypeTemp = saleItem.getLineTaxType();
+				}else if(PRIORITY_FOUR.equals(saleItem.getTaxSource())){
+					taxTypeTemp = saleItem.getDptTaxType();
+				}
+
 				// 非課税の場合、商品の税率情報を取得する
-				if(("2").equals(saleItem.getTaxType())){
+				if(("2").equals(taxTypeTemp)){
 					DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
 					defaultTaxRate.setRate(0);
 					saleItem.setDefaultTaxRate(defaultTaxRate);
@@ -770,8 +783,7 @@ public class PromotionResource {
 		List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
 		DefaultTaxRate defaultTaxRate = null;
 		ChangeableTaxRate changeableTaxRate = null;
-		saleItem = chooseTaxSource(saleItem);
-		
+
 		if(taxRateInfoList != null){
 			for(TaxRateInfo TaxInfo : taxRateInfoList){
 				if(TaxInfo.getTaxId().equals(saleItem.getTaxId())){
@@ -1967,6 +1979,7 @@ public class PromotionResource {
         item.setClsTaxType(StringUtility.convNullStringToNull(json.getString("clsTaxType")));
         item.setLineTaxType(StringUtility.convNullStringToNull(json.getString("lineTaxType")));
         item.setLineDiscountType(StringUtility.convNullStringToNull(json.getString("lineDiscountType")));
+        item.setPluTaxType(StringUtility.convNullStringToNull(json.getString("taxType")));
         
 		if (!"null".equals(json.getString("qrPromotionId"))) {
 			item.setQrBmpFileCount(StringUtility.convNullStringToNull(json.getString("qrBmpFileCount")));

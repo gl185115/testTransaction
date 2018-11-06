@@ -11302,14 +11302,14 @@ ORDER BY empinfo.EmpCode;
     SET @dpt = LTRIM(RTRIM(?))
 
     IF NOT EXISTS (
-        SELECT SubNum5
+        SELECT %s
                ,TaxType
 	    FROM [RESMaster].[dbo].[MST_DPTINFO]
 	    WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
     )
     SET @storeId = '0'
 
-    SELECT SubNum5
+    SELECT %s
            ,TaxType
     FROM [RESMaster].[dbo].[MST_DPTINFO]
     WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt

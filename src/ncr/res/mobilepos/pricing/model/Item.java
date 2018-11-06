@@ -79,6 +79,9 @@ public class Item {
     @XmlElement(name = "TaxType")
     private String taxType;
 
+    @XmlElement(name = "PluTaxType")
+    private String pluTaxType;
+
     @XmlElement(name = "DptTaxType")
     private String dptTaxType;
     
@@ -1495,7 +1498,16 @@ public class Item {
     public final void setTaxType(final String taxType) {
         this.taxType = taxType;
     }
-    
+
+    @ApiModelProperty(value="¤•i‰ÛÅ‹æ•ª", notes="¤•i‰ÛÅ‹æ•ª")
+    public final String getPluTaxType() {
+        return this.pluTaxType;
+    }
+
+    public final void setPluTaxType(final String pluTaxType) {
+        this.pluTaxType = pluTaxType;
+    }
+
     @ApiModelProperty(value="•”–å‰ÛÅ‹æ•ª", notes="•”–å‰ÛÅ‹æ•ª")
     public final String getDptTaxType() {
         return this.dptTaxType;

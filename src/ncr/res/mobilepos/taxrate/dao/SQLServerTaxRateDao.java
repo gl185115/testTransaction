@@ -36,6 +36,10 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
      */
     private Trace.Printer tp;
 
+	private static final String COLUMN_OF_DPT = "ColumnOfDpt";
+
+	private String dptTaxId = "";
+
     /**
      * Default Constructor for SQLServerMixMatchDAO
      *
@@ -112,33 +116,39 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
 
     /**
      * get dpt.SubNum5
-     * @param companyId ,retailstoreId ,departmentId
+     * @param companyId ,retailstoreId ,departmentId ,mapTaxId
      * @return TaxRate
      * @exception DaoException the exception of sql
      */
     @Override
-    public String getTaxRateByDptId(String companyId ,String retailstoreId ,String departmentId) throws DaoException {
+    public String getTaxRateByDptId(String companyId ,String retailstoreId ,String departmentId ,Map<String, String> mapTaxId) throws DaoException {
         tp.methodEnter("getTaxRateByDptId");
         tp.println("companyId", companyId)
         .println("retailstoreId", retailstoreId)
-        .println("departmentId", departmentId);
+        .println("departmentId", departmentId)
+		.println("mapTaxId", mapTaxId);
 
         Connection connection = null;
         PreparedStatement select = null;
         ResultSet resultSet = null;
         SQLStatement sqlStatement = null;
-        String subNum5 = null;
+        String taxId = null;
         String taxType = null;
+
+        // ïîñÂÇÃê≈ó¶ãÊï™èÓïÒÇéÊìæÇ∑ÇÈ
+        getSaleTaxIdInfo(mapTaxId);
+
         try {
             sqlStatement = SQLStatement.getInstance();
             connection = dbManager.getConnection();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-dptinfo-subnum5"));
+            String query = String.format(sqlStatement.getProperty("get-dptinfo-subnum5"), dptTaxId, dptTaxId);
+            select = connection.prepareStatement(query);
             select.setString(SQLStatement.PARAM1, companyId);
             select.setString(SQLStatement.PARAM2, retailstoreId);
             select.setString(SQLStatement.PARAM3, departmentId);
             resultSet = select.executeQuery();
             if (resultSet.next()) {
-            	subNum5 = resultSet.getString(resultSet.findColumn("SubNum5"));
+            	taxId = resultSet.getString(resultSet.findColumn(dptTaxId));
             	taxType = resultSet.getString(resultSet.findColumn("TaxType"));
             }
         } catch (SQLException e) {
@@ -147,12 +157,33 @@ public class SQLServerTaxRateDao extends AbstractDao implements ITaxRateDao {
             throw new DaoException("SQLException: @getTaxRateByDptId ", e);
         }finally {
             closeConnectionObjects(connection, select, resultSet);
-            tp.methodExit(subNum5);
+            tp.methodExit(taxId);
         }
-        if(StringUtility.isNullOrEmpty(subNum5)){
+        if(StringUtility.isNullOrEmpty(taxId)){
         	return taxType;
         }else{
-        	return subNum5 + "," + taxType;
+        	return taxId + "," + taxType;
         }
     }
+
+    /**
+  	 * ïîñÂÇÃê≈ó¶ãÊï™èÓïÒÇéÊìæÇ∑ÇÈ
+  	 *
+  	 * @param mapTaxId
+  	 */
+  	private void getSaleTaxIdInfo(Map<String, String> mapTaxId) {
+  		if (mapTaxId != null ) {
+  			for (String key : mapTaxId.keySet()) {
+  				if ((COLUMN_OF_DPT).equals(key)) {
+  					if (!StringUtility.isNullOrEmpty(mapTaxId.get(COLUMN_OF_DPT))) {
+  						dptTaxId = mapTaxId.get(COLUMN_OF_DPT);
+  						break;
+  					}
+  				}
+  			}
+  		}
+  		if (StringUtility.isNullOrEmpty(dptTaxId)) {
+  			dptTaxId = "SubNum5";
+  		}
+  	}
 }

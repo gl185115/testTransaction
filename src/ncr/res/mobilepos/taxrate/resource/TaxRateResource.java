@@ -23,6 +23,9 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
+import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
+import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -149,7 +152,13 @@ public class TaxRateResource {
 			List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
 			DefaultTaxRate defaultTaxRate = null;
 			ChangeableTaxRate changeableTaxRate = null;
-			String taxId_Type = dao.getTaxRateByDptId(companyId, retailstoreId, departmentId);
+
+        	// get common url
+			DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+			ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
+			Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+
+			String taxId_Type = dao.getTaxRateByDptId(companyId, retailstoreId, departmentId, mapTaxId);
 			String taxId = null;
 			String taxType = null;
 

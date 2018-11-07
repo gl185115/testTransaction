@@ -234,8 +234,7 @@ public class SQLServerItemDAO extends AbstractDao implements IItemDAO {
                 	searchedItem.setSalesNameSource("3");
                 }
 
-                if (result.getObject(result.findColumn("TaxType")) != null && 
-                		result.getDouble(result.findColumn("SalesPrice1")) != 0) {
+                if (result.getObject(result.findColumn("TaxType")) != null) {
                 	searchedItem.setTaxType(result.getString(result.findColumn("TaxType")));
                 	searchedItem.setPluTaxType(result.getString(result.findColumn("TaxType")));
                 }

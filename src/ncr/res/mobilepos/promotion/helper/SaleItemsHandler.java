@@ -263,6 +263,7 @@ public final class SaleItemsHandler {
         saleRes.setClsTaxType(item.getClsTaxType());
         saleRes.setLineTaxType(item.getLineTaxType());
         saleRes.setLineDiscountType(item.getLineDiscountType());
+        saleRes.setPluTaxType(item.getPluTaxType());
         return saleRes;
     }
 

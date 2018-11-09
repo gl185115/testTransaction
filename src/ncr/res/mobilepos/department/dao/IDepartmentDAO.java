@@ -1,5 +1,7 @@
 package ncr.res.mobilepos.department.dao;
 
+import java.util.Map;
+
 import ncr.res.mobilepos.department.model.DepartmentList;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.exception.DaoException;
@@ -20,11 +22,12 @@ public interface IDepartmentDAO {
     * Select Department.
     * @param retailStoreID - store number
     * @param departmentID - department number
+    * @param mapTaxId - taxId
     * @return Department Model
     * @throws DaoException - exception
     */
     ViewDepartment selectDepartmentDetail(String companyID, String retailStoreID,
-        String departmentID, String searchRetailStoreID) throws DaoException;
+        String departmentID, String searchRetailStoreID, Map<String, String> mapTaxId) throws DaoException;
     /**
      * Gets the list of active departments of a store.
      *
@@ -36,10 +39,11 @@ public interface IDepartmentDAO {
      * @param searchLimit limit, if 0, use the systemConfig defined limit
      *                           if -1, no limit
      *                           if any int value, search limit
+     * @param mapTaxId - taxId
      * @return a list of department
      * @throws DaoException
      *             if error exists.
      */
-    DepartmentList listDepartments(String companyId, String retailStoreID, String key, String name, int searchLimit)
+    DepartmentList listDepartments(String companyId, String retailStoreID, String key, String name, int searchLimit, Map<String, String> mapTaxId)
     throws DaoException;
 }

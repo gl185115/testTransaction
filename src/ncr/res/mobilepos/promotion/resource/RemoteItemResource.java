@@ -5,6 +5,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
+import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
+import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -87,8 +91,12 @@ public class RemoteItemResource {
                 tp.println("Parameter[s] is empty or null.");
             }
             try {
+            	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+            	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
+            	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+
                 SQLServerItemDAO sqlDao = new SQLServerItemDAO();
-                item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate,null);
+                item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate, mapTaxId);
                 Sale saleIn = new Sale();
                 Transaction transactionOut = new Transaction();
                 promotionResponse = new PromotionResponse();

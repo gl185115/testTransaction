@@ -6,6 +6,10 @@ package ncr.res.mobilepos.department.model;
  */
 public class DptConst {
 	/**
+	 * Column name for CompanyId
+	 */
+	public static final String COL_COMPANY_ID = "CompanyId";
+	/**
 	 * Column name for StoreId
 	 */
 	public static final String COL_STORE_ID = "StoreId";

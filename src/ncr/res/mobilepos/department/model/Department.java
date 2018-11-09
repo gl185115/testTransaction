@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
+import ncr.res.mobilepos.pricing.model.DefaultTaxRate;
+
 /**
  * Represents the Department information.
  */
@@ -20,7 +23,12 @@ import com.wordnik.swagger.annotations.ApiModelProperty;
 @XmlAccessorType(XmlAccessType.NONE)
 @ApiModel(value="Department")
 public class Department {
-    /**
+	/**
+     * Company number.
+     */
+    @XmlElement(name = "CompanyID")
+    private String companyID;
+	/**
      * Store number.
      */
     @XmlElement(name = "RetailStoreID")
@@ -99,9 +107,9 @@ public class Department {
     
     @XmlElement(name = "SubNum4")
     private String subNum4;
-    
-    @XmlElement(name = "SubNum5")
-    private Integer subNum5;
+
+    @XmlElement(name = "TaxId")
+    private Integer taxId;
 
     private String updAppId;
     
@@ -130,6 +138,13 @@ public class Department {
     
     @XmlElement(name = "GroupID")
     private String groupID;
+
+    @XmlElement(name = "ChangeableTaxRate")
+    private ChangeableTaxRate changeableTaxRate;
+
+    @XmlElement(name = "DefaultTaxRate")
+    private DefaultTaxRate defaultTaxRate;
+
     /**
      *Gets the retail store number.
      *
@@ -147,6 +162,25 @@ public class Department {
     public final void setRetailStoreID(final String retailStoreId) {
         this.retailStoreID = retailStoreId;
     }
+
+    /**
+     *Gets the companyID.
+     *
+     * @return companyID
+     */
+    @ApiModelProperty( value="会社コード", notes="会社コード")
+    public final String getCompanyID() {
+         return companyID;
+    }
+    /**
+     * Sets the companyID.
+     *
+     * @param companyID
+     */
+    public final void setCompanyID(final String companyID) {
+        this.companyID = companyID;
+    }
+
 
     /**
      * Gets the department id.
@@ -288,11 +322,11 @@ public class Department {
         this.subNum4 = subNum4;
     }
     @ApiModelProperty( value="税率区分", notes="税率区分")
-    public Integer getSubNum5() {
-        return subNum5;
+    public Integer getTaxId() {
+        return taxId;
     }
-    public void setSubNum5(Integer subNum5) {
-        this.subNum5 = subNum5;
+    public void setTaxId(Integer taxId) {
+        this.taxId = taxId;
     }
     @ApiModelProperty( value="最終更新プログラムID", notes="最終更新プログラムID")
     public final String getUpdAppId() {
@@ -367,7 +401,21 @@ public class Department {
     public void setGroupName(String groupName) {
         this.groupName = groupName;
     }
-    
+    @ApiModelProperty(value="変更可能な税率", notes="変更可能な税率")
+    public final ChangeableTaxRate getChangeableTaxRate() {
+        return this.changeableTaxRate;
+    }
+    public final void setChangeableTaxRate(final ChangeableTaxRate changeableTaxRate) {
+        this.changeableTaxRate = changeableTaxRate;
+    }
+    @ApiModelProperty(value="デフォルトで使う税率", notes="デフォルトで使う税率")
+    public final DefaultTaxRate getDefaultTaxRate() {
+        return this.defaultTaxRate;
+    }
+    public final void setDefaultTaxRate(final DefaultTaxRate defaultTaxRate) {
+        this.defaultTaxRate = defaultTaxRate;
+    }
+
     @Override
     public final String toString() {
         StringBuilder str = new StringBuilder();

@@ -23,21 +23,21 @@ When I list all departments of storeid 0031
 Then I should get resultcode 0 and 15 department list
 Then I should get list: 
 |DPT|DPTNAME       |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|INPUTTYPE|
-|309|Department 309|•”–å309        |0		|0				|0			|1			|null			|0			|0			|8.000	|1		|0|0|1|0|12123|999999|
-|308|Department 308|•”–å308		   |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|307|Department 307|•”–å307		   |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|205|Department 205|•”–å205        |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|204|Department 204|•”–å204        |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|203|Department 203|•”–å203        |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|202|Department 202|•”–å202        |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|201|Department 201|•”–å201        |0		|0				|0			|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|105|Department 105|•”–å105        |0       |0              |0          |1          |null           |0          |0          |8.000      |1      |0|0|1|0|12123|999999|
-|104|Department 104|•”–å104        |0       |0              |0          |1          |null           |0          |0          |8.000      |1      |0|0|1|0|12123|999999|
-|103|Department 103|•”–å103        |0       |0              |0          |1          |null           |0          |0          |8.000      |1      |0|0|1|0|12123|999999|
-|102|Department 102|•”–å102        |0       |0              |0          |1          |null           |0          |0          |8.000      |1      |0|0|1|0|12123|999999|
-|101|Department 101|•”–å101        |5       |5              |0          |1          |null           |0          |0          |8.000      |1      |0|0|1|0|45678|123456|
-|901|Department 901|•”–å901        |5       |5              |0          |1          |null           |0          |0          |8.000      |1      |0|0|1|0|12123|999999|
-|902|Department 902|•”–å902		   |5	    |5          	|0			|1			|null			|0			|0			|8.000		|1      |0|0|1|0|12123|999999|
+|309|Department 309|•”–å309        |0		|0				|0			|1			|null			|0			|0			|8.000	|2		|0|0|1|0|12123|999999|
+|308|Department 308|•”–å308		   |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|307|Department 307|•”–å307		   |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|205|Department 205|•”–å205        |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|204|Department 204|•”–å204        |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|203|Department 203|•”–å203        |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|202|Department 202|•”–å202        |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|201|Department 201|•”–å201        |0		|0				|0			|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|105|Department 105|•”–å105        |0       |0              |0          |1          |null           |0          |0          |8.000      |2      |0|0|1|0|12123|999999|
+|104|Department 104|•”–å104        |0       |0              |0          |1          |null           |0          |0          |8.000      |2      |0|0|1|0|12123|999999|
+|103|Department 103|•”–å103        |0       |0              |0          |1          |null           |0          |0          |8.000      |2      |0|0|1|0|12123|999999|
+|102|Department 102|•”–å102        |0       |0              |0          |1          |null           |0          |0          |8.000      |2      |0|0|1|0|12123|999999|
+|101|Department 101|•”–å101        |5       |5              |0          |1          |null           |0          |0          |8.000      |2      |0|0|1|0|45678|123456|
+|901|Department 901|•”–å901        |5       |5              |0          |1          |null           |0          |0          |8.000      |2      |0|0|1|0|12123|999999|
+|902|Department 902|•”–å902		   |5	    |5          	|0			|1			|null			|0			|0			|8.000		|2      |0|0|1|0|12123|999999|
 
 
 Scenario: List Departments of non-existing store
@@ -46,12 +46,12 @@ When I list all departments of storeid 0032
 Then I should get resultcode 0 and 6 department list
 Then I should get list: 
 |DPT|DPTNAME        |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|INPUTTYPE|
-|105|Department 105	|•”–å105	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
-|104|Department 104	|•”–å104	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|1		 |0|0|1|0|12123|999999|
-|103|Department 103	|•”–å103	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
-|102|Department 102	|•”–å102	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
-|101|Department 101	|•”–å101	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|45678|123456|
-|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
+|105|Department 105	|•”–å105	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
+|104|Department 104	|•”–å104	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|2		 |0|0|1|0|12123|999999|
+|103|Department 103	|•”–å103	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
+|102|Department 102	|•”–å102	   |0	       |0            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
+|101|Department 101	|•”–å101	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|45678|123456|
+|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
 
 
 Scenario: List Departments of company and store
@@ -60,8 +60,8 @@ When I list all departments of companyid 02 storeid 0031
 Then I should get resultcode 0 and 2 department list
 Then I should get list: 
 |DPT|DPTNAME        |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|INPUTTYPE|
-|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
-|902|Department 902	|•”–å902	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
+|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
+|902|Department 902	|•”–å902	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
 
 Scenario: List Departments of company and non-existing store
 Given a Department Resource
@@ -69,7 +69,7 @@ When I list all departments of companyid 02 storeid 0032
 Then I should get resultcode 0 and 1 department list
 Then I should get list: 
 |DPT|DPTNAME        |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|SUBSMALLINT5|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|INPUTTYPE|
-|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|1       |0|0|1|0|12123|999999|
+|901|Department 901	|•”–å901	   |5	       |5            |0			|1			|null			|0			|0			|8.000		|2       |0|0|1|0|12123|999999|
 
 
 Scenario: List Departments of non-existin company and non-existing store
@@ -84,21 +84,21 @@ When I list all departments of storeid {}
 Then I should get resultcode 0 and 15 department list
 Then I should get list: 
 |DPT|DPTNAME       |DPTNAMELOCAL  |INHERITFLAG|EXCEPTIONFLAG|DISCOUNTTYPE|DISCOUNTFLAG|DISCOUNTAMT|DISCOUNTRATE|TAXRATE|TAXTYPE|SUBNUM1|SUBNUM2|SUBNUM3|SUBNUM4|SUBCODE1|INPUTTYPE|
-|309|Department 309|•”–å309       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|308|Department 308|•”–å308		  |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|307|Department 307|•”–å307		  |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|205|Department 205|•”–å205       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|204|Department 204|•”–å204       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|203|Department 203|•”–å203       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|202|Department 202|•”–å202       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|201|Department 201|•”–å201       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|105|Department 105|•”–å105       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|104|Department 104|•”–å104       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|103|Department 103|•”–å103       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|102|Department 102|•”–å102       |0		|0				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|101|Department 101|•”–å101       |5		|5				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|45678|123456|
-|901|Department 901|•”–å901       |5		|5				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
-|902|Department 902|•”–å902       |5		|5				|1			|null			|0			|0			|8.000		|1		|0|0|1|0|12123|999999|
+|309|Department 309|•”–å309       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|308|Department 308|•”–å308		  |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|307|Department 307|•”–å307		  |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|205|Department 205|•”–å205       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|204|Department 204|•”–å204       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|203|Department 203|•”–å203       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|202|Department 202|•”–å202       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|201|Department 201|•”–å201       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|105|Department 105|•”–å105       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|104|Department 104|•”–å104       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|103|Department 103|•”–å103       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|102|Department 102|•”–å102       |0		|0				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|101|Department 101|•”–å101       |5		|5				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|45678|123456|
+|901|Department 901|•”–å901       |5		|5				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
+|902|Department 902|•”–å902       |5		|5				|1			|null			|0			|0			|8.000		|2		|0|0|1|0|12123|999999|
 
 
 Scenario: Database throw Exceptions

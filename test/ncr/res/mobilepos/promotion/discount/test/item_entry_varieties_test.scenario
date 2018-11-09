@@ -19,7 +19,7 @@ Then result should be :
 |MdNameLocal  		 |TaxType |RegularSalesPrice|ActualSalesPrice|description         |PublishingCode|dptSubCode1|
 |‚f‚q‚eƒoƒXƒPƒbƒgƒ{[ƒ‹ƒIƒ“ƒŠ[  |0       |5200.0           |5200.0          |‚f‚q‚eƒoƒXƒPƒbƒgƒ{[ƒ‹ƒIƒ“ƒŠ[  |123456789|21111|
 
-Scenario: Item Entry with ForeignJanBook(itemName and price from MST_PLU, taxType from MST_DPTINFO)
+Scenario: Item Entry with ForeignJanBook(itemName and price from MST_PLU)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0259852147999 4054965205478","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -27,7 +27,7 @@ Then result should be :
 |MdNameLocal  |TaxType |RegularSalesPrice|ActualSalesPrice|description |PublishingCode|dptSubCode1|
 |‚lƒeƒjƒXƒpƒ“ƒc        |0       |2800.0           |2800.0          |‚lƒeƒjƒXƒpƒ“ƒc       |123456789|21111|
 
-Scenario: Item Entry with ForeignJanBook(price from MST_PLU, taxType and itemName from MST_DPTINFO)
+Scenario: Item Entry with ForeignJanBook(price from MST_PLU, itemName from MST_DPTINFO)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0250052147546 9458967208498","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -56,7 +56,7 @@ Then result should be :
 |MdNameLocal  	    |TaxType |RegularSalesPrice|ActualSalesPrice|description       |PublishingCode|dptSubCode1|
 |‚r‚k‚h‚o‚o‚d‚q@‚b‚g‚t‚j‚j‚`‚b  |1       |880.0    	       |880.0    	    |‚r‚k‚h‚o‚o‚d‚q@‚b‚g‚t‚j‚j‚`‚b|123456789|21111|
 
-Scenario: Item Entry with BOOKCENTER(itemName and price from MST_PLU, taxType from MST_DPTINFO)
+Scenario: Item Entry with BOOKCENTER(itemName and price from MST_PLU)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0278154696210","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -64,7 +64,7 @@ Then result should be :
 |MdNameLocal        |TaxType |RegularSalesPrice|ActualSalesPrice|description        |PublishingCode|dptSubCode1|
 |‚c‚`‚v‚m@‚o‚`‚s‚q‚n‚k@‚r‚k‚h  |0       |9999.0           |9999.0          |‚c‚`‚v‚m@‚o‚`‚s‚q‚n‚k@‚r‚k‚h  |123456789|21111|
 
-Scenario: Item Entry with BOOKCENTER(price from MST_PLU, taxType and itemName from MST_DPTINFO)
+Scenario: Item Entry with BOOKCENTER(price from MST_PLU, itemName from MST_DPTINFO)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"0219234980254","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -93,7 +93,7 @@ Then result should be :
 |MdNameLocal  	    |TaxType |RegularSalesPrice|ActualSalesPrice|description       |PublishingCode|dptSubCode1|
 |‚V‚s‚S‚O‚f@‚g‚`‚q‚q‚h‚d‚q@‚P    |2       |2180.0           |2180.0          |‚V‚s‚S‚O‚f@‚g‚`‚q‚q‚h‚d‚q@‚P  |123456789|21111|
 
-Scenario: Item Entry with JANSALES(itemName and price from MST_PLU, taxType from MST_DPTINFO)
+Scenario: Item Entry with JANSALES(itemName and price from MST_PLU)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"66012580","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -101,7 +101,7 @@ Then result should be :
 |MdNameLocal  	     |TaxType |RegularSalesPrice|ActualSalesPrice|description        |PublishingCode|dptSubCode1|
 |‚a‚n‚g‚n@‚r‚m‚d‚`‚j@‚k‚d‚`‚s   |0       |11350.0          |11350.0         |‚a‚n‚g‚n@‚r‚m‚d‚`‚j@‚k‚d‚`‚s|123456789|21111|
 
-Scenario: Item Entry with JANSALES(price from MST_PLU, taxType and itemName from MST_DPTINFO)
+Scenario: Item Entry with JANSALES(price from MST_PLU, itemName from MST_DPTINFO)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9908817563241","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then the Result Code is 0
@@ -202,7 +202,7 @@ Then result should be :
 |RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description|PublishingCode|CategoryCode|dptSubCode1|
 |10000.0  	      |10000.0  	   |0      |‚kƒoƒ‰ƒEƒbƒh             |‚kƒoƒ‰ƒEƒbƒh         |123456789|0026|21111|
 
-Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (janBook)
+Scenario: Item Entry Of get itemInfo Plu (janBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9784123456700 1910036567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then result should be : 
@@ -264,14 +264,14 @@ Then result should be :
 |RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description|PublishingCode|CategoryCode|dptSubCode1|
 |10000.0  	      |10000.0  	   |0      |‚kƒoƒ‰ƒEƒbƒh             |‚kƒoƒ‰ƒEƒbƒh         |123456789|0026|21111|
 
-Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (foreignBook)
+Scenario: Item Entry Of get itemInfo Plu (foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9783123456700 1910036567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then result should be : 
 |RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal  |description  |PublishingCode|CategoryCode|dptSubCode1|
 |10000.0  	      |10000.0  	   |5      |‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|‚e‚h‚f‚`‚q‚n ‚g‚R ‚v‚R|123456789|0036|21111|
 
-Scenario: Item Entry Of get itemInfo Plu in TaxType is empty ItemId top three 979(foreignBook)
+Scenario: Item Entry Of get itemInfo Plu ItemId top three 979(foreignBook)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9793123456700 1910036567890","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then result should be : 
@@ -312,7 +312,7 @@ Then result should be :
 |RegularSalesPrice|ActualSalesPrice|TaxType|MdNameLocal|description|PublishingCode|MagazineCode|dptSubCode1|
 |10000.0  	      |10000.0  	   |0      |‚kƒoƒ‰ƒEƒbƒh         |‚kƒoƒ‰ƒEƒbƒh        |123456789|49122|21111|
  
-Scenario: Item Entry Of get itemInfo Plu in TaxType is empty (janMagazine)
+Scenario: Item Entry Of get itemInfo Plu(janMagazine)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"491223636044445600","ItemIDType":"EAN13","Department":"","Quantity":1,"ActualSalesUnitPrice":0}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then result should be : 

@@ -5,6 +5,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
+import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.model.ViewDepartment;
@@ -84,9 +87,13 @@ public class EnterpriseDepartmentResource {
 		}
 		try {
 			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+
+			ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
+        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+
 			IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
-			departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, searchRetailStoreID);
-			
+			departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, searchRetailStoreID, mapTaxId);
+
 			try {
 				OutputStream out = response.getOutputStream();
 				if(departmentInfo != null){

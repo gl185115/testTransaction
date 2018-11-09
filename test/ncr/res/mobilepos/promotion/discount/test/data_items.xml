@@ -1620,7 +1620,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>5</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -1774,7 +1774,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>5</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -1928,7 +1928,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>5</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -2082,7 +2082,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>5</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -3316,7 +3316,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>0</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -3470,7 +3470,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>0</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -3933,7 +3933,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>0</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -4087,7 +4087,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>0</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -4550,7 +4550,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>0</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />
@@ -4704,7 +4704,7 @@
 			<null />
 			<value>2015-09-30 00:00:00.000</value>
 			<null />
-			<null />
+			<value>0</value>
 			<value><![CDATA[8.000]]></value>
 			<value><![CDATA[1]]></value>
 			<null />

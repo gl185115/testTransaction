@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.department.resource.DepartmentResource;
@@ -13,6 +14,8 @@ import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DBInitiator;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
+
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
@@ -102,6 +105,12 @@ public class DepartmentResourceSteps extends Steps {
     @When("I get Department with companyid $companyid storeid $storeid and dptid $dptid")
     public final void selectDepartmentDetail(final String companyId, final String storeId,
          final String dptId) {
+    	try {
+			TaxRateInfoFactory.initialize(SystemFileConfig.getInstance().getCompanyId(), SystemFileConfig.getInstance().getStoreId());
+		} catch (DaoException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         dptModel = new ViewDepartment();
         dptModel = dptResource.selectDepartmentDetail(companyId, storeId, dptId);
     }

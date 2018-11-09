@@ -11,6 +11,8 @@ import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
+import ncr.res.mobilepos.pricing.model.DefaultTaxRate;
 
 /**
  * Class that encapsulates list of departments.
@@ -59,6 +61,19 @@ public class ViewDepartment extends ResultBase {
      */
     @XmlElement(name = "PromotionType")
     private String promotionType;
+
+    /**
+     * ChangeableTaxRate of Department
+     */
+    @XmlElement(name = "ChangeableTaxRate")
+    private ChangeableTaxRate changeableTaxRate;
+
+    /**
+     * DefaultTaxRate of Department
+     */
+    @XmlElement(name = "DefaultTaxRate")
+    private DefaultTaxRate defaultTaxRate;
+
     /**
      * Gets the list of departments.
      *
@@ -191,7 +206,42 @@ public class ViewDepartment extends ResultBase {
     public final void setPromotionType(final String promotionType) {
         this.promotionType = promotionType;
     }
-    
+
+	/**
+     * Gets the changeableTaxRate.
+     *
+     * @return changeableTaxRate
+     */
+    @ApiModelProperty(value="変更可能な税率", notes="変更可能な税率")
+    public final ChangeableTaxRate getChangeableTaxRate() {
+        return this.changeableTaxRate;
+    }
+    /**
+     * Sets the changeableTaxRate.
+     *
+     * @param changeableTaxRateToSet changeableTaxRate.
+     */
+    public final void setChangeableTaxRate(final ChangeableTaxRate changeableTaxRate) {
+        this.changeableTaxRate = changeableTaxRate;
+    }
+    /**
+     * Gets the defaultTaxRate.
+     *
+     * @return defaultTaxRate
+     */
+    @ApiModelProperty(value="デフォルトで使う税率", notes="デフォルトで使う税率")
+    public final DefaultTaxRate getDefaultTaxRate() {
+        return this.defaultTaxRate;
+    }
+    /**
+     * Sets the defaultTaxRate.
+     *
+     * @param defaultTaxRateToSet defaultTaxRate.
+     */
+    public final void setDefaultTaxRate(final DefaultTaxRate defaultTaxRate) {
+        this.defaultTaxRate = defaultTaxRate;
+    }
+
     @Override
     public final String toString() {
         ObjectMapper mapper = new ObjectMapper();

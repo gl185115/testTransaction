@@ -40,6 +40,8 @@ import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
+import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.model.Department;
@@ -516,7 +518,10 @@ public class PromotionResource {
 						mdName = saleMdName.getMdNameLocal();
 					} else {
 						// ローカルから部門情報を取得する
-						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId);
+			        	ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
+			        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+
+						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId, mapTaxId);
 						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
 						mdName = saleMdName.getMdNameLocal();
 						if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
@@ -623,8 +628,6 @@ public class PromotionResource {
 				boolean flag = ("0".equals(discounttype));
 				saleItem.setDiscountable(flag);
 
-				//課税区分を取得する
-				saleItem = chooseTaxType(saleItem);
 				//値引・割引除外区分を取得する
 				saleItem = chooseDiscountType(saleItem);
 
@@ -666,12 +669,24 @@ public class PromotionResource {
 				String taxTypeTemp = null;
 				if(PRIORITY_ONE.equals(saleItem.getTaxSource())){
 					taxTypeTemp = saleItem.getPluTaxType();
+					// 課税区分を取得する
+					saleItem.setTaxTypeSource(PRIORITY_ONE);
+					saleItem.setTaxType(taxTypeTemp);
 				}else if(PRIORITY_TWO.equals(saleItem.getTaxSource())){
 					taxTypeTemp = saleItem.getClsTaxType();
+					// 課税区分を取得する
+					saleItem.setTaxTypeSource(PRIORITY_TWO);
+					saleItem.setTaxType(taxTypeTemp);
 				}else if(PRIORITY_THREE.equals(saleItem.getTaxSource())){
 					taxTypeTemp = saleItem.getLineTaxType();
+					// 課税区分を取得する
+					saleItem.setTaxTypeSource(PRIORITY_THREE);
+					saleItem.setTaxType(taxTypeTemp);
 				}else if(PRIORITY_FOUR.equals(saleItem.getTaxSource())){
 					taxTypeTemp = saleItem.getDptTaxType();
+					// 課税区分を取得する
+					saleItem.setTaxTypeSource(PRIORITY_FOUR);
+					saleItem.setTaxType(taxTypeTemp);
 				}
 
 				// 非課税の場合、商品の税率情報を取得する
@@ -713,33 +728,6 @@ public class PromotionResource {
 			tp.methodExit(response);
 		}
 		return response;
-	}
-	
-	/**
-	 * 課税区分を取得する
-	 *
-	 * @param saleItem
-	 */
-	private Sale chooseTaxType(Sale saleItem) {
-		if(!StringUtility.isNullOrEmpty(saleItem.getTaxType())) {
-			saleItem.setTaxTypeSource(PRIORITY_ONE);
-			return saleItem;
-		}
-		if(!StringUtility.isNullOrEmpty(saleItem.getClsTaxType())) {
-			saleItem.setTaxTypeSource(PRIORITY_TWO);
-			saleItem.setTaxType(saleItem.getClsTaxType());
-			return saleItem;
-		}
-		if(!StringUtility.isNullOrEmpty(saleItem.getLineTaxType())) {
-			saleItem.setTaxTypeSource(PRIORITY_THREE);
-			saleItem.setTaxType(saleItem.getLineTaxType());
-			return saleItem;
-		}
-		if(!StringUtility.isNullOrEmpty(saleItem.getDptTaxType())) {
-			saleItem.setTaxTypeSource(PRIORITY_FOUR);
-			saleItem.setTaxType(saleItem.getDptTaxType());
-		}
-		return saleItem;
 	}
 
 	/**
@@ -931,7 +919,7 @@ public class PromotionResource {
 		saleOut.setDptSubNum2(departmentInfo.getDepartment().getSubNum2());
 		saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 		saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
-		saleOut.setTaxId(departmentInfo.getDepartment().getSubNum5());
+		saleOut.setTaxId(departmentInfo.getDepartment().getTaxId());
 		saleOut.setGroupID(departmentInfo.getDepartment().getGroupID());
 		saleOut.setGroupName(departmentInfo.getDepartment().getGroupName());
 
@@ -1809,7 +1797,7 @@ public class PromotionResource {
 		dpt.setSubNum2(StringUtility.convNullStringToNull(json.getString("subNum2")));
 		dpt.setSubNum3(StringUtility.convNullStringToNull(json.getString("subNum3")));
 		dpt.setSubNum4(StringUtility.convNullStringToNull(json.getString("subNum4")));
-		dpt.setSubNum5(Integer.parseInt(StringUtility.convNullStringToNull(json.getString("subNum5"))));
+		dpt.setTaxId(Integer.parseInt(StringUtility.convNullStringToNull(json.getString("taxId"))));
 		dpt.setGroupID(StringUtility.convNullStringToNull(json.getString("groupID")));
 		dpt.setGroupName(StringUtility.convNullStringToNull(json.getString("groupName")));
 		departmentInfo.setDepartment(dpt);

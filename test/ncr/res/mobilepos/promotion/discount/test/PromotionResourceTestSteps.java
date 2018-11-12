@@ -614,9 +614,6 @@ public class PromotionResourceTestSteps extends Steps {
 			assertThat("Compare the Md13 row ", ""
 					+ sale.getMd13(),
 					is(equalTo(expecedItem.get("Md13"))));
-			 assertThat("Compare the TaxRate row ", ""
-						+ sale.getTaxRate(),
-						is(equalTo(expecedItem.get("TaxRate"))));
 			assertThat("Compare the NonSales row ", ""
 					+ sale.getNonSales(),
 					is(equalTo(expecedItem.get("NonSales"))));

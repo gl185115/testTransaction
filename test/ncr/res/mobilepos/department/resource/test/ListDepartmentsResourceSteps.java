@@ -229,8 +229,6 @@ public class ListDepartmentsResourceSteps extends Steps {
                           java.math.BigDecimal.valueOf(actualDept.getDiscountRate()).intValue());
             }
 
-            Assert.assertEquals("Compare the Department's Tax Rate " + i,
-                    tempDpt.get("TAXRATE"), actualDept.getTaxRate());
             Assert.assertEquals("Compare the Department's TaxType " + i,
                     tempDpt.get("TAXTYPE"), actualDept.getTaxType());
             Assert.assertEquals("Compare the Department's SubNum1 " + i,

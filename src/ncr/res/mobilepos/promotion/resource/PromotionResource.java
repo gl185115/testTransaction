@@ -1010,9 +1010,9 @@ public class PromotionResource {
 			saleOut.setPromotionNo(departmentInfo.getPromotionNo());
 			saleOut.setPromotionType(departmentInfo.getPromotionType());
 		}
-		
-		String taxRate = departmentInfo.getDepartment().getTaxRate();
-		saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : (int)Double.parseDouble(taxRate));
+
+//		String taxRate = departmentInfo.getDepartment().getTaxRate();
+//		saleOut.setTaxRate(taxRate == "null" || taxRate == null ? 0 : (int)Double.parseDouble(taxRate));
 
 		saleOut.setNonSales(departmentInfo.getDepartment().getNonSales());
 
@@ -1788,7 +1788,7 @@ public class PromotionResource {
 		departmentName.setEn(StringUtility.convNullStringToNull(json.getJSONObject("departmentName").getString("en")));
 		departmentName.setJa(StringUtility.convNullStringToNull(json.getJSONObject("departmentName").getString("ja")));
 		dpt.setDepartmentName(departmentName);
-		dpt.setTaxRate(StringUtility.convNullStringToNull(json.getString("taxRate")));
+//		dpt.setTaxRate(StringUtility.convNullStringToNull(json.getString("taxRate")));
 		dpt.setTaxType(StringUtility.convNullStringToNull(json.getString("taxType")));
 		dpt.setDiscountType(StringUtility.convNullStringToNull(json.getString("discountType")));
 		dpt.setNonSales(json.getInt("nonSales"));

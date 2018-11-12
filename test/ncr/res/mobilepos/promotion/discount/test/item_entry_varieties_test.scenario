@@ -142,8 +142,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 2
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|Ｌバラウッド|テストー商品名前|0|9784923456789|0397|0|0|1|8|0|0|0.0|0.0|0026|0.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|Ｌバラウッド|テストー商品名前|0|9784923456789|0397|0|0|1|0|0|0.0|0.0|0026|0.0|null|21111|
 
 Scenario: The two section id four below(Department number is empty)
 Given ItemCode.xml file exist
@@ -169,8 +169,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|MJROYAL BK465|MJROYAL BK465|1|9784987654321|1234|0|0|1|8|0|0|59545.0|59545.0|0029|59545.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|MJROYAL BK465|MJROYAL BK465|1|9784987654321|1234|0|0|1|0|0|59545.0|59545.0|0029|59545.0|null|21111|
 
 Scenario: Plu no corresponding commodity(janBook)
 Given ItemCode.xml file exist
@@ -178,8 +178,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|Ｌバラウッド|Ｌバラウッド|0|9784987654321|0397|0|0|1|8|0|0|55135.0|55135.0|0026|55135.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|Ｌバラウッド|Ｌバラウッド|0|9784987654321|0397|0|0|1|0|0|55135.0|55135.0|0026|55135.0|null|21111|
 
 Scenario: Item Entry Of get itemInfo Plu_Name in MdName is empty(janBook)
 Given ItemCode.xml file exist
@@ -222,8 +222,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|MJROYAL BK465|MJROYAL BK465|5|9783987654321|0166|0|0|1|8|0|0|56789.0|56789.0|0026|56789.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|MJROYAL BK465|MJROYAL BK465|5|9783987654321|0166|0|0|1|0|0|56789.0|56789.0|0026|56789.0|null|21111|
 
 Scenario: Department number is empty String(foreignBook)
 Given ItemCode.xml file exist
@@ -325,8 +325,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|Ｌバラウッド|Ｌバラウッド|0|4912236362123|0397|0|0|1|8|0|0|5678.0|5678.0|null|5678.0|49122|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|Ｌバラウッド|Ｌバラウッド|0|4912236362123|0397|0|0|1|0|0|5678.0|5678.0|null|5678.0|49122|21111|
 
 !-- Test Item Entry with FOREIGNMAGAZINE.
 Scenario: get the new itemId with CDCalculation
@@ -390,8 +390,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|MJROYAL BK465|MJROYAL BK465|5|0401234567891|0161|0|0|1|8|0|0|7890.0|7890.0|null|7890.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|MJROYAL BK465|MJROYAL BK465|5|0401234567891|0161|0|0|1|0|0|7890.0|7890.0|null|7890.0|null|21111|
 
 Scenario: Item Entry with normal code
 Given ItemCode.xml file exist
@@ -438,8 +438,8 @@ Scenario: get the codeTemp when cCode anything except 040*
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"30999999990416","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|MJROYAL BK465|MJROYAL BK465|5|9783099999998|0166|0|0|1|8|0|0|0.0|0.0|0416|0.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|MJROYAL BK465|MJROYAL BK465|5|9783099999998|0166|0|0|1|0|0|0.0|0.0|0416|0.0|null|21111|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist
@@ -504,8 +504,8 @@ When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 
 Then the Result Code is 0
 Then the Extended Result Code is 0
 Then dptResult should be :
-|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|TaxRate|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
-|Ｌバラウッド|Ｌバラウッド|0|9784022345677|3970|0|0|1|8|0|0|0.0|0.0|0027|0.0|null|21111|
+|DptName|MdNameLocal|TaxType|ItemId|Dpt|Md11|Md12|Md13|NonSales|DiscountType|RegularSalesPrice|ActualSalesPrice|CategoryCode|LabelPrice|MagazineCode|dptSubCode1|
+|Ｌバラウッド|Ｌバラウッド|0|9784022345677|3970|0|0|1|0|0|0.0|0.0|0027|0.0|null|21111|
 
 Scenario: get name from MST_PLU_NAME
 Given ItemCode.xml file exist

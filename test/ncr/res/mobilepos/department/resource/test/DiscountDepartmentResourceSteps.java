@@ -136,8 +136,6 @@ public class DiscountDepartmentResourceSteps extends Steps {
                   dptModel.getDepartment().getDiscountType());
           assertEquals(dptDetails.get("DISCOUNTFLAG"),
                   dptModel.getDepartment().getDiscountFlag());
-          assertEquals(dptDetails.get("TAXRATE"),
-                  dptModel.getDepartment().getTaxRate());
           assertEquals(dptDetails.get("TAXTYPE"),
                   dptModel.getDepartment().getTaxType());
           if (dptDetails.get("PROMOTIONID").equals("null")) {

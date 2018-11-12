@@ -1,20 +1,12 @@
 package ncr.res.mobilepos.department.resource.test;
 
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.*;
+
 import java.sql.SQLException;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-
-import ncr.res.mobilepos.constant.SystemFileConfig;
-import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.department.model.ViewDepartment;
-import ncr.res.mobilepos.department.resource.DepartmentResource;
-import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.exception.SQLStatementException;
-import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.Requirements;
-import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
-import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 
 import org.dbunit.operation.DatabaseOperation;
 import org.jbehave.core.annotations.AfterScenario;
@@ -29,10 +21,16 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.equalTo;
+import ncr.res.mobilepos.constant.SystemFileConfig;
+import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.department.model.ViewDepartment;
+import ncr.res.mobilepos.department.resource.DepartmentResource;
+import ncr.res.mobilepos.exception.DaoException;
+import ncr.res.mobilepos.exception.SQLStatementException;
+import ncr.res.mobilepos.helper.DBInitiator;
+import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
+import ncr.res.mobilepos.helper.Requirements;
+import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
 
 /**
  * Resource Steps for Department for Department Table Maintenance.
@@ -136,8 +134,6 @@ public class DepartmentResourceSteps extends Steps {
                   dptModel.getDepartment().getDiscountType());
           assertEquals(dptDetails.get("DISCOUNTFLAG"),
                   dptModel.getDepartment().getDiscountFlag());
-          assertEquals(dptDetails.get("TAXRATE"),
-                  dptModel.getDepartment().getTaxRate());
           assertEquals(dptDetails.get("TAXTYPE"),
                   dptModel.getDepartment().getTaxType());
           assertEquals(dptDetails.get("SUBNUM1"),

@@ -130,7 +130,6 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				departmentName.setJa(result
 						.getString(DptConst.COL_DPT_NAME_LOCAL));
 				dpt.setDepartmentName(departmentName);
-				dpt.setTaxRate(result.getString(DptConst.COL_TAX_RATE));
 				dpt.setTaxType(result.getString(DptConst.COL_TAX_TYPE));
 				dpt.setDiscountType(result.getString(DptConst.COL_DISCOUNT_TYPE));
 				dpt.setNonSales(result.getInt(DptConst.COL_EXCEPTION_FLAG));
@@ -248,7 +247,6 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				department.setDiscountFlag(resultSet.getString(DptConst.COL_DISCOUNT_FLAG));
 				department.setDiscountAmt(resultSet.getDouble(DptConst.COL_DISCOUNT_AMT));
 				department.setDiscountRate(resultSet.getDouble(DptConst.COL_DISCOUNT_RATE));
-				department.setTaxRate(resultSet.getString(DptConst.COL_TAX_RATE));
 				department.setTaxType(resultSet.getString(DptConst.COL_TAX_TYPE));
 				department.setSubNum1(resultSet.getString(DptConst.COL_SUBNUM1_FLAG));
 				department.setSubNum2(resultSet.getString(DptConst.COL_SUBNUM2_FLAG));

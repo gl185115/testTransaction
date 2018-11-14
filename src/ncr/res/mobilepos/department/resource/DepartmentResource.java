@@ -1,8 +1,6 @@
 package ncr.res.mobilepos.department.resource;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -32,16 +30,11 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.pricing.model.ChangeableTaxRate;
-import ncr.res.mobilepos.pricing.model.DefaultTaxRate;
 /**
  * 改定履歴
  * バージョン         改定日付       担当者名           改定内容
  * 1.01               2014.12.11     LiQian             DIV存在チェックを対応
  */
-import ncr.res.mobilepos.pricing.model.TaxRateInfo;
-import ncr.res.mobilepos.promotion.factory.TaxRateInfoFactory;
-
 /**
  *
  * @author AP185142
@@ -77,8 +70,6 @@ public class DepartmentResource {
      */
     private Trace.Printer tp;
 
-	private final List<TaxRateInfo> taxRateInfoList;
-
     /**
      * constructor.
      */
@@ -86,7 +77,6 @@ public class DepartmentResource {
         this.daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
-        taxRateInfoList = TaxRateInfoFactory.getInstance();
     }
 
     /**
@@ -146,11 +136,6 @@ public class DepartmentResource {
         }
 
         try {
-
-    		List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
-    		DefaultTaxRate defaultTaxRate = null;
-    		ChangeableTaxRate changeableTaxRate = null;
-
         	// get common url
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
@@ -160,74 +145,6 @@ public class DepartmentResource {
             dptModel = iDptDao
                     .selectDepartmentDetail(companyID, retailStoreID, departmentID, retailStoreID, mapTaxId);
 
-            if(dptModel.getNCRWSSResultCode() == 0){
-            	// 非課税の場合、商品の税率情報を取得する
-    			if(("2").equals(dptModel.getDepartment().getTaxType())){
-    				defaultTaxRate = new DefaultTaxRate();
-    				defaultTaxRate.setRate(0);
-    				dptModel.setDefaultTaxRate(defaultTaxRate);
-    				return dptModel;
-    			}
-
-    			if (taxRateInfoList != null) {
-    				for (TaxRateInfo TaxInfo : taxRateInfoList) {
-    					if (TaxInfo.getTaxId() == dptModel.getDepartment().getTaxId()) {
-    						taxInfoList.add(TaxInfo);
-    					}
-    				}
-    			}
-    			if(taxInfoList.size() > 0){
-    				for (TaxRateInfo TaxInfo : taxInfoList) {
-    					if (TaxInfo.getSubNum1() == 0 && TaxInfo.getSubNum2() == 1) {
-    						if (defaultTaxRate != null) {
-    							LOGGER.logAlert(progname, "selectDepartmentDetail", Logger.RES_TABLE_DATA_ERR,
-    									"The data in MST_TAXRATE is error.\n");
-    							dptModel.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
-    							dptModel.setMessage("The data in MST_TAXRATE is error.");
-    							return dptModel;
-    						} else {
-    							defaultTaxRate = new DefaultTaxRate();
-    							defaultTaxRate.setRate(TaxInfo.getTaxRate());
-    						}
-    					}
-    					if (TaxInfo.getSubNum1() == 0 && TaxInfo.getSubNum2() == 0) {
-    						changeableTaxRate = new ChangeableTaxRate();
-    						changeableTaxRate.setRate(TaxInfo.getTaxRate());
-    					}
-    					if (TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 1) {
-    						if (defaultTaxRate != null) {
-    							LOGGER.logAlert(progname, "selectDepartmentDetail", Logger.RES_TABLE_DATA_ERR,
-    									"The data in MST_TAXRATE is error.\n");
-    							dptModel.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
-    							dptModel.setMessage("The data in MST_TAXRATE is error.");
-    							return dptModel;
-    						} else {
-    							defaultTaxRate = new DefaultTaxRate();
-    							defaultTaxRate.setRate(TaxInfo.getTaxRate());
-    							defaultTaxRate.setReceiptMark(TaxInfo.getSubCode1());
-    							defaultTaxRate.setReducedTaxRate(TaxInfo.getSubNum1());
-    						}
-    					}
-    					if (TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 0) {
-    						changeableTaxRate = new ChangeableTaxRate();
-    						changeableTaxRate.setRate(TaxInfo.getTaxRate());
-    						changeableTaxRate.setReceiptMark(TaxInfo.getSubCode1());
-    						changeableTaxRate.setReducedTaxRate(TaxInfo.getSubNum1());
-    					}
-    				}
-    			}
-
-    			if(changeableTaxRate != null || defaultTaxRate != null){
-    				dptModel.setChangeableTaxRate(changeableTaxRate);
-    				dptModel.setDefaultTaxRate(defaultTaxRate);
-    			}else{
-    				LOGGER.logAlert(progname, "selectDepartmentDetail", Logger.RES_GET_DATA_ERR,
-    						"税率取得エラー。\n"+"Company="+ companyID +",Store="+ retailStoreID + ",DPT=" + departmentID);
-    				dptModel.setDepartment(null);
-    				dptModel.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-    				dptModel.setMessage("The data is not found.");
-    			}
-            }
         } catch (DaoException daoEx) {
             LOGGER.logAlert(
                     "DepartmentRes",

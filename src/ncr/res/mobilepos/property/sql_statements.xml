@@ -5549,7 +5549,7 @@ ORDER BY
     SET @groupStoreId = '0'
     
     SELECT
-      dpt.StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, dpt.SubNum1, dpt.SubNum2, dpt.SubNum3, dpt.SubNum4, %s, dpt.SubCode1, grop.GroupName, grop.GroupId
+      dpt.CompanyId, dpt.StoreId, Dpt, DptName, DptNameLocal, TaxType, TaxRate, DiscountType, ExceptionFlag, dpt.SubNum1, dpt.SubNum2, dpt.SubNum3, dpt.SubNum4, %s, dpt.SubCode1, grop.GroupName, grop.GroupId
     FROM
       RESMaster.dbo.MST_DPTINFO dpt
     LEFT JOIN

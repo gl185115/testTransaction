@@ -666,31 +666,9 @@ public class PromotionResource {
 
 				// 税率区分の値を取得したマスターテーブルの番号
 				saleItem = chooseTaxSource(saleItem);
-				String taxTypeTemp = null;
-				if(PRIORITY_ONE.equals(saleItem.getTaxSource())){
-					taxTypeTemp = saleItem.getPluTaxType();
-					// 課税区分を取得する
-					saleItem.setTaxTypeSource(PRIORITY_ONE);
-					saleItem.setTaxType(taxTypeTemp);
-				}else if(PRIORITY_TWO.equals(saleItem.getTaxSource())){
-					taxTypeTemp = saleItem.getClsTaxType();
-					// 課税区分を取得する
-					saleItem.setTaxTypeSource(PRIORITY_TWO);
-					saleItem.setTaxType(taxTypeTemp);
-				}else if(PRIORITY_THREE.equals(saleItem.getTaxSource())){
-					taxTypeTemp = saleItem.getLineTaxType();
-					// 課税区分を取得する
-					saleItem.setTaxTypeSource(PRIORITY_THREE);
-					saleItem.setTaxType(taxTypeTemp);
-				}else if(PRIORITY_FOUR.equals(saleItem.getTaxSource())){
-					taxTypeTemp = saleItem.getDptTaxType();
-					// 課税区分を取得する
-					saleItem.setTaxTypeSource(PRIORITY_FOUR);
-					saleItem.setTaxType(taxTypeTemp);
-				}
 
 				// 非課税の場合、商品の税率情報を取得する
-				if(("2").equals(taxTypeTemp)){
+				if(("2").equals(saleItem.getTaxType())){
 					DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
 					defaultTaxRate.setRate(0);
 					saleItem.setDefaultTaxRate(defaultTaxRate);
@@ -731,29 +709,45 @@ public class PromotionResource {
 	}
 
 	/**
-	 * 税率区分の値を取得したマスターテーブルの番号
+	 * 税率区分、課税区分の値を取得したマスターテーブルの番号
 	 *
 	 * @param saleItem
 	 */
 	private Sale chooseTaxSource(Sale saleItem) {
-		if(!StringUtility.isNullOrEmpty(saleItem.getPluSubNum1())){
+		if(!StringUtility.isNullOrEmpty(saleItem.getPluSubNum1()) && !StringUtility.isNullOrEmpty(saleItem.getPluTaxType())){
+			// 税率区分を取得する
 			saleItem.setTaxSource(PRIORITY_ONE);
 			saleItem.setTaxId(Integer.parseInt(saleItem.getPluSubNum1()));
+			// 課税区分を取得する
+			saleItem.setTaxTypeSource(PRIORITY_ONE);
+			saleItem.setTaxType(saleItem.getPluTaxType());
 			return saleItem;
 		}
-		if(!StringUtility.isNullOrEmpty(saleItem.getClassInfoSubNum1())){
+		if(!StringUtility.isNullOrEmpty(saleItem.getClassInfoSubNum1())&& !StringUtility.isNullOrEmpty(saleItem.getClsTaxType())){
+			// 税率区分を取得する
 			saleItem.setTaxSource(PRIORITY_TWO);
 			saleItem.setTaxId(Integer.parseInt(saleItem.getClassInfoSubNum1()));
+			// 課税区分を取得する
+			saleItem.setTaxTypeSource(PRIORITY_TWO);
+			saleItem.setTaxType(saleItem.getClsTaxType());
 			return saleItem;
 		}
-		if(!StringUtility.isNullOrEmpty(saleItem.getLineInfoSubNum1())){
+		if(!StringUtility.isNullOrEmpty(saleItem.getLineInfoSubNum1()) && !StringUtility.isNullOrEmpty(saleItem.getLineTaxType())){
+			// 税率区分を取得する
 			saleItem.setTaxSource(PRIORITY_THREE);
 			saleItem.setTaxId(Integer.parseInt(saleItem.getLineInfoSubNum1()));
+			// 課税区分を取得する
+			saleItem.setTaxTypeSource(PRIORITY_THREE);
+			saleItem.setTaxType(saleItem.getLineTaxType());
 			return saleItem;
 		}
-		if(!StringUtility.isNullOrEmpty(saleItem.getDptSubNum5())){
+		if(!StringUtility.isNullOrEmpty(saleItem.getDptSubNum5()) && !StringUtility.isNullOrEmpty(saleItem.getDptTaxType())){
+			// 税率区分を取得する
 			saleItem.setTaxSource(PRIORITY_FOUR);
 			saleItem.setTaxId(Integer.parseInt(saleItem.getDptSubNum5()));
+			// 課税区分を取得する
+			saleItem.setTaxTypeSource(PRIORITY_FOUR);
+			saleItem.setTaxType(saleItem.getDptTaxType());
 		}
 		return saleItem;
 	}
@@ -920,6 +914,7 @@ public class PromotionResource {
 		saleOut.setDptSubNum3(departmentInfo.getDepartment().getSubNum3());
 		saleOut.setDptSubNum4(departmentInfo.getDepartment().getSubNum4());
 		saleOut.setTaxId(departmentInfo.getDepartment().getTaxId());
+		saleOut.setTaxSource(PRIORITY_FOUR);
 		saleOut.setGroupID(departmentInfo.getDepartment().getGroupID());
 		saleOut.setGroupName(departmentInfo.getDepartment().getGroupName());
 
@@ -1020,6 +1015,8 @@ public class PromotionResource {
 		saleOut.setDiscountTypeSource(PRIORITY_FOUR);
 		saleOut.setItemId(itemIdTemp);
 		saleOut.setDepartment(dptCode);
+		saleOut.setChangeableTaxRate(departmentInfo.getDepartment().getChangeableTaxRate());
+		saleOut.setDefaultTaxRate(departmentInfo.getDepartment().getDefaultTaxRate());
 
 		if (!StringUtility.isNullOrEmpty(cCode)) {
 			if (cCode.length() == 4) {
@@ -1028,25 +1025,9 @@ public class PromotionResource {
 				saleOut.setMagazineCode(cCode);
 			}
 		}
-
-		// 非課税の場合、商品の税率情報を取得する
-		if(("2").equals(saleOut.getTaxType())){
-			DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
-			defaultTaxRate.setRate(0);
-			saleOut.setDefaultTaxRate(defaultTaxRate);
-		}else{
-			saleOut.setCompanyId(companyId);
-			saleOut.setStoreId(retailStoreId);
-
-			// 税率の情報を取得する
-			getSaleTaxRateInfo(saleOut, response);
-		}
-
-		if(response.getNCRWSSResultCode() == ResultBase.RES_OK){
-			transactionOut.setSale(saleOut);
-			response.setDepartmentName(dptName);
-			response.setTransaction(transactionOut);
-		}
+		transactionOut.setSale(saleOut);
+		response.setDepartmentName(dptName);
+		response.setTransaction(transactionOut);
 	}
 
 	private List<CouponInfo> makeCouponInfoList(Map<String, CouponInfo> map) {
@@ -1781,6 +1762,8 @@ public class PromotionResource {
 	private ViewDepartment jsonToDeparment(JSONObject json) throws NumberFormatException, JSONException {
 		ViewDepartment departmentInfo = new ViewDepartment();
 		Department dpt = new Department();
+		ChangeableTaxRate changeableTaxRate =null;
+		DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
 		dpt.setDepartmentID(StringUtility.convNullStringToNull(json.getString("departmentID")));
 
 		// department name
@@ -1800,6 +1783,21 @@ public class PromotionResource {
 		dpt.setTaxId(Integer.parseInt(StringUtility.convNullStringToNull(json.getString("taxId"))));
 		dpt.setGroupID(StringUtility.convNullStringToNull(json.getString("groupID")));
 		dpt.setGroupName(StringUtility.convNullStringToNull(json.getString("groupName")));
+		if(!("2").equals(dpt.getTaxType()) && !StringUtility.isNullOrEmpty(StringUtility.convNullStringToNull(json.getString("changeableTaxRate")))){
+			changeableTaxRate = new ChangeableTaxRate();
+			changeableTaxRate.setRate(json.getJSONObject("changeableTaxRate").getInt("rate"));
+			changeableTaxRate.setReceiptMark(StringUtility.convNullStringToNull(json.getJSONObject("changeableTaxRate").getString("receiptMark")));
+			if(!StringUtility.isNullOrEmpty(StringUtility.convNullStringToNull(json.getJSONObject("changeableTaxRate").getString("reducedTaxRate")))){
+				changeableTaxRate.setReducedTaxRate(json.getJSONObject("changeableTaxRate").getInt("reducedTaxRate"));
+			}
+		}
+		defaultTaxRate.setRate(json.getJSONObject("defaultTaxRate").getInt("rate"));
+		defaultTaxRate.setReceiptMark(StringUtility.convNullStringToNull(json.getJSONObject("defaultTaxRate").getString("receiptMark")));
+		if(!StringUtility.isNullOrEmpty(StringUtility.convNullStringToNull(json.getJSONObject("defaultTaxRate").getString("reducedTaxRate")))){
+			defaultTaxRate.setReducedTaxRate(json.getJSONObject("defaultTaxRate").getInt("reducedTaxRate"));
+		}
+		dpt.setChangeableTaxRate(changeableTaxRate);
+		dpt.setDefaultTaxRate(defaultTaxRate);
 		departmentInfo.setDepartment(dpt);
 		departmentInfo.setRetailStoreID(StringUtility.convNullStringToNull(json.getString("retailStoreID")));
 		return departmentInfo;

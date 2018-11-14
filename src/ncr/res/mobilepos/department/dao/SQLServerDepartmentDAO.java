@@ -129,6 +129,8 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				departmentName.setEn(result.getString(DptConst.COL_DPT_NAME));
 				departmentName.setJa(result
 						.getString(DptConst.COL_DPT_NAME_LOCAL));
+				dpt.setCompanyID(result.getString(DptConst.COL_COMPANY_ID));
+				dpt.setRetailStoreID(result.getString(DptConst.COL_STORE_ID));
 				dpt.setDepartmentName(departmentName);
 				dpt.setTaxType(result.getString(DptConst.COL_TAX_TYPE));
 				dpt.setDiscountType(result.getString(DptConst.COL_DISCOUNT_TYPE));
@@ -143,6 +145,36 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				}
 				dpt.setGroupID(result.getString(DptConst.COL_GROUPID));
 				dpt.setGroupName(result.getString(DptConst.COL_GROUPNAME));
+				
+				List<TaxRateInfo> taxInfoList = new ArrayList<TaxRateInfo>();
+				DefaultTaxRate defaultTaxRate = null;
+				ChangeableTaxRate changeableTaxRate = null;
+				
+				// 非課税の場合、商品の税率情報を取得する
+				if(("2").equals(dpt.getTaxType())){
+					defaultTaxRate = new DefaultTaxRate();
+					defaultTaxRate.setRate(0);
+					dpt.setDefaultTaxRate(defaultTaxRate);
+				}else{
+					if (!getDptTaxInfo(taxInfoList, defaultTaxRate, changeableTaxRate, dpt)){
+						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_TABLE_DATA_ERR,
+								"The data in MST_TAXRATE is error.\n");
+						dptModel.setDepartment(null);
+						dptModel.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
+						dptModel.setMessage("The data in MST_TAXRATE is error.");
+						return dptModel;
+					}
+					
+					if(dpt.getChangeableTaxRate() == null && dpt.getDefaultTaxRate() == null){
+						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_GET_DATA_ERR,
+								"税率取得エラー。\n"+"Company="+ dpt.getCompanyID() +",Store="+ dpt.getRetailStoreID() + ",DPT=" + dpt.getDepartmentID());
+						dptModel.setDepartment(null);
+						dptModel.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+						dptModel.setMessage("The data is not found.");
+						return dptModel;
+					}
+				}
+				
 				dptModel.setDepartment(dpt);
 				dptModel.setRetailStoreID(searchRetailStoreID);
 				setPricePromInfo(dptModel);
@@ -279,9 +311,23 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 					department.setDefaultTaxRate(defaultTaxRate);
 					departments.add(department);
 				}else{
-					getDptTaxInfo(taxInfoList, defaultTaxRate, changeableTaxRate, department, departments, dptList);
-
-					if(dptList.getNCRWSSResultCode() != 0){
+					if (!getDptTaxInfo(taxInfoList, defaultTaxRate, changeableTaxRate, department)){
+						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_TABLE_DATA_ERR,
+								"The data in MST_TAXRATE is error.\n");
+						dptList.setDepartments(null);
+						dptList.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
+						dptList.setMessage("The data in MST_TAXRATE is error.");
+						return dptList;
+					}
+					
+					if(department.getChangeableTaxRate() != null || department.getDefaultTaxRate() != null){
+						departments.add(department);
+					}else{
+						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_GET_DATA_ERR,
+								"税率取得エラー。\n"+"Company="+ department.getCompanyID() +",Store="+ department.getRetailStoreID() + ",DPT=" + department.getDepartmentID());
+						dptList.setDepartments(null);
+						dptList.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+						dptList.setMessage("The data is not found.");
 						return dptList;
 					}
 				}
@@ -342,14 +388,16 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
   	 * @param defaultTaxRate
   	 * @param changeableTaxRate
   	 * @param department
-  	 * @param departments
-  	 * @param dptList
   	 */
-  	private void getDptTaxInfo(List<TaxRateInfo> taxInfoList, DefaultTaxRate defaultTaxRate, ChangeableTaxRate changeableTaxRate,
-  			Department department, List<Department> departments, DepartmentList dptList) {
+  	private boolean getDptTaxInfo(List<TaxRateInfo> taxInfoList, DefaultTaxRate defaultTaxRate, ChangeableTaxRate changeableTaxRate,
+  			Department department) {
+  		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName).println("taxInfoList", taxInfoList).println("defaultTaxRate", defaultTaxRate)
+			.println("changeableTaxRate", changeableTaxRate).println("department", department);
+		
 		if (taxRateInfoList != null) {
 			for (TaxRateInfo TaxInfo : taxRateInfoList) {
-				if (TaxInfo.getTaxId() == department.getTaxId()) {
+				if (TaxInfo.getTaxId().equals(department.getTaxId())) {
 					taxInfoList.add(TaxInfo);
 				}
 			}
@@ -358,11 +406,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 			for (TaxRateInfo TaxInfo : taxInfoList) {
 				if (TaxInfo.getSubNum1() == 0 && TaxInfo.getSubNum2() == 1) {
 					if (defaultTaxRate != null) {
-						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_TABLE_DATA_ERR,
-								"The data in MST_TAXRATE is error.\n");
-						dptList.setDepartments(null);
-						dptList.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
-						dptList.setMessage("The data in MST_TAXRATE is error.");
+						return false;
 					} else {
 						defaultTaxRate = new DefaultTaxRate();
 						defaultTaxRate.setRate(TaxInfo.getTaxRate());
@@ -374,11 +418,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 				}
 				if (TaxInfo.getSubNum1() == 1 && TaxInfo.getSubNum2() == 1) {
 					if (defaultTaxRate != null) {
-						LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_TABLE_DATA_ERR,
-								"The data in MST_TAXRATE is error.\n");
-						dptList.setDepartments(null);
-						dptList.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
-						dptList.setMessage("The data in MST_TAXRATE is error.");
+						return false;
 					} else {
 						defaultTaxRate = new DefaultTaxRate();
 						defaultTaxRate.setRate(TaxInfo.getTaxRate());
@@ -397,13 +437,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 		if(changeableTaxRate != null || defaultTaxRate != null){
 			department.setChangeableTaxRate(changeableTaxRate);
 			department.setDefaultTaxRate(defaultTaxRate);
-			departments.add(department);
-		}else{
-			LOGGER.logAlert(progName, "getDptTaxInfo", Logger.RES_GET_DATA_ERR,
-					"税率取得エラー。\n"+"Company="+ department.getCompanyID() +",Store="+ department.getRetailStoreID() + ",DPT=" + department.getDepartmentID());
-			dptList.setDepartments(null);
-			dptList.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-			dptList.setMessage("The data is not found.");
 		}
+		return true;
   	}
 }

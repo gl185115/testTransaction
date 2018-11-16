@@ -128,7 +128,7 @@
       <url-pattern>/rest/storeinfo/!(getcmpresetstoreinfo)</url-pattern>
       <url-pattern>/rest/systemconfiguration/maintenance</url-pattern>
       <url-pattern>/rest/systemconfiguration/setcompanyid</url-pattern>
-      <url-pattern>/rest/taxrate/gettaxrate</url-pattern>
+      <url-pattern>/rest/taxrate/*</url-pattern>
       <url-pattern>/rest/test/*</url-pattern>
       <url-pattern>/rest/till/*</url-pattern>
       <url-pattern>/rest/transaction/*</url-pattern>

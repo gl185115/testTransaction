@@ -175,6 +175,9 @@ public class WebContextListener implements ServletContextListener {
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
         	// Only HOST loads TaxRate Information
         	TaxRateInfoFactory.initialize(companyId, storeId);
+        }else{
+        	// Only HOST loads TaxRate Information
+        	TaxRateInfoFactory.initialize("0", "0");
         }
     }
 

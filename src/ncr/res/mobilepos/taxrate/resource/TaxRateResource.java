@@ -238,7 +238,7 @@ public class TaxRateResource {
 				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR,
 						"ê≈ó¶éÊìæÉGÉâÅ[ÅB\n"+"Company="+ companyId +",Store="+ retailstoreId + ",DPT=" + departmentId);
 				taxRateInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-				taxRateInfo.setMessage("The data is not found.");
+				taxRateInfo.setMessage("Tax rate search error");
 			}
 		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get taxRate.", ex);

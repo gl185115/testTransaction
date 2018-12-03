@@ -493,6 +493,27 @@ public class PromotionResource {
 						if (item != null) {
 							item.setItemId(itemIdTemp);
 							Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
+							
+							// 税率区分の値を取得したマスターテーブルの番号
+							saleItem = chooseTaxSource(saleItem);
+
+							// 非課税の場合、商品の税率情報を取得する
+							if(("2").equals(saleItem.getTaxType())){
+								DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+								defaultTaxRate.setRate(0);
+								saleItem.setDefaultTaxRate(defaultTaxRate);
+							}else{
+								saleItem.setCompanyId(companyId);
+								saleItem.setStoreId(retailStoreId);
+
+								// 税率の情報を取得する
+								getSaleTaxRateInfo(saleItem ,response);
+							}
+
+							if(response.getNCRWSSResultCode() == ResultBase.RES_ERROR_NODATAFOUND || response.getNCRWSSResultCode() == ResultBase.RES_TABLE_DATA_ERR){
+								return response;
+							}
+							
 							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 								terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 							}
@@ -559,33 +580,6 @@ public class PromotionResource {
 							return response;
 						}
 					}
-	
-					Double barCodePrice = null;
-	                barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-	                if (barCodePrice != null) {
-	                    item.setLabelPrice(barCodePrice);
-	                }
-	                
-					// バーコード価格を使用
-	                if (item.getRegularSalesUnitPrice() == 0.0) {
-	                    String taxType = departmentInfo.getDepartment().getTaxType();
-	                    item.setDptTaxType(taxType);
-	                    if (barCodePrice != null) {
-	                        if ("1".equals(taxType)) {
-	                            barCodePrice = (double) Math.floor(barCodePrice * 1.08);
-	                        }
-	                        item.setRegularSalesUnitPrice(barCodePrice);
-	                        item.setActualSalesUnitPrice(barCodePrice);
-	                    }
-	                }
-	                
-					if (!StringUtility.isNullOrEmpty(cCode)) {
-						if (cCode.length() == 4) {
-							item.setCategoryCode(cCode);
-						} else {
-							item.setMagazineCode(cCode);
-						}
-					}
 				}
                 salePrice = item.getRegularSalesUnitPrice();
 				// 各種特売情報を取得する
@@ -593,8 +587,27 @@ public class PromotionResource {
 				
 				info.setTruePrice(item.getRegularSalesUnitPrice());
 
-				discounttype = item.getDiscountType();
 				Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
+				
+				// 税率区分の値を取得したマスターテーブルの番号
+				saleItem = chooseTaxSource(saleItem);
+
+				// 非課税の場合、商品の税率情報を取得する
+				if(("2").equals(saleItem.getTaxType())){
+					DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+					defaultTaxRate.setRate(0);
+					saleItem.setDefaultTaxRate(defaultTaxRate);
+				}else{
+					saleItem.setCompanyId(companyId);
+					saleItem.setStoreId(retailStoreId);
+
+					// 税率の情報を取得する
+					getSaleTaxRateInfo(saleItem ,response);
+				}
+
+				if(response.getNCRWSSResultCode() != ResultBase.RES_OK){
+					return response;
+				}
 				
 				if (saleItem.isPriceOverride()) {
 					saleItem.setActualSalesUnitPrice(saleIn.getActualSalesUnitPrice());
@@ -620,13 +633,39 @@ public class PromotionResource {
 					if (StringUtility.isNullOrEmpty(saleItem.getPromotionType())) {
 						saleItem.setPromotionType(departmentInfo.getPromotionType());
 					}
-					if (StringUtility.isNullOrEmpty(discounttype)) {
+					if (StringUtility.isNullOrEmpty(saleItem.getDiscountType())) {
 						discounttype = departmentInfo.getDepartment().getDiscountType();
 						saleItem.setDptDiscountType(discounttype);
 					}
+					
+					Double barCodePrice = null;
+	                barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+	                if (barCodePrice != null) {
+	                	saleItem.setLabelPrice(barCodePrice);
+	                }
+	                
+					// バーコード価格を使用
+	                if (saleItem.getRegularSalesUnitPrice() == 0.0) {
+	                    String taxType = departmentInfo.getDepartment().getTaxType();
+	                    saleItem.setDptTaxType(taxType);
+	                    if (barCodePrice != null) {
+	                        if ("1".equals(taxType)) {
+	        					double taxRate = ((double)saleItem.getDefaultTaxRate().getRate()/100 + 1);
+	        					barCodePrice = (double) Math.floor(barCodePrice * taxRate);
+	                        }
+	                        saleItem.setRegularSalesUnitPrice(barCodePrice);
+	                        saleItem.setActualSalesUnitPrice(barCodePrice);
+	                    }
+	                }
+	                
+					if (!StringUtility.isNullOrEmpty(cCode)) {
+						if (cCode.length() == 4) {
+							saleItem.setCategoryCode(cCode);
+						} else {
+							saleItem.setMagazineCode(cCode);
+						}
+					}
 				}
-				boolean flag = ("0".equals(discounttype));
-				saleItem.setDiscountable(flag);
 
 				//値引・割引除外区分を取得する
 				saleItem = chooseDiscountType(saleItem);
@@ -662,26 +701,6 @@ public class PromotionResource {
 							}
 						}
 					}
-				}
-
-				// 税率区分の値を取得したマスターテーブルの番号
-				saleItem = chooseTaxSource(saleItem);
-
-				// 非課税の場合、商品の税率情報を取得する
-				if(("2").equals(saleItem.getTaxType())){
-					DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
-					defaultTaxRate.setRate(0);
-					saleItem.setDefaultTaxRate(defaultTaxRate);
-				}else{
-					saleItem.setCompanyId(companyId);
-					saleItem.setStoreId(retailStoreId);
-
-					// 税率の情報を取得する
-					getSaleTaxRateInfo(saleItem ,response);
-				}
-
-				if(response.getNCRWSSResultCode() != ResultBase.RES_OK){
-					return response;
 				}
 
 				response.setPromotion(promotion);
@@ -779,6 +798,7 @@ public class PromotionResource {
 					if(defaultTaxRate != null){
 						LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_TABLE_DATA_ERR,"The data in MST_TAXRATE is error.\n");
 						response.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
+						response.setNCRWSSExtendedResultCode(ResultBase.RES_TABLE_DATA_ERR);
 						response.setMessage("The data in MST_TAXRATE is error.");
 					}else {
 						defaultTaxRate = new DefaultTaxRate();
@@ -793,6 +813,7 @@ public class PromotionResource {
 					if(defaultTaxRate != null){
 						LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_TABLE_DATA_ERR,"The data in MST_TAXRATE is error.\n");
 						response.setNCRWSSResultCode(ResultBase.RES_TABLE_DATA_ERR);
+						response.setNCRWSSExtendedResultCode(ResultBase.RES_TABLE_DATA_ERR);
 						response.setMessage("The data in MST_TAXRATE is error.");
 					}else{
 						defaultTaxRate = new DefaultTaxRate();
@@ -816,7 +837,8 @@ public class PromotionResource {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR,
 					"税率取得エラー。\n" + "Company=" + saleItem.getCompanyId() + ",Store=" + saleItem.getStoreId() + ",ItemID=" + saleItem.getItemId());
 			response.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-			response.setMessage("The data is not found.");
+			response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+			response.setMessage("Tax rate search error");
 		}
 	}
 
@@ -927,7 +949,8 @@ public class PromotionResource {
 			// バーコード価格を使用
 			if (barCodePrice != null) {
 				if ("1".equals(taxType)) {
-					barCodePrice = (double) Math.floor(barCodePrice * 1.08);
+					double taxRate = ((double)departmentInfo.getDepartment().getDefaultTaxRate().getRate()/100 + 1);
+					barCodePrice = (double) Math.floor(barCodePrice * taxRate);
 				}
 				saleOut.setLabelPrice(barCodePrice);
 				saleOut.setRegularSalesUnitPrice(barCodePrice);

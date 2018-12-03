@@ -170,7 +170,7 @@ public class SQLServerDepartmentDAO extends AbstractDao implements
 								"ê≈ó¶éÊìæÉGÉâÅ[ÅB\n"+"Company="+ dpt.getCompanyID() +",Store="+ dpt.getRetailStoreID() + ",DPT=" + dpt.getDepartmentID());
 						dptModel.setDepartment(null);
 						dptModel.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-						dptModel.setMessage("The data is not found.");
+						dptModel.setMessage("Tax rate search error");
 						return dptModel;
 					}
 				}

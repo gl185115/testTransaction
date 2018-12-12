@@ -1619,7 +1619,9 @@ public class PromotionResource {
             result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
             if (result != null) {
-            	saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
+            	if (result.has("transaction")) {
+            		saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
+            	}
             }
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote getMdName.",
@@ -1725,7 +1727,9 @@ public class PromotionResource {
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
 			if (result != null) {
-				sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
+				if (result.has("transaction")) {
+					sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
+				}
 			}
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote item entry.",

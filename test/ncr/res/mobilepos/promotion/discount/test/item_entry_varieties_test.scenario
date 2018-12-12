@@ -112,8 +112,8 @@ Then result should be :
 Scenario: Item Entry with JANSALES(price = 0)
 Given ItemCode.xml file exist
 When a Item Entry at promotion with parameters RetailStoreID 0247 WorkStationId 0004 SequenceNo 0101 TransactionJson {"EntryFlag":"true","Sale":{"ItemEntryID":1,"ItemID":"9908817563242","ItemIDType":"EAN13","Department":"","Quantity":1}} CompanyId 01 PriceCheck 1 Businessdate 2016-08-16
-Then the Result Code is 801
-Then the Extended Result Code is 801
+Then the Result Code is 0
+Then the Extended Result Code is 0
 
 Scenario: Item Entry with JANSALES(Not exist in MST_PLU, to error status)
 Given ItemCode.xml file exist

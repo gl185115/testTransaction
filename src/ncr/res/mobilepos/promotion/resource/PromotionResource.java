@@ -493,25 +493,30 @@ public class PromotionResource {
 						if (item != null) {
 							item.setItemId(itemIdTemp);
 							Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-							
-							// 税率区分の値を取得したマスターテーブルの番号
-							saleItem = chooseTaxSource(saleItem);
 
-							// 非課税の場合、商品の税率情報を取得する
-							if(("2").equals(saleItem.getTaxType())){
-								DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
-								defaultTaxRate.setRate(0);
-								saleItem.setDefaultTaxRate(defaultTaxRate);
-							}else{
-								saleItem.setCompanyId(companyId);
-								saleItem.setStoreId(retailStoreId);
+							if(ResultBase.RES_ITEM_PRICE_ZERO == response.getNCRWSSResultCode()){
+								// 税率区分の値を取得したマスターテーブルの番号
+								saleItem = chooseTaxSource(saleItem);
 
-								// 税率の情報を取得する
-								getSaleTaxRateInfo(saleItem ,response);
-							}
-
-							if(response.getNCRWSSResultCode() == ResultBase.RES_ERROR_NODATAFOUND || response.getNCRWSSResultCode() == ResultBase.RES_TABLE_DATA_ERR){
-								return response;
+								// 非課税の場合、商品の税率情報を取得する
+								if(("2").equals(saleItem.getTaxType())){
+									DefaultTaxRate defaultTaxRate = new DefaultTaxRate();
+									defaultTaxRate.setRate(0);
+									saleItem.setDefaultTaxRate(defaultTaxRate);
+								}else{
+									saleItem.setCompanyId(companyId);
+									saleItem.setStoreId(retailStoreId);
+	
+									// 税率の情報を取得する
+									getSaleTaxRateInfo(saleItem ,response);
+								}
+	
+								if(ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode() || ResultBase.RES_ERROR_NODATAFOUND == response.getNCRWSSResultCode()){
+									return response;
+								}else {
+									response.setNCRWSSResultCode(ResultBase.RES_OK);
+									response.setNCRWSSExtendedResultCode(ResultBase.RES_OK);
+								}
 							}
 							
 							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
@@ -1276,11 +1281,16 @@ public class PromotionResource {
 		case BarcodeAssignmentConstant.VARIETIES_JANSALES:
 		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD1:
 		case BarcodeAssignmentConstant.VARIETIES_JANMAGAZINEOLD2:
-			if (StringUtility.isNullOrEmpty(dpt) || !(item.getRegularSalesUnitPrice() > 0.0)) {
+			if (StringUtility.isNullOrEmpty(dpt)) {
 				response.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
 				response.setMessage("Not found in the PLU.");
 				tp.println("Not found in the PLU.");
+			} else if (!(item.getRegularSalesUnitPrice() > 0.0)) {
+				response.setNCRWSSResultCode(ResultBase.RES_ITEM_PRICE_ZERO);
+				response.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_PRICE_ZERO);
+				response.setMessage("Price is zero in the PLU.");
+				tp.println("Price is zero in the PLU.");
 			} else {
 				codeTemp = dpt;
 			}

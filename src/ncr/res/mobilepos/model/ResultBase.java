@@ -926,6 +926,12 @@ public class ResultBase {
 
     /**
      * Value : {@value}<br>
+     * The Item price is zero.
+     */
+    public static final int RES_ITEM_PRICE_ZERO = 809;
+    
+    /**
+     * Value : {@value}<br>
      * Duplicate entry in for link.
      */
     public static final int RES_LINK_ALREADYEXISTS = 901;

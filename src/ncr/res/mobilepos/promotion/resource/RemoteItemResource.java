@@ -24,6 +24,7 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
@@ -87,36 +88,39 @@ public class RemoteItemResource {
         String businessDate = request.getParameter("businessDate");
         PromotionResponse promotionResponse = null;
         Item item = null;
-            if (StringUtility.isNullOrEmpty(retailStoreId, pluCode, companyId, businessDate)) {
-                tp.println("Parameter[s] is empty or null.");
-            }
-            try {
-            	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
-            	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+        if (StringUtility.isNullOrEmpty(retailStoreId, pluCode, companyId, businessDate)) {
+            tp.println("Parameter[s] is empty or null.");
+        }
+        try {
+        	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+        	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
+        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
 
-                SQLServerItemDAO sqlDao = new SQLServerItemDAO();
-                item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate, mapTaxId);
-                Sale saleIn = new Sale();
-                Transaction transactionOut = new Transaction();
-                promotionResponse = new PromotionResponse();
-                try {
-                    OutputStream out = response.getOutputStream();
-                    if(item != null){
-                        Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
-                        transactionOut.setSale(saleItem);
-                        promotionResponse.setTransaction(transactionOut);
-                        out.write(promotionResponse.toString().getBytes());
-                        out.flush();
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+            SQLServerItemDAO sqlDao = new SQLServerItemDAO();
+            item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate, mapTaxId);
+            Sale saleIn = new Sale();
+            Transaction transactionOut = new Transaction();
+            promotionResponse = new PromotionResponse();
+            try {
+                OutputStream out = response.getOutputStream();
+                if(item != null){
+                    Sale saleItem = SaleItemsHandler.createSale(item, saleIn);
+                    transactionOut.setSale(saleItem);
+                    promotionResponse.setTransaction(transactionOut);
+                } else{
+                	promotionResponse.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+                	promotionResponse.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 }
-            } catch (DaoException e) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get item Info.", e); 
+                out.write(promotionResponse.toString().getBytes());
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return promotionResponse;
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get item Info.", e); 
+        }
+        return promotionResponse;
     }
     
     /**
@@ -141,29 +145,32 @@ public class RemoteItemResource {
         String retailStoreId = request.getParameter("retailStoreId");
         String ItemCode = request.getParameter("ItemCode");
         PromotionResponse promotionResponse = null;
-            if (StringUtility.isNullOrEmpty(companyId, retailStoreId, ItemCode)) {
-                tp.println("Parameter[s] is empty or null.");
-            }
+        if (StringUtility.isNullOrEmpty(companyId, retailStoreId, ItemCode)) {
+            tp.println("Parameter[s] is empty or null.");
+        }
+        try {
+            SQLServerItemDAO sqlDao = new SQLServerItemDAO();
+            Sale saleMdName = sqlDao.getItemNameFromPluName(companyId, retailStoreId, ItemCode);
+            Transaction transactionOut = new Transaction();
+            promotionResponse = new PromotionResponse();
             try {
-                SQLServerItemDAO sqlDao = new SQLServerItemDAO();
-                Sale saleMdName = sqlDao.getItemNameFromPluName(companyId, retailStoreId, ItemCode);
-                Transaction transactionOut = new Transaction();
-                promotionResponse = new PromotionResponse();
-                try {
-                    OutputStream out = response.getOutputStream();
-                    if(saleMdName != null){
-                    	transactionOut.setSale(saleMdName);
-                        promotionResponse.setTransaction(transactionOut);
-                        out.write(promotionResponse.toString().getBytes());
-                        out.flush();
-                        out.close();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                OutputStream out = response.getOutputStream();
+                if(saleMdName != null){
+                	transactionOut.setSale(saleMdName);
+                    promotionResponse.setTransaction(transactionOut);
+                } else{
+                	promotionResponse.setNCRWSSResultCode(ResultBase.RES_ITEM_NOT_EXIST);
+                	promotionResponse.setNCRWSSExtendedResultCode(ResultBase.RES_ITEM_NOT_EXIST);
                 }
-            } catch (DaoException e) {
-                LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get MdName Info.", e); 
+                out.write(promotionResponse.toString().getBytes());
+                out.flush();
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            return promotionResponse;
+        } catch (DaoException e) {
+            LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_DAO, functionName + ": Failed to get MdName Info.", e); 
+        }
+        return promotionResponse;
     }
 }

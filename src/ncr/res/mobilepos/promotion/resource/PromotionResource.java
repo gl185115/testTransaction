@@ -464,8 +464,12 @@ public class PromotionResource {
 					try {
 						item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
 					} catch (Exception e) {
-						LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-								functionName + ": Failed to send item entry.", e);
+						if (e.getCause() instanceof JSONException) {
+							response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+							response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+							response.setMessage("an error has happened from Enterprise(Item)");
+							return response;
+						}
 					}
 				} else {
 					item = searchedProd.getItem();
@@ -527,21 +531,30 @@ public class PromotionResource {
 							response.setTransaction(transactionOut);
 						}
 						return response;
-					} else {
-						if (codeTempConn.contains(" ")) {
-							codeTemp = codeTempConn.split(" ")[0];
-							cCode = codeTempConn.split(" ")[1];
-						} else {
-							codeTemp = codeTempConn;
-						}
 					}
+					
+					if (codeTempConn.contains(" ")) {
+						codeTemp = codeTempConn.split(" ")[0];
+						cCode = codeTempConn.split(" ")[1];
+					} else {
+						codeTemp = codeTempConn;
+					}
+					
 					String mdName = null;
 					Sale saleMdName = null;
 					if (searchedProd.getNCRWSSResultCode() != ResultBase.RES_OK && item != null) {
-						// サーバーから部門情報を取得する
-						departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
-						saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
-						mdName = saleMdName.getMdNameLocal();
+						try {
+							// サーバーから部門情報を取得する
+							departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
+							saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+						} catch (Exception e) {
+							if (e.getCause() instanceof JSONException) {
+								response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+								response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+								response.setMessage("an error has happened from Enterprise(departmentInfo or mdName)");
+								return response;
+							}
+						}
 					} else {
 						// ローカルから部門情報を取得する
 			        	ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
@@ -549,44 +562,47 @@ public class PromotionResource {
 
 						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId, mapTaxId);
 						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);
-						mdName = saleMdName.getMdNameLocal();
 						if (departmentInfo.getNCRWSSResultCode() != ResultBase.RES_OK && item == null) {
 							tp.println("departmentInfo was not found!");
 							try {
 								// サーバーから部門情報を取得する
 								departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
 								saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
-								mdName = saleMdName.getMdNameLocal();
 							} catch (Exception e) {
-								LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL,
-										functionName + ": Failed to send item entry.", e);
+								if (e.getCause() instanceof JSONException) {
+									response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
+									response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_PARSE);
+									response.setMessage("an error has happened from Enterprise(departmentInfo or mdName)");
+									return response;
+								}
 							}
 						}
 					}
-	
+					if (saleMdName != null) {
+						mdName = saleMdName.getMdNameLocal();
+					}
+					
 					// 部門コードを部門マスタテーブルに存在チェック
 					if (departmentInfo == null) {
 						dptCode = null;
 					} else {
 						dptCode = (departmentInfo.getDepartment() == null) ? null : departmentInfo.getDepartment().getDepartmentID();
 					}
-	
+
 					if (StringUtility.isNullOrEmpty(dptCode)) {
 						response.setNCRWSSResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
 						response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_DPTNOTFOUND);
 						response.setMessage("The dpt code doesn't exist in the MST_DPTINFO.");
 						tp.println("The dpt code doesn't exist in the MST_DPTINFO.");
 						return response;
-					} else {
-						if (item == null) {
-							// 部門情報を戻る
-							getDptPromotion(companyId,retailStoreId,itemId,varietiesName,response,
-									item,departmentInfo,businessDate,dao,itemIdTemp,mdName,priceCheck,saleIn,terminalItem,transactionOut,dptCode,cCode);
-							return response;
-						}
+					} else if (item == null) {
+						// 部門情報を戻る
+						getDptPromotion(companyId,retailStoreId,itemId,varietiesName,response,
+								item,departmentInfo,businessDate,dao,itemIdTemp,mdName,priceCheck,saleIn,terminalItem,transactionOut,dptCode,cCode);
+						return response;
 					}
 				}
-                salePrice = item.getRegularSalesUnitPrice();
+				salePrice = item.getRegularSalesUnitPrice();
 				// 各種特売情報を取得する
 				item = getRelatedInformation(itemIdTemp, item, salePrice, retailStoreId, companyId, businessDate, dao);
 				
@@ -644,25 +660,25 @@ public class PromotionResource {
 					}
 					
 					Double barCodePrice = null;
-	                barCodePrice = barCodePriceCalculation(varietiesName, itemId);
-	                if (barCodePrice != null) {
-	                	saleItem.setLabelPrice(barCodePrice);
-	                }
-	                
+					barCodePrice = barCodePriceCalculation(varietiesName, itemId);
+					if (barCodePrice != null) {
+						saleItem.setLabelPrice(barCodePrice);
+					}
+					
 					// バーコード価格を使用
-	                if (saleItem.getRegularSalesUnitPrice() == 0.0) {
-	                    String taxType = departmentInfo.getDepartment().getTaxType();
-	                    saleItem.setDptTaxType(taxType);
-	                    if (barCodePrice != null) {
-	                        if ("1".equals(taxType)) {
-	        					double taxRate = ((double)saleItem.getDefaultTaxRate().getRate()/100 + 1);
-	        					barCodePrice = (double) Math.floor(barCodePrice * taxRate);
-	                        }
-	                        saleItem.setRegularSalesUnitPrice(barCodePrice);
-	                        saleItem.setActualSalesUnitPrice(barCodePrice);
-	                    }
-	                }
-	                
+					if (saleItem.getRegularSalesUnitPrice() == 0.0) {
+						String taxType = departmentInfo.getDepartment().getTaxType();
+						saleItem.setDptTaxType(taxType);
+						if (barCodePrice != null) {
+							if ("1".equals(taxType)) {
+								double taxRate = ((double)saleItem.getDefaultTaxRate().getRate()/100 + 1);
+								barCodePrice = (double) Math.floor(barCodePrice * taxRate);
+							}
+							saleItem.setRegularSalesUnitPrice(barCodePrice);
+							saleItem.setActualSalesUnitPrice(barCodePrice);
+						}
+					}
+					
 					if (!StringUtility.isNullOrEmpty(cCode)) {
 						if (cCode.length() == 4) {
 							saleItem.setCategoryCode(cCode);
@@ -1618,15 +1634,17 @@ public class PromotionResource {
 
             result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
-            if (result != null) {
-            	if (result.has("transaction")) {
-            		saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
-            	}
+            if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+            	saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
             }
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote getMdName.",
                     e);
-            throw new Exception();
+            if (e instanceof JSONException) {
+            	throw new JSONException(e);
+            } else {
+            	throw new Exception();
+            }
         } finally {
             tp.methodExit(saleMdName);
         }
@@ -1677,7 +1695,11 @@ public class PromotionResource {
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote item entry.",
 					e);
-			throw new Exception();
+			if (e instanceof JSONException) {
+				throw new JSONException(e);
+			} else {
+				throw new Exception();
+			}
 		} finally {
 			tp.methodExit(departmentInfo);
 		}
@@ -1726,15 +1748,17 @@ public class PromotionResource {
 
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
-			if (result != null) {
-				if (result.has("transaction")) {
-					sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
-				}
+			if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+				sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
 			}
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote item entry.",
 					e);
-			throw new Exception();
+			if (e instanceof JSONException) {
+				throw new JSONException(e);
+			} else{
+				throw new Exception();
+			}
 		} finally {
 			tp.methodExit(sale);
 		}

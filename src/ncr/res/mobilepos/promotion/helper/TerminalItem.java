@@ -313,6 +313,7 @@ public class TerminalItem {
               if(inf.getEntryId().equals(info.getEntryId())){
                   inf.setQuantity(info.getQuantity());
                   inf.setTruePrice(info.getTruePrice());
+                  inf.setTaxId(info.getTaxId());
                   flag = true;
               }
           }
@@ -719,7 +720,21 @@ public class TerminalItem {
         
         if(!"".equals(mmNo)){
             List<MixMatchDetailInfo> ruleList  = bmDetailMap.get(mmNo);
+            int taxId = 0;
             for(MixMatchDetailInfo info : ruleList){
+            	if (info.getQuantity() != 0) {
+            		taxId = info.getTaxId();
+            		break;
+            	}
+            }
+            
+            for(MixMatchDetailInfo info : ruleList){
+            	if (info.getQuantity() == 0) {
+            		continue;
+            	}
+            	if (taxId != info.getTaxId()) {
+            		return true;
+            	}
                 beforeBmPrice += info.getQuantity() * info.getTruePrice();
             }
             if(beforeBmPrice < bmPrice){

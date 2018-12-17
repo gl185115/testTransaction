@@ -704,6 +704,7 @@ public class PromotionResource {
 					}
 				}
 
+				info.setTaxId(saleItem.getTaxId());
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 					if(runFlag){
 						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
@@ -2141,6 +2142,7 @@ public class PromotionResource {
 				info.setEntryId(saleIn.getItemEntryId());
 				info.setQuantity(saleIn.getQuantity());
 				info.setTruePrice(saleIn.getActualSalesUnitPrice());
+				info.setTaxId(saleIn.getTaxId());
 
 				Promotion promotion = new Promotion();
 				if (!StringUtility.isNullOrEmpty(mixMatchCode)) {

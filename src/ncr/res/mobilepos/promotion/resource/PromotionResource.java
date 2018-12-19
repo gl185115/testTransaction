@@ -1561,6 +1561,7 @@ public class PromotionResource {
 					info.setQuantity(saleIn.getQuantity());
 					info.setEntryId(saleIn.getItemEntryId());
 					info.setTruePrice(saleIn.getActualSalesUnitPrice());
+					info.setTaxId(saleIn.getTaxId());
 
 					IItemDAO dao = new SQLServerItemDAO();
 					Item item = dao.getMixMatchInfo(retailStoreId, saleIn.getSku(), companyId, businessDate);

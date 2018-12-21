@@ -523,9 +523,10 @@ public class PromotionResource {
 								}
 							}
 							
-							if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
-								terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
+							if (!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode()) && !"1".equals(priceCheck)) {
+								terminalItem.addBmRuleMap(saleItem.getMixMatchCode(), saleItem, saleIn.getItemEntryId());
 							}
+							saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
 							saleItem.setHostFlag(1);
 							transactionOut.setSale(saleItem);
 							response.setTransaction(transactionOut);
@@ -703,20 +704,20 @@ public class PromotionResource {
 						runFlag = false;
 					}
 				}
-
+				saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
 				info.setTaxId(saleItem.getTaxId());
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 					if(runFlag){
 						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
 						if (setBmDetailMapItem(transactionIn,saleItem)) {
 							terminalItem.setBmDetailMap(item.getMixMatchCode(), info, false);
-							Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode(), "");
+							Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(item.getMixMatchCode()+"_"+saleItem.getTaxId(), "");
 							// promotion.setMap(map);
 							if(terminalItem.isDeleteBm(map)){
 								Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
 								Map<String, Object> childMap = new HashMap<String, Object>();
 								childMap.put("hasMixMatch", "false");
-								newMap.put(item.getMixMatchCode(), childMap);
+								newMap.put(item.getMixMatchCode()+"_"+saleItem.getTaxId(), childMap);
 								promotion.setMap(newMap);
 							} else {
 								promotion.setMap(map);
@@ -1033,6 +1034,7 @@ public class PromotionResource {
 			saleOut.setAveragePrice3(item.getAveragePrice3());
 			saleOut.setNote(item.getNote());
 			saleOut.setSku(item.getSku());
+			saleOut.setMixMatchCode(item.getMixMatchCode()+"_"+saleOut.getTaxId());
 			if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 				item.setItemId(itemIdTemp);
 				terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
@@ -2144,11 +2146,12 @@ public class PromotionResource {
 				info.setQuantity(saleIn.getQuantity());
 				info.setTruePrice(saleIn.getActualSalesUnitPrice());
 				info.setTaxId(saleIn.getTaxId());
+				info.setOriginalTaxId(saleIn.getOriginalTaxId());
 
 				Promotion promotion = new Promotion();
 				if (!StringUtility.isNullOrEmpty(mixMatchCode)) {
 					terminalItem.setBmDetailMap(mixMatchCode, info, true);
-					Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(mixMatchCode, "true");
+					Map<String, Map<String, Object>> map = terminalItem.getMixMatchMap(mixMatchCode+"_"+saleIn.getTaxId(), "true");
 					if(terminalItem.isDeleteBm(map)){
 					    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
 					    Map<String, Object> childMap = new HashMap<String, Object>();

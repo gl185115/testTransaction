@@ -308,8 +308,15 @@ public class TerminalItem {
     public void setBmDetailMap(String mixmatchCode, MixMatchDetailInfo info,boolean isUpdate) {
       boolean flag = false;
       List<MixMatchDetailInfo> list = null;
-      if(bmDetailMap.containsKey(mixmatchCode)){
-          for(MixMatchDetailInfo inf : bmDetailMap.get(mixmatchCode)){
+      String mmNo_taxId = mixmatchCode +"_" + info.getTaxId();
+      if (!StringUtility.isNullOrEmpty(info.getOriginalTaxId())) {
+    	  String mmNo_originaTaxId = mixmatchCode +"_" + info.getOriginalTaxId();
+    	  if(bmDetailMap.containsKey(mmNo_originaTaxId)){
+    		  bmDetailMap.remove(mmNo_originaTaxId);
+    	  }
+      }
+      if(bmDetailMap.containsKey(mmNo_taxId)){
+          for(MixMatchDetailInfo inf : bmDetailMap.get(mmNo_taxId)){
               if(inf.getEntryId().equals(info.getEntryId())){
                   inf.setQuantity(info.getQuantity());
                   inf.setTruePrice(info.getTruePrice());
@@ -318,12 +325,12 @@ public class TerminalItem {
               }
           }
           if(!flag){
-              bmDetailMap.get(mixmatchCode).add(info);
+              bmDetailMap.get(mmNo_taxId).add(info);
           }
       }else{
           list = new ArrayList<MixMatchDetailInfo>();
           list.add(info);
-          bmDetailMap.put(mixmatchCode, list);
+          bmDetailMap.put(mmNo_taxId, list);
       }
       if(!itemEntryMap.containsKey(info.getEntryId())){
           itemEntryMap.put(info.getEntryId(), mixmatchCode);
@@ -462,7 +469,7 @@ public class TerminalItem {
      * @param isDelete  the flag of delete handle
      * @return the info of the mixMatch
      */
-    public Map<String, Map<String, Object>> getMixMatchMap(String mmNo,String isDeleteOrUpdate) {
+    public Map<String, Map<String, Object>> getMixMatchMap(String mmNo_taxId,String isDeleteOrUpdate) {
         Map<String, Map<String, Object>> detailMap = new HashMap<String, Map<String, Object>>();
         // the sum of quantity
         int sumCount = 0;
@@ -470,9 +477,9 @@ public class TerminalItem {
         List<MixMatchDetailInfo> ruleList2 = new ArrayList<MixMatchDetailInfo>();
         List<MixMatchDetailInfo> ruleList1 = new ArrayList<MixMatchDetailInfo>();
         List<MixMatchDetailInfo> ruleList = new ArrayList<MixMatchDetailInfo>();
-        MixMatchRule rule = bmRuleMap.get(mmNo);
+        MixMatchRule rule = bmRuleMap.get(mmNo_taxId.split("_")[0]);
         List<MixMatchDetailInfo> ruleList3 = new ArrayList<MixMatchDetailInfo>();
-        ruleList3 = bmDetailMap.get(mmNo);
+        ruleList3 = bmDetailMap.get(mmNo_taxId);
         map.put("note", rule.getNote());
         // sort by price
         Collections.sort(ruleList3);
@@ -481,6 +488,7 @@ public class TerminalItem {
             MixMatchDetailInfo info = new MixMatchDetailInfo();
             info.setEntryId(mixMatchDetailInfo3.getEntryId());
             info.setTruePrice(mixMatchDetailInfo3.getTruePrice());
+            info.setTaxId(mixMatchDetailInfo3.getTaxId());
             int remainder = mixMatchDetailInfo3.getQuantity();
             // the Sum of remainder quantity
             int sumCount1 = 0;
@@ -502,6 +510,7 @@ public class TerminalItem {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();
                 ruleentryinfo1.setEntryId(mixMatchDetailInfo3.getEntryId());
                 ruleentryinfo1.setTruePrice(mixMatchDetailInfo3.getTruePrice());
+                ruleentryinfo1.setTaxId(mixMatchDetailInfo3.getTaxId());
                 DetailInfo detailinfo = new DetailInfo();
                 detailinfo.setCurrentDecisionPrice(rule.getDecisionPrice3() != null ? rule.getDecisionPrice3() : 0);
                 detailinfo.setConditionPrice(rule.getConditionPrice3());
@@ -548,6 +557,7 @@ public class TerminalItem {
             MixMatchDetailInfo info = new MixMatchDetailInfo();
             info.setEntryId(mixMatchDetailInfo2.getEntryId());
             info.setTruePrice(mixMatchDetailInfo2.getTruePrice());
+            info.setTaxId(mixMatchDetailInfo2.getTaxId());
             int remainder = mixMatchDetailInfo2.getQuantity();
             int sumCount1 = 0;
             for (MixMatchDetailInfo rule1info : ruleList1) {
@@ -565,6 +575,7 @@ public class TerminalItem {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();
                 ruleentryinfo1.setEntryId(mixMatchDetailInfo2.getEntryId());
                 ruleentryinfo1.setTruePrice(mixMatchDetailInfo2.getTruePrice());
+                ruleentryinfo1.setTaxId(mixMatchDetailInfo2.getTaxId());
                 DetailInfo detailinfo = new DetailInfo();
                 detailinfo.setCurrentDecisionPrice(rule.getDecisionPrice2() != null ? rule.getDecisionPrice2() : 0);
                 detailinfo.setConditionPrice(rule.getConditionPrice2());
@@ -610,6 +621,7 @@ public class TerminalItem {
             MixMatchDetailInfo info = new MixMatchDetailInfo();
             info.setEntryId(mixMatchDetailInfo1.getEntryId());
             info.setTruePrice(mixMatchDetailInfo1.getTruePrice());
+            info.setTaxId(mixMatchDetailInfo1.getTaxId());
             int remainder = mixMatchDetailInfo1.getQuantity();
             int sumCount1 = 0;
             for (MixMatchDetailInfo ruleInfo : ruleList) {
@@ -624,6 +636,7 @@ public class TerminalItem {
                 MixMatchDetailInfo ruleentryinfo1 = new MixMatchDetailInfo();
                 ruleentryinfo1.setEntryId(mixMatchDetailInfo1.getEntryId());
                 ruleentryinfo1.setTruePrice(mixMatchDetailInfo1.getTruePrice());
+                ruleentryinfo1.setTaxId(mixMatchDetailInfo1.getTaxId());
                 DetailInfo detailinfo = new DetailInfo();
                 detailinfo.setCurrentDecisionPrice(rule.getDecisionPrice1() != null ? rule.getDecisionPrice1() : 0);
                 detailinfo.setConditionCount(rule.getConditionCount1());
@@ -672,7 +685,7 @@ public class TerminalItem {
         if("true".equals(isDeleteOrUpdate) && !map.containsKey("rule1") && !map.containsKey("rule2") && !map.containsKey("rule3")){
             map.put("hasMixMatch", "false");
         }
-        detailMap.put(mmNo, map);
+        detailMap.put(mmNo_taxId, map);
         return detailMap;
     }
     
@@ -705,11 +718,11 @@ public class TerminalItem {
 
     
     public boolean isDeleteBm(Map<String, Map<String, Object>> map){
-        String mmNo = "";
+        String mmNo_taxId = "";
         double beforeBmPrice = 0;
         double bmPrice = 0;
         for(Map.Entry<String, Map<String, Object>> entryMap : map.entrySet()){
-            mmNo = entryMap.getKey();
+        	mmNo_taxId = entryMap.getKey();
             Map<String, Object> childMap = entryMap.getValue();
             double lastDecisionPrice =!isNullOrEmpty(childMap.get("lastDecisionPrice")) ? (Double)childMap.get("lastDecisionPrice") :0;
             bmPrice += getPrice(childMap,"rule1",lastDecisionPrice);
@@ -717,24 +730,9 @@ public class TerminalItem {
             bmPrice += getPrice(childMap,"rule3",lastDecisionPrice);
             bmPrice += getRemainderPrice(childMap,lastDecisionPrice);
         }
-        
-        if(!"".equals(mmNo)){
-            List<MixMatchDetailInfo> ruleList  = bmDetailMap.get(mmNo);
-            int taxId = 0;
+        if(!"".equals(mmNo_taxId)){
+            List<MixMatchDetailInfo> ruleList  = bmDetailMap.get(mmNo_taxId);
             for(MixMatchDetailInfo info : ruleList){
-            	if (info.getQuantity() != 0) {
-            		taxId = info.getTaxId();
-            		break;
-            	}
-            }
-            
-            for(MixMatchDetailInfo info : ruleList){
-            	if (info.getQuantity() == 0) {
-            		continue;
-            	}
-            	if (taxId != info.getTaxId()) {
-            		return true;
-            	}
                 beforeBmPrice += info.getQuantity() * info.getTruePrice();
             }
             if(beforeBmPrice < bmPrice){

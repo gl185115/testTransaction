@@ -312,7 +312,11 @@ public class TerminalItem {
       if (info.getTaxId() != info.getOriginalTaxId()) {
     	  String mmNo_originaTaxId = mixmatchCode +"_" + info.getOriginalTaxId();
     	  if(bmDetailMap.containsKey(mmNo_originaTaxId)){
-    		  bmDetailMap.remove(mmNo_originaTaxId);
+    		  for(MixMatchDetailInfo inf : bmDetailMap.get(mmNo_originaTaxId)){
+                  if(inf.getEntryId().equals(info.getEntryId())){
+                	  inf.setQuantity(0);
+                  }
+              }
     	  }
       }
       if(bmDetailMap.containsKey(mmNo_taxId)){

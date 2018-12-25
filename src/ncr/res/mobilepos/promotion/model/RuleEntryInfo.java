@@ -5,7 +5,7 @@ public class RuleEntryInfo {
     private int quantity;
     private double truePrice;
     private int taxId;
-    private String originalTaxId;
+    private int originalTaxId;
     public String getEntryId() {
         return entryId;
     }
@@ -30,10 +30,10 @@ public class RuleEntryInfo {
     public void setTaxId(int taxId) {
         this.taxId = taxId;
     }
-    public String getOriginalTaxId() {
+    public int getOriginalTaxId() {
         return originalTaxId;
     }
-    public void setOriginalTaxId(String originalTaxId) {
+    public void setOriginalTaxId(int originalTaxId) {
         this.originalTaxId = originalTaxId;
     }
 

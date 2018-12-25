@@ -74,7 +74,7 @@ public class Item {
     private Integer taxId;
     
     @XmlElement(name = "OriginalTaxId")
-    private String originalTaxId;
+    private int originalTaxId;
 
     @XmlElement(name = "TaxRate")
     private int taxRate;
@@ -1485,11 +1485,11 @@ public class Item {
     }
     
     @ApiModelProperty(value="å≥ê≈ó¶ãÊï™", notes="å≥ê≈ó¶ãÊï™")
-    public final String getOriginalTaxId() {
+    public final int getOriginalTaxId() {
         return this.originalTaxId;
     }
 
-    public final void setOriginalTaxId(final String originalTaxId) {
+    public final void setOriginalTaxId(final int originalTaxId) {
         this.originalTaxId = originalTaxId;
     }
 

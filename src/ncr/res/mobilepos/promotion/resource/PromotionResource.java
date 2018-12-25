@@ -2156,7 +2156,7 @@ public class PromotionResource {
 					    Map<String, Map<String, Object>> newMap = new HashMap<String, Map<String, Object>>();
 					    Map<String, Object> childMap = new HashMap<String, Object>();
 					    childMap.put("hasMixMatch", "false");
-					    newMap.put(mixMatchCode, childMap);
+					    newMap.put(mixMatchCode+"_"+saleIn.getTaxId(), childMap);
 					    promotion.setMap(newMap);
 					} else {
 					    promotion.setMap(map);

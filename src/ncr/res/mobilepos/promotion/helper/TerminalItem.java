@@ -309,7 +309,7 @@ public class TerminalItem {
       boolean flag = false;
       List<MixMatchDetailInfo> list = null;
       String mmNo_taxId = mixmatchCode +"_" + info.getTaxId();
-      if (!StringUtility.isNullOrEmpty(info.getOriginalTaxId())) {
+      if (info.getTaxId() != info.getOriginalTaxId()) {
     	  String mmNo_originaTaxId = mixmatchCode +"_" + info.getOriginalTaxId();
     	  if(bmDetailMap.containsKey(mmNo_originaTaxId)){
     		  bmDetailMap.remove(mmNo_originaTaxId);

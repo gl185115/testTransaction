@@ -706,6 +706,7 @@ public class PromotionResource {
 				}
 				saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
 				info.setTaxId(saleItem.getTaxId());
+				info.setOriginalTaxId(saleItem.getTaxId());
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 					if(runFlag){
 						terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());
@@ -1564,6 +1565,7 @@ public class PromotionResource {
 					info.setEntryId(saleIn.getItemEntryId());
 					info.setTruePrice(saleIn.getActualSalesUnitPrice());
 					info.setTaxId(saleIn.getTaxId());
+					info.setOriginalTaxId(saleIn.getOriginalTaxId());
 
 					IItemDAO dao = new SQLServerItemDAO();
 					Item item = dao.getMixMatchInfo(retailStoreId, saleIn.getSku(), companyId, businessDate);

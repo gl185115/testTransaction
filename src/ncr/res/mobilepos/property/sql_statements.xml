@@ -704,7 +704,8 @@ IF NOT EXISTS (
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
         AND info.CompanyId =  @companyId
         AND detail.Sku = @sku
-        AND info.TargetStoreType = '1')
+        AND info.TargetStoreType = '1'
+        ORDER BY info.MMNo ASC)
 
     SELECT
         TOP 1
@@ -734,7 +735,7 @@ IF NOT EXISTS (
         AND info.CompanyId =  @companyId
         AND detail.Sku = @sku
         AND (info.TargetStoreType = '0' OR info.TargetStoreType = '2')
-
+        ORDER BY info.MMNo ASC
 
 ELSE
 
@@ -771,6 +772,7 @@ ELSE
         AND info.CompanyId =  @companyId
         AND detail.Sku = @sku
         AND info.TargetStoreType = '1'
+        ORDER BY info.MMNo ASC
 </entry>
 
 <entry key="get-price-mm-info-list">
@@ -847,6 +849,7 @@ SELECT
         AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
         AND info.CompanyId =  @companyId
         AND info.TargetStoreType = '1'
+        ORDER BY info.MMNo ASC
 </entry>
 
 <entry key="get-coupon-info">

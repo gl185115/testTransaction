@@ -526,7 +526,9 @@ public class PromotionResource {
 							if (!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode()) && !"1".equals(priceCheck)) {
 								terminalItem.addBmRuleMap(saleItem.getMixMatchCode(), saleItem, saleIn.getItemEntryId());
 							}
-							saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
+							if(!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode())){
+								saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
+							}
 							saleItem.setHostFlag(1);
 							transactionOut.setSale(saleItem);
 							response.setTransaction(transactionOut);
@@ -704,7 +706,10 @@ public class PromotionResource {
 						runFlag = false;
 					}
 				}
-				saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
+
+				if(!StringUtility.isNullOrEmpty(saleItem.getMixMatchCode())){
+					saleItem.setMixMatchCode(saleItem.getMixMatchCode()+"_"+saleItem.getTaxId());
+				}
 				info.setTaxId(saleItem.getTaxId());
 				info.setOriginalTaxId(saleItem.getTaxId());
 				if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
@@ -1035,7 +1040,9 @@ public class PromotionResource {
 			saleOut.setAveragePrice3(item.getAveragePrice3());
 			saleOut.setNote(item.getNote());
 			saleOut.setSku(item.getSku());
-			saleOut.setMixMatchCode(item.getMixMatchCode()+"_"+saleOut.getTaxId());
+			if(!StringUtility.isNullOrEmpty(item.getMixMatchCode())){
+				saleOut.setMixMatchCode(item.getMixMatchCode()+"_"+saleOut.getTaxId());
+			}
 			if (!StringUtility.isNullOrEmpty(item.getMixMatchCode()) && !"1".equals(priceCheck)) {
 				item.setItemId(itemIdTemp);
 				terminalItem.addBmRuleMap(item.getMixMatchCode(), item, saleIn.getItemEntryId());

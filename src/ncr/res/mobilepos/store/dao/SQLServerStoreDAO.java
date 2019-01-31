@@ -14,11 +14,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.AbstractDao;
+import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
 import ncr.res.mobilepos.exception.DaoException;
@@ -63,6 +67,23 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
     private static final int STORE_NOT_FOUND = -1;
 
+    private static final String Category = "BusinessRegistrationNo";
+
+    private static final String  KeyId1 = "TableColumnName";
+
+    private static final String  KeyId2 = "SearchCondition";
+
+    private static final String  MST_STORE_KEYID = "MST_STOREINFO.SubCode25";
+
+    private static final String  MST_STORE_VALUE = "CompanyId, StoreId";
+    
+    private static final String  MST_COMP_KEYID = "MST_COMPANYINFO.SubCode1";
+
+    private static final String  MST_COMP_VALUE = "CompanyId";
+
+    private static final String  MST_TERMINAL_KEYID = "MST_TERMINALINFO.SubCode5";
+
+    private static final String  MST_TERMINAL_VALUE = "CompanyId, StoreId, TerminalId";
     /**
      * Initializes DBManager.
      *
@@ -271,6 +292,131 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     }
 
     /**
+     * get the BusinessRegistrationNo
+     * @param companyId The Id of company
+     * @param storeId The Id of Store
+     * @param terminalId The Id of Terminal
+     * @return BusinessRegistrationNo
+     * @throws DaoException The Exception of Sql
+     */
+    public String getBusinessRegistrationNo(String companyId, String storeId, String terminalId)
+    		throws DaoException{
+    	String functionName = DebugLogger.getCurrentMethodName();
+
+		Connection conn = null;
+		PreparedStatement selectStmt = null;
+		ResultSet resultSet = null;
+		String TableColumnName = null;
+		String SearchCondition = null;
+		SQLStatement sqlStatement = null;
+		String BusinessRegistrationNo = null;
+		StringBuffer Sql_Condition = new StringBuffer("");
+		List<String> search_conditions = new ArrayList<String>();
+
+		try {
+			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+			ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
+			Map<String, String> businessInfo = iCustomerSearthDAO.getPrmSystemConfigValue(Category);
+
+			if (businessInfo.isEmpty() || !businessInfo.containsKey(KeyId1)) {
+				TableColumnName = MST_STORE_KEYID;
+				SearchCondition = MST_STORE_VALUE;
+			} else {
+				if (!businessInfo.containsKey(KeyId2)) {
+					TableColumnName = businessInfo.get(KeyId1).trim();
+					switch (TableColumnName) {
+					case MST_COMP_KEYID:
+						SearchCondition = MST_COMP_VALUE;
+						break;
+					case MST_STORE_KEYID:
+						SearchCondition = MST_STORE_VALUE;
+						break;
+					case MST_TERMINAL_KEYID:
+						SearchCondition = MST_TERMINAL_VALUE;
+						break;
+					default:
+						return "";
+					}
+				} else {
+					TableColumnName = businessInfo.get(KeyId1);
+					SearchCondition = businessInfo.get(KeyId2);
+				}
+			}
+		
+			if (SearchCondition.contains(",")) {
+				search_conditions = Arrays.asList(SearchCondition.trim().split(","));
+			} else {
+				search_conditions.add(SearchCondition.trim());
+			}
+			
+			for (String condition : search_conditions) {
+				switch (condition.trim()) {
+				case "CompanyId":
+					Sql_Condition.append(" CompanyId = ").append("'").append(companyId).append("' AND");
+					break;
+				case "StoreId":
+					Sql_Condition.append(" StoreId = ").append("'").append(storeId).append("' AND");
+					break;
+				case "TerminalId":
+					Sql_Condition.append(" TerminalId = ").append("'").append(terminalId).append("' AND");
+					break;
+				}
+			}
+			Sql_Condition.append(" DeleteFlag != 1;");
+			
+			String column = "";
+			String table = "";
+			if (!StringUtility.isNullOrEmpty(TableColumnName) && TableColumnName.contains(".")) {
+				column = TableColumnName.split("\\.")[1];
+				table = TableColumnName.split("\\.")[0];
+			}
+			
+			sqlStatement = SQLStatement.getInstance();
+			conn = dbManager.getConnection();
+			
+			String query = String.format(sqlStatement.getProperty("get-business-registration-no"),
+					column,"RESMaster.dbo." + table, Sql_Condition);
+			selectStmt = conn.prepareStatement(query);
+			resultSet = selectStmt.executeQuery();
+			
+			if (resultSet.next()) {
+				BusinessRegistrationNo = resultSet.getString(resultSet.findColumn(column));
+			}
+			
+			if (StringUtility.isNullOrEmpty(BusinessRegistrationNo)) {
+				resultSet.close();
+				selectStmt.close();
+				
+				if (query.contains("StoreId = '" + storeId + "'")) {
+					query = query.replace("StoreId = '" + storeId + "'", "StoreId = '0'");
+				}
+				if (query.contains("TerminalId = '" + terminalId + "'")) {
+					query = query.replace("TerminalId = '" + terminalId + "'", "TerminalId = '0'");
+				}
+				
+				selectStmt = conn.prepareStatement(query);
+				resultSet = selectStmt.executeQuery();
+				if (resultSet.next()) {
+					BusinessRegistrationNo = resultSet.getString(resultSet.findColumn(column));
+				}
+			}
+         }catch (SQLException e) {
+             LOGGER.logAlert(progName, "SQLServerStoreDAO.getBusinessRegistrationNo()", Logger.RES_EXCEP_SQL,
+                     "Failed to get the column.\n" + e.getMessage());
+             throw new DaoException("SQLException: @" + functionName + " - Error get BusinessRegistrationNo", e);
+         }finally {
+             closeConnectionObjects(conn, selectStmt, resultSet);
+             tp.methodExit(BusinessRegistrationNo);
+         }
+         if(StringUtility.isNullOrEmpty(BusinessRegistrationNo)){
+        	 return "";
+         }else{
+        	 return BusinessRegistrationNo;
+         }
+    }
+
+
+    /**
      * get the PresetSroreInfo
      * @param companyId The Id of company
      * @param storeId The Id of Store
@@ -342,11 +488,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
                 presetSroreInfo.setHostUpdDate(resultSet.getString(resultSet.findColumn("HostUpdDate")));
                 presetSroreInfo.setStatus(resultSet.getString(resultSet.findColumn("Status")));
                 presetSroreInfo.setCompanyName(resultSet.getString(resultSet.findColumn("CompanyName")));
-                if(null != resultSet.getString(resultSet.findColumn("businessRegistrationNo"))){
-                    presetSroreInfo.setBusinessRegistrationNo(resultSet.getString(resultSet.findColumn("businessRegistrationNo")));
-                } else{
-                    presetSroreInfo.setBusinessRegistrationNo("");
-                }
             }
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,

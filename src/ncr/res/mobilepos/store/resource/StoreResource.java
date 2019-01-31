@@ -262,9 +262,12 @@ public class StoreResource {
             .println("storeid", storeId)
             .println("terminalid", terminalId);
         PresetSroreInfo presetsroreinfo = new PresetSroreInfo();
+        String BusinessRegistrationNo = null;
         try {
-            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();            
+            IStoreDAO cmPresetDao = daoFactory.getStoreDAO();
+            BusinessRegistrationNo = cmPresetDao.getBusinessRegistrationNo(companyId, storeId, terminalId);
             presetsroreinfo= cmPresetDao.getPresetSroreInfo(companyId, storeId, terminalId);
+            presetsroreinfo.setBusinessRegistrationNo(BusinessRegistrationNo);
         } catch (Exception ex) {
             LOGGER.logAlert(progName, functionName, Logger.RES_EXCEP_GENERAL,
                     "Failed to search CM PresetStore Info: " + ex.getMessage());

@@ -57,7 +57,19 @@ public interface IStoreDAO {
      */
     List<CMPresetInfo> listCMPresetInfo(String companyId, String storeId, String terminalId, 
             String businessDayDate) throws DaoException;
-    
+
+    /**
+     * get the BusinessRegistrationNo
+     * @param companyId The Id of company
+     * @param storeId The Id of Store
+     * @param terminalId The Id of Terminal
+     * @return BusinessRegistrationNo
+     * @throws DaoException The Exception of Sql
+     */
+    String getBusinessRegistrationNo(String companyId, String storeId, String terminalId) throws DaoException;
+
+
+
     /**
      * get the PresetSroreInfo
      * @param companyId The Id of company

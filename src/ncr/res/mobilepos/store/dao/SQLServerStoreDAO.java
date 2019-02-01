@@ -76,14 +76,7 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     private static final String  MST_STORE_KEYID = "MST_STOREINFO.SubCode25";
 
     private static final String  MST_STORE_VALUE = "CompanyId, StoreId";
-    
-    private static final String  MST_COMP_KEYID = "MST_COMPANYINFO.SubCode1";
 
-    private static final String  MST_COMP_VALUE = "CompanyId";
-
-    private static final String  MST_TERMINAL_KEYID = "MST_TERMINALINFO.SubCode5";
-
-    private static final String  MST_TERMINAL_VALUE = "CompanyId, StoreId, TerminalId";
     /**
      * Initializes DBManager.
      *
@@ -318,29 +311,12 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 			ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
 			Map<String, String> businessInfo = iCustomerSearthDAO.getPrmSystemConfigValue(Category);
 
-			if (businessInfo.isEmpty() || !businessInfo.containsKey(KeyId1)) {
+			if (businessInfo.isEmpty() || !businessInfo.containsKey(KeyId1) || !businessInfo.containsKey(KeyId2)) {
 				TableColumnName = MST_STORE_KEYID;
 				SearchCondition = MST_STORE_VALUE;
 			} else {
-				if (!businessInfo.containsKey(KeyId2)) {
-					TableColumnName = businessInfo.get(KeyId1).trim();
-					switch (TableColumnName) {
-					case MST_COMP_KEYID:
-						SearchCondition = MST_COMP_VALUE;
-						break;
-					case MST_STORE_KEYID:
-						SearchCondition = MST_STORE_VALUE;
-						break;
-					case MST_TERMINAL_KEYID:
-						SearchCondition = MST_TERMINAL_VALUE;
-						break;
-					default:
-						return "";
-					}
-				} else {
-					TableColumnName = businessInfo.get(KeyId1);
-					SearchCondition = businessInfo.get(KeyId2);
-				}
+				TableColumnName = businessInfo.get(KeyId1);
+				SearchCondition = businessInfo.get(KeyId2);
 			}
 		
 			if (SearchCondition.contains(",")) {

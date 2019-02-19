@@ -149,6 +149,10 @@ public final class GlobalConstant {
     public static final String ENTERPRISE_SERVER_TIMEOUT = "EnterpriseServerTimeout";
     /** Enterprise Server Uri */
     public static final String ENTERPRISE_SERVER_URI = "EnterpriseServerUri";
+    /** Enterprise Server AuthenticationUid */
+    public static final String AUTHENTICATION_UID = "AuthenticationUid";
+    /** Enterprise Server AuthenticationPassword */
+    public static final String AUTHENTICATION_PASSWORD = "AuthenticationPassword";
 
     /** The Mix Match Target **/
     public static final String MIXMATCHTARGET = "MixMatchTarget";
@@ -250,6 +254,8 @@ public final class GlobalConstant {
     private static String pricingType;
     private static String enterpriseServerTimeout;
     private static String enterpriseServerUri;
+    private static String authenticationUid;
+    private static String authenticationPassword;
     private static String apiServerUrl;
     private static int apiServerTimeout = 3000;
     private static String priceIncludeTaxKey;
@@ -608,6 +614,22 @@ public final class GlobalConstant {
 
     public static void setEnterpriseServerUri(String enterpriseServerUri) {
         GlobalConstant.enterpriseServerUri = enterpriseServerUri;
+    }
+    
+    public static String getAuthenticationUid() {
+        return authenticationUid;
+    }
+
+    public static void setAuthenticationUid(String authenticationUid) {
+        GlobalConstant.authenticationUid = authenticationUid;
+    }
+    
+    public static String getAuthenticationPassword() {
+        return authenticationPassword;
+    }
+
+    public static void setAuthenticationPassword(String authenticationPassword) {
+        GlobalConstant.authenticationPassword = authenticationPassword;
     }
 
     public static String getApiServerUrl() {

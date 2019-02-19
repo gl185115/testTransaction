@@ -23,5 +23,17 @@
             <value>https://localhost:8443/</value>
             <value>Enterprise Server URL</value>
         </row>
-    </table>     	       		
+        <row>
+            <value>EnterpriseServer</value>
+            <value>AuthenticationUid</value>
+            <value>entsvr/</value>
+            <value>TOMCAT基本認証のユーザーID</value>
+        </row>
+        <row>
+            <value>EnterpriseServer</value>
+            <value>AuthenticationPassword</value>
+            <value>ncr/</value>
+            <value>TOMCAT基本認証のパスワード</value>
+        </row>
+    </table>
 </dataset>

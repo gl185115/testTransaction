@@ -11328,4 +11328,111 @@ ORDER BY empinfo.EmpCode;
       FROM %s
       WHERE %s
     </entry>
+
+    <entry key="get-name-system-info">
+        SELECT
+          CompanyId,
+          StoreId,
+          NameCategory,
+          NameId,
+          NameText
+        FROM
+          RESMaster.dbo.MST_NAME_SYSTEM
+        WHERE
+          DeleteFlag = 0.0
+    </entry>
+
+    <entry key="get-ej-info">
+     DECLARE
+        @companyId varchar(12),
+        @storeId varchar(10),
+        @workstationId varchar(6),
+        @txType varchar(50),
+        @sequencenumberFrom NUMERIC(5,0),
+        @sequencenumberTo NUMERIC(5,0),
+        @businessDateTimeFrom VARCHAR(32),
+        @businessDateTimeTo VARCHAR(32),
+        @operatorId varchar(20),
+        @salesPersonId varchar(10),
+        @trainingFlag NUMERIC(1,0),
+        @maxNumber int
+
+      SET @companyId =LTRIM(RTRIM(?))
+      SET @storeId = LTRIM(RTRIM(?))
+      SET @WorkstationId = LTRIM(RTRIM(?))
+      SET @TxType = LTRIM(RTRIM(?))
+      SET @SequencenumberFrom = ?
+      SET @SequencenumberTo = ?
+      SET @BusinessDateTimeFrom = LTRIM(RTRIM(?))
+      SET @BusinessDateTimeTo = LTRIM(RTRIM(?))
+      SET @OperatorId = LTRIM(RTRIM(?))
+      SET @SalesPersonId = LTRIM(RTRIM(?))
+      SET @TrainingFlag = ?
+      SET @MaxNumber = ?
+
+        SELECT TOP(@maxNumber)
+          tr.TxType,
+          tr.WorkstationId,
+          tr.SequenceNumber,
+          tr.BillingAmt,
+          tr.BusinessDateTimeStart
+        FROM
+          RESTransaction.dbo.TXL_TRAN AS tr
+           LEFT JOIN
+          RESTransaction.dbo.TXL_TRAN_DETAIL detail
+          ON
+          tr.CompanyId = detail.CompanyId
+          AND
+          tr.RetailStoreId = detail.RetailStoreId
+          AND
+          tr.WorkstationId = detail.WorkstationId
+          AND
+          tr.BusinessDayDate = detail.BusinessDayDate
+          AND
+          tr.SequenceNumber = detail.SequenceNumber
+          AND
+          tr.TrainingFlag = detail.TrainingFlag
+        WHERE
+          tr.CompanyId = @companyId AND
+          tr.RetailStoreId = @storeId AND
+          tr.WorkstationId = @workstationId AND
+          tr.SequenceNumber &gt;= @sequencenumberFrom AND
+          tr.SequenceNumber &lt;=  @SequencenumberTo AND
+          tr.BusinessDayDate BETWEEN CONVERT(DATE,@businessDateTimeFrom) AND CONVERT(DATE,@businessDateTimeTo) AND
+          tr.OperatorId= @operatorId AND
+          detail.SalesClerkCd = @salesPersonId AND
+          tr.TrainingFlag = @trainingFlag
+    </entry>
+    <entry key="get-poslog-xml-by-companyid-storeid-workstationid-bussinessdate-seqnum-trainningflag">
+      DECLARE
+        @companyId varchar(12),
+        @storeId varchar(10),
+        @workstationId varchar(6),
+        @sequencenumber NUMERIC(5,0),
+        @businessDate VARCHAR(32),
+        @trainingFlag NUMERIC(1,0)
+
+      SET @companyId =LTRIM(RTRIM(?))
+      SET @storeId = LTRIM(RTRIM(?))
+      SET @workstationId = LTRIM(RTRIM(?))
+      SET @sequencenumber = ?
+      SET @businessDate = ?
+      SET @trainingFlag = LTRIM(RTRIM(?))
+
+     SELECT Tx
+     FROM
+      RESTransaction.dbo.TXL_SALES_JOURNAL
+     WHERE
+        CompanyId = @companyId
+        AND
+        RetailStoreId = @storeId
+        AND
+        WorkstationId = @workstationId
+        AND
+        BusinessDayDate = CONVERT(DATE,@businessDate)
+        AND
+        SequenceNumber = @sequencenumber
+        AND
+        TrainingFlag = @trainingFlag
+    </entry>
 </properties>

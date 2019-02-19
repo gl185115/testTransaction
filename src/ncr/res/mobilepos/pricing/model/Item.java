@@ -16,13 +16,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 import com.wordnik.swagger.annotations.ApiModel;
 import com.wordnik.swagger.annotations.ApiModelProperty;
 
+import ncr.res.mobilepos.model.ResultBase;
+
 /**
  * Item Model Object.
  */
 @XmlAccessorType(XmlAccessType.NONE)
 @XmlRootElement(name = "Item")
 @ApiModel(value="Item")
-public class Item {
+public class Item extends ResultBase {
 
     // rounding options
     public static final int ROUND_UP = 1;

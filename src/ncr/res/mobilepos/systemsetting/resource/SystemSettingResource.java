@@ -25,6 +25,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.ej.Factory.NameCategoryFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -342,7 +343,9 @@ public class SystemSettingResource {
         	PromotionMsgInfoFactory.initialize(companyId, storeId);
         	logName = "TaxRateInfoFactory";
         	TaxRateInfoFactory.initialize(companyId, storeId);
-
+        	logName = "NameCategoryFactory";
+        	NameCategoryFactory.initialize();
+        	
             result.setNCRWSSResultCode(ResultBase.RES_OK);
             result.setMessage("Success");
             LOGGER.logWarning(PROG_NAME, functionname, Logger.RES_SUCCESS,

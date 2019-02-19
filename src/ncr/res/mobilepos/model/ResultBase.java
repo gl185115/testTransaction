@@ -969,6 +969,16 @@ public class ResultBase {
      * QueueBuster Link not found.
      */
     public static final int RES_LINK_NOTFOUND = 907;
+    /**
+     * Value : {@value}<br>
+     * EJINFOS not found.
+     */
+    public static final int RES_EJINFOS_NOTFOUND = 908;
+    /**
+     * Value : {@value}<br>
+     * POSLOG not found.
+     */
+    public static final int RES_POSLOG_NOTFOUND = 909;
 
     /**
      * Value : {@value}<br>

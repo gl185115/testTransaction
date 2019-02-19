@@ -60,7 +60,8 @@
         ncr.res.mobilepos.poslogstatus.resource,
         ncr.res.mobilepos.appserver.resource,
         ncr.res.mobilepos.posmailinfo.resource,
-        ncr.res.mobilepos.employee.resource
+        ncr.res.mobilepos.employee.resource,
+        ncr.res.mobilepos.ej.resource
     </param-value>
     </init-param>
     <init-param>
@@ -138,6 +139,10 @@
       <url-pattern>/rest/poslogstatus/*</url-pattern>
       <url-pattern>/rest/servertable/*</url-pattern>
       <url-pattern>/rest/posmailinfo/*</url-pattern>
+      <url-pattern>/rest/ej/*</url-pattern>
+      <url-pattern>/rest/remoteitem/*</url-pattern>
+      <url-pattern>/rest/enterprisedpt/*</url-pattern>
+      <url-pattern>/rest/enterpriseej/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

@@ -25,6 +25,7 @@ import ncr.res.mobilepos.constant.SystemFileConfig;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
+import ncr.res.mobilepos.ej.Factory.NameCategoryFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.giftcard.factory.ToppanGiftCardConfigFactory;
@@ -159,6 +160,9 @@ public class WebContextListener implements ServletContextListener {
         // Loads config file for Toppan Giftcard feature.
         ToppanGiftCardConfigFactory.initialize(environmentEntries.getCustomParamBasePath());
 
+        // Loads System Name Information
+    	NameCategoryFactory.initialize();
+
         if(!windowsEnvironmentVariables.isServerTypeEnterprise()) {
             String companyId =  systemFileConfig.getCompanyId();
             String storeId = systemFileConfig.getStoreId();
@@ -176,7 +180,7 @@ public class WebContextListener implements ServletContextListener {
         	// Only HOST loads TaxRate Information
         	TaxRateInfoFactory.initialize(companyId, storeId);
         }else{
-        	// Only HOST loads TaxRate Information
+        	// Only Enterprise loads TaxRate Information
         	TaxRateInfoFactory.initialize("0", "0");
         }
     }
@@ -309,7 +313,9 @@ public class WebContextListener implements ServletContextListener {
 
         GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
         GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
-
+        GlobalConstant.setAuthenticationUid(sysParams.get(GlobalConstant.AUTHENTICATION_UID));
+        GlobalConstant.setAuthenticationPassword(sysParams.get(GlobalConstant.AUTHENTICATION_PASSWORD));
+        
         String serverPingTimeout = sysParams.get(GlobalConstant.KEY_SERVER_PING_TIMEOUT);
         if(!StringUtility.isNullOrEmpty(serverPingTimeout)) {
         	try{

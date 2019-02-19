@@ -155,6 +155,10 @@ public final class Logger extends IoWriter {
      * The message id of get data exception
      */
     public static final String RES_GET_DATA_ERR = "84";
+    /**
+     * Authentication failed
+     */
+    public static final String RES_AUTHENTICATION_FAILED = "85";
 
     /**
      * Constructor.

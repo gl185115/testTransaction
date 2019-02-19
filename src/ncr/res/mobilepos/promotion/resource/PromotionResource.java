@@ -2,6 +2,7 @@ package ncr.res.mobilepos.promotion.resource;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -87,7 +88,7 @@ import ncr.res.mobilepos.promotion.model.PromotionMsgInfo;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
-import ncr.res.mobilepos.searchapi.helper.UrlConnectionHelper;
+import ncr.res.mobilepos.ej.helper.UrlConnectionHelper;
 
 /**
  * PromotionResource Class is a Web Resource which support MobilePOS Promotion
@@ -463,6 +464,12 @@ public class PromotionResource {
 					tp.println("Item was not found!");
 					try {
 						item = getdetailInfoData(retailStoreId, itemIdTemp, companyId, businessDate);
+						if (item != null && item.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST) {
+							response.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+							response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+							response.setMessage("BASIC Authentication failed");
+							return response;
+						}
 					} catch (Exception e) {
 						if (e.getCause() instanceof JSONException) {
 							response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
@@ -550,6 +557,13 @@ public class PromotionResource {
 							// サーバーから部門情報を取得する
 							departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
 							saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+							if ((departmentInfo != null && departmentInfo.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)
+									|| (saleMdName != null && saleMdName.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)) {
+								response.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+								response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+								response.setMessage("BASIC Authentication failed");
+								return response;
+							}
 						} catch (Exception e) {
 							if (e.getCause() instanceof JSONException) {
 								response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
@@ -571,6 +585,13 @@ public class PromotionResource {
 								// サーバーから部門情報を取得する
 								departmentInfo = getDptInfoData(companyId, retailStoreId, codeTemp, retailStoreId);
 								saleMdName = getMdName(companyId, retailStoreId, itemIdTemp);
+								if ((departmentInfo != null && departmentInfo.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)
+										|| (saleMdName != null && saleMdName.getNCRWSSResultCode() == ResultBase.RES_ERROR_UNKNOWNHOST)) {
+									response.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+									response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+									response.setMessage("BASIC Authentication failed");
+									return response;
+								}
 							} catch (Exception e) {
 								if (e.getCause() instanceof JSONException) {
 									response.setNCRWSSResultCode(ResultBase.RES_ERROR_PARSE);
@@ -1626,7 +1647,7 @@ public class PromotionResource {
         tp.methodEnter(functionName).println("CompanyId", companyId).println("RetailStoreId", retailStoreId)
                 .println("ItemCode", itemCode);
         JSONObject result = null;
-        Sale saleMdName = new Sale();
+        Sale saleMdName = null;
         try {
             JSONObject valueResult = new JSONObject();
             valueResult.put("companyId", companyId);
@@ -1644,12 +1665,27 @@ public class PromotionResource {
             } else {
                 url = GlobalConstant.getEnterpriseServerUri() + '/' + ENTERPRISE_MDNAME_UTL;
             }
-
+            if (StringUtility.isNullOrEmpty(GlobalConstant.getAuthenticationUid()) || StringUtility.isNullOrEmpty(GlobalConstant.getAuthenticationPassword())) {
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+				saleMdName = new Sale();
+				saleMdName.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+				saleMdName.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+				return saleMdName;
+			}
             result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
             // Check if error is empty.
-            if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
-            	saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
-            }
+            if (result != null) {
+				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+					saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
+				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+					saleMdName = new Sale();
+					saleMdName.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+					saleMdName.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+					saleMdName.setMessage("BASIC Authentication failed");
+					return saleMdName;
+				}
+			}
         } catch (Exception e) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote getMdName.",
                     e);
@@ -1700,10 +1736,26 @@ public class PromotionResource {
 				url = GlobalConstant.getEnterpriseServerUri() + '/' + ENTERPRISE_DPT_UTL;
 			}
 
+			if (StringUtility.isNullOrEmpty(GlobalConstant.getAuthenticationUid()) || StringUtility.isNullOrEmpty(GlobalConstant.getAuthenticationPassword())) {
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+				departmentInfo = new ViewDepartment();
+				departmentInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+				departmentInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+				return departmentInfo;
+			}
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
-			if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
-				departmentInfo = (ViewDepartment) jsonToDeparment(result.getJSONObject("department"));
+			if (result != null) {
+				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+					departmentInfo = (ViewDepartment) jsonToDeparment(result.getJSONObject("department"));
+				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+					departmentInfo = new ViewDepartment();
+					departmentInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+					departmentInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+					departmentInfo.setMessage("BASIC Authentication failed");
+					return departmentInfo;
+				}
 			}
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote item entry.",
@@ -1758,11 +1810,26 @@ public class PromotionResource {
 			} else {
 				url = GlobalConstant.getEnterpriseServerUri() + '/' + REMOTE_UTL;
 			}
-
+			if (StringUtility.isNullOrEmpty(GlobalConstant.getAuthenticationUid()) || StringUtility.isNullOrEmpty(GlobalConstant.getAuthenticationPassword())) {
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+				sale = new Sale();
+				sale.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+				sale.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+				sale.setMessage("BASIC Authentication failed");
+				return sale;
+			}
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
-			if (result != null && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
-				sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
+			if (result != null) {
+				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+					sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
+				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+					sale = new Sale();
+					sale.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+					sale.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
+					return sale;
+				}
 			}
 		} catch (Exception e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote item entry.",

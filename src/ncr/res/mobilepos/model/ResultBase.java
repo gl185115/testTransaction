@@ -992,6 +992,11 @@ public class ResultBase {
     public static final int RES_GROUP_NOTFOUND = 1002;
     /**
      * Value : {@value}<br>
+     * Matched System Name Info not found.
+     */
+    public static final int RES_SYSTEM_NAME_NOTFOUND = 1003;
+    /**
+     * Value : {@value}<br>
      * Promotion Date and Time Invalid.
      */
     public static final int RES_PROMOTION_DATE_INVALID = 1101;

@@ -1,6 +1,5 @@
 package ncr.res.mobilepos.ej.resource;
 
-import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -129,7 +128,7 @@ public class EjResource {
 		EjInfos ejInfos = new EjInfos();
 		WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
 		try {
-			if (!windowsEnvironmentVariables.isServerTypeEnterprise()) {
+			if (windowsEnvironmentVariables.isServerTypeEnterprise()) {
 				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
 						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId,
 						SalesPersonId, TrainingFlag, MaxNumber);
@@ -187,7 +186,7 @@ public class EjResource {
     	WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
     	INameSystemInfoDAO dao = null;
     	try {
-			if (!windowsEnvironmentVariables.isServerTypeEnterprise()) {
+			if (windowsEnvironmentVariables.isServerTypeEnterprise()) {
 				dao = new SQLServerNameSystemInfoDAO();
 				posLogInfo = dao.getPosLogInfo(CompanyId, RetailstoreId, WorkstationId, Sequencenumber, BusinessDate, TrainingFlag);
 			} else {
@@ -500,8 +499,8 @@ public class EjResource {
 		String commonStoreId = retailstoreId;
 		if (listNameSystemInfo.isEmpty()) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR, "E/Jのリスト情報取得エラー。\n");
-			ejInfos.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-			ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+			ejInfos.setNCRWSSResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
+			ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
 			ejInfos.setMessage("System Name List info is empty");
 			return ejInfos;
 		}
@@ -531,8 +530,8 @@ public class EjResource {
 		}
 		if (listNameSystemInfos.isEmpty()) {
 			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR, "E/Jのリスト情報取得エラー。\n");
-			ejInfos.setNCRWSSResultCode(ResultBase.RES_ERROR_NODATAFOUND);
-			ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_NODATAFOUND);
+			ejInfos.setNCRWSSResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
+			ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
 			ejInfos.setMessage("Matched E/J list info search error");
 			return ejInfos;
 		} else {

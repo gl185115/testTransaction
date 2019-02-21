@@ -38,6 +38,8 @@ ArrayList<String> ATT9_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリーダーを接続しない"); add("図書カードリーダーを接続する");}};
 ArrayList<String> ATT10_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェアキーボードが付かない"); add("ハードウェアキーボードが付く");}};
+ArrayList<String> ATT11_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナーを接続しない"); add("RFIDスキャナーを接続する");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -77,7 +79,8 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 	String ATTAttribute9 = request.getParameter("ATTAttribute9");
 	// ATTAttribute10
 	String ATTAttribute10 = request.getParameter("ATTAttribute10");
-
+	// ATTAttribute11
+	String ATTAttribute11 = request.getParameter("ATTAttribute11");
     String errString = "";
 	String infoString = "";
 
@@ -102,6 +105,7 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
                 + " Attribute8=?"
                 + ", Attribute9=?"
                 + ", Attribute10=?"
+                + ", Attribute11=?"
                 + " WHERE AttributeId=?; "
                 ;
         PreparedStatement psIns = conn.prepareStatement(sqlStr);
@@ -122,7 +126,8 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
         psIns.setString(14, ATTAttribute8);
         psIns.setString(15, ATTAttribute9);
         psIns.setString(16, ATTAttribute10);
-        psIns.setString(17, ATTAttributeId);
+        psIns.setString(17, ATTAttribute11);
+        psIns.setString(18, ATTAttributeId);
 
         try {
             int rsIns = psIns.executeUpdate();
@@ -161,6 +166,27 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
                         + " ,device_attribute.Attribute8 AS Attribute8"
                         + " ,device_attribute.Attribute9 AS Attribute9"
                         + " ,device_attribute.Attribute10 AS Attribute10"
+                        + " ,device_attribute.Attribute11 AS Attribute11"
+                        + " ,device_attribute.Attribute12 AS Attribute12"
+                        + " ,device_attribute.Attribute13 AS Attribute13"
+                        + " ,device_attribute.Attribute14 AS Attribute14"
+                        + " ,device_attribute.Attribute15 AS Attribute15"
+                        + " ,device_attribute.Attribute16 AS Attribute16"
+                        + " ,device_attribute.Attribute17 AS Attribute17"
+                        + " ,device_attribute.Attribute18 AS Attribute18"
+                        + " ,device_attribute.Attribute19 AS Attribute19"
+                        + " ,device_attribute.Attribute20 AS Attribute20"
+                        + " ,device_attribute.Attribute21 AS Attribute21"
+                        + " ,device_attribute.Attribute22 AS Attribute22"
+                        + " ,device_attribute.Attribute23 AS Attribute23"
+                        + " ,device_attribute.Attribute24 AS Attribute24"
+                        + " ,device_attribute.Attribute25 AS Attribute25"
+                        + " ,device_attribute.Attribute26 AS Attribute26"
+                        + " ,device_attribute.Attribute27 AS Attribute27"
+                        + " ,device_attribute.Attribute28 AS Attribute28"
+                        + " ,device_attribute.Attribute29 AS Attribute29"
+                        + " ,device_attribute.Attribute30 AS Attribute30"
+			
                         + " FROM RESMaster.dbo.PRM_DEVICE_ATTRIBUTE device_attribute"
                         );
     ResultSet rs = ps.executeQuery();
@@ -183,6 +209,26 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
             String Attribute8 = rs.getString("Attribute8");
             String Attribute9 = rs.getString("Attribute9");
             String Attribute10 = rs.getString("Attribute10");
+            String Attribute11 = rs.getString("Attribute11");
+            String Attribute12 = rs.getString("Attribute12");
+            String Attribute13 = rs.getString("Attribute13");
+            String Attribute14 = rs.getString("Attribute14");
+            String Attribute15 = rs.getString("Attribute15");
+            String Attribute16 = rs.getString("Attribute16");
+            String Attribute17 = rs.getString("Attribute17");
+            String Attribute18 = rs.getString("Attribute18");
+            String Attribute19 = rs.getString("Attribute19");
+            String Attribute20 = rs.getString("Attribute20");
+            String Attribute21 = rs.getString("Attribute21");
+            String Attribute22 = rs.getString("Attribute22");
+            String Attribute23 = rs.getString("Attribute23");
+            String Attribute24 = rs.getString("Attribute24");
+            String Attribute25 = rs.getString("Attribute25");
+            String Attribute26 = rs.getString("Attribute26");
+            String Attribute27 = rs.getString("Attribute27");
+            String Attribute28 = rs.getString("Attribute28");
+            String Attribute29 = rs.getString("Attribute29");
+            String Attribute30 = rs.getString("Attribute30");
 
             java.lang.StringBuilder sb = new java.lang.StringBuilder();
             sb.append("{\"AttributeId\": \"").append(attributeId).append("\", ")
@@ -201,7 +247,27 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
             .append("\"Attribute7\": \"").append(Attribute7).append("\", ")
             .append("\"Attribute8\": \"").append(Attribute8).append("\", ")
             .append("\"Attribute9\": \"").append(Attribute9).append("\", ")
-            .append("\"Attribute10\": \"").append(Attribute10).append("\"}");
+            .append("\"Attribute10\": \"").append(Attribute10).append("\", ")
+            .append("\"Attribute11\": \"").append(Attribute11).append("\", ")
+            .append("\"Attribute12\": \"").append(Attribute12).append("\", ")
+            .append("\"Attribute13\": \"").append(Attribute13).append("\", ")
+            .append("\"Attribute14\": \"").append(Attribute14).append("\", ")
+            .append("\"Attribute15\": \"").append(Attribute15).append("\", ")
+            .append("\"Attribute16\": \"").append(Attribute16).append("\", ")
+            .append("\"Attribute17\": \"").append(Attribute17).append("\", ")
+            .append("\"Attribute18\": \"").append(Attribute18).append("\", ")
+            .append("\"Attribute19\": \"").append(Attribute19).append("\", ")
+            .append("\"Attribute20\": \"").append(Attribute20).append("\", ")
+            .append("\"Attribute21\": \"").append(Attribute21).append("\", ")
+            .append("\"Attribute22\": \"").append(Attribute22).append("\", ")
+            .append("\"Attribute23\": \"").append(Attribute23).append("\", ")
+            .append("\"Attribute24\": \"").append(Attribute24).append("\", ")
+            .append("\"Attribute25\": \"").append(Attribute25).append("\", ")
+            .append("\"Attribute26\": \"").append(Attribute26).append("\", ")
+            .append("\"Attribute27\": \"").append(Attribute27).append("\", ")
+            .append("\"Attribute28\": \"").append(Attribute28).append("\", ")
+            .append("\"Attribute29\": \"").append(Attribute29).append("\", ")
+            .append("\"Attribute30\": \"").append(Attribute30).append("\"}");
             SelectData.add(sb.toString());
     }
     ps.close();
@@ -248,7 +314,27 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 					<th>属性７(Attribute7)</th>
 					<th>属性８(Attribute8)</th>
 					<th>属性９(Attribute9)</th>
-                    <th>属性１０(Attribute10)</th>
+					<th>属性１０(Attribute10)</th>
+					<th>属性１１(Attribute11)</th>
+					<th>属性１２(Attribute12)</th>
+					<th>属性１３(Attribute13)</th>
+					<th>属性１４(Attribute14)</th>
+					<th>属性１５(Attribute15)</th>
+					<th>属性１６(Attribute16)</th>
+					<th>属性１７(Attribute17)</th>
+					<th>属性１８(Attribute18)</th>
+					<th>属性１９(Attribute19)</th>
+					<th>属性２０(Attribute20)</th>
+					<th>属性２１(Attribute21)</th>
+					<th>属性２２(Attribute22)</th>
+					<th>属性２３(Attribute23)</th>
+					<th>属性２４(Attribute24)</th>
+					<th>属性２５(Attribute25)</th>
+					<th>属性２６(Attribute26)</th>
+					<th>属性２７(Attribute27)</th>
+					<th>属性２８(Attribute28)</th>
+					<th>属性２９(Attribute29)</th>
+					<th>属性３０(Attribute30)</th>
 				</tr>
 			</thead>
 			<tbody id="logs">
@@ -466,6 +552,18 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 						%>
 				</select></td>
 			</tr>
+			 <tr>
+				<td align="right">属性１１(Attribute11) ：</td>
+				<td align="left"><select name="ATTAttribute11"
+					id="ATTAttribute11" required>
+						<%
+							for (int i = 0; i < ATT11_VAL.size(); i++) {
+								out.print("<option value=\"" + ATT11_VAL.get(i) + "\"");
+								out.println(">" + ATT11_VAL.get(i) + " : " + ATT11_NAME.get(i) + "</option>");
+							}
+						%>
+				</select></td>
+			</tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>
@@ -544,6 +642,9 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 		// ATTATTAttribute10
 		StrId = 'attribute10' + InValue;
 		document.getElementById('ATTAttribute10').value = document.getElementById(StrId).value || false;
+		// ATTATTAttribute11
+		StrId = 'attribute11' + InValue;
+		document.getElementById('ATTAttribute11').value = document.getElementById(StrId).value || false;
 
 		document.getElementById('updateArea').style.display = "block";
 	}
@@ -573,6 +674,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute8').value);
         valueList.push(document.getElementById('ATTAttribute9').value);
         valueList.push(document.getElementById('ATTAttribute10').value);
+        valueList.push(document.getElementById('ATTAttribute11').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(
@@ -673,6 +775,67 @@ jQuery(function ($) {
 				log += '<td><input type="text" id="attribute10' + i
 						+ '" name="attribute10' + i + '" disabled value="'
 						+ (currentLog[i].Attribute10 || '&nbsp;' ) + '"></td>';
+				log += '<td><input type="text" id="attribute11' + i
+						+ '" name="attribute11' + i + '" disabled value="'
+						+ (currentLog[i].Attribute11 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute12' + i
+						+ '" name="attribute12' + i + '" disabled value="'
+						+ (currentLog[i].Attribute12 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute13' + i
+						+ '" name="attribute13' + i + '" disabled value="'
+						+ (currentLog[i].Attribute13 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute14' + i
+						+ '" name="attribute14' + i + '" disabled value="'
+						+ (currentLog[i].Attribute14 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute15' + i
+						+ '" name="attribute15' + i + '" disabled value="'
+						+ (currentLog[i].Attribute15 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute16' + i
+						+ '" name="attribute16' + i + '" disabled value="'
+						+ (currentLog[i].Attribute16 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute17' + i
+						+ '" name="attribute17' + i + '" disabled value="'
+						+ (currentLog[i].Attribute17 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute18' + i
+						+ '" name="attribute18' + i + '" disabled value="'
+						+ (currentLog[i].Attribute18 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="attribute19' + i
+						+ '" name="attribute19' + i + '" disabled value="'
+						+ (currentLog[i].Attribute19 || '&nbsp;' ) + '"></td>';
+				log += '<td><input type="text" id="attribute20' + i
+						+ '" name="attribute20' + i + '" disabled value="'
+						+ (currentLog[i].Attribute20 || '&nbsp;' ) + '"></td>';
+				log += '<td><input type="text" id="Attribute21' + i
+						+ '" name="Attribute21' + i + '" disabled value="'
+						+ (currentLog[i].Attribute21 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute22' + i
+						+ '" name="Attribute22' + i + '" disabled value="'
+						+ (currentLog[i].Attribute22 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute23' + i
+						+ '" name="Attribute23' + i + '" disabled value="'
+						+ (currentLog[i].Attribute23 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute24' + i
+						+ '" name="Attribute24' + i + '" disabled value="'
+						+ (currentLog[i].Attribute24 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute25' + i
+						+ '" name="Attribute25' + i + '" disabled value="'
+						+ (currentLog[i].Attribute25 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute26' + i
+						+ '" name="Attribute26' + i + '" disabled value="'
+						+ (currentLog[i].Attribute26 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute27' + i
+						+ '" name="Attribute27' + i + '" disabled value="'
+						+ (currentLog[i].Attribute27 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute28' + i
+						+ '" name="Attribute28' + i + '" disabled value="'
+						+ (currentLog[i].Attribute28 || '&nbsp;') + '"></td>';
+				log += '<td><input type="text" id="Attribute29' + i
+						+ '" name="Attribute29' + i + '" disabled value="'
+						+ (currentLog[i].Attribute29 || '&nbsp;' ) + '"></td>';
+				log += '<td><input type="text" id="Attribute30' + i
+						+ '" name="Attribute30' + i + '" disabled value="'
+						+ (currentLog[i].Attribute30 || '&nbsp;' ) + '"></td>';
+
 
 			}
 			document.getElementById('logs').innerHTML = log;

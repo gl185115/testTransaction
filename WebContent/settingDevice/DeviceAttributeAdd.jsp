@@ -42,6 +42,8 @@ ArrayList<String> ATT9_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT9_NAME = new ArrayList<String>() {{add("図書カードリーダーを接続しない"); add("図書カードリーダーを接続する");}};
 ArrayList<String> ATT10_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェアキーボードが付かない"); add("ハードウェアキーボードが付く");}};
+ArrayList<String> ATT11_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナーを接続しない"); add("RFIDスキャナーを接続する");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -69,8 +71,9 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 			sqlStr = "INSERT INTO RESMaster.dbo.PRM_DEVICE_ATTRIBUTE"
 					+ "(AttributeId, Description, Printer, Till, CreditTerminal, MSR, CashChanger, "
 					+ "Attribute1, Attribute2, Attribute3, Attribute4, Attribute5, "
-					+ "Attribute6, Attribute7, Attribute8, Attribute9, Attribute10)"
-					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+					+ "Attribute6, Attribute7, Attribute8, Attribute9, Attribute10, Attribute11, Attribute12, Attribute13, Attribute14, Attribute15, Attribute16, Attribute17, Attribute18, Attribute19, Attribute20, "
+					+"Attribute21, Attribute22, Attribute23, Attribute24, Attribute25, Attribute26, Attribute27, Attribute28, Attribute29, Attribute30)"
+					+ " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 			Date nowDate = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 			String today = formatter.format(nowDate);
@@ -93,6 +96,26 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
 			psIns.setString(15, request.getParameter("Attribute8"));
 			psIns.setString(16, request.getParameter("Attribute9"));
 			psIns.setString(17, request.getParameter("Attribute10"));
+			psIns.setString(18, request.getParameter("Attribute11"));
+			psIns.setString(19, request.getParameter("Attribute12"));
+			psIns.setString(20, request.getParameter("Attribute13"));
+			psIns.setString(21, request.getParameter("Attribute14"));
+			psIns.setString(22, request.getParameter("Attribute15"));
+			psIns.setString(23, request.getParameter("Attribute16"));
+			psIns.setString(24, request.getParameter("Attribute17"));
+			psIns.setString(25, request.getParameter("Attribute18"));
+			psIns.setString(26, request.getParameter("Attribute19"));
+			psIns.setString(27, request.getParameter("Attribute20"));
+			psIns.setString(28, request.getParameter("Attribute21"));
+			psIns.setString(29, request.getParameter("Attribute22"));
+			psIns.setString(30, request.getParameter("Attribute23"));
+			psIns.setString(31, request.getParameter("Attribute24"));
+			psIns.setString(32, request.getParameter("Attribute25"));
+			psIns.setString(33, request.getParameter("Attribute26"));
+			psIns.setString(34, request.getParameter("Attribute27"));
+			psIns.setString(35, request.getParameter("Attribute28"));
+			psIns.setString(36, request.getParameter("Attribute29"));
+			psIns.setString(37, request.getParameter("Attribute30"));
 
 			try {
 				int rsIns = psIns.executeUpdate();
@@ -329,6 +352,19 @@ ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェア
                         for (int i=0;i<ATT10_VAL.size();i++) {
                             out.print("<option value=\"" + ATT10_VAL.get(i) + "\"");
                             out.println(">" + ATT10_VAL.get(i) +" : " + ATT10_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">属性１１ ： </td>
+                <td align="left">
+                    <select name="Attribute11" id="Attribute11" required>
+                    <%
+                        for (int i=0;i<ATT11_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT11_VAL.get(i) + "\"");
+                            out.println(">" + ATT11_VAL.get(i) +" : " + ATT11_NAME.get(i) +"</option>");
                         }
                     %>
                     </select>

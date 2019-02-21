@@ -572,6 +572,26 @@ public class SQLDeviceInfoDAO extends AbstractDao implements IDeviceInfoDAO {
                     attributeInfo.setAttribute8(resultSet.getString("Attribute8"));
                     attributeInfo.setAttribute9(resultSet.getString("Attribute9"));
                     attributeInfo.setAttribute10(resultSet.getString("Attribute10"));
+                    attributeInfo.setAttribute11(resultSet.getString("Attribute11"));
+                    attributeInfo.setAttribute12(resultSet.getString("Attribute12"));
+                    attributeInfo.setAttribute13(resultSet.getString("Attribute13"));
+                    attributeInfo.setAttribute14(resultSet.getString("Attribute14"));
+                    attributeInfo.setAttribute15(resultSet.getString("Attribute15"));
+                    attributeInfo.setAttribute16(resultSet.getString("Attribute16"));
+                    attributeInfo.setAttribute17(resultSet.getString("Attribute17"));
+                    attributeInfo.setAttribute18(resultSet.getString("Attribute18"));
+                    attributeInfo.setAttribute19(resultSet.getString("Attribute19"));
+                    attributeInfo.setAttribute20(resultSet.getString("Attribute20"));
+                    attributeInfo.setAttribute21(resultSet.getString("Attribute21"));
+                    attributeInfo.setAttribute22(resultSet.getString("Attribute22"));
+                    attributeInfo.setAttribute23(resultSet.getString("Attribute23"));
+                    attributeInfo.setAttribute24(resultSet.getString("Attribute24"));
+                    attributeInfo.setAttribute25(resultSet.getString("Attribute25"));
+                    attributeInfo.setAttribute26(resultSet.getString("Attribute26"));
+                    attributeInfo.setAttribute27(resultSet.getString("Attribute27"));
+                    attributeInfo.setAttribute28(resultSet.getString("Attribute28"));
+                    attributeInfo.setAttribute29(resultSet.getString("Attribute29"));
+                    attributeInfo.setAttribute30(resultSet.getString("Attribute30"));
 
                     attributeInfo.setTrainingMode(resultSet.getInt("Training"));
                     attributeInfo.setNCRWSSResultCode(ResultBase.RESRPT_OK);

@@ -16,6 +16,7 @@ import ncr.res.mobilepos.ej.model.PosLogInfo;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.property.SQLStatement;
 
@@ -200,11 +201,29 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
 		ResultSet result = null;
 		EjInfo ejInfo = null;
 		List<EjInfo> listEjInfo = new ArrayList<EjInfo>();
+		StringBuffer sqlCondition = new StringBuffer("");
+
+		// Add Sql Condition
+		if(!StringUtility.isNullOrEmpty(OperatorId)){
+			sqlCondition.append(" AND tr.OperatorId = " + OperatorId);
+		}
+		if(!StringUtility.isNullOrEmpty(SalesPersonId)){
+			sqlCondition.append(" AND detail.SalesClerkCd = " + SalesPersonId);
+		}
+		if(!StringUtility.isNullOrEmpty(TxType)){
+			sqlCondition.append(" AND tr.TxType = " + TxType);
+		}
+		if(StringUtility.isNullOrEmpty(TrainingFlag)){
+			sqlCondition.append(" AND tr.TrainingFlag = " + 0);
+		}else{
+			sqlCondition.append(" AND tr.TrainingFlag = " + TrainingFlag);
+		}
 
 		try {
 			connection = dbManager.getConnection();
 			SQLStatement sqlStatement = SQLStatement.getInstance();
-			select = connection.prepareStatement(sqlStatement.getProperty("get-ej-info"));
+			String query = String.format(sqlStatement.getProperty("get-ej-info"), sqlCondition);
+			select = connection.prepareStatement(query);
 			select.setString(SQLStatement.PARAM1, CompanyId);
 			select.setString(SQLStatement.PARAM2, RetailStoreId);
 			select.setString(SQLStatement.PARAM3, WorkstationId);

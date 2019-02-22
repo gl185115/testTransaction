@@ -11390,7 +11390,7 @@ ORDER BY empinfo.EmpCode;
       SET @TrainingFlag = ?
       SET @MaxNumber = ?
 
-        SELECT TOP(@maxNumber)
+        SELECT DISTINCT TOP(@maxNumber)
           tr.TxType,
           tr.WorkstationId,
           tr.SequenceNumber,
@@ -11418,10 +11418,9 @@ ORDER BY empinfo.EmpCode;
           tr.WorkstationId = @workstationId AND
           tr.SequenceNumber &gt;= @sequencenumberFrom AND
           tr.SequenceNumber &lt;=  @SequencenumberTo AND
-          tr.BusinessDayDate BETWEEN CONVERT(DATE,@businessDateTimeFrom) AND CONVERT(DATE,@businessDateTimeTo) AND
-          tr.OperatorId= @operatorId AND
-          detail.SalesClerkCd = @salesPersonId AND
-          tr.TrainingFlag = @trainingFlag
+          tr.BusinessDayDate BETWEEN CONVERT(DATE,@businessDateTimeFrom) AND CONVERT(DATE,@businessDateTimeTo)
+          %s
+        ORDER BY tr.SequenceNumber DESC
     </entry>
     <entry key="get-poslog-xml-by-companyid-storeid-workstationid-bussinessdate-seqnum-trainningflag">
       DECLARE

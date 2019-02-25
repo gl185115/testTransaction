@@ -106,10 +106,10 @@ public class EjResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final EjInfos getJournalList(
-    		@ApiParam(name = "companyid", value = "会社コード") @FormParam("companyid") final String CompanyId,
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String RetailstoreId,
-			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String WorkstationId,
-			@ApiParam(name = "txtype", value = "取引種別") @FormParam("txtype") final String TxType,
+    		@ApiParam(name = "CompanyId", value = "会社コード") @FormParam("CompanyId") final String CompanyId,
+			@ApiParam(name = "RetailStoreId", value = "小売店コード") @FormParam("RetailStoreId") final String RetailstoreId,
+			@ApiParam(name = "WorkstationId", value = "ターミナル番号") @FormParam("WorkstationId") final String WorkstationId,
+			@ApiParam(name = "TxType", value = "取引種別") @FormParam("TxType") final String TxType,
 			@ApiParam(name = "SequencenumberFrom", value = "取引番号（下限）") @FormParam("SequencenumberFrom") final String SequencenumberFrom,
 			@ApiParam(name = "SequencenumberTo", value = "取引番号（上限）") @FormParam("SequencenumberTo") final String SequencenumberTo,
 			@ApiParam(name = "BusinessDateTimeFrom", value = "業務日付と時刻の下限") @FormParam("BusinessDateTimeFrom") final String BusinessDateTimeFrom,
@@ -119,8 +119,8 @@ public class EjResource {
 			@ApiParam(name = "TrainingFlag", value = "トレーニングフラグ ") @FormParam("TrainingFlag") final String TrainingFlag,
 			@ApiParam(name = "MaxNumber", value = "最大表示件数") @FormParam("MaxNumber") final String MaxNumber) {
 		String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("companyid", CompanyId).println("retailstoreid", RetailstoreId)
-				.println("workstationid", WorkstationId).println("txtype", TxType)
+		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
+				.println("WorkstationId", WorkstationId).println("TxType", TxType)
 				.println("SequencenumberFrom", SequencenumberFrom).println("SequencenumberTo", SequencenumberTo)
 				.println("BusinessDateTimeFrom", BusinessDateTimeFrom).println("BusinessDateTimeTo", BusinessDateTimeTo)
 				.println("OperatorId", OperatorId).println("SalesPersonId", SalesPersonId)
@@ -172,16 +172,16 @@ public class EjResource {
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final PosLogInfo getPOSLog(
-    		@ApiParam(name = "companyid", value = "会社コード") @FormParam("companyid") final String CompanyId,
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String RetailstoreId,
-			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String WorkstationId,
-			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String Sequencenumber,
-			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String BusinessDate,
-			@ApiParam(name = "trainingFlag", value = "トレーニングフラグ") @FormParam("trainingFlag") final String TrainingFlag){
+    		@ApiParam(name = "CompanyId", value = "会社コード") @FormParam("CompanyId") final String CompanyId,
+			@ApiParam(name = "RetailStoreId", value = "小売店コード") @FormParam("RetailStoreId") final String RetailstoreId,
+			@ApiParam(name = "WorkstationId", value = "ターミナル番号") @FormParam("WorkstationId") final String WorkstationId,
+			@ApiParam(name = "Sequencenumber", value = "取引番号") @FormParam("Sequencenumber") final String Sequencenumber,
+			@ApiParam(name = "BusinessDate", value = "業務日付") @FormParam("BusinessDate") final String BusinessDate,
+			@ApiParam(name = "TrainingFlag", value = "トレーニングフラグ") @FormParam("TrainingFlag") final String TrainingFlag){
     	String functionName = DebugLogger.getCurrentMethodName();
-		tp.methodEnter(functionName).println("companyid", CompanyId).println("retailstoreid", RetailstoreId)
-				.println("workstationid", WorkstationId).println("sequencenumber", Sequencenumber)
-				.println("businessDate", BusinessDate).println("trainingFlag", TrainingFlag);
+		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
+				.println("WorkstationId", WorkstationId).println("Sequencenumber", Sequencenumber)
+				.println("BusinessDate", BusinessDate).println("TrainingFlag", TrainingFlag);
     	PosLogInfo posLogInfo = new PosLogInfo();
     	WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
     	INameSystemInfoDAO dao = null;
@@ -431,9 +431,9 @@ public class EjResource {
 		posLogInfo = new PosLogInfo();
 		posLogInfo.setCompanyId(StringUtility.convNullStringToNull(json.getString("companyId")));
 		posLogInfo.setRetailStoreId(StringUtility.convNullStringToNull(json.getString("retailStoreId")));
-		posLogInfo.setBusinessDate(StringUtility.convNullStringToNull(json.getString("workstationId")));
+		posLogInfo.setBusinessDate(StringUtility.convNullStringToNull(json.getString("businessDate")));
 		posLogInfo.setPOSLog(StringUtility.convNullStringToNull(json.getString("poslog")));
-		posLogInfo.setTrainingFlag(StringUtility.convNullStringToNull(json.getString("trainingFlag")));
+		posLogInfo.setTrainingFlag(json.getInt("trainingFlag"));
 		posLogInfo.setWorkstationId(StringUtility.convNullStringToNull(json.getString("workstationId")));
 		posLogInfo.setSequenceNumber(StringUtility.convNullStringToNull(json.getString("sequenceNumber")));
 		return posLogInfo;
@@ -460,7 +460,7 @@ public class EjResource {
 			ejInfo.setTxTypeName(StringUtility.convNullStringToNull(itemJson.getString("txTypeName")));
 			ejInfo.setWorkstationId(StringUtility.convNullStringToNull(itemJson.getString("workstationId")));
 			ejInfo.setSequenceNumber(StringUtility.convNullStringToNull(itemJson.getString("sequenceNumber")));
-			ejInfo.setBusinessDateTimeStart(StringUtility.convNullStringToNull(itemJson.getString("businessDateTimeStart")));
+			ejInfo.setBusinessDateTime(StringUtility.convNullStringToNull(itemJson.getString("businessDateTime")));
 			ejInfo.setBillingAmt(StringUtility.convNullStringToNull(itemJson.getString("billingAmt")));
 			ejList.add(ejInfo);
 		}

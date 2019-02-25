@@ -242,7 +242,7 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
 				ejInfo = new EjInfo();
 				ejInfo.setTxType(result.getString(result.findColumn("TxType")));
 				ejInfo.setBillingAmt(result.getString(result.findColumn("BillingAmt")));
-				ejInfo.setBusinessDateTimeStart(result.getString(result.findColumn("BusinessDateTimeStart")));
+				ejInfo.setBusinessDateTime(result.getString(result.findColumn("BusinessDateTimeStart")));
 				ejInfo.setSequenceNumber(result.getString(result.findColumn("SequenceNumber")));
 				ejInfo.setWorkstationId(result.getString(result.findColumn("WorkstationId")));
 				listEjInfo.add(ejInfo);
@@ -306,11 +306,11 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
 			if (result.next()) {
 				posLogInfo.setCompanyId(CompanyId);
 				posLogInfo.setRetailStoreId(RetailStoreId);
-				posLogInfo.setBusinessDate(WorkstationId);
+				posLogInfo.setBusinessDate(BusinessDateTime);
 				posLogInfo.setPOSLog(result.getString(result.findColumn("Tx")));
-				posLogInfo.setTrainingFlag(Sequencenumber);
-				posLogInfo.setWorkstationId(BusinessDateTime);
-				posLogInfo.setSequenceNumber(TrainingFlag);
+				posLogInfo.setTrainingFlag(Integer.parseInt(TrainingFlag));
+				posLogInfo.setWorkstationId(WorkstationId);
+				posLogInfo.setSequenceNumber(Sequencenumber);
 			}else{
 				posLogInfo.setNCRWSSExtendedResultCode(ResultBase.RES_POSLOG_NOTFOUND);
 				posLogInfo.setNCRWSSResultCode(ResultBase.RES_POSLOG_NOTFOUND);

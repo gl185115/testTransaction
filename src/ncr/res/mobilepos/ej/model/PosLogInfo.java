@@ -31,7 +31,7 @@ public class PosLogInfo extends ResultBase{
 	private String businessDate;
 
 	@XmlElement(name = "TrainingFlag")
-	private String trainingFlag;
+	private Integer trainingFlag;
 
 	@XmlElement(name = "POSLog")
 	private String posLog;
@@ -76,11 +76,11 @@ public class PosLogInfo extends ResultBase{
         this.businessDate = businessDate;
     }
 
-    public String getTrainingFlag() {
+    public Integer getTrainingFlag() {
         return trainingFlag;
     }
 
-    public void setTrainingFlag(String trainingFlag) {
+    public void setTrainingFlag(Integer trainingFlag) {
         this.trainingFlag = trainingFlag;
     }
 

@@ -11395,7 +11395,7 @@ ORDER BY empinfo.EmpCode;
           tr.WorkstationId,
           tr.SequenceNumber,
           tr.BillingAmt,
-          tr.BusinessDateTimeStart
+          CONVERT(VARCHAR(19),tr.BusinessDateTimeStart,120) BusinessDateTimeStart
         FROM
           RESTransaction.dbo.TXL_TRAN AS tr
            LEFT JOIN

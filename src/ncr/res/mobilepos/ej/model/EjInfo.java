@@ -35,8 +35,8 @@ public class EjInfo {
     @XmlElement(name = "BillingAmt")
     private String billingAmt;
 
-    @XmlElement(name = "BusinessDateTimeStart")
-    private String businessDateTimeStart;
+    @XmlElement(name = "BusinessDateTime")
+    private String businessDateTime;
 
     public String getCompanyId() {
         return companyId;
@@ -94,12 +94,12 @@ public class EjInfo {
         this.billingAmt = billingAmt;
     }
 
-    public String getBusinessDateTimeStart() {
-        return businessDateTimeStart;
+    public String getBusinessDateTime() {
+        return businessDateTime;
     }
 
-    public void setBusinessDateTimeStart(String businessDateTimeStart) {
-        this.businessDateTimeStart = businessDateTimeStart;
+    public void setBusinessDateTime(String businessDateTime) {
+        this.businessDateTime = businessDateTime;
     }
 
     public String getNameCategory() {

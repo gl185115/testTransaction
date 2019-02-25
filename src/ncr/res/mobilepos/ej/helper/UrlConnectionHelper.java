@@ -85,10 +85,6 @@ public class UrlConnectionHelper {
                 strbReturn.append(strReadLine.trim());
             }
             result = new JSONObject(strbReturn.toString());
-        } else if(intConnectionStatus == HttpURLConnection.HTTP_UNAUTHORIZED){
-        	// BASICîFèÿÉGÉâÅ[ÇÃèÍçá
-        	result = new JSONObject();
-        	result.put("ConnectionStatus", HttpURLConnection.HTTP_UNAUTHORIZED);
         }
         return result;
     }

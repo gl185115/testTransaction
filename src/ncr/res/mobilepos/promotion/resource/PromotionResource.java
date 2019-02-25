@@ -1677,13 +1677,6 @@ public class PromotionResource {
             if (result != null) {
 				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
 					saleMdName = (Sale) jsonToMdName(result.getJSONObject("transaction").getJSONObject("sale"));
-				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failedÅB\n");
-					saleMdName = new Sale();
-					saleMdName.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					saleMdName.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					saleMdName.setMessage("BASIC Authentication failed");
-					return saleMdName;
 				}
 			}
         } catch (Exception e) {
@@ -1748,13 +1741,6 @@ public class PromotionResource {
 			if (result != null) {
 				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
 					departmentInfo = (ViewDepartment) jsonToDeparment(result.getJSONObject("department"));
-				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failedÅB\n");
-					departmentInfo = new ViewDepartment();
-					departmentInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					departmentInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					departmentInfo.setMessage("BASIC Authentication failed");
-					return departmentInfo;
 				}
 			}
 		} catch (Exception e) {
@@ -1823,12 +1809,6 @@ public class PromotionResource {
 			if (result != null) {
 				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
 					sale = (Sale) jsonToItem(result.getJSONObject("transaction").getJSONObject("sale"));
-				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failedÅB\n");
-					sale = new Sale();
-					sale.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					sale.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					return sale;
 				}
 			}
 		} catch (Exception e) {

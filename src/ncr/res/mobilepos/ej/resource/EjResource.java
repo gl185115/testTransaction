@@ -1,6 +1,5 @@
 package ncr.res.mobilepos.ej.resource;
 
-import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
@@ -267,21 +266,18 @@ public class EjResource {
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
 			// Check if error is empty.
 			if (result != null) {
-				if (result.has("ncrwssresultCode")) {
-					if (result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
-						ejInfos = (EjInfos)jsonToEjInfos(result.getJSONArray("ejList"));
-					} else {
-						ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_EJINFOS_NOTFOUND);
-						ejInfos.setNCRWSSResultCode(ResultBase.RES_EJINFOS_NOTFOUND);
-						ejInfos.setMessage("E/J list info search error");
-					}
-				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
-					ejInfos.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					ejInfos.setMessage("BASIC Authentication failed");
-					return ejInfos;
+				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+					ejInfos = (EjInfos)jsonToEjInfos(result.getJSONArray("ejList"));
+				} else {
+					ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_EJINFOS_NOTFOUND);
+					ejInfos.setNCRWSSResultCode(ResultBase.RES_EJINFOS_NOTFOUND);
+					ejInfos.setMessage("E/J list info search error");
 				}
+			} else {
+				//MeX Enterpriseがオフラインの場合
+				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
+						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId,
+						SalesPersonId, TrainingFlag, MaxNumber);
 			}
 		} catch (Exception e) {
 			if (e instanceof SocketException || e instanceof SocketTimeoutException) {
@@ -324,6 +320,7 @@ public class EjResource {
 				.println("sequencenumber", sequencenumber).println("businessDate", businessDate)
 				.println("trainingFlag", trainingFlag);
 		JSONObject result = null;
+		INameSystemInfoDAO dao = null;
 		PosLogInfo posLogInfo = new PosLogInfo();
 		try {
 			JSONObject valueResult = new JSONObject();
@@ -357,23 +354,26 @@ public class EjResource {
 			
 			// Check if error is empty.
 			if (result != null) {
-				if (result.has("ncrwssresultCode")) {
-					if (result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
-						posLogInfo = jsonToPosLogInfo(result);
-					} else {
-						posLogInfo.setNCRWSSResultCode(ResultBase.RES_POSLOG_NOTFOUND);
-						posLogInfo.setNCRWSSExtendedResultCode(ResultBase.RES_POSLOG_NOTFOUND);
-						posLogInfo.setMessage("PosLog info search failed");
-					}
-				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
-					posLogInfo.setNCRWSSResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					posLogInfo.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_UNKNOWNHOST);
-					posLogInfo.setMessage("BASIC Authentication failed");
-					return posLogInfo;
+				if (result.has("ncrwssresultCode") && result.getInt("ncrwssresultCode") == ResultBase.RES_OK) {
+					posLogInfo = jsonToPosLogInfo(result);
+				} else {
+					posLogInfo.setNCRWSSResultCode(ResultBase.RES_POSLOG_NOTFOUND);
+					posLogInfo.setNCRWSSExtendedResultCode(ResultBase.RES_POSLOG_NOTFOUND);
+					posLogInfo.setMessage("PosLog info search failed");
 				}
+			} else {
+				//MeX Enterpriseがオフラインの場合
+				dao = new SQLServerNameSystemInfoDAO();
+				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
 			}
 		} catch (Exception e) {
+			if (e instanceof SocketException || e instanceof SocketTimeoutException) {
+				//MeX Enterpriseがオフラインの場合
+				dao = new SQLServerNameSystemInfoDAO();
+				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
+				return posLogInfo;
+			}
+			
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote POSLog.",e);
 			if (e instanceof JSONException) {
 				throw new JSONException(e);

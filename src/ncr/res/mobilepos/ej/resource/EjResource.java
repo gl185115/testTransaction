@@ -432,7 +432,7 @@ public class EjResource {
 		posLogInfo.setCompanyId(StringUtility.convNullStringToNull(json.getString("companyId")));
 		posLogInfo.setRetailStoreId(StringUtility.convNullStringToNull(json.getString("retailStoreId")));
 		posLogInfo.setBusinessDate(StringUtility.convNullStringToNull(json.getString("workstationId")));
-		posLogInfo.setPOSLog(StringUtility.convNullStringToNull(json.getString("tx")));
+		posLogInfo.setPOSLog(StringUtility.convNullStringToNull(json.getString("poslog")));
 		posLogInfo.setTrainingFlag(StringUtility.convNullStringToNull(json.getString("trainingFlag")));
 		posLogInfo.setWorkstationId(StringUtility.convNullStringToNull(json.getString("workstationId")));
 		posLogInfo.setSequenceNumber(StringUtility.convNullStringToNull(json.getString("sequenceNumber")));

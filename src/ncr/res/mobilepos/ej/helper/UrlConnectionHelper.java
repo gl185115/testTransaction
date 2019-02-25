@@ -66,7 +66,7 @@ public class UrlConnectionHelper {
         String basicAuth = "Basic " + Base64.getEncoder().encodeToString(userpass.getBytes());
         conn.setRequestProperty ("Authorization", basicAuth);
         conn.setSSLSocketFactory(sc.getSocketFactory());
-        conn.setConnectTimeout(timeOut * 10);
+        conn.setConnectTimeout(timeOut * 1000);
         conn.setReadTimeout(timeOut * 1000);
         conn.setAllowUserInteraction(true);
         conn.setUseCaches(false);

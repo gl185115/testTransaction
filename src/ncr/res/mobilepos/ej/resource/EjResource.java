@@ -62,8 +62,11 @@ public class EjResource {
 
     private List<EjInfo> listNameSystemInfo = null;
 
-    private static final String Category = "JournalSearch";
-    private static final String KeyId = "TxTypeNameCategory";
+    private static final String Category_TxType = "JournalSearch";
+    private static final String KeyId_TxType = "TxTypeNameCategory";
+
+    private static final String Category_Limit = "Search";
+    private static final String KeyId_Limit = "Limit";
 
     /**
      * Default Constructor for EjResource.
@@ -90,8 +93,9 @@ public class EjResource {
      * @param BusinessDateTimeTo
      * @param OperatorId
      * @param SalesPersonId
+     * @param CountFrom
+     * @param CountTo
      * @param TrainingFlag
-     * @param MaxNumber
      *
      * @return List<EjInfo>
      */
@@ -116,26 +120,27 @@ public class EjResource {
 			@ApiParam(name = "BusinessDateTimeTo", value = "業務日付と時刻の上限") @FormParam("BusinessDateTimeTo") final String BusinessDateTimeTo,
 			@ApiParam(name = "OperatorId", value = "担当者コード") @FormParam("OperatorId") final String OperatorId,
 			@ApiParam(name = "SalesPersonId", value = "販売員") @FormParam("SalesPersonId") final String SalesPersonId,
-			@ApiParam(name = "TrainingFlag", value = "トレーニングフラグ ") @FormParam("TrainingFlag") final String TrainingFlag,
-			@ApiParam(name = "MaxNumber", value = "最大表示件数") @FormParam("MaxNumber") final String MaxNumber) {
+			@ApiParam(name = "CountFrom", value = "表示リスト開始カウント番号") @FormParam("CountFrom") final String CountFrom,
+			@ApiParam(name = "CountTo", value = "表示リスト終了カウント番号") @FormParam("CountTo") final String CountTo,
+			@ApiParam(name = "TrainingFlag", value = "トレーニングフラグ ") @FormParam("TrainingFlag") final String TrainingFlag) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
 				.println("WorkstationId", WorkstationId).println("TxType", TxType)
 				.println("SequencenumberFrom", SequencenumberFrom).println("SequencenumberTo", SequencenumberTo)
 				.println("BusinessDateTimeFrom", BusinessDateTimeFrom).println("BusinessDateTimeTo", BusinessDateTimeTo)
-				.println("OperatorId", OperatorId).println("SalesPersonId", SalesPersonId)
-				.println("TrainingFlag", TrainingFlag).println("MaxNumber", MaxNumber);
+				.println("OperatorId", OperatorId).println("SalesPersonId", SalesPersonId).println("CountFrom", CountFrom)
+				.println("CountTo", CountTo).println("TrainingFlag", TrainingFlag);
 		EjInfos ejInfos = new EjInfos();
 		WindowsEnvironmentVariables windowsEnvironmentVariables = WindowsEnvironmentVariables.getInstance();
 		try {
 			if (windowsEnvironmentVariables.isServerTypeEnterprise()) {
 				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
-						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId,
-						SalesPersonId, TrainingFlag, MaxNumber);
+						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo,
+						OperatorId, SalesPersonId, TrainingFlag);
 			} else {
-				ejInfos = getSubEjInfo(CompanyId, RetailstoreId, WorkstationId, TxType, SequencenumberFrom,
-						SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId, SalesPersonId,
-						TrainingFlag, MaxNumber);
+				ejInfos = getSubEjInfo(CompanyId, RetailstoreId, WorkstationId, TxType,
+						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo,
+						OperatorId, SalesPersonId, TrainingFlag);
 			}
 		} catch (Exception ex) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to get list E/J info.", ex);
@@ -212,23 +217,25 @@ public class EjResource {
      * @param SequencenumberTo
      * @param BusinessDateTimeFrom
      * @param BusinessDateTimeTo
+	 * @param CountFrom
+     * @param CountTo
      * @param OperatorId
      * @param SalesPersonId
      * @param TrainingFlag
-     * @param MaxNumber
+     *
 	 * @return EjInfos
 	 *
 	 * @throws Exception
 	 */
     private final EjInfos getSubEjInfo(String CompanyId,String RetailstoreId,String WorkstationId,String TxType,String SequencenumberFrom,String SequencenumberTo,
-    		String BusinessDateTimeFrom,String BusinessDateTimeTo,String OperatorId,String SalesPersonId,String TrainingFlag,String MaxNumber) throws Exception{
+    		String BusinessDateTimeFrom,String BusinessDateTimeTo,String CountFrom, String CountTo, String OperatorId,String SalesPersonId,String TrainingFlag) throws Exception{
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("companyid", CompanyId).println("retailstoreid", RetailstoreId)
 				.println("workstationid", WorkstationId).println("txtype", TxType)
 				.println("SequencenumberFrom", SequencenumberFrom).println("SequencenumberTo", SequencenumberTo)
 				.println("BusinessDateTimeFrom", BusinessDateTimeFrom).println("BusinessDateTimeTo", BusinessDateTimeTo)
-				.println("OperatorId", OperatorId).println("SalesPersonId", SalesPersonId)
-				.println("TrainingFlag", TrainingFlag).println("MaxNumber", MaxNumber);
+				.println("CountFrom", CountFrom).println("CountTo", CountTo).println("OperatorId", OperatorId)
+				.println("SalesPersonId", SalesPersonId).println("TrainingFlag", TrainingFlag);
 		JSONObject result = null;
 		EjInfos ejInfos = new EjInfos();
 		try {
@@ -241,10 +248,11 @@ public class EjResource {
 			valueResult.put("sequencenumberTo", SequencenumberTo);
 			valueResult.put("businessDateTimeFrom", BusinessDateTimeFrom);
 			valueResult.put("businessDateTimeTo", BusinessDateTimeTo);
+			valueResult.put("countFrom", CountFrom);
+			valueResult.put("countTo", CountTo);
 			valueResult.put("operatorId", OperatorId);
 			valueResult.put("salesPersonId", SalesPersonId);
 			valueResult.put("trainingFlag", TrainingFlag);
-			valueResult.put("maxNumber", MaxNumber);
 			int timeOut = 5;
 			String enterpriseServerTimeout = GlobalConstant.getEnterpriseServerTimeout();
 			if (StringUtility.isNullOrEmpty(enterpriseServerTimeout)) {
@@ -279,21 +287,21 @@ public class EjResource {
 					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
 					//MeX Enterpriseがオフラインの場合
 					ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
-							SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId,
-							SalesPersonId, TrainingFlag, MaxNumber);
+							SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
+							SalesPersonId, TrainingFlag);
 				}
 			} else {
 				//MeX Enterpriseがオフラインの場合
 				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
-						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId,
-						SalesPersonId, TrainingFlag, MaxNumber);
+						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
+						SalesPersonId, TrainingFlag);
 			}
 		} catch (Exception e) {
 			if (e instanceof SocketException || e instanceof SocketTimeoutException) {
 				//MeX Enterpriseがオフラインの場合
 				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
-						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, OperatorId,
-						SalesPersonId, TrainingFlag, MaxNumber);
+						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
+						SalesPersonId, TrainingFlag);
 				return ejInfos;
 			}
 			
@@ -494,20 +502,25 @@ public class EjResource {
      * @param businessDateTimeTo
      * @param operatorId
      * @param salesPersonId
+     * @param CountFrom
+     * @param CountTo
      * @param trainingFlag
-     * @param maxNumber
      *
 	 * @return EjInfos
 	 *
 	 * The exception thrown when searching failed.
 	 */
 	public EjInfos getEjInfoByTaxType(String companyId, String retailstoreId, String workstationId, String txType, String sequencenumberFrom,
-			String sequencenumberTo, String businessDateTimeFrom, String businessDateTimeTo, String operatorId, String salesPersonId, String trainingFlag,
-			String maxNumber) throws Exception{
+			String sequencenumberTo, String businessDateTimeFrom, String businessDateTimeTo, String countFrom, String countTo, String operatorId,
+			 String salesPersonId, String trainingFlag ) throws Exception{
 		String functionName = DebugLogger.getCurrentMethodName();
 		String NameCategory = null;
+		int SearchFrom = 1;
+		int SearchTo = 1;
 		EjInfos ejInfos = new EjInfos();
 		List<EjInfo> listEjInfo = new ArrayList<EjInfo>();
+		List<EjInfo> listEjInfos = new ArrayList<EjInfo>();
+		List<EjInfo> listEjInfoLimit = new ArrayList<EjInfo>();
 		List<EjInfo> listNameSystemInfos = new ArrayList<EjInfo>();
 		String commonStoreId = retailstoreId;
 		if (listNameSystemInfo.isEmpty()) {
@@ -522,10 +535,16 @@ public class EjResource {
 		Iterator<EjInfo> iterator = null;
 
 		// get NameCategory
-		NameCategory = dao.getNameCategory(Category, KeyId);
+		NameCategory = dao.getNameCategory(Category_TxType, KeyId_TxType);
 		if (StringUtility.isNullOrEmpty(NameCategory)) {
 			NameCategory = "0061";
 		}
+
+		// get SearchLimit
+		if (!StringUtility.isNullOrEmpty(countFrom)){
+			SearchFrom = Integer.parseInt(countFrom);
+		}
+
 		for(int count = 0; count < 2; count++){
 			iterator = listNameSystemInfo.iterator();
 			while (iterator.hasNext()) {
@@ -548,29 +567,37 @@ public class EjResource {
 			ejInfos.setMessage("Matched E/J list info search error");
 			return ejInfos;
 		} else {
-			EjInfo ejInfo1 =null;
-			listEjInfo = dao.getEjInfo(companyId, retailstoreId, workstationId, txType, sequencenumberFrom,
-					sequencenumberTo, businessDateTimeFrom, businessDateTimeTo, operatorId, salesPersonId,
-					trainingFlag, maxNumber);
+			EjInfo ejInfo1 = null;
+			listEjInfo = dao.getEjInfo(companyId, retailstoreId, workstationId, txType, sequencenumberFrom,sequencenumberTo,
+					businessDateTimeFrom, businessDateTimeTo, operatorId, salesPersonId, trainingFlag);
 			iterator = listEjInfo.iterator();
 			while (iterator.hasNext()){
 				ejInfo1 = iterator.next();
 				for (EjInfo ejInfo2 : listNameSystemInfos) {
 					if (ejInfo1.getTxType().equals(ejInfo2.getTxType())) {
 						ejInfo1.setTxTypeName(ejInfo2.getTxTypeName());
+						listEjInfos.add(ejInfo1);
 					}
 				}
 			}
-			iterator = listEjInfo.iterator();
-			while (iterator.hasNext()){
-				ejInfo1 = iterator.next();
-				if(ejInfo1.getTxTypeName() == null){
-					iterator.remove();
+			if (!listEjInfos.isEmpty()) {
+				if (StringUtility.isNullOrEmpty(countTo)) {
+					if (StringUtility.isNullOrEmpty(dao.getNameCategory(Category_Limit, KeyId_Limit))) {
+						SearchTo = listEjInfos.size();
+					} else {
+						SearchTo = Integer.parseInt(dao.getNameCategory(Category_Limit, KeyId_Limit));
+					}
+				} else {
+					SearchTo = Integer.parseInt(countTo);
 				}
-			}
-			if (!listEjInfo.isEmpty()) {
-				ejInfos.setEjList(listEjInfo);
-			} else {
+				if (SearchFrom > 0 && SearchFrom <= SearchTo && listEjInfos.size() >= SearchFrom) {
+					int SearchIndex = SearchTo > listEjInfos.size() ? listEjInfos.size() : SearchTo;
+					for (int index = SearchFrom - 1; index < SearchIndex; index++) {
+						listEjInfoLimit.add(listEjInfos.get(index));
+					}
+				}
+				ejInfos.setEjList(listEjInfoLimit);
+			}else {
 				ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_EJINFOS_NOTFOUND);
 				ejInfos.setNCRWSSResultCode(ResultBase.RES_EJINFOS_NOTFOUND);
 				ejInfos.setMessage("E/J list info search error");

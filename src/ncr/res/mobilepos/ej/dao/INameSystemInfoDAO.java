@@ -40,7 +40,6 @@ public interface INameSystemInfoDAO {
 	 * @param OperatorId
 	 * @param SalesPersonId
 	 * @param TrainingFlag
-	 * @param MaxNumber
 	 *
 	 * @return List<EjInfo>
 	 *
@@ -48,8 +47,7 @@ public interface INameSystemInfoDAO {
 	 *             The exception thrown when searching failed.
 	 */
 	List<EjInfo> getEjInfo(String CompanyId, String RetailStoreId, String WorkstationId, String TxType, String SequencenumberFrom, String SequencenumberTo,
-			String BusinessDateTimeFrom, String BusinessDateTimeTo, String OperatorId, String SalesPersonId, String TrainingFlag,String MaxNumber
-			) throws DaoException;
+			String BusinessDateTimeFrom, String BusinessDateTimeTo, String OperatorId, String SalesPersonId, String TrainingFlag) throws DaoException;
 
 	/**
 	 * Get PosLog Info

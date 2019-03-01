@@ -11374,8 +11374,7 @@ ORDER BY empinfo.EmpCode;
         @businessDateTimeTo VARCHAR(32),
         @operatorId varchar(20),
         @salesPersonId varchar(10),
-        @trainingFlag NUMERIC(1,0),
-        @maxNumber int
+        @trainingFlag NUMERIC(1,0)
 
       SET @companyId =LTRIM(RTRIM(?))
       SET @storeId = LTRIM(RTRIM(?))
@@ -11388,9 +11387,8 @@ ORDER BY empinfo.EmpCode;
       SET @OperatorId = LTRIM(RTRIM(?))
       SET @SalesPersonId = LTRIM(RTRIM(?))
       SET @TrainingFlag = ?
-      SET @MaxNumber = ?
 
-        SELECT DISTINCT TOP(@maxNumber)
+        SELECT DISTINCT
           tr.TxType,
           tr.WorkstationId,
           tr.SequenceNumber,

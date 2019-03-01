@@ -69,7 +69,6 @@ public class EnterpriseEjInfoResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@ApiOperation(value="E/JèÓïÒéÊìæ", response=Void.class)
 	public final EjInfos ejInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
-		String functionName = DebugLogger.getCurrentMethodName();
 		String companyId = request.getParameter("companyId");
 		String retailstoreId = request.getParameter("retailStoreId");
 		String workstationId = request.getParameter("workstationId");
@@ -78,20 +77,21 @@ public class EnterpriseEjInfoResource {
 		String sequencenumberTo = request.getParameter("sequencenumberTo");
 		String businessDateTimeFrom = request.getParameter("businessDateTimeFrom");
 		String businessDateTimeTo = request.getParameter("businessDateTimeTo");
+		String countFrom = request.getParameter("countFrom");
+		String countTo = request.getParameter("countTo");
 		String operatorId = request.getParameter("operatorId");
 		String salesPersonId = request.getParameter("salesPersonId");
 		String trainingFlag = request.getParameter("trainingFlag");
-		String maxNumber = request.getParameter("maxNumber");
 
 		EjInfos ejInfos = new EjInfos();
 		if (StringUtility.isNullOrEmpty(companyId, retailstoreId, workstationId, txType, sequencenumberFrom, sequencenumberTo,
-				businessDateTimeFrom, businessDateTimeTo, operatorId, salesPersonId, trainingFlag, maxNumber)) {
+				businessDateTimeFrom, businessDateTimeTo, countFrom, countTo, operatorId, salesPersonId, trainingFlag)) {
 			tp.println("Parameter[s] is empty or null.");
 		}
 		try {
 			EjResource ejResource = new EjResource();
 			ejInfos = ejResource.getEjInfoByTaxType(companyId, retailstoreId, workstationId, txType, sequencenumberFrom, sequencenumberTo,
-					businessDateTimeFrom, businessDateTimeTo, operatorId, salesPersonId, trainingFlag, maxNumber);
+					businessDateTimeFrom, businessDateTimeTo, countFrom, countTo, operatorId, salesPersonId, trainingFlag);
 		
 			OutputStream out = response.getOutputStream();
 			if(ejInfos != null){

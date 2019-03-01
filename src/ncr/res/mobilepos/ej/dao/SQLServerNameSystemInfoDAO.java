@@ -184,7 +184,6 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
      * @param OperatorId
      * @param SalesPersonId
      * @param TrainingFlag
-     * @param MaxNumber
      *
 	 * @return List<EjInfo>
 	 * @throws DaoException
@@ -193,8 +192,7 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
 	 */
     @Override
     public List<EjInfo> getEjInfo(String CompanyId,String RetailStoreId,String WorkstationId,String TxType,String SequencenumberFrom,String SequencenumberTo,
-    		String BusinessDateTimeFrom,String BusinessDateTimeTo,String OperatorId,String SalesPersonId, String TrainingFlag, String MaxNumber
-    		) throws DaoException {
+    		String BusinessDateTimeFrom,String BusinessDateTimeTo,String OperatorId,String SalesPersonId, String TrainingFlag) throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		Connection connection = null;
 		PreparedStatement select = null;
@@ -235,7 +233,6 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
 			select.setString(SQLStatement.PARAM9, OperatorId);
 			select.setString(SQLStatement.PARAM10, SalesPersonId);
 			select.setString(SQLStatement.PARAM11, TrainingFlag);
-			select.setString(SQLStatement.PARAM12, MaxNumber);
 
 			result = select.executeQuery();
 			while (result.next()) {

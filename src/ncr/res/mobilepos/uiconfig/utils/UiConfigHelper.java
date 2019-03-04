@@ -216,6 +216,7 @@ public class UiConfigHelper {
         EOptions eOptions = new EOptions();
         EUsability eUsability = new EUsability();
         ENotices eNotices = new ENotices();
+        EReceipt eReceipt = new EReceipt();
         DeployApplied dApplied = new DeployApplied();
         List<DeployApplied> dAppliedList = new ArrayList<>();
         DeployStoreID dStoreID = new DeployStoreID();
@@ -264,6 +265,11 @@ public class UiConfigHelper {
                 eNotices = new ENotices();
                 eNotices.setDeployAppliedList(dAppliedList);
                 dEffective.setNotices(eNotices);
+                break;
+            case "receipt":
+                eReceipt = new EReceipt();
+                eReceipt.setDeployAppliedList(dAppliedList);
+                dEffective.setReceipt(eReceipt);
                 break;
             default:
                 break;
@@ -376,6 +382,17 @@ public class UiConfigHelper {
                             // LOG.debug(logInfo.toString());
                             return deployStatus;
                         }
+                    case "receipt":
+                        EReceipt er = dc.getDeployEffective().getReceipt();
+                        if (er != null) {
+                            daList = er.getDeployAppliedList();
+                            break;
+                        } else {
+                            deployStatus.getDeployConfig().get(i).
+                                    getDeployEffective().setReceipt(eReceipt);
+                            // LOG.debug(logInfo.toString());
+                            return deployStatus;
+                        }
                     default:
                         break;
                 }
@@ -424,6 +441,11 @@ public class UiConfigHelper {
                                 // LOG.debug(logInfo.toString());
                                 return deployStatus;
                             case "notices":
+                                deployStatus.getDeployConfig().get(i).getDeployEffective()
+                                        .getNotices().getDeployAppliedList().add(dApplied);
+                                // LOG.debug(logInfo.toString());
+                                return deployStatus;
+                            case "receipt":
                                 deployStatus.getDeployConfig().get(i).getDeployEffective()
                                         .getNotices().getDeployAppliedList().add(dApplied);
                                 // LOG.debug(logInfo.toString());

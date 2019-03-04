@@ -41,6 +41,7 @@ public class StaticParameter {
 	public static File dir_pickList = null;
 	public static File dir_schedule = null;
 	public static File dir_usability = null;
+	public static File dir_receipt = null;
 	public static File dir_log = null;
 	public static File dir_logs = null;
 
@@ -119,6 +120,7 @@ public class StaticParameter {
 	public static final String key_pickList = RESConfigEnum.DIR_PICKLIST.getValue();
 	public static final String key_schedule = RESConfigEnum.DIR_SCHEDULE.getValue();
 	public static final String key_usability = RESConfigEnum.DIR_USABILITY.getValue();
+	public static final String key_receipt = RESConfigEnum.DIR_RECEIPT.getValue();
 	public static final String key_log = RESConfigEnum.DIR_LOG.getValue();
 	public static final String key_logs = RESConfigEnum.DIR_LOGS.getValue();
 	public static final String key_all = "all";

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<schedule>
+  <deploy>
+    <company>
+      <id>01</id>
+      <name>ABC</name>
+    </company>
+    <config>
+      <resource>receipt</resource>
+        <task>
+          <target>
+            <store>All</store>
+            <workstation>All</workstation>
+          </target>
+          <effective>2010-11-01T11:03</effective>
+          <filename>base.compiled.ejs</filename>
+        </task>
+    </config>
+  </deploy>
+</schedule>
+

@@ -165,6 +165,23 @@ public class Requirements {
     }
 
     /**
+     * Setting up initial context.
+     */
+    public static void SetUpLocalUiConfig() {
+        try {
+            initContext.unbind("java:comp/env/customMaintenanceBasePath");
+            initContext.unbind("java:comp/env/customResourceBasePath");
+            initContext.unbind("java:comp/env/scheduleFilePath");
+            initContext.bind("java:comp/env/customMaintenanceBasePath", "test/resources/custom/");
+            initContext.bind("java:comp/env/customResourceBasePath", "test/resources/custom/");
+            initContext.bind("java:comp/env/scheduleFilePath","/schedule.xml");
+        } catch (NamingException e) {
+            Assert.fail("Cannot set local uiconfig paths");
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Tear down initial context and mock servlet context.
      */
     public static void TearDown() {

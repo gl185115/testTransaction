@@ -8,6 +8,7 @@ public enum UiConfigType {
     NOTICE("notice"),
     USABILITY("usability"),
     ADVERTISES("advertise"),
+    RECEIPT("receipt"),
     UNKNOWN("");
 
     private final String key;
@@ -44,6 +45,7 @@ public enum UiConfigType {
     private static final String API_PHRASES = "phrases";
     private static final String API_PICKLIST = "picklist";
     private static final String API_ADVERTISES = "advertise";
+    private static final String API_RECEIPT = "receipt";
 
     /**
      * @param typeParam
@@ -66,6 +68,9 @@ public enum UiConfigType {
                 break;
             case API_ADVERTISES:
                 configType = UiConfigType.ADVERTISES;
+                break;
+            case API_RECEIPT:
+                configType = UiConfigType.RECEIPT;
                 break;
             default:
                 configType = UiConfigType.UNKNOWN;

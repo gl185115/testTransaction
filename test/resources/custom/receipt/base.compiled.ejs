@@ -1,0 +1,821 @@
+<%
+/**
+ * @name Common/Footer
+ */ %><%= %>
+<%= Left(tran.ads.Bottom1Message); %>
+<%= Left(tran.ads.Bottom2Message); %>
+<%= Left(tran.ads.Bottom3Message); %>
+<%= Left(tran.ads.Bottom4Message); %>
+<%= Left(tran.ads.Bottom5Message); %>
+<%= %>
+<%= Section([GetPhrase("Receipt.Footer.SequenceNo"),tran.RetailStoreID+"/"+tran.WorkstationID['#text']],[{style:"Left",marginLeft:"1"},{style:"Right"}]); %>
+<%= Section([tran.SequenceNumber,DateTime(tran.BusinessDayDate,{format:"HH:MM"}),DateTime(tran.BusinessDayDate,{format:"yyyy/mm/dd"})],[{style:"Left",marginLeft:"3"},{style:"Center"},{style:"Right"}]); %>
+<%= %>
+<%= Barcode(tran.OrganizationHierarchy['-ID']+tran.RetailStoreID+tran.WorkstationID['#text']+DateTime(tran.BusinessDayDate,{format:"yymmdd"})+tran.SequenceNumber,{station:"Receipt",symbology:"Interleaved"}); %><%
+if(ValueAt(tran.RetailTransaction.LineItem,{path:"$.[?(@.Tax)].[?(@.TaxAuthority === 'StampDuty')]"})){ %>
+<%= Bitmap(config.inshiFileName(),{}) %><%
+} %><%
+if(tran.RetailTransaction.QRPromotionInfo && tran.RetailTransaction.QRPromotionInfo.QRPromotion){ %>
+<%= Table(tran.RetailTransaction.QRPromotionInfo.QRPromotion instanceof Array ? tran.RetailTransaction.QRPromotionInfo.QRPromotion : [tran.RetailTransaction.QRPromotionInfo.QRPromotion],{noHeader:true,borderLine:false,columns:[{text:"",path:"QRBmpFileName",cell:"ItemPromotionQR"}]}) %><%
+} %>
+<%
+/**
+ * @name Common/Header
+ */ %><%= PRINTLOGOBITMAP; %>
+<%= Center(Bold(DoubleSize(GetPhrase("Receipt.Header.Title")))); %>
+<%= %>
+<%= Section([GetPhrase("Receipt.Header.Store"),tran.BusinessUnit['-Name']],[{style:"Right",width:"16"},{style:"Left"}]); %>
+<%= Section([GetPhrase("Receipt.Header.Tel"),tran.BusinessUnit.Telephone.FullTelephoneNumber],[{style:"Right",width:"16"},{style:"Left"}]); %>
+<%= tran.ads.Top1Message; %>
+<%= tran.ads.Top2Message; %>
+<%= tran.ads.Top3Message; %>
+<%= tran.ads.Top4Message; %>
+<%= tran.ads.Top5Message; %>
+<%= %>
+<%= Section([GetPhrase("Receipt.Header.Operator"),ValueAt(tran.OperatorID,{path:"-OperatorNameKana"})],[{style:"Right",width:"8"},{style:"Left"}]); %><%
+if(tran.RetailTransaction.Associate.AssociateKanaName){ %>
+<%= Section([GetPhrase("Receipt.Header.SalesPerson"),tran.RetailTransaction.Associate.AssociateKanaName],[{style:"Right",width:"8"},{style:"Left"}]) %><%
+} %>
+<%= %>
+<%
+/**
+ * @name Common/ItemFormat
+ */ %><%= Left(arg.Description); %>
+<%= Section([arg["-Department"],arg.ItemID["#text"],arg.Quantity+GetPhrase("Receipt.ItemList.Units"),arg.ExtendedAmount],[{style:"Right",width:"6"},{style:"Left",width:"14",marginLeft:"1"},{style:"Right",width:"5"},{style:"Currency|Right"}]); %><%
+if(arg.Quantity !== 1){ %>
+<%= Section(["( @",arg.ActualSalesUnitPrice,"X",arg.Quantity+GetPhrase("Receipt.ItemList.Units"),")"],[{style:"Right",width:"6"},{style:"Currency|Right",width:"10"},{width:"3"},{style:"Left",width:"5"},{style:"Left",width:"2",marginLeft:"1"}]) %><%
+} %>
+<%
+/**
+ * @name Common/ItemLine
+ */ %><%= Table(Filter(tran.RetailTransaction.LineItem,{key:"Sale"}),{noHeader:true,borderLine:false,columns:[{text:"",path:"Sale",cell:"ItemFormat"}]}); %>
+<%
+/**
+ * @name Common/ItemPromotionQR
+ */ %><%= Bitmap(config.qrFilePath() + arg,{}); %>
+<%= %>
+<%
+/**
+ * @name Common/TenderLine
+ */ %><%= Section([GetPhrase("Receipt.TotalLine.TaxIncludeAmount"),Total(tran.RetailTransaction.LineItem,{key:"$..Tax.Percent"})+"%",Total(tran.RetailTransaction.LineItem,{key:"$..Tax[?(@['-TaxType'] == 'VAT')].Amount"}),")"],[{style:"Right",width:"15"},{style:"Right",width:"7"},{style:"Currency|Right",width:"17"},{}]); %>
+<%= Section([GetPhrase("Receipt.TenderList.Cash1"),ValueAt(tran.RetailTransaction.LineItem,{path:"$.[Tender].Amount"})],[{style:"Right",width:"6"},{style:"Currency|Right"}]); %><%
+if(ValueAt(tran.RetailTransaction.LineItem,{path:"$.[Tender].TenderChange.Amount"}) !== undefined){ %>
+<%= Section([GetPhrase("Receipt.TenderList.Change"),ValueAt(tran.RetailTransaction.LineItem,{path:"$.[Tender].TenderChange.Amount"})],[{style:"Left",marginLeft:"1"},{style:"Right|Currency|TwoByteText|DoubleHeight|Bold"}]) %><%
+} %>
+<%
+/**
+ * @name Common/TotalLine
+ */ %><%= %>
+<%= Section([Total(tran.RetailTransaction.LineItem,{key:"$..Sale.Quantity"})+GetPhrase("Receipt.TotalLine.Units"),GetPhrase("Receipt.TotalLine.Subtotal"),Total(tran.RetailTransaction.LineItem,{key:"$..Sale.ExtendedAmount"})],[{style:"Right",width:"12",marginLeft:"2"},{style:"Right",width:"10"},{style:"Currency|Right"}]); %><%
+if(( Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '0')].ExtendedAmount"}) - Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '0')].ExtendedDiscountAmount"}) )!== 0){ %>
+<%= Section([GetPhrase("Receipt.TotalLine.Taxabletotal"),Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '0')].ExtendedAmount"}) - Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '0')].ExtendedDiscountAmount"})],[{style:"Left",marginLeft:"2"},{style:"Right|Currency"}]) %><%
+} %><%
+if(( Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '1')].ExtendedAmount"}) - Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '1')].ExtendedDiscountAmount"}) )!== 0){ %>
+<%= Section([GetPhrase("Receipt.TotalLine.inTaxtotal"),Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '1')].ExtendedAmount"}) - Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '1')].ExtendedDiscountAmount"})],[{style:"Left",marginLeft:"2"},{style:"Right|Currency"}]) %><%
+} %><%
+if(( Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '2')].ExtendedAmount"}) - Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '2')].ExtendedDiscountAmount"}) )!== 0){ %>
+<%= Section([GetPhrase("Receipt.TotalLine.noTaxabletotal"),Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '2')].ExtendedAmount"}) - Total(tran,{key:"$.RetailTransaction.LineItem[?(@['Sale'])][?(@['-TaxType'] == '2')].ExtendedDiscountAmount"})],[{style:"Left",marginLeft:"2"},{style:"Right|Currency"}]) %><%
+} %>
+<%= Section([GetPhrase("Receipt.TotalLine.Total"),ValueAt(tran.RetailTransaction,{path:"$.[?(@['-TotalType']=='TransactionGrandAmount')][#text]"})],[{style:"Left|Bold|DoubleSize",marginLeft:"2"},{style:"Right|Currency|TwoByteText|Bold|DoubleHeight"}]); %>
+<%
+/**
+ * @name Components/Sales/Sales
+ */ %><%= include("Header",$); %>
+<%= include("ItemLine",$); %>
+<%= include("TotalLine",$); %>
+<%= include("TenderLine",$); %>
+<%= include("Footer",$); %>
+<%= LINEFEED7; %>
+<%= CUT%>
+<%
+/**
+ * @name PrintData
+ */ %><%
+var receipt = include(tran.TransactionType, $);
+if (!receipt) {
+    receipt = $makePrintData(tran, trandData);
+}
+return receipt;
+%>
+<%
+/**
+ * Get the additional length to adjust the printable width 
+ * @name Utility/AdjustLength
+ * @param {string} arg - reference text 
+ */
+var text = arg;
+if (typeof text !== 'string') {
+    if (text === null || typeof text === 'undefined') {
+        text = '';
+    } else {
+        text = '' + text;
+    }
+}
+const JAPANESE_SET = /[^\x00-\xff|\uff61-\uff9f]|[\xa2]|[\xa3]|[\xa7]|[\xa8]|[\xab]|[\xac]|[\xaf]|[\xb0]|[\xb1]|[\xb4]|[\xb5]|[\xb6]|[\xb7]|[\xb8]|[\xbb]|[\xd7]|[\xf7]/ig;
+var cstr = text.split(" ");
+var retLen = 0;
+for (var i = 0; i < cstr.length; i++) {
+    var sub = cstr[i];
+    var indx = sub.search(new RegExp(stylesToExp([DOUBLESIZE, DOUBLEWIDTH])));
+    var fullCharAry = sub.match(JAPANESE_SET) || [];
+    if (indx >= 0 && fullCharAry.length > 0) {
+        retLen += fullCharAry.length * 3;
+    }
+    else if (indx >= 0 && fullCharAry.length == 0) {
+        retLen += sub.replace(new RegExp(stylesToExp([DOUBLEWIDTH, 
+            DOUBLEHEIGHT, 
+            NORMALPRINT, 
+            UNDERLINE, 
+            DOUBLESIZE, 
+            BOLD, 
+            RED]),"g"),"").length;
+    }
+    else if (fullCharAry.length > 0 && indx < 0) {
+        retLen += fullCharAry.length;
+    }
+}
+function stylesToExp(styles){
+    var exps = [];
+    for (var i = 0; i < styles.length; i++) {
+        exps.push(styles[i].replace("|","\\|"))
+    }
+    return exps.join("|");
+}
+return retLen;
+%>
+<%
+/**
+ * Renders Horizontal Bar 
+ * @name Utility/Bar
+ * @param {string} [arg=―] - character
+ * @param {object} [options] - options
+ * @param {number} options.width - width of horizotal bar
+ */
+%><%
+    options.space = arg && arg[0] || "―";
+%><%= Center("", options); %>
+<%
+/**
+ * Print a barcode
+ * @name Utility/Barcode
+ * @param {string} [arg] - data
+ * @param {object} [options] - options
+ * @param {string} [options.station=PRINTER_STATION.RECEIPT] - printer station
+ * @param {string} [symbology=BARCODE_SYMBOLOGY.INTERLEAVED] - barcode type
+ * @param {number} [height=DEFAULT_BARCODE_HEIGHT] - height of the barcode
+ * @param {number} [width=DEFAULT_BARCODE_WIDTH] - width of the barcode
+ * @param {string} [alignment=PRINTER_ALIGNMENT.CENTER] - alignment of the barcode
+ * @param {string} [textPosition=BARCODE_TEXT_POSITION.BELOW] - position of text
+ */
+%><%
+    options.height = Number(options.height) || DEFAULT_BARCODE_HEIGHT;
+    options.width = Number(options.width) || DEFAULT_BARCODE_WIDTH;
+    var str = arg || '';
+    options.station = (options.station || '').toUpperCase();
+    options.symbology = (options.symbology || '').toUpperCase();
+    options.alignment = (options.alignment || '').toUpperCase();
+    options.textPosition = (options.textPosition || '').toUpperCase();
+    var station = PRINTER_STATION[options.station] || PRINTER_STATION.RECEIPT;
+    var symbology = BARCODE_SYMBOLOGY[options.symbology] || BARCODE_SYMBOLOGY.INTERLEAVED;
+    var alignment = PRINTER_ALIGNMENT[options.alignment] || PRINTER_ALIGNMENT.CENTER;
+    var textPosition = BARCODE_TEXT_POSITION[options.textPosition] || BARCODE_TEXT_POSITION.BELOW;
+    var params = [
+        station, 
+        str, 
+        symbology, 
+        options.height,
+        options.width,
+        alignment,
+        textPosition].join(",");
+    return OPOSCOMMAND + 'PrintBarCode(' + params + ')';
+%>
+<%
+/**
+ * Print a bitmap
+ * @name Utility/Bitmap
+ * @param {string} [arg] - file name
+ * @param {object} [options] - options
+ * @param {string} [options.station=PRINTER_STATION.RECEIPT] - printer station
+ * @param {string} [options.printMode=PRINT_MODE.DEFAULT] - print mode, default is one pixel per print dot
+ * @param {string} [options.alignment=PRINTER_ALIGNMENT.CENTER] - alignment of the bitmap
+ */
+%><%
+    var fileName = arg;
+    if (!fileName) {
+        return "";
+    }
+    options.station = (options.station || "").toUpperCase();
+    options.printMode = (options.printMode || "").toUpperCase();
+    options.alignment = (options.alignment || "").toUpperCase();
+    var station = PRINTER_STATION[options.station] || PRINTER_STATION.RECEIPT;
+    var printMode = PRINT_MODE[options.printMode] || PRINT_MODE.DEFAULT;
+    var alignment = PRINTER_ALIGNMENT[options.alignment] || PRINTER_ALIGNMENT.CENTER;
+    var params = [
+        station,  
+        fileName, 
+        printMode,
+        alignment].join(",");
+    return OPOSCOMMAND + 'PrintBitmap(' + params + ')';
+%>
+<% 
+/** 
+ * Render's Text as Bold 
+ * @name Utility/Bold
+ * @param {string} arg - text to be rendered
+ */
+%>
+<%
+    var str = arg || "";
+	return str.replace(/([^\s]+)(\s*)/g, function (match, text, space) { 
+		return BOLD + NormalPrint(text) + space; 
+	});
+%>
+<%
+/**
+ * Render's Text Centered 
+ * @name Utility/Center
+ * @param {string} arg - text to be rendered
+ * @param {object} [options] - options
+ * @param {number} [options.width=PAPER_WIDTH] - Reference width for centering, also length of text generated
+ */
+%><%
+    var str = arg || "";
+    var lineWidth = options.width || PAPER_WIDTH;
+    var strLength = PrintableLength(str);
+    var spaceLength = lineWidth - strLength;
+    var marginLeft = Math.round(spaceLength / 2);
+    var marginRight = spaceLength - marginLeft;
+    options.marginLeft = marginLeft;
+    options.marginRight = marginRight;
+    %><%= Lines(str, options); %><%
+%>
+<%
+/**
+ * Formats number with comma and preppends CURRENCY_SYMBOL from constants.
+ * @name Utility/Currency
+ * @param {string|number} arg - number to be formatted as currency
+ * @param {object} [options] - options
+ * @param {string} [options.symbol] - currency symbol
+ */
+const radix = 10;
+var num = parseFloat(("" + arg) || "0", radix);
+var destStr = num.toString(radix);
+var tmpStr = "";
+var symbol = options.symbol || (options.style.match(/TwoByteText/) ? TWOBYTE_CURRENCY_SYMBOL : CURRENCY_SYMBOL);
+while (destStr !== (tmpStr = destStr.replace(/^([+-]?\d+)(\d\d\d)/, "$1,$2"))) {
+    destStr = tmpStr;
+}
+return (symbol + " " + destStr);
+%>
+<% 
+/** 
+ * Format Date and Time 
+ * @name Utility/DateTime
+ * @param {string} arg - Complete Date Time in text
+ * @param {object} options
+ * @param {string} options.format
+ */
+%>
+<%
+    var dateTime = new Date(arg) || "";
+    return dateTime.format && dateTime.format(options.format) || dateTime.toLocaleDateString("ja-JP");
+%>
+<% 
+/** 
+ * Render's Text as DoubleHeight 
+ * @name Utility/DoubleHeight
+ * @param {string} arg - text to be rendered
+ */
+%>
+<%
+    var str = arg || "";
+    return str.replace(/([^\s]+)(\s*)/g, function (match, text, space) { 
+		return DOUBLEHEIGHT + NormalPrint(text) + space; 
+	});
+%>
+<% 
+/** 
+ * Render's Text as DoubleSize 
+ * @name Utility/DoubleSize
+ * @param {string} arg - text to be rendered
+ */
+%>
+<%
+    var str = arg || "";
+	return str.replace(/([^\s]+)(\s*)/g, function (match, text, space) { 
+		return DOUBLESIZE + NormalPrint(text) + space; 
+	});
+%>
+<% 
+/** 
+ * Render's Text as DoubleWidth 
+ * @name Utility/DoubleWidth
+ * @param {string} arg - text to be rendered
+ */
+%>
+<%
+    var str = arg || "";
+    return str.replace(/([^\s]+)(\s*)/g, function (match, text, space) { 
+		return DOUBLEWIDTH + NormalPrint(text) + space; 
+	});
+%>
+<%
+/**
+ * Filter array using json path 
+ * @name Utility/Filter
+ * @param {any[]} arg - array
+ * @param {object} [options] - options
+ * @param {string} options.key - json path of valid elements
+ */
+%><%
+    var options = options || {};
+    var value = arg;
+    options.path = options.key;
+    value = value.filter((i)=> ValueAt(i, options));
+    return value;
+%>
+<%
+/**
+ * Get Phrase
+ * @name Utility/GetPhrase
+ * @param {string|number} arg - phraseId
+ */
+ var phraseId = arg; 
+ var cfg = config;
+ var _index = {
+            "en": 0,
+            "ja": 1
+        };
+ return cfg.phrases && cfg.phrases[phraseId][_index[cfg.initialLanguage]] || phraseId;
+%>
+<%
+/**
+ * Get value of an object using json path
+ * @name Utility/JSONPath
+ * @param {any[]} arg - array
+ * @param {object} [options] - options
+ * @param {string} options.key - json path of valid elements
+ */
+%><%
+/* JSONPath 0.8.0 - XPath for JSON
+ *
+ * Copyright (c) 2007 Stefan Goessner (goessner.net)
+ * Licensed under the MIT (MIT-LICENSE.txt) licence.
+ */
+%><%
+ function jsonPath(obj, expr, arg) {
+    var P = {
+       resultType: arg && arg.resultType || "VALUE",
+       result: [],
+       normalize: function(expr) {
+          var subx = [];
+          return expr.replace(/[\['](\??\(.*?\))[\]']/g, function($0,$1){return "[#"+(subx.push($1)-1)+"]";})
+                     .replace(/'?\.'?|\['?/g, ";")
+                     .replace(/;;;|;;/g, ";..;")
+                     .replace(/;$|'?\]|'$/g, "")
+                     .replace(/#([0-9]+)/g, function($0,$1){return subx[$1];});
+       },
+       asPath: function(path) {
+          var x = path.split(";"), p = "$";
+          for (var i=1,n=x.length; i<n; i++)
+             p += /^[0-9*]+$/.test(x[i]) ? ("["+x[i]+"]") : ("['"+x[i]+"']");
+          return p;
+       },
+       store: function(p, v) {
+          if (p) P.result[P.result.length] = P.resultType == "PATH" ? P.asPath(p) : v;
+          return !!p;
+       },
+       trace: function(expr, val, path) {
+          if (expr) {
+             var x = expr.split(";"), loc = x.shift();
+             x = x.join(";");
+             if (val && val.hasOwnProperty(loc))
+                P.trace(x, val[loc], path + ";" + loc);
+             else if (loc === "*")
+                P.walk(loc, x, val, path, function(m,l,x,v,p) { P.trace(m+";"+x,v,p); });
+             else if (loc === "..") {
+                P.trace(x, val, path);
+                P.walk(loc, x, val, path, function(m,l,x,v,p) { typeof v[m] === "object" && P.trace("..;"+x,v[m],p+";"+m); });
+             }
+             else if (/,/.test(loc)) { // [name1,name2,...]
+                for (var s=loc.split(/'?,'?/),i=0,n=s.length; i<n; i++)
+                   P.trace(s[i]+";"+x, val, path);
+             }
+             else if (/^\(.*?\)$/.test(loc)) // [(expr)]
+                P.trace(P.eval(loc, val, path.substr(path.lastIndexOf(";")+1))+";"+x, val, path);
+             else if (/^\?\(.*?\)$/.test(loc)) // [?(expr)]
+                P.walk(loc, x, val, path, function(m,l,x,v,p) { if (P.eval(l.replace(/^\?\((.*?)\)$/,"$1"),v[m],m)) P.trace(m+";"+x,v,p); });
+             else if (/^(-?[0-9]*):(-?[0-9]*):?([0-9]*)$/.test(loc)) // [start:end:step]  phyton slice syntax
+                P.slice(loc, x, val, path);
+          }
+          else
+             P.store(path, val);
+       },
+       walk: function(loc, expr, val, path, f) {
+          if (val instanceof Array) {
+             for (var i=0,n=val.length; i<n; i++)
+                if (i in val)
+                   f(i,loc,expr,val,path);
+          }
+          else if (typeof val === "object") {
+             for (var m in val)
+                if (val.hasOwnProperty(m))
+                   f(m,loc,expr,val,path);
+          }
+       },
+       slice: function(loc, expr, val, path) {
+          if (val instanceof Array) {
+             var len=val.length, start=0, end=len, step=1;
+             loc.replace(/^(-?[0-9]*):(-?[0-9]*):?(-?[0-9]*)$/g, function($0,$1,$2,$3){start=parseInt($1||start);end=parseInt($2||end);step=parseInt($3||step);});
+             start = (start < 0) ? Math.max(0,start+len) : Math.min(len,start);
+             end   = (end < 0)   ? Math.max(0,end+len)   : Math.min(len,end);
+             for (var i=start; i<end; i+=step)
+                P.trace(i+";"+expr, val, path);
+          }
+       },
+       eval: function(x, _v, _vname) {
+          try { return $ && _v && eval(x.replace(/@/g, "_v")); }
+          catch(e) { throw new SyntaxError("jsonPath: " + e.message + ": " + x.replace(/@/g, "_v").replace(/\^/g, "_a")); }
+       }
+    };
+ 
+    var $ = obj;
+    if (expr && obj && (P.resultType == "VALUE" || P.resultType == "PATH")) {
+       P.trace(P.normalize(expr).replace(/^\$;/,""), obj, "$");
+       return P.result.length ? P.result : false;
+    }
+}
+%><%
+var options = options || {};
+var path = options.path || "";
+var ret = jsonPath(arg, path);
+return ret;
+%>
+<%
+/**
+ * Render's Text Aligned Left 
+ * @name Utility/Left
+ * @param {string} arg - text to be rendered
+ * @param {object} [options] - options
+ * @param {number} [options.width=PAPER_WIDTH] - Reference width for centering, also length of text generated
+ * @param {number} [options.space= ] - character to used as space
+ */
+%><%
+    var str = arg || "";
+    var lineWidth = options.width || PAPER_WIDTH;
+    var strLength = PrintableLength(str);
+    var spaceLength = lineWidth - strLength;
+    var marginLeft = options.marginLeft || MARGIN_LEFT || 0;
+    var marginRight = options.marginRight || MARGIN_RIGHT || 0;
+    options.marginLeft = marginLeft;
+    options.marginRight = marginRight;
+    %><%= Lines(str, options); %><%
+%>
+<%
+/**
+ * Render's Text Between Left and Right Margin
+ * @name Utility/Line
+ * @param {string} arg - text to be rendered, LINEFEED and after it are not rendered.
+ * @param {object} options - options
+ * @param {number} [options.width=PAPER_WIDTH] - Reference width for centering, also length of text generated
+ * @param {number} [options.marginLeft=0] - number space before text
+ * @param {number} [options.marginRight=0] - number space after text
+ * @param {number} [options.space= ] - character to used as space
+ * Margins will be computed if not given based from text length and reference width 
+ */
+%><%
+    var str = arg || "";
+    var lineWidth = Number(options.width) || PAPER_WIDTH;
+    var marginLeft = Number(options.marginLeft) || 0;
+    if (options.leftBorder &&  options.leftBorder.length > marginLeft) {
+        marginLeft = Number(options.leftBorder.length);
+    }
+    //validate margin left
+    marginLeft = marginLeft < lineWidth ? marginLeft : 0;
+    var marginRight = Number(options.marginRight) || 0;
+    if (options.rightBorder &&  options.rightBorder.length > marginRight) {
+        marginRight = Number(options.rightBorder.length);
+    }
+    var strLength = PrintableLength(str);
+    var marginSpace = marginLeft + marginRight;
+    //validate margin right
+    marginRight = marginSpace < lineWidth ? marginRight : 0;
+    var remaining = lineWidth - (strLength + marginSpace);
+    //validate margin left
+    if ((remaining < 0) && (marginSpace < lineWidth)) {
+        str = str.substr(0, lineWidth - marginSpace); 
+        remaining = 0;
+    } 
+    if (0 < marginRight && !marginLeft && (marginRight < lineWidth)) {
+        marginLeft = lineWidth - (marginRight + strLength);
+    }
+    var remaining = lineWidth - (marginLeft + strLength);
+    var space = options.space || SPACE || " ";
+    if (marginLeft > 0 && options.leftBorder) {
+        marginLeft -= options.leftBorder.length;
+        %><%= options.leftBorder; %><%    
+    }
+    if (marginLeft > 0) {
+        %><%= space[0].repeat(marginLeft); %><%
+    }
+    %><%= str; %><%
+    if (remaining > 0 && options.rightBorder) {
+        remaining -= options.rightBorder.length;
+    }
+    if (remaining > 0) {
+        %><%= space[0].repeat(remaining); %><%
+    }
+    if (options.rightBorder) {
+        %><%= options.rightBorder; %><%
+    }
+    
+%>
+<%
+/**
+ * Render's Text that may contains LINEFEED(s) 
+ * @name Utility/Lines
+ * @param {string} arg - text to be rendered which may contain LINEFEED(s) 
+ * @param {object} [options] - options
+ * @param {number} [options.width=PAPER_WIDTH] - Reference width for centering, also length of text generated
+ */
+%><%
+var str = arg || "";
+var lines = str.split(/\r\n|\n/);
+for (var lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+    %><%= Line(lines[lineIndex], options); %><%
+    if(lineIndex + 1 < lines.length){
+        %><%=LINEFEED;%><%
+    }
+}
+%>
+<% 
+/** 
+ * Render's Text as NormalPrint 
+ * @name Utility/NormalPrint
+ * @param {string} arg - text to be rendered
+ */
+%>
+<%
+    var str = arg || "";
+
+    if (!str.endsWith(NORMALPRINT)){
+        str = str + NORMALPRINT;
+    }
+    return str;
+    
+%>
+<% 
+/**
+ * Counts Printable Text on String 
+ * @name Utility/PrintableLength
+ * @param {string} arg - reference text 
+ */
+var text = arg || "";
+//remove first new line and after it
+text = text.match(/^.*/)[0];
+var retLen = text.replace(new RegExp(stylesToExp([DOUBLEWIDTH, 
+            DOUBLEHEIGHT, 
+            NORMALPRINT, 
+            UNDERLINE, 
+            DOUBLESIZE, 
+            BOLD, 
+            RED]),"g"),"");
+function stylesToExp(styles){
+    var exps = [];
+    for (var i = 0; i < styles.length; i++) {
+        exps.push(styles[i].replace("|","\\|"))
+    }
+    return exps.join("|");
+}
+return retLen.length + AdjustLength(text);
+%>
+<% 
+/** 
+ * Render's Text 
+ * @name Utility/Render
+ * @param {string} arg - String of the styles
+ * @param {object} options
+ * @param {string} options.arg -text to be render 
+ */
+%><%
+
+    var templates = (arg || "").replace(/^(.*)((Center|Right|Left)\|)(.*)$/, "$1$4|$3")
+                    .replace(/^(.*)((TwoByteText)\|)(.*)$/, "$3|$1$4")
+                    .replace(/^(.*)((Currency)\|)(.*)$/, "$3|$1$4")
+                    .split("|");
+    var output = options.arg;
+    
+    for (var i = 0; i < templates.length; i++) {
+        output = include(templates[i].trim() || "Center", {
+            arg : output,
+            options: options.options
+        });
+    }
+    return output;
+%>
+<%
+/** 
+ * Render's Text Aligned Right 
+ * @name Utility/Right
+ * @param {string} arg - text to be rendered
+ * @param {object} [options] - options
+ * @param {number} [options.width=PAPER_WIDTH] - Reference width for centering, also length of text generated
+ * @param {number} [options.space= ] - character to used as space
+ */
+ %><%
+    var str = arg  || "";
+    var lineWidth = options.width || PAPER_WIDTH;
+    var strLength = PrintableLength(str);
+    var spaceLength = lineWidth - strLength;
+    var marginRight = options.marginRight || MARGIN_RIGHT || 0;
+    var marginLeft = lineWidth -  (strLength + marginRight);
+    options.marginLeft = marginLeft;
+    options.marginRight = marginRight;
+    %><%= Lines(str, options); %><%
+%>
+<%
+/** 
+ * Separate text with it's own style in just a line
+ * @name Utility/Section
+ * @param {any[]} arg - array of string
+ * @param {object} [options] - array of object that contains styles
+ */
+%><%
+var sections = arg || [];
+var sectionOptions = options || [];
+%><%- Table([], {
+    columns: sectionOptions.map(function(style, index) {
+        var opts = typeof style === 'string' ? {
+            include : style
+        } : style || {};
+        opts.text = sections[index];
+        opts.header = options[index].include || options[index].style;
+        return opts;
+    })
+}); %>
+<%
+/**
+* Split Character
+* @name Utility/SplitChar
+* @param {string} arg - Text to be rendered
+* @param {object} [options] - options
+* @param {number} [options.separator= ] - separating characters
+*/
+%><%
+var str = arg || "";
+var separator = options.separator || " ";
+return str.split("").join(separator);
+%>
+<%
+/** 
+ * Arrange data in rows and columns 
+ * @name Utility/Table
+ * @param {any[]} arg - array
+ * @param {object} [options] - options
+ */
+%><%
+var options = options || {};
+var columnOptions = options.columns || [];
+var rows = arg || options.rows || options.data || null;
+if (columnOptions) {
+    columnOptions = columnOptions.map(text => {
+        return (typeof text === 'string') ? {text: text} : text;
+    });
+}
+
+var colCount = options.colCount || (columnOptions && columnOptions.length) || 1;
+var paperWidth = Number(options.width || PAPER_WIDTH);
+if (columnOptions instanceof Array) {
+    var tableLines = [];
+    var definedWidth = columnOptions.reduce((acc, current) => {
+        return (current.width || 0) + acc;
+    }, 0);
+    var undefinedWidth = paperWidth - definedWidth;
+    var flexCols = columnOptions.reduce((acc, current) => {
+        return ((!current.width && 1) || 0) + acc;
+    }, 0);
+    var autoWidth = Math.round(undefinedWidth / flexCols);
+    var remaining = paperWidth;
+    var headerLines = undefined;
+    //compute column widths and collect header lines
+    for (var col = 0; col < colCount; col++) {
+        var opts = columnOptions[col] || {};
+        if (col + 1 == colCount) {
+            opts.width = remaining;
+            opts.rightBorder = opts.rightBorder || options.rightBorder;    
+        } else {
+            opts.width = (opts.width || autoWidth);
+        }
+        opts.col = col; 
+        opts.leftBorder = opts.leftBorder || options.leftBorder;
+        columnOptions[col] = opts;
+        if (!options.noHeader) {
+            headerLines = headerLines || [];
+            headerLines[col] = Render(opts.header || "Center", {
+                arg : String(opts.text),
+                options: opts
+            }).split(/\r\n|\n/); 
+        }
+        remaining -= opts.width;
+    }
+    if (headerLines) {
+        tableLines.push(headerLines);
+    }
+    if (rows instanceof Array && (rows.length > 0)) {
+        //Collect Row Lines
+        for (var row = 0; row < rows.length; row++) {
+            var rowLines = [];
+            for (var col = 0; col < colCount; col++) {
+                var opts = columnOptions[col];
+                var rowItem = rows[row] || {};
+                var cell = ValueAt(rowItem, opts) || String(rowItem[col]);
+                opts.row = row;
+                rowLines[col] = Render(opts.cell || "Center", {
+                    arg : cell,
+                    options: opts
+                }).split(/\r\n|\n/);
+            }
+            tableLines.push(rowLines);
+        }
+    }
+    //Render Table Lines
+    for (var rowIndex = 0; rowIndex < tableLines.length; rowIndex++) {
+        var rowLines = tableLines[rowIndex];
+        var maxLineCounts = rowLines.reduce((acc, lines) => {
+            return Math.max(lines && lines.length || 0, acc);
+        }, 0);
+        var lineIndex = 0;
+        var space = opts.space || options.space || SPACE || " ";
+        while(lineIndex < maxLineCounts) {
+            for (var col = 0; col < colCount; col++) {
+                var opts = columnOptions[col];
+                var cellLines = rowLines[col];
+                var line = cellLines[lineIndex] || Bar(space, {width: opts.width}); 
+                %><%=line;%><%        
+            }
+            lineIndex++;
+            if(rowIndex + 1 < tableLines.length || (lineIndex < maxLineCounts)){
+                %><%=LINEFEED;%><%
+            }
+        }                    
+    }
+}
+%>
+<%
+/**
+ * @name Utility/Total
+ * @param {any[]} arg - array
+ * @param {object} [options] - options
+ * @param {string} options.key - json path of valid elements
+ */
+%><%
+    var value = arg;
+    var options = options;
+    options.path = options.key;
+    var list = JSONPath(value, options);
+    if (!list) return 0;
+    var retVal = list.reduce(function (a, b) {
+        return b == "" ? a : Number(a) + Number(b);
+    }, 0);
+
+    return retVal;
+%>
+<%
+/** 
+ * Render's Text as 2Byte 
+ * @name Utility/TwoByteText
+ * @param {string} arg - text to be rendered
+ */
+%><%
+    str = arg + '';
+    return str.replace(new RegExp("[^" + CURRENCY_SYMBOL + TWOBYTE_CURRENCY_SYMBOL + " \t\n\r]", "g"), function(s) {
+        return String.fromCharCode(s.charCodeAt(0) + 0xFEE0);
+    });
+%>
+<% 
+/** 
+ * Render's Text as Underline 
+ * @name Utility/Underline
+ * @param {string} arg - text to be rendered
+ */
+%>
+<%
+    var str = arg || "";
+    
+    return NormalPrint(UNDERLINE + str);
+%>
+<%
+/**
+ * Get the object with value using json path
+ * @name Utility/ValueAt
+ * @param {any[]} arg - array
+ * @param {object} [options] - options
+ * @param {string} options.path - json path of valid elements
+ */
+%><%
+    var options = options || {};
+    var value = arg;
+    var path = options.path || "";
+    var ret = JSONPath(value, path)[0];
+    return ret;
+%>

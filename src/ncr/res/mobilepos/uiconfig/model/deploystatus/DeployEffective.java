@@ -27,6 +27,9 @@ public class DeployEffective {
     @XmlElement(name = "Notices")
     private ENotices notices;
 
+    @XmlElement(name = "Receipt")
+    private EReceipt receipt;
+
     public EPhrases getPhrases() {
         return phrases;
     }
@@ -73,5 +76,13 @@ public class DeployEffective {
 
     public void setNotices(ENotices notices) {
         this.notices = notices;
+    }
+
+    public EReceipt getReceipt() {
+        return receipt;
+    }
+
+    public void setReceipt(EReceipt receipt) {
+        this.receipt = receipt;
     }
 }

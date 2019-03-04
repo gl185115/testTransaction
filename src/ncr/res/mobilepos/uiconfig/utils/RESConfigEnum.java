@@ -12,6 +12,7 @@ public enum RESConfigEnum {
     DIR_OPTIONS("dir_options"),
     DIR_USABILITY("dir_usability"),
     DIR_SCHEDULE("dir_schedule"),
+    DIR_RECEIPT("dir_receipt"),
     DIR_LOG("dir_log"),
     DIR_LOGS("dir_logs"),
 

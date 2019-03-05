@@ -585,7 +585,7 @@ public class EjResource {
 					if (StringUtility.isNullOrEmpty(dao.getNameCategory(Category_Limit, KeyId_Limit))) {
 						SearchTo = listEjInfos.size();
 					} else {
-						SearchTo = Integer.parseInt(dao.getNameCategory(Category_Limit, KeyId_Limit));
+						SearchTo = Integer.parseInt(dao.getNameCategory(Category_Limit, KeyId_Limit)) + SearchFrom - 1;
 					}
 				} else {
 					SearchTo = Integer.parseInt(countTo);

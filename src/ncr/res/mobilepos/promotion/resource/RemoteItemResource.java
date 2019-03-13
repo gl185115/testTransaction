@@ -17,8 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
-import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -31,6 +30,7 @@ import ncr.res.mobilepos.promotion.helper.SaleItemsHandler;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * RemoteItemResource Class is a Web Resource which support MobilePOS Promotion
@@ -93,8 +93,8 @@ public class RemoteItemResource {
         }
         try {
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
-        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+        	SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+        	Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
 
             SQLServerItemDAO sqlDao = new SQLServerItemDAO();
             item = sqlDao.getItemByPLU(retailStoreId, pluCode, companyId, 0, businessDate, mapTaxId);

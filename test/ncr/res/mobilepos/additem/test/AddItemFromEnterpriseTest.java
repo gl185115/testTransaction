@@ -13,6 +13,7 @@ import ncr.res.mobilepos.pricing.dao.SQLServerItemDAO;
 import ncr.res.mobilepos.pricing.model.Item;
 import ncr.res.mobilepos.promotion.resource.PromotionResource;
 import ncr.res.mobilepos.searchapi.helper.UrlConnectionHelper;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ import atg.taglib.json.util.JSONObject;
 public class AddItemFromEnterpriseTest {
 	PromotionResource testpromotionResource = new PromotionResource();
 	SQLServerItemDAO sqlItemDaoMock = null;
-	ICustomerSearthDAO iCustomerSearthDAOMock = null;
+	SQLServerSystemConfigDAO SQLServerSystemConfigDAOMock = null;
 	
 	@SuppressWarnings("unchecked")
 	@PrepareForTest({UrlConnectionHelper.class, DAOFactory.class})
@@ -73,13 +74,13 @@ public class AddItemFromEnterpriseTest {
 			PowerMockito.doNothing().when(sqlItemDaoMock).getCouponInfo(Matchers.anyString(), Matchers.any(Item.class), Matchers.anyString(), Matchers.anyString());
 			PowerMockito.when(sqlItemDaoMock.isHasReplaceSupportDetailInfo(Matchers.anyString(), Matchers.any(Item.class), Matchers.anyString(), Matchers.anyString())).thenReturn(false);
 			DAOFactory daoFacMock = PowerMockito.mock(DAOFactory.class);
+			SQLServerSystemConfigDAOMock = PowerMockito.mock(SQLServerSystemConfigDAO.class);
+			//		PowerMockito.when(SQLServerSystemConfigDAOMock.getPrmSystemConfigValue(Matchers.anyString())).thenReturn(null);
+			PowerMockito.when(daoFacMock.getSystemConfigDAO()).thenReturn(SQLServerSystemConfigDAOMock);
+			
 			PowerMockito.when(daoFacMock.getItemDAO()).thenReturn(sqlItemDaoMock);
 			PowerMockito.mockStatic(DAOFactory.class);
 			PowerMockito.when(DAOFactory.getDAOFactory(DAOFactory.SQLSERVER)).thenReturn(daoFacMock);
-			
-			iCustomerSearthDAOMock = PowerMockito.mock(ICustomerSearthDAO.class);
-			PowerMockito.when(iCustomerSearthDAOMock.getPrmSystemConfigValue(Matchers.anyString())).thenReturn(null);
-			PowerMockito.when(daoFacMock.getCustomerSearthDAO()).thenReturn(iCustomerSearthDAOMock);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

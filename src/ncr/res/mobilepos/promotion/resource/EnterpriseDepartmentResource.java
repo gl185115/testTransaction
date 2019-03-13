@@ -17,8 +17,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
-import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.model.ViewDepartment;
@@ -26,6 +25,7 @@ import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * EnterpriseDepartmentResource Class is a Web Resource which support MobilePOS Promotion
@@ -88,8 +88,8 @@ public class EnterpriseDepartmentResource {
 		try {
 			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 
-			ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
-        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+			SQLServerSystemConfigDAO systemDao = daoFactory.getSystemConfigDAO();
+        	Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
 
 			IDepartmentDAO idepartmentDAO = daoFactory.getDepartmentDAO();
 			departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, searchRetailStoreID, mapTaxId);

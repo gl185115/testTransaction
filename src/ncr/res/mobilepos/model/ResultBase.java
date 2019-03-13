@@ -387,6 +387,11 @@ public class ResultBase {
      * Xml file information get failed.
      */
     public static final int RES_ERROR_FILENOINFORMATION = 163;
+    /**
+     * Value : {@value}<br>
+     * System Config Info get failed.
+     */
+    public static final int RES_ERROR_SYSTEM_CONFIG_NOFOUND = 165;
     /**************** Start: Generic Client Error Messages ****************/
     /**
      * Value : {@value}<br>

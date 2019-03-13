@@ -384,7 +384,7 @@
 			<value>From, To, Tax-amount; The target is the net sales total without tax</value>
 		</row>
 		<row>
-			<value>SOD</value>
+			<value>Till</value>
 			<value>MultiSOD</value>
 			<value>1</value>
 			<value>Key for Multiple SOD on the businessdaydate.</value>

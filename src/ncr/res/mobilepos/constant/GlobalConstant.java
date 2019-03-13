@@ -11,9 +11,11 @@
 package ncr.res.mobilepos.constant;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import ncr.res.mobilepos.promotion.helper.TerminalItem;
+import ncr.res.mobilepos.systemconfiguration.model.SystemConfigInfo;
 
 /**
  * GlobalConstant is a class that enumerates
@@ -200,6 +202,40 @@ public final class GlobalConstant {
      * The key name for server ping timeout.
      */
     public static final String KEY_SERVER_PING_TIMEOUT = "ServerPingTimeout";
+
+    public static final String CATE_MEMBER_SERVER = "MemberServer";
+
+    public static final String CATE_COUPON_SERVER = "CouponServer";
+
+    public static final String CATE_CREDENTIAL = "Credential";
+
+    public static final String CATE_REPORT = "Report";
+
+    public static final String CATE_SEARCH = "Search";
+
+    public static final String CATE_TOD_REQUEST = "TODRequest";
+
+    public static final String CATE_PRICING = "Pricing";
+
+    public static final String CATE_CM_INFORMATION = "CMInformation";
+
+    public static final String CATE_DOCUMENTARY_TAX = "DocumentaryTax";
+
+    public static final String CATE_LANGUAGE = "Language";
+
+    public static final String CATE_API_SERVER = "APIServer";
+
+    public static final String CATE_ENTERPRISE_SERVER = "EnterpriseServer";
+
+    public static final String CATE_SYSTEM = "System";
+
+    public static final String CATE_PROMOTION = "Promotion";
+
+    public static final String CATE_TILL = "Till";
+
+    public static final String CATE_TAX_ID = "TaxId";
+
+    public static final String CATE_BUSSINESS_REGISTRATION_NO = "BusinessRegistrationNo";
     /**
      * Default value for server ping timeout in milliseconds.
      */
@@ -261,6 +297,7 @@ public final class GlobalConstant {
     private static String priceIncludeTaxKey;
     private static String range1;
     private static String defaultLanguage;
+    private static List<SystemConfigInfo> systemConfigInfoList;
 
     /**
      * The Company ID.
@@ -686,6 +723,14 @@ public final class GlobalConstant {
 
     public static void setMaxQRCodePrintNum(String maxQRCodePrintNum) {
         GlobalConstant.maxQRCodePrintNum = maxQRCodePrintNum;
+    }
+
+    public static List<SystemConfigInfo> getSystemConfigInfoList() {
+        return systemConfigInfoList;
+    }
+
+    public static void setSystemConfigInfoList(List<SystemConfigInfo> systemConfigInfoList) {
+        GlobalConstant.systemConfigInfoList = systemConfigInfoList;
     }
 
 }

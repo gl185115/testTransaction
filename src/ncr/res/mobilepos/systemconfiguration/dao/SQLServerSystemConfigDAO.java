@@ -14,11 +14,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DBManager;
 import ncr.res.mobilepos.daofactory.JndiDBManagerMSSqlServer;
@@ -27,6 +30,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.property.SQLStatement;
+import ncr.res.mobilepos.systemconfiguration.model.SystemConfigInfo;
 
 /**
  * A Data Access Object implementation for System Configuration.
@@ -59,48 +63,98 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
     }
+    
+    /**
+     * Get All Informations from PRM_SYSTEM_CONFIG.
+     * @return systemConfigInfoList
+     * @throws DaoException  The Exception thrown when getting the System
+     *                        Parameters fails
+     */
+    public List<SystemConfigInfo> getSystemConfigInfo() throws DaoException {
+		String functionName = DebugLogger.getCurrentMethodName();
+		tp.methodEnter(functionName);
 
-   /**
-    * Get the System parameters set by the user in PRM_SYSTEM_CONFIG.
-    * @return The key-value pair of each System parameter
-    * @throws DaoException  The Exception thrown when getting the System
-    *                        Parameters fails
-    */
-	public final Map<String, String> getSystemParameters() throws DaoException {
-    	String functionName = DebugLogger.getCurrentMethodName();
-        tp.methodEnter(functionName);
-        
-        Map<String, String> sysParams = new HashMap<String, String>();
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-        try {
-            connection = dbManager.getConnection();
+		List<SystemConfigInfo> systemConfigInfoList = new ArrayList<SystemConfigInfo>();
+		Connection connection = null;
+		PreparedStatement select = null;
+		ResultSet result = null;
+		SystemConfigInfo systemConfigInfo = null;
+		try {
+			connection = dbManager.getConnection();
 
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(
-                    sqlStatement.getProperty("get-system-parameters"));
-            
-            result = select.executeQuery();
+			SQLStatement sqlStatement = SQLStatement.getInstance();
+			select = connection.prepareStatement(sqlStatement.getProperty("get-system-parameters"));
+
+			result = select.executeQuery();
 			while (result.next()) {
-				String key = result.getString("KeyId");
-				String value = (null == result.getString("Value")) ? null
-						: result.getString("Value").trim();
-				sysParams.put(key.trim(), value);
+				systemConfigInfo = new SystemConfigInfo();
+				systemConfigInfo.setCategory(result.getString("Category").trim());
+				systemConfigInfo.setKeyId(result.getString("KeyId").trim());
+				systemConfigInfo.setValue(result.getString("Value") == null ? null : result.getString("Value").trim());
+				systemConfigInfoList.add(systemConfigInfo);
 			}
-        } catch (SQLException e) {
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
-					+ ": Failed to get the System Configuration.", e);
-			throw new DaoException("SQLException:@"
-					+ "SQLServerSystemConfigDAO." + functionName, e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            
-            tp.methodExit(sysParams.toString());
-        }
+		} catch (SQLException e) {
+			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName + ": Failed to get the System Configuration Informations.",
+					e);
+			throw new DaoException("SQLException:@" + "SQLServerSystemConfigDAO." + functionName, e);
+		} finally {
+			closeConnectionObjects(connection, select, result);
+		}
+		return systemConfigInfoList;
+	}
 
-        return sysParams;
-    }
+	/**
+     * Get the Value From PRM_SYSTEM_CONFIG by keyId And category.
+     * @param key The key of the System Parameter
+     * @param category The Category where the System Parameter belongs
+     * @return value
+	 */
+	public final String getParameterValue(final String keyId, final String category){
+		List<SystemConfigInfo> systemConfigInfoList = GlobalConstant.getSystemConfigInfoList();
+		String value = null;
+		if(systemConfigInfoList != null && !systemConfigInfoList.isEmpty()){
+			for (SystemConfigInfo systemConfigInfo : systemConfigInfoList) {
+				if(keyId.equals(systemConfigInfo.getKeyId()) && category.equals(systemConfigInfo.getCategory())){
+					value = systemConfigInfo.getValue();
+					break;
+				}
+			}
+		}
+		return value;
+	}
+
+    /**
+     * Get the System parameters set by the user in PRM_SYSTEM_CONFIG.
+     * @return The key-value pair of each System parameter
+     */
+	public final Map<String, String> getSystemParameters(){
+		List<SystemConfigInfo> systemConfigInfoList = GlobalConstant.getSystemConfigInfoList();
+		Map<String, String> sysParams = new HashMap<String, String>();
+		if(systemConfigInfoList != null && !systemConfigInfoList.isEmpty()){
+			for (SystemConfigInfo systemConfigInfo : systemConfigInfoList) {
+				sysParams.put(systemConfigInfo.getKeyId(), systemConfigInfo.getValue());
+			}
+		}
+		return sysParams;
+	}
+
+    /**
+     * Get the System parameters from PRM_SYSTEM_CONFIG by category.
+     * @param  List<SystemConfigInfo> systemConfigInfoList
+     * @return The key-value pair of each System parameter
+     */
+	public final Map<String, String> getPrmSystemConfigValue(String category){
+		List<SystemConfigInfo> systemConfigInfoList = GlobalConstant.getSystemConfigInfoList();
+		Map<String, String> mapReturn = new HashMap<String, String>();
+		if(systemConfigInfoList != null && !systemConfigInfoList.isEmpty()){
+			for (SystemConfigInfo systemConfigInfo : systemConfigInfoList) {
+				if(category.equals(systemConfigInfo.getCategory())){
+					mapReturn.put(systemConfigInfo.getKeyId(), systemConfigInfo.getValue());
+				}
+			}
+		}
+		return mapReturn;
+	}
 
     /**
      * Get the value of a System parameter.

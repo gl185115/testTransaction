@@ -40,8 +40,6 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
-import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
@@ -59,6 +57,7 @@ import ncr.res.mobilepos.pricing.model.PricePromInfo;
 import ncr.res.mobilepos.pricing.model.SearchedProduct;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * ItemResource Web Resource Class
@@ -208,8 +207,8 @@ public class ItemResource {
 
         	// get common url
 			DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-			ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
-			Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+			SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+			Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
 
             IItemDAO itemDAO = sqlServerDAO.getItemDAO();
             String priceIncludeTax = GlobalConstant.getPriceIncludeTaxKey();

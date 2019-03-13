@@ -41,8 +41,6 @@ import ncr.res.mobilepos.barcodeassignment.factory.BarcodeAssignmentFactory;
 import ncr.res.mobilepos.barcodeassignment.model.BarcodeAssignment;
 import ncr.res.mobilepos.barcodeassignment.util.BarcodeAssignmentUtility;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
-import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.model.Department;
@@ -50,6 +48,7 @@ import ncr.res.mobilepos.department.model.DepartmentName;
 import ncr.res.mobilepos.department.model.ViewDepartment;
 import ncr.res.mobilepos.deviceinfo.dao.IDeviceInfoDAO;
 import ncr.res.mobilepos.deviceinfo.model.ViewTerminalInfo;
+import ncr.res.mobilepos.ej.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
 import ncr.res.mobilepos.helper.DateFormatUtility;
@@ -88,7 +87,7 @@ import ncr.res.mobilepos.promotion.model.PromotionMsgInfo;
 import ncr.res.mobilepos.promotion.model.PromotionResponse;
 import ncr.res.mobilepos.promotion.model.Sale;
 import ncr.res.mobilepos.promotion.model.Transaction;
-import ncr.res.mobilepos.ej.helper.UrlConnectionHelper;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * PromotionResource Class is a Web Resource which support MobilePOS Promotion
@@ -574,8 +573,8 @@ public class PromotionResource {
 						}
 					} else {
 						// ÉçÅ[ÉJÉãÇ©ÇÁïîñÂèÓïÒÇéÊìæÇ∑ÇÈ
-			        	ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
-			        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+						SQLServerSystemConfigDAO systemDao = daoFactory.getSystemConfigDAO();
+						Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
 
 						departmentInfo = idepartmentDAO.selectDepartmentDetail(companyId, retailStoreId, codeTemp, retailStoreId, mapTaxId);
 						saleMdName = dao.getItemNameFromPluName(companyId, retailStoreId, itemIdTemp);

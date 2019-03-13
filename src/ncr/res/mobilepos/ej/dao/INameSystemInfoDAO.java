@@ -17,16 +17,6 @@ public interface INameSystemInfoDAO {
 	List<EjInfo> getNameSystemInfo() throws DaoException;
 
 	/**
-	 * Get NameCategory from PRM_SYSTEM_CONFIG
-	 * @param Category
-	 * @param KeyId
-	 * @return NameCategory
-	 * @throws DaoException
-	 *             The exception thrown when searching failed.
-	 */
-	String getNameCategory(String Category, String KeyId) throws DaoException;
-
-	/**
 	 * Get List EJ Info
 	 *
 	 * @param CompanyId

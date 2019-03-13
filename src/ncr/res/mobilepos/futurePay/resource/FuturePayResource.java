@@ -37,13 +37,13 @@ import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.futurePay.constants.FuturePayConstants;
-import ncr.res.mobilepos.futurePay.dao.IFuturePayDAO;
 import ncr.res.mobilepos.futurePay.helper.HTTPBasicAuthorization;
 import ncr.res.mobilepos.futurePay.model.FuturePayReturnBean;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * CustomerSearchResource class is a web resourse which provides support for
@@ -119,8 +119,8 @@ public class FuturePayResource {
             }
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.MEMBER_CATEGORY);
+            SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+            Map<String, String> mapReturn = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_MEMBER_SERVER);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI))
@@ -305,8 +305,8 @@ public class FuturePayResource {
 
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.MEMBER_CATEGORY);
+            SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+            Map<String, String> mapReturn = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_MEMBER_SERVER);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI))
@@ -545,8 +545,8 @@ public class FuturePayResource {
 
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO.getPrmSystemConfigValue(FuturePayConstants.MEMBER_CATEGORY);
+            SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+            Map<String, String> mapReturn = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_MEMBER_SERVER);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_MEMBERSERVERURI))
@@ -724,9 +724,8 @@ public class FuturePayResource {
 
             // get common url
             DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-            IFuturePayDAO iFuturePayDAO = sqlServer.getFuturePayDAO();
-            Map<String, String> mapReturn = iFuturePayDAO
-                    .getPrmSystemConfigValue(FuturePayConstants.COUPONSERVER_CATEGORY);
+            SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+            Map<String, String> mapReturn = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_COUPON_SERVER);
 
             if (mapReturn == null
                     || StringUtility.isNullOrEmpty(mapReturn.get(FuturePayConstants.KEYID_COUPONSERVER_DEBUG))

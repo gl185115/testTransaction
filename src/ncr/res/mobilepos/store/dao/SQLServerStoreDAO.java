@@ -20,7 +20,6 @@ import java.util.Map;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
 import ncr.res.mobilepos.daofactory.AbstractDao;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.daofactory.DBManager;
@@ -36,6 +35,7 @@ import ncr.res.mobilepos.store.model.PresetSroreInfo;
 import ncr.res.mobilepos.store.model.Store;
 import ncr.res.mobilepos.store.model.StoreInfo;
 import ncr.res.mobilepos.store.model.ViewStore;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * Access database for store CRUD manipulations.
@@ -66,8 +66,6 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
     private static final int STATUS_DELETED = 2;
 
     private static final int STORE_NOT_FOUND = -1;
-
-    private static final String Category = "BusinessRegistrationNo";
 
     private static final String  KeyId1 = "TableColumnName";
 
@@ -308,8 +306,8 @@ public class SQLServerStoreDAO extends AbstractDao implements IStoreDAO {
 
 		try {
 			DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-			ICustomerSearthDAO iCustomerSearthDAO = daoFactory.getCustomerSearthDAO();
-			Map<String, String> businessInfo = iCustomerSearthDAO.getPrmSystemConfigValue(Category);
+			SQLServerSystemConfigDAO systemDao = daoFactory.getSystemConfigDAO();
+			Map<String, String> businessInfo = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_BUSSINESS_REGISTRATION_NO);
 
 			if (businessInfo.isEmpty() || !businessInfo.containsKey(KeyId1) || !businessInfo.containsKey(KeyId2)) {
 				TableColumnName = MST_STORE_KEYID;

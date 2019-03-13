@@ -80,13 +80,13 @@ public class SQLServerFuturePayDAO extends AbstractDao implements
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
                     + ": Failed to get Value.", sqlEx);
             throw new DaoException("SQLException:"
-                    + " @SQLServerCustomerSearchDAO.getPrmSystemConfigValue",
+                    + " @SQLServerFuturePayDAO.getPrmSystemConfigValue",
                     sqlEx);
         } catch (Exception ex) {
             LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName
                     + ": Failed to get guestzone list.", ex);
             throw new DaoException("Exception:"
-                    + " @SQLServerCustomerSearchDAO.getPrmSystemConfigValue",
+                    + " @SQLServerFuturePayDAO.getPrmSystemConfigValue",
                     ex);
         } finally {
             closeConnectionObjects(connection, preparedStatement, resultSet);

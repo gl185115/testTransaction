@@ -19,8 +19,7 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.customerSearch.constants.CustomerSearchConstants;
-import ncr.res.mobilepos.customerSearch.dao.ICustomerSearthDAO;
+import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.department.dao.IDepartmentDAO;
 import ncr.res.mobilepos.department.model.DepartmentList;
@@ -30,6 +29,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 /**
  * 改定履歴
  * バージョン         改定日付       担当者名           改定内容
@@ -138,8 +138,8 @@ public class DepartmentResource {
         try {
         	// get common url
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
-        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+        	SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+        	Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
 
             IDepartmentDAO iDptDao = daoFactory.getDepartmentDAO();
             dptModel = iDptDao
@@ -212,8 +212,8 @@ public class DepartmentResource {
         try {
         	// get common url
         	DAOFactory sqlServer = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
-        	ICustomerSearthDAO iCustomerSearthDAO = sqlServer.getCustomerSearthDAO();
-        	Map<String, String> mapTaxId = iCustomerSearthDAO.getPrmSystemConfigValue(CustomerSearchConstants.CATEGORY_TAX);
+        	SQLServerSystemConfigDAO systemDao = sqlServer.getSystemConfigDAO();
+        	Map<String, String> mapTaxId = systemDao.getPrmSystemConfigValue(GlobalConstant.CATE_TAX_ID);
 
             IDepartmentDAO deptDao = daoFactory.getDepartmentDAO();
             dptList = deptDao.listDepartments(companyId, storeId, key, name, limit, mapTaxId);

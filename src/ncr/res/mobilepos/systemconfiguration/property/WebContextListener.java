@@ -140,10 +140,11 @@ public class WebContextListener implements ServletContextListener {
         DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
         //Get System parameters from PRM_SYSTEM_CONFIG and set to GlobalConstant.
         SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
+        GlobalConstant.setSystemConfigInfoList(systemDao.getSystemConfigInfo());
         Map<String, String> systemConfig = systemDao.getSystemParameters();
         GlobalConstant.setSystemConfig(systemConfig);
         // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
-        copySystemConfigToGlobalConstant(systemConfig);
+        copySystemConfigToGlobalConstant(systemDao);
     }
 
     /**
@@ -222,101 +223,99 @@ public class WebContextListener implements ServletContextListener {
 
     /**
      * Copies to cache system config parameters.
-     * @param sysParams
+     * @param systemDao
      */
-    private static void copySystemConfigToGlobalConstant(Map<String, String> sysParams) {
+    private static void copySystemConfigToGlobalConstant(SQLServerSystemConfigDAO systemDao) {
         // Gets MultiSOD flag from SystemConfiguration.
-        String multiSOD = (String)sysParams.get(GlobalConstant.MULTIPLE_SOD);
+        String multiSOD = systemDao.getParameterValue(GlobalConstant.MULTIPLE_SOD, GlobalConstant.CATE_TILL);
         if(!StringUtility.isNullOrEmpty(multiSOD) && "1".equalsIgnoreCase(multiSOD)){
             GlobalConstant.setMultiSOD(true);
         } else {
             GlobalConstant.setMultiSOD(false);
         }
         // global variable for DebugSmartP
-        String debugSmartP = sysParams.get(GlobalConstant.KEY_TOD_SMARTP_DEBUG);
+        String debugSmartP = systemDao.getParameterValue(GlobalConstant.KEY_TOD_SMARTP_DEBUG, GlobalConstant.CATE_MEMBER_SERVER);
         if (!StringUtility.isNullOrEmpty(debugSmartP) && "1".equalsIgnoreCase(debugSmartP)) {
             GlobalConstant.setMemberServerDebug(true);
         } else {
             GlobalConstant.setMemberServerDebug(false);
         }
-        String debugCouponServer = sysParams.get(GlobalConstant.KEY_COUPON_SERVER_DEBUG);
+        String debugCouponServer = systemDao.getParameterValue(GlobalConstant.KEY_COUPON_SERVER_DEBUG, GlobalConstant.CATE_COUPON_SERVER);
         if (!StringUtility.isNullOrEmpty(debugCouponServer) && "1".equalsIgnoreCase(debugCouponServer)) {
             GlobalConstant.setCouponServerDebug(true);
         } else {
             GlobalConstant.setCouponServerDebug(false);
         }
         //global variable for credential day left warning
-        GlobalConstant.setCredentialDaysLeft(sysParams.get(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING));
+        GlobalConstant.setCredentialDaysLeft(systemDao.getParameterValue(GlobalConstant.CREDENTIAL_DAY_LEFT_WARNING, GlobalConstant.CATE_CREDENTIAL));
         //global variable for credential expiry
-        GlobalConstant.setCredentialExpiry(sysParams.get(GlobalConstant.CREDENTIAL_EXPIRY_KEY));
+        GlobalConstant.setCredentialExpiry(systemDao.getParameterValue(GlobalConstant.CREDENTIAL_EXPIRY_KEY, GlobalConstant.CATE_CREDENTIAL));
         //global variable for store open time
-        GlobalConstant.setStoreOpenTime(sysParams.get(GlobalConstant.STORE_OPEN_TIME_KEY));
-        // global variable for switch time
-        GlobalConstant.setSwitchTime(sysParams.get(GlobalConstant.SWITCHTIME_KEY));
+        GlobalConstant.setStoreOpenTime(systemDao.getParameterValue(GlobalConstant.STORE_OPEN_TIME_KEY, GlobalConstant.CATE_REPORT));
         // global variable for MaxSearchResults
-        String searchLimit = sysParams.get(GlobalConstant.MAX_SEARCH_RESULTS);
+        String searchLimit = systemDao.getParameterValue(GlobalConstant.MAX_SEARCH_RESULTS, GlobalConstant.CATE_SEARCH);
         if (!StringUtility.isNullOrEmpty(searchLimit)) {
             GlobalConstant.setMaxSearchResults(Integer.parseInt(searchLimit));
         }
 
         // global variable for switch time
-        GlobalConstant.setTodUri(sysParams.get(GlobalConstant.KEY_TOD_URI));
+        GlobalConstant.setTodUri(systemDao.getParameterValue(GlobalConstant.KEY_TOD_URI, GlobalConstant.CATE_TOD_REQUEST));
         // global variable for MaxSearchResults
-        String todConnectionTimeout = sysParams.get(GlobalConstant.KEY_TOD_CONNECTION_TIMEOUT);
+        String todConnectionTimeout = systemDao.getParameterValue(GlobalConstant.KEY_TOD_CONNECTION_TIMEOUT, GlobalConstant.CATE_TOD_REQUEST);
         if (!StringUtility.isNullOrEmpty(todConnectionTimeout)) {
             GlobalConstant.setTodConnectionTimeout(Integer.parseInt(todConnectionTimeout));
         }
         // global variable for MaxSearchResults
-        String todReadTimeout = sysParams.get(GlobalConstant.KEY_TOD_READ_TIMEOUT);
+        String todReadTimeout = systemDao.getParameterValue(GlobalConstant.KEY_TOD_READ_TIMEOUT, GlobalConstant.CATE_TOD_REQUEST);
         if (!StringUtility.isNullOrEmpty(todReadTimeout)) {
             GlobalConstant.setTodReadTimeout(Integer.parseInt(todReadTimeout));
         }
-        GlobalConstant.setInStoreParam1(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_1));
-        GlobalConstant.setInStoreParam2(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_2));
-        GlobalConstant.setInStoreParam3(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_3));
-        GlobalConstant.setInStoreParam4(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_4));
-        GlobalConstant.setInStoreParam5(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_5));
-        GlobalConstant.setInStoreParam6(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_6));
-        GlobalConstant.setInStoreParam7(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_7));
-        GlobalConstant.setInStoreParam8(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_8));
-        GlobalConstant.setInStoreParam9(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_9));
-        GlobalConstant.setInStoreParam10(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_10));
-        GlobalConstant.setInStoreParam11(sysParams.get(GlobalConstant.KEY_INSTORE_PARAM_11));
+        GlobalConstant.setInStoreParam1(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_1, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam2(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_2, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam3(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_3, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam4(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_4, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam5(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_5, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam6(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_6, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam7(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_7, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam8(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_8, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam9(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_9, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam10(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_10, GlobalConstant.CATE_PRICING));
+        GlobalConstant.setInStoreParam11(systemDao.getParameterValue(GlobalConstant.KEY_INSTORE_PARAM_11, GlobalConstant.CATE_PRICING));
 
-        String bizCatIdColumnOfStoreInfo = sysParams.get(GlobalConstant.BIZCATID_COLUMN_OF_STOREINFO);
+        String bizCatIdColumnOfStoreInfo = systemDao.getParameterValue(GlobalConstant.BIZCATID_COLUMN_OF_STOREINFO, GlobalConstant.CATE_CM_INFORMATION);
         GlobalConstant.setBizCatIdColumnOfStoreInfo(
         		 (!StringUtility.isNullOrEmpty(bizCatIdColumnOfStoreInfo)) ? bizCatIdColumnOfStoreInfo : GlobalConstant.DEFAULT_BIZCATID_COLUMN_OF_STOREINFO);
 
-        String taxRate = sysParams.get(GlobalConstant.TAX_RATE_KEY);
+        String taxRate = systemDao.getParameterValue(GlobalConstant.TAX_RATE_KEY, GlobalConstant.CATE_PRICING);
         if (!StringUtility.isNullOrEmpty(taxRate)) {
             taxRate = "0";
         }
         GlobalConstant.setTaxRate(taxRate);
 
-        GlobalConstant.setRange1(sysParams.get(GlobalConstant.DOC_TAX_RANGE1_KEY));
+        GlobalConstant.setRange1(systemDao.getParameterValue(GlobalConstant.DOC_TAX_RANGE1_KEY, GlobalConstant.CATE_DOCUMENTARY_TAX));
 
-        GlobalConstant.setDefaultLanguage(sysParams.get(GlobalConstant.DEFAULT_LANGUAGE));
+        GlobalConstant.setDefaultLanguage(systemDao.getParameterValue(GlobalConstant.DEFAULT_LANGUAGE, GlobalConstant.CATE_LANGUAGE));
 
-        GlobalConstant.setApiServerUrl(sysParams.get(GlobalConstant.API_SERVER_URL));
-        String apiServerTimeout = sysParams.get(GlobalConstant.API_SERVER_TIMEOUT);
+        GlobalConstant.setApiServerUrl(systemDao.getParameterValue(GlobalConstant.API_SERVER_URL, GlobalConstant.CATE_API_SERVER));
+        String apiServerTimeout = systemDao.getParameterValue(GlobalConstant.API_SERVER_TIMEOUT, GlobalConstant.CATE_API_SERVER);
         if(!StringUtility.isNullOrEmpty(apiServerTimeout)) {
             GlobalConstant.setApiServerTimeout(Integer.parseInt(apiServerTimeout));
         }
 
-        String priceIncludeTax = sysParams.get(GlobalConstant.PRICE_INCLUDE_TAX_KEY);
+        String priceIncludeTax = systemDao.getParameterValue(GlobalConstant.PRICE_INCLUDE_TAX_KEY, GlobalConstant.CATE_PRICING);
         if(StringUtility.isNullOrEmpty(priceIncludeTax)) {
             priceIncludeTax = String.valueOf(Item.ROUND_DOWN);
         }
         GlobalConstant.setPriceIncludeTaxKey(priceIncludeTax);
 
-        GlobalConstant.setPricingType(sysParams.get(GlobalConstant.PRICING_TYPE));
+        GlobalConstant.setPricingType(systemDao.getParameterValue(GlobalConstant.PRICING_TYPE, GlobalConstant.CATE_PRICING));
 
-        GlobalConstant.setEnterpriseServerTimeout(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT));
-        GlobalConstant.setEnterpriseServerUri(sysParams.get(GlobalConstant.ENTERPRISE_SERVER_URI));
-        GlobalConstant.setAuthenticationUid(sysParams.get(GlobalConstant.AUTHENTICATION_UID));
-        GlobalConstant.setAuthenticationPassword(sysParams.get(GlobalConstant.AUTHENTICATION_PASSWORD));
-        
-        String serverPingTimeout = sysParams.get(GlobalConstant.KEY_SERVER_PING_TIMEOUT);
+        GlobalConstant.setEnterpriseServerTimeout(systemDao.getParameterValue(GlobalConstant.ENTERPRISE_SERVER_TIMEOUT, GlobalConstant.CATE_ENTERPRISE_SERVER));
+        GlobalConstant.setEnterpriseServerUri(systemDao.getParameterValue(GlobalConstant.ENTERPRISE_SERVER_URI, GlobalConstant.CATE_ENTERPRISE_SERVER));
+        GlobalConstant.setAuthenticationUid(systemDao.getParameterValue(GlobalConstant.AUTHENTICATION_UID, GlobalConstant.CATE_ENTERPRISE_SERVER));
+        GlobalConstant.setAuthenticationPassword(systemDao.getParameterValue(GlobalConstant.AUTHENTICATION_PASSWORD, GlobalConstant.CATE_ENTERPRISE_SERVER));
+
+        String serverPingTimeout = systemDao.getParameterValue(GlobalConstant.KEY_SERVER_PING_TIMEOUT, GlobalConstant.CATE_SYSTEM);
         if(!StringUtility.isNullOrEmpty(serverPingTimeout)) {
         	try{
         		int serverPingTimeoutInt = Integer.parseInt(serverPingTimeout);
@@ -334,7 +333,7 @@ public class WebContextListener implements ServletContextListener {
         	}
         }
 
-        GlobalConstant.setMaxQRCodePrintNum(sysParams.get(GlobalConstant.MAXQRCODEPRINTNUM));
+        GlobalConstant.setMaxQRCodePrintNum(systemDao.getParameterValue(GlobalConstant.MAXQRCODEPRINTNUM, GlobalConstant.CATE_PROMOTION));
     }
 
     /**

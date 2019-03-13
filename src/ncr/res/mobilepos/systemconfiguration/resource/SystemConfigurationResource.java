@@ -10,14 +10,10 @@
 
 package ncr.res.mobilepos.systemconfiguration.resource;
 
-import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.constant.GlobalConstant;
-import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.helper.DebugLogger;
-import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
-import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.store.model.ViewStore;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
@@ -31,9 +27,15 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import ncr.realgate.util.Trace;
+import ncr.res.mobilepos.constant.GlobalConstant;
+import ncr.res.mobilepos.daofactory.DAOFactory;
+import ncr.res.mobilepos.helper.DebugLogger;
+import ncr.res.mobilepos.helper.Logger;
+import ncr.res.mobilepos.helper.StringUtility;
+import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.systemconfiguration.model.SystemConfigInfo;
+import ncr.res.mobilepos.systemconfiguration.model.SystemParameter;
 
 /**
  * SystemConfigurationResource Class is a Web Resource which support.
@@ -108,7 +110,7 @@ public class SystemConfigurationResource {
 
         // Checks if SystemConfiguration exists on ServletContext.
         Map<String, String> systemConfigMap = GlobalConstant.getSystemConfig();
-        if(systemConfigMap == null) {
+        if(systemConfigMap.size() <= 0) {
             returnMap.put("NCRWSSResultCode", ResultBase.RES_ERROR_NODATAFOUND);
             returnMap.put("NCRWSSExtendedResultCode", ResultBase.RES_ERROR_NODATAFOUND);
             LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
@@ -135,6 +137,42 @@ public class SystemConfigurationResource {
         returnMap.put("NCRWSSResultCode", ResultBase.RES_OK);
         returnMap.put("NCRWSSExtendedResultCode", ResultBase.RES_OK);
         return returnMap;
+    }
+
+
+    /**
+     * Get Category, KeyId, Value From PRM_SYSTEM_CONFIG
+     * @return SystemConfiguration
+     */
+    @SuppressWarnings("unchecked")
+    @GET
+    @Path("/getsystemconfig")
+    @Produces ({MediaType.APPLICATION_JSON })
+    @ApiOperation(value="システムパラメータ取得", response=Map.class)
+    @ApiResponses(value={
+    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+        })
+    public final SystemParameter getSystemConfigs(){
+    	String functionName = DebugLogger.getCurrentMethodName();
+        tp.methodEnter(functionName);
+        SystemParameter systemParameter = new SystemParameter();
+        List<SystemConfigInfo> listSystemConfigInfos = GlobalConstant.getSystemConfigInfoList();
+
+        if(listSystemConfigInfos.isEmpty()){
+        	systemParameter.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_SYSTEM_CONFIG_NOFOUND);
+        	systemParameter.setNCRWSSResultCode(ResultBase.RES_ERROR_SYSTEM_CONFIG_NOFOUND);
+        	LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL,
+                    "System Config Informations not get" );
+            tp.methodExit(systemParameter);
+        }else{
+        	for(SystemConfigInfo sysConfigInfo:listSystemConfigInfos){
+        		if(StringUtility.isNullOrEmpty(sysConfigInfo.getValue())){
+        			sysConfigInfo.setValue("");
+        		}
+        	}
+        	systemParameter.setSystemparameter(listSystemConfigInfos);
+        }
+        return systemParameter;
     }
 
     /**

@@ -6,13 +6,11 @@ import java.lang.reflect.Field;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
-import javax.smartcardio.ATR;
 
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.deviceinfo.model.AttributeInfo;
 import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
 import ncr.res.mobilepos.helper.DBInitiator;
-import ncr.res.mobilepos.helper.ExceptionHelper;
 import ncr.res.mobilepos.helper.Requirements;
 import ncr.res.mobilepos.helper.ResultBaseHelper;
 import ncr.res.mobilepos.helper.DBInitiator.DATABASE;
@@ -20,7 +18,6 @@ import ncr.res.mobilepos.model.ResultBase;
 import ncr.res.mobilepos.helper.StringUtility;
 
 import org.dbunit.operation.DatabaseOperation;
-import org.hamcrest.core.IsInstanceOf;
 import org.jbehave.core.annotations.AfterScenario;
 import org.jbehave.core.annotations.BeforeScenario;
 import org.jbehave.core.annotations.Given;
@@ -30,8 +27,6 @@ import org.jbehave.core.model.ExamplesTable;
 import org.jbehave.core.steps.Steps;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import junit.framework.Assert;
 

@@ -101,8 +101,7 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
                     "Failed to get the system name information.\n" + sqlEx.getMessage());
             throw new DaoException("SQLException: @getNameSystemInfo ", sqlEx);
-        }
-        catch (NumberFormatException nuEx) {
+        } catch (NumberFormatException nuEx) {
             LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
                     "Failed to get the system name information.\n" + nuEx.getMessage());
             throw new DaoException("NumberFormatException: @getNameSystemInfo ", nuEx);
@@ -115,59 +114,6 @@ public class SQLServerNameSystemInfoDAO extends AbstractDao implements INameSyst
             tp.methodExit(listNameSystemInfo);
         }
         return listNameSystemInfo;
-    }
-
-
-	/**
-	 * Get NameCategory from PRM_SYSTEM_CONFIG
-	 *
-	 * @param Category
-	 * @param KeyId
-	 * @return NameCategory
-	 * @throws DaoException
-	 *
-	 * The exception thrown when searching failed.
-	 */
-    @Override
-	public final String getNameCategory(String Category, String KeyId) throws DaoException{
-    	String functionName = DebugLogger.getCurrentMethodName();
-
-        Connection connection = null;
-        PreparedStatement select = null;
-        ResultSet result = null;
-
-        String NameCategory = null;
-
-        try {
-            connection = dbManager.getConnection();
-            SQLStatement sqlStatement = SQLStatement.getInstance();
-            select = connection.prepareStatement(sqlStatement.getProperty("get-system-parameter-value"));
-            select.setString(SQLStatement.PARAM1, Category);
-            select.setString(SQLStatement.PARAM2, KeyId);
-            result = select.executeQuery();
-            while(result.next()){
-            	NameCategory = result.getString(result.findColumn("Value"));
-            	}
-            }
-        catch (SQLException sqlEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_SQL,
-                    "Failed to get the NameCategory.\n" + sqlEx.getMessage());
-            throw new DaoException("SQLException: @getNameCategory ", sqlEx);
-        }
-        catch (NumberFormatException nuEx) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_PARSE,
-                    "Failed to get the NameCategory.\n" + nuEx.getMessage());
-            throw new DaoException("NumberFormatException: @getNameCategory ", nuEx);
-        }
-        catch (Exception e) {
-            LOGGER.logAlert(progname, functionName, Logger.RES_EXCEP_GENERAL,
-                    "Failed to get the NameCategory.\n" + e.getMessage());
-            throw new DaoException("Exception: @getNameCategory ", e);
-        } finally {
-            closeConnectionObjects(connection, select, result);
-            tp.methodExit(NameCategory);
-        }
-		return NameCategory;
     }
 
 	/**

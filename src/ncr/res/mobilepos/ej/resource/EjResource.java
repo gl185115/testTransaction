@@ -26,9 +26,11 @@ import atg.taglib.json.util.JSONObject;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
 import ncr.res.mobilepos.constant.WindowsEnvironmentVariables;
+import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.ej.Factory.NameCategoryFactory;
 import ncr.res.mobilepos.ej.dao.INameSystemInfoDAO;
 import ncr.res.mobilepos.ej.dao.SQLServerNameSystemInfoDAO;
+import ncr.res.mobilepos.ej.helper.UrlConnectionHelper;
 import ncr.res.mobilepos.ej.model.EjInfo;
 import ncr.res.mobilepos.ej.model.EjInfos;
 import ncr.res.mobilepos.ej.model.PosLogInfo;
@@ -36,7 +38,7 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.ej.helper.UrlConnectionHelper;
+import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 
 /**
  * EjResource Class is a Web Resource which support MobilePOS
@@ -514,6 +516,9 @@ public class EjResource {
 			String sequencenumberTo, String businessDateTimeFrom, String businessDateTimeTo, String countFrom, String countTo, String operatorId,
 			 String salesPersonId, String trainingFlag ) throws Exception{
 		String functionName = DebugLogger.getCurrentMethodName();
+		DAOFactory dao = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
+        SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
+        INameSystemInfoDAO systemNameDao = dao.getNameSystemInfo();
 		String NameCategory = null;
 		int SearchFrom = 1;
 		int SearchTo = 1;
@@ -531,11 +536,10 @@ public class EjResource {
 			return ejInfos;
 		}
 
-		INameSystemInfoDAO dao = new SQLServerNameSystemInfoDAO();
 		Iterator<EjInfo> iterator = null;
 
 		// get NameCategory
-		NameCategory = dao.getNameCategory(Category_TxType, KeyId_TxType);
+		NameCategory = systemDao.getParameterValue(KeyId_TxType, Category_TxType);
 		if (StringUtility.isNullOrEmpty(NameCategory)) {
 			NameCategory = "0061";
 		}
@@ -568,7 +572,7 @@ public class EjResource {
 			return ejInfos;
 		} else {
 			EjInfo ejInfo1 = null;
-			listEjInfo = dao.getEjInfo(companyId, retailstoreId, workstationId, txType, sequencenumberFrom,sequencenumberTo,
+			listEjInfo = systemNameDao.getEjInfo(companyId, retailstoreId, workstationId, txType, sequencenumberFrom,sequencenumberTo,
 					businessDateTimeFrom, businessDateTimeTo, operatorId, salesPersonId, trainingFlag);
 			iterator = listEjInfo.iterator();
 			while (iterator.hasNext()){
@@ -582,10 +586,10 @@ public class EjResource {
 			}
 			if (!listEjInfos.isEmpty()) {
 				if (StringUtility.isNullOrEmpty(countTo)) {
-					if (StringUtility.isNullOrEmpty(dao.getNameCategory(Category_Limit, KeyId_Limit))) {
+					if (StringUtility.isNullOrEmpty(systemDao.getParameterValue(KeyId_Limit, Category_Limit))) {
 						SearchTo = listEjInfos.size();
 					} else {
-						SearchTo = Integer.parseInt(dao.getNameCategory(Category_Limit, KeyId_Limit)) + SearchFrom - 1;
+						SearchTo = Integer.parseInt(systemDao.getParameterValue(KeyId_Limit, Category_Limit)) + SearchFrom - 1;
 					}
 				} else {
 					SearchTo = Integer.parseInt(countTo);

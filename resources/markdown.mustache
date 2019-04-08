@@ -23,7 +23,7 @@ Api Version: {{apiVersion}}
 {{#apis}}
 {{#operations}}
     <tr>
-        <td>{{url}}</td>
+        <td><a href="#{{nickname}}">{{path}}</a></td>
         <td>{{summary}}{{{notes}}}</td>
     </tr>
 {{/operations}}
@@ -41,6 +41,7 @@ Api Version: {{apiVersion}}
 
 {{#apis}}
 {{#operations}}
+<div id="{{nickname}}"/>
 #### **{{httpMethod}}** `{{path}}`
 ##### {{nickname}}
 

@@ -11416,7 +11416,7 @@ ORDER BY empinfo.EmpCode;
           tr.WorkstationId = @workstationId AND
           tr.SequenceNumber &gt;= @sequencenumberFrom AND
           tr.SequenceNumber &lt;=  @SequencenumberTo AND
-          tr.BusinessDayDate BETWEEN CONVERT(DATE,@businessDateTimeFrom) AND CONVERT(DATE,@businessDateTimeTo)
+          tr.BusinessDateTimeStart BETWEEN CONVERT(DATETIME,@businessDateTimeFrom) AND CONVERT(DATETIME,@businessDateTimeTo)
           %s
         ORDER BY tr.SequenceNumber DESC
     </entry>

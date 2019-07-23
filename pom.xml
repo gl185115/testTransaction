@@ -70,7 +70,7 @@
         <dependency>
             <groupId>ncr.res.base</groupId>
             <artifactId>mex-common</artifactId>
-            <version>1.0.3.12</version>
+            <version>3.5.0.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -202,13 +202,13 @@
         <dependency>
             <groupId>ncr.res.base.javalib</groupId>
             <artifactId>toppan-giftcard-mobile</artifactId>
-            <version>1.0.6.13</version>
+            <version>3.5.1.7</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>ncr.res.mobilepos</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>3.3.1.59</version>
+            <version>3.5.0.2</version>
             <scope>compile</scope>
         </dependency>
 

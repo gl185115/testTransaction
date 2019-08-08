@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011-2012 NCR/JAPAN Corporation SW-R&D
+* Copyright (c) 2011-2019 NCR/JAPAN Corporation SW-R&D
 *
 * WebContextListener
 *
@@ -141,8 +141,6 @@ public class WebContextListener implements ServletContextListener {
         //Get System parameters from PRM_SYSTEM_CONFIG and set to GlobalConstant.
         SQLServerSystemConfigDAO systemDao = dao.getSystemConfigDAO();
         GlobalConstant.setSystemConfigInfoList(systemDao.getSystemConfigInfo());
-        Map<String, String> systemConfig = systemDao.getSystemParameters();
-        GlobalConstant.setSystemConfig(systemConfig);
         // Copies some params which are used inside resTransaction to GlobalConstants from SystemConfiguration.
         copySystemConfigToGlobalConstant(systemDao);
     }

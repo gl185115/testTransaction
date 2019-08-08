@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2011 NCR/JAPAN Corporation SW-R&D
+* Copyright (c) 2019 NCR/JAPAN Corporation SW-R&D
 *
 * SQLServerSystemConfigDAO
 *
@@ -63,7 +63,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
         this.tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
                 getClass());
     }
-    
+
     /**
      * Get All Informations from PRM_SYSTEM_CONFIG.
      * @return systemConfigInfoList
@@ -124,21 +124,6 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 	}
 
     /**
-     * Get the System parameters set by the user in PRM_SYSTEM_CONFIG.
-     * @return The key-value pair of each System parameter
-     */
-	public final Map<String, String> getSystemParameters(){
-		List<SystemConfigInfo> systemConfigInfoList = GlobalConstant.getSystemConfigInfoList();
-		Map<String, String> sysParams = new HashMap<String, String>();
-		if(systemConfigInfoList != null && !systemConfigInfoList.isEmpty()){
-			for (SystemConfigInfo systemConfigInfo : systemConfigInfoList) {
-				sysParams.put(systemConfigInfo.getKeyId(), systemConfigInfo.getValue());
-			}
-		}
-		return sysParams;
-	}
-
-    /**
      * Get the System parameters from PRM_SYSTEM_CONFIG by category.
      * @param  List<SystemConfigInfo> systemConfigInfoList
      * @return The key-value pair of each System parameter
@@ -168,7 +153,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("Key", key)
 				.println("Category", category);
-		
+
         String value = "";
         Connection connection = null;
         PreparedStatement select = null;
@@ -180,7 +165,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
                     sqlStatement.getProperty("get-system-parameter-value"));
             select.setString(1, category);
             select.setString(2, key);
-            
+
             result = select.executeQuery();
             if (result.next()) {
                 value = result.getString(result.findColumn("Value"));
@@ -192,7 +177,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 					+ "SQLServerSystemConfigDAO." + functionName, e);
         } finally {
             closeConnectionObjects(connection, select, result);
-            
+
             tp.methodExit(value);
         }
 
@@ -238,7 +223,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 			throws DaoException {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
-        
+
         int result = 0;
         Connection connection = null;
         PreparedStatement select = null;
@@ -269,7 +254,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 					+ functionName, e);
 		} finally {
 			closeConnectionObjects(connection, select);
-			
+
 			tp.methodExit(result);
 		}
         return result;
@@ -285,7 +270,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 			throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
-        
+
         int result = 0;
         Connection connection = null;
         PreparedStatement addStmnt = null;
@@ -315,7 +300,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 					+ functionName, e);
         } finally {
             closeConnectionObjects(connection, addStmnt);
-            
+
             tp.methodExit(result);
         }
 
@@ -332,7 +317,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
 			throws DaoException {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
-		
+
         int result = 0;
         Connection connection = null;
         PreparedStatement update = null;
@@ -357,7 +342,7 @@ public class SQLServerSystemConfigDAO extends AbstractDao {
             }
 
             connection.commit();
-            
+
 		} catch (SQLException e) {
 			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_SQL, functionName
 					+ ": Failed to set the System Parameters.", e);

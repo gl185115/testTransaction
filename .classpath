@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="target/test-classes" path="test"/>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry excluding="**/*.java" including="*.properties" kind="src" path="resources"/>
+	<classpathentry including="**/*.java" kind="src" output="target/test-classes" path="test">
+		<attributes>
+			<attribute name="test" value="true"/>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry including="**/*.java" kind="src" output="target/classes" path="src">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/javax/ws/rs/jsr311-api/1.1.1/jsr311-api-1.1.1.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-server/1.8/jersey-server-1.8.jar"/>
 	<classpathentry kind="var" path="M2_REPO/asm/asm/3.1/asm-3.1.jar"/>
 	<classpathentry kind="var" path="M2_REPO/com/sun/jersey/jersey-core/1.8/jersey-core-1.8.jar"/>
@@ -59,8 +78,8 @@
 	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-util-scan/8.0.24/tomcat-util-scan-8.0.24.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/apache/tomcat/tomcat-dbcp/8.0.24/tomcat-dbcp-8.0.24.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/sqljdbc42.jar"/>
-	<classpathentry kind="var" path="M2_REPO/ncr/res/base/mex-common/1.0.2.1/mex-common-1.0.2.1.jar"/>
-	<classpathentry kind="var" path="M2_REPO/ncr/res/base/javalib/toppan-giftcard-mobile/1.0.1.6/toppan-giftcard-mobile-1.0.1.6.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ncr/res/base/mex-common/3.5.0.7/mex-common-3.5.0.7.jar"/>
+	<classpathentry kind="var" path="M2_REPO/ncr/res/base/javalib/toppan-giftcard-mobile/3.5.1.7/toppan-giftcard-mobile-3.5.1.7.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-module-junit4/1.6.6/powermock-module-junit4-1.6.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-mockito-common/1.6.6/powermock-api-mockito-common-1.6.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-core/1.6.6/powermock-core-1.6.6.jar"/>
@@ -69,5 +88,11 @@
 	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-reflect/1.6.6/powermock-reflect-1.6.6.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/mockito/mockito-core/1.10.19/mockito-core-1.10.19.jar"/>
 	<classpathentry kind="var" path="M2_REPO/org/powermock/powermock-api-mockito/1.6.6/powermock-api-mockito-1.6.6.jar"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

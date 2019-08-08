@@ -39,7 +39,6 @@
         ncr.res.mobilepos.pricing.resource,
         ncr.res.mobilepos.promotion.resource,
         ncr.res.mobilepos.queuebuster.resource,
-        ncr.res.mobilepos.queuesignature.resource,
         ncr.res.mobilepos.report.resource,
         ncr.res.mobilepos.searchapi.resource,
         ncr.res.mobilepos.settlement.resource,
@@ -82,7 +81,6 @@
     <web-resource-collection>
       <web-resource-name>User Basic Authentication</web-resource-name>
       <url-pattern>/rest/POINTAPI/*</url-pattern>
-      <url-pattern>/rest/QueueSignature/*</url-pattern>
       <url-pattern>/rest/QueueSuspend/*</url-pattern>
       <url-pattern>/rest/SystemSettings/DateSettings/*</url-pattern>
       <url-pattern>/rest/SystemSettings/ping</url-pattern>

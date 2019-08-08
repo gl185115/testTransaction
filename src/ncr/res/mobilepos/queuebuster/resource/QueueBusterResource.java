@@ -50,7 +50,7 @@ import ncr.res.mobilepos.queuebuster.model.BusteredTransactionList;
 import ncr.res.mobilepos.queuebuster.model.CashDrawer;
 import ncr.res.mobilepos.queuebuster.model.ResumedTransaction;
 import ncr.res.mobilepos.queuebuster.model.SuspendData;
-import ncr.res.mobilepos.queuesignature.model.SignatureRequestBill;
+
 
 /**
  * QueueBusterResource is a Resource Class for QueueBustering.

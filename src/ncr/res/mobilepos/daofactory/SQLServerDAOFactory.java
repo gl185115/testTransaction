@@ -105,8 +105,6 @@ import ncr.res.mobilepos.promotion.dao.SQLServerQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.dao.SQLServerTaxRateInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.queuebuster.dao.SQLServerQueueBusterDao;
-import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
-import ncr.res.mobilepos.queuesignature.dao.QueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
 import ncr.res.mobilepos.report.dao.SQLServerReportDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
@@ -212,11 +210,6 @@ public class SQLServerDAOFactory extends DAOFactory {
     @Override
     public final IDeviceInfoDAO getDeviceInfoDAO() throws DaoException {
         return new SQLDeviceInfoDAO();
-    }
-
-    @Override
-    public final IQueueSignatureDao getQueueSignatureDao() throws DaoException {
-        return new QueueSignatureDao();
     }
 
     @Override
@@ -419,12 +412,12 @@ public class SQLServerDAOFactory extends DAOFactory {
 	public final IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException {
 		return new SQLServerPromotionMsgInfoDAO();
 	}
-	
+
 	@Override
 	public IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException {
 		return new SQLServerPOSMailInfoDAO();
 	}
-	
+
 	@Override
 	public IEmployeeDao getEmployeeDao() throws DaoException {
 		return new SQLServerEmployeeDAO();

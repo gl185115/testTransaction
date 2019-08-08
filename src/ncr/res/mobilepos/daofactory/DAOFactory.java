@@ -60,7 +60,6 @@ import ncr.res.mobilepos.promotion.dao.IPromotionMsgInfoDAO;
 import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ITaxRateInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
-import ncr.res.mobilepos.queuesignature.dao.IQueueSignatureDao;
 import ncr.res.mobilepos.report.dao.IReportDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
 import ncr.res.mobilepos.store.dao.IStoreDAO;
@@ -280,15 +279,6 @@ public abstract class DAOFactory {
     public abstract IDeviceLogDAO getDeviceLogDao() throws DaoException;
 
     /**
-     * Gets the QueueSignatureDao.
-     *
-     * @return IQueueSignatureDao The DAO object
-     * @throws DaoException
-     *             - Exception
-     */
-    public abstract IQueueSignatureDao getQueueSignatureDao() throws DaoException;
-
-    /**
      * Gets the DepartmentDao.
      *
      * @return IDepartmentDao The DAO object
@@ -417,7 +407,7 @@ public abstract class DAOFactory {
     public abstract ICommonDAO getCommonDAO() throws DaoException;
 
     public abstract ICustomerSearthDAO getCustomerSearthDAO() throws DaoException;
-    
+
     public abstract IFuturePayDAO getFuturePayDAO() throws DaoException;
 
     public abstract ICardInfoDAO getCardInfoDAO() throws Exception;
@@ -474,12 +464,12 @@ public abstract class DAOFactory {
 	public abstract IAppServerDAO getAppServerDAO() throws DaoException;
 
 	public abstract IPricePromInfoDAO getPricePromInfoDAO() throws DaoException;
-	
+
 	public abstract IPriceMMInfoDAO getPriceMMInfoDAO() throws DaoException;
 
 	public abstract IPromotionMsgInfoDAO getPromotionMsgInfoDAO() throws DaoException;
-	
+
 	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
-	
+
 	public abstract IEmployeeDao getEmployeeDao() throws DaoException;
 }

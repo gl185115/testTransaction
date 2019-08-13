@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-  <!-- start item sqlstatements block -->
-    <!-- 前受金番号 -->
- <entry key="get-item">
+<!-- start item sqlstatements block -->
+<!-- 前受金番号 -->
+<entry key="get-item">
 
 DECLARE @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),@sizeId VARCHAR(10),
         @storeStoreId VARCHAR(10), @dptStoreId VARCHAR(10), @groupStoreId VARCHAR(10), @classStoreId VARCHAR(10),
@@ -297,7 +297,7 @@ SELECT TOP 1
        classInfo.TaxType clsTaxType,
        dpt.DiscountType dptDiscountType,
        dpt.DptNameLocal,
-	   dpt.DptName,
+     dpt.DptName,
        dpt.TaxType dptTaxType,
        dpt.SubCode1 dptSubCode1,
        dpt.SubNum1 dptSubNum1,
@@ -639,7 +639,7 @@ INNER JOIN RESMaster.dbo.MST_PRICE_PROM_DETAIL detail
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.CompanyId = @companyId
-	AND info.TargetStoreType in ('0','2')
+  AND info.TargetStoreType in ('0','2')
 
 UNION
 
@@ -678,7 +678,7 @@ INNER JOIN RESMaster.dbo.MST_PRICE_PROM_STORE store
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.CompanyId = @companyId
-	AND info.TargetStoreType = '1'
+  AND info.TargetStoreType = '1'
 
 ORDER BY detail.PromotionType DESC,info.UpdDate DESC
 
@@ -956,10 +956,10 @@ DECLARE @storeId VARCHAR(10) ,
     SET @brandId = LTRIM(RTRIM(?))
     SET @conn = LTRIM(RTRIM(?))
 
-	IF NOT EXISTS (
-		SELECT *
-		FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info
-		INNER JOIN RESMaster.dbo.MST_PREMIUMITEM_STORE store
+  IF NOT EXISTS (
+    SELECT *
+    FROM  RESMaster.dbo.MST_PREMIUMITEM_INFO info
+    INNER JOIN RESMaster.dbo.MST_PREMIUMITEM_STORE store
         ON info.CompanyId = store.CompanyId
         AND info.PremiumItemNo = store.PremiumItemNo
         AND store.StoreId = @storeId
@@ -1054,217 +1054,219 @@ SET @storeId =LTRIM(RTRIM(?))
 SET @businessDate =LTRIM(RTRIM(?))
 
 SELECT * FROM (
-	SELECT  A.PromotionId,
-	        A.PromotionName,
-	        A.MinimumPrice,
-	        A.OutputTargetValue,
-	        A.BMPFileName,
-	        A.BMPFileFlag,
-	        A.BMPFileCount,
-	        A.OutputType,
-	        A.DisplayOrder,
-	        A.PromotionType,
-	        A.Dpt,
-	        A.Line,
-	        A.Class,
-	        A.Sku,
-	        A.ConnCode,
-	        A.BrandId,
-	        member.MemberRank,
-	        member.MemberTargetType,
-	        member.SexType,
-	        member.BirthMonth
-	FROM(
-	    SELECT
-	        info.CompanyId,
-	        info.TargetMemberType,
-	        info.PromotionId,
-	        info.PromotionName,
-	        info.MinimumPrice,
-	        info.OutputTargetValue,
-	        info.BMPFileName,
-	        info.BMPFileFlag,
-	        info.BMPFileCount,
-	        info.OutputType,
-	        info.DisplayOrder,
-	        detail.PromotionType,
-	        detail.Dpt,
-	        detail.Line,
-	        detail.Class,
-	        detail.Sku,
-	        detail.ConnCode,
-	        detail.BrandId
-	    FROM
-	        RESMaster.dbo.MST_QRCODE_INFO info
-	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-	        ON info.CompanyId = detail.CompanyId
-	        AND info.PromotionId = detail.PromotionId
-	        AND detail.DeleteFlag = 0
-	    WHERE
-	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-	        AND info.DeleteFlag = 0.0
-	        AND info.CompanyId = @companyId
-	        AND info.TargetStoreType IN ('0','2')
+  SELECT  A.PromotionId,
+          A.PromotionName,
+          A.MinimumPrice,
+          A.OutputTargetValue,
+          A.BMPFileName,
+          A.BMPFileFlag,
+          A.BMPFileCount,
+          A.OutputType,
+          A.DisplayOrder,
+          A.PromotionType,
+          A.Dpt,
+          A.Line,
+          A.Class,
+          A.Sku,
+          A.ConnCode,
+          A.BrandId,
+          member.MemberRank,
+          member.MemberTargetType,
+          member.SexType,
+          member.BirthMonth
+  FROM(
+      SELECT
+          info.CompanyId,
+          info.TargetMemberType,
+          info.PromotionId,
+          info.PromotionName,
+          info.MinimumPrice,
+          info.OutputTargetValue,
+          info.BMPFileName,
+          info.BMPFileFlag,
+          info.BMPFileCount,
+          info.OutputType,
+          info.DisplayOrder,
+          detail.PromotionType,
+          detail.Dpt,
+          detail.Line,
+          detail.Class,
+          detail.Sku,
+          detail.ConnCode,
+          detail.BrandId
+      FROM
+          RESMaster.dbo.MST_QRCODE_INFO info
+      INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+          ON info.CompanyId = detail.CompanyId
+          AND info.PromotionId = detail.PromotionId
+          AND detail.DeleteFlag = 0
+      WHERE
+          CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+          AND info.DeleteFlag = 0.0
+          AND info.CompanyId = @companyId
+          AND info.TargetStoreType IN ('0','2')
 
-	    UNION
+      UNION
 
-	    SELECT
-	        info.CompanyId,
-	        info.TargetMemberType,
-	        info.PromotionId,
-	        info.PromotionName,
-	        info.MinimumPrice,
-	        info.OutputTargetValue,
-	        info.BMPFileName,
-	        info.BMPFileFlag,
-	        info.BMPFileCount,
-	        info.OutputType,
-	        info.DisplayOrder,
-	        detail.PromotionType,
-	        detail.Dpt,
-	        detail.Line,
-	        detail.Class,
-	        detail.Sku,
-	        detail.ConnCode,
-	        detail.BrandId
-	    FROM
-	        RESMaster.dbo.MST_QRCODE_INFO info
-	    LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
-	        ON info.CompanyId = store.CompanyId
-	        AND info.PromotionId = store.PromotionId
-	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-	        ON info.CompanyId = detail.CompanyId
-	        AND info.PromotionId = detail.PromotionId
-	        AND detail.DeleteFlag = 0
-	    WHERE
-	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-	        AND info.DeleteFlag = 0.0
-	        AND info.CompanyId = @companyId
-	        AND store.CompanyId = @companyId
-	        AND store.DeleteFlag = 0.0
-	        AND store.StoreId = @storeId
-	  ) A
-	INNER JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
-	   ON A.CompanyId = member.CompanyId
-	  AND A.PromotionId = member.PromotionId
-	  AND A.TargetMemberType = '1'
-	  AND member.DeleteFlag = 0
+      SELECT
+          info.CompanyId,
+          info.TargetMemberType,
+          info.PromotionId,
+          info.PromotionName,
+          info.MinimumPrice,
+          info.OutputTargetValue,
+          info.BMPFileName,
+          info.BMPFileFlag,
+          info.BMPFileCount,
+          info.OutputType,
+          info.DisplayOrder,
+          detail.PromotionType,
+          detail.Dpt,
+          detail.Line,
+          detail.Class,
+          detail.Sku,
+          detail.ConnCode,
+          detail.BrandId
+      FROM
+          RESMaster.dbo.MST_QRCODE_INFO info
+      LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
+          ON info.CompanyId = store.CompanyId
+          AND info.PromotionId = store.PromotionId
+      INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+          ON info.CompanyId = detail.CompanyId
+          AND info.PromotionId = detail.PromotionId
+          AND detail.DeleteFlag = 0
+      WHERE
+          CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+          AND info.DeleteFlag = 0.0
+          AND info.CompanyId = @companyId
+          AND store.CompanyId = @companyId
+          AND store.DeleteFlag = 0.0
+          AND store.StoreId = @storeId
+    ) A
+  INNER JOIN RESMaster.dbo.MST_QRCODE_MEMBER member
+     ON A.CompanyId = member.CompanyId
+    AND A.PromotionId = member.PromotionId
+    AND A.TargetMemberType = '1'
+    AND member.DeleteFlag = 0
 
-	UNION
+  UNION
 
-	SELECT  A.PromotionId,
-	        A.PromotionName,
-	        A.MinimumPrice,
-	        A.OutputTargetValue,
-	        A.BMPFileName,
-	        A.BMPFileFlag,
-	        A.BMPFileCount,
-	        A.OutputType,
-	        A.DisplayOrder,
-	        A.PromotionType,
-	        A.Dpt,
-	        A.Line,
-	        A.Class,
-	        A.Sku,
-	        A.ConnCode,
-	        A.BrandId,
-	        NULL,
-	        NULL,
-	        NULL,
-	        NULL
-	FROM(
-	    SELECT
-	        info.CompanyId,
-	        info.TargetMemberType,
-	        info.PromotionId,
-	        info.PromotionName,
-	        info.MinimumPrice,
-	        info.OutputTargetValue,
-	        info.BMPFileName,
-	        info.BMPFileFlag,
-	        info.BMPFileCount,
-	        info.OutputType,
-	        info.DisplayOrder,
-	        detail.PromotionType,
-	        detail.Dpt,
-	        detail.Line,
-	        detail.Class,
-	        detail.Sku,
-	        detail.ConnCode,
-	        detail.BrandId
-	    FROM
-	        RESMaster.dbo.MST_QRCODE_INFO info
-	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-	        ON info.CompanyId = detail.CompanyId
-	        AND info.PromotionId = detail.PromotionId
-	        AND detail.DeleteFlag = 0
-	    WHERE
-	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-	        AND info.DeleteFlag = 0.0
-	        AND info.CompanyId = @companyId
-	        AND info.TargetStoreType IN ('0','2')
+  SELECT  A.PromotionId,
+          A.PromotionName,
+          A.MinimumPrice,
+          A.OutputTargetValue,
+          A.BMPFileName,
+          A.BMPFileFlag,
+          A.BMPFileCount,
+          A.OutputType,
+          A.DisplayOrder,
+          A.PromotionType,
+          A.Dpt,
+          A.Line,
+          A.Class,
+          A.Sku,
+          A.ConnCode,
+          A.BrandId,
+          NULL,
+          NULL,
+          NULL,
+          NULL
+  FROM(
+      SELECT
+          info.CompanyId,
+          info.TargetMemberType,
+          info.PromotionId,
+          info.PromotionName,
+          info.MinimumPrice,
+          info.OutputTargetValue,
+          info.BMPFileName,
+          info.BMPFileFlag,
+          info.BMPFileCount,
+          info.OutputType,
+          info.DisplayOrder,
+          detail.PromotionType,
+          detail.Dpt,
+          detail.Line,
+          detail.Class,
+          detail.Sku,
+          detail.ConnCode,
+          detail.BrandId
+      FROM
+          RESMaster.dbo.MST_QRCODE_INFO info
+      INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+          ON info.CompanyId = detail.CompanyId
+          AND info.PromotionId = detail.PromotionId
+          AND detail.DeleteFlag = 0
+      WHERE
+          CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+          AND info.DeleteFlag = 0.0
+          AND info.CompanyId = @companyId
+          AND info.TargetStoreType IN ('0','2')
 
-	    UNION
+      UNION
 
-	    SELECT
-	        info.CompanyId,
-	        info.TargetMemberType,
-	        info.PromotionId,
-	        info.PromotionName,
-	        info.MinimumPrice,
-	        info.OutputTargetValue,
-	        info.BMPFileName,
-	        info.BMPFileFlag,
-	        info.BMPFileCount,
-	        info.OutputType,
-	        info.DisplayOrder,
-	        detail.PromotionType,
-	        detail.Dpt,
-	        detail.Line,
-	        detail.Class,
-	        detail.Sku,
-	        detail.ConnCode,
-	        detail.BrandId
-	    FROM
-	        RESMaster.dbo.MST_QRCODE_INFO info
-	    LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
-	        ON info.CompanyId = store.CompanyId
-	        AND info.PromotionId = store.PromotionId
-	    INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
-	        ON info.CompanyId = detail.CompanyId
-	        AND info.PromotionId = detail.PromotionId
-	        AND detail.DeleteFlag = 0
-	    WHERE
-	        CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
-	        AND info.DeleteFlag = 0.0
-	        AND info.CompanyId = @companyId
-	        AND store.CompanyId = @companyId
-	        AND store.DeleteFlag = 0.0
-	        AND store.StoreId = @storeId
-	) A
-	WHERE A.TargetMemberType = '0'
+      SELECT
+          info.CompanyId,
+          info.TargetMemberType,
+          info.PromotionId,
+          info.PromotionName,
+          info.MinimumPrice,
+          info.OutputTargetValue,
+          info.BMPFileName,
+          info.BMPFileFlag,
+          info.BMPFileCount,
+          info.OutputType,
+          info.DisplayOrder,
+          detail.PromotionType,
+          detail.Dpt,
+          detail.Line,
+          detail.Class,
+          detail.Sku,
+          detail.ConnCode,
+          detail.BrandId
+      FROM
+          RESMaster.dbo.MST_QRCODE_INFO info
+      LEFT JOIN RESMaster.dbo.MST_QRCODE_STORE store
+          ON info.CompanyId = store.CompanyId
+          AND info.PromotionId = store.PromotionId
+      INNER JOIN RESMaster.dbo.MST_QRCODE_DETAIL detail
+          ON info.CompanyId = detail.CompanyId
+          AND info.PromotionId = detail.PromotionId
+          AND detail.DeleteFlag = 0
+      WHERE
+          CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
+          AND info.DeleteFlag = 0.0
+          AND info.CompanyId = @companyId
+          AND store.CompanyId = @companyId
+          AND store.DeleteFlag = 0.0
+          AND store.StoreId = @storeId
+  ) A
+  WHERE A.TargetMemberType = '0'
 ) B
 ORDER BY DisplayOrder, PromotionId
 </entry>
+
 <entry key="check-cust-in-memberid">
 DECLARE @companyId VARCHAR(32),
-		@promotionId VARCHAR(20),
-		@customerId VARCHAR(22)
+    @promotionId VARCHAR(20),
+    @customerId VARCHAR(22)
 
 SET @companyId =LTRIM(RTRIM(?))
 SET @promotionId =LTRIM(RTRIM(?))
 SET @customerId =LTRIM(RTRIM(?))
 
 SELECT
-	MemberId
+  MemberId
 FROM
-	RESMaster.dbo.MST_QRCODE_MEMBERID
+  RESMaster.dbo.MST_QRCODE_MEMBERID
 WHERE
-	companyId = @companyId
-	AND MemberId = @customerId
-	AND promotionId = @promotionId
-	AND DeleteFlag = 0
+  companyId = @companyId
+  AND MemberId = @customerId
+  AND promotionId = @promotionId
+  AND DeleteFlag = 0
 </entry>
+
 <entry key="get-qrcode-info">
 DECLARE @companyId VARCHAR(32),
         @dpt VARCHAR(32),
@@ -1365,6 +1367,7 @@ WHERE
 
 ) A ORDER BY DisplayOrder
 </entry>
+
 <entry key="get-promotion-msg-info-list">
 DECLARE @companyId VARCHAR(12),
         @storeId VARCHAR(10) ,
@@ -1388,7 +1391,7 @@ INNER JOIN RESMaster.dbo.MST_PROMOTIONMSG_DETAIL detail
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.CompanyId = @companyId
-	AND info.TargetStoreType in ('0','2')
+  AND info.TargetStoreType in ('0','2')
 
 UNION
 
@@ -1411,9 +1414,10 @@ INNER JOIN RESMaster.dbo.MST_PROMOTIONMSG_STORE store
 WHERE info.DeleteFlag = 0.0
     AND CONVERT(DATE,@businessDate) BETWEEN info.StartDate AND info.EndDate
     AND info.CompanyId = @companyId
-	AND info.TargetStoreType = '1'
+  AND info.TargetStoreType = '1'
 ORDER BY info.UpdDate DESC
 </entry>
+
 <entry key="get-promotion-msg-dpt-list">
 DECLARE @companyId VARCHAR(32),
         @recordId int
@@ -1441,9 +1445,9 @@ ORDER BY Dpt
     FROM RESMaster.dbo.MST_TILLIDINFO
     WHERE StoreId = @storeId  AND DeleteFlag = 0
     ORDER BY StoreId
-  </entry>
+</entry>
 
-    <entry key="get-print-report-value">
+<entry key="get-print-report-value">
 
         SELECT
            RetailStoreId
@@ -1453,9 +1457,9 @@ ORDER BY Dpt
         WHERE
             BusinessDayDate=? and RetailStoreId=?;
 
-    </entry>
+</entry>
 
-  <entry key="get-tenderinfo-alltype">
+<entry key="get-tenderinfo-alltype">
         DECLARE
         @companyId VARCHAR (12),
         @storeId VARCHAR (10)
@@ -1502,7 +1506,7 @@ ORDER BY Dpt
         ORDER BY
             DisplayOrder,
             cast(TenderType as int)
-    </entry>
+</entry>
 
 <entry key="get-coupon-price-info">
     DECLARE
@@ -1517,17 +1521,17 @@ ORDER BY Dpt
        SET @tenderType = LTRIM(RTRIM(?))
 
         IF NOT EXISTS (
-	        SELECT
-	            NameText,
-	            UnitPrice
-	        FROM
-	            RESMaster.dbo.MST_COUPONPRICE
-	      WHERE
-	            DeleteFlag = 0.0 AND
-	            StoreId = @storeId AND
-	            CompanyId = @companyId AND
-	            TenderType = @tenderType AND
-	            TenderId = @tenderId
+          SELECT
+              NameText,
+              UnitPrice
+          FROM
+              RESMaster.dbo.MST_COUPONPRICE
+        WHERE
+              DeleteFlag = 0.0 AND
+              StoreId = @storeId AND
+              CompanyId = @companyId AND
+              TenderType = @tenderType AND
+              TenderId = @tenderId
         )
         SET @storeId = '0'
 
@@ -1657,7 +1661,6 @@ ORDER BY
     TenderType
 </entry>
 
-
 <entry key="get-cashAbstract-type">
 DECLARE
     @companyId VARCHAR (12),
@@ -1684,8 +1687,8 @@ IF NOT EXISTS (
     AND b.TenderId = @tenderId
     AND b.TenderType = @tenderType
     AND b.TenderId = a.CashFlowType
-	AND a.DeleteFlag = 0.0
-	AND b.DeleteFlag = 0.0
+  AND a.DeleteFlag = 0.0
+  AND b.DeleteFlag = 0.0
 )
 SET @storeIdUsual = '0'
 
@@ -1715,9 +1718,9 @@ ORDER BY
     a.CashFlowDirection
 </entry>
 
-  <!-- *************************  ENTRY KEY FOR POSLOG JOURNALIZATION     *************************  -->
+<!-- *************************  ENTRY KEY FOR POSLOG JOURNALIZATION     *************************  -->
 
-  <entry key="save-poslog">
+<entry key="save-poslog">
     INSERT INTO RESTransaction.dbo.TXL_SALES_JOURNAL
            (RetailStoreId
            ,WorkstationId
@@ -1733,8 +1736,9 @@ ORDER BY
            ,TrainingFlag)
        VALUES
          (?,?,?,?,?,?,?,?,?,?,?,?);
-  </entry>
-  <entry key="update-software-version">
+</entry>
+
+<entry key="update-software-version">
     DECLARE
       @companyId varchar(12)
      ,@storeId varchar(6)
@@ -1787,8 +1791,9 @@ ORDER BY
        ,@resTabletUi
        ,@resUiConfig
       );
-  </entry>
-  <entry key="get-poslog-xml-txtype">
+</entry>
+
+<entry key="get-poslog-xml-txtype">
         SELECT
           TxType
         FROM
@@ -1798,8 +1803,9 @@ ORDER BY
           WorkstationId = ? AND
           SequenceNumber = ? AND
           BusinessDayDate = ?;
-  </entry>
-  <entry key="check-poslog-duplicate">
+</entry>
+
+<entry key="check-poslog-duplicate">
         SELECT
           COUNT(*) AS [rowcount]
         FROM
@@ -1811,17 +1817,9 @@ ORDER BY
           SequenceNumber = ? AND
           BusinessDayDate = ? AND
           TrainingFlag = ?;
-  </entry>
-  <entry key="get-poslog-xml-byType">
-        SELECT
-          tx,
-          txtype
-    FROM
-      RESTransaction.dbo.TXL_POSLOG
-    WHERE
-      termid = ? AND txid = ? AND (txtype = ? OR txtype = 'NR');
-  </entry>
-  <entry key="get-poslog-xml">
+</entry>
+
+<entry key="get-poslog-xml">
         SELECT
           tx,
           txtype
@@ -1829,20 +1827,9 @@ ORDER BY
       RESTransaction.dbo.TXL_POSLOG
     WHERE
       termid = ? AND txid = ?;
-  </entry>
-  <entry key="update-poslog-txtype">
-        UPDATE
-      RESTransaction.dbo.TXL_SALES_JOURNAL
-    SET
-      TxType = ?
-    WHERE
-      RetailStoreId = ? AND
-      WorkstationId = ? AND
-      SequenceNumber = ? AND
-      BusinessDayDate = ?;
-  </entry>
+</entry>
 
-  <entry key="get-poslog-xml-by-id">
+<entry key="get-poslog-xml-by-id">
     SELECT tx FROM RESTransaction.dbo.TXL_POSLOG
         WHERE
           corpid = ? AND
@@ -1850,9 +1837,9 @@ ORDER BY
       termid = ? AND
       summarydateid = ? AND
       txid = ?;
-  </entry>
+</entry>
 
-  <entry key="get-poslog-xml-by-terminalid-storeid-txid">
+<entry key="get-poslog-xml-by-terminalid-storeid-txid">
     SELECT
       TOP 1 Tx
     FROM
@@ -1863,8 +1850,9 @@ ORDER BY
       SequenceNumber = ? AND
       TrainingFlag = ?
     ORDER BY JournalLine DESC;
-  </entry>
-  <entry key="get-poslog-xml-by-companyid-terminalid-storeid-txid">
+</entry>
+
+<entry key="get-poslog-xml-by-companyid-terminalid-storeid-txid">
     SELECT
       TOP 1 Tx
     FROM
@@ -1878,8 +1866,9 @@ ORDER BY
         TrainingFlag = ? AND
         TxType = COALESCE(?, TxType)
     ORDER BY JournalLine DESC;
-  </entry>
-  <entry key="get-poslog-xml-by-terminalid-storeid-txid-summarydateid">
+</entry>
+
+<entry key="get-poslog-xml-by-terminalid-storeid-txid-summarydateid">
     SELECT TOP 1 tx FROM RESTransaction.dbo.TXL_SALES_JOURNAL
     WHERE
       RetailStoreId = ? AND
@@ -1888,8 +1877,9 @@ ORDER BY
       BusinessDayDate = ? AND
       TrainingFlag = ?
     ORDER BY JournalLine DESC;
-  </entry>
-  <entry key="get-bussiness-date">
+</entry>
+
+<entry key="get-bussiness-date">
     SELECT DISTINCT TOP 1
       StoreId, TodayDate
     FROM
@@ -1898,8 +1888,9 @@ ORDER BY
       CompanyId = ? AND StoreId in (?, '0') AND DeleteFlag = 0.0
     ORDER BY
       StoreId DESC
-  </entry>
-  <entry key="select-txs-by-txid">
+</entry>
+
+<entry key="select-txs-by-txid">
     SELECT
       TOP(?) Tx
     FROM
@@ -1911,8 +1902,9 @@ ORDER BY
       (LOWER(TxType) = 'sale' OR LOWER(TxType) = 'void')
     ORDER BY
       SequenceNumber ASC
-  </entry>
-  <entry key="select-txs-by-summarydate">
+</entry>
+
+<entry key="select-txs-by-summarydate">
     SELECT
       TOP(?) Tx
     FROM
@@ -1924,8 +1916,9 @@ ORDER BY
       (LOWER(TxType) = 'sale' OR LOWER(TxType) = 'void')
     ORDER BY
       SequenceNumber ASC
-  </entry>
-  <entry key="select-transactions">
+</entry>
+
+<entry key="select-transactions">
     DECLARE
       @limit INT,
       @limitFrom INT,
@@ -2017,8 +2010,9 @@ ORDER BY
     FROM searcedList
     WHERE row_num >= @limitfrom AND TrainingFlag = @trainingflag AND CompanyId = @companyid
     order by row_num asc
-  </entry>
-  <entry key="save-void-details">
+</entry>
+
+<entry key="save-void-details">
     INSERT INTO RESTransaction.dbo.TXL_SALES_VOIDED
       (RetailStoreId,
       WorkstationId,
@@ -2029,8 +2023,9 @@ ORDER BY
       TrainingFlag)
     VALUES
       (?,?,?,?,?,?,?)
-  </entry>
-  <entry key="save-TxuTotalGuestTillDay-details">
+</entry>
+
+<entry key="save-TxuTotalGuestTillDay-details">
     DECLARE
       @storeId varchar(MAX),
       @tillId varchar(MAX),
@@ -2076,8 +2071,9 @@ ORDER BY
         @ReturnGuestCnt,
         @VoidGuestCnt
       );
-  </entry>
-  <entry key="get-void-details">
+</entry>
+
+<entry key="get-void-details">
     SELECT
       COUNT(*) AS [rowcount]
     FROM
@@ -2090,8 +2086,9 @@ ORDER BY
       TxType LIKE '%' + ? + '%' AND
       CompanyId = ? AND
       TrainingFlag = ?;
-  </entry>
-  <entry key="save-summary-receipt-details">
+</entry>
+
+<entry key="save-summary-receipt-details">
     INSERT INTO RESTransaction.dbo.TXL_SUMMARYRECEIPT_HISTORY
       (CompanyId,
        RetailStoreId,
@@ -2107,8 +2104,9 @@ ORDER BY
        )
     VALUES
       (?,?,?,?,?,?,?,?,?,?,?);
-  </entry>
-  <entry key="save-receipt-reprint-details">
+</entry>
+
+<entry key="save-receipt-reprint-details">
     INSERT INTO RESTransaction.dbo.TXL_RECEIPTREPRINT_HISTORY
       (RetailStoreId,
        WorkstationId,
@@ -2122,8 +2120,9 @@ ORDER BY
        TrainingFlag)
     VALUES
       (?,?,?,?,?,?,?,?,?,?);
-  </entry>
-  <entry key="get-summary-receipt-count">
+</entry>
+
+<entry key="get-summary-receipt-count">
     SELECT
       COUNT(*) as count
     FROM
@@ -2135,9 +2134,10 @@ ORDER BY
       SequenceNumber = ? AND
       BusinessDayDate = ? AND
       TrainingFlag = ?;
-  </entry>
+</entry>
+
 <!-- *************************  ENTRY KEY FOR GIFT RECEIPT  ************************* -->
-  <entry key="save-gift-receipt-details">
+<entry key="save-gift-receipt-details">
     INSERT INTO RESTransaction.dbo.TXL_GIFTRECEIPT_HISTORY
       (CompanyId,
        RetailStoreId,
@@ -2152,8 +2152,9 @@ ORDER BY
        InsDateTime)
     VALUES
       (?,?,?,?,?,?,?,?,?,?,?);
-  </entry>
-  <entry key="get-gift-receipt-count">
+</entry>
+
+<entry key="get-gift-receipt-count">
     SELECT
       COUNT(*) as count
     FROM
@@ -2165,12 +2166,13 @@ ORDER BY
       SequenceNumber = ? AND
       BusinessDayDate = ? AND
       TrainingFlag = ?;
-  </entry>
+</entry>
+
 <!-- *************************  ENTRY KEY FOR CUSTOMER INFORMATION      ************************* -->
-  <entry key="get-customer-partial">
+<entry key="get-customer-partial">
       SELECT TOP 1 * FROM RESMaster.dbo.MST_CUSTINFO
           WHERE CustomerId LIKE ?;
-  </entry>
+</entry>
 
 <entry key="get-customer-complete">
     SELECT * FROM RESMaster.dbo.MST_CUSTINFO
@@ -2184,7 +2186,7 @@ ORDER BY
         SET @companyId = ?
         SET @storeId = ?
 
-		SELECT *
+    SELECT *
         FROM (
             SELECT * ,
                    ROW_Number() OVER (PARTITION BY CompanyId,ConnCode ORDER BY StoreId DESC) AS rownumber
@@ -2199,20 +2201,21 @@ ORDER BY
 </entry>
 
 <!-- *************************  ENTRY KEY FOR CREDENTIAL SERVICE      ************************* -->
-    <entry key="get-status-of-operator">
+<entry key="get-status-of-operator">
         SELECT    users.OperatorName, ope.OpeKanaName, ope.SecLevel2, opesec.SecGroup OpeType
         FROM      RESMaster.dbo.MST_EMPINFO ope,
-		          RESMaster.dbo.MST_EMP_SEC opesec,
+              RESMaster.dbo.MST_EMP_SEC opesec,
                   RESMaster.dbo.MST_USER_CREDENTIALS users
         WHERE     ope.CompanyId = users.CompanyId AND
-		          ope.EmpCode = users.OperatorNo AND
-		          ope.CompanyId = opesec.CompanyId AND
-				  ope.EmpCode = opesec.EmpCode AND
+              ope.EmpCode = users.OperatorNo AND
+              ope.CompanyId = opesec.CompanyId AND
+          ope.EmpCode = opesec.EmpCode AND
                   ope.CompanyId = LTRIM(RTRIM(?)) AND
                   ope.EmpCode = LTRIM(RTRIM(?)) AND
                   opesec.DeleteFlag = 0.0
-    </entry>
-    <entry key="get-systemnames">
+</entry>
+
+<entry key="get-systemnames">
       DECLARE
         @companyId varchar(max),
         @storeId varchar(max),
@@ -2246,7 +2249,7 @@ ORDER BY
         NameText,
         NameIdName,
         SubCode1,
-		SubCode2
+    SubCode2
       FROM
         RESMaster.dbo.MST_NAME_SYSTEM
       WHERE
@@ -2262,7 +2265,8 @@ ORDER BY
         ) AND
         DeleteFlag = 0.0
       ORDER BY DisplayOrder
-    </entry>
+</entry>
+
 <entry key="get-subtotalDiscount">
        SELECT
            DiscountReason,
@@ -2271,9 +2275,9 @@ ORDER BY
        WHERE DiscountType = '2'
          AND DeleteFlag = 0.0
        ORDER BY PromotionId;
-  </entry>
+</entry>
 
-  <entry key="update-sign-on-at-spart">
+<entry key="update-sign-on-at-spart">
       UPDATE
         RESMaster.dbo.MST_EMPINFO
       SET
@@ -2281,9 +2285,9 @@ ORDER BY
         OUTPUT
           INSERTED.SubChar2
       WHERE EmpCode = ?
-  </entry>
+</entry>
 
-  <entry key="insert-update-credential-from-spart">
+<entry key="insert-update-credential-from-spart">
         DECLARE
             @empcode varchar(MAX),
             @password varchar(MAX),
@@ -2318,9 +2322,9 @@ ORDER BY
             )
          VALUES
            (@empcode, @password, @opename, 'NCR', 1, GETDATE(),'Inactive');
-    </entry>
+</entry>
 
-  <entry key="insert-update-operator-from-spart">
+<entry key="insert-update-operator-from-spart">
     DECLARE
       @empcode varchar(MAX),
        @opecode varchar(MAX),
@@ -2412,9 +2416,9 @@ ORDER BY
        VALUES
          (@empcode,@opecode,@password,@opetype,@opename,@opekananame,@zipcode,@address,@telno,
          @faxno,@seclevel1,@seclevel2,@subchar1,@subchar2,@subchar3,@insdate,@upddate,@updappid,@updopecode);
-  </entry>
+</entry>
 
-  <entry key="get-operator-by-operatorno">
+<entry key="get-operator-by-operatorno">
     SELECT
         PassCode, Role, OperatorName, OperatorType, TerminalId, muc.StoreId, Status, me.OpeKanaName, me.OpeName
       FROM
@@ -2423,18 +2427,18 @@ ORDER BY
         AND me.EmpCode = muc.OperatorNo
     WHERE
       muc.OperatorNo = ? and muc.CompanyId = ?;
-  </entry>
+</entry>
 
-  <entry key="get-operator-passcode">
+<entry key="get-operator-passcode">
     SELECT
         PassCode
       FROM
         RESMaster.dbo.MST_USER_CREDENTIALS
     WHERE
       OperatorNo = ?;
-  </entry>
+</entry>
 
-  <entry key="get-operator-status">
+<entry key="get-operator-status">
     SELECT
         TerminalId,
         OperatorName,
@@ -2443,9 +2447,9 @@ ORDER BY
         RESMaster.dbo.MST_USER_CREDENTIALS
     WHERE
       OperatorNo = ?;
-  </entry>
+</entry>
 
-  <entry key="update-operator-terminalid">
+<entry key="update-operator-terminalid">
     UPDATE
       RESMaster.dbo.MST_USER_CREDENTIALS
     SET
@@ -2454,9 +2458,9 @@ ORDER BY
       Status='Active'
     WHERE
       OperatorNo = ? AND PassCode = ? AND (Status='Active' OR Status='Inactive');
-  </entry>
+</entry>
 
-  <entry key="update-operator-terminalid-guest">
+<entry key="update-operator-terminalid-guest">
     UPDATE
       RESMaster.dbo.MST_USER_CREDENTIALS
     SET
@@ -2467,9 +2471,9 @@ ORDER BY
       INSERTED.OperatorType
     WHERE
       OperatorNo = ? AND (Status='Active' OR Status='Inactive');
-  </entry>
+</entry>
 
-  <entry key="credential-first-log-in">
+<entry key="credential-first-log-in">
     UPDATE
       RESMaster.dbo.MST_USER_CREDENTIALS
     SET
@@ -2479,8 +2483,9 @@ ORDER BY
       Status = 'Active'
     WHERE
       OperatorNo = ? and (Status='Active' OR Status='Inactive');
-  </entry>
-  <entry key="sign-off-operator">
+</entry>
+
+<entry key="sign-off-operator">
     UPDATE
       RESMaster.dbo.MST_USER_CREDENTIALS
     SET
@@ -2489,8 +2494,9 @@ ORDER BY
       Status = ?
     WHERE
       OperatorNo = ?
-  </entry>
-  <entry key="select-operators-byStoreId">
+</entry>
+
+<entry key="select-operators-byStoreId">
     SELECT  OperatorNo,
             COALESCE(OperatorName, '') as OperatorName,
             OperatorType,
@@ -2499,8 +2505,9 @@ ORDER BY
     WHERE
       StoreId = ? AND (Status='Active' OR Status='Inactive')
     ORDER BY OperatorNo ASC
-  </entry>
-  <entry key="select-all-operators">
+</entry>
+
+<entry key="select-all-operators">
     DECLARE
       @storeid varchar(max),
       @operatorno varchar(max),
@@ -2537,8 +2544,9 @@ ORDER BY
         WHEN len(@operatorname) > 0 then OperatorName
         ELSE OperatorNo
       END
-  </entry>
-  <entry key="select-operators-byStoreId-operatorNo-prefix">
+</entry>
+
+<entry key="select-operators-byStoreId-operatorNo-prefix">
     SELECT  OperatorNo,
             COALESCE(OperatorName, '') as OperatorName,
             OperatorType,
@@ -2547,8 +2555,9 @@ ORDER BY
     WHERE
       StoreId = ? AND OperatorNo LIKE ? AND (Status='Active' OR Status='Inactive')
     ORDER BY OperatorNo ASC
-  </entry>
-  <entry key="select-operators-byStoreId-operatorName-partial">
+</entry>
+
+<entry key="select-operators-byStoreId-operatorName-partial">
     SELECT  OperatorNo,
             COALESCE(OperatorName, '') as OperatorName,
             OperatorType,
@@ -2557,8 +2566,9 @@ ORDER BY
     WHERE
       StoreId = ? AND UPPER(OperatorName) LIKE UPPER(?) AND (Status='Active' OR Status='Inactive')
     ORDER BY OperatorName ASC
-  </entry>
-  <entry key="create-update-pos-opecode">
+</entry>
+
+<entry key="create-update-pos-opecode">
         DECLARE
           @companyid varchar(max),
           @storeid varchar(max),
@@ -2589,9 +2599,9 @@ ORDER BY
                 )
             VALUES
                 (@companyid,@storeid,@terminalno,@opecode)
-  </entry>
+</entry>
 
-  <entry key="create-update-pos-sod-state">
+<entry key="create-update-pos-sod-state">
         DECLARE
           @companyid varchar(max),
           @storeid varchar(max),
@@ -2643,9 +2653,9 @@ ORDER BY
             @sodtranno,
             @eodtime,
             @eodtranno )
-  </entry>
+</entry>
 
-    <entry key="create-update-pos-eod-state">
+<entry key="create-update-pos-eod-state">
         DECLARE
         @companyid varchar(max),
         @storeid varchar(max),
@@ -2687,33 +2697,28 @@ ORDER BY
                 @openclosestat,
                 @eodtime,
                 @eodtranno )
-    </entry>
+</entry>
 
-
-
-  <!-- *************************  ENTRY KEY FOR DEVICE AUTHENTICATION   ************************* -->
-
-
-  <!-- *************************  ENTRY KEY FOR SYSTEM CONFIGURATION   ************************* -->
-  <entry key="get-system-parameters">
+<!-- *************************  ENTRY KEY FOR SYSTEM CONFIGURATION   ************************* -->
+<entry key="get-system-parameters">
       SELECT
         Category,
         KeyId,
         Value
       FROM
         RESMaster.dbo.PRM_SYSTEM_CONFIG;
-  </entry>
+</entry>
 
-  <entry key="get-system-parameter-value">
+<entry key="get-system-parameter-value">
       SELECT
         Value
       FROM
         RESMaster.dbo.PRM_SYSTEM_CONFIG
       WHERE
         Category = ? AND KeyId = ?;
-  </entry>
+</entry>
 
-  <entry key="get-system-parameter-information">
+<entry key="get-system-parameter-information">
       SELECT
         KeyId,
         Value
@@ -2721,45 +2726,45 @@ ORDER BY
         RESMaster.dbo.PRM_SYSTEM_CONFIG
       WHERE
         Category = ?;
-  </entry>
+</entry>
 
-  <entry key="set-system-parameter-validate-value">
+<entry key="set-system-parameter-validate-value">
       UPDATE
         RESMaster.dbo.PRM_SYSTEM_CONFIG
       SET
         Value = ?
       WHERE
         Category = ? AND KeyId = ? AND Value = ?;
-  </entry>
+</entry>
 
-  <entry key="get-system-parameter-validate-value">
+<entry key="get-system-parameter-validate-value">
       SELECT
         Value
       FROM
         RESMaster.dbo.PRM_SYSTEM_CONFIG
       WHERE
         Category = ? AND KeyId = ? AND Value = ?;
-  </entry>
+</entry>
 
-  <entry key="set-system-parameter-value">
+<entry key="set-system-parameter-value">
       UPDATE
         RESMaster.dbo.PRM_SYSTEM_CONFIG
       SET
         Value = ?
       WHERE
         Category = ? AND KeyId = ?;
-  </entry>
+</entry>
 
-    <entry key="set-system-parameter-value-by-key">
+<entry key="set-system-parameter-value-by-key">
             UPDATE
                 RESMaster.dbo.PRM_SYSTEM_CONFIG
             SET
                 Value = ?
             WHERE
                 KeyId = ?;
-    </entry>
+</entry>
 
-  <entry key="add-system-parameter-value">
+<entry key="add-system-parameter-value">
   INSERT INTO RESMaster.dbo.PRM_SYSTEM_CONFIG
            (Value
            ,Category
@@ -2767,429 +2772,11 @@ ORDER BY
            ,Description)
      VALUES
            (? ,? ,?, ?);
-  </entry>
-  <!-- *************************  ENTRY KEY FOR SYSTEM CONSOLIDATION   ************************* -->
-  <entry key="save-lineItem">
-    INSERT INTO RESTransaction.dbo.TXL_JOURNAL
-           (  corpid
-        ,storeid
-        ,termid
-        ,tranno
-        ,tranlineno
-        ,summarydateid
-        ,operatorcode
-        ,plu
-        ,description
-        ,accountcode
-        ,itemcnt
-        ,actsalesamount
-        ,returnflag
-        ,voidflag
-        ,cancelflag
-        ,debtor
-        ,creditor
-        ,customerid
-        ,originaltranno
-        ,upddate)
-       VALUES
-         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,GETDATE());
-  </entry>
-  <entry key="get-journallogs-bytranno">
-        SELECT
-           corpid
-        ,storeid
-        ,termid
-        ,tranno
-        ,tranlineno
-        ,summarydateid
-        ,operatorcode
-        ,plu
-        ,description
-        ,accountcode
-        ,itemcnt
-        ,actsalesamount
-        ,returnflag
-        ,voidflag
-        ,cancelflag
-        ,debtor
-        ,creditor
-        ,customerid
-        ,originaltranno
-        ,upddate
-    FROM
-      RESTransaction.dbo.TXL_JOURNAL
-    WHERE
-      tranno = ?
-    ORDER BY
-      tranlineno;
-  </entry>
+</entry>
 
-  <entry key="update-poslog-status">
-        UPDATE
-      RESTransaction.dbo.TXL_POSLOG
-    SET
-      status = ?
-    WHERE
-      corpid = ? AND
-      storeid = ? AND
-      termid = ? AND
-      txid = ? AND
-      summarydateid = ?;
-  </entry>
+<!-- *************************  ENTRY KEY FOR REPORTS ************************* -->
 
-  <entry key="get-poslog-not-consolidated">
-    SELECT
-      TOP 100 *
-    FROM
-      RESTransaction.dbo.TXL_POSLOG
-    WHERE
-      seqnum > ? AND
-        status = 0
-    ORDER BY
-       seqnum
-    ASC;
-  </entry>
-
-  <!-- *************************  ENTRY KEY FOR SUMMARRY TABLE ************************* -->
-  <entry key="select-total-account-day">
-    SELECT
-      *
-    FROM
-      RESTransaction.dbo.TXU_TOTAL_ACNTDAY
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND terminalid = ?
-      AND summarydateid = ?
-      AND timezonecode = ?
-      AND dpt = ?
-      AND line = ?
-      AND class = ?
-      AND operatorcode = ?;
-  </entry>
-
-  <entry key="save-total-account-day">
-    INSERT INTO RESTransaction.dbo.TXU_TOTAL_ACNTDAY
-           (    corpid,
-        storeid,
-        terminalid,
-        summarydateid,
-        timezonecode,
-        dpt,
-        line,
-        class,
-        Operatorcode,
-        SalesItemCnt,
-        SalesCostAmt,
-        SalesSalesAmt,
-        ReturnItemCnt,
-        ReturnCostAmt,
-        ReturnSalesAmt,
-        VoidItemCnt,
-        VoidCostAmt,
-        VoidSalesAmt,
-        DcItemCnt,
-        DcCostAmt,
-        DcSalesAmt
-      )
-       VALUES
-         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
-  </entry>
-
-  <entry key="update-total-account-day">
-    UPDATE RESTransaction.dbo.TXU_TOTAL_ACNTDAY
-        SET
-      SalesItemCnt = SalesItemCnt + ?,
-      SalesCostAmt = SalesCostAmt + ?,
-      SalesSalesAmt = SalesSalesAmt + ?,
-      ReturnItemCnt = ReturnItemCnt + ?,
-      ReturnCostAmt =  ReturnCostAmt + ?,
-      ReturnSalesAmt = ReturnCostAmt + ?,
-      VoidItemCnt = VoidItemCnt + ?,
-      VoidCostAmt = VoidCostAmt + ?,
-      VoidSalesAmt = VoidSalesAmt + ?,
-      DcItemCnt = DcItemCnt + ?,
-      DcCostAmt = DcCostAmt + ?,
-      DcSalesAmt = DcSalesAmt + ?
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND terminalid = ?
-      AND summarydateid = ?
-      AND timezonecode = ?
-      AND dpt = ?
-      AND line = ?
-      AND class = ?
-      AND Operatorcode = ?;
-  </entry>
-  <entry key="save-total-item-day">
-    INSERT INTO RESTransaction.dbo.TXU_TOTAL_ITEMDAY
-           (    corpid,
-        storeid,
-        summarydateid,
-        salesprice,
-        dpt,
-        line,
-        class,
-        plu,
-        SalesItemCnt,
-        SalesCostAmt,
-        SalesSalesAmt,
-        ReturnItemCnt,
-        ReturnCostAmt,
-        ReturnSalesAmt,
-        VoidItemCnt,
-        VoidCostAmt,
-        VoidSalesAmt,
-        DcItemCnt,
-        DcCostAmt,
-        DcSalesAmt
-      )
-       VALUES
-         (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);
-  </entry>
-
-  <entry key="update-total-item-day">
-    UPDATE RESTransaction.dbo.TXU_TOTAL_ITEMDAY
-        SET
-      SalesItemCnt = SalesItemCnt + ?,
-      SalesCostAmt = SalesCostAmt + ?,
-      SalesSalesAmt = SalesSalesAmt + ?,
-      ReturnItemCnt = ReturnItemCnt + ?,
-      ReturnCostAmt =  ReturnCostAmt + ?,
-      ReturnSalesAmt = ReturnCostAmt + ?,
-      VoidItemCnt = VoidItemCnt + ?,
-      VoidCostAmt = VoidCostAmt + ?,
-      VoidSalesAmt = VoidSalesAmt + ?,
-      DcItemCnt = DcItemCnt + ?,
-      DcCostAmt = DcCostAmt + ?,
-      DcSalesAmt = DcSalesAmt + ?
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND summarydateid = ?
-      AND salesprice = ?
-      AND dpt = ?
-      AND line = ?
-      AND class = ?
-      AND plu = ?;
-  </entry>
-
-  <entry key="select-total-item-day">
-    SELECT
-      *
-    FROM
-      RESTransaction.dbo.TXU_TOTAL_ITEMDAY
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND summarydateid = ?
-      AND salesprice = ?
-      AND dpt = ?
-      AND line = ?
-      AND class = ?
-      AND plu = ?;
-  </entry>
-  <entry key="update-total-drawer-financial">
-    BEGIN TRAN
-      DECLARE @corpid char(12), @storeid char(6), @printerid int, @accountcode char(4),
-        @accountsubcode char(2), @summarydateid date,@debtor numeric(15,0),@creditor numeric(15,0)
-      SET @corpid=?
-      SET @storeid=?
-      SET @printerid=?
-      SET @accountcode=?
-      SET @accountsubcode=?
-      SET @summarydateid=?
-      SET @debtor=?
-      SET @creditor=?
-
-      UPDATE RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
-        SET corpid=@corpid,storeid=@storeid,printerid=@printerid,accountcode=@accountcode,
-            accountsubcode=@accountsubcode,summarydateid=@summarydateid,debtor=@debtor + debtor,
-            creditor= @creditor + creditor
-        WHERE corpid=@corpid AND storeid=@storeid AND printerid=@printerid AND
-          accountcode=@accountcode AND accountsubcode=@accountsubcode AND summarydateid=@summarydateid
-      IF (@@ROWCOUNT = 0)
-          INSERT
-          RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
-            (corpid, storeid, printerid, accountcode, accountsubcode, summarydateid, debtor, creditor)
-          VALUES
-            (@corpid,@storeid,@printerid,@accountcode,@accountsubcode,@summarydateid,@debtor,@creditor)
-    COMMIT
-  </entry>
-  <entry key="update-total-financial">
-    BEGIN TRAN
-      DECLARE @corpid char(12), @storeid varchar(MAX), @terminalid varchar(MAX), @accountcode char(4),
-        @accountsubcode char(2), @summarydateid date,@debtor numeric(15,0),@creditor numeric(15,0)
-      SET @corpid=?
-      SET @storeid=?
-      SET @terminalid=?
-      SET @accountcode=?
-      SET @accountsubcode=?
-      SET @summarydateid=?
-      SET @debtor=?
-      SET @creditor=?
-
-      UPDATE RESTransaction.dbo.TXU_TOTAL_FINANCIAL
-        SET corpid=@corpid,storeid=@storeid,terminalid=@terminalid,accountcode=@accountcode,
-            accountsubcode=@accountsubcode,summarydateid=@summarydateid,debtor=@debtor + debtor,
-            creditor= @creditor + creditor
-        WHERE corpid=@corpid AND storeid=@storeid AND terminalid=@terminalid AND
-          accountcode=@accountcode AND accountsubcode=@accountsubcode AND summarydateid=@summarydateid
-      IF (@@ROWCOUNT = 0)
-          INSERT
-          RESTransaction.dbo.TXU_TOTAL_FINANCIAL
-            (corpid, storeid, terminalid, accountcode, accountsubcode, summarydateid, debtor, creditor)
-          VALUES
-            (@corpid,@storeid,@terminalid,@accountcode,@accountsubcode,@summarydateid,@debtor,@creditor)
-    COMMIT
-  </entry>
-
-  <!-- *************************  ENTRY KEY FOR DEPARTMENT DAY SUMMARRY TABLE ************************* -->
-  <entry key="select-total-dept-day">
-    SELECT
-      *
-    FROM
-      RESTransaction.dbo.TXU_TOTAL_ACNTDAY
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND summarydateid = ?
-      AND dpt = ?
-      AND timezonecode = ?;
-  </entry>
-
-  <entry key="insert-total-dept-day">
-    INSERT INTO RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY
-           (    corpid,
-        storeid,
-        summarydateid,
-        dpt,
-        timezonecode,
-        SalesItemCnt,
-        SalesSalesAmt,
-        ReturnItemCnt,
-        ReturnSalesAmt,
-        VoidItemCnt,
-        VoidSalesAmt,
-        DcItemCnt,
-        DcSalesAmt
-      )
-       VALUES
-         (?,?,?,?,?,?,?,?,?,?,?,?,?);
-  </entry>
-
-  <entry key="update-total-dept-day">
-    UPDATE RESTransaction.dbo.TXU_TOTAL_DPTSUMDAY
-        SET
-      SalesItemCnt = SalesItemCnt + ?,
-      SalesSalesAmt = SalesSalesAmt + ?,
-      ReturnItemCnt = ReturnItemCnt + ?,
-      ReturnSalesAmt = ReturnSalesAmt + ?,
-      VoidItemCnt = VoidItemCnt + ?,
-      VoidSalesAmt = VoidSalesAmt + ?,
-      DcItemCnt = DcItemCnt + ?,
-      DcSalesAmt = DcSalesAmt + ?
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND summarydateid = ?
-      AND timezonecode = ?
-      AND dpt = ?;
-  </entry>
-
-  <!-- *************************  ENTRY KEY FOR TOTAL GUEST DEPARTMENT DAY SUMMARY TABLE ************************* -->
-
-  <entry key="select-total-guest-dept-day">
-    SELECT
-      *
-    FROM
-      RESTransaction.dbo.TXU_TOTAL_ITEMDAY
-    WHERE
-      corpid = ?
-      AND storeid = ?
-      AND summarydateid = ?
-      AND dpt = ?;
-  </entry>
-
-  <entry key="update-total-guest-dept-day">
-  BEGIN TRAN
-      DECLARE @corpid char(12), @storeid varchar(MAX) , @terminalid varchar(MAX), @Operatorcode varchar(20),
-        @summarydateid date, @dpt varchar(10), @timezonecode numeric(2,0),
-        @SalesGuestCnt numeric(10,0), @ReturnGuestCnt numeric(10, 0), @VoidGuestCnt numeric(10, 0)
-
-      SET @corpid= ?
-      SET @storeid= ?
-      SET @terminalid= ?
-      SET @Operatorcode= ?
-      SET @summarydateid= ?
-      SET @dpt= ?
-      SET @timezonecode= ?
-      SET @SalesGuestCnt= ?
-      SET @ReturnGuestCnt= ?
-      SET @VoidGuestCnt= ?
-
-
-           UPDATE RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
-          SET corpid= @corpid,storeid=@storeid,terminalid=@terminalid,Operatorcode=@Operatorcode,summarydateid=@summarydateid,dpt=@dpt ,timezonecode=@timezonecode, SalesGuestCnt= SalesGuestCnt + @SalesGuestCnt, ReturnGuestCnt= ReturnGuestCnt +@ReturnGuestCnt,  VoidGuestCnt= VoidGuestCnt + @VoidGuestCnt
-          WHERE corpid= @corpid AND storeid=@storeid AND terminalid=@terminalid AND Operatorcode=@Operatorcode AND summarydateid=@summarydateid AND dpt=@dpt AND timezonecode=@timezonecode
-        IF (@@ROWCOUNT = 0)
-
-          INSERT RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY
-            (corpid, storeid, terminalid, Operatorcode, summarydateid, dpt, timezonecode, SalesGuestCnt, ReturnGuestCnt, VoidGuestCnt )
-
-          VALUES (@corpid , @storeid, @terminalid, @Operatorcode, @summarydateid,@dpt, @timezonecode, @SalesGuestCnt, @ReturnGuestCnt, @VoidGuestCnt)
- COMMIT
-  </entry>
-
-  <!-- *************************  ENTRY KEY FOR REPORTS ************************* -->
-    <entry key="select-accountancyreport-bystore">
-        SELECT
-        ItemName as AccountancyItemName,
-        TotalNumber as AccountancyAccount,
-        TotalMoney as AccountancyAmount,
-        QFid as AccountancyQFid
-    FROM RESTransaction.dbo.TXU_TOTAL_DRAWER_FINANCIAL
-    WHERE BusinessDayDate=? and RetailStoreId =?
-    </entry>
-
-  <entry key="select-hourlyreport-bydevice">
-  SELECT
-    derived.TimeZoneCode,
-    SUM(derived.SalesItemCnt) SalesItemCnt,
-    SUM(derived.SalesSalesAmt) SalesSalesAmt,
-    SUM(derived.SalesGuestCnt) SalesGuestCnt
-
-  FROM
-    (SELECT
-      actday.TimeZoneCode,
-      SUM( actday.SalesItemCnt) SalesItemCnt,
-      SUM( actday.SalesSalesAmt) SalesSalesAmt,
-      SUM( guest.SalesGuestCnt)-SUM( guest.VoidGuestCnt) SalesGuestCnt
-    FROM
-      RESTransaction.dbo.TXU_TOTAL_ACNTDAY actday
-    INNER JOIN
-      RESTransaction.dbo.TXU_TOTAL_GUESTDPTDAY guest
-    ON
-      guest.TimeZoneCode = actday.TimeZoneCode AND
-      guest.WorkstationId = actday.WorkstationId AND
-      guest.BusinessDayDate = actday.BusinessDayDate AND
-      guest.RetailStoreId = actday.RetailStoreId AND
-      guest.OperatorCode = actday.OperatorCode AND
-      guest.Dpt = actday.Dpt
-    WHERE
-      actday.WorkstationId = ? AND
-      actday.BusinessDayDate = ? AND
-      actday.RetailStoreId = ?
-    GROUP BY
-      actday.TimeZoneCode, actday.OperatorCode)
-
-    AS derived
-  GROUP BY
-    derived.TimeZoneCode
-  </entry>
-
-  <entry key="select-detailreport">
+<entry key="select-detailreport">
   SELECT
     RIGHT(REPLICATE('0',2)+CAST(act.timezonecode AS VARCHAR(2)),2) as timezonecode,
     SUM(guest.SalesGuestCnt) as SalesGuestCnt, SUM(act.SalesItemCnt) as SalesItemcnt, SUM(act.SalesSalesAmt) as SalesSalesAmt
@@ -3205,142 +2792,11 @@ ORDER BY
       act.timezonecode
     order by
       act.timezonecode
-  </entry>
+</entry>
 
-  <!-- *************************  ENTRY KEY FOR EXTERNAL CA REQUEST ************************* -->
-  <entry key="save-extCAReq">
-    INSERT INTO RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-           ([RetailStoreId]
-           ,[WorkstationId]
-           ,[BusinessDayDate]
-           ,[SequenceNumber]
-           ,[Status]
-           ,[SlipNumber]
-           ,[Amount]
-           ,[OperatorCode]
-           ,[Type])
-       VALUES
-           (?,?,?,?,?,?,?,?,1) /*TODO: Type is a new column and could not be NULL, defaulted to 1.*/
-  </entry>
-  <entry key="save-extCAReq-pastelport">
-    INSERT INTO RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-           ([RetailStoreId]
-           ,[WorkstationId]
-           ,[BusinessDayDate]
-           ,[SequenceNumber]
-           ,[Status]
-           ,[SlipNumber]
-           ,[Amount]
-           ,[OperatorCode]
-       ,[CreditCompanyCode]
-       ,[RecvCompanyCode]
-       ,[CreditCompanyName]
-       ,[PaymentMethod]
-       ,[ApprovalCode]
-       ,[CreditStatus]
-       ,[CafisTraceNum]
-       ,[Pan]
-       ,[ExpDate]
-       ,[Type])
-       VALUES
-           (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-  </entry>
-  <entry key="get-extCAReq">
-    SELECT
-      RetailStoreId,
-      WorkstationId,
-      SequenceNumber,
-      SlipNumber,
-      Status,
-      Amount,
-      BusinessDayDate
-    FROM
-      RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-    WHERE
-      RetailStoreId = ? AND
-      WorkstationId = ? AND
-      BusinessDayDate = ? AND
-      Status = 0
-      ORDER BY
-        SequenceNumber ASC
-  </entry>
-  <entry key="get-extCAReq-status">
-    SELECT TOP 1 *
-      FROM   RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-      WHERE  RetailStoreId = ?
-      and    WorkstationId = ?
-      and    SequenceNumber = ?
-      and    BusinessDayDate = ?
-  </entry>
+<!-- *************************  ENTRY KEY FOR EXTERNAL CA REQUEST ************************* -->
 
-  <entry key="set-extCAReqStatus-updlock">
-    DECLARE @_storeid varchar(MAX), @_termid varchar(MAX),
-
-        @_txdate date, @_txid varchar(MAX),
-        @_status_cur char(1), @_status_new char(1);
-
-    SET @_storeid = ?;
-    SET @_termid = ?;
-    SET @_txdate = ?;
-    SET @_txid = ?;
-    SET @_status_cur = ?;
-    SET @_status_new = ?;
-
-    SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-
-    BEGIN TRAN
-    SELECT Status FROM RESTransaction.dbo.TXL_EXTERNAL_CA_REQ(UPDLOCK)
-    WHERE
-      RetailStoreId = @_storeid and
-        WorkstationId = @_termid and
-        BusinessDayDate = @_txdate and
-        SequenceNumber = @_txid and
-        Status = @_status_cur
-    UPDATE RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-    SET Status = @_status_new
-    WHERE
-      RetailStoreId = @_storeid and
-        WorkstationId = @_termid and
-        BusinessDayDate = @_txdate and
-        SequenceNumber = @_txid and
-        Status = @_status_cur
-    COMMIT TRAN
-  </entry>
-
-  <entry key="set-extCAReqStatus">
-    UPDATE RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-    SET Status = ?
-      WHERE
-      RetailStoreId = ? and
-        WorkstationId = ? and
-        BusinessDayDate = ? and
-        SequenceNumber = ?
-  </entry>
-  <entry key="set-extCAReq">
-    UPDATE RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-    SET Status = ?,
-      CreditCompanyCode = ?,
-      CreditCompanyName = ?,
-        PaymentMethod = ?,
-        ApprovalCode = ?,
-        CreditStatus = ?,
-        CafisTraceNum = ?,
-        Pan=?,
-        ExpDate=?
-      WHERE RetailStoreId = ? and
-          WorkstationId = ? and
-            BusinessDayDate = ? and
-            SequenceNumber = ? and Status = 9;
-  </entry>
-
-  <entry key="get-credCompany">
-    SELECT CompanyCode, CompanyName
-      FROM RESMaster.dbo.PRM_CREDIT_COMPANY
-      WHERE  ?   &gt;= Pan_Min   and
-           ?   &lt;= Pan_Max
-  </entry>
-
-  <entry key="get-forwardCount">
+<entry key="get-forwardCount">
     SELECT
       COUNT(*) as count
     FROM
@@ -3350,9 +2806,9 @@ ORDER BY
       PosTermId = ? AND
       BusinessDayDate = ? AND
       Status = 0;
-  </entry>
+</entry>
 
-  <entry key="get-forward-item-count">
+<entry key="get-forward-item-count">
     DECLARE
         @companyid varchar(max),
         @storeid varchar(max),
@@ -3379,16 +2835,18 @@ ORDER BY
       (@terminalid = '' OR WorkstationId = LTRIM(RTRIM(@terminalid))) AND
       (@queue = '' OR Queue = LTRIM(RTRIM(@queue))) AND
       Status = 0;
-  </entry>
-  <entry key="delete-forward-item">
+</entry>
+
+<entry key="delete-forward-item">
     DELETE FROM
       RESTransaction.dbo.TXL_FORWARD_ITEM
     WHERE
       CompanyId = LTRIM(RTRIM(?)) AND
       RetailStoreId = LTRIM(RTRIM(?)) AND
       BusinessDayDate = LTRIM(RTRIM(?))
-  </entry>
-  <entry key="get-forwardData">
+</entry>
+
+<entry key="get-forwardData">
     SELECT
       TOP 1 *
     FROM
@@ -3400,9 +2858,9 @@ ORDER BY
       Status = 0
     ORDER BY
       SequenceNumber ASC;
-  </entry>
+</entry>
 
-  <entry key="set-forwardStatus">
+<entry key="set-forwardStatus">
     UPDATE
       RESTransaction.dbo.TXL_FORWARD_ITEM
     SET
@@ -3413,9 +2871,9 @@ ORDER BY
       BusinessDayDate = ? AND
       SequenceNumber = ? AND
       Status = 0;
-  </entry>
+</entry>
 
-  <entry key="save-itemForwardData">
+<entry key="save-itemForwardData">
     INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
     (RetailStoreId
     ,WorkstationId
@@ -3427,10 +2885,10 @@ ORDER BY
     ,Tx)
     VALUES
     (?, ?, ?, 0,?, ?, 0, ?); /** Init Queue=0 just for testing. **/
-  </entry>
+</entry>
 
-  <!--For Peripheral Control -->
-  <entry key="delete-deviceinfo">
+<!--For Peripheral Control -->
+<entry key="delete-deviceinfo">
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO
     SET
@@ -3440,10 +2898,9 @@ ORDER BY
       UpdOpeCode = ?
     WHERE
       StoreId=? AND TerminalId=? AND DeleteFlag = 0.0
+</entry>
 
-  </entry>
-
-  <entry key="get-attribute-info">
+<entry key="get-attribute-info">
   SELECT
     attribute.AttributeId,
     attribute.Printer,
@@ -3490,9 +2947,9 @@ ORDER BY
           AND deviceinfo.CompanyId = LTRIM(RTRIM(?))
           AND deviceinfo.Training = ?
           AND deviceinfo.DeleteFlag = 0.0
-  </entry>
+</entry>
 
-  <entry key="get-device-attribute-info">
+<entry key="get-device-attribute-info">
   SELECT
     deviceinfo.CompanyId,
     deviceinfo.StoreId,
@@ -3524,9 +2981,9 @@ ORDER BY
         ON  deviceinfo.AttributeId = device_attribute.AttributeId
   WHERE deviceinfo.CompanyId = LTRIM(RTRIM(?)) AND deviceinfo.StoreId = LTRIM(RTRIM(?)) AND deviceinfo.TerminalId = LTRIM(RTRIM(?))
     AND deviceinfo.DeleteFlag = 0.0
-  </entry>
+</entry>
 
-  <entry key="get-peripheraldeviceinfo">
+<entry key="get-peripheraldeviceinfo">
     SELECT
       devinfo.CompanyId,
       devinfo.StoreId,
@@ -3573,9 +3030,9 @@ ORDER BY
       devinfo.TerminalId = ? AND
       devinfo.Training = ? AND
       devinfo.DeleteFlag = 0.0
-  </entry>
+</entry>
 
-  <entry key="update-last-txid">
+<entry key="update-last-txid">
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO
     SET
@@ -3587,9 +3044,9 @@ ORDER BY
       Training = ? AND
       Status = 'Active' AND
       DeleteFlag = 0.0
-  </entry>
+</entry>
 
-  <entry key="update-last-suspendtxid">
+<entry key="update-last-suspendtxid">
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO
     SET
@@ -3601,8 +3058,9 @@ ORDER BY
       Training = ? AND
       Status = 'Active' AND
       DeleteFlag = 0.0
-  </entry>
-  <entry key="update-deviceinfo">
+</entry>
+
+<entry key="update-deviceinfo">
     DECLARE
       @CompanyId varchar(12),
       @StoreId varchar(MAX),
@@ -3804,17 +3262,17 @@ ORDER BY
       Training = ? AND
       Status = 'Active' AND
       DeleteFlag = 0.0
-  </entry>
+</entry>
 
-  <entry key="get-printerinfo">
+<entry key="get-printerinfo">
     SELECT * from RESMaster.dbo.MST_PRINTERINFO
     WHERE StoreId like ? AND
     PrinterId = ? AND
     Status = 'Active' AND
     DeleteFlag = 0.0;
-  </entry>
+</entry>
 
-  <entry key="get-storeInfo">
+<entry key="get-storeInfo">
      SELECT StoreId
           , StoreName
           , StoreAddr
@@ -3826,9 +3284,9 @@ ORDER BY
           , Ads
      FROM RESMaster.dbo.MST_STOREINFO
      WHERE StoreId = ? AND DeleteFlag = 0.0;
-  </entry>
+</entry>
 
-    <entry key="get-store-bystoreIdandcomnpanyId">
+<entry key="get-store-bystoreIdandcomnpanyId">
      SELECT StoreId
           , StoreName
           , StoreAddr
@@ -3843,31 +3301,9 @@ ORDER BY
      AND CompanyId = ?
      AND Status = 'Active'
      AND DeleteFlag = 0.0
-  </entry>
+</entry>
 
-  <entry key="get-pastelportlog">
-     SELECT CrCompanyCode
-          , RecvCompanyCode
-          , Pan
-          , CaStatus
-          , PaymentSeq
-          , ApprovalCode
-          , TraceNum
-          , SettlementNum
-          , Amount
-     FROM RESTransaction.dbo.TXU_NPS_PASTELPORTLOG
-     WHERE RetailStoreId = ?
-     AND   TxDate2 = ?
-     AND   SequenceNumber = ? ;
-  </entry>
-
-  <entry key="get-creditCompanyName">
-     SELECT CompanyName
-     FROM   RESMaster.dbo.PRM_CREDIT_COMPANY
-     WHERE CompanyCode = ? ;
-  </entry>
-
-  <entry key="create-peripheraldeviceinfo">
+<entry key="create-peripheraldeviceinfo">
     DECLARE
       @StoreId varchar(MAX),
       @TerminalId varchar(MAX),
@@ -4019,307 +3455,18 @@ ORDER BY
       0,
       @AttributeId,
       1);
-  </entry>
-  <!-- For Department Info for Item Details-->
-
-     <entry key = "get-logginginfo">
-        SELECT * FROM RESTransaction.dbo.TXL_NPS_TXLOG WITH (ROWLOCK)
-        WHERE RetailStoreId = ? AND WorkstationId = ? AND SequenceNumber = ? AND PaymentSeq = ? AND Guid = ?;
-    </entry>
-
-    <entry key = "save-LoggingInfo">
-        INSERT INTO RESTransaction.dbo.TXL_NPS_TXLOG WITH (ROWLOCK)
-          (RetailStoreId,
-            WorkstationId,
-            SequenceNumber,
-            PaymentSeq,
-            Guid,
-            Brand,
-            Service,
-            Amount,
-            TxDateTime,
-            RwId,
-            RwKind,
-            TxType,
-            XmlDocument)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, CAST(? AS datetime), ?, ?, ?, ?);
-    </entry>
-
-    <entry key = "save-SummaryInsert">
-                INSERT INTO    RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
-                    ( [RetailStoreId]
-              ,[WorkstationId]
-              ,[FinishDate]
-              ,[FinishPaymentSeq]
-              ,[FinishFlag]
-              ,[SalesAmount]
-              ,[SalesCount]
-              ,[VoidAmount]
-              ,[VoidCount]
-              ,[RefundAmount]
-              ,[RefundCount]
-              ,[CancelAmount]
-              ,[CancelCount]
-              ,[PosSalesAmount]
-              ,[PosSalesCount]
-              ,[PosVoidAmount]
-              ,[PosVoidCount]
-              ,[PosRefundAmount]
-              ,[PosRefundCount]
-              ,[PosCancelAmount]
-              ,[PosCancelCount])
-                VALUES
-                    (?, ?, CAST('20010101'as datetime), 99999,  0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
-    </entry>
-
-    <entry key = "set-SummaryUpdateSales">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
-                    SET    SalesAmount     =   SalesAmount     + ?,
-                           SalesCount      =   SalesCount      + ?,
-                           VoidAmount      =   VoidAmount      + ?,
-                           VoidCount       =   VoidCount       + ?,
-                           RefundAmount    =   RefundAmount    + ?,
-                           RefundCount     =   RefundCount     + ?,
-                           CancelAmount    =   CancelAmount    + ?,
-                           CancelCount     =   CancelCount     + ?
-                    WHERE  RetailStoreId = ?
-                    AND    WorkstationId = ?
-                    AND    FinishDate = CAST('20010101' AS datetime)
-                    AND    FinishPaymentSeq = 99999
-                    AND    FinishFlag = 0;
-    </entry>
-
-    <entry key = "set-SummaryUpdateInit">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
-                    SET    FinishDate          =   CAST(? AS datetime),
-                           FinishPaymentSeq    =   ?,
-                           FinishFlag          =   9
-                    WHERE  RetailStoreId = ?
-                    AND    WorkstationId = ?
-                    AND    FinishDate = CAST('20010101' AS datetime)
-                    AND    FinishPaymentSeq = 99999
-                    AND    FinishFlag = 0;
-    </entry>
-
-    <entry key = "set-SummaryUpdateFinish">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTCREDITSUMMARY WITH (ROWLOCK)
-                    SET    FinishDate          =   CAST(? AS datetime),
-                           FinishPaymentSeq    =   ?,
-                           FinishFlag          =   1,
-                           PosSalesAmount      =   ?,
-                           PosSalesCount       =   ?,
-                           PosVoidAmount       =   ?,
-                           PosVoidCount        =   ?,
-                           PosRefundAmount     =   ?,
-                           PosRefundCount      =   ?,
-                           PosCancelAmount     =   ?,
-                           PosCancelCount      =   ?
-                    WHERE  RetailStoreId = ?
-                    AND    WorkstationId = ?
-                    AND    FinishDate = CAST('20010101' AS datetime)
-                    AND    FinishPaymentSeq = 99999
-                    AND    FinishFlag = 0;
-    </entry>
-
-    <entry key = "get-CreditLogSelect">
-                SELECT
-
-                   [RetailStoreId]
-            ,[WorkstationId]
-            ,[PaymentSeq]
-            ,CONVERT(CHAR,TxDate,112)AS [TxDate]
-            ,[SequenceNumber]
-            ,[Brand]
-            ,[Service]
-            ,[TxType]
-            ,[TxStatus]
-            ,[CrCompanyCode]
-            ,[RecvCompanyCode]
-            ,[PaymentMethod]
-            ,[Pan]
-            ,[ExpDate]
-            ,[Amount]
-            ,[CaStatus]
-            ,[CaErrorCode]
-            ,[DcStatus]
-            ,[DcErrorCode]
-            ,[ApprovalCode]
-            ,[TraceNum]
-            ,[AlertFlag]
-            ,[VoidFlag]
-            ,[VoidCorpId]
-            ,[VoidStoreId]
-            ,[VoidTermId]
-            ,[VoidPaymentSeq]
-            ,[VoidTxId]
-            ,CONVERT(CHAR,VoidTxDate,112)AS [VoidTxDate]
-            ,[SettlementNum]
-            ,[TxDate2]
-
-                FROM   RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                WHERE  RetailStoreId     =   ?
-                AND    WorkstationId      =   ?
-                AND    PaymentSeq  =   ?
-                AND    TxDate      =   CAST(? AS datetime) ;
-    </entry>
-
-    <entry key = "save-creditloginsert">
-                INSERT INTO RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    (RetailStoreId,   WorkstationId,    PaymentSeq,
-                    TxDate,       SequenceNumber,   Brand,
-                    Service,      TxType,       CrCompanyCode,
-                    RecvCompanyCode,  PaymentMethod,    Pan,
-                    ExpDate,      Amount,
-                    SettlementNum,    TxDate2)
-                VALUES
-                    (?,         ?,          ?,
-                    CAST(? AS datetime), ?,         ?,
-                    ?,          ?,          ?,
-                    ?,          ?,          ?,
-                    ?,          ?,
-                    ?,          ?);
-    </entry>
-
-  <entry key = "set-CreditLogUpdateRca">
-                  UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET    TxStatus        =   ?,
-                           CaStatus        =   ?,
-                           CaErrorCode     =   ?,
-                           ApprovalCode    =   ?,
-                           TraceNum        =   ?
-                    WHERE  RetailStoreId   =   ?
-                    AND    WorkstationId   =   ?
-                    AND    PaymentSeq      =   ?
-                    AND    TxDate          =   CAST(? AS datetime) ;
 </entry>
 
-    <entry key = "set-CreditLogUpdateSdc">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET    TxType          =   ?
-                    WHERE  RetailStoreId   =   ?
-                    AND    WorkstationId   =   ?
-                    AND    PaymentSeq      =   ?
-                    AND    TxDate          =   CAST(? AS datetime) ;
-    </entry>
-
-    <entry key = "set-CreditLogUpdateRdc">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET    TxStatus        =   ?,
-                           DcStatus        =   ?,
-                           DcErrorCode     =   ?,
-                           ApprovalCode    =   ?,
-                           TraceNum        =   ?,
-                           AlertFlag       =   ?
-                    WHERE  RetailStoreId   =   ?
-                    AND    WorkstationId   =   ?
-                    AND    PaymentSeq      =   ?
-                    AND    TxDate          =   CAST(? AS datetime) ;
-    </entry>
-    <entry key = "set-CreditLogUpdateVoid">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET    VoidFlag        =   ?,
-                           VoidCorpId      =   ?,
-                           VoidStoreId     =   ?,
-                           VoidTermId      =   ?,
-                           VoidPaymentSeq  =   ?,
-                           VoidTxId        =   ?,get-SummarySelect
-                           VoidTxDAte      =   CAST(? AS datetime)
-                    WHERE  RetailStoreId   =   ?
-                    AND    WorkstationId   =   ?
-                    AND    PaymentSeq      =   ?
-                    AND    TxDate          =   CAST(? AS datetime) ;
-    </entry>
-
-    <entry key="get-MaxServerPaymentseq">
-                    SELECT SERVERPAYMENTSEQ
-                    FROM V_TXL_SERVERPAYMENTSEQ
-                    WHERE CORPID= ?
-                    AND STOREID = ?
-                    AND TERMID = ?
-    </entry>
-    <entry key="set-VoidPaymentseq">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET VoidPaymentSeq  =   ?
-                    WHERE  RetailStoreId   =   ?
-                    AND    WorkstationId   =   ?
-                    AND    PaymentSeq      =   ?
-                    AND    TxDate          =   CAST(? AS datetime) ;
-    </entry>
-    <entry key="set-DCstatus">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET     DcStatus  =   ?,
-                            DcErrorCode = ?
-                    WHERE   RetailStoreId   =   ?
-                    AND    WorkstationId   =   ?
-                    AND    PaymentSeq      =   ?
-                    AND    TxDate          =   CAST(? AS datetime) ;
-    </entry>
-
-        <entry key="set-ServerPaymentseq">
-                    UPDATE RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                    SET  ServerPaymentSeq  =   ?
-                    WHERE  STOREID         =   ?
-                    AND    TERMID          =   ?
-                    AND    PAYMENTSEQ      =   ?
-                    AND    TXDATE          =   CAST(? AS datetime) ;
-    </entry>
-    <entry key = "get-creditlogselectvoid">
-                SELECT
-
-           [RetailStoreId]
-            ,[WorkstationId]
-            ,[PaymentSeq]
-            ,CONVERT(CHAR,TxDate,112)AS [TxDate]
-            ,[SequenceNumber]
-            ,[Brand]
-            ,[Service]
-            ,[TxType]
-            ,[TxStatus]
-            ,[CrCompanyCode]
-            ,[RecvCompanyCode]
-            ,[PaymentMethod]
-            ,[Pan]
-            ,[ExpDate]
-            ,[Amount]
-            ,[CaStatus]
-            ,[CaErrorCode]
-            ,[DcStatus]
-            ,[DcErrorCode]
-            ,[ApprovalCode]
-            ,[TraceNum]
-            ,[AlertFlag]
-            ,[VoidFlag]
-            ,[VoidCorpId]
-            ,[VoidStoreId]
-            ,[VoidTermId]
-            ,[VoidPaymentSeq]
-            ,[VoidTxId]
-            ,CONVERT(CHAR,VoidTxDate,112)AS [VoidTxDate]
-            ,[SettlementNum]
-            ,[TxDate2]
-
-             FROM   RESTransaction.dbo.TXU_NPS_PASTELPORTLOG WITH (ROWLOCK)
-                  WHERE  RetailStoreId     =   ?
-                  AND    WorkstationId      =   ?
-                  AND    SequenceNumber        =   ?
-                  AND    TxDate      =   CAST(? AS datetime) ;
-    </entry>
-
 <!-- *************************  ENTRY KEY FOR DEVICE REGISTRATION  ************************* -->
-  <entry key="delete-autdevice">
-    DELETE FROM
-      RESMaster.dbo.AUT_DEVICES
-    WHERE
-    StoreId=? AND TerminalId=?
-  </entry>
-  <entry key="delete-autdevices">
+
+<entry key="delete-autdevices">
     DELETE FROM
       RESMaster.dbo.AUT_DEVICES
     WHERE
     TerminalId=?
-  </entry>
-  <entry key="save-device">
+</entry>
+
+<entry key="save-device">
     DECLARE
     @CompanyId varchar(12),
     @StoreId varchar(10),
@@ -4342,14 +3489,16 @@ ORDER BY
     (CompanyId, StoreId, TerminalId, Uuid, Udid, State, LastActiveTime, SignStatus, SignTid, SignActivationKey)
   VALUES
     (@CompanyId, @StoreId, @TerminalId, @Uuid, @Udid, 1, GETDATE(), @SignStatus, @SignTId, @SignActivationKey)
-  </entry>
-  <entry key="delete-device">
+</entry>
+
+<entry key="delete-device">
     DELETE FROM
       RESMaster.dbo.AUT_DEVICES
     WHERE
       StoreId=? AND TerminalId=?
-  </entry>
-  <entry key="delete-device-with-udid">
+</entry>
+
+<entry key="delete-device-with-udid">
     DELETE FROM RESMaster.dbo.AUT_DEVICES
       WHERE Udid=?
   </entry>
@@ -4361,8 +3510,9 @@ ORDER BY
     WHERE
       StoreId = ? AND
       TerminalId = ?;
-  </entry>
-  <entry key="update-device-state">
+</entry>
+
+<entry key="update-device-state">
     DECLARE
       @State int,
       @StoreId varchar(MAX),
@@ -4391,8 +3541,9 @@ ORDER BY
       WHERE
         StoreId = @StoreId AND
         TerminalId = @TerminalId
-  </entry>
-  <entry key="update-device-state-by-terminalid">
+</entry>
+
+<entry key="update-device-state-by-terminalid">
     DECLARE @State int, @StoreId
     varchar(MAX), @TerminalId varchar(MAX),
         @LastActiveTime datetime
@@ -4405,42 +3556,48 @@ ORDER BY
     WHERE TerminalId=@TerminalId
     else
     UPDATE RESMaster.dbo.AUT_DEVICES SET State=@State WHERE TerminalId=@TerminalId
-  </entry>
-  <entry key="select-device-by-terminalid">
+</entry>
+
+<entry key="select-device-by-terminalid">
     SELECT * FROM
       RESMaster.dbo.AUT_DEVICES
     WHERE
     TerminalId=?
-  </entry>
-  <entry key="select-device-strict">
+</entry>
+
+<entry key="select-device-strict">
     SELECT *
       FROM
         RESMaster.dbo.AUT_DEVICES
       WHERE
     CompanyId=? AND StoreId=? AND TerminalId=?
-  </entry>
-  <entry key="select-device-by-uuid-udid">
+</entry>
+
+<entry key="select-device-by-uuid-udid">
       SELECT *
       FROM RESMaster.dbo.AUT_DEVICES
       WHERE Uuid = ?
       AND   Udid = ?
-  </entry>
-  <entry key="update-device-uuidtoken">
+</entry>
+
+<entry key="update-device-uuidtoken">
     UPDATE
       RESMaster.dbo.AUT_DEVICES
     SET
       Uuid=? , DeviceName=?
     WHERE
     StoreId=? AND TerminalId=?
-  </entry>
-  <entry key="select-device-terminalid">
+</entry>
+
+<entry key="select-device-terminalid">
     SELECT TerminalId
       FROM
         RESMaster.dbo.AUT_DEVICES
       WHERE
     TerminalId=?
-  </entry>
-  <entry key="select-passcode-url-by-corpid">
+</entry>
+
+<entry key="select-passcode-url-by-corpid">
     SELECT
       PassCode,
       Url
@@ -4448,8 +3605,9 @@ ORDER BY
       RESMaster.dbo.MST_CORP_URL
     WHERE
       CorpId=?
-  </entry>
-  <entry key="select-passcode-permission-from-corp-store">
+</entry>
+
+<entry key="select-passcode-permission-from-corp-store">
     SELECT
       store.PassCode,
       store.Permission,
@@ -4465,58 +3623,36 @@ ORDER BY
       AND company.DeleteFlag = 0.0
     WHERE
       store.StoreId = ? AND store.CompanyId = ?
-  </entry>
-  <entry key="select-url-by-corpid">
+</entry>
+
+<entry key="select-url-by-corpid">
     SELECT
       Url
     FROM
       RESMaster.dbo.MST_CORP_URL
     WHERE
       CorpId=?
-  </entry>
-  <entry key="select-corpname-by-corpid">
+</entry>
+
+<entry key="select-corpname-by-corpid">
     SELECT
       CorpName
     FROM
       RESMaster.dbo.MST_CORPINFO
     WHERE
       CorpId=?
-  </entry>
-  <entry key="select-storename-by-corpid-storeid">
+</entry>
+
+<entry key="select-storename-by-corpid-storeid">
     SELECT
       StoreName
     FROM
       RESMaster.dbo.MST_CORP_STORE
     WHERE
     StoreId=?
-  </entry>
-  <entry key="select-devicename-by-corpid-storeid-terminalid">
-    SELECT
-      DeviceName
-    FROM
-      RESMaster.dbo.AUT_DEVICES
-    WHERE
-    StoreId=? AND TerminalId=?
-  </entry>
-  <entry key="update-devicename-by-corpid-storeid-terminalid">
-    UPDATE
-      RESMaster.dbo.AUT_DEVICES
-    SET
-      DeviceName=?
-    WHERE
-    StoreId=? AND TerminalId=?
-  </entry>
-  <entry key="update-device-signature-activation-status">
-    UPDATE
-      RESMaster.dbo.AUT_DEVICES
-    SET
-      SignStatus=?,
-      SignTid=?,
-      SignActivationKey=?
-    WHERE
-    StoreId=? AND TerminalId=? AND Udid=? AND Uuid=?
-  </entry>
-  <entry key="get-signdetails">
+</entry>
+
+<entry key="get-signdetails">
     SELECT
       SignStatus,
       SignTid,
@@ -4525,10 +3661,10 @@ ORDER BY
       RESMaster.dbo.AUT_DEVICES
     WHERE
     CompanyId=? AND StoreId=? AND TerminalId=? AND Udid=? AND Uuid=?
-  </entry>
+</entry>
 
 <!-- Entry key for QueueBuster implementation -->
-  <entry key="save-transaction-to-queue">
+<entry key="save-transaction-to-queue">
     DECLARE
       @CompanyId varchar(12),
       @StoreId varchar(MAX),
@@ -4570,8 +3706,9 @@ ORDER BY
            ,@Queue
            ,0
            ,@Xml)
-  </entry>
-  <entry key="save-forward-poslog">
+</entry>
+
+<entry key="save-forward-poslog">
     DECLARE
       @CompanyId varchar(12),
       @RetailStoreId varchar(MAX),
@@ -4640,8 +3777,9 @@ ORDER BY
            ,@Tx
            ,@LayawayFlag
            ,@TxType)
-  </entry>
-  <entry key="get-forward-list">
+</entry>
+
+<entry key="get-forward-list">
     DECLARE
         @CompanyId VARCHAR (12),
         @RetailStoreId VARCHAR (MAX),
@@ -4686,8 +3824,9 @@ ORDER BY
     AND A.TxType = ISNULL(@Txtype,A.TxType)
     AND A.BusinessDayDate = @BusinessDayDate
     ORDER BY A.BusinessDayDate DESC, A.BusinessDateTime DESC
-  </entry>
-  <entry key="get-forward-items-posLog">
+</entry>
+
+<entry key="get-forward-items-posLog">
     DECLARE
       @CompanyId varchar(12),
       @RetailStoreId varchar(MAX),
@@ -4716,8 +3855,9 @@ ORDER BY
       AND BusinessDayDate = @BusinessDayDate
       AND TrainingFlag = @TrainingFlag
       AND WorkstationId = @WorkstationId
-  </entry>
-  <entry key="get-forward-items-posLog-with-tag">
+</entry>
+
+<entry key="get-forward-items-posLog-with-tag">
     DECLARE
       @CompanyId varchar(12),
       @RetailStoreId varchar(MAX),
@@ -4744,8 +3884,9 @@ ORDER BY
       AND Ext1 = @tag
       AND Status = 0
       AND TrainingFlag = @trainingFlag
-  </entry>
-  <entry key="update-forward-status">
+</entry>
+
+<entry key="update-forward-status">
         UPDATE RESTransaction.dbo.TXL_FORWARD_ITEM
         SET Status = ?
         WHERE
@@ -4756,13 +3897,14 @@ ORDER BY
         AND Queue = ?
         AND BusinessDayDate = ?
         AND TrainingFlag = ?
-  </entry>
-  <entry key="update-transaction-status-in-queue">
+</entry>
+
+<entry key="update-transaction-status-in-queue">
     UPDATE RESTransaction.dbo.TXL_INPROGRESS_ITEM SET Status = ?
     WHERE RetailStoreId = ? AND WorkstationId = ? AND SequenceNumber = ? AND BusinessDayDate = ? AND Queue = 0
-  </entry>
+</entry>
 
-  <entry key="select-transaction-from-queue">
+<entry key="select-transaction-from-queue">
     SELECT Tx, Status
     FROM RESTransaction.dbo.TXL_INPROGRESS_ITEM
     WHERE
@@ -4773,9 +3915,9 @@ ORDER BY
       SequenceNumber = ? AND
       BusinessDayDate = ? AND
       TrainingFlag = ?
-  </entry>
+</entry>
 
-  <entry key="select-transaction-from-queue-updlock">
+<entry key="select-transaction-from-queue-updlock">
     DECLARE
       @companyid varchar(MAX),
       @storeid varchar(MAX),
@@ -4824,9 +3966,9 @@ ORDER BY
       TrainingFlag = @trainingflag AND
       Status = 0
     COMMIT TRAN
-  </entry>
+</entry>
 
-  <entry key="select-transaction-from-queue-disregard-postermid">
+<entry key="select-transaction-from-queue-disregard-postermid">
     SELECT TOP 1 Tx, BusinessDayDate, Status
     FROM RESTransaction.dbo.TXL_INPROGRESS_ITEM
     WHERE
@@ -4835,9 +3977,9 @@ ORDER BY
       SequenceNumber = ? AND
       BusinessDayDate = ? AND
       Queue = 0
-  </entry>
+</entry>
 
-  <entry key="get-queued-transaction-status">
+<entry key="get-queued-transaction-status">
     SELECT Status
     FROM RESTransaction.dbo.TXL_INPROGRESS_ITEM
     WHERE
@@ -4845,9 +3987,9 @@ ORDER BY
       WorkstationId = ? AND
       SequenceNumber = ? AND
       BusinessDayDate = ?
-  </entry>
+</entry>
 
-  <entry key="select-oldest-transaction-from-queue">
+<entry key="select-oldest-transaction-from-queue">
     DECLARE
       @storeid varchar(MAX),
       @queue char(4)
@@ -4865,9 +4007,9 @@ ORDER BY
     WHERE
       RetailStoreId = @storeid AND Queue = @queue AND Status = 0
     ORDER BY BusinessDayDate, SequenceNumber ASC
-  </entry>
+</entry>
 
-  <entry key="select-all-transaction-from-queue">
+<entry key="select-all-transaction-from-queue">
     SELECT Tx, WorkstationId, RTRIM(LTRIM(SequenceNumber)) as SequenceNumber, BusinessDayDate
       FROM RESTransaction.dbo.TXL_INPROGRESS_ITEM
       WHERE
@@ -4878,9 +4020,9 @@ ORDER BY
       TrainingFlag = ? AND
       Status = 0
       ORDER BY BusinessDayDate ASC
-  </entry>
+</entry>
 
-  <entry key="update-status-from-queue">
+<entry key="update-status-from-queue">
     UPDATE
       RESTransaction.dbo.TXL_INPROGRESS_ITEM
        SET
@@ -4891,8 +4033,8 @@ ORDER BY
         SequenceNumber = ? AND
         BusinessDayDate = ? AND
         Queue = ?
-  </entry>
-  <entry key="select-operator-queue">
+</entry>
+<entry key="select-operator-queue">
     SELECT
       OperatorName
     FROM
@@ -4900,35 +4042,7 @@ ORDER BY
     WHERE
       OperatorNo=? AND
       CompanyId = ?
-  </entry>
-  <!-- Signature Request -->
-  <entry key="add-signature-request">
-      INSERT INTO RESTransaction.dbo.TXL_EXTERNAL_CA_REQ
-        (RetailStoreId,
-        WorkstationId,
-        BusinessDayDate,
-        SequenceNumber,
-        Type,
-        TermId,
-        Status,
-        Pan,
-        Amount,
-        CafisTraceNum,
-        CaInfoRaw)
-      VALUES
-        (?,?,?,?,?,?,3,?,?,0,?)
-  </entry>
-
-  <!-- Entry key for System Settings Implementation -->
-  <entry key="get-current-date-time">
-       SELECT substring( replace(replace( replace(replace( convert(varchar,GETDATE(),121),' ',''),'-',''),':',''),'.',''), 1, 14 ) AS CurrentDateTime
-    </entry>
-
-  <entry key="insert-date-setting">
-    INSERT INTO RESMaster.dbo.MST_BIZDAY
-       (TodayDate, SwitchTime, Skip)
-       VALUES (?, ?, ?)
-  </entry>
+</entry>
 
 <entry key="select-date-setting">
   DECLARE
@@ -4959,8 +4073,8 @@ ORDER BY
     CompanyId = @companyid AND StoreId = @storeid AND DeleteFlag = 0
 </entry>
 
-  <!-- *************************  ENTRY KEY FOR DEVICE LOG TABLE ************************* -->
-    <entry key="save-DeviceLogFile">
+<!-- *************************  ENTRY KEY FOR DEVICE LOG TABLE ************************* -->
+<entry key="save-DeviceLogFile">
     DECLARE @newDeviceLog Table(
       Id uniqueidentifier,
       Udid varchar(50),
@@ -4980,8 +4094,9 @@ ORDER BY
     INTO @newDeviceLog
     VALUES (?, ?, ?);
     SELECT * FROM @newDeviceLog;
-  </entry>
-  <entry key="update-DeviceLogFile">
+</entry>
+
+<entry key="update-DeviceLogFile">
     DECLARE @updateDeviceLog Table(
       Id uniqueidentifier,
       Udid varchar(50),
@@ -5001,8 +4116,9 @@ ORDER BY
       INTO @updateDeviceLog
     WHERE Id = ? ;
     SELECT * FROM @updateDeviceLog;
-  </entry>
-  <entry key="get-DeviceLogs">
+</entry>
+
+<entry key="get-DeviceLogs">
     SET NOCOUNT ON;
     WITH tempTable as (
       SELECT
@@ -5021,18 +4137,19 @@ ORDER BY
     WHERE
       RowNumber
       BETWEEN ? AND ?;
-  </entry>
+</entry>
 
-  <!-- *************************  ENTRY KEY FOR STORE TABLE MAINTENANCE ************************* -->
-  <entry key="get-store">
+<!-- *************************  ENTRY KEY FOR STORE TABLE MAINTENANCE ************************* -->
+<entry key="get-store">
     SELECT
       *
     FROM
       RESMaster.dbo.MST_STOREINFO
     WHERE
       StoreId=? AND DeleteFlag = 0.0
-  </entry>
-  <entry key="get-stores">
+</entry>
+
+<entry key="get-stores">
     DECLARE
       @companyId varchar(MAX),
       @storeId varchar(MAX),
@@ -5060,18 +4177,18 @@ ORDER BY
       Status = 'Active' AND
       DeleteFlag = 0.0
       ORDER BY StoreName ASC
-  </entry>
+</entry>
 
-    <entry key="get-till-info">
-      	SELECT
-      		StoreId, TillId, BusinessDayDate, SodFlag, EodFlag
-    	FROM
-      		RESMaster.dbo.MST_TILLIDINFO
-    	WHERE
-      		StoreId=? AND TillId=? AND DeleteFlag=0
-    </entry>
+<entry key="get-till-info">
+        SELECT
+          StoreId, TillId, BusinessDayDate, SodFlag, EodFlag
+      FROM
+          RESMaster.dbo.MST_TILLIDINFO
+      WHERE
+          StoreId=? AND TillId=? AND DeleteFlag=0
+</entry>
 
-    <entry key="create-till-info">
+<entry key="create-till-info">
       INSERT INTO RESMaster.dbo.MST_TILLIDINFO(
          StoreId,
          TillId,
@@ -5084,54 +4201,20 @@ ORDER BY
          UpdOpeCode,
          DeleteFlag)
      VALUES(?,?,?,?,?,GETDATE(),GETDATE(),?,?,0);
-    </entry>
+</entry>
 
-  <entry key="select-till-updlock">
-    DECLARE
-      @storeid varchar(MAX),
-      @tillid varchar(MAX),
-      @businessdaydate DATE,
-      @sodflag tinyint,
-      @eodflag tinyint
-
-    SET @storeid = ?;
-    SET @tillid = ?;
-    SET @businessdaydate = ?;
-    SET @sodflag = ?;
-    SET @eodflag = ?;
-
-    SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-
-    BEGIN TRAN
-
-    UPDATE
-      RESMaster.dbo.MST_TILLIDINFO
-    SET
-       SodFlag = @sodflag
-    OUTPUT
-       INSERTED.StoreId,  INSERTED.TillId,  INSERTED.BusinessDayDate,  INSERTED.SodFlag,  INSERTED.EodFlag
-    WHERE
-       StoreId = @storeid AND
-       TillId = @tillid AND
-       BusinessDayDate = @businessdaydate AND
-       EodFlag = @eodflag AND
-       DeleteFlag=0
-
-    COMMIT TRAN
-  </entry>
-
-  <entry key="fetch-one-till">
+<entry key="fetch-one-till">
     SELECT
-    	CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SaveBusinessDayDate, SodFlag, EodFlag,
-    	DeleteFlag, DelDate, DelAppId, DelOpeCode, InsDate, InsAppId, InsOpeCode,
-    	UpdCount, UpdDate, UpdAppId, UpdOpeCode
+      CompanyId, StoreId, TillId, TerminalId, BusinessDayDate, SaveBusinessDayDate, SodFlag, EodFlag,
+      DeleteFlag, DelDate, DelAppId, DelOpeCode, InsDate, InsAppId, InsOpeCode,
+      UpdCount, UpdDate, UpdAppId, UpdOpeCode
     FROM
-    	RESMaster.dbo.MST_TILLIDINFO
+      RESMaster.dbo.MST_TILLIDINFO
     WHERE
-    	CompanyId = ? AND StoreId= ? AND TillId = ? AND DeleteFlag = 0
-  </entry>
+      CompanyId = ? AND StoreId= ? AND TillId = ? AND DeleteFlag = 0
+</entry>
 
-  <entry key="update-till-operation-flag">
+<entry key="update-till-operation-flag">
     UPDATE
       RESMaster.dbo.MST_TILLIDINFO
     SET
@@ -5150,101 +4233,9 @@ ORDER BY
       SodFlag = ? AND
       EodFlag = ? AND
       DeleteFlag = 0
-  </entry>
+</entry>
 
-  <entry key="update-sod-till-updlock">
-    DECLARE
-      @storeid varchar(MAX),
-      @tillid varchar(MAX),
-      @terminalid varchar(MAX),
-      @sodflag tinyint,
-      @updappid varchar(MAX),
-      @updopecode varchar(MAX),
-      @sodflagtochange tinyint
-
-    SET @storeid = ?;
-    SET @tillid = ?;
-    SET @terminalid = ?;
-    SET @sodflag = ?;
-    SET @updappid = ?;
-    SET @updopecode = ?;
-    SET @sodflagtochange = ?;
-
-    SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-
-    BEGIN TRAN
-    SELECT
-      StoreId, TillId
-    FROM
-      RESMaster.dbo.MST_TILLIDINFO(UPDLOCK)
-    WHERE
-      StoreId = @storeid AND
-       TillId = @tillid AND
-       SodFlag = @sodflagtochange AND
-       DeleteFlag=0
-
-    UPDATE
-      RESMaster.dbo.MST_TILLIDINFO
-    SET
-      TerminalId = @terminalid,
-       SodFlag = @sodflag,
-       UpdDate = GETDATE(),
-       UpdAppId = @updappid,
-       UpdOpeCode = @updopecode
-    WHERE
-       StoreId = @storeid AND
-       TillId = @tillid AND
-       SodFlag = @sodflagtochange AND
-       DeleteFlag=0
-    COMMIT TRAN
-  </entry>
-
-    <entry key="update-eod-till-updlock">
-        DECLARE
-            @storeid varchar(MAX),
-            @tillid varchar(MAX),
-            @terminalid varchar(MAX),
-            @eodflag tinyint,
-            @updappid varchar(MAX),
-            @updopecode varchar(MAX),
-            @eodflagtochange tinyint
-
-        SET @storeid = ?;
-        SET @tillid = ?;
-        SET @terminalid = ?;
-        SET @eodflag = ?;
-        SET @updappid = ?;
-        SET @updopecode = ?;
-        SET @eodflagtochange = ?;
-
-        SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
-
-        BEGIN TRAN
-        SELECT
-            StoreId, TillId
-        FROM
-            RESMaster.dbo.MST_TILLIDINFO(UPDLOCK)
-        WHERE
-            StoreId = @storeid AND
-            TillId = @tillid AND
-            EodFlag = @eodflagtochange AND
-            DeleteFlag = 0
-        UPDATE
-            RESMaster.dbo.MST_TILLIDINFO
-        SET
-            TerminalId = @terminalid,
-            EodFlag = @eodflag,
-            UpdDate = GETDATE(),
-            UpdAppId = @updappid,
-            UpdOpeCode = @updopecode
-        WHERE
-            StoreId = @storeid AND
-            TillId = @tillid AND
-            EodFlag = @eodflagtochange AND
-            DeleteFlag = 0
-        COMMIT TRAN
-    </entry>
-  <entry key="update-previous-amount">
+<entry key="update-previous-amount">
     DECLARE
       @companyid varchar(MAX),
       @storeid varchar(MAX),
@@ -5280,9 +4271,9 @@ ORDER BY
       INSERT INTO RESTransaction.dbo.TXL_SOD (CompanyId, StoreId, TerminalId, OperatorId, TillId, Amount, BusinessDate, CreatedDate, UpdDate)
       VALUES
       (@companyid, @storeid, @terminalid, @operatorid, @tillid, @amount, @businessdate, GETDATE(), GETDATE())
-  </entry>
+</entry>
 
-  <entry key="update-till-on-journ-updlock">
+<entry key="update-till-on-journ-updlock">
     DECLARE
       @storeid varchar(MAX),
       @tillid varchar(MAX),
@@ -5334,9 +4325,9 @@ ORDER BY
        EodFlag = @eodflagtochange AND
        DeleteFlag = 0
     COMMIT TRAN
-  </entry>
+</entry>
 
-  <entry key="update-till-on-journ-updlock-ent">
+<entry key="update-till-on-journ-updlock-ent">
     DECLARE
       @storeid varchar(MAX),
       @tillid varchar(MAX),
@@ -5384,9 +4375,9 @@ ORDER BY
        TillId = @tillid AND
        DeleteFlag = 0
     COMMIT TRAN
-  </entry>
+</entry>
 
-    <entry key="get-all-tills">
+<entry key="get-all-tills">
         DECLARE
             @storeid varchar(max),
             @tillid varchar(max),
@@ -5412,9 +4403,9 @@ ORDER BY
         AND (@tillid IS NULL OR len(@tillid) = 0 OR TillId like @tillid)
         AND DeleteFlag=0
         ORDER BY TillId;
-    </entry>
+</entry>
 
-    <entry key="get-eodsummary">
+<entry key="get-eodsummary">
         SELECT
             Status
         FROM RESTransaction.dbo.TXL_SALES_JOURNAL
@@ -5424,9 +4415,9 @@ ORDER BY
             WorkstationId = ? AND
             BusinessDayDate = ? AND
             TxType = 'EOD'
-    </entry>
+</entry>
 
-    <entry key="get-activated-tills-on-businessday">
+<entry key="get-activated-tills-on-businessday">
         SELECT
             tillidinfo.CompanyId,
             tillidinfo.StoreId,
@@ -5449,9 +4440,9 @@ ORDER BY
             tillidinfo.BusinessDayDate = ? AND
             tillidinfo.DeleteFlag = 0
         ORDER BY tillidinfo.TillId, tillidinfo.TerminalId
-    </entry>
+</entry>
 
-    <entry key="get-unclosed-tills-on-businessday">
+<entry key="get-unclosed-tills-on-businessday">
         SELECT
             tillidinfo.CompanyId,
             tillidinfo.StoreId,
@@ -5475,9 +4466,9 @@ ORDER BY
             tillidinfo.EodFlag = 0 AND
             tillidinfo.DeleteFlag = 0
         ORDER BY tillidinfo.TillId, tillidinfo.TerminalId
-    </entry>
+</entry>
 
-    <entry key="search-logon-users">
+<entry key="search-logon-users">
         DECLARE
           @companyid varchar(max),
             @storeid varchar(max),
@@ -5506,9 +4497,10 @@ ORDER BY
             device.TillId = @tillid AND
             (pos.OpeCode IS NOT NULL AND LTRIM(RTRIM(pos.OpeCode))!='') AND
             device.TerminalId != @terminalid
-    </entry>
-    <!-- *************************  ENTRY KEY FOR DEPARTMENT TABLE MAINTENANCE ************************* -->
-  <entry key="select-departmentdetails">
+</entry>
+
+<!-- *************************  ENTRY KEY FOR DEPARTMENT TABLE MAINTENANCE ************************* -->
+<entry key="select-departmentdetails">
     DECLARE @companyid varchar(max), @dpt varchar(max), @storeid varchar(max), @groupStoreId VARCHAR(10)
     SET @companyid = ?
     SET @storeid = ?
@@ -5545,8 +4537,9 @@ ORDER BY
       AND grop.DeleteFlag = 0.0
     WHERE
       dpt.CompanyId = @companyid AND dpt.StoreId = @storeid AND Dpt = @dpt AND dpt.DeleteFlag = 0.0
-  </entry>
-  <entry key="get-departments">
+</entry>
+
+<entry key="get-departments">
   DECLARE @key varchar(max),
     @companyId varchar(max),
     @storeid varchar(max),
@@ -5595,7 +4588,7 @@ ORDER BY
           SubCode1,
           InputSubCode1,
           %s
-	   FROM (
+     FROM (
         SELECT
           Dpt,
           DptName,
@@ -5625,7 +4618,7 @@ ORDER BY
         AND DPT.StoreId = GRP.StoreId
         AND GRP.DeleteFlag = 0.0
         WHERE
-    	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
+         ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
                 DPT.CompanyId = @companyId
               )) AND
           ((@storeid IS NULL OR LEN(@storeid) = 0) OR (
@@ -5642,7 +4635,7 @@ ORDER BY
           DPT.DeleteFlag = 0.0
 
     union
-    	SELECT
+      SELECT
           Dpt,
           DptName,
           DptNameLocal,
@@ -5671,7 +4664,7 @@ ORDER BY
         AND a.StoreId = GRP.StoreId
         AND GRP.DeleteFlag = 0.0
         WHERE
-    	   ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
+         ((@companyId IS NULL OR LEN(@companyId) = 0) OR (
                 a.CompanyId = @companyId
               )) AND
           a.StoreId = '0' AND
@@ -5683,26 +4676,27 @@ ORDER BY
                 (LOWER(DptNameLocal) like LOWER(@name)  {ESCAPE '\'} )
               ))) AND
           Status = 'Active'
-    	  AND NOT EXISTS (
+        AND NOT EXISTS (
              SELECT 1
                FROM RESMaster.dbo.MST_DPTINFO b
               WHERE a.CompanyId = b.CompanyId
                 AND b.StoreId = @storeid
                 AND a.dpt = b.dpt
                 AND b.DeleteFlag = 0.0
-    	  )
-    	  AND a.DeleteFlag = 0.0
+        )
+        AND a.DeleteFlag = 0.0
     ) DPT
-	  ORDER BY
+    ORDER BY
       DisplayOrder,
          CASE
         WHEN (len(@name) &gt; 0 AND (@key IS NULL OR len(@key) &lt;= 0))
           THEN DptName
            END,
       Dpt
-  	</entry>
-    <!-- *************************  ENTRY KEY FOR EMPLOYEE TABLE MAINTENANCE ************************* -->
-    <entry key="create-employee">
+</entry>
+
+<!-- *************************  ENTRY KEY FOR EMPLOYEE TABLE MAINTENANCE ************************* -->
+<entry key="create-employee">
     DECLARE
     @storeid      varchar(MAX),
     @operatorno   char(20),
@@ -5746,6 +4740,7 @@ INSERT INTO RESMaster.dbo.MST_USER_CREDENTIALS (StoreId,OperatorNo,OperatorName,
 VALUES
   (@storeid,@operatorno,@operatorname,@passcode,@operatortype,NULL,'NCR',GETDATE(),'Inactive',@updappid,@updopecode)
 </entry>
+
 <entry key="delete-employee">
   UPDATE
   RESMaster.dbo.MST_USER_CREDENTIALS
@@ -5758,6 +4753,7 @@ SET
 WHERE
   StoreId=? and OperatorNo=?
 </entry>
+
 <entry key="update-employee">
 DECLARE @operatorno varchar(MAX),
         @passcode varchar(MAX),
@@ -5827,8 +4823,9 @@ DECLARE @operatorno varchar(MAX),
              INSERTED.OperatorType, INSERTED.StoreId,  INSERTED.PassCode
       WHERE
         OperatorNo=?
-    </entry>
-    <entry key="get-employee-info">
+</entry>
+
+<entry key="get-employee-info">
       SELECT
       OperatorName,
       OperatorType,
@@ -5842,18 +4839,17 @@ DECLARE @operatorno varchar(MAX),
       RESMaster.dbo.MST_USER_CREDENTIALS
     WHERE
       OperatorNo = ?;
-    </entry>
+</entry>
 
-
-
-    <!-- QUEUE BUSTER LINK -->
-    <entry key="create-queuebusterlink">
+<!-- QUEUE BUSTER LINK -->
+<entry key="create-queuebusterlink">
       INSERT INTO RESMaster.dbo.PRM_QUEUEBUSTER_LINK
         (StoreId, Id, DisplayName, Status, UpdDate, UpdAppId, UpdOpeCode)
     VALUES
       (?, ?, ?, 'Active',GETDATE(),?, ?)
-    </entry>
-    <entry key="delete-queuebusterlink">
+</entry>
+
+<entry key="delete-queuebusterlink">
       UPDATE
         RESMaster.dbo.PRM_QUEUEBUSTER_LINK
       SET
@@ -5863,8 +4859,9 @@ DECLARE @operatorno varchar(MAX),
       UpdOpeCode=?
       WHERE
         StoreId = ? AND Id = ?
-    </entry>
-    <entry key="update-queuebusterlink">
+</entry>
+
+<entry key="update-queuebusterlink">
     DECLARE
       @StoreId varchar(MAX),
       @Id varchar(MAX),
@@ -5905,8 +4902,9 @@ DECLARE @operatorno varchar(MAX),
       INSERTED.DisplayName
     WHERE
       StoreId = ? AND Id = ? AND (Status = 'Active' OR Status = 'Inactive')
-    </entry>
-    <entry key="activate-queuebusterlink">
+</entry>
+
+<entry key="activate-queuebusterlink">
 
     UPDATE
       RESMaster.dbo.PRM_QUEUEBUSTER_LINK
@@ -5915,9 +4913,9 @@ DECLARE @operatorno varchar(MAX),
 
     WHERE
       StoreId = ? AND Id = ?
-    </entry>
+</entry>
 
-    <entry key="get-all-queueubusterlinks">
+<entry key="get-all-queueubusterlinks">
     SELECT
       TOP (?)
       Id,
@@ -5930,18 +4928,17 @@ DECLARE @operatorno varchar(MAX),
       (Id like ?  {ESCAPE '\'} ) AND (DisplayName IS NULL OR (LOWER(DisplayName) like LOWER(?)  {ESCAPE '\'} ) ) AND
       Status = 'Active'
 
-  </entry>
+</entry>
 
-   <!-- AUTHORIZATION LINK -->
-    <entry key="create-authorizationlink">
-      INSERT INTO
+<!-- AUTHORIZATION LINK -->
+<entry key="create-authorizationlink">
+    INSERT INTO
     RESMaster.dbo.PRM_AUTHORIZATION_LINK (StoreId,Id,DisplayName,Status,UpdDate,UpdAppId,UpdOpeCode)
     VALUES
       (?,?,?,'Active',GETDATE(),?,?)
-    </entry>
+</entry>
 
-    <entry key="delete-authorizationlink">
-
+<entry key="delete-authorizationlink">
       UPDATE
       RESMaster.dbo.PRM_AUTHORIZATION_LINK
     SET
@@ -5951,8 +4948,9 @@ DECLARE @operatorno varchar(MAX),
       UpdOpeCode = ?
     WHERE
     StoreId = ? AND Id = ?
-    </entry>
-    <entry key="update-authorizationlink">
+</entry>
+
+<entry key="update-authorizationlink">
     DECLARE @StoreId varchar(MAX), @Id varchar(MAX), @DisplayName varchar(MAX), @UpdAppId varchar(MAX), @UpdOpeCode varchar(MAX)
     SET @StoreId = ?
     SET @Id = ?
@@ -5988,9 +4986,9 @@ DECLARE @operatorno varchar(MAX),
       RESMaster.dbo.PRM_AUTHORIZATION_LINK
     WHERE
         Status = 'Active'
-  </entry>
+</entry>
 
-    <entry key="get-authorizationlinks">
+<entry key="get-authorizationlinks">
     SELECT
     Id,
     COALESCE(DisplayName, '') DisplayName
@@ -5999,8 +4997,9 @@ DECLARE @operatorno varchar(MAX),
 
     WHERE
         StoreId = ?  and Status = 'Active'
-  </entry>
-    <entry key="get-authorizationlink">
+</entry>
+
+<entry key="get-authorizationlink">
     SELECT
     StoreId,
     Id,
@@ -6009,17 +5008,19 @@ DECLARE @operatorno varchar(MAX),
       RESMaster.dbo.PRM_AUTHORIZATION_LINK
     WHERE
     StoreId = ? AND Id = ?
-  </entry>
-  <entry key="get-queuebusterlinkinfo">
+</entry>
+
+<entry key="get-queuebusterlinkinfo">
     SELECT
       COALESCE(DisplayName, '') DisplayName, Status
     FROM
       RESMaster.dbo.PRM_QUEUEBUSTER_LINK
     WHERE
       StoreId = ? AND Id = ?;
-  </entry>
-    <!-- SIGNATURE LINK  -->
-    <entry key="get-signaturelinkinfo">
+</entry>
+
+<!-- SIGNATURE LINK  -->
+<entry key="get-signaturelinkinfo">
     SELECT
     StoreId,
     Id,
@@ -6027,8 +5028,9 @@ DECLARE @operatorno varchar(MAX),
     Status
     FROM RESMaster.dbo.PRM_SIGNATURE_LINK
     WHERE StoreId = ? AND Id = ?;
-  </entry>
-  <entry key="delete-signaturelink">
+</entry>
+
+<entry key="delete-signaturelink">
     UPDATE RESMaster.dbo.PRM_SIGNATURE_LINK
     SET
       Status = 'Deleted',
@@ -6037,8 +5039,9 @@ DECLARE @operatorno varchar(MAX),
       UpdOpeCode = ?
     WHERE
     StoreId = ? AND Id = ?
-  </entry>
-   <entry key="create-signaturelink">
+</entry>
+
+<entry key="create-signaturelink">
       INSERT INTO
     RESMaster.dbo.PRM_SIGNATURE_LINK (StoreId,Id,DisplayName,Status,UpdDate,UpdAppId,UpdOpeCode)
     VALUES
@@ -6051,16 +5054,18 @@ DECLARE @operatorno varchar(MAX),
     StoreId
     FROM RESMaster.dbo.PRM_SIGNATURE_LINK
     WHERE StoreId = ? AND Status='Active'
-  </entry>
-  <entry key="get-all-signaturelinks">
+</entry>
+
+<entry key="get-all-signaturelinks">
     SELECT
     Id,
     COALESCE(DisplayName, '') DisplayName,
     StoreId
     FROM RESMaster.dbo.PRM_SIGNATURE_LINK
     WHERE Status='Active'
-  </entry>
-  <entry key="update-signaturelink">
+</entry>
+
+<entry key="update-signaturelink">
     DECLARE @StoreId varchar(MAX), @Id varchar(MAX), @DisplayName varchar(MAX), @UpdAppId varchar(MAX), @UpdOpeCode varchar(MAX)
     SET @StoreId = ?
     SET @Id = ?
@@ -6084,22 +5089,24 @@ DECLARE @operatorno varchar(MAX),
     DisplayName
     WHERE
     StoreId = ? AND Id = ? AND (Status = 'Active' OR Status = 'Inactive')
-    </entry>
+</entry>
 
-  <!-- FOR GROUP FUNCTIONS-->
-  <entry key="view-GroupDetail">
+<!-- FOR GROUP FUNCTIONS-->
+<entry key="view-GroupDetail">
     SELECT GroupName,Transactions,Reports,Settings,Merchandise,Administration,Drawer
     FROM RESMaster.dbo.PRM_GROUP_FUNCTION
     WHERE GroupCode = ?
-  </entry>
-  <entry key="view-authorization">
+</entry>
+
+<entry key="view-authorization">
     SELECT SecLevel1, SecLevel2, SecLevel3, SecLevel4, SecLevel5, SecLevel6, SecLevel7, SecLevel8, SecLevel9,
     SecLevel10, SecLevel11, SecLevel12, SecLevel13, SecLevel14, SecLevel15
     FROM RESMaster.dbo.MST_EMP_SEC
     WHERE CompanyId = ? and EmpCode = ? and DeleteFlag = 0.0
-  </entry>
-  <!-- ADD BGN 担当者権限の検証-->
-  <entry key="view-authorization-with-passcode">
+</entry>
+
+<!-- ADD BGN 担当者権限の検証-->
+<entry key="view-authorization-with-passcode">
     SELECT
         SecLevel1,
         SecLevel2,
@@ -6123,10 +5130,10 @@ DECLARE @operatorno varchar(MAX),
         EmpCode = ? AND
         Password = ? AND
         DeleteFlag = 0.0
-  </entry>
-  <!-- ADD END 担当者権限の検証-->
-  <!-- FOR MIX MATCH PROMOTION  -->
-  <entry key="get-MixMatch">
+</entry>
+
+<!-- FOR MIX MATCH PROMOTION  -->
+<entry key="get-MixMatch">
     DECLARE @storeid varchar(max), @code varchar(max)
         SET @storeid = ?
         SET @code = ?
@@ -6141,9 +5148,9 @@ DECLARE @operatorno varchar(MAX),
                 EmpPrice11, EmpPrice12, EmpPrice13, Quantity2, DiscountPrice2, EmpPrice21, EmpPrice22, EmpPrice23
         FROM RESMaster.dbo.MST_MIXMATCH
         WHERE StoreId = @storeid AND Code = @code
-  </entry>
+</entry>
 
-  <entry key="get-GroupMixMatch">
+<entry key="get-GroupMixMatch">
     DECLARE @storeid varchar(max), @code1 varchar(max), @code2 varchar(max)
         SET @storeid = ?
         SET @code1 = ?
@@ -6157,26 +5164,29 @@ DECLARE @operatorno varchar(MAX),
         SELECT StartDate, EndDate, Name, GroupCode, Code1, Code2
         FROM RESMaster.dbo.MST_GROUP_MIXMATCH
         WHERE StoreId = @storeid AND (Code1 = @code1 OR Code2 = @code2)
-  </entry>
+</entry>
 
-  <entry key="create-corpstore">
+<entry key="create-corpstore">
       IF NOT EXISTS(SELECT * FROM RESMaster.dbo.MST_CORP_STORE WHERE  StoreId = ?)
        INSERT INTO RESMaster.dbo.MST_CORP_STORE(StoreId,StoreName,PassCode,Permission)
     VALUES(?,?,?,?);
-    </entry>
-    <entry key="get-corpstore">
+</entry>
+
+<entry key="get-corpstore">
       SELECT
       StoreName, PassCode, Permission
     FROM
       RESMaster.dbo.MST_CORP_STORE
     WHERE
       StoreId=?
-    </entry>
-    <entry key="delete-corpstore">
+</entry>
+
+<entry key="delete-corpstore">
     DELETE FROM RESMaster.dbo.MST_CORP_STORE
       WHERE  StoreId = ?
-  </entry>
-  <entry key="update-corpstore">
+</entry>
+
+<entry key="update-corpstore">
     DECLARE @storeid varchar(MAX),
         @storename varchar(MAX),
         @passcode varchar(MAX),
@@ -6208,8 +5218,9 @@ DECLARE @operatorno varchar(MAX),
              INSERTED.PassCode, INSERTED.Permission
        WHERE
          StoreId=?
-  </entry>
-  <entry key="insert-update-mixmatch-from-spart">
+</entry>
+
+<entry key="insert-update-mixmatch-from-spart">
     DECLARE @storeid varchar(MAX),
       @code varchar(MAX),
       @startdateid varchar(MAX),
@@ -6275,8 +5286,9 @@ DECLARE @operatorno varchar(MAX),
           Code = @code AND
           StartDate = @startdateid AND
           EndDate = @enddateid
-  </entry>
-  <entry key="insert-update-groupmixmatch-from-spart">
+</entry>
+
+<entry key="insert-update-groupmixmatch-from-spart">
     DECLARE @storeid varchar(MAX),
       @code1 varchar(MAX),
       @code2 varchar(MAX),
@@ -6309,10 +5321,10 @@ DECLARE @operatorno varchar(MAX),
           Code2 = @code2 AND
           StartDate = @startdate AND
           EndDate = @enddate
-  </entry>
+</entry>
 
-  <!-- Master Maintenance -->
-  <entry key="insert-update-item-from-spart">
+<!-- Master Maintenance -->
+<entry key="insert-update-item-from-spart">
   DECLARE
       @STOREID varchar(MAX),
       @PLU varchar(MAX),
@@ -6711,9 +5723,9 @@ DECLARE @operatorno varchar(MAX),
          VALUES
             (@STOREID, @PLU, @MDINTERNAL, @MDTYPE, @MDVENDER, @DPT, @LINE, @CLASS, @SKU, @ITEMSIZE, @KEYPLU, @MD01, @MD02, @MD03, @MD04, @MD05, @MD06, @MD07, @MD08, @MD09, @MD10, @MDNAME, @MDNAME1, @MDNAME2, @MDKANANAME, @MDKANANAME1, @MDKANANAME2, @ORGSALESPRICE1, @SALESPRICE1, @SALESPRICE2, @EMPPRICE1, @EMPPRICE2, @EMPPRICE3, @PUPRICE1, @PUPRICE2, @PUPRICECHGDATE1, @PUPRICECHGDATE2, @ORGCOSTPRICE1, @COSTPRICE1, @COSTPRICE2, @COSTPRICECHGDATE1, @COSTPRICECHGDATE2, @SALESDATE, @MAKERPRICE, @TAXTYPE, @DISCOUNTTYPE, @SEASONTYPE, @PAYMENTTYPE, @ORDERTYPE, @POSMDTYPE, @CATTYPE, @ORDERUNIT, @ORDERPOINT, @BASESTOCKCNT, @CONN1, @CONNTYPE1, @CONN2, @CONNTYPE2, @VENDERCODE, @VENDERTYPE, @TAGCODE1, @TAGCODE2, @TAGCODE3, @POINTRATE, @SUBMONEY1, @SUBMONEY2, @SUBMONEY3, @SUBMONEY4, @SUBMONEY5, @SUBCODE1, @SUBCODE2, @SUBCODE3, @SUBCODE4, @SUBCODE5, @SUBCODE6, @SUBCODE7, @SUBCODE8, @SUBCODE9, @SUBCODE10, @SUBTINYINT1, @SUBTINYINT2, @SUBTINYINT3, @SUBTINYINT4, @SUBTINYINT5, @SUBTINYINT6, @SUBTINYINT7, @SUBTINYINT8, @SUBTINYINT9, @SUBINT10, @INSDATE, @UPDDATE, @UPDAPPID, @UPDOPECODE, @DISPLAYPLU, @STOCKTYPE)
 
-  </entry>
+</entry>
 
-    <entry key="get-cash-balance">
+<entry key="get-cash-balance">
     SELECT
       SUM(Debit) - SUM(Credit) +
       SUM(ChangeFund) - SUM(Pickup) +
@@ -6748,11 +5760,11 @@ WHERE
     CompanyId = @companyid AND
     RetailStoreId = @storeid
     AND TxType = 'SOD' order by SystemDateTime desc
-    </entry>
+</entry>
 
-    <!-- ******************* Start of Line **************** -->
+<!-- ******************* Start of Line **************** -->
 
-    <entry key="get-accountancy-report">
+<entry key="get-accountancy-report">
     DECLARE @storeid VARCHAR(6),@tillid VARCHAR(40),@businessdaydate VARCHAR(15)
         SET @storeid = LTRIM(RTRIM(?))
         SET @tillid = ?
@@ -8380,7 +7392,8 @@ ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '351' AND financiall.AccountSu
 ) AS NT
 ORDER BY SalesOrPay
 </entry>
-  <entry key="get-guest-order-info-by-sequenceNo">
+
+<entry key="get-guest-order-info-by-sequenceNo">
      DECLARE @RetailStoreId VARCHAR(20),
              @BusinessDate varchar(16),
              @TranNo numeric(5, 0),
@@ -8413,9 +7426,9 @@ ORDER BY SalesOrPay
                 AND    res.StatusCode='0'
             )
             ) AS ps
-  </entry>
+</entry>
 
-  <entry key="get-total-amount">
+<entry key="get-total-amount">
     SELECT
       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '801' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.ChangeFund ELSE 0 END),0) +
       ISNULL ( SUM ( CASE WHEN financiall.AccountCode = '201' AND financiall.AccountSubCode IN ('1','2','3','4')  THEN financiall.Loan ELSE 0 END),0) -
@@ -8436,7 +7449,7 @@ ORDER BY SalesOrPay
     AND  financiall.RetailStoreId = gift.RetailStoreId
     AND  financiall.BusinessDayDate = gift.BusinessDayDate
     WHERE financiall.RetailStoreId = ? AND financiall.TillID = ? AND financiall.BusinessDayDate = ?
-  </entry>
+</entry>
 
 <entry key="get-premium-flag">
 SET NOCOUNT ON
@@ -8688,8 +7701,9 @@ IF @TargetType &gt; '0'
             END
         END
 SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
-  </entry>
-  <entry key="get-card-class-info-list">
+</entry>
+
+<entry key="get-card-class-info-list">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
@@ -8716,8 +7730,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       (StoreId = @storeId OR StoreId = '0') AND
       DeleteFlag = 0.0
-  </entry>
-  <entry key="get-card-class-info-all">
+</entry>
+
+<entry key="get-card-class-info-all">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
@@ -8760,8 +7775,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       StoreId = @storeId AND
       CardClassId = COALESCE(@cardClassId, CardClassId) AND
       DeleteFlag = 0.0
-  </entry>
-  <entry key="get-card-class-info-member">
+</entry>
+
+<entry key="get-card-class-info-member">
     DECLARE
       @companyId varchar(12),
       @storeId varchar(6),
@@ -8832,6 +7848,7 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     typeInfo.PrefixCode13 = @membershipId) AND
     typeInfo.DeleteFlag = 0.0
 </entry>
+
 <entry key="get-nationality-info-all">
   DECLARE
       @companyId varchar(max),
@@ -8866,8 +7883,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
-  </entry>
-  <entry key="get-customer-class-info-all">
+</entry>
+
+<entry key="get-customer-class-info-all">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max)
@@ -8903,8 +7921,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       StoreId = @storeId AND
       DeleteFlag = 0.0
     ORDER BY DisplayOrder
-  </entry>
-  <entry key="get-buyadditional-info-all">
+</entry>
+
+<entry key="get-buyadditional-info-all">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max)
@@ -8938,8 +7957,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       CompanyId = @companyId AND
       StoreId = @storeId AND
       DeleteFlag = 0.0
-  </entry>
-  <entry key="get-barcode-type">
+</entry>
+
+<entry key="get-barcode-type">
   DECLARE
       @storeId varchar(max),
       @companyId varchar(max),
@@ -9005,8 +8025,9 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
     SeqNo = @seqNo AND
     DiscountType = @discountType AND
     DeleteFlag = 0.0
-  </entry>
-  <entry key="get-voucher-list">
+</entry>
+
+<entry key="get-voucher-list">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
@@ -9048,7 +8069,8 @@ SELECT DptId,Flag FROM #FLAGTABLE WHERE Flag = 1
       (tender.TenderType = 10 OR
       tender.TenderType = 11 )AND
       tender.DeleteFlag = 0.0
-  </entry>
+</entry>
+
 <entry key = "get-promotioninfo-type">
 DECLARE
     @companyId VARCHAR (MAX),
@@ -9119,8 +8141,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND CompanyId = @companyId
     AND StoreId = @storeId
     AND DeleteFlag = 0.0
-    </entry>
-    <entry key="get-company-info">
+</entry>
+
+<entry key="get-company-info">
       SELECT company.CompanyId,
              company.CompanyName,
              company.CompanyKanaName,
@@ -9141,8 +8164,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
         RESMaster.dbo.MST_COMPANYINFO company
       WHERE
         company.DeleteFlag = 0.0
-    </entry>
-    <entry key="get-terminal-info">
+</entry>
+
+<entry key="get-terminal-info">
       DECLARE
         @companyId varchar(max),
         @storeId varchar(max),
@@ -9190,8 +8214,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
         term.StoreId = @storeId AND
         term.TerminalId = @terminalId AND
         term.DeleteFlag = 0.0
-    </entry>
-    <entry key="check-floorid-exist">
+</entry>
+
+<entry key="check-floorid-exist">
       DECLARE
         @companyId varchar(max),
         @storeId varchar(max),
@@ -9214,8 +8239,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
         TerminalId != @terminalId AND
         DeleteFlag = 0.0 AND
         TerminalType = 2
-    </entry>
-    <entry key="insert-eventlog">
+</entry>
+
+<entry key="insert-eventlog">
       DECLARE
         @companyId varchar(8),
         @retailStoreId varchar(8),
@@ -9239,8 +8265,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
                                  childNumber, businessDayDate, log, insDateTime)
       values (@companyId, @retailStoreId, @workstationId, @training, @sequenceNumber,
                                  @childNumber, @businessDayDate, @log, sysdatetime())
-    </entry>
-    <entry key="select-eventlog">
+</entry>
+
+<entry key="select-eventlog">
       DECLARE
         @companyId varchar(8),
         @retailStoreId varchar(8),
@@ -9257,8 +8284,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
       where companyId = @companyId and retailStoreId = @retailStoreId and workstationId = @workstationId
         and trainingFlag = @training and sequenceNumber = @sequenceNumber
       order by childNumber asc
-    </entry>
-  <entry key="get-transaction-count">
+</entry>
+
+<entry key="get-transaction-count">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
@@ -9279,8 +8307,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
       RetailStoreId = @storeId AND
       TxType = @txtype AND
       TrainingFlag = @trainingFlag
-  </entry>
-  <entry key="get-tx-count-by-businessdate">
+</entry>
+
+<entry key="get-tx-count-by-businessdate">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
@@ -9307,7 +8336,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
       TxType = @txtype AND
       BusinessDayDate = @businessDate AND
       TrainingFlag = @trainingFlag
-  </entry>
+</entry>
+
 <entry key="get-card-type-info">
         DECLARE
           @companyId varchar(max),
@@ -9367,6 +8397,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
         CardTypeId = @cardTypeNo AND
         DeleteFlag = 0.0
 </entry>
+
 <entry key="get-last-pay-tx-poslog">
   DECLARE
       @companyId varchar(max),
@@ -9396,8 +8427,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
       LOWER(TxType) = 'payout')
     ORDER BY
       InsDateTime DESC
-  </entry>
-  <entry key="get-last-balancing-tx-poslog">
+</entry>
+
+<entry key="get-last-balancing-tx-poslog">
     DECLARE
       @companyId varchar(max),
       @storeId varchar(max),
@@ -9425,7 +8457,8 @@ SET @partialFlag = LTRIM(RTRIM(?))
       LOWER(TxType) = 'balancing'
     ORDER BY
       InsDateTime DESC
-  </entry>
+</entry>
+
 <entry key = "get-member-info">
   DECLARE @companyId varchar(max), @storeId varchar(max), @memberId2 varchar(max)
       SET @companyId = ?
@@ -9474,6 +8507,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
   AND MemberId2 = @memberId2
   AND DeleteFlag = 0.0
 </entry>
+
 <entry key = "get-status-info">
   DECLARE @companyId varchar(max), @storeId varchar(max), @memberStatus varchar(max)
       SET @companyId = ?
@@ -9517,6 +8551,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
   AND MemberStatus = @memberStatus
   AND DeleteFlag = 0.0
 </entry>
+
 <entry key="get-all-card-type-info">
         DECLARE
           @companyId varchar(max),
@@ -9571,8 +8606,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
           CompanyId = @companyId AND
           StoreId = @storeId AND
           DeleteFlag = 0.0
-  </entry>
-  <entry key="get-lock-status">
+</entry>
+
+<entry key="get-lock-status">
     DECLARE
       @companyId varchar(max),
       @retailStoreId varchar(max),
@@ -9599,8 +8635,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SequenceNumber = @sequenceNumber AND
       BusinessDayDate = @businessDayDate AND
       TrainingFlag = @trainingFlag
-  </entry>
-  <entry key="insert-lock">
+</entry>
+
+<entry key="insert-lock">
     DECLARE
       @companyId varchar(max),
       @retailStoreId varchar(max),
@@ -9670,8 +8707,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
        SYSDATETIME(),
        @updAppId,
        @updOpeCode);
-  </entry>
-  <entry key="delete-lock">
+</entry>
+
+<entry key="delete-lock">
     DECLARE
       @companyId varchar(max),
       @retailStoreId varchar(max),
@@ -9695,8 +8733,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
       SequenceNumber = @sequenceNumber AND
       BusinessDayDate = @businessDayDate AND
       TrainingFlag = @trainingFlag
-  </entry>
-  <entry key="get-preset-cm-info">
+</entry>
+
+<entry key="get-preset-cm-info">
       DECLARE
       @companyId varchar(12),
       @storeId varchar(10),
@@ -9732,8 +8771,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
     )
  ORDER BY CMType DESC,UpdDate DESC
 
-  </entry>
-  <entry key="get-picklist-items">
+</entry>
+
+<entry key="get-picklist-items">
     DECLARE
       @companyId varchar(12),
       @storeId varchar(10),
@@ -9767,8 +8807,9 @@ SET @partialFlag = LTRIM(RTRIM(?))
       DeleteFlag = 0.0
     ORDER BY
       ItemType, DisplayOrder
-  </entry>
-  <entry key="get-preset-storeinfo">
+</entry>
+
+<entry key="get-preset-storeinfo">
     DECLARE @companyId VARCHAR(12),@storeId VARCHAR(10),@TerminalId VARCHAR(6)
     SET @companyId = ?
     SET @storeId = ?
@@ -9849,6 +8890,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
     AND
     company.DeleteFlag = 0.0
 </entry>
+
 <entry key="get-subNum1">
     SELECT
     SubNum1
@@ -9876,6 +8918,7 @@ SET @partialFlag = LTRIM(RTRIM(?))
       Status = 'Active' AND
       DeleteFlag = 0.0
 </entry>
+
 <entry key="get-item-byapidata">
 DECLARE    @companyId VARCHAR(12), @MdInternal VARCHAR(32)
     SET        @companyId = LTRIM(RTRIM(?))
@@ -9959,6 +9002,7 @@ AND plu.MdInternal = @MdInternal
 AND plu.StoreId = '0'
 AND plu.DeleteFlag = 0.0
 </entry>
+
 <entry key="get-isMemberCard-info">
 DECLARE  @MdInternal VARCHAR(32)
     SET  @MdInternal = LTRIM(RTRIM(?))
@@ -9977,6 +9021,7 @@ DECLARE  @MdInternal VARCHAR(32)
     DeleteFlag = 0.0
 
 </entry>
+
 <entry key="get-item-price">
 DECLARE    @storeId VARCHAR(10), @companyId VARCHAR(12), @MdInternal VARCHAR(32), @businessDate VARCHAR(32),
            @storeStoreId VARCHAR(10)
@@ -10087,6 +9132,7 @@ AND plu.Md01 = urgent.ColorId
 WHERE plu.companyId = @companyId  AND plu.MdInternal = @MdInternal AND plu.StoreId = @storeId AND plu.DeleteFlag = 0.0
 ORDER BY urgent.SequenceNo DESC
 </entry>
+
 <entry key="insert-offline-credit">
 insert into RESTransaction.dbo.TXL_offline_credit
     (CompanyId, RetailStoreId, WorkstationId, SequenceNumber, BusinessDayDate, TrainingFlag,
@@ -10094,17 +9140,19 @@ insert into RESTransaction.dbo.TXL_offline_credit
   values
     (?, ?, ?, ?, ?, ?, ?, ?, sysdatetime())
 </entry>
+
 <entry key="get-credit-card-company">
-	SELECT
-	   CompanyId,
+  SELECT
+     CompanyId,
        CreditCompanyId,
-	   CreditCompanyName,
+     CreditCompanyName,
        CreditCompanyShortName
-  	FROM
-  	   [RESMaster].[dbo].[MST_COMPINFO]
-  	WHERE
-  	   CompanyId = ?
+    FROM
+       [RESMaster].[dbo].[MST_COMPINFO]
+    WHERE
+       CompanyId = ?
 </entry>
+
 <entry key="get-report-items">
     DECLARE
       @companyId varchar(max),
@@ -10231,6 +9279,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
       a.ItemLevel4,
       a.DisplayOrder ASC
 </entry>
+
 <entry key="get-point-item-campaign-rate">
   DECLARE
   @companyId varchar(12),
@@ -10346,6 +9395,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
     ((base.TargetStoreType = '1' AND store.StoreId = @storeId)
     OR base.TargetStoreType = '0' OR base.TargetStoreType = '2')
 </entry>
+
 <entry key="get-point-tran-rate">
   DECLARE
   @companyId varchar(12),
@@ -10390,6 +9440,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
       base.DeleteFlag = 0.0
     ORDER BY base.StartDate DESC
 </entry>
+
 <entry key="get-report-item">
     DECLARE
       @companyId varchar(max),
@@ -10459,6 +9510,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
        a.TrainingFlag = @trainingFlag
 
 </entry>
+
 <entry key="get-report-item-tillId">
     DECLARE
       @companyId varchar(max),
@@ -10486,33 +9538,34 @@ insert into RESTransaction.dbo.TXL_offline_credit
       a.ItemLevel1,
       a.ItemLevel2,
       SUM(a.ItemCnt) AS CntSum,
-	  SUM(a.ItemAmt) AS AmtSum
+    SUM(a.ItemAmt) AS AmtSum
       FROM RESTransaction.dbo.TXU_TOTAL_DAILYREPORT a
       WHERE
        a.CompanyId = @companyId AND
        a.RetailStoreId = @storeId AND
        a.WorkstationId  IN (
-	     SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO]
-			WHERE
-			CompanyID = @companyId and
-			StoreId = @storeId and
-			Training = @trainingFlag and
-			TillId = @tillId and
+       SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO]
+      WHERE
+      CompanyID = @companyId and
+      StoreId = @storeId and
+      Training = @trainingFlag and
+      TillId = @tillId and
             DeleteFlag = 0.0
-	   ) AND
+     ) AND
        a.BusinessDayDate = @businessDate  AND
        a.ItemType = @dataType AND
        a.itemLevel1 = @itemLevel1 AND
        a.TrainingFlag = @trainingFlag
-	   GROUP BY
-	   a.CompanyId,
+     GROUP BY
+     a.CompanyId,
        a.RetailStoreId,
-	   BusinessDayDate,
-	   ItemType,
-	   itemLevel1,
-	   itemLevel2,
-	   TrainingFlag
+     BusinessDayDate,
+     ItemType,
+     itemLevel1,
+     itemLevel2,
+     TrainingFlag
 </entry>
+
 <entry key="get-voucher-details">
     DECLARE
       @companyId varchar(max),
@@ -10555,6 +9608,7 @@ insert into RESTransaction.dbo.TXL_offline_credit
        a.itemLevel2 in ('01', '12', '13', '14', '15')
        ORDER BY a.ItemLevel2 ASC
 </entry>
+
 <entry key="get-voucher-details-tillId">
     DECLARE
       @companyId varchar(max),
@@ -10588,31 +9642,32 @@ insert into RESTransaction.dbo.TXL_offline_credit
        a.CompanyId = @companyId AND
        a.RetailStoreId = @storeId AND
        a.WorkstationId IN (
-	       SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO]
-			WHERE
-			CompanyID = @companyId and
-			StoreId = @storeId and
-			Training = @trainingFlag and
-			TillId = @tillId and
-			DeleteFlag = 0.0
-	   ) AND
+         SELECT distinct TerminalId FROM [RESMaster].[dbo].[MST_DEVICEINFO]
+      WHERE
+      CompanyID = @companyId and
+      StoreId = @storeId and
+      Training = @trainingFlag and
+      TillId = @tillId and
+      DeleteFlag = 0.0
+     ) AND
        a.BusinessDayDate = @businessDate  AND
        a.ItemType = '2' AND
        (a.itemLevel1 = '01' OR a.itemLevel1 = '02') AND
        a.itemLevel3 = @tenderId AND
        a.TrainingFlag = @trainingFlag AND
        a.itemLevel2 in ('01', '12', '13', '14', '15')
-	   GROUP BY
-	   a.CompanyId,
+     GROUP BY
+     a.CompanyId,
        a.RetailStoreId,
        a.BusinessDayDate,
        a.TrainingFlag,
        a.ItemType,
        a.ItemLevel1,
        a.ItemLevel2,
-	   a.ItemLevel3,
-	   a.ItemLevel4
+     a.ItemLevel3,
+     a.ItemLevel4
 </entry>
+
 <entry key="get-postpoint-status">
     DECLARE
       @companyId varchar(max),
@@ -10652,9 +9707,9 @@ insert into RESTransaction.dbo.TXL_offline_credit
       AND  OriginalBusinessDayDate = @businessDate
       AND  OriginalSequenceNumber = @txId
       AND  TrainingFlag = @trainingFlag
-  </entry>
+</entry>
 
-  <entry key="get-store-info">
+<entry key="get-store-info">
     DECLARE
     @companyid varchar(12)
 
@@ -10730,9 +9785,9 @@ insert into RESTransaction.dbo.TXL_offline_credit
       DeleteFlag = 0.0
     ORDER BY
       CompanyId
-    </entry>
+</entry>
 
-    <entry key="get-store-total">
+<entry key="get-store-total">
     DECLARE
     @companyid varchar(12),
     @storeid varchar(10)
@@ -10746,9 +9801,9 @@ insert into RESTransaction.dbo.TXL_offline_credit
       CompanyId = @companyid AND
       StoreId = @storeid AND
       DeleteFlag = 0
-    </entry>
+</entry>
 
-	<entry key="update-store-total">
+<entry key="update-store-total">
     UPDATE
     RESMaster.dbo.MST_STOREINFO
     SET
@@ -10757,9 +9812,10 @@ insert into RESTransaction.dbo.TXL_offline_credit
       StoreId = ? AND
       CompanyId = ? AND
       DeleteFlag = 0
-	</entry>
-    <!-- *************************  ENTRY KEY FOR DEVICE INFO  ************************* -->
-    <entry key="get-posctrl-openclose-status">
+</entry>
+
+<!-- *************************  ENTRY KEY FOR DEVICE INFO  ************************* -->
+<entry key="get-posctrl-openclose-status">
       SELECT
         OpenCloseStat,
         SodTime
@@ -10770,9 +9826,9 @@ insert into RESTransaction.dbo.TXL_offline_credit
         StoreId = ? AND
         TerminalNo = ? AND
         SodTime >= ?
-    </entry>
+</entry>
 
-    <entry key="get-working-device-status">
+<entry key="get-working-device-status">
       SELECT
         AD.CompanyId,
         AD.StoreId,
@@ -10794,17 +9850,17 @@ insert into RESTransaction.dbo.TXL_offline_credit
             AD.TerminalId = DI.TerminalId AND
             DI.Training = 0 AND
             DI.DeleteFlag = 0.0
-    </entry>
+</entry>
 
-    <entry key="get-device-indicators">
+<entry key="get-device-indicators">
       SELECT DisplayName,CheckInterval,NormalValue,Request,RequestType,ReturnKey,URL,DisplayOrder
         FROM RESMaster.dbo.PRM_DEVICE_INDICATOR
        WHERE AttributeId = ?
        ORDER BY DisplayOrder
-    </entry>
+</entry>
 
-  <!-- *************************  ENTRY KEY FOR ConvertCode INFO  ************************* -->
-  <entry key="convert-ccode-to-dpt">
+<!-- *************************  ENTRY KEY FOR ConvertCode INFO  ************************* -->
+<entry key="convert-ccode-to-dpt">
   DECLARE
       @companyId varchar(max), @ccode varchar(20), @storeId varchar(max)
 
@@ -10813,12 +9869,12 @@ SET @ccode = ?
 SET @storeId = ?
 
 IF NOT EXISTS (
-	SELECT Dpt
-	  FROM RESMaster.dbo.MST_CCODEINFO
-	 WHERE CompanyId = @companyId
-	   AND CCode = @ccode
-	   AND StoreId = @storeId
-	   AND DeleteFlag = 0.0
+  SELECT Dpt
+    FROM RESMaster.dbo.MST_CCODEINFO
+   WHERE CompanyId = @companyId
+     AND CCode = @ccode
+     AND StoreId = @storeId
+     AND DeleteFlag = 0.0
 )
 SET @storeId = '0'
 
@@ -10839,12 +9895,12 @@ SET @magcode = ?
 SET @storeId = ?
 
 IF NOT EXISTS (
-	SELECT Dpt
-	  FROM RESMaster.dbo.MST_MAGCODEINFO
-	 WHERE CompanyId = @companyId
-	   AND MagCode = @magcode
-	   AND StoreId = @storeId
-	   AND DeleteFlag = 0.0
+  SELECT Dpt
+    FROM RESMaster.dbo.MST_MAGCODEINFO
+   WHERE CompanyId = @companyId
+     AND MagCode = @magcode
+     AND StoreId = @storeId
+     AND DeleteFlag = 0.0
 )
 SET @storeId = '0'
 
@@ -10858,22 +9914,24 @@ SELECT Dpt
 
 <entry key="count-unsend-poslog">
 SELECT
-	COUNT(*) as UnsendCount
+  COUNT(*) as UnsendCount
 FROM
-	RESTransaction.dbo.TXL_SALES_JOURNAL
+  RESTransaction.dbo.TXL_SALES_JOURNAL
 WHERE
-	%s = 0;
+  %s = 0;
 </entry>
-	<entry key="get-server-list">
-		SELECT
-			Name,
-			Type,
-			Url
-		FROM
-			RESMaster.dbo.PRM_SERVER_TBL
-	</entry>
-  <!-- *************************  ENTRY KEY FOR POS MAIL INFO  ************************* -->
-  <entry key="get-pos-mail-info">
+
+<entry key="get-server-list">
+    SELECT
+      Name,
+      Type,
+      Url
+    FROM
+    RESMaster.dbo.PRM_SERVER_TBL
+</entry>
+
+<!-- *************************  ENTRY KEY FOR POS MAIL INFO  ************************* -->
+<entry key="get-pos-mail-info">
   DECLARE
     @companyId VARCHAR(12),
     @retailStoreId VARCHAR(10),
@@ -10907,11 +9965,12 @@ WHERE
     PMI.DeleteFlag = 0.0
   ORDER BY
     PMI.UpdDate DESC, RecordId ASC
-  </entry>
+</entry>
+
 <entry key="get-payment-amt-by-terminalid">
 DECLARE @companyId varchar(MAX),
         @storeId varchar(MAX),
-		@tenderStoreId varchar(MAX),
+    @tenderStoreId varchar(MAX),
         @businessDate DATE,
         @trainingflag tinyint,
         @terminalId varchar(6)
@@ -10921,7 +9980,7 @@ DECLARE @companyId varchar(MAX),
     SET @businessDate = ?;
     SET @trainingflag = ?;
     SET @terminalId = ?;
-	SET @tenderStoreId = @storeid;
+  SET @tenderStoreId = @storeid;
 
 IF NOT EXISTS (
  SELECT *
@@ -10941,7 +10000,7 @@ IF NOT EXISTS (
     AND parment.DataKind = '0'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TenderType IN ('8','9','10','11')
-	AND tender.DeleteFlag = 0.0
+  AND tender.DeleteFlag = 0.0
 )
 SET @tenderStoreId = '0'
 
@@ -10950,11 +10009,11 @@ SELECT parment.TenderId,
        tender.TenderType,
        tender.TenderIdentification,
        SUM(
-			CASE WHEN parment.ReturnFlag = '1' THEN parment.Amt * -1
-			     WHEN parment.VoidFlag = '1'   THEN parment.Amt * -1
-				 ELSE parment.Amt
-			END
-	   ) AS SumAmt,
+      CASE WHEN parment.ReturnFlag = '1' THEN parment.Amt * -1
+           WHEN parment.VoidFlag = '1'   THEN parment.Amt * -1
+         ELSE parment.Amt
+      END
+     ) AS SumAmt,
        tender.DisplayOrder
 
  FROM RESMaster.dbo.MST_TENDERINFO tender
@@ -10976,10 +10035,11 @@ WHERE parment.CompanyId = @companyid
 GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
 ORDER BY tender.DisplayOrder,cast(tender.TenderType as int)
 </entry>
+
 <entry key="get-payment-amt-by-txtype">
 DECLARE @companyId varchar(MAX),
         @storeId varchar(MAX),
-		@tenderStoreId varchar(MAX),
+    @tenderStoreId varchar(MAX),
         @businessDate DATE,
         @trainingflag tinyint,
         @txType varchar(6)
@@ -10989,14 +10049,14 @@ DECLARE @companyId varchar(MAX),
     SET @businessDate = ?;
     SET @trainingflag = ?;
     SET @txType = ?;
-	SET @tenderStoreId = @storeid;
+  SET @tenderStoreId = @storeid;
 
 IF NOT EXISTS (
  SELECT *
    FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
      ON tender.CompanyId = parment.CompanyId
-	AND parment.RetailStoreId = @storeid
+  AND parment.RetailStoreId = @storeid
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
   WHERE parment.CompanyId = @companyid
@@ -11010,7 +10070,7 @@ IF NOT EXISTS (
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
-	AND tender.DeleteFlag = 0.0
+  AND tender.DeleteFlag = 0.0
 )
 SET @tenderStoreId = '0'
 
@@ -11024,11 +10084,11 @@ SET @tenderStoreId = '0'
    FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
      ON tender.CompanyId = parment.CompanyId
-	AND tender.StoreId = @tenderStoreId
+  AND tender.StoreId = @tenderStoreId
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
   WHERE parment.CompanyId = @companyid
-	AND parment.RetailStoreId = @storeId
+  AND parment.RetailStoreId = @storeId
     AND parment.BusinessDayDate = @businessDate
     AND parment.ValidFlag = '1'
     AND parment.CancelFlag = '0'
@@ -11038,113 +10098,116 @@ SET @tenderStoreId = '0'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
     AND parment.TenderType IN ('8','9','10','11')
-	AND tender.DeleteFlag = 0.0
+  AND tender.DeleteFlag = 0.0
   GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
   ORDER BY DisplayOrder,cast(tender.TenderType as int)
 </entry>
+
 <entry key="get-employee-list-by-companyId">
  SELECT empinfo.EmpCode,
         empinfo.OpeCode,
- 		empinfo.StoreId,
- 		empinfo.OpeName
+     empinfo.StoreId,
+     empinfo.OpeName
   FROM RESMaster.dbo.MST_EMPINFO empinfo
  WHERE empinfo.CompanyId = ?
    AND empinfo.SecLevel2 = 1
 ORDER BY empinfo.EmpCode;
 </entry>
+
 <entry key="update-bussiness-date">
     DECLARE
      @companyId varchar(12)
     ,@storeId varchar(10)
-	,@bizDate date
-	,@clsName varchar(40)
+  ,@bizDate date
+  ,@clsName varchar(40)
 
     set @companyId=?
     set @storeId=?
     set @bizDate=?
     set @clsName=?
 
-	IF @storeId = '0'
-		IF EXISTS (SELECT CompanyId FROM RESMaster.dbo.MST_BIZDAY WHERE DeleteFlag = 0.0)
-			UPDATE RESMaster.dbo.MST_BIZDAY
-			SET
-			TodayDate = @bizDate
-			,UpdCount = UpdCount + 1
-			,UpdDate = getdate()
-			,UpdAppId = @clsName
-			WHERE DeleteFlag = 0.0
-		ELSE
-			INSERT INTO RESMaster.dbo.MST_BIZDAY(
-			CompanyId
-			,StoreId
-			,TodayDate
-			,SwitchTime
-			,Skip
-			,DeleteFlag
-			,InsDate
-			,InsAppId
-			,InsOpeCode
-			,UpdCount
-			,UpdDate
-			,UpdAppId
-			,UpdOpeCode
-			) VALUES (
-			@companyId
-			,@storeId
-			,@bizDate
-			,'00:00am'
-			,'0'
-			,0
-			,getdate()
-			,@clsName
-			,'system'
-			,0
-			,getdate()
-			,@clsName
-			,'system'
-			);
-	ELSE
-		IF EXISTS (SELECT CompanyId FROM RESMaster.dbo.MST_BIZDAY
-				WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0)
-			UPDATE RESMaster.dbo.MST_BIZDAY
-			SET
-			TodayDate = @bizDate
-			,UpdCount = UpdCount + 1
-			,UpdDate = getdate()
-			,UpdAppId = @clsName
-			WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0
-		ELSE
-			INSERT INTO RESMaster.dbo.MST_BIZDAY(
-			CompanyId
-			,StoreId
-			,TodayDate
-			,SwitchTime
-			,Skip
-			,DeleteFlag
-			,InsDate
-			,InsAppId
-			,InsOpeCode
-			,UpdCount
-			,UpdDate
-			,UpdAppId
-			,UpdOpeCode
-			) VALUES (
-			@companyId
-			,@storeId
-			,@bizDate
-			,'00:00am'
-			,'0'
-			,0
-			,getdate()
-			,@clsName
-			,'system'
-			,0
-			,getdate()
-			,@clsName
-			,'system'
-			);
-  </entry>
-  <entry key="save-forward-poslog-include-tag">
+  IF @storeId = '0'
+    IF EXISTS (SELECT CompanyId FROM RESMaster.dbo.MST_BIZDAY WHERE DeleteFlag = 0.0)
+      UPDATE RESMaster.dbo.MST_BIZDAY
+      SET
+      TodayDate = @bizDate
+      ,UpdCount = UpdCount + 1
+      ,UpdDate = getdate()
+      ,UpdAppId = @clsName
+      WHERE DeleteFlag = 0.0
+    ELSE
+      INSERT INTO RESMaster.dbo.MST_BIZDAY(
+      CompanyId
+      ,StoreId
+      ,TodayDate
+      ,SwitchTime
+      ,Skip
+      ,DeleteFlag
+      ,InsDate
+      ,InsAppId
+      ,InsOpeCode
+      ,UpdCount
+      ,UpdDate
+      ,UpdAppId
+      ,UpdOpeCode
+      ) VALUES (
+      @companyId
+      ,@storeId
+      ,@bizDate
+      ,'00:00am'
+      ,'0'
+      ,0
+      ,getdate()
+      ,@clsName
+      ,'system'
+      ,0
+      ,getdate()
+      ,@clsName
+      ,'system'
+      );
+  ELSE
+    IF EXISTS (SELECT CompanyId FROM RESMaster.dbo.MST_BIZDAY
+        WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0)
+      UPDATE RESMaster.dbo.MST_BIZDAY
+      SET
+      TodayDate = @bizDate
+      ,UpdCount = UpdCount + 1
+      ,UpdDate = getdate()
+      ,UpdAppId = @clsName
+      WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0
+    ELSE
+      INSERT INTO RESMaster.dbo.MST_BIZDAY(
+      CompanyId
+      ,StoreId
+      ,TodayDate
+      ,SwitchTime
+      ,Skip
+      ,DeleteFlag
+      ,InsDate
+      ,InsAppId
+      ,InsOpeCode
+      ,UpdCount
+      ,UpdDate
+      ,UpdAppId
+      ,UpdOpeCode
+      ) VALUES (
+      @companyId
+      ,@storeId
+      ,@bizDate
+      ,'00:00am'
+      ,'0'
+      ,0
+      ,getdate()
+      ,@clsName
+      ,'system'
+      ,0
+      ,getdate()
+      ,@clsName
+      ,'system'
+      );
+</entry>
+
+<entry key="save-forward-poslog-include-tag">
     DECLARE
       @CompanyId varchar(12),
       @RetailStoreId varchar(MAX),
@@ -11182,110 +10245,110 @@ ORDER BY empinfo.EmpCode;
     SET @SalesTotalQty = ?
     SET @Tag = ?
 
-		IF NOT EXISTS (SELECT CompanyId FROM RESTransaction.dbo.TXL_FORWARD_ITEM
-		WHERE CompanyId = @CompanyId
-		AND RetailStoreId = @RetailStoreId
-		AND BusinessDayDate = @BusinessDayDate
-		AND Ext1 = @Tag AND Status IN ('0','1')
-		AND TrainingFlag = @TrainingFlag)
-			INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
-			(CompanyId
-			,RetailStoreId
-			,WorkstationId
-			,SequenceNumber
-			,Queue
-			,BusinessDayDate
-			,TrainingFlag
-			,BusinessDateTime
-			,OperatorId
-			,SalesTotalAmt
-			,SalesTotalQty
-			,PosTermId
-			,Status
-			,Tx
-			,LayawayFlag
-			,TxType
-			,Ext1)
-			VALUES
-			(@CompanyId
-			,@RetailStoreId
-			,@WorkstationId
-			,@SequenceNumber
-			,@Queue
-			,@BusinessDayDate
-			,@TrainingFlag
-			,@BusinessDateTime
-			,@OperatorId
-			,@SalesTotalAmt
-			,@SalesTotalQty
-			,@PosTermId
-			,@Status
-			,@Tx
-			,@LayawayFlag
-			,@TxType
-			,@Tag)
-  </entry>
+    IF NOT EXISTS (SELECT CompanyId FROM RESTransaction.dbo.TXL_FORWARD_ITEM
+    WHERE CompanyId = @CompanyId
+    AND RetailStoreId = @RetailStoreId
+    AND BusinessDayDate = @BusinessDayDate
+    AND Ext1 = @Tag AND Status IN ('0','1')
+    AND TrainingFlag = @TrainingFlag)
+      INSERT INTO RESTransaction.dbo.TXL_FORWARD_ITEM
+      (CompanyId
+      ,RetailStoreId
+      ,WorkstationId
+      ,SequenceNumber
+      ,Queue
+      ,BusinessDayDate
+      ,TrainingFlag
+      ,BusinessDateTime
+      ,OperatorId
+      ,SalesTotalAmt
+      ,SalesTotalQty
+      ,PosTermId
+      ,Status
+      ,Tx
+      ,LayawayFlag
+      ,TxType
+      ,Ext1)
+      VALUES
+      (@CompanyId
+      ,@RetailStoreId
+      ,@WorkstationId
+      ,@SequenceNumber
+      ,@Queue
+      ,@BusinessDayDate
+      ,@TrainingFlag
+      ,@BusinessDateTime
+      ,@OperatorId
+      ,@SalesTotalAmt
+      ,@SalesTotalQty
+      ,@PosTermId
+      ,@Status
+      ,@Tx
+      ,@LayawayFlag
+      ,@TxType
+      ,@Tag)
+</entry>
 
-	<entry key="get-columnname">
-		SELECT value
-		FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
-		WHERE Category = 'StoreEODCount'
-		AND
-		KeyId = 'Column'
-	</entry>
+<entry key="get-columnname">
+    SELECT value
+    FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
+    WHERE Category = 'StoreEODCount'
+    AND
+    KeyId = 'Column'
+</entry>
 
-	<entry key="get-tablename">
-		SELECT value
-		FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
-		WHERE Category = 'StoreEODCount'
-		AND
-		KeyId = 'Table'
-	</entry>
+<entry key="get-tablename">
+    SELECT value
+    FROM [RESMaster].[dbo].[PRM_SYSTEM_CONFIG]
+    WHERE Category = 'StoreEODCount'
+    AND
+    KeyId = 'Table'
+</entry>
 
-	<entry key="get-store-total-param">
-		DECLARE @TableName VARCHAR(max),@ColumnName VARCHAR(max),@companyid
-		VARCHAR(12), @storeid VARCHAR(10),@sql NVARCHAR(max);
-		SET @TableName = '[RESMaster].[dbo].' + QUOTENAME(?)
-		SET @ColumnName = QUOTENAME(?)
-		SET @companyid = ?
-		SET @storeid = ?
-		SET @sql = 'SELECT' + @ColumnName + 'FROM' + @TableName + ' WHERE
-		CompanyId = '+CAST(@companyid AS VARCHAR(12)) +'AND StoreId = '+
-		CAST(@storeid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
-		EXEC sp_executesql @sql
-	</entry>
+<entry key="get-store-total-param">
+    DECLARE @TableName VARCHAR(max),@ColumnName VARCHAR(max),@companyid
+    VARCHAR(12), @storeid VARCHAR(10),@sql NVARCHAR(max);
+    SET @TableName = '[RESMaster].[dbo].' + QUOTENAME(?)
+    SET @ColumnName = QUOTENAME(?)
+    SET @companyid = ?
+    SET @storeid = ?
+    SET @sql = 'SELECT' + @ColumnName + 'FROM' + @TableName + ' WHERE
+    CompanyId = '+CAST(@companyid AS VARCHAR(12)) +'AND StoreId = '+
+    CAST(@storeid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
+    EXEC sp_executesql @sql
+</entry>
 
-	<entry key="update-store-total-param">
-		DECLARE @TableName VARCHAR(max),@ColumnName VARCHAR(max),@companyid
-		VARCHAR(12), @storeid VARCHAR(10),@sql NVARCHAR(max);
-		SET @TableName = '[RESMaster].[dbo].' + QUOTENAME(?)
-		SET @ColumnName = QUOTENAME(?)
-		SET @companyid = ?
-		SET @storeid = ?
-		SET @sql = 'UPDATE' + @TableName + 'SET' + @ColumnName
-		+ '= (CASE WHEN' + @ColumnName + 'IS NULL THEN 1 WHEN' + @ColumnName
-		+'IS NOT NULL THEN' + @ColumnName + ' + 1 END)'
-		+ 'WHERE StoreId =' + CAST(@storeid AS VARCHAR(10)) + 'AND CompanyId ='
-		+ CAST(@companyid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
-		EXEC sp_executesql @sql
-	</entry>
+<entry key="update-store-total-param">
+    DECLARE @TableName VARCHAR(max),@ColumnName VARCHAR(max),@companyid
+    VARCHAR(12), @storeid VARCHAR(10),@sql NVARCHAR(max);
+    SET @TableName = '[RESMaster].[dbo].' + QUOTENAME(?)
+    SET @ColumnName = QUOTENAME(?)
+    SET @companyid = ?
+    SET @storeid = ?
+    SET @sql = 'UPDATE' + @TableName + 'SET' + @ColumnName
+    + '= (CASE WHEN' + @ColumnName + 'IS NULL THEN 1 WHEN' + @ColumnName
+    +'IS NOT NULL THEN' + @ColumnName + ' + 1 END)'
+    + 'WHERE StoreId =' + CAST(@storeid AS VARCHAR(10)) + 'AND CompanyId ='
+    + CAST(@companyid AS VARCHAR(10)) + 'AND DeleteFlag = 0'
+    EXEC sp_executesql @sql
+</entry>
 
-	<entry key="get-taxrate-info-list">
-	DECLARE @businessDate VARCHAR(32)
-	SET @businessDate = LTRIM(RTRIM(?))
+<entry key="get-taxrate-info-list">
+  DECLARE @businessDate VARCHAR(32)
+  SET @businessDate = LTRIM(RTRIM(?))
 
-	SELECT TaxId
-	       ,StartDate
-	       ,EndDate
-	       ,TaxRate
-	       ,SubCode1
-	       ,SubNum1
-	       ,SubNum2
-	FROM [RESMaster].[dbo].[MST_TAXRATE]
-	WHERE CONVERT(DATE, @businessDate) BETWEEN StartDate AND EndDate
-	</entry>
+  SELECT TaxId
+         ,StartDate
+         ,EndDate
+         ,TaxRate
+         ,SubCode1
+         ,SubNum1
+         ,SubNum2
+  FROM [RESMaster].[dbo].[MST_TAXRATE]
+  WHERE CONVERT(DATE, @businessDate) BETWEEN StartDate AND EndDate
+</entry>
 
-    <entry key="get-dptinfo-subnum5">
+<entry key="get-dptinfo-subnum5">
     DECLARE @storeId VARCHAR(10),@companyId VARCHAR(12),@dpt VARCHAR(20)
     SET @companyId = LTRIM(RTRIM(?))
     SET @storeId = LTRIM(RTRIM(?))
@@ -11294,8 +10357,8 @@ ORDER BY empinfo.EmpCode;
     IF NOT EXISTS (
         SELECT %s
                ,TaxType
-	    FROM [RESMaster].[dbo].[MST_DPTINFO]
-	    WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
+      FROM [RESMaster].[dbo].[MST_DPTINFO]
+      WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
     )
     SET @storeId = '0'
 
@@ -11303,15 +10366,15 @@ ORDER BY empinfo.EmpCode;
            ,TaxType
     FROM [RESMaster].[dbo].[MST_DPTINFO]
     WHERE CompanyId = @companyId AND StoreId = @storeId AND Dpt = @dpt
-    </entry>
+</entry>
 
-    <entry key="get-business-registration-no">
+<entry key="get-business-registration-no">
       SELECT %s
       FROM %s
       WHERE %s
-    </entry>
+</entry>
 
-    <entry key="get-name-system-info">
+<entry key="get-name-system-info">
         SELECT
           CompanyId,
           StoreId,
@@ -11322,9 +10385,9 @@ ORDER BY empinfo.EmpCode;
           RESMaster.dbo.MST_NAME_SYSTEM
         WHERE
           DeleteFlag = 0.0
-    </entry>
+</entry>
 
-    <entry key="get-ej-info">
+<entry key="get-ej-info">
      DECLARE
         @companyId varchar(12),
         @storeId varchar(10),
@@ -11381,8 +10444,9 @@ ORDER BY empinfo.EmpCode;
           tr.BusinessDateTimeStart BETWEEN CONVERT(DATETIME,@businessDateTimeFrom) AND CONVERT(DATETIME,@businessDateTimeTo)
           %s
         ORDER BY tr.SequenceNumber DESC
-    </entry>
-    <entry key="get-poslog-xml-by-companyid-storeid-workstationid-bussinessdate-seqnum-trainningflag">
+</entry>
+
+<entry key="get-poslog-xml-by-companyid-storeid-workstationid-bussinessdate-seqnum-trainningflag">
       DECLARE
         @companyId varchar(12),
         @storeId varchar(10),
@@ -11413,5 +10477,5 @@ ORDER BY empinfo.EmpCode;
         SequenceNumber = @sequencenumber
         AND
         TrainingFlag = @trainingFlag
-    </entry>
+</entry>
 </properties>

@@ -208,7 +208,7 @@
         <dependency>
             <groupId>ncr.res.mobilepos</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>3.5.0.2</version>
+            <version>3.5.0.10</version>
             <scope>compile</scope>
         </dependency>
 

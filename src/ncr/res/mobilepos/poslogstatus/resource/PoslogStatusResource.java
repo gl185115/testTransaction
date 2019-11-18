@@ -77,6 +77,9 @@ public class PoslogStatusResource {
     	    @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     	    })
     public final PoslogStatusInfo checkResultCount(
+            @ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
+            @ApiParam(name="retailStoreId", value="店番号") @QueryParam("retailStoreId") final String retailStoreId,
+            @ApiParam(name="businessDayDate", value="営業日") @QueryParam("businessDayDate") final String businessDayDate,
             @ApiParam(name="consolidation", value="Consolidationフラグ") @QueryParam("consolidation") final boolean consolidation,
             @ApiParam(name="transfer", value="POSLog転送フラグ") @QueryParam("transfer") final boolean transfer) {
     	String functionName = DebugLogger.getCurrentMethodName();
@@ -84,12 +87,13 @@ public class PoslogStatusResource {
     	PoslogStatusInfo response = new PoslogStatusInfo();
     	DAOFactory daoFactory = DAOFactory.getDAOFactory(DAOFactory.SQLSERVER);
 
-    	if (!consolidation && !transfer){
+    	if ((!consolidation && !transfer) || StringUtility.isNullOrEmpty(companyId)
+    			|| StringUtility.isNullOrEmpty(retailStoreId) || StringUtility.isNullOrEmpty(businessDayDate)){
     		LOGGER.logAlert(
             		PROG_NAME,
                     functionName,
                     Logger.RES_PARA_ERR,
-                    "リクエストデータフォーマットエラー。\nクエリーパラメータが未設定です。(consolidation / transfer)\n");
+                    "リクエストデータフォーマットエラー。\nクエリーパラメータ設定エラー。(consolidation/transfer/companyId/retailStoreId/businessDayDate)\n");
     		response.setNCRWSSResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		response.setNCRWSSExtendedResultCode(ResultBase.RES_ERROR_INVALIDPARAMETER);
     		response.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
@@ -114,7 +118,7 @@ public class PoslogStatusResource {
     			return response;
             }
 
-    	    response = dao.checkPoslogStatus(consolidation, transfer, poslogTransferColumnName);
+    	    response = dao.checkPoslogStatus(consolidation, transfer,companyId, retailStoreId, businessDayDate, poslogTransferColumnName);
 
 		} catch (DaoException daoEx) {
             LOGGER.logAlert(

@@ -59,9 +59,9 @@ public class PoslogStatusTestSteps extends Steps {
 		}
 	}
 	
-	@When("a check status with consolidation $consolidation transfer $transfer")
-	public void iEndTheTransaction(final boolean consolidation, final boolean transfer) {
-		poslogStatusInfo = poslogStatusResource.checkResultCount(consolidation,transfer);
+	@When("a check status with companyId $companyId retailStoreId $retailStoreId businessDayDate $businessDayDate consolidation $consolidation transfer $transfer") 
+	public void iEndTheTransaction(final String companyId, final String retailStoreId, final String businessDayDate,final boolean consolidation, final boolean transfer) {
+		poslogStatusInfo = poslogStatusResource.checkResultCount(companyId, retailStoreId, businessDayDate,consolidation,transfer); 
 	}
 	
 	@Then("a consolidationResult is $consolidationResult")

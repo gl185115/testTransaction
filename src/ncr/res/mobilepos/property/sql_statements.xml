@@ -9913,12 +9913,89 @@ SELECT Dpt
 </entry>
 
 <entry key="count-unsend-poslog">
+DECLARE
+    @companyId varchar(12), @businessDayDate DATE, @retailStoreId varchar(6), @status char(1)
+
+SET @companyId = ?
+SET @retailStoreId = ?
+SET @businessDayDate = ?
+SET @status = CAST('0' AS char(1))
 SELECT
-  COUNT(*) as UnsendCount
+    COUNT(*) as UnsendCount
+FROM
+    RESTransaction.dbo.TXL_SALES_JOURNAL
+WHERE
+  BusinessDayDate = @businessDayDate
+  AND
+  CompanyId = @companyId
+  AND
+  RetailStoreId = @retailStoreId
+  AND
+  %s =  @status;
+
+</entry>
+<entry key="count-failed-poslog">
+DECLARE
+    @companyId varchar(12), @businessDayDate DATE, @retailStoreId varchar(6)
+
+SET @companyId = ?
+SET @retailStoreId = ?
+SET @businessDayDate = ?
+SELECT
+  COUNT(*) as FailedCount
 FROM
   RESTransaction.dbo.TXL_SALES_JOURNAL
 WHERE
-  %s = 0;
+  CompanyId = @companyId
+  AND
+  RetailStoreId = @retailStoreId
+  AND
+  (DATEDIFF(day,BusinessDayDate,@businessDayDate) &lt;= 1)
+  AND
+  %s = 2;
+</entry>
+<entry key="get-unsend-and-failed-poslog">
+DECLARE
+    @companyId varchar(12), @businessDayDate DATE, @retailStoreId varchar(6)
+
+SET @companyId = ?
+SET @retailStoreId = ?
+SET @businessDayDate = ?
+SELECT
+  BusinessDayDate,
+  SequenceNumber,
+  %s
+FROM
+  RESTransaction.dbo.TXL_SALES_JOURNAL
+WHERE
+  CompanyId = @companyId
+  AND
+  RetailStoreId = @retailStoreId
+  AND
+  (DATEDIFF(day,BusinessDayDate,@businessDayDate) &lt;= 1)
+  AND
+  (%s = 2 OR %s = 0);
+</entry>
+<entry key="retry-failed-poslog">
+DECLARE
+    @companyId varchar(12), @businessDayDate DATE, @retailStoreId varchar(6)
+
+SET @companyId = ?
+SET @retailStoreId = ?
+SET @businessDayDate = ?
+
+UPDATE
+  RESTransaction.dbo.TXL_SALES_JOURNAL
+SET
+  %s = 0
+WHERE
+  CompanyId = @companyId
+  AND
+  RetailStoreId = @retailStoreId
+  AND
+  (DATEDIFF(day,BusinessDayDate,@businessDayDate) &lt;= 1)
+  AND
+  %s = 2;
 </entry>
 
 <entry key="get-server-list">

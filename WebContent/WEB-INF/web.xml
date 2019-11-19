@@ -248,13 +248,13 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>${drive.path}\software\ncr\res\log\snap_dir</env-entry-value>
   </env-entry>
-  <!-- 売上表レポ�Eト利用のファーマッチEMLファイル -->
+  <!-- 売上表レポート利用のファーマットファイル -->
   <env-entry>
     <env-entry-name>ReportFormatNewPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>${drive.path}\software\ncr\res\custom\ReportFormatNew.xml</env-entry-value>
   </env-entry>
-  <!-- 通常買上レシート利用のファーマッチEMLファイル -->
+  <!-- 通常買上レシート利用のファーマットファイル -->
   <env-entry>
     <env-entry-name>nrRcptFormatPath</env-entry-name>
     <env-entry-type>java.lang.String</env-entry-type>
@@ -266,7 +266,7 @@
     <env-entry-type>java.lang.String</env-entry-type>
     <env-entry-value>${drive.path}\software\ncr\res\link\systemconfig\interface.xml</env-entry-value>
   </env-entry>
-  <!-- fs add start 53mmと80mm紙�E変換フラグ
+  <!-- fs add start 53mmと80mmのレシート識別子
        1 is Flag for 53mm receipt paper
        2 is Flag for 80mm receipt paper.-->
   <env-entry>

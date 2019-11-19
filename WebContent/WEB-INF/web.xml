@@ -51,6 +51,7 @@
         ncr.res.mobilepos.test.resource,
         ncr.res.mobilepos.giftcard.resource,
         ncr.res.mobilepos.tillinfo.resource,
+        ncr.res.mobilepos.terminalInfo.resource,
         ncr.res.mobilepos.webserviceif.resource,
         ncr.res.mobilepos.point.resource,
         ncr.res.mobilepos.uiconfig.resource,

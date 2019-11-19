@@ -116,6 +116,8 @@ import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.systemsetting.dao.SQLServerSystemSettingDAO;
 import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
 import ncr.res.mobilepos.tenderinfo.dao.SQLServerTenderInfoDAO;
+import ncr.res.mobilepos.terminalInfo.dao.ITerminalInfoDAO;
+import ncr.res.mobilepos.terminalInfo.dao.SQLServerTerminalInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.SQLServerTillInfoDAO;
 
@@ -221,7 +223,12 @@ public class SQLServerDAOFactory extends DAOFactory {
     public final ISystemSettingDAO getSystemSettingDAO() throws DaoException {
         return new SQLServerSystemSettingDAO();
     }
-
+    
+    @Override
+    public final ITerminalInfoDAO getTerminalInfoDAO() throws DaoException {
+        return new SQLServerTerminalInfoDAO();
+    }
+    
     @Override
     public final IDeviceLogDAO getDeviceLogDao() throws DaoException {
         return new SQLServerDeviceLogDAO();

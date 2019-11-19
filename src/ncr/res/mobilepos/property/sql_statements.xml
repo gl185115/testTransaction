@@ -3046,6 +3046,31 @@ ORDER BY
       DeleteFlag = 0.0
 </entry>
 
+<entry key="get-last-txid-server">
+    DECLARE
+    @companyid varchar(12),
+    @storeid varchar(6),
+    @workstationid varchar(6),
+    @businessdaydate date,
+    @trainingmode numeric(1,0)
+
+    SET @companyid = ?
+    SET @storeid = ?
+    SET @workstationid = ?
+    SET @businessdaydate = ?
+    SET @trainingmode = ?
+
+    SELECT TOP 1
+     SequenceNumber
+    FROM RESTransaction.dbo.TXL_SALES_JOURNAL
+    WHERE CompanyId = @companyid
+      AND RetailStoreId = @storeid
+      AND WorkstationId = @workstationid
+      AND BusinessDayDate = CASE WHEN @businessdaydate IS NULL THEN BusinessDayDate ELSE @businessdaydate END
+      AND TrainingFlag = @trainingmode
+    ORDER BY JournalLine DESC
+</entry>
+
 <entry key="update-last-suspendtxid">
     UPDATE
       RESMaster.dbo.MST_DEVICEINFO

@@ -67,6 +67,7 @@ import ncr.res.mobilepos.store.dao.SQLServerStoreDAO;
 import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
 import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
+import ncr.res.mobilepos.terminalInfo.dao.ITerminalInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
 
 /**
@@ -238,6 +239,15 @@ public abstract class DAOFactory {
      *             Exception thrown when getting the DAO object fail
      */
     public abstract ISystemSettingDAO getSystemSettingDAO() throws DaoException;
+
+    /**
+     * Gets the DAO object for performing operations on TerminalInfo.
+     *
+     * @return The DAO object for TerminalInfo
+     * @throws DaoException
+     *             Exception thrown when getting the DAO object fail
+     */
+    public abstract ITerminalInfoDAO getTerminalInfoDAO() throws DaoException;
 
     /**
      * Gets the DAO object for Transfer transactions between smart phone and

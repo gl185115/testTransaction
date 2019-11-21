@@ -1,5 +1,23 @@
 package ncr.res.mobilepos.uiconfig.resource;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import com.sun.jersey.core.spi.factory.ResponseBuilderImpl;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
@@ -27,17 +45,6 @@ import ncr.res.mobilepos.uiconfig.model.schedule.Schedule;
 import ncr.res.mobilepos.uiconfig.model.schedule.Task;
 import ncr.res.mobilepos.uiconfig.model.store.StoreEntry;
 import ncr.res.mobilepos.uiconfig.utils.UiConfigHelper;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
 
 @Path("/uiconfig")
 @Api(value="/uiconfig", description="カスタムリソースAPI")
@@ -110,8 +117,8 @@ public class UiConfigResource {
         // 3, Marshals schedule.xml. This file should be provided with UTF-8 encoding.
         Schedule schedule;
         try {
-        	schedule = UiConfigHelper.marshallScheduleXml(configProperties.getCustomResourceBasePath() + 
-            		configType.toString() + 
+        	schedule = UiConfigHelper.marshallScheduleXml(configProperties.getCustomResourceBasePath() +
+            		configType.toString() +
             		configProperties.getScheduleFilePath());
         } catch (IOException ioe) {
             tp.methodExit("schedule.xml: IOException while reading");
@@ -212,76 +219,167 @@ public class UiConfigResource {
                             + " workstationID:" + workstationID);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
-        Task effectiveTask = new Task();
-        Boolean getted = false;
-        if (effectiveTasks.size() > 1) {
-            for (int i = 0; i < effectiveTasks.size(); i++) {
-                if (effectiveTasks.get(i).getTarget().getWorkstation().equals(workstationID)) {
-                    effectiveTask = effectiveTasks.get(i);
-                    getted = true;
-                    break;
-                }
-                if (getted) {
-                    continue;
-                }
-                if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
-                    effectiveTask = effectiveTasks.get(i);
-                    getted = true;
+
+        if (UiConfigType.ADVERTISES == configType) {
+            Task effectiveTaskWorkstation = new Task();
+            Task effectiveTaskStore = new Task();
+            Task effectiveTaskALL = new Task();
+            Boolean gettedWorkstation = false;
+            Boolean gettedStore = false;
+            Boolean gettedALL = false;
+            if (effectiveTasks.size() >= 1) {
+                for (int i = 0; i < effectiveTasks.size(); i++) {
+                    if (effectiveTasks.get(i).getTarget().getWorkstation().equals(workstationID)) {
+                        if (!gettedWorkstation){
+                            gettedWorkstation = true;
+                            effectiveTaskWorkstation = effectiveTasks.get(i);
+                        }
+                        continue;
+                    } else if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
+                        if (!gettedStore){
+                            gettedStore = true;
+                            effectiveTaskStore = effectiveTasks.get(i);
+                        }
+                        continue;
+                    } else {
+                        if (!gettedALL){
+                            gettedALL = true;
+                            effectiveTaskALL = effectiveTasks.get(i);
+                        }
+                    }
                 }
             }
+
+            String configContentWorkstation = getConfigContent(effectiveTaskWorkstation,configType);
+            String configContentStore = getConfigContent(effectiveTaskStore,configType);
+            String configContentALL = getConfigContent(effectiveTaskALL,configType);
+            if (configContentWorkstation == null && configContentStore == null && configContentALL == null) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+            // 10, Reads all the file content into String. Contents files should be provided as UTF-8 encoding.
+            JSONArray configContent = new JSONArray();
+            if (configContentWorkstation != null) {
+                configContent.add(configContentWorkstation);
+            }
+            if (configContentStore != null) {
+                configContent.add(configContentStore);
+            }
+            if (configContentALL != null) {
+                configContent.add(configContentALL);
+            }
+            // Successfully makes response.
+            return Response.ok(configContent.toString(), MediaType.APPLICATION_JSON).build();
+        } else {
+            Task effectiveTask = new Task();
+            Boolean getted = false;
+            if (effectiveTasks.size() > 1) {
+                for (int i = 0; i < effectiveTasks.size(); i++) {
+                    if (effectiveTasks.get(i).getTarget().getWorkstation().equals(workstationID)) {
+                        effectiveTask = effectiveTasks.get(i);
+                        getted = true;
+                        break;
+                    }
+                    if (getted) {
+                        continue;
+                    }
+                    if (effectiveTasks.get(i).getTarget().getStore().equals(storeID)) {
+                        effectiveTask = effectiveTasks.get(i);
+                        getted = true;
+                    }
+                }
+            }
+            if (!getted) {
+                effectiveTask = effectiveTasks.get(0);
+            }
+
+            if (effectiveTask.getFilename() == null) {
+                tp.methodExit("schedule.xml: No <filename> in effective <task><target>");
+                LOGGER.logAlert(
+                        this.getClass().getSimpleName(),
+                        "requestConfigFile",
+                        Logger.RES_EXCEP_FILENOTFOUND,
+                        "schedule.xml: No <filename> in effective <task><target>");
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            // 8, Creates deploy status file. Keeps it as it is for original source, UiConfig, compatibility.
+            // String deployStatusPath = configProperties.getCustomResourceBasePath() + configType.toString() + configProperties.getDeployStatusFileName();
+            // UiConfigHelper.doDeployStatusCustomRequest(configType, companyID, storeID, workstationID, effectiveTask, deployStatusPath);
+
+            // 9, Joins resource file path.
+            String configFilePath = configProperties.getCustomResourceBasePath()
+                    + configType.getValue()
+                    + File.separator
+                    + effectiveTask.getFilename();
+            final File configFile = new File(configFilePath);
+            if (!configFile.exists()) {
+                tp.methodExit("schedule.xml: Config file not found:" + configFilePath);
+                LOGGER.logAlert(
+                        this.getClass().getSimpleName(),
+                        "requestConfigFile",
+                        Logger.RES_EXCEP_FILENOTFOUND,
+                        "schedule.xml: Config file not found:" + configFilePath);
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }
+
+            // 10, Reads all the file content into String. Contents files should be provided as UTF-8 encoding.
+            String configContent;
+            try {
+                configContent = UiConfigHelper.readFileToString(configFile, UiConfigHelper.ENCODING_CONFIG_FILE);
+            } catch (IOException ioe) {
+                tp.methodExit("IOException while reading custom config:" + configFilePath);
+                LOGGER.logAlert(this.getClass().getSimpleName(),
+                        "requestConfigFile",
+                        Logger.RES_EXCEP_IO,
+                        "IOException while reading custom config:" + configFilePath, ioe);
+                return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            }
+
+            // Successfully makes response.
+            tp.methodExit("Returns " + configFilePath);
+            return Response.status(Response.Status.OK).entity(configContent).build();
         }
-        if (!getted) {
-            effectiveTask = effectiveTasks.get(0);
-        }
-        
-        if (effectiveTask.getFilename() == null) {
+    }
+
+    private String getConfigContent(Task task, UiConfigType configType) {
+
+        if (task.getFilename() == null) {
             tp.methodExit("schedule.xml: No <filename> in effective <task><target>");
-            LOGGER.logAlert(
-                    this.getClass().getSimpleName(),
-                    "requestConfigFile",
-                    Logger.RES_EXCEP_FILENOTFOUND,
-                    "schedule.xml: No <filename> in effective <task><target>");
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return null;
         }
 
-        // 8, Creates deploy status file. Keeps it as it is for original source, UiConfig, compatibility.
-        // String deployStatusPath = configProperties.getCustomResourceBasePath() + configType.toString() + configProperties.getDeployStatusFileName();
-        // UiConfigHelper.doDeployStatusCustomRequest(configType, companyID, storeID, workstationID, effectiveTask, deployStatusPath);
+        // 8, Creates deploy status file. Keeps it as it is for original source,
+        // UiConfig, compatibility.
+        // String deployStatusPath = configProperties.getCustomResourceBasePath() +
+        // configType.toString() + configProperties.getDeployStatusFileName();
+        // UiConfigHelper.doDeployStatusCustomRequest(configType, companyID, storeID,
+        // workstationID, effectiveTask, deployStatusPath);
 
         // 9, Joins resource file path.
-        String configFilePath = configProperties.getCustomResourceBasePath()
-                + configType.getValue()
-                + File.separator
-                + effectiveTask.getFilename();
+        String configFilePath = configProperties.getCustomResourceBasePath() + configType.getValue() + File.separator
+                + task.getFilename();
         final File configFile = new File(configFilePath);
         if (!configFile.exists()) {
             tp.methodExit("schedule.xml: Config file not found:" + configFilePath);
-            LOGGER.logAlert(
-                    this.getClass().getSimpleName(),
-                    "requestConfigFile",
-                    Logger.RES_EXCEP_FILENOTFOUND,
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestConfigFile", Logger.RES_EXCEP_FILENOTFOUND,
                     "schedule.xml: Config file not found:" + configFilePath);
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return null;
         }
 
-        // 10, Reads all the file content into String. Contents files should be provided as UTF-8 encoding.
+        // 10, Reads all the file content into String. Contents files should be provided
+        // as UTF-8 encoding.
         String configContent;
         try {
             configContent = UiConfigHelper.readFileToString(configFile, UiConfigHelper.ENCODING_CONFIG_FILE);
         } catch (IOException ioe) {
             tp.methodExit("IOException while reading custom config:" + configFilePath);
-            LOGGER.logAlert(this.getClass().getSimpleName(),
-                    "requestConfigFile",
-                    Logger.RES_EXCEP_IO,
+            LOGGER.logAlert(this.getClass().getSimpleName(), "requestConfigFile", Logger.RES_EXCEP_IO,
                     "IOException while reading custom config:" + configFilePath, ioe);
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+            return null;
         }
-
-        // Successfully makes response.
         tp.methodExit("Returns " + configFilePath);
-        return Response.status(Response.Status.OK).entity(configContent).build();
+        return configContent;
     }
-
     /**
      * Returns custom image files.
      *
@@ -342,7 +440,7 @@ public class UiConfigResource {
         tp.methodExit("Returns " + file.getAbsolutePath());
         return rb.build();
     }
-    
+
     /**
      * Returns custom image files.
      *
@@ -402,7 +500,7 @@ public class UiConfigResource {
         tp.methodExit("Returns " + file.getAbsolutePath());
         return rb.build();
     }
-    
+
     /**
      * Returns custom resource fileList
      *
@@ -436,7 +534,7 @@ public class UiConfigResource {
                 tp.println(msg);
                 return result;
             }
-            
+
             JSONArray jsonArray = new JSONArray(fileList);
             fileInfoList = new ArrayList<FileInfo>();
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -448,7 +546,7 @@ public class UiConfigResource {
                 // 1, Decodes filename.
                 fileNameTemp = URLDecoder.decode(fileName, UiConfigHelper.URL_ENCODING_CHARSET);
                 filePathString = filePathTemp + filePath;
-                
+
                 // 2, Check a file is exists of fileList
                 File file = new File(filePathString + File.separator + fileNameTemp);
                 FileInfo fileInfo = new FileInfo();

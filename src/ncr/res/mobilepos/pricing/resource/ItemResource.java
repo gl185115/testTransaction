@@ -67,7 +67,7 @@ import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
  *
  */
 @Path("/pricing")
-@Api(value="/pricing", description="価格設定API")
+@Api(value="/pricing", description="価格情報取得API")
 public class ItemResource {
 
     /**
@@ -174,13 +174,13 @@ public class ItemResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="プロジェクトは存在しない")
+            @ApiResponse(code=ResultBase.RES_ITEM_NOT_EXIST, message="商品検索エラー (見付からない)")
         })
     public final SearchedProduct getItemByPLUcode(
-    		@ApiParam(name="storeid", value="店舗コード") @PathParam("storeid") final String storeID,
-    		@ApiParam(name="plucode", value="商品の値段が上がる") @PathParam("plucode") final String pluCode,
+    		@ApiParam(name="storeid", value="店番号") @PathParam("storeid") final String storeID,
+    		@ApiParam(name="plucode", value="PLUコード") @PathParam("plucode") final String pluCode,
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
-    		@ApiParam(name="bussinessDate", value="営業日") @FormParam("bussinessDate") final String bussinessDate) {
+    		@ApiParam(name="bussinessDate", value="業務日付") @FormParam("bussinessDate") final String bussinessDate) {
 
         String functionName = "ItemResource.getItemByPLUcode";
         tp.methodEnter(DebugLogger.getCurrentMethodName())
@@ -254,12 +254,12 @@ public class ItemResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/getItemPrice")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="プロジェクトの価格表を獲得し", response=Item.class)
+    @ApiOperation(value="商品の価格情報リストの取得", response=Item.class)
     public final List<Item> getItemsPrice(
-    		@ApiParam(name="transaction", value="業務") @FormParam("transaction") String transaction,
-    		@ApiParam(name="StoreId", value="店舗コード") @FormParam("StoreId") String storeId,
+    		@ApiParam(name="transaction", value="取引情報") @FormParam("transaction") String transaction,
+    		@ApiParam(name="StoreId", value="店番号") @FormParam("StoreId") String storeId,
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String companyId ,
-    		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") String businessDate) {
+    		@ApiParam(name="businessDate", value="業務日付") @FormParam("businessDate") String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("transaction", transaction).println("storeId", storeId)
                 .println("companyId", companyId);
@@ -309,13 +309,13 @@ public class ItemResource {
     @Path("/getpicklistitems")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ピックリスト商品取得", response=PickList.class)
+    @ApiOperation(value="ピックリスト商品情報取得", response=PickList.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final PickList getPickList(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="itemType", value="アイテムタイプ") @QueryParam("itemType") final String itemType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)

@@ -15,7 +15,6 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.customerclass.dao.ICustomerClassInfoDAO;
 import ncr.res.mobilepos.customerclass.model.CustomerClassInfoList;
 import ncr.res.mobilepos.daofactory.DAOFactory;
@@ -52,14 +51,14 @@ public class CustomerClassInfoResource {
 	@Path("/getcustomerclassinfo")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-	@ApiOperation(value="客層情報を取得する", response=CustomerClassInfoList.class)
+	@ApiOperation(value="客層情報の取得", response=CustomerClassInfoList.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
     })
 	public final CustomerClassInfoList getCustomerClassInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId) {
+			@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 		CustomerClassInfoList customerInfo = new CustomerClassInfoList();

@@ -11,8 +11,6 @@ import javax.ws.rs.core.MediaType;
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Snap;
 import ncr.realgate.util.Trace;
@@ -27,7 +25,7 @@ import ncr.res.mobilepos.model.ResultBase;
  * This class is delegated from JavaScript side module (NCRConsole) and write messages into UserLog or Trace.
  */
 @Path("/console")
-@Api(value="/console", description="ユーザーログ出力関連API")
+@Api(value="/console", description="UIのコンソールログ出力関連API")
 public class JavaScriptConsoleResource {
     /**
      * A private member variable used for logging the class implementations.
@@ -72,11 +70,11 @@ public class JavaScriptConsoleResource {
     @Path("/log")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ユーザーログ出力(ログレベル)", response=ResultBase.class)
+    @ApiOperation(value="コンソールログ出力レベル(ログレベル)", response=ResultBase.class)
     public ResultBase log(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
-    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
-    		@ApiParam(name="txid", value="テキストコード") @FormParam("txid") String txid) {
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") String storeid,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") String terminalid,
+    		@ApiParam(name="txid", value="取引番号") @FormParam("txid") String txid) {
         write(UserLog.ERROR, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
@@ -91,11 +89,11 @@ public class JavaScriptConsoleResource {
     @Path("/error")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ユーザーログ出力(エラーレベル)", response=ResultBase.class)
+    @ApiOperation(value="コンソールログ出力レベル(ログレベル)", response=ResultBase.class)
     public ResultBase error(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
-    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
-    		@ApiParam(name="txid", value="テキストコード") @FormParam("txid") String txid) {
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") String storeid,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") String terminalid,
+    		@ApiParam(name="txid", value="取引番号") @FormParam("txid") String txid) {
         write(UserLog.ERROR, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
@@ -110,11 +108,11 @@ public class JavaScriptConsoleResource {
     @Path("/warn")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ユーザーログ出力(警告レベル)", response=ResultBase.class)
+    @ApiOperation(value="コンソールログ出力レベル(警告レベル)", response=ResultBase.class)
     public ResultBase warn(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
-    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
-    		@ApiParam(name="txid", value="テキストコード") @FormParam("txid") String txid) {
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") String storeid,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") String terminalid,
+    		@ApiParam(name="txid", value="取引番号") @FormParam("txid") String txid) {
         write(UserLog.WARNING, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
@@ -129,11 +127,11 @@ public class JavaScriptConsoleResource {
     @Path("/info")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ユーザーログ出力(インフォメーションレベル)", response=ResultBase.class)
+    @ApiOperation(value="コンソールログ出力レベル(インフォメーションレベル)", response=ResultBase.class)
     public ResultBase info(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
-    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
-    		@ApiParam(name="txid", value="テキストコード") @FormParam("txid") String txid) {
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") String storeid,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") String terminalid,
+    		@ApiParam(name="txid", value="取引番号") @FormParam("txid") String txid) {
         write(UserLog.LOG, message, storeid, terminalid, txid);
         return new ResultBase(ResultBase.RES_OK, "");
     }
@@ -148,11 +146,11 @@ public class JavaScriptConsoleResource {
     @Path("/debug")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="ユーザーログ出力(トレースレベル)", response=ResultBase.class)
+    @ApiOperation(value="コンソールログ出力レベル(トレースレベル)", response=ResultBase.class)
     public ResultBase debug(@ApiParam(name="message", value="メッセージ") @FormParam("message") String message,
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") String storeid,
-    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") String terminalid,
-    		@ApiParam(name="txid", value="テキストコード") @FormParam("txid") String txid) {
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") String storeid,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") String terminalid,
+    		@ApiParam(name="txid", value="取引番号") @FormParam("txid") String txid) {
         tp.println(TRACE_TITLE,
                    createLoggingMessage(message, storeid, terminalid, txid));
         tp.flush();

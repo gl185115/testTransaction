@@ -1,9 +1,5 @@
 package ncr.res.mobilepos.cashaccount.resource;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,10 +14,8 @@ import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
-import ncr.realgate.util.IoWriter;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.cashaccount.dao.ICashAccountDAO;
-import ncr.res.mobilepos.cashaccount.model.CashBalance;
 import ncr.res.mobilepos.cashaccount.model.GetCashBalance;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
@@ -29,8 +23,6 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.property.SQLStatement;
-import ncr.res.mobilepos.report.model.DailyReport;
 
 @Path("cashaccount")
 @Api(value="/cashaccount", description="現金アカウント情報API")
@@ -72,8 +64,8 @@ public class CashAccountResource {
         })
     public final GetCashBalance getCashBalance(
     		@ApiParam(name="tillid", value="ドロアID") @QueryParam("tillid") final String tillId, 
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
-    		@ApiParam(name="businessdaydate", value="営業日") @QueryParam("businessdaydate") final String businessDayDate) {
+    		@ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="businessdaydate", value="業務日付") @QueryParam("businessdaydate") final String businessDayDate) {
     	tp.methodEnter("getCashBalance");
     	tp.println("Till Id", tillId)
     		.println("Store Id", storeId)
@@ -127,11 +119,11 @@ public class CashAccountResource {
         })
     public final GetCashBalance getReportItems(
     		@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
-    		@ApiParam(name="tillId", value="tillコード") @FormParam("tillId") final String tillId,
-    		@ApiParam(name="terminalId", value="POSコード") @FormParam("terminalId") final String terminalId,
-    		@ApiParam(name="businessDate", value="営業日") @FormParam("businessDate") final String businessDate,
-    		@ApiParam(name="trainingFlag", value="トレーニングフラグ") @FormParam("trainingFlag") final int trainingFlag,
+    		@ApiParam(name="storeId", value="店番号") @FormParam("storeId") final String storeId,
+    		@ApiParam(name="tillId", value="ドロアID") @FormParam("tillId") final String tillId,
+    		@ApiParam(name="terminalId", value="ターミナル番号") @FormParam("terminalId") final String terminalId,
+    		@ApiParam(name="businessDate", value="業務日付") @FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @FormParam("trainingFlag") final int trainingFlag,
     		@ApiParam(name="dataType", value="データ分類") @FormParam("dataType") final String dataType,
     		@ApiParam(name="itemLevel1", value="項目レベル１") @FormParam("itemLevel1")final String itemLevel1,
     		@ApiParam(name="itemLevel2", value="項目レベル２") @FormParam("itemLevel2") final String itemLevel2) {

@@ -35,7 +35,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 @Path("/cardinfo")
-@Api(value="/cardinfo", description="カード情報API")
+@Api(value="/cardinfo", description="カード情報取得API")
 public class CardInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -61,7 +61,7 @@ public class CardInfoResource {
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
         })
     public final CardInfo getCardClassInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="cardClassId", value="カード区分コード") @QueryParam("cardClassId") final String cardClassId,
     		@ApiParam(name="membershipId", value="会員番号") @QueryParam("membershipId") final String membershipId) {
         String functionName = DebugLogger.getCurrentMethodName();
@@ -112,7 +112,7 @@ public class CardInfoResource {
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
         })
     public final CardTypeInfoResponse getCardTypeInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="cardTypeNo", value="カードタイプコード") @QueryParam("cardTypeNo") final String cardTypeNo) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("cardTypeNo",
@@ -164,7 +164,7 @@ public class CardInfoResource {
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
         })
     public final MemberInfoResponse getMemberInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="membershipId", value="会員番号") @QueryParam("membershipId") final String membershipId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("membershipId",
@@ -215,7 +215,7 @@ public class CardInfoResource {
             @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ")
         })
     public final StatusInfoResponse getStatusInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
     		@ApiParam(name="statusCode", value="会員状態コード") @QueryParam("statusCode") final String statusCode) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId).println("statusCode",

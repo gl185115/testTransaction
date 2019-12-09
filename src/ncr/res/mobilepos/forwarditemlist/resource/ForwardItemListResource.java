@@ -61,7 +61,7 @@ import ncr.res.mobilepos.systemsetting.resource.SystemSettingResource;
  * Transfer transactions between smart phone and POS.
  */
 @Path("/ItemForward")
-@Api(value="/ItemForward", description="前捌き取引ログAPI")
+@Api(value="/ItemForward", description="前捌きデータのアップロードと取得API")
 public class ForwardItemListResource {
     /**
      * The IOWriter for the Log.
@@ -166,13 +166,13 @@ public class ForwardItemListResource {
     @Path("/getCount")
     @GET
     @Produces({ MediaType.APPLICATION_XML + ";charset=SHIFT-JIS" })
-    @ApiOperation(value="前捌きデータ数カウント", response=String.class)
+    @ApiOperation(value="前捌き保留数カウント", response=String.class)
     @ApiResponses(value={
     })
     public final String getCount(
-            @ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
-            @ApiParam(name="terminalid", value="端末コード") @QueryParam("terminalid") final String terminalid,
-            @ApiParam(name="txdate", value="営業日") @QueryParam("txdate") final String txdate) {
+            @ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="ターミナル番号") @QueryParam("terminalid") final String terminalid,
+            @ApiParam(name="txdate", value="業務日付") @QueryParam("txdate") final String txdate) {
 
         tp.methodEnter("getCount");
         tp.println("StoreID", storeid).println("TerminalID", terminalid).
@@ -224,14 +224,14 @@ public class ForwardItemListResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
-    @ApiOperation(value="前捌きデータをアップロードする", response=PosLogResp.class)
+    @ApiOperation(value="前捌きデータのアップロード", response=PosLogResp.class)
     @ApiResponses(value={
     		 @ApiResponse(code=ResultBase.RES_FORWARD_ITEM_NO_INSERT, message="データ挿入失敗"),
     })
     public final PosLogResp uploadForwardData(
-    		@ApiParam(name="poslogxml", value="PoslogXml情報") @FormParam("poslogxml") final String poslogXml,
-    		@ApiParam(name="deviceid", value="装置番号") @FormParam("deviceid") final String deviceNo,
-    		@ApiParam(name="terminalid", value="端末番号") @FormParam("terminalid") final String terminalNo) {
+    		@ApiParam(name="poslogxml", value="POSLog (xmlデータ)") @FormParam("poslogxml") final String poslogXml,
+    		@ApiParam(name="deviceid", value="デバイス番号") @FormParam("deviceid") final String deviceNo,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") final String terminalNo) {
 
         tp.methodEnter("uploadForwardData");
         tp.println("POSLogXML", poslogXml).println("DeviceNo", deviceNo).
@@ -281,7 +281,7 @@ public class ForwardItemListResource {
     @POST
     @Path("/suspend")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="前捌きデータ登録", response=ResultBase.class)
+    @ApiOperation(value="前捌きデータのアップロード", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -289,10 +289,10 @@ public class ForwardItemListResource {
         @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_DATEINVALID, message="無効なキュー番号"),
     })
     public final ResultBase saveForwardPosLog(
-    		@ApiParam(name="poslogxml", value="PoslogXml情報") @FormParam("poslogxml") final String poslogxml,
+    		@ApiParam(name="poslogxml", value="POSLog (xmlデータ)") @FormParam("poslogxml") final String poslogxml,
     		@ApiParam(name="queue", value="キュー番号") @FormParam("queue") final String queue,
-    		@ApiParam(name="workstationid", value="POSコード") @FormParam("workstationid") final String workstationid,
-    		@ApiParam(name="trainingmode", value="トレーニングモード") @FormParam("trainingmode") final String trainingmode,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationid,
+    		@ApiParam(name="trainingmode", value="トレーニングモードフラグ") @FormParam("trainingmode") final String trainingmode,
     		@ApiParam(name="total", value="トータル") @FormParam("total") final String total) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -390,15 +390,15 @@ public class ForwardItemListResource {
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引データ未検出"),
+        @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="前捌きデータ検索エラー(見付からない)"),
     })
     public final SearchForwardPosLog getForwardItems(@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
-    		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId, 
-    		@ApiParam(name="WorkstationId", value="POSコード") @FormParam("WorkstationId") String WorkstationId,
-    		@ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") String SequenceNumber, 
+    		@ApiParam(name="RetailStoreId", value="店番号") @FormParam("RetailStoreId") String RetailStoreId,
+    		@ApiParam(name="WorkstationId", value="ターミナル番号") @FormParam("WorkstationId") String WorkstationId,
+    		@ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") String SequenceNumber,
     		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
-    		@ApiParam(name="BusinessDayDate", value="POS業務日付") @FormParam("BusinessDayDate") String BusinessDayDate, 
-    		@ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag) {
+    		@ApiParam(name="BusinessDayDate", value="業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
+    		@ApiParam(name="TrainingFlag", value="トレーニングモードフラグ") @FormParam("TrainingFlag") String TrainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);
@@ -449,12 +449,12 @@ public class ForwardItemListResource {
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なリクエストパラメータ"),
     })
     public final ResultBase getForwardList(
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
-    		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
-    		@ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag,
+    		@ApiParam(name="RetailStoreId", value="店番号") @FormParam("RetailStoreId") String RetailStoreId,
+    		@ApiParam(name="TrainingFlag", value="トレーニングモードフラグ") @FormParam("TrainingFlag") String TrainingFlag,
     		@ApiParam(name="LayawayFlag", value="予約フラグ") @FormParam("LayawayFlag") String LayawayFlag,
     		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
             @ApiParam(name="TxType", value="取引タイプ") @FormParam("TxType") String TxType) {
@@ -475,8 +475,8 @@ public class ForwardItemListResource {
                 result.setMessage(ResultBase.RES_INVALIDPARAMETER_MSG);
                 return result;
             }
-            
-            SystemSettingResource sysSetting = new SystemSettingResource();       
+
+            SystemSettingResource sysSetting = new SystemSettingResource();
             DateSetting dateSetting = sysSetting.getDateSetting(CompanyId, RetailStoreId).getDateSetting();
             if (dateSetting == null) {
                 tp.println("Business date is not set!");
@@ -519,18 +519,18 @@ public class ForwardItemListResource {
     @GET
     @Path("/getforwarditemcount")
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="前捌きデータ数カウント", response=ForwardItemCount.class)
+    @ApiOperation(value="前捌き保留数カウント取得", response=ForwardItemCount.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })
     public final ForwardItemCount getForwardItemCount(
     	@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    	@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    	@ApiParam(name="businessDayDate", value="POS業務日付") @QueryParam("businessDayDate") final String businessDayDate,
-    	@ApiParam(name="workstationId", value="POSコード") @QueryParam("workstationId") final String workstationId,
+    	@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    	@ApiParam(name="businessDayDate", value="業務日付") @QueryParam("businessDayDate") final String businessDayDate,
+    	@ApiParam(name="workstationId", value="ターミナル番号") @QueryParam("workstationId") final String workstationId,
     	@ApiParam(name="queue", value="キュー番号") @QueryParam("queue") final String queue,
-    	@ApiParam(name="trainingFlag", value="トレーニングフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
+    	@ApiParam(name="trainingFlag", value="トレーニングモードフラグ") @QueryParam("trainingFlag") final String trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyId", companyId)
@@ -606,13 +606,13 @@ public class ForwardItemListResource {
     })
     public final ResultBase updateForwardStatus(
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
-    		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
-    		@ApiParam(name="WorkstationId", value="POSコード") @FormParam("WorkstationId") String WorkstationId,
+    		@ApiParam(name="RetailStoreId", value="店番号") @FormParam("RetailStoreId") String RetailStoreId,
+    		@ApiParam(name="WorkstationId", value="ターミナル番号") @FormParam("WorkstationId") String WorkstationId,
     		@ApiParam(name="SequenceNumber", value="取引番号") @FormParam("SequenceNumber") String SequenceNumber,
     		@ApiParam(name="Queue", value="キュー番号") @FormParam("Queue") String Queue,
-    		@ApiParam(name="BusinessDayDate", value="POS業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
-    		@ApiParam(name="TrainingFlag", value="トレーニングフラグ") @FormParam("TrainingFlag") String TrainingFlag,
-    		@ApiParam(name="Status", value="取引状態") @FormParam("Status") int Status) {
+    		@ApiParam(name="BusinessDayDate", value="業務日付") @FormParam("BusinessDayDate") String BusinessDayDate,
+    		@ApiParam(name="TrainingFlag", value="トレーニングモードフラグ") @FormParam("TrainingFlag") String TrainingFlag,
+    		@ApiParam(name="Status", value="ステータス") @FormParam("Status") int Status) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", CompanyId);
         tp.println("RetailStoreId", RetailStoreId);
@@ -650,7 +650,7 @@ public class ForwardItemListResource {
         }
         return resultBase;
     }
-    
+
     /**
      * 前捌き ユーザーの権限を取得
      *
@@ -662,22 +662,22 @@ public class ForwardItemListResource {
     @POST
     @Path("/userPermission")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="前捌き ユーザーの権限を取得", response=Operator.class)
+    @ApiOperation(value="前捌きユーザーの権限取得", response=Operator.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なリクエストパラメータ"),
     })
     public final Operator UserPermission(
     		@ApiParam(name="CompanyId", value="会社コード") @FormParam("CompanyId") String CompanyId,
-    		@ApiParam(name="RetailStoreId", value="店舗コード") @FormParam("RetailStoreId") String RetailStoreId,
-    		@ApiParam(name="WorkstationId", value="レジ番号") @FormParam("WorkstationId") String WorkstationId,
+    		@ApiParam(name="RetailStoreId", value="店番号") @FormParam("RetailStoreId") String RetailStoreId,
+    		@ApiParam(name="WorkstationId", value="ターミナル番号") @FormParam("WorkstationId") String WorkstationId,
     		@ApiParam(name="OperatorId", value="ユーザーID") @FormParam("OperatorId") String OperatorId) {
-    	
+
     	CredentialResource CredenRou = new CredentialResource();
     	Operator operator = CredenRou.getStatusOfOperator(CompanyId,OperatorId);
     	operator.setOperatorNo(OperatorId);
-    	
+
         return operator;
     }
 
@@ -696,7 +696,7 @@ public class ForwardItemListResource {
     @POST
     @Path("/SuspendWithTag")
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="タグ番号で前捌きデータ登録", response=ResultBase.class)
+    @ApiOperation(value="タグ番号による前捌きデータのアップロード", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -705,13 +705,13 @@ public class ForwardItemListResource {
     })
     public final ResultBase saveForwardPosLogIncludeTag(
     		@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
-    		@ApiParam(name="retailstoreid", value="小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") final String retailStoreId,
     		@ApiParam(name="queue", value="キュー番号") @FormParam("queue") final String queue,
-    		@ApiParam(name="workstationid", value="POSコード") @FormParam("workstationid") final String workstationId,
-    		@ApiParam(name="trainingmode", value="トレーニングモード") @FormParam("trainingmode") final String trainingMode,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
+    		@ApiParam(name="trainingmode", value="トレーニングモードフラグ") @FormParam("trainingmode") final String trainingMode,
     		@ApiParam(name="tag", value="タグ番号") @FormParam("tag") final String tag,
     		@ApiParam(name="total", value="合計金額") @FormParam("total") final String total,
-    		@ApiParam(name="poslogxml", value="Poslog Xml") @FormParam("poslogxml") final String posLogXml) {
+    		@ApiParam(name="poslogxml", value="POSLog (xmlデータ)") @FormParam("poslogxml") final String posLogXml) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
@@ -792,7 +792,7 @@ public class ForwardItemListResource {
         }
         return resultBase;
     }
-    
+
     /**
      * 	タグ番号で前捌きデータ取得
      *
@@ -811,15 +811,15 @@ public class ForwardItemListResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="取引データ未検出")
+            @ApiResponse(code=ResultBase.RES_ERROR_TXNOTFOUND, message="前捌きデータ取得エラー (見付からない)")
         })
     public final SearchForwardPosLog getForwardItemsWithTag(
     		@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="RetailStoreId", value="小売店コード") @QueryParam("RetailStoreId") final String retailStoreId,
+    		@ApiParam(name="RetailStoreId", value="店番号") @QueryParam("RetailStoreId") final String retailStoreId,
     		@ApiParam(name="Queue", value="キュー番号") @QueryParam("Queue") final String queue,
     		@ApiParam(name="Businessdaydate", value="業務日付") @QueryParam("Businessdaydate") final String businessDayDate,
     		@ApiParam(name="tag", value="タグ番号") @QueryParam("tag") final String tag,
-    		@ApiParam(name="trainingflag", value="トレーニングフラグ") @QueryParam("trainingflag") final String trainingFlag) {
+    		@ApiParam(name="trainingflag", value="トレーニングモードフラグ") @QueryParam("trainingflag") final String trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.println("CompanyId", companyId);
         tp.println("RetailStoreId", retailStoreId);

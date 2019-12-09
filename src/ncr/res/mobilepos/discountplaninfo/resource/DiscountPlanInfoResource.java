@@ -55,14 +55,14 @@ public class DiscountPlanInfoResource {
     @Path("/getSubtotalDiscount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="小計割引獲得", response=SubtotalDiscount.class)
+    @ApiOperation(value="小計割引理由のリストの取得", response=SubtotalDiscount.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
     })
     public final SubtotalDiscount getSubtotalDiscount() {
-    	
+
     	String functionName = DebugLogger.getCurrentMethodName();
 
     	SubtotalDiscount result = new SubtotalDiscount();

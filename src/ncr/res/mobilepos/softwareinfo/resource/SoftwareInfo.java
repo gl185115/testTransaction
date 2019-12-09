@@ -30,10 +30,10 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.softwareinfo.model.JavaFramework;
 import ncr.res.mobilepos.softwareinfo.model.OperatingSystemInfo;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareComponents;
 import ncr.res.mobilepos.softwareinfo.model.SoftwareVersion;
-import ncr.res.mobilepos.softwareinfo.model.JavaFramework;
 import ncr.res.mobilepos.softwareinfo.model.TomCatServer;
 import ncr.res.mobilepos.softwareinfo.model.WebApiSw;
 
@@ -43,7 +43,7 @@ import ncr.res.mobilepos.softwareinfo.model.WebApiSw;
  *
  */
 @Path("/softwareinfo")
-@Api(value="/softwareinfo", description="ソフトウェア情報API")
+@Api(value="/softwareinfo", description="ソフトウェアバージョン情報取得API")
 public class SoftwareInfo {
     private static final String PROG_NAME = "SofInf";
 
@@ -97,7 +97,7 @@ public class SoftwareInfo {
     @Path("/service")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="apiのウェブ版を得る", response=SoftwareVersion.class)
+    @ApiOperation(value="resTranactionのバージョンの取得", response=SoftwareVersion.class)
     @ApiResponses(value={})
     public final SoftwareVersion getWebAPIVersion() {
         String functionName = "SoftwareInfo.getWebAPIVersion";
@@ -129,7 +129,7 @@ public class SoftwareInfo {
     @Path("/server")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="トムキャットバージョンを取得する", response=SoftwareVersion.class)
+    @ApiOperation(value="TOMCATのバージョンの取得", response=SoftwareVersion.class)
     @ApiResponses(value={})
     public final SoftwareVersion getTomCatVersion() {
         tp.methodEnter("getTomCatVersion");
@@ -148,7 +148,7 @@ public class SoftwareInfo {
     @Path("/java")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="javaのバージョンを取得する", response=SoftwareVersion.class)
+    @ApiOperation(value="javaのバージョンの取得", response=SoftwareVersion.class)
     @ApiResponses(value={})
     public final SoftwareVersion getJavaVersion() {
       tp.methodEnter("getJavaVersion");
@@ -168,7 +168,7 @@ public class SoftwareInfo {
 	@Path("/operatingsystem")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value="オペレーティングシステム情報を取得", response=OperatingSystemInfo.class)
+	@ApiOperation(value="OS情報の取得", response=OperatingSystemInfo.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -194,7 +194,7 @@ public class SoftwareInfo {
     @Path("/getallsoftwareinfo")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="全ソフトウェア情報取得", response=SoftwareComponents.class)
+    @ApiOperation(value="全ソフトウェアバージョンの取得", response=SoftwareComponents.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })

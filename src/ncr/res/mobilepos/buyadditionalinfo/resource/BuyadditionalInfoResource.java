@@ -25,7 +25,7 @@ import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 @Path("/buyadditionalinfo")
-@Api(value="/buyadditionalinfo", description="購買補助情報API")
+@Api(value="/buyadditionalinfo", description="購買補助情報取得API")
 public class BuyadditionalInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -60,7 +60,7 @@ public class BuyadditionalInfoResource {
     })
     public final BuyadditionalInfoList getBuyadditionalInfo(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId) {
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
         	.println("companyId", companyId)

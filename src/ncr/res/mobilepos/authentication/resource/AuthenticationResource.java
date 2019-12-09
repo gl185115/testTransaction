@@ -5,12 +5,10 @@ import java.util.regex.Pattern;
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -27,10 +25,8 @@ import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.authentication.model.SignDetails;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
-import ncr.res.mobilepos.helper.ApiRestriction;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -93,8 +89,8 @@ public class AuthenticationResource {
     })
     public final DeviceStatus authenticateDevice(
             @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyid,
-            @ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeid,
-            @ApiParam(name="terminalid", value="端末コード") @PathParam("terminalid") final String terminalid,
+            @ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeid,
+            @ApiParam(name="terminalid", value="ターミナル番号") @PathParam("terminalid") final String terminalid,
             @ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
             @ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid) {
 
@@ -187,7 +183,7 @@ public class AuthenticationResource {
     @Path("/setSignatureActivationStatus")
     @POST
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="シグネチャーテータス設定", response=DeviceStatus.class)
+    @ApiOperation(value="シグネチャーステータス設定", response=DeviceStatus.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
@@ -195,11 +191,11 @@ public class AuthenticationResource {
     })
     public final DeviceStatus setSignatureActivationStatus(
     		@ApiParam(name="corpid", value="会社コード") @FormParam("corpid") final String corpId,
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
-    		@ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") final String terminalId,
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") final String terminalId,
     		@ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
     		@ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid,
-    		@ApiParam(name="signstatus", value="シグネチャーテータス") @FormParam("signstatus") final int signStatus,
+    		@ApiParam(name="signstatus", value="シグネチャーステータス") @FormParam("signstatus") final int signStatus,
     		@ApiParam(name="signtid", value="シグネチャーTID") @FormParam("signtid") final String signTid,
     		@ApiParam(name="signactivationkey", value="シグネチャー活性キー") @FormParam("signactivationkey") final String signActivationKey) {
         tp.methodEnter("setSignatureActivationStatus");

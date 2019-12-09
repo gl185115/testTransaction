@@ -17,7 +17,6 @@ import com.wordnik.swagger.annotations.ApiResponses;
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.discountplaninfo.dao.IPromotionInfoDAO;
-import ncr.res.mobilepos.discountplaninfo.model.SubtotalDiscount;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -52,20 +51,20 @@ public class PromotionInfoResource {
     @Path("/getPromotionInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="割引企画情報獲得", response=JSONData.class)
+    @ApiOperation(value="割引企画情報取得", response=JSONData.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ検索エラー（見つからない)"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
     })
     public final JSONData getPromotionInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId, 
     		@ApiParam(name="DiscountReason", value="割引理由コード") @QueryParam("DiscountReason") final String discountReason,
-    		@ApiParam(name="DiscountBarcodeType", value="割引バーコード") @QueryParam("DiscountBarcodeType") final String discountBarcodeType,
+    		@ApiParam(name="DiscountBarcodeType", value="割引バーコードタイプ") @QueryParam("DiscountBarcodeType") final String discountBarcodeType,
     		@ApiParam(name="PartialFlag", value="割引部分フラグ") @QueryParam("PartialFlag") final String partialFlag,
-    		@ApiParam(name="PriceDiscountFlag", value="額割引フラグ") @QueryParam("PriceDiscountFlag") final String priceDiscountFlag,
-    		@ApiParam(name="RateDiscountFlag", value="％割引フラグ") @QueryParam("RateDiscountFlag") final String rateDiscountFlag) {
+    		@ApiParam(name="PriceDiscountFlag", value="割引額フラグ") @QueryParam("PriceDiscountFlag") final String priceDiscountFlag,
+    		@ApiParam(name="RateDiscountFlag", value="割引率フラグ") @QueryParam("RateDiscountFlag") final String rateDiscountFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)
                 .println("DiscountReason", discountReason).println("DiscountBarcodeType", discountBarcodeType)

@@ -28,7 +28,7 @@ import ncr.res.mobilepos.poslogstatus.dao.IPoslogStatusDAO;
 import ncr.res.mobilepos.poslogstatus.model.PoslogStatusInfo;
 
 @Path("/poslogstatus")
-@Api(value="/poslogstatus", description="poslogステータスAPI")
+@Api(value="/poslogstatus", description="未処理POSLog件数取得API")
 public class PoslogStatusResource {
 
 	/**
@@ -70,7 +70,7 @@ public class PoslogStatusResource {
     @Path("/check")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="未処理件数取得", response=PoslogStatusInfo.class)
+    @ApiOperation(value="POSLogの集計や転送の未処理件数取得", response=PoslogStatusInfo.class)
     @ApiResponses(value={
     	    @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     	    @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -79,7 +79,7 @@ public class PoslogStatusResource {
     public final PoslogStatusInfo checkResultCount(
             @ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
             @ApiParam(name="retailStoreId", value="店番号") @QueryParam("retailStoreId") final String retailStoreId,
-            @ApiParam(name="businessDayDate", value="営業日") @QueryParam("businessDayDate") final String businessDayDate,
+            @ApiParam(name="businessDayDate", value="業務日付") @QueryParam("businessDayDate") final String businessDayDate,
             @ApiParam(name="consolidation", value="Consolidationフラグ") @QueryParam("consolidation") final boolean consolidation,
             @ApiParam(name="transfer", value="POSLog転送フラグ") @QueryParam("transfer") final boolean transfer) {
     	String functionName = DebugLogger.getCurrentMethodName();

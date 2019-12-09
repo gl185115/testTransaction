@@ -186,15 +186,15 @@ public class PromotionResource {
 	@Path("/begin_transaction")
 	@POST
 	@Produces("application/json;charset=UTF-8")
-	@ApiOperation(value = "プロモーション取引開始", response = ResultBase.class)
+	@ApiOperation(value = "プロモーション取引開始リクエスト", response = ResultBase.class)
 	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
-			@ApiResponse(code = ResultBase.RES_PROMOTION_DATE_INVALID, message = "プロモーション日付無効") })
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正"),
+			@ApiResponse(code = ResultBase.RES_PROMOTION_DATE_INVALID, message = "プロモーション日付が無効") })
 	public final ResultBase beginTransaction(
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
-			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNo,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNo,
 			@ApiParam(name = "companyid", value = "会社コード") @FormParam("companyid") final String companyid,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -256,16 +256,16 @@ public class PromotionResource {
 	@Path("/end_transaction")
 	@POST
 	@Produces("application/json;charset=UTF-8")
-	@ApiOperation(value = "プロモーション取引終了", response = ResultBase.class)
+	@ApiOperation(value = "プロモーション取引終了リクエスト", response = ResultBase.class)
 	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.RES_PROMOTION_ENDTRANSACTION_FAILED, message = "取引終了失敗"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
+			@ApiResponse(code = ResultBase.RES_PROMOTION_ENDTRANSACTION_FAILED, message = "取引終了処理失敗"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正"),
 			@ApiResponse(code = ResultBase.RES_PROMOTION_DATE_INVALID, message = "プロモーション日付無効") })
 	public final ResultBase endTransaction(
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
-			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String jsonTransaction) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("RetailStoreID", retailStoreId).println("WorkStationID", workStationId)
@@ -348,17 +348,17 @@ public class PromotionResource {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@ApiOperation(value = "プロモーション商品読取", response = PromotionResponse.class)
 	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "取引番号不一致"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが無効") })
 	public final PromotionResponse itemEntry(
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
-			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "priceCheck", value = "価格照会フラグ") @FormParam("priceCheck") final String priceCheck,
-			@ApiParam(name = "businessDate", value = "営業日") @FormParam("businessDate") final String businessDate) {
+			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
@@ -1535,16 +1535,16 @@ public class PromotionResource {
 	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
 			@ApiResponse(code = ResultBase.RES_ERROR_DAO, message = "DAOエラー"),
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "取引番号不一致"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正") })
 	public final PromotionResponse itemMixMatchInfobySku(
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
-			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
-			@ApiParam(name = "transaction", value = "業務") @FormParam("transaction") final String transaction,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transaction,
 			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
-			@ApiParam(name = "businessDate", value = "営業日") @FormParam("businessDate") final String businessDate) {
+			@ApiParam(name = "businessDate", value = "業務日付") @FormParam("businessDate") final String businessDate) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("RetailStoreId", retailStoreId).println("WorkstationId", workStationId)
 				.println("SequenceNumber", sequenceNumber).println("Transaction", transaction)
@@ -2168,15 +2168,15 @@ public class PromotionResource {
 	@Path("/item_update")
 	@POST
 	@Produces("application/json;charset=UTF-8")
-	@ApiOperation(value = "取引商品更新", response = PromotionResponse.class)
-	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_PARSE, message = "解析エラー"),
+	@ApiOperation(value = "取引商品情報更新", response = PromotionResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_PARSE, message = "データ解析エラー"),
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "マッチング取引ができない"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "取引番号不一致"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正") })
 	public final PromotionResponse itemUpdate(
-			@ApiParam(name = "retailstoreid", value = "小売店コード") @FormParam("retailstoreid") final String retailStoreId,
+			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
-			@ApiParam(name = "sequencenumber", value = "シリアルナンバー") @FormParam("sequencenumber") final String sequenceNumber,
+			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
 			@ApiParam(name = "transaction", value = "取引情報") @FormParam("transaction") final String transactionJson) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -2276,13 +2276,13 @@ public class PromotionResource {
 	@Produces("application/json;charset=UTF-8")
 	@Path("/getQrCodeInfoList")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@ApiOperation(value = "QRCODE情報を取得", response = Promotion.class)
+	@ApiOperation(value = "QRCODE情報の取得", response = Promotion.class)
 	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "取引番号不一致"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正") })
 	public final Promotion getQrCodeInfoList(
-			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,
@@ -2692,13 +2692,13 @@ public class PromotionResource {
 	@Produces("application/json;charset=UTF-8")
 	@Path("/getPromotionMessageList")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@ApiOperation(value = "販促メッセージ情報を取得", response = Promotion.class)
+	@ApiOperation(value = "販促メッセージ情報の取得", response = Promotion.class)
 	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "一致する取引無し"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常"),
-			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ") })
+			@ApiResponse(code = ResultBase.PROMOTION.NO_MATCHING_TRANSACTION, message = "取引番号不一致"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー"),
+			@ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正") })
 	public final Promotion getPromotionMessageList(
-			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
 			@ApiParam(name = "retailstoreid", value = "店番号") @FormParam("retailstoreid") final String retailStoreId,
 			@ApiParam(name = "workstationid", value = "ターミナル番号") @FormParam("workstationid") final String workStationId,
 			@ApiParam(name = "sequencenumber", value = "取引番号") @FormParam("sequencenumber") final String sequenceNumber,

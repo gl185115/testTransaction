@@ -1,32 +1,30 @@
 // Copyright (c) 2015 NCR Japan Ltd.
 package ncr.res.mobilepos.eventlog.resource;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import java.sql.SQLException;
+
 import javax.servlet.ServletContext;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.FormParam;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.POST;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-import ncr.realgate.util.Snap;
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponses;
+
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.eventlog.dao.IEventLogDAO;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
-import ncr.res.mobilepos.helper.SnapLogger;
 import ncr.res.mobilepos.model.ResultBase;
 
 /**
@@ -78,15 +76,16 @@ public class EventLogResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
-    @ApiOperation(value="イベントログ保存", response=ResultBase.class)
+    @ApiOperation(value="取引のイベントログの保存", response=ResultBase.class)
     @ApiResponses(value={
     })
-    public ResultBase log(@FormParam("companyId") String companyId,
-                          @ApiParam(name="retailStoreId", value="店舗コード") @FormParam("retailStoreId") String retailStoreId,
-                          @ApiParam(name="workstationId", value="端末コード") @FormParam("workstationId") String workstationId,
-                          @ApiParam(name="training", value="トレーニング") @FormParam("training") int training,
-                          @ApiParam(name="sequenceNumber", value="連番") @FormParam("sequenceNumber") int sequenceNumber,
-                          @ApiParam(name="businessDayDate", value="営業日") @FormParam("businessDayDate") String businessDayDate,
+    public ResultBase log(
+                          @ApiParam(name="companyId", value="会社コード") @FormParam("companyId") String companyId,
+                          @ApiParam(name="retailStoreId", value="店番号") @FormParam("retailStoreId") String retailStoreId,
+                          @ApiParam(name="workstationId", value="ターミナル番号") @FormParam("workstationId") String workstationId,
+                          @ApiParam(name="training", value="トレーニングモードフラグ") @FormParam("training") int training,
+                          @ApiParam(name="sequenceNumber", value="取引番号") @FormParam("sequenceNumber") int sequenceNumber,
+                          @ApiParam(name="businessDayDate", value="業務日付") @FormParam("businessDayDate") String businessDayDate,
                           @ApiParam(name="eventlog", value="イベントログ") @FormParam("eventlog") String eventLog) {
         return log(companyId, retailStoreId, workstationId, training, sequenceNumber, 0,
                    businessDayDate, eventLog);
@@ -108,17 +107,17 @@ public class EventLogResource {
     @POST
     @Consumes("application/x-www-form-urlencoded")
     @Produces({ MediaType.APPLICATION_XML + ";charset=UTF-8" })
-    @ApiOperation(value="イベントログ保存", response=ResultBase.class)
+    @ApiOperation(value="取引のイベントログ(特定の子番号)の保存", response=ResultBase.class)
     @ApiResponses(value={
     })
     public ResultBase log(
-            @ApiParam(name="companyId", value="企業コード") @FormParam("companyId") String companyId,
-            @ApiParam(name="retailStoreId", value="店舗コード") @FormParam("retailStoreId") String retailStoreId,
-            @ApiParam(name="workstationId", value="端末コード") @FormParam("workstationId") String workstationId,
-            @ApiParam(name="training", value="トレーニング") @FormParam("training") int training,
+            @ApiParam(name="companyId", value="会社コード") @FormParam("companyId") String companyId,
+            @ApiParam(name="retailStoreId", value="店番号") @FormParam("retailStoreId") String retailStoreId,
+            @ApiParam(name="workstationId", value="ターミナル番号") @FormParam("workstationId") String workstationId,
+            @ApiParam(name="training", value="トレーニングモードフラグ") @FormParam("training") int training,
             @ApiParam(name="sequenceNumber", value="取引番号") @FormParam("sequenceNumber") int sequenceNumber,
             @ApiParam(name="childNumber", value="取引内子番号") @PathParam("childNumber") int childNumber,
-            @ApiParam(name="businessDayDate", value="営業日") @FormParam("businessDayDate") String businessDayDate,
+            @ApiParam(name="businessDayDate", value="業務日付") @FormParam("businessDayDate") String businessDayDate,
             @ApiParam(name="eventlog", value="イベントログ") @FormParam("eventlog") String eventLog) {
         tp.methodEnter("log");
         tp.println("companyId", companyId);
@@ -159,14 +158,15 @@ public class EventLogResource {
     @Path("/{companyId}/{retailStoreId}/{workstationId}/{training}/{sequenceNumber}")
     @GET
     @Produces({ MediaType.APPLICATION_JSON})
-    @ApiOperation(value="イベントログ検索", response=String.class)
+    @ApiOperation(value="イベントログの検索", response=String.class)
     @ApiResponses(value={
     })
-    public String read(@PathParam("companyId") String companyId,
-                       @ApiParam(name="retailStoreId", value="店舗コード") @PathParam("retailStoreId") String retailStoreId,
-                       @ApiParam(name="workstationId", value="端末コード") @PathParam("workstationId") String workstationId,
-                       @ApiParam(name="training", value="トレーニング") @PathParam("training") int training,
-                       @ApiParam(name="sequenceNumber", value="連番") @PathParam("sequenceNumber") int sequenceNumber) {
+    public String read(
+                       @ApiParam(name="companyId", value="会社コード") @PathParam("companyId") String companyId,
+                       @ApiParam(name="retailStoreId", value="店番号") @PathParam("retailStoreId") String retailStoreId,
+                       @ApiParam(name="workstationId", value="ターミナル番号") @PathParam("workstationId") String workstationId,
+                       @ApiParam(name="training", value="トレーニングモードフラグ") @PathParam("training") int training,
+                       @ApiParam(name="sequenceNumber", value="取引番号") @PathParam("sequenceNumber") int sequenceNumber) {
         tp.methodEnter("read");
         try {
             return tp.methodExit(getDAO().load(companyId, retailStoreId, workstationId, training, sequenceNumber));

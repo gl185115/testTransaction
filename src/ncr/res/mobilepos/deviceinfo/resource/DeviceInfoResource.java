@@ -60,7 +60,7 @@ import ncr.res.mobilepos.tillinfo.model.ViewTill;
  *
  */
 @Path("/deviceinfo")
-@Api(value="/deviceinfo", description="端末関連API")
+@Api(value="/deviceinfo", description="デバイス(ターミナル)情報関連API")
 public class DeviceInfoResource {
     /**
      * Logging handler.
@@ -149,18 +149,18 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/{companyid}/{retailstoreid}/{deviceid}/{trainingmode}")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="デバイス情報取得", response=ViewDeviceInfo.class)
+    @ApiOperation(value="デバイス(ターミナル)情報取得", response=ViewDeviceInfo.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="引数無効"),
-            @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="デバイス情報無し")
+            @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+            @ApiResponse(code=ResultBase.RESDEVCTL_NOTFOUND, message="デバイス(ターミナル)情報無し")
     })
     public final ViewDeviceInfo getDeviceInfo(
             @ApiParam(name="companyid", value="企業コード") @PathParam("companyid") final String companyId,
-            @ApiParam(name="retailstoreid", value="店舗コード") @PathParam("retailstoreid") final String retailStoreID,
-            @ApiParam(name="deviceid", value="デバイスコード") @PathParam("deviceid") final String deviceID,
-            @ApiParam(name="trainingmode", value="トレーニングモード") @PathParam("trainingmode") final int trainingMode) {
+            @ApiParam(name="retailstoreid", value="店番号") @PathParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="deviceid", value="ターミナル番号") @PathParam("deviceid") final String deviceID,
+            @ApiParam(name="trainingmode", value="トレーニングモードフラグ") @PathParam("trainingmode") final int trainingMode) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)
@@ -242,13 +242,13 @@ public class DeviceInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクは見つからない"),
-        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_LINK_NOTFOUND, message="リンクが見つからない"),
+        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="リンクタイプが不正"),
     })
 	public final ViewPosLinkInfo getLinkItem(
 			@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
-			@ApiParam(name="retailstoreid", value="店舗コード") @PathParam("retailstoreid") final String storeId,
+			@ApiParam(name="retailstoreid", value="店番号") @PathParam("retailstoreid") final String storeId,
 			@ApiParam(name="poslinkid", value="posリンクコード") @PathParam("poslinkid") final String posLinkId) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
@@ -337,21 +337,21 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/link/{linktype}/list")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="リンクリストを取得", response=POSLinks.class)
+    @ApiOperation(value="リンクリストの取得", response=POSLinks.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="無効なリンクタイプ"),
-        @ApiResponse(code=ResultBase.RES_LINK_LISTEMPTY, message="リンクリストは空き")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_LINK_TYPEINVALID, message="リンクタイプが無効"),
+        @ApiResponse(code=ResultBase.RES_LINK_LISTEMPTY, message="リンクリストが空")
     })
     public final POSLinks getLinksList(
     		@ApiParam(name="linktype", value="リンクタイプ") @PathParam("linktype") final String linkType,
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeId,
     		@ApiParam(name="key", value="検索キー") @QueryParam("key") final String key,
     		@ApiParam(name="name", value="検索名") @QueryParam("name") final String name,
-    		@ApiParam(name="limit", value="制限数") @QueryParam("limit") final int limit) {
+    		@ApiParam(name="limit", value="最大リスト返送数") @QueryParam("limit") final int limit) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("linktype", linkType)
@@ -445,16 +445,16 @@ public class DeviceInfoResource {
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getalltills")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="すべてのドゥローアを取得する", response=ViewTill.class)
+    @ApiOperation(value="全てのドロア(Till)情報の取得", response=ViewTill.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final ViewTill getAllTills(
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeid,
+    		@ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeid,
     		@ApiParam(name="key", value="検索キー") @QueryParam("key") final String key,
-    		@ApiParam(name="limit", value="制限数") @QueryParam("limit") final int limit) {
+    		@ApiParam(name="limit", value="最大返送数") @QueryParam("limit") final int limit) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("storeid", storeid)
 				.println("key", key).println("limit", limit);
@@ -501,20 +501,20 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getattribute")
-    @ApiOperation(value="属性情報を得る", response=ResultBase.class)
+    @ApiOperation(value="属性情報の取得", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="属性情報検索エラー(見付からない)")
 
     })
     public final ResultBase getAttribute(
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="terminalId", value="端末番号") @QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId,
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="training", value="トレーニングフラグ") @QueryParam("training") final String training) {
+    		@ApiParam(name="training", value="トレーニングモードフラグ") @QueryParam("training") final String training) {
 		final String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("storeid", storeId)
@@ -586,19 +586,19 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getdeviceattribute")
-    @ApiOperation(value="端末属性情報を得る", response=DeviceAttribute.class)
+    @ApiOperation(value="ターミナルの属性情報の取得", response=DeviceAttribute.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="属性情報検索エラー(見付からない)")
 
     })
     public final DeviceAttribute getDeviceAttribute(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="terminalId", value="端末番号") @QueryParam("terminalId") final String terminalId) {
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
 
 		String functionName = DebugLogger.getCurrentMethodName();
 
@@ -649,18 +649,18 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getterminalinfo")
-    @ApiOperation(value="取得端末情報", response=ViewTerminalInfo.class)
+    @ApiOperation(value="ターミナル情報の取得", response=ViewTerminalInfo.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データベース情報は見つからない")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="ターミナル情報取得エラー(見つからない)")
     })
     public final ViewTerminalInfo getTerminalInfo(
     	@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    	@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    	@ApiParam(name="terminalId", value="端末コード") @QueryParam("terminalId") final String terminalId) {
+    	@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    	@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName);
 		tp.println("companyId", companyId)
@@ -712,18 +712,18 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getdevicestatus")
-    @ApiOperation(value="取得端末状態", response=ResultBase.class)
+    @ApiOperation(value="ターミナル状態の取得", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="無効な営業日"),
-        @ApiResponse(code=ResultBase.RES_TERMINAL_NOT_WORKING, message="端末が仕事をしない")
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正"),
+        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="業務日付が無効"),
+        @ApiResponse(code=ResultBase.RES_TERMINAL_NOT_WORKING, message="ターミナル未稼働")
     })
     public final ResultBase getDeviceStatus(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="terminalId", value="端末コード") @QueryParam("terminalId") final String terminalId) {
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
         final String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
                 .println("companyId", companyId)
@@ -784,17 +784,17 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getworkingdevices")
-    @ApiOperation(value="使用中の端末情報を得る", response=ResultBase.class)
+    @ApiOperation(value="稼働しているターミナル情報の取得", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="無効な営業日"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="業務日付が無効"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="リクエストパラメータが不正")
     })
     public final ResultBase getWorkingDevices(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="terminalId", value="端末NO") @QueryParam("terminalId") final String terminalId) {
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="terminalId", value="ターミナル番号") @QueryParam("terminalId") final String terminalId) {
         final String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
                 .println("companyId", companyId)
@@ -857,12 +857,12 @@ public class DeviceInfoResource {
     @GET
     @Produces({MediaType.APPLICATION_JSON })
     @Path("/getdeviceindicators")
-    @ApiOperation(value="インジケーター情報を得る", response=ResultBase.class)
+    @ApiOperation(value="デバイスインジケーター情報の取得", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="無効な営業日"),
-        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効のパラメータ")
+        @ApiResponse(code=ResultBase.RES_NO_BIZDATE, message="業務日付が無効"),
+        @ApiResponse(code=ResultBase.RESDEVCTL_INVALIDPARAMETER, message="無効なパラメータ")
     })
     public final Indicators getDeviceIndicators(
             @ApiParam(name="attributeid", value="ターミナル") @QueryParam("attributeid") final String attributeid) {

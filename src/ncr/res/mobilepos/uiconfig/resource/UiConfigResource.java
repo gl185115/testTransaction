@@ -77,7 +77,7 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}")
     @GET
     @Produces({"application/javascript;charset=UTF-8"})
-    @ApiOperation(value="リソースファイル取得", response=Response.class)
+    @ApiOperation(value="各種リソースファイルの取得", response=Response.class)
     /**
      * Finds appropriate config file and returns the content as String.
      */
@@ -389,7 +389,7 @@ public class UiConfigResource {
     @Path("/custom/{typeParam}/images/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
-    @ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
+    @ApiOperation(value="各種カスタムイメージファイルの取得", response=Response.class)
     public final Response requestTypeParamCustomImage(
             @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
             @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
@@ -450,7 +450,7 @@ public class UiConfigResource {
     @Path("/custom/images/{typeParam}/{filename}")
     @GET
     @Produces({"image/png", "image/jpg"})
-    @ApiOperation(value="カスタムイメージファイル取得", response=Response.class)
+    @ApiOperation(value="各種カスタムイメージファイルの取得(未使用)", response=Response.class)
     public final Response requestCustomTypeParamImage(
             @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
             @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {

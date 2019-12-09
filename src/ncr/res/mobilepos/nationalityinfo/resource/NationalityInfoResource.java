@@ -57,7 +57,7 @@ public class NationalityInfoResource {
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })
 	public final NationalityInfoList getNationalityInfo(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-			@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId) {
+			@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("companyId", companyId).println("storeId", storeId);
 		NationalityInfoList nationalityInfo = new NationalityInfoList();

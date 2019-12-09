@@ -50,7 +50,7 @@ import ncr.res.mobilepos.systemsetting.model.TerminalInfo;
  * for System Setting.
  */
 @Path("/SystemSettings")
-@Api(value="/SystemSettings", description="システムの設定API")
+@Api(value="/SystemSettings", description="システム設定関連API")
 public class SystemSettingResource {
 
     /**
@@ -108,15 +108,15 @@ public class SystemSettingResource {
     @POST
     @Path("/DateSettings/get")
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="日付設定取得", response=SystemSetting.class)
+    @ApiOperation(value="業務日付取得", response=SystemSetting.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RESSYS_ERROR_NO_SETTINGS_FOUND, message="システム設定データが見つからない"),
+    		@ApiResponse(code=ResultBase.RESSYS_ERROR_NO_SETTINGS_FOUND, message="業務日付取得エラー (見付からない)"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final SystemSetting getDateSetting(
     		@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@FormParam("storeid") final String storeId) {
+    		@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId) {
         String functionname = "SystemSettingResource.getDateSetting";
         DateSetting dateSetting;
         SystemSetting systemSetting = new SystemSetting();
@@ -171,7 +171,7 @@ public class SystemSettingResource {
     @GET
     @Path("/DateSettings/getcurrentdatetime")
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="現在日時取得", response=DateTime.class)
+    @ApiOperation(value="システム時刻の取得", response=DateTime.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -210,11 +210,11 @@ public class SystemSettingResource {
 	@POST
 	@Path("/ping")
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value = "PingIPAddress", response = ResultBase.class)
+	@ApiOperation(value = "PING実行要求", response = ResultBase.class)
 	@ApiResponses(value = {
-			@ApiResponse(code = ResultBase.RES_OK, message = "IPAddress is reachable"),
-			@ApiResponse(code = ResultBase.RES_ERROR_PING, message = "IpAddress is not reachable"),
-			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "Network error"),
+			@ApiResponse(code = ResultBase.RES_OK, message = "Ping OK"),
+			@ApiResponse(code = ResultBase.RES_ERROR_PING, message = "宛先に到達出来ない"),
+			@ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "ネットワークエラー"),
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="汎用エラー")})
 	public final ResultBase ping(
 			@ApiParam(name = "ipaddress", value = "ipaddress") @FormParam("ipaddress") final String ipAddress) {
@@ -276,7 +276,7 @@ public class SystemSettingResource {
 	@GET
 	@Path("/getMeXHostTerminalInfo")
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value = "MeXHostTerminalInfo", response = TerminalInfo.class)
+	@ApiOperation(value = "このPOSのターミナル情報(会社コード/店番号/ターミナル番号)の取得", response = TerminalInfo.class)
 	@ApiResponses(value = {
 			@ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message="汎用エラー")})
 	public final TerminalInfo getMeXHostTerminalInfo() {
@@ -314,7 +314,7 @@ public class SystemSettingResource {
     @GET
     @Path("/ReloadMasterTables")
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="メモリー再展開チェック", response=ResultBase.class)
+    @ApiOperation(value="マスターテーブル再読み込み要求", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
@@ -382,7 +382,7 @@ public class SystemSettingResource {
         })
     public final ResultBase updateDateSetting(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店番号") @QueryParam("storeid") final String storeId,
     		@ApiParam(name="bizdate", value="業務日付") @QueryParam("bizdate") final String bizDate) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

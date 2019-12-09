@@ -41,7 +41,7 @@ import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
  * @author RD185102
  */
 @Path("/departmentinfo")
-@Api(value="/departmentinfo", description="部門情報API")
+@Api(value="/departmentinfo", description="部門情報取得API")
 public class DepartmentResource {
 	/**
      * context.
@@ -110,9 +110,9 @@ public class DepartmentResource {
     @Path("/detail")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="部門詳細取得", response=ViewDepartment.class)
+    @ApiOperation(value="部門詳細情報の取得", response=ViewDepartment.class)
     @ApiResponses(value={
-        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門未検出エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門コード検索エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -120,7 +120,7 @@ public class DepartmentResource {
     })
     public final ViewDepartment selectDepartmentDetail(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyID,
-    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String retailStoreID,
     		@ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentID) {
 
         tp.methodEnter("selectDepartmentDetail");
@@ -185,16 +185,16 @@ public class DepartmentResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="部門一覧取得", response=DepartmentList.class)
+    @ApiOperation(value="部門リストの取得", response=DepartmentList.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門未検出エラー"),
+        @ApiResponse(code=ResultBase.RES_ERROR_DPTNOTFOUND, message="部門検索エラー"),
     })
     public final DepartmentList listDepartments(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
-    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String storeId,
+    		@ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String storeId,
     		@ApiParam(name="key", value="部門コード") @QueryParam("key") final String key,
     		@ApiParam(name="name", value="部門名称") @QueryParam("name") final String name,
     		@ApiParam(name="limit", value="最大取得件数") @QueryParam("limit") final int limit) {

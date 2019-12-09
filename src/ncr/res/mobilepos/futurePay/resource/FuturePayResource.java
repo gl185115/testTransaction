@@ -50,7 +50,7 @@ import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
  * search customer.
  */
 @Path("/futurePay")
-@Api(value = "/futurePay", description = "会員API")
+@Api(value = "/futurePay", description = "会員情報API")
 public class FuturePayResource {
 
     /** The instance of the trace debug printer. */
@@ -89,14 +89,14 @@ public class FuturePayResource {
     @Path("/get")
     @GET
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
-    @ApiOperation(value = "会員情報取得する", response = FuturePayReturnBean.class)
+    @ApiOperation(value = "会員情報取得", response = FuturePayReturnBean.class)
     @ApiResponses(value = {@ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
-            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データは見つからない"),
+            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正"),
+            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データ検索エラー(見つからない)"),
             @ApiResponse(code = ResultBase.RES_MALFORMED_URL_EXCEPTION, message = "URL異常"),
-            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
+            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "リモートホストへの接続失敗"),
+            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー")})
     public final FuturePayReturnBean get(
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
             @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
@@ -264,19 +264,19 @@ public class FuturePayResource {
     @Path("/update")
     @GET
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
-    @ApiOperation(value = "会員情報更新する", response = FuturePayReturnBean.class)
+    @ApiOperation(value = "会員情報の更新", response = FuturePayReturnBean.class)
     @ApiResponses(value = {@ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
-            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データは見つからない"),
+            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正"),
+            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データ検索エラー (見つからない)"),
             @ApiResponse(code = ResultBase.RES_MALFORMED_URL_EXCEPTION, message = "URL異常"),
-            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
+            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "リモートホストへの接続エラー"),
+            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー")})
     public final FuturePayReturnBean update(@ApiParam(name = "api", value = "API") @QueryParam("api") final String api,
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
             @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
-            @ApiParam(name = "businessDate", value = "日付") @QueryParam("businessDate") final String businessDate,
-            @ApiParam(name = "sequenceNumber", value = "取引No") @QueryParam("sequenceNumber") final String sequenceNumber,
+            @ApiParam(name = "businessDate", value = "業務日付") @QueryParam("businessDate") final String businessDate,
+            @ApiParam(name = "sequenceNumber", value = "取引番号") @QueryParam("sequenceNumber") final String sequenceNumber,
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
             @ApiParam(name = "pin_code", value = "PINコード") @QueryParam("pin_code") final String pin_code,
@@ -507,19 +507,19 @@ public class FuturePayResource {
     @Path("/history")
     @GET
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8"})
-    @ApiOperation(value = "会員履歴情報取得する", response = FuturePayReturnBean.class)
+    @ApiOperation(value = "会員履歴情報取得", response = FuturePayReturnBean.class)
     @ApiResponses(value = {@ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
-            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データは見つからない"),
+            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正"),
+            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データ検索エラー (見つからない)"),
             @ApiResponse(code = ResultBase.RES_MALFORMED_URL_EXCEPTION, message = "URL異常"),
-            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
+            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "リモートホストへの接続エラー"),
+            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー")})
     public final FuturePayReturnBean update(
             @ApiParam(name = "terminal_code", value = "端末コード") @QueryParam("terminal_code") final String terminal_code,
             @ApiParam(name = "card_no", value = "カード番号") @QueryParam("card_no") final String card_no,
-            @ApiParam(name = "businessDate", value = "日付") @QueryParam("businessDate") final String businessDate,
-            @ApiParam(name = "sequenceNumber", value = "取引No") @QueryParam("sequenceNumber") final String sequenceNumber,
+            @ApiParam(name = "businessDate", value = "業務日付") @QueryParam("businessDate") final String businessDate,
+            @ApiParam(name = "sequenceNumber", value = "取引番号") @QueryParam("sequenceNumber") final String sequenceNumber,
             @ApiParam(name = "transactionType", value = "取引種別") @QueryParam("transactionType") final String transactionType,
             @ApiParam(name = "retryTime", value = "リトライ回数") @QueryParam("retryTime") final String retryTime,
             @ApiParam(name = "slip_no", value = "伝票番号") @QueryParam("slip_no") final String slip_no,
@@ -693,15 +693,15 @@ public class FuturePayResource {
     @ApiOperation(value = "クーポン消し込み処理", response = FuturePayReturnBean.class)
     @ApiResponses(value = {@ApiResponse(code = ResultBase.RES_ERROR_DB, message = "データベースエラー"),
             @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"),
-            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効のパラメータ"),
-            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データは見つからない"),
+            @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "リクエストパラメータが不正"),
+            @ApiResponse(code = ResultBase.RES_ERROR_NODATAFOUND, message = "データ検索エラー (見つからない)"),
             @ApiResponse(code = ResultBase.RES_MALFORMED_URL_EXCEPTION, message = "URL異常"),
-            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "IO異常")})
+            @ApiResponse(code = ResultBase.RES_ERROR_UNKNOWNHOST, message = "リモートホストへの接続エラー"),
+            @ApiResponse(code = ResultBase.RES_ERROR_IOEXCEPTION, message = "I/Oエラー")})
     public final FuturePayReturnBean couponDelete(
-            @ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
-            @ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
-            @ApiParam(name = "terminalId", value = "端末コード") @FormParam("terminalId") final String terminalId,
+            @ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
+            @ApiParam(name = "storeId", value = "店番号") @FormParam("storeId") final String storeId,
+            @ApiParam(name = "terminalId", value = "ターミナル番号") @FormParam("terminalId") final String terminalId,
             @ApiParam(name = "couponId", value = "クーポン番号") @FormParam("couponId") final String couponId,
             @ApiParam(name = "memberId", value = "会員番号") @FormParam("memberId") final String memberId) {
 

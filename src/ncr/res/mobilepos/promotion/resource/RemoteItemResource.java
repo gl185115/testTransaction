@@ -1,8 +1,5 @@
 package ncr.res.mobilepos.promotion.resource;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Map;
@@ -15,6 +12,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.constant.GlobalConstant;
@@ -39,7 +39,7 @@ import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
  */
 
 @Path("/remoteitem")
-@Api(value="/remoteitem", description="è§ïièÓïÒAPI")
+@Api(value="/remoteitem", description="è§ïièÓïÒéÊìæAPI")
 public class RemoteItemResource {
     /**
     /** A private member variable used for logging the class implementations. */

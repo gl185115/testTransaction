@@ -47,21 +47,21 @@ public class SettlementResource {
     @Path("/getvoucherlist")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="商品券リスト取得", response=SettlementInfo.class)
+    @ApiOperation(value="商品券リストの取得", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ検索エラー (見付からない)"),
         })
     public final SettlementInfo getVoucherList(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
-    		@ApiParam(name="tillid", value="ドロワーコード")@QueryParam("tillId") final String tillId,
-    		@ApiParam(name="terminalId", value="端末番号")@QueryParam("terminalId") final String terminalId,
-    		@ApiParam(name="businessDayDate", value="営業日")@QueryParam("businessDayDate") final String businessDayDate,
-    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
+    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="tillid", value="ドロワーId")@QueryParam("tillId") final String tillId,
+    		@ApiParam(name="terminalId", value="ターミナル番号")@QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="businessDayDate", value="業務日付")@QueryParam("businessDayDate") final String businessDayDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
         	.println("companyId", companyId)
@@ -123,17 +123,17 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="トランザクション数取得", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ検索エラー (見付からない)"),
         })
     public final SettlementInfo getTransactionCount(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name="txtype", value="取引種別")@QueryParam("txtype") final String txtype,
-    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
+    		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)
@@ -181,19 +181,19 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="取引数取得", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ検索エラー (見付からない)"),
         })
     public final SettlementInfo getTxCountByBusinessDate(
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId,
     		@ApiParam(name = "workstationid", value = "ターミナル番号")@QueryParam("workstationid") final String workStationId,
     		@ApiParam(name="txtype", value="取引種別")@QueryParam("txtype") final String txtype,
-    		@ApiParam(name = "businessDate", value = "営業日") @QueryParam("businessDate") final String businessDate,
-    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
+    		@ApiParam(name = "businessDate", value = "業務日付") @QueryParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@QueryParam("trainingFlag") final int trainingFlag) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)
@@ -243,19 +243,19 @@ public class SettlementResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="クレジット情報取得", response=SettlementInfo.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_CREDIT_SUMMARY_NOT_FOUND, message="特定営業日の日付ためにクレジットサマリーが見つからない"),
+            @ApiResponse(code=ResultBase.RES_CREDIT_SUMMARY_NOT_FOUND, message="指定した業務日付のクレジット情報が見つからない"),
         })
     public final SettlementInfo getCredit(
     		@ApiParam(name="companyId", value="会社コード")@FormParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗番号")@FormParam("storeId") final String storeId,
-    		@ApiParam(name="tillId", value="ドロワーコード")@FormParam("tillId") final String tillId,
-    		@ApiParam(name="terminalId", value="端末番号")@FormParam("terminalId") final String terminalId,
-    		@ApiParam(name="businessDate", value="営業日")@FormParam("businessDate") final String businessDate,
-    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag,
+    		@ApiParam(name="storeId", value="店番号")@FormParam("storeId") final String storeId,
+    		@ApiParam(name="tillId", value="ドロワーId")@FormParam("tillId") final String tillId,
+    		@ApiParam(name="terminalId", value="ターミナル番号")@FormParam("terminalId") final String terminalId,
+    		@ApiParam(name="businessDate", value="業務日付")@FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@FormParam("trainingFlag") final int trainingFlag,
     		@ApiParam(name="dataType", value="データ種別")@FormParam("dataType") final String dataType,
     		@ApiParam(name="itemLevel1", value="項目レベル１")@FormParam("itemLevel1")final String itemLevel1){
         
@@ -319,17 +319,17 @@ public class SettlementResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@ApiOperation(value="金種集計情報取得", response=SettlementInfo.class)
 	@ApiResponses(value={
-			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+			@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
 			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
 			@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
 			@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
 		})
 	public final SettlementInfo getCountPaymentAmt(
 			@ApiParam(name="companyId", value="会社コード")@FormParam("companyId") final String companyId,
-			@ApiParam(name="storeId", value="店舗番号")@FormParam("storeId") final String storeId,
-			@ApiParam(name="businessDate", value="営業日")@FormParam("businessDate") final String businessDate,
-			@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag,
-			@ApiParam(name="terminalId", value="端末番号")@FormParam("terminalId") final String terminalId,
+			@ApiParam(name="storeId", value="店番号")@FormParam("storeId") final String storeId,
+			@ApiParam(name="businessDate", value="業務日付")@FormParam("businessDate") final String businessDate,
+			@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@FormParam("trainingFlag") final int trainingFlag,
+			@ApiParam(name="terminalId", value="ターミナル番号")@FormParam("terminalId") final String terminalId,
 			@ApiParam(name="txType", value="取引種別")@FormParam("txType") final String txType){
 		
 		String functionName = DebugLogger.getCurrentMethodName();

@@ -38,7 +38,7 @@ import ncr.res.mobilepos.property.SQLStatement;
  * Actual initialization is done by WebContextListener.
  */
 @Path("/initialization")
-@Api(value="/initialization", description="システム初期化")
+@Api(value="/initialization", description="resTransactionの初期化完了チェック")
 public class InitializationStatusResource {
 
     /**
@@ -76,10 +76,10 @@ public class InitializationStatusResource {
     @Path("/status")
     @GET
     @Produces({MediaType.APPLICATION_JSON })
-    @ApiOperation(value="システム初期化状態取得", response=String.class)
+    @ApiOperation(value="初期化状態取得", response=String.class)
     @ApiResponses(value={
-            @ApiResponse(code=ResultBase.RES_OK_INITIALIZATION, message="初期化成功"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INITIALIZATION, message="初期化失敗"),
+            @ApiResponse(code=ResultBase.RES_OK_INITIALIZATION, message="初期化確認成功"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INITIALIZATION, message="初期化確認失敗"),
     })
     public final ResultBase getInitializationStatus() {
 

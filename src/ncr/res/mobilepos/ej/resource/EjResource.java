@@ -105,7 +105,7 @@ public class EjResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/getJournalList")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="E/Jのリストを取得する", response=List.class)
+    @ApiOperation(value="E/Jリストの取得", response=List.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -113,7 +113,7 @@ public class EjResource {
         })
     public final EjInfos getJournalList(
     		@ApiParam(name = "CompanyId", value = "会社コード") @FormParam("CompanyId") final String CompanyId,
-			@ApiParam(name = "RetailStoreId", value = "小売店コード") @FormParam("RetailStoreId") final String RetailstoreId,
+			@ApiParam(name = "RetailStoreId", value = "店番号") @FormParam("RetailStoreId") final String RetailstoreId,
 			@ApiParam(name = "WorkstationId", value = "ターミナル番号") @FormParam("WorkstationId") final String WorkstationId,
 			@ApiParam(name = "TxType", value = "取引種別") @FormParam("TxType") final String TxType,
 			@ApiParam(name = "SequencenumberFrom", value = "取引番号（下限）") @FormParam("SequencenumberFrom") final String SequencenumberFrom,
@@ -124,7 +124,7 @@ public class EjResource {
 			@ApiParam(name = "SalesPersonId", value = "販売員") @FormParam("SalesPersonId") final String SalesPersonId,
 			@ApiParam(name = "CountFrom", value = "表示リスト開始カウント番号") @FormParam("CountFrom") final String CountFrom,
 			@ApiParam(name = "CountTo", value = "表示リスト終了カウント番号") @FormParam("CountTo") final String CountTo,
-			@ApiParam(name = "TrainingFlag", value = "トレーニングフラグ ") @FormParam("TrainingFlag") final String TrainingFlag) {
+			@ApiParam(name = "TrainingFlag", value = "トレーニングモードフラグ ") @FormParam("TrainingFlag") final String TrainingFlag) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
 				.println("WorkstationId", WorkstationId).println("TxType", TxType)
@@ -172,7 +172,7 @@ public class EjResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/getPOSLog")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="E/Jのリストを取得する", response=List.class)
+    @ApiOperation(value="E/Jデータ(POSLog)の取得", response=List.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -180,11 +180,11 @@ public class EjResource {
         })
     public final PosLogInfo getPOSLog(
     		@ApiParam(name = "CompanyId", value = "会社コード") @FormParam("CompanyId") final String CompanyId,
-			@ApiParam(name = "RetailStoreId", value = "小売店コード") @FormParam("RetailStoreId") final String RetailstoreId,
+			@ApiParam(name = "RetailStoreId", value = "店番号") @FormParam("RetailStoreId") final String RetailstoreId,
 			@ApiParam(name = "WorkstationId", value = "ターミナル番号") @FormParam("WorkstationId") final String WorkstationId,
 			@ApiParam(name = "Sequencenumber", value = "取引番号") @FormParam("Sequencenumber") final String Sequencenumber,
 			@ApiParam(name = "BusinessDate", value = "業務日付") @FormParam("BusinessDate") final String BusinessDate,
-			@ApiParam(name = "TrainingFlag", value = "トレーニングフラグ") @FormParam("TrainingFlag") final String TrainingFlag){
+			@ApiParam(name = "TrainingFlag", value = "トレーニングモードフラグ") @FormParam("TrainingFlag") final String TrainingFlag){
     	String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("CompanyId", CompanyId).println("RetailStoreId", RetailstoreId)
 				.println("WorkstationId", WorkstationId).println("Sequencenumber", Sequencenumber)
@@ -529,7 +529,7 @@ public class EjResource {
 		List<EjInfo> listNameSystemInfos = new ArrayList<EjInfo>();
 		String commonStoreId = retailstoreId;
 		if (listNameSystemInfo.isEmpty()) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR, "E/Jのリスト情報取得エラー。\n");
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR, "E/Jリスト情報取得エラー。\n");
 			ejInfos.setNCRWSSResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
 			ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
 			ejInfos.setMessage("System Name List info is empty");
@@ -565,7 +565,7 @@ public class EjResource {
 			}
 		}
 		if (listNameSystemInfos.isEmpty()) {
-			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR, "E/Jのリスト情報取得エラー。\n");
+			LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_GET_DATA_ERR, "E/Jリスト情報取得エラー。\n");
 			ejInfos.setNCRWSSResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
 			ejInfos.setNCRWSSExtendedResultCode(ResultBase.RES_SYSTEM_NAME_NOTFOUND);
 			ejInfos.setMessage("Matched E/J list info search error");

@@ -5,7 +5,6 @@ package ncr.res.mobilepos.devicelog.resource;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -145,14 +144,14 @@ public class DeviceLogResource {
     @Path("/upload")
     @POST
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="移動設備からサーバーに日誌をアップロードする", response=ResultBase.class)
+    @ApiOperation(value="MobileShopのログのアップロード", response=ResultBase.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })
     public final ResultBase uploadLog(@Context final HttpServletRequest request,
-    	@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
-    	@ApiParam(name="termid", value="端末番号") @FormParam("termid") final String termId,
-    	@ApiParam(name="data", value="日誌データ") @FormParam("data") final String data) {
+    	@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
+    	@ApiParam(name="termid", value="ターミナル番号") @FormParam("termid") final String termId,
+    	@ApiParam(name="data", value="ログメッセージ") @FormParam("data") final String data) {
 	// Logs given parameters for Debug.
 	tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
 	tp.methodEnter("uploadLog");
@@ -206,7 +205,7 @@ public class DeviceLogResource {
     @POST
     @Produces(MediaType.APPLICATION_ATOM_XML)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @ApiOperation(value="デバイスログのアップロード", response=ResultBase.class)
+    @ApiOperation(value="MobileShopのログのアップロード(未使用)", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
@@ -215,7 +214,7 @@ public class DeviceLogResource {
             @Context final HttpServletRequest request,
             @ApiParam(name="udid", value="端末UUID") @PathParam("udid") final String udid,
             @ApiParam(name="logDate", value="ログ日付") @PathParam("logDate") final String logDate,
-            @ApiParam(name="rowId", value="行ID") @QueryParam("rowId") final String rowId) {
+            @ApiParam(name="rowId", value="ROWID") @QueryParam("rowId") final String rowId) {
 
         DeviceLog result = new DeviceLog();
 
@@ -316,14 +315,14 @@ public class DeviceLogResource {
     @POST
     @Produces(MediaType.APPLICATION_ATOM_XML)
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @ApiOperation(value="デバイスログのアップロード", response=ResultBase.class)
+    @ApiOperation(value="MobileShopのログのアップロード(未使用)", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })
     public final ResultBase uploadFile(
             @Context final HttpServletRequest request,
-            @ApiParam(name="storeid", value="店舗コード") @PathParam("storeid") final String storeid,
-            @ApiParam(name="termid", value="端末コード") @PathParam("termid") final String termid,
+            @ApiParam(name="storeid", value="店番号") @PathParam("storeid") final String storeid,
+            @ApiParam(name="termid", value="ターミナル番号") @PathParam("termid") final String termid,
             @ApiParam(name="logDate", value="ログ日付") @PathParam("logDate") final String logDate,
             @ApiParam(name="seqnum", value="ログ連番") @QueryParam("seqnum") final String seqnum) {
         tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(),
@@ -444,15 +443,15 @@ public class DeviceLogResource {
     @Path("/getloglist/{udid}")
     @GET
     @Produces(MediaType.APPLICATION_ATOM_XML)
-    @ApiOperation(value="日誌情報取得", response=DeviceLogs.class)
+    @ApiOperation(value="ログ情報の取得(未使用)", response=DeviceLogs.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
     })
     public final DeviceLogs getDeviceLogs(
-    		@ApiParam(name="udid", value="唯一装置コード") @PathParam("udid") final String udid,
-    		@ApiParam(name="startIndex", value="スタート索引") @QueryParam("startIndex") final int startIndex,
-    		@ApiParam(name="count", value="返されるインデックス数") @QueryParam("count") final int count) {
+    		@ApiParam(name="udid", value="UDID") @PathParam("udid") final String udid,
+    		@ApiParam(name="startIndex", value="開始インデックス") @QueryParam("startIndex") final int startIndex,
+    		@ApiParam(name="count", value="最大返送インデックス数") @QueryParam("count") final int count) {
 
         tp.methodEnter("getDeviceLogs");
         tp.println("udid", udid)
@@ -507,15 +506,15 @@ public class DeviceLogResource {
      */
     @Path("/download/{rowId}")
     @GET
-    @ApiOperation(value="日誌ファイルダウンロード", response=Response.class)
+    @ApiOperation(value="MobileShopのログのダウンロード(未使用)", response=Response.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_SQL, message="SQLエラー"),
     })
     public final Response downloadLogFile(
-    		@ApiParam(name="rowId", value="列NO") @PathParam("rowId") final String rowId,
-    		@ApiParam(name="asPlainText", value="フラグ") @QueryParam("asPlainText") final boolean asPlainText) {
+    		@ApiParam(name="rowId", value="ROWID") @PathParam("rowId") final String rowId,
+    		@ApiParam(name="asPlainText", value="プレーンテキストフラグ") @QueryParam("asPlainText") final boolean asPlainText) {
 
         tp.methodEnter("downloadLogFile");
         tp.println("rowId", rowId)

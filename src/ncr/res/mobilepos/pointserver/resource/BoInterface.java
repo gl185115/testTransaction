@@ -100,7 +100,7 @@ public class BoInterface {
     @Path("/TP010A02.aspx")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="‘®«‰ïˆõŒŸõ",response=MemberSearchResponse.class)
+    @ApiOperation(value="‰ïˆõ‘®«ŒŸõ",response=MemberSearchResponse.class)
     public MemberSearchResponse memberSearchRequest(MemberSearchRequest request) {
         tp.methodEnter("memberSearchRequest");
         tp.println("request", request);

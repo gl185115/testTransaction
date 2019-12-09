@@ -20,7 +20,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
-
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -97,17 +96,17 @@ public class ReportResource {
     @Path("/getAccountancyReport")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="項目報告", response=ReportItems.class)
+    @ApiOperation(value="会計レポート", response=ReportItems.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
         })
     public final ReportItems getAccountancyReport(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyid,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeid,
-    		@ApiParam(name="tillid", value="ドロワーコード")@QueryParam("tillid") final String tillid,
-    		@ApiParam(name="language", value="言葉")@QueryParam("language") final String language ) {
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeid,
+    		@ApiParam(name="tillid", value="ドロワーId")@QueryParam("tillid") final String tillid,
+    		@ApiParam(name="language", value="言語")@QueryParam("language") final String language ) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -173,16 +172,16 @@ public class ReportResource {
     @Path("/gettotalamount")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="合計金額を得る", response=TotalAmount.class)
+    @ApiOperation(value="合計金額の取得", response=TotalAmount.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
         })
     public final TotalAmount getTotalAmount(
-    		@ApiParam(name="storeId", value="店舗番号")@QueryParam("storeId") final String storeId,
-    		@ApiParam(name="tillId", value="ドロワーコード")@QueryParam("tillId") final String tillId,
-    		@ApiParam(name="businessDate", value="営業日付")@QueryParam("businessDate") final String businessDate) {
+    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId,
+    		@ApiParam(name="tillId", value="ドロワーId")@QueryParam("tillId") final String tillId,
+    		@ApiParam(name="businessDate", value="業務日付")@QueryParam("businessDate") final String businessDate) {
 
     	String functionName = DebugLogger.getCurrentMethodName();
 
@@ -230,19 +229,19 @@ public class ReportResource {
     @Path("/getreportitems")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="レポート項目を得る", response=DailyReportItems.class)
+    @ApiOperation(value="デイリーレポートの取得", response=DailyReportItems.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
         })
     public final DailyReportItems getReportItems(
     		@ApiParam(name="companyId", value="会社コード")@FormParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗番号")@FormParam("storeId") final String storeId,
-    		@ApiParam(name="tillId", value="ドロワーコード")@FormParam("tillId") final String tillId,
-    		@ApiParam(name="businessDate", value="営業日付")@FormParam("businessDate") final String businessDate,
-    		@ApiParam(name="trainingFlag", value="トレーニングフラグ")@FormParam("trainingFlag") final int trainingFlag) {
+    		@ApiParam(name="storeId", value="店番号")@FormParam("storeId") final String storeId,
+    		@ApiParam(name="tillId", value="ドロワーId")@FormParam("tillId") final String tillId,
+    		@ApiParam(name="businessDate", value="業務日付")@FormParam("businessDate") final String businessDate,
+    		@ApiParam(name="trainingFlag", value="トレーニングモードフラグ")@FormParam("trainingFlag") final int trainingFlag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

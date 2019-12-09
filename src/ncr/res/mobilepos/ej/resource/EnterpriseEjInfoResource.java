@@ -67,7 +67,7 @@ public class EnterpriseEjInfoResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("/getremoteejinfo")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@ApiOperation(value="E/J情報取得", response=Void.class)
+	@ApiOperation(value="E/Jリストの取得", response=Void.class)
 	public final EjInfos ejInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String companyId = request.getParameter("companyId");
 		String retailstoreId = request.getParameter("retailStoreId");
@@ -92,7 +92,7 @@ public class EnterpriseEjInfoResource {
 			EjResource ejResource = new EjResource();
 			ejInfos = ejResource.getEjInfoByTaxType(companyId, retailstoreId, workstationId, txType, sequencenumberFrom, sequencenumberTo,
 					businessDateTimeFrom, businessDateTimeTo, countFrom, countTo, operatorId, salesPersonId, trainingFlag);
-		
+
 			OutputStream out = response.getOutputStream();
 			if(ejInfos != null){
 				out.write(ejInfos.toString().getBytes());
@@ -120,7 +120,7 @@ public class EnterpriseEjInfoResource {
 	@Produces({ MediaType.APPLICATION_JSON })
 	@Path("/getremoteposloginfo")
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	@ApiOperation(value="POSLOG情報取得", response=Void.class)
+	@ApiOperation(value="E/Jデータ(POSLog)の取得", response=Void.class)
 	public final PosLogInfo getSubPosLogInfo(@Context HttpServletRequest request,@Context HttpServletResponse response) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		String companyId = request.getParameter("companyId");

@@ -19,14 +19,6 @@ import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
-import ncr.res.mobilepos.point.dao.IPointDAO;
-import ncr.res.mobilepos.point.model.Point;
-import ncr.res.mobilepos.point.model.CashingUnit;
-import ncr.res.mobilepos.point.model.ItemPointRate;
-import ncr.res.mobilepos.point.model.TranPointRate;
-import ncr.res.mobilepos.store.model.ViewStore;
-import ncr.res.mobilepos.point.model.PointRateResponse;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.exception.SQLStatementException;
@@ -34,9 +26,15 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
+import ncr.res.mobilepos.point.dao.IPointDAO;
+import ncr.res.mobilepos.point.model.CashingUnit;
+import ncr.res.mobilepos.point.model.ItemPointRate;
+import ncr.res.mobilepos.point.model.PointRateResponse;
+import ncr.res.mobilepos.point.model.TranPointRate;
+import ncr.res.mobilepos.store.model.ViewStore;
 
 @Path("/point")
-@Api(value="/point", description="ポイントの速度API")
+@Api(value="/point", description="ポイント情報関連API")
 public class PointResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -60,12 +58,12 @@ public class PointResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正")
         })
     public final PointRateResponse getItemPointRate(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate,
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate,
     		@ApiParam(name="deptCode", value="部門コード") @QueryParam("deptCode") final String deptCode,
     		@ApiParam(name="groupCode", value="グループコード") @QueryParam("groupCode") final String groupCode,
     		@ApiParam(name="brandId", value="ブランドコード") @QueryParam("brandId") final String brandId,
@@ -127,12 +125,12 @@ public class PointResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正")
         })
     public final PointRateResponse getTranPointRate(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @QueryParam("storeId") final String storeId,
-    		@ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
+    		@ApiParam(name="storeId", value="店番号") @QueryParam("storeId") final String storeId,
+    		@ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName)
             .println("companyId", companyId)
@@ -188,11 +186,11 @@ public class PointResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店番号検索エラー (見付からない"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final CashingUnit getCashingUnit(@ApiParam(name="companyId", value="会社コード") @QueryParam("companyId") final String companyId,
-            @ApiParam(name="businessDate", value="営業日") @QueryParam("businessDate") final String businessDate) {
+            @ApiParam(name="businessDate", value="業務日付") @QueryParam("businessDate") final String businessDate) {
 
         String functionName = "";
 

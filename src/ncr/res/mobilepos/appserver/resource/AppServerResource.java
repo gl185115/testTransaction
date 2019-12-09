@@ -35,7 +35,7 @@ import ncr.res.mobilepos.model.ResultBase;
  * This gets application servers (Tomcat or IIS web application request url).
  */
 @Path("/servertable")
-@Api(value = "/servertable", description = "サーバーテーブルAPI")
+@Api(value = "/servertable", description = "通信状況照会の為のサーバー（TOMCAT/IIS等の）リスト取得API")
 public class AppServerResource {
 	/**
 	 * The program name.
@@ -63,7 +63,7 @@ public class AppServerResource {
 	@Path("/get")
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value = "AppServers", response = AppServers.class)
+	@ApiOperation(value = "サーバー(TOMCAT/IIS等の)リスト", response = AppServers.class)
 	@ApiResponses(value={
 			@ApiResponse(code=ResultBase.RES_OK, message="Success"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),

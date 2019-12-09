@@ -7,7 +7,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -22,9 +21,7 @@ import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.authentication.dao.IAuthDeviceDao;
 import ncr.res.mobilepos.authentication.model.DeviceStatus;
 import ncr.res.mobilepos.authentication.model.ViewCorpStore;
-import ncr.res.mobilepos.credential.model.Operator;
 import ncr.res.mobilepos.daofactory.DAOFactory;
-import ncr.res.mobilepos.deviceinfo.resource.DeviceInfoResource;
 import ncr.res.mobilepos.exception.DaoException;
 import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
@@ -93,22 +90,22 @@ public class RegistrationResource {
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
-        @ApiResponse(code=ResultBase.RESREG_DEVICEEXIST, message="既に存在する"),
-        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="デバイスID不正文字エラー"),
-        @ApiResponse(code=ResultBase.RESAUTH_PASSCODE_INVALID, message="パスコードはCORP証明書が一致しない"),
-        @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="データベース中で企業コードと店舗コードがない"),
+        @ApiResponse(code=ResultBase.RESREG_DEVICEEXIST, message="既に登録済みのデバイス"),
+        @ApiResponse(code=ResultBase.RESREG_INVALIDPARAMETER_DEVID, message="ターミナル番号が不正"),
+        @ApiResponse(code=ResultBase.RESAUTH_PASSCODE_INVALID, message="会社コード/店番号/パスコードの組み合わせが不正"),
+        @ApiResponse(code=ResultBase.RESAUTH_STOREID_NOTEXIST, message="会社コード又は店番号が存在しない"),
     })
 	public final DeviceStatus registerDevice(
 			@ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyId,
-			@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
-			@ApiParam(name="terminalid", value="デバイス識別子") @FormParam("terminalid") final String terminalId,
+			@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
+			@ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") final String terminalId,
 			@ApiParam(name="devicename", value="端末名称") @FormParam("devicename") final String deviceName,
 			@ApiParam(name="passcode", value="パスコード") @FormParam("passcode") final String passCode,
 			@ApiParam(name="udid", value="UDID") @FormParam("udid") final String udid,
 			@ApiParam(name="uuid", value="UUID") @FormParam("uuid") final String uuid,
-			@ApiParam(name="signstatus", value="身分マーク") @FormParam("signstatus") final int signStatus,
-			@ApiParam(name="signtid", value="身分コード") @FormParam("signtid") String signTId,
-			@ApiParam(name="signactivationkey", value="標識の起動キー") @FormParam("signactivationkey") String signActivationKey) {
+			@ApiParam(name="signstatus", value="電子サインの登録の有無 (未使用)") @FormParam("signstatus") final int signStatus,
+			@ApiParam(name="signtid", value="電子サインの端末識別子 (未使用)") @FormParam("signtid") String signTId,
+			@ApiParam(name="signactivationkey", value="電子サインのアクティベーションキー (未使用)") @FormParam("signactivationkey") String signActivationKey) {
 
 		tp.methodEnter("registerDevice")
 		        .println("companyid", companyId)

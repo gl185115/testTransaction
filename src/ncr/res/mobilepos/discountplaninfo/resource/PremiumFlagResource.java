@@ -22,11 +22,10 @@ import ncr.res.mobilepos.helper.DebugLogger;
 import ncr.res.mobilepos.helper.Logger;
 import ncr.res.mobilepos.helper.StringUtility;
 import ncr.res.mobilepos.model.ResultBase;
-import ncr.res.mobilepos.point.model.PointRateResponse;
 import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 @Path("/premiumInfo")
-@Api(value="/premiumInfo", description="費用情報API")
+@Api(value="/premiumInfo", description="プレミアム商品情報API")
 public class PremiumFlagResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -49,17 +48,17 @@ public class PremiumFlagResource {
     @Path("/getPremiumFlag")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="プレミアムフラグ部門取得", response=JSONData.class)
+    @ApiOperation(value="プレミアム対象部門リストの取得", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ未検出"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ")
+            @ApiResponse(code=ResultBase.RES_GROUP_NOTFOUND, message="ユーザグループ検索エラー(見付からない)"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="不正なリクエストパラメータ")
         })
     public final JSONData getPremiumFlag(
     		@ApiParam(name="companyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId, 
-    		@ApiParam(name="TerminalId", value="端末コード") @QueryParam("TerminalId") final String terminalId,
+    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="TerminalId", value="ターミナル番号") @QueryParam("TerminalId") final String terminalId,
     		@ApiParam(name="DptIdList", value="部門コードリスト") @QueryParam("DptIdList") final String dptIdList) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)

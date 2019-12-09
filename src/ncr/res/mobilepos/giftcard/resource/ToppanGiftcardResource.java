@@ -3,12 +3,6 @@
  */
 package ncr.res.mobilepos.giftcard.resource;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import java.io.IOException;
 
 import javax.servlet.ServletContext;
@@ -18,6 +12,12 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.giftcard.toppan.dao.CenterAccess;
@@ -100,15 +100,15 @@ public class ToppanGiftcardResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ギフト照会", response=GiftResult.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ解析エラー")
     })
     public GiftResult queryMember(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
-    		@ApiParam(name="privatebrand", value="カードフラグ") @FormParam("privatebrand") final String privatebrand) {
+    		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -169,15 +169,15 @@ public class ToppanGiftcardResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ギフト売上", response=GiftResult.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ解析エラー")
     })
     public GiftResult sales(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
-    		@ApiParam(name="privatebrand", value="カードフラグ") @FormParam("privatebrand") final String privatebrand) {
+    		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -238,15 +238,15 @@ public class ToppanGiftcardResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ギフト売上取消", response=GiftResult.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ解析エラー")
     })
     public GiftResult cancel(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
-    		@ApiParam(name="privatebrand", value="カードフラグ") @FormParam("privatebrand") final String privatebrand) {
+    		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -307,7 +307,7 @@ public class ToppanGiftcardResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ギフトアクティベート", response=GiftResult.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ解析エラー")
     })
     public GiftResult activate(
     		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
@@ -315,7 +315,7 @@ public class ToppanGiftcardResource {
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
-    		@ApiParam(name="privatebrand", value="カードフラグ") @FormParam("privatebrand") final String privatebrand) {
+    		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -377,16 +377,16 @@ public class ToppanGiftcardResource {
     @Produces({ MediaType.APPLICATION_JSON })
     @ApiOperation(value="ギフトチャージ", response=GiftResult.class)
     @ApiResponses(value={
-    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ転換エラー")
+    @ApiResponse(code=ResultBase.RES_ERROR_PARSE, message="データ解析エラー")
     })
     public GiftResult charge(
-    		@ApiParam(name="storeid", value="店舗コード") @FormParam("storeid") final String storeId,
+    		@ApiParam(name="storeid", value="店番号") @FormParam("storeid") final String storeId,
     		@ApiParam(name="workstationid", value="ターミナル番号") @FormParam("workstationid") final String workstationId,
     		@ApiParam(name="transactionid", value="取引番号") @FormParam("transactionid") final String transactionId,
     		@ApiParam(name="test", value="テストモード") @FormParam("test") final boolean test,
     		@ApiParam(name="giftcard", value="ギフトカード情報") @FormParam("giftcard") final String jsonItem,
     		@ApiParam(name="campaign", value="キャンペーン付与拒否フラグ") @FormParam("campaign") final boolean campaign,
-    		@ApiParam(name="privatebrand", value="カードフラグ") @FormParam("privatebrand") final String privatebrand) {
+    		@ApiParam(name="privatebrand", value="自社GIFTカードフラグ") @FormParam("privatebrand") final String privatebrand) {
     	
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

@@ -3,7 +3,6 @@ package ncr.res.mobilepos.terminalInfo.resource;
 import javax.servlet.ServletContext;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -29,7 +28,7 @@ import ncr.res.mobilepos.terminalInfo.model.TerminalInfo;
  * System Setting.
  */
 @Path("/TerminalInfo")
-@Api(value = "/TerminalInfo", description = "システムの設定API")
+@Api(value = "/TerminalInfo", description = "ターミナルの最終取引番号の取得")
 public class TerminalInfoResource {
 
     /**
@@ -85,14 +84,14 @@ public class TerminalInfoResource {
     @GET
     @Path("/getTxidInfo")
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value = "現在日時取得", response = TerminalInfo.class)
+    @ApiOperation(value = "ターミナルの最終取引番号の取得", response = TerminalInfo.class)
     @ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_GENERAL, message = "汎用エラー"), })
     public final TerminalInfo getCurrentDateTime(
             @ApiParam(name = "companyId", value = "会社コード") @QueryParam("companyId") final String companyId,
-            @ApiParam(name = "storeId", value = "店舗コード") @QueryParam("storeId") final String storeId,
-            @ApiParam(name = "workstationId", value = "レジ番号") @QueryParam("workstationId") final String workstationId,
-            @ApiParam(name = "businessdaydate", value = "営業日") @QueryParam("businessdaydate") final String businessDayDate,
-            @ApiParam(name = "trainingmode", value = "トレーニングモード") @QueryParam("trainingmode") final int trainingMode) {
+            @ApiParam(name = "storeId", value = "店番号") @QueryParam("storeId") final String storeId,
+            @ApiParam(name = "workstationId", value = "ターミナル番号") @QueryParam("workstationId") final String workstationId,
+            @ApiParam(name = "businessdaydate", value = "業務日付") @QueryParam("businessdaydate") final String businessDayDate,
+            @ApiParam(name = "trainingmode", value = "トレーニングモードフラグ") @QueryParam("trainingmode") final int trainingMode) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
         tp.println("companyId", companyId).println("storeId", storeId).println("workstationId", workstationId)

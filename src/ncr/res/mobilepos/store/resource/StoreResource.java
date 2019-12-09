@@ -53,7 +53,7 @@ import ncr.res.mobilepos.store.model.ViewStore;
  * @author RD185102
  */
 @Path("/storeinfo")
-@Api(value="/storeinfo", description="ストア情報API")
+@Api(value="/storeinfo", description="店舗情報取得API")
 public class StoreResource {
     /**
      * the servelet context.
@@ -99,11 +99,11 @@ public class StoreResource {
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗はデータベースにみつからない"),
+            @ApiResponse(code=ResultBase.RES_STORE_NOT_EXIST, message="店舗情報取得エラー (見付からない)"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final ViewStore getStoreDetailInfo(
-    		@ApiParam(name="retailstoreid", value="店舗コード")@QueryParam("retailstoreid") final String retailStoreID,
+    		@ApiParam(name="retailstoreid", value="店番号")@QueryParam("retailstoreid") final String retailStoreID,
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId) {
 
         String functionName = "StoreResource.getStoreDetailInfo";
@@ -154,7 +154,7 @@ public class StoreResource {
     @Path("/list")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="店舗情報検索", response=Stores.class)
+    @ApiOperation(value="店舗情報リストの取得", response=Stores.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -164,7 +164,7 @@ public class StoreResource {
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
     		@ApiParam(name="key", value="キー")@QueryParam("key") final String key, 
     		@ApiParam(name="name", value="名")@QueryParam("name") final String name,
-    		@ApiParam(name="limit", value="期限")@QueryParam("limit") final int searchLimit) {
+    		@ApiParam(name="limit", value="最大リスト数")@QueryParam("limit") final int searchLimit) {
     	String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("searchStores")
         	.println("companyId", companyId)
@@ -211,9 +211,9 @@ public class StoreResource {
         })
     public final CMPresetInfos getCMPresetInfoList(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗コード")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeId, 
     		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalid") final String terminalId,
-    		@ApiParam(name="businessdaydate", value="営業日")@QueryParam("businessdaydate") final String businessDayDate) {
+    		@ApiParam(name="businessdaydate", value="業務日付")@QueryParam("businessdaydate") final String businessDayDate) {
     	
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("getCMPresetInfoList")
@@ -253,8 +253,8 @@ public class StoreResource {
         })
     public final PresetSroreInfo getCMPresetStoreInfo(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeid") final String storeId, 
-    		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalid") final String terminalId) {
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeid") final String storeId, 
+    		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalid") final String terminalId) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter("getCMPresetStoreInfo")
@@ -288,15 +288,15 @@ public class StoreResource {
     @Path("/getsummaryreceiptno")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="領収証No取得", response=JSONData.class)
+    @ApiOperation(value="領収証番号取得", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final JSONData getSummaryReceiptNo(
     		@ApiParam(name="companyid", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeid", value="店舗番号")@QueryParam("storeId") final String storeId, 
-    		@ApiParam(name="terminalid", value="端末番号")@QueryParam("terminalId") final String terminalId,
-    		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
+    		@ApiParam(name="storeid", value="店番号")@QueryParam("storeId") final String storeId, 
+    		@ApiParam(name="terminalid", value="ターミナル番号")@QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="traning", value="トレーニングモードフラグ")@QueryParam("traning") final String traning) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         JSONData json = new JSONData();
@@ -327,17 +327,16 @@ public class StoreResource {
     @Path("/updatesummaryreceiptno")
     @GET
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="領収証No更新", response=JSONData.class)
+    @ApiOperation(value="領収証番号更新", response=JSONData.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RESSYS_ERROR_QB_QUEUEFULL, message="各商店の列がいっぱいになっている"),
-        })
+         })
     public final JSONData updateSummaryReceiptNo(
     		@ApiParam(name="SubNum1", value="予約")@QueryParam("SubNum1") final int SubNum1,
     		@ApiParam(name="companyId", value="会社コード")@QueryParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード")@QueryParam("storeId") final String storeId, 
-    		@ApiParam(name="terminalId", value="POSコード")@QueryParam("terminalId") final String terminalId,
-    		@ApiParam(name="traning", value="トレーニング")@QueryParam("traning") final String traning) {
+    		@ApiParam(name="storeId", value="店番号")@QueryParam("storeId") final String storeId, 
+    		@ApiParam(name="terminalId", value="ターミナル番号")@QueryParam("terminalId") final String terminalId,
+    		@ApiParam(name="traning", value="トレーニングモードフラグ")@QueryParam("traning") final String traning) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         JSONData json = new JSONData();
@@ -372,7 +371,7 @@ public class StoreResource {
 	@Path("/addstoretotal")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value="精算回数を集計", response=Stores.class)
+	@ApiOperation(value="精算回数の集計", response=Stores.class)
 	@ApiResponses(value={
 			@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
 			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -382,7 +381,7 @@ public class StoreResource {
 			@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
 			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId, 
 			@ApiParam(name="terminalid", value="ターミナル番号")@FormParam("terminalid") final String terminalId,
-			@ApiParam(name="businessdaydate", value="営業日付")@FormParam("businessdaydate") final String businessdaydate) {
+			@ApiParam(name="businessdaydate", value="業務日付")@FormParam("businessdaydate") final String businessdaydate) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)
@@ -424,7 +423,7 @@ public class StoreResource {
 	@Path("/getstoretotal")
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON })
-	@ApiOperation(value="精算回数を取得", response=Stores.class)
+	@ApiOperation(value="精算回数の取得", response=Stores.class)
 	@ApiResponses(value={
 			@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
 			@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
@@ -434,7 +433,7 @@ public class StoreResource {
 			@ApiParam(name="companyid", value="会社コード")@FormParam("companyid") final String companyId,
 			@ApiParam(name="storeid", value="店番号")@FormParam("storeid") final String storeId, 
 			@ApiParam(name="terminalid", value="ターミナル番号")@FormParam("terminalid") final String terminalId,
-			@ApiParam(name="businessdaydate", value="営業日付")@FormParam("businessdaydate") final String businessdaydate) {
+			@ApiParam(name="businessdaydate", value="業務日付")@FormParam("businessdaydate") final String businessdaydate) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName)
 			.println("companyid", companyId)

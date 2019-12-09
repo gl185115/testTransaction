@@ -25,7 +25,7 @@ import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
 import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 @Path("/tenderinfo")
-@Api(value="/tenderinfo", description="差し出す情報API")
+@Api(value="/tenderinfo", description="テンダー情報API")
 public class TenderInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private Trace.Printer tp;
@@ -46,16 +46,16 @@ public class TenderInfoResource {
     @Path("/getTenderInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
+    @ApiOperation(value="特定の支払種別の支払種別情報の取得", response=JSONData.class)
     @ApiResponses(value={
-    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+    		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ検索エラー (見付からない)"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final JSONData getTenderInfo(
     		@ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId, 
+    		@ApiParam(name="StoreId", value="店番号")@QueryParam("StoreId") final String storeId,
     		@ApiParam(name="TenderType", value="支払種別")@QueryParam("TenderType") final String tenderType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId).println("TenderType", tenderType);
@@ -97,16 +97,16 @@ public class TenderInfoResource {
     @Path("/getAllTenderInfo")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
+    @ApiOperation(value="全支払種別情報の取得", response=JSONData.class)
     @ApiResponses(value={
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="リクエストパラメータが不正"),
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ検索エラー (見付からない)"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final JSONData getAllTenderInfo(
             @ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
-            @ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId) {
+            @ApiParam(name="StoreId", value="店番号")@QueryParam("StoreId") final String storeId) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId);
 
@@ -146,15 +146,16 @@ public class TenderInfoResource {
     @Path("/gettenderinfobytype")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="支払種別情報取得", response=JSONData.class)
+    @ApiOperation(value="特定の支払種別/種別コードの支払種別情報の取得", response=JSONData.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
-    public final JSONData getTenderInfoByType(@QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId, 
+    public final JSONData getTenderInfoByType(
+    		@ApiParam(name="CompanyId", value="会社コード")@QueryParam("CompanyId") final String companyId,
+    		@ApiParam(name="StoreId", value="店舗番号")@QueryParam("StoreId") final String storeId,
     		@ApiParam(name="TenderType", value="支払種別")@QueryParam("TenderType") final String tenderType,
     		@ApiParam(name="TenderId", value="種別コード")@QueryParam("TenderId") final String tenderId) {
         String functionName = DebugLogger.getCurrentMethodName();

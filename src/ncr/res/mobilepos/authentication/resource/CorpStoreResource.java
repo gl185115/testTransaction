@@ -9,12 +9,6 @@
 
 package ncr.res.mobilepos.authentication.resource;
 
-import com.wordnik.swagger.annotations.Api;
-import com.wordnik.swagger.annotations.ApiOperation;
-import com.wordnik.swagger.annotations.ApiParam;
-import com.wordnik.swagger.annotations.ApiResponse;
-import com.wordnik.swagger.annotations.ApiResponses;
-
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -27,6 +21,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+
+import com.wordnik.swagger.annotations.Api;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+import com.wordnik.swagger.annotations.ApiResponse;
+import com.wordnik.swagger.annotations.ApiResponses;
 
 import ncr.realgate.util.Trace;
 import ncr.res.mobilepos.authentication.dao.ICorpStoreDAO;
@@ -98,7 +98,7 @@ public class CorpStoreResource {
     })
     public final ResultBase createCorpStore(
             @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
-            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+            @ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") final String retailStoreID,
             @ApiParam(name="store", value="店舗情報") @FormParam("store") final String store) {
 
         tp.methodEnter("createCorpStore");
@@ -176,7 +176,7 @@ public class CorpStoreResource {
     })
     public final ViewCorpStore viewCorpStore(
             @ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyID,
-            @ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID) {
+            @ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String retailStoreID) {
 
         String functionName = "StoreResource.viewStore";
 
@@ -236,7 +236,7 @@ public class CorpStoreResource {
     })
     public final ResultBase deleteCorpStore(
             @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyID,
-            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID) {
+            @ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") final String retailStoreID) {
 
         String functionName = "CorpStoreResource.deleteCorpStore";
 
@@ -297,7 +297,7 @@ public class CorpStoreResource {
     })
     public final ViewCorpStore updateCorpStore(
             @ApiParam(name="companyid", value="会社コード") @FormParam("companyid") final String companyid,
-            @ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeid,
+            @ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") final String storeid,
             @ApiParam(name="store", value="店舗情報") @FormParam("store") final String storeJson) {
         String functionName = "StoreResource.updateStores";
 

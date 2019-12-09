@@ -85,11 +85,11 @@ public class CustomerAccountResource {
     @Path("/{customerid}")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value="顧客情報を得る", response=Customer.class)
+    @ApiOperation(value="顧客情報の取得", response=Customer.class)
     @ApiResponses(value={})
     public final Customer getCustomerByID(@ApiParam(name="customerid", value="顧客番号") @PathParam("customerid")
                           final String customerid,
-                          @ApiParam(name="deviceno", value="設備番号") @FormParam("deviceno") final String deviceNo,
+                          @ApiParam(name="deviceno", value="デバイス番号") @FormParam("deviceno") final String deviceNo,
                           @ApiParam(name="operatorno", value="従業員番号") @FormParam("operatorno") final String operatorNo) {
 
         tp.methodEnter("getCustomerByID");
@@ -126,8 +126,8 @@ public class CustomerAccountResource {
 	        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
 	    })
 	public final LoyaltyAccountInfo getLoyaltyAccountInfo(
-			@ApiParam(name = "companyId", value = "企業コード") @FormParam("companyId") final String companyId,
-			@ApiParam(name = "storeId", value = "店舗コード") @FormParam("storeId") final String storeId,
+			@ApiParam(name = "companyId", value = "会社コード") @FormParam("companyId") final String companyId,
+			@ApiParam(name = "storeId", value = "店番号") @FormParam("storeId") final String storeId,
 			@ApiParam(name = "connName", value = "顧客名") @FormParam("connName") final String connName,
 			@ApiParam(name = "connKanaName", value = "顧客カナ名") @FormParam("connKanaName") final String connKanaName,
 			@ApiParam(name = "connTel", value = "顧客電話番号") @FormParam("connTel") final String connTel) {

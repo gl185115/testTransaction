@@ -18,6 +18,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
 import com.wordnik.swagger.annotations.ApiResponse;
 import com.wordnik.swagger.annotations.ApiResponses;
 
@@ -31,7 +32,7 @@ import ncr.res.mobilepos.posmailinfo.dao.IPOSMailInfoDAO;
 import ncr.res.mobilepos.webserviceif.model.JSONData;
 
 @Path("/posmailinfo")
-@Api(value = "/posmailinfo", description = "POS Mail Information API")
+@Api(value = "/posmailinfo", description = "メール情報取得API")
 public class POSMailInfoResource {
     private static final Logger LOGGER = (Logger) Logger.getInstance();
     private String PROG_NAME = "POSMailInfo";
@@ -52,10 +53,10 @@ public class POSMailInfoResource {
     		@ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
     })
     public final JSONData getPOSMailInfo(
-    		@QueryParam("companyid") final String companyId,
-    		@QueryParam("retailstoreid") final String retailStoreId,
-    		@QueryParam("workstationid") final String workstationId,
-    		@QueryParam("businessdate") final String businessDate) {
+    		@ApiParam(name="companyId", value="会社コード") @QueryParam("companyid") final String companyId,
+    		@ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="workstationid", value="ターミナル番号") @QueryParam("workstationid") final String workstationId,
+    		@ApiParam(name="businessdate", value="業務日付") @QueryParam("businessdate") final String businessDate) {
     	String functionName = DebugLogger.getCurrentMethodName();
     	tp.methodEnter(functionName)
     		.println("companyId", companyId)

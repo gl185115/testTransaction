@@ -46,7 +46,7 @@ import ncr.res.mobilepos.taxrate.model.DptTaxRate;
  */
 
 @Path("/taxrate")
-@Api(value="/TaxRate", description="消費税率API")
+@Api(value="/TaxRate", description="消費税率関連API")
 public class TaxRateResource {
 
     /** A private member variable used for logging the class implementations. */
@@ -82,14 +82,14 @@ public class TaxRateResource {
     @Produces("application/json;charset=UTF-8")
     @Path("/gettaxrate")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-    @ApiOperation(value="消費税率取得", response=Map.class)
+    @ApiOperation(value="消費税率の取得", response=Map.class)
     @ApiResponses(value={
     		@ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
     		@ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final Map<String,String> itemMixMatchInfobySku(
-    		@ApiParam(name="businessDate", value="営業日")@FormParam("businessDate") final String businessdate) {
+    		@ApiParam(name="businessDate", value="業務日付")@FormParam("businessDate") final String businessdate) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("businessdate", businessdate);
         Map<String,String> map = new HashMap<String,String>();
@@ -128,13 +128,13 @@ public class TaxRateResource {
     @Path("/getDptTaxRate")
     @GET
     @Produces({ MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="部門に紐づく税率区分とその特性情報取得", response=DptTaxRate.class)
+    @ApiOperation(value="部門に紐づく税率区分とその特性情報の取得", response=DptTaxRate.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
         })
     public final DptTaxRate getDptTaxRate(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
-    		@ApiParam(name="storeid", value="店舗コード") @QueryParam("retailstoreid") final String retailstoreId,
+    		@ApiParam(name="storeid", value="店番号") @QueryParam("retailstoreid") final String retailstoreId,
     		@ApiParam(name="departmentid", value="部門コード") @QueryParam("departmentid") final String departmentId) {
 		String functionName = DebugLogger.getCurrentMethodName();
 		tp.methodEnter(functionName).println("companyid", companyId)

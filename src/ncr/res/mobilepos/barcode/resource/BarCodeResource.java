@@ -59,9 +59,9 @@ public class BarCodeResource {
             @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出"),
         })
     public final JSONData getDiscountInfo(@ApiParam(name="CompanyId", value="会社コード") @QueryParam("CompanyId") final String companyId,
-    		@ApiParam(name="StoreId", value="店舗コード") @QueryParam("StoreId") final String storeId,
+    		@ApiParam(name="StoreId", value="店番号") @QueryParam("StoreId") final String storeId,
     		@ApiParam(name="CardType", value="割引券種コード") @QueryParam("CardType") final String cardType,
-    		@ApiParam(name="SeqNo", value="SEQ-NO") @QueryParam("SeqNo") final String seqNo,
+    		@ApiParam(name="SeqNo", value="シーケンス番号") @QueryParam("SeqNo") final String seqNo,
     		@ApiParam(name="DiscountType", value="割引種別") @QueryParam("DiscountType") final String discountType) {
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName).println("CompanyId", companyId).println("StoreId", storeId)

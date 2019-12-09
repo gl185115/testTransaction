@@ -43,7 +43,7 @@ import ncr.res.mobilepos.systemconfiguration.dao.SQLServerSystemConfigDAO;
  * search customer.
  */
 @Path("/customerSearch")
-@Api(value="/customerSearch", description="検索会員API")
+@Api(value="/customerSearch", description="会員検索API")
 public class CustomerSearchResource {
 
     /** The instance of the trace debug printer. */
@@ -76,22 +76,22 @@ public class CustomerSearchResource {
     @Path("/getMemberSearch")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="会員を検索する", response=CustomerSearchReturnBean.class)
+    @ApiOperation(value="会員の検索", response=CustomerSearchReturnBean.class)
     @ApiResponses(value={
         @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
         @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+        @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+        @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データが見つからない"),
         @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
-        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+        @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="リモートホストへの接続に失敗"),
+        @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="I/Oエラー")
     })
     public final CustomerSearchReturnBean getMemberSearch(
-    		@ApiParam(name="cardNo", value="カードコード") @FormParam("cardNo") final String cardNo,
+    		@ApiParam(name="cardNo", value="カード番号") @FormParam("cardNo") final String cardNo,
     		@ApiParam(name="memberSeiKana", value="会員の姓") @FormParam("memberSeiKana") final String memberSeiKana,
     		@ApiParam(name="memberMeiKana", value="会員の名") @FormParam("memberMeiKana") final String memberMeiKana,
     		@ApiParam(name="birthday", value="誕生日") @FormParam("birthday") final String birthday,
-    		@ApiParam(name="phone", value="電話") @FormParam("phone") final String phone,
+    		@ApiParam(name="phone", value="電話番号") @FormParam("phone") final String phone,
     		@ApiParam(name="maxResult", value="最大カウント") @FormParam("maxResult") final String maxResult) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -274,18 +274,18 @@ public class CustomerSearchResource {
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データが見つからない"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="リモートホストへの接続に失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="I/Oエラー")
         })
     public final CustomerSearchReturnBean getMemberTradeList(
-    		@ApiParam(name="cardNo", value="カードコード") @FormParam("cardNo") final String cardNo,
+    		@ApiParam(name="cardNo", value="カード番号") @FormParam("cardNo") final String cardNo,
     		@ApiParam(name="tradeDateFrom", value="取引開始日") @FormParam("tradeDateFrom") final String tradeDateFrom,
     		@ApiParam(name="tradeDateTo", value="取引終了日") @FormParam("tradeDateTo") final String tradeDateTo,
     		@ApiParam(name="firstResult", value="取引開始位置") @FormParam("firstResult") final String firstResult,
-    		@ApiParam(name="maxResult", value="最大カウント") @FormParam("maxResult") final String maxResult,
+    		@ApiParam(name="maxResult", value="リストの返送最大数") @FormParam("maxResult") final String maxResult,
     		@ApiParam(name="forcedBflag", value="検索フラグ") @FormParam("forcedBflag") final String forcedBflag) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -455,15 +455,15 @@ public class CustomerSearchResource {
     @Path("/getChangedLoginKey")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="変換ログインキーを取得する", response=CustomerSearchReturnBean.class)
+    @ApiOperation(value="変換ログインキーの取得", response=CustomerSearchReturnBean.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データが見つからない"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="リモートホストへの接続に失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="I/Oエラー")
         })
     public final CustomerSearchReturnBean getChangedLoginKey(
             @ApiParam(name="loginKey", value="ログインキー") @FormParam("loginKey") final String loginKey) {
@@ -636,18 +636,18 @@ public class CustomerSearchResource {
     @Path("/getRankInfo")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="ランク情報取得する", response=CustomerSearchReturnBean.class)
+    @ApiOperation(value="ランク情報の取得", response=CustomerSearchReturnBean.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データが見つからない"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="リモートホストへの接続に失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="I/Oエラー")
         })
     public final CustomerSearchReturnBean getRankInfo(
-            @ApiParam(name="memberCode", value="会員コード") @FormParam("memberCode") final String memberCode) {
+            @ApiParam(name="memberCode", value="会員番号") @FormParam("memberCode") final String memberCode) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);
@@ -818,18 +818,18 @@ public class CustomerSearchResource {
     @Path("/getMemberInfo")
     @POST
     @Produces({MediaType.APPLICATION_JSON + ";charset=UTF-8" })
-    @ApiOperation(value="会員情報取得する", response=CustomerSearchReturnBean.class)
+    @ApiOperation(value="会員情報の取得", response=CustomerSearchReturnBean.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_DB, message="データベースエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
-            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効のパラメータ"),
-            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データは見つからない"),
+            @ApiResponse(code=ResultBase.RES_ERROR_INVALIDPARAMETER, message="無効なパラメータ"),
+            @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データが見つからない"),
             @ApiResponse(code=ResultBase.RES_MALFORMED_URL_EXCEPTION, message="URL異常"),
-            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="失敗したリモートホストへの接続を作成します"),
-            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="IO異常")
+            @ApiResponse(code=ResultBase.RES_ERROR_UNKNOWNHOST, message="リモートホストへの接続の失敗"),
+            @ApiResponse(code=ResultBase.RES_ERROR_IOEXCEPTION, message="I/Oエラー")
         })
     public final CustomerSearchReturnBean getMemberInfo(
-            @ApiParam(name="memberCode", value="会員コード") @FormParam("memberCode") final String memberCode) {
+            @ApiParam(name="memberCode", value="会員番号") @FormParam("memberCode") final String memberCode) {
 
         String functionName = DebugLogger.getCurrentMethodName();
         tp.methodEnter(functionName);

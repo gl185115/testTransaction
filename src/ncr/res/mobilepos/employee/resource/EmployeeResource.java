@@ -31,7 +31,7 @@ import ncr.res.mobilepos.model.ResultBase;
  *
  */
 @Path("/employee")
-@Api(value = "/employee", description = "担当者の情報関連API")
+@Api(value = "/employee", description = "担当者情報関連取得API")
 public class EmployeeResource {
 	/**
 	 * ServletContext instance.
@@ -97,8 +97,8 @@ public class EmployeeResource {
 	@Path("/getallempinfo")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "担当者の情報", response = EmployeeInfoResponse.class)
-	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "無効なパラメータ。"), })
+	@ApiOperation(value = "全担当者情報の取得", response = EmployeeInfoResponse.class)
+	@ApiResponses(value = { @ApiResponse(code = ResultBase.RES_ERROR_INVALIDPARAMETER, message = "不正なリクエストパラメータ。"), })
 	public final EmployeeInfoResponse getallempinfo(
 			@ApiParam(name = "CompanyId", value = "会社コード") @QueryParam("CompanyId") final String companyId) {
 

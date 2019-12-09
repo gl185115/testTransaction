@@ -10,6 +10,14 @@
 
 package ncr.res.mobilepos.mastermaintenance.resource;
 
+import javax.servlet.ServletContext;
+import javax.ws.rs.FormParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+
 import com.wordnik.swagger.annotations.Api;
 import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
@@ -27,14 +35,6 @@ import ncr.res.mobilepos.mastermaintenance.dao.IMasterMaintenanceDAO;
 import ncr.res.mobilepos.mastermaintenance.model.MaintenanceTbl;
 import ncr.res.mobilepos.mastermaintenance.model.MdMMMastTbl;
 import ncr.res.mobilepos.model.ResultBase;
-
-import javax.servlet.ServletContext;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
 
 /**
  * MasterMaintenanceResource Web Resource.
@@ -127,7 +127,7 @@ public class MasterMaintenanceResource {
     @Path("/import/row")
     @POST
     @Produces({ MediaType.APPLICATION_JSON })
-    @ApiOperation(value="SPART情報インポート", response=ResultBase.class)
+    @ApiOperation(value="SPART情報インポート (未使用)", response=ResultBase.class)
     @ApiResponses(value={
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー"),
             @ApiResponse(code=ResultBase.RES_MAINTENACE_IMPORT_ERROR, message="引数無効"),

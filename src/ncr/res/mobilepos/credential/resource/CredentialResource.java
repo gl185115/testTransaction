@@ -142,8 +142,8 @@ public class CredentialResource {
     public final Operator requestSignOn(@ApiParam(name="operatorno", value="従業員番号") @PathParam("operatorno") final String operatorNumber,
             @ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
             @ApiParam(name="passcode", value="パスワード") @FormParam("passcode") final String passCode,
-            @ApiParam(name="terminalid", value="端末コード") @FormParam("terminalid") final String terminalID,
-            @ApiParam(name="demo", value="") @FormParam("demo") final boolean demo) {
+            @ApiParam(name="terminalid", value="ターミナル番号") @FormParam("terminalid") final String terminalID,
+            @ApiParam(name="demo", value="デモモードフラグ") @FormParam("demo") final boolean demo) {
 
         tp.methodEnter("requestSignOn");
         tp.println("companyId", companyId).println("operatorNumber", operatorNumber).println("passCode", passCode)
@@ -322,8 +322,8 @@ public class CredentialResource {
     })
     public final Operator getAttribute(
     		@ApiParam(name="companyid", value="会社コード") @QueryParam("companyid") final String companyId,
-    		@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreId,
-    		@ApiParam(name="terminalid", value="端末番号") @QueryParam("terminalid") final String terminalId,
+    		@ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String retailStoreId,
+    		@ApiParam(name="terminalid", value="ターミナル番号") @QueryParam("terminalid") final String terminalId,
     		@ApiParam(name="operatorid", value="オペレータコード") @QueryParam("operatorid") final String operatorId,
     		@ApiParam(name="operatorpass", value="オペレータパスワード") @QueryParam("operatorpass") final String operatorPass) {
 
@@ -392,7 +392,7 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RES_ERROR_NODATAFOUND, message="データ未検出")
     })
     public final SystemNameMasterList getSystemNameMasterList(@ApiParam(name="companyId", value="会社コード") @FormParam("companyId") final String companyId,
-    		@ApiParam(name="storeId", value="店舗コード") @FormParam("storeId") final String storeId,
+    		@ApiParam(name="storeId", value="店番号") @FormParam("storeId") final String storeId,
     		@ApiParam(name="nameCategory", value="名称区分") @FormParam("nameCategory") final String nameCategory) {
 
         String functionName = DebugLogger.getCurrentMethodName();
@@ -515,7 +515,7 @@ public class CredentialResource {
             @ApiResponse(code=ResultBase.RES_ERROR_DAO, message="DAOエラー"),
             @ApiResponse(code=ResultBase.RES_ERROR_GENERAL, message="汎用エラー")
         })
-    public final Employees listOperators(@ApiParam(name="retailstoreid", value="店舗コード") @QueryParam("retailstoreid") final String retailStoreID,
+    public final Employees listOperators(@ApiParam(name="retailstoreid", value="店番号") @QueryParam("retailstoreid") final String retailStoreID,
             @ApiParam(name="key", value="従業員番号検索キーワード") @QueryParam("key") final String key,
             @ApiParam(name="name", value="従業員名検索キーワード") @QueryParam("name") final String name,
             @ApiParam(name="limit", value="最大取得件数") @QueryParam("limit") final int limit) {
@@ -569,7 +569,7 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE, message="ユーザー(従業員)オンライン"),
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_NOTFOUND, message="ユーザー(従業員)未検出")
     })
-    public final ResultBase deleteEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String storeId,
+    public final ResultBase deleteEmployee(@ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") final String storeId,
     		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorId) {
 
         tp.methodEnter("deleteEmployee");
@@ -623,7 +623,7 @@ public class CredentialResource {
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_OPERATOR_ONLINE, message="ユーザー(従業員)オンライン"),
         @ApiResponse(code=ResultBase.RESCREDL_ERROR_EXISTS, message="ユーザー(従業員)もう存在")
     })
-    public final ViewEmployee updateEmployee(@ApiParam(name="retailstoreid", value="店舗コード") @FormParam("retailstoreid") final String retailStoreID,
+    public final ViewEmployee updateEmployee(@ApiParam(name="retailstoreid", value="店番号") @FormParam("retailstoreid") final String retailStoreID,
     		@ApiParam(name="currentoperatorid", value="現在の従業員番号") @FormParam("currentoperatorid") final String currentOperatorID,
     		@ApiParam(name="operatorid", value="従業員番号") @FormParam("operatorid") final String operatorID,
     		@ApiParam(name="employee", value="従業員情報") @FormParam("employee") final String employeeJSON) {

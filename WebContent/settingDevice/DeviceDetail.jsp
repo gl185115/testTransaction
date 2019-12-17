@@ -34,7 +34,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
     ArrayList<ArrayList<String>> MstPrinterinfoLists = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<String>> MstTillidinfoLists = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<String>> PRMQueuebusterLinkLists = new ArrayList<ArrayList<String>>();
-    
+
     JndiDBManagerMSSqlServer dbManager = (JndiDBManagerMSSqlServer) JndiDBManagerMSSqlServer.getInstance();
     Connection connection = dbManager.getConnection();
 
@@ -49,7 +49,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
         if ( "delete2".equals(g_UpFlg) ) {
             // Delete
             int rsDel = 0;
-            String sqlStr = 
+            String sqlStr =
                    "DELETE FROM RESMaster.dbo.AUT_DEVICES "
                    + "WHERE "
                    + "     CompanyId= " + "'" + g_companyID  + "'"
@@ -91,7 +91,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
         } else if ( "delete".equals(g_UpFlg) ) {
             // Delete(AUT_DEVICES)
             int rsDel = 0;
-            String sqlStr = 
+            String sqlStr =
                    "DELETE FROM RESMaster.dbo.AUT_DEVICES "
                    + "WHERE "
                    + "     CompanyId= " + "'" + g_companyID  + "'"
@@ -111,10 +111,10 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
             } finally {
                 psDel.close();
             }
-           
+
            // Delete(Update)
            rsDel = 0;
-           sqlStr = 
+           sqlStr =
                    "UPDATE RESMaster.dbo.MST_DEVICEINFO SET "
                    + "  Status=?                  "
                    + " ,DeleteFlag=?              "
@@ -128,7 +128,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                    + "; "
                       ;
 
-            sqlStr += 
+            sqlStr +=
                    "UPDATE RESMaster.dbo.MST_TERMINALINFO SET "
                    + "  DeleteFlag=?             "
                    + " ,DelDate=CURRENT_TIMESTAMP"
@@ -181,12 +181,12 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                        ;
                response.sendRedirect(s_msg);
            }
-           
+
         } else if ( "Update2".equals(g_UpFlg) ) {
             // 再利用
             int rsUp = 0;
             /* MST_DEVICEINFO */
-            String sqlStr = 
+            String sqlStr =
                     "UPDATE RESMaster.dbo.MST_DEVICEINFO SET "
                     + "  Status     = 'Active'          "
                     + " ,DeleteFlag = '0'               "
@@ -202,7 +202,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     + "; "
                        ;
                /* MST_DEVICEINFO(トレーニング) */
-               sqlStr += 
+               sqlStr +=
                     "UPDATE RESMaster.dbo.MST_DEVICEINFO SET "
                     + "  Status     = 'Active'          "
                     + " ,DeleteFlag = '0'               "
@@ -218,7 +218,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     + "; "
                        ;
              /* MST_TERMINALINFO */
-             sqlStr += 
+             sqlStr +=
                     "UPDATE RESMaster.dbo.MST_TERMINALINFO SET "
                     + "  DeleteFlag = '0'               "
                     + " ,UpdCount   = UpdCount+1        "
@@ -342,6 +342,8 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
             sqlStr += " ,device_attribute.Attribute8     AS pda_Attribute8     ";
             sqlStr += " ,device_attribute.Attribute9     AS pda_Attribute9     ";
             sqlStr += " ,device_attribute.Attribute10    AS pda_Attribute10    ";
+            sqlStr += " ,device_attribute.Attribute11    AS pda_Attribute11    ";
+            sqlStr += " ,device_attribute.Attribute12    AS pda_Attribute12    ";
             // MST_PRINTERINFO
             sqlStr += " ,printinfo.CompanyId   AS mpi_CompanyId   ";
             sqlStr += " ,printinfo.StoreId     AS mpi_StoreId     ";
@@ -471,6 +473,8 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute9"));
                 // ～List:16
                 PrmDeviceAttributeList.add(rs.getString("pda_Attribute10"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute11"));
+                PrmDeviceAttributeList.add(rs.getString("pda_Attribute12"));
 
                 // MST_PRINTERINFO
                 ArrayList<String> MstPrinterinfoList = new ArrayList<String>();
@@ -507,8 +511,8 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                 PRMQueuebusterLinkList.add(rs.getString("pql_DisplayName"));
                 // ～List:3
                 PRMQueuebusterLinkList.add(rs.getString("pql_Status"));
-                
-                
+
+
                 MstDeviceinfoLists.add(MstDeviceinfoList);
                 MstTerminalinfoLists.add(MstTerminalinfoList);
                 PrmDeviceAttributeLists.add(PrmDeviceAttributeList);
@@ -594,7 +598,7 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td><input type="text" id="dev_TerminalId" name="dev_TerminalId" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(0).get(2)%>" /></td>
                     <td><input type="text" id="tra_TerminalId" name="tra_TerminalId" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(1).get(2)%>" /></td>
                 </tr>
-<!-- 
+<!--
                 <tr>
                     <td colspan="2">トレーニング(Training)</td>
                     <td><input type="text" id="dev_Training" name="dev_Training" disabled style="width: 100%" value="<%= MstDeviceinfoLists.get(0).get(3)%>" /></td>
@@ -798,23 +802,16 @@ final String MSG_UPDATE_ERR  = "「MST_DEVICEINFO」テーブルの「LastTxId(�
                     <td><input type="text" id="pda_Attribute10" name="pda_Attribute10" value="<%=PrmDeviceAttributeLists.get(0).get(16)%>"  disabled style="width: 100%" ></td>
                     <td><input type="text" id="tra_pda_Attribute10" name="tra_pda_Attribute10" value="<%=PrmDeviceAttributeLists.get(1).get(16)%>"  disabled style="width: 100%" ></td>
                 </tr>
-<!--
                 <tr>
-                    <td colspan="2" class="orangetd">属性８(Attribute8)</td>
-                    <td colspan="2">
-                    <input type="text" id="pda_Attribute8" name="pda_Attribute8" value=""  disabled style="width: 100%" ></td>
+                    <td colspan="2" class="orangetd">属性１１(Attribute11)</td>
+                    <td><input type="text" id="pda_Attribute11" name="pda_Attribute11" value="<%=PrmDeviceAttributeLists.get(0).get(17)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute11" name="tra_pda_Attribute11" value="<%=PrmDeviceAttributeLists.get(1).get(17)%>"  disabled style="width: 100%" ></td>
                 </tr>
                 <tr>
-                    <td colspan="2" class="orangetd">属性９(Attribute9)</td>
-                    <td colspan="2">
-                    <input type="text" id="pda_Attribute9" name="pda_Attribute9" value=""  disabled style="width: 100%" ></td>
+                    <td colspan="2" class="orangetd">属性１２(Attribute12)</td>
+                    <td><input type="text" id="pda_Attribute12" name="pda_Attribute12" value="<%=PrmDeviceAttributeLists.get(0).get(18)%>"  disabled style="width: 100%" ></td>
+                    <td><input type="text" id="tra_pda_Attribute12" name="tra_pda_Attribute12" value="<%=PrmDeviceAttributeLists.get(1).get(18)%>"  disabled style="width: 100%" ></td>
                 </tr>
-                <tr>
-                    <td colspan="2" class="orangetd">属性１０(Attribute10)</td>
-                    <td colspan="2">
-                    <input type="text" id="pda_Attribute10" name="pda_Attribute10" value=""  disabled style="width: 100%" ></td>
-                </tr>
--->
                 <tr>
                     <th style="width: 50%" colspan="2">MST_PRINTERINFO 項目</th>
                     <th style="width: 25%">設定値</th>
@@ -1191,7 +1188,7 @@ jQuery(function ($) {
 <HEAD>
 <meta http-equiv=”Pragma” content=”no-cache”>
 <meta http-equiv=”Cache-Control” content=”no-cache”>
-</HEAD> 
+</HEAD>
 </html>
 <%
     }

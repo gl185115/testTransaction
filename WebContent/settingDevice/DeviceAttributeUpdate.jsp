@@ -14,8 +14,8 @@ ArrayList<String> PRINTER_NAME = new ArrayList<String>() {{add("接続されな�
 ArrayList<String> TILL_VAL = new ArrayList<String>() {{add("Manual"); add("Auto"); add("None");}};
 ArrayList<String> CREDIT_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CREDIT_NAME = new ArrayList<String>() {{add("クレジット処理不可"); add("クレジット処理可");}};
-ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2"); add("3"); add("4"); add("5"); add("6");}};
-ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP"); add("Infox"); add("ルミネ"); add("ららぽーと"); add("Ingenico");}};
+ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2"); add("3"); add("4"); add("5"); add("6"); add("7");}};
+ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP"); add("Infox"); add("ルミネ"); add("ららぽーと"); add("Ingenico"); add("CAFIS Arch");}};
 ArrayList<String> CASH_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("なし"); add("あり");}};
 ArrayList<String> ATT1_VAL = new ArrayList<String>() {{add("1"); add("2"); add("3");}};
@@ -40,6 +40,8 @@ ArrayList<String> ATT10_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェアキーボードが付かない"); add("ハードウェアキーボードが付く");}};
 ArrayList<String> ATT11_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナーを接続しない"); add("RFIDスキャナーを接続する");}};
+ArrayList<String> ATT12_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無効"); add("Selfモード有効");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -81,6 +83,8 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
 	String ATTAttribute10 = request.getParameter("ATTAttribute10");
 	// ATTAttribute11
 	String ATTAttribute11 = request.getParameter("ATTAttribute11");
+	// ATTAttribute12
+    String ATTAttribute12 = request.getParameter("ATTAttribute12");
     String errString = "";
 	String infoString = "";
 
@@ -106,6 +110,7 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
                 + ", Attribute9=?"
                 + ", Attribute10=?"
                 + ", Attribute11=?"
+                + ", Attribute12=?"
                 + " WHERE AttributeId=?; "
                 ;
         PreparedStatement psIns = conn.prepareStatement(sqlStr);
@@ -127,7 +132,8 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
         psIns.setString(15, ATTAttribute9);
         psIns.setString(16, ATTAttribute10);
         psIns.setString(17, ATTAttribute11);
-        psIns.setString(18, ATTAttributeId);
+        psIns.setString(18, ATTAttribute12);
+        psIns.setString(19, ATTAttributeId);
 
         try {
             int rsIns = psIns.executeUpdate();
@@ -186,7 +192,7 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
                         + " ,device_attribute.Attribute28 AS Attribute28"
                         + " ,device_attribute.Attribute29 AS Attribute29"
                         + " ,device_attribute.Attribute30 AS Attribute30"
-			
+
                         + " FROM RESMaster.dbo.PRM_DEVICE_ATTRIBUTE device_attribute"
                         );
     ResultSet rs = ps.executeQuery();
@@ -564,6 +570,18 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
 						%>
 				</select></td>
 			</tr>
+			<tr>
+                <td align="right">属性１２(Attribute12) ：</td>
+                <td align="left"><select name="ATTAttribute12"
+                    id="ATTAttribute12" required>
+                        <%
+                            for (int i = 0; i < ATT12_VAL.size(); i++) {
+                                out.print("<option value=\"" + ATT12_VAL.get(i) + "\"");
+                                out.println(">" + ATT12_VAL.get(i) + " : " + ATT12_NAME.get(i) + "</option>");
+                            }
+                        %>
+                </select></td>
+            </tr>
 <!--
 			<tr>
 				<td align="right">属性８(Attribute8) ： </td>
@@ -645,6 +663,9 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
 		// ATTATTAttribute11
 		StrId = 'attribute11' + InValue;
 		document.getElementById('ATTAttribute11').value = document.getElementById(StrId).value || false;
+	    // ATTATTAttribute12
+        StrId = 'attribute12' + InValue;
+        document.getElementById('ATTAttribute12').value = document.getElementById(StrId).value || false;
 
 		document.getElementById('updateArea').style.display = "block";
 	}
@@ -675,6 +696,7 @@ jQuery(function ($) {
         valueList.push(document.getElementById('ATTAttribute9').value);
         valueList.push(document.getElementById('ATTAttribute10').value);
         valueList.push(document.getElementById('ATTAttribute11').value);
+        valueList.push(document.getElementById('ATTAttribute12').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

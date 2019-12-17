@@ -18,8 +18,8 @@ ArrayList<String> PRINTER_NAME = new ArrayList<String>() {{add("接続されな�
 ArrayList<String> TILL_VAL = new ArrayList<String>() {{add("Manual"); add("Auto"); add("None");}};
 ArrayList<String> CREDIT_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CREDIT_NAME = new ArrayList<String>() {{add("クレジット処理不可"); add("クレジット処理可");}};
-ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2"); add("3"); add("4"); add("5"); add("6");}};
-ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP"); add("Infox"); add("ルミネ"); add("ららぽーと"); add("Ingenico");}};
+ArrayList<String> MSR_VAL = new ArrayList<String>() {{add("0"); add("1"); add("2"); add("3"); add("4"); add("5"); add("6"); add("7");}};
+ArrayList<String> MSR_NAME = new ArrayList<String>() {{add("なし"); add("カードリーダー"); add("iSMP"); add("Infox"); add("ルミネ"); add("ららぽーと"); add("Ingenico"); add("CAFIS Arch");}};
 ArrayList<String> CASH_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> CASH_NAME = new ArrayList<String>() {{add("なし"); add("あり");}};
 ArrayList<String> ATT1_VAL = new ArrayList<String>() {{add("1"); add("2"); add("3");}};
@@ -44,6 +44,8 @@ ArrayList<String> ATT10_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT10_NAME = new ArrayList<String>() {{add("ハードウェアキーボードが付かない"); add("ハードウェアキーボードが付く");}};
 ArrayList<String> ATT11_VAL = new ArrayList<String>() {{add("0"); add("1");}};
 ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナーを接続しない"); add("RFIDスキャナーを接続する");}};
+ArrayList<String> ATT12_VAL = new ArrayList<String>() {{add("0"); add("1");}};
+ArrayList<String> ATT12_NAME = new ArrayList<String>() {{add("Selfモード無効"); add("Selfモード有効");}};
 %>
 <%
 	request.setCharacterEncoding("UTF-8");
@@ -370,6 +372,19 @@ ArrayList<String> ATT11_NAME = new ArrayList<String>() {{add("RFIDスキャナ�
                     </select>
                 </td>
             </tr>
+            <tr>
+                <td align="right">属性１２ ： </td>
+                <td align="left">
+                    <select name="Attribute12" id="Attribute12" required>
+                    <%
+                        for (int i=0;i<ATT12_VAL.size();i++) {
+                            out.print("<option value=\"" + ATT12_VAL.get(i) + "\"");
+                            out.println(">" + ATT12_VAL.get(i) +" : " + ATT12_NAME.get(i) +"</option>");
+                        }
+                    %>
+                    </select>
+                </td>
+            </tr>
 <!--		<tr>
 				<td class="center">属性９</td>
 				<td><input maxlength="4" type="text" name="Attribute9" id="Attribute9" size=4></td>
@@ -415,6 +430,8 @@ jQuery(function ($) {
         valueList.push(document.getElementById('Attribute8').value);
         valueList.push(document.getElementById('Attribute9').value);
         valueList.push(document.getElementById('Attribute10').value);
+        valueList.push(document.getElementById('Attribute11').value);
+        valueList.push(document.getElementById('Attribute12').value);
         var checkResult = checkAttributeRelation(valueList);
         if(checkResult != '') {
             showDialog(

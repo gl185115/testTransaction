@@ -332,6 +332,16 @@ public class WebContextListener implements ServletContextListener {
         }
 
         GlobalConstant.setMaxQRCodePrintNum(systemDao.getParameterValue(GlobalConstant.MAXQRCODEPRINTNUM, GlobalConstant.CATE_PROMOTION));
+
+        // for Self RAP
+        GlobalConstant.setSelfRapAuthenticationUid(systemDao.getParameterValue(GlobalConstant.AUTHENTICATION_UID, GlobalConstant.CATE_SELF_RAP));
+        if (!StringUtility.isNullOrEmpty(GlobalConstant.getSelfRapAuthenticationUid())) {
+        	GlobalConstant.setSelfRapAuthenticationUid(GlobalConstant.DEF_SELF_RAP_AUTHENTICATION_UID);
+        }
+        GlobalConstant.setSelfRapAuthenticationPassword(systemDao.getParameterValue(GlobalConstant.AUTHENTICATION_PASSWORD, GlobalConstant.CATE_SELF_RAP));
+        if (!StringUtility.isNullOrEmpty(GlobalConstant.getSelfRapAuthenticationUid())) {
+        	GlobalConstant.setSelfRapAuthenticationPassword(GlobalConstant.DEF_SELF_RAP_AUTHENTICATION_PWD);
+        }
     }
 
     /**
@@ -367,5 +377,4 @@ public class WebContextListener implements ServletContextListener {
         }
         return defaultValue;
     }
-
 }

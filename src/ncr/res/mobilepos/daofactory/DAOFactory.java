@@ -61,6 +61,7 @@ import ncr.res.mobilepos.promotion.dao.IQrCodeInfoDAO;
 import ncr.res.mobilepos.promotion.dao.ITaxRateInfoDAO;
 import ncr.res.mobilepos.queuebuster.dao.IQueueBusterDAO;
 import ncr.res.mobilepos.report.dao.IReportDAO;
+import ncr.res.mobilepos.selfmode.dao.ISelfModeDAO;
 import ncr.res.mobilepos.settlement.dao.ISettlementInfoDAO;
 import ncr.res.mobilepos.store.dao.IStoreDAO;
 import ncr.res.mobilepos.store.dao.SQLServerStoreDAO;
@@ -69,6 +70,7 @@ import ncr.res.mobilepos.systemsetting.dao.ISystemSettingDAO;
 import ncr.res.mobilepos.tenderinfo.dao.ITenderInfoDAO;
 import ncr.res.mobilepos.terminalInfo.dao.ITerminalInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
+import ncr.res.mobilepos.selfmode.dao.ISelfModeDAO;
 
 /**
  * DAO Factory is an abstract class which represents as the factory for all DAO
@@ -482,4 +484,6 @@ public abstract class DAOFactory {
 	public abstract IPOSMailInfoDAO getPOSMailInfoDAO() throws DaoException;
 
 	public abstract IEmployeeDao getEmployeeDao() throws DaoException;
+	
+	public abstract ISelfModeDAO getISelfModeDAO()throws DaoException;
 }

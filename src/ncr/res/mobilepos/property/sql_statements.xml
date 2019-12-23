@@ -10580,4 +10580,147 @@ ORDER BY empinfo.EmpCode;
         AND
         TrainingFlag = @trainingFlag
 </entry>
+
+<entry key="get-self-mode-status">
+  DECLARE @companyId VARCHAR(12)
+  DECLARE @retailStoreId VARCHAR(10)
+  DECLARE @workstationId VARCHAR(6)
+  SET @companyId = LTRIM(RTRIM(?))
+  SET @retailStoreId = LTRIM(RTRIM(?))
+  SET @workstationId = LTRIM(RTRIM(?))
+  SELECT
+    CompanyId,
+    RetailStoreId,
+    WorkstationId,
+    Status,
+    Message,
+    Alert,
+    UpdateDateTime,
+  FROM [RESTransaction].[dbo].[TXL_SELFMODE_STATE]
+  WHERE
+    ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND
+    ((@retailStoreId IS NULL OR LEN(@retailStoreId) = 0) OR (RetailStoreId = @retailStoreId )) AND
+    ((@workstationId IS NULL OR LEN(@workstationId) = 0) OR (WorkstationId = @workstationId ))
+  group by CompanyId, RetailStoreId, WorkstationId
+  </entry>
+
+<entry key="update-self-mode-status">
+DECLARE @companyId varchar(12),
+    @retailStoreId varchar(10),
+    @workstationId varchar(6),
+    @training int,
+    @status int,
+    @detail int,
+    @printer int,
+    @cashChanger int,
+    @cashChangerCount varchar(max),
+    @cashChangerCountStatus varchar(max),
+    @message varchar(max),
+    @alert int,
+    @updateDateTime DateTime
+SET @companyId = LTRIM(RTRIM(?))
+SET @retailStoreId = LTRIM(RTRIM(?))
+SET @workstationId = LTRIM(RTRIM(?))
+SET @training = LTRIM(RTRIM(?))
+SET @status = LTRIM(RTRIM(?))
+SET @detail = LTRIM(RTRIM(?))
+SET @printer = LTRIM(RTRIM(?))
+SET @cashChanger = LTRIM(RTRIM(?))
+SET @cashChangerCount = LTRIM(RTRIM(?))
+SET @cashChangerCountStatus = LTRIM(RTRIM(?))
+SET @message = LTRIM(RTRIM(?))
+SET @alert = LTRIM(RTRIM(?))
+SET @updateDateTime = LTRIM(RTRIM(?))
+
+IF NOT EXISTS (
+  SELECT
+    CompanyId
+  FROM RESTransaction.dbo.TXL_SELFMODE_STATE
+  WHERE
+    CompanyId= @companyId
+    AND
+    RetailStoreId = @retailStoreId
+    AND
+    WorkstationId = @workstationId
+)
+  INSERT INTO RESTransaction.dbo.TXL_SELFMODE_STATE(
+    CompanyId,
+    RetailStoreId,
+    WorkstationId,
+    Training,
+    Status,
+    Detail,
+    Printer,
+    CashChanger,
+    CashChangerCount,
+    CashChangerCountStatus,
+    Message,
+    Alert,
+    UpdateDateTime)
+  VALUES(
+    @companyId,
+    @retailStoreId,
+    @workstationId,
+    @training,
+    @status,
+    @detail,
+    @printer,
+    @cashChanger,
+    @cashChangerCount,
+    @cashChangerCountStatus,
+    @message,
+    @alert,
+    @updateDateTime
+  );
+ELSE
+  UPDATE RESTransaction.dbo.TXL_SELFMODE_STATE
+  SET
+    CompanyId = @companyId,
+    RetailStoreId = @retailStoreId,
+    WorkstationId = @workstationId,
+    Training = @training,
+    Status = @status,
+    Detail = @detail,
+    Printer = @printer,
+    CashChanger = @cashChanger,
+    CashChangerCount = @cashChangerCount,
+    CashChangerCountStatus = @cashChangerCountStatus,
+    Message = @message,
+    Alert = @alert,
+    UpdateDateTime = @updateDateTime
+  WHERE
+    CompanyId= @companyId
+    AND
+    RetailStoreId = @retailStoreId
+    AND
+    WorkstationId = @workstationId
+</entry>
+<entry key="get-self-mode-status">
+  DECLARE @companyId VARCHAR(12),
+     @retailStoreId VARCHAR(10),
+     @workstationId VARCHAR(6)
+  SET @companyId = LTRIM(RTRIM(?))
+  SET @retailStoreId = LTRIM(RTRIM(?))
+  SET @workstationId = LTRIM(RTRIM(?))
+  SELECT
+    CompanyId,
+    RetailStoreId,
+    WorkstationId,
+    Training,
+    Status,
+    Detail,
+    Printer,
+    CashChanger,
+    CashChangerCount,
+    CashChangerCountStatus,
+    Message,
+    Alert,
+    UpdateDateTime
+  FROM RESTransaction.dbo.TXL_SELFMODE_STATE
+  WHERE
+    ((@companyId IS NULL OR LEN(@companyId) = 0) OR (CompanyId = @companyId )) AND
+    ((@retailStoreId IS NULL OR LEN(@retailStoreId) = 0) OR (RetailStoreId = @retailStoreId )) AND
+    ((@workstationId IS NULL OR LEN(@workstationId) = 0) OR (WorkstationId = @workstationId ))
+</entry>
+
 </properties>

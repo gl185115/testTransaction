@@ -120,6 +120,8 @@ import ncr.res.mobilepos.terminalInfo.dao.ITerminalInfoDAO;
 import ncr.res.mobilepos.terminalInfo.dao.SQLServerTerminalInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.ITillInfoDAO;
 import ncr.res.mobilepos.tillinfo.dao.SQLServerTillInfoDAO;
+import ncr.res.mobilepos.selfmode.dao.ISelfModeDAO;
+import ncr.res.mobilepos.selfmode.dao.SQLServerSelfModeDAO;
 
 /**
  * SQLServerDAOFactory is DAO Factory dedicated for SQLServer only.
@@ -434,4 +436,9 @@ public class SQLServerDAOFactory extends DAOFactory {
     public IFuturePayDAO getFuturePayDAO() throws DaoException {
         return new SQLServerFuturePayDAO();
     }
+    
+	@Override
+	public ISelfModeDAO getISelfModeDAO() throws DaoException {
+		return new SQLServerSelfModeDAO();
+	}
 }

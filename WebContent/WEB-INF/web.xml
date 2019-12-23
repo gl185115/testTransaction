@@ -62,6 +62,8 @@
         ncr.res.mobilepos.posmailinfo.resource,
         ncr.res.mobilepos.employee.resource,
         ncr.res.mobilepos.ej.resource
+        ncr.res.mobilepos.callExternalApi.resource
+        ncr.res.mobilepos.selfmode.resource
     </param-value>
     </init-param>
     <init-param>
@@ -143,6 +145,7 @@
       <url-pattern>/rest/remoteitem/*</url-pattern>
       <url-pattern>/rest/enterprisedpt/*</url-pattern>
       <url-pattern>/rest/enterpriseej/*</url-pattern>
+      <url-pattern>/rest/selfmode/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -160,13 +163,6 @@
     <auth-method>BASIC</auth-method>
     <realm-name>Web API Credential</realm-name>
   </login-config>
-  <resource-ref>
-    <description>Primary database</description>
-    <res-ref-name>jdbc/ENTSVR</res-ref-name>
-    <res-type>javax.sql.DataSource</res-type>
-    <res-auth>Container</res-auth>
-    <mapped-name>jdbc/ENTSVR</mapped-name>
-  </resource-ref>
   <listener>
     <listener-class>ncr.res.mobilepos.systemconfiguration.property.WebContextListener</listener-class>
   </listener>

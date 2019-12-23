@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/default.css">
+        <script type="text/javascript" src="./js/setConfiguration.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div id='conf' style="position: absolute; top: 0;left: 0;bottom: 0;right: 0;margin: auto; width: 400px; height:400px">
+            <h1>監視対象POS設定</h1>
+            <p>対象POSのホスト名を追加して、保存ボタンを押してください</p>
+            <br />
+            <table>
+                <thead>
+                    <tr>
+                        <td>ホスト名※</td>
+                        <td>備考</td>
+                        <!-- <td>追加</td> -->
+                        <td>削除</td>
+                    </tr>
+                </thead>
+                <tbody id='confTable'>
+                    <!-- <tr>
+                        <td><input type="text" class="hostName"></td>
+                        <td><input type="text" class="description"></td>
+                        <td><input type="button" class="add" value="○"></td>
+                        <td><input type="button" class="del" value="●"></td>
+                    </tr> -->
+                </tbody>
+            </table>
+            <div>
+                <input type="button" value="保存" id="saveButton">
+                <input type="button" value="追加" id="addButton">
+            </div>
+            <div>
+                    <input type="button" id='closeButton' class="res-small-green" value="閉じる">
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./css/default.css">
+        <script type="text/javascript" src="./js/setChildView.js"></script>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        
+
+    </head>
+    <body>
+        <div id='detail' style="position: absolute; top: 0;left: 0;bottom: 0;right: 0;margin: auto; width: 400px; height:400px">
+            <div class="indexRight">
+                <div class="table-scroll-area-v table-scroll-area-h" id="detailTable" style="height: 450px;">
+                    <table class="res-list-tbl res-detail-tbl" id="">
+                        <tr class="WorkstationId"><th>レジ番号</th><td class='val0'></td></tr>
+                        <tr class="Status"><th>端末ステータス</th><td class='val1'></td></tr>
+                        <tr class="Training"><th>POSモード</th><td class='val2'></td></tr>
+                        <tr class="Printer"><th>プリンター</th><td class='val3'></td></tr>
+                        <tr class="CashChanger"><th>自動釣銭機</th><td class='val4'></td></tr>
+                        <tr class="CashChangerAmount"><th>釣銭在高金額</th><td class='val5'></td></tr>
+                        <tr class="CashChangerCount"><th>釣銭在高枚数</th>
+                            <td>
+                                <table class="innerTable">
+                                    <tr>
+                                        <td><span>1円</span><p class='val6'></p></td>
+                                        <td><span>5円</span><p class='val7'></p></td>
+                                        <td><span>10円</span><p class='val8'></p></td>
+                                        <td><span>50円</span><p class='val9'></p></td>
+                                        <td><span>100円</span><p class='val10'></p></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span>500円</span><p class='val11'></p></td>
+                                        <td><span>千円</span><p class='val12'></p></td>
+                                        <td><span>2千円</span><p class='val13'></p></td>
+                                        <td><span>5千円</span><p class='val14'></p></td>
+                                        <td><span>1万円</span><p class='val15'></p></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="CloseButton" colspan="2">
+                                <div>
+                                    <input type="button" id='closeButton' class="res-small-green" value="閉じる">
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>        
+        </div>
+    </body>
+</html>

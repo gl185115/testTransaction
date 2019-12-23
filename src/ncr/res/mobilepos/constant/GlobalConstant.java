@@ -274,6 +274,11 @@ public final class GlobalConstant {
     /** BizCatIdColumnOfStoreInfo **/
     private static String bizCatIdColumnOfStoreInfo;
 
+    /** Self RAP **/
+    public static final String CATE_SELF_RAP = "SelfRap";
+    public static final String DEF_SELF_RAP_AUTHENTICATION_UID = "entsvr";
+    public static final String DEF_SELF_RAP_AUTHENTICATION_PWD = "ncr";
+
     /** Terminal Item map. **/
     private static Map<String, TerminalItem> terminalItemsMap = new HashMap<>();
 
@@ -323,6 +328,17 @@ public final class GlobalConstant {
      * Allow or disallow multiple SOD on businessdaydate.
      */
     private static boolean multiSOD = false;
+
+    /**
+     * Self RAP feature authentication userid
+     */
+    private static String selfRapAuthenticationUid;
+
+     /**
+      * Self RAP feature authentication password
+      */
+     private static String selfRapAuthenticationPassword;
+
 
     /**
      * Gets Tax Rate.
@@ -652,7 +668,7 @@ public final class GlobalConstant {
     public static void setEnterpriseServerUri(String enterpriseServerUri) {
         GlobalConstant.enterpriseServerUri = enterpriseServerUri;
     }
-    
+
     public static String getAuthenticationUid() {
         return authenticationUid;
     }
@@ -660,7 +676,7 @@ public final class GlobalConstant {
     public static void setAuthenticationUid(String authenticationUid) {
         GlobalConstant.authenticationUid = authenticationUid;
     }
-    
+
     public static String getAuthenticationPassword() {
         return authenticationPassword;
     }
@@ -733,5 +749,20 @@ public final class GlobalConstant {
         GlobalConstant.systemConfigInfoList = systemConfigInfoList;
     }
 
+	public static String getSelfRapAuthenticationUid() {
+		return selfRapAuthenticationUid;
+	}
+
+	public static void setSelfRapAuthenticationUid(String selfRapAuthenticationUid) {
+		GlobalConstant.selfRapAuthenticationUid = selfRapAuthenticationUid;
+	}
+
+	public static String getSelfRapAuthenticationPassword() {
+		return selfRapAuthenticationPassword;
+	}
+
+	public static void setSelfRapAuthenticationPassword(String selfRapAuthenticationPassword) {
+		GlobalConstant.selfRapAuthenticationPassword = selfRapAuthenticationPassword;
+	}
 }
 

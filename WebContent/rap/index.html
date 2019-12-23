@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="./css/default.css">
+<script type="text/javascript" src="./js/sendRequest.js" type="text/javascript">
+</script>
+<title>NCR SelfPOS Information</title>
+</head>
+<body class="indexBody">
+  <div class="indexTop">NCR セルフ端末情報</div>
+  <div class="indexMiddle">
+    <div class="guide">
+	※セルフ端末の情報を表示します。
+    </div>
+	<div class="errorDescription"></div>
+	<div class="configuration">
+		<input type="button" id="configButton" class='res-small-green' value="設定" />
+	</div>
+	<br>
+	<div id='count'></div>
+	<div class="indexLeft">
+	    <div class="table-scroll-area-v table-scroll-area-h" id="table" style="height: 180px;">
+		    <table class="res-list-tbl">
+			    <thead>
+				    <tr>
+					    <th class="termNo">レジ番号</th>
+					    <th class="termState">端末状況</th>
+					    <th class="callHelpReason">係員呼出理由</th>
+					    <th class="linkDetailPage"> </th>
+				    </tr>
+			    </thead>
+			    <tbody id="logs">
+			    </tbody>
+		    </table>
+	    </div>
+	</div>
+	<iframe id="iframe" style="display: none;" name="tempData">
+	</iframe>
+	<div class="indexRight">
+	    <div class="table-scroll-area-v table-scroll-area-h" id="detailTable" style="height: 600px;"></div>
+	</div>
+	<input type="button" style='display: none;' id="hiddenButton" value='hiddenButton'><input />
+  </div>
+</body>
+</html>

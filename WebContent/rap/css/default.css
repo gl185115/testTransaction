@@ -1,0 +1,352 @@
+/* all */
+* {  
+    margin:0;  
+    padding:0;  
+    font-family: 'Helvetica','Arial','���C���I','Meiryo UI','Hiragino Kaku Gothic ProN','�q���M�m�p�S ProN W3','sans-serif';
+}
+
+/* index */
+body.indexBody {
+    font-size: 12px;
+    line-height: 1.1;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    background: hsl(208, 11%, 90%);
+}
+.indexBody .indexTop {
+    position: relative;
+    margin: 0 auto;
+    background: linear-gradient(to bottom, #719e37 0%, #719e37 100%);
+    border: none;
+    
+    overflow: hidden;
+    box-sizing: border-box;
+    width: 1000px;
+    height: 60px;
+    z-index: 1000;
+    padding: 15px 25px;
+    
+    color: #fff;
+    font-size: 22px;
+    letter-spacing: -1px;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+    margin: 0 auto;
+}
+.indexBody .guide {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    padding:10px;
+    font-size:20px;
+}
+.indexBody .errorDescription {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    padding:10px;
+    font-size:20px;
+    color:red;
+    display:block;
+}
+.indexBody .indexMiddle {
+    position: relative;
+    margin: 0 auto;
+    width: 1000px;
+    height: 900px;
+}
+.indexBody .indexLeft {
+    position: absolute;
+    width: 500px;
+    height: 900px;
+}
+.indexBody .indexRight {
+    position: absolute;
+    left: 520px;
+    width: 480x;
+    height: 880px;
+}
+
+.res-selfposlist {
+}
+.res-selfposlist DIV.table-scroll-area-h {
+    overflow-x:auto;
+}
+.res-selfposlist DIV.table-scroll-area-v {
+    overflow-y:auto;
+}
+/* tables */
+.indexLeft table.res-list-tbl, .indexRight table.res-list-tbl {
+    border-collapse: collapse;
+    white-space: nowrap;
+}
+.indexLeft table.res-list-tbl th, .indexRight table.res-list-tbl th {
+    color: white;
+    height: 26px;
+    padding: 6px 6px;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,60%)),to(hsl(0,0%,20%)));
+    background: -ms-linear-gradient(top,hsl(0,0%,60%),hsl(0,0%,20%));
+    background: -moz-linear-gradient(top,hsl(0,0%,60%),hsl(0,0%,20%));
+    text-shadow:0 -1px 0 rgba(34,85,136,0.9);
+    font-size: 16px;
+    font-weight: normal;
+    border-left: 1px solid white;
+    border-top: none;
+    border-right: 1px solid white;
+    border-bottom: 1px solid white;
+}
+.indexLeft table.res-list-tbl th.termNo {
+    width:60px;
+}
+.indexLeft table.res-list-tbl th.termState {
+    width:150px;
+}
+.indexLeft table.res-list-tbl th.callHelpReason {
+    width:100px;
+}
+.indexLeft table.res-list-tbl th.options {
+    width:40px;
+}
+.indexLeft table.res-list-tbl th.linkDetailPage{
+    background: none;
+    border: none;
+    width:50px;
+}
+
+@-webkit-keyframes blink {
+    0%, 100% {
+      color: white;
+      background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,100%,80%)),to(hsl(0,100%,50%)));
+      background:-ms-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));
+      background:-moz-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));
+    }
+    50% {
+      color: black;
+      background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%)));
+      background: -ms-linear-gradient(top,hsl(0,0%,95%),hsl(0,0%,80%));
+      background: -moz-linear-gradient(top,hsl(0,0%,95%),hsl(0,0%,80%));
+    }
+}
+
+@keyframes blink_ms {
+    0%, 100% {
+      color: white;
+      background:-ms-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));
+    }
+    50% {
+      color: black;
+      background: -ms-linear-gradient(top,hsl(0,0%,95%),hsl(0,0%,80%));
+    }
+}
+
+.indexLeft table.res-list-tbl tr td{
+    color: black;
+    height: 30px;
+    padding: 6px 6px;
+    background-color: white;
+    font-size: 16px;
+    border-left: 1px solid black;
+    border-top: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    text-align:center;
+    -webkit-animation: none;
+    animation: none;
+}
+.indexRight table.res-list-tbl tr td {
+    color: black;
+    height: 30px;
+    padding: 6px 6px;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,95%)),to(hsl(0,0%,80%)));
+    background: -ms-linear-gradient(top,hsl(0,0%,95%),hsl(0,0%,80%));
+    background: -moz-linear-gradient(top,hsl(0,0%,95%),hsl(0,0%,80%));
+    font-size: 16px;
+    border-left: 1px solid black;
+    border-top: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    text-align:center;
+    -webkit-animation: none;
+    animation: none;
+}
+
+.indexLeft table.res-list-tbl tr.alert td {
+    color: white;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,100%,80%)),to(hsl(0,100%,50%)));
+    background:-ms-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));
+    background:-moz-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));
+    -webkit-animation-name: blink;
+    -webkit-animation-duration: 2s;
+    -webkit-animation-timing-function: step-end;
+    -webkit-animation-iteration-count:  infinite;
+    animation-name: blink_ms;
+    animation-duration: 2s;
+    animation-timing-function: step-end;
+    animation-iteration-count:  infinite;
+}
+.indexLeft table.res-list-tbl tr.warning td {
+    color: black;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(60,100%,90%)),to(hsl(60,100%,50%)));
+    background:-ms-linear-gradient(top,hsl(60,100%,90%),hsl(60,100%,50%));
+    background:-moz-linear-gradient(top,hsl(60,100%,90%),hsl(60,100%,50%));
+    -webkit-animation: none;
+    animation: none;
+}
+.indexLeft table.res-list-tbl tr.unconnected td {
+    color: white;
+    background-color: gray;
+    -webkit-animation: none;
+    animation: none;
+}
+.indexLeft table.res-list-tbl tr td.linkDetailPage {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 0px 0px 0px 10px;
+    -webkit-animation: none;
+    animation: none;
+}
+.indexLeft .res-small,
+.indexLeft .res-small-green, .indexRight .res-small-green {
+    width:60px;
+    height:30px;
+    border-radius:5px;
+    border-style: none;
+    border-width: 0px;
+    font-size: 14px;
+    -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 2px;
+    box-shadow: hsl(0,0%,0%) 0px 1px 2px;
+}
+.indexLeft .res-small-green, .indexRight .res-small-green {
+    color: hsl(0,0%,100%);
+    background:-webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%)));
+    background:-ms-linear-gradient(top,hsl(112,45%,70%),hsl(112,45%,40%));
+    background:-moz-linear-gradient(top,hsl(112,45%,70%),hsl(112,45%,40%));
+}
+.indexLeft input:disabled {
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,75%)),to(hsl(0,0%,55%)));
+    background: -ms-linear-gradient(top,hsl(0,0%,75%),hsl(0,0%,55%));
+    background: -moz-linear-gradient(top,hsl(0,0%,75%),hsl(0,0%,55%));
+}
+
+
+
+.indexRight .bdr {
+    position: absolute;
+    width: 8px;
+    height: 100%;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,90%)),to(hsl(0,0%,50%)));
+    background: -ms-linear-gradient(top,hsl(0,0%,90%),hsl(0,0%,50%));
+    background: -moz-linear-gradient(top,hsl(0,0%,90%),hsl(0,0%,50%));
+    border: none;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.indexRight .panel {
+    position: absolute;
+    width: 460px;
+    height: 100%;
+    border: none;
+    z-index: 1;
+    overflow: hidden;
+    padding: 0 0 0 20px;
+}
+
+.indexRight table.res-detail-tbl {
+/*    border-collapse: collapse; */
+}
+.indexRight table.res-detail-tbl td.fieldname {
+    color: white;
+    height: 26px;
+    width: 160px;
+    padding: 6px 16px;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,60%)),to(hsl(0,0%,40%)));
+    background: -ms-linear-gradient(top,hsl(0,0%,60%),hsl(0,0%,40%));
+    background: -moz-linear-gradient(top,hsl(0,0%,60%),hsl(0,0%,40%));
+    text-shadow:0 -1px 0 rgba(34,85,136,0.9);
+    font-size: 16px;
+    text-align: left;
+}
+.indexRight table.res-detail-tbl td.fieldvalue {
+    color: black;
+    height: 26px;
+    width: 260px;
+    padding: 6px 16px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: 1px solid black;
+    text-align: left;
+}
+.indexRight table.res-changer-detail-tbl {
+	border: 1px solid black;
+}
+.indexRight table.res-changer-detail-tbl td.fieldname {
+    color: white;
+    height: 26px;
+    width: 160px;
+    padding: 6px 16px;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,0%,60%)),to(hsl(0,0%,40%)));
+    background: -ms-linear-gradient(top,hsl(0,0%,60%),hsl(0,0%,40%));
+    background: -moz-linear-gradient(top,hsl(0,0%,60%),hsl(0,0%,40%));
+    text-shadow:0 -1px 0 rgba(34,85,136,0.9);
+    font-size: 16px;
+    text-align: left;
+    border: 1px solid black;
+}
+.indexRight table.res-changer-detail-tbl td.fieldvalue {
+    color: black;
+    height: 26px;
+    width: 260px;
+    padding: 6px 16px;
+    font-size: 16px;
+    font-weight: normal;
+    border-bottom: 1px solid black;
+    text-align: left;
+    border: 1px solid black;
+}
+.indexRight table.innerTable {
+    white-space: nowrap;
+}
+
+.hide {
+    display: none;
+}
+
+.indexRight table.res-list-tbl td.CloseButton {
+    width: 100%;
+    background: white;
+    border: 0;
+}
+
+.indexRight table.res-list-tbl tr td.Alert, 
+.indexRight table.res-list-tbl tr td.Unexpected {
+    color: white;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(0,100%,80%)),to(hsl(0,100%,50%)));
+    background:-ms-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));
+    background:-moz-linear-gradient(top,hsl(0,100%,80%),hsl(0,100%,50%));   
+}
+.indexRight table.res-list-tbl tr td.Warning {
+    color: black;
+    background: -webkit-gradient(linear,left top,left bottom,from(hsl(60,100%,90%)),to(hsl(60,100%,50%)));
+    background:-ms-linear-gradient(top,hsl(60,100%,90%),hsl(60,100%,50%));
+    background:-moz-linear-gradient(top,hsl(60,100%,90%),hsl(60,100%,50%));
+}
+
+.configuration .res-small-green {
+    width:60px;
+    height:30px;
+    border-radius:5px;
+    border-style: none;
+    border-width: 0px;
+    font-size: 14px;
+    -webkit-box-shadow: hsl(0,0%,0%) 0px 1px 2px;
+    box-shadow: hsl(0,0%,0%) 0px 1px 2px;
+    color: hsl(0,0%,100%);
+    background:-webkit-gradient(linear,left top,left bottom,from(hsl(112,45%,70%)),to(hsl(112,45%,40%)));
+    background:-ms-linear-gradient(top,hsl(112,45%,70%),hsl(112,45%,40%));
+    background:-moz-linear-gradient(top,hsl(112,45%,70%),hsl(112,45%,40%));
+}

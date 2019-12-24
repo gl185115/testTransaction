@@ -1,7 +1,7 @@
 
 // when DOM content loaded, send api request
 window.addEventListener('DOMContentLoaded', function() {
-    
+
     // var APIDATA_NONE_MESSAGE = '端末ステータスを取得できませんでした。'
     var INTERVAL = 1000;
     var isCounting = false;
@@ -38,7 +38,7 @@ window.addEventListener('DOMContentLoaded', function() {
     // expected api data
     // TODO Add ItemCounts , Total
     var testJson0 = {
-        CompanyId: "kinokuniya",
+        CompanyId: "test-company",
         RetailStoreId: "0001",
         WorkstationId: "0001",
         Training: 0,
@@ -53,7 +53,7 @@ window.addEventListener('DOMContentLoaded', function() {
         UpdateDatetime: "2019-08-01 00:00:00"
     };
     var testJson1 = {
-        CompanyId: "kinokuniya",
+        CompanyId: "test-company",
         RetailStoreId: "0001",
         WorkstationId: "0002",
         Training: 1,
@@ -68,7 +68,7 @@ window.addEventListener('DOMContentLoaded', function() {
         UpdateDatetime: "2019-08-01 00:00:00"
     };
     var testJson2 = {
-        CompanyId: "kinokuniya",
+        CompanyId: "test-company",
         RetailStoreId: "0001",
         WorkstationId: "0003",
         Training: 1,
@@ -306,7 +306,7 @@ window.addEventListener('DOMContentLoaded', function() {
             detailTable.classList.add('res-list-tbl');
             detailTable.classList.add('res-detail-tbl');
             if (strage.getItem(strageViewStateKey) !== jsonData['WorkstationId']) {
-                detailTable.classList.add('hide');    
+                detailTable.classList.add('hide');
             }
             var detailTrPre = detailCreateRowsPre(jsonData);
             var detailTrSuf = detailCreateRowsSuf(jsonData);
@@ -319,7 +319,7 @@ window.addEventListener('DOMContentLoaded', function() {
         var xhttp = new XMLHttpRequest();
         xhttp.onerror = function () {
             console.log("error", xhttp);
-            if (callback && typeof callback === 'function') { 
+            if (callback && typeof callback === 'function') {
                 callback(errData(desc));
             }
         }

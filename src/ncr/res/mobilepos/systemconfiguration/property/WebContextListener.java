@@ -335,11 +335,11 @@ public class WebContextListener implements ServletContextListener {
 
         // for Self RAP
         GlobalConstant.setSelfRapAuthenticationUid(systemDao.getParameterValue(GlobalConstant.AUTHENTICATION_UID, GlobalConstant.CATE_SELF_RAP));
-        if (!StringUtility.isNullOrEmpty(GlobalConstant.getSelfRapAuthenticationUid())) {
+        if (StringUtility.isNullOrEmpty(GlobalConstant.getSelfRapAuthenticationUid())) {
         	GlobalConstant.setSelfRapAuthenticationUid(GlobalConstant.DEF_SELF_RAP_AUTHENTICATION_UID);
         }
         GlobalConstant.setSelfRapAuthenticationPassword(systemDao.getParameterValue(GlobalConstant.AUTHENTICATION_PASSWORD, GlobalConstant.CATE_SELF_RAP));
-        if (!StringUtility.isNullOrEmpty(GlobalConstant.getSelfRapAuthenticationUid())) {
+        if (StringUtility.isNullOrEmpty(GlobalConstant.getSelfRapAuthenticationPassword())) {
         	GlobalConstant.setSelfRapAuthenticationPassword(GlobalConstant.DEF_SELF_RAP_AUTHENTICATION_PWD);
         }
     }

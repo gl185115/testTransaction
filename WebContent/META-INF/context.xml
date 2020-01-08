@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-    <Resource auth="Container" description="Database Connection" name="jdbc/MSSQLSERVER" type="javax.sql.DataSource"
+    <Resource auth="Container" name="jdbc/MSSQLSERVER" type="javax.sql.DataSource"
         driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
         url="jdbc:sqlserver://localhost:1433;databaseName=RESTransaction;selectMethod=cursor;sendStringParametersAsUnicode=false" username="entsvr" password="ncrsa_ora"
-        maxTotal="50" maxIdle="10" defaultAutoCommit="false" />    
-    <Realm className="org.apache.catalina.realm.JDBCRealm"
-        connectionName="entsvr"
-        connectionPassword="ncrsa_ora"
-        connectionURL="jdbc:sqlserver://localhost:1433;databaseName=RESMaster;selectMethod=cursor;sendStringParametersAsUnicode=false"
-        driverName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
-        userTable="MST_USER_CREDENTIALS"
-        userCredCol="PassCode"
-        userNameCol="OperatorNo"
-        userRoleTable="MST_USER_CREDENTIALS"
-        roleNameCol="Role" />
+        maxTotal="50" maxIdle="50" defaultAutoCommit="false" />
+
+    <Realm className="org.apache.catalina.realm.DataSourceRealm"
+          userTable="RESMaster.dbo.MST_USER_CREDENTIALS"
+          userCredCol="PassCode"
+          userNameCol="OperatorNo"
+          userRoleTable="RESMaster.dbo.MST_USER_CREDENTIALS"
+          dataSourceName="jdbc/MSSQLSERVER"
+          roleNameCol="Role"
+          localDataSource="true" />
 </Context>

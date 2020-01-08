@@ -9,6 +9,7 @@ public enum UiConfigType {
     USABILITY("usability"),
     ADVERTISES("advertise"),
     RECEIPT("receipt"),
+    SOUNDS("sounds"),
     UNKNOWN("");
 
     private final String key;

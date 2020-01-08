@@ -52,6 +52,8 @@ public class UiConfigResource {
     // Extensions for custom images.
     private static final String EXTENSION_CUSTOM_IMAGE_JPG = ".jpg";
     private static final String EXTENSION_CUSTOM_IMAGE_PNG = ".png";
+    private static final String EXTENSION_CUSTOM_IMAGE_GIF = ".gif";
+    private static final String EXTENSION_CUSTOM_SOUND_WAV = ".wav";
 
     /**
      * UiConfigProperties
@@ -219,6 +221,9 @@ public class UiConfigResource {
                             + " workstationID:" + workstationID);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
+
+
+
 
         if (UiConfigType.ADVERTISES == configType) {
             Task effectiveTaskWorkstation = new Task();
@@ -388,7 +393,7 @@ public class UiConfigResource {
      */
     @Path("/custom/{typeParam}/images/{filename}")
     @GET
-    @Produces({"image/png", "image/jpg"})
+    @Produces({"image/png", "image/jpg", "image/gif"})
     @ApiOperation(value="各種カスタムイメージファイルの取得", response=Response.class)
     public final Response requestTypeParamCustomImage(
             @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
@@ -407,8 +412,8 @@ public class UiConfigResource {
             // This exception is never thrown.
         }
 
-        // 2, Validates file extension, it should be png or jpg.
-        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG)) {
+        // 2, Validates file extension, it should be png or jpg or gif.
+        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_GIF)) {
             tp.methodExit("Invalid filename:" + filename);
             LOGGER.logAlert(
                     this.getClass().getSimpleName(),
@@ -449,8 +454,8 @@ public class UiConfigResource {
      */
     @Path("/custom/images/{typeParam}/{filename}")
     @GET
-    @Produces({"image/png", "image/jpg"})
-    @ApiOperation(value="各種カスタムイメージファイルの取得(未使用)", response=Response.class)
+    @Produces({"image/png", "image/jpg", "image/gif"})
+    @ApiOperation(value="各種カスタムイメージファイルの取得", response=Response.class)
     public final Response requestCustomTypeParamImage(
             @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
             @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
@@ -468,8 +473,8 @@ public class UiConfigResource {
             // This exception is never thrown.
         }
 
-        // 2, Validates file extension, it should be png or jpg.
-        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG)) {
+        // 2, Validates file extension, it should be png, jpg or gif.
+        if (!filename.endsWith(EXTENSION_CUSTOM_IMAGE_PNG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_JPG) && !filename.endsWith(EXTENSION_CUSTOM_IMAGE_GIF)) {
             tp.methodExit("Invalid filename:" + filename);
             LOGGER.logAlert(
                     this.getClass().getSimpleName(),
@@ -489,6 +494,66 @@ public class UiConfigResource {
                     "requestCustomImage",
                     Logger.RES_EXCEP_FILENOTFOUND,
                     "Custom image not found:" + filename);
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        // 4, Returns file for the response.
+        Response.ResponseBuilder rb = new ResponseBuilderImpl();
+        rb.header("Content-Disposition", "attachment; filename=\"" + filename + "\"");
+        rb.status(Response.Status.OK);
+        rb.entity(file);
+        tp.methodExit("Returns " + file.getAbsolutePath());
+        return rb.build();
+    }
+
+    /**
+     * Returns custom sound files.
+     *
+     * @param filenameParam
+     * @return
+     */
+    @Path("/custom/sounds/{typeParam}/{filename}")
+    @GET
+    @Produces({"sound/wav"})
+    @ApiOperation(value="カスタム音声ファイル取得", response=Response.class)
+    public final Response requestCustomTypeParamSounds(
+            @ApiParam(name="typeParam", value="リソースタイプ") @PathParam("typeParam") final String typeParam,
+            @ApiParam(name="filename", value="ファイル名") @PathParam("filename") final String filenameParam) {
+        // Logs given parameters.
+        tp = DebugLogger.getDbgPrinter(Thread.currentThread().getId(), getClass());
+        tp.methodEnter("/uiconfig/custom/sounds/" + typeParam + "/" + filenameParam);
+        tp.println("typeParam", typeParam);
+        tp.println("filename", filenameParam);
+
+        // 1, Decodes filename.
+        String filename = null;
+        try {
+            filename = URLDecoder.decode(filenameParam, UiConfigHelper.URL_ENCODING_CHARSET);
+        } catch (UnsupportedEncodingException e) {
+            // This exception is never thrown.
+        }
+
+        // 2, Validates file extension, it should be wav
+        if (!filename.endsWith(EXTENSION_CUSTOM_SOUND_WAV)) {
+            tp.methodExit("Invalid filename:" + filename);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomSounds",
+                    Logger.RES_EXCEP_GENERAL,
+                    "Invalid filename:" + filename);
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        // 3, Searches a file with the given name in custom base path.
+        String customBasePath = configProperties.getCustomResourceBasePath() + UiConfigType.SOUNDS.toString() + "/" + typeParam + "/";
+        File file = UiConfigHelper.searchImageFile(customBasePath, filename);
+        if (file == null) {
+            tp.methodExit("Custom sound not found:" + filename);
+            LOGGER.logAlert(
+                    this.getClass().getSimpleName(),
+                    "requestCustomSounds",
+                    Logger.RES_EXCEP_FILENOTFOUND,
+                    "Custom sound not found:" + filename);
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 

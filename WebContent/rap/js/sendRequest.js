@@ -5,7 +5,9 @@ window.addEventListener('DOMContentLoaded', function() {
     // var APIDATA_NONE_MESSAGE = '端末ステータスを取得できませんでした。'
     var INTERVAL = 1000;
     var isCounting = false;
-    var count = 3;
+    var countNum = 3;
+    var refreshFlag = false;
+    var count = countNum;
     var childWindow = null;
     var configWindow = null;
     var strageKey = 'selfModeConfiguration';
@@ -299,9 +301,14 @@ window.addEventListener('DOMContentLoaded', function() {
         if(jsonData) {
             var tbody = document.getElementById('logs');
             var tr = LogCreateRows(jsonData);
-            tbody.appendChild(tr);
             var detailTableDiv = document.getElementById('detailTable');
             var detailTable = document.createElement('table');
+            if(refreshFlag){
+                detailTableDiv.innerHTML = "";
+                tbody.innerHTML = "";
+                refreshFlag = false;
+            }
+            tbody.appendChild(tr);
             detailTable.id = 'detail_' + jsonData['WorkstationId'];
             detailTable.classList.add('res-list-tbl');
             detailTable.classList.add('res-detail-tbl');
@@ -357,6 +364,18 @@ window.addEventListener('DOMContentLoaded', function() {
         xhttp.send(null);
     }
 
+    var loadApiData = function() {
+        HOSTNAME_LIST.map(function (v) {
+            if (v.host && v.desc) {
+                getJsonDataFromAPI(
+                    BASE_URL + '?HttpMethod=' + METHOD + "&Resource=" + v.host,
+                    v.desc,
+                    setJsonData
+                );
+            }
+        });
+    }
+
 // initialize
 init = (function () {
     // bind click event
@@ -368,21 +387,17 @@ init = (function () {
     // testDataSet.forEach(function(json, i) { setJsonData(json, i) });
 
     // load API data
-    HOSTNAME_LIST.map(function (v) {
-        if (v.host && v.desc) {
-            getJsonDataFromAPI(
-                BASE_URL + '?HttpMethod=' + METHOD + "&Resource=" + v.host,
-                v.desc,
-                setJsonData
-            );
-        }
-        isCounting = true;
-    });
+    loadApiData();
+    isCounting = true;
 
     // refresh page
     setInterval(function() {
         if (isCounting) count --;
-        if (count <= 0) location.reload();
+        if (count <= 0){
+            refreshFlag = true;
+            loadApiData();
+            count = countNum;
+        }
     },INTERVAL);
 
 })();

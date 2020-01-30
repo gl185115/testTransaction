@@ -12,7 +12,11 @@ window.addEventListener('DOMContentLoaded', function() {
     var configWindow = null;
     var strageKey = 'selfModeConfiguration';
     var BASE_URL = '/resTransaction/rest/callExternal/get';
-    var HOSTNAME_LIST = (localStorage.getItem(strageKey)) ? JSON.parse(localStorage.getItem(strageKey)) : [];
+    try{
+        var HOSTNAME_LIST = (localStorage.getItem(strageKey)) ? JSON.parse(localStorage.getItem(strageKey)) : [];
+    }catch(error){
+        console.log(error);
+    }
     var METHOD = 'POST';
     var clientId = 'entsvr';
     var clientSecret = 'ncr';
@@ -37,53 +41,6 @@ window.addEventListener('DOMContentLoaded', function() {
     var strage = localStorage;
     var strageViewStateKey = 'selfModeViewState';
 
-    // expected api data
-    // TODO Add ItemCounts , Total
-    var testJson0 = {
-        CompanyId: "test-company",
-        RetailStoreId: "0001",
-        WorkstationId: "0001",
-        Training: 0,
-        Status: 0,
-        Detail: 0,
-        Printer: 0,
-        CashChanger: 0,
-        CashChangerCount:  '{ "amount": 550000, "count": [40,13,0,183,24,45,27,84,94,115] }',
-        CashChangerCountStatus:   '{ "CashChangerCountStatus": [0,0,1,2,3,4,0,0,0,0] }',
-        Message: "",
-        Alert: 0,
-        UpdateDatetime: "2019-08-01 00:00:00"
-    };
-    var testJson1 = {
-        CompanyId: "test-company",
-        RetailStoreId: "0001",
-        WorkstationId: "0002",
-        Training: 1,
-        Status: 0,
-        Detail: 0,
-        Printer: 0,
-        CashChanger: 0,
-        CashChangerCount:  '{ "amount": 550000, "count": [40,13,0,183,24,45,27,84,94,115] }',
-        CashChangerCountStatus:   '{ "CashChangerCountStatus": [1,2,3,4,0,0,4,0,0,4] }',
-        Message: "",
-        Alert: 0,
-        UpdateDatetime: "2019-08-01 00:00:00"
-    };
-    var testJson2 = {
-        CompanyId: "test-company",
-        RetailStoreId: "0001",
-        WorkstationId: "0003",
-        Training: 1,
-        Status: 3,
-        Detail: 3,
-        Printer: 1,
-        CashChanger: 1,
-        CashChangerCount:  '{ "amount": 550000, "count": [40,13,0,183,24,45,27,84,94,115] }',
-        CashChangerCountStatus:   '{ "CashChangerCountStatus": [0,0,0,0,0,0,4,0,0,4] }',
-        Message: "係員呼び出し",
-        Alert: 1,
-        UpdateDatetime: "2019-08-01 00:00:00"
-    };
     // api unconnected
     var errDataCount = 1000;
     var errData = function (desc) {
@@ -183,23 +140,11 @@ window.addEventListener('DOMContentLoaded', function() {
         if (childWindow) childWindow.window.close();
         if (configWindow) configWindow.window.close();
     }
-    // var toggleDetailButton = function(data) {
-    //     var width = 450;
-    //     var height = 450;
-    //     var x = window.screenX + (window.innerWidth / 2) - (width / 2);
-    //     var y = window.screenY + (window.innerHeight / 2) - (height / 2);
-    //     childWindow = myWindowOpen(
-    //         './childView.html' ,
-    //         'child' ,
-    //         'width=' + width + ',height=' + height + ',top=' + y + ',left=' + x + ',menubar=no, toolbar=no, location=no, status=no',
-    //         data
-    //     );
-    //     isCounting = false;
-    // }
     var toggleDetailButton = function (WorkstationId) {
         [].slice.call(document.getElementsByClassName('res-detail-tbl'))
             .forEach(function (v) { v.classList.add('hide') });
-        document.getElementById('detail_' + WorkstationId).classList.remove('hide');
+        var detailWordstationIdElement = document.getElementById('detail_' + WorkstationId);
+        if(detailWordstationIdElement && detailWordstationIdElement.classList) detailWordstationIdElement.classList.remove('hide');
         strage.setItem(strageViewStateKey, WorkstationId);
     }
     var detailCreateRowsPre = function (data) {
@@ -277,7 +222,6 @@ window.addEventListener('DOMContentLoaded', function() {
             else if (key !== 'CashChangerCount' && ChangerCountData) {
                 td.innerHTML = ChangerCountData.amount || '0';
             }
-            // (key === 'CashChangerCount' && ChangerCountData) ? createInnerTable(td, ChangerCountData) : td.innerHTML = ChangerCountData.amount || '';
             tr.appendChild(th);
             tr.appendChild(td);
             ret.push(tr);
@@ -299,16 +243,18 @@ window.addEventListener('DOMContentLoaded', function() {
     }
     var setJsonData = function(jsonData) {
         if(jsonData) {
+            var posNum = jsonData.WorkstationId;
             var tbody = document.getElementById('logs');
             var tr = LogCreateRows(jsonData);
             var detailTableDiv = document.getElementById('detailTable');
             var detailTable = document.createElement('table');
+            if(!tbody && !detailTableDiv) return;
             if(refreshFlag){
                 detailTableDiv.innerHTML = "";
                 tbody.innerHTML = "";
                 refreshFlag = false;
             }
-            tbody.appendChild(tr);
+            var tbodyLen = tbody.childNodes.length;
             detailTable.id = 'detail_' + jsonData['WorkstationId'];
             detailTable.classList.add('res-list-tbl');
             detailTable.classList.add('res-detail-tbl');
@@ -319,7 +265,23 @@ window.addEventListener('DOMContentLoaded', function() {
             var detailTrSuf = detailCreateRowsSuf(jsonData);
             [].slice.call(detailTrPre).forEach(function (v) { detailTable.appendChild(v) });
             [].slice.call(detailTrSuf).forEach(function (v) { detailTable.appendChild(v) });
-            detailTableDiv.appendChild(detailTable);
+            if(tbodyLen === 0){
+                tbody.appendChild(tr);
+                detailTableDiv.appendChild(detailTable);
+            }else{
+                for(var i = 0; i < tbodyLen; i++){
+                    var tbodyNode = tbody.childNodes[i];
+                    var tableNode = detailTableDiv.childNodes[i];
+                    if(!tbodyNode || !tableNode) return;
+                    if(tbodyNode.getElementsByClassName("WorkstationId")[0] && tbodyNode.getElementsByClassName("WorkstationId")[0].innerHTML > posNum){
+                        tbody.insertBefore(tr, tbodyNode);
+                        detailTableDiv.insertBefore(detailTable, tableNode);
+                    }else if(i === tbodyLen - 1){
+                        tbody.appendChild(tr);
+                        detailTableDiv.appendChild(detailTable);
+                    }
+                }
+            }
         }
     }
     var getJsonDataFromAPI = function(url, desc, callback) {
@@ -331,7 +293,6 @@ window.addEventListener('DOMContentLoaded', function() {
             }
         }
         xhttp.onload = function () {
-            console.log("load", xhttp);
             var str = xhttp.responseText;
             str.slice(1);str.slice(0, -1);
             try {
@@ -342,7 +303,12 @@ window.addEventListener('DOMContentLoaded', function() {
             }
             if (callback && typeof callback === 'function') {
                 if (json && json.ResultData) {
-                    callback(JSON.parse(JSON.parse(json.ResultData).SelfModeInfo)[0]);
+                    try{
+                        var jsonRsultData = JSON.parse(JSON.parse(json.ResultData).SelfModeInfo)[0];
+                    }catch(error){
+                        console.log(error);
+                    }
+                    callback(jsonRsultData);
                 }
                 else if (json && json.WorkstationId) {
                     var selfInfo = eval(json);
@@ -365,6 +331,7 @@ window.addEventListener('DOMContentLoaded', function() {
     }
 
     var loadApiData = function() {
+        if(Object.prototype.toString.call(HOSTNAME_LIST) !== "[object Array]") return;
         HOSTNAME_LIST.map(function (v) {
             if (v.host && v.desc) {
                 getJsonDataFromAPI(
@@ -379,12 +346,8 @@ window.addEventListener('DOMContentLoaded', function() {
 // initialize
 init = (function () {
     // bind click event
-    document.getElementById('configButton').onclick = function () { toggleConfigButton() };
-    document.getElementById('hiddenButton').onclick = function () { toggleCloseButton() };
-
-    // load test data
-    // var testDataSet = [testJson0, testJson1, testJson2];
-    // testDataSet.forEach(function(json, i) { setJsonData(json, i) });
+    if(document.getElementById('configButton')) document.getElementById('configButton').onclick = function () { toggleConfigButton() };
+    if(document.getElementById('hiddenButton')) document.getElementById('hiddenButton').onclick = function () { toggleCloseButton() };
 
     // load API data
     loadApiData();

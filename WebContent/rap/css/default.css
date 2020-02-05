@@ -43,6 +43,20 @@ body.indexBody {
     padding:10px;
     font-size:20px;
 }
+.indexBody .refreshTime {
+    position: relative;
+    width: 100%;
+    height: 40px;
+    padding:10px;
+    font-size:20px;
+    line-height: 40px;
+}
+.indexBody .refreshTime #refreshTimeInput{
+    height: 20px;
+}
+.indexBody .refreshTime #refreshTimeButton{
+    font-size:15px;
+}
 .indexBody .errorDescription {
     position: relative;
     width: 100%;

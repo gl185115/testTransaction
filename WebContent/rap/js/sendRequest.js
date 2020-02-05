@@ -6,10 +6,11 @@ window.addEventListener('DOMContentLoaded', function() {
     var INTERVAL = 1000;
     var isCounting = false;
     var countNum = 3;
-    var refreshFlag = false;
     var count = countNum;
     var childWindow = null;
     var configWindow = null;
+    var dataList = {};
+    var hostStatusObj = {};
     var strageKey = 'selfModeConfiguration';
     var BASE_URL = '/resTransaction/rest/callExternal/get';
     try{
@@ -122,6 +123,7 @@ window.addEventListener('DOMContentLoaded', function() {
                 case 1 : logTr.className = 'alert'; break;
                 default : logTr.className = 'unconnected'; break;
             }
+            logTr.id = "tableTr_" + data['WorkstationId'];
             logTr.appendChild(td);
         }
         var detailButtonTd = document.createElement('td');
@@ -242,44 +244,68 @@ window.addEventListener('DOMContentLoaded', function() {
         isCounting = false;
     }
     var setJsonData = function(jsonData) {
-        if(jsonData) {
+        var posNum = jsonData.WorkstationId;
+        dataList[posNum] = jsonData;
+        DOMOperation(jsonData);
+    }
+    var updateJsonData = function(jsonData){
+        if(isUpdated(jsonData)) {
             var posNum = jsonData.WorkstationId;
+            dataList[posNum] = jsonData;
             var tbody = document.getElementById('logs');
-            var tr = LogCreateRows(jsonData);
+            tbody.removeChild(document.getElementById("tableTr_" + posNum));
             var detailTableDiv = document.getElementById('detailTable');
-            var detailTable = document.createElement('table');
-            if(!tbody && !detailTableDiv) return;
-            if(refreshFlag){
-                detailTableDiv.innerHTML = "";
-                tbody.innerHTML = "";
-                refreshFlag = false;
-            }
-            var tbodyLen = tbody.childNodes.length;
-            detailTable.id = 'detail_' + jsonData['WorkstationId'];
-            detailTable.classList.add('res-list-tbl');
-            detailTable.classList.add('res-detail-tbl');
-            if (strage.getItem(strageViewStateKey) !== jsonData['WorkstationId']) {
-                detailTable.classList.add('hide');
-            }
-            var detailTrPre = detailCreateRowsPre(jsonData);
-            var detailTrSuf = detailCreateRowsSuf(jsonData);
-            [].slice.call(detailTrPre).forEach(function (v) { detailTable.appendChild(v) });
-            [].slice.call(detailTrSuf).forEach(function (v) { detailTable.appendChild(v) });
-            if(tbodyLen === 0){
-                tbody.appendChild(tr);
-                detailTableDiv.appendChild(detailTable);
-            }else{
-                for(var i = 0; i < tbodyLen; i++){
-                    var tbodyNode = tbody.childNodes[i];
-                    var tableNode = detailTableDiv.childNodes[i];
-                    if(!tbodyNode || !tableNode) return;
-                    if(tbodyNode.getElementsByClassName("WorkstationId")[0] && tbodyNode.getElementsByClassName("WorkstationId")[0].innerHTML > posNum){
-                        tbody.insertBefore(tr, tbodyNode);
-                        detailTableDiv.insertBefore(detailTable, tableNode);
-                    }else if(i === tbodyLen - 1){
-                        tbody.appendChild(tr);
-                        detailTableDiv.appendChild(detailTable);
-                    }
+            detailTableDiv.removeChild(document.getElementById("detail_" + posNum));
+            setJsonData(jsonData);
+        }
+    }
+    var isUpdated = function(jsonData) {
+        var isUpdatedFlag = false;
+        var posNum = jsonData.WorkstationId;
+        var oldData = dataList[posNum];
+        if(!oldData) return isUpdatedFlag;
+        try{
+            isUpdatedFlag = JSON.stringify(oldData) !== JSON.stringify(jsonData);
+        }catch(error){
+            console.log(error);
+        }
+        return isUpdatedFlag;
+    }
+    var DOMOperation = function(jsonData) {
+        var posNum = jsonData.WorkstationId;
+        var tbody = document.getElementById('logs');
+        var tr = LogCreateRows(jsonData);
+        var detailTableDiv = document.getElementById('detailTable');
+        var detailTable = document.createElement('table');
+        if(!tbody && !detailTableDiv) return;
+        var tbodyLen = tbody.childNodes.length;
+        detailTable.id = 'detail_' + jsonData['WorkstationId'];
+        detailTable.classList.add('res-list-tbl');
+        detailTable.classList.add('res-detail-tbl');
+        if (strage.getItem(strageViewStateKey) !== jsonData['WorkstationId']) {
+            detailTable.classList.add('hide');
+        }
+        var detailTrPre = detailCreateRowsPre(jsonData);
+        var detailTrSuf = detailCreateRowsSuf(jsonData);
+        [].slice.call(detailTrPre).forEach(function (v) { detailTable.appendChild(v) });
+        [].slice.call(detailTrSuf).forEach(function (v) { detailTable.appendChild(v) });
+        if(tbodyLen === 0){
+            tbody.appendChild(tr);
+            detailTableDiv.appendChild(detailTable);
+        }else{
+            for(var i = 0; i < tbodyLen; i++){
+                var tbodyNode = tbody.childNodes[i];
+                var tableNode = detailTableDiv.childNodes[i];
+                if(!tbodyNode || !tableNode) return;
+                var workstationIdCell = tbodyNode.getElementsByClassName("WorkstationId")[0];
+                if(workstationIdCell && workstationIdCell.innerHTML > posNum){
+                    tbody.insertBefore(tr, tbodyNode);
+                    detailTableDiv.insertBefore(detailTable, tableNode);
+                    break;
+                }else if(i === tbodyLen - 1){
+                    tbody.appendChild(tr);
+                    detailTableDiv.appendChild(detailTable);
+                    break;
                 }
             }
         }
@@ -287,12 +313,16 @@ window.addEventListener('DOMContentLoaded', function() {
     var getJsonDataFromAPI = function(url, desc, callback) {
         var xhttp = new XMLHttpRequest();
         xhttp.onerror = function () {
+            var host = GetQueryValue(xhttp.responseURL, "Resource");
+            if(typeof hostStatusObj[host] !== "undefined") hostStatusObj[host] = 0;
             console.log("error", xhttp);
             if (callback && typeof callback === 'function') {
                 callback(errData(desc));
             }
         }
         xhttp.onload = function () {
+            var host = GetQueryValue(xhttp.responseURL, "Resource");
+            if(typeof hostStatusObj[host] !== "undefined") hostStatusObj[host] = 0;
             var str = xhttp.responseText;
             str.slice(1);str.slice(0, -1);
             try {
@@ -308,10 +338,16 @@ window.addEventListener('DOMContentLoaded', function() {
                     }catch(error){
                         console.log(error);
                     }
+                    if(!jsonRsultData) return;
                     callback(jsonRsultData);
                 }
                 else if (json && json.WorkstationId) {
-                    var selfInfo = eval(json);
+                    try{
+                        var selfInfo = eval(json);
+                    }catch(error){
+                        console.log(error)
+                    }
+                    if(!jsonRsultData) return;
                     callback(selfInfo);
                 }
                 else {
@@ -330,17 +366,43 @@ window.addEventListener('DOMContentLoaded', function() {
         xhttp.send(null);
     }
 
-    var loadApiData = function() {
+    var loadApiData = function(callback) {
         if(Object.prototype.toString.call(HOSTNAME_LIST) !== "[object Array]") return;
         HOSTNAME_LIST.map(function (v) {
-            if (v.host && v.desc) {
+            if (v.host && v.desc && hostStatusObj[v.host] !== 1) {
+                hostStatusObj[v.host] = 1;
                 getJsonDataFromAPI(
                     BASE_URL + '?HttpMethod=' + METHOD + "&Resource=" + v.host,
                     v.desc,
-                    setJsonData
+                    callback
                 );
             }
         });
+    };
+
+    var refreshTimeChange = function() {
+        var isNaNFlag = false;
+        var input = document.getElementById("refreshTimeInput");
+        var time = input.value;
+        if(time.trim().length == 0 || isNaN(time) || time <= 0 || time % 1 !=0 || time > 999) isNaNFlag = true;
+        if(isNaNFlag){
+            alert("整数(1~999)を入力してください");
+            input.value = countNum;
+            return;
+        }else{
+            countNum = Number(time);
+            alert("更新完了しました");
+            return;
+        }
+    }
+    var GetQueryValue = function (url, queryName) {
+        var query = decodeURI(url);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == queryName) { return pair[1]; }
+        }
+        return "";
     }
 
 // initialize
@@ -348,17 +410,18 @@ init = (function () {
     // bind click event
     if(document.getElementById('configButton')) document.getElementById('configButton').onclick = function () { toggleConfigButton() };
     if(document.getElementById('hiddenButton')) document.getElementById('hiddenButton').onclick = function () { toggleCloseButton() };
+    if(document.getElementById('refreshTimeButton')) document.getElementById('refreshTimeButton').onclick = function () { refreshTimeChange() };
+    document.getElementById("refreshTimeInput").value = countNum;
 
     // load API data
-    loadApiData();
+    loadApiData(setJsonData);
     isCounting = true;
 
     // refresh page
     setInterval(function() {
         if (isCounting) count --;
         if (count <= 0){
-            refreshFlag = true;
-            loadApiData();
+            loadApiData(updateJsonData);
             count = countNum;
         }
     },INTERVAL);

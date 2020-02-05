@@ -54,9 +54,6 @@ body.indexBody {
 .indexBody .refreshTime #refreshTimeInput{
     height: 20px;
 }
-.indexBody .refreshTime #refreshTimeButton{
-    font-size:15px;
-}
 .indexBody .errorDescription {
     position: relative;
     width: 100%;
@@ -350,7 +347,7 @@ body.indexBody {
     background:-moz-linear-gradient(top,hsl(60,100%,90%),hsl(60,100%,50%));
 }
 
-.configuration .res-small-green {
+.configuration .res-small-green,.refreshTime .res-small-green {
     width:60px;
     height:30px;
     border-radius:5px;

@@ -40,7 +40,7 @@
     </properties>
 
     <repositories>
-        <repository>
+        <!-- <repository>
             <id>resmex-releases</id>
             <name>RES MeX Releases</name>
             <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
@@ -49,11 +49,22 @@
             <id>resmex-snapshots</id>
             <name>RES MeX SnapShots</name>
             <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
+        </repository> -->
+        <repository>
+            <id>central</id>
+            <name>ncr-artifactory-member-0-releases</name>
+            <url>https://ncr.jfrog.io/ncr/resmex-maven-releases</url>
         </repository>
+
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>ncr-artifactory-member-1-snapshots</name>
+            <url>https://ncr.jfrog.io/ncr/resmex-maven-snapshots</url>
+        </snapshotRepository>
     </repositories>
 
     <distributionManagement>
-        <repository>
+        <!-- <repository>
             <id>resmex-releases</id>
             <name>RES MeX Releases</name>
             <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-releases/</url>
@@ -63,6 +74,17 @@
             <name>RES MeX Snapshots</name>
             <url>http://nexuspro.ncr.com/nexus/content/repositories/resmex-snapshots/</url>
             <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository> -->
+        <repository>
+            <id>central</id>
+            <name>ncr-artifactory-member-0-releases</name>
+            <url>https://ncr.jfrog.io/ncr/resmex-maven-releases</url>
+        </repository>
+
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>ncr-artifactory-member-1-snapshots</name>
+            <url>https://ncr.jfrog.io/ncr/resmex-maven-snapshots</url>
         </snapshotRepository>
     </distributionManagement>
 

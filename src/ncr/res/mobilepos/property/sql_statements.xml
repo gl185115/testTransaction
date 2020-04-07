@@ -10140,28 +10140,32 @@ ORDER BY tender.DisplayOrder,cast(tender.TenderType as int)
 
 <entry key="get-payment-amt-by-txtype">
 DECLARE @companyId varchar(MAX),
-        @storeId varchar(MAX),
-    @tenderStoreId varchar(MAX),
-        @businessDate DATE,
-        @trainingflag tinyint,
-        @txType varchar(6)
-
-    SET @companyid = ?;
-    SET @storeid = ?;
-    SET @businessDate = ?;
-    SET @trainingflag = ?;
-    SET @txType = ?;
-  SET @tenderStoreId = @storeid;
-
-IF NOT EXISTS (
- SELECT *
-   FROM RESMaster.dbo.MST_TENDERINFO tender
-  INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
-     ON tender.CompanyId = parment.CompanyId
-  AND parment.RetailStoreId = @storeid
+     @storeId varchar(MAX),
+     @tenderStoreId varchar(MAX),
+     @businessDate DATE,
+     @bizCatId varchar(20),
+     @trainingflag tinyint,
+     @txType varchar(6) 
+SET @companyid = ? ; 
+SET @storeid = ? ; 
+SET @businessDate = ? ; 
+SET @trainingflag = ? ; 
+SET @txType = ? ; 
+SET @tenderStoreId = @storeid;
+SET @bizCatId = (
+        SELECT SubCode6
+        FROM RESMaster.dbo.MST_STOREINFO
+        WHERE CompanyId = @companyId AND StoreId = @storeId AND DeleteFlag = 0.0
+      );
+IF NOT EXISTS
+(SELECT *
+FROM RESMaster.dbo.MST_TENDERINFO tender
+INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
+  ON tender.CompanyId = parment.CompanyId
+    AND parment.RetailStoreId = @storeid
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
-  WHERE parment.CompanyId = @companyid
+WHERE parment.CompanyId = @companyid
     AND tender.StoreId = @tenderStoreId
     AND parment.BusinessDayDate = @businessDate
     AND parment.ValidFlag = '1'
@@ -10171,26 +10175,67 @@ IF NOT EXISTS (
     AND parment.DataKind = '8'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
-    AND parment.TenderType IN ('8','9','10','11')
-  AND tender.DeleteFlag = 0.0
-)
-SET @tenderStoreId = '0'
-
- SELECT parment.TenderId,
-        tender.TenderName,
-        tender.TenderType,
-        tender.TenderIdentification,
-        SUM(ISNULL(parment.BalancingRegisterAmt, 0)) AS SumBalancingRegisterAmt,
-        SUM(ISNULL(parment.BalancingCurrentAmt, 0)) AS SumBalancingCurrentAmt,
-        SUM(ISNULL(parment.BalancingDifferenceAmt, 0)) AS SumBalancingDifferenceAmt
-   FROM RESMaster.dbo.MST_TENDERINFO tender
+    AND parment.TenderType IN('8', '9', '10', '11')
+    AND tender.DeleteFlag = 0.0 )
+BEGIN
+  SET @tenderStoreId = '0'
+  IF NOT EXISTS
+  (SELECT *
+  FROM RESMaster.dbo.MST_TENDERINFO tender
   INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
-     ON tender.CompanyId = parment.CompanyId
-  AND tender.StoreId = @tenderStoreId
+    ON tender.CompanyId = parment.CompanyId
+      AND parment.RetailStoreId = @storeid
+      AND tender.TenderId = parment.TenderId
+      AND tender.TenderType = parment.TenderType
+  WHERE parment.CompanyId = @companyid
+      AND tender.SubCode2 = @bizCatId
+      AND tender.StoreId = @tenderStoreId
+      AND parment.BusinessDayDate = @businessDate
+      AND parment.ValidFlag = '1'
+      AND parment.CancelFlag = '0'
+      AND parment.VoidFlag = '0'
+      AND parment.ReturnFlag = '0'
+      AND parment.DataKind = '8'
+      AND parment.TrainingFlag = @trainingflag
+      AND parment.TxType = @txType
+      AND parment.TenderType IN('8', '9', '10', '11')
+      AND tender.DeleteFlag = 0.0 )
+  SET @bizCatId = '0'
+END
+
+SELECT parment.TenderId,
+   tender.TenderName,
+   tender.TenderType,
+   tender.TenderIdentification,
+   SUM(ISNULL(parment.BalancingRegisterAmt, 0)) AS SumBalancingRegisterAmt,
+   SUM(ISNULL(parment.BalancingCurrentAmt, 0)) AS SumBalancingCurrentAmt,
+   SUM(ISNULL(parment.BalancingDifferenceAmt, 0)) AS SumBalancingDifferenceAmt
+FROM RESMaster.dbo.MST_TENDERINFO tender
+INNER JOIN RESTransaction.dbo.TXL_TRAN_PAYMENT parment
+    ON tender.CompanyId = parment.CompanyId
+    AND tender.StoreId = @tenderStoreId
+    AND (tender.SubCode2 = case @tenderStoreId when '0' then @bizCatId else '0' end)
     AND tender.TenderId = parment.TenderId
     AND tender.TenderType = parment.TenderType
-  WHERE parment.CompanyId = @companyid
-  AND parment.RetailStoreId = @storeId
+    AND parment.BusinessDateTime = 
+    (SELECT MAX(parment2.BusinessDateTime)
+    FROM RESTransaction.dbo.TXL_TRAN_PAYMENT parment2
+    WHERE parment2.CompanyId = @companyid
+      AND parment2.RetailStoreId = @storeId
+      AND parment2.BusinessDayDate = @businessDate
+      AND parment2.ValidFlag = '1'
+      AND parment2.CancelFlag = '0'
+      AND parment2.VoidFlag = '0'
+      AND parment2.ReturnFlag = '0'
+      AND parment2.DataKind = '8'
+      AND parment2.TrainingFlag = @trainingflag
+      AND parment2.TxType = @txType
+      AND parment2.TenderType IN('8', '9', '10', '11')
+      AND tender.DeleteFlag = 0.0
+    GROUP BY  parment2.WorkstationId
+    HAVING parment.WorkstationId = parment2.WorkstationId)
+WHERE parment.CompanyId = @companyid
+    AND parment.RetailStoreId = @storeId
     AND parment.BusinessDayDate = @businessDate
     AND parment.ValidFlag = '1'
     AND parment.CancelFlag = '0'
@@ -10199,10 +10244,10 @@ SET @tenderStoreId = '0'
     AND parment.DataKind = '8'
     AND parment.TrainingFlag = @trainingflag
     AND parment.TxType = @txType
-    AND parment.TenderType IN ('8','9','10','11')
-  AND tender.DeleteFlag = 0.0
-  GROUP BY parment.TenderId,tender.TenderName,tender.TenderType,tender.TenderIdentification,tender.DisplayOrder
-  ORDER BY DisplayOrder,cast(tender.TenderType as int)
+    AND parment.TenderType IN('8', '9', '10', '11')
+    AND tender.DeleteFlag = 0.0
+GROUP BY  parment.TenderId, tender.TenderName, tender.TenderType, tender.TenderIdentification, tender.DisplayOrder
+ORDER BY  DisplayOrder, cast(tender.TenderType AS int) 
 </entry>
 
 <entry key="get-employee-list-by-companyId">

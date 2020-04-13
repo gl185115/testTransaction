@@ -3,6 +3,7 @@ package ncr.res.mobilepos.ej.resource;
 import java.net.HttpURLConnection;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -286,7 +287,7 @@ public class EjResource {
 						ejInfos.setMessage("E/J list info search error");
 					}
 				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "Failed to send remote E/J info. BASIC Authentication failed. Refers to the local DB.");
 					//MeX Enterpriseがオフラインの場合
 					ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
 							SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
@@ -294,15 +295,16 @@ public class EjResource {
 				}
 			} else {
 				//MeX Enterpriseがオフラインの場合
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, "Failed to send remote E/J info (Server offline). Refers to the local DB.");
 				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
 						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
 						SalesPersonId, TrainingFlag);
 			}
 		} catch (Exception e) {
 			if (e instanceof JSONException) {
-				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, "Failed to send remote E/J info.", e);
+				LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName +": Failed to send remote E/J info.", e);
 				throw new JSONException(e);
-			} else {
+			} else if (e instanceof SocketException || e instanceof SocketTimeoutException || e instanceof UnknownHostException) {
 				//MeX Enterpriseがオフラインの場合
 				LOGGER.logSnapException(Logger.WARNING, PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote E/J info. Refers to the local DB.", e);
 
@@ -310,7 +312,10 @@ public class EjResource {
 						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
 						SalesPersonId, TrainingFlag);
 				return ejInfos;
+			} else {
+				throw new Exception();
 			}
+
 		} finally {
 			tp.methodExit(ejInfos);
 		}
@@ -379,24 +384,28 @@ public class EjResource {
 						posLogInfo.setMessage("PosLog info search failed");
 					}
 				} else if(result.has("ConnectionStatus") && result.getInt("ConnectionStatus") == HttpURLConnection.HTTP_UNAUTHORIZED) {
-					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "BASIC Authentication failed。\n");
+					LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_AUTHENTICATION_FAILED, "Failed to send remote POSLog. BASIC Authentication failed. Refers to the local DB.");
 					//MeX Enterpriseがオフラインの場合
 					posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
 				}
 			} else {
 				//MeX Enterpriseがオフラインの場合
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, "Failed to send remote POSLog (Server offline). Refers to the local DB.");
 				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
 			}
 		} catch (Exception e) {
 			if (e instanceof JSONException) {
-				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, "Failed to send remote POSLog.",e);
+				LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote POSLog.",e);
 				throw new JSONException(e);
-			} else {
+			} else if (e instanceof SocketException || e instanceof SocketTimeoutException || e instanceof UnknownHostException) {
 				//MeX Enterpriseがオフラインの場合
 				LOGGER.logSnapException(Logger.WARNING, PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote POSLog. Refers to the local DB.", e);
 				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
 				return posLogInfo;
+			} else {
+				throw new Exception();
 			}
+
 		} finally {
 			tp.methodExit(posLogInfo);
 		}

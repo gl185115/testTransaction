@@ -299,20 +299,17 @@ public class EjResource {
 						SalesPersonId, TrainingFlag);
 			}
 		} catch (Exception e) {
-			if (e instanceof SocketException || e instanceof SocketTimeoutException) {
+			if (e instanceof JSONException) {
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, "Failed to send remote E/J info.", e);
+				throw new JSONException(e);
+			} else {
 				//MeX Enterpriseがオフラインの場合
+				LOGGER.logSnapException(Logger.WARNING, PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote E/J info. Refers to the local DB.", e);
+
 				ejInfos = getEjInfoByTaxType(CompanyId, RetailstoreId, WorkstationId, TxType,
 						SequencenumberFrom, SequencenumberTo, BusinessDateTimeFrom, BusinessDateTimeTo, CountFrom, CountTo, OperatorId,
 						SalesPersonId, TrainingFlag);
 				return ejInfos;
-			}
-			
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote E/J info.",
-					e);
-			if (e instanceof JSONException) {
-				throw new JSONException(e);
-			} else {
-				throw new Exception();
 			}
 		} finally {
 			tp.methodExit(ejInfos);
@@ -370,7 +367,7 @@ public class EjResource {
 				return posLogInfo;
 			}
 			result = UrlConnectionHelper.connectionHttpsForGet(getUrl(url, valueResult), timeOut);
-			
+
 			// Check if error is empty.
 			if (result != null) {
 				if (result.has("ncrwssresultCode")) {
@@ -391,17 +388,14 @@ public class EjResource {
 				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
 			}
 		} catch (Exception e) {
-			if (e instanceof SocketException || e instanceof SocketTimeoutException) {
-				//MeX Enterpriseがオフラインの場合
-				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
-				return posLogInfo;
-			}
-			
-			LOGGER.logAlert(PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote POSLog.",e);
 			if (e instanceof JSONException) {
+				LOGGER.logAlert(PROG_NAME, functionName, Logger.RES_EXCEP_GENERAL, "Failed to send remote POSLog.",e);
 				throw new JSONException(e);
 			} else {
-				throw new Exception();
+				//MeX Enterpriseがオフラインの場合
+				LOGGER.logSnapException(Logger.WARNING, PROG_NAME, Logger.RES_EXCEP_GENERAL, functionName + ": Failed to send remote POSLog. Refers to the local DB.", e);
+				posLogInfo = dao.getPosLogInfo(companyId, retailstoreId, workstationId, sequencenumber, businessDate, trainingFlag);
+				return posLogInfo;
 			}
 		} finally {
 			tp.methodExit(posLogInfo);

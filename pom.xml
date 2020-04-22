@@ -212,9 +212,9 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>ncr.res.mobilepos</groupId>
+            <groupId>mobilepos</groupId>
             <artifactId>poslog-binding</artifactId>
-            <version>3.5.0.14</version>
+            <version>3.5.0.26</version>
             <scope>compile</scope>
         </dependency>
 
